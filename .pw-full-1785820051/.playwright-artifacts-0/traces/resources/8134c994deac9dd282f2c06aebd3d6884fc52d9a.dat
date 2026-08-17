@@ -1,0 +1,2077 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/App.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const lazy = __vite__cjsImport3_react["lazy"];
+import { Routes, Route, Navigate } from "/node_modules/.vite/deps/react-router-dom.js?v=5fca7ba0";
+import MainLayout from "/src/components/layout/MainLayout.tsx?t=1785819952403";
+import VendorPortalLayout from "/src/components/layout/VendorPortalLayout.tsx";
+import VendorLogin from "/src/pages/Vendor/VendorLogin.tsx";
+import VendorPortalRegister from "/src/pages/Vendor/VendorPortalRegister.tsx";
+const Dashboard = lazy(_c = () => import("/src/pages/Dashboard/Dashboard.tsx"));
+_c2 = Dashboard;
+const Workbench = lazy(_c3 = () => import("/src/pages/Workbench/Workbench.tsx"));
+_c4 = Workbench;
+const FlowSelfTest = lazy(_c5 = () => import("/src/pages/Test/FlowSelfTest.tsx"));
+_c6 = FlowSelfTest;
+const CategoryList = lazy(_c7 = () => import("/src/pages/Material/CategoryList.tsx"));
+_c8 = CategoryList;
+const MaterialList = lazy(_c9 = () => import("/src/pages/Material/MaterialList.tsx"));
+_c0 = MaterialList;
+const MaterialForm = lazy(_c1 = () => import("/src/pages/Material/MaterialForm.tsx"));
+_c10 = MaterialForm;
+const MaterialDetail = lazy(_c11 = () => import("/src/pages/Material/MaterialDetail.tsx"));
+_c12 = MaterialDetail;
+const MaterialValuation = lazy(_c13 = () => import("/src/pages/Material/MaterialValuation.tsx"));
+_c14 = MaterialValuation;
+const MaterialApprovalQueue = lazy(_c15 = () => import("/src/pages/Material/MaterialApprovalQueue.tsx"));
+_c16 = MaterialApprovalQueue;
+const CodeRule = lazy(_c17 = () => import("/src/pages/Material/CodeRule.tsx"));
+_c18 = CodeRule;
+const ImportExport = lazy(_c19 = () => import("/src/pages/Material/ImportExport.tsx"));
+_c20 = ImportExport;
+const VendorList = lazy(_c21 = () => import("/src/pages/Vendor/VendorList.tsx"));
+_c22 = VendorList;
+const VendorRegister = lazy(_c23 = () => import("/src/pages/Vendor/VendorRegister.tsx"));
+_c24 = VendorRegister;
+const VendorDetail = lazy(_c25 = () => import("/src/pages/Vendor/VendorDetail.tsx"));
+_c26 = VendorDetail;
+const Blacklist = lazy(_c27 = () => import("/src/pages/Vendor/Blacklist.tsx"));
+_c28 = Blacklist;
+const Rating = lazy(_c29 = () => import("/src/pages/Vendor/Rating.tsx"));
+_c30 = Rating;
+const ApprovalQueue = lazy(_c31 = () => import("/src/pages/Vendor/ApprovalQueue.tsx"));
+_c32 = ApprovalQueue;
+const VendorWorkbench = lazy(_c33 = () => import("/src/pages/Vendor/VendorWorkbench.tsx"));
+_c34 = VendorWorkbench;
+const VendorOrderConfirmList = lazy(_c35 = () => import("/src/pages/Vendor/VendorOrderConfirm.tsx"));
+_c36 = VendorOrderConfirmList;
+const DeliveryShipmentList = lazy(_c37 = () => import("/src/pages/Vendor/DeliveryShipment.tsx"));
+_c38 = DeliveryShipmentList;
+const VendorQualityPage = lazy(_c39 = () => import("/src/pages/Vendor/VendorQualityPage.tsx"));
+_c40 = VendorQualityPage;
+const VendorFinancePage = lazy(_c41 = () => import("/src/pages/Vendor/VendorFinancePage.tsx"));
+_c42 = VendorFinancePage;
+const VendorPaymentPlan = lazy(_c43 = () => import("/src/pages/Vendor/VendorPaymentPlan.tsx"));
+_c44 = VendorPaymentPlan;
+const VendorProfilePage = lazy(_c45 = () => import("/src/pages/Vendor/VendorProfilePage.tsx"));
+_c46 = VendorProfilePage;
+const VendorPermissionsPage = lazy(_c47 = () => import("/src/pages/Vendor/VendorPermissionsPage.tsx"));
+_c48 = VendorPermissionsPage;
+const VendorQuotation = lazy(_c49 = () => import("/src/pages/Vendor/VendorQuotation.tsx"));
+_c50 = VendorQuotation;
+const PurchaseList = lazy(_c51 = () => import("/src/pages/Purchase/PurchaseList.tsx"));
+_c52 = PurchaseList;
+const PurchaseForm = lazy(_c53 = () => import("/src/pages/Purchase/PurchaseForm.tsx"));
+_c54 = PurchaseForm;
+const PurchaseDetail = lazy(_c55 = () => import("/src/pages/Purchase/PurchaseDetail.tsx"));
+_c56 = PurchaseDetail;
+const PriceCompare = lazy(_c57 = () => import("/src/pages/Purchase/PriceCompare.tsx"));
+_c58 = PriceCompare;
+const OrderList = lazy(_c59 = () => import("/src/pages/Purchase/OrderList.tsx"));
+_c60 = OrderList;
+const OrderForm = lazy(_c61 = () => import("/src/pages/Purchase/OrderForm.tsx"));
+_c62 = OrderForm;
+const OrderDetail = lazy(_c63 = () => import("/src/pages/Purchase/OrderDetail.tsx"));
+_c64 = OrderDetail;
+const OrderTrack = lazy(_c65 = () => import("/src/pages/Purchase/OrderTrack.tsx"));
+_c66 = OrderTrack;
+const PurchaseApproval = lazy(_c67 = () => import("/src/pages/Purchase/PurchaseApproval.tsx"));
+_c68 = PurchaseApproval;
+const FrameworkAgreement = lazy(_c69 = () => import("/src/pages/Purchase/FrameworkAgreement.tsx"));
+_c70 = FrameworkAgreement;
+const PurchaseReturnPage = lazy(_c71 = () => import("/src/pages/Purchase/PurchaseReturn.tsx"));
+_c72 = PurchaseReturnPage;
+const InquiryList = lazy(_c73 = () => import("/src/pages/Price/InquiryList.tsx"));
+_c74 = InquiryList;
+const InquiryDetail = lazy(_c75 = () => import("/src/pages/Price/InquiryDetail.tsx"));
+_c76 = InquiryDetail;
+const InquiryForm = lazy(_c77 = () => import("/src/pages/Price/InquiryForm.tsx"));
+_c78 = InquiryForm;
+const PriceComparison = lazy(_c79 = () => import("/src/pages/Price/PriceComparison.tsx"));
+_c80 = PriceComparison;
+const ComparisonsList = lazy(_c81 = () => import("/src/pages/Price/ComparisonsList.tsx"));
+_c82 = ComparisonsList;
+const PriceApproval = lazy(_c83 = () => import("/src/pages/Price/PriceApproval.tsx"));
+_c84 = PriceApproval;
+const ApprovalList = lazy(_c85 = () => import("/src/pages/Price/ApprovalList.tsx"));
+_c86 = ApprovalList;
+const PriceListPage = lazy(_c87 = () => import("/src/pages/Price/PriceList.tsx"));
+_c88 = PriceListPage;
+const InboundList = lazy(_c89 = () => import("/src/pages/Warehouse/InboundList.tsx"));
+_c90 = InboundList;
+const InboundForm = lazy(_c91 = () => import("/src/pages/Warehouse/InboundForm.tsx"));
+_c92 = InboundForm;
+const OutboundList = lazy(_c93 = () => import("/src/pages/Warehouse/OutboundList.tsx"));
+_c94 = OutboundList;
+const OutboundForm = lazy(_c95 = () => import("/src/pages/Warehouse/OutboundForm.tsx"));
+_c96 = OutboundForm;
+const CheckList = lazy(_c97 = () => import("/src/pages/Warehouse/CheckList.tsx"));
+_c98 = CheckList;
+const CheckTask = lazy(_c99 = () => import("/src/pages/Warehouse/CheckTask.tsx"));
+_c100 = CheckTask;
+const Inventory = lazy(_c101 = () => import("/src/pages/Warehouse/Inventory.tsx"));
+_c102 = Inventory;
+const FinishedGoodsInbound = lazy(_c103 = () => import("/src/pages/Warehouse/FinishedGoodsInbound.tsx"));
+_c104 = FinishedGoodsInbound;
+const BatchManage = lazy(_c105 = () => import("/src/pages/Warehouse/BatchManage.tsx"));
+_c106 = BatchManage;
+const InventoryAging = lazy(_c107 = () => import("/src/pages/Warehouse/InventoryAging.tsx"));
+_c108 = InventoryAging;
+const BarcodePrint = lazy(_c109 = () => import("/src/pages/Warehouse/BarcodePrint.tsx"));
+_c110 = BarcodePrint;
+const InspectionNoticeWarehouse = lazy(_c111 = () => import("/src/pages/Warehouse/InspectionNotice.tsx"));
+_c112 = InspectionNoticeWarehouse;
+const WarehouseMaster = lazy(_c113 = () => import("/src/pages/Warehouse/WarehouseMaster.tsx"));
+_c114 = WarehouseMaster;
+const StockTransfer = lazy(_c115 = () => import("/src/pages/Warehouse/StockTransfer.tsx"));
+_c116 = StockTransfer;
+const InventoryAdjustment = lazy(_c117 = () => import("/src/pages/Warehouse/InventoryAdjustment.tsx"));
+_c118 = InventoryAdjustment;
+const SerialHU = lazy(_c119 = () => import("/src/pages/Warehouse/SerialHU.tsx"));
+_c120 = SerialHU;
+const Settings = lazy(_c121 = () => import("/src/pages/Settings/Settings.tsx"));
+_c122 = Settings;
+const InspectionList = lazy(_c123 = () => import("/src/pages/Quality/InspectionList.tsx"));
+_c124 = InspectionList;
+const InspectionTask = lazy(_c125 = () => import("/src/pages/Quality/InspectionTask.tsx"));
+_c126 = InspectionTask;
+const UnqualifiedList = lazy(_c127 = () => import("/src/pages/Quality/UnqualifiedList.tsx"));
+_c128 = UnqualifiedList;
+const PDCAList = lazy(_c129 = () => import("/src/pages/Quality/PDCAList.tsx"));
+_c130 = PDCAList;
+const QualityReport = lazy(_c131 = () => import("/src/pages/Quality/QualityReport.tsx"));
+_c132 = QualityReport;
+const InspectionStandard = lazy(_c133 = () => import("/src/pages/Quality/InspectionStandard.tsx"));
+_c134 = InspectionStandard;
+const AqlSampling = lazy(_c135 = () => import("/src/pages/Quality/AqlSampling.tsx"));
+_c136 = AqlSampling;
+const InspectionLot = lazy(_c137 = () => import("/src/pages/Quality/InspectionLot.tsx"));
+_c138 = InspectionLot;
+const EightD = lazy(_c139 = () => import("/src/pages/Quality/EightD.tsx"));
+_c140 = EightD;
+const SPCChartPage = lazy(_c141 = () => import("/src/pages/Quality/SPCChart.tsx"));
+_c142 = SPCChartPage;
+const LabEquipment = lazy(_c143 = () => import("/src/pages/Quality/LabEquipment.tsx"));
+_c144 = LabEquipment;
+const BOMList = lazy(_c145 = () => import("/src/pages/BOM/BOMList.tsx"));
+_c146 = BOMList;
+const BOMDetail = lazy(_c147 = () => import("/src/pages/BOM/BOMDetail.tsx"));
+_c148 = BOMDetail;
+const BOMForm = lazy(_c149 = () => import("/src/pages/BOM/BOMForm.tsx"));
+_c150 = BOMForm;
+const CostRollup = lazy(_c151 = () => import("/src/pages/BOM/CostRollup.tsx"));
+_c152 = CostRollup;
+const ProspectList = lazy(_c153 = () => import("/src/pages/Sales/ProspectList.tsx"));
+_c154 = ProspectList;
+const SalesOrderList = lazy(_c155 = () => import("/src/pages/Sales/SalesOrderList.tsx"));
+_c156 = SalesOrderList;
+const SalesOrderForm = lazy(_c157 = () => import("/src/pages/Sales/SalesOrderForm.tsx"));
+_c158 = SalesOrderForm;
+const SalesOrderDetail = lazy(_c159 = () => import("/src/pages/Sales/SalesOrderDetail.tsx"));
+_c160 = SalesOrderDetail;
+const Quotation = lazy(_c161 = () => import("/src/pages/Sales/Quotation.tsx"));
+_c162 = Quotation;
+const SalesInvoicePage = lazy(_c163 = () => import("/src/pages/Sales/SalesInvoice.tsx"));
+_c164 = SalesInvoicePage;
+const SalesReturnPage = lazy(_c165 = () => import("/src/pages/Sales/SalesReturn.tsx"));
+_c166 = SalesReturnPage;
+const ATPPage = lazy(_c167 = () => import("/src/pages/Sales/ATP.tsx"));
+_c168 = ATPPage;
+const ProjectList = lazy(_c169 = () => import("/src/pages/Sales/ProjectList.tsx"));
+_c170 = ProjectList;
+const ProjectDetail = lazy(_c171 = () => import("/src/pages/Sales/ProjectDetail.tsx"));
+_c172 = ProjectDetail;
+const MarketAnalysis = lazy(_c173 = () => import("/src/pages/Sales/MarketAnalysis.tsx"));
+_c174 = MarketAnalysis;
+const LogisticsList = lazy(_c175 = () => import("/src/pages/Sales/LogisticsList.tsx"));
+_c176 = LogisticsList;
+const WorkOrderList = lazy(_c177 = () => import("/src/pages/Production/WorkOrderList.tsx"));
+_c178 = WorkOrderList;
+const WorkOrderDetail = lazy(_c179 = () => import("/src/pages/Production/WorkOrderDetail.tsx"));
+_c180 = WorkOrderDetail;
+const ProcessRouteList = lazy(_c181 = () => import("/src/pages/Production/ProcessRouteList.tsx"));
+_c182 = ProcessRouteList;
+const MRPPlan = lazy(_c183 = () => import("/src/pages/Production/MRPPlan.tsx"));
+_c184 = MRPPlan;
+const ProductionReport = lazy(_c185 = () => import("/src/pages/Production/ProductionReport.tsx"));
+_c186 = ProductionReport;
+const CapacityScheduling = lazy(_c187 = () => import("/src/pages/Production/CapacityScheduling.tsx"));
+_c188 = CapacityScheduling;
+const OperationReporting = lazy(_c189 = () => import("/src/pages/Production/OperationReporting.tsx"));
+_c190 = OperationReporting;
+const WipBoard = lazy(_c191 = () => import("/src/pages/Production/WipBoard.tsx"));
+_c192 = WipBoard;
+const CostCollection = lazy(_c193 = () => import("/src/pages/Production/CostCollection.tsx"));
+_c194 = CostCollection;
+const FiniteCapacity = lazy(_c195 = () => import("/src/pages/Production/FiniteCapacity.tsx"));
+_c196 = FiniteCapacity;
+const ProductionVersions = lazy(_c197 = () => import("/src/pages/Production/ProductionVersions.tsx"));
+_c198 = ProductionVersions;
+const ECNList = lazy(_c199 = () => import("/src/pages/Production/ECNList.tsx"));
+_c200 = ECNList;
+const Subcontract = lazy(_c201 = () => import("/src/pages/Production/Subcontract.tsx"));
+_c202 = Subcontract;
+const CRP = lazy(_c203 = () => import("/src/pages/Production/CRP.tsx"));
+_c204 = CRP;
+const Equipment = lazy(_c205 = () => import("/src/pages/Production/Equipment.tsx"));
+_c206 = Equipment;
+const MTOCreate = lazy(_c207 = () => import("/src/pages/Production/MTOCreate.tsx"));
+_c208 = MTOCreate;
+const DetailedScheduling = lazy(_c209 = () => import("/src/pages/Production/DetailedScheduling.tsx"));
+_c210 = DetailedScheduling;
+const ProcessSPC = lazy(_c211 = () => import("/src/pages/Production/ProcessSPC.tsx"));
+_c212 = ProcessSPC;
+const InvoiceList = lazy(_c213 = () => import("/src/pages/Finance/InvoiceList.tsx"));
+_c214 = InvoiceList;
+const PaymentPlanPage = lazy(_c215 = () => import("/src/pages/Finance/PaymentPlan.tsx"));
+_c216 = PaymentPlanPage;
+const AccountingEntries = lazy(_c217 = () => import("/src/pages/Finance/AccountingEntries.tsx"));
+_c218 = AccountingEntries;
+const TrialBalance = lazy(_c219 = () => import("/src/pages/Finance/TrialBalance.tsx?t=1785819952403"));
+_c220 = TrialBalance;
+const ChartOfAccounts = lazy(_c221 = () => import("/src/pages/Finance/ChartOfAccounts.tsx"));
+_c222 = ChartOfAccounts;
+const VoucherList = lazy(_c223 = () => import("/src/pages/Finance/VoucherList.tsx?t=1785819952403"));
+_c224 = VoucherList;
+const ThreeWayMatch = lazy(_c225 = () => import("/src/pages/Finance/ThreeWayMatch.tsx"));
+_c226 = ThreeWayMatch;
+const FinanceReport = lazy(_c227 = () => import("/src/pages/Finance/FinanceReport.tsx"));
+_c228 = FinanceReport;
+const TaxAccounting = lazy(_c229 = () => import("/src/pages/Finance/TaxAccounting.tsx"));
+_c230 = TaxAccounting;
+const ProjectAccounting = lazy(_c231 = () => import("/src/pages/Finance/ProjectAccounting.tsx"));
+_c232 = ProjectAccounting;
+const CashFlowStatement = lazy(_c233 = () => import("/src/pages/Finance/CashFlowStatement.tsx"));
+_c234 = CashFlowStatement;
+const ExchangeRate = lazy(_c235 = () => import("/src/pages/Finance/ExchangeRate.tsx"));
+_c236 = ExchangeRate;
+const AgingReport = lazy(_c237 = () => import("/src/pages/Finance/AgingReport.tsx"));
+_c238 = AgingReport;
+const AuxiliaryAccounting = lazy(_c239 = () => import("/src/pages/Finance/AuxiliaryAccounting.tsx"));
+_c240 = AuxiliaryAccounting;
+const BudgetControl = lazy(_c241 = () => import("/src/pages/Finance/BudgetControl.tsx"));
+_c242 = BudgetControl;
+const FinancialStatements = lazy(_c243 = () => import("/src/pages/Finance/FinancialStatements.tsx"));
+_c244 = FinancialStatements;
+const FixedAssets = lazy(_c245 = () => import("/src/pages/Finance/FixedAssets.tsx"));
+_c246 = FixedAssets;
+const PeriodClosing = lazy(_c247 = () => import("/src/pages/Finance/PeriodClosing.tsx"));
+_c248 = PeriodClosing;
+const ReportCenter = lazy(_c249 = () => import("/src/pages/Reports/ReportCenter.tsx"));
+_c250 = ReportCenter;
+const ReportDesigner = lazy(_c251 = () => import("/src/pages/Reports/ReportDesigner.tsx"));
+_c252 = ReportDesigner;
+const BISelfService = lazy(_c253 = () => import("/src/pages/Reports/BISelfService.tsx"));
+_c254 = BISelfService;
+const LowCodeDesigner = lazy(_c255 = () => import("/src/pages/Platform/LowCodeDesigner.tsx"));
+_c256 = LowCodeDesigner;
+const WorkflowEngine = lazy(_c257 = () => import("/src/pages/Platform/WorkflowEngine.tsx"));
+_c258 = WorkflowEngine;
+const IntegrationHub = lazy(_c259 = () => import("/src/pages/Platform/IntegrationHub.tsx"));
+_c260 = IntegrationHub;
+const FieldPermissions = lazy(_c261 = () => import("/src/pages/Platform/FieldPermissions.tsx"));
+_c262 = FieldPermissions;
+const I18nSettings = lazy(_c263 = () => import("/src/pages/Platform/I18nSettings.tsx"));
+_c264 = I18nSettings;
+const ReportPermissions = lazy(_c265 = () => import("/src/pages/Reports/ReportPermissions.tsx"));
+_c266 = ReportPermissions;
+const AnalyticsCockpit = lazy(_c267 = () => import("/src/pages/Analytics/Cockpit.tsx"));
+_c268 = AnalyticsCockpit;
+const DemandForecast = lazy(_c269 = () => import("/src/pages/Analytics/Forecast.tsx"));
+_c270 = DemandForecast;
+const InvoiceOcr = lazy(_c271 = () => import("/src/pages/Analytics/InvoiceOcr.tsx"));
+_c272 = InvoiceOcr;
+function App() {
+  return /* @__PURE__ */ jsxDEV(Routes, { children: [
+    /* @__PURE__ */ jsxDEV(Route, { path: "/vendor-portal/login", element: /* @__PURE__ */ jsxDEV(VendorLogin, {}, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 197,
+      columnNumber: 51
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 197,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/vendor-portal/register", element: /* @__PURE__ */ jsxDEV(VendorPortalRegister, {}, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 198,
+      columnNumber: 54
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 198,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/vendor-portal", element: /* @__PURE__ */ jsxDEV(VendorPortalLayout, {}, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 199,
+      columnNumber: 45
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(VendorWorkbench, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 200,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 200,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "orders/confirm", element: /* @__PURE__ */ jsxDEV(VendorOrderConfirmList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 202,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 202,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "orders/shipment", element: /* @__PURE__ */ jsxDEV(DeliveryShipmentList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 203,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 203,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/vendor-portal/quality/issues", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 205,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 205,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/issues", element: /* @__PURE__ */ jsxDEV(VendorQualityPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 206,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 206,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/8d", element: /* @__PURE__ */ jsxDEV(VendorQualityPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 207,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 207,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/vendor-portal/finance/statements", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 209,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 209,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/statements", element: /* @__PURE__ */ jsxDEV(VendorFinancePage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 210,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 210,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/invoices", element: /* @__PURE__ */ jsxDEV(VendorFinancePage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 211,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 211,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/payments", element: /* @__PURE__ */ jsxDEV(VendorPaymentPlan, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 212,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 212,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "profile", element: /* @__PURE__ */ jsxDEV(VendorProfilePage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 214,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 214,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "permissions", element: /* @__PURE__ */ jsxDEV(VendorPermissionsPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 215,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 215,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quotation", element: /* @__PURE__ */ jsxDEV(VendorQuotation, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 217,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 217,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 199,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(MainLayout, {}, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 221,
+      columnNumber: 32
+    }, this), children: [
+      /* @__PURE__ */ jsxDEV(Route, { index: true, element: /* @__PURE__ */ jsxDEV(Dashboard, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 222,
+        columnNumber: 31
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 222,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "workbench", element: /* @__PURE__ */ jsxDEV(Workbench, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 224,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 224,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/material/list", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 226,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 226,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/categories", element: /* @__PURE__ */ jsxDEV(CategoryList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 227,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 227,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/list", element: /* @__PURE__ */ jsxDEV(MaterialList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 228,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 228,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/approvals", element: /* @__PURE__ */ jsxDEV(MaterialApprovalQueue, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 229,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 229,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/create", element: /* @__PURE__ */ jsxDEV(MaterialForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 230,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 230,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/:id", element: /* @__PURE__ */ jsxDEV(MaterialDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 231,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 231,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/:id/edit", element: /* @__PURE__ */ jsxDEV(MaterialForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 232,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 232,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/code-rules", element: /* @__PURE__ */ jsxDEV(CodeRule, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 233,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 233,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/import-export", element: /* @__PURE__ */ jsxDEV(ImportExport, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 234,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 234,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "material/valuation", element: /* @__PURE__ */ jsxDEV(MaterialValuation, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 236,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 236,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/vendor/list", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 238,
+        columnNumber: 39
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 238,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/list", element: /* @__PURE__ */ jsxDEV(VendorList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 239,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 239,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/register", element: /* @__PURE__ */ jsxDEV(VendorRegister, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 240,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 240,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/:id", element: /* @__PURE__ */ jsxDEV(VendorDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 241,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 241,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/blacklist", element: /* @__PURE__ */ jsxDEV(Blacklist, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 242,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 242,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/rating", element: /* @__PURE__ */ jsxDEV(Rating, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 243,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 243,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "vendor/approvals", element: /* @__PURE__ */ jsxDEV(ApprovalQueue, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 244,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 244,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/purchase/requests", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 246,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 246,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/requests", element: /* @__PURE__ */ jsxDEV(PurchaseList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 247,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 247,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/create", element: /* @__PURE__ */ jsxDEV(PurchaseForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 248,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 248,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/:id/edit", element: /* @__PURE__ */ jsxDEV(PurchaseForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 249,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 249,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/:id", element: /* @__PURE__ */ jsxDEV(PurchaseDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 250,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 250,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/compare/:id", element: /* @__PURE__ */ jsxDEV(PriceCompare, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 251,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 251,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/orders", element: /* @__PURE__ */ jsxDEV(OrderList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 252,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 252,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/orders/create", element: /* @__PURE__ */ jsxDEV(OrderForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 253,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 253,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/orders/:id/edit", element: /* @__PURE__ */ jsxDEV(OrderForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 254,
+        columnNumber: 57
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 254,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/orders/:id", element: /* @__PURE__ */ jsxDEV(OrderDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 255,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 255,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/track", element: /* @__PURE__ */ jsxDEV(OrderTrack, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 256,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 256,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/approvals", element: /* @__PURE__ */ jsxDEV(PurchaseApproval, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 257,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 257,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/framework", element: /* @__PURE__ */ jsxDEV(FrameworkAgreement, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 259,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 259,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "purchase/returns", element: /* @__PURE__ */ jsxDEV(PurchaseReturnPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 260,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 260,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/price/inquiry", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 262,
+        columnNumber: 38
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 262,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/inquiry", element: /* @__PURE__ */ jsxDEV(InquiryList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 263,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 263,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/inquiry/create", element: /* @__PURE__ */ jsxDEV(InquiryForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 264,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 264,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/inquiry/:id", element: /* @__PURE__ */ jsxDEV(InquiryDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 265,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 265,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/comparisons", element: /* @__PURE__ */ jsxDEV(ComparisonsList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 266,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 266,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/comparison/new/:inquiryId", element: /* @__PURE__ */ jsxDEV(PriceComparison, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 267,
+        columnNumber: 64
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 267,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/comparison/:id", element: /* @__PURE__ */ jsxDEV(PriceComparison, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 268,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 268,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/approvals", element: /* @__PURE__ */ jsxDEV(ApprovalList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 269,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 269,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/approval/new", element: /* @__PURE__ */ jsxDEV(PriceApproval, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 270,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 270,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/approval/:id", element: /* @__PURE__ */ jsxDEV(PriceApproval, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 271,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 271,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "price/list", element: /* @__PURE__ */ jsxDEV(PriceListPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 272,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 272,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/warehouse/inbound", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 274,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 274,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/inspection-notice", element: /* @__PURE__ */ jsxDEV(InspectionNoticeWarehouse, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 275,
+        columnNumber: 60
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 275,
+        columnNumber: 9
+      }, this),
+      "  ",
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/inbound", element: /* @__PURE__ */ jsxDEV(InboundList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 276,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 276,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/inbound/create", element: /* @__PURE__ */ jsxDEV(InboundForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 277,
+        columnNumber: 57
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 277,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/outbound", element: /* @__PURE__ */ jsxDEV(OutboundList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 278,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 278,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/outbound/create", element: /* @__PURE__ */ jsxDEV(OutboundForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 279,
+        columnNumber: 58
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 279,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/fg-inbound", element: /* @__PURE__ */ jsxDEV(FinishedGoodsInbound, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 280,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 280,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/check", element: /* @__PURE__ */ jsxDEV(CheckList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 281,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 281,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/check/:id", element: /* @__PURE__ */ jsxDEV(CheckTask, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 282,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 282,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/inventory", element: /* @__PURE__ */ jsxDEV(Inventory, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 283,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 283,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/batch", element: /* @__PURE__ */ jsxDEV(BatchManage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 284,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 284,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/aging", element: /* @__PURE__ */ jsxDEV(InventoryAging, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 285,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 285,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/barcode", element: /* @__PURE__ */ jsxDEV(BarcodePrint, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 286,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 286,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/master", element: /* @__PURE__ */ jsxDEV(WarehouseMaster, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 287,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 287,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/transfer", element: /* @__PURE__ */ jsxDEV(StockTransfer, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 289,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 289,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/adjustment", element: /* @__PURE__ */ jsxDEV(InventoryAdjustment, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 290,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 290,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "warehouse/serial", element: /* @__PURE__ */ jsxDEV(SerialHU, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 291,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 291,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/quality/inspection", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 293,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 293,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/inspection", element: /* @__PURE__ */ jsxDEV(InspectionList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 294,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 294,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/inspection/:id", element: /* @__PURE__ */ jsxDEV(InspectionTask, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 295,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 295,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/inspection/:id/execute", element: /* @__PURE__ */ jsxDEV(InspectionTask, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 296,
+        columnNumber: 63
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 296,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/unqualified", element: /* @__PURE__ */ jsxDEV(UnqualifiedList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 297,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 297,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/pdca", element: /* @__PURE__ */ jsxDEV(PDCAList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 298,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 298,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/report", element: /* @__PURE__ */ jsxDEV(QualityReport, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 299,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 299,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/standards", element: /* @__PURE__ */ jsxDEV(InspectionStandard, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 300,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 300,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/aql", element: /* @__PURE__ */ jsxDEV(AqlSampling, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 301,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 301,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/inspection-lot", element: /* @__PURE__ */ jsxDEV(InspectionLot, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 303,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 303,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/8d", element: /* @__PURE__ */ jsxDEV(EightD, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 305,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 305,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/spc", element: /* @__PURE__ */ jsxDEV(SPCChartPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 306,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 306,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "quality/lab", element: /* @__PURE__ */ jsxDEV(LabEquipment, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 307,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 307,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/bom/list", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 309,
+        columnNumber: 36
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 309,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom/list", element: /* @__PURE__ */ jsxDEV(BOMList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 310,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 310,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom/create", element: /* @__PURE__ */ jsxDEV(BOMForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 311,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 311,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom/:id/edit", element: /* @__PURE__ */ jsxDEV(BOMForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 312,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 312,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom/cost-rollup", element: /* @__PURE__ */ jsxDEV(CostRollup, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 313,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 313,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "bom/:id", element: /* @__PURE__ */ jsxDEV(BOMDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 314,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 314,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/sales/prospects", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 316,
+        columnNumber: 38
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 316,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/prospects", element: /* @__PURE__ */ jsxDEV(ProspectList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 317,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 317,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/orders", element: /* @__PURE__ */ jsxDEV(SalesOrderList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 318,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 318,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/orders/create", element: /* @__PURE__ */ jsxDEV(SalesOrderForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 319,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 319,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/orders/:id/edit", element: /* @__PURE__ */ jsxDEV(SalesOrderForm, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 320,
+        columnNumber: 54
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 320,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/orders/:id", element: /* @__PURE__ */ jsxDEV(SalesOrderDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 321,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 321,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/analysis", element: /* @__PURE__ */ jsxDEV(MarketAnalysis, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 322,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 322,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/projects", element: /* @__PURE__ */ jsxDEV(ProjectList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 323,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 323,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/projects/:id", element: /* @__PURE__ */ jsxDEV(ProjectDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 324,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 324,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/logistics", element: /* @__PURE__ */ jsxDEV(LogisticsList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 325,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 325,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/quotation", element: /* @__PURE__ */ jsxDEV(Quotation, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 327,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 327,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/invoices", element: /* @__PURE__ */ jsxDEV(SalesInvoicePage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 328,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 328,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/returns", element: /* @__PURE__ */ jsxDEV(SalesReturnPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 329,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 329,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "sales/atp", element: /* @__PURE__ */ jsxDEV(ATPPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 330,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 330,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/production/orders", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 332,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 332,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/orders", element: /* @__PURE__ */ jsxDEV(WorkOrderList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 333,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 333,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/orders/:id", element: /* @__PURE__ */ jsxDEV(WorkOrderDetail, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 334,
+        columnNumber: 54
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 334,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/routes", element: /* @__PURE__ */ jsxDEV(ProcessRouteList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 335,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 335,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/mrp", element: /* @__PURE__ */ jsxDEV(MRPPlan, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 336,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 336,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/report", element: /* @__PURE__ */ jsxDEV(ProductionReport, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 337,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 337,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/capacity", element: /* @__PURE__ */ jsxDEV(CapacityScheduling, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 338,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 338,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/operation-reporting", element: /* @__PURE__ */ jsxDEV(OperationReporting, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 340,
+        columnNumber: 63
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 340,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/wip", element: /* @__PURE__ */ jsxDEV(WipBoard, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 341,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 341,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/cost", element: /* @__PURE__ */ jsxDEV(CostCollection, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 342,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 342,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/aps", element: /* @__PURE__ */ jsxDEV(FiniteCapacity, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 343,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 343,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/versions", element: /* @__PURE__ */ jsxDEV(ProductionVersions, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 345,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 345,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/ecn", element: /* @__PURE__ */ jsxDEV(ECNList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 346,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 346,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/subcontract", element: /* @__PURE__ */ jsxDEV(Subcontract, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 347,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 347,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/crp", element: /* @__PURE__ */ jsxDEV(CRP, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 348,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 348,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/equipment", element: /* @__PURE__ */ jsxDEV(Equipment, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 349,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 349,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/mto", element: /* @__PURE__ */ jsxDEV(MTOCreate, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 350,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 350,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/scheduling", element: /* @__PURE__ */ jsxDEV(DetailedScheduling, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 351,
+        columnNumber: 54
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 351,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "production/spc", element: /* @__PURE__ */ jsxDEV(ProcessSPC, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 352,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 352,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/finance/invoices", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 354,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 354,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/invoices", element: /* @__PURE__ */ jsxDEV(InvoiceList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 355,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 355,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/payments", element: /* @__PURE__ */ jsxDEV(PaymentPlanPage, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 356,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 356,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/entries", element: /* @__PURE__ */ jsxDEV(AccountingEntries, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 357,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 357,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/trial-balance", element: /* @__PURE__ */ jsxDEV(TrialBalance, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 358,
+        columnNumber: 54
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 358,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/chart-accounts", element: /* @__PURE__ */ jsxDEV(ChartOfAccounts, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 359,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 359,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/vouchers", element: /* @__PURE__ */ jsxDEV(VoucherList, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 360,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 360,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/three-way", element: /* @__PURE__ */ jsxDEV(ThreeWayMatch, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 361,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 361,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/report", element: /* @__PURE__ */ jsxDEV(FinanceReport, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 362,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 362,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/tax", element: /* @__PURE__ */ jsxDEV(TaxAccounting, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 363,
+        columnNumber: 44
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 363,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/project-accounting", element: /* @__PURE__ */ jsxDEV(ProjectAccounting, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 364,
+        columnNumber: 59
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 364,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/cash-flow", element: /* @__PURE__ */ jsxDEV(CashFlowStatement, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 365,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 365,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/exchange-rates", element: /* @__PURE__ */ jsxDEV(ExchangeRate, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 367,
+        columnNumber: 55
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 367,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/aging", element: /* @__PURE__ */ jsxDEV(AgingReport, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 368,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 368,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/auxiliary", element: /* @__PURE__ */ jsxDEV(AuxiliaryAccounting, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 369,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 369,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/budget", element: /* @__PURE__ */ jsxDEV(BudgetControl, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 370,
+        columnNumber: 47
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 370,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/statements", element: /* @__PURE__ */ jsxDEV(FinancialStatements, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 372,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 372,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/fixed-assets", element: /* @__PURE__ */ jsxDEV(FixedAssets, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 373,
+        columnNumber: 53
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 373,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "finance/closing", element: /* @__PURE__ */ jsxDEV(PeriodClosing, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 374,
+        columnNumber: 48
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 374,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "reports", element: /* @__PURE__ */ jsxDEV(ReportCenter, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 376,
+        columnNumber: 40
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 376,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "reports/designer", element: /* @__PURE__ */ jsxDEV(ReportDesigner, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 377,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 377,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "reports/bi", element: /* @__PURE__ */ jsxDEV(BISelfService, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 378,
+        columnNumber: 43
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 378,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "reports/permissions", element: /* @__PURE__ */ jsxDEV(ReportPermissions, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 380,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 380,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "platform/lowcode", element: /* @__PURE__ */ jsxDEV(LowCodeDesigner, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 382,
+        columnNumber: 49
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 382,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "platform/workflow", element: /* @__PURE__ */ jsxDEV(WorkflowEngine, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 383,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 383,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "platform/integrations", element: /* @__PURE__ */ jsxDEV(IntegrationHub, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 384,
+        columnNumber: 54
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 384,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "platform/field-permissions", element: /* @__PURE__ */ jsxDEV(FieldPermissions, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 385,
+        columnNumber: 59
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 385,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "platform/i18n", element: /* @__PURE__ */ jsxDEV(I18nSettings, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 386,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 386,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "analytics", element: /* @__PURE__ */ jsxDEV(Navigate, { to: "/analytics/cockpit", replace: true }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 388,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 388,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "analytics/cockpit", element: /* @__PURE__ */ jsxDEV(AnalyticsCockpit, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 389,
+        columnNumber: 50
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 389,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "analytics/forecast", element: /* @__PURE__ */ jsxDEV(DemandForecast, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 390,
+        columnNumber: 51
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 390,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "analytics/ocr", element: /* @__PURE__ */ jsxDEV(InvoiceOcr, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 391,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 391,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "settings", element: /* @__PURE__ */ jsxDEV(Settings, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 393,
+        columnNumber: 41
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 393,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "test/flow", element: /* @__PURE__ */ jsxDEV(FlowSelfTest, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 394,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+        lineNumber: 394,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+      lineNumber: 221,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx",
+    lineNumber: 195,
+    columnNumber: 5
+  }, this);
+}
+_c273 = App;
+export default App;
+var _c, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c0, _c1, _c10, _c11, _c12, _c13, _c14, _c15, _c16, _c17, _c18, _c19, _c20, _c21, _c22, _c23, _c24, _c25, _c26, _c27, _c28, _c29, _c30, _c31, _c32, _c33, _c34, _c35, _c36, _c37, _c38, _c39, _c40, _c41, _c42, _c43, _c44, _c45, _c46, _c47, _c48, _c49, _c50, _c51, _c52, _c53, _c54, _c55, _c56, _c57, _c58, _c59, _c60, _c61, _c62, _c63, _c64, _c65, _c66, _c67, _c68, _c69, _c70, _c71, _c72, _c73, _c74, _c75, _c76, _c77, _c78, _c79, _c80, _c81, _c82, _c83, _c84, _c85, _c86, _c87, _c88, _c89, _c90, _c91, _c92, _c93, _c94, _c95, _c96, _c97, _c98, _c99, _c100, _c101, _c102, _c103, _c104, _c105, _c106, _c107, _c108, _c109, _c110, _c111, _c112, _c113, _c114, _c115, _c116, _c117, _c118, _c119, _c120, _c121, _c122, _c123, _c124, _c125, _c126, _c127, _c128, _c129, _c130, _c131, _c132, _c133, _c134, _c135, _c136, _c137, _c138, _c139, _c140, _c141, _c142, _c143, _c144, _c145, _c146, _c147, _c148, _c149, _c150, _c151, _c152, _c153, _c154, _c155, _c156, _c157, _c158, _c159, _c160, _c161, _c162, _c163, _c164, _c165, _c166, _c167, _c168, _c169, _c170, _c171, _c172, _c173, _c174, _c175, _c176, _c177, _c178, _c179, _c180, _c181, _c182, _c183, _c184, _c185, _c186, _c187, _c188, _c189, _c190, _c191, _c192, _c193, _c194, _c195, _c196, _c197, _c198, _c199, _c200, _c201, _c202, _c203, _c204, _c205, _c206, _c207, _c208, _c209, _c210, _c211, _c212, _c213, _c214, _c215, _c216, _c217, _c218, _c219, _c220, _c221, _c222, _c223, _c224, _c225, _c226, _c227, _c228, _c229, _c230, _c231, _c232, _c233, _c234, _c235, _c236, _c237, _c238, _c239, _c240, _c241, _c242, _c243, _c244, _c245, _c246, _c247, _c248, _c249, _c250, _c251, _c252, _c253, _c254, _c255, _c256, _c257, _c258, _c259, _c260, _c261, _c262, _c263, _c264, _c265, _c266, _c267, _c268, _c269, _c270, _c271, _c272, _c273;
+$RefreshReg$(_c, "Dashboard$lazy");
+$RefreshReg$(_c2, "Dashboard");
+$RefreshReg$(_c3, "Workbench$lazy");
+$RefreshReg$(_c4, "Workbench");
+$RefreshReg$(_c5, "FlowSelfTest$lazy");
+$RefreshReg$(_c6, "FlowSelfTest");
+$RefreshReg$(_c7, "CategoryList$lazy");
+$RefreshReg$(_c8, "CategoryList");
+$RefreshReg$(_c9, "MaterialList$lazy");
+$RefreshReg$(_c0, "MaterialList");
+$RefreshReg$(_c1, "MaterialForm$lazy");
+$RefreshReg$(_c10, "MaterialForm");
+$RefreshReg$(_c11, "MaterialDetail$lazy");
+$RefreshReg$(_c12, "MaterialDetail");
+$RefreshReg$(_c13, "MaterialValuation$lazy");
+$RefreshReg$(_c14, "MaterialValuation");
+$RefreshReg$(_c15, "MaterialApprovalQueue$lazy");
+$RefreshReg$(_c16, "MaterialApprovalQueue");
+$RefreshReg$(_c17, "CodeRule$lazy");
+$RefreshReg$(_c18, "CodeRule");
+$RefreshReg$(_c19, "ImportExport$lazy");
+$RefreshReg$(_c20, "ImportExport");
+$RefreshReg$(_c21, "VendorList$lazy");
+$RefreshReg$(_c22, "VendorList");
+$RefreshReg$(_c23, "VendorRegister$lazy");
+$RefreshReg$(_c24, "VendorRegister");
+$RefreshReg$(_c25, "VendorDetail$lazy");
+$RefreshReg$(_c26, "VendorDetail");
+$RefreshReg$(_c27, "Blacklist$lazy");
+$RefreshReg$(_c28, "Blacklist");
+$RefreshReg$(_c29, "Rating$lazy");
+$RefreshReg$(_c30, "Rating");
+$RefreshReg$(_c31, "ApprovalQueue$lazy");
+$RefreshReg$(_c32, "ApprovalQueue");
+$RefreshReg$(_c33, "VendorWorkbench$lazy");
+$RefreshReg$(_c34, "VendorWorkbench");
+$RefreshReg$(_c35, "VendorOrderConfirmList$lazy");
+$RefreshReg$(_c36, "VendorOrderConfirmList");
+$RefreshReg$(_c37, "DeliveryShipmentList$lazy");
+$RefreshReg$(_c38, "DeliveryShipmentList");
+$RefreshReg$(_c39, "VendorQualityPage$lazy");
+$RefreshReg$(_c40, "VendorQualityPage");
+$RefreshReg$(_c41, "VendorFinancePage$lazy");
+$RefreshReg$(_c42, "VendorFinancePage");
+$RefreshReg$(_c43, "VendorPaymentPlan$lazy");
+$RefreshReg$(_c44, "VendorPaymentPlan");
+$RefreshReg$(_c45, "VendorProfilePage$lazy");
+$RefreshReg$(_c46, "VendorProfilePage");
+$RefreshReg$(_c47, "VendorPermissionsPage$lazy");
+$RefreshReg$(_c48, "VendorPermissionsPage");
+$RefreshReg$(_c49, "VendorQuotation$lazy");
+$RefreshReg$(_c50, "VendorQuotation");
+$RefreshReg$(_c51, "PurchaseList$lazy");
+$RefreshReg$(_c52, "PurchaseList");
+$RefreshReg$(_c53, "PurchaseForm$lazy");
+$RefreshReg$(_c54, "PurchaseForm");
+$RefreshReg$(_c55, "PurchaseDetail$lazy");
+$RefreshReg$(_c56, "PurchaseDetail");
+$RefreshReg$(_c57, "PriceCompare$lazy");
+$RefreshReg$(_c58, "PriceCompare");
+$RefreshReg$(_c59, "OrderList$lazy");
+$RefreshReg$(_c60, "OrderList");
+$RefreshReg$(_c61, "OrderForm$lazy");
+$RefreshReg$(_c62, "OrderForm");
+$RefreshReg$(_c63, "OrderDetail$lazy");
+$RefreshReg$(_c64, "OrderDetail");
+$RefreshReg$(_c65, "OrderTrack$lazy");
+$RefreshReg$(_c66, "OrderTrack");
+$RefreshReg$(_c67, "PurchaseApproval$lazy");
+$RefreshReg$(_c68, "PurchaseApproval");
+$RefreshReg$(_c69, "FrameworkAgreement$lazy");
+$RefreshReg$(_c70, "FrameworkAgreement");
+$RefreshReg$(_c71, "PurchaseReturnPage$lazy");
+$RefreshReg$(_c72, "PurchaseReturnPage");
+$RefreshReg$(_c73, "InquiryList$lazy");
+$RefreshReg$(_c74, "InquiryList");
+$RefreshReg$(_c75, "InquiryDetail$lazy");
+$RefreshReg$(_c76, "InquiryDetail");
+$RefreshReg$(_c77, "InquiryForm$lazy");
+$RefreshReg$(_c78, "InquiryForm");
+$RefreshReg$(_c79, "PriceComparison$lazy");
+$RefreshReg$(_c80, "PriceComparison");
+$RefreshReg$(_c81, "ComparisonsList$lazy");
+$RefreshReg$(_c82, "ComparisonsList");
+$RefreshReg$(_c83, "PriceApproval$lazy");
+$RefreshReg$(_c84, "PriceApproval");
+$RefreshReg$(_c85, "ApprovalList$lazy");
+$RefreshReg$(_c86, "ApprovalList");
+$RefreshReg$(_c87, "PriceListPage$lazy");
+$RefreshReg$(_c88, "PriceListPage");
+$RefreshReg$(_c89, "InboundList$lazy");
+$RefreshReg$(_c90, "InboundList");
+$RefreshReg$(_c91, "InboundForm$lazy");
+$RefreshReg$(_c92, "InboundForm");
+$RefreshReg$(_c93, "OutboundList$lazy");
+$RefreshReg$(_c94, "OutboundList");
+$RefreshReg$(_c95, "OutboundForm$lazy");
+$RefreshReg$(_c96, "OutboundForm");
+$RefreshReg$(_c97, "CheckList$lazy");
+$RefreshReg$(_c98, "CheckList");
+$RefreshReg$(_c99, "CheckTask$lazy");
+$RefreshReg$(_c100, "CheckTask");
+$RefreshReg$(_c101, "Inventory$lazy");
+$RefreshReg$(_c102, "Inventory");
+$RefreshReg$(_c103, "FinishedGoodsInbound$lazy");
+$RefreshReg$(_c104, "FinishedGoodsInbound");
+$RefreshReg$(_c105, "BatchManage$lazy");
+$RefreshReg$(_c106, "BatchManage");
+$RefreshReg$(_c107, "InventoryAging$lazy");
+$RefreshReg$(_c108, "InventoryAging");
+$RefreshReg$(_c109, "BarcodePrint$lazy");
+$RefreshReg$(_c110, "BarcodePrint");
+$RefreshReg$(_c111, "InspectionNoticeWarehouse$lazy");
+$RefreshReg$(_c112, "InspectionNoticeWarehouse");
+$RefreshReg$(_c113, "WarehouseMaster$lazy");
+$RefreshReg$(_c114, "WarehouseMaster");
+$RefreshReg$(_c115, "StockTransfer$lazy");
+$RefreshReg$(_c116, "StockTransfer");
+$RefreshReg$(_c117, "InventoryAdjustment$lazy");
+$RefreshReg$(_c118, "InventoryAdjustment");
+$RefreshReg$(_c119, "SerialHU$lazy");
+$RefreshReg$(_c120, "SerialHU");
+$RefreshReg$(_c121, "Settings$lazy");
+$RefreshReg$(_c122, "Settings");
+$RefreshReg$(_c123, "InspectionList$lazy");
+$RefreshReg$(_c124, "InspectionList");
+$RefreshReg$(_c125, "InspectionTask$lazy");
+$RefreshReg$(_c126, "InspectionTask");
+$RefreshReg$(_c127, "UnqualifiedList$lazy");
+$RefreshReg$(_c128, "UnqualifiedList");
+$RefreshReg$(_c129, "PDCAList$lazy");
+$RefreshReg$(_c130, "PDCAList");
+$RefreshReg$(_c131, "QualityReport$lazy");
+$RefreshReg$(_c132, "QualityReport");
+$RefreshReg$(_c133, "InspectionStandard$lazy");
+$RefreshReg$(_c134, "InspectionStandard");
+$RefreshReg$(_c135, "AqlSampling$lazy");
+$RefreshReg$(_c136, "AqlSampling");
+$RefreshReg$(_c137, "InspectionLot$lazy");
+$RefreshReg$(_c138, "InspectionLot");
+$RefreshReg$(_c139, "EightD$lazy");
+$RefreshReg$(_c140, "EightD");
+$RefreshReg$(_c141, "SPCChartPage$lazy");
+$RefreshReg$(_c142, "SPCChartPage");
+$RefreshReg$(_c143, "LabEquipment$lazy");
+$RefreshReg$(_c144, "LabEquipment");
+$RefreshReg$(_c145, "BOMList$lazy");
+$RefreshReg$(_c146, "BOMList");
+$RefreshReg$(_c147, "BOMDetail$lazy");
+$RefreshReg$(_c148, "BOMDetail");
+$RefreshReg$(_c149, "BOMForm$lazy");
+$RefreshReg$(_c150, "BOMForm");
+$RefreshReg$(_c151, "CostRollup$lazy");
+$RefreshReg$(_c152, "CostRollup");
+$RefreshReg$(_c153, "ProspectList$lazy");
+$RefreshReg$(_c154, "ProspectList");
+$RefreshReg$(_c155, "SalesOrderList$lazy");
+$RefreshReg$(_c156, "SalesOrderList");
+$RefreshReg$(_c157, "SalesOrderForm$lazy");
+$RefreshReg$(_c158, "SalesOrderForm");
+$RefreshReg$(_c159, "SalesOrderDetail$lazy");
+$RefreshReg$(_c160, "SalesOrderDetail");
+$RefreshReg$(_c161, "Quotation$lazy");
+$RefreshReg$(_c162, "Quotation");
+$RefreshReg$(_c163, "SalesInvoicePage$lazy");
+$RefreshReg$(_c164, "SalesInvoicePage");
+$RefreshReg$(_c165, "SalesReturnPage$lazy");
+$RefreshReg$(_c166, "SalesReturnPage");
+$RefreshReg$(_c167, "ATPPage$lazy");
+$RefreshReg$(_c168, "ATPPage");
+$RefreshReg$(_c169, "ProjectList$lazy");
+$RefreshReg$(_c170, "ProjectList");
+$RefreshReg$(_c171, "ProjectDetail$lazy");
+$RefreshReg$(_c172, "ProjectDetail");
+$RefreshReg$(_c173, "MarketAnalysis$lazy");
+$RefreshReg$(_c174, "MarketAnalysis");
+$RefreshReg$(_c175, "LogisticsList$lazy");
+$RefreshReg$(_c176, "LogisticsList");
+$RefreshReg$(_c177, "WorkOrderList$lazy");
+$RefreshReg$(_c178, "WorkOrderList");
+$RefreshReg$(_c179, "WorkOrderDetail$lazy");
+$RefreshReg$(_c180, "WorkOrderDetail");
+$RefreshReg$(_c181, "ProcessRouteList$lazy");
+$RefreshReg$(_c182, "ProcessRouteList");
+$RefreshReg$(_c183, "MRPPlan$lazy");
+$RefreshReg$(_c184, "MRPPlan");
+$RefreshReg$(_c185, "ProductionReport$lazy");
+$RefreshReg$(_c186, "ProductionReport");
+$RefreshReg$(_c187, "CapacityScheduling$lazy");
+$RefreshReg$(_c188, "CapacityScheduling");
+$RefreshReg$(_c189, "OperationReporting$lazy");
+$RefreshReg$(_c190, "OperationReporting");
+$RefreshReg$(_c191, "WipBoard$lazy");
+$RefreshReg$(_c192, "WipBoard");
+$RefreshReg$(_c193, "CostCollection$lazy");
+$RefreshReg$(_c194, "CostCollection");
+$RefreshReg$(_c195, "FiniteCapacity$lazy");
+$RefreshReg$(_c196, "FiniteCapacity");
+$RefreshReg$(_c197, "ProductionVersions$lazy");
+$RefreshReg$(_c198, "ProductionVersions");
+$RefreshReg$(_c199, "ECNList$lazy");
+$RefreshReg$(_c200, "ECNList");
+$RefreshReg$(_c201, "Subcontract$lazy");
+$RefreshReg$(_c202, "Subcontract");
+$RefreshReg$(_c203, "CRP$lazy");
+$RefreshReg$(_c204, "CRP");
+$RefreshReg$(_c205, "Equipment$lazy");
+$RefreshReg$(_c206, "Equipment");
+$RefreshReg$(_c207, "MTOCreate$lazy");
+$RefreshReg$(_c208, "MTOCreate");
+$RefreshReg$(_c209, "DetailedScheduling$lazy");
+$RefreshReg$(_c210, "DetailedScheduling");
+$RefreshReg$(_c211, "ProcessSPC$lazy");
+$RefreshReg$(_c212, "ProcessSPC");
+$RefreshReg$(_c213, "InvoiceList$lazy");
+$RefreshReg$(_c214, "InvoiceList");
+$RefreshReg$(_c215, "PaymentPlanPage$lazy");
+$RefreshReg$(_c216, "PaymentPlanPage");
+$RefreshReg$(_c217, "AccountingEntries$lazy");
+$RefreshReg$(_c218, "AccountingEntries");
+$RefreshReg$(_c219, "TrialBalance$lazy");
+$RefreshReg$(_c220, "TrialBalance");
+$RefreshReg$(_c221, "ChartOfAccounts$lazy");
+$RefreshReg$(_c222, "ChartOfAccounts");
+$RefreshReg$(_c223, "VoucherList$lazy");
+$RefreshReg$(_c224, "VoucherList");
+$RefreshReg$(_c225, "ThreeWayMatch$lazy");
+$RefreshReg$(_c226, "ThreeWayMatch");
+$RefreshReg$(_c227, "FinanceReport$lazy");
+$RefreshReg$(_c228, "FinanceReport");
+$RefreshReg$(_c229, "TaxAccounting$lazy");
+$RefreshReg$(_c230, "TaxAccounting");
+$RefreshReg$(_c231, "ProjectAccounting$lazy");
+$RefreshReg$(_c232, "ProjectAccounting");
+$RefreshReg$(_c233, "CashFlowStatement$lazy");
+$RefreshReg$(_c234, "CashFlowStatement");
+$RefreshReg$(_c235, "ExchangeRate$lazy");
+$RefreshReg$(_c236, "ExchangeRate");
+$RefreshReg$(_c237, "AgingReport$lazy");
+$RefreshReg$(_c238, "AgingReport");
+$RefreshReg$(_c239, "AuxiliaryAccounting$lazy");
+$RefreshReg$(_c240, "AuxiliaryAccounting");
+$RefreshReg$(_c241, "BudgetControl$lazy");
+$RefreshReg$(_c242, "BudgetControl");
+$RefreshReg$(_c243, "FinancialStatements$lazy");
+$RefreshReg$(_c244, "FinancialStatements");
+$RefreshReg$(_c245, "FixedAssets$lazy");
+$RefreshReg$(_c246, "FixedAssets");
+$RefreshReg$(_c247, "PeriodClosing$lazy");
+$RefreshReg$(_c248, "PeriodClosing");
+$RefreshReg$(_c249, "ReportCenter$lazy");
+$RefreshReg$(_c250, "ReportCenter");
+$RefreshReg$(_c251, "ReportDesigner$lazy");
+$RefreshReg$(_c252, "ReportDesigner");
+$RefreshReg$(_c253, "BISelfService$lazy");
+$RefreshReg$(_c254, "BISelfService");
+$RefreshReg$(_c255, "LowCodeDesigner$lazy");
+$RefreshReg$(_c256, "LowCodeDesigner");
+$RefreshReg$(_c257, "WorkflowEngine$lazy");
+$RefreshReg$(_c258, "WorkflowEngine");
+$RefreshReg$(_c259, "IntegrationHub$lazy");
+$RefreshReg$(_c260, "IntegrationHub");
+$RefreshReg$(_c261, "FieldPermissions$lazy");
+$RefreshReg$(_c262, "FieldPermissions");
+$RefreshReg$(_c263, "I18nSettings$lazy");
+$RefreshReg$(_c264, "I18nSettings");
+$RefreshReg$(_c265, "ReportPermissions$lazy");
+$RefreshReg$(_c266, "ReportPermissions");
+$RefreshReg$(_c267, "AnalyticsCockpit$lazy");
+$RefreshReg$(_c268, "AnalyticsCockpit");
+$RefreshReg$(_c269, "DemandForecast$lazy");
+$RefreshReg$(_c270, "DemandForecast");
+$RefreshReg$(_c271, "InvoiceOcr$lazy");
+$RefreshReg$(_c272, "InvoiceOcr");
+$RefreshReg$(_c273, "App");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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LE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE1BQUFFLE1BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFLE9BQUFDLE9BQUFFO0FBQUEsYUFBQTNaLElBQUE7QUFBQSxhQUFBQyxLQUFBO0FBQUEsYUFBQUUsS0FBQTtBQUFBLGFBQUFDLEtBQUE7QUFBQSxhQUFBRSxLQUFBO0FBQUEsYUFBQUMsS0FBQTtBQUFBLGFBQUFFLEtBQUE7QUFBQSxhQUFBQyxLQUFBO0FBQUEsYUFBQUUsS0FBQTtBQUFBLGFBQUFDLEtBQUE7QUFBQSxhQUFBRSxLQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsTUFBQTtBQUFBLGFBQUFFLE1BQUE7QUFBQSxhQUFBQyxNQUFBO0FBQUEsYUFBQUUsTUFBQTtBQUFBLGFBQUFDLE1BQUE7QUFBQSxhQUFBRSxNQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBO0FBQUEsYUFBQUMsT0FBQTtBQUFBLGFBQUFFLE9BQUE7QUFBQSxhQUFBQyxPQUFBO0FBQUEsYUFBQUUsT0FBQTtBQUFBLGFBQUFDLE9BQUE7QUFBQSxhQUFBRSxPQUFBIiwibmFtZXMiOlsibGF6eSIsIlJvdXRlcyIsIlJvdXRlIiwiTmF2aWdhdGUiLCJNYWluTGF5b3V0IiwiVmVuZG9yUG9ydGFsTGF5b3V0IiwiVmVuZG9yTG9naW4iLCJWZW5kb3JQb3J0YWxSZWdpc3RlciIsIkRhc2hib2FyZCIsIl9jIiwiX2MyIiwiV29ya2JlbmNoIiwiX2MzIiwiX2M0IiwiRmxvd1NlbGZUZXN0IiwiX2M1IiwiX2M2IiwiQ2F0ZWdvcnlMaXN0IiwiX2M3IiwiX2M4IiwiTWF0ZXJpYWxMaXN0IiwiX2M5IiwiX2MwIiwiTWF0ZXJpYWxGb3JtIiwiX2MxIiwiX2MxMCIsIk1hdGVyaWFsRGV0YWlsIiwiX2MxMSIsIl9jMTIiLCJNYXRlcmlhbFZhbHVhdGlvbiIsIl9jMTMiLCJfYzE0IiwiTWF0ZXJpYWxBcHByb3ZhbFF1ZXVlIiwiX2MxNSIsIl9jMTYiLCJDb2RlUnVsZSIsIl9jMTciLCJfYzE4IiwiSW1wb3J0RXhwb3J0IiwiX2MxOSIsIl9jMjAiLCJWZW5kb3JMaXN0IiwiX2MyMSIsIl9jMjIiLCJWZW5kb3JSZWdpc3RlciIsIl9jMjMiLCJfYzI0IiwiVmVuZG9yRGV0YWlsIiwiX2MyNSIsIl9jMjYiLCJCbGFja2xpc3QiLCJfYzI3IiwiX2MyOCIsIlJhdGluZyIsIl9jMjkiLCJfYzMwIiwiQXBwcm92YWxRdWV1ZSIsIl9jMzEiLCJfYzMyIiwiVmVuZG9yV29ya2JlbmNoIiwiX2MzMyIsIl9jMzQiLCJWZW5kb3JPcmRlckNvbmZpcm1MaXN0IiwiX2MzNSIsIl9jMzYiLCJEZWxpdmVyeVNoaXBtZW50TGlzdCIsIl9jMzciLCJfYzM4IiwiVmVuZG9yUXVhbGl0eVBhZ2UiLCJfYzM5IiwiX2M0MCIsIlZlbmRvckZpbmFuY2VQYWdlIiwiX2M0MSIsIl9jNDIiLCJWZW5kb3JQYXltZW50UGxhbiIsIl9jNDMiLCJfYzQ0IiwiVmVuZG9yUHJvZmlsZVBhZ2UiLCJfYzQ1IiwiX2M0NiIsIlZlbmRvclBlcm1pc3Npb25zUGFnZSIsIl9jNDciLCJfYzQ4IiwiVmVuZG9yUXVvdGF0aW9uIiwiX2M0OSIsIl9jNTAiLCJQdXJjaGFzZUxpc3QiLCJfYzUxIiwiX2M1MiIsIlB1cmNoYXNlRm9ybSIsIl9jNTMiLCJfYzU0IiwiUHVyY2hhc2VEZXRhaWwiLCJfYzU1IiwiX2M1NiIsIlByaWNlQ29tcGFyZSIsIl9jNTciLCJfYzU4IiwiT3JkZXJMaXN0IiwiX2M1OSIsIl9jNjAiLCJPcmRlckZvcm0iLCJfYzYxIiwiX2M2MiIsIk9yZGVyRGV0YWlsIiwiX2M2MyIsIl9jNjQiLCJPcmRlclRyYWNrIiwiX2M2NSIsIl9jNjYiLCJQdXJjaGFzZUFwcHJvdmFsIiwiX2M2NyIsIl9jNjgiLCJGcmFtZXdvcmtBZ3JlZW1lbnQiLCJfYzY5IiwiX2M3MCIsIlB1cmNoYXNlUmV0dXJuUGFnZSIsIl9jNzEiLCJfYzcyIiwiSW5xdWlyeUxpc3QiLCJfYzczIiwiX2M3NCIsIklucXVpcnlEZXRhaWwiLCJfYzc1IiwiX2M3NiIsIklucXVpcnlGb3JtIiwiX2M3NyIsIl9jNzgiLCJQcmljZUNvbXBhcmlzb24iLCJfYzc5IiwiX2M4MCIsIkNvbXBhcmlzb25zTGlzdCIsIl9jODEiLCJfYzgyIiwiUHJpY2VBcHByb3ZhbCIsIl9jODMiLCJfYzg0IiwiQXBwcm92YWxMaXN0IiwiX2M4NSIsIl9jODYiLCJQcmljZUxpc3RQYWdlIiwiX2M4NyIsIl9jODgiLCJJbmJvdW5kTGlzdCIsIl9jODkiLCJfYzkwIiwiSW5ib3VuZEZvcm0iLCJfYzkxIiwiX2M5MiIsIk91dGJvdW5kTGlzdCIsIl9jOTMiLCJfYzk0IiwiT3V0Ym91bmRGb3JtIiwiX2M5NSIsIl9jOTYiLCJDaGVja0xpc3QiLCJfYzk3IiwiX2M5OCIsIkNoZWNrVGFzayIsIl9jOTkiLCJfYzEwMCIsIkludmVudG9yeSIsIl9jMTAxIiwiX2MxMDIiLCJGaW5pc2hlZEdvb2RzSW5ib3VuZCIsIl9jMTAzIiwiX2MxMDQiLCJCYXRjaE1hbmFnZSIsIl9jMTA1IiwiX2MxMDYiLCJJbnZlbnRvcnlBZ2luZyIsIl9jMTA3IiwiX2MxMDgiLCJCYXJjb2RlUHJpbnQiLCJfYzEwOSIsIl9jMTEwIiwiSW5zcGVjdGlvbk5vdGljZVdhcmVob3VzZSIsIl9jMTExIiwiX2MxMTIiLCJXYXJlaG91c2VNYXN0ZXIiLCJfYzExMyIsIl9jMTE0IiwiU3RvY2tUcmFuc2ZlciIsIl9jMTE1IiwiX2MxMTYiLCJJbnZlbnRvcnlBZGp1c3RtZW50IiwiX2MxMTciLCJfYzExOCIsIlNlcmlhbEhVIiwiX2MxMTkiLCJfYzEyMCIsIlNldHRpbmdzIiwiX2MxMjEiLCJfYzEyMiIsIkluc3BlY3Rpb25MaXN0IiwiX2MxMjMiLCJfYzEyNCIsIkluc3BlY3Rpb25UYXNrIiwiX2MxMjUiLCJfYzEyNiIsIlVucXVhbGlmaWVkTGlzdCIsIl9jMTI3IiwiX2MxMjgiLCJQRENBTGlzdCIsIl9jMTI5IiwiX2MxMzAiLCJRdWFsaXR5UmVwb3J0IiwiX2MxMzEiLCJfYzEzMiIsIkluc3BlY3Rpb25TdGFuZGFyZCIsIl9jMTMzIiwiX2MxMzQiLCJBcWxTYW1wbGluZyIsIl9jMTM1IiwiX2MxMzYiLCJJbnNwZWN0aW9uTG90IiwiX2MxMzciLCJfYzEzOCIsIkVpZ2h0RCIsIl9jMTM5IiwiX2MxNDAiLCJTUENDaGFydFBhZ2UiLCJfYzE0MSIsIl9jMTQyIiwiTGFiRXF1aXBtZW50IiwiX2MxNDMiLCJfYzE0NCIsIkJPTUxpc3QiLCJfYzE0NSIsIl9jMTQ2IiwiQk9NRGV0YWlsIiwiX2MxNDciLCJfYzE0OCIsIkJPTUZvcm0iLCJfYzE0OSIsIl9jMTUwIiwiQ29zdFJvbGx1cCIsIl9jMTUxIiwiX2MxNTIiLCJQcm9zcGVjdExpc3QiLCJfYzE1MyIsIl9jMTU0IiwiU2FsZXNPcmRlckxpc3QiLCJfYzE1NSIsIl9jMTU2IiwiU2FsZXNPcmRlckZvcm0iLCJfYzE1NyIsIl9jMTU4IiwiU2FsZXNPcmRlckRldGFpbCIsIl9jMTU5IiwiX2MxNjAiLCJRdW90YXRpb24iLCJfYzE2MSIsIl9jMTYyIiwiU2FsZXNJbnZvaWNlUGFnZSIsIl9jMTYzIiwiX2MxNjQiLCJTYWxlc1JldHVyblBhZ2UiLCJfYzE2NSIsIl9jMTY2IiwiQVRQUGFnZSIsIl9jMTY3IiwiX2MxNjgiLCJQcm9qZWN0TGlzdCIsIl9jMTY5IiwiX2MxNzAiLCJQcm9qZWN0RGV0YWlsIiwiX2MxNzEiLCJfYzE3MiIsIk1hcmtldEFuYWx5c2lzIiwiX2MxNzMiLCJfYzE3NCIsIkxvZ2lzdGljc0xpc3QiLCJfYzE3NSIsIl9jMTc2IiwiV29ya09yZGVyTGlzdCIsIl9jMTc3IiwiX2MxNzgiLCJXb3JrT3JkZXJEZXRhaWwiLCJfYzE3OSIsIl9jMTgwIiwiUHJvY2Vzc1JvdXRlTGlzdCIsIl9jMTgxIiwiX2MxODIiLCJNUlBQbGFuIiwiX2MxODMiLCJfYzE4NCIsIlByb2R1Y3Rpb25SZXBvcnQiLCJfYzE4NSIsIl9jMTg2IiwiQ2FwYWNpdHlTY2hlZHVsaW5nIiwiX2MxODciLCJfYzE4OCIsIk9wZXJhdGlvblJlcG9ydGluZyIsIl9jMTg5IiwiX2MxOTAiLCJXaXBCb2FyZCIsIl9jMTkxIiwiX2MxOTIiLCJDb3N0Q29sbGVjdGlvbiIsIl9jMTkzIiwiX2MxOTQiLCJGaW5pdGVDYXBhY2l0eSIsIl9jMTk1IiwiX2MxOTYiLCJQcm9kdWN0aW9uVmVyc2lvbnMiLCJfYzE5NyIsIl9jMTk4IiwiRUNOTGlzdCIsIl9jMTk5IiwiX2MyMDAiLCJTdWJjb250cmFjdCIsIl9jMjAxIiwiX2MyMDIiLCJDUlAiLCJfYzIwMyIsIl9jMjA0IiwiRXF1aXBtZW50IiwiX2MyMDUiLCJfYzIwNiIsIk1UT0NyZWF0ZSIsIl9jMjA3IiwiX2MyMDgiLCJEZXRhaWxlZFNjaGVkdWxpbmciLCJfYzIwOSIsIl9jMjEwIiwiUHJvY2Vzc1NQQyIsIl9jMjExIiwiX2MyMTIiLCJJbnZvaWNlTGlzdCIsIl9jMjEzIiwiX2MyMTQiLCJQYXltZW50UGxhblBhZ2UiLCJfYzIxNSIsIl9jMjE2IiwiQWNjb3VudGluZ0VudHJpZXMiLCJfYzIxNyIsIl9jMjE4IiwiVHJpYWxCYWxhbmNlIiwiX2MyMTkiLCJfYzIyMCIsIkNoYXJ0T2ZBY2NvdW50cyIsIl9jMjIxIiwiX2MyMjIiLCJWb3VjaGVyTGlzdCIsIl9jMjIzIiwiX2MyMjQiLCJUaHJlZVdheU1hdGNoIiwiX2MyMjUiLCJfYzIyNiIsIkZpbmFuY2VSZXBvcnQiLCJfYzIyNyIsIl9jMjI4IiwiVGF4QWNjb3VudGluZyIsIl9jMjI5IiwiX2MyMzAiLCJQcm9qZWN0QWNjb3VudGluZyIsIl9jMjMxIiwiX2MyMzIiLCJDYXNoRmxvd1N0YXRlbWVudCIsIl9jMjMzIiwiX2MyMzQiLCJFeGNoYW5nZVJhdGUiLCJfYzIzNSIsIl9jMjM2IiwiQWdpbmdSZXBvcnQiLCJfYzIzNyIsIl9jMjM4IiwiQXV4aWxpYXJ5QWNjb3VudGluZyIsIl9jMjM5IiwiX2MyNDAiLCJCdWRnZXRDb250cm9sIiwiX2MyNDEiLCJfYzI0MiIsIkZpbmFuY2lhbFN0YXRlbWVudHMiLCJfYzI0MyIsIl9jMjQ0IiwiRml4ZWRBc3NldHMiLCJfYzI0NSIsIl9jMjQ2IiwiUGVyaW9kQ2xvc2luZyIsIl9jMjQ3IiwiX2MyNDgiLCJSZXBvcnRDZW50ZXIiLCJfYzI0OSIsIl9jMjUwIiwiUmVwb3J0RGVzaWduZXIiLCJfYzI1MSIsIl9jMjUyIiwiQklTZWxmU2VydmljZSIsIl9jMjUzIiwiX2MyNTQiLCJMb3dDb2RlRGVzaWduZXIiLCJfYzI1NSIsIl9jMjU2IiwiV29ya2Zsb3dFbmdpbmUiLCJfYzI1NyIsIl9jMjU4IiwiSW50ZWdyYXRpb25IdWIiLCJfYzI1OSIsIl9jMjYwIiwiRmllbGRQZXJtaXNzaW9ucyIsIl9jMjYxIiwiX2MyNjIiLCJJMThuU2V0dGluZ3MiLCJfYzI2MyIsIl9jMjY0IiwiUmVwb3J0UGVybWlzc2lvbnMiLCJfYzI2NSIsIl9jMjY2IiwiQW5hbHl0aWNzQ29ja3BpdCIsIl9jMjY3IiwiX2MyNjgiLCJEZW1hbmRGb3JlY2FzdCIsIl9jMjY5IiwiX2MyNzAiLCJJbnZvaWNlT2NyIiwiX2MyNzEiLCJfYzI3MiIsIkFwcCIsIl9jMjczIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkFwcC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IGxhenkgfSBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBSb3V0ZXMsIFJvdXRlLCBOYXZpZ2F0ZSB9IGZyb20gJ3JlYWN0LXJvdXRlci1kb20nO1xuaW1wb3J0IE1haW5MYXlvdXQgZnJvbSAnLi9jb21wb25lbnRzL2xheW91dC9NYWluTGF5b3V0JztcbmltcG9ydCBWZW5kb3JQb3J0YWxMYXlvdXQgZnJvbSAnLi9jb21wb25lbnRzL2xheW91dC9WZW5kb3JQb3J0YWxMYXlvdXQnO1xuaW1wb3J0IFZlbmRvckxvZ2luIGZyb20gJy4vcGFnZXMvVmVuZG9yL1ZlbmRvckxvZ2luJztcbmltcG9ydCBWZW5kb3JQb3J0YWxSZWdpc3RlciBmcm9tICcuL3BhZ2VzL1ZlbmRvci9WZW5kb3JQb3J0YWxSZWdpc3Rlcic7XG4vLyBEYXNoYm9hcmQg6aaW6aG15ZCrIEBtdWkveC1jaGFydHPvvIjlm77ooajlpKflnZfvvInvvIzmlLnmh5LliqDovb3ku6Xnp7vlh7rpppblsY/ljIXvvJvlt7LlnKggTWFpbkxheW91dCBPdXRsZXQg55qEIFN1c3BlbnNlIOWGhe+8jOWuieWFqFxuY29uc3QgRGFzaGJvYXJkID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRGFzaGJvYXJkL0Rhc2hib2FyZCcpKTtcbi8vIFA0LTEg5Liq5Lq65bel5L2c5Y+wXG5jb25zdCBXb3JrYmVuY2ggPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Xb3JrYmVuY2gvV29ya2JlbmNoJykpO1xuXG4vLyDkuLvluIPlsYDkuI7pl6jmiLfnmbvlvZXkv53mjIHmgKXliqDovb3vvIjot6/nlLHlpJblo7Mv5YWl5Y+j77yJ77yM5YW25L2Z6aG16Z2i5oyJ6ZyA5oeS5Yqg6L2977yM5YeP5bCP6aaW5bGP5YyF5L2T44CB5o+Q5Y2H6L+Q6KGM5pWI546HXG5jb25zdCBGbG93U2VsZlRlc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9UZXN0L0Zsb3dTZWxmVGVzdCcpKTtcbi8vIOeJqeaWmVxuY29uc3QgQ2F0ZWdvcnlMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvTWF0ZXJpYWwvQ2F0ZWdvcnlMaXN0JykpO1xuY29uc3QgTWF0ZXJpYWxMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvTWF0ZXJpYWwvTWF0ZXJpYWxMaXN0JykpO1xuY29uc3QgTWF0ZXJpYWxGb3JtID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvTWF0ZXJpYWwvTWF0ZXJpYWxGb3JtJykpO1xuY29uc3QgTWF0ZXJpYWxEZXRhaWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9NYXRlcmlhbC9NYXRlcmlhbERldGFpbCcpKTtcbi8vIOS+m+W6lOmTvua3seWMlu+8iFAzLTPvvInvvJror4TkvLDnsbsv5Lu35o6nL+W3peWOgue7tOW6plxuY29uc3QgTWF0ZXJpYWxWYWx1YXRpb24gPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9NYXRlcmlhbC9NYXRlcmlhbFZhbHVhdGlvbicpKTtcbmNvbnN0IE1hdGVyaWFsQXBwcm92YWxRdWV1ZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL01hdGVyaWFsL01hdGVyaWFsQXBwcm92YWxRdWV1ZScpKTtcbmNvbnN0IENvZGVSdWxlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvTWF0ZXJpYWwvQ29kZVJ1bGUnKSk7XG5jb25zdCBJbXBvcnRFeHBvcnQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9NYXRlcmlhbC9JbXBvcnRFeHBvcnQnKSk7XG4vLyDkvpvlupTllYbvvIjph4fotK3mlrnop4bop5LvvIlcbmNvbnN0IFZlbmRvckxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvVmVuZG9yTGlzdCcpKTtcbmNvbnN0IFZlbmRvclJlZ2lzdGVyID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvVmVuZG9yL1ZlbmRvclJlZ2lzdGVyJykpO1xuY29uc3QgVmVuZG9yRGV0YWlsID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvVmVuZG9yL1ZlbmRvckRldGFpbCcpKTtcbmNvbnN0IEJsYWNrbGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ZlbmRvci9CbGFja2xpc3QnKSk7XG5jb25zdCBSYXRpbmcgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvUmF0aW5nJykpO1xuY29uc3QgQXBwcm92YWxRdWV1ZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ZlbmRvci9BcHByb3ZhbFF1ZXVlJykpO1xuLy8g5L6b5bqU5ZWG6Zeo5oi377yI54us56uL6Lev55Sx77yJXG5jb25zdCBWZW5kb3JXb3JrYmVuY2ggPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvVmVuZG9yV29ya2JlbmNoJykpO1xuY29uc3QgVmVuZG9yT3JkZXJDb25maXJtTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ZlbmRvci9WZW5kb3JPcmRlckNvbmZpcm0nKSk7XG5jb25zdCBEZWxpdmVyeVNoaXBtZW50TGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ZlbmRvci9EZWxpdmVyeVNoaXBtZW50JykpO1xuY29uc3QgVmVuZG9yUXVhbGl0eVBhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvVmVuZG9yUXVhbGl0eVBhZ2UnKSk7XG5jb25zdCBWZW5kb3JGaW5hbmNlUGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ZlbmRvci9WZW5kb3JGaW5hbmNlUGFnZScpKTtcbmNvbnN0IFZlbmRvclBheW1lbnRQbGFuID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvVmVuZG9yL1ZlbmRvclBheW1lbnRQbGFuJykpO1xuY29uc3QgVmVuZG9yUHJvZmlsZVBhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvVmVuZG9yUHJvZmlsZVBhZ2UnKSk7XG5jb25zdCBWZW5kb3JQZXJtaXNzaW9uc1BhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9WZW5kb3IvVmVuZG9yUGVybWlzc2lvbnNQYWdlJykpO1xuY29uc3QgVmVuZG9yUXVvdGF0aW9uID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvVmVuZG9yL1ZlbmRvclF1b3RhdGlvbicpKTtcbi8vIOmHh+i0rVxuY29uc3QgUHVyY2hhc2VMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHVyY2hhc2UvUHVyY2hhc2VMaXN0JykpO1xuY29uc3QgUHVyY2hhc2VGb3JtID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHVyY2hhc2UvUHVyY2hhc2VGb3JtJykpO1xuY29uc3QgUHVyY2hhc2VEZXRhaWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QdXJjaGFzZS9QdXJjaGFzZURldGFpbCcpKTtcbmNvbnN0IFByaWNlQ29tcGFyZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1B1cmNoYXNlL1ByaWNlQ29tcGFyZScpKTtcbmNvbnN0IE9yZGVyTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1B1cmNoYXNlL09yZGVyTGlzdCcpKTtcbmNvbnN0IE9yZGVyRm9ybSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1B1cmNoYXNlL09yZGVyRm9ybScpKTtcbmNvbnN0IE9yZGVyRGV0YWlsID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHVyY2hhc2UvT3JkZXJEZXRhaWwnKSk7XG5jb25zdCBPcmRlclRyYWNrID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHVyY2hhc2UvT3JkZXJUcmFjaycpKTtcbmNvbnN0IFB1cmNoYXNlQXBwcm92YWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QdXJjaGFzZS9QdXJjaGFzZUFwcHJvdmFsJykpO1xuLy8g5L6b5bqU6ZO+5rex5YyW77yIUDMtM++8ie+8mumHh+i0reahhuaetuWNj+iuri/pgIDotKdcbmNvbnN0IEZyYW1ld29ya0FncmVlbWVudCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1B1cmNoYXNlL0ZyYW1ld29ya0FncmVlbWVudCcpKTtcbmNvbnN0IFB1cmNoYXNlUmV0dXJuUGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1B1cmNoYXNlL1B1cmNoYXNlUmV0dXJuJykpO1xuLy8g5Lu35qC8566h55CGXG5jb25zdCBJbnF1aXJ5TGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ByaWNlL0lucXVpcnlMaXN0JykpO1xuY29uc3QgSW5xdWlyeURldGFpbCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ByaWNlL0lucXVpcnlEZXRhaWwnKSk7XG5jb25zdCBJbnF1aXJ5Rm9ybSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ByaWNlL0lucXVpcnlGb3JtJykpO1xuY29uc3QgUHJpY2VDb21wYXJpc29uID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJpY2UvUHJpY2VDb21wYXJpc29uJykpO1xuY29uc3QgQ29tcGFyaXNvbnNMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJpY2UvQ29tcGFyaXNvbnNMaXN0JykpO1xuY29uc3QgUHJpY2VBcHByb3ZhbCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1ByaWNlL1ByaWNlQXBwcm92YWwnKSk7XG5jb25zdCBBcHByb3ZhbExpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QcmljZS9BcHByb3ZhbExpc3QnKSk7XG5jb25zdCBQcmljZUxpc3RQYWdlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJpY2UvUHJpY2VMaXN0JykpO1xuLy8g5LuT5YKo54mp5rWBXG5jb25zdCBJbmJvdW5kTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9JbmJvdW5kTGlzdCcpKTtcbmNvbnN0IEluYm91bmRGb3JtID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL0luYm91bmRGb3JtJykpO1xuY29uc3QgT3V0Ym91bmRMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL091dGJvdW5kTGlzdCcpKTtcbmNvbnN0IE91dGJvdW5kRm9ybSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9PdXRib3VuZEZvcm0nKSk7XG5jb25zdCBDaGVja0xpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9XYXJlaG91c2UvQ2hlY2tMaXN0JykpO1xuY29uc3QgQ2hlY2tUYXNrID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL0NoZWNrVGFzaycpKTtcbmNvbnN0IEludmVudG9yeSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9JbnZlbnRvcnknKSk7XG5jb25zdCBGaW5pc2hlZEdvb2RzSW5ib3VuZCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9GaW5pc2hlZEdvb2RzSW5ib3VuZCcpKTtcbmNvbnN0IEJhdGNoTWFuYWdlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL0JhdGNoTWFuYWdlJykpO1xuY29uc3QgSW52ZW50b3J5QWdpbmcgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9XYXJlaG91c2UvSW52ZW50b3J5QWdpbmcnKSk7XG5jb25zdCBCYXJjb2RlUHJpbnQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9XYXJlaG91c2UvQmFyY29kZVByaW50JykpO1xuY29uc3QgSW5zcGVjdGlvbk5vdGljZVdhcmVob3VzZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9JbnNwZWN0aW9uTm90aWNlJykpO1xuY29uc3QgV2FyZWhvdXNlTWFzdGVyID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL1dhcmVob3VzZU1hc3RlcicpKTtcbi8vIOS+m+W6lOmTvua3seWMlu+8iFAzLTPvvInvvJrot6jnu4Tnu4fovazlgqgv5bqT5a2Y6LCD5pW0L+W6j+WIl+WPt0hVXG5jb25zdCBTdG9ja1RyYW5zZmVyID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL1N0b2NrVHJhbnNmZXInKSk7XG5jb25zdCBJbnZlbnRvcnlBZGp1c3RtZW50ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvV2FyZWhvdXNlL0ludmVudG9yeUFkanVzdG1lbnQnKSk7XG5jb25zdCBTZXJpYWxIVSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1dhcmVob3VzZS9TZXJpYWxIVScpKTtcbi8vIOiuvue9rlxuY29uc3QgU2V0dGluZ3MgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9TZXR0aW5ncy9TZXR0aW5ncycpKTtcbi8vIOi0qOmHj1xuY29uc3QgSW5zcGVjdGlvbkxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9RdWFsaXR5L0luc3BlY3Rpb25MaXN0JykpO1xuY29uc3QgSW5zcGVjdGlvblRhc2sgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9RdWFsaXR5L0luc3BlY3Rpb25UYXNrJykpO1xuY29uc3QgVW5xdWFsaWZpZWRMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUXVhbGl0eS9VbnF1YWxpZmllZExpc3QnKSk7XG5jb25zdCBQRENBTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1F1YWxpdHkvUERDQUxpc3QnKSk7XG5jb25zdCBRdWFsaXR5UmVwb3J0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUXVhbGl0eS9RdWFsaXR5UmVwb3J0JykpO1xuY29uc3QgSW5zcGVjdGlvblN0YW5kYXJkID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUXVhbGl0eS9JbnNwZWN0aW9uU3RhbmRhcmQnKSk7XG5jb25zdCBBcWxTYW1wbGluZyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1F1YWxpdHkvQXFsU2FtcGxpbmcnKSk7XG4vLyDkvpvlupTpk77mt7HljJbvvIhQMy0z77yJ77ya5qOA6aqM5om5L0NPUS/mibnmrKHov73muq8vUU3or4Tnuqflm57mtYFcbmNvbnN0IEluc3BlY3Rpb25Mb3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9RdWFsaXR5L0luc3BlY3Rpb25Mb3QnKSk7XG4vLyDotKjph4/mt7HljJbvvIhQMy0077yJ77yaOEQgLyBTUEMg5o6n5Yi25Zu+IC8g5a6e6aqM5a6k6K6+5aSHXG5jb25zdCBFaWdodEQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9RdWFsaXR5L0VpZ2h0RCcpKTtcbmNvbnN0IFNQQ0NoYXJ0UGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1F1YWxpdHkvU1BDQ2hhcnQnKSk7XG5jb25zdCBMYWJFcXVpcG1lbnQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9RdWFsaXR5L0xhYkVxdWlwbWVudCcpKTtcbi8vIEJPTVxuY29uc3QgQk9NTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0JPTS9CT01MaXN0JykpO1xuY29uc3QgQk9NRGV0YWlsID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvQk9NL0JPTURldGFpbCcpKTtcbmNvbnN0IEJPTUZvcm0gPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9CT00vQk9NRm9ybScpKTtcbmNvbnN0IENvc3RSb2xsdXAgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9CT00vQ29zdFJvbGx1cCcpKTtcbi8vIOmUgOWUrlxuY29uc3QgUHJvc3BlY3RMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvU2FsZXMvUHJvc3BlY3RMaXN0JykpO1xuY29uc3QgU2FsZXNPcmRlckxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9TYWxlcy9TYWxlc09yZGVyTGlzdCcpKTtcbmNvbnN0IFNhbGVzT3JkZXJGb3JtID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvU2FsZXMvU2FsZXNPcmRlckZvcm0nKSk7XG5jb25zdCBTYWxlc09yZGVyRGV0YWlsID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvU2FsZXMvU2FsZXNPcmRlckRldGFpbCcpKTtcbi8vIOS+m+W6lOmTvua3seWMlu+8iFAzLTPvvInvvJrplIDllK7miqXku7cv5byA56WoL+mAgOi0py9BVFBcbmNvbnN0IFF1b3RhdGlvbiA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NhbGVzL1F1b3RhdGlvbicpKTtcbmNvbnN0IFNhbGVzSW52b2ljZVBhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9TYWxlcy9TYWxlc0ludm9pY2UnKSk7XG5jb25zdCBTYWxlc1JldHVyblBhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9TYWxlcy9TYWxlc1JldHVybicpKTtcbmNvbnN0IEFUUFBhZ2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9TYWxlcy9BVFAnKSk7XG5jb25zdCBQcm9qZWN0TGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NhbGVzL1Byb2plY3RMaXN0JykpO1xuY29uc3QgUHJvamVjdERldGFpbCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NhbGVzL1Byb2plY3REZXRhaWwnKSk7XG5jb25zdCBNYXJrZXRBbmFseXNpcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NhbGVzL01hcmtldEFuYWx5c2lzJykpO1xuY29uc3QgTG9naXN0aWNzTGlzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1NhbGVzL0xvZ2lzdGljc0xpc3QnKSk7XG4vLyDnlJ/kuqdcbmNvbnN0IFdvcmtPcmRlckxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL1dvcmtPcmRlckxpc3QnKSk7XG5jb25zdCBXb3JrT3JkZXJEZXRhaWwgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL1dvcmtPcmRlckRldGFpbCcpKTtcbmNvbnN0IFByb2Nlc3NSb3V0ZUxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL1Byb2Nlc3NSb3V0ZUxpc3QnKSk7XG5jb25zdCBNUlBQbGFuID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJvZHVjdGlvbi9NUlBQbGFuJykpO1xuY29uc3QgUHJvZHVjdGlvblJlcG9ydCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vUHJvZHVjdGlvblJlcG9ydCcpKTtcbmNvbnN0IENhcGFjaXR5U2NoZWR1bGluZyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vQ2FwYWNpdHlTY2hlZHVsaW5nJykpO1xuLy8g55Sf5Lqn5omn6KGMIC8gUDItM1xuY29uc3QgT3BlcmF0aW9uUmVwb3J0aW5nID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJvZHVjdGlvbi9PcGVyYXRpb25SZXBvcnRpbmcnKSk7XG5jb25zdCBXaXBCb2FyZCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vV2lwQm9hcmQnKSk7XG5jb25zdCBDb3N0Q29sbGVjdGlvbiA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vQ29zdENvbGxlY3Rpb24nKSk7XG5jb25zdCBGaW5pdGVDYXBhY2l0eSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vRmluaXRlQ2FwYWNpdHknKSk7XG4vLyDnlJ/kuqfmt7HljJbvvIhQMy0y77yJXG5jb25zdCBQcm9kdWN0aW9uVmVyc2lvbnMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL1Byb2R1Y3Rpb25WZXJzaW9ucycpKTtcbmNvbnN0IEVDTkxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL0VDTkxpc3QnKSk7XG5jb25zdCBTdWJjb250cmFjdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vU3ViY29udHJhY3QnKSk7XG5jb25zdCBDUlAgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL0NSUCcpKTtcbmNvbnN0IEVxdWlwbWVudCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1Byb2R1Y3Rpb24vRXF1aXBtZW50JykpO1xuY29uc3QgTVRPQ3JlYXRlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUHJvZHVjdGlvbi9NVE9DcmVhdGUnKSk7XG5jb25zdCBEZXRhaWxlZFNjaGVkdWxpbmcgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL0RldGFpbGVkU2NoZWR1bGluZycpKTtcbmNvbnN0IFByb2Nlc3NTUEMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9Qcm9kdWN0aW9uL1Byb2Nlc3NTUEMnKSk7XG4vLyDotKLliqFcbmNvbnN0IEludm9pY2VMaXN0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRmluYW5jZS9JbnZvaWNlTGlzdCcpKTtcbmNvbnN0IFBheW1lbnRQbGFuUGFnZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvUGF5bWVudFBsYW4nKSk7XG5jb25zdCBBY2NvdW50aW5nRW50cmllcyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvQWNjb3VudGluZ0VudHJpZXMnKSk7XG5jb25zdCBUcmlhbEJhbGFuY2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL1RyaWFsQmFsYW5jZScpKTtcbmNvbnN0IENoYXJ0T2ZBY2NvdW50cyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvQ2hhcnRPZkFjY291bnRzJykpO1xuY29uc3QgVm91Y2hlckxpc3QgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL1ZvdWNoZXJMaXN0JykpO1xuY29uc3QgVGhyZWVXYXlNYXRjaCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvVGhyZWVXYXlNYXRjaCcpKTtcbmNvbnN0IEZpbmFuY2VSZXBvcnQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL0ZpbmFuY2VSZXBvcnQnKSk7XG5jb25zdCBUYXhBY2NvdW50aW5nID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRmluYW5jZS9UYXhBY2NvdW50aW5nJykpO1xuY29uc3QgUHJvamVjdEFjY291bnRpbmcgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL1Byb2plY3RBY2NvdW50aW5nJykpO1xuY29uc3QgQ2FzaEZsb3dTdGF0ZW1lbnQgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL0Nhc2hGbG93U3RhdGVtZW50JykpO1xuLy8g6LSi5Yqh5rex5YyW77yIUDItNe+8iVxuY29uc3QgRXhjaGFuZ2VSYXRlID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRmluYW5jZS9FeGNoYW5nZVJhdGUnKSk7XG5jb25zdCBBZ2luZ1JlcG9ydCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvQWdpbmdSZXBvcnQnKSk7XG5jb25zdCBBdXhpbGlhcnlBY2NvdW50aW5nID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRmluYW5jZS9BdXhpbGlhcnlBY2NvdW50aW5nJykpO1xuY29uc3QgQnVkZ2V0Q29udHJvbCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvQnVkZ2V0Q29udHJvbCcpKTtcbi8vIOi0ouWKoea3seWMlu+8iFAzLTHvvIlcbmNvbnN0IEZpbmFuY2lhbFN0YXRlbWVudHMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9GaW5hbmNlL0ZpbmFuY2lhbFN0YXRlbWVudHMnKSk7XG5jb25zdCBGaXhlZEFzc2V0cyA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0ZpbmFuY2UvRml4ZWRBc3NldHMnKSk7XG5jb25zdCBQZXJpb2RDbG9zaW5nID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvRmluYW5jZS9QZXJpb2RDbG9zaW5nJykpO1xuLy8g5oql6KGoXG5jb25zdCBSZXBvcnRDZW50ZXIgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9SZXBvcnRzL1JlcG9ydENlbnRlcicpKTtcbmNvbnN0IFJlcG9ydERlc2lnbmVyID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUmVwb3J0cy9SZXBvcnREZXNpZ25lcicpKTtcbmNvbnN0IEJJU2VsZlNlcnZpY2UgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9SZXBvcnRzL0JJU2VsZlNlcnZpY2UnKSk7XG4vLyDlubPlj7DnlJ/mgIEgLyDkvY7ku6PnoIHvvIhQMy0177yJXG5jb25zdCBMb3dDb2RlRGVzaWduZXIgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QbGF0Zm9ybS9Mb3dDb2RlRGVzaWduZXInKSk7XG5jb25zdCBXb3JrZmxvd0VuZ2luZSA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL1BsYXRmb3JtL1dvcmtmbG93RW5naW5lJykpO1xuY29uc3QgSW50ZWdyYXRpb25IdWIgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QbGF0Zm9ybS9JbnRlZ3JhdGlvbkh1YicpKTtcbmNvbnN0IEZpZWxkUGVybWlzc2lvbnMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9QbGF0Zm9ybS9GaWVsZFBlcm1pc3Npb25zJykpO1xuY29uc3QgSTE4blNldHRpbmdzID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvUGxhdGZvcm0vSTE4blNldHRpbmdzJykpO1xuY29uc3QgUmVwb3J0UGVybWlzc2lvbnMgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9SZXBvcnRzL1JlcG9ydFBlcm1pc3Npb25zJykpO1xuLy8g5pm66IO95YiG5p6Q77yIUDMtNu+8ie+8mue7j+iQpempvumptuiIsSAvIOmcgOaxgumihOa1i+S4juaZuuiDveihpei0pyAvIOWPkeelqCBPQ1Ig5LiO5pm66IO95Yet6K+BXG5jb25zdCBBbmFseXRpY3NDb2NrcGl0ID0gbGF6eSgoKSA9PiBpbXBvcnQoJy4vcGFnZXMvQW5hbHl0aWNzL0NvY2twaXQnKSk7XG5jb25zdCBEZW1hbmRGb3JlY2FzdCA9IGxhenkoKCkgPT4gaW1wb3J0KCcuL3BhZ2VzL0FuYWx5dGljcy9Gb3JlY2FzdCcpKTtcbmNvbnN0IEludm9pY2VPY3IgPSBsYXp5KCgpID0+IGltcG9ydCgnLi9wYWdlcy9BbmFseXRpY3MvSW52b2ljZU9jcicpKTtcblxuZnVuY3Rpb24gQXBwKCkge1xuICByZXR1cm4gKFxuICAgIDxSb3V0ZXM+XG4gICAgICB7Lyog4pSA4pSAIOS+m+W6lOWVhumXqOaIt++8iOeLrOeri+i3r+eUse+8jOS4jeWcqCBNYWluTGF5b3V0IOWGhe+8ieKUgOKUgOKUgOKUgOKUgOKUgOKUgCAqL31cbiAgICAgIDxSb3V0ZSBwYXRoPVwiL3ZlbmRvci1wb3J0YWwvbG9naW5cIiBlbGVtZW50PXs8VmVuZG9yTG9naW4gLz59IC8+XG4gICAgICA8Um91dGUgcGF0aD1cIi92ZW5kb3ItcG9ydGFsL3JlZ2lzdGVyXCIgZWxlbWVudD17PFZlbmRvclBvcnRhbFJlZ2lzdGVyIC8+fSAvPlxuICAgICAgPFJvdXRlIHBhdGg9XCIvdmVuZG9yLXBvcnRhbFwiIGVsZW1lbnQ9ezxWZW5kb3JQb3J0YWxMYXlvdXQgLz59PlxuICAgICAgICA8Um91dGUgaW5kZXggZWxlbWVudD17PFZlbmRvcldvcmtiZW5jaCAvPn0gLz5cbiAgICAgICAgey8qIOiuouWNleeuoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJvcmRlcnMvY29uZmlybVwiIGVsZW1lbnQ9ezxWZW5kb3JPcmRlckNvbmZpcm1MaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm9yZGVycy9zaGlwbWVudFwiIGVsZW1lbnQ9ezxEZWxpdmVyeVNoaXBtZW50TGlzdCAvPn0gLz5cbiAgICAgICAgey8qIOi0qOmHj+euoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5XCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3ZlbmRvci1wb3J0YWwvcXVhbGl0eS9pc3N1ZXNcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInF1YWxpdHkvaXNzdWVzXCIgZWxlbWVudD17PFZlbmRvclF1YWxpdHlQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInF1YWxpdHkvOGRcIiBlbGVtZW50PXs8VmVuZG9yUXVhbGl0eVBhZ2UgLz59IC8+XG4gICAgICAgIHsvKiDotKLliqHnrqHnkIYgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZVwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi92ZW5kb3ItcG9ydGFsL2ZpbmFuY2Uvc3RhdGVtZW50c1wiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9zdGF0ZW1lbnRzXCIgZWxlbWVudD17PFZlbmRvckZpbmFuY2VQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2UvaW52b2ljZXNcIiBlbGVtZW50PXs8VmVuZG9yRmluYW5jZVBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9wYXltZW50c1wiIGVsZW1lbnQ9ezxWZW5kb3JQYXltZW50UGxhbiAvPn0gLz5cbiAgICAgICAgey8qIOS8geS4mueuoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9maWxlXCIgZWxlbWVudD17PFZlbmRvclByb2ZpbGVQYWdlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInBlcm1pc3Npb25zXCIgZWxlbWVudD17PFZlbmRvclBlcm1pc3Npb25zUGFnZSAvPn0gLz5cbiAgICAgICAgey8qIOivouS7t+aKpeS7tyAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdW90YXRpb25cIiBlbGVtZW50PXs8VmVuZG9yUXVvdGF0aW9uIC8+fSAvPlxuICAgICAgPC9Sb3V0ZT5cblxuICAgICAgey8qIOKUgOKUgCDkuLsgRVJQIOezu+e7n++8iE1haW5MYXlvdXTvvInilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgKi99XG4gICAgICA8Um91dGUgcGF0aD1cIi9cIiBlbGVtZW50PXs8TWFpbkxheW91dCAvPn0+XG4gICAgICAgIDxSb3V0ZSBpbmRleCBlbGVtZW50PXs8RGFzaGJvYXJkIC8+fSAvPlxuICAgICAgICB7LyogUDQtMSDkuKrkurrlt6XkvZzlj7AgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid29ya2JlbmNoXCIgZWxlbWVudD17PFdvcmtiZW5jaCAvPn0gLz5cbiAgICAgICAgey8qIOeJqeaWmeeuoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJtYXRlcmlhbFwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9tYXRlcmlhbC9saXN0XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJtYXRlcmlhbC9jYXRlZ29yaWVzXCIgZWxlbWVudD17PENhdGVnb3J5TGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJtYXRlcmlhbC9saXN0XCIgZWxlbWVudD17PE1hdGVyaWFsTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJtYXRlcmlhbC9hcHByb3ZhbHNcIiBlbGVtZW50PXs8TWF0ZXJpYWxBcHByb3ZhbFF1ZXVlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm1hdGVyaWFsL2NyZWF0ZVwiIGVsZW1lbnQ9ezxNYXRlcmlhbEZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwibWF0ZXJpYWwvOmlkXCIgZWxlbWVudD17PE1hdGVyaWFsRGV0YWlsIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm1hdGVyaWFsLzppZC9lZGl0XCIgZWxlbWVudD17PE1hdGVyaWFsRm9ybSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJtYXRlcmlhbC9jb2RlLXJ1bGVzXCIgZWxlbWVudD17PENvZGVSdWxlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIm1hdGVyaWFsL2ltcG9ydC1leHBvcnRcIiBlbGVtZW50PXs8SW1wb3J0RXhwb3J0IC8+fSAvPlxuICAgICAgICB7Lyog5L6b5bqU6ZO+5rex5YyW77yIUDMtM++8ie+8muivhOS8sOexuy/ku7fmjqcv5bel5Y6C57u05bqmICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cIm1hdGVyaWFsL3ZhbHVhdGlvblwiIGVsZW1lbnQ9ezxNYXRlcmlhbFZhbHVhdGlvbiAvPn0gLz5cbiAgICAgICAgey8qIOS+m+W6lOWVhueuoeeQhu+8iOmHh+i0reaWueinhuinku+8iSovfVxuICAgICAgICA8Um91dGUgcGF0aD1cInZlbmRvclwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi92ZW5kb3IvbGlzdFwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwidmVuZG9yL2xpc3RcIiBlbGVtZW50PXs8VmVuZG9yTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ2ZW5kb3IvcmVnaXN0ZXJcIiBlbGVtZW50PXs8VmVuZG9yUmVnaXN0ZXIgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwidmVuZG9yLzppZFwiIGVsZW1lbnQ9ezxWZW5kb3JEZXRhaWwgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwidmVuZG9yL2JsYWNrbGlzdFwiIGVsZW1lbnQ9ezxCbGFja2xpc3QgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwidmVuZG9yL3JhdGluZ1wiIGVsZW1lbnQ9ezxSYXRpbmcgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwidmVuZG9yL2FwcHJvdmFsc1wiIGVsZW1lbnQ9ezxBcHByb3ZhbFF1ZXVlIC8+fSAvPlxuICAgICAgICB7Lyog6YeH6LSt566h55CGICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cInB1cmNoYXNlXCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3B1cmNoYXNlL3JlcXVlc3RzXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwdXJjaGFzZS9yZXF1ZXN0c1wiIGVsZW1lbnQ9ezxQdXJjaGFzZUxpc3QgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHVyY2hhc2UvY3JlYXRlXCIgZWxlbWVudD17PFB1cmNoYXNlRm9ybSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwdXJjaGFzZS86aWQvZWRpdFwiIGVsZW1lbnQ9ezxQdXJjaGFzZUZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHVyY2hhc2UvOmlkXCIgZWxlbWVudD17PFB1cmNoYXNlRGV0YWlsIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInB1cmNoYXNlL2NvbXBhcmUvOmlkXCIgZWxlbWVudD17PFByaWNlQ29tcGFyZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwdXJjaGFzZS9vcmRlcnNcIiBlbGVtZW50PXs8T3JkZXJMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInB1cmNoYXNlL29yZGVycy9jcmVhdGVcIiBlbGVtZW50PXs8T3JkZXJGb3JtIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInB1cmNoYXNlL29yZGVycy86aWQvZWRpdFwiIGVsZW1lbnQ9ezxPcmRlckZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHVyY2hhc2Uvb3JkZXJzLzppZFwiIGVsZW1lbnQ9ezxPcmRlckRldGFpbCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwdXJjaGFzZS90cmFja1wiIGVsZW1lbnQ9ezxPcmRlclRyYWNrIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInB1cmNoYXNlL2FwcHJvdmFsc1wiIGVsZW1lbnQ9ezxQdXJjaGFzZUFwcHJvdmFsIC8+fSAvPlxuICAgICAgICB7Lyog5L6b5bqU6ZO+5rex5YyW77yIUDMtM++8ie+8muahhuaetuWNj+iuri/pgIDotKcgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHVyY2hhc2UvZnJhbWV3b3JrXCIgZWxlbWVudD17PEZyYW1ld29ya0FncmVlbWVudCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwdXJjaGFzZS9yZXR1cm5zXCIgZWxlbWVudD17PFB1cmNoYXNlUmV0dXJuUGFnZSAvPn0gLz5cbiAgICAgICAgey8qIOS7t+agvOeuoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcmljZVwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9wcmljZS9pbnF1aXJ5XCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcmljZS9pbnF1aXJ5XCIgZWxlbWVudD17PElucXVpcnlMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2lucXVpcnkvY3JlYXRlXCIgZWxlbWVudD17PElucXVpcnlGb3JtIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2lucXVpcnkvOmlkXCIgZWxlbWVudD17PElucXVpcnlEZXRhaWwgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJpY2UvY29tcGFyaXNvbnNcIiBlbGVtZW50PXs8Q29tcGFyaXNvbnNMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2NvbXBhcmlzb24vbmV3LzppbnF1aXJ5SWRcIiBlbGVtZW50PXs8UHJpY2VDb21wYXJpc29uIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2NvbXBhcmlzb24vOmlkXCIgZWxlbWVudD17PFByaWNlQ29tcGFyaXNvbiAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcmljZS9hcHByb3ZhbHNcIiBlbGVtZW50PXs8QXBwcm92YWxMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2FwcHJvdmFsL25ld1wiIGVsZW1lbnQ9ezxQcmljZUFwcHJvdmFsIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2FwcHJvdmFsLzppZFwiIGVsZW1lbnQ9ezxQcmljZUFwcHJvdmFsIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByaWNlL2xpc3RcIiBlbGVtZW50PXs8UHJpY2VMaXN0UGFnZSAvPn0gLz5cbiAgICAgICAgey8qIOS7k+WCqOeJqea1ge+8iOWQq+aKpeajgOWNle+8iSovfVxuICAgICAgICA8Um91dGUgcGF0aD1cIndhcmVob3VzZVwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi93YXJlaG91c2UvaW5ib3VuZFwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid2FyZWhvdXNlL2luc3BlY3Rpb24tbm90aWNlXCIgZWxlbWVudD17PEluc3BlY3Rpb25Ob3RpY2VXYXJlaG91c2UgLz59IC8+ICB7Lyog4oaQIOaKpeajgOWNleWcqOatpCAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2UvaW5ib3VuZFwiIGVsZW1lbnQ9ezxJbmJvdW5kTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2UvaW5ib3VuZC9jcmVhdGVcIiBlbGVtZW50PXs8SW5ib3VuZEZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid2FyZWhvdXNlL291dGJvdW5kXCIgZWxlbWVudD17PE91dGJvdW5kTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2Uvb3V0Ym91bmQvY3JlYXRlXCIgZWxlbWVudD17PE91dGJvdW5kRm9ybSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2UvZmctaW5ib3VuZFwiIGVsZW1lbnQ9ezxGaW5pc2hlZEdvb2RzSW5ib3VuZCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2UvY2hlY2tcIiBlbGVtZW50PXs8Q2hlY2tMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIndhcmVob3VzZS9jaGVjay86aWRcIiBlbGVtZW50PXs8Q2hlY2tUYXNrIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIndhcmVob3VzZS9pbnZlbnRvcnlcIiBlbGVtZW50PXs8SW52ZW50b3J5IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIndhcmVob3VzZS9iYXRjaFwiIGVsZW1lbnQ9ezxCYXRjaE1hbmFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2UvYWdpbmdcIiBlbGVtZW50PXs8SW52ZW50b3J5QWdpbmcgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid2FyZWhvdXNlL2JhcmNvZGVcIiBlbGVtZW50PXs8QmFyY29kZVByaW50IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cIndhcmVob3VzZS9tYXN0ZXJcIiBlbGVtZW50PXs8V2FyZWhvdXNlTWFzdGVyIC8+fSAvPlxuICAgICAgICB7Lyog5L6b5bqU6ZO+5rex5YyW77yIUDMtM++8ie+8mui3qOe7hOe7h+i9rOWCqC/lupPlrZjosIPmlbQv5bqP5YiX5Y+3SFUgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid2FyZWhvdXNlL3RyYW5zZmVyXCIgZWxlbWVudD17PFN0b2NrVHJhbnNmZXIgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwid2FyZWhvdXNlL2FkanVzdG1lbnRcIiBlbGVtZW50PXs8SW52ZW50b3J5QWRqdXN0bWVudCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ3YXJlaG91c2Uvc2VyaWFsXCIgZWxlbWVudD17PFNlcmlhbEhVIC8+fSAvPlxuICAgICAgICB7Lyog6LSo6YeP566h55CG77yI5qOA6aqM5Lu75Yqh5LuO5LuT5bqT5oql5qOA5rWB5YWl77yM5LiN5ZCr5oql5qOA5Y2V77yJKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicXVhbGl0eVwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9xdWFsaXR5L2luc3BlY3Rpb25cIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInF1YWxpdHkvaW5zcGVjdGlvblwiIGVsZW1lbnQ9ezxJbnNwZWN0aW9uTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5L2luc3BlY3Rpb24vOmlkXCIgZWxlbWVudD17PEluc3BlY3Rpb25UYXNrIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInF1YWxpdHkvaW5zcGVjdGlvbi86aWQvZXhlY3V0ZVwiIGVsZW1lbnQ9ezxJbnNwZWN0aW9uVGFzayAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5L3VucXVhbGlmaWVkXCIgZWxlbWVudD17PFVucXVhbGlmaWVkTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5L3BkY2FcIiBlbGVtZW50PXs8UERDQUxpc3QgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicXVhbGl0eS9yZXBvcnRcIiBlbGVtZW50PXs8UXVhbGl0eVJlcG9ydCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5L3N0YW5kYXJkc1wiIGVsZW1lbnQ9ezxJbnNwZWN0aW9uU3RhbmRhcmQgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicXVhbGl0eS9hcWxcIiBlbGVtZW50PXs8QXFsU2FtcGxpbmcgLz59IC8+XG4gICAgICAgIHsvKiDkvpvlupTpk77mt7HljJbvvIhQMy0z77yJ77ya5qOA6aqM5om5L0NPUS/mibnmrKHov73muq8vUU3or4Tnuqflm57mtYEgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicXVhbGl0eS9pbnNwZWN0aW9uLWxvdFwiIGVsZW1lbnQ9ezxJbnNwZWN0aW9uTG90IC8+fSAvPlxuICAgICAgICB7Lyog6LSo6YeP5rex5YyW77yIUDMtNO+8ie+8mjhEIC8gU1BDIOaOp+WItuWbviAvIOWunumqjOWupOiuvuWkhyAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5LzhkXCIgZWxlbWVudD17PEVpZ2h0RCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJxdWFsaXR5L3NwY1wiIGVsZW1lbnQ9ezxTUENDaGFydFBhZ2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicXVhbGl0eS9sYWJcIiBlbGVtZW50PXs8TGFiRXF1aXBtZW50IC8+fSAvPlxuICAgICAgICB7LyogQk9NICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cImJvbVwiIGVsZW1lbnQ9ezxOYXZpZ2F0ZSB0bz1cIi9ib20vbGlzdFwiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYm9tL2xpc3RcIiBlbGVtZW50PXs8Qk9NTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJib20vY3JlYXRlXCIgZWxlbWVudD17PEJPTUZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYm9tLzppZC9lZGl0XCIgZWxlbWVudD17PEJPTUZvcm0gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYm9tL2Nvc3Qtcm9sbHVwXCIgZWxlbWVudD17PENvc3RSb2xsdXAgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYm9tLzppZFwiIGVsZW1lbnQ9ezxCT01EZXRhaWwgLz59IC8+XG4gICAgICAgIHsvKiDplIDllK7nrqHnkIYgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXNcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvc2FsZXMvcHJvc3BlY3RzXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzYWxlcy9wcm9zcGVjdHNcIiBlbGVtZW50PXs8UHJvc3BlY3RMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInNhbGVzL29yZGVyc1wiIGVsZW1lbnQ9ezxTYWxlc09yZGVyTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzYWxlcy9vcmRlcnMvY3JlYXRlXCIgZWxlbWVudD17PFNhbGVzT3JkZXJGb3JtIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInNhbGVzL29yZGVycy86aWQvZWRpdFwiIGVsZW1lbnQ9ezxTYWxlc09yZGVyRm9ybSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzYWxlcy9vcmRlcnMvOmlkXCIgZWxlbWVudD17PFNhbGVzT3JkZXJEZXRhaWwgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXMvYW5hbHlzaXNcIiBlbGVtZW50PXs8TWFya2V0QW5hbHlzaXMgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXMvcHJvamVjdHNcIiBlbGVtZW50PXs8UHJvamVjdExpc3QgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXMvcHJvamVjdHMvOmlkXCIgZWxlbWVudD17PFByb2plY3REZXRhaWwgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXMvbG9naXN0aWNzXCIgZWxlbWVudD17PExvZ2lzdGljc0xpc3QgLz59IC8+XG4gICAgICAgIHsvKiDkvpvlupTpk77mt7HljJbvvIhQMy0z77yJ77ya5oql5Lu3L+W8gOelqC/pgIDotKcvQVRQICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cInNhbGVzL3F1b3RhdGlvblwiIGVsZW1lbnQ9ezxRdW90YXRpb24gLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwic2FsZXMvaW52b2ljZXNcIiBlbGVtZW50PXs8U2FsZXNJbnZvaWNlUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzYWxlcy9yZXR1cm5zXCIgZWxlbWVudD17PFNhbGVzUmV0dXJuUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzYWxlcy9hdHBcIiBlbGVtZW50PXs8QVRQUGFnZSAvPn0gLz5cbiAgICAgICAgey8qIOeUn+S6p+euoeeQhiAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uXCIgZWxlbWVudD17PE5hdmlnYXRlIHRvPVwiL3Byb2R1Y3Rpb24vb3JkZXJzXCIgcmVwbGFjZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL29yZGVyc1wiIGVsZW1lbnQ9ezxXb3JrT3JkZXJMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vb3JkZXJzLzppZFwiIGVsZW1lbnQ9ezxXb3JrT3JkZXJEZXRhaWwgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi9yb3V0ZXNcIiBlbGVtZW50PXs8UHJvY2Vzc1JvdXRlTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL21ycFwiIGVsZW1lbnQ9ezxNUlBQbGFuIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vcmVwb3J0XCIgZWxlbWVudD17PFByb2R1Y3Rpb25SZXBvcnQgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi9jYXBhY2l0eVwiIGVsZW1lbnQ9ezxDYXBhY2l0eVNjaGVkdWxpbmcgLz59IC8+XG4gICAgICAgIHsvKiDnlJ/kuqfmiafooYzvvIhQMi0z77yJICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vb3BlcmF0aW9uLXJlcG9ydGluZ1wiIGVsZW1lbnQ9ezxPcGVyYXRpb25SZXBvcnRpbmcgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi93aXBcIiBlbGVtZW50PXs8V2lwQm9hcmQgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi9jb3N0XCIgZWxlbWVudD17PENvc3RDb2xsZWN0aW9uIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vYXBzXCIgZWxlbWVudD17PEZpbml0ZUNhcGFjaXR5IC8+fSAvPlxuICAgICAgICB7Lyog55Sf5Lqn5rex5YyW77yIUDMtMu+8iSAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL3ZlcnNpb25zXCIgZWxlbWVudD17PFByb2R1Y3Rpb25WZXJzaW9ucyAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL2VjblwiIGVsZW1lbnQ9ezxFQ05MaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vc3ViY29udHJhY3RcIiBlbGVtZW50PXs8U3ViY29udHJhY3QgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi9jcnBcIiBlbGVtZW50PXs8Q1JQIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cInByb2R1Y3Rpb24vZXF1aXBtZW50XCIgZWxlbWVudD17PEVxdWlwbWVudCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL210b1wiIGVsZW1lbnQ9ezxNVE9DcmVhdGUgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicHJvZHVjdGlvbi9zY2hlZHVsaW5nXCIgZWxlbWVudD17PERldGFpbGVkU2NoZWR1bGluZyAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwcm9kdWN0aW9uL3NwY1wiIGVsZW1lbnQ9ezxQcm9jZXNzU1BDIC8+fSAvPlxuICAgICAgICB7Lyog6LSi5Yqh566h55CGICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2VcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvZmluYW5jZS9pbnZvaWNlc1wiIHJlcGxhY2UgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9pbnZvaWNlc1wiIGVsZW1lbnQ9ezxJbnZvaWNlTGlzdCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL3BheW1lbnRzXCIgZWxlbWVudD17PFBheW1lbnRQbGFuUGFnZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL2VudHJpZXNcIiBlbGVtZW50PXs8QWNjb3VudGluZ0VudHJpZXMgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS90cmlhbC1iYWxhbmNlXCIgZWxlbWVudD17PFRyaWFsQmFsYW5jZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL2NoYXJ0LWFjY291bnRzXCIgZWxlbWVudD17PENoYXJ0T2ZBY2NvdW50cyAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL3ZvdWNoZXJzXCIgZWxlbWVudD17PFZvdWNoZXJMaXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2UvdGhyZWUtd2F5XCIgZWxlbWVudD17PFRocmVlV2F5TWF0Y2ggLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9yZXBvcnRcIiBlbGVtZW50PXs8RmluYW5jZVJlcG9ydCAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL3RheFwiIGVsZW1lbnQ9ezxUYXhBY2NvdW50aW5nIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2UvcHJvamVjdC1hY2NvdW50aW5nXCIgZWxlbWVudD17PFByb2plY3RBY2NvdW50aW5nIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2UvY2FzaC1mbG93XCIgZWxlbWVudD17PENhc2hGbG93U3RhdGVtZW50IC8+fSAvPlxuICAgICAgICB7Lyog6LSi5Yqh5rex5YyW77yIUDItNe+8iSAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL2V4Y2hhbmdlLXJhdGVzXCIgZWxlbWVudD17PEV4Y2hhbmdlUmF0ZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJmaW5hbmNlL2FnaW5nXCIgZWxlbWVudD17PEFnaW5nUmVwb3J0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImZpbmFuY2UvYXV4aWxpYXJ5XCIgZWxlbWVudD17PEF1eGlsaWFyeUFjY291bnRpbmcgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9idWRnZXRcIiBlbGVtZW50PXs8QnVkZ2V0Q29udHJvbCAvPn0gLz5cbiAgICAgICAgey8qIOi0ouWKoea3seWMlu+8iFAzLTHvvInvvJrkuInlpKfotKLliqHmiqXooaggKyDlm7rlrprotYTkuqcgKyDmnJ/mnKvnu5PotKYgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9zdGF0ZW1lbnRzXCIgZWxlbWVudD17PEZpbmFuY2lhbFN0YXRlbWVudHMgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9maXhlZC1hc3NldHNcIiBlbGVtZW50PXs8Rml4ZWRBc3NldHMgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiZmluYW5jZS9jbG9zaW5nXCIgZWxlbWVudD17PFBlcmlvZENsb3NpbmcgLz59IC8+XG4gICAgICAgIHsvKiDmiqXooajkuK3lv4MgKi99XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicmVwb3J0c1wiIGVsZW1lbnQ9ezxSZXBvcnRDZW50ZXIgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicmVwb3J0cy9kZXNpZ25lclwiIGVsZW1lbnQ9ezxSZXBvcnREZXNpZ25lciAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJyZXBvcnRzL2JpXCIgZWxlbWVudD17PEJJU2VsZlNlcnZpY2UgLz59IC8+XG4gICAgICAgIHsvKiDlubPlj7DnlJ/mgIEgLyDkvY7ku6PnoIHvvIhQMy0177yJ77ya5oql6KGo5p2D6ZmQ5LiO6K6i6ZiFICovfVxuICAgICAgICA8Um91dGUgcGF0aD1cInJlcG9ydHMvcGVybWlzc2lvbnNcIiBlbGVtZW50PXs8UmVwb3J0UGVybWlzc2lvbnMgLz59IC8+XG4gICAgICAgIHsvKiDlubPlj7DnlJ/mgIEgLyDkvY7ku6PnoIHvvIhQMy0177yJ77ya5L2O5Luj56CBL+W3peS9nOa1gS/pm4bmiJAv5a2X5q615p2D6ZmQL+WkmuivreiogCAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwbGF0Zm9ybS9sb3djb2RlXCIgZWxlbWVudD17PExvd0NvZGVEZXNpZ25lciAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwbGF0Zm9ybS93b3JrZmxvd1wiIGVsZW1lbnQ9ezxXb3JrZmxvd0VuZ2luZSAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwbGF0Zm9ybS9pbnRlZ3JhdGlvbnNcIiBlbGVtZW50PXs8SW50ZWdyYXRpb25IdWIgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwicGxhdGZvcm0vZmllbGQtcGVybWlzc2lvbnNcIiBlbGVtZW50PXs8RmllbGRQZXJtaXNzaW9ucyAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJwbGF0Zm9ybS9pMThuXCIgZWxlbWVudD17PEkxOG5TZXR0aW5ncyAvPn0gLz5cbiAgICAgICAgey8qIOaZuuiDveWIhuaekO+8iFAzLTbvvInvvJrnu4/okKXpqb7pqbboiLEgLyDpnIDmsYLpooTmtYvooaXotKcgLyDlj5HnpaggT0NSIOWHreivgSAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJhbmFseXRpY3NcIiBlbGVtZW50PXs8TmF2aWdhdGUgdG89XCIvYW5hbHl0aWNzL2NvY2twaXRcIiByZXBsYWNlIC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImFuYWx5dGljcy9jb2NrcGl0XCIgZWxlbWVudD17PEFuYWx5dGljc0NvY2twaXQgLz59IC8+XG4gICAgICAgIDxSb3V0ZSBwYXRoPVwiYW5hbHl0aWNzL2ZvcmVjYXN0XCIgZWxlbWVudD17PERlbWFuZEZvcmVjYXN0IC8+fSAvPlxuICAgICAgICA8Um91dGUgcGF0aD1cImFuYWx5dGljcy9vY3JcIiBlbGVtZW50PXs8SW52b2ljZU9jciAvPn0gLz5cbiAgICAgICAgey8qIOezu+e7n+iuvue9riAqL31cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJzZXR0aW5nc1wiIGVsZW1lbnQ9ezxTZXR0aW5ncyAvPn0gLz5cbiAgICAgICAgPFJvdXRlIHBhdGg9XCJ0ZXN0L2Zsb3dcIiBlbGVtZW50PXs8Rmxvd1NlbGZUZXN0IC8+fSAvPlxuICAgICAgPC9Sb3V0ZT5cbiAgICA8L1JvdXRlcz5cbiAgKTtcbn1cblxuZXhwb3J0IGRlZmF1bHQgQXBwO1xuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL0FwcC50c3gifQ==

@@ -1,0 +1,32 @@
+// node_modules/@mui/x-charts/esm/internals/utils.js
+function getSymbol(shape) {
+  const symbolNames = "circle cross diamond square star triangle wye".split(/ /);
+  return symbolNames.indexOf(shape) || 0;
+}
+function getPercentageValue(value, refValue) {
+  if (typeof value === "number") {
+    return value;
+  }
+  if (value === "100%") {
+    return refValue;
+  }
+  if (value.endsWith("%")) {
+    const percentage = Number.parseFloat(value.slice(0, value.length - 1));
+    if (!Number.isNaN(percentage)) {
+      return percentage * refValue / 100;
+    }
+  }
+  if (value.endsWith("px")) {
+    const val = Number.parseFloat(value.slice(0, value.length - 2));
+    if (!Number.isNaN(val)) {
+      return val;
+    }
+  }
+  throw Error(`MUI-Charts: Received an unknown value "${value}". It should be a number, or a string with a percentage value.`);
+}
+
+export {
+  getSymbol,
+  getPercentageValue
+};
+//# sourceMappingURL=chunk-FVV6CDL2.js.map

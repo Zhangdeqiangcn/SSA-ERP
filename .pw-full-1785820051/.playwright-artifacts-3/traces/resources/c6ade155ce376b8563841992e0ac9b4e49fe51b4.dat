@@ -1,0 +1,5 @@
+import { setupWorker } from "/node_modules/.vite/deps/msw_browser.js?v=5fca7ba0";
+import handlers from "/src/mocks/handlers.ts";
+export const worker = setupWorker(...handlers);
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImJyb3dzZXIudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgc2V0dXBXb3JrZXIgfSBmcm9tICdtc3cvYnJvd3Nlcic7XG5pbXBvcnQgaGFuZGxlcnMgZnJvbSAnLi9oYW5kbGVycyc7XG5cbmV4cG9ydCBjb25zdCB3b3JrZXIgPSBzZXR1cFdvcmtlciguLi5oYW5kbGVycyk7XG4iXSwibWFwcGluZ3MiOiJBQUFBLFNBQVMsbUJBQW1CO0FBQzVCLE9BQU8sY0FBYztBQUVkLGFBQU0sU0FBUyxZQUFZLEdBQUcsUUFBUTsiLCJuYW1lcyI6W119

@@ -1,0 +1,72 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/common/PageFallback.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { Box, CircularProgress, Typography } from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+const PageFallback = () => /* @__PURE__ */ jsxDEV(
+  Box,
+  {
+    sx: {
+      flex: 1,
+      minHeight: 320,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 1.5,
+      color: "text.secondary"
+    },
+    children: [
+      /* @__PURE__ */ jsxDEV(CircularProgress, { size: 28, thickness: 4, sx: { color: "#3B82F6" } }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx",
+        lineNumber: 36,
+        columnNumber: 5
+      }, this),
+      /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: "页面加载中…" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx",
+        lineNumber: 37,
+        columnNumber: 5
+      }, this)
+    ]
+  },
+  void 0,
+  true,
+  {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx",
+    lineNumber: 24,
+    columnNumber: 1
+  },
+  this
+);
+_c = PageFallback;
+export default PageFallback;
+var _c;
+$RefreshReg$(_c, "PageFallback");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/PageFallback.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBZ0JJOzs7Ozs7Ozs7Ozs7Ozs7O0FBaEJKLFNBQVNBLEtBQUtDLGtCQUFrQkMsa0JBQWtCO0FBR2xELE1BQU1DLGVBQXlCQSxNQUM3QjtBQUFBLEVBQUM7QUFBQTtBQUFBLElBQ0MsSUFBSTtBQUFBLE1BQ0ZDLE1BQU07QUFBQSxNQUNOQyxXQUFXO0FBQUEsTUFDWEMsU0FBUztBQUFBLE1BQ1RDLGVBQWU7QUFBQSxNQUNmQyxZQUFZO0FBQUEsTUFDWkMsZ0JBQWdCO0FBQUEsTUFDaEJDLEtBQUs7QUFBQSxNQUNMQyxPQUFPO0FBQUEsSUFDVDtBQUFBLElBRUE7QUFBQSw2QkFBQyxvQkFBaUIsTUFBTSxJQUFJLFdBQVcsR0FBRyxJQUFJLEVBQUVBLE9BQU8sVUFBVSxLQUFqRTtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQW1FO0FBQUEsTUFDbkUsdUJBQUMsY0FBVyxTQUFRLFdBQVUsT0FBTSxrQkFBaUIsc0JBQXJEO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBMkQ7QUFBQTtBQUFBO0FBQUEsRUFiN0Q7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQWNBO0FBQ0FDLEtBaEJJVDtBQWtCTixlQUFlQTtBQUFhLElBQUFTO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbIkJveCIsIkNpcmN1bGFyUHJvZ3Jlc3MiLCJUeXBvZ3JhcGh5IiwiUGFnZUZhbGxiYWNrIiwiZmxleCIsIm1pbkhlaWdodCIsImRpc3BsYXkiLCJmbGV4RGlyZWN0aW9uIiwiYWxpZ25JdGVtcyIsImp1c3RpZnlDb250ZW50IiwiZ2FwIiwiY29sb3IiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJQYWdlRmFsbGJhY2sudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJveCwgQ2lyY3VsYXJQcm9ncmVzcywgVHlwb2dyYXBoeSB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuXG4vKiog6Lev55Sx5oeS5Yqg6L295pe255qE5Y2g5L2N77yM6YG/5YWN5biD5bGA77yI5L6n6L655qCPL+mhtuagj++8iemXqueDgeOAgiAqL1xuY29uc3QgUGFnZUZhbGxiYWNrOiBSZWFjdC5GQyA9ICgpID0+IChcbiAgPEJveFxuICAgIHN4PXt7XG4gICAgICBmbGV4OiAxLFxuICAgICAgbWluSGVpZ2h0OiAzMjAsXG4gICAgICBkaXNwbGF5OiAnZmxleCcsXG4gICAgICBmbGV4RGlyZWN0aW9uOiAnY29sdW1uJyxcbiAgICAgIGFsaWduSXRlbXM6ICdjZW50ZXInLFxuICAgICAganVzdGlmeUNvbnRlbnQ6ICdjZW50ZXInLFxuICAgICAgZ2FwOiAxLjUsXG4gICAgICBjb2xvcjogJ3RleHQuc2Vjb25kYXJ5JyxcbiAgICB9fVxuICA+XG4gICAgPENpcmN1bGFyUHJvZ3Jlc3Mgc2l6ZT17Mjh9IHRoaWNrbmVzcz17NH0gc3g9e3sgY29sb3I6ICcjM0I4MkY2JyB9fSAvPlxuICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJjYXB0aW9uXCIgY29sb3I9XCJ0ZXh0LnNlY29uZGFyeVwiPumhtemdouWKoOi9veS4reKApjwvVHlwb2dyYXBoeT5cbiAgPC9Cb3g+XG4pO1xuXG5leHBvcnQgZGVmYXVsdCBQYWdlRmFsbGJhY2s7XG4iXSwiZmlsZSI6IkM6L1VzZXJzL3poYW5nZGVxaWFuZy9Xb3JrQnVkZHkvMjAyNi0wNS0wOC10YXNrLTEvc3NhLWVycC9zcmMvY29tcG9uZW50cy9jb21tb24vUGFnZUZhbGxiYWNrLnRzeCJ9

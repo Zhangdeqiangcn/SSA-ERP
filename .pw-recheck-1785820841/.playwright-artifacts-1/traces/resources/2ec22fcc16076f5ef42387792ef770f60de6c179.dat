@@ -1,0 +1,75 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/common/FormSection.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { Box, Typography, Divider } from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import { FormProvider, useForm } from "/node_modules/.vite/deps/react-hook-form.js?v=5fca7ba0";
+export const FormSection = ({
+  title,
+  children,
+  defaultValues
+}) => {
+  _s();
+  const methods = useForm({ defaultValues });
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { mb: 4 }, children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", sx: { mb: 2, fontWeight: 600 }, children: title }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx",
+      lineNumber: 39,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Divider, { sx: { mb: 2 } }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx",
+      lineNumber: 42,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(FormProvider, { ...methods, children: /* @__PURE__ */ jsxDEV(Box, { sx: { pl: 1 }, children }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx",
+      lineNumber: 44,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx",
+      lineNumber: 43,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx",
+    lineNumber: 38,
+    columnNumber: 5
+  }, this);
+};
+_s(FormSection, "cLnp+zYVfnD49CnXGGXF3NvR6q8=", false, function() {
+  return [useForm];
+});
+_c = FormSection;
+export default FormSection;
+var _c;
+$RefreshReg$(_c, "FormSection");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/FormSection.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBbUJNOzs7Ozs7Ozs7Ozs7Ozs7OztBQWxCTixTQUFTQSxLQUFLQyxZQUFZQyxlQUFlO0FBQ3pDLFNBQVNDLGNBQWNDLGVBQWU7QUFRL0IsYUFBTUMsY0FBMENBLENBQUM7QUFBQSxFQUN0REM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFDRixNQUFNO0FBQUFDLEtBQUE7QUFDSixRQUFNQyxVQUFVTixRQUFRLEVBQUVJLGNBQWMsQ0FBQztBQUV6QyxTQUNFLHVCQUFDLE9BQUksSUFBSSxFQUFFRyxJQUFJLEVBQUUsR0FDZjtBQUFBLDJCQUFDLGNBQVcsU0FBUSxNQUFLLElBQUksRUFBRUEsSUFBSSxHQUFHQyxZQUFZLElBQUksR0FDbkROLG1CQURIO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FFQTtBQUFBLElBQ0EsdUJBQUMsV0FBUSxJQUFJLEVBQUVLLElBQUksRUFBRSxLQUFyQjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQXVCO0FBQUEsSUFDdkIsdUJBQUMsZ0JBQWEsR0FBSUQsU0FDaEIsaUNBQUMsT0FBSSxJQUFJLEVBQUVHLElBQUksRUFBRSxHQUFJTixZQUFyQjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQThCLEtBRGhDO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FFQTtBQUFBLE9BUEY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQVFBO0FBRUo7QUFBRUUsR0FsQldKLGFBQXVDO0FBQUEsVUFLbENELE9BQU87QUFBQTtBQUFBLEtBTFpDO0FBb0JiLGVBQWVBO0FBQVksSUFBQVM7QUFBQSxhQUFBQSxJQUFBIiwibmFtZXMiOlsiQm94IiwiVHlwb2dyYXBoeSIsIkRpdmlkZXIiLCJGb3JtUHJvdmlkZXIiLCJ1c2VGb3JtIiwiRm9ybVNlY3Rpb24iLCJ0aXRsZSIsImNoaWxkcmVuIiwiZGVmYXVsdFZhbHVlcyIsIl9zIiwibWV0aG9kcyIsIm1iIiwiZm9udFdlaWdodCIsInBsIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiRm9ybVNlY3Rpb24udHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBCb3gsIFR5cG9ncmFwaHksIERpdmlkZXIgfSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7IEZvcm1Qcm92aWRlciwgdXNlRm9ybSB9IGZyb20gJ3JlYWN0LWhvb2stZm9ybSc7XG5cbmludGVyZmFjZSBGb3JtU2VjdGlvblByb3BzIHtcbiAgdGl0bGU6IHN0cmluZztcbiAgY2hpbGRyZW46IFJlYWN0LlJlYWN0Tm9kZTtcbiAgZGVmYXVsdFZhbHVlcz86IFJlY29yZDxzdHJpbmcsIHVua25vd24+O1xufVxuXG5leHBvcnQgY29uc3QgRm9ybVNlY3Rpb246IFJlYWN0LkZDPEZvcm1TZWN0aW9uUHJvcHM+ID0gKHtcbiAgdGl0bGUsXG4gIGNoaWxkcmVuLFxuICBkZWZhdWx0VmFsdWVzLFxufSkgPT4ge1xuICBjb25zdCBtZXRob2RzID0gdXNlRm9ybSh7IGRlZmF1bHRWYWx1ZXMgfSk7XG5cbiAgcmV0dXJuIChcbiAgICA8Qm94IHN4PXt7IG1iOiA0IH19PlxuICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImg2XCIgc3g9e3sgbWI6IDIsIGZvbnRXZWlnaHQ6IDYwMCB9fT5cbiAgICAgICAge3RpdGxlfVxuICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgPERpdmlkZXIgc3g9e3sgbWI6IDIgfX0gLz5cbiAgICAgIDxGb3JtUHJvdmlkZXIgey4uLm1ldGhvZHN9PlxuICAgICAgICA8Qm94IHN4PXt7IHBsOiAxIH19PntjaGlsZHJlbn08L0JveD5cbiAgICAgIDwvRm9ybVByb3ZpZGVyPlxuICAgIDwvQm94PlxuICApO1xufTtcblxuZXhwb3J0IGRlZmF1bHQgRm9ybVNlY3Rpb247XG4iXSwiZmlsZSI6IkM6L1VzZXJzL3poYW5nZGVxaWFuZy9Xb3JrQnVkZHkvMjAyNi0wNS0wOC10YXNrLTEvc3NhLWVycC9zcmMvY29tcG9uZW50cy9jb21tb24vRm9ybVNlY3Rpb24udHN4In0=

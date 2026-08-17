@@ -1,0 +1,393 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Material/MaterialApprovalTab.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const Fragment = __vite__cjsImport0_react_jsxDevRuntime["Fragment"]; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const useState = __vite__cjsImport3_react["useState"]; const useEffect = __vite__cjsImport3_react["useEffect"];
+import {
+  Box,
+  Typography,
+  Switch,
+  FormControlLabel,
+  Button,
+  Chip,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Stack,
+  Divider,
+  Paper
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import { Save, RestartAlt } from "/node_modules/.vite/deps/@mui_icons-material.js?v=5fca7ba0";
+import { useSettingsStore, DEFAULT_MATERIAL_BUY_STEPS, DEFAULT_MATERIAL_MAKE_STEPS } from "/src/stores/settingsStore.ts";
+import { ROLE_NAMES } from "/src/types/settings.ts";
+const StepConfigRow = ({
+  step,
+  idx,
+  defaultFields,
+  isMakePath,
+  onRoleChange,
+  onToggleField
+}) => /* @__PURE__ */ jsxDEV(Fragment, { children: [
+  /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 2, alignItems: "center", sx: { mb: 1 }, children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle1", sx: { fontWeight: 600 }, children: [
+      "步骤 ",
+      idx + 1,
+      "：",
+      step.label
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 44,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(FormControl, { size: "small", sx: { minWidth: 200 }, children: [
+      /* @__PURE__ */ jsxDEV(InputLabel, { children: "处理角色" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 48,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        Select,
+        {
+          label: "处理角色",
+          value: step.role,
+          onChange: (e) => onRoleChange(idx, e.target.value),
+          children: Object.keys(ROLE_NAMES).map(
+            (r) => /* @__PURE__ */ jsxDEV(MenuItem, { value: r, children: ROLE_NAMES[r] }, r, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+              lineNumber: 55,
+              columnNumber: 9
+            }, this)
+          )
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+          lineNumber: 49,
+          columnNumber: 9
+        },
+        this
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 47,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 43,
+    columnNumber: 5
+  }, this),
+  /* @__PURE__ */ jsxDEV(Divider, { sx: { my: 1 } }, void 0, false, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 61,
+    columnNumber: 5
+  }, this),
+  /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: "可编辑字段" }, void 0, false, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 62,
+    columnNumber: 5
+  }, this),
+  /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 1, flexWrap: "wrap", useFlexGap: true, sx: { mt: 1 }, children: defaultFields.length === 0 ? /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", color: "text.secondary", children: "（批准步骤，无可编辑字段）" }, void 0, false, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 65,
+    columnNumber: 5
+  }, this) : defaultFields.map((field) => {
+    const on = step.fields.includes(field);
+    return /* @__PURE__ */ jsxDEV(
+      Chip,
+      {
+        label: field,
+        color: on ? isMakePath ? "secondary" : "primary" : "default",
+        variant: on ? "filled" : "outlined",
+        clickable: true,
+        onClick: () => onToggleField(idx, field),
+        sx: { mb: 1 }
+      },
+      field,
+      false,
+      {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 70,
+        columnNumber: 9
+      },
+      this
+    );
+  }) }, void 0, false, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 63,
+    columnNumber: 5
+  }, this)
+] }, void 0, true, {
+  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+  lineNumber: 42,
+  columnNumber: 1
+}, this);
+_c = StepConfigRow;
+const MaterialApprovalTab = () => {
+  _s();
+  const { materialApprovalConfig, setMaterialApprovalConfig } = useSettingsStore();
+  const [local, setLocal] = useState(materialApprovalConfig);
+  useEffect(() => {
+    setLocal(materialApprovalConfig);
+  }, [materialApprovalConfig]);
+  const handleEnabledChange = (checked) => {
+    setLocal((prev) => ({ ...prev, enabled: checked }));
+  };
+  const handleRoleChange = (stepIdx, role) => {
+    setLocal((prev) => ({
+      ...prev,
+      steps: prev.steps.map((s, i) => i === stepIdx ? { ...s, role } : s)
+    }));
+  };
+  const handleToggleField = (stepIdx, field) => {
+    setLocal((prev) => ({
+      ...prev,
+      steps: prev.steps.map((s, i) => {
+        if (i !== stepIdx) return s;
+        const has = s.fields.includes(field);
+        return {
+          ...s,
+          fields: has ? s.fields.filter((f) => f !== field) : [...s.fields, field]
+        };
+      })
+    }));
+  };
+  const handleMakeRoleChange = (stepIdx, role) => {
+    const currentMake = local.makeSteps || DEFAULT_MATERIAL_MAKE_STEPS.map((s) => ({ ...s, fields: [...s.fields] }));
+    setLocal((prev) => ({
+      ...prev,
+      makeSteps: currentMake.map((s, i) => i === stepIdx ? { ...s, role } : s)
+    }));
+  };
+  const handleMakeToggleField = (stepIdx, field) => {
+    const currentMake = local.makeSteps || DEFAULT_MATERIAL_MAKE_STEPS.map((s) => ({ ...s, fields: [...s.fields] }));
+    setLocal((prev) => ({
+      ...prev,
+      makeSteps: currentMake.map((s, i) => {
+        if (i !== stepIdx) return s;
+        const has = s.fields.includes(field);
+        return {
+          ...s,
+          fields: has ? s.fields.filter((f) => f !== field) : [...s.fields, field]
+        };
+      })
+    }));
+  };
+  const handleSave = () => {
+    setMaterialApprovalConfig(local);
+  };
+  const handleRestore = () => {
+    const def = {
+      enabled: true,
+      steps: DEFAULT_MATERIAL_BUY_STEPS.map((s) => ({ ...s, fields: [...s.fields] })),
+      makeSteps: DEFAULT_MATERIAL_MAKE_STEPS.map((s) => ({ ...s, fields: [...s.fields] }))
+    };
+    setMaterialApprovalConfig(def);
+  };
+  return /* @__PURE__ */ jsxDEV(Box, { children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", sx: { mb: 1 }, children: "物料新增审批" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 159,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", color: "text.secondary", sx: { mb: 2 }, children: [
+      "启用后，新增物料将进入分步审批流程，最终批准才生成正式物料档案。 系统根据「自制/外购」字段自动选择审批路径： 外购件 → 发起申请 → ",
+      /* @__PURE__ */ jsxDEV("strong", { children: "采购审核" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 163,
+        columnNumber: 22
+      }, this),
+      " → 批准生效； 自制件 → 发起申请 → ",
+      /* @__PURE__ */ jsxDEV("strong", { children: "工艺审核" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 164,
+        columnNumber: 22
+      }, this),
+      " → 批准生效。"
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 160,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2, mb: 2 }, children: /* @__PURE__ */ jsxDEV(
+      FormControlLabel,
+      {
+        control: /* @__PURE__ */ jsxDEV(
+          Switch,
+          {
+            "data-testid": "approval-enabled",
+            checked: local.enabled,
+            onChange: (e) => handleEnabledChange(e.target.checked)
+          },
+          void 0,
+          false,
+          {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+            lineNumber: 170,
+            columnNumber: 11
+          },
+          this
+        ),
+        label: local.enabled ? "审批已启用" : "审批已关闭（新增物料直接保存）"
+      },
+      void 0,
+      false,
+      {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 168,
+        columnNumber: 9
+      },
+      this
+    ) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 167,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Stack, { spacing: 3, children: [
+      /* @__PURE__ */ jsxDEV(Box, { children: [
+        /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle2", color: "primary", sx: { mb: 1, fontWeight: 600 }, children: "📦 外购件路径（makeOrBuy = 外购）" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+          lineNumber: 183,
+          columnNumber: 11
+        }, this),
+        local.steps.map((step, idx) => {
+          const defaultFields = DEFAULT_MATERIAL_BUY_STEPS[idx]?.fields ?? [];
+          return /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2, mb: 1 }, children: /* @__PURE__ */ jsxDEV(
+            StepConfigRow,
+            {
+              step,
+              idx,
+              defaultFields,
+              onRoleChange: handleRoleChange,
+              onToggleField: handleToggleField
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+              lineNumber: 190,
+              columnNumber: 17
+            },
+            this
+          ) }, `buy-${idx}`, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+            lineNumber: 189,
+            columnNumber: 15
+          }, this);
+        })
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 182,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Box, { children: [
+        /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle2", color: "secondary", sx: { mb: 1, fontWeight: 600 }, children: "🔧 自制件路径（makeOrBuy = 自制）" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+          lineNumber: 201,
+          columnNumber: 11
+        }, this),
+        (local.makeSteps || DEFAULT_MATERIAL_MAKE_STEPS).map((step, idx) => {
+          const defaultFields = DEFAULT_MATERIAL_MAKE_STEPS[idx]?.fields ?? [];
+          return /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2, mb: 1 }, children: /* @__PURE__ */ jsxDEV(
+            StepConfigRow,
+            {
+              step,
+              idx,
+              defaultFields,
+              isMakePath: true,
+              onRoleChange: (i, role) => handleMakeRoleChange(i, role),
+              onToggleField: (i, field) => handleMakeToggleField(i, field)
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+              lineNumber: 208,
+              columnNumber: 17
+            },
+            this
+          ) }, `make-${idx}`, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+            lineNumber: 207,
+            columnNumber: 15
+          }, this);
+        })
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 200,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 180,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 2, sx: { mt: 3 }, children: [
+      /* @__PURE__ */ jsxDEV(Button, { variant: "contained", startIcon: /* @__PURE__ */ jsxDEV(Save, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 221,
+        columnNumber: 48
+      }, this), onClick: handleSave, children: "保存" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 221,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Button, { variant: "outlined", startIcon: /* @__PURE__ */ jsxDEV(RestartAlt, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 224,
+        columnNumber: 47
+      }, this), onClick: handleRestore, children: "恢复默认" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+        lineNumber: 224,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+      lineNumber: 220,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx",
+    lineNumber: 158,
+    columnNumber: 5
+  }, this);
+};
+_s(MaterialApprovalTab, "IupUnJMXulrtvOFXBidWCJEukAI=", false, function() {
+  return [useSettingsStore];
+});
+_c2 = MaterialApprovalTab;
+export default MaterialApprovalTab;
+var _c, _c2;
+$RefreshReg$(_c, "StepConfigRow");
+$RefreshReg$(_c2, "MaterialApprovalTab");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Material/MaterialApprovalTab.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBc0JFLG1CQUVJLGNBRko7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBdEJGLFNBQWdCQSxVQUFVQyxpQkFBaUI7QUFDM0M7QUFBQSxFQUNFQztBQUFBQSxFQUFLQztBQUFBQSxFQUFZQztBQUFBQSxFQUFRQztBQUFBQSxFQUFrQkM7QUFBQUEsRUFBUUM7QUFBQUEsRUFBTUM7QUFBQUEsRUFDekRDO0FBQUFBLEVBQVVDO0FBQUFBLEVBQWFDO0FBQUFBLEVBQVlDO0FBQUFBLEVBQWNDO0FBQUFBLEVBQVNDO0FBQUFBLE9BQ3JEO0FBQ1AsU0FBU0MsTUFBTUMsa0JBQWtCO0FBQ2pDLFNBQVNDLGtCQUFrQkMsNEJBQTRCQyxtQ0FBMkQ7QUFDbEgsU0FBU0Msa0JBQTRCO0FBWXJDLE1BQU1DLGdCQUE4Q0EsQ0FBQztBQUFBLEVBQ25EQztBQUFBQSxFQUFNQztBQUFBQSxFQUFLQztBQUFBQSxFQUFlQztBQUFBQSxFQUFZQztBQUFBQSxFQUFjQztBQUN0RCxNQUNFLG1DQUNFO0FBQUEseUJBQUMsU0FBTSxXQUFVLE9BQU0sU0FBUyxHQUFHLFlBQVcsVUFBUyxJQUFJLEVBQUVDLElBQUksRUFBRSxHQUNqRTtBQUFBLDJCQUFDLGNBQVcsU0FBUSxhQUFZLElBQUksRUFBRUMsWUFBWSxJQUFJLEdBQUU7QUFBQTtBQUFBLE1BQ2xETixNQUFNO0FBQUEsTUFBRTtBQUFBLE1BQUVELEtBQUtRO0FBQUFBLFNBRHJCO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FFQTtBQUFBLElBQ0EsdUJBQUMsZUFBWSxNQUFLLFNBQVEsSUFBSSxFQUFFQyxVQUFVLElBQUksR0FDNUM7QUFBQSw2QkFBQyxjQUFXLG9CQUFaO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFBZ0I7QUFBQSxNQUNoQjtBQUFBLFFBQUM7QUFBQTtBQUFBLFVBQ0MsT0FBTTtBQUFBLFVBQ04sT0FBT1QsS0FBS1U7QUFBQUEsVUFDWixVQUFVLENBQUFDLE1BQUtQLGFBQWFILEtBQUtVLEVBQUVDLE9BQU9DLEtBQWU7QUFBQSxVQUV2REMsaUJBQU9DLEtBQUtqQixVQUFVLEVBQWlCa0I7QUFBQUEsWUFBSSxDQUFBQyxNQUMzQyx1QkFBQyxZQUFpQixPQUFPQSxHQUFJbkIscUJBQVdtQixDQUFDLEtBQTFCQSxHQUFmO0FBQUE7QUFBQTtBQUFBO0FBQUEsbUJBQTJDO0FBQUEsVUFDNUM7QUFBQTtBQUFBLFFBUEg7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLE1BUUE7QUFBQSxTQVZGO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FXQTtBQUFBLE9BZkY7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQWdCQTtBQUFBLEVBRUEsdUJBQUMsV0FBUSxJQUFJLEVBQUVDLElBQUksRUFBRSxLQUFyQjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBQXVCO0FBQUEsRUFDdkIsdUJBQUMsY0FBVyxTQUFRLFdBQVUsT0FBTSxrQkFBaUIscUJBQXJEO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FBMEQ7QUFBQSxFQUMxRCx1QkFBQyxTQUFNLFdBQVUsT0FBTSxTQUFTLEdBQUcsVUFBUyxRQUFPLFlBQVUsTUFBQyxJQUFJLEVBQUVDLElBQUksRUFBRSxHQUN2RWpCLHdCQUFja0IsV0FBVyxJQUN4Qix1QkFBQyxjQUFXLFNBQVEsU0FBUSxPQUFNLGtCQUFpQiw2QkFBbkQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQUFnRSxJQUVoRWxCLGNBQWNjLElBQUksQ0FBQUssVUFBUztBQUN6QixVQUFNQyxLQUFLdEIsS0FBS3VCLE9BQU9DLFNBQVNILEtBQUs7QUFDckMsV0FDRTtBQUFBLE1BQUM7QUFBQTtBQUFBLFFBRUMsT0FBT0E7QUFBQUEsUUFDUCxPQUFPQyxLQUFNbkIsYUFBYSxjQUFjLFlBQWE7QUFBQSxRQUNyRCxTQUFTbUIsS0FBSyxXQUFXO0FBQUEsUUFDekI7QUFBQSxRQUNBLFNBQVMsTUFBTWpCLGNBQWNKLEtBQUtvQixLQUFLO0FBQUEsUUFDdkMsSUFBSSxFQUFFZixJQUFJLEVBQUU7QUFBQTtBQUFBLE1BTlBlO0FBQUFBLE1BRFA7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxJQU9nQjtBQUFBLEVBR3BCLENBQUMsS0FqQkw7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQW1CQTtBQUFBLEtBeENGO0FBQUE7QUFBQTtBQUFBO0FBQUEsT0F5Q0E7QUFDQUksS0E3Q0kxQjtBQStDTixNQUFNMkIsc0JBQWdDQSxNQUFNO0FBQUFDLEtBQUE7QUFDMUMsUUFBTSxFQUFFQyx3QkFBd0JDLDBCQUEwQixJQUFJbEMsaUJBQWlCO0FBQy9FLFFBQU0sQ0FBQ21DLE9BQU9DLFFBQVEsSUFBSXJELFNBQWlDa0Qsc0JBQXNCO0FBR2pGakQsWUFBVSxNQUFNO0FBQ2RvRCxhQUFTSCxzQkFBc0I7QUFBQSxFQUNqQyxHQUFHLENBQUNBLHNCQUFzQixDQUFDO0FBRTNCLFFBQU1JLHNCQUFzQkEsQ0FBQ0MsWUFBcUI7QUFDaERGLGFBQVMsQ0FBQUcsVUFBUyxFQUFFLEdBQUdBLE1BQU1DLFNBQVNGLFFBQVEsRUFBRTtBQUFBLEVBQ2xEO0FBRUEsUUFBTUcsbUJBQW1CQSxDQUFDQyxTQUFpQjNCLFNBQWlCO0FBQzFEcUIsYUFBUyxDQUFBRyxVQUFTO0FBQUEsTUFDaEIsR0FBR0E7QUFBQUEsTUFDSEksT0FBT0osS0FBS0ksTUFBTXRCLElBQUksQ0FBQ3VCLEdBQUdDLE1BQU9BLE1BQU1ILFVBQVUsRUFBRSxHQUFHRSxHQUFHN0IsS0FBSyxJQUFJNkIsQ0FBRTtBQUFBLElBQ3RFLEVBQUU7QUFBQSxFQUNKO0FBRUEsUUFBTUUsb0JBQW9CQSxDQUFDSixTQUFpQmhCLFVBQWtCO0FBQzVEVSxhQUFTLENBQUFHLFVBQVM7QUFBQSxNQUNoQixHQUFHQTtBQUFBQSxNQUNISSxPQUFPSixLQUFLSSxNQUFNdEIsSUFBSSxDQUFDdUIsR0FBR0MsTUFBTTtBQUM5QixZQUFJQSxNQUFNSCxRQUFTLFFBQU9FO0FBQzFCLGNBQU1HLE1BQU1ILEVBQUVoQixPQUFPQyxTQUFTSCxLQUFLO0FBQ25DLGVBQU87QUFBQSxVQUNMLEdBQUdrQjtBQUFBQSxVQUNIaEIsUUFBUW1CLE1BQU1ILEVBQUVoQixPQUFPb0IsT0FBTyxDQUFBQyxNQUFLQSxNQUFNdkIsS0FBSyxJQUFJLENBQUMsR0FBR2tCLEVBQUVoQixRQUFRRixLQUFLO0FBQUEsUUFDdkU7QUFBQSxNQUNGLENBQUM7QUFBQSxJQUNILEVBQUU7QUFBQSxFQUNKO0FBR0EsUUFBTXdCLHVCQUF1QkEsQ0FBQ1IsU0FBaUIzQixTQUFpQjtBQUM5RCxVQUFNb0MsY0FBY2hCLE1BQU1pQixhQUFhbEQsNEJBQTRCbUIsSUFBSSxDQUFBdUIsT0FBTSxFQUFFLEdBQUdBLEdBQUdoQixRQUFRLENBQUMsR0FBR2dCLEVBQUVoQixNQUFNLEVBQUUsRUFBRTtBQUM3R1EsYUFBUyxDQUFBRyxVQUFTO0FBQUEsTUFDaEIsR0FBR0E7QUFBQUEsTUFDSGEsV0FBV0QsWUFBWTlCLElBQUksQ0FBQ3VCLEdBQUdDLE1BQU9BLE1BQU1ILFVBQVUsRUFBRSxHQUFHRSxHQUFHN0IsS0FBSyxJQUFJNkIsQ0FBRTtBQUFBLElBQzNFLEVBQUU7QUFBQSxFQUNKO0FBRUEsUUFBTVMsd0JBQXdCQSxDQUFDWCxTQUFpQmhCLFVBQWtCO0FBQ2hFLFVBQU15QixjQUFjaEIsTUFBTWlCLGFBQWFsRCw0QkFBNEJtQixJQUFJLENBQUF1QixPQUFNLEVBQUUsR0FBR0EsR0FBR2hCLFFBQVEsQ0FBQyxHQUFHZ0IsRUFBRWhCLE1BQU0sRUFBRSxFQUFFO0FBQzdHUSxhQUFTLENBQUFHLFVBQVM7QUFBQSxNQUNoQixHQUFHQTtBQUFBQSxNQUNIYSxXQUFXRCxZQUFZOUIsSUFBSSxDQUFDdUIsR0FBR0MsTUFBTTtBQUNuQyxZQUFJQSxNQUFNSCxRQUFTLFFBQU9FO0FBQzFCLGNBQU1HLE1BQU1ILEVBQUVoQixPQUFPQyxTQUFTSCxLQUFLO0FBQ25DLGVBQU87QUFBQSxVQUNMLEdBQUdrQjtBQUFBQSxVQUNIaEIsUUFBUW1CLE1BQU1ILEVBQUVoQixPQUFPb0IsT0FBTyxDQUFBQyxNQUFLQSxNQUFNdkIsS0FBSyxJQUFJLENBQUMsR0FBR2tCLEVBQUVoQixRQUFRRixLQUFLO0FBQUEsUUFDdkU7QUFBQSxNQUNGLENBQUM7QUFBQSxJQUNILEVBQUU7QUFBQSxFQUNKO0FBRUEsUUFBTTRCLGFBQWFBLE1BQU07QUFDdkJwQiw4QkFBMEJDLEtBQUs7QUFBQSxFQUNqQztBQUVBLFFBQU1vQixnQkFBZ0JBLE1BQU07QUFDMUIsVUFBTUMsTUFBOEI7QUFBQSxNQUNsQ2hCLFNBQVM7QUFBQSxNQUNURyxPQUFPMUMsMkJBQTJCb0IsSUFBSSxDQUFBdUIsT0FBTSxFQUFFLEdBQUdBLEdBQUdoQixRQUFRLENBQUMsR0FBR2dCLEVBQUVoQixNQUFNLEVBQUUsRUFBRTtBQUFBLE1BQzVFd0IsV0FBV2xELDRCQUE0Qm1CLElBQUksQ0FBQXVCLE9BQU0sRUFBRSxHQUFHQSxHQUFHaEIsUUFBUSxDQUFDLEdBQUdnQixFQUFFaEIsTUFBTSxFQUFFLEVBQUU7QUFBQSxJQUNuRjtBQUNBTSw4QkFBMEJzQixHQUFHO0FBQUEsRUFDL0I7QUFFQSxTQUNFLHVCQUFDLE9BQ0M7QUFBQSwyQkFBQyxjQUFXLFNBQVEsTUFBSyxJQUFJLEVBQUU3QyxJQUFJLEVBQUUsR0FBRyxzQkFBeEM7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUE4QztBQUFBLElBQzlDLHVCQUFDLGNBQVcsU0FBUSxTQUFRLE9BQU0sa0JBQWlCLElBQUksRUFBRUEsSUFBSSxFQUFFLEdBQUU7QUFBQTtBQUFBLE1BR2xELHVCQUFDLFlBQU8sb0JBQVI7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFZO0FBQUEsTUFBUztBQUFBLE1BQ3JCLHVCQUFDLFlBQU8sb0JBQVI7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFZO0FBQUEsTUFBUztBQUFBLFNBSnBDO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FLQTtBQUFBLElBRUEsdUJBQUMsU0FBTSxJQUFJLEVBQUU4QyxHQUFHLEdBQUc5QyxJQUFJLEVBQUUsR0FDdkI7QUFBQSxNQUFDO0FBQUE7QUFBQSxRQUNDLFNBQ0U7QUFBQSxVQUFDO0FBQUE7QUFBQSxZQUNDLGVBQVk7QUFBQSxZQUNaLFNBQVN3QixNQUFNSztBQUFBQSxZQUNmLFVBQVUsQ0FBQXhCLE1BQUtxQixvQkFBb0JyQixFQUFFQyxPQUFPcUIsT0FBTztBQUFBO0FBQUEsVUFIckQ7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLFFBR3VEO0FBQUEsUUFHekQsT0FBT0gsTUFBTUssVUFBVSxVQUFVO0FBQUE7QUFBQSxNQVJuQztBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsSUFRcUQsS0FUdkQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQVdBO0FBQUEsSUFFQSx1QkFBQyxTQUFNLFNBQVMsR0FFZDtBQUFBLDZCQUFDLE9BQ0M7QUFBQSwrQkFBQyxjQUFXLFNBQVEsYUFBWSxPQUFNLFdBQVUsSUFBSSxFQUFFN0IsSUFBSSxHQUFHQyxZQUFZLElBQUksR0FBRSx3Q0FBL0U7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUVBO0FBQUEsUUFDQ3VCLE1BQU1RLE1BQU10QixJQUFJLENBQUNoQixNQUFNQyxRQUFRO0FBQzlCLGdCQUFNQyxnQkFBZ0JOLDJCQUEyQkssR0FBRyxHQUFHc0IsVUFBVTtBQUNqRSxpQkFDRSx1QkFBQyxTQUF5QixJQUFJLEVBQUU2QixHQUFHLEdBQUc5QyxJQUFJLEVBQUUsR0FDMUM7QUFBQSxZQUFDO0FBQUE7QUFBQSxjQUNDO0FBQUEsY0FBWTtBQUFBLGNBQVU7QUFBQSxjQUN0QixjQUFjOEI7QUFBQUEsY0FBa0IsZUFBZUs7QUFBQUE7QUFBQUEsWUFGakQ7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLFVBRW1FLEtBSHpELE9BQU94QyxHQUFHLElBQXRCO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBS0E7QUFBQSxRQUVKLENBQUM7QUFBQSxXQWRIO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFlQTtBQUFBLE1BR0EsdUJBQUMsT0FDQztBQUFBLCtCQUFDLGNBQVcsU0FBUSxhQUFZLE9BQU0sYUFBWSxJQUFJLEVBQUVLLElBQUksR0FBR0MsWUFBWSxJQUFJLEdBQUUsd0NBQWpGO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFFQTtBQUFBLFNBQ0V1QixNQUFNaUIsYUFBYWxELDZCQUE2Qm1CLElBQUksQ0FBQ2hCLE1BQU1DLFFBQVE7QUFDbkUsZ0JBQU1DLGdCQUFnQkwsNEJBQTRCSSxHQUFHLEdBQUdzQixVQUFVO0FBQ2xFLGlCQUNFLHVCQUFDLFNBQTBCLElBQUksRUFBRTZCLEdBQUcsR0FBRzlDLElBQUksRUFBRSxHQUMzQztBQUFBLFlBQUM7QUFBQTtBQUFBLGNBQ0M7QUFBQSxjQUFZO0FBQUEsY0FBVTtBQUFBLGNBQ3RCO0FBQUEsY0FDQSxjQUFjLENBQUNrQyxHQUFHOUIsU0FBU21DLHFCQUFxQkwsR0FBRzlCLElBQUk7QUFBQSxjQUN2RCxlQUFlLENBQUM4QixHQUFHbkIsVUFBVTJCLHNCQUFzQlIsR0FBR25CLEtBQUs7QUFBQTtBQUFBLFlBSjdEO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxVQUkrRCxLQUxyRCxRQUFRcEIsR0FBRyxJQUF2QjtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQU9BO0FBQUEsUUFFSixDQUFDO0FBQUEsV0FoQkg7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQWlCQTtBQUFBLFNBckNGO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FzQ0E7QUFBQSxJQUVBLHVCQUFDLFNBQU0sV0FBVSxPQUFNLFNBQVMsR0FBRyxJQUFJLEVBQUVrQixJQUFJLEVBQUUsR0FDN0M7QUFBQSw2QkFBQyxVQUFPLFNBQVEsYUFBWSxXQUFXLHVCQUFDLFVBQUQ7QUFBQTtBQUFBO0FBQUE7QUFBQSxhQUFLLEdBQUssU0FBUzhCLFlBQVcsa0JBQXJFO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFFQTtBQUFBLE1BQ0EsdUJBQUMsVUFBTyxTQUFRLFlBQVcsV0FBVyx1QkFBQyxnQkFBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQVcsR0FBSyxTQUFTQyxlQUFjLG9CQUE3RTtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBRUE7QUFBQSxTQU5GO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FPQTtBQUFBLE9BckVGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0FzRUE7QUFFSjtBQUFFdkIsR0FoSklELHFCQUE2QjtBQUFBLFVBQzZCL0IsZ0JBQWdCO0FBQUE7QUFBQSxNQUQxRStCO0FBa0pOLGVBQWVBO0FBQW9CLElBQUFELElBQUE0QjtBQUFBLGFBQUE1QixJQUFBO0FBQUEsYUFBQTRCLEtBQUEiLCJuYW1lcyI6WyJ1c2VTdGF0ZSIsInVzZUVmZmVjdCIsIkJveCIsIlR5cG9ncmFwaHkiLCJTd2l0Y2giLCJGb3JtQ29udHJvbExhYmVsIiwiQnV0dG9uIiwiQ2hpcCIsIlNlbGVjdCIsIk1lbnVJdGVtIiwiRm9ybUNvbnRyb2wiLCJJbnB1dExhYmVsIiwiU3RhY2siLCJEaXZpZGVyIiwiUGFwZXIiLCJTYXZlIiwiUmVzdGFydEFsdCIsInVzZVNldHRpbmdzU3RvcmUiLCJERUZBVUxUX01BVEVSSUFMX0JVWV9TVEVQUyIsIkRFRkFVTFRfTUFURVJJQUxfTUFLRV9TVEVQUyIsIlJPTEVfTkFNRVMiLCJTdGVwQ29uZmlnUm93Iiwic3RlcCIsImlkeCIsImRlZmF1bHRGaWVsZHMiLCJpc01ha2VQYXRoIiwib25Sb2xlQ2hhbmdlIiwib25Ub2dnbGVGaWVsZCIsIm1iIiwiZm9udFdlaWdodCIsImxhYmVsIiwibWluV2lkdGgiLCJyb2xlIiwiZSIsInRhcmdldCIsInZhbHVlIiwiT2JqZWN0Iiwia2V5cyIsIm1hcCIsInIiLCJteSIsIm10IiwibGVuZ3RoIiwiZmllbGQiLCJvbiIsImZpZWxkcyIsImluY2x1ZGVzIiwiX2MiLCJNYXRlcmlhbEFwcHJvdmFsVGFiIiwiX3MiLCJtYXRlcmlhbEFwcHJvdmFsQ29uZmlnIiwic2V0TWF0ZXJpYWxBcHByb3ZhbENvbmZpZyIsImxvY2FsIiwic2V0TG9jYWwiLCJoYW5kbGVFbmFibGVkQ2hhbmdlIiwiY2hlY2tlZCIsInByZXYiLCJlbmFibGVkIiwiaGFuZGxlUm9sZUNoYW5nZSIsInN0ZXBJZHgiLCJzdGVwcyIsInMiLCJpIiwiaGFuZGxlVG9nZ2xlRmllbGQiLCJoYXMiLCJmaWx0ZXIiLCJmIiwiaGFuZGxlTWFrZVJvbGVDaGFuZ2UiLCJjdXJyZW50TWFrZSIsIm1ha2VTdGVwcyIsImhhbmRsZU1ha2VUb2dnbGVGaWVsZCIsImhhbmRsZVNhdmUiLCJoYW5kbGVSZXN0b3JlIiwiZGVmIiwicCIsIl9jMiJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJNYXRlcmlhbEFwcHJvdmFsVGFiLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QsIHsgdXNlU3RhdGUsIHVzZUVmZmVjdCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7XG4gIEJveCwgVHlwb2dyYXBoeSwgU3dpdGNoLCBGb3JtQ29udHJvbExhYmVsLCBCdXR0b24sIENoaXAsIFNlbGVjdCxcbiAgTWVudUl0ZW0sIEZvcm1Db250cm9sLCBJbnB1dExhYmVsLCBTdGFjaywgQWxlcnQsIERpdmlkZXIsIFBhcGVyLFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7IFNhdmUsIFJlc3RhcnRBbHQgfSBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsJztcbmltcG9ydCB7IHVzZVNldHRpbmdzU3RvcmUsIERFRkFVTFRfTUFURVJJQUxfQlVZX1NURVBTLCBERUZBVUxUX01BVEVSSUFMX01BS0VfU1RFUFMsIE1hdGVyaWFsQXBwcm92YWxDb25maWcgfSBmcm9tICdAL3N0b3Jlcy9zZXR0aW5nc1N0b3JlJztcbmltcG9ydCB7IFJPTEVfTkFNRVMsIFVzZXJSb2xlIH0gZnJvbSAnQC90eXBlcy9zZXR0aW5ncyc7XG5cbi8qKiDljZXmraXphY3nva7ooYzvvIjmraXpqqTmoIfpopggKyDop5LoibLpgInmi6kgKyDlrZfmrrUgQ2hpcCDli77pgInvvIkgKi9cbmludGVyZmFjZSBTdGVwQ29uZmlnUm93UHJvcHMge1xuICBzdGVwOiB7IHJvbGU6IHN0cmluZzsgbGFiZWw6IHN0cmluZzsgZmllbGRzOiBzdHJpbmdbXSB9O1xuICBpZHg6IG51bWJlcjtcbiAgZGVmYXVsdEZpZWxkczogc3RyaW5nW107XG4gIGlzTWFrZVBhdGg/OiBib29sZWFuO1xuICBvblJvbGVDaGFuZ2U6IChpZHg6IG51bWJlciwgcm9sZTogc3RyaW5nKSA9PiB2b2lkO1xuICBvblRvZ2dsZUZpZWxkOiAoaWR4OiBudW1iZXIsIGZpZWxkOiBzdHJpbmcpID0+IHZvaWQ7XG59XG5cbmNvbnN0IFN0ZXBDb25maWdSb3c6IFJlYWN0LkZDPFN0ZXBDb25maWdSb3dQcm9wcz4gPSAoe1xuICBzdGVwLCBpZHgsIGRlZmF1bHRGaWVsZHMsIGlzTWFrZVBhdGgsIG9uUm9sZUNoYW5nZSwgb25Ub2dnbGVGaWVsZCxcbn0pID0+IChcbiAgPD5cbiAgICA8U3RhY2sgZGlyZWN0aW9uPVwicm93XCIgc3BhY2luZz17Mn0gYWxpZ25JdGVtcz1cImNlbnRlclwiIHN4PXt7IG1iOiAxIH19PlxuICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cInN1YnRpdGxlMVwiIHN4PXt7IGZvbnRXZWlnaHQ6IDYwMCB9fT5cbiAgICAgICAg5q2l6aqkIHtpZHggKyAxfe+8mntzdGVwLmxhYmVsfVxuICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgPEZvcm1Db250cm9sIHNpemU9XCJzbWFsbFwiIHN4PXt7IG1pbldpZHRoOiAyMDAgfX0+XG4gICAgICAgIDxJbnB1dExhYmVsPuWkhOeQhuinkuiJsjwvSW5wdXRMYWJlbD5cbiAgICAgICAgPFNlbGVjdFxuICAgICAgICAgIGxhYmVsPVwi5aSE55CG6KeS6ImyXCJcbiAgICAgICAgICB2YWx1ZT17c3RlcC5yb2xlfVxuICAgICAgICAgIG9uQ2hhbmdlPXtlID0+IG9uUm9sZUNoYW5nZShpZHgsIGUudGFyZ2V0LnZhbHVlIGFzIHN0cmluZyl9XG4gICAgICAgID5cbiAgICAgICAgICB7KE9iamVjdC5rZXlzKFJPTEVfTkFNRVMpIGFzIFVzZXJSb2xlW10pLm1hcChyID0+IChcbiAgICAgICAgICAgIDxNZW51SXRlbSBrZXk9e3J9IHZhbHVlPXtyfT57Uk9MRV9OQU1FU1tyXX08L01lbnVJdGVtPlxuICAgICAgICAgICkpfVxuICAgICAgICA8L1NlbGVjdD5cbiAgICAgIDwvRm9ybUNvbnRyb2w+XG4gICAgPC9TdGFjaz5cblxuICAgIDxEaXZpZGVyIHN4PXt7IG15OiAxIH19IC8+XG4gICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImNhcHRpb25cIiBjb2xvcj1cInRleHQuc2Vjb25kYXJ5XCI+5Y+v57yW6L6R5a2X5q61PC9UeXBvZ3JhcGh5PlxuICAgIDxTdGFjayBkaXJlY3Rpb249XCJyb3dcIiBzcGFjaW5nPXsxfSBmbGV4V3JhcD1cIndyYXBcIiB1c2VGbGV4R2FwIHN4PXt7IG10OiAxIH19PlxuICAgICAge2RlZmF1bHRGaWVsZHMubGVuZ3RoID09PSAwID8gKFxuICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBjb2xvcj1cInRleHQuc2Vjb25kYXJ5XCI+77yI5om55YeG5q2l6aqk77yM5peg5Y+v57yW6L6R5a2X5q6177yJPC9UeXBvZ3JhcGh5PlxuICAgICAgKSA6IChcbiAgICAgICAgZGVmYXVsdEZpZWxkcy5tYXAoZmllbGQgPT4ge1xuICAgICAgICAgIGNvbnN0IG9uID0gc3RlcC5maWVsZHMuaW5jbHVkZXMoZmllbGQpO1xuICAgICAgICAgIHJldHVybiAoXG4gICAgICAgICAgICA8Q2hpcFxuICAgICAgICAgICAgICBrZXk9e2ZpZWxkfVxuICAgICAgICAgICAgICBsYWJlbD17ZmllbGR9XG4gICAgICAgICAgICAgIGNvbG9yPXtvbiA/IChpc01ha2VQYXRoID8gJ3NlY29uZGFyeScgOiAncHJpbWFyeScpIDogJ2RlZmF1bHQnfVxuICAgICAgICAgICAgICB2YXJpYW50PXtvbiA/ICdmaWxsZWQnIDogJ291dGxpbmVkJ31cbiAgICAgICAgICAgICAgY2xpY2thYmxlXG4gICAgICAgICAgICAgIG9uQ2xpY2s9eygpID0+IG9uVG9nZ2xlRmllbGQoaWR4LCBmaWVsZCl9XG4gICAgICAgICAgICAgIHN4PXt7IG1iOiAxIH19XG4gICAgICAgICAgICAvPlxuICAgICAgICAgICk7XG4gICAgICAgIH0pXG4gICAgICApfVxuICAgIDwvU3RhY2s+XG4gIDwvPlxuKTtcblxuY29uc3QgTWF0ZXJpYWxBcHByb3ZhbFRhYjogUmVhY3QuRkMgPSAoKSA9PiB7XG4gIGNvbnN0IHsgbWF0ZXJpYWxBcHByb3ZhbENvbmZpZywgc2V0TWF0ZXJpYWxBcHByb3ZhbENvbmZpZyB9ID0gdXNlU2V0dGluZ3NTdG9yZSgpO1xuICBjb25zdCBbbG9jYWwsIHNldExvY2FsXSA9IHVzZVN0YXRlPE1hdGVyaWFsQXBwcm92YWxDb25maWc+KG1hdGVyaWFsQXBwcm92YWxDb25maWcpO1xuXG4gIC8vIOWQjOatpSBzdG9yZSDihpIg5pys5Zyw77yI5aaC5aSW6YOo5oGi5aSN6buY6K6k77yJXG4gIHVzZUVmZmVjdCgoKSA9PiB7XG4gICAgc2V0TG9jYWwobWF0ZXJpYWxBcHByb3ZhbENvbmZpZyk7XG4gIH0sIFttYXRlcmlhbEFwcHJvdmFsQ29uZmlnXSk7XG5cbiAgY29uc3QgaGFuZGxlRW5hYmxlZENoYW5nZSA9IChjaGVja2VkOiBib29sZWFuKSA9PiB7XG4gICAgc2V0TG9jYWwocHJldiA9PiAoeyAuLi5wcmV2LCBlbmFibGVkOiBjaGVja2VkIH0pKTtcbiAgfTtcblxuICBjb25zdCBoYW5kbGVSb2xlQ2hhbmdlID0gKHN0ZXBJZHg6IG51bWJlciwgcm9sZTogc3RyaW5nKSA9PiB7XG4gICAgc2V0TG9jYWwocHJldiA9PiAoe1xuICAgICAgLi4ucHJldixcbiAgICAgIHN0ZXBzOiBwcmV2LnN0ZXBzLm1hcCgocywgaSkgPT4gKGkgPT09IHN0ZXBJZHggPyB7IC4uLnMsIHJvbGUgfSA6IHMpKSxcbiAgICB9KSk7XG4gIH07XG5cbiAgY29uc3QgaGFuZGxlVG9nZ2xlRmllbGQgPSAoc3RlcElkeDogbnVtYmVyLCBmaWVsZDogc3RyaW5nKSA9PiB7XG4gICAgc2V0TG9jYWwocHJldiA9PiAoe1xuICAgICAgLi4ucHJldixcbiAgICAgIHN0ZXBzOiBwcmV2LnN0ZXBzLm1hcCgocywgaSkgPT4ge1xuICAgICAgICBpZiAoaSAhPT0gc3RlcElkeCkgcmV0dXJuIHM7XG4gICAgICAgIGNvbnN0IGhhcyA9IHMuZmllbGRzLmluY2x1ZGVzKGZpZWxkKTtcbiAgICAgICAgcmV0dXJuIHtcbiAgICAgICAgICAuLi5zLFxuICAgICAgICAgIGZpZWxkczogaGFzID8gcy5maWVsZHMuZmlsdGVyKGYgPT4gZiAhPT0gZmllbGQpIDogWy4uLnMuZmllbGRzLCBmaWVsZF0sXG4gICAgICAgIH07XG4gICAgICB9KSxcbiAgICB9KSk7XG4gIH07XG5cbiAgLy8g4pSA4pSAIOiHquWItuS7tui3r+W+hCBoYW5kbGVycyDilIDilIBcbiAgY29uc3QgaGFuZGxlTWFrZVJvbGVDaGFuZ2UgPSAoc3RlcElkeDogbnVtYmVyLCByb2xlOiBzdHJpbmcpID0+IHtcbiAgICBjb25zdCBjdXJyZW50TWFrZSA9IGxvY2FsLm1ha2VTdGVwcyB8fCBERUZBVUxUX01BVEVSSUFMX01BS0VfU1RFUFMubWFwKHMgPT4gKHsgLi4ucywgZmllbGRzOiBbLi4ucy5maWVsZHNdIH0pKTtcbiAgICBzZXRMb2NhbChwcmV2ID0+ICh7XG4gICAgICAuLi5wcmV2LFxuICAgICAgbWFrZVN0ZXBzOiBjdXJyZW50TWFrZS5tYXAoKHMsIGkpID0+IChpID09PSBzdGVwSWR4ID8geyAuLi5zLCByb2xlIH0gOiBzKSksXG4gICAgfSkpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZU1ha2VUb2dnbGVGaWVsZCA9IChzdGVwSWR4OiBudW1iZXIsIGZpZWxkOiBzdHJpbmcpID0+IHtcbiAgICBjb25zdCBjdXJyZW50TWFrZSA9IGxvY2FsLm1ha2VTdGVwcyB8fCBERUZBVUxUX01BVEVSSUFMX01BS0VfU1RFUFMubWFwKHMgPT4gKHsgLi4ucywgZmllbGRzOiBbLi4ucy5maWVsZHNdIH0pKTtcbiAgICBzZXRMb2NhbChwcmV2ID0+ICh7XG4gICAgICAuLi5wcmV2LFxuICAgICAgbWFrZVN0ZXBzOiBjdXJyZW50TWFrZS5tYXAoKHMsIGkpID0+IHtcbiAgICAgICAgaWYgKGkgIT09IHN0ZXBJZHgpIHJldHVybiBzO1xuICAgICAgICBjb25zdCBoYXMgPSBzLmZpZWxkcy5pbmNsdWRlcyhmaWVsZCk7XG4gICAgICAgIHJldHVybiB7XG4gICAgICAgICAgLi4ucyxcbiAgICAgICAgICBmaWVsZHM6IGhhcyA/IHMuZmllbGRzLmZpbHRlcihmID0+IGYgIT09IGZpZWxkKSA6IFsuLi5zLmZpZWxkcywgZmllbGRdLFxuICAgICAgICB9O1xuICAgICAgfSksXG4gICAgfSkpO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZVNhdmUgPSAoKSA9PiB7XG4gICAgc2V0TWF0ZXJpYWxBcHByb3ZhbENvbmZpZyhsb2NhbCk7XG4gIH07XG5cbiAgY29uc3QgaGFuZGxlUmVzdG9yZSA9ICgpID0+IHtcbiAgICBjb25zdCBkZWY6IE1hdGVyaWFsQXBwcm92YWxDb25maWcgPSB7XG4gICAgICBlbmFibGVkOiB0cnVlLFxuICAgICAgc3RlcHM6IERFRkFVTFRfTUFURVJJQUxfQlVZX1NURVBTLm1hcChzID0+ICh7IC4uLnMsIGZpZWxkczogWy4uLnMuZmllbGRzXSB9KSksXG4gICAgICBtYWtlU3RlcHM6IERFRkFVTFRfTUFURVJJQUxfTUFLRV9TVEVQUy5tYXAocyA9PiAoeyAuLi5zLCBmaWVsZHM6IFsuLi5zLmZpZWxkc10gfSkpLFxuICAgIH07XG4gICAgc2V0TWF0ZXJpYWxBcHByb3ZhbENvbmZpZyhkZWYpO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPEJveD5cbiAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJoNlwiIHN4PXt7IG1iOiAxIH19PueJqeaWmeaWsOWinuWuoeaJuTwvVHlwb2dyYXBoeT5cbiAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJib2R5MlwiIGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIiBzeD17eyBtYjogMiB9fT5cbiAgICAgICAg5ZCv55So5ZCO77yM5paw5aKe54mp5paZ5bCG6L+b5YWl5YiG5q2l5a6h5om55rWB56iL77yM5pyA57uI5om55YeG5omN55Sf5oiQ5q2j5byP54mp5paZ5qGj5qGI44CCXG4gICAgICAgIOezu+e7n+agueaNruOAjOiHquWIti/lpJbotK3jgI3lrZfmrrXoh6rliqjpgInmi6nlrqHmibnot6/lvoTvvJpcbiAgICAgICAg5aSW6LSt5Lu2IOKGkiDlj5HotbfnlLPor7cg4oaSIDxzdHJvbmc+6YeH6LSt5a6h5qC4PC9zdHJvbmc+IOKGkiDmibnlh4bnlJ/mlYjvvJtcbiAgICAgICAg6Ieq5Yi25Lu2IOKGkiDlj5HotbfnlLPor7cg4oaSIDxzdHJvbmc+5bel6Im65a6h5qC4PC9zdHJvbmc+IOKGkiDmibnlh4bnlJ/mlYjjgIJcbiAgICAgIDwvVHlwb2dyYXBoeT5cblxuICAgICAgPFBhcGVyIHN4PXt7IHA6IDIsIG1iOiAyIH19PlxuICAgICAgICA8Rm9ybUNvbnRyb2xMYWJlbFxuICAgICAgICAgIGNvbnRyb2w9e1xuICAgICAgICAgICAgPFN3aXRjaFxuICAgICAgICAgICAgICBkYXRhLXRlc3RpZD1cImFwcHJvdmFsLWVuYWJsZWRcIlxuICAgICAgICAgICAgICBjaGVja2VkPXtsb2NhbC5lbmFibGVkfVxuICAgICAgICAgICAgICBvbkNoYW5nZT17ZSA9PiBoYW5kbGVFbmFibGVkQ2hhbmdlKGUudGFyZ2V0LmNoZWNrZWQpfVxuICAgICAgICAgICAgLz5cbiAgICAgICAgICB9XG4gICAgICAgICAgbGFiZWw9e2xvY2FsLmVuYWJsZWQgPyAn5a6h5om55bey5ZCv55SoJyA6ICflrqHmibnlt7LlhbPpl63vvIjmlrDlop7nianmlpnnm7TmjqXkv53lrZjvvIknfVxuICAgICAgICAvPlxuICAgICAgPC9QYXBlcj5cblxuICAgICAgPFN0YWNrIHNwYWNpbmc9ezN9PlxuICAgICAgICB7Lyog5aSW6LSt5Lu25a6h5om56Lev5b6EICovfVxuICAgICAgICA8Qm94PlxuICAgICAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJzdWJ0aXRsZTJcIiBjb2xvcj1cInByaW1hcnlcIiBzeD17eyBtYjogMSwgZm9udFdlaWdodDogNjAwIH19PlxuICAgICAgICAgICAg8J+TpiDlpJbotK3ku7bot6/lvoTvvIhtYWtlT3JCdXkgPSDlpJbotK3vvIlcbiAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAge2xvY2FsLnN0ZXBzLm1hcCgoc3RlcCwgaWR4KSA9PiB7XG4gICAgICAgICAgICBjb25zdCBkZWZhdWx0RmllbGRzID0gREVGQVVMVF9NQVRFUklBTF9CVVlfU1RFUFNbaWR4XT8uZmllbGRzID8/IFtdO1xuICAgICAgICAgICAgcmV0dXJuIChcbiAgICAgICAgICAgICAgPFBhcGVyIGtleT17YGJ1eS0ke2lkeH1gfSBzeD17eyBwOiAyLCBtYjogMSB9fT5cbiAgICAgICAgICAgICAgICA8U3RlcENvbmZpZ1Jvd1xuICAgICAgICAgICAgICAgICAgc3RlcD17c3RlcH0gaWR4PXtpZHh9IGRlZmF1bHRGaWVsZHM9e2RlZmF1bHRGaWVsZHN9XG4gICAgICAgICAgICAgICAgICBvblJvbGVDaGFuZ2U9e2hhbmRsZVJvbGVDaGFuZ2V9IG9uVG9nZ2xlRmllbGQ9e2hhbmRsZVRvZ2dsZUZpZWxkfVxuICAgICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICAgIDwvUGFwZXI+XG4gICAgICAgICAgICApO1xuICAgICAgICAgIH0pfVxuICAgICAgICA8L0JveD5cblxuICAgICAgICB7Lyog6Ieq5Yi25Lu25a6h5om56Lev5b6EICovfVxuICAgICAgICA8Qm94PlxuICAgICAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJzdWJ0aXRsZTJcIiBjb2xvcj1cInNlY29uZGFyeVwiIHN4PXt7IG1iOiAxLCBmb250V2VpZ2h0OiA2MDAgfX0+XG4gICAgICAgICAgICDwn5SnIOiHquWItuS7tui3r+W+hO+8iG1ha2VPckJ1eSA9IOiHquWItu+8iVxuICAgICAgICAgIDwvVHlwb2dyYXBoeT5cbiAgICAgICAgICB7KGxvY2FsLm1ha2VTdGVwcyB8fCBERUZBVUxUX01BVEVSSUFMX01BS0VfU1RFUFMpLm1hcCgoc3RlcCwgaWR4KSA9PiB7XG4gICAgICAgICAgICBjb25zdCBkZWZhdWx0RmllbGRzID0gREVGQVVMVF9NQVRFUklBTF9NQUtFX1NURVBTW2lkeF0/LmZpZWxkcyA/PyBbXTtcbiAgICAgICAgICAgIHJldHVybiAoXG4gICAgICAgICAgICAgIDxQYXBlciBrZXk9e2BtYWtlLSR7aWR4fWB9IHN4PXt7IHA6IDIsIG1iOiAxIH19PlxuICAgICAgICAgICAgICAgIDxTdGVwQ29uZmlnUm93XG4gICAgICAgICAgICAgICAgICBzdGVwPXtzdGVwfSBpZHg9e2lkeH0gZGVmYXVsdEZpZWxkcz17ZGVmYXVsdEZpZWxkc31cbiAgICAgICAgICAgICAgICAgIGlzTWFrZVBhdGhcbiAgICAgICAgICAgICAgICAgIG9uUm9sZUNoYW5nZT17KGksIHJvbGUpID0+IGhhbmRsZU1ha2VSb2xlQ2hhbmdlKGksIHJvbGUpfVxuICAgICAgICAgICAgICAgICAgb25Ub2dnbGVGaWVsZD17KGksIGZpZWxkKSA9PiBoYW5kbGVNYWtlVG9nZ2xlRmllbGQoaSwgZmllbGQpfVxuICAgICAgICAgICAgICAgIC8+XG4gICAgICAgICAgICAgIDwvUGFwZXI+XG4gICAgICAgICAgICApO1xuICAgICAgICAgIH0pfVxuICAgICAgICA8L0JveD5cbiAgICAgIDwvU3RhY2s+XG5cbiAgICAgIDxTdGFjayBkaXJlY3Rpb249XCJyb3dcIiBzcGFjaW5nPXsyfSBzeD17eyBtdDogMyB9fT5cbiAgICAgICAgPEJ1dHRvbiB2YXJpYW50PVwiY29udGFpbmVkXCIgc3RhcnRJY29uPXs8U2F2ZSAvPn0gb25DbGljaz17aGFuZGxlU2F2ZX0+XG4gICAgICAgICAg5L+d5a2YXG4gICAgICAgIDwvQnV0dG9uPlxuICAgICAgICA8QnV0dG9uIHZhcmlhbnQ9XCJvdXRsaW5lZFwiIHN0YXJ0SWNvbj17PFJlc3RhcnRBbHQgLz59IG9uQ2xpY2s9e2hhbmRsZVJlc3RvcmV9PlxuICAgICAgICAgIOaBouWkjem7mOiupFxuICAgICAgICA8L0J1dHRvbj5cbiAgICAgIDwvU3RhY2s+XG4gICAgPC9Cb3g+XG4gICk7XG59O1xuXG5leHBvcnQgZGVmYXVsdCBNYXRlcmlhbEFwcHJvdmFsVGFiO1xuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL3BhZ2VzL01hdGVyaWFsL01hdGVyaWFsQXBwcm92YWxUYWIudHN4In0=

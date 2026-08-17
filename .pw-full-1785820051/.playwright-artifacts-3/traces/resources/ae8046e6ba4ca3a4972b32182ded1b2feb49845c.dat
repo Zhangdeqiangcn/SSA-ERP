@@ -1,0 +1,22 @@
+import {
+  capitalize,
+  init_capitalize
+} from "/node_modules/.vite/deps/chunk-BQEP7VS6.js?v=5fca7ba0";
+import {
+  __esm
+} from "/node_modules/.vite/deps/chunk-4B2QHNJT.js?v=5fca7ba0";
+
+// node_modules/@mui/material/utils/capitalize.js
+var capitalize_default;
+var init_capitalize2 = __esm({
+  "node_modules/@mui/material/utils/capitalize.js"() {
+    init_capitalize();
+    capitalize_default = capitalize;
+  }
+});
+
+export {
+  capitalize_default,
+  init_capitalize2 as init_capitalize
+};
+//# sourceMappingURL=chunk-E4T753TD.js.map

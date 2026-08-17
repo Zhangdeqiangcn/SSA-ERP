@@ -1,0 +1,162 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/common/ConfirmDialog.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import {
+  Warning,
+  Error,
+  Info,
+  Help
+} from "/node_modules/.vite/deps/@mui_icons-material.js?v=5fca7ba0";
+const typeConfig = {
+  warning: {
+    icon: /* @__PURE__ */ jsxDEV(Warning, { color: "warning" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+      lineNumber: 52,
+      columnNumber: 11
+    }, this),
+    confirmColor: "warning"
+  },
+  danger: {
+    icon: /* @__PURE__ */ jsxDEV(Error, { color: "error" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+      lineNumber: 56,
+      columnNumber: 11
+    }, this),
+    confirmColor: "error"
+  },
+  info: {
+    icon: /* @__PURE__ */ jsxDEV(Info, { color: "info" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+      lineNumber: 60,
+      columnNumber: 11
+    }, this),
+    confirmColor: "primary"
+  },
+  confirm: {
+    icon: /* @__PURE__ */ jsxDEV(Help, { color: "primary" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+      lineNumber: 64,
+      columnNumber: 11
+    }, this),
+    confirmColor: "primary"
+  }
+};
+export const ConfirmDialog = ({
+  open,
+  title = "确认操作",
+  content,
+  confirmText = "确定",
+  cancelText = "取消",
+  type = "confirm",
+  onConfirm,
+  onCancel,
+  loading = false
+}) => {
+  const config = typeConfig[type];
+  return /* @__PURE__ */ jsxDEV(
+    Dialog,
+    {
+      open,
+      onClose: onCancel,
+      maxWidth: "sm",
+      fullWidth: true,
+      children: [
+        /* @__PURE__ */ jsxDEV(DialogTitle, { sx: { display: "flex", alignItems: "center", gap: 1 }, children: [
+          config.icon,
+          title
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+          lineNumber: 89,
+          columnNumber: 7
+        }, this),
+        /* @__PURE__ */ jsxDEV(DialogContent, { children: /* @__PURE__ */ jsxDEV(DialogContentText, { children: content }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+          lineNumber: 94,
+          columnNumber: 9
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+          lineNumber: 93,
+          columnNumber: 7
+        }, this),
+        /* @__PURE__ */ jsxDEV(DialogActions, { children: [
+          /* @__PURE__ */ jsxDEV(Button, { onClick: onCancel, disabled: loading, children: cancelText }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+            lineNumber: 97,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            Button,
+            {
+              onClick: onConfirm,
+              variant: "contained",
+              color: config.confirmColor,
+              disabled: loading,
+              children: confirmText
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+              lineNumber: 100,
+              columnNumber: 9
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+          lineNumber: 96,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx",
+      lineNumber: 83,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_c = ConfirmDialog;
+export default ConfirmDialog;
+var _c;
+$RefreshReg$(_c, "ConfirmDialog");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ConfirmDialog.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBZ0NVOzs7Ozs7Ozs7Ozs7Ozs7O0FBL0JWO0FBQUEsRUFDRUE7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQUNQO0FBQUEsRUFDRUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsRUFDQUM7QUFBQUEsT0FDSztBQWdCUCxNQUFNQyxhQUFhO0FBQUEsRUFDakJDLFNBQVM7QUFBQSxJQUNQQyxNQUFNLHVCQUFDLFdBQVEsT0FBTSxhQUFmO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FBd0I7QUFBQSxJQUM5QkMsY0FBYztBQUFBLEVBQ2hCO0FBQUEsRUFDQUMsUUFBUTtBQUFBLElBQ05GLE1BQU0sdUJBQUMsU0FBTSxPQUFNLFdBQWI7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUFvQjtBQUFBLElBQzFCQyxjQUFjO0FBQUEsRUFDaEI7QUFBQSxFQUNBRSxNQUFNO0FBQUEsSUFDSkgsTUFBTSx1QkFBQyxRQUFLLE9BQU0sVUFBWjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQWtCO0FBQUEsSUFDeEJDLGNBQWM7QUFBQSxFQUNoQjtBQUFBLEVBQ0FHLFNBQVM7QUFBQSxJQUNQSixNQUFNLHVCQUFDLFFBQUssT0FBTSxhQUFaO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FBcUI7QUFBQSxJQUMzQkMsY0FBYztBQUFBLEVBQ2hCO0FBQ0Y7QUFFTyxhQUFNSSxnQkFBOENBLENBQUM7QUFBQSxFQUMxREM7QUFBQUEsRUFDQUMsUUFBUTtBQUFBLEVBQ1JDO0FBQUFBLEVBQ0FDLGNBQWM7QUFBQSxFQUNkQyxhQUFhO0FBQUEsRUFDYkMsT0FBTztBQUFBLEVBQ1BDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDLFVBQVU7QUFDWixNQUFNO0FBQ0osUUFBTUMsU0FBU2pCLFdBQVdhLElBQUk7QUFFOUIsU0FDRTtBQUFBLElBQUM7QUFBQTtBQUFBLE1BQ0M7QUFBQSxNQUNBLFNBQVNFO0FBQUFBLE1BQ1QsVUFBUztBQUFBLE1BQ1QsV0FBUztBQUFBLE1BRVQ7QUFBQSwrQkFBQyxlQUFZLElBQUksRUFBRUcsU0FBUyxRQUFRQyxZQUFZLFVBQVVDLEtBQUssRUFBRSxHQUM5REg7QUFBQUEsaUJBQU9mO0FBQUFBLFVBQ1BPO0FBQUFBLGFBRkg7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQUdBO0FBQUEsUUFDQSx1QkFBQyxpQkFDQyxpQ0FBQyxxQkFBbUJDLHFCQUFwQjtBQUFBO0FBQUE7QUFBQTtBQUFBLGVBQTRCLEtBRDlCO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFFQTtBQUFBLFFBQ0EsdUJBQUMsaUJBQ0M7QUFBQSxpQ0FBQyxVQUFPLFNBQVNLLFVBQVUsVUFBVUMsU0FDbENKLHdCQURIO0FBQUE7QUFBQTtBQUFBO0FBQUEsaUJBRUE7QUFBQSxVQUNBO0FBQUEsWUFBQztBQUFBO0FBQUEsY0FDQyxTQUFTRTtBQUFBQSxjQUNULFNBQVE7QUFBQSxjQUNSLE9BQU9HLE9BQU9kO0FBQUFBLGNBQ2QsVUFBVWE7QUFBQUEsY0FFVEw7QUFBQUE7QUFBQUEsWUFOSDtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsVUFPQTtBQUFBLGFBWEY7QUFBQTtBQUFBO0FBQUE7QUFBQSxlQVlBO0FBQUE7QUFBQTtBQUFBLElBekJGO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxFQTBCQTtBQUVKO0FBQUVVLEtBMUNXZDtBQTRDYixlQUFlQTtBQUFjLElBQUFjO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbIkRpYWxvZyIsIkRpYWxvZ1RpdGxlIiwiRGlhbG9nQ29udGVudCIsIkRpYWxvZ0NvbnRlbnRUZXh0IiwiRGlhbG9nQWN0aW9ucyIsIkJ1dHRvbiIsIldhcm5pbmciLCJFcnJvciIsIkluZm8iLCJIZWxwIiwidHlwZUNvbmZpZyIsIndhcm5pbmciLCJpY29uIiwiY29uZmlybUNvbG9yIiwiZGFuZ2VyIiwiaW5mbyIsImNvbmZpcm0iLCJDb25maXJtRGlhbG9nIiwib3BlbiIsInRpdGxlIiwiY29udGVudCIsImNvbmZpcm1UZXh0IiwiY2FuY2VsVGV4dCIsInR5cGUiLCJvbkNvbmZpcm0iLCJvbkNhbmNlbCIsImxvYWRpbmciLCJjb25maWciLCJkaXNwbGF5IiwiYWxpZ25JdGVtcyIsImdhcCIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkNvbmZpcm1EaWFsb2cudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQge1xuICBEaWFsb2csXG4gIERpYWxvZ1RpdGxlLFxuICBEaWFsb2dDb250ZW50LFxuICBEaWFsb2dDb250ZW50VGV4dCxcbiAgRGlhbG9nQWN0aW9ucyxcbiAgQnV0dG9uLFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7XG4gIFdhcm5pbmcsXG4gIEVycm9yLFxuICBJbmZvLFxuICBIZWxwLFxufSBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsJztcblxudHlwZSBDb25maXJtVHlwZSA9ICd3YXJuaW5nJyB8ICdkYW5nZXInIHwgJ2luZm8nIHwgJ2NvbmZpcm0nO1xuXG5pbnRlcmZhY2UgQ29uZmlybURpYWxvZ1Byb3BzIHtcbiAgb3BlbjogYm9vbGVhbjtcbiAgdGl0bGU/OiBzdHJpbmc7XG4gIGNvbnRlbnQ6IFJlYWN0LlJlYWN0Tm9kZTtcbiAgY29uZmlybVRleHQ/OiBzdHJpbmc7XG4gIGNhbmNlbFRleHQ/OiBzdHJpbmc7XG4gIHR5cGU/OiBDb25maXJtVHlwZTtcbiAgb25Db25maXJtOiAoKSA9PiB2b2lkO1xuICBvbkNhbmNlbDogKCkgPT4gdm9pZDtcbiAgbG9hZGluZz86IGJvb2xlYW47XG59XG5cbmNvbnN0IHR5cGVDb25maWcgPSB7XG4gIHdhcm5pbmc6IHtcbiAgICBpY29uOiA8V2FybmluZyBjb2xvcj1cIndhcm5pbmdcIiAvPixcbiAgICBjb25maXJtQ29sb3I6ICd3YXJuaW5nJyBhcyBjb25zdCxcbiAgfSxcbiAgZGFuZ2VyOiB7XG4gICAgaWNvbjogPEVycm9yIGNvbG9yPVwiZXJyb3JcIiAvPixcbiAgICBjb25maXJtQ29sb3I6ICdlcnJvcicgYXMgY29uc3QsXG4gIH0sXG4gIGluZm86IHtcbiAgICBpY29uOiA8SW5mbyBjb2xvcj1cImluZm9cIiAvPixcbiAgICBjb25maXJtQ29sb3I6ICdwcmltYXJ5JyBhcyBjb25zdCxcbiAgfSxcbiAgY29uZmlybToge1xuICAgIGljb246IDxIZWxwIGNvbG9yPVwicHJpbWFyeVwiIC8+LFxuICAgIGNvbmZpcm1Db2xvcjogJ3ByaW1hcnknIGFzIGNvbnN0LFxuICB9LFxufTtcblxuZXhwb3J0IGNvbnN0IENvbmZpcm1EaWFsb2c6IFJlYWN0LkZDPENvbmZpcm1EaWFsb2dQcm9wcz4gPSAoe1xuICBvcGVuLFxuICB0aXRsZSA9ICfnoa7orqTmk43kvZwnLFxuICBjb250ZW50LFxuICBjb25maXJtVGV4dCA9ICfnoa7lrponLFxuICBjYW5jZWxUZXh0ID0gJ+WPlua2iCcsXG4gIHR5cGUgPSAnY29uZmlybScsXG4gIG9uQ29uZmlybSxcbiAgb25DYW5jZWwsXG4gIGxvYWRpbmcgPSBmYWxzZSxcbn0pID0+IHtcbiAgY29uc3QgY29uZmlnID0gdHlwZUNvbmZpZ1t0eXBlXTtcblxuICByZXR1cm4gKFxuICAgIDxEaWFsb2dcbiAgICAgIG9wZW49e29wZW59XG4gICAgICBvbkNsb3NlPXtvbkNhbmNlbH1cbiAgICAgIG1heFdpZHRoPVwic21cIlxuICAgICAgZnVsbFdpZHRoXG4gICAgPlxuICAgICAgPERpYWxvZ1RpdGxlIHN4PXt7IGRpc3BsYXk6ICdmbGV4JywgYWxpZ25JdGVtczogJ2NlbnRlcicsIGdhcDogMSB9fT5cbiAgICAgICAge2NvbmZpZy5pY29ufVxuICAgICAgICB7dGl0bGV9XG4gICAgICA8L0RpYWxvZ1RpdGxlPlxuICAgICAgPERpYWxvZ0NvbnRlbnQ+XG4gICAgICAgIDxEaWFsb2dDb250ZW50VGV4dD57Y29udGVudH08L0RpYWxvZ0NvbnRlbnRUZXh0PlxuICAgICAgPC9EaWFsb2dDb250ZW50PlxuICAgICAgPERpYWxvZ0FjdGlvbnM+XG4gICAgICAgIDxCdXR0b24gb25DbGljaz17b25DYW5jZWx9IGRpc2FibGVkPXtsb2FkaW5nfT5cbiAgICAgICAgICB7Y2FuY2VsVGV4dH1cbiAgICAgICAgPC9CdXR0b24+XG4gICAgICAgIDxCdXR0b25cbiAgICAgICAgICBvbkNsaWNrPXtvbkNvbmZpcm19XG4gICAgICAgICAgdmFyaWFudD1cImNvbnRhaW5lZFwiXG4gICAgICAgICAgY29sb3I9e2NvbmZpZy5jb25maXJtQ29sb3J9XG4gICAgICAgICAgZGlzYWJsZWQ9e2xvYWRpbmd9XG4gICAgICAgID5cbiAgICAgICAgICB7Y29uZmlybVRleHR9XG4gICAgICAgIDwvQnV0dG9uPlxuICAgICAgPC9EaWFsb2dBY3Rpb25zPlxuICAgIDwvRGlhbG9nPlxuICApO1xufTtcblxuZXhwb3J0IGRlZmF1bHQgQ29uZmlybURpYWxvZztcbiJdLCJmaWxlIjoiQzovVXNlcnMvemhhbmdkZXFpYW5nL1dvcmtCdWRkeS8yMDI2LTA1LTA4LXRhc2stMS9zc2EtZXJwL3NyYy9jb21wb25lbnRzL2NvbW1vbi9Db25maXJtRGlhbG9nLnRzeCJ9

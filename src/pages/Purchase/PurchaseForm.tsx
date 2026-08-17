@@ -1,0 +1,826 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  TextField,
+  MenuItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Paper,
+  Grid,
+  Divider,
+  Typography,
+  TableFooter,
+  Autocomplete,
+  Stack,
+  Chip,
+  Tooltip,
+} from '@mui/material';
+import { Add, Delete, ArrowBack, Save, ContentPaste } from '@mui/icons-material';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { PageWrapper } from '@/components/layout';
+import { FlowTracker } from '@/components/common';
+import ResponsiblePersons from '@/components/common/ResponsiblePersons';
+import { useMaterialStore } from '@/stores/materialStore';
+import { usePurchaseStore } from '@/stores/purchaseStore';
+import { useSalesStore } from '@/stores/salesStore';
+import { useProductionStore } from '@/stores/productionStore';
+import { formatCurrency } from '@/utils/format';
+import { generatePurchaseRequestNo } from '@/utils/codeGenerator';
+
+const purchaseSchema = z.object({
+  title: z.string().min(1, '请输入标题'),
+  type: z.string().min(1, '请选择类型'),
+  priority: z.string().min(1, '请选择优先级'),
+  department: z.string().min(1, '请输入部门'),
+  expectedDate: z.string().min(1, '请选择期望日期'),
+  reason: z.string().min(1, '请输入申请原因'),
+});
+
+type PurchaseFormData = z.infer<typeof purchaseSchema>;
+
+/** 来源类型 */
+type SourceType = 'manual' | 'salesOrder' | 'workOrder' | 'mrp';
+
+const SOURCE_OPTIONS: { value: SourceType; label: string; desc: string }[] = [
+  { value: 'manual', label: '手工创建', desc: '手动录入物料明细' },
+  { value: 'salesOrder', label: '销售订单', desc: '从销售订单拉取物料需求' },
+  { value: 'workOrder', label: '生产工单', desc: '从生产工单拉取物料需求' },
+  { value: 'mrp', label: 'MRP需求', desc: '从MRP运算结果拉取采购建议' },
+];
+
+interface ItemRow {
+  id: string;
+  materialCode: string;   // 物料编码（手工输入/粘贴）
+  materialId: string;     // 物料ID（匹配后回填）
+  materialName: string;
+  specification: string;
+  unit: string;
+  quantity: number;
+  estimatedPrice: number;
+  estimatedAmount: number;
+}
+
+const PurchaseForm: React.FC = () => {
+  const { projects, salesOrders } = useSalesStore();
+  const { workOrders, mrpRecommendations } = useProductionStore();
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  const isEdit = !!id;
+  const materials = useMaterialStore(s => s.materials);
+  const { purchaseRequests, addPurchaseRequest, updatePurchaseRequest } = usePurchaseStore();
+
+  // 查找已有采购申请数据（编辑模式）
+  const existingRequest = isEdit ? purchaseRequests.find(r => r.id === id) : undefined;
+
+  const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<PurchaseFormData>({
+    resolver: zodResolver(purchaseSchema),
+    defaultValues: {
+      title: '',
+      type: 'material',
+      priority: 'normal',
+      department: '',
+      expectedDate: '',
+      reason: '',
+    },
+  });
+
+  // 监听采购类型，用于条件渲染
+  const purchaseType = watch('type');
+
+  const [items, setItems] = useState<ItemRow[]>([]);
+  // 聚合本单所有物料所属分类，用于展示相关物料责任人（采购视角：采购员）
+  const itemCategoryIds = useMemo(() => {
+    const ids = new Set<string>();
+    items.forEach((it) => {
+      if (it.materialId) {
+        const m = materials.find((mm) => mm.id === it.materialId);
+        if (m?.categoryId) ids.add(m.categoryId);
+      }
+    });
+    return [...ids];
+  }, [items, materials]);
+  const [serviceDescription, setServiceDescription] = useState(existingRequest?.remarks || '');
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  // F8-1: 申请号（暂存时即生成，提交时可复用或重新生成）
+  const [requestNo, setRequestNo] = useState<string>('');
+  // F8-3: 来源类型 & 关联单据
+  const [sourceType, setSourceType] = useState<SourceType>('manual');
+  const [sourceDoc, setSourceDoc] = useState<any>(null);
+
+  // 编辑模式：回填已有数据
+  useEffect(() => {
+    if (isEdit && existingRequest) {
+      reset({
+        title: existingRequest.title,
+        type: existingRequest.type,
+        priority: existingRequest.priority,
+        department: existingRequest.department,
+        expectedDate: existingRequest.expectedDate,
+        reason: existingRequest.reason || '',
+      });
+      setRequestNo(existingRequest.requestNo);
+      // 回填来源
+      if ((existingRequest as any).sourceType) {
+        setSourceType((existingRequest as any).sourceType || 'manual');
+      }
+      // 回填物料明细
+      const filledItems: ItemRow[] = (existingRequest.items || []).map(item => ({
+        id: item.id,
+        materialCode: item.materialCode || materials.find(m => m.id === item.materialId)?.code || '',
+        materialId: item.materialId,
+        materialName: item.materialName || '',
+        specification: item.specification || '',
+        unit: item.unit || '',
+        quantity: item.quantity,
+        estimatedPrice: item.estimatedPrice || 0,
+        estimatedAmount: item.estimatedAmount || 0,
+      }));
+      setItems(filledItems);
+      // 回填项目（如有）
+      if ((existingRequest as any).projectNo) {
+        const proj = projects.find(p => p.projectNo === (existingRequest as any).projectNo);
+        if (proj) setSelectedProject(proj);
+      }
+    }
+  }, [isEdit, existingRequest, reset]);
+
+  // ======================== 编号生成（F8-1）========================
+
+  /** 生成或复用申请号 */
+  const ensureRequestNo = (dept: string): string => {
+    if (requestNo) return requestNo;
+    const no = generatePurchaseRequestNo(dept, purchaseRequests.map(r => r.requestNo));
+    setRequestNo(no);
+    return no;
+  };
+
+  // ======================== 物料明细操作 ========================
+
+  const addItem = (row?: Partial<ItemRow>) => {
+    const newItem: ItemRow = {
+      id: `item-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      materialCode: row?.materialCode || '',
+      materialId: row?.materialId || '',
+      materialName: row?.materialName || '',
+      specification: row?.specification || '',
+      unit: row?.unit || '',
+      quantity: row?.quantity ?? 1,
+      estimatedPrice: row?.estimatedPrice ?? 0,
+      estimatedAmount: row?.estimatedAmount ?? 0,
+    };
+    setItems(prev => [...prev, newItem]);
+  };
+
+  const removeItem = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  /** 通过物料编码/名称模糊匹配物料主数据 */
+  const lookupMaterial = (keyword: string) => {
+    if (!keyword.trim()) return null;
+    const kw = keyword.trim().toLowerCase();
+    // 优先精确匹配编码
+    let mat = materials.find(m => m.code.toLowerCase() === kw);
+    if (!mat) mat = materials.find(m => m.name.toLowerCase() === kw);
+    if (!mat) mat = materials.find(m => m.code.toLowerCase().includes(kw) || m.name.toLowerCase().includes(kw));
+    return mat || null;
+  };
+
+  /** 更新行数据 */
+  const updateItem = (id: string, field: keyof ItemRow, value: string | number) => {
+    setItems(prev => prev.map(item => {
+      if (item.id !== id) return item;
+      const updatedItem = { ...item, [field]: value };
+      // 当物料编码变化时，自动带回物料信息
+      if (field === 'materialCode') {
+        const mat = lookupMaterial(String(value));
+        if (mat) {
+          updatedItem.materialId = mat.id;
+          updatedItem.materialCode = mat.code; // 标准化编码
+          updatedItem.materialName = mat.name;
+          updatedItem.specification = mat.specification || '';
+          updatedItem.unit = mat.unit || '';
+          updatedItem.estimatedPrice = mat.price || 0;
+        } else {
+          // 清空关联字段（用户可能还在输入中）
+          updatedItem.materialId = '';
+          updatedItem.materialName = '';
+          updatedItem.specification = '';
+          updatedItem.unit = '';
+        }
+      }
+      // 重算金额
+      if (field === 'quantity' || field === 'estimatedPrice') {
+        updatedItem.estimatedAmount = Number(updatedItem.quantity || 0) * Number(updatedItem.estimatedPrice || 0);
+      }
+      return updatedItem;
+    }));
+  };
+
+  // ======================== Excel 粘贴支持（F8-2）========================
+
+  /** 解析粘贴文本为多行物料编码（支持纯文本多行，或 TSV 多列取首列） */
+  const parsePasteLines = (text: string): string[] => {
+    return text
+      .split(/[\r\n]+/)
+      .map(line => line.split('\t')[0].trim()) // 取首列（物料编码）
+      .filter(line => line.length > 0);
+  };
+
+  /** 物料号列 / 批量粘贴区：拦截多行编码粘贴，批量导入并自动匹配物料信息（F8-2） */
+  const handleMaterialPaste = (e: React.ClipboardEvent) => {
+    const text = e.clipboardData.getData('text');
+    if (!text) return;
+    const lines = parsePasteLines(text);
+    if (lines.length <= 1) return; // 单行放行（走默认输入匹配）
+    e.preventDefault();
+    lines.forEach(code => {
+      const mat = lookupMaterial(code);
+      addItem({
+        materialCode: mat ? mat.code : code,
+        materialId: mat?.id || '',
+        materialName: mat?.name || '',
+        specification: mat?.specification || '',
+        unit: mat?.unit || '',
+        quantity: 1,
+        estimatedPrice: mat?.price || 0,
+        estimatedAmount: mat?.price || 0,
+      });
+    });
+  };
+
+  // ======================== 来源单据填充（F8-3）========================
+
+  /** 根据来源单据填充物料明细 */
+  const fillItemsFromSource = () => {
+    if (!sourceDoc) return;
+    let rows: ItemRow[] = [];
+
+    switch (sourceType) {
+      case 'salesOrder': {
+        // 从销售订单 items 填充
+        const orderItems = (sourceDoc.items || []) as Array<{
+          materialId?: string; materialCode?: string;
+          materialName?: string; specification?: string;
+          unit?: string; quantity?: number; unitPrice?: number;
+        }>;
+        rows = orderItems.map((oi, idx) => {
+          const mat = oi.materialId ? materials.find(m => m.id === oi.materialId) : null;
+          return {
+            id: `item-${Date.now()}-${idx}`,
+            materialCode: oi.materialCode || mat?.code || '',
+            materialId: oi.materialId || mat?.id || '',
+            materialName: oi.materialName || mat?.name || '',
+            specification: oi.specification || mat?.specification || '',
+            unit: oi.unit || mat?.unit || '',
+            quantity: oi.quantity ?? 1,
+            estimatedPrice: oi.unitPrice || mat?.price || 0,
+            estimatedAmount: (oi.quantity ?? 1) * (oi.unitPrice || mat?.price || 0),
+          };
+        });
+        break;
+      }
+      case 'workOrder': {
+        // 从生产工单 materials 填充
+        const woMaterials = (sourceDoc.materials || []) as Array<{
+          materialId?: string; materialCode?: string;
+          materialName?: string; requiredQty?: number;
+        }>;
+        rows = woMaterials.map((wm, idx) => {
+          const mat = wm.materialId ? materials.find(m => m.id === wm.materialId) : null;
+          return {
+            id: `item-${Date.now()}-${idx}`,
+            materialCode: wm.materialCode || mat?.code || '',
+            materialId: wm.materialId || mat?.id || '',
+            materialName: wm.materialName || mat?.name || '',
+            specification: mat?.specification || '',
+            unit: mat?.unit || '',
+            quantity: wm.requiredQty ?? 1,
+            estimatedPrice: mat?.price || 0,
+            estimatedAmount: (wm.requiredQty ?? 1) * (mat?.price || 0),
+          };
+        });
+        break;
+      }
+      case 'mrp': {
+        // 从 MRP 建议填充
+        const rec = sourceDoc;
+        const mat = rec.materialId ? materials.find(m => m.id === rec.materialId) : null;
+        rows = [{
+          id: `item-${Date.now()}-0`,
+          materialCode: mat?.code || '',
+          materialId: rec.materialId || mat?.id || '',
+          materialName: mat?.name || rec.materialName || '',
+          specification: mat?.specification || '',
+          unit: mat?.unit || '',
+          quantity: rec.suggestedOrderQty || 1,
+          estimatedPrice: mat?.price || 0,
+          estimatedAmount: (rec.suggestedOrderQty || 1) * (mat?.price || 0),
+        }];
+        break;
+      }
+    }
+
+    if (rows.length > 0) {
+      setItems(prev => [...prev, ...rows]);
+    }
+  };
+
+  /** 获取当前来源类型的可选单据列表 */
+  const getSourceOptions = (): any[] => {
+    switch (sourceType) {
+      case 'salesOrder':
+        return salesOrders.filter(o => o.status !== 'cancelled');
+      case 'workOrder':
+        return workOrders.filter(o => o.status !== 'cancelled');
+      case 'mrp':
+        return mrpRecommendations.filter(r => r.status === 'open');
+      default:
+        return [];
+    }
+  };
+
+  /** 获取来源单据的展示标签 */
+  const getSourceOptionLabel = (doc: any): string => {
+    switch (sourceType) {
+      case 'salesOrder':
+        return `${doc.orderNo || ''} ${doc.customerName || ''}`.trim();
+      case 'workOrder':
+        return `${doc.orderNo || ''} ${doc.productName || ''}`.trim();
+      case 'mrp':
+        return `${doc.materialName || ''} (建议${doc.suggestedOrderQty || 0})`.trim();
+      default:
+        return '';
+    }
+  };
+
+  const totalAmount = items.reduce((sum, item) => sum + (item.estimatedAmount || 0), 0);
+
+  // ======================== 提交 / 暂存 ========================
+
+  const onSubmit = (data: PurchaseFormData) => {
+    const now = new Date().toISOString();
+    const no = ensureRequestNo(data.department);
+    const requestItems = items.map(item => ({
+      id: item.id,
+      materialId: item.materialId,
+      materialCode: item.materialCode,
+      materialName: item.materialName,
+      specification: item.specification,
+      unit: item.unit,
+      quantity: item.quantity,
+      estimatedPrice: item.estimatedPrice,
+      estimatedAmount: item.estimatedAmount,
+    }));
+
+    if (isEdit && existingRequest) {
+      updatePurchaseRequest(id!, {
+        title: data.title,
+        type: data.type as 'material' | 'service',
+        priority: data.priority as any,
+        department: data.department,
+        expectedDate: data.expectedDate,
+        reason: data.reason,
+        remarks: data.type === 'service' ? serviceDescription : undefined,
+        items: requestItems,
+        totalAmount,
+        projectNo: selectedProject?.projectNo,
+        projectName: selectedProject?.projectName,
+        updatedAt: now,
+        updatedBy: '当前用户',
+      });
+    } else {
+      addPurchaseRequest({
+        id: `pr-${Date.now()}`,
+        requestNo: no,
+        title: data.title,
+        applicant: '当前用户',
+        department: data.department,
+        type: data.type as 'material' | 'service',
+        priority: data.priority as any,
+        reason: data.reason,
+        remarks: data.type === 'service' ? serviceDescription : undefined,
+        expectedDate: data.expectedDate,
+        status: 'pending',
+        sourceType,
+        sourceNo: sourceDoc ? (sourceDoc.orderNo || sourceDoc.id) : undefined,
+        sourceName: sourceDoc ? getSourceOptionLabel(sourceDoc) : undefined,
+        items: requestItems,
+        totalAmount,
+        projectNo: selectedProject?.projectNo,
+        projectName: selectedProject?.projectName,
+        createdAt: now,
+        updatedAt: now,
+        createdBy: '当前用户',
+        updatedBy: '当前用户',
+      });
+    }
+    navigate('/purchase/requests');
+  };
+
+  const handleSaveDraft = () => {
+    const now = new Date().toISOString();
+    const dept = control._formValues.department || '';
+    const no = ensureRequestNo(dept);
+    const requestItems = items.map(item => ({
+      id: item.id,
+      materialId: item.materialId,
+      materialCode: item.materialCode,
+      materialName: item.materialName,
+      specification: item.specification,
+      unit: item.unit,
+      quantity: item.quantity,
+      estimatedPrice: item.estimatedPrice,
+      estimatedAmount: item.estimatedAmount,
+    }));
+
+    if (isEdit && existingRequest) {
+      updatePurchaseRequest(id!, {
+        title: control._formValues.title || existingRequest.title,
+        status: 'draft',
+        type: (control._formValues.type || existingRequest.type) as 'material' | 'service',
+        remarks: control._formValues.type === 'service' ? serviceDescription : undefined,
+        items: requestItems,
+        totalAmount,
+        projectNo: selectedProject?.projectNo,
+        projectName: selectedProject?.projectName,
+        updatedAt: now,
+        updatedBy: '当前用户',
+      });
+    } else {
+      addPurchaseRequest({
+        id: `pr-${Date.now()}`,
+        requestNo: no,
+        title: '草稿 - 采购申请',
+        applicant: '当前用户',
+        department: dept,
+        type: (control._formValues.type || 'material') as 'material' | 'service',
+        priority: 'normal',
+        reason: '',
+        remarks: control._formValues.type === 'service' ? serviceDescription : undefined,
+        expectedDate: '',
+        status: 'draft',
+        sourceType,
+        sourceNo: sourceDoc ? (sourceDoc.orderNo || sourceDoc.id) : undefined,
+        sourceName: sourceDoc ? getSourceOptionLabel(sourceDoc) : undefined,
+        items: requestItems,
+        totalAmount,
+        createdAt: now,
+        updatedAt: now,
+        createdBy: '当前用户',
+        updatedBy: '当前用户',
+      });
+    }
+    navigate('/purchase/requests');
+  };
+
+  // ======================== 渲染 ========================
+
+  return (
+    <PageWrapper
+      title={isEdit ? `编辑采购申请${existingRequest ? ` - ${existingRequest.requestNo}` : ''}` : '新建采购申请'}
+      actions={
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <FlowTracker
+            module="purchase-request"
+            currentStatus={existingRequest ? existingRequest.status : 'draft'}
+          />
+          <Button variant="outlined" startIcon={<ArrowBack />} onClick={() => navigate(-1)} sx={{ mr: 1 }}>
+            取消
+          </Button>
+          <Button variant="outlined" onClick={handleSaveDraft} sx={{ mr: 1 }}>
+            暂存
+          </Button>
+          <Button variant="contained" startIcon={<Save />} onClick={handleSubmit(onSubmit)}>
+            {isEdit ? '保存修改' : '提交申请'}
+          </Button>
+        </Box>
+      }
+    >
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        {/* ========== 申请信息 ========== */}
+        <Divider sx={{ mb: 3 }}>
+          <Typography variant="caption" color="text.secondary">申请信息</Typography>
+        </Divider>
+
+        <Grid container spacing={2}>
+          {/* F8-1: 采购申请号（自动生成，只读展示） */}
+          <Grid item xs={12} md={4}>
+            <TextField
+              label="采购申请号"
+              value={requestNo || (isEdit ? existingRequest?.requestNo : '提交/暂存时自动生成')}
+              fullWidth
+              size="small"
+              InputProps={{ readOnly: true }}
+              sx={{ bgcolor: 'action.disabledBackground' }}
+            />
+          </Grid>
+          <Grid item xs={12} md={8} />
+
+          <Grid item xs={12}>
+            <Controller
+              name="title"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} label="标题" fullWidth error={!!errors.title} helperText={errors.title?.message} />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} select label="申请类型" fullWidth error={!!errors.type} helperText={errors.type?.message}>
+                  <MenuItem value="material">物料采购</MenuItem>
+                  <MenuItem value="service">服务采购</MenuItem>
+                </TextField>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Controller
+              name="priority"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} select label="优先级" fullWidth error={!!errors.priority} helperText={errors.priority?.message}>
+                  <MenuItem value="low">低</MenuItem>
+                  <MenuItem value="normal">普通</MenuItem>
+                  <MenuItem value="high">高</MenuItem>
+                  <MenuItem value="urgent">紧急</MenuItem>
+                </TextField>
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Controller
+              name="department"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} label="部门" fullWidth error={!!errors.department} helperText={errors.department?.message} />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Controller
+              name="expectedDate"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} type="date" label="期望日期" fullWidth InputLabelProps={{ shrink: true }} error={!!errors.expectedDate} helperText={errors.expectedDate?.message} />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Autocomplete
+              size="small"
+              options={projects}
+              getOptionLabel={(opt) => `${opt.projectName} (${opt.projectNo})`}
+              value={selectedProject}
+              onChange={(_, v) => setSelectedProject(v)}
+              renderInput={(params) => (
+                <TextField {...params} label="关联项目（编号+名称）" placeholder="选择或搜索项目" />
+              )}
+              noOptionsText="未找到匹配项目"
+              isOptionEqualToValue={(o, v) => o.id === v.id}
+            />
+          </Grid>
+
+          {/* F8-3: 来源选择 */}
+          <Grid item xs={12} md={4}>
+            <TextField
+              select
+              label="来源类型"
+              value={sourceType}
+              onChange={e => { setSourceType(e.target.value as SourceType); setSourceDoc(null); }}
+              fullWidth
+              size="small"
+            >
+              {SOURCE_OPTIONS.map(opt => (
+                <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            {sourceType !== 'manual' ? (
+              <Autocomplete
+                size="small"
+                options={getSourceOptions()}
+                getOptionLabel={getSourceOptionLabel}
+                value={sourceDoc}
+                onChange={(_, v) => setSourceDoc(v)}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={`关联${SOURCE_OPTIONS.find(o => o.value === sourceType)?.label || '单据'}`}
+                    placeholder={`选择${SOURCE_OPTIONS.find(o => o.value === sourceType)?.desc || ''}`}
+                  />
+                )}
+                noOptionsText="未找到可用单据"
+                isOptionEqualToValue={(o, v) => o.id === v.id}
+              />
+            ) : (
+              <TextField
+                label="来源说明"
+                value="手工创建 — 手动录入物料明细"
+                fullWidth
+                size="small"
+                InputProps={{ readOnly: true }}
+                sx={{ bgcolor: 'action.disabledBackground' }}
+              />
+            )}
+          </Grid>
+          {sourceType !== 'manual' && sourceDoc && (
+            <Grid item xs={12}>
+              <Button variant="outlined" size="small" startIcon={<Add />} onClick={fillItemsFromSource}>
+                从{SOURCE_OPTIONS.find(o => o.value === sourceType)?.label}拉取物料明细
+              </Button>
+            </Grid>
+          )}
+
+          <Grid item xs={12}>
+            <Controller
+              name="reason"
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} label="申请原因" fullWidth multiline rows={2} error={!!errors.reason} helperText={errors.reason?.message} />
+              )}
+            />
+          </Grid>
+        </Grid>
+
+        {/* ========== 物料明细 或 服务描述 ========== */}
+        {purchaseType === 'service' ? (
+          <>
+            <Divider sx={{ my: 3 }}>
+              <Typography variant="caption" color="text.secondary">服务描述</Typography>
+            </Divider>
+            <TextField
+              fullWidth
+              multiline
+              minRows={4}
+              maxRows={10}
+              label="服务内容描述"
+              value={serviceDescription}
+              onChange={e => setServiceDescription(e.target.value)}
+              placeholder="请详细描述服务采购的内容、范围、要求等..."
+              helperText="服务采购不需要物料明细，请在此描述服务内容"
+            />
+          </>
+        ) : (
+          <>
+            <Divider sx={{ my: 3 }}>
+              <Typography variant="caption" color="text.secondary">物料明细</Typography>
+            </Divider>
+
+            <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+              <Button startIcon={<Add />} onClick={() => addItem()}>添加物料</Button>
+              <Typography variant="caption" color="text.secondary">
+                （提示：物料号列可手工输入/下拉选择；也可直接粘贴 Excel 多行物料编码批量导入并自动匹配名称规格；表格内容可直接框选复制）
+              </Typography>
+            </Box>
+
+            {/* F8-2: 批量粘贴区 —— 从 Excel 复制多行物料编码，在此粘贴即批量导入 */}
+            <TextField
+              multiline
+              minRows={2}
+              maxRows={6}
+              fullWidth
+              label="批量粘贴物料编码（从 Excel 复制多行，每行一个 / TSV 首列即物料编码）"
+              placeholder={'例如：\nMAT202405010001\nMAT202405010002\nMAT202405010003'}
+              onPaste={handleMaterialPaste}
+              helperText="在上方文本框或任意物料号输入框直接 Ctrl+V 粘贴多行编码，系统自动匹配物料名称、规格、单位与单价"
+              InputProps={{
+                endAdornment: <ContentPaste fontSize="small" color="action" />,
+              }}
+              sx={{ mb: 2 }}
+            />
+
+            {/* 物料责任人（采购视角：采购员）—— 自动按各物料分类聚合显示 */}
+            <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
+              <ResponsiblePersons
+                categoryIds={itemCategoryIds}
+                roles={['buyer']}
+                title="相关物料责任人（采购）"
+              />
+            </Paper>
+
+            <TableContainer component={Paper} sx={{ mb: 3, userSelect: 'text' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ minWidth: 160 }}>物料号</TableCell>
+                    <TableCell sx={{ minWidth: 180 }}>物料名称</TableCell>
+                    <TableCell>规格型号</TableCell>
+                    <TableCell>单位</TableCell>
+                    <TableCell>数量</TableCell>
+                    <TableCell>预估单价</TableCell>
+                    <TableCell>预估金额</TableCell>
+                    <TableCell width={80}>操作</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {items.map(item => (
+                    <TableRow key={item.id}>
+                      {/* F8-2: 物料号 — 可手工输入/粘贴，自动匹配 */}
+                      <TableCell>
+                        <Autocomplete
+                          size="small"
+                          freeSolo
+                          options={materials}
+                          getOptionLabel={(o) => typeof o === 'string' ? o : `${o.code} - ${o.name}`}
+                          inputValue={item.materialCode}
+                          onInputChange={(_, val) => updateItem(item.id, 'materialCode', val)}
+                          onChange={(_, val) => {
+                            if (val && typeof val !== 'string') {
+                              updateItem(item.id, 'materialCode', val.code);
+                            }
+                          }}
+                          filterOptions={(opts, state) =>
+                            opts.filter(m =>
+                              !state.inputValue ||
+                              m.code.toLowerCase().includes(state.inputValue.toLowerCase()) ||
+                              m.name.toLowerCase().includes(state.inputValue.toLowerCase())
+                            ).slice(0, 10)
+                          }
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              placeholder="输入或选择物料编码"
+                              sx={{ minWidth: 140 }}
+                              onPaste={handleMaterialPaste}
+                            />
+                          )}
+                          isOptionEqualToValue={(o, v) => o.id === v.id}
+                        />
+                      </TableCell>
+                      {/* F8-2: 物料名称 — 匹配后自动显示，只读 */}
+                      <TableCell>
+                        {item.materialName ? (
+                          <Box>
+                            <Typography variant="body2">{item.materialName}</Typography>
+                            {!item.materialId && (
+                              <Chip label="未匹配" size="small" color="warning" sx={{ height: 20, fontSize: 11 }} />
+                            )}
+                          </Box>
+                        ) : (
+                          <Typography variant="body2" color="text.secondary">
+                            {item.materialCode ? '未找到匹配物料' : '—'}
+                          </Typography>
+                        )}
+                      </TableCell>
+                      <TableCell>{item.specification || '—'}</TableCell>
+                      <TableCell>{item.unit || '—'}</TableCell>
+                      <TableCell>
+                        <TextField
+                          type="number"
+                          size="small"
+                          value={item.quantity}
+                          onChange={e => updateItem(item.id, 'quantity', Number(e.target.value))}
+                          sx={{ width: 80 }}
+                        />
+                      </TableCell>
+                      <TableCell>{formatCurrency(item.estimatedPrice)}</TableCell>
+                      <TableCell>{formatCurrency(item.estimatedAmount)}</TableCell>
+                      <TableCell>
+                        <IconButton size="small" onClick={() => removeItem(item.id)}>
+                          <Delete fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {items.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={8} sx={{ textAlign: 'center', color: 'text.secondary', py: 4 }}>
+                        暂无物料明细，请点击&quot;添加物料&quot;按钮添加，或从Excel复制多行物料编码后点击&quot;粘贴物料&quot;
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+                {items.length > 0 && (
+                  <TableFooter>
+                    <TableRow>
+                      <TableCell colSpan={6} align="right"><strong>合计金额：</strong></TableCell>
+                      <TableCell><strong>{formatCurrency(totalAmount)}</strong></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableFooter>
+                )}
+              </Table>
+            </TableContainer>
+          </>
+        )}
+      </Box>
+    </PageWrapper>
+  );
+};
+
+export default PurchaseForm;

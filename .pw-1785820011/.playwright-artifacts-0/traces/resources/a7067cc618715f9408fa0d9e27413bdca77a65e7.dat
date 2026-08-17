@@ -1,0 +1,49 @@
+import.meta.env = {"BASE_URL": "/", "DEV": true, "MODE": "development", "PROD": false, "SSR": false};import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import __vite__cjsImport1_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const React = __vite__cjsImport1_react.__esModule ? __vite__cjsImport1_react.default : __vite__cjsImport1_react;
+import __vite__cjsImport2_reactDom_client from "/node_modules/.vite/deps/react-dom_client.js?v=5fca7ba0"; const ReactDOM = __vite__cjsImport2_reactDom_client.__esModule ? __vite__cjsImport2_reactDom_client.default : __vite__cjsImport2_reactDom_client;
+import { BrowserRouter } from "/node_modules/.vite/deps/react-router-dom.js?v=5fca7ba0";
+import { LocalizationProvider } from "/node_modules/.vite/deps/@mui_x-date-pickers.js?v=5fca7ba0";
+import { AdapterDayjs } from "/node_modules/.vite/deps/@mui_x-date-pickers_AdapterDayjs.js?v=5fca7ba0";
+import DynamicThemeProvider from "/src/components/theme/DynamicThemeProvider.tsx";
+import App from "/src/App.tsx?t=1785819952403";
+import "/src/index.css?t=1785819952403";
+async function enableMocking() {
+  if (import.meta.env.DEV) {
+    const { worker } = await import("/src/mocks/browser.ts");
+    return worker.start({
+      onUnhandledRequest: "bypass"
+    });
+  }
+}
+if (import.meta.env.DEV) {
+  import("/src/stores/index.ts?t=1785819952403").then((m) => {
+    window.__ssaStores = m;
+  });
+}
+enableMocking().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    /* @__PURE__ */ jsxDEV(React.StrictMode, { children: /* @__PURE__ */ jsxDEV(DynamicThemeProvider, { children: /* @__PURE__ */ jsxDEV(LocalizationProvider, { dateAdapter: AdapterDayjs, children: /* @__PURE__ */ jsxDEV(BrowserRouter, { children: /* @__PURE__ */ jsxDEV(App, {}, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/main.tsx",
+      lineNumber: 32,
+      columnNumber: 13
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/main.tsx",
+      lineNumber: 31,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/main.tsx",
+      lineNumber: 30,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/main.tsx",
+      lineNumber: 29,
+      columnNumber: 7
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/main.tsx",
+      lineNumber: 28,
+      columnNumber: 5
+    }, this)
+  );
+});
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBK0JZO0FBL0JaLE9BQU9BLFdBQVc7QUFDbEIsT0FBT0MsY0FBYztBQUNyQixTQUFTQyxxQkFBcUI7QUFDOUIsU0FBU0MsNEJBQTRCO0FBQ3JDLFNBQVNDLG9CQUFvQjtBQUM3QixPQUFPQywwQkFBMEI7QUFDakMsT0FBT0MsU0FBUztBQUNoQixPQUFPO0FBRVAsZUFBZUMsZ0JBQWdCO0FBQzdCLE1BQUlDLFlBQVlDLElBQUlDLEtBQUs7QUFDdkIsVUFBTSxFQUFFQyxPQUFPLElBQUksTUFBTSxPQUFPLGlCQUFpQjtBQUNqRCxXQUFPQSxPQUFPQyxNQUFNO0FBQUEsTUFDbEJDLG9CQUFvQjtBQUFBLElBQ3RCLENBQUM7QUFBQSxFQUNIO0FBQ0Y7QUFHQSxJQUFJTCxZQUFZQyxJQUFJQyxLQUFLO0FBQ3ZCLFNBQU8sVUFBVSxFQUFFSSxLQUFLLENBQUNDLE1BQU07QUFDN0IsSUFBQ0MsT0FBOENDLGNBQWNGO0FBQUFBLEVBQy9ELENBQUM7QUFDSDtBQUVBUixjQUFjLEVBQUVPLEtBQUssTUFBTTtBQUN6QmIsV0FBU2lCLFdBQVdDLFNBQVNDLGVBQWUsTUFBTSxDQUFFLEVBQUVDO0FBQUFBLElBQ3BELHVCQUFDLE1BQU0sWUFBTixFQUNDLGlDQUFDLHdCQUNDLGlDQUFDLHdCQUFxQixhQUFhakIsY0FDakMsaUNBQUMsaUJBQ0MsaUNBQUMsU0FBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBQUksS0FETjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBRUEsS0FIRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBSUEsS0FMRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBTUEsS0FQRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBUUE7QUFBQSxFQUNGO0FBQ0YsQ0FBQyIsIm5hbWVzIjpbIlJlYWN0IiwiUmVhY3RET00iLCJCcm93c2VyUm91dGVyIiwiTG9jYWxpemF0aW9uUHJvdmlkZXIiLCJBZGFwdGVyRGF5anMiLCJEeW5hbWljVGhlbWVQcm92aWRlciIsIkFwcCIsImVuYWJsZU1vY2tpbmciLCJpbXBvcnQiLCJlbnYiLCJERVYiLCJ3b3JrZXIiLCJzdGFydCIsIm9uVW5oYW5kbGVkUmVxdWVzdCIsInRoZW4iLCJtIiwid2luZG93IiwiX19zc2FTdG9yZXMiLCJjcmVhdGVSb290IiwiZG9jdW1lbnQiLCJnZXRFbGVtZW50QnlJZCIsInJlbmRlciJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJtYWluLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuaW1wb3J0IFJlYWN0RE9NIGZyb20gJ3JlYWN0LWRvbS9jbGllbnQnO1xuaW1wb3J0IHsgQnJvd3NlclJvdXRlciB9IGZyb20gJ3JlYWN0LXJvdXRlci1kb20nO1xuaW1wb3J0IHsgTG9jYWxpemF0aW9uUHJvdmlkZXIgfSBmcm9tICdAbXVpL3gtZGF0ZS1waWNrZXJzJztcbmltcG9ydCB7IEFkYXB0ZXJEYXlqcyB9IGZyb20gJ0BtdWkveC1kYXRlLXBpY2tlcnMvQWRhcHRlckRheWpzJztcbmltcG9ydCBEeW5hbWljVGhlbWVQcm92aWRlciBmcm9tICcuL2NvbXBvbmVudHMvdGhlbWUvRHluYW1pY1RoZW1lUHJvdmlkZXInO1xuaW1wb3J0IEFwcCBmcm9tICcuL0FwcCc7XG5pbXBvcnQgJy4vaW5kZXguY3NzJztcblxuYXN5bmMgZnVuY3Rpb24gZW5hYmxlTW9ja2luZygpIHtcbiAgaWYgKGltcG9ydC5tZXRhLmVudi5ERVYpIHtcbiAgICBjb25zdCB7IHdvcmtlciB9ID0gYXdhaXQgaW1wb3J0KCcuL21vY2tzL2Jyb3dzZXInKTtcbiAgICByZXR1cm4gd29ya2VyLnN0YXJ0KHtcbiAgICAgIG9uVW5oYW5kbGVkUmVxdWVzdDogJ2J5cGFzcycsXG4gICAgfSk7XG4gIH1cbn1cblxuLy8g5LuF5byA5Y+R546v5aKD77ya5oqK5Lia5YqhIHN0b3JlIOaatOmcsuWIsCB3aW5kb3fvvIzkvpsgRTJFIOWbnuW9ku+8iOWmgiBhZGTihpJwZXJzaXN0IOaWreiogO+8ieebtOaOpeiwg+eUqFxuaWYgKGltcG9ydC5tZXRhLmVudi5ERVYpIHtcbiAgaW1wb3J0KCcuL3N0b3JlcycpLnRoZW4oKG0pID0+IHtcbiAgICAod2luZG93IGFzIHVua25vd24gYXMgUmVjb3JkPHN0cmluZywgdW5rbm93bj4pLl9fc3NhU3RvcmVzID0gbTtcbiAgfSk7XG59XG5cbmVuYWJsZU1vY2tpbmcoKS50aGVuKCgpID0+IHtcbiAgUmVhY3RET00uY3JlYXRlUm9vdChkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncm9vdCcpISkucmVuZGVyKFxuICAgIDxSZWFjdC5TdHJpY3RNb2RlPlxuICAgICAgPER5bmFtaWNUaGVtZVByb3ZpZGVyPlxuICAgICAgICA8TG9jYWxpemF0aW9uUHJvdmlkZXIgZGF0ZUFkYXB0ZXI9e0FkYXB0ZXJEYXlqc30+XG4gICAgICAgICAgPEJyb3dzZXJSb3V0ZXI+XG4gICAgICAgICAgICA8QXBwIC8+XG4gICAgICAgICAgPC9Ccm93c2VyUm91dGVyPlxuICAgICAgICA8L0xvY2FsaXphdGlvblByb3ZpZGVyPlxuICAgICAgPC9EeW5hbWljVGhlbWVQcm92aWRlcj5cbiAgICA8L1JlYWN0LlN0cmljdE1vZGU+XG4gICk7XG59KTtcbiJdLCJmaWxlIjoiQzovVXNlcnMvemhhbmdkZXFpYW5nL1dvcmtCdWRkeS8yMDI2LTA1LTA4LXRhc2stMS9zc2EtZXJwL3NyYy9tYWluLnRzeCJ9

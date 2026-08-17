@@ -1,0 +1,4 @@
+
+> ssa-erp@1.0.0 build
+> npx tsc --noEmit && npx vite build
+

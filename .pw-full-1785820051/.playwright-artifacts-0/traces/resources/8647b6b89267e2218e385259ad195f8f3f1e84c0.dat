@@ -1,0 +1,96 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/common/ActionBar.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { Box, Stack, Button } from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import { Add } from "/node_modules/.vite/deps/@mui_icons-material.js?v=5fca7ba0";
+export const ActionBar = ({
+  primary,
+  secondaries = [],
+  children
+}) => {
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { mb: 3, display: "flex", justifyContent: "space-between", alignItems: "center" }, children: [
+    /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 2, children: [
+      primary && /* @__PURE__ */ jsxDEV(
+        Button,
+        {
+          variant: "contained",
+          startIcon: primary.icon || /* @__PURE__ */ jsxDEV(Add, {}, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx",
+            lineNumber: 49,
+            columnNumber: 38
+          }, this),
+          onClick: primary.onClick,
+          children: primary.label
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx",
+          lineNumber: 47,
+          columnNumber: 9
+        },
+        this
+      ),
+      secondaries.map(
+        (action, index) => /* @__PURE__ */ jsxDEV(
+          Button,
+          {
+            variant: action.variant || "outlined",
+            onClick: action.onClick,
+            children: action.label
+          },
+          index,
+          false,
+          {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx",
+            lineNumber: 56,
+            columnNumber: 9
+          },
+          this
+        )
+      )
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx",
+      lineNumber: 45,
+      columnNumber: 7
+    }, this),
+    children
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx",
+    lineNumber: 44,
+    columnNumber: 5
+  }, this);
+};
+_c = ActionBar;
+export default ActionBar;
+var _c;
+$RefreshReg$(_c, "ActionBar");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/ActionBar.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBNkJ1Qzs7Ozs7Ozs7Ozs7Ozs7OztBQTVCdkMsU0FBU0EsS0FBS0MsT0FBT0MsY0FBYztBQUNuQyxTQUFTQyxXQUFXO0FBZ0JiLGFBQU1DLFlBQXNDQSxDQUFDO0FBQUEsRUFDbERDO0FBQUFBLEVBQ0FDLGNBQWM7QUFBQSxFQUNkQztBQUNGLE1BQU07QUFDSixTQUNFLHVCQUFDLE9BQUksSUFBSSxFQUFFQyxJQUFJLEdBQUdDLFNBQVMsUUFBUUMsZ0JBQWdCLGlCQUFpQkMsWUFBWSxTQUFTLEdBQ3ZGO0FBQUEsMkJBQUMsU0FBTSxXQUFVLE9BQU0sU0FBUyxHQUM3Qk47QUFBQUEsaUJBQ0M7QUFBQSxRQUFDO0FBQUE7QUFBQSxVQUNDLFNBQVE7QUFBQSxVQUNSLFdBQVdBLFFBQVFPLFFBQVEsdUJBQUMsU0FBRDtBQUFBO0FBQUE7QUFBQTtBQUFBLGlCQUFJO0FBQUEsVUFDL0IsU0FBU1AsUUFBUVE7QUFBQUEsVUFFaEJSLGtCQUFRUztBQUFBQTtBQUFBQSxRQUxYO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxNQU1BO0FBQUEsTUFFRFIsWUFBWVM7QUFBQUEsUUFBSSxDQUFDQyxRQUFRQyxVQUN4QjtBQUFBLFVBQUM7QUFBQTtBQUFBLFlBRUMsU0FBU0QsT0FBT0UsV0FBVztBQUFBLFlBQzNCLFNBQVNGLE9BQU9IO0FBQUFBLFlBRWZHLGlCQUFPRjtBQUFBQTtBQUFBQSxVQUpIRztBQUFBQSxVQURQO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUEsUUFNQTtBQUFBLE1BQ0Q7QUFBQSxTQWxCSDtBQUFBO0FBQUE7QUFBQTtBQUFBLFdBbUJBO0FBQUEsSUFDQ1Y7QUFBQUEsT0FyQkg7QUFBQTtBQUFBO0FBQUE7QUFBQSxTQXNCQTtBQUVKO0FBQUVZLEtBOUJXZjtBQWdDYixlQUFlQTtBQUFVLElBQUFlO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbIkJveCIsIlN0YWNrIiwiQnV0dG9uIiwiQWRkIiwiQWN0aW9uQmFyIiwicHJpbWFyeSIsInNlY29uZGFyaWVzIiwiY2hpbGRyZW4iLCJtYiIsImRpc3BsYXkiLCJqdXN0aWZ5Q29udGVudCIsImFsaWduSXRlbXMiLCJpY29uIiwib25DbGljayIsImxhYmVsIiwibWFwIiwiYWN0aW9uIiwiaW5kZXgiLCJ2YXJpYW50IiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiQWN0aW9uQmFyLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgQm94LCBTdGFjaywgQnV0dG9uIH0gZnJvbSAnQG11aS9tYXRlcmlhbCc7XG5pbXBvcnQgeyBBZGQgfSBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsJztcblxuaW50ZXJmYWNlIEFjdGlvbkJhclByb3BzIHtcbiAgcHJpbWFyeT86IHtcbiAgICBsYWJlbDogc3RyaW5nO1xuICAgIG9uQ2xpY2s6ICgpID0+IHZvaWQ7XG4gICAgaWNvbj86IFJlYWN0LlJlYWN0Tm9kZTtcbiAgfTtcbiAgc2Vjb25kYXJpZXM/OiB7XG4gICAgbGFiZWw6IHN0cmluZztcbiAgICBvbkNsaWNrOiAoKSA9PiB2b2lkO1xuICAgIHZhcmlhbnQ/OiAnb3V0bGluZWQnIHwgJ2NvbnRhaW5lZCcgfCAndGV4dCc7XG4gIH1bXTtcbiAgY2hpbGRyZW4/OiBSZWFjdC5SZWFjdE5vZGU7XG59XG5cbmV4cG9ydCBjb25zdCBBY3Rpb25CYXI6IFJlYWN0LkZDPEFjdGlvbkJhclByb3BzPiA9ICh7XG4gIHByaW1hcnksXG4gIHNlY29uZGFyaWVzID0gW10sXG4gIGNoaWxkcmVuLFxufSkgPT4ge1xuICByZXR1cm4gKFxuICAgIDxCb3ggc3g9e3sgbWI6IDMsIGRpc3BsYXk6ICdmbGV4JywganVzdGlmeUNvbnRlbnQ6ICdzcGFjZS1iZXR3ZWVuJywgYWxpZ25JdGVtczogJ2NlbnRlcicgfX0+XG4gICAgICA8U3RhY2sgZGlyZWN0aW9uPVwicm93XCIgc3BhY2luZz17Mn0+XG4gICAgICAgIHtwcmltYXJ5ICYmIChcbiAgICAgICAgICA8QnV0dG9uXG4gICAgICAgICAgICB2YXJpYW50PVwiY29udGFpbmVkXCJcbiAgICAgICAgICAgIHN0YXJ0SWNvbj17cHJpbWFyeS5pY29uIHx8IDxBZGQgLz59XG4gICAgICAgICAgICBvbkNsaWNrPXtwcmltYXJ5Lm9uQ2xpY2t9XG4gICAgICAgICAgPlxuICAgICAgICAgICAge3ByaW1hcnkubGFiZWx9XG4gICAgICAgICAgPC9CdXR0b24+XG4gICAgICAgICl9XG4gICAgICAgIHtzZWNvbmRhcmllcy5tYXAoKGFjdGlvbiwgaW5kZXgpID0+IChcbiAgICAgICAgICA8QnV0dG9uXG4gICAgICAgICAgICBrZXk9e2luZGV4fVxuICAgICAgICAgICAgdmFyaWFudD17YWN0aW9uLnZhcmlhbnQgfHwgJ291dGxpbmVkJ31cbiAgICAgICAgICAgIG9uQ2xpY2s9e2FjdGlvbi5vbkNsaWNrfVxuICAgICAgICAgID5cbiAgICAgICAgICAgIHthY3Rpb24ubGFiZWx9XG4gICAgICAgICAgPC9CdXR0b24+XG4gICAgICAgICkpfVxuICAgICAgPC9TdGFjaz5cbiAgICAgIHtjaGlsZHJlbn1cbiAgICA8L0JveD5cbiAgKTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IEFjdGlvbkJhcjtcbiJdLCJmaWxlIjoiQzovVXNlcnMvemhhbmdkZXFpYW5nL1dvcmtCdWRkeS8yMDI2LTA1LTA4LXRhc2stMS9zc2EtZXJwL3NyYy9jb21wb25lbnRzL2NvbW1vbi9BY3Rpb25CYXIudHN4In0=

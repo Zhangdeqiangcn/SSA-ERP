@@ -1,0 +1,6 @@
+import {
+  require_dayjs_min
+} from "/node_modules/.vite/deps/chunk-5C4Z5HTW.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-4B2QHNJT.js?v=5fca7ba0";
+export default require_dayjs_min();
+//# sourceMappingURL=dayjs.js.map

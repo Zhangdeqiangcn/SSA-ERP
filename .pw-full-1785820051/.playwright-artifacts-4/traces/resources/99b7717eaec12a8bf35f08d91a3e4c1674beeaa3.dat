@@ -1,0 +1,546 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Production/CostCollection.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const useMemo = __vite__cjsImport3_react["useMemo"]; const useState = __vite__cjsImport3_react["useState"];
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  Chip,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Stack,
+  Alert,
+  Divider,
+  TextField,
+  Button,
+  IconButton,
+  Tooltip
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import __vite__cjsImport5__mui_iconsMaterial_AttachMoney from "/node_modules/.vite/deps/@mui_icons-material_AttachMoney.js?v=5fca7ba0"; const AttachMoneyIcon = __vite__cjsImport5__mui_iconsMaterial_AttachMoney.__esModule ? __vite__cjsImport5__mui_iconsMaterial_AttachMoney.default : __vite__cjsImport5__mui_iconsMaterial_AttachMoney;
+import __vite__cjsImport6__mui_iconsMaterial_Save from "/node_modules/.vite/deps/@mui_icons-material_Save.js?v=5fca7ba0"; const SaveIcon = __vite__cjsImport6__mui_iconsMaterial_Save.__esModule ? __vite__cjsImport6__mui_iconsMaterial_Save.default : __vite__cjsImport6__mui_iconsMaterial_Save;
+import { PageWrapper } from "/src/components/layout/index.ts";
+import { useProductionStore } from "/src/stores/productionStore.ts";
+import { useProductionOperationStore, DEFAULT_LABOR_RATE, DEFAULT_MACHINE_RATE } from "/src/stores/productionOperationStore.ts";
+import { useBOMStore } from "/src/stores/bomStore.ts";
+const WO_STATUS_LABEL = {
+  draft: "草稿",
+  released: "已下达",
+  in_progress: "生产中",
+  completed: "已完成",
+  closed: "已关闭"
+};
+const fmt = (n) => `¥${Number(n).toLocaleString("zh-CN", { maximumFractionDigits: 0 })}`;
+export default function CostCollection() {
+  _s();
+  const { workOrders, processRoutes, updateWorkOrder } = useProductionStore();
+  const { operationReports, laborRate, machineRate, setLaborRate, setMachineRate } = useProductionOperationStore();
+  const { bomList } = useBOMStore();
+  const [laborInput, setLaborInput] = useState(String(laborRate));
+  const [machineInput, setMachineInput] = useState(String(machineRate));
+  const activeWos = useMemo(() => workOrders.filter((wo) => wo.status !== "closed"), [workOrders]);
+  const compute = useMemo(() => {
+    return activeWos.map((wo) => {
+      const route = processRoutes.find((r) => r.id === wo.routeId) || processRoutes.find((r) => r.routeNo === wo.routeNo) || processRoutes.find((r) => r.productCode === wo.productCode);
+      const bom = bomList.find((b) => b.id === wo.bomId) || bomList.find((b) => b.bomNo === wo.bomNo);
+      const unitMaterial = bom?.items ? bom.items.reduce((s, it) => s + (it.totalCost || 0), 0) : 0;
+      let stdHours = 0;
+      route?.operations.forEach((op) => {
+        stdHours += (op.setupTime + op.runTime * wo.plannedQuantity) / 60;
+      });
+      const stdMaterial = unitMaterial * wo.plannedQuantity;
+      const stdLabor = stdHours * laborRate;
+      const stdMachine = stdHours * machineRate;
+      const stdTotal = stdMaterial + stdLabor + stdMachine;
+      const reports = operationReports.filter((r) => r.workOrderId === wo.id);
+      let actHours = 0;
+      reports.forEach((r) => {
+        const op = route?.operations.find((o) => o.id === r.operationId);
+        const h = r.laborHours ?? (op ? (op.setupTime + op.runTime * r.goodQuantity) / 60 : 0);
+        actHours += h;
+      });
+      const actMaterial = unitMaterial * wo.completedQuantity;
+      const actLabor = actHours * laborRate;
+      const actMachine = actHours * machineRate;
+      const actTotal = actMaterial + actLabor + actMachine;
+      const variance = actTotal - stdTotal;
+      const variancePct = stdTotal > 0 ? variance / stdTotal * 100 : 0;
+      return {
+        wo,
+        hasBom: !!bom,
+        unitMaterial,
+        stdMaterial,
+        stdLabor,
+        stdMachine,
+        stdTotal,
+        actMaterial,
+        actLabor,
+        actMachine,
+        actTotal,
+        actHours,
+        variance,
+        variancePct
+      };
+    });
+  }, [activeWos, processRoutes, bomList, operationReports, laborRate, machineRate]);
+  const grandStd = compute.reduce((s, c) => s + c.stdTotal, 0);
+  const grandAct = compute.reduce((s, c) => s + c.actTotal, 0);
+  const grandVar = grandAct - grandStd;
+  const applyRates = () => {
+    setLaborRate(Number(laborInput) || DEFAULT_LABOR_RATE);
+    setMachineRate(Number(machineInput) || DEFAULT_MACHINE_RATE);
+  };
+  const saveWoCost = (c) => {
+    updateWorkOrder(c.wo.id, {
+      actualMaterialCost: Number(c.actMaterial.toFixed(2)),
+      actualLaborCost: Number(c.actLabor.toFixed(2)),
+      actualMachineCost: Number(c.actMachine.toFixed(2)),
+      actualTotalCost: Number(c.actTotal.toFixed(2))
+    });
+  };
+  return /* @__PURE__ */ jsxDEV(PageWrapper, { title: "成本归集", subtitle: "按工单归集 物料(BOM) / 人工(报工工时×费率) / 机器费用，对比标准成本差异", children: [
+    /* @__PURE__ */ jsxDEV(Alert, { severity: "info", sx: { mb: 2 }, children: [
+      "物料成本取 BOM 单位成本 × 数量；人工与机器费用取",
+      /* @__PURE__ */ jsxDEV("strong", { children: "报工工时 × 费率" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 115,
+        columnNumber: 37
+      }, this),
+      "。 标准成本按",
+      /* @__PURE__ */ jsxDEV("strong", { children: "计划量" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 116,
+        columnNumber: 14
+      }, this),
+      "测算，实际成本按",
+      /* @__PURE__ */ jsxDEV("strong", { children: "完成量/报工" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 116,
+        columnNumber: 42
+      }, this),
+      "测算，差异 = 实际 − 标准（正值代表超支）。"
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+      lineNumber: 114,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2, borderRadius: 3, mb: 2 }, children: /* @__PURE__ */ jsxDEV(Stack, { direction: { xs: "column", sm: "row" }, spacing: 2, alignItems: "center", children: [
+      /* @__PURE__ */ jsxDEV(AttachMoneyIcon, { sx: { color: "#10B981" } }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 122,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle2", fontWeight: 600, children: "成本费率（元/小时）" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 123,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(
+        TextField,
+        {
+          label: "人工费率",
+          type: "number",
+          size: "small",
+          value: laborInput,
+          onChange: (e) => setLaborInput(e.target.value),
+          inputProps: { min: 0 },
+          sx: { width: 140 }
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 124,
+          columnNumber: 11
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(
+        TextField,
+        {
+          label: "机器费率",
+          type: "number",
+          size: "small",
+          value: machineInput,
+          onChange: (e) => setMachineInput(e.target.value),
+          inputProps: { min: 0 },
+          sx: { width: 140 }
+        },
+        void 0,
+        false,
+        {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 133,
+          columnNumber: 11
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV(Button, { variant: "contained", onClick: applyRates, children: "应用费率" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 142,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(Box, { sx: { flex: 1 } }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 143,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 2, children: [
+        /* @__PURE__ */ jsxDEV(Box, { children: [
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: "标准总成本" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 146,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", fontWeight: 700, children: fmt(grandStd) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 147,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 145,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Box, { children: [
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: "实际总成本" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 150,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", fontWeight: 700, color: "#3B82F6", children: fmt(grandAct) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 151,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 149,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Box, { children: [
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: "总差异" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 154,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", fontWeight: 700, color: grandVar > 0 ? "#EF4444" : "#10B981", children: [
+            grandVar >= 0 ? "+" : "",
+            fmt(grandVar)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 155,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 153,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 144,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+      lineNumber: 121,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+      lineNumber: 120,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Grid, { container: true, spacing: 2, children: [
+      compute.map(
+        (c) => /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 12, children: /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2.5, borderRadius: 3 }, children: [
+          /* @__PURE__ */ jsxDEV(Stack, { direction: "row", justifyContent: "space-between", alignItems: "center", sx: { mb: 1 }, children: [
+            /* @__PURE__ */ jsxDEV(Box, { children: [
+              /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle1", fontWeight: 600, children: [
+                c.wo.orderNo,
+                " · ",
+                c.wo.productName
+              ] }, void 0, true, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 169,
+                columnNumber: 19
+              }, this),
+              /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", children: [
+                "计划 ",
+                c.wo.plannedQuantity,
+                " / 完成 ",
+                c.wo.completedQuantity,
+                " 件",
+                !c.hasBom && " · 无关联 BOM（物料成本按 0 计）"
+              ] }, void 0, true, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 172,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+              lineNumber: 168,
+              columnNumber: 17
+            }, this),
+            /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 1, alignItems: "center", children: [
+              /* @__PURE__ */ jsxDEV(
+                Chip,
+                {
+                  label: `差异 ${c.variance >= 0 ? "+" : ""}${fmt(c.variance)} (${c.variancePct.toFixed(0)}%)`,
+                  size: "small",
+                  color: c.variance > 0 ? "error" : "success"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                  lineNumber: 178,
+                  columnNumber: 19
+                },
+                this
+              ),
+              /* @__PURE__ */ jsxDEV(Tooltip, { title: "归集并保存至工单", children: /* @__PURE__ */ jsxDEV(IconButton, { size: "small", color: "primary", onClick: () => saveWoCost(c), children: /* @__PURE__ */ jsxDEV(SaveIcon, { fontSize: "small" }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 185,
+                columnNumber: 23
+              }, this) }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 184,
+                columnNumber: 21
+              }, this) }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 183,
+                columnNumber: 19
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+              lineNumber: 177,
+              columnNumber: 17
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 167,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(Divider, { sx: { mb: 1 } }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 190,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableContainer, { children: /* @__PURE__ */ jsxDEV(Table, { size: "small", children: [
+            /* @__PURE__ */ jsxDEV(TableHead, { children: /* @__PURE__ */ jsxDEV(TableRow, { sx: { bgcolor: "grey.50" }, children: [
+              /* @__PURE__ */ jsxDEV(TableCell, { sx: { fontWeight: 600 }, children: "成本项" }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 195,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV(TableCell, { align: "right", sx: { fontWeight: 600 }, children: "标准成本" }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 196,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV(TableCell, { align: "right", sx: { fontWeight: 600 }, children: "实际成本" }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 197,
+                columnNumber: 23
+              }, this),
+              /* @__PURE__ */ jsxDEV(TableCell, { align: "right", sx: { fontWeight: 600 }, children: "差异" }, void 0, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 198,
+                columnNumber: 23
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+              lineNumber: 194,
+              columnNumber: 21
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+              lineNumber: 193,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV(TableBody, { children: [
+              [
+                { name: "物料成本", s: c.stdMaterial, a: c.actMaterial },
+                { name: "人工成本", s: c.stdLabor, a: c.actLabor },
+                { name: "机器费用", s: c.stdMachine, a: c.actMachine }
+              ].map(
+                (row) => /* @__PURE__ */ jsxDEV(TableRow, { hover: true, children: [
+                  /* @__PURE__ */ jsxDEV(TableCell, { children: row.name }, void 0, false, {
+                    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                    lineNumber: 208,
+                    columnNumber: 25
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(TableCell, { align: "right", children: fmt(row.s) }, void 0, false, {
+                    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                    lineNumber: 209,
+                    columnNumber: 25
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(TableCell, { align: "right", children: fmt(row.a) }, void 0, false, {
+                    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                    lineNumber: 210,
+                    columnNumber: 25
+                  }, this),
+                  /* @__PURE__ */ jsxDEV(
+                    TableCell,
+                    {
+                      align: "right",
+                      sx: { color: row.a - row.s > 0 ? "#EF4444" : "#10B981", fontWeight: 600 },
+                      children: [
+                        row.a - row.s >= 0 ? "+" : "",
+                        fmt(row.a - row.s)
+                      ]
+                    },
+                    void 0,
+                    true,
+                    {
+                      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                      lineNumber: 211,
+                      columnNumber: 25
+                    },
+                    this
+                  )
+                ] }, row.name, true, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                  lineNumber: 207,
+                  columnNumber: 19
+                }, this)
+              ),
+              /* @__PURE__ */ jsxDEV(TableRow, { sx: { bgcolor: "#F8FAFC" }, children: [
+                /* @__PURE__ */ jsxDEV(TableCell, { sx: { fontWeight: 700 }, children: "合计" }, void 0, false, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                  lineNumber: 220,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV(TableCell, { align: "right", sx: { fontWeight: 700 }, children: fmt(c.stdTotal) }, void 0, false, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                  lineNumber: 221,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV(TableCell, { align: "right", sx: { fontWeight: 700 }, children: fmt(c.actTotal) }, void 0, false, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                  lineNumber: 222,
+                  columnNumber: 23
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  TableCell,
+                  {
+                    align: "right",
+                    sx: { fontWeight: 700, color: c.variance > 0 ? "#EF4444" : "#10B981" },
+                    children: [
+                      c.variance >= 0 ? "+" : "",
+                      fmt(c.variance)
+                    ]
+                  },
+                  void 0,
+                  true,
+                  {
+                    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                    lineNumber: 223,
+                    columnNumber: 23
+                  },
+                  this
+                )
+              ] }, void 0, true, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+                lineNumber: 219,
+                columnNumber: 21
+              }, this)
+            ] }, void 0, true, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+              lineNumber: 201,
+              columnNumber: 19
+            }, this)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 192,
+            columnNumber: 17
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 191,
+            columnNumber: 15
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { variant: "caption", color: "text.secondary", sx: { mt: 1, display: "block" }, children: [
+            "报工工时合计 ",
+            c.actHours.toFixed(2),
+            " h",
+            c.wo.actualTotalCost != null && " · 已保存实际总成本至工单"
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+            lineNumber: 233,
+            columnNumber: 15
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 166,
+          columnNumber: 13
+        }, this) }, c.wo.id, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+          lineNumber: 165,
+          columnNumber: 9
+        }, this)
+      ),
+      compute.length === 0 && /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 12, children: /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 4, textAlign: "center", borderRadius: 3 }, children: /* @__PURE__ */ jsxDEV(Typography, { color: "text.secondary", children: "当前没有可归集成本的工单。" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 243,
+        columnNumber: 15
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 242,
+        columnNumber: 13
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+        lineNumber: 241,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+      lineNumber: 163,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx",
+    lineNumber: 113,
+    columnNumber: 5
+  }, this);
+}
+_s(CostCollection, "7tb7Sq21+XxTkR+hxMORwV6tyjc=", false, function() {
+  return [useProductionStore, useProductionOperationStore, useBOMStore];
+});
+_c = CostCollection;
+var _c;
+$RefreshReg$(_c, "CostCollection");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/CostCollection.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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LFFBQVE4RSxXQUFXLEtBQ2xCLHVCQUFDLFFBQUssTUFBSSxNQUFDLElBQUksSUFDYixpQ0FBQyxTQUFNLElBQUksRUFBRXBCLEdBQUcsR0FBR3FCLFdBQVcsVUFBVXBCLGNBQWMsRUFBRSxHQUN0RCxpQ0FBQyxjQUFXLE9BQU0sa0JBQWlCLDZCQUFuQztBQUFBO0FBQUE7QUFBQTtBQUFBLGFBQWdELEtBRGxEO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFFQSxLQUhGO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFJQTtBQUFBLFNBbEZKO0FBQUE7QUFBQTtBQUFBO0FBQUEsV0FvRkE7QUFBQSxPQXRJRjtBQUFBO0FBQUE7QUFBQTtBQUFBLFNBdUlBO0FBRUo7QUFBQzlFLEdBbk51QkQsZ0JBQWM7QUFBQSxVQUNtQmhCLG9CQUM0QkMsNkJBQy9ERyxXQUFXO0FBQUE7QUFBQSxLQUhUWTtBQUFjLElBQUFvRztBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJ1c2VNZW1vIiwidXNlU3RhdGUiLCJCb3giLCJUeXBvZ3JhcGh5IiwiUGFwZXIiLCJHcmlkIiwiQ2hpcCIsIlRhYmxlIiwiVGFibGVCb2R5IiwiVGFibGVDZWxsIiwiVGFibGVDb250YWluZXIiLCJUYWJsZUhlYWQiLCJUYWJsZVJvdyIsIlN0YWNrIiwiQWxlcnQiLCJEaXZpZGVyIiwiVGV4dEZpZWxkIiwiQnV0dG9uIiwiSWNvbkJ1dHRvbiIsIlRvb2x0aXAiLCJBdHRhY2hNb25leUljb24iLCJTYXZlSWNvbiIsIlBhZ2VXcmFwcGVyIiwidXNlUHJvZHVjdGlvblN0b3JlIiwidXNlUHJvZHVjdGlvbk9wZXJhdGlvblN0b3JlIiwiREVGQVVMVF9MQUJPUl9SQVRFIiwiREVGQVVMVF9NQUNISU5FX1JBVEUiLCJ1c2VCT01TdG9yZSIsIldPX1NUQVRVU19MQUJFTCIsImRyYWZ0IiwicmVsZWFzZWQiLCJpbl9wcm9ncmVzcyIsImNvbXBsZXRlZCIsImNsb3NlZCIsImZtdCIsIm4iLCJOdW1iZXIiLCJ0b0xvY2FsZVN0cmluZyIsIm1heGltdW1GcmFjdGlvbkRpZ2l0cyIsIkNvc3RDb2xsZWN0aW9uIiwiX3MiLCJ3b3JrT3JkZXJzIiwicHJvY2Vzc1JvdXRlcyIsInVwZGF0ZVdvcmtPcmRlciIsIm9wZXJhdGlvblJlcG9ydHMiLCJsYWJvclJhdGUiLCJtYWNoaW5lUmF0ZSIsInNldExhYm9yUmF0ZSIsInNldE1hY2hpbmVSYXRlIiwiYm9tTGlzdCIsImxhYm9ySW5wdXQiLCJzZXRMYWJvcklucHV0IiwiU3RyaW5nIiwibWFjaGluZUlucHV0Iiwic2V0TWFjaGluZUlucHV0IiwiYWN0aXZlV29zIiwiZmlsdGVyIiwid28iLCJzdGF0dXMiLCJjb21wdXRlIiwibWFwIiwicm91dGUiLCJmaW5kIiwiciIsImlkIiwicm91dGVJZCIsInJvdXRlTm8iLCJwcm9kdWN0Q29kZSIsImJvbSIsImIiLCJib21JZCIsImJvbU5vIiwidW5pdE1hdGVyaWFsIiwiaXRlbXMiLCJyZWR1Y2UiLCJzIiwiaXQiLCJ0b3RhbENvc3QiLCJzdGRIb3VycyIsIm9wZXJhdGlvbnMiLCJmb3JFYWNoIiwib3AiLCJzZXR1cFRpbWUiLCJydW5UaW1lIiwicGxhbm5lZFF1YW50aXR5Iiwic3RkTWF0ZXJpYWwiLCJzdGRMYWJvciIsInN0ZE1hY2hpbmUiLCJzdGRUb3RhbCIsInJlcG9ydHMiLCJ3b3JrT3JkZXJJZCIsImFjdEhvdXJzIiwibyIsIm9wZXJhdGlvbklkIiwiaCIsImxhYm9ySG91cnMiLCJnb29kUXVhbnRpdHkiLCJhY3RNYXRlcmlhbCIsImNvbXBsZXRlZFF1YW50aXR5IiwiYWN0TGFib3IiLCJhY3RNYWNoaW5lIiwiYWN0VG90YWwiLCJ2YXJpYW5jZSIsInZhcmlhbmNlUGN0IiwiaGFzQm9tIiwiZ3JhbmRTdGQiLCJjIiwiZ3JhbmRBY3QiLCJncmFuZFZhciIsImFwcGx5UmF0ZXMiLCJzYXZlV29Db3N0IiwiYWN0dWFsTWF0ZXJpYWxDb3N0IiwidG9GaXhlZCIsImFjdHVhbExhYm9yQ29zdCIsImFjdHVhbE1hY2hpbmVDb3N0IiwiYWN0dWFsVG90YWxDb3N0IiwibWIiLCJwIiwiYm9yZGVyUmFkaXVzIiwieHMiLCJzbSIsImNvbG9yIiwiZSIsInRhcmdldCIsInZhbHVlIiwibWluIiwid2lkdGgiLCJmbGV4Iiwib3JkZXJObyIsInByb2R1Y3ROYW1lIiwiYmdjb2xvciIsImZvbnRXZWlnaHQiLCJuYW1lIiwiYSIsInJvdyIsIm10IiwiZGlzcGxheSIsImxlbmd0aCIsInRleHRBbGlnbiIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkNvc3RDb2xsZWN0aW9uLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VNZW1vLCB1c2VTdGF0ZSB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7XG4gIEJveCwgVHlwb2dyYXBoeSwgUGFwZXIsIEdyaWQsIENoaXAsIFRhYmxlLCBUYWJsZUJvZHksXG4gIFRhYmxlQ2VsbCwgVGFibGVDb250YWluZXIsIFRhYmxlSGVhZCwgVGFibGVSb3csIFN0YWNrLCBBbGVydCxcbiAgRGl2aWRlciwgQ2FyZCwgQ2FyZENvbnRlbnQsIFRleHRGaWVsZCwgQnV0dG9uLCBJY29uQnV0dG9uLCBUb29sdGlwLFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCBBdHRhY2hNb25leUljb24gZnJvbSAnQG11aS9pY29ucy1tYXRlcmlhbC9BdHRhY2hNb25leSc7XG5pbXBvcnQgU2F2ZUljb24gZnJvbSAnQG11aS9pY29ucy1tYXRlcmlhbC9TYXZlJztcbmltcG9ydCB7IFBhZ2VXcmFwcGVyIH0gZnJvbSAnQC9jb21wb25lbnRzL2xheW91dCc7XG5pbXBvcnQgeyB1c2VQcm9kdWN0aW9uU3RvcmUgfSBmcm9tICdAL3N0b3Jlcy9wcm9kdWN0aW9uU3RvcmUnO1xuaW1wb3J0IHsgdXNlUHJvZHVjdGlvbk9wZXJhdGlvblN0b3JlLCBERUZBVUxUX0xBQk9SX1JBVEUsIERFRkFVTFRfTUFDSElORV9SQVRFIH0gZnJvbSAnQC9zdG9yZXMvcHJvZHVjdGlvbk9wZXJhdGlvblN0b3JlJztcbmltcG9ydCB7IHVzZUJPTVN0b3JlIH0gZnJvbSAnQC9zdG9yZXMvYm9tU3RvcmUnO1xuXG5jb25zdCBXT19TVEFUVVNfTEFCRUw6IFJlY29yZDxzdHJpbmcsIHN0cmluZz4gPSB7XG4gIGRyYWZ0OiAn6I2J56i/JywgcmVsZWFzZWQ6ICflt7LkuIvovr4nLCBpbl9wcm9ncmVzczogJ+eUn+S6p+S4rScsIGNvbXBsZXRlZDogJ+W3suWujOaIkCcsIGNsb3NlZDogJ+W3suWFs+mXrScsXG59O1xuXG5jb25zdCBmbXQgPSAobjogbnVtYmVyKSA9PiBgwqUke051bWJlcihuKS50b0xvY2FsZVN0cmluZygnemgtQ04nLCB7IG1heGltdW1GcmFjdGlvbkRpZ2l0czogMCB9KX1gO1xuXG5leHBvcnQgZGVmYXVsdCBmdW5jdGlvbiBDb3N0Q29sbGVjdGlvbigpIHtcbiAgY29uc3QgeyB3b3JrT3JkZXJzLCBwcm9jZXNzUm91dGVzLCB1cGRhdGVXb3JrT3JkZXIgfSA9IHVzZVByb2R1Y3Rpb25TdG9yZSgpO1xuICBjb25zdCB7IG9wZXJhdGlvblJlcG9ydHMsIGxhYm9yUmF0ZSwgbWFjaGluZVJhdGUsIHNldExhYm9yUmF0ZSwgc2V0TWFjaGluZVJhdGUgfSA9IHVzZVByb2R1Y3Rpb25PcGVyYXRpb25TdG9yZSgpO1xuICBjb25zdCB7IGJvbUxpc3QgfSA9IHVzZUJPTVN0b3JlKCk7XG5cbiAgY29uc3QgW2xhYm9ySW5wdXQsIHNldExhYm9ySW5wdXRdID0gdXNlU3RhdGU8c3RyaW5nPihTdHJpbmcobGFib3JSYXRlKSk7XG4gIGNvbnN0IFttYWNoaW5lSW5wdXQsIHNldE1hY2hpbmVJbnB1dF0gPSB1c2VTdGF0ZTxzdHJpbmc+KFN0cmluZyhtYWNoaW5lUmF0ZSkpO1xuXG4gIGNvbnN0IGFjdGl2ZVdvcyA9IHVzZU1lbW8oKCkgPT4gd29ya09yZGVycy5maWx0ZXIoKHdvKSA9PiB3by5zdGF0dXMgIT09ICdjbG9zZWQnKSwgW3dvcmtPcmRlcnNdKTtcblxuICBjb25zdCBjb21wdXRlID0gdXNlTWVtbygoKSA9PiB7XG4gICAgcmV0dXJuIGFjdGl2ZVdvcy5tYXAoKHdvKSA9PiB7XG4gICAgICBjb25zdCByb3V0ZSA9XG4gICAgICAgIHByb2Nlc3NSb3V0ZXMuZmluZCgocikgPT4gci5pZCA9PT0gd28ucm91dGVJZCkgfHxcbiAgICAgICAgcHJvY2Vzc1JvdXRlcy5maW5kKChyKSA9PiByLnJvdXRlTm8gPT09IHdvLnJvdXRlTm8pIHx8XG4gICAgICAgIHByb2Nlc3NSb3V0ZXMuZmluZCgocikgPT4gci5wcm9kdWN0Q29kZSA9PT0gd28ucHJvZHVjdENvZGUpO1xuICAgICAgY29uc3QgYm9tID0gYm9tTGlzdC5maW5kKChiKSA9PiBiLmlkID09PSB3by5ib21JZCkgfHwgYm9tTGlzdC5maW5kKChiKSA9PiBiLmJvbU5vID09PSB3by5ib21Obyk7XG4gICAgICBjb25zdCB1bml0TWF0ZXJpYWwgPSBib20/Lml0ZW1zID8gYm9tLml0ZW1zLnJlZHVjZSgocywgaXQpID0+IHMgKyAoaXQudG90YWxDb3N0IHx8IDApLCAwKSA6IDA7XG5cbiAgICAgIC8vIOagh+WHhuaIkOacrO+8iOaMieiuoeWIkumHj++8iVxuICAgICAgbGV0IHN0ZEhvdXJzID0gMDtcbiAgICAgIHJvdXRlPy5vcGVyYXRpb25zLmZvckVhY2goKG9wKSA9PiB7XG4gICAgICAgIHN0ZEhvdXJzICs9IChvcC5zZXR1cFRpbWUgKyBvcC5ydW5UaW1lICogd28ucGxhbm5lZFF1YW50aXR5KSAvIDYwO1xuICAgICAgfSk7XG4gICAgICBjb25zdCBzdGRNYXRlcmlhbCA9IHVuaXRNYXRlcmlhbCAqIHdvLnBsYW5uZWRRdWFudGl0eTtcbiAgICAgIGNvbnN0IHN0ZExhYm9yID0gc3RkSG91cnMgKiBsYWJvclJhdGU7XG4gICAgICBjb25zdCBzdGRNYWNoaW5lID0gc3RkSG91cnMgKiBtYWNoaW5lUmF0ZTtcbiAgICAgIGNvbnN0IHN0ZFRvdGFsID0gc3RkTWF0ZXJpYWwgKyBzdGRMYWJvciArIHN0ZE1hY2hpbmU7XG5cbiAgICAgIC8vIOWunumZheaIkOacrO+8iOaMieaKpeW3pSAvIOWujOaIkOmHj++8iVxuICAgICAgY29uc3QgcmVwb3J0cyA9IG9wZXJhdGlvblJlcG9ydHMuZmlsdGVyKChyKSA9PiByLndvcmtPcmRlcklkID09PSB3by5pZCk7XG4gICAgICBsZXQgYWN0SG91cnMgPSAwO1xuICAgICAgcmVwb3J0cy5mb3JFYWNoKChyKSA9PiB7XG4gICAgICAgIGNvbnN0IG9wID0gcm91dGU/Lm9wZXJhdGlvbnMuZmluZCgobykgPT4gby5pZCA9PT0gci5vcGVyYXRpb25JZCk7XG4gICAgICAgIGNvbnN0IGggPSByLmxhYm9ySG91cnMgPz8gKG9wID8gKG9wLnNldHVwVGltZSArIG9wLnJ1blRpbWUgKiByLmdvb2RRdWFudGl0eSkgLyA2MCA6IDApO1xuICAgICAgICBhY3RIb3VycyArPSBoO1xuICAgICAgfSk7XG4gICAgICBjb25zdCBhY3RNYXRlcmlhbCA9IHVuaXRNYXRlcmlhbCAqIHdvLmNvbXBsZXRlZFF1YW50aXR5O1xuICAgICAgY29uc3QgYWN0TGFib3IgPSBhY3RIb3VycyAqIGxhYm9yUmF0ZTtcbiAgICAgIGNvbnN0IGFjdE1hY2hpbmUgPSBhY3RIb3VycyAqIG1hY2hpbmVSYXRlO1xuICAgICAgY29uc3QgYWN0VG90YWwgPSBhY3RNYXRlcmlhbCArIGFjdExhYm9yICsgYWN0TWFjaGluZTtcblxuICAgICAgY29uc3QgdmFyaWFuY2UgPSBhY3RUb3RhbCAtIHN0ZFRvdGFsO1xuICAgICAgY29uc3QgdmFyaWFuY2VQY3QgPSBzdGRUb3RhbCA+IDAgPyAodmFyaWFuY2UgLyBzdGRUb3RhbCkgKiAxMDAgOiAwO1xuXG4gICAgICByZXR1cm4ge1xuICAgICAgICB3bywgaGFzQm9tOiAhIWJvbSxcbiAgICAgICAgdW5pdE1hdGVyaWFsLFxuICAgICAgICBzdGRNYXRlcmlhbCwgc3RkTGFib3IsIHN0ZE1hY2hpbmUsIHN0ZFRvdGFsLFxuICAgICAgICBhY3RNYXRlcmlhbCwgYWN0TGFib3IsIGFjdE1hY2hpbmUsIGFjdFRvdGFsLCBhY3RIb3VycyxcbiAgICAgICAgdmFyaWFuY2UsIHZhcmlhbmNlUGN0LFxuICAgICAgfTtcbiAgICB9KTtcbiAgfSwgW2FjdGl2ZVdvcywgcHJvY2Vzc1JvdXRlcywgYm9tTGlzdCwgb3BlcmF0aW9uUmVwb3J0cywgbGFib3JSYXRlLCBtYWNoaW5lUmF0ZV0pO1xuXG4gIGNvbnN0IGdyYW5kU3RkID0gY29tcHV0ZS5yZWR1Y2UoKHMsIGMpID0+IHMgKyBjLnN0ZFRvdGFsLCAwKTtcbiAgY29uc3QgZ3JhbmRBY3QgPSBjb21wdXRlLnJlZHVjZSgocywgYykgPT4gcyArIGMuYWN0VG90YWwsIDApO1xuICBjb25zdCBncmFuZFZhciA9IGdyYW5kQWN0IC0gZ3JhbmRTdGQ7XG5cbiAgY29uc3QgYXBwbHlSYXRlcyA9ICgpID0+IHtcbiAgICBzZXRMYWJvclJhdGUoTnVtYmVyKGxhYm9ySW5wdXQpIHx8IERFRkFVTFRfTEFCT1JfUkFURSk7XG4gICAgc2V0TWFjaGluZVJhdGUoTnVtYmVyKG1hY2hpbmVJbnB1dCkgfHwgREVGQVVMVF9NQUNISU5FX1JBVEUpO1xuICB9O1xuXG4gIGNvbnN0IHNhdmVXb0Nvc3QgPSAoYzogKHR5cGVvZiBjb21wdXRlKVtudW1iZXJdKSA9PiB7XG4gICAgdXBkYXRlV29ya09yZGVyKGMud28uaWQsIHtcbiAgICAgIGFjdHVhbE1hdGVyaWFsQ29zdDogTnVtYmVyKGMuYWN0TWF0ZXJpYWwudG9GaXhlZCgyKSksXG4gICAgICBhY3R1YWxMYWJvckNvc3Q6IE51bWJlcihjLmFjdExhYm9yLnRvRml4ZWQoMikpLFxuICAgICAgYWN0dWFsTWFjaGluZUNvc3Q6IE51bWJlcihjLmFjdE1hY2hpbmUudG9GaXhlZCgyKSksXG4gICAgICBhY3R1YWxUb3RhbENvc3Q6IE51bWJlcihjLmFjdFRvdGFsLnRvRml4ZWQoMikpLFxuICAgIH0pO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPFBhZ2VXcmFwcGVyIHRpdGxlPVwi5oiQ5pys5b2S6ZuGXCIgc3VidGl0bGU9XCLmjInlt6XljZXlvZLpm4Yg54mp5paZKEJPTSkgLyDkurrlt6Uo5oql5bel5bel5pe2w5fotLnnjocpIC8g5py65Zmo6LS555So77yM5a+55q+U5qCH5YeG5oiQ5pys5beu5byCXCI+XG4gICAgICA8QWxlcnQgc2V2ZXJpdHk9XCJpbmZvXCIgc3g9e3sgbWI6IDIgfX0+XG4gICAgICAgIOeJqeaWmeaIkOacrOWPliBCT00g5Y2V5L2N5oiQ5pysIMOXIOaVsOmHj++8m+S6uuW3peS4juacuuWZqOi0ueeUqOWPljxzdHJvbmc+5oql5bel5bel5pe2IMOXIOi0ueeOhzwvc3Ryb25nPuOAglxuICAgICAgICDmoIflh4bmiJDmnKzmjIk8c3Ryb25nPuiuoeWIkumHjzwvc3Ryb25nPua1i+eul++8jOWunumZheaIkOacrOaMiTxzdHJvbmc+5a6M5oiQ6YePL+aKpeW3pTwvc3Ryb25nPua1i+eul++8jOW3ruW8giA9IOWunumZhSDiiJIg5qCH5YeG77yI5q2j5YC85Luj6KGo6LaF5pSv77yJ44CCXG4gICAgICA8L0FsZXJ0PlxuXG4gICAgICB7Lyog6LS5546H6YWN572uICovfVxuICAgICAgPFBhcGVyIHN4PXt7IHA6IDIsIGJvcmRlclJhZGl1czogMywgbWI6IDIgfX0+XG4gICAgICAgIDxTdGFjayBkaXJlY3Rpb249e3sgeHM6ICdjb2x1bW4nLCBzbTogJ3JvdycgfX0gc3BhY2luZz17Mn0gYWxpZ25JdGVtcz1cImNlbnRlclwiPlxuICAgICAgICAgIDxBdHRhY2hNb25leUljb24gc3g9e3sgY29sb3I6ICcjMTBCOTgxJyB9fSAvPlxuICAgICAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJzdWJ0aXRsZTJcIiBmb250V2VpZ2h0PXs2MDB9PuaIkOacrOi0ueeOh++8iOWFgy/lsI/ml7bvvIk8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgPFRleHRGaWVsZFxuICAgICAgICAgICAgbGFiZWw9XCLkurrlt6XotLnnjodcIlxuICAgICAgICAgICAgdHlwZT1cIm51bWJlclwiXG4gICAgICAgICAgICBzaXplPVwic21hbGxcIlxuICAgICAgICAgICAgdmFsdWU9e2xhYm9ySW5wdXR9XG4gICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IHNldExhYm9ySW5wdXQoZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAgICAgaW5wdXRQcm9wcz17eyBtaW46IDAgfX1cbiAgICAgICAgICAgIHN4PXt7IHdpZHRoOiAxNDAgfX1cbiAgICAgICAgICAvPlxuICAgICAgICAgIDxUZXh0RmllbGRcbiAgICAgICAgICAgIGxhYmVsPVwi5py65Zmo6LS5546HXCJcbiAgICAgICAgICAgIHR5cGU9XCJudW1iZXJcIlxuICAgICAgICAgICAgc2l6ZT1cInNtYWxsXCJcbiAgICAgICAgICAgIHZhbHVlPXttYWNoaW5lSW5wdXR9XG4gICAgICAgICAgICBvbkNoYW5nZT17KGUpID0+IHNldE1hY2hpbmVJbnB1dChlLnRhcmdldC52YWx1ZSl9XG4gICAgICAgICAgICBpbnB1dFByb3BzPXt7IG1pbjogMCB9fVxuICAgICAgICAgICAgc3g9e3sgd2lkdGg6IDE0MCB9fVxuICAgICAgICAgIC8+XG4gICAgICAgICAgPEJ1dHRvbiB2YXJpYW50PVwiY29udGFpbmVkXCIgb25DbGljaz17YXBwbHlSYXRlc30+5bqU55So6LS5546HPC9CdXR0b24+XG4gICAgICAgICAgPEJveCBzeD17eyBmbGV4OiAxIH19IC8+XG4gICAgICAgICAgPFN0YWNrIGRpcmVjdGlvbj1cInJvd1wiIHNwYWNpbmc9ezJ9PlxuICAgICAgICAgICAgPEJveD5cbiAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImNhcHRpb25cIiBjb2xvcj1cInRleHQuc2Vjb25kYXJ5XCI+5qCH5YeG5oC75oiQ5pysPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiaDZcIiBmb250V2VpZ2h0PXs3MDB9PntmbXQoZ3JhbmRTdGQpfTwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgICAgPEJveD5cbiAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImNhcHRpb25cIiBjb2xvcj1cInRleHQuc2Vjb25kYXJ5XCI+5a6e6ZmF5oC75oiQ5pysPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiaDZcIiBmb250V2VpZ2h0PXs3MDB9IGNvbG9yPVwiIzNCODJGNlwiPntmbXQoZ3JhbmRBY3QpfTwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgICAgPEJveD5cbiAgICAgICAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImNhcHRpb25cIiBjb2xvcj1cInRleHQuc2Vjb25kYXJ5XCI+5oC75beu5byCPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiaDZcIiBmb250V2VpZ2h0PXs3MDB9IGNvbG9yPXtncmFuZFZhciA+IDAgPyAnI0VGNDQ0NCcgOiAnIzEwQjk4MSd9PlxuICAgICAgICAgICAgICAgIHtncmFuZFZhciA+PSAwID8gJysnIDogJyd9e2ZtdChncmFuZFZhcil9XG4gICAgICAgICAgICAgIDwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgIDwvU3RhY2s+XG4gICAgICAgIDwvU3RhY2s+XG4gICAgICA8L1BhcGVyPlxuXG4gICAgICA8R3JpZCBjb250YWluZXIgc3BhY2luZz17Mn0+XG4gICAgICAgIHtjb21wdXRlLm1hcCgoYykgPT4gKFxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezEyfSBrZXk9e2Mud28uaWR9PlxuICAgICAgICAgICAgPFBhcGVyIHN4PXt7IHA6IDIuNSwgYm9yZGVyUmFkaXVzOiAzIH19PlxuICAgICAgICAgICAgICA8U3RhY2sgZGlyZWN0aW9uPVwicm93XCIganVzdGlmeUNvbnRlbnQ9XCJzcGFjZS1iZXR3ZWVuXCIgYWxpZ25JdGVtcz1cImNlbnRlclwiIHN4PXt7IG1iOiAxIH19PlxuICAgICAgICAgICAgICAgIDxCb3g+XG4gICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwic3VidGl0bGUxXCIgZm9udFdlaWdodD17NjAwfT5cbiAgICAgICAgICAgICAgICAgICAge2Mud28ub3JkZXJOb30gwrcge2Mud28ucHJvZHVjdE5hbWV9XG4gICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiY2FwdGlvblwiIGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIj5cbiAgICAgICAgICAgICAgICAgICAg6K6h5YiSIHtjLndvLnBsYW5uZWRRdWFudGl0eX0gLyDlrozmiJAge2Mud28uY29tcGxldGVkUXVhbnRpdHl9IOS7tlxuICAgICAgICAgICAgICAgICAgICB7IWMuaGFzQm9tICYmICcgwrcg5peg5YWz6IGUIEJPTe+8iOeJqeaWmeaIkOacrOaMiSAwIOiuoe+8iSd9XG4gICAgICAgICAgICAgICAgICA8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICAgICAgPC9Cb3g+XG4gICAgICAgICAgICAgICAgPFN0YWNrIGRpcmVjdGlvbj1cInJvd1wiIHNwYWNpbmc9ezF9IGFsaWduSXRlbXM9XCJjZW50ZXJcIj5cbiAgICAgICAgICAgICAgICAgIDxDaGlwXG4gICAgICAgICAgICAgICAgICAgIGxhYmVsPXtg5beu5byCICR7Yy52YXJpYW5jZSA+PSAwID8gJysnIDogJyd9JHtmbXQoYy52YXJpYW5jZSl9ICgke2MudmFyaWFuY2VQY3QudG9GaXhlZCgwKX0lKWB9XG4gICAgICAgICAgICAgICAgICAgIHNpemU9XCJzbWFsbFwiXG4gICAgICAgICAgICAgICAgICAgIGNvbG9yPXtjLnZhcmlhbmNlID4gMCA/ICdlcnJvcicgOiAnc3VjY2Vzcyd9XG4gICAgICAgICAgICAgICAgICAvPlxuICAgICAgICAgICAgICAgICAgPFRvb2x0aXAgdGl0bGU9XCLlvZLpm4blubbkv53lrZjoh7Plt6XljZVcIj5cbiAgICAgICAgICAgICAgICAgICAgPEljb25CdXR0b24gc2l6ZT1cInNtYWxsXCIgY29sb3I9XCJwcmltYXJ5XCIgb25DbGljaz17KCkgPT4gc2F2ZVdvQ29zdChjKX0+XG4gICAgICAgICAgICAgICAgICAgICAgPFNhdmVJY29uIGZvbnRTaXplPVwic21hbGxcIiAvPlxuICAgICAgICAgICAgICAgICAgICA8L0ljb25CdXR0b24+XG4gICAgICAgICAgICAgICAgICA8L1Rvb2x0aXA+XG4gICAgICAgICAgICAgICAgPC9TdGFjaz5cbiAgICAgICAgICAgICAgPC9TdGFjaz5cbiAgICAgICAgICAgICAgPERpdmlkZXIgc3g9e3sgbWI6IDEgfX0gLz5cbiAgICAgICAgICAgICAgPFRhYmxlQ29udGFpbmVyPlxuICAgICAgICAgICAgICAgIDxUYWJsZSBzaXplPVwic21hbGxcIj5cbiAgICAgICAgICAgICAgICAgIDxUYWJsZUhlYWQ+XG4gICAgICAgICAgICAgICAgICAgIDxUYWJsZVJvdyBzeD17eyBiZ2NvbG9yOiAnZ3JleS41MCcgfX0+XG4gICAgICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbCBzeD17eyBmb250V2VpZ2h0OiA2MDAgfX0+5oiQ5pys6aG5PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbCBhbGlnbj1cInJpZ2h0XCIgc3g9e3sgZm9udFdlaWdodDogNjAwIH19Puagh+WHhuaIkOacrDwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICAgICAgICAgIDxUYWJsZUNlbGwgYWxpZ249XCJyaWdodFwiIHN4PXt7IGZvbnRXZWlnaHQ6IDYwMCB9fT7lrp7pmYXmiJDmnKw8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsIGFsaWduPVwicmlnaHRcIiBzeD17eyBmb250V2VpZ2h0OiA2MDAgfX0+5beu5byCPC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICAgIDwvVGFibGVSb3c+XG4gICAgICAgICAgICAgICAgICA8L1RhYmxlSGVhZD5cbiAgICAgICAgICAgICAgICAgIDxUYWJsZUJvZHk+XG4gICAgICAgICAgICAgICAgICAgIHtbXG4gICAgICAgICAgICAgICAgICAgICAgeyBuYW1lOiAn54mp5paZ5oiQ5pysJywgczogYy5zdGRNYXRlcmlhbCwgYTogYy5hY3RNYXRlcmlhbCB9LFxuICAgICAgICAgICAgICAgICAgICAgIHsgbmFtZTogJ+S6uuW3peaIkOacrCcsIHM6IGMuc3RkTGFib3IsIGE6IGMuYWN0TGFib3IgfSxcbiAgICAgICAgICAgICAgICAgICAgICB7IG5hbWU6ICfmnLrlmajotLnnlKgnLCBzOiBjLnN0ZE1hY2hpbmUsIGE6IGMuYWN0TWFjaGluZSB9LFxuICAgICAgICAgICAgICAgICAgICBdLm1hcCgocm93KSA9PiAoXG4gICAgICAgICAgICAgICAgICAgICAgPFRhYmxlUm93IGtleT17cm93Lm5hbWV9IGhvdmVyPlxuICAgICAgICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57cm93Lm5hbWV9PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsIGFsaWduPVwicmlnaHRcIj57Zm10KHJvdy5zKX08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICAgIDxUYWJsZUNlbGwgYWxpZ249XCJyaWdodFwiPntmbXQocm93LmEpfTwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbFxuICAgICAgICAgICAgICAgICAgICAgICAgICBhbGlnbj1cInJpZ2h0XCJcbiAgICAgICAgICAgICAgICAgICAgICAgICAgc3g9e3sgY29sb3I6IHJvdy5hIC0gcm93LnMgPiAwID8gJyNFRjQ0NDQnIDogJyMxMEI5ODEnLCBmb250V2VpZ2h0OiA2MDAgfX1cbiAgICAgICAgICAgICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICAgICAgICAgICAge3Jvdy5hIC0gcm93LnMgPj0gMCA/ICcrJyA6ICcnfXtmbXQocm93LmEgLSByb3cucyl9XG4gICAgICAgICAgICAgICAgICAgICAgICA8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICA8L1RhYmxlUm93PlxuICAgICAgICAgICAgICAgICAgICApKX1cbiAgICAgICAgICAgICAgICAgICAgPFRhYmxlUm93IHN4PXt7IGJnY29sb3I6ICcjRjhGQUZDJyB9fT5cbiAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsIHN4PXt7IGZvbnRXZWlnaHQ6IDcwMCB9fT7lkIjorqE8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsIGFsaWduPVwicmlnaHRcIiBzeD17eyBmb250V2VpZ2h0OiA3MDAgfX0+e2ZtdChjLnN0ZFRvdGFsKX08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsIGFsaWduPVwicmlnaHRcIiBzeD17eyBmb250V2VpZ2h0OiA3MDAgfX0+e2ZtdChjLmFjdFRvdGFsKX08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgICAgICA8VGFibGVDZWxsXG4gICAgICAgICAgICAgICAgICAgICAgICBhbGlnbj1cInJpZ2h0XCJcbiAgICAgICAgICAgICAgICAgICAgICAgIHN4PXt7IGZvbnRXZWlnaHQ6IDcwMCwgY29sb3I6IGMudmFyaWFuY2UgPiAwID8gJyNFRjQ0NDQnIDogJyMxMEI5ODEnIH19XG4gICAgICAgICAgICAgICAgICAgICAgPlxuICAgICAgICAgICAgICAgICAgICAgICAge2MudmFyaWFuY2UgPj0gMCA/ICcrJyA6ICcnfXtmbXQoYy52YXJpYW5jZSl9XG4gICAgICAgICAgICAgICAgICAgICAgPC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICAgIDwvVGFibGVSb3c+XG4gICAgICAgICAgICAgICAgICA8L1RhYmxlQm9keT5cbiAgICAgICAgICAgICAgICA8L1RhYmxlPlxuICAgICAgICAgICAgICA8L1RhYmxlQ29udGFpbmVyPlxuICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiY2FwdGlvblwiIGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIiBzeD17eyBtdDogMSwgZGlzcGxheTogJ2Jsb2NrJyB9fT5cbiAgICAgICAgICAgICAgICDmiqXlt6Xlt6Xml7blkIjorqEge2MuYWN0SG91cnMudG9GaXhlZCgyKX0gaFxuICAgICAgICAgICAgICAgIHtjLndvLmFjdHVhbFRvdGFsQ29zdCAhPSBudWxsICYmICcgwrcg5bey5L+d5a2Y5a6e6ZmF5oC75oiQ5pys6Iez5bel5Y2VJ31cbiAgICAgICAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgICAgICAgPC9QYXBlcj5cbiAgICAgICAgICA8L0dyaWQ+XG4gICAgICAgICkpfVxuICAgICAgICB7Y29tcHV0ZS5sZW5ndGggPT09IDAgJiYgKFxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezEyfT5cbiAgICAgICAgICAgIDxQYXBlciBzeD17eyBwOiA0LCB0ZXh0QWxpZ246ICdjZW50ZXInLCBib3JkZXJSYWRpdXM6IDMgfX0+XG4gICAgICAgICAgICAgIDxUeXBvZ3JhcGh5IGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIj7lvZPliY3msqHmnInlj6/lvZLpm4bmiJDmnKznmoTlt6XljZXjgII8L1R5cG9ncmFwaHk+XG4gICAgICAgICAgICA8L1BhcGVyPlxuICAgICAgICAgIDwvR3JpZD5cbiAgICAgICAgKX1cbiAgICAgIDwvR3JpZD5cbiAgICA8L1BhZ2VXcmFwcGVyPlxuICApO1xufVxuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL3BhZ2VzL1Byb2R1Y3Rpb24vQ29zdENvbGxlY3Rpb24udHN4In0=

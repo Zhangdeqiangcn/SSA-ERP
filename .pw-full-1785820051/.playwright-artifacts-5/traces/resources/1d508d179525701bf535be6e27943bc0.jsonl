@@ -1,0 +1,2 @@
+{"type":"receive","time":1785820536779.33,"opcode":1,"data":"{\"type\":\"connected\"}"}
+{"type":"receive","time":1785820536827.017,"opcode":1,"data":"{\"type\":\"full-reload\",\"path\":\"/.pw-full-1785820051/.playwright-artifacts-5/traces/resources/0ced96a1d093bddaaf17b869e100d64b07fd697e.html\"}"}

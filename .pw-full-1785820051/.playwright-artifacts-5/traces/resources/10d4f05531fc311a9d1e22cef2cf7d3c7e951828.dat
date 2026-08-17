@@ -1,0 +1,1307 @@
+import {
+  BarChart,
+  BarElement,
+  BarElementPath,
+  BarPlot,
+  barElementClasses,
+  getBarElementUtilityClass
+} from "/node_modules/.vite/deps/chunk-XU26CM2Z.js?v=5fca7ba0";
+import {
+  AreaElement,
+  AreaElementPath,
+  AreaPlot,
+  LineChart,
+  LineElement,
+  LineElementPath,
+  LineHighlightElement,
+  LineHighlightPlot,
+  LinePlot,
+  MarkElement,
+  MarkPlot,
+  areaElementClasses,
+  getAreaElementUtilityClass,
+  getHighlightElementUtilityClass,
+  getLineElementUtilityClass,
+  getMarkElementUtilityClass,
+  lineElementClasses,
+  lineHighlightElementClasses,
+  markElementClasses
+} from "/node_modules/.vite/deps/chunk-URULIEO6.js?v=5fca7ba0";
+import {
+  ChartsClipPath
+} from "/node_modules/.vite/deps/chunk-EWTZ6VN5.js?v=5fca7ba0";
+import {
+  PieArc,
+  PieArcLabel,
+  PieArcLabelPlot,
+  PieArcPlot,
+  PieChart,
+  PiePlot,
+  getPieArcLabelUtilityClass,
+  getPieArcUtilityClass,
+  pieArcClasses,
+  pieArcLabelClasses
+} from "/node_modules/.vite/deps/chunk-6UXT7SXM.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-FVV6CDL2.js?v=5fca7ba0";
+import {
+  CartesianContext,
+  CartesianContextProvider,
+  ChartContainer,
+  ChartsAxis,
+  ChartsAxisHighlight,
+  ChartsAxisHighlightPath,
+  ChartsAxisTooltipContent,
+  ChartsItemTooltipContent,
+  ChartsLegend,
+  ChartsLegendRoot,
+  ChartsSurface,
+  ChartsText,
+  ChartsTooltip,
+  ChartsXAxis,
+  ChartsYAxis,
+  DEFAULT_MARGINS,
+  DEFAULT_X_AXIS_KEY,
+  DEFAULT_Y_AXIS_KEY,
+  DefaultChartsAxisTooltipContent,
+  DefaultChartsItemTooltipContent,
+  DrawingContext,
+  DrawingProvider,
+  InteractionContext,
+  ResponsiveChartContainer,
+  SeriesContext,
+  axisClasses,
+  blueberryTwilightPalette,
+  blueberryTwilightPaletteDark,
+  blueberryTwilightPaletteLight,
+  chartsAxisHighlightClasses,
+  chartsTooltipClasses,
+  cheerfulFiestaPalette,
+  cheerfulFiestaPaletteDark,
+  cheerfulFiestaPaletteLight,
+  getAxisHighlightUtilityClass,
+  getAxisUtilityClass,
+  getChartsTooltipUtilityClass,
+  getIsFaded,
+  getIsHighlighted,
+  getLegendUtilityClass,
+  getSeriesToDisplay,
+  getValueToPositionMapper,
+  legendClasses,
+  mangoFusionPalette,
+  mangoFusionPaletteDark,
+  mangoFusionPaletteLight,
+  useInteractionItemProps,
+  useXScale,
+  useYScale
+} from "/node_modules/.vite/deps/chunk-GYSF5LYB.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-JKPLR6R5.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-DCASTYEV.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-V5E2L44Y.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-ZU4T2E4S.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-276SZO74.js?v=5fca7ba0";
+import "/node_modules/.vite/deps/chunk-E4T753TD.js?v=5fca7ba0";
+import {
+  styled_default
+} from "/node_modules/.vite/deps/chunk-BWPVJPJD.js?v=5fca7ba0";
+import {
+  composeClasses,
+  generateUtilityClass,
+  generateUtilityClasses,
+  init_composeClasses,
+  init_generateUtilityClass,
+  init_generateUtilityClasses,
+  require_prop_types
+} from "/node_modules/.vite/deps/chunk-BQEP7VS6.js?v=5fca7ba0";
+import {
+  _extends,
+  init_extends
+} from "/node_modules/.vite/deps/chunk-QZVMM6GT.js?v=5fca7ba0";
+import {
+  require_jsx_runtime
+} from "/node_modules/.vite/deps/chunk-CRNJR6QK.js?v=5fca7ba0";
+import {
+  require_react
+} from "/node_modules/.vite/deps/chunk-ZMLY2J2T.js?v=5fca7ba0";
+import {
+  __toESM
+} from "/node_modules/.vite/deps/chunk-4B2QHNJT.js?v=5fca7ba0";
+
+// node_modules/@mui/x-charts/esm/hooks/useDrawingArea.js
+var React = __toESM(require_react());
+function useDrawingArea() {
+  const {
+    left,
+    top,
+    width,
+    height,
+    bottom,
+    right
+  } = React.useContext(DrawingContext);
+  return React.useMemo(() => ({
+    left,
+    top,
+    width,
+    height,
+    bottom,
+    right
+  }), [height, left, top, width, bottom, right]);
+}
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/ChartsReferenceLine.js
+init_extends();
+var React4 = __toESM(require_react());
+var import_prop_types = __toESM(require_prop_types());
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/ChartsXReferenceLine.js
+init_extends();
+var React2 = __toESM(require_react());
+init_composeClasses();
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/common.js
+init_extends();
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/chartsReferenceLineClasses.js
+init_generateUtilityClass();
+init_generateUtilityClasses();
+function getReferenceLineUtilityClass(slot) {
+  return generateUtilityClass("MuiChartsReferenceLine", slot);
+}
+var referenceLineClasses = generateUtilityClasses("MuiChartsReferenceLine", ["root", "vertical", "horizontal", "line", "label"]);
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/common.js
+var ReferenceLineRoot = styled_default("g")(({
+  theme
+}) => ({
+  [`& .${referenceLineClasses.line}`]: {
+    fill: "none",
+    stroke: (theme.vars || theme).palette.text.primary,
+    shapeRendering: "crispEdges",
+    strokeWidth: 1,
+    pointerEvents: "none"
+  },
+  [`& .${referenceLineClasses.label}`]: _extends({
+    fill: (theme.vars || theme).palette.text.primary,
+    stroke: "none",
+    pointerEvents: "none",
+    fontSize: 12
+  }, theme.typography.body1)
+}));
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/ChartsXReferenceLine.js
+var import_jsx_runtime = __toESM(require_jsx_runtime());
+var import_jsx_runtime2 = __toESM(require_jsx_runtime());
+var getTextParams = ({
+  top,
+  height,
+  spacingY,
+  labelAlign = "middle"
+}) => {
+  switch (labelAlign) {
+    case "start":
+      return {
+        y: top + spacingY,
+        style: {
+          dominantBaseline: "hanging",
+          textAnchor: "start"
+        }
+      };
+    case "end":
+      return {
+        y: top + height - spacingY,
+        style: {
+          dominantBaseline: "auto",
+          textAnchor: "start"
+        }
+      };
+    default:
+      return {
+        y: top + height / 2,
+        style: {
+          dominantBaseline: "central",
+          textAnchor: "start"
+        }
+      };
+  }
+};
+function getXReferenceLineClasses(classes) {
+  return composeClasses({
+    root: ["root", "vertical"],
+    line: ["line"],
+    label: ["label"]
+  }, getReferenceLineUtilityClass, classes);
+}
+var warnedOnce = false;
+function ChartsXReferenceLine(props) {
+  var _spacing$x, _spacing$y;
+  const {
+    x,
+    label = "",
+    spacing = 5,
+    classes: inClasses,
+    labelAlign,
+    lineStyle,
+    labelStyle,
+    axisId
+  } = props;
+  const {
+    top,
+    height
+  } = useDrawingArea();
+  const xAxisScale = useXScale(axisId);
+  const xPosition = xAxisScale(x);
+  if (xPosition === void 0) {
+    if (true) {
+      if (!warnedOnce) {
+        warnedOnce = true;
+        console.error(`MUI X: the value ${x} does not exist in the data of x axis with id ${axisId}.`);
+      }
+    }
+    return null;
+  }
+  const d = `M ${xPosition} ${top} l 0 ${height}`;
+  const classes = getXReferenceLineClasses(inClasses);
+  const spacingX = typeof spacing === "object" ? (_spacing$x = spacing.x) != null ? _spacing$x : 0 : spacing;
+  const spacingY = typeof spacing === "object" ? (_spacing$y = spacing.y) != null ? _spacing$y : 0 : spacing;
+  const textParams = _extends({
+    x: xPosition + spacingX,
+    text: label,
+    fontSize: 12
+  }, getTextParams({
+    top,
+    height,
+    spacingY,
+    labelAlign
+  }), {
+    className: classes.label
+  });
+  return (0, import_jsx_runtime2.jsxs)(ReferenceLineRoot, {
+    className: classes.root,
+    children: [(0, import_jsx_runtime.jsx)("path", {
+      d,
+      className: classes.line,
+      style: lineStyle
+    }), (0, import_jsx_runtime.jsx)(ChartsText, _extends({}, textParams, {
+      style: _extends({}, textParams.style, labelStyle)
+    }))]
+  });
+}
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/ChartsYReferenceLine.js
+init_extends();
+var React3 = __toESM(require_react());
+init_composeClasses();
+var import_jsx_runtime3 = __toESM(require_jsx_runtime());
+var import_jsx_runtime4 = __toESM(require_jsx_runtime());
+var getTextParams2 = ({
+  left,
+  width,
+  spacingX,
+  labelAlign = "middle"
+}) => {
+  switch (labelAlign) {
+    case "start":
+      return {
+        x: left + spacingX,
+        style: {
+          dominantBaseline: "auto",
+          textAnchor: "start"
+        }
+      };
+    case "end":
+      return {
+        x: left + width - spacingX,
+        style: {
+          dominantBaseline: "auto",
+          textAnchor: "end"
+        }
+      };
+    default:
+      return {
+        x: left + width / 2,
+        style: {
+          dominantBaseline: "auto",
+          textAnchor: "middle"
+        }
+      };
+  }
+};
+var warnedOnce2 = false;
+function getYReferenceLineClasses(classes) {
+  return composeClasses({
+    root: ["root", "horizontal"],
+    line: ["line"],
+    label: ["label"]
+  }, getReferenceLineUtilityClass, classes);
+}
+function ChartsYReferenceLine(props) {
+  var _spacing$x, _spacing$y;
+  const {
+    y,
+    label = "",
+    spacing = 5,
+    classes: inClasses,
+    labelAlign,
+    lineStyle,
+    labelStyle,
+    axisId
+  } = props;
+  const {
+    left,
+    width
+  } = useDrawingArea();
+  const yAxisScale = useYScale(axisId);
+  const yPosition = yAxisScale(y);
+  if (yPosition === void 0) {
+    if (true) {
+      if (!warnedOnce2) {
+        warnedOnce2 = true;
+        console.error(`MUI X: the value ${y} does not exist in the data of y axis with id ${axisId}.`);
+      }
+    }
+    return null;
+  }
+  const d = `M ${left} ${yPosition} l ${width} 0`;
+  const classes = getYReferenceLineClasses(inClasses);
+  const spacingX = typeof spacing === "object" ? (_spacing$x = spacing.x) != null ? _spacing$x : 0 : spacing;
+  const spacingY = typeof spacing === "object" ? (_spacing$y = spacing.y) != null ? _spacing$y : 0 : spacing;
+  const textParams = _extends({
+    y: yPosition - spacingY,
+    text: label,
+    fontSize: 12
+  }, getTextParams2({
+    left,
+    width,
+    spacingX,
+    labelAlign
+  }), {
+    className: classes.label
+  });
+  return (0, import_jsx_runtime4.jsxs)(ReferenceLineRoot, {
+    className: classes.root,
+    children: [(0, import_jsx_runtime3.jsx)("path", {
+      d,
+      className: classes.line,
+      style: lineStyle
+    }), (0, import_jsx_runtime3.jsx)(ChartsText, _extends({}, textParams, {
+      style: _extends({}, textParams.style, labelStyle)
+    }))]
+  });
+}
+
+// node_modules/@mui/x-charts/esm/ChartsReferenceLine/ChartsReferenceLine.js
+var import_jsx_runtime5 = __toESM(require_jsx_runtime());
+function ChartsReferenceLine(props) {
+  const {
+    x,
+    y
+  } = props;
+  if (x !== void 0 && y !== void 0) {
+    throw new Error("MUI-X-Charts: The ChartsReferenceLine can not have both `x` and `y` props set.");
+  }
+  if (x === void 0 && y === void 0) {
+    throw new Error("MUI-X-Charts: The ChartsReferenceLine should have a value in `x` or `y` prop.");
+  }
+  if (x !== void 0) {
+    return (0, import_jsx_runtime5.jsx)(ChartsXReferenceLine, _extends({}, props));
+  }
+  return (0, import_jsx_runtime5.jsx)(ChartsYReferenceLine, _extends({}, props));
+}
+true ? ChartsReferenceLine.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // | To update them edit the TypeScript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * The id of the axis used for the reference value.
+   * @default The `id` of the first defined axis.
+   */
+  axisId: import_prop_types.default.oneOfType([import_prop_types.default.number, import_prop_types.default.string]),
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes: import_prop_types.default.object,
+  /**
+   * The label to display along the reference line.
+   */
+  label: import_prop_types.default.string,
+  /**
+   * The alignment if the label is in the chart drawing area.
+   * @default 'middle'
+   */
+  labelAlign: import_prop_types.default.oneOf(["end", "middle", "start"]),
+  /**
+   * The style applied to the label.
+   */
+  labelStyle: import_prop_types.default.object,
+  /**
+   * The style applied to the line.
+   */
+  lineStyle: import_prop_types.default.object,
+  /**
+   * Additional space arround the label in px.
+   * Can be a number or an object `{ x, y }` to distinguish space with the reference line and space with axes.
+   * @default 5
+   */
+  spacing: import_prop_types.default.oneOfType([import_prop_types.default.number, import_prop_types.default.shape({
+    x: import_prop_types.default.number,
+    y: import_prop_types.default.number
+  })]),
+  /**
+   * The x value associated with the reference line.
+   * If defined the reference line will be vertical.
+   */
+  x: import_prop_types.default.oneOfType([import_prop_types.default.instanceOf(Date), import_prop_types.default.number, import_prop_types.default.string]),
+  /**
+   * The y value associated with the reference line.
+   * If defined the reference line will be horizontal.
+   */
+  y: import_prop_types.default.oneOfType([import_prop_types.default.instanceOf(Date), import_prop_types.default.number, import_prop_types.default.string])
+} : void 0;
+
+// node_modules/@mui/x-charts/esm/ScatterChart/ScatterChart.js
+init_extends();
+var React7 = __toESM(require_react());
+var import_prop_types4 = __toESM(require_prop_types());
+
+// node_modules/@mui/x-charts/esm/ScatterChart/ScatterPlot.js
+init_extends();
+var React6 = __toESM(require_react());
+var import_prop_types3 = __toESM(require_prop_types());
+
+// node_modules/@mui/x-charts/esm/ScatterChart/Scatter.js
+init_extends();
+var React5 = __toESM(require_react());
+var import_prop_types2 = __toESM(require_prop_types());
+var import_jsx_runtime6 = __toESM(require_jsx_runtime());
+function Scatter(props) {
+  const {
+    series,
+    xScale,
+    yScale,
+    color,
+    markerSize
+  } = props;
+  const {
+    item
+  } = React5.useContext(InteractionContext);
+  const getInteractionItemProps = useInteractionItemProps(series.highlightScope);
+  const cleanData = React5.useMemo(() => {
+    const getXPosition = getValueToPositionMapper(xScale);
+    const getYPosition = getValueToPositionMapper(yScale);
+    const xRange = xScale.range();
+    const yRange = yScale.range();
+    const minXRange = Math.min(...xRange);
+    const maxXRange = Math.max(...xRange);
+    const minYRange = Math.min(...yRange);
+    const maxYRange = Math.max(...yRange);
+    const temp = [];
+    for (let i = 0; i < series.data.length; i += 1) {
+      const scatterPoint = series.data[i];
+      const x = getXPosition(scatterPoint.x);
+      const y = getYPosition(scatterPoint.y);
+      const isInRange = x >= minXRange && x <= maxXRange && y >= minYRange && y <= maxYRange;
+      const pointCtx = {
+        type: "scatter",
+        seriesId: series.id,
+        dataIndex: i
+      };
+      if (isInRange) {
+        temp.push({
+          x,
+          y,
+          isFaded: !getIsHighlighted(item, pointCtx, series.highlightScope) && getIsFaded(item, pointCtx, series.highlightScope),
+          interactionProps: getInteractionItemProps(pointCtx),
+          id: scatterPoint.id
+        });
+      }
+    }
+    return temp;
+  }, [yScale, xScale, getInteractionItemProps, item, series.data, series.highlightScope, series.id]);
+  return (0, import_jsx_runtime6.jsx)("g", {
+    children: cleanData.map((dataPoint) => (0, import_jsx_runtime6.jsx)("circle", _extends({
+      cx: 0,
+      cy: 0,
+      r: markerSize,
+      transform: `translate(${dataPoint.x}, ${dataPoint.y})`,
+      fill: color,
+      opacity: dataPoint.isFaded && 0.3 || 1
+    }, dataPoint.interactionProps), dataPoint.id))
+  });
+}
+true ? Scatter.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // | To update them edit the TypeScript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  color: import_prop_types2.default.string.isRequired,
+  markerSize: import_prop_types2.default.number.isRequired,
+  series: import_prop_types2.default.shape({
+    color: import_prop_types2.default.string.isRequired,
+    data: import_prop_types2.default.arrayOf(import_prop_types2.default.shape({
+      id: import_prop_types2.default.oneOfType([import_prop_types2.default.number, import_prop_types2.default.string]).isRequired,
+      x: import_prop_types2.default.number.isRequired,
+      y: import_prop_types2.default.number.isRequired
+    })).isRequired,
+    highlightScope: import_prop_types2.default.shape({
+      faded: import_prop_types2.default.oneOf(["global", "none", "series"]),
+      highlighted: import_prop_types2.default.oneOf(["item", "none", "series"])
+    }),
+    id: import_prop_types2.default.oneOfType([import_prop_types2.default.number, import_prop_types2.default.string]).isRequired,
+    label: import_prop_types2.default.string,
+    markerSize: import_prop_types2.default.number,
+    type: import_prop_types2.default.oneOf(["scatter"]).isRequired,
+    valueFormatter: import_prop_types2.default.func.isRequired,
+    xAxisKey: import_prop_types2.default.string,
+    yAxisKey: import_prop_types2.default.string
+  }).isRequired,
+  xScale: import_prop_types2.default.func.isRequired,
+  yScale: import_prop_types2.default.func.isRequired
+} : void 0;
+
+// node_modules/@mui/x-charts/esm/ScatterChart/ScatterPlot.js
+var import_jsx_runtime7 = __toESM(require_jsx_runtime());
+function ScatterPlot(props) {
+  var _slots$scatter;
+  const {
+    slots,
+    slotProps
+  } = props;
+  const seriesData = React6.useContext(SeriesContext).scatter;
+  const axisData = React6.useContext(CartesianContext);
+  if (seriesData === void 0) {
+    return null;
+  }
+  const {
+    series,
+    seriesOrder
+  } = seriesData;
+  const {
+    xAxis,
+    yAxis,
+    xAxisIds,
+    yAxisIds
+  } = axisData;
+  const defaultXAxisId = xAxisIds[0];
+  const defaultYAxisId = yAxisIds[0];
+  const ScatterItems = (_slots$scatter = slots == null ? void 0 : slots.scatter) != null ? _slots$scatter : Scatter;
+  return (0, import_jsx_runtime7.jsx)(React6.Fragment, {
+    children: seriesOrder.map((seriesId) => {
+      const {
+        id,
+        xAxisKey,
+        yAxisKey,
+        markerSize,
+        color
+      } = series[seriesId];
+      const xScale = xAxis[xAxisKey != null ? xAxisKey : defaultXAxisId].scale;
+      const yScale = yAxis[yAxisKey != null ? yAxisKey : defaultYAxisId].scale;
+      return (0, import_jsx_runtime7.jsx)(ScatterItems, _extends({
+        xScale,
+        yScale,
+        color,
+        markerSize: markerSize != null ? markerSize : 4,
+        series: series[seriesId]
+      }, slotProps == null ? void 0 : slotProps.scatter), id);
+    })
+  });
+}
+true ? ScatterPlot.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // | To update them edit the TypeScript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * The props used for each component slot.
+   * @default {}
+   */
+  slotProps: import_prop_types3.default.object,
+  /**
+   * Overridable component slots.
+   * @default {}
+   */
+  slots: import_prop_types3.default.object
+} : void 0;
+
+// node_modules/@mui/x-charts/esm/ScatterChart/ScatterChart.js
+var import_jsx_runtime8 = __toESM(require_jsx_runtime());
+var import_jsx_runtime9 = __toESM(require_jsx_runtime());
+var ScatterChart = React7.forwardRef(function ScatterChart2(props, ref) {
+  const {
+    xAxis,
+    yAxis,
+    series,
+    tooltip,
+    axisHighlight,
+    legend,
+    width,
+    height,
+    margin,
+    colors,
+    sx,
+    topAxis,
+    leftAxis,
+    rightAxis,
+    bottomAxis,
+    children,
+    slots,
+    slotProps
+  } = props;
+  return (0, import_jsx_runtime9.jsxs)(ResponsiveChartContainer, {
+    ref,
+    series: series.map((s) => _extends({
+      type: "scatter"
+    }, s)),
+    width,
+    height,
+    margin,
+    colors,
+    xAxis,
+    yAxis,
+    sx,
+    children: [(0, import_jsx_runtime8.jsx)(ChartsAxis, {
+      topAxis,
+      leftAxis,
+      rightAxis,
+      bottomAxis,
+      slots,
+      slotProps
+    }), (0, import_jsx_runtime8.jsx)(ScatterPlot, {
+      slots,
+      slotProps
+    }), (0, import_jsx_runtime8.jsx)(ChartsLegend, _extends({}, legend, {
+      slots,
+      slotProps
+    })), (0, import_jsx_runtime8.jsx)(ChartsAxisHighlight, _extends({
+      x: "none",
+      y: "none"
+    }, axisHighlight)), (0, import_jsx_runtime8.jsx)(ChartsTooltip, _extends({
+      trigger: "item"
+    }, tooltip)), children]
+  });
+});
+true ? ScatterChart.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // | To update them edit the TypeScript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  axisHighlight: import_prop_types4.default.shape({
+    x: import_prop_types4.default.oneOf(["band", "line", "none"]),
+    y: import_prop_types4.default.oneOf(["band", "line", "none"])
+  }),
+  /**
+   * Indicate which axis to display the bottom of the charts.
+   * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
+   * @default xAxisIds[0] The id of the first provided axis
+   */
+  bottomAxis: import_prop_types4.default.oneOfType([import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    position: import_prop_types4.default.oneOf(["bottom", "top"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number
+  }), import_prop_types4.default.string]),
+  children: import_prop_types4.default.node,
+  className: import_prop_types4.default.string,
+  /**
+   * Color palette used to colorize multiple series.
+   * @default blueberryTwilightPalette
+   */
+  colors: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.string), import_prop_types4.default.func]),
+  /**
+   * An array of objects that can be used to populate series and axes data using their `dataKey` property.
+   */
+  dataset: import_prop_types4.default.arrayOf(import_prop_types4.default.object),
+  desc: import_prop_types4.default.string,
+  /**
+   * If `true`, the charts will not listen to the mouse move event.
+   * It might break interactive features, but will improve performance.
+   * @default false
+   */
+  disableAxisListener: import_prop_types4.default.bool,
+  /**
+   * The height of the chart in px. If not defined, it takes the height of the parent element.
+   * @default undefined
+   */
+  height: import_prop_types4.default.number,
+  /**
+   * Indicate which axis to display the left of the charts.
+   * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
+   * @default yAxisIds[0] The id of the first provided axis
+   */
+  leftAxis: import_prop_types4.default.oneOfType([import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    position: import_prop_types4.default.oneOf(["left", "right"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number
+  }), import_prop_types4.default.string]),
+  /**
+   * @deprecated Consider using `slotProps.legend` instead.
+   */
+  legend: import_prop_types4.default.shape({
+    classes: import_prop_types4.default.object,
+    direction: import_prop_types4.default.oneOf(["column", "row"]),
+    hidden: import_prop_types4.default.bool,
+    position: import_prop_types4.default.shape({
+      horizontal: import_prop_types4.default.oneOf(["left", "middle", "right"]).isRequired,
+      vertical: import_prop_types4.default.oneOf(["bottom", "middle", "top"]).isRequired
+    }),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object
+  }),
+  /**
+   * The margin between the SVG and the drawing area.
+   * It's used for leaving some space for extra information such as the x- and y-axis or legend.
+   * Accepts an object with the optional properties: `top`, `bottom`, `left`, and `right`.
+   * @default object Depends on the charts type.
+   */
+  margin: import_prop_types4.default.shape({
+    bottom: import_prop_types4.default.number,
+    left: import_prop_types4.default.number,
+    right: import_prop_types4.default.number,
+    top: import_prop_types4.default.number
+  }),
+  /**
+   * Indicate which axis to display the right of the charts.
+   * Can be a string (the id of the axis) or an object `ChartsYAxisProps`.
+   * @default null
+   */
+  rightAxis: import_prop_types4.default.oneOfType([import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    position: import_prop_types4.default.oneOf(["left", "right"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number
+  }), import_prop_types4.default.string]),
+  series: import_prop_types4.default.arrayOf(import_prop_types4.default.shape({
+    color: import_prop_types4.default.string,
+    data: import_prop_types4.default.arrayOf(import_prop_types4.default.shape({
+      id: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]).isRequired,
+      x: import_prop_types4.default.number.isRequired,
+      y: import_prop_types4.default.number.isRequired
+    })).isRequired,
+    highlightScope: import_prop_types4.default.shape({
+      faded: import_prop_types4.default.oneOf(["global", "none", "series"]),
+      highlighted: import_prop_types4.default.oneOf(["item", "none", "series"])
+    }),
+    id: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    label: import_prop_types4.default.string,
+    markerSize: import_prop_types4.default.number,
+    type: import_prop_types4.default.oneOf(["scatter"]),
+    valueFormatter: import_prop_types4.default.func,
+    xAxisKey: import_prop_types4.default.string,
+    yAxisKey: import_prop_types4.default.string
+  })).isRequired,
+  /**
+   * The props used for each component slot.
+   * @default {}
+   */
+  slotProps: import_prop_types4.default.object,
+  /**
+   * Overridable component slots.
+   * @default {}
+   */
+  slots: import_prop_types4.default.object,
+  sx: import_prop_types4.default.oneOfType([import_prop_types4.default.arrayOf(import_prop_types4.default.oneOfType([import_prop_types4.default.func, import_prop_types4.default.object, import_prop_types4.default.bool])), import_prop_types4.default.func, import_prop_types4.default.object]),
+  title: import_prop_types4.default.string,
+  tooltip: import_prop_types4.default.shape({
+    axisContent: import_prop_types4.default.elementType,
+    classes: import_prop_types4.default.object,
+    itemContent: import_prop_types4.default.elementType,
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    trigger: import_prop_types4.default.oneOf(["axis", "item", "none"])
+  }),
+  /**
+   * Indicate which axis to display the top of the charts.
+   * Can be a string (the id of the axis) or an object `ChartsXAxisProps`.
+   * @default null
+   */
+  topAxis: import_prop_types4.default.oneOfType([import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    position: import_prop_types4.default.oneOf(["bottom", "top"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number
+  }), import_prop_types4.default.string]),
+  viewBox: import_prop_types4.default.shape({
+    height: import_prop_types4.default.number,
+    width: import_prop_types4.default.number,
+    x: import_prop_types4.default.number,
+    y: import_prop_types4.default.number
+  }),
+  /**
+   * The width of the chart in px. If not defined, it takes the width of the parent element.
+   * @default undefined
+   */
+  width: import_prop_types4.default.number,
+  /**
+   * The configuration of the x-axes.
+   * If not provided, a default axis config is used with id set to `DEFAULT_X_AXIS_KEY`.
+   */
+  xAxis: import_prop_types4.default.arrayOf(import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    data: import_prop_types4.default.array,
+    dataKey: import_prop_types4.default.string,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    hideTooltip: import_prop_types4.default.bool,
+    id: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    max: import_prop_types4.default.oneOfType([import_prop_types4.default.instanceOf(Date), import_prop_types4.default.number]),
+    min: import_prop_types4.default.oneOfType([import_prop_types4.default.instanceOf(Date), import_prop_types4.default.number]),
+    position: import_prop_types4.default.oneOf(["bottom", "left", "right", "top"]),
+    reverse: import_prop_types4.default.bool,
+    scaleType: import_prop_types4.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number,
+    valueFormatter: import_prop_types4.default.func
+  })),
+  /**
+   * The configuration of the y-axes.
+   * If not provided, a default axis config is used with id set to `DEFAULT_Y_AXIS_KEY`.
+   */
+  yAxis: import_prop_types4.default.arrayOf(import_prop_types4.default.shape({
+    axisId: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    classes: import_prop_types4.default.object,
+    data: import_prop_types4.default.array,
+    dataKey: import_prop_types4.default.string,
+    disableLine: import_prop_types4.default.bool,
+    disableTicks: import_prop_types4.default.bool,
+    fill: import_prop_types4.default.string,
+    hideTooltip: import_prop_types4.default.bool,
+    id: import_prop_types4.default.oneOfType([import_prop_types4.default.number, import_prop_types4.default.string]),
+    label: import_prop_types4.default.string,
+    labelFontSize: import_prop_types4.default.number,
+    labelStyle: import_prop_types4.default.object,
+    max: import_prop_types4.default.oneOfType([import_prop_types4.default.instanceOf(Date), import_prop_types4.default.number]),
+    min: import_prop_types4.default.oneOfType([import_prop_types4.default.instanceOf(Date), import_prop_types4.default.number]),
+    position: import_prop_types4.default.oneOf(["bottom", "left", "right", "top"]),
+    reverse: import_prop_types4.default.bool,
+    scaleType: import_prop_types4.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
+    slotProps: import_prop_types4.default.object,
+    slots: import_prop_types4.default.object,
+    stroke: import_prop_types4.default.string,
+    tickFontSize: import_prop_types4.default.number,
+    tickInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.array, import_prop_types4.default.func]),
+    tickLabelInterval: import_prop_types4.default.oneOfType([import_prop_types4.default.oneOf(["auto"]), import_prop_types4.default.func]),
+    tickLabelStyle: import_prop_types4.default.object,
+    tickMaxStep: import_prop_types4.default.number,
+    tickMinStep: import_prop_types4.default.number,
+    tickNumber: import_prop_types4.default.number,
+    tickSize: import_prop_types4.default.number,
+    valueFormatter: import_prop_types4.default.func
+  }))
+} : void 0;
+
+// node_modules/@mui/x-charts/esm/SparkLineChart/SparkLineChart.js
+init_extends();
+var React8 = __toESM(require_react());
+var import_prop_types5 = __toESM(require_prop_types());
+var import_jsx_runtime10 = __toESM(require_jsx_runtime());
+var import_jsx_runtime11 = __toESM(require_jsx_runtime());
+var SPARKLINE_DEFAULT_MARGIN = {
+  top: 5,
+  bottom: 5,
+  left: 5,
+  right: 5
+};
+var SparkLineChart = React8.forwardRef(function SparkLineChart2(props, ref) {
+  const {
+    xAxis,
+    width,
+    height,
+    margin = SPARKLINE_DEFAULT_MARGIN,
+    colors,
+    sx,
+    showTooltip,
+    tooltip,
+    showHighlight,
+    axisHighlight: inAxisHighlight,
+    children,
+    slots,
+    slotProps,
+    data,
+    plotType = "line",
+    valueFormatter = (value) => value === null ? "" : value.toString(),
+    area,
+    curve = "linear",
+    skipAnimation = false
+  } = props;
+  const defaultXHighlight = showHighlight && plotType === "bar" ? {
+    x: "band"
+  } : {
+    x: "none"
+  };
+  const axisHighlight = _extends({}, defaultXHighlight, inAxisHighlight);
+  return (0, import_jsx_runtime11.jsxs)(ResponsiveChartContainer, {
+    ref,
+    series: [_extends({
+      type: plotType,
+      data,
+      valueFormatter
+    }, plotType === "bar" ? {} : {
+      area,
+      curve,
+      disableHighlight: !showHighlight
+    })],
+    width,
+    height,
+    margin,
+    xAxis: [_extends({
+      id: DEFAULT_X_AXIS_KEY,
+      scaleType: plotType === "bar" ? "band" : "point",
+      data: Array.from({
+        length: data.length
+      }, (_, index) => index),
+      hideTooltip: xAxis === void 0
+    }, xAxis)],
+    colors,
+    sx,
+    disableAxisListener: (!showTooltip || (tooltip == null ? void 0 : tooltip.trigger) !== "axis") && (axisHighlight == null ? void 0 : axisHighlight.x) === "none" && (axisHighlight == null ? void 0 : axisHighlight.y) === "none",
+    children: [plotType === "bar" && (0, import_jsx_runtime10.jsx)(BarPlot, {
+      skipAnimation,
+      slots,
+      slotProps,
+      sx: {
+        shapeRendering: "auto"
+      }
+    }), plotType === "line" && (0, import_jsx_runtime11.jsxs)(React8.Fragment, {
+      children: [(0, import_jsx_runtime10.jsx)(AreaPlot, {
+        slots,
+        slotProps
+      }), (0, import_jsx_runtime10.jsx)(LinePlot, {
+        slots,
+        slotProps
+      }), (0, import_jsx_runtime10.jsx)(LineHighlightPlot, {
+        slots,
+        slotProps
+      })]
+    }), (0, import_jsx_runtime10.jsx)(ChartsAxisHighlight, _extends({}, axisHighlight)), showTooltip && (0, import_jsx_runtime10.jsx)(ChartsTooltip, _extends({}, tooltip, {
+      slotProps,
+      slots
+    })), children]
+  });
+});
+true ? SparkLineChart.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // | To update them edit the TypeScript types and run "yarn proptypes"  |
+  // ----------------------------------------------------------------------
+  /**
+   * Set to `true` to fill spark line area.
+   * Has no effect if plotType='bar'.
+   * @default false
+   */
+  area: import_prop_types5.default.bool,
+  axisHighlight: import_prop_types5.default.shape({
+    x: import_prop_types5.default.oneOf(["band", "line", "none"]),
+    y: import_prop_types5.default.oneOf(["band", "line", "none"])
+  }),
+  children: import_prop_types5.default.node,
+  className: import_prop_types5.default.string,
+  /**
+   * Color palette used to colorize multiple series.
+   * @default blueberryTwilightPalette
+   */
+  colors: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.string), import_prop_types5.default.func]),
+  /**
+   * @default 'linear'
+   */
+  curve: import_prop_types5.default.oneOf(["catmullRom", "linear", "monotoneX", "monotoneY", "natural", "step", "stepAfter", "stepBefore"]),
+  /**
+   * Data to plot.
+   */
+  data: import_prop_types5.default.arrayOf(import_prop_types5.default.number).isRequired,
+  /**
+   * An array of objects that can be used to populate series and axes data using their `dataKey` property.
+   */
+  dataset: import_prop_types5.default.arrayOf(import_prop_types5.default.object),
+  desc: import_prop_types5.default.string,
+  /**
+   * If `true`, the charts will not listen to the mouse move event.
+   * It might break interactive features, but will improve performance.
+   * @default false
+   */
+  disableAxisListener: import_prop_types5.default.bool,
+  /**
+   * The height of the chart in px. If not defined, it takes the height of the parent element.
+   * @default undefined
+   */
+  height: import_prop_types5.default.number,
+  /**
+   * The margin between the SVG and the drawing area.
+   * It's used for leaving some space for extra information such as the x- and y-axis or legend.
+   * Accepts an object with the optional properties: `top`, `bottom`, `left`, and `right`.
+   * @default {
+   *   top: 5,
+   *   bottom: 5,
+   *   left: 5,
+   *   right: 5,
+   * }
+   */
+  margin: import_prop_types5.default.shape({
+    bottom: import_prop_types5.default.number,
+    left: import_prop_types5.default.number,
+    right: import_prop_types5.default.number,
+    top: import_prop_types5.default.number
+  }),
+  /**
+   * Type of plot used.
+   * @default 'line'
+   */
+  plotType: import_prop_types5.default.oneOf(["bar", "line"]),
+  /**
+   * Set to `true` to highlight the value.
+   * With line, it shows a point.
+   * With bar, it shows a highlight band.
+   * @default false
+   */
+  showHighlight: import_prop_types5.default.bool,
+  /**
+   * Set to `true` to enable the tooltip in the sparkline.
+   * @default false
+   */
+  showTooltip: import_prop_types5.default.bool,
+  /**
+   * If `true`, bar animations are skiped.
+   * @deprecated In v7 animations are skipped for sparkline.
+   * @default false
+   */
+  skipAnimation: import_prop_types5.default.bool,
+  /**
+   * The props used for each component slot.
+   * @default {}
+   */
+  slotProps: import_prop_types5.default.object,
+  /**
+   * Overridable component slots.
+   * @default {}
+   */
+  slots: import_prop_types5.default.object,
+  sx: import_prop_types5.default.oneOfType([import_prop_types5.default.arrayOf(import_prop_types5.default.oneOfType([import_prop_types5.default.func, import_prop_types5.default.object, import_prop_types5.default.bool])), import_prop_types5.default.func, import_prop_types5.default.object]),
+  title: import_prop_types5.default.string,
+  tooltip: import_prop_types5.default.shape({
+    axisContent: import_prop_types5.default.elementType,
+    classes: import_prop_types5.default.object,
+    itemContent: import_prop_types5.default.elementType,
+    slotProps: import_prop_types5.default.object,
+    slots: import_prop_types5.default.object,
+    trigger: import_prop_types5.default.oneOf(["axis", "item", "none"])
+  }),
+  /**
+   * Formatter used by the tooltip.
+   * @param {number} value The value to format.
+   * @returns {string} the formatted value.
+   * @default (value: number | null) => (value === null ? '' : value.toString())
+   */
+  valueFormatter: import_prop_types5.default.func,
+  viewBox: import_prop_types5.default.shape({
+    height: import_prop_types5.default.number,
+    width: import_prop_types5.default.number,
+    x: import_prop_types5.default.number,
+    y: import_prop_types5.default.number
+  }),
+  /**
+   * The width of the chart in px. If not defined, it takes the width of the parent element.
+   * @default undefined
+   */
+  width: import_prop_types5.default.number,
+  /**
+   * The xAxis configuration.
+   * Notice it is a single configuration object, not an array of configuration.
+   */
+  xAxis: import_prop_types5.default.shape({
+    axisId: import_prop_types5.default.oneOfType([import_prop_types5.default.number, import_prop_types5.default.string]),
+    classes: import_prop_types5.default.object,
+    data: import_prop_types5.default.array,
+    dataKey: import_prop_types5.default.string,
+    disableLine: import_prop_types5.default.bool,
+    disableTicks: import_prop_types5.default.bool,
+    fill: import_prop_types5.default.string,
+    hideTooltip: import_prop_types5.default.bool,
+    id: import_prop_types5.default.oneOfType([import_prop_types5.default.number, import_prop_types5.default.string]),
+    label: import_prop_types5.default.string,
+    labelFontSize: import_prop_types5.default.number,
+    labelStyle: import_prop_types5.default.object,
+    max: import_prop_types5.default.oneOfType([import_prop_types5.default.instanceOf(Date), import_prop_types5.default.number]),
+    min: import_prop_types5.default.oneOfType([import_prop_types5.default.instanceOf(Date), import_prop_types5.default.number]),
+    position: import_prop_types5.default.oneOf(["bottom", "left", "right", "top"]),
+    reverse: import_prop_types5.default.bool,
+    scaleType: import_prop_types5.default.oneOf(["band", "linear", "log", "point", "pow", "sqrt", "time", "utc"]),
+    slotProps: import_prop_types5.default.object,
+    slots: import_prop_types5.default.object,
+    stroke: import_prop_types5.default.string,
+    tickFontSize: import_prop_types5.default.number,
+    tickInterval: import_prop_types5.default.oneOfType([import_prop_types5.default.oneOf(["auto"]), import_prop_types5.default.array, import_prop_types5.default.func]),
+    tickLabelInterval: import_prop_types5.default.oneOfType([import_prop_types5.default.oneOf(["auto"]), import_prop_types5.default.func]),
+    tickLabelStyle: import_prop_types5.default.object,
+    tickMaxStep: import_prop_types5.default.number,
+    tickMinStep: import_prop_types5.default.number,
+    tickNumber: import_prop_types5.default.number,
+    tickSize: import_prop_types5.default.number,
+    valueFormatter: import_prop_types5.default.func
+  })
+} : void 0;
+export {
+  AreaElement,
+  AreaElementPath,
+  AreaPlot,
+  BarChart,
+  BarElement,
+  BarElementPath,
+  BarPlot,
+  CartesianContextProvider,
+  ChartContainer,
+  ChartsAxis,
+  ChartsAxisHighlight,
+  ChartsAxisHighlightPath,
+  ChartsAxisTooltipContent,
+  ChartsClipPath,
+  ChartsItemTooltipContent,
+  ChartsLegend,
+  ChartsLegendRoot,
+  ChartsReferenceLine,
+  ChartsSurface,
+  ChartsText,
+  ChartsTooltip,
+  ChartsXAxis,
+  ChartsYAxis,
+  DEFAULT_MARGINS,
+  DEFAULT_X_AXIS_KEY,
+  DEFAULT_Y_AXIS_KEY,
+  DefaultChartsAxisTooltipContent,
+  DefaultChartsItemTooltipContent,
+  DrawingProvider,
+  LineChart,
+  LineElement,
+  LineElementPath,
+  LineHighlightElement,
+  LineHighlightPlot,
+  LinePlot,
+  MarkElement,
+  MarkPlot,
+  PieArc,
+  PieArcLabel,
+  PieArcLabelPlot,
+  PieArcPlot,
+  PieChart,
+  PiePlot,
+  ResponsiveChartContainer,
+  Scatter,
+  ScatterChart,
+  ScatterPlot,
+  SparkLineChart,
+  areaElementClasses,
+  axisClasses,
+  barElementClasses,
+  blueberryTwilightPalette,
+  blueberryTwilightPaletteDark,
+  blueberryTwilightPaletteLight,
+  chartsAxisHighlightClasses,
+  chartsTooltipClasses,
+  cheerfulFiestaPalette,
+  cheerfulFiestaPaletteDark,
+  cheerfulFiestaPaletteLight,
+  getAreaElementUtilityClass,
+  getAxisHighlightUtilityClass,
+  getAxisUtilityClass,
+  getBarElementUtilityClass,
+  getChartsTooltipUtilityClass,
+  getHighlightElementUtilityClass,
+  getLegendUtilityClass,
+  getLineElementUtilityClass,
+  getMarkElementUtilityClass,
+  getPieArcLabelUtilityClass,
+  getPieArcUtilityClass,
+  getReferenceLineUtilityClass,
+  getSeriesToDisplay,
+  getValueToPositionMapper,
+  legendClasses,
+  lineElementClasses,
+  lineHighlightElementClasses,
+  mangoFusionPalette,
+  mangoFusionPaletteDark,
+  mangoFusionPaletteLight,
+  markElementClasses,
+  pieArcClasses,
+  pieArcLabelClasses,
+  referenceLineClasses,
+  useDrawingArea,
+  useXScale,
+  useYScale
+};
+//# sourceMappingURL=@mui_x-charts.js.map

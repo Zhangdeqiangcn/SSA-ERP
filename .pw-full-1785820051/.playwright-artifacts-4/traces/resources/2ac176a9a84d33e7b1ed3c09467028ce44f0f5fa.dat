@@ -1,0 +1,98 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/components/common/DetailSection.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { Box, Typography, Grid } from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+export const DetailSection = ({
+  title,
+  fields,
+  columns = 2
+}) => {
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { mb: 4 }, children: [
+    title && /* @__PURE__ */ jsxDEV(Typography, { variant: "h6", sx: { mb: 2, fontWeight: 600 }, children: title }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+      lineNumber: 42,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Grid, { container: true, spacing: 2, children: fields.map(
+      (field, index) => /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 12 / columns, children: /* @__PURE__ */ jsxDEV(Box, { sx: { display: "flex" }, children: [
+        /* @__PURE__ */ jsxDEV(
+          Typography,
+          {
+            variant: "body2",
+            sx: {
+              color: "text.secondary",
+              minWidth: 100,
+              flexShrink: 0
+            },
+            children: [
+              field.label,
+              "："
+            ]
+          },
+          void 0,
+          true,
+          {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+            lineNumber: 50,
+            columnNumber: 15
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(Typography, { variant: "body2", component: "div", children: field.value || "-" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+          lineNumber: 61,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+        lineNumber: 49,
+        columnNumber: 13
+      }, this) }, index, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+        lineNumber: 48,
+        columnNumber: 9
+      }, this)
+    ) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+      lineNumber: 46,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx",
+    lineNumber: 40,
+    columnNumber: 5
+  }, this);
+};
+_c = DetailSection;
+export default DetailSection;
+var _c;
+$RefreshReg$(_c, "DetailSection");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/components/common/DetailSection.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJtYXBwaW5ncyI6IkFBc0JROzs7Ozs7Ozs7Ozs7Ozs7O0FBckJSLFNBQVNBLEtBQUtDLFlBQVlDLFlBQVk7QUFhL0IsYUFBTUMsZ0JBQThDQSxDQUFDO0FBQUEsRUFDMURDO0FBQUFBLEVBQ0FDO0FBQUFBLEVBQ0FDLFVBQVU7QUFDWixNQUFNO0FBQ0osU0FDRSx1QkFBQyxPQUFJLElBQUksRUFBRUMsSUFBSSxFQUFFLEdBQ2RIO0FBQUFBLGFBQ0MsdUJBQUMsY0FBVyxTQUFRLE1BQUssSUFBSSxFQUFFRyxJQUFJLEdBQUdDLFlBQVksSUFBSSxHQUNuREosbUJBREg7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQUVBO0FBQUEsSUFFRix1QkFBQyxRQUFLLFdBQVMsTUFBQyxTQUFTLEdBQ3RCQyxpQkFBT0k7QUFBQUEsTUFBSSxDQUFDQyxPQUFPQyxVQUNsQix1QkFBQyxRQUFLLE1BQUksTUFBQyxJQUFJLEtBQUtMLFNBQ2xCLGlDQUFDLE9BQUksSUFBSSxFQUFFTSxTQUFTLE9BQU8sR0FDekI7QUFBQTtBQUFBLFVBQUM7QUFBQTtBQUFBLFlBQ0MsU0FBUTtBQUFBLFlBQ1IsSUFBSTtBQUFBLGNBQ0ZDLE9BQU87QUFBQSxjQUNQQyxVQUFVO0FBQUEsY0FDVkMsWUFBWTtBQUFBLFlBQ2Q7QUFBQSxZQUVDTDtBQUFBQSxvQkFBTU07QUFBQUEsY0FBTTtBQUFBO0FBQUE7QUFBQSxVQVJmO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxRQVNBO0FBQUEsUUFFQSx1QkFBQyxjQUFXLFNBQVEsU0FBUSxXQUFVLE9BQU9OLGdCQUFNTyxTQUFTLE9BQTVEO0FBQUE7QUFBQTtBQUFBO0FBQUEsZUFBZ0U7QUFBQSxXQVpsRTtBQUFBO0FBQUE7QUFBQTtBQUFBLGFBYUEsS0FkZ0NOLE9BQWxDO0FBQUE7QUFBQTtBQUFBO0FBQUEsYUFlQTtBQUFBLElBQ0QsS0FsQkg7QUFBQTtBQUFBO0FBQUE7QUFBQSxXQW1CQTtBQUFBLE9BekJGO0FBQUE7QUFBQTtBQUFBO0FBQUEsU0EwQkE7QUFFSjtBQUFFTyxLQWxDV2Y7QUFvQ2IsZUFBZUE7QUFBYyxJQUFBZTtBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJCb3giLCJUeXBvZ3JhcGh5IiwiR3JpZCIsIkRldGFpbFNlY3Rpb24iLCJ0aXRsZSIsImZpZWxkcyIsImNvbHVtbnMiLCJtYiIsImZvbnRXZWlnaHQiLCJtYXAiLCJmaWVsZCIsImluZGV4IiwiZGlzcGxheSIsImNvbG9yIiwibWluV2lkdGgiLCJmbGV4U2hyaW5rIiwibGFiZWwiLCJ2YWx1ZSIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIkRldGFpbFNlY3Rpb24udHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgeyBCb3gsIFR5cG9ncmFwaHksIEdyaWQgfSBmcm9tICdAbXVpL21hdGVyaWFsJztcblxuaW50ZXJmYWNlIERldGFpbEZpZWxkIHtcbiAgbGFiZWw6IHN0cmluZztcbiAgdmFsdWU6IFJlYWN0LlJlYWN0Tm9kZTtcbn1cblxuaW50ZXJmYWNlIERldGFpbFNlY3Rpb25Qcm9wcyB7XG4gIHRpdGxlPzogc3RyaW5nO1xuICBmaWVsZHM6IERldGFpbEZpZWxkW107XG4gIGNvbHVtbnM/OiAxIHwgMiB8IDMgfCA0O1xufVxuXG5leHBvcnQgY29uc3QgRGV0YWlsU2VjdGlvbjogUmVhY3QuRkM8RGV0YWlsU2VjdGlvblByb3BzPiA9ICh7XG4gIHRpdGxlLFxuICBmaWVsZHMsXG4gIGNvbHVtbnMgPSAyLFxufSkgPT4ge1xuICByZXR1cm4gKFxuICAgIDxCb3ggc3g9e3sgbWI6IDQgfX0+XG4gICAgICB7dGl0bGUgJiYgKFxuICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiaDZcIiBzeD17eyBtYjogMiwgZm9udFdlaWdodDogNjAwIH19PlxuICAgICAgICAgIHt0aXRsZX1cbiAgICAgICAgPC9UeXBvZ3JhcGh5PlxuICAgICAgKX1cbiAgICAgIDxHcmlkIGNvbnRhaW5lciBzcGFjaW5nPXsyfT5cbiAgICAgICAge2ZpZWxkcy5tYXAoKGZpZWxkLCBpbmRleCkgPT4gKFxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezEyIC8gY29sdW1uc30ga2V5PXtpbmRleH0+XG4gICAgICAgICAgICA8Qm94IHN4PXt7IGRpc3BsYXk6ICdmbGV4JyB9fT5cbiAgICAgICAgICAgICAgPFR5cG9ncmFwaHlcbiAgICAgICAgICAgICAgICB2YXJpYW50PVwiYm9keTJcIlxuICAgICAgICAgICAgICAgIHN4PXt7XG4gICAgICAgICAgICAgICAgICBjb2xvcjogJ3RleHQuc2Vjb25kYXJ5JyxcbiAgICAgICAgICAgICAgICAgIG1pbldpZHRoOiAxMDAsXG4gICAgICAgICAgICAgICAgICBmbGV4U2hyaW5rOiAwLFxuICAgICAgICAgICAgICAgIH19XG4gICAgICAgICAgICAgID5cbiAgICAgICAgICAgICAgICB7ZmllbGQubGFiZWx977yaXG4gICAgICAgICAgICAgIDwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgICAgey8qIOWAvOWPr+iDveWQqyBDaGlwL0JveCDnrYnlnZfnuqflhYPntKDvvIznlKggZGl2IOa4suafk+mBv+WFjSA8cD4g5YaF5bWMIDxkaXY+IOeahCBET00g5bWM5aWX5ZGK6K2mICovfVxuICAgICAgICAgICAgICA8VHlwb2dyYXBoeSB2YXJpYW50PVwiYm9keTJcIiBjb21wb25lbnQ9XCJkaXZcIj57ZmllbGQudmFsdWUgfHwgJy0nfTwvVHlwb2dyYXBoeT5cbiAgICAgICAgICAgIDwvQm94PlxuICAgICAgICAgIDwvR3JpZD5cbiAgICAgICAgKSl9XG4gICAgICA8L0dyaWQ+XG4gICAgPC9Cb3g+XG4gICk7XG59O1xuXG5leHBvcnQgZGVmYXVsdCBEZXRhaWxTZWN0aW9uO1xuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL2NvbXBvbmVudHMvY29tbW9uL0RldGFpbFNlY3Rpb24udHN4In0=

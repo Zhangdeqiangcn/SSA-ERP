@@ -1,0 +1,467 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Reports/ReportPermissions.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const useState = __vite__cjsImport3_react["useState"];
+import {
+  Box,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Tabs,
+  Tab,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  IconButton,
+  Button,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import { Add as AddIcon, Delete as DeleteIcon } from "/node_modules/.vite/deps/@mui_icons-material.js?v=5fca7ba0";
+import { useReportPermissionStore } from "/src/stores/index.ts?t=1785819952403";
+const ROLES = ["admin", "manager", "user", "finance", "warehouse"];
+const FREQS = ["daily", "weekly", "monthly"];
+const ReportPermissions = () => {
+  _s();
+  const { reportPermissions, subscriptions, setReportRoles, addSubscription, deleteSubscription } = useReportPermissionStore();
+  const [tab, setTab] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [reportId, setReportId] = useState(reportPermissions[0]?.reportId ?? "");
+  const [freq, setFreq] = useState("daily");
+  const [recipients, setRecipients] = useState("");
+  const [channel, setChannel] = useState("email");
+  const toggleRole = (rpId, rpName, role, checked) => {
+    const rp = reportPermissions.find((r) => r.reportId === rpId);
+    const next = checked ? [...rp?.allowedRoles ?? [], role] : (rp?.allowedRoles ?? []).filter((x) => x !== role);
+    setReportRoles(rpId, rpName, Array.from(new Set(next)));
+  };
+  const handleConfirm = () => {
+    if (!reportId.trim() || !recipients.trim()) return;
+    const rp = reportPermissions.find((r) => r.reportId === reportId);
+    addSubscription({ reportId, reportName: rp?.reportName ?? reportId, frequency: freq, recipients, channel, enabled: true });
+    setRecipients("");
+    setOpen(false);
+  };
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { p: 3 }, "data-testid": "report-permissions", children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h5", sx: { mb: 2, fontWeight: 700 }, children: "报表权限与订阅" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+      lineNumber: 58,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Tabs, { value: tab, onChange: (_, v) => setTab(v), sx: { mb: 2 }, children: [
+      /* @__PURE__ */ jsxDEV(Tab, { label: "报表权限" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 60,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Tab, { label: "订阅管理" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 61,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+      lineNumber: 59,
+      columnNumber: 7
+    }, this),
+    tab === 0 && /* @__PURE__ */ jsxDEV(Table, { children: [
+      /* @__PURE__ */ jsxDEV(TableHead, { children: /* @__PURE__ */ jsxDEV(TableRow, { children: [
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "报表" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 68,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "允许角色" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 69,
+          columnNumber: 15
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 67,
+        columnNumber: 13
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 66,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(TableBody, { children: reportPermissions.map(
+        (rp) => /* @__PURE__ */ jsxDEV(TableRow, { "data-testid": "rp-perm-row", children: [
+          /* @__PURE__ */ jsxDEV(TableCell, { children: rp.reportName }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 75,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: /* @__PURE__ */ jsxDEV(FormGroup, { row: true, children: ROLES.map(
+            (role) => /* @__PURE__ */ jsxDEV(
+              FormControlLabel,
+              {
+                control: /* @__PURE__ */ jsxDEV(
+                  Checkbox,
+                  {
+                    size: "small",
+                    "data-testid": `rp-role-${rp.reportId}-${role}`,
+                    checked: rp.allowedRoles.includes(role),
+                    onChange: (e) => toggleRole(rp.reportId, rp.reportName, role, e.target.checked)
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                    lineNumber: 80,
+                    columnNumber: 26
+                  },
+                  this
+                ),
+                label: role
+              },
+              role,
+              false,
+              {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                lineNumber: 79,
+                columnNumber: 17
+              },
+              this
+            )
+          ) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 77,
+            columnNumber: 19
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 76,
+            columnNumber: 17
+          }, this)
+        ] }, rp.reportId, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 74,
+          columnNumber: 11
+        }, this)
+      ) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 72,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+      lineNumber: 65,
+      columnNumber: 7
+    }, this),
+    tab === 1 && /* @__PURE__ */ jsxDEV(Box, { children: [
+      /* @__PURE__ */ jsxDEV(Button, { "data-testid": "rp-sub-add", variant: "contained", startIcon: /* @__PURE__ */ jsxDEV(AddIcon, {}, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 95,
+        columnNumber: 75
+      }, this), onClick: () => setOpen(true), sx: { mb: 2 }, children: "新建订阅" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 95,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(Table, { children: [
+        /* @__PURE__ */ jsxDEV(TableHead, { children: /* @__PURE__ */ jsxDEV(TableRow, { children: [
+          /* @__PURE__ */ jsxDEV(TableCell, { children: "报表" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 101,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: "频率" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 102,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: "接收人" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 103,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: "渠道" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 104,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: "操作" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 105,
+            columnNumber: 17
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 100,
+          columnNumber: 15
+        }, this) }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 99,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableBody, { children: subscriptions.map(
+          (sub) => /* @__PURE__ */ jsxDEV(TableRow, { "data-testid": "rp-sub-row", children: [
+            /* @__PURE__ */ jsxDEV(TableCell, { children: sub.reportName }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 111,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV(TableCell, { children: /* @__PURE__ */ jsxDEV(Chip, { size: "small", label: sub.frequency }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 112,
+              columnNumber: 30
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 112,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV(TableCell, { children: sub.recipients }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 113,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV(TableCell, { children: sub.channel }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 114,
+              columnNumber: 19
+            }, this),
+            /* @__PURE__ */ jsxDEV(TableCell, { children: /* @__PURE__ */ jsxDEV(IconButton, { "data-testid": "rp-sub-del", onClick: () => deleteSubscription(sub.id), size: "small", children: /* @__PURE__ */ jsxDEV(DeleteIcon, {}, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 117,
+              columnNumber: 23
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 116,
+              columnNumber: 21
+            }, this) }, void 0, false, {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 115,
+              columnNumber: 19
+            }, this)
+          ] }, sub.id, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 110,
+            columnNumber: 13
+          }, this)
+        ) }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 108,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 98,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+      lineNumber: 94,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Dialog, { open, onClose: () => setOpen(false), maxWidth: "sm", fullWidth: true, children: [
+      /* @__PURE__ */ jsxDEV(DialogTitle, { children: "新建订阅" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 128,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(DialogContent, { children: [
+        /* @__PURE__ */ jsxDEV(FormControl, { fullWidth: true, sx: { mt: 1, mb: 2 }, children: [
+          /* @__PURE__ */ jsxDEV(InputLabel, { children: "报表" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 131,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            Select,
+            {
+              "data-testid": "rp-sub-report",
+              value: reportId,
+              label: "报表",
+              onChange: (e) => setReportId(e.target.value),
+              children: reportPermissions.map((rp) => /* @__PURE__ */ jsxDEV(MenuItem, { value: rp.reportId, children: rp.reportName }, rp.reportId, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                lineNumber: 134,
+                columnNumber: 46
+              }, this))
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 132,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 130,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(FormControl, { fullWidth: true, sx: { mb: 2 }, children: [
+          /* @__PURE__ */ jsxDEV(InputLabel, { children: "频率" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 138,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            Select,
+            {
+              "data-testid": "rp-sub-freq",
+              value: freq,
+              label: "频率",
+              onChange: (e) => setFreq(e.target.value),
+              children: FREQS.map((f) => /* @__PURE__ */ jsxDEV(MenuItem, { value: f, children: f }, f, false, {
+                fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                lineNumber: 141,
+                columnNumber: 33
+              }, this))
+            },
+            void 0,
+            false,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 139,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 137,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          TextField,
+          {
+            "data-testid": "rp-sub-recipients",
+            fullWidth: true,
+            label: "接收人（逗号分隔）",
+            value: recipients,
+            onChange: (e) => setRecipients(e.target.value),
+            sx: { mb: 2 }
+          },
+          void 0,
+          false,
+          {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 144,
+            columnNumber: 11
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(FormControl, { fullWidth: true, children: [
+          /* @__PURE__ */ jsxDEV(InputLabel, { children: "渠道" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+            lineNumber: 147,
+            columnNumber: 13
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            Select,
+            {
+              "data-testid": "rp-sub-channel",
+              value: channel,
+              label: "渠道",
+              onChange: (e) => setChannel(e.target.value),
+              children: [
+                /* @__PURE__ */ jsxDEV(MenuItem, { value: "email", children: "邮件" }, void 0, false, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                  lineNumber: 150,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ jsxDEV(MenuItem, { value: "webhook", children: "Webhook" }, void 0, false, {
+                  fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+                  lineNumber: 151,
+                  columnNumber: 15
+                }, this)
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+              lineNumber: 148,
+              columnNumber: 13
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 146,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 129,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(DialogActions, { children: [
+        /* @__PURE__ */ jsxDEV(Button, { onClick: () => setOpen(false), children: "取消" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 156,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Button, { "data-testid": "rp-sub-add-confirm", variant: "contained", onClick: handleConfirm, children: "确定" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+          lineNumber: 157,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+        lineNumber: 155,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+      lineNumber: 127,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx",
+    lineNumber: 57,
+    columnNumber: 5
+  }, this);
+};
+_s(ReportPermissions, "YElaHmIa9qemEPakTKbmqTUEKxs=", false, function() {
+  return [useReportPermissionStore];
+});
+_c = ReportPermissions;
+export default ReportPermissions;
+var _c;
+$RefreshReg$(_c, "ReportPermissions");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Reports/ReportPermissions.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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O0FBRUo7QUFBRWpDLEdBaklJRCxtQkFBMkI7QUFBQSxVQUU3Qkgsd0JBQXdCO0FBQUE7QUFBQSxLQUZ0Qkc7QUFtSU4sZUFBZUE7QUFBa0IsSUFBQXFEO0FBQUEsYUFBQUEsSUFBQSIsIm5hbWVzIjpbInVzZVN0YXRlIiwiQm94IiwiVHlwb2dyYXBoeSIsIlRhYmxlIiwiVGFibGVIZWFkIiwiVGFibGVSb3ciLCJUYWJsZUNlbGwiLCJUYWJsZUJvZHkiLCJEaWFsb2ciLCJEaWFsb2dUaXRsZSIsIkRpYWxvZ0NvbnRlbnQiLCJEaWFsb2dBY3Rpb25zIiwiVGV4dEZpZWxkIiwiVGFicyIsIlRhYiIsIkZvcm1Db250cm9sIiwiSW5wdXRMYWJlbCIsIlNlbGVjdCIsIk1lbnVJdGVtIiwiQ2hpcCIsIkljb25CdXR0b24iLCJCdXR0b24iLCJGb3JtR3JvdXAiLCJGb3JtQ29udHJvbExhYmVsIiwiQ2hlY2tib3giLCJBZGQiLCJBZGRJY29uIiwiRGVsZXRlIiwiRGVsZXRlSWNvbiIsInVzZVJlcG9ydFBlcm1pc3Npb25TdG9yZSIsIlJPTEVTIiwiRlJFUVMiLCJSZXBvcnRQZXJtaXNzaW9ucyIsIl9zIiwicmVwb3J0UGVybWlzc2lvbnMiLCJzdWJzY3JpcHRpb25zIiwic2V0UmVwb3J0Um9sZXMiLCJhZGRTdWJzY3JpcHRpb24iLCJkZWxldGVTdWJzY3JpcHRpb24iLCJ0YWIiLCJzZXRUYWIiLCJvcGVuIiwic2V0T3BlbiIsInJlcG9ydElkIiwic2V0UmVwb3J0SWQiLCJmcmVxIiwic2V0RnJlcSIsInJlY2lwaWVudHMiLCJzZXRSZWNpcGllbnRzIiwiY2hhbm5lbCIsInNldENoYW5uZWwiLCJ0b2dnbGVSb2xlIiwicnBJZCIsInJwTmFtZSIsInJvbGUiLCJjaGVja2VkIiwicnAiLCJmaW5kIiwiciIsIm5leHQiLCJhbGxvd2VkUm9sZXMiLCJmaWx0ZXIiLCJ4IiwiQXJyYXkiLCJmcm9tIiwiU2V0IiwiaGFuZGxlQ29uZmlybSIsInRyaW0iLCJyZXBvcnROYW1lIiwiZnJlcXVlbmN5IiwiZW5hYmxlZCIsInAiLCJtYiIsImZvbnRXZWlnaHQiLCJfIiwidiIsIm1hcCIsImluY2x1ZGVzIiwiZSIsInRhcmdldCIsInN1YiIsImlkIiwibXQiLCJ2YWx1ZSIsImYiLCJfYyJdLCJpZ25vcmVMaXN0IjpbXSwic291cmNlcyI6WyJSZXBvcnRQZXJtaXNzaW9ucy50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7IHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHtcbiAgQm94LCBUeXBvZ3JhcGh5LCBUYWJsZSwgVGFibGVIZWFkLCBUYWJsZVJvdywgVGFibGVDZWxsLCBUYWJsZUJvZHksXG4gIERpYWxvZywgRGlhbG9nVGl0bGUsIERpYWxvZ0NvbnRlbnQsIERpYWxvZ0FjdGlvbnMsIFRleHRGaWVsZCwgVGFicywgVGFiLFxuICBGb3JtQ29udHJvbCwgSW5wdXRMYWJlbCwgU2VsZWN0LCBNZW51SXRlbSwgQ2hpcCwgSWNvbkJ1dHRvbiwgQnV0dG9uLCBGb3JtR3JvdXAsIEZvcm1Db250cm9sTGFiZWwsIENoZWNrYm94LFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7IEFkZCBhcyBBZGRJY29uLCBEZWxldGUgYXMgRGVsZXRlSWNvbiB9IGZyb20gJ0BtdWkvaWNvbnMtbWF0ZXJpYWwnO1xuaW1wb3J0IHsgdXNlUmVwb3J0UGVybWlzc2lvblN0b3JlIH0gZnJvbSAnQC9zdG9yZXMnO1xuaW1wb3J0IHR5cGUgeyBSZXBvcnRSb2xlLCBTdWJzY3JpcHRpb25GcmVxdWVuY3kgfSBmcm9tICdAL3R5cGVzJztcblxuY29uc3QgUk9MRVM6IFJlcG9ydFJvbGVbXSA9IFsnYWRtaW4nLCAnbWFuYWdlcicsICd1c2VyJywgJ2ZpbmFuY2UnLCAnd2FyZWhvdXNlJ107XG5jb25zdCBGUkVRUzogU3Vic2NyaXB0aW9uRnJlcXVlbmN5W10gPSBbJ2RhaWx5JywgJ3dlZWtseScsICdtb250aGx5J107XG5cbmNvbnN0IFJlcG9ydFBlcm1pc3Npb25zOiBSZWFjdC5GQyA9ICgpID0+IHtcbiAgY29uc3QgeyByZXBvcnRQZXJtaXNzaW9ucywgc3Vic2NyaXB0aW9ucywgc2V0UmVwb3J0Um9sZXMsIGFkZFN1YnNjcmlwdGlvbiwgZGVsZXRlU3Vic2NyaXB0aW9uIH0gPVxuICAgIHVzZVJlcG9ydFBlcm1pc3Npb25TdG9yZSgpO1xuICBjb25zdCBbdGFiLCBzZXRUYWJdID0gdXNlU3RhdGUoMCk7XG4gIGNvbnN0IFtvcGVuLCBzZXRPcGVuXSA9IHVzZVN0YXRlKGZhbHNlKTtcbiAgY29uc3QgW3JlcG9ydElkLCBzZXRSZXBvcnRJZF0gPSB1c2VTdGF0ZShyZXBvcnRQZXJtaXNzaW9uc1swXT8ucmVwb3J0SWQgPz8gJycpO1xuICBjb25zdCBbZnJlcSwgc2V0RnJlcV0gPSB1c2VTdGF0ZTxTdWJzY3JpcHRpb25GcmVxdWVuY3k+KCdkYWlseScpO1xuICBjb25zdCBbcmVjaXBpZW50cywgc2V0UmVjaXBpZW50c10gPSB1c2VTdGF0ZSgnJyk7XG4gIGNvbnN0IFtjaGFubmVsLCBzZXRDaGFubmVsXSA9IHVzZVN0YXRlPCdlbWFpbCcgfCAnd2ViaG9vayc+KCdlbWFpbCcpO1xuXG4gIGNvbnN0IHRvZ2dsZVJvbGUgPSAocnBJZDogc3RyaW5nLCBycE5hbWU6IHN0cmluZywgcm9sZTogUmVwb3J0Um9sZSwgY2hlY2tlZDogYm9vbGVhbikgPT4ge1xuICAgIGNvbnN0IHJwID0gcmVwb3J0UGVybWlzc2lvbnMuZmluZCgocikgPT4gci5yZXBvcnRJZCA9PT0gcnBJZCk7XG4gICAgY29uc3QgbmV4dCA9IGNoZWNrZWQgPyBbLi4uKHJwPy5hbGxvd2VkUm9sZXMgPz8gW10pLCByb2xlXSA6IChycD8uYWxsb3dlZFJvbGVzID8/IFtdKS5maWx0ZXIoKHgpID0+IHggIT09IHJvbGUpO1xuICAgIHNldFJlcG9ydFJvbGVzKHJwSWQsIHJwTmFtZSwgQXJyYXkuZnJvbShuZXcgU2V0KG5leHQpKSk7XG4gIH07XG5cbiAgY29uc3QgaGFuZGxlQ29uZmlybSA9ICgpID0+IHtcbiAgICBpZiAoIXJlcG9ydElkLnRyaW0oKSB8fCAhcmVjaXBpZW50cy50cmltKCkpIHJldHVybjtcbiAgICBjb25zdCBycCA9IHJlcG9ydFBlcm1pc3Npb25zLmZpbmQoKHIpID0+IHIucmVwb3J0SWQgPT09IHJlcG9ydElkKTtcbiAgICBhZGRTdWJzY3JpcHRpb24oeyByZXBvcnRJZCwgcmVwb3J0TmFtZTogcnA/LnJlcG9ydE5hbWUgPz8gcmVwb3J0SWQsIGZyZXF1ZW5jeTogZnJlcSwgcmVjaXBpZW50cywgY2hhbm5lbCwgZW5hYmxlZDogdHJ1ZSB9KTtcbiAgICBzZXRSZWNpcGllbnRzKCcnKTsgc2V0T3BlbihmYWxzZSk7XG4gIH07XG5cbiAgcmV0dXJuIChcbiAgICA8Qm94IHN4PXt7IHA6IDMgfX0gZGF0YS10ZXN0aWQ9XCJyZXBvcnQtcGVybWlzc2lvbnNcIj5cbiAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJoNVwiIHN4PXt7IG1iOiAyLCBmb250V2VpZ2h0OiA3MDAgfX0+5oql6KGo5p2D6ZmQ5LiO6K6i6ZiFPC9UeXBvZ3JhcGh5PlxuICAgICAgPFRhYnMgdmFsdWU9e3RhYn0gb25DaGFuZ2U9eyhfLCB2KSA9PiBzZXRUYWIodil9IHN4PXt7IG1iOiAyIH19PlxuICAgICAgICA8VGFiIGxhYmVsPVwi5oql6KGo5p2D6ZmQXCIgLz5cbiAgICAgICAgPFRhYiBsYWJlbD1cIuiuoumYheeuoeeQhlwiIC8+XG4gICAgICA8L1RhYnM+XG5cbiAgICAgIHt0YWIgPT09IDAgJiYgKFxuICAgICAgICA8VGFibGU+XG4gICAgICAgICAgPFRhYmxlSGVhZD5cbiAgICAgICAgICAgIDxUYWJsZVJvdz5cbiAgICAgICAgICAgICAgPFRhYmxlQ2VsbD7miqXooag8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgPFRhYmxlQ2VsbD7lhYHorrjop5LoibI8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgIDwvVGFibGVSb3c+XG4gICAgICAgICAgPC9UYWJsZUhlYWQ+XG4gICAgICAgICAgPFRhYmxlQm9keT5cbiAgICAgICAgICAgIHtyZXBvcnRQZXJtaXNzaW9ucy5tYXAoKHJwKSA9PiAoXG4gICAgICAgICAgICAgIDxUYWJsZVJvdyBrZXk9e3JwLnJlcG9ydElkfSBkYXRhLXRlc3RpZD1cInJwLXBlcm0tcm93XCI+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57cnAucmVwb3J0TmFtZX08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICA8VGFibGVDZWxsPlxuICAgICAgICAgICAgICAgICAgPEZvcm1Hcm91cCByb3c+XG4gICAgICAgICAgICAgICAgICAgIHtST0xFUy5tYXAoKHJvbGUpID0+IChcbiAgICAgICAgICAgICAgICAgICAgICA8Rm9ybUNvbnRyb2xMYWJlbCBrZXk9e3JvbGV9XG4gICAgICAgICAgICAgICAgICAgICAgICBjb250cm9sPXs8Q2hlY2tib3ggc2l6ZT1cInNtYWxsXCIgZGF0YS10ZXN0aWQ9e2BycC1yb2xlLSR7cnAucmVwb3J0SWR9LSR7cm9sZX1gfVxuICAgICAgICAgICAgICAgICAgICAgICAgICBjaGVja2VkPXtycC5hbGxvd2VkUm9sZXMuaW5jbHVkZXMocm9sZSl9XG4gICAgICAgICAgICAgICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gdG9nZ2xlUm9sZShycC5yZXBvcnRJZCwgcnAucmVwb3J0TmFtZSwgcm9sZSwgZS50YXJnZXQuY2hlY2tlZCl9IC8+fVxuICAgICAgICAgICAgICAgICAgICAgICAgbGFiZWw9e3JvbGV9IC8+XG4gICAgICAgICAgICAgICAgICAgICkpfVxuICAgICAgICAgICAgICAgICAgPC9Gb3JtR3JvdXA+XG4gICAgICAgICAgICAgICAgPC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgIDwvVGFibGVSb3c+XG4gICAgICAgICAgICApKX1cbiAgICAgICAgICA8L1RhYmxlQm9keT5cbiAgICAgICAgPC9UYWJsZT5cbiAgICAgICl9XG5cbiAgICAgIHt0YWIgPT09IDEgJiYgKFxuICAgICAgICA8Qm94PlxuICAgICAgICAgIDxCdXR0b24gZGF0YS10ZXN0aWQ9XCJycC1zdWItYWRkXCIgdmFyaWFudD1cImNvbnRhaW5lZFwiIHN0YXJ0SWNvbj17PEFkZEljb24gLz59IG9uQ2xpY2s9eygpID0+IHNldE9wZW4odHJ1ZSl9IHN4PXt7IG1iOiAyIH19PlxuICAgICAgICAgICAg5paw5bu66K6i6ZiFXG4gICAgICAgICAgPC9CdXR0b24+XG4gICAgICAgICAgPFRhYmxlPlxuICAgICAgICAgICAgPFRhYmxlSGVhZD5cbiAgICAgICAgICAgICAgPFRhYmxlUm93PlxuICAgICAgICAgICAgICAgIDxUYWJsZUNlbGw+5oql6KGoPC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD7popHnjoc8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICA8VGFibGVDZWxsPuaOpeaUtuS6ujwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICAgIDxUYWJsZUNlbGw+5rig6YGTPC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD7mk43kvZw8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgPC9UYWJsZVJvdz5cbiAgICAgICAgICAgIDwvVGFibGVIZWFkPlxuICAgICAgICAgICAgPFRhYmxlQm9keT5cbiAgICAgICAgICAgICAge3N1YnNjcmlwdGlvbnMubWFwKChzdWIpID0+IChcbiAgICAgICAgICAgICAgICA8VGFibGVSb3cga2V5PXtzdWIuaWR9IGRhdGEtdGVzdGlkPVwicnAtc3ViLXJvd1wiPlxuICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57c3ViLnJlcG9ydE5hbWV9PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICA8VGFibGVDZWxsPjxDaGlwIHNpemU9XCJzbWFsbFwiIGxhYmVsPXtzdWIuZnJlcXVlbmN5fSAvPjwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57c3ViLnJlY2lwaWVudHN9PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICA8VGFibGVDZWxsPntzdWIuY2hhbm5lbH08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICAgIDxUYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgICAgIDxJY29uQnV0dG9uIGRhdGEtdGVzdGlkPVwicnAtc3ViLWRlbFwiIG9uQ2xpY2s9eygpID0+IGRlbGV0ZVN1YnNjcmlwdGlvbihzdWIuaWQpfSBzaXplPVwic21hbGxcIj5cbiAgICAgICAgICAgICAgICAgICAgICA8RGVsZXRlSWNvbiAvPlxuICAgICAgICAgICAgICAgICAgICA8L0ljb25CdXR0b24+XG4gICAgICAgICAgICAgICAgICA8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICA8L1RhYmxlUm93PlxuICAgICAgICAgICAgICApKX1cbiAgICAgICAgICAgIDwvVGFibGVCb2R5PlxuICAgICAgICAgIDwvVGFibGU+XG4gICAgICAgIDwvQm94PlxuICAgICAgKX1cblxuICAgICAgPERpYWxvZyBvcGVuPXtvcGVufSBvbkNsb3NlPXsoKSA9PiBzZXRPcGVuKGZhbHNlKX0gbWF4V2lkdGg9XCJzbVwiIGZ1bGxXaWR0aD5cbiAgICAgICAgPERpYWxvZ1RpdGxlPuaWsOW7uuiuoumYhTwvRGlhbG9nVGl0bGU+XG4gICAgICAgIDxEaWFsb2dDb250ZW50PlxuICAgICAgICAgIDxGb3JtQ29udHJvbCBmdWxsV2lkdGggc3g9e3sgbXQ6IDEsIG1iOiAyIH19PlxuICAgICAgICAgICAgPElucHV0TGFiZWw+5oql6KGoPC9JbnB1dExhYmVsPlxuICAgICAgICAgICAgPFNlbGVjdCBkYXRhLXRlc3RpZD1cInJwLXN1Yi1yZXBvcnRcIiB2YWx1ZT17cmVwb3J0SWR9IGxhYmVsPVwi5oql6KGoXCJcbiAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRSZXBvcnRJZChlLnRhcmdldC52YWx1ZSl9PlxuICAgICAgICAgICAgICB7cmVwb3J0UGVybWlzc2lvbnMubWFwKChycCkgPT4gPE1lbnVJdGVtIGtleT17cnAucmVwb3J0SWR9IHZhbHVlPXtycC5yZXBvcnRJZH0+e3JwLnJlcG9ydE5hbWV9PC9NZW51SXRlbT4pfVxuICAgICAgICAgICAgPC9TZWxlY3Q+XG4gICAgICAgICAgPC9Gb3JtQ29udHJvbD5cbiAgICAgICAgICA8Rm9ybUNvbnRyb2wgZnVsbFdpZHRoIHN4PXt7IG1iOiAyIH19PlxuICAgICAgICAgICAgPElucHV0TGFiZWw+6aKR546HPC9JbnB1dExhYmVsPlxuICAgICAgICAgICAgPFNlbGVjdCBkYXRhLXRlc3RpZD1cInJwLXN1Yi1mcmVxXCIgdmFsdWU9e2ZyZXF9IGxhYmVsPVwi6aKR546HXCJcbiAgICAgICAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRGcmVxKGUudGFyZ2V0LnZhbHVlIGFzIFN1YnNjcmlwdGlvbkZyZXF1ZW5jeSl9PlxuICAgICAgICAgICAgICB7RlJFUVMubWFwKChmKSA9PiA8TWVudUl0ZW0ga2V5PXtmfSB2YWx1ZT17Zn0+e2Z9PC9NZW51SXRlbT4pfVxuICAgICAgICAgICAgPC9TZWxlY3Q+XG4gICAgICAgICAgPC9Gb3JtQ29udHJvbD5cbiAgICAgICAgICA8VGV4dEZpZWxkIGRhdGEtdGVzdGlkPVwicnAtc3ViLXJlY2lwaWVudHNcIiBmdWxsV2lkdGggbGFiZWw9XCLmjqXmlLbkurrvvIjpgJflj7fliIbpmpTvvIlcIiB2YWx1ZT17cmVjaXBpZW50c31cbiAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0UmVjaXBpZW50cyhlLnRhcmdldC52YWx1ZSl9IHN4PXt7IG1iOiAyIH19IC8+XG4gICAgICAgICAgPEZvcm1Db250cm9sIGZ1bGxXaWR0aD5cbiAgICAgICAgICAgIDxJbnB1dExhYmVsPua4oOmBkzwvSW5wdXRMYWJlbD5cbiAgICAgICAgICAgIDxTZWxlY3QgZGF0YS10ZXN0aWQ9XCJycC1zdWItY2hhbm5lbFwiIHZhbHVlPXtjaGFubmVsfSBsYWJlbD1cIua4oOmBk1wiXG4gICAgICAgICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0Q2hhbm5lbChlLnRhcmdldC52YWx1ZSBhcyAnZW1haWwnIHwgJ3dlYmhvb2snKX0+XG4gICAgICAgICAgICAgIDxNZW51SXRlbSB2YWx1ZT1cImVtYWlsXCI+6YKu5Lu2PC9NZW51SXRlbT5cbiAgICAgICAgICAgICAgPE1lbnVJdGVtIHZhbHVlPVwid2ViaG9va1wiPldlYmhvb2s8L01lbnVJdGVtPlxuICAgICAgICAgICAgPC9TZWxlY3Q+XG4gICAgICAgICAgPC9Gb3JtQ29udHJvbD5cbiAgICAgICAgPC9EaWFsb2dDb250ZW50PlxuICAgICAgICA8RGlhbG9nQWN0aW9ucz5cbiAgICAgICAgICA8QnV0dG9uIG9uQ2xpY2s9eygpID0+IHNldE9wZW4oZmFsc2UpfT7lj5bmtog8L0J1dHRvbj5cbiAgICAgICAgICA8QnV0dG9uIGRhdGEtdGVzdGlkPVwicnAtc3ViLWFkZC1jb25maXJtXCIgdmFyaWFudD1cImNvbnRhaW5lZFwiIG9uQ2xpY2s9e2hhbmRsZUNvbmZpcm19PuehruWumjwvQnV0dG9uPlxuICAgICAgICA8L0RpYWxvZ0FjdGlvbnM+XG4gICAgICA8L0RpYWxvZz5cbiAgICA8L0JveD5cbiAgKTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFJlcG9ydFBlcm1pc3Npb25zO1xuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL3BhZ2VzL1JlcG9ydHMvUmVwb3J0UGVybWlzc2lvbnMudHN4In0=

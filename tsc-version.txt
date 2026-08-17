@@ -1,0 +1,9 @@
+npm ERR! code ENOENT
+npm ERR! syscall lstat
+npm ERR! path C:\Users\zhangdeqiang\AppData\Roaming\npm
+npm ERR! errno -4058
+npm ERR! enoent ENOENT: no such file or directory, lstat 'C:\Users\zhangdeqiang\AppData\Roaming\npm'
+npm ERR! enoent This is related to npm not being able to find a file.
+npm ERR! enoent 
+
+npm ERR! A complete log of this run can be found in: C:\Users\zhangdeqiang\AppData\Local\npm-cache\_logs\2026-05-09T00_51_53_034Z-debug-0.log

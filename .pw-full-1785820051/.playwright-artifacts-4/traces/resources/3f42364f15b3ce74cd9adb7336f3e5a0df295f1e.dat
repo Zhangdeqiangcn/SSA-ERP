@@ -1,0 +1,326 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Finance/PeriodClosing.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const useMemo = __vite__cjsImport3_react["useMemo"]; const useState = __vite__cjsImport3_react["useState"];
+import {
+  Box,
+  Typography,
+  Paper,
+  Grid,
+  TextField,
+  MenuItem,
+  Button,
+  Chip,
+  Alert,
+  Divider,
+  Snackbar,
+  Stack
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import __vite__cjsImport5__mui_iconsMaterial_Flag from "/node_modules/.vite/deps/@mui_icons-material_Flag.js?v=5fca7ba0"; const FlagIcon = __vite__cjsImport5__mui_iconsMaterial_Flag.__esModule ? __vite__cjsImport5__mui_iconsMaterial_Flag.default : __vite__cjsImport5__mui_iconsMaterial_Flag;
+import __vite__cjsImport6__mui_iconsMaterial_SwapHoriz from "/node_modules/.vite/deps/@mui_icons-material_SwapHoriz.js?v=5fca7ba0"; const SwapHorizIcon = __vite__cjsImport6__mui_iconsMaterial_SwapHoriz.__esModule ? __vite__cjsImport6__mui_iconsMaterial_SwapHoriz.default : __vite__cjsImport6__mui_iconsMaterial_SwapHoriz;
+import __vite__cjsImport7__mui_iconsMaterial_Lock from "/node_modules/.vite/deps/@mui_icons-material_Lock.js?v=5fca7ba0"; const LockIcon = __vite__cjsImport7__mui_iconsMaterial_Lock.__esModule ? __vite__cjsImport7__mui_iconsMaterial_Lock.default : __vite__cjsImport7__mui_iconsMaterial_Lock;
+import { useFinanceStore } from "/src/stores/financeStore.ts?t=1785819952403";
+import { useFinanceLedgerStore } from "/src/stores/financeLedgerStore.ts";
+import { useFinanceExtensionStore, getExchangeRate } from "/src/stores/financeExtensionStore.ts";
+import { buildIncomeStatement } from "/src/utils/financialStatements.ts";
+const PERIODS = ["2026-01", "2026-02", "2026-03"];
+const STATUS_LABEL = {
+  open: { label: "未结账", color: "default" },
+  profit_closed: { label: "已损益结转", color: "warning" },
+  closed: { label: "已结账", color: "success" }
+};
+export default function PeriodClosing() {
+  _s();
+  const { accountEntries, chartOfAccounts } = useFinanceStore();
+  const { upsertClosing, getClosing } = useFinanceLedgerStore();
+  const [period, setPeriod] = useState("2026-01");
+  const [snack, setSnack] = useState("");
+  const closing = getClosing(period);
+  const status = closing?.status ?? "open";
+  const is = useMemo(() => buildIncomeStatement(accountEntries, chartOfAccounts, period), [accountEntries, chartOfAccounts, period]);
+  const postEntry = (partial, stamp, idx, voucherNo) => {
+    useFinanceStore.getState().addAccountEntry({
+      id: `ae-pc-${stamp}-${idx}`,
+      entryNo: `JEP${stamp}${idx}`,
+      date: (/* @__PURE__ */ new Date()).toISOString().slice(0, 10),
+      description: `期末结转 ${voucherNo}`,
+      debitAccount: "",
+      creditAccount: "",
+      amount: 0,
+      currency: "CNY",
+      voucherNo,
+      createdBy: "当前用户",
+      createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+      ...partial
+    });
+  };
+  const handleProfitClose = () => {
+    if (status !== "open") {
+      setSnack("该期间已完成损益结转或结账");
+      return;
+    }
+    const stamp = Date.now();
+    const voucherNo = `V-PL-${period}-${stamp}`;
+    let idx = 1;
+    for (const r of is.revenue) {
+      if (r.amount <= 0) continue;
+      postEntry({ debitAccount: r.name, creditAccount: "本年利润", amount: r.amount }, stamp, idx++, voucherNo);
+    }
+    for (const e of is.expense) {
+      if (e.amount <= 0) continue;
+      postEntry({ debitAccount: "本年利润", creditAccount: e.name, amount: e.amount }, stamp, idx++, voucherNo);
+    }
+    upsertClosing(period, { status: "profit_closed", profitVoucherNo: voucherNo, closedBy: "当前用户", closedAt: (/* @__PURE__ */ new Date()).toISOString() });
+    setSnack(`损益已结转，凭证 ${voucherNo}（净利润 ${is.netProfit.toFixed(2)}）`);
+  };
+  const handleFxClose = () => {
+    if (status === "closed") {
+      setSnack("该期间已结账");
+      return;
+    }
+    const { invoices } = useFinanceStore.getState();
+    const { exchangeRates } = useFinanceExtensionStore.getState();
+    let total = 0;
+    const lines = [];
+    for (const inv of invoices) {
+      if (!inv.currency || inv.currency === "CNY") continue;
+      if (inv.status === "paid" || inv.status === "cancelled") continue;
+      const current = getExchangeRate(inv.currency, "CNY", exchangeRates);
+      const entryRate = inv.exchangeRate || 1;
+      const diff = (current - entryRate) * inv.amount;
+      if (Math.abs(diff) > 1e-3) {
+        total += diff;
+        lines.push({ name: inv.vendorName, amount: diff });
+      }
+    }
+    if (Math.abs(total) < 1e-3) {
+      setSnack("当前无外币未结清项目，无需结转汇兑损益");
+      return;
+    }
+    const stamp = Date.now();
+    const voucherNo = `V-FX-${period}-${stamp}`;
+    postEntry(
+      { debitAccount: total >= 0 ? "财务费用" : "", creditAccount: total >= 0 ? "" : "财务费用", amount: Math.abs(total) },
+      stamp,
+      1,
+      voucherNo
+    );
+    postEntry(
+      { debitAccount: total >= 0 ? "" : "应付账款", creditAccount: total >= 0 ? "应付账款" : "", amount: Math.abs(total) },
+      stamp,
+      2,
+      voucherNo
+    );
+    upsertClosing(period, { fxVoucherNo: voucherNo, closedBy: "当前用户", closedAt: (/* @__PURE__ */ new Date()).toISOString() });
+    setSnack(`汇兑损益已结转 ${total.toFixed(2)}，凭证 ${voucherNo}`);
+  };
+  const handleClose = () => {
+    if (status === "open") {
+      setSnack("请先完成损益结转");
+      return;
+    }
+    upsertClosing(period, { status: "closed", closedBy: "当前用户", closedAt: (/* @__PURE__ */ new Date()).toISOString() });
+    setSnack(`期间 ${period} 已结账`);
+  };
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { p: 3 }, "data-testid": "period-closing", children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h5", fontWeight: 700, mb: 2, children: "期末结账" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+      lineNumber: 138,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Grid, { container: true, spacing: 2, alignItems: "center", mb: 2, children: [
+      /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 3, children: /* @__PURE__ */ jsxDEV(TextField, { select: true, fullWidth: true, size: "small", label: "会计期间", value: period, onChange: (e) => setPeriod(e.target.value), "data-testid": "pc-period", children: PERIODS.map((p) => /* @__PURE__ */ jsxDEV(MenuItem, { value: p, children: p }, p, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 143,
+        columnNumber: 33
+      }, this)) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 142,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 141,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 3, children: /* @__PURE__ */ jsxDEV(Chip, { label: `状态：${STATUS_LABEL[status].label}`, color: STATUS_LABEL[status].color, "data-testid": "pc-status" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 147,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 146,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 6, children: /* @__PURE__ */ jsxDEV(Stack, { direction: "row", spacing: 1, justifyContent: "flex-end", children: [
+        /* @__PURE__ */ jsxDEV(Button, { variant: "outlined", color: "warning", startIcon: /* @__PURE__ */ jsxDEV(FlagIcon, {}, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 151,
+          columnNumber: 67
+        }, this), size: "small", "data-testid": "pc-profit-close", onClick: handleProfitClose, children: "损益结转" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 151,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Button, { variant: "outlined", color: "info", startIcon: /* @__PURE__ */ jsxDEV(SwapHorizIcon, {}, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 152,
+          columnNumber: 64
+        }, this), size: "small", "data-testid": "pc-fx-close", onClick: handleFxClose, children: "汇兑损益结转" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 152,
+          columnNumber: 13
+        }, this),
+        /* @__PURE__ */ jsxDEV(Button, { variant: "contained", color: "success", startIcon: /* @__PURE__ */ jsxDEV(LockIcon, {}, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 153,
+          columnNumber: 68
+        }, this), size: "small", "data-testid": "pc-close", onClick: handleClose, children: "结账" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 153,
+          columnNumber: 13
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 150,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 149,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+      lineNumber: 140,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Paper, { sx: { p: 2, mb: 2 }, children: [
+      /* @__PURE__ */ jsxDEV(Typography, { variant: "subtitle2", fontWeight: 700, gutterBottom: true, children: "本期经营成果" }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 159,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Grid, { container: true, spacing: 2, children: [
+        /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 4, children: [
+          /* @__PURE__ */ jsxDEV(Typography, { color: "text.secondary", children: "营业收入合计" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 161,
+            columnNumber: 29
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { fontWeight: 600, children: [
+            "¥",
+            is.totalRevenue.toFixed(2)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 161,
+            columnNumber: 83
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 161,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 4, children: [
+          /* @__PURE__ */ jsxDEV(Typography, { color: "text.secondary", children: "成本费用合计" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 162,
+            columnNumber: 29
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { fontWeight: 600, children: [
+            "¥",
+            is.totalExpense.toFixed(2)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 162,
+            columnNumber: 83
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 162,
+          columnNumber: 11
+        }, this),
+        /* @__PURE__ */ jsxDEV(Grid, { item: true, xs: 4, children: [
+          /* @__PURE__ */ jsxDEV(Typography, { color: "text.secondary", children: "净利润" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 163,
+            columnNumber: 29
+          }, this),
+          /* @__PURE__ */ jsxDEV(Typography, { fontWeight: 700, color: is.netProfit >= 0 ? "success.main" : "error.main", "data-testid": "pc-net-profit", children: [
+            "¥",
+            is.netProfit.toFixed(2)
+          ] }, void 0, true, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+            lineNumber: 163,
+            columnNumber: 80
+          }, this)
+        ] }, void 0, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+          lineNumber: 163,
+          columnNumber: 11
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 160,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Divider, { sx: { my: 2 } }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 165,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV(Alert, { severity: status === "closed" ? "success" : "info", children: status === "closed" ? `期间 ${period} 已结账，凭证与余额已锁定。` : status === "profit_closed" ? `损益已结转至「本年利润」，可继续汇兑损益结转并结账。` : `尚未结转损益。点击「损益结转」将收入/费用结转到「本年利润」并生成凭证。` }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+        lineNumber: 166,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+      lineNumber: 158,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Snackbar, { open: !!snack, autoHideDuration: 3500, onClose: () => setSnack(""), message: snack }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+      lineNumber: 175,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx",
+    lineNumber: 137,
+    columnNumber: 5
+  }, this);
+}
+_s(PeriodClosing, "6V6vXfwZR8z16bdvIZgaETjph2M=", false, function() {
+  return [useFinanceStore, useFinanceLedgerStore];
+});
+_c = PeriodClosing;
+var _c;
+$RefreshReg$(_c, "PeriodClosing");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Finance/PeriodClosing.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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eSIsIlBhcGVyIiwiR3JpZCIsIlRleHRGaWVsZCIsIk1lbnVJdGVtIiwiQnV0dG9uIiwiQ2hpcCIsIkFsZXJ0IiwiRGl2aWRlciIsIlNuYWNrYmFyIiwiU3RhY2siLCJGbGFnSWNvbiIsIlN3YXBIb3Jpekljb24iLCJMb2NrSWNvbiIsInVzZUZpbmFuY2VTdG9yZSIsInVzZUZpbmFuY2VMZWRnZXJTdG9yZSIsInVzZUZpbmFuY2VFeHRlbnNpb25TdG9yZSIsImdldEV4Y2hhbmdlUmF0ZSIsImJ1aWxkSW5jb21lU3RhdGVtZW50IiwiUEVSSU9EUyIsIlNUQVRVU19MQUJFTCIsIm9wZW4iLCJsYWJlbCIsImNvbG9yIiwicHJvZml0X2Nsb3NlZCIsImNsb3NlZCIsIlBlcmlvZENsb3NpbmciLCJfcyIsImFjY291bnRFbnRyaWVzIiwiY2hhcnRPZkFjY291bnRzIiwidXBzZXJ0Q2xvc2luZyIsImdldENsb3NpbmciLCJwZXJpb2QiLCJzZXRQZXJpb2QiLCJzbmFjayIsInNldFNuYWNrIiwiY2xvc2luZyIsInN0YXR1cyIsImlzIiwicG9zdEVudHJ5IiwicGFydGlhbCIsInN0YW1wIiwiaWR4Iiwidm91Y2hlck5vIiwiZ2V0U3RhdGUiLCJhZGRBY2NvdW50RW50cnkiLCJpZCIsImVudHJ5Tm8iLCJkYXRlIiwiRGF0ZSIsInRvSVNPU3RyaW5nIiwic2xpY2UiLCJkZXNjcmlwdGlvbiIsImRlYml0QWNjb3VudCIsImNyZWRpdEFjY291bnQiLCJhbW91bnQiLCJjdXJyZW5jeSIsImNyZWF0ZWRCeSIsImNyZWF0ZWRBdCIsImhhbmRsZVByb2ZpdENsb3NlIiwibm93IiwiciIsInJldmVudWUiLCJuYW1lIiwiZSIsImV4cGVuc2UiLCJwcm9maXRWb3VjaGVyTm8iLCJjbG9zZWRCeSIsImNsb3NlZEF0IiwibmV0UHJvZml0IiwidG9GaXhlZCIsImhhbmRsZUZ4Q2xvc2UiLCJpbnZvaWNlcyIsImV4Y2hhbmdlUmF0ZXMiLCJ0b3RhbCIsImxpbmVzIiwiaW52IiwiY3VycmVudCIsImVudHJ5UmF0ZSIsImV4Y2hhbmdlUmF0ZSIsImRpZmYiLCJNYXRoIiwiYWJzIiwicHVzaCIsInZlbmRvck5hbWUiLCJmeFZvdWNoZXJObyIsImhhbmRsZUNsb3NlIiwicCIsInRhcmdldCIsInZhbHVlIiwibWFwIiwibWIiLCJ0b3RhbFJldmVudWUiLCJ0b3RhbEV4cGVuc2UiLCJteSIsIl9jIl0sImlnbm9yZUxpc3QiOltdLCJzb3VyY2VzIjpbIlBlcmlvZENsb3NpbmcudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHVzZU1lbW8sIHVzZVN0YXRlIH0gZnJvbSAncmVhY3QnO1xuaW1wb3J0IHtcbiAgQm94LCBUeXBvZ3JhcGh5LCBQYXBlciwgR3JpZCwgVGV4dEZpZWxkLCBNZW51SXRlbSwgQnV0dG9uLCBDaGlwLCBBbGVydCwgRGl2aWRlciwgU25hY2tiYXIsIFN0YWNrXG59IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IEZsYWdJY29uIGZyb20gJ0BtdWkvaWNvbnMtbWF0ZXJpYWwvRmxhZyc7XG5pbXBvcnQgU3dhcEhvcml6SWNvbiBmcm9tICdAbXVpL2ljb25zLW1hdGVyaWFsL1N3YXBIb3Jpeic7XG5pbXBvcnQgTG9ja0ljb24gZnJvbSAnQG11aS9pY29ucy1tYXRlcmlhbC9Mb2NrJztcbmltcG9ydCB7IHVzZUZpbmFuY2VTdG9yZSB9IGZyb20gJ0Avc3RvcmVzL2ZpbmFuY2VTdG9yZSc7XG5pbXBvcnQgeyB1c2VGaW5hbmNlTGVkZ2VyU3RvcmUgfSBmcm9tICdAL3N0b3Jlcy9maW5hbmNlTGVkZ2VyU3RvcmUnO1xuaW1wb3J0IHsgdXNlRmluYW5jZUV4dGVuc2lvblN0b3JlLCBnZXRFeGNoYW5nZVJhdGUgfSBmcm9tICdAL3N0b3Jlcy9maW5hbmNlRXh0ZW5zaW9uU3RvcmUnO1xuaW1wb3J0IHsgYnVpbGRJbmNvbWVTdGF0ZW1lbnQgfSBmcm9tICdAL3V0aWxzL2ZpbmFuY2lhbFN0YXRlbWVudHMnO1xuXG5jb25zdCBQRVJJT0RTID0gWycyMDI2LTAxJywgJzIwMjYtMDInLCAnMjAyNi0wMyddO1xuY29uc3QgU1RBVFVTX0xBQkVMOiBSZWNvcmQ8c3RyaW5nLCB7IGxhYmVsOiBzdHJpbmc7IGNvbG9yOiAnZGVmYXVsdCcgfCAnd2FybmluZycgfCAnc3VjY2VzcycgfT4gPSB7XG4gIG9wZW46IHsgbGFiZWw6ICfmnKrnu5PotKYnLCBjb2xvcjogJ2RlZmF1bHQnIH0sXG4gIHByb2ZpdF9jbG9zZWQ6IHsgbGFiZWw6ICflt7LmjZ/nm4rnu5PovawnLCBjb2xvcjogJ3dhcm5pbmcnIH0sXG4gIGNsb3NlZDogeyBsYWJlbDogJ+W3sue7k+i0picsIGNvbG9yOiAnc3VjY2VzcycgfSxcbn07XG5cbmV4cG9ydCBkZWZhdWx0IGZ1bmN0aW9uIFBlcmlvZENsb3NpbmcoKSB7XG4gIGNvbnN0IHsgYWNjb3VudEVudHJpZXMsIGNoYXJ0T2ZBY2NvdW50cyB9ID0gdXNlRmluYW5jZVN0b3JlKCk7XG4gIGNvbnN0IHsgdXBzZXJ0Q2xvc2luZywgZ2V0Q2xvc2luZyB9ID0gdXNlRmluYW5jZUxlZGdlclN0b3JlKCk7XG4gIGNvbnN0IFtwZXJpb2QsIHNldFBlcmlvZF0gPSB1c2VTdGF0ZSgnMjAyNi0wMScpO1xuICBjb25zdCBbc25hY2ssIHNldFNuYWNrXSA9IHVzZVN0YXRlKCcnKTtcblxuICBjb25zdCBjbG9zaW5nID0gZ2V0Q2xvc2luZyhwZXJpb2QpO1xuICBjb25zdCBzdGF0dXMgPSBjbG9zaW5nPy5zdGF0dXMgPz8gJ29wZW4nO1xuICBjb25zdCBpcyA9IHVzZU1lbW8oKCkgPT4gYnVpbGRJbmNvbWVTdGF0ZW1lbnQoYWNjb3VudEVudHJpZXMsIGNoYXJ0T2ZBY2NvdW50cywgcGVyaW9kKSwgW2FjY291bnRFbnRyaWVzLCBjaGFydE9mQWNjb3VudHMsIHBlcmlvZF0pO1xuXG4gIGNvbnN0IHBvc3RFbnRyeSA9IChwYXJ0aWFsOiBhbnksIHN0YW1wOiBudW1iZXIsIGlkeDogbnVtYmVyLCB2b3VjaGVyTm86IHN0cmluZykgPT4ge1xuICAgIHVzZUZpbmFuY2VTdG9yZS5nZXRTdGF0ZSgpLmFkZEFjY291bnRFbnRyeSh7XG4gICAgICBpZDogYGFlLXBjLSR7c3RhbXB9LSR7aWR4fWAsXG4gICAgICBlbnRyeU5vOiBgSkVQJHtzdGFtcH0ke2lkeH1gLFxuICAgICAgZGF0ZTogbmV3IERhdGUoKS50b0lTT1N0cmluZygpLnNsaWNlKDAsIDEwKSxcbiAgICAgIGRlc2NyaXB0aW9uOiBg5pyf5pyr57uT6L2sICR7dm91Y2hlck5vfWAsXG4gICAgICBkZWJpdEFjY291bnQ6ICcnLFxuICAgICAgY3JlZGl0QWNjb3VudDogJycsXG4gICAgICBhbW91bnQ6IDAsXG4gICAgICBjdXJyZW5jeTogJ0NOWScsXG4gICAgICB2b3VjaGVyTm8sXG4gICAgICBjcmVhdGVkQnk6ICflvZPliY3nlKjmiLcnLFxuICAgICAgY3JlYXRlZEF0OiBuZXcgRGF0ZSgpLnRvSVNPU3RyaW5nKCksXG4gICAgICAuLi5wYXJ0aWFsLFxuICAgIH0pO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZVByb2ZpdENsb3NlID0gKCkgPT4ge1xuICAgIGlmIChzdGF0dXMgIT09ICdvcGVuJykge1xuICAgICAgc2V0U25hY2soJ+ivpeacn+mXtOW3suWujOaIkOaNn+ebiue7k+i9rOaIlue7k+i0picpO1xuICAgICAgcmV0dXJuO1xuICAgIH1cbiAgICBjb25zdCBzdGFtcCA9IERhdGUubm93KCk7XG4gICAgY29uc3Qgdm91Y2hlck5vID0gYFYtUEwtJHtwZXJpb2R9LSR7c3RhbXB9YDtcbiAgICBsZXQgaWR4ID0gMTtcbiAgICAvLyDmlLblhaXnu5PovazvvJrlgJ8g5ZCE5pS25YWlIC8g6LS3IOacrOW5tOWIqea2plxuICAgIGZvciAoY29uc3QgciBvZiBpcy5yZXZlbnVlKSB7XG4gICAgICBpZiAoci5hbW91bnQgPD0gMCkgY29udGludWU7XG4gICAgICBwb3N0RW50cnkoeyBkZWJpdEFjY291bnQ6IHIubmFtZSwgY3JlZGl0QWNjb3VudDogJ+acrOW5tOWIqea2picsIGFtb3VudDogci5hbW91bnQgfSwgc3RhbXAsIGlkeCsrLCB2b3VjaGVyTm8pO1xuICAgIH1cbiAgICAvLyDotLnnlKjnu5PovazvvJrlgJ8g5pys5bm05Yip5ramIC8g6LS3IOWQhOi0ueeUqFxuICAgIGZvciAoY29uc3QgZSBvZiBpcy5leHBlbnNlKSB7XG4gICAgICBpZiAoZS5hbW91bnQgPD0gMCkgY29udGludWU7XG4gICAgICBwb3N0RW50cnkoeyBkZWJpdEFjY291bnQ6ICfmnKzlubTliKnmtqYnLCBjcmVkaXRBY2NvdW50OiBlLm5hbWUsIGFtb3VudDogZS5hbW91bnQgfSwgc3RhbXAsIGlkeCsrLCB2b3VjaGVyTm8pO1xuICAgIH1cbiAgICB1cHNlcnRDbG9zaW5nKHBlcmlvZCwgeyBzdGF0dXM6ICdwcm9maXRfY2xvc2VkJywgcHJvZml0Vm91Y2hlck5vOiB2b3VjaGVyTm8sIGNsb3NlZEJ5OiAn5b2T5YmN55So5oi3JywgY2xvc2VkQXQ6IG5ldyBEYXRlKCkudG9JU09TdHJpbmcoKSB9KTtcbiAgICBzZXRTbmFjayhg5o2f55uK5bey57uT6L2s77yM5Yet6K+BICR7dm91Y2hlck5vfe+8iOWHgOWIqea2piAke2lzLm5ldFByb2ZpdC50b0ZpeGVkKDIpfe+8iWApO1xuICB9O1xuXG4gIGNvbnN0IGhhbmRsZUZ4Q2xvc2UgPSAoKSA9PiB7XG4gICAgaWYgKHN0YXR1cyA9PT0gJ2Nsb3NlZCcpIHtcbiAgICAgIHNldFNuYWNrKCfor6XmnJ/pl7Tlt7Lnu5PotKYnKTtcbiAgICAgIHJldHVybjtcbiAgICB9XG4gICAgY29uc3QgeyBpbnZvaWNlcyB9ID0gdXNlRmluYW5jZVN0b3JlLmdldFN0YXRlKCk7XG4gICAgY29uc3QgeyBleGNoYW5nZVJhdGVzIH0gPSB1c2VGaW5hbmNlRXh0ZW5zaW9uU3RvcmUuZ2V0U3RhdGUoKTtcbiAgICBsZXQgdG90YWwgPSAwO1xuICAgIGNvbnN0IGxpbmVzOiB7IG5hbWU6IHN0cmluZzsgYW1vdW50OiBudW1iZXIgfVtdID0gW107XG4gICAgZm9yIChjb25zdCBpbnYgb2YgaW52b2ljZXMpIHtcbiAgICAgIGlmICghaW52LmN1cnJlbmN5IHx8IGludi5jdXJyZW5jeSA9PT0gJ0NOWScpIGNvbnRpbnVlO1xuICAgICAgaWYgKGludi5zdGF0dXMgPT09ICdwYWlkJyB8fCBpbnYuc3RhdHVzID09PSAnY2FuY2VsbGVkJykgY29udGludWU7XG4gICAgICBjb25zdCBjdXJyZW50ID0gZ2V0RXhjaGFuZ2VSYXRlKGludi5jdXJyZW5jeSwgJ0NOWScsIGV4Y2hhbmdlUmF0ZXMpO1xuICAgICAgY29uc3QgZW50cnlSYXRlID0gaW52LmV4Y2hhbmdlUmF0ZSB8fCAxO1xuICAgICAgY29uc3QgZGlmZiA9IChjdXJyZW50IC0gZW50cnlSYXRlKSAqIGludi5hbW91bnQ7IC8vIOato+aVsO+8muacrOW4geWNh+WAvO+8jOW6lOS7mOWHj+Wwke+8iOaUtuebiu+8iVxuICAgICAgaWYgKE1hdGguYWJzKGRpZmYpID4gMC4wMDEpIHtcbiAgICAgICAgdG90YWwgKz0gZGlmZjtcbiAgICAgICAgbGluZXMucHVzaCh7IG5hbWU6IGludi52ZW5kb3JOYW1lLCBhbW91bnQ6IGRpZmYgfSk7XG4gICAgICB9XG4gICAgfVxuICAgIGlmIChNYXRoLmFicyh0b3RhbCkgPCAwLjAwMSkge1xuICAgICAgc2V0U25hY2soJ+W9k+WJjeaXoOWkluW4geacque7k+a4hemhueebru+8jOaXoOmcgOe7k+i9rOaxh+WFkeaNn+ebiicpO1xuICAgICAgcmV0dXJuO1xuICAgIH1cbiAgICBjb25zdCBzdGFtcCA9IERhdGUubm93KCk7XG4gICAgY29uc3Qgdm91Y2hlck5vID0gYFYtRlgtJHtwZXJpb2R9LSR7c3RhbXB9YDtcbiAgICAvLyDlgJ8v6LS3IOi0ouWKoei0ueeUqC3msYflhZHmjZ/nm4rvvJvotLcv5YCfIOW6lOS7mOi0puasvlxuICAgIHBvc3RFbnRyeShcbiAgICAgIHsgZGViaXRBY2NvdW50OiB0b3RhbCA+PSAwID8gJ+i0ouWKoei0ueeUqCcgOiAnJywgY3JlZGl0QWNjb3VudDogdG90YWwgPj0gMCA/ICcnIDogJ+i0ouWKoei0ueeUqCcsIGFtb3VudDogTWF0aC5hYnModG90YWwpIH0sXG4gICAgICBzdGFtcCwgMSwgdm91Y2hlck5vXG4gICAgKTtcbiAgICBwb3N0RW50cnkoXG4gICAgICB7IGRlYml0QWNjb3VudDogdG90YWwgPj0gMCA/ICcnIDogJ+W6lOS7mOi0puasvicsIGNyZWRpdEFjY291bnQ6IHRvdGFsID49IDAgPyAn5bqU5LuY6LSm5qy+JyA6ICcnLCBhbW91bnQ6IE1hdGguYWJzKHRvdGFsKSB9LFxuICAgICAgc3RhbXAsIDIsIHZvdWNoZXJOb1xuICAgICk7XG4gICAgdXBzZXJ0Q2xvc2luZyhwZXJpb2QsIHsgZnhWb3VjaGVyTm86IHZvdWNoZXJObywgY2xvc2VkQnk6ICflvZPliY3nlKjmiLcnLCBjbG9zZWRBdDogbmV3IERhdGUoKS50b0lTT1N0cmluZygpIH0pO1xuICAgIHNldFNuYWNrKGDmsYflhZHmjZ/nm4rlt7Lnu5PovawgJHt0b3RhbC50b0ZpeGVkKDIpfe+8jOWHreivgSAke3ZvdWNoZXJOb31gKTtcbiAgfTtcblxuICBjb25zdCBoYW5kbGVDbG9zZSA9ICgpID0+IHtcbiAgICBpZiAoc3RhdHVzID09PSAnb3BlbicpIHtcbiAgICAgIHNldFNuYWNrKCfor7flhYjlrozmiJDmjZ/nm4rnu5PovawnKTtcbiAgICAgIHJldHVybjtcbiAgICB9XG4gICAgdXBzZXJ0Q2xvc2luZyhwZXJpb2QsIHsgc3RhdHVzOiAnY2xvc2VkJywgY2xvc2VkQnk6ICflvZPliY3nlKjmiLcnLCBjbG9zZWRBdDogbmV3IERhdGUoKS50b0lTT1N0cmluZygpIH0pO1xuICAgIHNldFNuYWNrKGDmnJ/pl7QgJHtwZXJpb2R9IOW3sue7k+i0pmApO1xuICB9O1xuXG4gIHJldHVybiAoXG4gICAgPEJveCBzeD17eyBwOiAzIH19IGRhdGEtdGVzdGlkPVwicGVyaW9kLWNsb3NpbmdcIj5cbiAgICAgIDxUeXBvZ3JhcGh5IHZhcmlhbnQ9XCJoNVwiIGZvbnRXZWlnaHQ9ezcwMH0gbWI9ezJ9Puacn+acq+e7k+i0pjwvVHlwb2dyYXBoeT5cblxuICAgICAgPEdyaWQgY29udGFpbmVyIHNwYWNpbmc9ezJ9IGFsaWduSXRlbXM9XCJjZW50ZXJcIiBtYj17Mn0+XG4gICAgICAgIDxHcmlkIGl0ZW0geHM9ezN9PlxuICAgICAgICAgIDxUZXh0RmllbGQgc2VsZWN0IGZ1bGxXaWR0aCBzaXplPVwic21hbGxcIiBsYWJlbD1cIuS8muiuoeacn+mXtFwiIHZhbHVlPXtwZXJpb2R9IG9uQ2hhbmdlPXsoZSkgPT4gc2V0UGVyaW9kKGUudGFyZ2V0LnZhbHVlKX0gZGF0YS10ZXN0aWQ9XCJwYy1wZXJpb2RcIj5cbiAgICAgICAgICAgIHtQRVJJT0RTLm1hcCgocCkgPT4gPE1lbnVJdGVtIGtleT17cH0gdmFsdWU9e3B9PntwfTwvTWVudUl0ZW0+KX1cbiAgICAgICAgICA8L1RleHRGaWVsZD5cbiAgICAgICAgPC9HcmlkPlxuICAgICAgICA8R3JpZCBpdGVtIHhzPXszfT5cbiAgICAgICAgICA8Q2hpcCBsYWJlbD17YOeKtuaAge+8miR7U1RBVFVTX0xBQkVMW3N0YXR1c10ubGFiZWx9YH0gY29sb3I9e1NUQVRVU19MQUJFTFtzdGF0dXNdLmNvbG9yfSBkYXRhLXRlc3RpZD1cInBjLXN0YXR1c1wiIC8+XG4gICAgICAgIDwvR3JpZD5cbiAgICAgICAgPEdyaWQgaXRlbSB4cz17Nn0+XG4gICAgICAgICAgPFN0YWNrIGRpcmVjdGlvbj1cInJvd1wiIHNwYWNpbmc9ezF9IGp1c3RpZnlDb250ZW50PVwiZmxleC1lbmRcIj5cbiAgICAgICAgICAgIDxCdXR0b24gdmFyaWFudD1cIm91dGxpbmVkXCIgY29sb3I9XCJ3YXJuaW5nXCIgc3RhcnRJY29uPXs8RmxhZ0ljb24gLz59IHNpemU9XCJzbWFsbFwiIGRhdGEtdGVzdGlkPVwicGMtcHJvZml0LWNsb3NlXCIgb25DbGljaz17aGFuZGxlUHJvZml0Q2xvc2V9PuaNn+ebiue7k+i9rDwvQnV0dG9uPlxuICAgICAgICAgICAgPEJ1dHRvbiB2YXJpYW50PVwib3V0bGluZWRcIiBjb2xvcj1cImluZm9cIiBzdGFydEljb249ezxTd2FwSG9yaXpJY29uIC8+fSBzaXplPVwic21hbGxcIiBkYXRhLXRlc3RpZD1cInBjLWZ4LWNsb3NlXCIgb25DbGljaz17aGFuZGxlRnhDbG9zZX0+5rGH5YWR5o2f55uK57uT6L2sPC9CdXR0b24+XG4gICAgICAgICAgICA8QnV0dG9uIHZhcmlhbnQ9XCJjb250YWluZWRcIiBjb2xvcj1cInN1Y2Nlc3NcIiBzdGFydEljb249ezxMb2NrSWNvbiAvPn0gc2l6ZT1cInNtYWxsXCIgZGF0YS10ZXN0aWQ9XCJwYy1jbG9zZVwiIG9uQ2xpY2s9e2hhbmRsZUNsb3NlfT7nu5PotKY8L0J1dHRvbj5cbiAgICAgICAgICA8L1N0YWNrPlxuICAgICAgICA8L0dyaWQ+XG4gICAgICA8L0dyaWQ+XG5cbiAgICAgIDxQYXBlciBzeD17eyBwOiAyLCBtYjogMiB9fT5cbiAgICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cInN1YnRpdGxlMlwiIGZvbnRXZWlnaHQ9ezcwMH0gZ3V0dGVyQm90dG9tPuacrOacn+e7j+iQpeaIkOaenDwvVHlwb2dyYXBoeT5cbiAgICAgICAgPEdyaWQgY29udGFpbmVyIHNwYWNpbmc9ezJ9PlxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezR9PjxUeXBvZ3JhcGh5IGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIj7okKXkuJrmlLblhaXlkIjorqE8L1R5cG9ncmFwaHk+PFR5cG9ncmFwaHkgZm9udFdlaWdodD17NjAwfT7CpXtpcy50b3RhbFJldmVudWUudG9GaXhlZCgyKX08L1R5cG9ncmFwaHk+PC9HcmlkPlxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezR9PjxUeXBvZ3JhcGh5IGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIj7miJDmnKzotLnnlKjlkIjorqE8L1R5cG9ncmFwaHk+PFR5cG9ncmFwaHkgZm9udFdlaWdodD17NjAwfT7CpXtpcy50b3RhbEV4cGVuc2UudG9GaXhlZCgyKX08L1R5cG9ncmFwaHk+PC9HcmlkPlxuICAgICAgICAgIDxHcmlkIGl0ZW0geHM9ezR9PjxUeXBvZ3JhcGh5IGNvbG9yPVwidGV4dC5zZWNvbmRhcnlcIj7lh4DliKnmtqY8L1R5cG9ncmFwaHk+PFR5cG9ncmFwaHkgZm9udFdlaWdodD17NzAwfSBjb2xvcj17aXMubmV0UHJvZml0ID49IDAgPyAnc3VjY2Vzcy5tYWluJyA6ICdlcnJvci5tYWluJ30gZGF0YS10ZXN0aWQ9XCJwYy1uZXQtcHJvZml0XCI+wqV7aXMubmV0UHJvZml0LnRvRml4ZWQoMil9PC9UeXBvZ3JhcGh5PjwvR3JpZD5cbiAgICAgICAgPC9HcmlkPlxuICAgICAgICA8RGl2aWRlciBzeD17eyBteTogMiB9fSAvPlxuICAgICAgICA8QWxlcnQgc2V2ZXJpdHk9e3N0YXR1cyA9PT0gJ2Nsb3NlZCcgPyAnc3VjY2VzcycgOiAnaW5mbyd9PlxuICAgICAgICAgIHtzdGF0dXMgPT09ICdjbG9zZWQnXG4gICAgICAgICAgICA/IGDmnJ/pl7QgJHtwZXJpb2R9IOW3sue7k+i0pu+8jOWHreivgeS4juS9memineW3sumUgeWumuOAgmBcbiAgICAgICAgICAgIDogc3RhdHVzID09PSAncHJvZml0X2Nsb3NlZCdcbiAgICAgICAgICAgICAgPyBg5o2f55uK5bey57uT6L2s6Iez44CM5pys5bm05Yip5ram44CN77yM5Y+v57un57ut5rGH5YWR5o2f55uK57uT6L2s5bm257uT6LSm44CCYFxuICAgICAgICAgICAgICA6IGDlsJrmnKrnu5PovazmjZ/nm4rjgILngrnlh7vjgIzmjZ/nm4rnu5PovazjgI3lsIbmlLblhaUv6LS555So57uT6L2s5Yiw44CM5pys5bm05Yip5ram44CN5bm255Sf5oiQ5Yet6K+B44CCYH1cbiAgICAgICAgPC9BbGVydD5cbiAgICAgIDwvUGFwZXI+XG5cbiAgICAgIDxTbmFja2JhciBvcGVuPXshIXNuYWNrfSBhdXRvSGlkZUR1cmF0aW9uPXszNTAwfSBvbkNsb3NlPXsoKSA9PiBzZXRTbmFjaygnJyl9IG1lc3NhZ2U9e3NuYWNrfSAvPlxuICAgIDwvQm94PlxuICApO1xufVxuIl0sImZpbGUiOiJDOi9Vc2Vycy96aGFuZ2RlcWlhbmcvV29ya0J1ZGR5LzIwMjYtMDUtMDgtdGFzay0xL3NzYS1lcnAvc3JjL3BhZ2VzL0ZpbmFuY2UvUGVyaW9kQ2xvc2luZy50c3gifQ==

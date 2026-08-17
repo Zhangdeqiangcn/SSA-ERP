@@ -1,0 +1,74 @@
+import {
+  init_appendOwnerState,
+  init_extractEventHandlers,
+  init_isHostComponent,
+  init_mergeSlotProps,
+  init_objectWithoutPropertiesLoose,
+  init_resolveComponentProps,
+  init_useSlotProps
+} from "/node_modules/.vite/deps/chunk-BQEP7VS6.js?v=5fca7ba0";
+import {
+  init_extends
+} from "/node_modules/.vite/deps/chunk-QZVMM6GT.js?v=5fca7ba0";
+import {
+  require_jsx_runtime
+} from "/node_modules/.vite/deps/chunk-CRNJR6QK.js?v=5fca7ba0";
+import {
+  require_react
+} from "/node_modules/.vite/deps/chunk-ZMLY2J2T.js?v=5fca7ba0";
+import {
+  __toESM
+} from "/node_modules/.vite/deps/chunk-4B2QHNJT.js?v=5fca7ba0";
+
+// node_modules/@mui/base/utils/resolveComponentProps.js
+init_resolveComponentProps();
+
+// node_modules/@mui/base/utils/useSlotProps.js
+init_useSlotProps();
+
+// node_modules/@mui/base/utils/appendOwnerState.js
+init_appendOwnerState();
+
+// node_modules/@mui/base/utils/ClassNameConfigurator.js
+var React = __toESM(require_react());
+var import_jsx_runtime = __toESM(require_jsx_runtime());
+var defaultContextValue = {
+  disableDefaultClasses: false
+};
+var ClassNameConfiguratorContext = React.createContext(defaultContextValue);
+if (true) {
+  ClassNameConfiguratorContext.displayName = "ClassNameConfiguratorContext";
+}
+function useClassNamesOverride(generateUtilityClass) {
+  const {
+    disableDefaultClasses
+  } = React.useContext(ClassNameConfiguratorContext);
+  return (slot) => {
+    if (disableDefaultClasses) {
+      return "";
+    }
+    return generateUtilityClass(slot);
+  };
+}
+
+// node_modules/@mui/base/utils/extractEventHandlers.js
+init_extractEventHandlers();
+
+// node_modules/@mui/base/utils/isHostComponent.js
+init_isHostComponent();
+
+// node_modules/@mui/base/utils/useRootElementName.js
+var React2 = __toESM(require_react());
+
+// node_modules/@mui/base/utils/mergeSlotProps.js
+init_mergeSlotProps();
+
+// node_modules/@mui/base/utils/prepareForSlot.js
+init_extends();
+init_objectWithoutPropertiesLoose();
+var React3 = __toESM(require_react());
+
+export {
+  useClassNamesOverride
+};
+//# sourceMappingURL=chunk-JKPLR6R5.js.map

@@ -1,0 +1,203 @@
+import { createHotContext as __vite__createHotContext } from "/@vite/client";import.meta.hot = __vite__createHotContext("/src/pages/Production/ProcessSPC.tsx");import __vite__cjsImport0_react_jsxDevRuntime from "/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=5fca7ba0"; const jsxDEV = __vite__cjsImport0_react_jsxDevRuntime["jsxDEV"];
+import * as RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.$RefreshReg$) {
+    throw new Error(
+      "@vitejs/plugin-react can't detect preamble. Something is wrong."
+    );
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = RefreshRuntime.getRefreshReg("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx");
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import __vite__cjsImport3_react from "/node_modules/.vite/deps/react.js?v=5fca7ba0"; const useMemo = __vite__cjsImport3_react["useMemo"];
+import {
+  Box,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
+  Alert
+} from "/node_modules/.vite/deps/@mui_material.js?v=5fca7ba0";
+import { useProductionOperationStore } from "/src/stores/productionOperationStore.ts";
+export default function ProcessSPC() {
+  _s();
+  const { operationReports } = useProductionOperationStore();
+  const rows = useMemo(() => {
+    const groups = /* @__PURE__ */ new Map();
+    for (const r of operationReports) {
+      const arr = groups.get(r.operationName) || [];
+      arr.push(r.goodQuantity);
+      groups.set(r.operationName, arr);
+    }
+    return Array.from(groups.entries()).map(([name, vals]) => {
+      const n = vals.length;
+      const sum = vals.reduce((a, b) => a + b, 0);
+      const mean = Math.round(sum / n * 100) / 100;
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      const range = max - min;
+      const outOfControl = n >= 3 && range > mean / 2;
+      return { operationName: name, samples: n, mean, min, max, range, outOfControl };
+    });
+  }, [operationReports]);
+  return /* @__PURE__ */ jsxDEV(Box, { sx: { p: 2 }, "data-testid": "spc", children: [
+    /* @__PURE__ */ jsxDEV(Typography, { variant: "h5", gutterBottom: true, children: "工序级 SPC（统计过程控制）" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+      lineNumber: 61,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Alert, { severity: "info", sx: { mb: 2 }, children: "基于工序报工合格数，按工序聚合计 X-bar（均值）与 R（极差），对离散度大的工序给出失控提示（对标车间质量 SPC）。" }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+      lineNumber: 62,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Chip, { "data-testid": "spc-op-count", label: `受控工序 ${rows.length}`, sx: { mb: 1 } }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+      lineNumber: 65,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(TableContainer, { component: Paper, children: /* @__PURE__ */ jsxDEV(Table, { size: "small", children: [
+      /* @__PURE__ */ jsxDEV(TableHead, { children: /* @__PURE__ */ jsxDEV(TableRow, { children: [
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "工序" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 70,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "样本数" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 70,
+          columnNumber: 40
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "均值(X-bar)" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 70,
+          columnNumber: 66
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "最小" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 71,
+          columnNumber: 15
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "最大" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 71,
+          columnNumber: 40
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "极差(R)" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 71,
+          columnNumber: 65
+        }, this),
+        /* @__PURE__ */ jsxDEV(TableCell, { children: "判据" }, void 0, false, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 71,
+          columnNumber: 93
+        }, this)
+      ] }, void 0, true, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+        lineNumber: 69,
+        columnNumber: 13
+      }, this) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+        lineNumber: 68,
+        columnNumber: 11
+      }, this),
+      /* @__PURE__ */ jsxDEV(TableBody, { children: rows.map(
+        (r) => /* @__PURE__ */ jsxDEV(TableRow, { "data-testid": "spc-row", children: [
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.operationName }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 77,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.samples }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 78,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.mean }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 79,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.min }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 80,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.max }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 81,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: r.range }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 82,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV(TableCell, { children: /* @__PURE__ */ jsxDEV(Chip, { size: "small", label: r.outOfControl ? "失控" : "受控", color: r.outOfControl ? "error" : "success" }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 84,
+            columnNumber: 19
+          }, this) }, void 0, false, {
+            fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+            lineNumber: 83,
+            columnNumber: 17
+          }, this)
+        ] }, r.operationName, true, {
+          fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+          lineNumber: 76,
+          columnNumber: 13
+        }, this)
+      ) }, void 0, false, {
+        fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+        lineNumber: 74,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+      lineNumber: 67,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+      lineNumber: 66,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx",
+    lineNumber: 60,
+    columnNumber: 5
+  }, this);
+}
+_s(ProcessSPC, "0zf0R9NPGfWUg9yhDTtZAwXN5/w=", false, function() {
+  return [useProductionOperationStore];
+});
+_c = ProcessSPC;
+var _c;
+$RefreshReg$(_c, "ProcessSPC");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("C:/Users/zhangdeqiang/WorkBuddy/2026-05-08-task-1/ssa-erp/src/pages/Production/ProcessSPC.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+//# sourceMappingURL=data:application/json;base64,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QztBQUFBLGFBQUFBLElBQUEiLCJuYW1lcyI6WyJ1c2VNZW1vIiwiQm94IiwiVHlwb2dyYXBoeSIsIlBhcGVyIiwiVGFibGUiLCJUYWJsZUJvZHkiLCJUYWJsZUNlbGwiLCJUYWJsZUNvbnRhaW5lciIsIlRhYmxlSGVhZCIsIlRhYmxlUm93IiwiQ2hpcCIsIkFsZXJ0IiwidXNlUHJvZHVjdGlvbk9wZXJhdGlvblN0b3JlIiwiUHJvY2Vzc1NQQyIsIl9zIiwib3BlcmF0aW9uUmVwb3J0cyIsInJvd3MiLCJncm91cHMiLCJNYXAiLCJyIiwiYXJyIiwiZ2V0Iiwib3BlcmF0aW9uTmFtZSIsInB1c2giLCJnb29kUXVhbnRpdHkiLCJzZXQiLCJBcnJheSIsImZyb20iLCJlbnRyaWVzIiwibWFwIiwibmFtZSIsInZhbHMiLCJuIiwibGVuZ3RoIiwic3VtIiwicmVkdWNlIiwiYSIsImIiLCJtZWFuIiwiTWF0aCIsInJvdW5kIiwibWluIiwibWF4IiwicmFuZ2UiLCJvdXRPZkNvbnRyb2wiLCJzYW1wbGVzIiwicCIsIm1iIiwiX2MiXSwiaWdub3JlTGlzdCI6W10sInNvdXJjZXMiOlsiUHJvY2Vzc1NQQy50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgdXNlTWVtbyB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7XG4gIEJveCwgVHlwb2dyYXBoeSwgUGFwZXIsIFRhYmxlLCBUYWJsZUJvZHksIFRhYmxlQ2VsbCwgVGFibGVDb250YWluZXIsIFRhYmxlSGVhZCwgVGFibGVSb3csIENoaXAsIEFsZXJ0LFxufSBmcm9tICdAbXVpL21hdGVyaWFsJztcbmltcG9ydCB7IHVzZVByb2R1Y3Rpb25PcGVyYXRpb25TdG9yZSB9IGZyb20gJ0Avc3RvcmVzL3Byb2R1Y3Rpb25PcGVyYXRpb25TdG9yZSc7XG5cbmludGVyZmFjZSBTUENSb3cge1xuICBvcGVyYXRpb25OYW1lOiBzdHJpbmc7XG4gIHNhbXBsZXM6IG51bWJlcjtcbiAgbWVhbjogbnVtYmVyO1xuICBtaW46IG51bWJlcjtcbiAgbWF4OiBudW1iZXI7XG4gIHJhbmdlOiBudW1iZXI7XG4gIG91dE9mQ29udHJvbDogYm9vbGVhbjtcbn1cblxuZXhwb3J0IGRlZmF1bHQgZnVuY3Rpb24gUHJvY2Vzc1NQQygpIHtcbiAgY29uc3QgeyBvcGVyYXRpb25SZXBvcnRzIH0gPSB1c2VQcm9kdWN0aW9uT3BlcmF0aW9uU3RvcmUoKTtcblxuICBjb25zdCByb3dzID0gdXNlTWVtbzxTUENSb3dbXT4oKCkgPT4ge1xuICAgIGNvbnN0IGdyb3VwcyA9IG5ldyBNYXA8c3RyaW5nLCBudW1iZXJbXT4oKTtcbiAgICBmb3IgKGNvbnN0IHIgb2Ygb3BlcmF0aW9uUmVwb3J0cykge1xuICAgICAgY29uc3QgYXJyID0gZ3JvdXBzLmdldChyLm9wZXJhdGlvbk5hbWUpIHx8IFtdO1xuICAgICAgYXJyLnB1c2goci5nb29kUXVhbnRpdHkpO1xuICAgICAgZ3JvdXBzLnNldChyLm9wZXJhdGlvbk5hbWUsIGFycik7XG4gICAgfVxuICAgIHJldHVybiBBcnJheS5mcm9tKGdyb3Vwcy5lbnRyaWVzKCkpLm1hcCgoW25hbWUsIHZhbHNdKSA9PiB7XG4gICAgICBjb25zdCBuID0gdmFscy5sZW5ndGg7XG4gICAgICBjb25zdCBzdW0gPSB2YWxzLnJlZHVjZSgoYSwgYikgPT4gYSArIGIsIDApO1xuICAgICAgY29uc3QgbWVhbiA9IE1hdGgucm91bmQoKHN1bSAvIG4pICogMTAwKSAvIDEwMDtcbiAgICAgIGNvbnN0IG1pbiA9IE1hdGgubWluKC4uLnZhbHMpO1xuICAgICAgY29uc3QgbWF4ID0gTWF0aC5tYXgoLi4udmFscyk7XG4gICAgICBjb25zdCByYW5nZSA9IG1heCAtIG1pbjtcbiAgICAgIC8vIOeugOaYk+WkseaOp+WIpOaNru+8muagt+acrOaegeW3riA+IOWdh+WAvOeahOS4gOWNiiDkuJQg5qC35pys5pWwID49IDNcbiAgICAgIGNvbnN0IG91dE9mQ29udHJvbCA9IG4gPj0gMyAmJiByYW5nZSA+IG1lYW4gLyAyO1xuICAgICAgcmV0dXJuIHsgb3BlcmF0aW9uTmFtZTogbmFtZSwgc2FtcGxlczogbiwgbWVhbiwgbWluLCBtYXgsIHJhbmdlLCBvdXRPZkNvbnRyb2wgfTtcbiAgICB9KTtcbiAgfSwgW29wZXJhdGlvblJlcG9ydHNdKTtcblxuICByZXR1cm4gKFxuICAgIDxCb3ggc3g9e3sgcDogMiB9fSBkYXRhLXRlc3RpZD1cInNwY1wiPlxuICAgICAgPFR5cG9ncmFwaHkgdmFyaWFudD1cImg1XCIgZ3V0dGVyQm90dG9tPuW3peW6j+e6pyBTUEPvvIjnu5/orqHov4fnqIvmjqfliLbvvIk8L1R5cG9ncmFwaHk+XG4gICAgICA8QWxlcnQgc2V2ZXJpdHk9XCJpbmZvXCIgc3g9e3sgbWI6IDIgfX0+XG4gICAgICAgIOWfuuS6juW3peW6j+aKpeW3peWQiOagvOaVsO+8jOaMieW3peW6j+iBmuWQiOiuoSBYLWJhcu+8iOWdh+WAvO+8ieS4jiBS77yI5p6B5beu77yJ77yM5a+556a75pWj5bqm5aSn55qE5bel5bqP57uZ5Ye65aSx5o6n5o+Q56S677yI5a+55qCH6L2m6Ze06LSo6YePIFNQQ++8ieOAglxuICAgICAgPC9BbGVydD5cbiAgICAgIDxDaGlwIGRhdGEtdGVzdGlkPVwic3BjLW9wLWNvdW50XCIgbGFiZWw9e2Dlj5fmjqflt6Xluo8gJHtyb3dzLmxlbmd0aH1gfSBzeD17eyBtYjogMSB9fSAvPlxuICAgICAgPFRhYmxlQ29udGFpbmVyIGNvbXBvbmVudD17UGFwZXJ9PlxuICAgICAgICA8VGFibGUgc2l6ZT1cInNtYWxsXCI+XG4gICAgICAgICAgPFRhYmxlSGVhZD5cbiAgICAgICAgICAgIDxUYWJsZVJvdz5cbiAgICAgICAgICAgICAgPFRhYmxlQ2VsbD7lt6Xluo88L1RhYmxlQ2VsbD48VGFibGVDZWxsPuagt+acrOaVsDwvVGFibGVDZWxsPjxUYWJsZUNlbGw+5Z2H5YC8KFgtYmFyKTwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICA8VGFibGVDZWxsPuacgOWwjzwvVGFibGVDZWxsPjxUYWJsZUNlbGw+5pyA5aSnPC9UYWJsZUNlbGw+PFRhYmxlQ2VsbD7mnoHlt64oUik8L1RhYmxlQ2VsbD48VGFibGVDZWxsPuWIpOaNrjwvVGFibGVDZWxsPlxuICAgICAgICAgICAgPC9UYWJsZVJvdz5cbiAgICAgICAgICA8L1RhYmxlSGVhZD5cbiAgICAgICAgICA8VGFibGVCb2R5PlxuICAgICAgICAgICAge3Jvd3MubWFwKChyKSA9PiAoXG4gICAgICAgICAgICAgIDxUYWJsZVJvdyBrZXk9e3Iub3BlcmF0aW9uTmFtZX0gZGF0YS10ZXN0aWQ9XCJzcGMtcm93XCI+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57ci5vcGVyYXRpb25OYW1lfTwvVGFibGVDZWxsPlxuICAgICAgICAgICAgICAgIDxUYWJsZUNlbGw+e3Iuc2FtcGxlc308L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICA8VGFibGVDZWxsPntyLm1lYW59PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57ci5taW59PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57ci5tYXh9PC9UYWJsZUNlbGw+XG4gICAgICAgICAgICAgICAgPFRhYmxlQ2VsbD57ci5yYW5nZX08L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgICA8VGFibGVDZWxsPlxuICAgICAgICAgICAgICAgICAgPENoaXAgc2l6ZT1cInNtYWxsXCIgbGFiZWw9e3Iub3V0T2ZDb250cm9sID8gJ+WkseaOpycgOiAn5Y+X5o6nJ30gY29sb3I9e3Iub3V0T2ZDb250cm9sID8gJ2Vycm9yJyA6ICdzdWNjZXNzJ30gLz5cbiAgICAgICAgICAgICAgICA8L1RhYmxlQ2VsbD5cbiAgICAgICAgICAgICAgPC9UYWJsZVJvdz5cbiAgICAgICAgICAgICkpfVxuICAgICAgICAgIDwvVGFibGVCb2R5PlxuICAgICAgICA8L1RhYmxlPlxuICAgICAgPC9UYWJsZUNvbnRhaW5lcj5cbiAgICA8L0JveD5cbiAgKTtcbn1cbiJdLCJmaWxlIjoiQzovVXNlcnMvemhhbmdkZXFpYW5nL1dvcmtCdWRkeS8yMDI2LTA1LTA4LXRhc2stMS9zc2EtZXJwL3NyYy9wYWdlcy9Qcm9kdWN0aW9uL1Byb2Nlc3NTUEMudHN4In0=

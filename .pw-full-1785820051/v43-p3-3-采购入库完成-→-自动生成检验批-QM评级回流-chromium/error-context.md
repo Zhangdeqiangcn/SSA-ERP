@@ -1,0 +1,209 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: v43-p3-3.spec.ts >> 采购入库完成 → 自动生成检验批 + QM评级回流
+- Location: e2e\v43-p3-3.spec.ts:150:1
+
+# Error details
+
+```
+Error: page.evaluate: TypeError: Cannot read properties of undefined (reading 'useWarehouseStore')
+    at eval (eval at evaluate (:303:30), <anonymous>:3:8)
+    at UtilityScript.evaluate (<anonymous>:305:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button "折叠或展开侧边栏" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - generic [ref=e9]:
+        - heading "SSA ERP" [level=6] [ref=e10]
+        - generic [ref=e12]: v2.0
+      - generic "切换组织" [ref=e14]:
+        - combobox [ref=e15] [cursor=pointer]: 集团总部
+        - textbox: ORG-001
+        - img
+        - group
+      - generic [ref=e17]:
+        - img [ref=e18]
+        - textbox "搜索菜单、单据、物料… (Ctrl+K)" [ref=e21]
+        - generic [ref=e22]: Ctrl K
+      - button "消息通知" [ref=e23] [cursor=pointer]:
+        - generic [ref=e24]:
+          - img [ref=e25]
+          - generic [ref=e27]: "10"
+      - button "我的待办" [ref=e28] [cursor=pointer]:
+        - generic [ref=e29]:
+          - img [ref=e30]
+          - generic [ref=e32]: "8"
+      - button "键盘快捷键" [ref=e33] [cursor=pointer]:
+        - img [ref=e34]
+      - button "用户菜单" [ref=e36] [cursor=pointer]:
+        - generic [ref=e37]: 张
+  - generic [ref=e39]:
+    - generic [ref=e40]:
+      - list [ref=e42]:
+        - listitem [ref=e43]:
+          - link "仪表盘" [ref=e44] [cursor=pointer]:
+            - /url: /
+            - img [ref=e46]
+            - generic [ref=e49]: 仪表盘
+        - listitem [ref=e50]:
+          - link "个人工作台" [ref=e51] [cursor=pointer]:
+            - /url: /workbench
+            - img [ref=e53]
+            - generic [ref=e56]: 个人工作台
+      - generic [ref=e57]:
+        - generic [ref=e58]: 主数据
+        - list [ref=e59]:
+          - listitem [ref=e60]:
+            - button "物料管理" [ref=e61] [cursor=pointer]:
+              - img [ref=e63]
+              - generic [ref=e66]: 物料管理
+              - img [ref=e67]
+          - listitem [ref=e69]:
+            - button "供应商管理" [ref=e70] [cursor=pointer]:
+              - generic [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e75]: "2"
+              - generic [ref=e77]: 供应商管理
+              - img [ref=e78]
+      - generic [ref=e80]:
+        - generic [ref=e81]: 供应链
+        - list [ref=e82]:
+          - listitem [ref=e83]:
+            - button "采购管理" [ref=e84] [cursor=pointer]:
+              - img [ref=e86]
+              - generic [ref=e89]: 采购管理
+              - img [ref=e90]
+          - listitem [ref=e92]:
+            - button "价格管理" [ref=e93] [cursor=pointer]:
+              - img [ref=e95]
+              - generic [ref=e98]: 价格管理
+              - img [ref=e99]
+          - listitem [ref=e101]:
+            - button "仓储物流" [ref=e102] [cursor=pointer]:
+              - img [ref=e104]
+              - generic [ref=e107]: 仓储物流
+              - img [ref=e108]
+      - generic [ref=e110]:
+        - generic [ref=e111]: 销售管理
+        - list [ref=e112]:
+          - listitem [ref=e113]:
+            - button "销售管理" [ref=e114] [cursor=pointer]:
+              - img [ref=e116]
+              - generic [ref=e119]: 销售管理
+              - img [ref=e120]
+          - listitem [ref=e122]:
+            - link "市场分析" [ref=e123] [cursor=pointer]:
+              - /url: /sales/analysis
+              - img [ref=e125]
+              - generic [ref=e128]: 市场分析
+          - listitem [ref=e129]:
+            - link "项目管理" [ref=e130] [cursor=pointer]:
+              - /url: /sales/projects
+              - img [ref=e132]
+              - generic [ref=e135]: 项目管理
+      - generic [ref=e136]:
+        - generic [ref=e137]: 生产与质量
+        - list [ref=e138]:
+          - listitem [ref=e139]:
+            - button "质量管理" [ref=e140] [cursor=pointer]:
+              - generic [ref=e142]:
+                - img [ref=e143]
+                - generic [ref=e145]: "3"
+              - generic [ref=e147]: 质量管理
+              - img [ref=e148]
+          - listitem [ref=e150]:
+            - button "BOM管理" [ref=e151] [cursor=pointer]:
+              - img [ref=e153]
+              - generic [ref=e156]: BOM管理
+              - img [ref=e157]
+          - listitem [ref=e159]:
+            - button "生产管理" [ref=e160] [cursor=pointer]:
+              - img [ref=e162]
+              - generic [ref=e165]: 生产管理
+              - img [ref=e166]
+      - generic [ref=e168]:
+        - generic [ref=e169]: 财务与报表
+        - list [ref=e170]:
+          - listitem [ref=e171]:
+            - button "财务管理" [ref=e172] [cursor=pointer]:
+              - generic [ref=e174]:
+                - img [ref=e175]
+                - generic [ref=e177]: "2"
+              - generic [ref=e179]: 财务管理
+              - img [ref=e180]
+          - listitem [ref=e182]:
+            - button "报表中心" [ref=e183] [cursor=pointer]:
+              - img [ref=e185]
+              - generic [ref=e188]: 报表中心
+              - img [ref=e189]
+      - generic [ref=e191]:
+        - generic [ref=e192]: 平台生态
+        - list [ref=e193]:
+          - listitem [ref=e194]:
+            - button "平台生态" [ref=e195] [cursor=pointer]:
+              - img [ref=e197]
+              - generic [ref=e200]: 平台生态
+              - img [ref=e201]
+          - listitem [ref=e203]:
+            - link "报表权限与订阅" [ref=e204] [cursor=pointer]:
+              - /url: /reports/permissions
+              - img [ref=e206]
+              - generic [ref=e209]: 报表权限与订阅
+      - generic [ref=e210]:
+        - generic [ref=e211]: 智能分析
+        - list [ref=e212]:
+          - listitem [ref=e213]:
+            - link "经营驾驶舱" [ref=e214] [cursor=pointer]:
+              - /url: /analytics/cockpit
+              - img [ref=e216]
+              - generic [ref=e220]: 经营驾驶舱
+          - listitem [ref=e221]:
+            - link "需求预测与补货" [ref=e222] [cursor=pointer]:
+              - /url: /analytics/forecast
+              - img [ref=e224]
+              - generic [ref=e227]: 需求预测与补货
+          - listitem [ref=e228]:
+            - link "发票OCR与凭证" [ref=e229] [cursor=pointer]:
+              - /url: /analytics/ocr
+              - img [ref=e231]
+              - generic [ref=e234]: 发票OCR与凭证
+      - list [ref=e236]:
+        - listitem [ref=e237]:
+          - link "系统设置" [ref=e238] [cursor=pointer]:
+            - /url: /settings
+            - img [ref=e240]
+            - generic [ref=e243]: 系统设置
+        - listitem [ref=e244]:
+          - link "供应商门户" [ref=e245] [cursor=pointer]:
+            - /url: /vendor-portal/login
+            - img [ref=e247]
+            - generic [ref=e250]: 供应商门户
+      - generic [ref=e251]:
+        - generic [ref=e252]: 测试与诊断
+        - list [ref=e253]:
+          - listitem [ref=e254]:
+            - link "全流程自检" [ref=e255] [cursor=pointer]:
+              - /url: /test/flow
+              - img [ref=e257]
+              - generic [ref=e260]: 全流程自检
+    - separator [ref=e261]
+    - generic [ref=e262]: SSA ERP v2.0.0 · 钢材供应链版
+  - main "主内容区" [ref=e263]:
+    - generic [ref=e265]:
+      - progressbar [ref=e266]:
+        - img [ref=e267]
+      - generic [ref=e269]: 页面加载中…
+```
