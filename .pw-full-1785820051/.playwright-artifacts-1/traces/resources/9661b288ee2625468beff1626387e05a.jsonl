@@ -1,3 +1,0 @@
-{"type":"receive","time":1785820056691.518,"opcode":1,"data":"{\"type\":\"connected\"}"}
-{"type":"receive","time":1785820056960.647,"opcode":1,"data":"{\"type\":\"full-reload\",\"path\":\"/.pw-full-1785820051/.playwright-artifacts-1/traces/resources/0ced96a1d093bddaaf17b869e100d64b07fd697e.html\"}"}
-{"type":"receive","time":1785820056971.008,"opcode":1,"data":"{\"type\":\"full-reload\",\"path\":\"/.pw-full-1785820051/.playwright-artifacts-1/traces/resources/0ced96a1d093bddaaf17b869e100d64b07fd697e.html\"}"}
