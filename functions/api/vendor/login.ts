@@ -1,6 +1,14 @@
 // POST /api/vendor/login — 供应商登录
 import { makeToken, json } from '../../_shared/auth';
 
+async function hashPassword(password: string, salt: string): Promise<string> {
+  const data = new TextEncoder().encode(salt + ':' + password);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 export async function onRequestPost(context: any) {
   const { request, env } = context;
   let body: any;
@@ -18,6 +26,7 @@ export async function onRequestPost(context: any) {
   }
 
   try {
+    // 先从 vendors 表查
     const vendor = await env.DB.prepare(
       'SELECT * FROM vendors WHERE vendor_code = ?'
     ).bind(vendorCode).first();
@@ -32,14 +41,23 @@ export async function onRequestPost(context: any) {
     }
 
     // 验证密码
-    const data = new TextEncoder().encode(v.salt + ':' + password);
-    const digest = await crypto.subtle.digest('SHA-256', data);
-    const hash = Array.from(new Uint8Array(digest))
-      .map((b: number) => b.toString(16).padStart(2, '0'))
-      .join('');
-
-    if (hash !== v.password_hash) {
+    const computedHash = await hashPassword(password, v.salt);
+    if (computedHash !== v.password_hash) {
       return json({ error: '密码错误' }, 401);
+    }
+
+    // 确保 users 表有对应记录（供 sessions FK 使用）
+    const existingUser = await env.DB.prepare(
+      'SELECT id FROM users WHERE username = ?'
+    ).bind(vendorCode).first();
+
+    let userId = existingUser ? (existingUser as any).id : null;
+    if (!userId) {
+      userId = 'vendor_' + v.id;
+      await env.DB.prepare(`
+        INSERT INTO users (id, org_id, username, password_hash, salt, name, role, department, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, 'vendor', '供应商', ?)
+      `).bind(userId, v.org_id, vendorCode, v.password_hash, v.salt, v.contact_name, v.created_at).run();
     }
 
     // 创建会话
@@ -47,7 +65,7 @@ export async function onRequestPost(context: any) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString();
     await env.DB.prepare(
       'INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)'
-    ).bind(token, v.id, expiresAt).run();
+    ).bind(token, userId, expiresAt).run();
 
     return json({
       token,
@@ -60,7 +78,7 @@ export async function onRequestPost(context: any) {
       },
     });
   } catch (e: any) {
-    console.error('Login error:', e);
-    return json({ error: '登录失败' }, 500);
+    console.error('Login error:', e?.message || e);
+    return json({ error: '登录失败: ' + (e?.message || 'unknown') }, 500);
   }
 }

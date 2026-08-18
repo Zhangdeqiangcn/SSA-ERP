@@ -2003,6 +2003,13 @@ async function onRequestPost3(context22) {
 }
 __name(onRequestPost3, "onRequestPost3");
 __name2(onRequestPost3, "onRequestPost");
+async function hashPassword2(password, salt) {
+  const data = new TextEncoder().encode(salt + ":" + password);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+__name(hashPassword2, "hashPassword2");
+__name2(hashPassword2, "hashPassword");
 async function onRequestPost4(context22) {
   const { request, env: env22 } = context22;
   let body;
@@ -2027,17 +2034,26 @@ async function onRequestPost4(context22) {
     if (v.status !== "active") {
       return json({ error: "\u8D26\u53F7\u672A\u6FC0\u6D3B\uFF0C\u8BF7\u8054\u7CFB\u7BA1\u7406\u5458" }, 403);
     }
-    const data = new TextEncoder().encode(v.salt + ":" + password);
-    const digest = await crypto.subtle.digest("SHA-256", data);
-    const hash = Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
-    if (hash !== v.password_hash) {
+    const computedHash = await hashPassword2(password, v.salt);
+    if (computedHash !== v.password_hash) {
       return json({ error: "\u5BC6\u7801\u9519\u8BEF" }, 401);
+    }
+    const existingUser = await env22.DB.prepare(
+      "SELECT id FROM users WHERE username = ?"
+    ).bind(vendorCode).first();
+    let userId = existingUser ? existingUser.id : null;
+    if (!userId) {
+      userId = "vendor_" + v.id;
+      await env22.DB.prepare(`
+        INSERT INTO users (id, org_id, username, password_hash, salt, name, role, department, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, 'vendor', '\u4F9B\u5E94\u5546', ?)
+      `).bind(userId, v.org_id, vendorCode, v.password_hash, v.salt, v.contact_name, v.created_at).run();
     }
     const token = makeToken();
     const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1e3).toISOString();
     await env22.DB.prepare(
       "INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)"
-    ).bind(token, v.id, expiresAt).run();
+    ).bind(token, userId, expiresAt).run();
     return json({
       token,
       user: {
@@ -2049,8 +2065,8 @@ async function onRequestPost4(context22) {
       }
     });
   } catch (e) {
-    console.error("Login error:", e);
-    return json({ error: "\u767B\u5F55\u5931\u8D25" }, 500);
+    console.error("Login error:", e?.message || e);
+    return json({ error: "\u767B\u5F55\u5931\u8D25: " + (e?.message || "unknown") }, 500);
   }
 }
 __name(onRequestPost4, "onRequestPost4");
