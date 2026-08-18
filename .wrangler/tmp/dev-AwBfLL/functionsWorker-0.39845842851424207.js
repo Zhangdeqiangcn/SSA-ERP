@@ -2003,6 +2003,120 @@ async function onRequestPost3(context22) {
 }
 __name(onRequestPost3, "onRequestPost3");
 __name2(onRequestPost3, "onRequestPost");
+async function onRequestPost4(context22) {
+  const { request, env: env22 } = context22;
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "\u8BF7\u6C42\u683C\u5F0F\u9519\u8BEF" }, 400);
+  }
+  const vendorCode = (body.vendorCode || "").trim().toUpperCase();
+  const password = (body.password || "").toString();
+  if (!vendorCode || !password) {
+    return json({ error: "\u8BF7\u8F93\u5165\u4F9B\u5E94\u5546\u4EE3\u7801\u548C\u5BC6\u7801" }, 400);
+  }
+  try {
+    const vendor = await env22.DB.prepare(
+      "SELECT * FROM vendors WHERE vendor_code = ?"
+    ).bind(vendorCode).first();
+    if (!vendor) {
+      return json({ error: "\u4F9B\u5E94\u5546\u4EE3\u7801\u4E0D\u5B58\u5728" }, 401);
+    }
+    const v = vendor;
+    if (v.status !== "active") {
+      return json({ error: "\u8D26\u53F7\u672A\u6FC0\u6D3B\uFF0C\u8BF7\u8054\u7CFB\u7BA1\u7406\u5458" }, 403);
+    }
+    const data = new TextEncoder().encode(v.salt + ":" + password);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    const hash = Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    if (hash !== v.password_hash) {
+      return json({ error: "\u5BC6\u7801\u9519\u8BEF" }, 401);
+    }
+    const token = makeToken();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1e3).toISOString();
+    await env22.DB.prepare(
+      "INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)"
+    ).bind(token, v.id, expiresAt).run();
+    return json({
+      token,
+      user: {
+        id: v.id,
+        vendorCode: v.vendor_code,
+        companyName: v.company_name,
+        contactName: v.contact_name,
+        role: v.role || "vendor"
+      }
+    });
+  } catch (e) {
+    console.error("Login error:", e);
+    return json({ error: "\u767B\u5F55\u5931\u8D25" }, 500);
+  }
+}
+__name(onRequestPost4, "onRequestPost4");
+__name2(onRequestPost4, "onRequestPost");
+async function onRequestPost5(context22) {
+  const { request, env: env22 } = context22;
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "\u8BF7\u6C42\u683C\u5F0F\u9519\u8BEF" }, 400);
+  }
+  const vendorCode = (body.vendorCode || "").trim().toUpperCase();
+  const companyName = (body.companyName || "").trim();
+  const contactName = (body.contactName || "").trim();
+  const contactPhone = (body.contactPhone || "").trim();
+  const contactEmail = (body.contactEmail || "").trim();
+  const password = (body.password || "").toString();
+  if (!vendorCode || !companyName || !contactName || !password) {
+    return json({ error: "\u8BF7\u586B\u5199\u5B8C\u6574\u4FE1\u606F" }, 400);
+  }
+  if (password.length < 6) {
+    return json({ error: "\u5BC6\u7801\u81F3\u5C116\u4F4D" }, 400);
+  }
+  try {
+    const org = await env22.DB.prepare(
+      "SELECT id FROM orgs WHERE company_code LIKE ? LIMIT 1"
+    ).bind(vendorCode.slice(0, 3) + "%").first();
+    if (!org) {
+      return json({ error: "\u672A\u627E\u5230\u5BF9\u5E94\u7EC4\u7EC7\uFF0C\u8BF7\u8054\u7CFB\u4F01\u4E1A\u7BA1\u7406\u5458\u9080\u8BF7\u52A0\u5165" }, 404);
+    }
+    const existing = await env22.DB.prepare(
+      "SELECT id FROM vendors WHERE vendor_code = ?"
+    ).bind(vendorCode).first();
+    if (existing) {
+      return json({ error: "\u8BE5\u4F9B\u5E94\u5546\u4EE3\u7801\u5DF2\u88AB\u6CE8\u518C" }, 409);
+    }
+    const salt = makeSalt();
+    const passwordHash = await hashPassword(password, salt);
+    const vendorId = uid("vendor");
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    await env22.DB.prepare(`
+      INSERT INTO vendors (id, org_id, vendor_code, company_name, contact_name, contact_phone, contact_email, password_hash, salt, role, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      vendorId,
+      org.id,
+      vendorCode,
+      companyName,
+      contactName,
+      contactPhone || null,
+      contactEmail || null,
+      passwordHash,
+      salt,
+      "vendor",
+      "pending",
+      now
+    ).run();
+    return json({ message: "\u6CE8\u518C\u6210\u529F\uFF0C\u7B49\u5F85\u7BA1\u7406\u5458\u5BA1\u6838" });
+  } catch (e) {
+    console.error("Register error:", e);
+    return json({ error: "\u6CE8\u518C\u5931\u8D25: " + e.message }, 500);
+  }
+}
+__name(onRequestPost5, "onRequestPost5");
+__name2(onRequestPost5, "onRequestPost");
 async function onRequestGet2(context22) {
   const { request, env: env22, params } = context22;
   const user = await getUserFromRequest(request, env22.DB);
@@ -2075,6 +2189,20 @@ var routes = [
     method: "POST",
     middlewares: [],
     modules: [onRequestPost3]
+  },
+  {
+    routePath: "/api/vendor/login",
+    mountPath: "/api/vendor",
+    method: "POST",
+    middlewares: [],
+    modules: [onRequestPost4]
+  },
+  {
+    routePath: "/api/vendor/register",
+    mountPath: "/api/vendor",
+    method: "POST",
+    middlewares: [],
+    modules: [onRequestPost5]
   },
   {
     routePath: "/api/state/:key",

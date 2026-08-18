@@ -2,6 +2,8 @@ import { onRequestPost as __api_auth_login_ts_onRequestPost } from "C:\\Users\\z
 import { onRequestPost as __api_auth_logout_ts_onRequestPost } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\auth\\logout.ts"
 import { onRequestGet as __api_auth_me_ts_onRequestGet } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\auth\\me.ts"
 import { onRequestPost as __api_auth_register_ts_onRequestPost } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\auth\\register.ts"
+import { onRequestPost as __api_vendor_login_ts_onRequestPost } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\vendor\\login.ts"
+import { onRequestPost as __api_vendor_register_ts_onRequestPost } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\vendor\\register.ts"
 import { onRequestDelete as __api_state__key__ts_onRequestDelete } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\state\\[key].ts"
 import { onRequestGet as __api_state__key__ts_onRequestGet } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\state\\[key].ts"
 import { onRequestPut as __api_state__key__ts_onRequestPut } from "C:\\Users\\zhangdeqiang\\WorkBuddy\\2026-05-08-task-1\\ssa-erp\\functions\\api\\state\\[key].ts"
@@ -34,6 +36,20 @@ export const routes = [
       method: "POST",
       middlewares: [],
       modules: [__api_auth_register_ts_onRequestPost],
+    },
+  {
+      routePath: "/api/vendor/login",
+      mountPath: "/api/vendor",
+      method: "POST",
+      middlewares: [],
+      modules: [__api_vendor_login_ts_onRequestPost],
+    },
+  {
+      routePath: "/api/vendor/register",
+      mountPath: "/api/vendor",
+      method: "POST",
+      middlewares: [],
+      modules: [__api_vendor_register_ts_onRequestPost],
     },
   {
       routePath: "/api/state/:key",
