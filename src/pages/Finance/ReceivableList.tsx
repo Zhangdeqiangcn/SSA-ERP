@@ -25,8 +25,7 @@ const STATUS_OPTIONS = [
 ];
 
 const AGING_OPTIONS: { value: string; label: string }[] = [
-  { value: '', label: '全部账龄' },
-  'current', '1-30', '31-60', '61-90', '90+',
+  '', 'current', '1-30', '31-60', '61-90', '90+',
 ].map((v) => ({ value: v, label: v ? AGING_LABELS[v as AgingBucket]?.label ?? v : '全部账龄' }));
 
 const STATUS_LABEL: Record<string, string> = {

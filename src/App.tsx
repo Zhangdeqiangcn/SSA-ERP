@@ -11,6 +11,8 @@ const Workbench = lazy(() => import('./pages/Workbench/Workbench'));
 
 // 主布局与门户登录保持急加载（路由外壳/入口），其余页面按需懒加载，减小首屏包体、提升运行效率
 const FlowSelfTest = lazy(() => import('./pages/Test/FlowSelfTest'));
+// 使用说明书（P4 帮助中心）
+const UserManual = lazy(() => import('./pages/Help/UserManual'));
 // 物料
 const CategoryList = lazy(() => import('./pages/Material/CategoryList'));
 const MaterialList = lazy(() => import('./pages/Material/MaterialList'));
@@ -442,6 +444,8 @@ function App() {
         {/* 系统设置 */}
         <Route path="settings" element={<Settings />} />
         <Route path="test/flow" element={<FlowSelfTest />} />
+        {/* 使用说明书 */}
+        <Route path="help/manual" element={<UserManual />} />
       </Route>
     </Routes>
   );

@@ -266,6 +266,7 @@ const menuGroups: MenuGroup[] = [
     groupLabel: '测试与诊断',
     items: [
       { label: '全流程自检', icon: <Science />, path: '/test/flow' },
+      { label: '使用说明书', icon: <MenuBook />, path: '/help/manual' },
     ],
   },
 ];

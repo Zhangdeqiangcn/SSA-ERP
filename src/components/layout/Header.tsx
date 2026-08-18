@@ -14,6 +14,7 @@ import {
   WarningAmberOutlined, InfoOutlined, ErrorOutline,
   Assignment, FactCheck, AccountBalance, Inventory2,
   DoneAll, Settings, HelpOutline,
+  Dashboard, Warehouse, Storefront, PrecisionManufacturing, Assessment,
 } from '@mui/icons-material';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useUIStore } from '@/stores/uiStore';
@@ -22,6 +23,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { useUserStore } from '@/stores/userStore';
 import { useNotificationStore, useNotificationData, type NotifyLevel } from '@/stores/notificationStore';
+import { searchIndex, type SearchEntry } from '@/config/searchIndex';
 
 // ────────────────────────────────────────────────
 // 路径名映射（含 V2 新路由）
@@ -68,24 +70,35 @@ const pathNameMap: Record<string, string> = {
 };
 
 // ────────────────────────────────────────────────
-// 全局搜索候选数据
+// 全局搜索（基于 src/config/searchIndex 全量索引）
 // ────────────────────────────────────────────────
-interface SearchItem { label: string; sub: string; path: string; icon: React.ReactNode }
-const searchData: SearchItem[] = [
-  { label: '物料列表', sub: '物料管理', path: '/material/list', icon: <Inventory2 fontSize="small" /> },
-  { label: '新增物料', sub: '物料管理', path: '/material/create', icon: <Inventory2 fontSize="small" /> },
-  { label: '采购订单', sub: '采购管理', path: '/purchase/orders', icon: <Assignment fontSize="small" /> },
-  { label: '采购申请', sub: '采购管理', path: '/purchase/requests', icon: <Assignment fontSize="small" /> },
-  { label: '检验任务', sub: '质量管理', path: '/quality/inspection', icon: <FactCheck fontSize="small" /> },
-  { label: 'PDCA改进', sub: '质量管理', path: '/quality/pdca', icon: <FactCheck fontSize="small" /> },
-  { label: '发票管理', sub: '财务管理', path: '/finance/invoices', icon: <AccountBalance fontSize="small" /> },
-  { label: '付款计划', sub: '财务管理', path: '/finance/payments', icon: <AccountBalance fontSize="small" /> },
-  { label: 'BOM列表', sub: 'BOM管理', path: '/bom/list', icon: <Assignment fontSize="small" /> },
-  { label: '工单管理', sub: '生产管理', path: '/production/orders', icon: <Assignment fontSize="small" /> },
-  { label: 'MRP计划', sub: '生产管理', path: '/production/mrp', icon: <Assignment fontSize="small" /> },
-  { label: '报表中心', sub: '报表', path: '/reports', icon: <Assignment fontSize="small" /> },
-  { label: '系统设置', sub: '设置', path: '/settings', icon: <Settings fontSize="small" /> },
-];
+const ICON_FOR_MODULE: Record<string, React.ReactNode> = {
+  首页: <Dashboard fontSize="small" />,
+  审批中心: <FactCheck fontSize="small" />,
+  主数据: <Inventory2 fontSize="small" />,
+  供应链: <Warehouse fontSize="small" />,
+  销售管理: <Storefront fontSize="small" />,
+  生产与质量: <PrecisionManufacturing fontSize="small" />,
+  财务与报表: <AccountBalance fontSize="small" />,
+  分析与报表: <Assessment fontSize="small" />,
+  系统: <Settings fontSize="small" />,
+};
+
+/** 评分匹配：名称前缀 > 名称包含 > 分组/模块 > 关键词/路径 */
+function scoreEntry(e: SearchEntry, q: string): number {
+  const query = q.trim().toLowerCase();
+  if (!query) return 0;
+  const label = e.label.toLowerCase();
+  const path = e.path.toLowerCase();
+  const kw = e.keywords.map((k) => k.toLowerCase());
+  if (label.startsWith(query)) return 100;
+  if (label.includes(query)) return 80;
+  if (e.module.toLowerCase().includes(query) || e.group.toLowerCase().includes(query)) return 60;
+  if (kw.some((k) => k.startsWith(query))) return 55;
+  if (kw.some((k) => k.includes(query))) return 40;
+  if (path.includes(query.replace(/\s+/g, ''))) return 20;
+  return 0;
+}
 
 // ────────────────────────────────────────────────
 // 通知图标（级别 → 图标）
@@ -122,6 +135,7 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
   // ── global search ──
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [activeIndex, setActiveIndex] = useState(0);
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -161,15 +175,36 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
   }, [searchOpen]);
 
   const filteredSearch = searchText.trim().length > 0
-    ? searchData.filter(
-        i => i.label.includes(searchText) || i.sub.includes(searchText)
-      )
-    : searchData.slice(0, 6);
+    ? searchIndex
+        .map((e) => ({ e, s: scoreEntry(e, searchText) }))
+        .filter((x) => x.s > 0)
+        .sort((a, b) => b.s - a.s)
+        .slice(0, 12)
+        .map((x) => x.e)
+    : searchIndex.slice(0, 8);
 
   const handleSearchSelect = (path: string) => {
     setSearchOpen(false);
     setSearchText('');
+    setActiveIndex(0);
     navigate(path);
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!searchOpen) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex((i) => Math.min(i + 1, filteredSearch.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex((i) => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const target = filteredSearch[activeIndex];
+      if (target) handleSearchSelect(target.path);
+    } else if (e.key === 'Escape') {
+      setSearchOpen(false);
+    }
   };
 
   const handleMarkAllRead = () => {
@@ -300,8 +335,9 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             <InputBase
               inputRef={searchInputRef}
               value={searchText}
-              onChange={e => { setSearchText(e.target.value); setSearchOpen(true); }}
-              placeholder="搜索菜单、单据、物料… (Ctrl+K)"
+              onChange={e => { setSearchText(e.target.value); setActiveIndex(0); setSearchOpen(true); }}
+              onKeyDown={handleSearchKeyDown}
+              placeholder="搜索功能、页面… (Ctrl+K，↑↓选择，Enter打开)"
               sx={{ fontSize: '0.875rem', flex: 1, color: 'text.primary' }}
             />
             {searchText && (
@@ -334,17 +370,24 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
                 <List dense disablePadding>
                   {filteredSearch.map((item, idx) => (
                     <ListItem
-                      key={idx}
+                      key={item.path}
                       button
                       onClick={() => handleSearchSelect(item.path)}
-                      sx={{ py: 1, px: 2, '&:hover': { bgcolor: 'action.hover' }, cursor: 'pointer' }}
+                      onMouseEnter={() => setActiveIndex(idx)}
+                      sx={{
+                        py: 1, px: 2, cursor: 'pointer',
+                        bgcolor: idx === activeIndex ? alpha(p, 0.1) : 'transparent',
+                        '&:hover': { bgcolor: 'action.hover' },
+                      }}
                     >
-                      <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>{item.icon}</ListItemIcon>
+                      <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>
+                        {ICON_FOR_MODULE[item.module] || <Assignment fontSize="small" />}
+                      </ListItemIcon>
                       <ListItemText
                         primary={item.label}
-                        secondary={item.sub}
-                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500 }}
-                        secondaryTypographyProps={{ fontSize: '0.75rem' }}
+                        secondary={`${item.module} · ${item.desc}`}
+                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: idx === activeIndex ? 700 : 500 }}
+                        secondaryTypographyProps={{ fontSize: '0.72rem' }}
                       />
                     </ListItem>
                   ))}
