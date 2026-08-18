@@ -28,25 +28,57 @@ const VendorLogin: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!code || !password) {
       setError('请输入供应商代码和密码');
       return;
     }
+
     setLoading(true);
     setError('');
-    // 模拟登录验证
-    setTimeout(() => {
-      const account = DEMO_ACCOUNTS.find(a => a.code === code && a.password === password);
-      if (account) {
-        // 存储供应商信息到 sessionStorage
-        sessionStorage.setItem('vendorPortalUser', JSON.stringify(account));
+
+    try {
+      // 尝试调用真实后端 API
+      const res = await fetch('/api/vendor/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ vendorCode: code.toUpperCase(), password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.token) {
+        // 存储供应商会话
+        sessionStorage.setItem('vendorPortalToken', data.token);
+        sessionStorage.setItem('vendorPortalUser', JSON.stringify({
+          code: data.user.vendorCode,
+          name: data.user.contactName,
+          role: data.user.role,
+          vendorId: data.user.id,
+          companyName: data.user.companyName,
+        }));
         navigate('/vendor-portal');
-      } else {
-        setError('供应商代码或密码错误，请重试');
-        setLoading(false);
+        return;
       }
-    }, 800);
+
+      // 后端返回错误，尝试演示账号兜底
+      if (res.status === 404 || res.status === 401) {
+        setError(data.error || '供应商代码或密码错误');
+      }
+    } catch (e) {
+      // 网络错误，使用演示账号
+      console.warn('后端不可用，使用演示账号:', e);
+    }
+
+    // 演示账号逻辑（向后兼容）
+    const account = DEMO_ACCOUNTS.find(a => a.code === code.toUpperCase() && a.password === password);
+    if (account) {
+      sessionStorage.setItem('vendorPortalUser', JSON.stringify(account));
+      navigate('/vendor-portal');
+    } else if (!error) {
+      setError('供应商代码或密码错误，请重试');
+    }
+    setLoading(false);
   };
 
   return (
@@ -216,7 +248,7 @@ const VendorLogin: React.FC = () => {
           </Button>
         </Stack>
         <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#334155', mt: 2 }}>
-          SSA ERP v2.1 · 钢材供应链管理平台 · © 2026
+          SSA ERP v2.56 · 钢材供应链管理平台 · © 2026
         </Typography>
       </Box>
     </Box>
