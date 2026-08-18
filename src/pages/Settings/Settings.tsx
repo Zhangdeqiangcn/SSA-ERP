@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, TextField, Button,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -12,7 +13,7 @@ import {
   ShoppingCart, Menu as MenuIcon, AccountTree, Description,
   SwapHoriz, Hub, PhoneAndroid, FactCheck, StarRate, Storage, DarkMode, Storefront,
   Api, Business, Palette, Inventory2, Code, Backup, Search, ChevronRight, VerifiedUser, Translate, Assessment,
-  Route,
+  Route, HelpOutline, MenuBook,
 } from '@mui/icons-material';
 import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import { useAuthStore } from '@/stores/authStore';
@@ -257,6 +258,7 @@ const Settings: React.FC = () => {
   const [selectedRole, setSelectedRole] = useState<UserRole>('admin');
   const [selectedName, setSelectedName] = useState('');
   const { currentUser, switchRole } = useAuthStore();
+  const navigate = useNavigate();
 
   const users = useUserStore((s) => s.users);
   const addUser = useUserStore((s) => s.addUser);
@@ -618,6 +620,27 @@ const Settings: React.FC = () => {
         { id: 'datamgmt', label: '数据管理', icon: <Storage fontSize="small" />, render: () => <DataManagement /> },
       ],
     },
+    {
+      id: 'help', label: '帮助中心', icon: <HelpOutline fontSize="small" />,
+      items: [
+        {
+          id: 'manual',
+          label: '使用说明书',
+          icon: <MenuBook fontSize="small" />,
+          render: () => (
+            <Box sx={{ p: 3, textAlign: 'center' }}>
+              <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>SSA ERP 使用说明书</Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 3, maxWidth: 480, mx: 'auto' }}>
+                覆盖每个表单的用途、为何这样操作、关键字段、操作流程与注意事项；并提供「版本更新记录」供每次升级后查阅变更。
+              </Typography>
+              <Button variant="contained" startIcon={<MenuBook />} onClick={() => navigate('/help/manual')}>
+                打开使用说明书
+              </Button>
+            </Box>
+          ),
+        },
+      ],
+    },
   ];
 
   const q = query.trim().toLowerCase();
@@ -667,7 +690,10 @@ const Settings: React.FC = () => {
                       key={it.id}
                       fullWidth
                       startIcon={it.icon}
-                      onClick={() => setActiveId(it.id)}
+                      onClick={() => {
+                        if (it.id === 'manual') { navigate('/help/manual'); return; }
+                        setActiveId(it.id);
+                      }}
                       sx={{
                         justifyContent: 'flex-start', textTransform: 'none', fontSize: '0.875rem',
                         py: 0.9, px: 1.5, mb: 0.25, borderRadius: 1.5,
