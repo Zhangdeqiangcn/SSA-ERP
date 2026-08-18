@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "2.55.25",
+  "version": "2.56.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

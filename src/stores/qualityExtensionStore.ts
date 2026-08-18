@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { EightDRecord, SpcChart, LabEquipment } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -105,7 +106,8 @@ export const useQualityExtensionStore = create<QualityExtensionState>()(
           }),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-quality-ext',
       version: 1,
       partialize: (state) => ({

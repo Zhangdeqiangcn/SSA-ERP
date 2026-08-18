@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export interface MaterialApprovalStepConfig {
   role: string;
@@ -226,6 +227,7 @@ export const useSettingsStore = create<SettingsState>()(
       setMenuConfig: (c) => set({ menuConfig: c }),
       setVendorPortalConfig: (c) => set({ vendorPortalConfig: c }),
     }),
-    { name: 'ssa-erp-settings', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-settings', version: 1 }
   )
 );

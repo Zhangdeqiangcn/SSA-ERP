@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 统一编号规则中心（C3 核心之一）
@@ -112,7 +113,8 @@ export const useNumberingStore = create<NumberingState>()(
 
       resetAll: () => set({ rules: { ...seedRules } }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-numbering',
       version: 1,
       partialize: (state) => ({ rules: state.rules }),

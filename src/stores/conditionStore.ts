@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { ConditionRecord, ConditionType, CalculationRule } from '@/types';
 
 const uid = () => `cond-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
@@ -167,6 +168,7 @@ export const useConditionStore = create<ConditionState>()(
         return { finalPrice: Math.max(0, result), matchedConditions: [best.id] };
       },
     }),
-    { name: 'ssa-erp-conditions', version: 1 },
+    { storage: backendStorage,
+     name: 'ssa-erp-conditions', version: 1 },
   ),
 );

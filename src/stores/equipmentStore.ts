@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Equipment, MaintenanceOrder } from '@/types/production';
 
 const STORE_KEY = 'ssa-erp-equipment';
@@ -74,7 +75,8 @@ export const useEquipmentStore = create<EquipmentState>()(
       deleteMaintenance: (id) =>
         set((s) => ({ maintenanceOrders: s.maintenanceOrders.filter((m) => m.id !== id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: STORE_KEY,
       version: 1,
       partialize: (state) => ({ equipments: state.equipments, maintenanceOrders: state.maintenanceOrders }),

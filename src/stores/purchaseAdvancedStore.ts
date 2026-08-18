@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { FrameworkAgreement, PurchaseReturn } from '@/types';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useFinanceStore } from '@/stores/financeStore';
@@ -175,7 +176,8 @@ export const usePurchaseAdvancedStore = create<PurchaseAdvancedState>()(
         }));
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-purchase-adv',
       version: 1,
       partialize: (state) => ({

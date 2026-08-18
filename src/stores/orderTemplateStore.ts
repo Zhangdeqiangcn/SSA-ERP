@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 订单模板单一数据源（全面 store 化 · V2.14）
@@ -122,6 +123,7 @@ export const useOrderTemplateStore = create<OrderTemplateState>()(
           return { templates: [...state.templates, clone] };
         }),
     }),
-    { name: 'ssa-erp-order-templates', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-order-templates', version: 1 }
   )
 );

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { FixedAsset, ClosedPeriod, FixedAssetStatus, ClosingStatus } from '@/types/finance';
 
 // ===== A6 会计期间主数据 =====
@@ -183,7 +184,8 @@ export const useFinanceLedgerStore = create<FinanceLedgerState>()(
       ensureYearPeriods: (year) =>
         set((s) => ({ closingPeriods: mergeYearPeriods(s.closingPeriods, year) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-finance-ledger',
       version: 2,
       partialize: (state) => ({

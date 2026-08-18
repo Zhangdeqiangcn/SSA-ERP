@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Receivable, Payable, AgingBucket } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -126,7 +127,8 @@ export const useArapStore = create<ArapState>()(
           payables: s.payables.map((x) => ({ ...x, agingBucket: computeAging(x.dueDate) })),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-arap',
       version: 1,
       partialize: (state) => ({

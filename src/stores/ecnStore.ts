@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { EngineeringChange } from '@/types/material';
 
 const STORE_KEY = 'ssa-erp-ecn';
@@ -67,7 +68,8 @@ export const useECNStore = create<ECNState>()(
 
       getECNById: (id) => get().ecns.find((e) => e.id === id),
     }),
-    {
+    { storage: backendStorage,
+    
       name: STORE_KEY,
       version: 1,
       partialize: (state) => ({ ecns: state.ecns }),

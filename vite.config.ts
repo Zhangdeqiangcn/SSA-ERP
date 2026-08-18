@@ -12,38 +12,27 @@ export default defineConfig({
   server: {
     port: 3000,
     open: false,
+    // 本地诊断用：把 /api 代理到 wrangler pages dev（8788，含真实 Functions + D1），
+    // 以便用 React dev 模式复现生产 #300 渲染死循环并拿到可读报错。生产部署不需要此代理。
+    proxy: {
+      '/api': 'http://localhost:8788',
+    },
   },
   build: {
-    // 提升 chunk 体积告警阈值，并通过 manualChunks 拆分 vendor，提升浏览器缓存命中与首屏加载效率
+    // 提升 chunk 体积告警阈值
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined;
-          // 图表：@mui/x-charts + d3 家族（仅仪表盘/BI 等图表页需要，已懒加载）
-          if (id.includes('@mui/x-charts') || id.includes('/d3-') || id.includes('d3-array') || id.includes('d3-scale') || id.includes('d3-shape') || id.includes('d3-time') || id.includes('internmap') || id.includes('delaunator') || id.includes('robust-predicates')) {
-            return 'vendor-charts';
-          }
-          // 表格导出：xlsx + file-saver（体积大，DataTable 已改动态导入，仅点击导出时加载）
+          // 仅隔离「不依赖 React」的大体积库（xlsx 仅点击导出时动态加载，无 React 顶层引用，可安全独立成 chunk）
           if (id.includes('/xlsx') || id.includes('file-saver')) {
             return 'vendor-xlsx';
           }
-          // 表单校验栈：react-hook-form + zod + resolvers（仅表单页需要，全部懒加载）
-          if (id.includes('react-hook-form') || id.includes('/zod') || id.includes('@hookform')) {
-            return 'vendor-forms';
-          }
-          // 日期：dayjs（date-pickers 首屏 LocalizationProvider 需要）
-          if (id.includes('/dayjs')) {
-            return 'vendor-date';
-          }
-          // 数据表：@tanstack/react-table（DataTable 通用组件）
-          if (id.includes('@tanstack')) {
-            return 'vendor-table';
-          }
-          if (id.includes('@mui') || id.includes('@emotion')) return 'vendor-mui';
-          if (id.includes('react-router') || id.includes('/react/') || id.includes('react-dom') || id.includes('scheduler') || id.includes('use-sync-external-store')) {
-            return 'vendor-react';
-          }
+          // 其余第三方库（含 React / MUI / zustand / react-hook-form / 图表等）统一留在主 vendor chunk，
+          // 避免「顶层引用 React 的库」被拆到与 React 不同的 chunk 而触发
+          // 「Cannot access 'React' before initialization」的跨 chunk 循环依赖 TDZ。
+          // 图表/大库本就经动态 import 懒加载，仍会自动单独分块。
           return 'vendor';
         },
       },

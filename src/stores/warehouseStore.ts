@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { InboundOrder, OutboundOrder, OutboundOrderItem, CheckTask, CheckTaskItem, InventoryRecord, InventoryAlert, BatchRecord, PurchaseOrderStatus, SalesOrderStatus, VoucherItem } from '@/types';
 import {
   inboundOrders as mockInboundOrders,
@@ -818,7 +819,8 @@ export const useWarehouseStore = create<WarehouseState>()(
       setSelectedOutbound: (order) => set({ selectedOutbound: order }),
       setSelectedCheckTask: (task) => set({ selectedCheckTask: task }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-warehouse',
       version: 1,
       // 只持久化业务数据，UI 选中态不落盘

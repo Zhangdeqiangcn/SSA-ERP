@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 自定义字段（P2-1 剩余）
@@ -121,7 +122,8 @@ export const useCustomFieldStore = create<CustomFieldState>()(
 
       resetAll: () => set({ fields: { ...EMPTY } }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-customfield',
       version: 1,
       partialize: (state) => ({ fields: state.fields }),

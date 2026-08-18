@@ -5,6 +5,7 @@
  */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export interface TabItem {
   id: string;       // 唯一标识 = path
@@ -149,7 +150,8 @@ export const useTabStore = create<TabState>()(
         }));
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-tabs',
       partialize: (state) => ({ tabs: state.tabs, activeTabId: state.activeTabId }),
     }

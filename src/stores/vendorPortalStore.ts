@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /** 供应商门户用户（可持久化的业务数据，替代原页面内 MOCK_USERS） */
 export interface VendorUser {
@@ -114,7 +115,8 @@ export const useVendorPortalStore = create<VendorPortalState>()(
       updateRolePermissions: (id, permissions) =>
         set((s) => ({ roles: s.roles.map((r) => (r.id === id ? { ...r, permissions } : r)) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-vendor-portal',
       version: 1,
       partialize: (state) => ({ portalUsers: state.portalUsers, roles: state.roles }),

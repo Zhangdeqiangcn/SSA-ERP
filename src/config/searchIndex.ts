@@ -165,5 +165,6 @@ export const searchIndex: SearchEntry[] = [
   // ── 系统 / 测试 ──
   { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数'], desc: '系统参数配置' },
   { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档'], desc: 'ERP 使用说明书' },
+  { label: '账号登录', path: '/login', module: '系统', group: '账号', keywords: ['login', '登录', '注册', '账号', '密码', '登出', 'logout', '公司码'], desc: '账号注册/登录与多人协同' },
   { label: '全流程自检', path: '/test/flow', module: '系统', group: '测试与诊断', keywords: ['selftest', '自检', '测试', '流程'], desc: '业务流程自检' },
 ];

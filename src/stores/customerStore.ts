@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Customer } from '@/types';
 import { customers as mockCustomers } from '@/mocks/data/customer';
 
@@ -66,7 +67,8 @@ export const useCustomerStore = create<CustomerState>()(
         return ok;
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-customer',
       version: 1,
       partialize: (state) => ({ customers: state.customers }),

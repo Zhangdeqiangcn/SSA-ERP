@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { BOMHeader, BOMItem } from '@/types/bom';
 import {
   bomList as mockBomList,
@@ -47,7 +48,8 @@ export const useBOMStore = create<BOMState>()(
         );
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-bom',
       version: 1,
       partialize: (state) => ({

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 财务深化扩展 store（P2-5 核心）
@@ -163,7 +164,8 @@ export const useFinanceExtensionStore = create<FinanceExtensionState>()(
           budgets: DEFAULT_BUDGETS.map((b) => ({ ...b })),
         }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-finance-ext',
       version: 1,
       partialize: (state) => ({

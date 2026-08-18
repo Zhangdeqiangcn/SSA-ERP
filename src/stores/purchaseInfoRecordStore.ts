@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { PurchaseInfoRecord } from '@/types';
 
 const seedRecords: PurchaseInfoRecord[] = [
@@ -83,7 +84,8 @@ export const usePurchaseInfoRecordStore = create<PurchaseInfoRecordState>()(
           records: state.records.filter((r) => r.id !== id),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-purchase-info-record',
       version: 1,
       partialize: (state) => ({ records: state.records }),

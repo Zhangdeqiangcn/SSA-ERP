@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { PriceInquiry, VendorQuotation, PriceComparison, PriceApproval, PriceListItem, PriceApprovalRecord } from '@/types';
 import {
   priceInquiries as mockPriceInquiries,
@@ -156,7 +157,8 @@ export const usePriceStore = create<PriceState>()(
       updatePriceListItem: (id, u) => set((s) => ({ priceList: updateArr(set, s.priceList, id, u) })),
       setPriceList: (list) => set({ priceList: list }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-price',
       version: 1,
       partialize: (state) => ({

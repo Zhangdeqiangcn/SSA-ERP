@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Material, MaterialCategory, MaterialFilter } from '@/types';
 import { materials as mockMaterials, materialCategories as mockCategories } from '@/mocks/data/material';
 import { normalizeMaterialCost } from '@/utils/cost';
@@ -74,7 +75,8 @@ export const useMaterialStore = create<MaterialState>()(
 
       getCategoryById: (id) => findCategoryById(get().categories, id),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-material',
       version: 1,
       // 只持久化业务数据，UI 态（选中分类/筛选）不落盘

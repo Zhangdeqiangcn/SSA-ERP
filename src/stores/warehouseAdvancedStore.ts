@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import {
   StockTransfer, InventoryAdjustment, SerialMaster, QualityHold,
   InboundOrder, OutboundOrder,
@@ -242,7 +243,8 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
           ),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-wh-adv',
       version: 1,
       partialize: (state) => ({

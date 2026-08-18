@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { UserRole } from '@/types/settings';
 
 /**
@@ -304,6 +305,7 @@ export const useApprovalFlowStore = create<ApprovalFlowState>()(
       resetFlows: () =>
         set({ flows: DEFAULT_APPROVAL_FLOWS.map((f) => ({ ...f, nodes: f.nodes.map((n) => ({ ...n })) })) }),
     }),
-    { name: 'ssa-erp-approval-flows', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-approval-flows', version: 1 }
   )
 );

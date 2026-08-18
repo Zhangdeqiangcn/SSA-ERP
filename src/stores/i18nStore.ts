@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { Locale } from '@/types';
 
 // 基础字典（演示用，覆盖 OA 流程定制 / 平台能力关键文案）
@@ -34,7 +35,8 @@ export const useI18nStore = create<I18nState>()(
       setCustom: (key, value) =>
         set((s) => ({ customTranslations: { ...s.customTranslations, [key]: value } })),
     }),
-    { name: 'ssa-erp-i18n' },
+    { storage: backendStorage,
+     name: 'ssa-erp-i18n' },
   ),
 );
 

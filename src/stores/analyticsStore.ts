@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { ForecastSuggestion, OcrHistoryItem } from '@/types/analytics';
 
 interface AnalyticsState {
@@ -23,6 +24,7 @@ export const useAnalyticsStore = create<AnalyticsState>()(
       clearForecastSuggestions: () => set({ forecastSuggestions: [] }),
       clearOcrHistory: () => set({ ocrHistory: [] }),
     }),
-    { name: 'ssa-erp-analytics' }
+    { storage: backendStorage,
+     name: 'ssa-erp-analytics' }
   )
 );

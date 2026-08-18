@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 打印模板设计器（P2-1 剩余）
@@ -341,7 +342,8 @@ export const usePrintTemplateStore = create<PrintTemplateState>()(
 
       getTemplateByEntity: (entity) => get().templates.find((t) => t.entity === entity),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-printtemplate',
       version: 1,
       partialize: (state) => ({ templates: state.templates }),

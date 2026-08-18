@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import {
   InspectionLot, COQRecord, QmVendorFeedback, InspectionTask,
 } from '@/types';
@@ -170,7 +171,8 @@ export const useQualityAdvancedStore = create<QualityAdvancedState>()(
         };
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-quality-adv',
       version: 1,
       partialize: (state) => ({

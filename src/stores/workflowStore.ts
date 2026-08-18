@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type {
   WorkflowDefinition,
   WorkflowInstance,
@@ -109,6 +110,7 @@ export const useWorkflowStore = create<WorkflowState>()(
           }),
         })),
     }),
-    { name: 'ssa-erp-workflow' },
+    { storage: backendStorage,
+     name: 'ssa-erp-workflow' },
   ),
 );

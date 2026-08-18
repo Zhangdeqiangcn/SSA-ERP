@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Vendor, VendorRatingRecord } from '@/types';
 import { vendors as mockVendors } from '@/mocks/data/vendor';
 
@@ -203,7 +204,8 @@ export const useVendorStore = create<VendorState>()(
         return ok;
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-vendor',
       version: 1,
       partialize: (state) => ({

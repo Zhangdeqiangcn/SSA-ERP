@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { SalesContract } from '@/types';
 
 // ---- 种子数据 ----
@@ -86,6 +87,7 @@ export const useSalesContractStore = create<SalesContractState>()(
       deleteContract: (id) =>
         set((s) => ({ contracts: s.contracts.filter((c) => c.id !== id) })),
     }),
-    { name: 'ssa-erp-sales-contract' }
+    { storage: backendStorage,
+     name: 'ssa-erp-sales-contract' }
   )
 );

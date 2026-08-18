@@ -1,0 +1,10 @@
+name = "ssa-erp"
+pages_build_output_dir = "dist"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare D1 数据库（多人多设备共享业务数据）
+[[d1_databases]]
+binding = "DB"
+database_name = "ssa-erp-db"
+database_id = "37c9b650-b835-437f-935b-e216e1250e1e"

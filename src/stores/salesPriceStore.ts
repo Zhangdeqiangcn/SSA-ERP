@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type {
   SalesPriceListItem,
   SalesPromotion,
@@ -172,6 +173,7 @@ export const useSalesPriceStore = create<SalesPriceState>()(
         return { unitPrice, discountRate, promotionApplied, finalPrice: unitPrice };
       },
     }),
-    { name: 'ssa-erp-sales-price', version: 1 },
+    { storage: backendStorage,
+     name: 'ssa-erp-sales-price', version: 1 },
   ),
 );

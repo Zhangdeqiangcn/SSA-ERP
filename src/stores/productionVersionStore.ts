@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { ProductionVersion, ECN } from '@/types/production';
 import { useBOMStore } from './bomStore';
 
@@ -85,7 +86,8 @@ export const useProductionVersionStore = create<ProductionVersionState>()(
         }));
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: STORE_KEY,
       version: 1,
       partialize: (state) => ({ versions: state.versions, ecns: state.ecns }),

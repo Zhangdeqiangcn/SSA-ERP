@@ -4,6 +4,8 @@ import MainLayout from './components/layout/MainLayout';
 import VendorPortalLayout from './components/layout/VendorPortalLayout';
 import VendorLogin from './pages/Vendor/VendorLogin';
 import VendorPortalRegister from './pages/Vendor/VendorPortalRegister';
+import Login from './pages/Login/Login';
+import { useAuthStore } from './stores/authStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 // P4-1 个人工作台
@@ -209,9 +211,19 @@ const CustomerABC = lazy(() => import('./pages/Sales/CustomerABC'));
 // P2-06 寄售采购
 const ConsignmentStock = lazy(() => import('./pages/Warehouse/ConsignmentStock'));
 
+// 登录门禁：未登录则跳转登录页（authStore 本地持久化，刷新后免登录）
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+}
+
 function App() {
   return (
     <Routes>
+      {/* ── 登录页 ───────────────────────────────────── */}
+      <Route path="/login" element={<Login />} />
+
       {/* ── 供应商门户（独立路由，不在 MainLayout 内）─────── */}
       <Route path="/vendor-portal/login" element={<VendorLogin />} />
       <Route path="/vendor-portal/register" element={<VendorPortalRegister />} />
@@ -236,8 +248,8 @@ function App() {
         <Route path="quotation" element={<VendorQuotation />} />
       </Route>
 
-      {/* ── 主 ERP 系统（MainLayout）──────────────────────── */}
-      <Route path="/" element={<MainLayout />}>
+      {/* ── 主 ERP 系统（MainLayout，需登录）──────────────── */}
+      <Route path="/" element={<RequireAuth><MainLayout /></RequireAuth>}>
         <Route index element={<Dashboard />} />
         {/* P4-1 个人工作台 */}
         <Route path="workbench" element={<Workbench />} />

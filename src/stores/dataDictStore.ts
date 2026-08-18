@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import {
   UNIT_OPTIONS,
   PAYMENT_METHOD_OPTIONS,
@@ -173,7 +174,8 @@ export const useDataDictStore = create<DataDictState>()(
           purchaseTypes: [...DEFAULTS.purchaseTypes],
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-datadict',
       version: 1,
       // 仅持久化数据字段，函数不落盘

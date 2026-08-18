@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Organization, OrgType } from '@/types';
 
 /**
@@ -175,7 +176,8 @@ export const useOrgStore = create<OrgState>()(
 
       resetOrgs: () => set({ organizations: [...seedOrgs], currentOrgId: 'ORG-001' }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-org',
       version: 2,
       partialize: (state) => ({

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { SubcontractOrder } from '@/types/production';
 import { useWarehouseStore } from './warehouseStore';
 
@@ -202,7 +203,8 @@ export const useSubcontractStore = create<SubcontractState>()(
           orders: s.orders.map((o) => (o.id === id ? { ...o, status: 'closed' } : o)),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: STORE_KEY,
       version: 2,
       partialize: (state) => ({ orders: state.orders }),

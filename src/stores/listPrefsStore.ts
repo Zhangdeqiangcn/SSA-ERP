@@ -1,6 +1,7 @@
 // P4-3 全局列表参数体系：查询方案 / 列方案（用户级记忆，按 listKey 区分）
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export interface QueryScheme {
   id: string;
@@ -72,6 +73,7 @@ export const useListPrefsStore = create<ListPrefsState>()(
           return { filterFieldPrefs: next };
         }),
     }),
-    { name: 'ssa-erp-listprefs' }
+    { storage: backendStorage,
+     name: 'ssa-erp-listprefs' }
   )
 );

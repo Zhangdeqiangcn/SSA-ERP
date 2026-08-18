@@ -4,6 +4,7 @@
 // 用户级状态（已读 / 已忽略）持久化到 localStorage（键 ssa-erp-notify），不持久化业务数据本身。
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { useMemo } from 'react';
 import { useFinanceStore } from './financeStore';
 import { useWarehouseStore } from './warehouseStore';
@@ -91,7 +92,8 @@ export const useNotificationStore = create<NotificationState>()(
         ),
       reset: () => set({ readIds: {}, dismissedIds: [] }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-notify',
       partialize: (s) => ({ readIds: s.readIds, dismissedIds: s.dismissedIds }),
     }

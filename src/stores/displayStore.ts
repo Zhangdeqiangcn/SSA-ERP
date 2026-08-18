@@ -5,6 +5,7 @@
  */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export type ThemeMode = 'light' | 'dark';
 export type PrimaryColor = 'blue' | 'green' | 'indigo';
@@ -65,6 +66,7 @@ export const useDisplayStore = create<DisplayState>()(
       setHighContrast: (highContrast) => set({ highContrast }),
       reset: () => set({ ...DEFAULT_DISPLAY_PREFS }),
     }),
-    { name: 'ssa-erp-display', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-display', version: 1 }
   )
 );

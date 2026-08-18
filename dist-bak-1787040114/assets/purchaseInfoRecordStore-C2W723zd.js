@@ -1,0 +1,83 @@
+import { a as create, p as persist } from "./vendor-DGU5TO-x.js";
+import { l as backendStorage } from "./index-DeeqqmHA.js";
+const seedRecords = [
+  {
+    id: "ir-001",
+    vendorId: "cus-001",
+    vendorName: "华润建筑",
+    materialId: "mat-001",
+    materialName: "钢板",
+    materialCode: "MAT-001",
+    specification: "Q235B",
+    unit: "吨",
+    unitPrice: 4100,
+    currency: "CNY",
+    validFrom: "2026-01-01",
+    validTo: "2026-12-31",
+    minQty: 1,
+    leadTime: 7,
+    purchasingGroup: "PG01",
+    status: "active"
+  },
+  {
+    id: "ir-002",
+    vendorId: "cus-002",
+    vendorName: "长江船舶",
+    materialId: "mat-002",
+    materialName: "不锈钢管",
+    materialCode: "MAT-002",
+    specification: "304",
+    unit: "吨",
+    unitPrice: 3800,
+    currency: "CNY",
+    validFrom: "2026-01-01",
+    validTo: "2026-12-31",
+    minQty: 2,
+    leadTime: 10,
+    purchasingGroup: "PG02",
+    status: "active"
+  },
+  {
+    id: "ir-003",
+    vendorId: "cus-003",
+    vendorName: "新源机械",
+    materialId: "mat-003",
+    materialName: "角钢",
+    materialCode: "MAT-003",
+    specification: "L50×5",
+    unit: "吨",
+    unitPrice: 5200,
+    currency: "CNY",
+    validFrom: "2026-01-01",
+    validTo: "2026-12-31",
+    minQty: 1,
+    leadTime: 5,
+    purchasingGroup: "PG01",
+    status: "active"
+  }
+];
+const usePurchaseInfoRecordStore = create()(
+  persist(
+    (set) => ({
+      records: [...seedRecords],
+      addRecord: (record) => set((state) => ({ records: [record, ...state.records] })),
+      updateRecord: (id, patch) => set((state) => ({
+        records: state.records.map(
+          (r) => r.id === id ? { ...r, ...patch } : r
+        )
+      })),
+      deleteRecord: (id) => set((state) => ({
+        records: state.records.filter((r) => r.id !== id)
+      }))
+    }),
+    {
+      storage: backendStorage,
+      name: "ssa-erp-purchase-info-record",
+      version: 1,
+      partialize: (state) => ({ records: state.records })
+    }
+  )
+);
+export {
+  usePurchaseInfoRecordStore as u
+};

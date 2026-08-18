@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { MaterialChangeDoc, MaterialChangeField } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -51,7 +52,8 @@ export const useMaterialExtensionStore = create<MaterialExtensionState>()(
           ],
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-material-ext',
       version: 1,
       partialize: (state) => ({ changeDocs: state.changeDocs }),

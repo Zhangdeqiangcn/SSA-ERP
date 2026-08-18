@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { currentUser } from './sessionStore';
 
 /**
@@ -69,7 +70,8 @@ export const useAuditStore = create<AuditState>()(
       },
       clearAudit: () => set({ records: [] }),
     }),
-    { name: 'ssa-erp-audit', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-audit', version: 1 }
   )
 );
 

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { OperationReport, WorkCenter } from '@/types/production';
 
 /**
@@ -151,7 +152,8 @@ export const useProductionOperationStore = create<ProductionOperationState>()(
           machineRate: DEFAULT_MACHINE_RATE,
         }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-production-op',
       version: 1,
       partialize: (state) => ({

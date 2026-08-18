@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export type FMEAStatus = 'draft' | 'reviewed' | 'approved';
 
@@ -90,7 +91,8 @@ export const useFMEAStore = create<FMEAState>()(
         })),
       deleteItem: (id) => set((s) => ({ items: s.items.filter((x) => x.id !== id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-fmea',
       version: 1,
       partialize: (state) => ({ items: state.items }),

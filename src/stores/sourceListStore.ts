@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { SourceListItem } from '@/types';
 
 const seedItems: SourceListItem[] = [
@@ -120,7 +121,8 @@ export const useSourceListStore = create<SourceListState>()(
           items: state.items.filter((r) => r.id !== id),
         })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-source-list',
       version: 1,
       partialize: (state) => ({ items: state.items }),

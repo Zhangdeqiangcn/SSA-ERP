@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import {
   InspectionNotice, VendorApplication, VendorOrderConfirm, DeliveryShipment,
   VendorQualityIssue, VendorImprovementReport, VendorStatement, VendorInvoiceRequest,
@@ -124,7 +125,8 @@ export const useFlowStore = create<FlowState>()(
       updateVendorInvoiceRequest: (id, u) => set((s) => ({ vendorInvoiceRequests: updateItem(set, s.vendorInvoiceRequests, id, u) })),
       deleteVendorInvoiceRequest: (id) => set((s) => ({ vendorInvoiceRequests: deleteItem(set, s.vendorInvoiceRequests, id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-flow',
       version: 1,
       partialize: (state) => ({

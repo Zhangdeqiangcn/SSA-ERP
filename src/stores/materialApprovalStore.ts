@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Material, MaterialApplication } from '@/types';
 import { generateMaterialCodeByCategory } from '@/utils/codeGenerator';
 
@@ -27,7 +28,8 @@ export const useMaterialApprovalStore = create<MaterialApprovalState>()(
       deleteMaterialApplication: (id) =>
         set((s) => ({ materialApplications: deleteItem(set, s.materialApplications, id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-material-approval',
       version: 1,
     }

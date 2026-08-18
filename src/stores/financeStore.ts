@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Invoice, PaymentPlan, AccountEntry, FinanceStats, TaxRecord, ProjectAccount, ChartAccount } from '@/types';
 import type { Voucher, VoucherItem, VoucherValidation, Reconciliation } from '@/types/finance';
 import {
@@ -495,7 +496,8 @@ export const useFinanceStore = create<FinanceState>()(
       // Stats
       setFinanceStats: (stats) => set({ financeStats: stats }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-finance',
       version: 3,
       // P3-1：重置科目表与凭证种子为完整报表数据集，并清除发票/付款的凭证标记，

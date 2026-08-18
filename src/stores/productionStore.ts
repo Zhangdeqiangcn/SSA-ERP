@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { WorkOrder, MRPRecommendation, ProcessRoute } from '@/types/production';
 import { FinishedGoodsInbound } from '@/types';
 import {
@@ -182,7 +183,8 @@ export const useProductionStore = create<ProductionState>()(
       updateProcessRoute: (id, u) => set((s) => ({ processRoutes: updateArr(set, s.processRoutes, id, u) })),
       deleteProcessRoute: (id) => set((s) => ({ processRoutes: deleteArr(set, s.processRoutes, id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-production',
       version: 1,
       partialize: (state) => ({

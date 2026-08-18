@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { InspectionTask, InspectionStandard, UnqualifiedItem, PDCARecord } from '@/types/quality';
 import type { VendorQualityIssue } from '@/mocks/data/flowData';
 import {
@@ -177,7 +178,8 @@ export const useQualityStore = create<QualityState>()(
       updatePdcaRecord: (id, u) => set((s) => ({ pdcaRecords: updateArr(set, s.pdcaRecords, id, u) })),
       deletePdcaRecord: (id) => set((s) => ({ pdcaRecords: deleteArr(set, s.pdcaRecords, id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-quality',
       version: 1,
       partialize: (state) => ({

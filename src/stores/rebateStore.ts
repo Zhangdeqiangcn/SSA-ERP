@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { RebateRule, RebateSettlement } from '@/types/sales';
 
 interface RebateState {
@@ -93,6 +94,7 @@ export const useRebateStore = create<RebateState>()(
         return rule.rate;
       },
     }),
-    { name: 'ssa-erp-rebate' }
+    { storage: backendStorage,
+     name: 'ssa-erp-rebate' }
   )
 );

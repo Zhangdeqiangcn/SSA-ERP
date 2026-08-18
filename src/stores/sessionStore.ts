@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { DEFAULT_USERS, type SystemUser } from './userStore';
 
 /**
@@ -64,7 +65,8 @@ export const useSessionStore = create<SessionState>()(
       },
       resetSession: () => set({ current: buildSession(DEFAULT_USERS[0]), history: [] }),
     }),
-    { name: 'ssa-erp-session', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-session', version: 1 }
   )
 );
 

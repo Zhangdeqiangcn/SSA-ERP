@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 数据权限（行级 / 组织级）开关（C3 核心之二）
@@ -100,7 +101,8 @@ export const useDataPermissionStore = create<DataPermissionState>()(
           sensitiveFields: [...defaultSensitiveFields],
         }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-data-permission',
       version: 2,
       partialize: (state) => ({

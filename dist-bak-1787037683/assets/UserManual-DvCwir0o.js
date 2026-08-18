@@ -1,0 +1,913 @@
+import { u as useTheme, r as reactExports, j as jsxRuntimeExports, B as Box, aP as Paper, h as Typography, cw as default_1, L as List, m as ListItemButton, n as ListItemIcon, q as ListItemText, aL as Chip, bt as TextField, bP as InputAdornment, cx as default_1$1, i as Divider, cy as default_1$2, cz as default_1$3, cA as default_1$4, cB as default_1$5, cC as default_1$6, cD as default_1$7, cE as default_1$8, cF as default_1$9, cG as default_1$a, cH as default_1$b, cI as default_1$c, b as alpha } from "./vendor-46QZWBd3.js";
+const BLOCK_LABEL = {
+  usage: "用途",
+  why: "为什么这样操作",
+  fields: "关键字段",
+  steps: "操作流程",
+  notes: "注意事项"
+};
+const BLOCK_COLOR = {
+  usage: "#2563eb",
+  why: "#7c3aed",
+  fields: "#0891b2",
+  steps: "#059669",
+  notes: "#d97706"
+};
+const MANUAL_MODULES = [
+  // ───────────────────────── 1. 概述与导航 ─────────────────────────
+  {
+    id: "overview",
+    title: "概述与导航",
+    icon: "Dashboard",
+    sections: [
+      {
+        id: "overview-position",
+        title: "系统定位",
+        blocks: [
+          { kind: "usage", title: "用途", text: "SSA ERP 是一套面向钢材/装备制造供应链的一体化管理系统，覆盖「销售—采购—仓储—生产—质量—财务」全业务链路，数据全部存于浏览器本地（localStorage），无需后端即可单机运行与演示。" },
+          { kind: "why", title: "为什么这样操作", text: "采用纯前端 + 本地存储架构，便于零成本上线、随时演示与离线使用；所有模块共享同一套主数据（物料/供应商/客户/仓库），保证业务单据之间可联动、可追溯。" },
+          { kind: "notes", title: "注意事项", text: "本地存储仅存在于当前浏览器，清理浏览器数据或更换设备会丢失数据；正式多用户协同需对接后端服务（当前为演示版）。" }
+        ]
+      },
+      {
+        id: "overview-layout",
+        title: "界面布局",
+        blocks: [
+          { kind: "usage", title: "用途", text: "顶部为固定顶栏（组织切换、会话切换、全局搜索、通知、待办、帮助）；左侧为功能导航；中间为页面内容区；多标签页可在页面间快速切换。" },
+          { kind: "fields", title: "关键区域", text: "顶栏搜索框：按 Ctrl/Cmd+K 唤起，输入功能或页面名即可直达。\n左侧导航：按「审批中心 / 主数据 / 供应链 / 销售管理 / 生产与质量 / 财务与报表 / 分析与报表」分组。\n多标签页：打开过的页面以标签呈现，点击可回看。" }
+        ]
+      },
+      {
+        id: "overview-common",
+        title: "通用操作（搜索 / 打印 / 审批 / 快捷键）",
+        blocks: [
+          { kind: "usage", title: "用途", text: "介绍跨模块通用的四大能力，建议在开始业务前先熟悉。" },
+          { kind: "steps", title: "操作流程", text: "1) 搜索：顶栏按 Ctrl/Cmd+K，输入「采购订单」「PO」「MRP」等，用 ↑/↓ 选择、Enter 打开。\n2) 打印：进入任一详情页，点击顶部「打印/打印预览」调用通用打印模块，可选模板与纸张。\n3) 审批：业务单据提交后进入审批中心（物料/供应商/采购/价格审批），按待办逐条处理。\n4) 快捷键：? 或顶栏「?」按钮查看全部快捷键；Esc 关闭弹层。" },
+          { kind: "why", title: "为什么这样操作", text: "把「搜索、打印、审批、快捷键」做成通用能力而非各页面重复实现，是为了降低学习成本、保证体验一致，并让新页面开箱即用。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 2. 主数据 ─────────────────────────
+  {
+    id: "master",
+    title: "主数据",
+    icon: "Inventory2",
+    sections: [
+      {
+        id: "master-material",
+        title: "物料主数据",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护企业所有料号（原材料、半成品、成品）的基础档案，是采购、生产、仓储、销售、成本等一切业务单据的引用对象。" },
+          { kind: "fields", title: "关键字段", text: "物料编码（唯一，按编码规则自动生成）、名称、规格、计量单位、物料类型（原材料/半成品/成品）、评估类、价格、提前期、安全库存、默认仓库。" },
+          { kind: "why", title: "为什么这样操作", text: "物料是 ERP 的「主语」。先建物料再建单据，可避免单据里出现无主的数据；评估类决定该物料出入库时走哪个会计科目与计价方式，必须先行设定。" },
+          { kind: "steps", title: "操作流程", text: "进入「主数据 → 物料管理 → 物料列表」→ 新增 → 填写编码/类型/单位/价格/仓库 → 保存 →（如需）提交物料审批。" },
+          { kind: "notes", title: "注意事项", text: "成品物料需设置「评估类=FG」，并与 BOM、工艺路线关联后才能跑 MRP 与成本核算；删除物料会影响已关联单据，建议用「停用」而非硬删。" }
+        ]
+      },
+      {
+        id: "master-category",
+        title: "物料分类",
+        blocks: [
+          { kind: "usage", title: "用途", text: "以树形结构对物料分组（如钢材/型材/板材），用于统计、权限与编码规则分组。" },
+          { kind: "why", title: "为什么这样操作", text: "分类是后续「按类设置编码规则、按类授权、按类统计报表」的基础，先定分类再建物料，可保证归类一致。" }
+        ]
+      },
+      {
+        id: "master-vendor",
+        title: "供应商主数据",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护供应商档案（营业执照、联系人、付款条款、供货范围、评级），是采购订单、货源清单、价格记录的来源。" },
+          { kind: "fields", title: "关键字段", text: "供应商编码、名称、税号、评级、合作状态、付款条件、默认交货周期、供货物料范围、银行账户。" },
+          { kind: "why", title: "为什么这样操作", text: "供应商需经「准入审批」后方可参与采购；评级与风险评分会反作用于采购配额与订单推荐，保证供货质量与合规。" },
+          { kind: "notes", title: "注意事项", text: "列入黑名单的供应商不可下单；新供应商注册后经「供应商注册审批」转正。" }
+        ]
+      },
+      {
+        id: "master-customer",
+        title: "客户主数据",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护购买方档案（信用等级、信用额度、税号、收货地址、开票信息），是销售订单、合同、应收的依据。" },
+          { kind: "why", title: "为什么这样操作", text: "信用等级与信用额度用于销售订单/发货时的信用校验，超额度会拦截，控制坏账风险；税号与开票信息保证销售开票合规。" }
+        ]
+      },
+      {
+        id: "master-warehouse",
+        title: "仓库主数据",
+        blocks: [
+          { kind: "usage", title: "用途", text: "定义实体仓库与库位（原料库/成品库/辅料库），出入库单据必须指定仓库，库存按仓库维度统计。" },
+          { kind: "why", title: "为什么这样操作", text: "同一物料在不同仓库的库存、计价、用途不同；明确仓库可支撑「按仓备货、跨组织转储、库龄分析」等精细化管控。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 3. 销售管理 ─────────────────────────
+  {
+    id: "sales",
+    title: "销售管理",
+    icon: "Storefront",
+    sections: [
+      {
+        id: "sales-prospect",
+        title: "意向客户",
+        blocks: [
+          { kind: "usage", title: "用途", text: "记录尚未成交的潜在客户与跟进过程（电话/拜访/邮件），是销售漏斗与商机转化的源头。" },
+          { kind: "fields", title: "关键字段", text: "公司名称、联系人、电话、来源、意向产品、跟进记录（日期/方式/内容/结果）、负责销售。" },
+          { kind: "why", title: "为什么这样操作", text: "把「客户跟进」前置为独立对象，便于销售过程管理（SFA）与转化分析；跟进成熟后转「客户主数据 + 销售报价」，形成线索→商机→订单的闭环。" },
+          { kind: "steps", title: "操作流程", text: "进入「销售管理 → 意向客户」→ 新增 → 填写公司与跟进记录 → 状态推进（跟进中→报价→成交）。" }
+        ]
+      },
+      {
+        id: "sales-quotation",
+        title: "销售报价",
+        blocks: [
+          { kind: "usage", title: "用途", text: "向客户出具报价单（含明细、单价、交期、有效期），是合同的报价依据。" },
+          { kind: "why", title: "为什么这样操作", text: "报价先于合同，便于在成交前核对价格与毛利；报价被接受后可一键转销售合同/销售订单，减少重复录入。" }
+        ]
+      },
+      {
+        id: "sales-contract",
+        title: "销售合同",
+        blocks: [
+          { kind: "usage", title: "用途", text: "记录与客户签订的正式合同（标的、金额、付款计划、履约期限），是销售订单与收款的法律依据。" },
+          { kind: "fields", title: "关键字段", text: "合同号、客户、金额、开始/结束日期、明细行（产品/数量/单价）、付款计划（里程碑/比例/金额）。" },
+          { kind: "why", title: "为什么这样操作", text: "合同与订单分离，可支持「一合同多订单」「按合同控发货与开票额度」，并支撑后续应收按付款计划核销。" }
+        ]
+      },
+      {
+        id: "sales-order",
+        title: "销售订单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "客户确认的采购需求（SO），驱动后续生产/采购、发货、开票、收款全过程，是销售业务的中心单据。" },
+          { kind: "fields", title: "关键字段", text: "订单号、客户、明细（物料/数量/单价/交期）、税率、总金额、销售员、状态（草稿/确认/生产中/已发货/关闭）、审批记录。" },
+          { kind: "why", title: "为什么这样操作", text: "SO 必须经过「订单评审/审批」才能进入执行，目的是校验信用、库存、产能与价格，避免盲目承诺交期；评审意见留痕可追溯。" },
+          { kind: "steps", title: "操作流程", text: "新增 SO → 选客户与明细 → 提交评审 → 审批通过 → 系统据成品库存决定「直接发货」或「转生产/采购」。" },
+          { kind: "notes", title: "注意事项", text: "信用额度不足时会被拦截；订单关闭后不可再发货/开票。" }
+        ]
+      },
+      {
+        id: "sales-logistics",
+        title: "物流发货",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理销售订单的发货与物流跟踪（承运商、运单号、在途状态、预计送达），并生成出库单扣减库存。" },
+          { kind: "why", title: "为什么这样操作", text: "发货与出库联动，保证「实物出库=库存减少=成本结转(COGS)」三账一致；物流跟踪让客户与销售可实时掌握在途。" }
+        ]
+      },
+      {
+        id: "sales-invoice",
+        title: "销售开票",
+        blocks: [
+          { kind: "usage", title: "用途", text: "依据已发货/已收货的销售订单开具销售发票，并生成应收账款（AR）。" },
+          { kind: "why", title: "为什么这样操作", text: "开票走应收（AR）而非采购发票模块；开票即形成应收，后续按付款计划收款核销，实现「票—款—账」闭环。" },
+          { kind: "notes", title: "注意事项", text: "未发货一般不允许提前开票（防控税务与收入确认风险）；红冲用销售退货处理。" }
+        ]
+      },
+      {
+        id: "sales-return",
+        title: "销售退货",
+        blocks: [
+          { kind: "usage", title: "用途", text: "处理客户退货（退库、退款/红冲应收），包含退货原因与质检结论。" },
+          { kind: "why", title: "为什么这样操作", text: "退货回写库存与应收，保证账实一致，并为质量追溯与客户 ABC 分析提供负向数据。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 4. 采购管理 ─────────────────────────
+  {
+    id: "purchase",
+    title: "采购管理",
+    icon: "ShoppingCart",
+    sections: [
+      {
+        id: "purchase-request",
+        title: "采购申请",
+        blocks: [
+          { kind: "usage", title: "用途", text: "各部门提出采购需求（PR），说明物料、数量、需求日期与用途，是采购执行的起点。" },
+          { kind: "fields", title: "关键字段", text: "申请单号、申请部门/人、物料、数量、需求日期、用途、审批状态。" },
+          { kind: "why", title: "为什么这样操作", text: "PR 先行可集中需求、避免重复采购，并经审批控制预算；MRP 运算的结果也以 PR 形式落地（需求产生）。" }
+        ]
+      },
+      {
+        id: "purchase-order",
+        title: "采购订单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "向供应商正式下单（PO），约定物料、价格、数量、交期与付款条款，是收货、发票、付款的主线。" },
+          { kind: "fields", title: "关键字段", text: "订单号、供应商、来源申请号、明细（物料/数量/单价/交期）、总金额、状态、确认状态（供应商门户确认）。" },
+          { kind: "why", title: "为什么这样操作", text: "PO 由 PR 转（PR 转 PO）以保证「按需采购、来源可溯」；订单确认后驱动交期跟踪与后续收货，三单匹配也以 PO 为基准。" },
+          { kind: "steps", title: "操作流程", text: "PR 列表 → 选中需求转 PO → 录入供应商与价格 → 提交采购审批 → 供应商门户确认 → 进入交期跟踪/收货。" }
+        ]
+      },
+      {
+        id: "purchase-track",
+        title: "交期跟踪",
+        blocks: [
+          { kind: "usage", title: "用途", text: "监控每张 PO 的交货进度（已交/未交/逾期），预警延迟风险。" },
+          { kind: "why", title: "为什么这样操作", text: "提前识别交期风险可触发替代货源或调整生产计划，保障齐套率。" }
+        ]
+      },
+      {
+        id: "purchase-framework",
+        title: "框架协议",
+        blocks: [
+          { kind: "usage", title: "用途", text: "与供应商签订长期协议（总量/定价/有效期），日常下单引用协议价，减少重复议价。" },
+          { kind: "why", title: "为什么这样操作", text: "框架协议锁定价格与产能，既保障供应又控制采购成本；PO 可关联协议取价。" }
+        ]
+      },
+      {
+        id: "purchase-source-list",
+        title: "货源清单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护「物料 ↔ 合格供应商」的对应关系与配额，是 MRP/采购推荐供货来源的依据，含物料编码联动。" },
+          { kind: "why", title: "为什么这样操作", text: "货源清单限定可供货的供应商范围并分配配额，保证采购只在合格供方内进行；物料编码与采购申请/订单联动，避免选错料号。" }
+        ]
+      },
+      {
+        id: "purchase-info-record",
+        title: "采购信息记录",
+        blocks: [
+          { kind: "usage", title: "用途", text: "记录「供应商+物料」的历史采购价与交货表现，供比价与自动取价参考。" },
+          { kind: "why", title: "为什么这样操作", text: "信息记录沉淀价格与交期数据，使采购下单时可带出近期价、支撑比价与谈判。" }
+        ]
+      },
+      {
+        id: "purchase-return",
+        title: "采购退货",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对不合格到货向供应商退回（退库、冲应付/生成退货单）。" },
+          { kind: "why", title: "为什么这样操作", text: "退货回写库存与应付，保证账实一致，并为供应商评级/风险提供负向数据。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 5. 价格管理 ─────────────────────────
+  {
+    id: "price",
+    title: "价格管理",
+    icon: "MonetizationOn",
+    sections: [
+      {
+        id: "price-inquiry",
+        title: "询价单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "向多家供应商发出询价（RFQ），收集报价。" },
+          { kind: "why", title: "为什么这样操作", text: "先询价再比价，使采购价格有依据、可审计，是「阳光采购」的入口。" }
+        ]
+      },
+      {
+        id: "price-comparison",
+        title: "比价单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "汇总多家供应商报价，横向对比价格/交期/条款，选定供方。" },
+          { kind: "why", title: "为什么这样操作", text: "比价结果是 PO 定价与货源清单更新的依据，确保「同质价优」。" }
+        ]
+      },
+      {
+        id: "price-list",
+        title: "价目表",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护物料的标准售价/采购价，供订单自动带价。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 6. 仓储物流 ─────────────────────────
+  {
+    id: "warehouse",
+    title: "仓储物流",
+    icon: "Warehouse",
+    sections: [
+      {
+        id: "wh-inspection-notice",
+        title: "报检单",
+        blocks: [
+          { kind: "usage", title: "用途", text: "到货后向质量部门发起报检（送检），触发来料检验任务。" },
+          { kind: "why", title: "为什么这样操作", text: "先报检后入库，确保只有检验合格物料才允许入库使用，是质量门禁的关键环节。" }
+        ]
+      },
+      {
+        id: "wh-inbound",
+        title: "采购入库",
+        blocks: [
+          { kind: "usage", title: "用途", text: "供应商到货并检验合格后，办理采购入库（GR），过账库存。" },
+          { kind: "fields", title: "关键字段", text: "入库单号、类型(采购)、来源单号(PO/ASN)、供应商、仓库、明细（物料/实收数量/质量状态/单价）。" },
+          { kind: "why", title: "为什么这样操作", text: "入库单「完成」时自动过账库存、滚动移动均价、生成 GR/IR 暂估凭证、回写 PO 收货；状态=completed 才真正记账，避免中途误操作影响账实。" },
+          { kind: "steps", title: "操作流程", text: "新建入库 → 关联 PO/ASN → 录入实收与质量状态 → 提交 → 完成过账。" }
+        ]
+      },
+      {
+        id: "wh-fg-inbound",
+        title: "成品入库",
+        blocks: [
+          { kind: "usage", title: "用途", text: "生产完工后，将成品/半成品办理入库（生产入库单）。" },
+          { kind: "why", title: "为什么这样操作", text: "通常由「生产工单完工」自动生成成品入库单并过账库存与生产成本；也可手工登记，保证生产产出计入库存与成本。" }
+        ]
+      },
+      {
+        id: "wh-outbound",
+        title: "出库管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "处理销售发货、生产领料、退货、调拨等出库（GI）。" },
+          { kind: "why", title: "为什么这样操作", text: "出库完成即扣减库存并结转成本（如销售 COGS、生产发料），与发货/工单联动，保持账实一致。" }
+        ]
+      },
+      {
+        id: "wh-check",
+        title: "库存盘点",
+        blocks: [
+          { kind: "usage", title: "用途", text: "定期盘点实物并与系统库存比对，产生盘盈/盘亏差异并调整。" },
+          { kind: "why", title: "为什么这样操作", text: "盘点纠偏保证系统账与实物一致；差异经审批后过账，是库存准确性的最后防线。" }
+        ]
+      },
+      {
+        id: "wh-inventory",
+        title: "库存查询",
+        blocks: [
+          { kind: "usage", title: "用途", text: "实时查看各仓库、各物料的库存数量、可用量、在途量与金额。" },
+          { kind: "why", title: "为什么这样操作", text: "是 MRP、ATP 可用量承诺、补货决策的数据基础；销售接单前应先查可用量。" }
+        ]
+      },
+      {
+        id: "wh-batch",
+        title: "批次管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对物料启用批次，记录每批的入库/出库/现状，支持先进先出与效期管控。" },
+          { kind: "why", title: "为什么这样操作", text: "批次是质量追溯的最小单元；钢材等按炉号/批号管理可精准定位不合格范围。" }
+        ]
+      },
+      {
+        id: "wh-aging",
+        title: "库龄分析",
+        blocks: [
+          { kind: "usage", title: "用途", text: "按入库时间分布统计库存库龄，识别呆滞料。" },
+          { kind: "why", title: "为什么这样操作", text: "库龄过长意味着资金占用与减值风险，分析结果为促销、报废、复用提供决策。" }
+        ]
+      },
+      {
+        id: "wh-transfer",
+        title: "跨组织转储",
+        blocks: [
+          { kind: "usage", title: "用途", text: "在分公司/工厂间调拨库存（转储单）。" },
+          { kind: "why", title: "为什么这样操作", text: "多组织下用转储而非买卖，简化内部调拨并保留库存所有权转移轨迹。" }
+        ]
+      },
+      {
+        id: "wh-adjustment",
+        title: "库存调整",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对系统库存做盘盈盘亏或损耗调整（需审批）。" },
+          { kind: "why", title: "为什么这样操作", text: "除盘点外的偶发差异通过受控的调整单处理，保证每笔变动有迹可循。" }
+        ]
+      },
+      {
+        id: "wh-trace",
+        title: "批次追溯穿透",
+        blocks: [
+          { kind: "usage", title: "用途", text: "从成品一路向上穿透到原材料批次（正反向追溯）。" },
+          { kind: "why", title: "为什么这样操作", text: "出现质量问题时，可快速圈定受影响批次与客群，支撑召回与 8D 分析。" }
+        ]
+      },
+      {
+        id: "wh-consignment",
+        title: "寄售库存",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理供应商寄存在我方、所有权仍属供应商的库存，消耗后才结算。" },
+          { kind: "why", title: "为什么这样操作", text: "寄售降低我方资金占用与缺料风险，但需与自有库存区分计量，避免账实混淆。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 7. 生产管理 ─────────────────────────
+  {
+    id: "production",
+    title: "生产管理",
+    icon: "PrecisionManufacturing",
+    sections: [
+      {
+        id: "production-bom",
+        title: "BOM（物料清单）",
+        blocks: [
+          { kind: "usage", title: "用途", text: "定义成品由哪些子件（原材料/半成品）按数量构成，是 MRP 展开与成本核算的基础。" },
+          { kind: "fields", title: "关键字段", text: "父项物料、子项物料、用量、损耗率、层级（多层 EBOM/MBOM）、生效日期。" },
+          { kind: "why", title: "为什么这样操作", text: "BOM 是「输入→产出」的配方；没有正确 BOM，MRP 无法算需求、成本卷积无法算标准成本。" }
+        ]
+      },
+      {
+        id: "production-route",
+        title: "工艺路线",
+        blocks: [
+          { kind: "usage", title: "用途", text: "定义产品加工经过的工序、工作中心、标准工时与工序顺序。" },
+          { kind: "why", title: "为什么这样操作", text: "工艺路线支撑排产（产能/负荷）、工序报工与工序成本归集，是生产计划与成本核算的主线。" }
+        ]
+      },
+      {
+        id: "production-order",
+        title: "工单管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "下达生产任务（WO），跟踪状态（待排产→生产中→完工→关闭），完工后自动入库与成本归集。" },
+          { kind: "fields", title: "关键字段", text: "工单号、产品(物料)、数量、计划开始/结束日期、工艺路线、状态、实际成本。" },
+          { kind: "why", title: "为什么这样操作", text: "工单把 BOM+工艺路线+计划变成可执行任务；完工（completeWorkOrder）自动生成成品入库单、记账生产成本，实现「生产→库存→成本」自动闭环。" },
+          { kind: "steps", title: "操作流程", text: "MRP/销售订单转工单 → 排产（设计划日期）→ 开工 → 工序报工 → 完工确认（录入合格/废品数量）→ 系统自动成品入库。" }
+        ]
+      },
+      {
+        id: "production-mrp",
+        title: "MRP计划",
+        blocks: [
+          { kind: "usage", title: "用途", text: "根据销售/生产需求与 BOM，自动计算物料净需求与建议（采购/生产），生成 PR 与工单建议。" },
+          { kind: "why", title: "为什么这样操作", text: "MRP 把「要卖/要产什么」换算成「要买/要产什么、何时」，避免缺料与积压；结果以采购申请(PR)形式落地（需求产生）。" }
+        ]
+      },
+      {
+        id: "production-scheduling",
+        title: "生产排产",
+        blocks: [
+          { kind: "usage", title: "用途", text: "将工单按产能与交期排入机台/产线，检测资源冲突并优化顺序。" },
+          { kind: "why", title: "为什么这样操作", text: "排产使工单计划日期落到工单上，保证产能不超载、交期可达成；系统以冲突检测保障可行性。" }
+        ]
+      },
+      {
+        id: "production-reporting",
+        title: "工序报工",
+        blocks: [
+          { kind: "usage", title: "用途", text: "每道工序完工后上报产量与工时（含合格/废品）。" },
+          { kind: "why", title: "为什么这样操作", text: "报工是进度与成本的真实来源，支撑 WIP 看板、工时成本与绩效统计。" }
+        ]
+      },
+      {
+        id: "production-subcontract",
+        title: "委外加工",
+        blocks: [
+          { kind: "usage", title: "用途", text: "将部分工序/半成品发外协厂加工并回收。" },
+          { kind: "why", title: "为什么这样操作", text: "补齐自有产能不足；委外发料/回收按出库/入库联动，成本计入加工费。" }
+        ]
+      },
+      {
+        id: "production-ecn",
+        title: "工程变更 ECN",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对物料、BOM、工艺路线发起工程变更并受控生效。" },
+          { kind: "why", title: "为什么这样操作", text: "变更需评审与版本管理，避免未受控修改导致生产用错版本。" }
+        ]
+      },
+      {
+        id: "production-cost",
+        title: "成本归集",
+        blocks: [
+          { kind: "usage", title: "用途", text: "汇总工单的材料、人工、制造费用，计算实际生产成本。" },
+          { kind: "why", title: "为什么这样操作", text: "完工后成本自动归集并与标准成本对比，差异用于定价与降本分析。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 8. 质量管理 ─────────────────────────
+  {
+    id: "quality",
+    title: "质量管理",
+    icon: "FactCheck",
+    sections: [
+      {
+        id: "quality-inspection",
+        title: "检验任务",
+        blocks: [
+          { kind: "usage", title: "用途", text: "执行来料(IQC)/过程(IPQC)/成品(OQC)检验，记录抽样结果与判定。" },
+          { kind: "fields", title: "关键字段", text: "任务号、类型、物料、批次、数量、抽样数、检验标准、判定（合格/不合格）、检验员。" },
+          { kind: "why", title: "为什么这样操作", text: "检验是入库/转序/发货的质量门禁；只有检验合格（qualityStatus=qualified）的物料才允许入库使用。" }
+        ]
+      },
+      {
+        id: "quality-standard",
+        title: "检验标准",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护各类物料的检验项目、抽样方案与合格判据。" },
+          { kind: "why", title: "为什么这样操作", text: "标准是检验任务自动带出检验项的依据，保证检验口径统一、可追溯。" }
+        ]
+      },
+      {
+        id: "quality-aql",
+        title: "AQL抽样",
+        blocks: [
+          { kind: "usage", title: "用途", text: "按 AQL（可接受质量限）标准确定抽样数量与接收准则。" },
+          { kind: "why", title: "为什么这样操作", text: "用统计抽样替代全检，兼顾质量风险与检验成本。" }
+        ]
+      },
+      {
+        id: "quality-unqualified",
+        title: "不合格品",
+        blocks: [
+          { kind: "usage", title: "用途", text: "记录不合格品的处置（退货/返工/让步接收/报废）与闭环。" },
+          { kind: "why", title: "为什么这样操作", text: "不合格必须受控处置并形成 NCR 闭环，防止不良品流入下工序或客户。" }
+        ]
+      },
+      {
+        id: "quality-pdca",
+        title: "PDCA改进",
+        blocks: [
+          { kind: "usage", title: "用途", text: "以计划-执行-检查-处理循环推动质量持续改进。" },
+          { kind: "why", title: "为什么这样操作", text: "把一次性整改沉淀为机制，避免问题重复发生。" }
+        ]
+      },
+      {
+        id: "quality-8d",
+        title: "8D问题求解",
+        blocks: [
+          { kind: "usage", title: "用途", text: "用八步法对重大质量问题进行根因分析与永久对策。" },
+          { kind: "why", title: "为什么这样操作", text: "结构化方法确保不掩盖根因；与批次追溯联动可精准圈定影响范围。" }
+        ]
+      },
+      {
+        id: "quality-spc",
+        title: "SPC控制图",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对关键工序质量特性做统计过程控制，预警异常波动。" },
+          { kind: "why", title: "为什么这样操作", text: "在缺陷发生前识别趋势，变「事后检验」为「过程预防」。" }
+        ]
+      },
+      {
+        id: "quality-fmea",
+        title: "FMEA分析",
+        blocks: [
+          { kind: "usage", title: "用途", text: "事前评估潜在失效模式及影响，优先降低高风险项。" }
+        ]
+      },
+      {
+        id: "quality-coa",
+        title: "COA合格证",
+        blocks: [
+          { kind: "usage", title: "用途", text: "随货提供产品质量合格证/质检报告。" },
+          { kind: "why", title: "为什么这样操作", text: "合格证是交付合规与客户验收的凭证，尤为钢材等大宗品所需。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 9. 财务管理 ─────────────────────────
+  {
+    id: "finance",
+    title: "财务管理",
+    icon: "AccountBalance",
+    sections: [
+      {
+        id: "finance-invoice",
+        title: "发票管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理采购发票（供应商开票），录入税额、价税合计并与收货/订单匹配。" },
+          { kind: "why", title: "为什么这样操作", text: "采购发票走应付（AP）口径；发票与 PO、收货做「三单匹配」后方可付款，防范重复付款与虚假发票。" },
+          { kind: "notes", title: "注意事项", text: "销售开票在「销售管理 → 销售开票」（生成应收），不要与本模块的采购发票混淆。" }
+        ]
+      },
+      {
+        id: "finance-payment",
+        title: "付款计划",
+        blocks: [
+          { kind: "usage", title: "用途", text: "按发票/合同排定付款时间与金额，跟踪应付到期。" },
+          { kind: "why", title: "为什么这样操作", text: "集中付款计划可优化现金流、避免逾期违约并争取现金折扣。" }
+        ]
+      },
+      {
+        id: "finance-three-way",
+        title: "三单匹配",
+        blocks: [
+          { kind: "usage", title: "用途", text: "自动比对采购订单、收货单、发票的数量与金额一致性。" },
+          { kind: "why", title: "为什么这样操作", text: "只有三者吻合才放行付款，是采购财务控制的核心闸门，杜绝「没货先付、数量不符」。" }
+        ]
+      },
+      {
+        id: "finance-ar",
+        title: "应收管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理客户应收账款（开票形成应收，收款核销），含账龄与逾期。" },
+          { kind: "why", title: "为什么这样操作", text: "应收与销售开票联动，收款后核销使余额归零并标记 closed，支撑现金流与坏账预警。" }
+        ]
+      },
+      {
+        id: "finance-ap",
+        title: "应付管理",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理供应商应付账款，按发票/付款计划核销。" },
+          { kind: "why", title: "为什么这样操作", text: "应付与采购发票联动，付款后核销，保证负债账实一致。" }
+        ]
+      },
+      {
+        id: "finance-voucher",
+        title: "凭证与分录",
+        blocks: [
+          { kind: "usage", title: "用途", text: "查看与登记会计凭证/分录，是账务的底层记录。" },
+          { kind: "why", title: "为什么这样操作", text: "业务单据（入库/完工/出库/收付款）会自动生成凭证，保证「业务发生即记账」；也可手工补录。" }
+        ]
+      },
+      {
+        id: "finance-closing",
+        title: "期末结账",
+        blocks: [
+          { kind: "usage", title: "用途", text: "月末/年末执行结账，锁定本期账务并结转。" },
+          { kind: "why", title: "为什么这样操作", text: "结账保证会计期间封闭、数据不可随意篡改，是出具财务报表的前提。" }
+        ]
+      },
+      {
+        id: "finance-budget",
+        title: "预算控制",
+        blocks: [
+          { kind: "usage", title: "用途", text: "编制费用/采购预算并在发生环节做预算占用与超支预警。" },
+          { kind: "why", title: "为什么这样操作", text: "预算前置控制支出，避免无计划超支。" }
+        ]
+      },
+      {
+        id: "finance-fixed-assets",
+        title: "固定资产",
+        blocks: [
+          { kind: "usage", title: "用途", text: "管理固定资产卡片、折旧与变动。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 10. 报表与分析 ─────────────────────────
+  {
+    id: "analytics",
+    title: "报表与分析",
+    icon: "Assessment",
+    sections: [
+      {
+        id: "report-center",
+        title: "报表中心",
+        blocks: [
+          { kind: "usage", title: "用途", text: "集中查询各业务报表，支持设计器自定义与 BI 自助分析。" },
+          { kind: "why", title: "为什么这样操作", text: "统一入口避免业务人员到处找数；报表权限与订阅保证数据安全与主动推送。" }
+        ]
+      },
+      {
+        id: "bi",
+        title: "BI自助分析",
+        blocks: [
+          { kind: "usage", title: "用途", text: "拖拽维度/指标做自助式多维分析。" }
+        ]
+      },
+      {
+        id: "cockpit",
+        title: "经营驾驶舱",
+        blocks: [
+          { kind: "usage", title: "用途", text: "以可视化大屏呈现收入、订单、库存、质量等核心经营指标。" },
+          { kind: "why", title: "为什么这样操作", text: "一屏掌握全局，便于管理层快速决策与异常干预。" }
+        ]
+      },
+      {
+        id: "forecast",
+        title: "需求预测与补货",
+        blocks: [
+          { kind: "usage", title: "用途", text: "基于历史与趋势预测需求并给出补货建议。" },
+          { kind: "why", title: "为什么这样操作", text: "从「被动 MRP」走向「主动补货」，降低缺料与库存资金占用。" }
+        ]
+      },
+      {
+        id: "chatbi",
+        title: "ChatBI对话分析",
+        blocks: [
+          { kind: "usage", title: "用途", text: "用自然语言提问获取图表与结论。" },
+          { kind: "why", title: "为什么这样操作", text: "降低分析门槛，业务人员无需懂 SQL 即可取数。" }
+        ]
+      },
+      {
+        id: "alerts",
+        title: "异常检测预警",
+        blocks: [
+          { kind: "usage", title: "用途", text: "对库存、交期、质量、账龄等异常自动预警。" },
+          { kind: "why", title: "为什么这样操作", text: "把「人找异常」变为「异常找人」，缩短响应时间。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 11. 系统设置 ─────────────────────────
+  {
+    id: "system",
+    title: "系统设置",
+    icon: "Settings",
+    sections: [
+      {
+        id: "settings",
+        title: "系统设置",
+        blocks: [
+          { kind: "usage", title: "用途", text: "维护组织/用户/角色/权限、菜单顺序与可见性、打印模板、参数等基础配置。" },
+          { kind: "why", title: "为什么这样操作", text: "集中配置保证权限与体验一致；菜单可见性可按岗位定制，减少干扰。" },
+          { kind: "notes", title: "注意事项", text: "「帮助中心 → 使用说明书」可随时打开完整使用说明书（同样可在左侧导航的「使用说明书」或顶栏搜索直达）；每次系统升级后，说明书内的「版本更新记录」章节会同步登记本次变更，建议升级后先查阅。" }
+        ]
+      },
+      {
+        id: "flow-selftest",
+        title: "全流程自检",
+        blocks: [
+          { kind: "usage", title: "用途", text: "一键填充一条贯穿「客户跟进→收款」的演示数据，验证 19 个环节是否贯通、数据是否持久化。" },
+          { kind: "why", title: "为什么这样操作", text: "用于上线前/演示前快速验证全链路与事件回写（入库过账、完工入库、出库结转、应收核销）是否正确，避免白屏与静默失效。" }
+        ]
+      }
+    ]
+  },
+  // ───────────────────────── 12. 版本更新记录 ─────────────────────────
+  {
+    id: "changelog",
+    title: "版本更新记录",
+    icon: "History",
+    sections: [
+      {
+        id: "v2560",
+        title: "V2.56.0（2026-08-18）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "① 新增后端服务（Cloudflare D1 数据库 + Pages Functions），实现「多人多设备看同一份业务数据」。\n② 新增真实账号体系：登录页（/login）支持注册/登录，密码采用 SHA-256+盐哈希存储，按角色（admin/manager/user）控制权限。\n③ 以「公司码」区分组织：注册时填写公司码，相同公司码自动加入同一组织并共享全部业务数据；不同公司码相互隔离。\n④ 顶栏头像菜单新增「退出登录」。未登录时使用浏览器本地数据（离线可继续用），登录后业务数据按组织实时同步到云端。" },
+          { kind: "why", title: "为什么这样操作", text: "此前数据只存在各人浏览器本地，换设备/换人就看不到。加入后端后，同一公司（相同公司码）的所有人登录后看到的是同一份实时数据，满足「多人多设备协同」。采用 Cloudflare 全家桶（与现有静态托管同账号同域名），零新增成本、免跨域配置；登录态保留在本地，刷新免重复登录，后端不可达时自动回退本地，保证离线可用。" },
+          { kind: "usage", title: "测试与上线要点", text: "首次使用：在登录页点「注册新账号」，填用户名/密码/姓名，公司码默认 xg-auto（同事用相同码即共享数据），提交即自动创建组织并登录。此后任意设备用同一账号登录即可看到同一份数据；用相同公司码注册他人账号即可协同。" }
+        ]
+      },
+      {
+        id: "v25525",
+        title: "V2.55.25（2026-08-18）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "① 将「使用说明书」接入系统设置：设置页新增「帮助中心 → 使用说明书」入口，点击直达完整说明书（/help/manual）。\n② 新增本「版本更新记录」章节，作为每次升版的变更登记处。" },
+          { kind: "why", title: "为什么这样操作", text: "把帮助文档统一收口到「设置 → 帮助中心」，符合用户找帮助的直觉；并用版本记录章节落实「每次升版必更新说明书」的约定，使说明书与系统版本始终同步。" }
+        ]
+      },
+      {
+        id: "v25524",
+        title: "V2.55.24（2026-08-18）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "① 顶部全局搜索框升级为覆盖全部约 120 个菜单页的搜索索引，支持名称/英文别名/关键词匹配与 ↑/↓/Enter 键盘导航。\n② 新增应用内详细使用说明书（/help/manual），逐表单讲清用途、为何这样操作、关键字段、操作流程与注意事项。\n③ 修复应收列表页账龄下拉的隐藏渲染缺陷。\n④ 发布至 Cloudflare Pages（https://ssa-erp.pages.dev）。" }
+        ]
+      },
+      {
+        id: "v25523",
+        title: "V2.55.23（2026-08-17）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "重写「全流程自检」面板为 19 环节端到端自检（/test/flow），用真实主数据贯通「客户跟进→收款」全链路，并修复应收列表页账龄下拉隐藏 bug。" }
+        ]
+      },
+      {
+        id: "v25522",
+        title: "V2.55.22（2026-08-14）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "导航二次整合：分析与报表聚合、审批中心单入口，去除重复页面。" }
+        ]
+      },
+      {
+        id: "v25521",
+        title: "V2.55.21（2026-08-14）",
+        blocks: [
+          { kind: "usage", title: "本次变更", text: "导航整合（平台生态 → 系统设置）、货源清单物料编码列 + 联动 selector、详情页通用打印模块。" }
+        ]
+      }
+    ]
+  }
+];
+const MODULE_ICON = {
+  Dashboard: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$c, { fontSize: "small" }),
+  Inventory2: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$b, { fontSize: "small" }),
+  Storefront: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$a, { fontSize: "small" }),
+  ShoppingCart: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$9, { fontSize: "small" }),
+  MonetizationOn: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$8, { fontSize: "small" }),
+  Warehouse: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$7, { fontSize: "small" }),
+  PrecisionManufacturing: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$6, { fontSize: "small" }),
+  FactCheck: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$5, { fontSize: "small" }),
+  AccountBalance: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$4, { fontSize: "small" }),
+  Assessment: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$3, { fontSize: "small" }),
+  Settings: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$2, { fontSize: "small" })
+};
+const BlockCard = ({ block }) => {
+  const color = BLOCK_COLOR[block.kind];
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    Paper,
+    {
+      variant: "outlined",
+      sx: { mb: 1.5, borderLeft: `4px solid ${color}`, bgcolor: alpha(color, 0.04) },
+      children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { px: 2, py: 1 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          Typography,
+          {
+            variant: "caption",
+            sx: { fontWeight: 700, color, letterSpacing: "0.04em", textTransform: "uppercase" },
+            children: BLOCK_LABEL[block.kind]
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "body2", sx: { mt: 0.5, color: "text.primary", whiteSpace: "pre-line", lineHeight: 1.7 }, children: block.text })
+      ] })
+    }
+  );
+};
+const SectionCard = ({ section }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  Box,
+  {
+    id: `sec-${section.id}`,
+    component: "section",
+    sx: { scrollMarginTop: 16, mb: 3 },
+    children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "h6", sx: { fontWeight: 700, color: "text.primary", mb: 1 }, children: section.title }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Divider, { sx: { mb: 1.5 } }),
+      section.blocks.map((b, i) => /* @__PURE__ */ jsxRuntimeExports.jsx(BlockCard, { block: b }, i))
+    ]
+  }
+);
+const UserManual = () => {
+  const theme = useTheme();
+  const p = theme.palette.primary.main;
+  const [query, setQuery] = reactExports.useState("");
+  const contentRef = reactExports.useRef(null);
+  const q = query.trim().toLowerCase();
+  const filtered = reactExports.useMemo(() => {
+    if (!q) return MANUAL_MODULES;
+    return MANUAL_MODULES.map((m) => ({
+      ...m,
+      sections: m.sections.filter(
+        (s) => s.title.toLowerCase().includes(q) || s.blocks.some((b) => b.text.toLowerCase().includes(q) || BLOCK_LABEL[b.kind].toLowerCase().includes(q))
+      )
+    })).filter((m) => m.sections.length > 0);
+  }, [q]);
+  const totalSections = filtered.reduce((acc, m) => acc + m.sections.length, 0);
+  const scrollTo = (moduleId) => {
+    const el = document.getElementById(`mod-${moduleId}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", gap: 3, height: "100%", alignItems: "flex-start" }, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      Paper,
+      {
+        elevation: 0,
+        sx: {
+          width: 248,
+          flexShrink: 0,
+          position: "sticky",
+          top: 0,
+          maxHeight: "calc(100vh - 64px - 48px)",
+          overflow: "auto",
+          border: "1px solid",
+          borderColor: "divider"
+        },
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { p: 2, borderBottom: "1px solid", borderColor: "divider" }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "subtitle1", sx: { fontWeight: 700, display: "flex", alignItems: "center", gap: 1 }, children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(default_1, { sx: { color: p } }),
+              " 使用说明书"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "caption", sx: { color: "text.secondary" }, children: [
+              "共 ",
+              MANUAL_MODULES.length,
+              " 章 / ",
+              MANUAL_MODULES.reduce((a, m) => a + m.sections.length, 0),
+              " 节"
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(List, { dense: true, disablePadding: true, sx: { py: 1 }, children: filtered.map((m) => /* @__PURE__ */ jsxRuntimeExports.jsxs(ListItemButton, { onClick: () => scrollTo(m.id), sx: { py: 0.75 }, children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(ListItemIcon, { sx: { minWidth: 32, color: p }, children: MODULE_ICON[m.icon] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              ListItemText,
+              {
+                primary: m.title,
+                primaryTypographyProps: { fontSize: "0.875rem", fontWeight: 600 }
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Chip, { label: m.sections.length, size: "small", sx: { height: 18, fontSize: "0.65rem" } })
+          ] }, m.id)) })
+        ]
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { ref: contentRef, sx: { flex: 1, minWidth: 0 }, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        Paper,
+        {
+          elevation: 0,
+          sx: { p: 2, mb: 2, border: "1px solid", borderColor: "divider", position: "sticky", top: 0, zIndex: 2, bgcolor: "background.paper" },
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              TextField,
+              {
+                fullWidth: true,
+                size: "small",
+                placeholder: "在说明书内搜索（如：MRP、三单匹配、信用额度、批次）",
+                value: query,
+                onChange: (e) => setQuery(e.target.value),
+                InputProps: {
+                  startAdornment: /* @__PURE__ */ jsxRuntimeExports.jsx(InputAdornment, { position: "start", children: /* @__PURE__ */ jsxRuntimeExports.jsx(default_1$1, { fontSize: "small", sx: { color: "text.secondary" } }) })
+                },
+                sx: { bgcolor: "background.default", borderRadius: 2 }
+              }
+            ),
+            q && /* @__PURE__ */ jsxRuntimeExports.jsxs(Typography, { variant: "caption", sx: { color: "text.secondary", mt: 1, display: "block" }, children: [
+              "匹配到 ",
+              totalSections,
+              " 节"
+            ] })
+          ]
+        }
+      ),
+      totalSections === 0 && /* @__PURE__ */ jsxRuntimeExports.jsxs(Paper, { sx: { p: 4, textAlign: "center", color: "text.secondary" }, children: [
+        "未找到与「",
+        query,
+        "」相关的内容，请尝试其他关键词。"
+      ] }),
+      filtered.map((m) => /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { id: `mod-${m.id}`, sx: { scrollMarginTop: 16, mb: 2 }, children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs(Box, { sx: { display: "flex", alignItems: "center", gap: 1, mt: 2, mb: 1 }, children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { sx: { color: p }, children: MODULE_ICON[m.icon] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Typography, { variant: "h5", sx: { fontWeight: 800, color: "text.primary" }, children: m.title })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Divider, { sx: { mb: 2 } }),
+        m.sections.map((s) => /* @__PURE__ */ jsxRuntimeExports.jsx(SectionCard, { section: s }, s.id))
+      ] }, m.id))
+    ] })
+  ] });
+};
+export {
+  UserManual as default
+};

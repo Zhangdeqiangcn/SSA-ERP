@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { Warehouse, WarehouseLocation, WarehouseType } from '@/types';
 
 /**
@@ -203,7 +204,8 @@ export const useWarehouseMasterStore = create<WarehouseMasterState>()(
 
       resetWarehouses: () => set({ warehouses: [...seedWarehouses] }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-warehouse-master',
       version: 1,
       partialize: (state) => ({ warehouses: state.warehouses }),

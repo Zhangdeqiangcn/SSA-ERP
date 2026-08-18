@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import {
   Quotation, SalesInvoice, SalesReturn,
 } from '@/types';
@@ -247,7 +248,8 @@ export const useSalesAdvancedStore = create<SalesAdvancedState>()(
         }));
       },
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-sales-adv',
       version: 1,
       partialize: (state) => ({

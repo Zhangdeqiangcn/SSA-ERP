@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { ReportPermission, ReportSubscription, ReportRole } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -51,6 +52,7 @@ export const useReportPermissionStore = create<ReportPermissionState>()(
       deleteSubscription: (id) =>
         set((s) => ({ subscriptions: s.subscriptions.filter((x) => x.id !== id) })),
     }),
-    { name: 'ssa-erp-report-perm' },
+    { storage: backendStorage,
+     name: 'ssa-erp-report-perm' },
   ),
 );

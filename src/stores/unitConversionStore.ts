@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 /**
  * 单位换算规则单一数据源（全面 store 化 · V2.14）
@@ -74,6 +75,7 @@ export const useUnitConversionStore = create<UnitConversionState>()(
       removeRule: (id) => set((state) => ({ rules: state.rules.filter((r) => r.id !== id) })),
       resetRules: () => set({ rules: DEFAULT_UNIT_RULES.map((r) => ({ ...r })) }),
     }),
-    { name: 'ssa-erp-unit-conversions', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-unit-conversions', version: 1 }
   )
 );

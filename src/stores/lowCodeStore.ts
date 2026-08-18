@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { LowCodeForm, LowCodeRecord, LowCodeField } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -76,6 +77,7 @@ export const useLowCodeStore = create<LowCodeState>()(
       deleteRecord: (id) =>
         set((s) => ({ formRecords: s.formRecords.filter((r) => r.id !== id) })),
     }),
-    { name: 'ssa-erp-lowcode' },
+    { storage: backendStorage,
+     name: 'ssa-erp-lowcode' },
   ),
 );

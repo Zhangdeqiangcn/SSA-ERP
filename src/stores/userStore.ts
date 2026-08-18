@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { UserRole } from '@/types/settings';
 
 /**
@@ -62,6 +63,7 @@ export const useUserStore = create<UserState>()(
 
       getUserName: (id) => get().users.find((u) => u.id === id)?.name ?? id,
     }),
-    { name: 'ssa-erp-users', version: 1 }
+    { storage: backendStorage,
+     name: 'ssa-erp-users', version: 1 }
   )
 );

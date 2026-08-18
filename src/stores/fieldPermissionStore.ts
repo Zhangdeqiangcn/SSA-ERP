@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { FieldPermission, FieldMode, PlatformModule } from '@/types';
 
 type ModuleFields = Record<PlatformModule, FieldPermission[]>;
@@ -74,6 +75,7 @@ export const useFieldPermissionStore = create<FieldPermissionState>()(
       },
       maskValue,
     }),
-    { name: 'ssa-erp-field-perm' },
+    { storage: backendStorage,
+     name: 'ssa-erp-field-perm' },
   ),
 );

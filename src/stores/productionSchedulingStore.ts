@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { ScheduleLock } from '@/types/production';
 
 const STORE_KEY = 'ssa-erp-scheduling';
@@ -66,7 +67,8 @@ export const useProductionSchedulingStore = create<SchedulingState>()(
       setSchedulingMode: (mode) => set({ schedulingMode: mode }),
       setRescheduleResult: (result) => set({ lastRescheduleResult: result }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: STORE_KEY,
       version: 2,
       partialize: (state) => ({

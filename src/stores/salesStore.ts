@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { SalesOrder, Prospect, Shipment, Project, MarketData } from '@/types';
 import {
   salesOrders as mockSalesOrders,
@@ -73,7 +74,8 @@ export const useSalesStore = create<SalesState>()(
       updateProject: (id, u) => set((s) => ({ projects: updateArr(set, s.projects, id, u) })),
       deleteProject: (id) => set((s) => ({ projects: deleteArr(set, s.projects, id) })),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-sales',
       version: 2,
       partialize: (state) => ({

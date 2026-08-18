@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import type { Webhook, WebhookLog, ApiEndpoint, WebhookEvent } from '@/types';
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -122,6 +123,7 @@ export const useIntegrationStore = create<IntegrationState>()(
         });
       },
     }),
-    { name: 'ssa-erp-integration' },
+    { storage: backendStorage,
+     name: 'ssa-erp-integration' },
   ),
 );

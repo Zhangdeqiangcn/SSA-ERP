@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { PurchaseRequest, PurchaseOrder, VendorQuote } from '@/types';
 import { purchaseRequests as mockPurchaseRequests, purchaseOrders as mockPurchaseOrders, vendorQuotes as mockVendorQuotes } from '@/mocks/data/purchase';
 import { normalizeOrderTax } from '@/utils/tax';
@@ -153,7 +154,8 @@ export const usePurchaseStore = create<PurchaseState>()(
       setSelectedRequest: (request) => set({ selectedRequest: request }),
       setSelectedOrder: (order) => set({ selectedOrder: order }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-purchase',
       version: 2,
       // 只持久化业务数据，UI 态（筛选/选中）不落盘

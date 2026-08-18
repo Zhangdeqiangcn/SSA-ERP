@@ -1,6 +1,7 @@
 // P4-1 个人工作台：可个性化布局（卡片显隐 / 顺序 / 常用功能）持久化
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 
 export type WidgetId = 'todo' | 'alert' | 'metrics' | 'quicklinks';
 
@@ -82,6 +83,7 @@ export const useWorkbenchStore = create<WorkbenchState>()(
           editMode: false,
         }),
     }),
-    { name: 'ssa-erp-workbench' }
+    { storage: backendStorage,
+     name: 'ssa-erp-workbench' }
   )
 );

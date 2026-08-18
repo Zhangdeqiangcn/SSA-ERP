@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
 import { VendorPerformance } from '@/types';
 
 interface VendorPerformanceState {
@@ -114,7 +115,8 @@ export const useVendorPerformanceStore = create<VendorPerformanceState>()(
           return { records };
         }),
     }),
-    {
+    { storage: backendStorage,
+    
       name: 'ssa-erp-vendor-performance',
       version: 1,
       partialize: (state) => ({ records: state.records }),
