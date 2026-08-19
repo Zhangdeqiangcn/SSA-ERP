@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Box, Paper, TextField, Button, Typography, Stepper, Step, StepLabel,
-  Grid, Chip, FormControl, InputLabel, Select, MenuItem,
+  Grid, Chip, FormControl, InputLabel, Select, MenuItem, ToggleButton, ToggleButtonGroup,
   Alert, Stack, IconButton, CircularProgress, Divider,
 } from '@mui/material';
 import {
@@ -217,9 +217,43 @@ const VendorPortalRegister: React.FC = () => {
   }
 
   // ── 主表单 ──
-  const renderField = (field: string, label: string, opts?: { type?: string; select?: boolean; options?: string[]; rows?: number; required?: boolean }) => {
+  const renderField = (field: string, label: string, opts?: { type?: string; select?: boolean; toggle?: boolean; options?: string[]; rows?: number; required?: boolean }) => {
     const value = (form as any)[field];
     const err = errors[field];
+    if (opts?.toggle) {
+      // 分段按钮组（替代 Select）：5 个以内选项最直观，点哪个就是哪个，无下拉兼容问题
+      return (
+        <Box>
+          <Typography variant="caption" sx={{ color: '#94A3B8', mb: 0.75, display: 'block' }}>{label}{opts?.required ? ' *' : ''}</Typography>
+          <ToggleButtonGroup
+            value={value || null}
+            exclusive
+            fullWidth
+            size="small"
+            onChange={(_e, v) => v && update(field, v)}
+            sx={{
+              '& .MuiToggleButton-root': {
+                color: '#CBD5E1',
+                borderColor: 'rgba(100,116,139,0.5)',
+                textTransform: 'none',
+                fontSize: '0.85rem',
+                py: 0.75,
+                '&:hover': { borderColor: '#3B82F6', bgcolor: 'rgba(59,130,246,0.08)' },
+                '&.Mui-selected': { bgcolor: 'rgba(59,130,246,0.18)', color: '#3B82F6', borderColor: '#3B82F6' },
+                '&.Mui-selected:hover': { bgcolor: 'rgba(59,130,246,0.25)' },
+              },
+            }}
+          >
+            {(opts.options || []).map((o) => (
+              <ToggleButton key={o} value={o} aria-label={o} data-testid={`toggle-${field}-${o}`}>
+                {o}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+          {err && <Typography variant="caption" color="error" sx={{ mt: 0.5, display: 'block' }}>{err}</Typography>}
+        </Box>
+      );
+    }
     if (opts?.select) {
       return (
         <FormControl fullWidth size="small" error={!!err}>
@@ -327,7 +361,7 @@ const VendorPortalRegister: React.FC = () => {
                     <Grid item xs={12} sm={6}>{renderField('legalRepresentative', '法定代表人 *')}</Grid>
                     <Grid item xs={12} sm={6}>{renderField('registeredCapital', '注册资本（万元）', { type: 'number' })}</Grid>
                     <Grid item xs={12} sm={6}>
-                      {renderField('companyType', '企业类型', { select: true, options: ['生产商', '贸易商', '代理商', '服务商', '其他'] })}
+                      {renderField('companyType', '企业类型', { toggle: true, options: ['生产商', '贸易商', '代理商', '服务商', '其他'] })}
                     </Grid>
                     <Grid item xs={12}>{renderField('address', '注册地址 *')}</Grid>
                   </Grid>
