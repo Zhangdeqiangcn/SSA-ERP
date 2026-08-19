@@ -22,12 +22,12 @@ import {
   Chip,
   Tooltip,
 } from '@mui/material';
-import { Add, Delete, ArrowBack, Save, ContentPaste } from '@mui/icons-material';
+import { Add, Delete, ArrowBack, Save } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageWrapper } from '@/components/layout';
-import { FlowTracker } from '@/components/common';
+import { FlowTracker, MaterialLineItemsGrid, GridColumn } from '@/components/common';
 import ResponsiblePersons from '@/components/common/ResponsiblePersons';
 import { useMaterialStore } from '@/stores/materialStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -365,6 +365,41 @@ const PurchaseForm: React.FC = () => {
 
   const totalAmount = items.reduce((sum, item) => sum + (item.estimatedAmount || 0), 0);
 
+  // ── 物料清单：复用通用模块 MaterialLineItemsGrid（与采购订单/询价/合同/销售订单一致）──
+  const prMaterialOptions = useMemo(
+    () => materials.map(m => ({ id: m.id, code: m.code, name: m.name, specification: m.specification || '', unit: m.unit, price: m.price })),
+    [materials],
+  );
+
+  /** 选中物料后返回补丁：用物料主数据价格回填预估单价（code/name/spec/unit 由列的 fillFromMaterial 自动填充） */
+  const handlePRMaterialChange = (rowId: string, materialId: string): Partial<Record<string, any>> => {
+    const mat = materials.find(m => m.id === materialId);
+    if (!mat) return {};
+    return { estimatedPrice: mat.price || 0 };
+  };
+
+  /** 数量/单价任一变化 → 重算预估金额（保留原 updateItem 的逻辑） */
+  const computePRRow = (row: any): Record<string, any> => ({
+    estimatedAmount: (row.quantity || 0) * (row.estimatedPrice || 0),
+  });
+
+  const prColumns: GridColumn[] = [
+    { key: 'materialCode', label: '物料编码', materialRole: 'code', fillFromMaterial: 'code', width: 130, fixed: true },
+    { key: 'materialName', label: '物料名称', materialRole: 'name', fillFromMaterial: 'name', width: 180, fixed: true },
+    { key: 'specification', label: '规格', fillFromMaterial: 'specification', width: 140, hideable: true },
+    { key: 'unit', label: '单位', fillFromMaterial: 'unit', width: 60, hideable: true },
+    { key: 'quantity', label: '数量', type: 'number', align: 'right', width: 80, min: 1, step: 1 },
+    { key: 'estimatedPrice', label: '预估单价', type: 'number', align: 'right', width: 110, min: 0, step: 0.01, fillFromMaterial: 'price' },
+    { key: 'estimatedAmount', label: '预估金额', type: 'readonly', align: 'right', width: 110 },
+  ];
+
+  const makePRRow = (): ItemRow => ({
+    id: `item-${Date.now()}-${Math.floor(Math.random() * 1e6)}`,
+    materialCode: '', materialId: '', materialName: '',
+    specification: '', unit: '', quantity: 1,
+    estimatedPrice: 0, estimatedAmount: 0,
+  });
+
   // ======================== 提交 / 暂存 ========================
 
   const onSubmit = (data: PurchaseFormData) => {
@@ -681,141 +716,35 @@ const PurchaseForm: React.FC = () => {
               <Typography variant="caption" color="text.secondary">物料明细</Typography>
             </Divider>
 
-            <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-              <Button startIcon={<Add />} onClick={() => addItem()}>添加物料</Button>
-              <Typography variant="caption" color="text.secondary">
-                （提示：物料号列可手工输入/下拉选择；也可直接粘贴 Excel 多行物料编码批量导入并自动匹配名称规格；表格内容可直接框选复制）
-              </Typography>
-            </Box>
-
-            {/* F8-2: 批量粘贴区 —— 从 Excel 复制多行物料编码，在此粘贴即批量导入 */}
-            <TextField
-              multiline
-              minRows={2}
-              maxRows={6}
-              fullWidth
-              label="批量粘贴物料编码（从 Excel 复制多行，每行一个 / TSV 首列即物料编码）"
-              placeholder={'例如：\nMAT202405010001\nMAT202405010002\nMAT202405010003'}
-              onPaste={handleMaterialPaste}
-              helperText="在上方文本框或任意物料号输入框直接 Ctrl+V 粘贴多行编码，系统自动匹配物料名称、规格、单位与单价"
-              InputProps={{
-                endAdornment: <ContentPaste fontSize="small" color="action" />,
-              }}
-              sx={{ mb: 2 }}
+            <MaterialLineItemsGrid
+              columns={prColumns}
+              value={items}
+              onChange={(rows) => setItems(rows as ItemRow[])}
+              materials={prMaterialOptions}
+              onMaterialChange={(rowId, matId) => handlePRMaterialChange(rowId, matId)}
+              computeRow={computePRRow}
+              newRow={makePRRow}
+              storageKey="ssa-pr-material-columns"
+              addLabel="添加物料"
+              testIdPrefix="pr"
+              footer={
+                <Stack direction="row" justifyContent="space-between" sx={{ px: 1 }}>
+                  <Typography variant="body2">共 {items.length} 项</Typography>
+                  <Typography variant="subtitle1" fontWeight={600} color="primary">
+                    合计：{formatCurrency(totalAmount)}
+                  </Typography>
+                </Stack>
+              }
             />
 
             {/* 物料责任人（采购视角：采购员）—— 自动按各物料分类聚合显示 */}
-            <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
+            <Paper variant="outlined" sx={{ p: 2, mt: 1 }}>
               <ResponsiblePersons
                 categoryIds={itemCategoryIds}
                 roles={['buyer']}
                 title="相关物料责任人（采购）"
               />
             </Paper>
-
-            <TableContainer component={Paper} sx={{ mb: 3, userSelect: 'text' }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell sx={{ minWidth: 160 }}>物料号</TableCell>
-                    <TableCell sx={{ minWidth: 180 }}>物料名称</TableCell>
-                    <TableCell>规格型号</TableCell>
-                    <TableCell>单位</TableCell>
-                    <TableCell>数量</TableCell>
-                    <TableCell>预估单价</TableCell>
-                    <TableCell>预估金额</TableCell>
-                    <TableCell width={80}>操作</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {items.map(item => (
-                    <TableRow key={item.id}>
-                      {/* F8-2: 物料号 — 可手工输入/粘贴，自动匹配 */}
-                      <TableCell>
-                        <Autocomplete
-                          size="small"
-                          freeSolo
-                          options={materials}
-                          getOptionLabel={(o) => typeof o === 'string' ? o : `${o.code} - ${o.name}`}
-                          inputValue={item.materialCode}
-                          onInputChange={(_, val) => updateItem(item.id, 'materialCode', val)}
-                          onChange={(_, val) => {
-                            if (val && typeof val !== 'string') {
-                              updateItem(item.id, 'materialCode', val.code);
-                            }
-                          }}
-                          filterOptions={(opts, state) =>
-                            opts.filter(m =>
-                              !state.inputValue ||
-                              m.code.toLowerCase().includes(state.inputValue.toLowerCase()) ||
-                              m.name.toLowerCase().includes(state.inputValue.toLowerCase())
-                            ).slice(0, 10)
-                          }
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              placeholder="输入或选择物料编码"
-                              sx={{ minWidth: 140 }}
-                              onPaste={handleMaterialPaste}
-                            />
-                          )}
-                          isOptionEqualToValue={(o, v) => o.id === v.id}
-                        />
-                      </TableCell>
-                      {/* F8-2: 物料名称 — 匹配后自动显示，只读 */}
-                      <TableCell>
-                        {item.materialName ? (
-                          <Box>
-                            <Typography variant="body2">{item.materialName}</Typography>
-                            {!item.materialId && (
-                              <Chip label="未匹配" size="small" color="warning" sx={{ height: 20, fontSize: 11 }} />
-                            )}
-                          </Box>
-                        ) : (
-                          <Typography variant="body2" color="text.secondary">
-                            {item.materialCode ? '未找到匹配物料' : '—'}
-                          </Typography>
-                        )}
-                      </TableCell>
-                      <TableCell>{item.specification || '—'}</TableCell>
-                      <TableCell>{item.unit || '—'}</TableCell>
-                      <TableCell>
-                        <TextField
-                          type="number"
-                          size="small"
-                          value={item.quantity}
-                          onChange={e => updateItem(item.id, 'quantity', Number(e.target.value))}
-                          sx={{ width: 80 }}
-                        />
-                      </TableCell>
-                      <TableCell>{formatCurrency(item.estimatedPrice)}</TableCell>
-                      <TableCell>{formatCurrency(item.estimatedAmount)}</TableCell>
-                      <TableCell>
-                        <IconButton size="small" onClick={() => removeItem(item.id)}>
-                          <Delete fontSize="small" />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  {items.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={8} sx={{ textAlign: 'center', color: 'text.secondary', py: 4 }}>
-                        暂无物料明细，请点击&quot;添加物料&quot;按钮添加，或从Excel复制多行物料编码后点击&quot;粘贴物料&quot;
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-                {items.length > 0 && (
-                  <TableFooter>
-                    <TableRow>
-                      <TableCell colSpan={6} align="right"><strong>合计金额：</strong></TableCell>
-                      <TableCell><strong>{formatCurrency(totalAmount)}</strong></TableCell>
-                      <TableCell></TableCell>
-                    </TableRow>
-                  </TableFooter>
-                )}
-              </Table>
-            </TableContainer>
           </>
         )}
       </Box>
