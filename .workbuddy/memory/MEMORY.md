@@ -2,6 +2,7 @@
 
 ## 版本沿革
 
+- **V2.56.4** (2026-08-19) — 修复 SPA 深链 404（dist 缺 `_redirects` 导致 /vendor-portal/login 等直接 404）；供应商门户接入真实后端认证（`/api/vendor/login`、`/api/vendor/register`，vendors 表 + 复用 sessions，供应商账号同步插入 users 满足 FK）；演示供应商账号 V001/V002/V-NEW 已录入 D1；新增 `docs/访问指南.md`（ERP 与供应商门户登录/注册步骤、测试账号、网址汇总）。**访问网址**：ERP 主系统 https://ssa-erp.pages.dev/（登录页 /login）；供应商门户 https://ssa-erp.pages.dev/vendor-portal（登录 /login、注册 /register）；使用说明书 /help/manual。**注册步骤**：ERP 用户注册填公司码 `xg-auto` 同码共享数据；供应商注册走 /vendor-portal/register 五步向导、pending 待管理员审核；测试账号 V001/V002 密码 vendor123。
 - **V2.56.0** (2026-08-18) — 新增后端（Cloudflare D1 + Pages Functions），实现多人多设备共享同一份业务数据；真实账号体系（注册/登录/SHA-256+盐哈希密码/角色权限）；以「公司码」区分组织，同码共享、异码隔离；新增登录页 /login 与顶栏退出登录；离线回退本地。版本四处同步 + 部署上线 https://ssa-erp.pages.dev
 - **V2.55.25** (2026-08-18) — 将「使用说明书」接入系统设置（新增「帮助中心 → 使用说明书」入口直达 /help/manual）；新增说明书「版本更新记录」章节作为每次升版的变更登记处；版本铁律新增第 4 条（升版须同步更新说明书）
 - **V2.55.24** (2026-08-18) — 顶部全局搜索框升级（覆盖全部 ~120 菜单页 + 键盘导航）+ 应用内详细使用说明书（/help/manual）；发布至 Cloudflare Pages
