@@ -13,7 +13,7 @@ import {
   ShoppingCart, Menu as MenuIcon, AccountTree, Description,
   SwapHoriz, Hub, PhoneAndroid, FactCheck, StarRate, Storage, DarkMode, Storefront,
   Api, Business, Palette, Inventory2, Code, Backup, Search, ChevronRight, VerifiedUser, Translate, Assessment,
-  Route, HelpOutline, MenuBook,
+  Route, HelpOutline, MenuBook, SmartToy,
 } from '@mui/icons-material';
 import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import { useAuthStore } from '@/stores/authStore';
@@ -45,6 +45,7 @@ import WorkflowEngine from '@/pages/Platform/WorkflowEngine';
 import IntegrationHub from '@/pages/Platform/IntegrationHub';
 import FieldPermissions from '@/pages/Platform/FieldPermissions';
 import I18nSettings from '@/pages/Platform/I18nSettings';
+import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
 import { useUserStore, type SystemUser } from '@/stores/userStore';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
