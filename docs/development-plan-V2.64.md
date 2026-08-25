@@ -1,10 +1,171 @@
 # SSA ERP V2.64 开发计划（对标改善路线图）
-## —— P1流程闭环 + P2差异化 分阶段实施计划
+## —— P1流程闭环与业务卡点补强（V2.65+实施）
 
 > **编制日期**：2026-08-25  
 > **基线版本**：V2.64.0（D1云端DB + 21张关系表 + P0六项地基完成）  
 > **对标基准**：SAP S/4HANA Cloud / 金蝶云·星空 V9.1 / 用友 YonSuite/BIP  
-> **预计周期**：P1九项 4-6周 / P2十项 6-8周（可并行）
+> **实施周期**：V2.65-V2.68（4周，B1-B5补强 + B6-B11新增）
+
+---
+
+## 一、当前实现状态盘点（V2.64源码勘探结论）
+
+### ✅ 已完成项（无需改动）
+
+| 项 | 实现位置 | 功能说明 |
+|---|---|---|
+| **B1 采购信用卡点** | `vendorStore.ts:93-126` | `checkVendorCredit`检查 + `applyVendorCreditDelta`占用/释放，PO确认时拦截超额 |
+| **B1 销售信用卡点** | `SalesOrderForm.tsx:248-281` | SO确认校验客户信用额度，超额阻断 |
+| **B2 委外发料/收货** | `subcontractStore.ts` | `issueMaterials`生成出库单扣库存；`receiveSubcontract`生成入库单+加工费凭证 |
+| **B3 完工回写** | `productionStore.ts:completeWorkOrder` | 回写completedQuantity + 生成成品入库单 + 生产成本凭证(借1405/贷5001) |
+| **B5 订单确认回写** | `purchaseStore.ts:confirmOrderByVendor` | 门户确认后设置status='vendorConfirmed' + confirmedAt/confirmedBy |
+
+### 🔶 需补强项
+
+| 项 | 缺口 | 影响 |
+|---|---|---|
+| **B2 序列号驱动** | 类型有`serialNos`字段，但入库过账未强制校验serialized物料 | 序列号追溯断链 |
+| **B2 工单领料** | UI有领料入口，但未生成出库单 | 库存与生产脱节 |
+| **B4 NCR重处置联动** | scrap已生成报废出库单，但rework/concession/return_vendor仅状态闭环 | 返工/退货无库存变化 |
+| **B5 交期回写** | 门户确认只回写状态，未同步vendorConfirmedAt→PO.expectedDeliveryDate | 交期承诺无追溯 |
+
+---
+
+## 二、P1 Phase 1（B1-B5补强）开发计划
+
+### 2.1 B2-① 序列号驱动入库过账
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | serialized物料入库强制扫描序列号，出库强制消耗序列号 |
+| **涉及文件** | `src/stores/warehouseStore.ts`, `src/types/warehouse.ts`, `src/pages/Warehouse/InboundForm.tsx` |
+| **工作量** | M（1周） |
+| **改动点** | 1. `InboundOrderItem`加`serialNos?: string[]`（已有）<br>2. `addInboundOrder`时校验：若material.serialized=true，必须提供serialNos<br>3. 入库过账后：`SerialMaster.upsert(serialNo, materialId, warehouseId, 'in')`<br>4. 出库过账时：按FIFO消耗序列号，更新SerialMaster状态 |
+| **验收标准** | serialized物料入库必须填序列号；出库自动扣减序列号库存；序列号生命周期可追溯 |
+
+### 2.2 B2-② 工单领料出库单生成
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | 工单发料生成真实出库单，扣减原料库存 |
+| **涉及文件** | `src/stores/productionStore.ts`, `src/stores/warehouseStore.ts`, `src/pages/Production/WorkOrderDetail.tsx` |
+| **工作量** | M（1周） |
+| **改动点** | 1. `WorkOrderDetail`领料表单提交时调用`useWarehouseStore.getState().addOutboundOrder`<br>2. 出库单type='production_issue', sourceNo=工单号<br>3. 过账后扣减库存，不生成凭证（生产领料不直接进成本，待完工入库时成本归集） |
+| **验收标准** | 工单领料后原料库存减少；出库单关联工单号；可追溯领料明细 |
+
+### 2.3 B4 完善NCR处置联动
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | rework/return_vendor生成对应出入库单+凭证 |
+| **涉及文件** | `src/stores/qualityStore.ts` |
+| **工作量** | M（1周） |
+| **改动点** | 1. **rework返工**：生成入库单（type='rework'），库存增加合格品<br>2. **return_vendor退货**：生成出库单（type='return'），库存减少+AP冲销凭证<br>3. **concession让步接收**：不生成出入库，但记录折价凭证（借6602/贷1403） |
+| **验收标准** | 四种处置方式全部联动库存和凭证；幂等守卫防止重复生成 |
+
+### 2.4 B5 门户交期回写PO
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | 供应商门户确认交期后，同步回写PO.expectedDeliveryDate |
+| **涉及文件** | `src/stores/purchaseStore.ts`, `src/pages/Vendor/VendorOrderConfirm.tsx` |
+| **工作量** | S（3天） |
+| **改动点** | 1. `confirmOrderByVendor`加`confirmedDeliveryDate`参数<br>2. 门户提交时携带供应商确认的交期<br>3. PO回写`expectedDeliveryDate = vendorConfirmedDate` |
+| **验收标准** | 门户确认交期后，PO详情页显示供应商确认的交期；交期变更可追溯 |
+
+---
+
+## 三、P1 Phase 2（B6-B11新增）开发计划
+
+### 3.1 B6 价目表回写+风险拦截增强
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | 价目表生效后回写物料价；黑名单强制拦截；资质到期预警 |
+| **涉及文件** | `src/stores/priceStore.ts`, `src/stores/vendorStore.ts`, `src/pages/Purchase/OrderForm.tsx` |
+| **工作量** | M（1周） |
+| **改动点** | 1. 价目表生效事件→`materialStore.updateMaterialPrice(materialId, price)`<br>2. 下单时校验黑名单：`checkVendorBlacklist`失败→阻断提交<br>3. 资质到期检查：`qualificationExpiry < today`→预警入通知中心 |
+| **验收标准** | 价目表生效后物料价自动更新；黑名单供应商无法下单；资质到期有预警 |
+
+### 3.2 B7 工作流引擎统一
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | 业务审批统一走WorkflowEngine，条件表达式可执行 |
+| **涉及文件** | `src/stores/approvalFlowStore.ts`, `src/stores/flowStore.ts`, `src/pages/Approval/*.tsx` |
+| **工作量** | L（2周） |
+| **改动点** | 1. 迁移物料/供应商/采购/价格审批到WorkflowEngine<br>2. 审批条件从字符串改为JSON表达式（如`{"field":"amount","op":">","value":10000}`）<br>3. 审批节点支持动态审批人（角色组/指定用户） |
+| **验收标准** | 所有业务审批走统一引擎；条件表达式可配置；审批历史可追溯 |
+
+### 3.3 B8 MRP增强
+
+| 项目 | 内容 |
+|------|------|
+| **目标** | MRP消费plantParams参数，计划可执行 |
+| **涉及文件** | `src/stores/productionStore.ts`, `src/stores/materialStore.ts` |
+| **工作量** | M（1.5周） |
+| **改动点** | 1. MRP净需求计算消费`material.plantParams.lotSize/leadTime/safetyStock`<br>2. 安全库存分层：`safetyStock`作为最低库存约束<br>3. 提前期偏置：`grossDemandDate - leadTime = netRequirementDate` |
+| **验收标准** | MRP推荐考虑批量规则和安全库存；计划日期准确 |
+
+### 3.4 B9-B11 并行开发
+
+| 项 | 工作量 | 关键改动 |
+|---|--------|----------|
+| **B9 AQL检索表** | M（1周） | 内置GB/T 2828抽样表；检验任务自动算sampleQuantity/Ac/Re |
+| **B10 订单变更单** | M（1周） | PO加version/history字段；变更生成新版本 |
+| **B11 付款计划** | M（1周） | PaymentPlan支持多笔付款；预付款占用信用 |
+
+---
+
+## 四、实施时间表
+
+| 周次 | 任务 | 交付物 |
+|------|------|--------|
+| **第1周** | B2-①序列号驱动 + B2-②工单领料 | 序列号强制扫描；领料出库单生成 |
+| **第2周** | B4 NCR完善 + B5 交期回写 | 四种处置联动库存凭证；门户交期同步 |
+| **第3周** | B6 风险拦截增强 + B7 工作流统一 | 黑名单拦截+资质预警；审批引擎统一 |
+| **第4周** | B8 MRP增强 + B9-B11 | 计划参数消费；AQL抽样；订单变更；付款计划 |
+
+---
+
+## 五、验收标准（全量回归）
+
+每阶段完成后必须执行：
+
+1. **TypeScript编译**：`tsc --noEmit` 零错误
+2. **Playwright E2E全绿**：33个spec / 131用例全绿 + 新增用例覆盖补强项
+3. **版本三处同步**：
+   - `src/version.ts`：APP_VERSION + APP_VERSION_LABEL
+   - `package.json`：version字段
+   - `.workbuddy/memory/MEMORY.md`：版本沿革追加
+4. **生产部署**：`https://ssa-erp.pages.dev` 可访问
+
+---
+
+## 六、风险与应对
+
+| 风险 | 影响 | 应对措施 |
+|------|------|----------|
+| B2序列号驱动改动面广 | 中 | 分步实施：先入库→再出库→最后追溯视图 |
+| B7工作流统一改动核心 | 高 | 双轨并行：新流程走WorkflowEngine，旧审批保留过渡期 |
+| B4 NCR联动可能破坏现有逻辑 | 中 | 幂等守卫+单元测试覆盖四种处置方式 |
+
+---
+
+## 七、成功指标
+
+| 指标 | V2.64基线 | V2.68目标 |
+|------|----------|----------|
+| 功能覆盖度 | 82-85% | **90-92%** |
+| 综合评分均值 | 3.9 | **4.3** |
+| D5工作逻辑 | 4.2 | **4.7** |
+| E2E用例数 | 131 | **150+** |
+| D1关系表数 | 21 | **25+** |
+
+---
+
+> 本报告基于SSA ERP V2.64源码勘探编制。B1-B3已完成，本期重点补强B2序列号/领料、B4 NCR联动、B5交期回写，并新增B6-B11风险拦截与计划增强。
+
 
 ---
 
