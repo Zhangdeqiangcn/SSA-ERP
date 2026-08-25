@@ -210,6 +210,8 @@ const RebateManager = lazy(() => import('./pages/Sales/RebateManager'));
 const CustomerABC = lazy(() => import('./pages/Sales/CustomerABC'));
 // P2-06 寄售采购
 const ConsignmentStock = lazy(() => import('./pages/Warehouse/ConsignmentStock'));
+// P2-06 发票批量核验
+const InvoiceVerification = lazy(() => import('./pages/Analytics/InvoiceVerification'));
 
 // 登录门禁：未登录则跳转登录页（authStore 本地持久化，刷新后免登录）
 function RequireAuth({ children }: { children: React.ReactNode }) {
@@ -453,6 +455,7 @@ function App() {
         <Route path="analytics/alerts" element={<AlertMonitor />} />
         {/* P2-25 价格趋势分析 */}
         <Route path="analytics/price" element={<PriceAnalysis />} />
+        <Route path="analytics/invoice-verify" element={<InvoiceVerification />} />
         {/* 系统设置 */}
         <Route path="settings" element={<Settings />} />
         <Route path="test/flow" element={<FlowSelfTest />} />

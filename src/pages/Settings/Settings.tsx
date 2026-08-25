@@ -46,6 +46,7 @@ import IntegrationHub from '@/pages/Platform/IntegrationHub';
 import FieldPermissions from '@/pages/Platform/FieldPermissions';
 import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
+import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import { useUserStore, type SystemUser } from '@/stores/userStore';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
@@ -613,6 +614,7 @@ const Settings: React.FC = () => {
         { id: 'integrationHub', label: '开放接口与Webhook', icon: <Api fontSize="small" />, render: () => <IntegrationHub /> },
         { id: 'api', label: 'API接口文档', icon: <Code fontSize="small" />, render: () => <APIDocTab /> },
         { id: 'ai', label: 'AI大模型配置', icon: <SmartToy fontSize="small" />, render: () => <AIConfigPage /> },
+        { id: 'tax', label: '金税系统配置', icon: <FactCheck fontSize="small" />, render: () => <TaxConfigPage /> },
         { id: 'server', label: '服务端与审计', icon: <Security fontSize="small" />, render: () => <ServerAuditTab /> },
       ],
     },
