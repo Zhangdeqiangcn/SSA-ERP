@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
   Box, TextField, IconButton, Typography, Paper, Card, CardContent,
-  Chip, Grid, Divider,
+  Chip, Grid, Divider, CircularProgress, Alert,
 } from '@mui/material';
-import { Send, TrendingUp, BarChart, PieChart, Assessment } from '@mui/icons-material';
+import { Send, TrendingUp, BarChart, PieChart, Assessment, History } from '@mui/icons-material';
 
 // ── 纯 SVG 柱状图 ──
 const BarChartSVG: React.FC<{ data: { label: string; value: number }[]; title: string }> = ({ data, title }) => {
   const w = 500, h = 220, pad = { top: 20, right: 20, bottom: 35, left: 40 };
   const chartW = w - pad.left - pad.right;
   const chartH = h - pad.top - pad.bottom;
-  const maxV = Math.max(...data.map((d) => d.value));
+  const maxV = Math.max(...data.map((d) => d.value), 1);
   const barW = chartW / data.length * 0.6;
   const gap = chartW / data.length;
   const colors = ['#1976d2', '#388e3c', '#f57c00', '#d32f2f', '#7b1fa2', '#0097a7'];
@@ -53,7 +53,7 @@ const BarChartSVG: React.FC<{ data: { label: string; value: number }[]; title: s
 // ── 纯 SVG 环形图 ──
 const DonutChartSVG: React.FC<{ data: { label: string; value: number; color: string }[]; title: string }> = ({ data, title }) => {
   const size = 220, cx = size / 2, cy = size / 2, r = 80, strokeW = 30;
-  const total = data.reduce((s, d) => s + d.value, 0);
+  const total = data.reduce((s, d) => s + d.value, 0) || 1;
   let offset = 0;
 
   return (
@@ -81,7 +81,7 @@ const DonutChartSVG: React.FC<{ data: { label: string; value: number; color: str
         );
       })}
       <text x={cx} y={cy - 5} fontSize={20} fontWeight={700} fill="#333" textAnchor="middle">{total.toFixed(1)}</text>
-      <text x={cx} y={cy + 15} fontSize={10} fill="#999" textAnchor="middle">周转率</text>
+      <text x={cx} y={cy + 15} fontSize={10} fill="#999" textAnchor="middle">总计</text>
       {/* 图例 */}
       {data.map((d, i) => (
         <g key={i}>
@@ -96,7 +96,7 @@ const DonutChartSVG: React.FC<{ data: { label: string; value: number; color: str
 // ── 纯 SVG 横向条形图 ──
 const HorizontalBarSVG: React.FC<{ data: { label: string; value: number; secondary: number }[]; title: string }> = ({ data, title }) => {
   const w = 480, itemH = 40, pad = { left: 100, right: 80 };
-  const maxV = Math.max(...data.map((d) => Math.max(d.value, d.secondary)));
+  const maxV = Math.max(...data.map((d) => Math.max(d.value, d.secondary)), 1);
   const colors = ['#1976d2', '#388e3c', '#f57c00', '#d32f2f', '#7b1fa2', '#0097a7'];
   const h = 40 + data.length * itemH;
 
@@ -125,74 +125,88 @@ const HorizontalBarSVG: React.FC<{ data: { label: string; value: number; seconda
   );
 };
 
-// ── 模拟数据 ──
-const MOCK_RESPONSES: Record<string, { title: string; description: string; chartType: 'bar' | 'donut' | 'horizontalBar'; data: any }> = {
-  '本月销售趋势': {
-    title: '本月销售趋势',
-    description: '2026年8月前11天销售额趋势（模拟数据）',
-    chartType: 'bar',
-    data: [
-      { label: '8/1', value: 280 }, { label: '8/2', value: 320 }, { label: '8/3', value: 450 },
-      { label: '8/4', value: 380 }, { label: '8/5', value: 520 }, { label: '8/6', value: 610 },
-      { label: '8/7', value: 490 }, { label: '8/8', value: 560 }, { label: '8/9', value: 640 },
-      { label: '8/10', value: 580 }, { label: '8/11', value: 700 },
-    ],
-  },
-  '库存周转率': {
-    title: '库存周转率分析',
-    description: '各物料类别库存周转率（次/月）（模拟数据）',
-    chartType: 'donut',
-    data: [
-      { label: '冷轧板', value: 4.2, color: '#1976d2' },
-      { label: '热轧卷', value: 3.6, color: '#388e3c' },
-      { label: '镀锌板', value: 2.8, color: '#f57c00' },
-      { label: '不锈钢', value: 5.1, color: '#d32f2f' },
-    ],
-  },
-  '供应商质量排名': {
-    title: '供应商质量排名',
-    description: '供应商到货合格率与综合评分（模拟数据）',
-    chartType: 'horizontalBar',
-    data: [
-      { label: '宝钢股份', value: 98.5, secondary: 95.2 },
-      { label: '鞍钢集团', value: 96.2, secondary: 92.8 },
-      { label: '首钢集团', value: 94.8, secondary: 90.1 },
-      { label: '河钢集团', value: 93.5, secondary: 89.5 },
-      { label: '太钢集团', value: 91.2, secondary: 87.3 },
-    ],
-  },
-};
+// ── 响应类型 ──
+type ChartData = { label: string; value: number; color?: string; secondary?: number }[];
+interface BIResult {
+  title: string;
+  description: string;
+  chartType: 'bar' | 'donut' | 'horizontalBar';
+  data: ChartData;
+  summary?: string;
+  suggestions?: string[];
+}
 
-const matchQuery = (query: string) => {
-  for (const [key, value] of Object.entries(MOCK_RESPONSES)) {
-    if (query.includes(key)) return value;
-  }
-  return null;
-};
+// ── 建议查询列表 ──
+const SUGGEST_QUERIES = [
+  '本月销售趋势',
+  '库存物料分类',
+  '供应商质量排名',
+  '采购订单状态',
+  '财务凭证摘要',
+  '生产工单状态',
+  '客户信用使用',
+];
 
 const ChatBI: React.FC = () => {
   const [input, setInput] = useState('');
-  const [result, setResult] = useState<typeof MOCK_RESPONSES[string] | null>(null);
-  const [history, setHistory] = useState<string[]>([]);
+  const [result, setResult] = useState<BIResult | null>(null);
+  const [history, setHistory] = useState<{ query: string; result: BIResult }[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSend = () => {
+  const analyzeQuery = async (query: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const resp = await fetch('/api/chatbi/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query }),
+      });
+      if (!resp.ok) {
+        const err = await resp.json();
+        throw new Error(err.error || '请求失败');
+      }
+      const data: BIResult = await resp.json();
+      return data;
+    } catch (e: any) {
+      setError(e.message || '分析失败，请稍后重试');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSend = async () => {
     const q = input.trim();
-    if (!q) return;
-    setHistory((prev) => [...prev, q]);
-    const r = matchQuery(q);
-    setResult(r);
+    if (!q || loading) return;
+    const r = await analyzeQuery(q);
+    if (r) {
+      setHistory((prev) => [...prev, { query: q, result: r }]);
+      setResult(r);
+    }
     setInput('');
+  };
+
+  const handleSuggest = async (q: string) => {
+    setLoading(true);
+    const r = await analyzeQuery(q);
+    if (r) {
+      setHistory((prev) => [...prev, { query: q, result: r }]);
+      setResult(r);
+    }
+    setLoading(false);
   };
 
   const renderChart = () => {
     if (!result) return null;
     switch (result.chartType) {
       case 'bar':
-        return <BarChartSVG data={result.data} title={result.title} />;
+        return <BarChartSVG data={result.data as any} title={result.title} />;
       case 'donut':
-        return <DonutChartSVG data={result.data} title={result.title} />;
+        return <DonutChartSVG data={result.data as any} title={result.title} />;
       case 'horizontalBar':
-        return <HorizontalBarSVG data={result.data} title={result.title} />;
+        return <HorizontalBarSVG data={result.data as any} title={result.title} />;
       default:
         return null;
     }
@@ -204,7 +218,7 @@ const ChatBI: React.FC = () => {
         ChatBI 对话式分析
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-        模拟/Demo — 输入自然语言问句，获取可视化分析结果。支持："本月销售趋势"、"库存周转率"、"供应商质量排名"
+        输入自然语言问句，从数据库获取实时数据并可视化展示
       </Typography>
 
       {/* 输入区域 */}
@@ -219,36 +233,50 @@ const ChatBI: React.FC = () => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSend(); } }}
           inputProps={{ 'data-testid': 'chatbi-input' }}
+          disabled={loading}
         />
-        <IconButton color="primary" onClick={handleSend} disabled={!input.trim()} data-testid="chatbi-send">
-          <Send />
+        <IconButton color="primary" onClick={handleSend} disabled={!input.trim() || loading} data-testid="chatbi-send">
+          {loading ? <CircularProgress size={20} /> : <Send />}
         </IconButton>
       </Paper>
 
       {/* 建议问法 */}
       <Box sx={{ mb: 3, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-        {Object.keys(MOCK_RESPONSES).map((k) => (
+        {SUGGEST_QUERIES.map((k) => (
           <Chip
             key={k}
             label={k}
             variant="outlined"
             color="primary"
             size="small"
-            onClick={() => { setInput(k); setHistory((prev) => [...prev, k]); setResult(matchQuery(k)); }}
+            onClick={() => handleSuggest(k)}
             sx={{ cursor: 'pointer' }}
           />
         ))}
       </Box>
 
+      {/* 错误提示 */}
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>
+      )}
+
       {/* 对话历史 */}
-      {history.length > 0 && (
+      {history.length > 1 && (
         <Box sx={{ mb: 3 }}>
-          <Typography variant="caption" color="text.disabled" gutterBottom sx={{ display: 'block' }}>
-            对话记录
+          <Typography variant="caption" color="text.disabled" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <History fontSize="small" /> 历史记录 ({history.length - 1} 条)
           </Typography>
-          {history.map((h, i) => (
-            <Chip key={i} label={h} size="small" sx={{ mr: 0.5, mb: 0.5 }} />
-          ))}
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 1 }}>
+            {history.slice(0, -1).map((h, i) => (
+              <Chip
+                key={i}
+                label={h.query}
+                size="small"
+                onClick={() => { setResult(h.result); }}
+                sx={{ mr: 0.5, mb: 0.5, cursor: 'pointer' }}
+              />
+            ))}
+          </Box>
         </Box>
       )}
 
@@ -258,13 +286,18 @@ const ChatBI: React.FC = () => {
       {result ? (
         <Card variant="outlined" sx={{ borderRadius: 2 }}>
           <CardContent>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
               <BarChart color="primary" fontSize="small" />
               <Typography variant="subtitle1" fontWeight={600}>{result.title}</Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {result.description}
             </Typography>
+            {result.summary && (
+              <Typography variant="body2" color="primary" sx={{ mb: 2, fontWeight: 500 }}>
+                💡 {result.summary}
+              </Typography>
+            )}
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               {renderChart()}
             </Box>
