@@ -12,4 +12,4 @@ database_id = "37c9b650-b835-437f-935b-e216e1250e1e"
 # KV 命名空间：存储 AI 模型配置
 [[kv_namespaces]]
 binding = "AI_MODELS"
-id = "your-kv-namespace-id-here"
+id = "8ffaf993ff3543adb588566090c4252c"
