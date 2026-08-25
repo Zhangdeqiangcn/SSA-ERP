@@ -27,7 +27,7 @@ import { useFinanceStore } from '@/stores/financeStore';
 import { useProductionStore } from '@/stores/productionStore';
 
 // 常用功能图标解析
-const ICON_MAP: Record<string, React.ReactNode> = {
+const ICON_MAP: Record<string, React.ReactElement> = {
   inventory: <Inventory2 fontSize="small" />,
   assignment: <Assignment fontSize="small" />,
   factcheck: <FactCheck fontSize="small" />,
@@ -83,7 +83,8 @@ const Workbench: React.FC = () => {
   const p = theme.palette.primary.main;
   const navigate = useNavigate();
 
-  const { currentUser, role } = useAuthStore();
+  const { currentUser } = useAuthStore();
+  const role = currentUser?.role;
   const { notifications, summary } = useNotificationData();
   const {
     visibleWidgets, quickLinks, editMode,

@@ -341,9 +341,9 @@ const PurchaseForm: React.FC = () => {
       case 'salesOrder':
         return salesOrders.filter(o => o.status !== 'cancelled');
       case 'workOrder':
-        return workOrders.filter(o => o.status !== 'cancelled');
+        return workOrders.filter(o => o.status !== 'closed');
       case 'mrp':
-        return mrpRecommendations.filter(r => r.status === 'open');
+        return mrpRecommendations;
       default:
         return [];
     }

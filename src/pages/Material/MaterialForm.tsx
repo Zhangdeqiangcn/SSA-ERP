@@ -17,7 +17,7 @@ import { useMaterialStore, useDataDictStore, useCustomFieldStore } from '@/store
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useMaterialApprovalStore } from '@/stores/materialApprovalStore';
 import { useAuthStore } from '@/stores/authStore';
-import { Material, MaterialApplication, MaterialType, MakeOrBuy } from '@/types';
+import { Material, MaterialApplication, MaterialType, MakeOrBuy, MaterialCategory } from '@/types';
 import { generateMaterialCodeByCategory, getCategoryFullCode } from '@/utils/codeGenerator';
 
 // 物料类型 / 自制外购 选项
@@ -35,7 +35,7 @@ const MAKE_OR_BUY_OPTIONS = [
 
 // 递归构建树形分类选项（扁平带层级标记）
 const buildCategoryOptions = (
-  nodes: typeof categories,
+  nodes: MaterialCategory[],
   depth: number = 0
 ): { id: string; label: string; depth: number }[] => {
   const options: { id: string; label: string; depth: number }[] = [];
@@ -54,7 +54,7 @@ const buildCategoryOptions = (
 };
 
 // 递归查找分类名称
-const findCategoryName = (nodes: typeof categories, id: string): string => {
+const findCategoryName = (nodes: MaterialCategory[], id: string): string => {
   for (const node of nodes) {
     if (node.id === id) return node.name;
     if (node.children) {
@@ -66,7 +66,7 @@ const findCategoryName = (nodes: typeof categories, id: string): string => {
 };
 
 // 递归查找分类 code
-const findCategoryCode = (nodes: typeof categories, id: string): string => {
+const findCategoryCode = (nodes: MaterialCategory[], id: string): string => {
   for (const node of nodes) {
     if (node.id === id) return node.code;
     if (node.children) {
@@ -83,15 +83,15 @@ const materialSchema = z.object({
   categoryId: z.string().min(1, '请选择物料分类'),
   specification: z.string().optional(),
   model: z.string().optional(),
-  materialType: z.string().optional(),
-  makeOrBuy: z.string().optional(),
+  materialType: z.enum(['raw', 'semi', 'finished', 'purchased', 'service'] as const).optional(),
+  makeOrBuy: z.enum(['make', 'buy']).optional(),
   unit: z.string().min(1, '请输入单位'),
   safetyStock: z.number().min(0),
   minStock: z.number().min(0),
   maxStock: z.number().min(0),
   price: z.number().min(0),
   currency: z.string(),
-  status: z.string(),
+  status: z.enum(['draft', 'active', 'inactive', 'pending', 'approved', 'rejected']),
   remarks: z.string().optional(),
   leadTime: z.number().optional(),
   moq: z.number().optional(),
@@ -289,7 +289,7 @@ const MaterialForm: React.FC = () => {
         applicantRole: currentUser?.role || 'admin',
         status: 'pending',
         currentStep: 0,
-        draft: { ...data, parameters: parameterRows as Material['parameters'] },
+        draft: { ...data, materialType: data.materialType as MaterialType, parameters: parameterRows as Material['parameters'] },
         stepHistory: [{
           step: 0,
           role: currentUser?.role || 'admin',
@@ -310,6 +310,7 @@ const MaterialForm: React.FC = () => {
       // 编辑模式：更新 store 中已有数据
       updateMaterial(existingMaterial.id, {
         ...data,
+        materialType: data.materialType as MaterialType,
         categoryName,
         currentStock: existingMaterial.currentStock,
         parameters: parameterRows as Material['parameters'],
@@ -324,6 +325,7 @@ const MaterialForm: React.FC = () => {
       const newMaterial: Material = {
         id: `mat-${Date.now()}`,
         ...data,
+        materialType: data.materialType as MaterialType,
         categoryName,
         currentStock: 0,
         currency: data.currency as Material['currency'],
@@ -350,6 +352,7 @@ const MaterialForm: React.FC = () => {
     if (isEdit && existingMaterial) {
       updateMaterial(existingMaterial.id, {
         ...formValues,
+        materialType: formValues.materialType as MaterialType,
         categoryName,
         status: 'draft' as Material['status'],
         currentStock: existingMaterial.currentStock,

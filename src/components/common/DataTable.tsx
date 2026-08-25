@@ -16,7 +16,7 @@ import { statusConfig } from './StatusBadge';
 import {
   useReactTable, getCoreRowModel, getSortedRowModel, getPaginationRowModel,
   getFilteredRowModel, flexRender, ColumnDef, SortingState,
-  ColumnFiltersState, RowSelectionState, ColumnVisibilityState, FilterFn,
+  ColumnFiltersState, RowSelectionState, VisibilityState, FilterFn,
 } from '@tanstack/react-table';
 
 export interface BatchAction<T> {
@@ -150,7 +150,7 @@ function ActionCell<T>({
   );
 }
 
-export function DataTable<T extends { id: string }>({
+export function DataTable<T>({
   data,
   columns,
   enableRowSelection = false,
@@ -182,8 +182,8 @@ export function DataTable<T extends { id: string }>({
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [colsAnchor, setColsAnchor] = useState<HTMLElement | null>(null);
   // 列显隐记忆（仅当提供 columnConfigKey 时启用）
-  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>(() => {
-    const base: ColumnVisibilityState = {};
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
+    const base: VisibilityState = {};
     if (columnConfigKey) {
       try {
         const raw = localStorage.getItem(`ssa-dt-colcfg-${columnConfigKey}`);
@@ -202,7 +202,7 @@ export function DataTable<T extends { id: string }>({
     return base;
   });
 
-  const persistVisibility = (vis: ColumnVisibilityState) => {
+  const persistVisibility = (vis: VisibilityState) => {
     if (!columnConfigKey) return;
     const hidden = Object.entries(vis).filter(([, v]) => v === false).map(([k]) => k);
     try {
@@ -212,7 +212,7 @@ export function DataTable<T extends { id: string }>({
     }
   };
   const handleColumnVisibilityChange = (
-    updater: ColumnVisibilityState | ((old: ColumnVisibilityState) => ColumnVisibilityState)
+    updater: VisibilityState | ((old: VisibilityState) => VisibilityState)
   ) => {
     const next = typeof updater === 'function' ? updater(columnVisibility) : updater;
     setColumnVisibility(next);
@@ -229,7 +229,7 @@ export function DataTable<T extends { id: string }>({
         const raw = localStorage.getItem(`ssa-dt-colcfg-${columnConfigKey}`);
         if (!raw) return;
         const hidden: string[] = JSON.parse(raw);
-        const vis: ColumnVisibilityState = {};
+        const vis: VisibilityState = {};
         hidden.forEach((id) => { vis[id] = false; });
         setColumnVisibility(vis);
       } catch {
@@ -276,7 +276,7 @@ export function DataTable<T extends { id: string }>({
   const hasCustomActions = normalizedColumns.some((c) => (c as ColumnDef<T, unknown>).id === 'actions');
   const table = useReactTable({
     data,
-    columns: hasCustomActions ? normalizedColumns : [...normalizedColumns, actionColumn],
+    columns: (hasCustomActions ? normalizedColumns : [...normalizedColumns, actionColumn]) as ColumnDef<unknown, any>[],
     state: { sorting, columnFilters, rowSelection, columnVisibility },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -312,7 +312,7 @@ export function DataTable<T extends { id: string }>({
       for (let c = cMin; c <= cMax; c++) {
         const cell = cells[c];
         if (!cell) { parts.push(''); continue; }
-        const v = cell.getValue(cell.column.id);
+        const v = cell.getValue();
         parts.push(v == null ? '' : String(v));
       }
       lines.push(parts.join('\t'));
@@ -566,7 +566,7 @@ export function DataTable<T extends { id: string }>({
     saveAs(file, 'selected_export.xlsx');
   };
 
-  const selectedRows = table.getSelectedRowModel().rows.map(r => r.original);
+  const selectedRows = table.getSelectedRowModel().rows.map(r => r.original) as T[];
   const selectedCount = selectedRows.length;
 
   const headerSx = sapStyle
@@ -802,7 +802,7 @@ export function DataTable<T extends { id: string }>({
                   key={row.id}
                   hover
                   selected={row.getIsSelected()}
-                  onClick={() => onRowClick?.(row.original)}
+                  onClick={() => onRowClick?.(row.original as T)}
                   sx={{
                     cursor: onRowClick ? 'pointer' : 'default',
                     '&.Mui-selected': { bgcolor: alpha(p, 0.06) },
@@ -901,9 +901,7 @@ export function DataTable<T extends { id: string }>({
         {filterAnchor && (
           <Box sx={{ p: 2, width: 240 }}>
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
-              检索「{typeof columns.find((c) => c.id === filterAnchor.id)?.header === 'string'
-                ? columns.find((c) => c.id === filterAnchor.id)?.header
-                : filterAnchor.id}」列
+              检索「{String(columns.find((c) => c.id === filterAnchor.id)?.header ?? filterAnchor.id)}」列
             </Typography>
             <TextField
               autoFocus

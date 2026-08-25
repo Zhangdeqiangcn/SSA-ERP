@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 import {
-  InspectionLot, COQRecord, QmVendorFeedback, InspectionTask,
+  InspectionLot, COQRecord, QmVendorFeedback, InspectionTask, InboundOrder,
 } from '@/types';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
@@ -25,7 +25,7 @@ interface QualityAdvancedState {
   updateInspectionLot: (id: string, u: Partial<InspectionLot>) => void;
   deleteInspectionLot: (id: string) => void;
   // 采购入库自动生成检验批（事件驱动）
-  autoCreateLotsFromInbound: (inbound: { id: string; inboundNo: string; vendorId?: string; vendorName?: string; status: string; items: { materialId: string; materialCode?: string; materialName?: string; quantity: number; batchNo?: string }[] }) => void;
+  autoCreateLotsFromInbound: (inbound: InboundOrder) => void;
   // 判定检验批结果（含 QM → 供应商评级回流）
   judgeLot: (lotId: string, status: 'in_inspection' | 'passed' | 'failed', inspector?: string) => void;
 
@@ -71,7 +71,7 @@ export const useQualityAdvancedStore = create<QualityAdvancedState>()(
           materialCode: it.materialCode || '',
           materialName: it.materialName || '',
           batchNo: it.batchNo,
-          quantity: it.quantity,
+          quantity: it.actualQuantity,
           vendorId: inbound.vendorId,
           vendorName: inbound.vendorName,
           status: 'pending',

@@ -92,6 +92,9 @@ export interface OutboundOrder extends BaseEntity {
   sourceNo?: string;
   customerId?: string;
   customerName?: string;
+  /** 退供应商出库（采购退货）对应的供应商信息 */
+  vendorId?: string;
+  vendorName?: string;
   status: OutboundStatus;
   warehouseId: string;
   warehouseName?: string;

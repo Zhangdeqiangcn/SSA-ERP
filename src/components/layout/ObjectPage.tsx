@@ -208,7 +208,7 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
           <Box
             key={s.id}
             id={s.id}
-            ref={(el) => (sectionRefs.current[s.id] = el)}
+            ref={(el) => (sectionRefs.current[s.id] = el as HTMLElement | null)}
             sx={{ scrollMarginTop: `${ANCHOR_OFFSET}px`, mb: 3 }}
           >
             <Typography

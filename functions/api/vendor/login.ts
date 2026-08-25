@@ -1,13 +1,5 @@
 // POST /api/vendor/login — 供应商登录
-import { makeToken, json } from '../../_shared/auth';
-
-async function hashPassword(password: string, salt: string): Promise<string> {
-  const data = new TextEncoder().encode(salt + ':' + password);
-  const digest = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
+import { makeToken, verifyPassword, json } from '../../_shared/auth';
 
 export async function onRequestPost(context: any) {
   const { request, env } = context;
@@ -36,13 +28,18 @@ export async function onRequestPost(context: any) {
     }
 
     const v = vendor as any;
-    if (v.status !== 'active') {
-      return json({ error: '账号未激活，请联系管理员' }, 403);
+    // VendorStatus 枚举为 registered/pending/approved/rejected/blacklisted，无 'active'；
+    // 已批准(approved)的供应商方可登录门户。黑名单直接拒绝。
+    if (v.status === 'blacklisted') {
+      return json({ error: '账号已被禁用，请联系管理员' }, 403);
+    }
+    if (v.status !== 'approved' && v.status !== 'registered') {
+      return json({ error: '账号未激活，请联系管理员审批' }, 403);
     }
 
     // 验证密码
-    const computedHash = await hashPassword(password, v.salt);
-    if (computedHash !== v.password_hash) {
+    const ok = await verifyPassword(password, v.password_hash, v.salt);
+    if (!ok) {
       return json({ error: '密码错误' }, 401);
     }
 

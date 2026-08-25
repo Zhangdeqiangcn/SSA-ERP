@@ -90,7 +90,7 @@ const CustomerForm: React.FC = () => {
   const existing = useCustomerStore((s) => (id ? s.customers.find((c) => c.id === id) : undefined));
 
   const nextCode = useMemo(
-    () => `C${getNextSequence(customers.map((c) => c.code), 'C{seq}', 'C', 3)}`,
+    () => `C${getNextSequence(customers.map((c) => c.code), 'C', 3)}`,
     [customers]
   );
 

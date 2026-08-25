@@ -10,12 +10,13 @@ import {
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import type { ObjectPageSection } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable } from '@/components/common';
-import { AttachmentUploader } from '@/components/common';
+import { AttachmentUploader, type AttachmentItem } from '@/components/common';
 import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { formatDate, formatCurrency } from '@/utils/format';
+import type { SalesOrder } from '@/types';
 
 const statusLabels: Record<string, string> = {
   draft: '草稿', confirmed: '已确认', in_production: '生产中',
@@ -46,7 +47,9 @@ const SalesOrderDetail: React.FC = () => {
   const salesOrders = useSalesStore(s => s.salesOrders);
   const { bomList, addBOM } = useBOMStore();
   const { deleteSalesOrder } = useSalesStore();
-  const order = salesOrders.find(o => o.id === id);
+  const order = salesOrders.find(o => o.id === id) as
+    | (SalesOrder & { qualityStandard?: string; attachments?: AttachmentItem[] })
+    | undefined;
   const customer = useCustomerStore(s => (order?.customerId ? s.customers.find(c => c.id === order.customerId) : undefined));
   const applyCreditDelta = useCustomerStore(s => s.applyCreditDelta);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -116,6 +119,8 @@ const SalesOrderDetail: React.FC = () => {
       sourceOrderNo: order.orderNo,
       createdAt: now,
       updatedAt: now,
+      createdBy: order.createdBy,
+      updatedBy: order.updatedBy,
       items: [{
         id: `bomi-so-0`,
         bomId,

@@ -3,9 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box, TextField, Button, Typography, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, IconButton,
-  Stack, Alert, Autocomplete, Chip, Grid, Divider, MenuItem,
+  Stack, Alert, Autocomplete, Chip, Divider, MenuItem,
   Select, FormControl, InputLabel, Checkbox,
 } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import { Add, Delete, Save, Send, ArrowBack, PlaylistAdd } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { MaterialLineItemsGrid, GridColumn, PrintPreviewButton } from '@/components/common';
@@ -356,18 +357,18 @@ const InquiryForm: React.FC = () => {
       {/* 基本信息 */}
       <Paper sx={{ p: 3, mb: 2 }}>
         <Typography variant="subtitle1" fontWeight={600} mb={2}>基本信息</Typography>
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 6 }}>
+        <Grid2 container spacing={2}>
+          <Grid2 xs={12} sm={6}>
             <TextField fullWidth label="询价标题" value={title}
               onChange={e => setTitle(e.target.value)} required
               placeholder="如：钢板Q235B+H型钢Q345B询价" />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 3 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={3}>
             <TextField fullWidth label="报价截止日期" type="date" value={deadline}
               onChange={e => setDeadline(e.target.value)} required
               InputLabelProps={{ shrink: true }} />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 3 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={3}>
             <FormControl fullWidth>
               <InputLabel>币种</InputLabel>
               <Select value={currency} onChange={e => setCurrency(e.target.value)} label="币种">
@@ -376,8 +377,8 @@ const InquiryForm: React.FC = () => {
                 <MenuItem value="EUR">欧元 EUR</MenuItem>
               </Select>
             </FormControl>
-          </Grid>
-          <Grid size={{ xs: 12 }}>
+          </Grid2>
+          <Grid2 xs={12}>
             <Autocomplete
               multiple
               options={vendorOptions}
@@ -398,19 +399,19 @@ const InquiryForm: React.FC = () => {
                 已按黑名单规则屏蔽 {blacklistedCount} 家供应商，不可选为询价对象。
               </Alert>
             )}
-          </Grid>
-          <Grid size={{ xs: 12 }}>
+          </Grid2>
+          <Grid2 xs={12}>
             <TextField fullWidth label="备注" value={remarks} onChange={e => setRemarks(e.target.value)}
               multiline rows={2} placeholder="特殊要求、付款条件等" />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Paper>
 
       {/* 需求来源 */}
       <Paper sx={{ p: 3, mb: 2 }}>
         <Typography variant="subtitle1" fontWeight={600} mb={2}>📥 需求来源</Typography>
-        <Grid container spacing={2} alignItems="center" sx={{ mb: 2 }}>
-          <Grid size={{ xs: 12, sm: 5 }}>
+        <Grid2 container spacing={2} alignItems="center" sx={{ mb: 2 }}>
+          <Grid2 xs={12} sm={5}>
             <FormControl fullWidth size="small">
               <InputLabel>选择需求来源</InputLabel>
               <Select value={sourceType} label="选择需求来源" inputProps={{ 'data-testid': 'inquiry-source-type' }} onChange={e => handleSourceTypeChange(e.target.value as DemandSourceType)}>
@@ -419,8 +420,8 @@ const InquiryForm: React.FC = () => {
                 ))}
               </Select>
             </FormControl>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 7 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={7}>
             {sourceType !== 'manual' && (
               <Button
                 variant="contained"
@@ -432,8 +433,8 @@ const InquiryForm: React.FC = () => {
                 批量加入明细{`(${sourceType === 'purchase_request' ? prSelectedCount : sourceType === 'new_material' ? matSelectedCount : 0})`}
               </Button>
             )}
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
 
         {/* 来源数据列表 */}
         {sourceType === 'purchase_request' && (
@@ -467,7 +468,7 @@ const InquiryForm: React.FC = () => {
                     />
                     <Typography variant="body2" fontWeight={600}>{pr.requestNo}</Typography>
                     <Typography variant="caption" color="text.secondary">{pr.title}</Typography>
-                    <Chip label={`${pr.items.length} 行`} size="tiny" variant="outlined" sx={{ height: 18, fontSize: '.65rem' }} />
+                    <Chip label={`${pr.items.length} 行`} size="small" variant="outlined" sx={{ height: 18, fontSize: '.65rem' }} />
                   </Stack>
                   {pr.items.map((pItem, idx) => (
                     <Stack key={`${pr.id}-${idx}`} direction="row" spacing={1} alignItems="center" sx={{ pl: 3, py: 0.25 }}>

@@ -236,6 +236,9 @@ const UnqualifiedList: React.FC = () => {
     responsiblePerson: r['负责人'] || '',
     dueDate: r['截止日期'] || '',
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    createdBy: 'admin',
+    updatedBy: 'admin',
   });
 
   const columns: ColumnDef<typeof unqualifiedItems[0], unknown>[] = [
@@ -546,6 +549,9 @@ const UnqualifiedList: React.FC = () => {
               responsiblePerson: newItem.responsible,
               dueDate: newItem.dueDate,
               createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              createdBy: 'admin',
+              updatedBy: 'admin',
             });
             setNewDialog(false);
             setSnackbar({ open: true, msg: '不合格品记录已创建，等待处置' });

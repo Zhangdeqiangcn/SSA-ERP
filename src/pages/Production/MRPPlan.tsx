@@ -168,7 +168,7 @@ function computeNetRequirements(
     if (net === 0) planned = 0;
 
     // 提前期偏置：采购用 leadTime，自制用 cycleTime（缺省 0 → 建议下单日期=需求日期）
-    const isMake = mat.makeOrBuy === 'manufacture';
+    const isMake = mat.makeOrBuy === 'make';
     const effLead = isMake
       ? (mat.cycleTime ?? mat.leadTime ?? 0)
       : (mat.leadTime ?? 0);
@@ -289,6 +289,8 @@ export default function MRPPlan() {
       projectName: undefined,
       createdAt: now,
       updatedAt: now,
+      createdBy: 'MRP系统',
+      updatedBy: 'MRP系统',
       items: selectedPurchase.map((m, i) => ({
         id: `pri-mrp-${i}`,
         materialId: `mat-${m.materialCode}`,
@@ -362,6 +364,8 @@ export default function MRPPlan() {
         note: '根据MRP运算结果自动生成',
         createdAt: now,
         updatedAt: now,
+        createdBy: 'MRP系统',
+        updatedBy: 'MRP系统',
       });
       woCount++;
     });

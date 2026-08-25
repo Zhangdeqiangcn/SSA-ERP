@@ -38,6 +38,7 @@ export interface GridColumn {
   renderCell?: (row: Record<string, any>, col: GridColumn, rowId: string, colIndex: number) => React.ReactNode;
   numeric?: boolean;
   min?: number;
+  max?: number;
   step?: number;
   placeholder?: string;
 }
@@ -586,8 +587,9 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
         <Typography variant="body2" color="text.secondary" sx={{ py: 2, textAlign: 'center' }}>{emptyHint}</Typography>
       ) : (
         <TableContainer
+          component="div"
           onMouseUp={() => { mouseDownRef.current = false; }}
-          onSelectStart={blockMode ? (e) => { e.preventDefault(); } : undefined}
+          onSelect={blockMode ? (e) => { e.preventDefault(); } : undefined}
           sx={{
             maxHeight: 460,
             border: '1px solid',

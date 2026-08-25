@@ -36,6 +36,8 @@ export default function ProductionVersions() {
       effectiveDate: form.effectiveDate,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      createdBy: '当前用户',
+      updatedBy: '当前用户',
     };
     addVersion(v);
     setOpen(false);

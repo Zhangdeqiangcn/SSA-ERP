@@ -21,6 +21,8 @@ const seedVersions: ProductionVersion[] = [
     effectiveDate: '2026-01-01',
     createdAt: '2026-01-01T08:00:00.000Z',
     updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
   },
 ];
 
@@ -41,6 +43,8 @@ const seedECNs: ECN[] = [
     status: 'draft',
     createdAt: '2026-07-10T08:00:00.000Z',
     updatedAt: '2026-07-10T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
   },
 ];
 

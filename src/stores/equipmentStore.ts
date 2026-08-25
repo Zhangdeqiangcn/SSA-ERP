@@ -17,6 +17,8 @@ const seedEquipments: Equipment[] = [
     nextMaintenanceDate: '2026-08-01',
     createdAt: '2026-01-01T08:00:00.000Z',
     updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
   },
   {
     id: 'eq-002',
@@ -29,6 +31,8 @@ const seedEquipments: Equipment[] = [
     nextMaintenanceDate: '2026-07-25',
     createdAt: '2026-01-01T08:00:00.000Z',
     updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
   },
 ];
 
@@ -44,6 +48,8 @@ const seedMaintenance: MaintenanceOrder[] = [
     status: 'done',
     createdAt: '2026-07-01T08:00:00.000Z',
     updatedAt: '2026-07-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
   },
 ];
 

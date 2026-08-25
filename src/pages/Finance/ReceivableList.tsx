@@ -194,11 +194,8 @@ export default function ReceivableList() {
               balance: Number(r['余额'] || Number(r['金额'] || 0)),
               dueDate: r['到期日'] || now.slice(0, 10),
               status: (r['状态'] as Receivable['status']) || 'open',
+              agingBucket: 'current',
               remarks: r['备注'],
-              createdAt: now,
-              updatedAt: now,
-              createdBy: '导入',
-              updatedBy: '导入',
             });
           });
         }}

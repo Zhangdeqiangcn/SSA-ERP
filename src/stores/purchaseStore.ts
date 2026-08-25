@@ -173,7 +173,7 @@ export const usePurchaseStore = create<PurchaseState>()(
         if (version < 2 && Array.isArray(state.purchaseOrders)) {
           return {
             ...state,
-            purchaseOrders: state.purchaseOrders.map((o) => normalizeOrderTax(o)),
+            purchaseOrders: state.purchaseOrders.map((o) => normalizeOrderTax(o as any)),
           };
         }
         return state;

@@ -158,7 +158,7 @@ export default function ECNList() {
     {
       id: 'value',
       header: '旧值→新值',
-      accessorFn: (row) => `${row.original.oldValue || row.original.fromVersion || ''} → ${row.original.newValue || row.original.toVersion || ''}`,
+      accessorFn: (row) => `${row.oldValue || row.fromVersion || ''} → ${row.newValue || row.toVersion || ''}`,
       cell: ({ row }) => (
         <Typography variant="body2">
           {row.original.oldValue || row.original.fromVersion || '-'}{' → '}{row.original.newValue || row.original.toVersion || '-'}

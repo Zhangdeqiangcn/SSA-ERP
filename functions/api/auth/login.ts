@@ -1,5 +1,5 @@
 // 登录：用户名 + 密码 → 返回会话 token
-import { hashPassword, makeToken, json } from '../../_shared/auth';
+import { verifyPassword, makeToken, json } from '../../_shared/auth';
 
 export async function onRequestPost(context: any) {
   const { request, env } = context;
@@ -20,8 +20,8 @@ export async function onRequestPost(context: any) {
   if (!user) return json({ error: '用户名或密码错误' }, 401);
 
   const u = user as any;
-  const hash = await hashPassword(password, u.salt);
-  if (hash !== u.password_hash) return json({ error: '用户名或密码错误' }, 401);
+  const ok = await verifyPassword(password, u.password_hash, u.salt);
+  if (!ok) return json({ error: '用户名或密码错误' }, 401);
 
   const token = makeToken();
   const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();

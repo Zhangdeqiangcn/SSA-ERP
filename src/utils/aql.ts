@@ -115,5 +115,5 @@ export function computeAqlPlan(
   const code = getCodeLetter(lotSize, level);
   if (!code) return null;
   const plan = resolvePlan(code, aql);
-  return { code, ...plan };
+  return { ...plan, code };
 }

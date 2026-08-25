@@ -5,6 +5,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 
 interface PageWrapperProps {
   title: string;
+  subtitle?: string;
   actions?: React.ReactNode;
   children: React.ReactNode;
 }

@@ -215,7 +215,7 @@ const FlowSelfTest: React.FC = () => {
     // ⑱ 销售开票（应收 AR）
     AR.addReceivable({
       id: arId, customerId: 'cus-001', customerName: '华润建筑集团有限公司', invoiceNo: arNo,
-      amount: 97180, paidAmount: 0, balance: 97180, dueDate: today, status: 'open', remarks: '销售开票-演示',
+      amount: 97180, paidAmount: 0, balance: 97180, dueDate: today, status: 'open', agingBucket: 'current', remarks: '销售开票-演示',
     });
 
     // ⑲ 收款（应收核销）

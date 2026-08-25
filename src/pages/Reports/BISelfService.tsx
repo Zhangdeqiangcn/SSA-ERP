@@ -381,7 +381,7 @@ const BISelfService: React.FC = () => {
 
           <Paper sx={{ p: 2.5, borderRadius: 3, mb: 2 }}>
             <Typography variant="subtitle2" fontWeight={600} mb={1.5}>聚合结果明细</Typography>
-            <DataTable
+            <DataTable<{ label: string; value: number }>
               data={aggData}
               columns={resultColumns}
               enablePagination

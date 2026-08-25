@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
-import { InspectionStatus, InspectionType } from '@/types/quality';
+import { InspectionStatus, InspectionType, InspectionTask } from '@/types/quality';
 import { computeAqlPlan, LEVELS, AQLS } from '@/utils/aql';
 
 const TYPE_LABELS: Record<InspectionType, string> = {

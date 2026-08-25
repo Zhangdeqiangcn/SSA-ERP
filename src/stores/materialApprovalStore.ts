@@ -11,10 +11,10 @@ interface MaterialApprovalState {
   deleteMaterialApplication: (id: string) => void;
 }
 
-const addItem = <T,>(setter: (v: T[]) => void, list: T[], item: T) => [...list, item];
-const updateItem = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string, updates: Partial<T>) =>
+const addItem = <T,>(list: T[], item: T) => [...list, item];
+const updateItem = <T extends { id: string }>(list: T[], id: string, updates: Partial<T>) =>
   list.map((x) => (x.id === id ? { ...x, ...updates } : x));
-const deleteItem = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string) =>
+const deleteItem = <T extends { id: string }>(list: T[], id: string) =>
   list.filter((x) => x.id !== id);
 
 export const useMaterialApprovalStore = create<MaterialApprovalState>()(
@@ -22,11 +22,11 @@ export const useMaterialApprovalStore = create<MaterialApprovalState>()(
     (set) => ({
       materialApplications: [],
       addMaterialApplication: (a) =>
-        set((s) => ({ materialApplications: addItem(set, s.materialApplications, a) })),
+        set((s) => ({ materialApplications: addItem(s.materialApplications, a) })),
       updateMaterialApplication: (id, u) =>
-        set((s) => ({ materialApplications: updateItem(set, s.materialApplications, id, u) })),
+        set((s) => ({ materialApplications: updateItem(s.materialApplications, id, u) })),
       deleteMaterialApplication: (id) =>
-        set((s) => ({ materialApplications: deleteItem(set, s.materialApplications, id) })),
+        set((s) => ({ materialApplications: deleteItem(s.materialApplications, id) })),
     }),
     { storage: backendStorage,
     
@@ -94,5 +94,7 @@ export function buildMaterialFromApplication(
     remarks: draft.remarks,
     createdAt: now,
     updatedAt: now,
+    createdBy: app.applicant || 'system',
+    updatedBy: app.applicant || 'system',
   };
 }

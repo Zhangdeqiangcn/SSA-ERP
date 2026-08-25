@@ -91,6 +91,10 @@ const BOMList: React.FC = () => {
       version: r['版本'] || 'V1.0',
       effectiveDate: r['生效日期'] || '',
       currency: 'CNY',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      createdBy: 'admin',
+      updatedBy: 'admin',
     };
   };
 

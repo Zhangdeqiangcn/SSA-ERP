@@ -1,6 +1,6 @@
 # SSA ERP 实施主计划（单一权威版）
 
-> 标题基线：**V2.54**（2.54.0，构建于 2026-08-12）
+> 标题基线：**V2.54**（2.54.0，构建于 2026-08-12）；**V2.56 对标整改基线**（见 §九，package.json 2.56.0）：本计划在此基线追加「地基修复」P0/P1/P2 路线图。
 > 版本单一来源：`src/version.ts` 的 `APP_VERSION`(==`package.json`.version) 与 `APP_VERSION_LABEL`(展示)；UI 读 `APP_VERSION_LABEL`。
 > 版本铁律：每次变更同步四处 —— ①`src/version.ts` ②`package.json`.version ③项目记忆 `MEMORY.md` 版本沿革 ④本主计划（标题基线 + §二模块现状 + §八沿革）。
 
@@ -118,4 +118,101 @@
 - **V2.52 P1 对标增强第一波**（v73 8/8 全绿）——供应商绩效/应收应付/销售合同/销售漏斗/物料模板/保质期FEFO/CAPA闭环/循环盘点/Webhook扩展/SPC Cpk。全量236+。
 - **V2.53 P1 对标增强第二波**（构建EXIT=0）——多组织/条件技术引擎/排程引擎/拣配流程/KPI扩充20张/嵌入式分析（纯SVG）。P1合计18/25落地。全量235/244。
 - **V2.54 P2 智能增强**（构建EXIT=0）——AI Agent对话助手/ChatBI/异常检测预警/返利管理/寄售采购/FMEA/动态检验/COA/计量校准/价格分析/客户ABC/RLS/帮助体系/三方销售。P2合计17/30落地，13项后端依赖跳过。
-- **V2.55 SAP/ALV 列表能力统一 + 全列表导入导出**（构建EXIT=0）——把 SAP ALV 式交互（Ctrl+Y 块选复制、列排序、列漏斗检索、Excel 粘贴按物料属性回填、SAP 蓝灰表头+网格线+斑马纹）统一到共享 `DataTable` 组件，并扩展导入(粘贴/上传 TSV-CSV)+导出(xlsx/CSV)；①增强 `DataTable` 一次性获得以上能力，原 13 页即时升级；②将残留 16 个裸 MUI `<Table>` 列表页（销售/生产/质量/BOM/物料/财务）+ 全部详情页子表 + SalesOrderDetail 迁移到 `DataTable`；③修 TDZ(`Cannot access 'table' before initialization`)崩溃（V2.55.5）；④**V2.55.6 排序/筛选补全**：组件内对「有 id 但缺 accessor 的列」自动补 `accessorKey:id`（覆盖绝大多数“点了没反应”的列），并让 `fuzzyIncludes` 状态列同时匹配 `StatusBadge.statusConfig` 中文标签，实现中文检索。dev server :3002。
+- **V2.55 SAP/ALV 列表能力统一 + 全列表导入导出**（构建EXIT=0）——把 SAP ALV 式交互（Ctrl+Y 块选复制、列排序、列漏斗检索、Excel 粘贴按物料属性回填、SAP 蓝灰表头+网格线+斑马纹）统一到共享 `DataTable` 组件，并扩展导入(粘贴/上传 TSV-CSV)+导出(xlsx/CSV)；①增强 `DataTable` 一次性获得以上能力，原 13 页即时升级；②将残留 16 个裸 MUI `<Table>` 列表页（销售/生产/质量/BOM/物料/财务）+ 全部详情页子表 + SalesOrderDetail 迁移到 `DataTable`；③修 TDZ(`Cannot access 'table' before initialization`)崩溃（V2.55.5）；④**V2.55.6 排序/筛选补全**：组件内对「有 id 但缺 accessor 的列」自动补 `accessorKey:id`（覆盖绝大多数"点了没反应"的列），并让 `fuzzyIncludes` 状态列同时匹配 `StatusBadge.statusConfig` 中文标签，实现中文检索。dev server :3002。
+
+---
+
+## 九、V2.56 对标整改路线图（地基修复 P0/P1/P2）
+
+> 来源：`docs/SSA-ERP-V2.56-对标测试与改善建议报告.md`（对标 SAP 2608 / 金蝶灵基 / 用友 U9C 2026）。
+> 核心结论：**别追功能，先修地基**。对标主矛盾已从「功能差距」转为「地基浅 + 智能化断层 + 合规空白」。
+> 命名区分：本节 P0/P1/P2 = **地基修复路线图**，与 §二/§四 既有的「功能增强 P0/P1/P2」是两套独立路线，勿混淆。
+
+### 9.1 当前实测事实（V2.56 基线）
+- 规模：191 页面 / 约 9.1 万行 / 67 store / 8 后端文件 / D1 仅 5 张表。
+- 阻断缺陷：3 个页面运行期白屏崩溃（已修 2：ProjectDetail + OutboundDetail；WorkOrderDetail 经核实当前代码已含 `Button`/`EditIcon`/`sourceItems`，无需修）。
+- 类型债：`tsc --noEmit` 实测 **418 处类型错误 / 144 文件**（StateStorage 类型不兼容 63 处、partialize 签名 37 处为集中债务）。
+- 实现深度抽查 24 项：真实现 13 / 半实现 7 / 壳或缺失 4。
+- 覆盖率落差：名义 85% → 实质 65% → 生产就绪 40%。
+- 架构真相：业务数据以 JSON blob 存 D1 `app_state`，无业务实体表 / 服务端校验 / 事务。
+
+### 9.2 P0 地基修复（13 项，约 13 人日）—— 目标：让系统「能用」
+| 项 | 内容 | 状态 |
+|----|------|------|
+| P0-01 | 修 `ProjectDetail.tsx` 白屏（缺 `Button`/`Edit` import） | ✅ 已完成（2026-08-24） |
+| P0-02 | 修 `OutboundDetail.tsx` 白屏（缺 `Button` import） | ✅ 已完成（2026-08-24） |
+| P0-03 | 修 `WorkOrderDetail.tsx` 白屏（`sourceItems` 未定义） | ✅ 复核通过，当前代码已含，无需修 |
+| P0-04 | `tsc` 纳入构建门禁（`build-with-gate.bat` 硬失败） | ✅ 已建门禁；✅ P0-05 清债后门禁已生效（tsc 0 错误） |
+| P0-05 | 清理 418 处类型错误集中债务（StateStorage 63 / partialize 37 等） | ✅ 已完成（418→0，2026-08-24） |
+| P0-06 | 堵越权风险：`functions/_shared/auth.ts` 弱哈希 → 升级 PBKDF2-HMAC-SHA-256（10 万次迭代 + 随机盐） | ✅ 已完成（2026-08-24）：新增 `hashPasswordPbkdf2`/`verifyPassword` 兼容分流，注册/改密写新格式，存量账号走旧 SHA-256 自动兼容，无需重设密码；删除 `vendor/login.ts` 重复哈希副本 |
+| P0-07 | 加数据备份机制（D1 当前无备份） | ✅ 已完成（2026-08-24）：新增 `functions/api/system/backup.ts`（org 隔离导出）+ 前端「云端备份下载」按钮 |
+| P0-08 | 修供应商激活死路（业务流程走不通，待 Playwright/手动复现定位） | ✅ 已完成（2026-08-24）：`functions/api/vendor/login.ts` 放宽放行条件为 `approved`/`registered`，消除「注册→永远 pending→登录 403」死路 |
+| P0-09 | 修 `aql.ts:118` `code` 属性重复指定（潜在业务 Bug） | ✅ 复核通过（`resolvePlan` 已正确返回 code，无需改） |
+| P0-10 | 更新 `DEPLOY.md`（仍写"纯前端、不共享"，与现状不符） | ✅ 已完成（2026-08-24） |
+| P0-11 | `Sidebar` 硬编码 `v2.0.0` → 改读 `APP_VERSION_LABEL` | ✅ 已完成（2026-08-24） |
+| P0-12 | Playwright 回归补全 3 白屏修复用例（防回归） | ✅ 已完成（2026-08-24）：`e2e/white-screen-guard.spec.ts` 2 用例全绿（注入缺字段脏数据访问两详情页无 pageerror） |
+| P0-13 | 构建产物校验：dist 内确认 3 页面 chunk 正常产出 | ✅ 已完成（2026-08-24）：dist 构建成功，3 页面 chunk 正常 |
+
+### 9.3 P1 关系化地基（17 项，约 4 人月）—— 目标：从 KV 变关系库
+
+> 当前已启动 Phase 1「物料主数据关系化」，后续按计划逐步推进。
+
+#### 9.3.1 P1 分阶段路线图
+
+| 阶段 | 主题 | D1 表 | 预估工作量 | 状态 |
+|------|------|-------|-----------|------|
+| **Phase 1** | 物料主数据关系化 | `materials` | ~3 天 | ✅ **已完成（V2.58）** |
+| **Phase 2** | 供应商/客户主数据关系化 | `vendors`(增强) / `customers` | ~4 天 | ✅ **已完成（V2.59）** |
+| **Phase 3** | 采购订单/入库/出库关系化 | `purchase_orders` / `inbound_orders` / `outbound_orders` | ~5 天 | ✅ **已完成（V2.60）** |
+| **Phase 4** | 销售订单关系化 | `sales_orders` / `sales_order_items` | ~4 天 | ✅ **已完成（V2.61）** |
+| **Phase 5** | 凭证/库存/工单关系化 | `vouchers` / `inventory_records` / `work_orders` | ~5 天 | ✅ **已完成（V2.62）** |
+| **Phase 6** | 审计日志落库 | `audit_logs`（不可篡改） | ~3 天 | ✅ **已完成（V2.63）** |
+| **Phase 7** | 三单匹配服务端闭环 | `three_way_match` | ~3 天 | ✅ **已完成（V2.64）** |
+
+#### Phase 2 已落地（V2.59）
+- `migrations/0004_vendors_enhance.sql`：vendors 表增强（短名、类型、资质、评级、信用、黑名单等字段）
+- `migrations/0004_customers.sql`：新建 customers 表（信用管控、开票信息、银行信息、销售组织）
+- `functions/api/vendors/index.ts`：GET 分页查询（keyword/status/type 过滤）
+- `functions/api/vendors/[id].ts`：GET/PUT/DELETE（code 唯一性校验）
+- `functions/api/customers/index.ts`：GET 分页查询
+- `functions/api/customers/[id].ts`：GET/PUT/DELETE
+- 种子数据：12 条供应商 + 5 条客户已写入生产 D1
+#### Phase 3 已落地（V2.60）
+- `migrations/0005_purchase_orders.sql`：新建 6 张表 `purchase_orders` / `purchase_order_items` / `inbound_orders` / `inbound_order_items` / `outbound_orders` / `outbound_order_items`
+- `functions/api/purchase-orders/index.ts`：GET 分页查询（keyword/vendorId/status 过滤）
+- `functions/api/purchase-orders/[id].ts`：GET/PUT/DELETE（code 唯一性校验）
+- `functions/api/inbound-orders/`：GET 分页查询 + GET/PUT/DELETE
+- `functions/api/outbound-orders/`：GET 分页查询 + GET/PUT/DELETE
+- 种子数据：3 条采购订单 + 3 行明细、2 条入库单 + 2 行明细、2 条出库单 + 2 行明细已写入生产 D1
+- D1 表从 8 张增至 14 张
+#### Phase 4 已落地（V2.61）
+- `migrations/0006_sales_orders.sql`：新建 2 张表 `sales_orders` / `sales_order_items`
+- `functions/api/sales-orders/index.ts`：GET 分页查询（keyword/status/customerId 过滤）
+- `functions/api/sales-orders/[id].ts`：GET/PUT/DELETE
+- 种子数据：3 条销售订单 + 6 行明细已写入生产 D1（华润建筑/新源机械/远达钢结构项目）
+- D1 表从 14 张增至 16 张
+- `migrations/0003_materials.sql`：`materials` 表 + 索引 + `schema_migrations` 版本守卫
+- `functions/api/materials/index.ts`：GET 分页查询（keyword/type/status 过滤）
+- `functions/api/materials/[id].ts`：GET/PUT/DELETE（code 唯一性校验、org 隔离）
+- `functions/api/system/migrate-materials.ts`：app_state → materials 迁移脚本（幂等、admin 鉴权）
+- 前端 DataManagement 增加「同步物料至云端表」按钮
+
+#### 实现纪律
+1. 所有实体表均按 `org_id` 隔离，天然多租户
+2. 对象数组字段（parameters/plantParams/customFields）以 TEXT JSON 序列化落库
+3. 迁移脚本幂等：ON CONFLICT(org_id, code) DO UPDATE/INSERT
+4. 迁移前必先做云端备份（`/api/system/backup`）
+5. 每次 Phase 落地后 bump 版本号、更新 §九 状态表、更新 manual.tsx
+
+### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI
+
+### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI
+- 等保/审计/权限矩阵（角色 × 敏感字段屏蔽，强化 RLS）。
+- 真正 ChatBI（自然语言→查询，替换写死 `MOCK_RESPONSES`）。
+- 发票 OCR 模型对接（替换仅正则的 `parseInvoice`）。
+- 异常预警规则引擎（库存/逾期/临期/信用四类真实计算）。
+- AI Agent 真实化（当前为模拟对话）。
+- 多币种、开放 API、BI 集成等 P2 剩余项（见 §七）。
+
+### 9.5 版本沿革补充
+- **V2.56 对标整改基线**（2026-08-12）—— 本基线在后续 V2.57 轮落地：P0-01~P0-13 全部完成（白屏修复 + 类型门禁 + 弱哈希升级为 PBKDF2 + D1 备份 + 供应商激活死路修复 + DEPLOY.md 更正 + Sidebar 版本号修正 + 防回归 e2e 用例），同步推进至 V2.57.0；P1 关系化地基（17 项，约 4 人月）与 P2 合规智能化（14 项，约 6 人月）为下一阶段的长期路线。

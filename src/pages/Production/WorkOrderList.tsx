@@ -209,7 +209,7 @@ const WorkOrderList: React.FC = () => {
     {
       id: 'progress',
       header: '进度',
-      accessorFn: (row) => getProgress(row.original),
+      accessorFn: (row) => getProgress(row),
       cell: ({ row }) => {
         const progress = getProgress(row.original);
         return (

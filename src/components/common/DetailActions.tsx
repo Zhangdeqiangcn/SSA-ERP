@@ -143,7 +143,7 @@ const DetailActions: React.FC<DetailActionsProps> = ({
           record={record}
           showBoth={!printOnlyOne}
           size={size}
-          variant={variant}
+          variant={variant === 'text' ? 'outlined' : variant}
         />
       )}
     </Stack>

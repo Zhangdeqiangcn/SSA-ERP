@@ -15,7 +15,7 @@ import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useSalesPriceStore } from '@/stores/salesPriceStore';
 import { useVendorStore } from '@/stores/vendorStore';
-import { Customer } from '@/types';
+import { Customer, type SalesOrder } from '@/types';
 import type { ShippingMode } from '@/types/sales';
 import { formatCurrency } from '@/utils/format';
 
@@ -42,7 +42,9 @@ const SalesOrderForm: React.FC = () => {
   const applyCreditDelta = useCustomerStore((s) => s.applyCreditDelta);
 
   const existingOrder = useMemo(() =>
-    id ? salesOrders.find(o => o.id === id) : null,
+    (id ? salesOrders.find(o => o.id === id) : null) as
+      | (SalesOrder & { qualityStandard?: string; attachments?: AttachmentItem[] })
+      | null,
     [id, salesOrders]
   );
 

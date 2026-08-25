@@ -83,7 +83,15 @@ const SalesContractForm: React.FC = () => {
   // --- 收款计划 ---
   const [payments, setPayments] = useState<FormPaymentItem[]>(() => {
     if (!existing?.paymentSchedule) return [];
-    return existing.paymentSchedule.map((p) => ({ ...p }));
+    return existing.paymentSchedule.map((p) => ({
+      id: p.id,
+      stage: p.stage,
+      percentage: p.percentage,
+      amount: p.amount,
+      dueDate: p.dueDate || '',
+      receivedDate: p.receivedDate || '',
+      received: p.received,
+    }));
   });
 
   const materialOptions = materials.map((m) => ({
@@ -196,8 +204,8 @@ const SalesContractForm: React.FC = () => {
   const buildPrintRecord = (): Record<string, any> => ({
     contractNo: existing?.contractNo || '(尚未保存)',
     name,
-    customerName: selectedCustomer?.customerName || '',
-    customerCode: selectedCustomer?.customerCode || '',
+    customerName: selectedCustomer?.name || '',
+    customerCode: selectedCustomer?.code || '',
     startDate,
     endDate,
     salesPerson,

@@ -8,6 +8,7 @@ import {
 import { ArrowBack, CompareArrows, Add, PlayArrow, Edit, Delete, Share } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, FlowTracker, ConfirmDialog, PrintPreviewButton, DataTable } from '@/components/common';
+import type { TimelineEvent } from '@/components/common/OperationTimeline';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { formatDate, formatCurrency } from '@/utils/format';
@@ -70,14 +71,17 @@ const InquiryDetail: React.FC = () => {
   // 获取关联来源采购申请
   const sourceRequestNos = [...new Set(inquiry.items.map(i => i.sourceRequestNo).filter(Boolean))];
 
-  const operationLogs = [
-    { time: inquiry.createdAt, operator: inquiry.createdBy, action: '创建询价单', detail: `标题：${inquiry.title}` },
+  const operationLogs: TimelineEvent[] = [
+    { id: 'op-create', time: inquiry.createdAt, operator: inquiry.createdBy, action: 'create', description: `标题：${inquiry.title}` },
     ...(inquiry.status !== 'draft' ? [
-      { time: inquiry.updatedAt, operator: inquiry.updatedBy, action: '发布询价单', detail: `目标供应商：${inquiry.targetVendorNames.join('、')}` },
+      { id: 'op-publish', time: inquiry.updatedAt, operator: inquiry.updatedBy, action: 'update' as const, description: `目标供应商：${inquiry.targetVendorNames.join('、')}` },
     ] : []),
-    ...(relatedQuotations.length > 0 ? relatedQuotations.map(q => ({
-      time: q.submittedAt || q.createdAt, operator: q.vendorName, action: '供应商报价',
-      detail: `报价总额：${formatCurrency(q.totalAmount)}，报价单号：${q.quotationNo}`,
+    ...(relatedQuotations.length > 0 ? relatedQuotations.map((q, i) => ({
+      id: `op-quote-${i}`,
+      time: q.submittedAt || q.createdAt,
+      operator: q.vendorName,
+      action: 'info' as const,
+      description: `报价总额：${formatCurrency(q.totalAmount)}，报价单号：${q.quotationNo}`,
     })) : []),
   ];
 

@@ -1,5 +1,5 @@
 // POST /api/vendor/register — 供应商注册
-import { hashPassword, makeSalt, json, uid } from '../../_shared/auth';
+import { hashPasswordPbkdf2, makeSalt, json, uid } from '../../_shared/auth';
 
 export async function onRequestPost(context: any) {
   const { request, env } = context;
@@ -43,7 +43,7 @@ export async function onRequestPost(context: any) {
     }
 
     const salt = makeSalt();
-    const passwordHash = await hashPassword(password, salt);
+    const passwordHash = await hashPasswordPbkdf2(password, salt);
     const vendorId = uid('vendor');
     const now = new Date().toISOString();
 

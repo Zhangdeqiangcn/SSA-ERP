@@ -137,6 +137,8 @@ export default function AccountingEntries() {
               voucherNo: form.voucherNo || `V${Date.now()}`,
               createdBy: form.createdBy,
               createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              updatedBy: form.createdBy,
             });
             setCreateOpen(false);
           }}>创建</Button>

@@ -298,7 +298,7 @@ const ApprovalQueue: React.FC = () => {
       phone: app.contactPhone,
       email: app.contactEmail,
       address: app.address,
-      status: 'active',
+      status: 'approved',
       taxId: '',
       bankAccount: app.bankAccount,
       createdAt: now,

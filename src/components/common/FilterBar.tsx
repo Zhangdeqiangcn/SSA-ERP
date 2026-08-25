@@ -38,7 +38,8 @@ export interface FilterField {
 
 interface FilterBarProps {
   fields: FilterField[];
-  onSearch: (values: Record<string, unknown>) => void;
+  /** 检索回调（与 onFilter 二选一；均未提供时不会触发检索） */
+  onSearch?: (values: Record<string, unknown>) => void;
   /** 兼容个别列表使用 onFilter 作为检索回调 */
   onFilter?: (values: Record<string, unknown>) => void;
   onReset?: () => void;

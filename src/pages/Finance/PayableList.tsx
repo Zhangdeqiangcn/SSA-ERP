@@ -26,8 +26,11 @@ const STATUS_OPTIONS = [
 
 const AGING_OPTIONS: { value: string; label: string }[] = [
   { value: '', label: '全部账龄' },
-  'current', '1-30', '31-60', '61-90', '90+',
-].map((v) => ({ value: v, label: v ? AGING_LABELS[v as AgingBucket]?.label ?? v : '全部账龄' }));
+  ...(['current', '1-30', '31-60', '61-90', '90+'] as AgingBucket[]).map((v) => ({
+    value: v,
+    label: AGING_LABELS[v]?.label ?? v,
+  })),
+];
 
 const STATUS_LABEL: Record<string, string> = {
   open: '未付', partial: '部分已付', overdue: '已逾期', closed: '已结清',
@@ -204,11 +207,8 @@ export default function PayableList() {
               balance: Number(r['余额'] || Number(r['金额'] || 0)),
               dueDate: r['到期日'] || now.slice(0, 10),
               status: (r['状态'] as Payable['status']) || 'open',
+              agingBucket: 'current',
               remarks: r['备注'],
-              createdAt: now,
-              updatedAt: now,
-              createdBy: '导入',
-              updatedBy: '导入',
             });
           });
         }}

@@ -28,6 +28,8 @@ interface AuthState {
   }) => Promise<{ ok: boolean; error?: string }>;
   logout: () => void;
   hasPermission: (permission: string) => boolean;
+  /** 切换当前登录用户的角色（演示/多身份场景：不改账号，仅切换 role 与显示名） */
+  switchRole: (role: UserRole, name?: string) => void;
 }
 
 async function postJSON(url: string, body: any) {
@@ -97,6 +99,14 @@ export const useAuthStore = create<AuthState>()(
         if (!currentUser) return false;
         const userPermissions = ROLE_PERMISSIONS[currentUser.role] || [];
         return userPermissions.includes('*') || userPermissions.includes(permission);
+      },
+
+      switchRole: (role, name) => {
+        const { currentUser, token } = get();
+        if (!currentUser) return;
+        const updated: User = { ...currentUser, role, name: name || currentUser.name };
+        set({ currentUser: updated });
+        if (token) applySession(token, updated);
       },
     }),
     {

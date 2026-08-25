@@ -148,7 +148,7 @@ const AqlSampling: React.FC = () => {
     const code = getCodeLetter(lotNum, effectiveLevel);
     if (!code) return null;
     const plan = resolvePlan(code, effectiveAql);
-    return { code, ...plan };
+    return { ...plan, code };
   }, [lotSize, lotNum, effectiveLevel, effectiveAql]);
 
   // 选定抽样方案后，自动回填样本量，便于直接带入检验任务

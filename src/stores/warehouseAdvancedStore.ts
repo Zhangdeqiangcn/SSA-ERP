@@ -32,6 +32,10 @@ const seedSerialMasters: SerialMaster[] = [
       { type: 'inbound', docNo: 'IN20240508001', date: '2024-05-08', status: 'in_stock', note: '深圳华强电气有限公司 入库' },
       { type: 'delivery', docNo: 'OUT20240610001', date: '2024-06-10', status: 'shipped', note: '销售发货至 宁波钢结构有限公司' },
     ],
+    createdAt: "2024-05-08T08:00:00.000Z",
+    updatedAt: "2024-06-10T08:00:00.000Z",
+    createdBy: "system",
+    updatedBy: "system",
   },
 ];
 

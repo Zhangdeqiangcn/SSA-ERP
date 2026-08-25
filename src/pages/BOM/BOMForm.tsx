@@ -98,7 +98,7 @@ const BOMForm: React.FC = () => {
       totalCost: 1700,
       isCritical: false,
     },
-  ]);
+  ] as BOMItemRow[]);
 
   // 物料选项
   const materialOptions = materials.map(m => ({
@@ -345,7 +345,7 @@ const BOMForm: React.FC = () => {
               label="BOM编号"
               value={bomNo}
               onChange={e => setBomNo(e.target.value)}
-              disabled={isEdit}
+              disabled={!!isEdit}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

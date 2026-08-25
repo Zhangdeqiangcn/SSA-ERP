@@ -79,6 +79,7 @@ export default function InvoiceOcr() {
       createdBy: '智能分析',
       createdAt: now,
       updatedAt: now,
+      updatedBy: '智能分析',
     };
     const entries: AccountEntry[] = [
       { ...base, id: `JE-OCR-${Date.now()}-1`, entryNo: `JE-OCR-1`, debitAccount: '原材料', creditAccount: '', amount: parsed.amount },

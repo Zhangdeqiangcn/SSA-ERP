@@ -95,7 +95,7 @@ const PriceAnalysis: React.FC = () => {
       data.push({
         materialName: p.materialName || '',
         materialCode: p.materialCode || '',
-        price: p.price || p.unitPrice || 0,
+        price: p.unitPrice || 0,
         date: p.effectiveDate || p.createdAt || '',
       });
     });

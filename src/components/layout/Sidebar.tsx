@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
+import { APP_VERSION_LABEL } from '@/version';
 import {
   Dashboard, Inventory2, People, Person, ShoppingCart, Warehouse, Settings,
   ExpandLess, ExpandMore, Category, ListAlt, Rule,
@@ -479,7 +480,7 @@ const Sidebar: React.FC = () => {
       <Divider sx={{ borderColor: 'divider', mx: 2, mt: 'auto' }} />
       <Box sx={{ p: 2, textAlign: 'center' }}>
         <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.6875rem', letterSpacing: '0.05em' }}>
-          {sidebarCollapsed ? '' : 'SSA ERP v2.0.0 · 钢材供应链版'}
+          {sidebarCollapsed ? '' : `SSA ERP ${APP_VERSION_LABEL} · 钢材供应链版`}
         </Typography>
       </Box>
     </Drawer>

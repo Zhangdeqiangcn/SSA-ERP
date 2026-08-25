@@ -48,10 +48,10 @@ interface PriceState {
   setPriceList: (list: PriceListItem[]) => void;
 }
 
-const addArr = <T,>(setter: (v: T[]) => void, list: T[], item: T) => [...list, item];
-const updateArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string, u: Partial<T>) =>
+const addArr = <T,>(list: T[], item: T) => [...list, item];
+const updateArr = <T extends { id: string }>(list: T[], id: string, u: Partial<T>) =>
   list.map((x) => (x.id === id ? { ...x, ...u } : x));
-const deleteArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string) =>
+const deleteArr = <T extends { id: string }>(list: T[], id: string) =>
   list.filter((x) => x.id !== id);
 
 export const usePriceStore = create<PriceState>()(
@@ -64,24 +64,24 @@ export const usePriceStore = create<PriceState>()(
       priceList: [...mockPriceList],
 
       // Inquiry
-      addPriceInquiry: (inquiry) => set((s) => ({ priceInquiries: addArr(set, s.priceInquiries, inquiry) })),
-      updatePriceInquiry: (id, u) => set((s) => ({ priceInquiries: updateArr(set, s.priceInquiries, id, u) })),
-      deletePriceInquiry: (id) => set((s) => ({ priceInquiries: deleteArr(set, s.priceInquiries, id) })),
+      addPriceInquiry: (inquiry) => set((s) => ({ priceInquiries: addArr(s.priceInquiries, inquiry) })),
+      updatePriceInquiry: (id, u) => set((s) => ({ priceInquiries: updateArr(s.priceInquiries, id, u) })),
+      deletePriceInquiry: (id) => set((s) => ({ priceInquiries: deleteArr(s.priceInquiries, id) })),
 
       // Quotation
-      addVendorQuotation: (q) => set((s) => ({ vendorQuotations: addArr(set, s.vendorQuotations, q) })),
-      updateVendorQuotation: (id, u) => set((s) => ({ vendorQuotations: updateArr(set, s.vendorQuotations, id, u) })),
-      deleteVendorQuotation: (id) => set((s) => ({ vendorQuotations: deleteArr(set, s.vendorQuotations, id) })),
+      addVendorQuotation: (q) => set((s) => ({ vendorQuotations: addArr(s.vendorQuotations, q) })),
+      updateVendorQuotation: (id, u) => set((s) => ({ vendorQuotations: updateArr(s.vendorQuotations, id, u) })),
+      deleteVendorQuotation: (id) => set((s) => ({ vendorQuotations: deleteArr(s.vendorQuotations, id) })),
 
       // Comparison
-      addPriceComparison: (c) => set((s) => ({ priceComparisons: addArr(set, s.priceComparisons, c) })),
-      updatePriceComparison: (id, u) => set((s) => ({ priceComparisons: updateArr(set, s.priceComparisons, id, u) })),
-      deletePriceComparison: (id) => set((s) => ({ priceComparisons: deleteArr(set, s.priceComparisons, id) })),
+      addPriceComparison: (c) => set((s) => ({ priceComparisons: addArr(s.priceComparisons, c) })),
+      updatePriceComparison: (id, u) => set((s) => ({ priceComparisons: updateArr(s.priceComparisons, id, u) })),
+      deletePriceComparison: (id) => set((s) => ({ priceComparisons: deleteArr(s.priceComparisons, id) })),
 
       // Approval
-      addPriceApproval: (a) => set((s) => ({ priceApprovals: addArr(set, s.priceApprovals, a) })),
-      updatePriceApproval: (id, u) => set((s) => ({ priceApprovals: updateArr(set, s.priceApprovals, id, u) })),
-      deletePriceApproval: (id) => set((s) => ({ priceApprovals: deleteArr(set, s.priceApprovals, id) })),
+      addPriceApproval: (a) => set((s) => ({ priceApprovals: addArr(s.priceApprovals, a) })),
+      updatePriceApproval: (id, u) => set((s) => ({ priceApprovals: updateArr(s.priceApprovals, id, u) })),
+      deletePriceApproval: (id) => set((s) => ({ priceApprovals: deleteArr(s.priceApprovals, id) })),
       // 审批通过 → 自动生成价目表（事件驱动）+ 回写物料主数据标准价（B6）
       approvePriceApproval: (id, record) => {
         const approval = get().priceApprovals.find((a) => a.id === id);
@@ -110,6 +110,9 @@ export const usePriceStore = create<PriceState>()(
             writtenBack: true,
             syncedAt: now,
             erpPriceId: `ERP-${approval.id}-${it.materialId}`,
+            createdAt: now,
+            updatedAt: now,
+            createdBy: 'system',
           }));
         // 回写物料主数据标准价（不干预 A4 移动平均价核算，getUnitCost 优先级保证）
         newItems.forEach((it) => {
@@ -153,8 +156,8 @@ export const usePriceStore = create<PriceState>()(
       },
 
       // PriceList
-      addPriceListItem: (item) => set((s) => ({ priceList: addArr(set, s.priceList, item) })),
-      updatePriceListItem: (id, u) => set((s) => ({ priceList: updateArr(set, s.priceList, id, u) })),
+      addPriceListItem: (item) => set((s) => ({ priceList: addArr(s.priceList, item) })),
+      updatePriceListItem: (id, u) => set((s) => ({ priceList: updateArr(s.priceList, id, u) })),
       setPriceList: (list) => set({ priceList: list }),
     }),
     { storage: backendStorage,

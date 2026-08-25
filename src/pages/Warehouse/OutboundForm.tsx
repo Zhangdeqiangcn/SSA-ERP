@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   TextField,
+  Select,
   MenuItem,
   Table,
   TableBody,
@@ -348,8 +349,7 @@ const OutboundForm: React.FC = () => {
                   />
                 </TableCell>
                 <TableCell>
-                  <TextField
-                    select
+                  <Select
                     size="small"
                     displayEmpty
                     value={item.locationId || ''}
@@ -360,7 +360,7 @@ const OutboundForm: React.FC = () => {
                     {(selectedWarehouse?.locations || []).map(l => (
                       <MenuItem key={l.id} value={l.id}>{l.name}</MenuItem>
                     ))}
-                  </TextField>
+                  </Select>
                 </TableCell>
                 <TableCell>
                   <IconButton size="small" onClick={() => removeItem(item.id)}>

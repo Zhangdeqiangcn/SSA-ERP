@@ -10,7 +10,7 @@ import {
   Add, Edit, Delete, Save, PlayArrow, Stop, ExpandMore, Person,
   ArrowForward, Close, Rule,
 } from '@mui/icons-material';
-import { ROLE_DEFINITIONS } from '@/types/settings';
+import { ROLE_DEFINITIONS, UserRole } from '@/types/settings';
 import { useUserStore, type SystemUser } from '@/stores/userStore';
 import {
   useApprovalFlowStore,
@@ -359,7 +359,7 @@ const ApprovalFlowTab: React.FC = () => {
               multiple
               label="会签角色（可多选）"
               value={node.approverRoles ?? []}
-              onChange={(e) => updateNode(node.id, { approverRoles: e.target.value as string[] })}
+              onChange={(e) => updateNode(node.id, { approverRoles: e.target.value as UserRole[] })}
               renderValue={(sel) =>
                 (sel as string[]).map((id) => ROLE_DEFINITIONS.find((r) => r.id === id)?.name || id).join('、') || '无'
               }
@@ -684,7 +684,7 @@ const ApprovalFlowTab: React.FC = () => {
                                     value={node.escalation.targetRole ?? 'admin'}
                                     onChange={(e) =>
                                       updateNode(node.id, {
-                                        escalation: { ...node.escalation!, targetRole: e.target.value as ApprovalNode['role'] },
+                                        escalation: { ...node.escalation!, targetRole: e.target.value as UserRole },
                                       })
                                     }
                                   >

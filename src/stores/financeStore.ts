@@ -457,11 +457,15 @@ export const useFinanceStore = create<FinanceState>()(
             description: `支付供应商 ${p.vendorName}`, debitAccount: '应付账款', creditAccount: '',
             amount: p.totalAmount, currency: 'CNY', voucherNo, createdBy: '系统',
             createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            updatedBy: '系统',
           },
           {
             id: `ae-${stamp}-2`, entryNo: `JE${stamp}2`, date: p.paidDate || p.dueDate,
             description: `银行存款支付 ${p.planNo}`, debitAccount: '', creditAccount: '银行存款',
             amount: p.totalAmount, currency: 'CNY', voucherNo, createdBy: '系统',
+            updatedAt: new Date().toISOString(),
+            updatedBy: '系统',
             createdAt: new Date().toISOString(),
           },
         ];

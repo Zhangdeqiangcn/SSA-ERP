@@ -231,6 +231,9 @@ export default function PaymentPlan() {
               dueDate: form.dueDate,
               paymentMethod: form.paymentMethod,
               createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              createdBy: '当前用户',
+              updatedBy: '当前用户',
             });
             setCreateOpen(false);
           }}>创建</Button>

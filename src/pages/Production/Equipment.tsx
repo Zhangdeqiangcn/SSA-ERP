@@ -37,6 +37,8 @@ export default function EquipmentPage() {
       nextMaintenanceDate: eqForm.nextMaintenanceDate,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      createdBy: '当前用户',
+      updatedBy: '当前用户',
     };
     addEquipment(e);
     setOpenEq(false);
@@ -56,6 +58,8 @@ export default function EquipmentPage() {
       status: 'done',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      createdBy: '当前用户',
+      updatedBy: '当前用户',
     };
     addMaintenance(m);
     setOpenMo(false);

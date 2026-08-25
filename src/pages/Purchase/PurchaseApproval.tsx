@@ -176,10 +176,10 @@ const PurchaseApproval: React.FC = () => {
     const currentStep = selected.currentStep ?? 0;
     const isLast = currentStep >= steps.length - 1;
     const step = steps[currentStep];
-    const records = [...(selected.approvalRecords || []), { approver: currentUser?.name || 'admin', action: 'approve', comment, at: now }];
+    const records = [...(selected.approvalRecords || []), { id: `ar-${Date.now()}`, approver: currentUser?.name || 'admin', action: 'approve' as const, comments: comment, operatedAt: now }];
     if (!isLast) {
       updatePurchaseRequest(selected.id, {
-        status: 'reviewing',
+        status: 'pending',
         currentStep: currentStep + 1,
         approvalRecords: records,
       });
@@ -192,7 +192,7 @@ const PurchaseApproval: React.FC = () => {
     if (!selected) return;
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const step = steps[selected.currentStep ?? 0];
-    const records = [...(selected.approvalRecords || []), { approver: currentUser?.name || 'admin', action: 'reject', comment, at: now }];
+    const records = [...(selected.approvalRecords || []), { id: `ar-${Date.now()}`, approver: currentUser?.name || 'admin', action: 'reject' as const, comments: comment, operatedAt: now }];
     updatePurchaseRequest(selected.id, { status: 'rejected', approvalRecords: records });
   };
 

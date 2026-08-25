@@ -39,10 +39,10 @@ interface SalesState {
   deleteProject: (id: string) => void;
 }
 
-const addArr = <T,>(setter: (v: T[]) => void, list: T[], item: T) => [...list, item];
-const updateArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string, u: Partial<T>) =>
+const addArr = <T,>(list: T[], item: T) => [...list, item];
+const updateArr = <T extends { id: string }>(list: T[], id: string, u: Partial<T>) =>
   list.map((x) => (x.id === id ? { ...x, ...u } : x));
-const deleteArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string) =>
+const deleteArr = <T extends { id: string }>(list: T[], id: string) =>
   list.filter((x) => x.id !== id);
 
 export const useSalesStore = create<SalesState>()(
@@ -55,24 +55,32 @@ export const useSalesStore = create<SalesState>()(
       marketData: [...mockMarketData],
 
       // SalesOrder
-      addSalesOrder: (order) => set((s) => ({ salesOrders: addArr(set, s.salesOrders, order) })),
-      updateSalesOrder: (id, u) => set((s) => ({ salesOrders: updateArr(set, s.salesOrders, id, u) })),
-      deleteSalesOrder: (id) => set((s) => ({ salesOrders: deleteArr(set, s.salesOrders, id) })),
+      addSalesOrder: (order) => set((s) => ({ salesOrders: addArr(s.salesOrders, order) })),
+      updateSalesOrder: (id, u) => set((s) => ({ salesOrders: updateArr(s.salesOrders, id, u) })),
+      deleteSalesOrder: (id) => set((s) => ({ salesOrders: deleteArr(s.salesOrders, id) })),
 
       // Prospect
-      addProspect: (prospect) => set((s) => ({ prospects: addArr(set, s.prospects, prospect) })),
-      updateProspect: (id, u) => set((s) => ({ prospects: updateArr(set, s.prospects, id, u) })),
-      deleteProspect: (id) => set((s) => ({ prospects: deleteArr(set, s.prospects, id) })),
+      addProspect: (prospect) => set((s) => ({ prospects: addArr(s.prospects, prospect) })),
+      updateProspect: (id, u) => set((s) => ({ prospects: updateArr(s.prospects, id, u) })),
+      deleteProspect: (id) => set((s) => ({ prospects: deleteArr(s.prospects, id) })),
 
       // Shipment
-      addShipment: (shipment) => set((s) => ({ shipments: addArr(set, s.shipments, shipment) })),
-      updateShipment: (id, u) => set((s) => ({ shipments: updateArr(set, s.shipments, id, u) })),
-      deleteShipment: (id) => set((s) => ({ shipments: deleteArr(set, s.shipments, id) })),
+      addShipment: (shipment) => set((s) => ({ shipments: addArr(s.shipments, shipment) })),
+      updateShipment: (id, u) => set((s) => ({ shipments: updateArr(s.shipments, id, u) })),
+      deleteShipment: (id) => set((s) => ({ shipments: deleteArr(s.shipments, id) })),
 
       // Project
-      addProject: (project) => set((s) => ({ projects: addArr(set, s.projects, project) })),
-      updateProject: (id, u) => set((s) => ({ projects: updateArr(set, s.projects, id, u) })),
-      deleteProject: (id) => set((s) => ({ projects: deleteArr(set, s.projects, id) })),
+      // 归一化：保证必填数组字段存在，避免脏数据导致详情页访问 undefined 崩溃
+  addProject: (project) =>
+    set((s) => ({
+      projects: addArr(s.projects, {
+        ...project,
+        milestones: project.milestones || [],
+        exceptions: project.exceptions || [],
+      }),
+    })),
+      updateProject: (id, u) => set((s) => ({ projects: updateArr(s.projects, id, u) })),
+      deleteProject: (id) => set((s) => ({ projects: deleteArr(s.projects, id) })),
     }),
     { storage: backendStorage,
     

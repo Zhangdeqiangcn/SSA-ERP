@@ -98,6 +98,10 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
       packageCount: Number(form.packageCount) || 1,
       freight: form.freight ? Number(form.freight) : undefined,
       notes: form.notes || undefined,
+      createdAt: now,
+      updatedAt: now,
+      createdBy: '当前用户',
+      updatedBy: '当前用户',
     };
     addShipment(shipment);
     onClose();

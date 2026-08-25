@@ -3,9 +3,10 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   Box, TextField, Button, Typography, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, IconButton,
-  Stack, Alert, Chip, Grid, Divider, MenuItem, Autocomplete,
+  Stack, Alert, Chip, Divider, MenuItem, Autocomplete,
   Tooltip, Radio, RadioGroup, FormControlLabel, FormLabel,
 } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import { Add, Delete, Save, Send, ArrowBack, AutoAwesome } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { FlowTracker, CustomFieldsSection, MaterialLineItemsGrid, GridColumn, PrintPreviewButton } from '@/components/common';
@@ -165,7 +166,7 @@ const OrderForm: React.FC = () => {
   const [remarks, setRemarks] = useState(existingOrder?.remarks || '');
   const [serviceDescription, setServiceDescription] = useState(() => {
     if (existingOrder?.remarks) return existingOrder.remarks;
-    if (isConvertMode) return sourceRequests[0]?.remarks || '';
+    if (isConvertMode) return sourceRequests[0]?.reason || '';
     return '';
   });
   const [projectNo, setProjectNo] = useState(() => {
@@ -375,7 +376,7 @@ const OrderForm: React.FC = () => {
       ...buildLineFromNetPrice(1, 0, headerTaxRate),
       vendorId: vendorId,
       vendorName: chip.vendorName,
-    }]);
+    } as OrderItem]);
     // 添加后再触发自动取价
     setTimeout(() => handleMaterialChange(newId, chip.materialId), 0);
   };
@@ -865,8 +866,8 @@ const OrderForm: React.FC = () => {
     const vendor = vendors.find((v) => v.id === vendorId);
     return {
       orderNo: existingOrder?.orderNo || '(尚未保存)',
-      vendorName: vendor?.vendorName || title || '',
-      vendorCode: vendor?.vendorCode || '',
+      vendorName: vendor?.name || title || '',
+      vendorCode: vendor?.code || '',
       orderDate: existingOrder?.orderDate || new Date().toISOString().split('T')[0],
       expectedDeliveryDate,
       paymentTerms,
@@ -976,16 +977,16 @@ const OrderForm: React.FC = () => {
           <FormControlLabel value="consignment" control={<Radio />} label="寄售采购" />
         </RadioGroup>
 
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, sm: 6 }}>
+        <Grid2 container spacing={2}>
+          <Grid2 xs={12} sm={6}>
             <TextField
               fullWidth label="订单标题" value={title}
               onChange={e => setTitle(e.target.value)}
               error={!!errors.title} helperText={errors.title}
               placeholder="如：钢板Q235B采购订单"
             />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
             <Autocomplete
               options={vendorOptions}
               getOptionLabel={(o) => o.name}
@@ -1016,19 +1017,19 @@ const OrderForm: React.FC = () => {
                 <TextField {...params} label="主供应商" error={!!errors.vendorId} helperText={errors.vendorId} />
               )}
             />
-          </Grid>
+          </Grid2>
           {/* B6 黑名单卡点：选中黑名单供应商即时预警，提交/暂存均会被阻断 */}
           {blacklistInfo && (
-            <Grid size={12}>
+            <Grid2 xs={12}>
               <Alert severity="error" data-testid="po-vendor-blacklist" sx={{ py: 0.5 }}>
                 供应商「{blacklistInfo.vendorName}」已列入黑名单（{blacklistInfo.blacklistedAt || '—'}）：
                 {blacklistInfo.reason || '未填写原因'} —— 本单无法提交或暂存，请更换供应商。
               </Alert>
-            </Grid>
+            </Grid2>
           )}
           {/* B1 信用卡点：选中供应商后实时展示授信画像与超额预警 */}
           {creditInfo && (
-            <Grid size={12}>
+            <Grid2 xs={12}>
               <Alert
                 severity={creditInfo.willExceed ? 'error' : creditInfo.limit == null ? 'info' : 'success'}
                 data-testid="po-vendor-credit"
@@ -1046,14 +1047,14 @@ const OrderForm: React.FC = () => {
                   </>
                 )}
               </Alert>
-            </Grid>
+            </Grid2>
           )}
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid2 xs={12} sm={6}>
             <TextField fullWidth label="付款条件" value={paymentTerms}
               onChange={e => setPaymentTerms(e.target.value)}
               placeholder="如：货到验收后30天付清" />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
             <Autocomplete
               options={tradeTermOptions}
               value={tradeTerms || null}
@@ -1064,14 +1065,14 @@ const OrderForm: React.FC = () => {
               freeSolo
               isOptionEqualToValue={(o, v) => o === v}
             />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
             <TextField fullWidth label="交付条件" value={deliveryTerms}
               onChange={e => setDeliveryTerms(e.target.value)}
               placeholder="如：含运费到厂" />
-          </Grid>
+          </Grid2>
           {/* A2 税价拆分：币种 / 价格类型 / 默认税率 */}
-          <Grid size={{ xs: 12, sm: 4 }}>
+          <Grid2 xs={12} sm={4}>
             <TextField
               select fullWidth label="币种" value={currency}
               onChange={e => setCurrency(e.target.value)}
@@ -1082,8 +1083,8 @@ const OrderForm: React.FC = () => {
                 <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
               ))}
             </TextField>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={4}>
             <TextField
               select fullWidth label="价格类型" value={taxIncluded ? 'true' : 'false'}
               onChange={e => handleTaxIncludedChange(e.target.value === 'true')}
@@ -1093,8 +1094,8 @@ const OrderForm: React.FC = () => {
               <MenuItem value="false">未税价</MenuItem>
               <MenuItem value="true">含税价</MenuItem>
             </TextField>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 4 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={4}>
             <TextField
               select fullWidth label="默认税率" value={headerTaxRate}
               onChange={e => handleHeaderTaxRateChange(Number(e.target.value))}
@@ -1105,17 +1106,17 @@ const OrderForm: React.FC = () => {
                 <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
               ))}
             </TextField>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
             <TextField fullWidth label="期望交货日期" type="date" value={expectedDeliveryDate}
               onChange={e => setExpectedDeliveryDate(e.target.value)}
               InputLabelProps={{ shrink: true }} />
-          </Grid>
-          <Grid size={{ xs: 12 }}>
+          </Grid2>
+          <Grid2 xs={12}>
             <TextField fullWidth label="备注" value={remarks} onChange={e => setRemarks(e.target.value)}
               multiline rows={2} />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          </Grid2>
+          <Grid2 xs={12} sm={6}>
             <Autocomplete
               size="small"
               options={projects}
@@ -1128,8 +1129,8 @@ const OrderForm: React.FC = () => {
               noOptionsText="未找到匹配项目"
               isOptionEqualToValue={(o, v) => o.id === v.id}
             />
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Paper>
 
       {/* 采购明细 */}

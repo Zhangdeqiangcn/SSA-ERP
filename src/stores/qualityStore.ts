@@ -44,10 +44,10 @@ interface QualityState {
   deletePdcaRecord: (id: string) => void;
 }
 
-const addArr = <T,>(setter: (v: T[]) => void, list: T[], item: T) => [...list, item];
-const updateArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string, u: Partial<T>) =>
+const addArr = <T,>(list: T[], item: T) => [...list, item];
+const updateArr = <T extends { id: string }>(list: T[], id: string, u: Partial<T>) =>
   list.map((x) => (x.id === id ? { ...x, ...u } : x));
-const deleteArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string) =>
+const deleteArr = <T extends { id: string }>(list: T[], id: string) =>
   list.filter((x) => x.id !== id);
 
 // 本地 nowStr（与门户页面一致：YYYY-MM-DD HH:MM:SS），store 内不依赖页面私有函数
@@ -65,17 +65,17 @@ export const useQualityStore = create<QualityState>()(
       unqualifiedItems: [...mockUnqualifiedItems],
       pdcaRecords: [...mockPdcaRecords],
 
-      addInspectionTask: (task) => set((s) => ({ inspectionTasks: addArr(set, s.inspectionTasks, task) })),
-      updateInspectionTask: (id, u) => set((s) => ({ inspectionTasks: updateArr(set, s.inspectionTasks, id, u) })),
-      deleteInspectionTask: (id) => set((s) => ({ inspectionTasks: deleteArr(set, s.inspectionTasks, id) })),
+      addInspectionTask: (task) => set((s) => ({ inspectionTasks: addArr(s.inspectionTasks, task) })),
+      updateInspectionTask: (id, u) => set((s) => ({ inspectionTasks: updateArr(s.inspectionTasks, id, u) })),
+      deleteInspectionTask: (id) => set((s) => ({ inspectionTasks: deleteArr(s.inspectionTasks, id) })),
 
-      addInspectionStandard: (standard) => set((s) => ({ inspectionStandards: addArr(set, s.inspectionStandards, standard) })),
-      updateInspectionStandard: (id, u) => set((s) => ({ inspectionStandards: updateArr(set, s.inspectionStandards, id, u) })),
-      deleteInspectionStandard: (id) => set((s) => ({ inspectionStandards: deleteArr(set, s.inspectionStandards, id) })),
+      addInspectionStandard: (standard) => set((s) => ({ inspectionStandards: addArr(s.inspectionStandards, standard) })),
+      updateInspectionStandard: (id, u) => set((s) => ({ inspectionStandards: updateArr(s.inspectionStandards, id, u) })),
+      deleteInspectionStandard: (id) => set((s) => ({ inspectionStandards: deleteArr(s.inspectionStandards, id) })),
 
-      addUnqualifiedItem: (item) => set((s) => ({ unqualifiedItems: addArr(set, s.unqualifiedItems, item) })),
-      updateUnqualifiedItem: (id, u) => set((s) => ({ unqualifiedItems: updateArr(set, s.unqualifiedItems, id, u) })),
-      deleteUnqualifiedItem: (id) => set((s) => ({ unqualifiedItems: deleteArr(set, s.unqualifiedItems, id) })),
+      addUnqualifiedItem: (item) => set((s) => ({ unqualifiedItems: addArr(s.unqualifiedItems, item) })),
+      updateUnqualifiedItem: (id, u) => set((s) => ({ unqualifiedItems: updateArr(s.unqualifiedItems, id, u) })),
+      deleteUnqualifiedItem: (id) => set((s) => ({ unqualifiedItems: deleteArr(s.unqualifiedItems, id) })),
 
       // ── B7-T2：门户质量异常单 → 主 ERP 不合格品(NCR) ──────────────
       addVendorQualityIssue: (issue) => {
@@ -104,7 +104,7 @@ export const useQualityStore = create<QualityState>()(
           createdBy: issue.vendorId,
           updatedBy: issue.vendorId,
         };
-        set((s) => ({ unqualifiedItems: addArr(set, s.unqualifiedItems, item) }));
+        set((s) => ({ unqualifiedItems: addArr(s.unqualifiedItems, item) }));
       },
 
       // ── B4：NCR 处置联动库存与财务 ──────────────────────────────
@@ -149,6 +149,10 @@ export const useQualityStore = create<QualityState>()(
                 },
               ],
               remarks: `NCR 报废处置联动：${item.itemNo}`,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              createdBy: 'system',
+              updatedBy: 'system',
             });
             linkedOutboundNo = outboundNo;
           }
@@ -174,9 +178,9 @@ export const useQualityStore = create<QualityState>()(
         return true;
       },
 
-      addPdcaRecord: (record) => set((s) => ({ pdcaRecords: addArr(set, s.pdcaRecords, record) })),
-      updatePdcaRecord: (id, u) => set((s) => ({ pdcaRecords: updateArr(set, s.pdcaRecords, id, u) })),
-      deletePdcaRecord: (id) => set((s) => ({ pdcaRecords: deleteArr(set, s.pdcaRecords, id) })),
+      addPdcaRecord: (record) => set((s) => ({ pdcaRecords: addArr(s.pdcaRecords, record) })),
+      updatePdcaRecord: (id, u) => set((s) => ({ pdcaRecords: updateArr(s.pdcaRecords, id, u) })),
+      deletePdcaRecord: (id) => set((s) => ({ pdcaRecords: deleteArr(s.pdcaRecords, id) })),
     }),
     { storage: backendStorage,
     

@@ -26,6 +26,8 @@ export interface PurchaseRequest extends BaseEntity {
   type: 'material' | 'service';
   priority: Priority;
   reason: string;
+  /** 采购申请备注（补充说明，区别于申请理由 reason） */
+  remarks?: string;
   expectedDate: string;
   status: PurchaseRequestStatus;
   items: PurchaseRequestItem[];

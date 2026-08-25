@@ -75,11 +75,13 @@ export default function FixedAssets() {
         id: `ae-fa-${stamp}-1`, entryNo: `JEF${stamp}1`, date: new Date().toISOString().slice(0, 10),
         description: `计提固定资产折旧 ${voucherNo}`, debitAccount: '管理费用', creditAccount: '',
         amount: total, currency: 'CNY', voucherNo, createdBy: '当前用户', createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(), updatedBy: '当前用户',
       },
       {
         id: `ae-fa-${stamp}-2`, entryNo: `JEF${stamp}2`, date: new Date().toISOString().slice(0, 10),
         description: `累计折旧 ${voucherNo}`, debitAccount: '', creditAccount: '累计折旧',
         amount: total, currency: 'CNY', voucherNo, createdBy: '当前用户', createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(), updatedBy: '当前用户',
       },
     ];
     useFinanceStore.getState().addAccountEntry(entries[0]);

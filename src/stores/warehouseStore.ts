@@ -664,6 +664,8 @@ export const useWarehouseStore = create<WarehouseState>()(
       // Outbound CRUD（已出库 completed 即自动扣减库存 + 批次 FIFO 消耗 + 回写销售订单 + 结转成本）
       addOutboundOrder: (order) => {
         const o = withOrg(order);
+        // 归一化：保证 items 存在，避免脏数据导致详情/成本计算访问 undefined 崩溃
+        if (!Array.isArray(o.items)) o.items = [];
         const alreadyPosted = useWarehouseStore
           .getState()
           .outboundOrders.some((x) => x.id === o.id && x.inventoryPosted);

@@ -63,9 +63,9 @@ export default function AgingReport() {
         if (unpaid <= 0) return null;
         const dueDate = o.arDueDate || o.expectedDeliveryDate;
         const days = daysBetween(dueDate);
-        const base = convertCurrency(unpaid, o.currency as string | undefined, exchangeRates);
+        const base = convertCurrency(unpaid, undefined, exchangeRates);
         return {
-          id: o.id, ref: o.orderNo, name: o.customerName, unpaid, currency: (o.currency as string) || BASE_CURRENCY_CODE,
+          id: o.id, ref: o.orderNo, name: o.customerName, unpaid, currency: BASE_CURRENCY_CODE,
           base, days, bucket: days < 0 ? 'current' : bucketOf(days), dueDate,
         };
       })

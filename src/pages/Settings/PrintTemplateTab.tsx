@@ -15,7 +15,7 @@ import PrintPreview from '@/components/common/PrintPreview';
 const ENTITIES = Object.keys(PRINT_ENTITY_LABELS) as PrintEntity[];
 
 // 预览用样例数据
-const SAMPLE_RECORDS: Record<PrintEntity, Record<string, any>> = {
+const SAMPLE_RECORDS: Partial<Record<PrintEntity, Record<string, any>>> = {
   purchaseOrder: {
     orderNo: 'PO20260713001', vendorName: '宝钢股份', orderDate: '2026-07-13',
     expectedDeliveryDate: '2026-08-01', paymentTerms: '货到验收后30天', tradeTerms: 'CIF（到岸价）',
@@ -178,7 +178,7 @@ const PrintTemplateTab: React.FC = () => {
             <Print fontSize="small" /> 实时预览（样例数据）
           </Typography>
           {previewTemplate ? (
-            <PrintPreview template={previewTemplate} record={SAMPLE_RECORDS[entity]} />
+            <PrintPreview template={previewTemplate} record={SAMPLE_RECORDS[entity] ?? {}} />
           ) : (
             <Alert severity="info">该实体暂无模板，请先新增。</Alert>
           )}

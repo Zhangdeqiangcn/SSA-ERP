@@ -92,7 +92,7 @@ export default function PeriodClosing() {
     for (const inv of invoices) {
       if (!inv.currency || inv.currency === 'CNY') continue;
       if (inv.status === 'paid' || inv.status === 'cancelled') continue;
-      const current = getExchangeRate(inv.currency, 'CNY', exchangeRates);
+      const current = getExchangeRate(inv.currency, exchangeRates);
       const entryRate = inv.exchangeRate || 1;
       const diff = (current - entryRate) * inv.amount; // 正数：本币升值，应付减少（收益）
       if (Math.abs(diff) > 0.001) {

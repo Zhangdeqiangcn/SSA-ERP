@@ -11,7 +11,7 @@ import { ConfirmDialog } from '@/components/common';
 import { DataTable } from '@/components/common';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMaterialStore } from '@/stores';
-import { useUserStore, SystemUser } from '@/stores';
+import { useUserStore, type SystemUser } from '@/stores/userStore';
 import { MaterialCategory } from '@/types';
 import { UserRole, ROLE_NAMES } from '@/types/settings';
 
@@ -266,15 +266,16 @@ const CategoryList: React.FC = () => {
       header: '分类名称',
       accessorFn: (row) => row.name,
       cell: ({ row }) => {
-        const hasChildren = !!(row.children && row.children.length > 0);
+        const cat = row.original;
+        const hasChildren = !!(cat.children && cat.children.length > 0);
         return (
         <Stack direction="row" alignItems="center" spacing={0.5}>
           <Box
             component="span"
             sx={{
-              fontWeight: row._indent === 0 ? 700 : 400,
-              fontSize: row._indent === 0 ? '0.9rem' : '0.875rem',
-              ml: row._indent * 3,
+              fontWeight: cat._indent === 0 ? 700 : 400,
+              fontSize: cat._indent === 0 ? '0.9rem' : '0.875rem',
+              ml: cat._indent * 3,
             }}
           >
             {hasChildren ? (
@@ -290,16 +291,16 @@ const CategoryList: React.FC = () => {
                   <ExpandMore sx={{ fontSize: 16 }} />
                 )}
               </IconButton>
-            ) : row._indent > 0 ? (
+            ) : cat._indent > 0 ? (
               <SubdirectoryArrowRight
                 sx={{ fontSize: 14, color: 'text.disabled', mr: 0.5, verticalAlign: 'middle' }}
               />
             ) : null}
-            {row.name}
+            {cat.name}
           </Box>
           {hasChildren && (
             <Chip
-              label={countDescendants(row)}
+              label={countDescendants(cat)}
               size="small"
               variant="outlined"
               sx={{ height: 18, fontSize: '0.65rem', ml: 1 }}
@@ -314,27 +315,27 @@ const CategoryList: React.FC = () => {
       header: '分类编码',
       accessorFn: (row) => row.code,
       cell: ({ row }) => (
-        <Chip label={row.code} size="small" variant="outlined" />
+        <Chip label={row.original.code} size="small" variant="outlined" />
       ),
     },
     {
       id: 'description',
       header: '描述',
       accessorFn: (row) => row.description,
-      cell: ({ row }) => <Typography variant="body2">{row.description || '-'}</Typography>,
+      cell: ({ row }) => <Typography variant="body2">{row.original.description || '-'}</Typography>,
     },
     {
       id: 'level',
       header: '层级',
       accessorFn: (row) => row.level || 1,
-      cell: ({ row }) => <Typography variant="body2">{(row.level || 1)} 级</Typography>,
+      cell: ({ row }) => <Typography variant="body2">{(row.original.level || 1)} 级</Typography>,
     },
     {
       id: 'responsiblePersons',
       header: '责任人员',
       accessorFn: (row) => Object.values(row.responsiblePersons || {}).reduce((n, ids) => n + ids.length, 0),
       cell: ({ row }) => {
-        const rp = row.responsiblePersons || {};
+        const rp = row.original.responsiblePersons || {};
         const assigned = CATEGORY_RESPONSIBLE_ROLES.filter((r) => (rp[r] || []).length > 0);
         if (assigned.length === 0) {
           return <Typography variant="body2" color="text.secondary">-</Typography>;
@@ -353,29 +354,32 @@ const CategoryList: React.FC = () => {
       id: 'sortOrder',
       header: '排序',
       accessorFn: (row) => row.sortOrder,
-      cell: ({ row }) => <Typography variant="body2">{row.sortOrder}</Typography>,
+      cell: ({ row }) => <Typography variant="body2">{row.original.sortOrder}</Typography>,
     },
     {
       id: 'actions',
       header: '操作',
       enableSorting: false,
-      cell: ({ row }) => (
+      cell: ({ row }) => {
+        const cat = row.original;
+        return (
         <Stack direction="row" spacing={0.5} justifyContent="flex-end">
-          {(row.level || 1) < 3 && (
+          {(cat.level || 1) < 3 && (
             <Tooltip title="添加子分类">
-              <IconButton size="small" onClick={() => handleOpenDialog(row)}>
+              <IconButton size="small" onClick={() => handleOpenDialog(cat)}>
                 <Add fontSize="small" color="success" />
               </IconButton>
             </Tooltip>
           )}
-          <IconButton size="small" onClick={() => handleOpenDialog(undefined, row)}>
+          <IconButton size="small" onClick={() => handleOpenDialog(undefined, cat)}>
             <Edit fontSize="small" />
           </IconButton>
-          <IconButton size="small" onClick={() => setDeleteConfirm(row)}>
+          <IconButton size="small" onClick={() => setDeleteConfirm(cat)}>
             <Delete fontSize="small" color="error" />
           </IconButton>
         </Stack>
-      ),
+        );
+      },
     },
   ];
 

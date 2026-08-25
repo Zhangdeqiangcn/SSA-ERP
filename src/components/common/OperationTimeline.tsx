@@ -18,7 +18,7 @@ import {
   Info,
 } from '@mui/icons-material';
 
-interface TimelineEvent {
+export interface TimelineEvent {
   id: string;
   action: 'create' | 'update' | 'delete' | 'approve' | 'reject' | 'info';
   operator: string;

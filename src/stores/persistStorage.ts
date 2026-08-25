@@ -1,6 +1,6 @@
 // 共享存储适配器：登录态建立后，把各 store 的持久化数据代理到后端（按组织共享）
 // 未登录 / 后端不可达时，自动回退到浏览器 localStorage（保证离线可用、本地不丢）
-import type { StateStorage } from 'zustand/middleware';
+import { createJSONStorage, type StateStorage, type PersistStorage } from 'zustand/middleware';
 
 const TOKEN_KEY = 'ssa-erp-auth-token';
 const LS = typeof window !== 'undefined' ? window.localStorage : (undefined as any);
@@ -31,7 +31,7 @@ function authHeaders(token: string): Record<string, string> {
   return { Authorization: `Bearer ${token}` };
 }
 
-export const backendStorage: StateStorage = {
+const rawStateStorage: StateStorage = {
   async getItem(name: string): Promise<string | null> {
     const token = getToken();
     if (!token) return LS.getItem(name);
@@ -98,3 +98,10 @@ export const backendStorage: StateStorage = {
     }
   },
 };
+
+// 用 createJSONStorage 把底层 string 型 StateStorage 包装成 zustand v4 要求的 PersistStorage<S>，
+// 这样所有 store 的 `storage: backendStorage` 既通过类型检查，又在运行期正确做 JSON 序列化往返
+// （之前直接传 StateStorage，v4 读取 .state 拿不到值，持久化实际失效）。
+export const backendStorage: PersistStorage<any> = createJSONStorage(
+  () => rawStateStorage
+) as PersistStorage<any>;

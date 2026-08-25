@@ -23,6 +23,8 @@ interface ConfirmDialogProps {
   confirmText?: string;
   cancelText?: string;
   type?: ConfirmType;
+  /** 显式指定确认按钮颜色（覆盖 type 的默认配色） */
+  confirmColor?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning' | 'inherit';
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
@@ -54,6 +56,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   confirmText = '确定',
   cancelText = '取消',
   type = 'confirm',
+  confirmColor,
   onConfirm,
   onCancel,
   loading = false,
@@ -81,7 +84,7 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         <Button
           onClick={onConfirm}
           variant="contained"
-          color={config.confirmColor}
+          color={confirmColor ?? config.confirmColor}
           disabled={loading}
         >
           {confirmText}

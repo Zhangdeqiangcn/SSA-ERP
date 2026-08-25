@@ -1,7 +1,7 @@
 // 注册：填写公司码（companyCode）
 // - 该 code 首次出现 → 自动创建组织
 // - 之后相同 code 注册 → 加入同一组织（共享同一份业务数据）
-import { getUserFromRequest, hashPassword, makeSalt, makeToken, json, uid } from '../../_shared/auth';
+import { getUserFromRequest, hashPasswordPbkdf2, makeSalt, makeToken, json, uid } from '../../_shared/auth';
 
 export async function onRequestPost(context: any) {
   const { request, env } = context;
@@ -46,7 +46,7 @@ export async function onRequestPost(context: any) {
   }
 
   const salt = makeSalt();
-  const passwordHash = await hashPassword(password, salt);
+  const passwordHash = await hashPasswordPbkdf2(password, salt);
   const userId = uid('user');
 
   await env.DB.prepare(

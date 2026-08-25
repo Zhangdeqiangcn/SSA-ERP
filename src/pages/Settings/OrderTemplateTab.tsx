@@ -202,7 +202,7 @@ const OrderTemplateTab: React.FC = () => {
         fullWidth
       >
         <DialogTitle sx={{ fontWeight: 600 }}>
-          {dialog.template?.id && templates.find(t => t.id === dialog.template.id) ? '编辑模板' : '新建模板'}
+          {dialog.template?.id && templates.find(t => t.id === dialog.template?.id) ? '编辑模板' : '新建模板'}
         </DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           {dialog.template && (

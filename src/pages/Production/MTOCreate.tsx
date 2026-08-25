@@ -26,6 +26,15 @@ export default function MTOCreate() {
 
   const so = candidates.find((s) => s.id === selSoId);
 
+  // 反向索引：工单 id → 来源销售订单号（MTO 溯源，避免额外字段）
+  const woToSoNo = useMemo(() => {
+    const m = new Map<string, string>();
+    salesOrders.forEach((s) =>
+      (s.linkedWorkOrders || []).forEach((l) => m.set(l.workOrderId, s.orderNo)),
+    );
+    return m;
+  }, [salesOrders]);
+
   const handleGenerate = () => {
     if (!so) return;
     const item = so.items[0];
@@ -49,10 +58,11 @@ export default function MTOCreate() {
       priority: 'normal',
       workshop: '总装车间',
       supervisor: '—',
-      sourceSalesOrderId: so.id,
       note: `由销售订单 ${so.orderNo} 一键生成（MTO）`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      createdBy: 'system',
+      updatedBy: 'system',
     };
     addWorkOrder(wo);
     // 回写销售订单关联工单
@@ -118,12 +128,12 @@ export default function MTOCreate() {
             <TableRow><TableCell>工单号</TableCell><TableCell>产品</TableCell><TableCell>数量</TableCell><TableCell>来源销售订单</TableCell></TableRow>
           </TableHead>
           <TableBody>
-            {workOrders.filter((w) => w.sourceSalesOrderId).map((w) => (
+            {workOrders.filter((w) => woToSoNo.has(w.id)).map((w) => (
               <TableRow key={w.id} data-testid="mto-wo-row">
                 <TableCell>{w.orderNo}</TableCell>
                 <TableCell>{w.productName}</TableCell>
                 <TableCell>{w.plannedQuantity}</TableCell>
-                <TableCell>{candidates.find((s) => s.id === w.sourceSalesOrderId)?.orderNo ?? w.sourceSalesOrderId}</TableCell>
+                <TableCell>{woToSoNo.get(w.id) ?? '-'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

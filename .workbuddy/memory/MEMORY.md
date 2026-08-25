@@ -2,6 +2,13 @@
 
 ## 版本沿革
 
+- **V2.63.0** (2026-08-25) — **P1 Phase 6 审计日志落库**：新增 D1 表 `audit_logs`（不可篡改 + 索引），后端 API `/api/audit/logs`（POST 写入 + GET 分页查询，支持 keyword/action/entity 过滤，按 org_id 隔离，最多保留 10000 条）；种子数据 3 条审计记录已写入生产 D1（采购订单创建/审批通过/管理员登录）；D1 表从 20 张增至 21 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
+- **V2.62.0** (2026-08-25) — **P1 Phase 5 凭证/库存/工单关系化**：新增 D1 关系表 `vouchers` / `voucher_items` / `inventory_records` / `work_orders`（共 4 张表），覆盖凭证分录、库存记录、生产工单的完整属性；新增后端 API `/api/vouchers`（GET 分页 + GET/PUT/DELETE 单条）、`/api/inventory-records`（GET 分页）、`/api/work-orders`（GET 分页 + GET/PUT/DELETE 单条），按 org_id 隔离；种子数据：3 条生产工单（in_progress/draft/completed 状态）已写入生产 D1；D1 表从 16 张增至 20 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
+- **V2.61.0** (2026-08-25) — **P1 Phase 4 销售订单关系化**：新增 D1 关系表 `sales_orders` / `sales_order_items`（共 2 张表），覆盖销售订单完整属性及行明细；新增后端 API `/api/sales-orders`（GET 分页查询，支持 keyword/status/customerId 过滤）和 `/api/sales-orders/:id`（GET/PUT/DELETE）；种子数据：3 条销售订单 + 6 行明细已写入生产 D1（华润建筑/新源机械/远达钢结构项目）；D1 表从 14 张增至 16 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
+- **V2.60.0** (2026-08-25) — **P1 Phase 3 采购订单关系化**：新增 D1 关系表 `purchase_orders` / `purchase_order_items` / `inbound_orders` / `inbound_order_items` / `outbound_orders` / `outbound_order_items`（共 6 张表），覆盖采购订单、入库单、出库单的完整属性；新增后端 API `/api/purchase-orders`、`/api/inbound-orders`、`/api/outbound-orders`（GET 分页查询 + GET/PUT/DELETE 单条操作，org_id 隔离）；种子数据：3 条采购订单 + 3 行明细、2 条入库单 + 2 行明细、2 条出库单 + 2 行明细已写入生产 D1（涵盖钢板/钢管/H型钢等典型物料）；D1 表从 8 张增至 14 张；tsc 0 错误；dist 构建正常；已部署 https://ssa-erp.pages.dev。
+- **V2.59.0** (2026-05-08-task-1/ssa-erp) — **P1 Phase 2 供应商/客户主数据关系化**：① vendors 表增强（新增 short_name/type/address/qualification_expiry/rating/credit_level/credit_limit/used_credit/blacklist_reason/blacklisted_at/blacklist_reason_history/sales_org/reconciliation_account/tax_code/bank_account/profile_pending 等字段）；② 新建 customers 表（36 字段，含信用管控、开票信息、银行信息、销售组织会计字段）；③ 新增后端 API `/api/vendors`（GET 分页）和 `/api/vendors/:id`（GET/PUT/DELETE）；④ 新增后端 API `/api/customers`（GET 分页）和 `/api/customers/:id`（GET/PUT/DELETE）；⑤ 种子数据：12 条供应商 + 5 条客户已写入生产 D1；⑥ tsc 0 错误；已部署 https://ssa-erp.pages.dev。
+- **V2.58.0** (2026-08-24) — **P1 Phase 1 物料关系化**：新增 D1 关系表 `materials`（60 字段，UNIQUE(org_id, code)），覆盖物料主数据全量属性；新增后端 API `/api/materials`（GET 分页查询）和 `/api/materials/:id`（GET/PUT/DELETE，code 唯一性校验、org 隔离）；前端 DataManagement 新增「同步物料至云端表」按钮；首批 6 条种子物料写入生产 D1（钢板 Q235B/钢管 碳钢/H型钢 Q345B/六角螺栓 M16×80/重型钢结构焊接架 H1200/轻型货架组件 SH200）；主计划 §9.3.1 建立 P1 分阶段路线图（Phase 1~7）；tsc 0 错误；dist 构建 226 assets / 8.0MB；已部署 https://ssa-erp.pages.dev。
+- **V2.57.0** (2026-08-24) — 对标整改「地基修复」轮：①密码哈希 SHA-256+盐 → **PBKDF2-HMAC-SHA-256**（10 万次迭代+随机盐），存量账号自动兼容旧哈希、无需重设密码（`functions/_shared/auth.ts` 新增 `hashPasswordPbkdf2`/`verifyPassword` 兼容分流；注册入口 auth/register、vendor/register 切新格式；删除 vendor/login.ts 重复哈希副本）；②新增**云端备份下载**（P0-07，`functions/api/system/backup.ts` 导出本组织 D1 app_state JSON + 前端 DataManagement「云端备份下载」按钮），提供数据回滚点；③修复供应商登录死路（P0-08，放行 approved/registered）；④类型债 418→0 清零 + `build-with-gate.bat` 门禁生效；⑤两详情页白屏修复 + `e2e/white-screen-guard.spec.ts` 防回归；⑥Sidebar 硬编码版本号改读 APP_VERSION_LABEL；⑦DEPLOY.md 更正"纯前端"过时表述。版本四处同步（version.ts/package.json/MEMORY.md/manual.tsx）。
 - **V2.56.4** (2026-08-19) — 修复 SPA 深链 404（dist 缺 `_redirects` 导致 /vendor-portal/login 等直接 404）；供应商门户接入真实后端认证（`/api/vendor/login`、`/api/vendor/register`，vendors 表 + 复用 sessions，供应商账号同步插入 users 满足 FK）；演示供应商账号 V001/V002/V-NEW 已录入 D1；新增 `docs/访问指南.md`（ERP 与供应商门户登录/注册步骤、测试账号、网址汇总）。**访问网址**：ERP 主系统 https://ssa-erp.pages.dev/（登录页 /login）；供应商门户 https://ssa-erp.pages.dev/vendor-portal（登录 /login、注册 /register）；使用说明书 /help/manual。**注册步骤**：ERP 用户注册填公司码 `xg-auto` 同码共享数据；供应商注册走 /vendor-portal/register 五步向导、pending 待管理员审核；测试账号 V001/V002 密码 vendor123。
 - **V2.56.0** (2026-08-18) — 新增后端（Cloudflare D1 + Pages Functions），实现多人多设备共享同一份业务数据；真实账号体系（注册/登录/SHA-256+盐哈希密码/角色权限）；以「公司码」区分组织，同码共享、异码隔离；新增登录页 /login 与顶栏退出登录；离线回退本地。版本四处同步 + 部署上线 https://ssa-erp.pages.dev
 - **V2.55.25** (2026-08-18) — 将「使用说明书」接入系统设置（新增「帮助中心 → 使用说明书」入口直达 /help/manual）；新增说明书「版本更新记录」章节作为每次升版的变更登记处；版本铁律新增第 4 条（升版须同步更新说明书）
@@ -51,11 +58,10 @@
 
 ## 部署与架构（线上化关键事实）
 
-- **架构本质**：SSA ERP 是**纯前端 SPA**，无后端服务（无 express/server，依赖均为 react/mui/zustand 前端库；`src/mocks` + MSW 模拟 API）。业务数据经 Zustand `persist` 存**浏览器 localStorage**，每人/每设备各一份、互不共享。
-- **最优上线方案**：Cloudflare Pages 静态托管（**永久免费、无限带宽**，半年零成本）。构建产物 `dist/`（vite 默认），CF 连 Git 自动部署（Build=`npm run build`、Output=`dist`）或「直接上传 dist」。已加 `public/_redirects`（`/* /index.html 200`）做 SPA 路由回退，刷新子页不 404。发布指南见 `DEPLOY.md`。
-- **备选**：Oracle Cloud Always Free ARM（4核24G 永久免费）仅当需要真后端+数据库时再用；阿里云/腾讯云仅 1–3 月试用，不满足半年。
-- **多人共享数据**才需升级后端：Oracle 免费机 / Supabase 免费库（Postgres + auth），届时把 Zustand persist 的 localStorage 改成调 API。
-- 仓库已 `git init` 并提交（本地，未 push）；`.gitignore` 已排除 node_modules / .pw-* / dist 等；`npm run build` 生成 `dist/` 已验证可部署。
+- **架构本质（V2.56+ 现状）**：SSA ERP 是**前端 SPA + Cloudflare 后端**（D1 数据库 + Pages Functions）。V2.56 起上线真实后端：业务数据按「组织 org_id」存 D1 `app_state` 表（同公司码共享），账号存 `users`/`vendors` 表，会话存 `sessions`。前端 `src/stores/persistStorage.ts` 的 `backendStorage` 在登录后代理持久化到后端、未登录/后端不可达回退 localStorage。DEV 下仍用 MSW 模拟部分 API。
+- **最优上线方案**：Cloudflare Pages 静态托管前端 + Pages Functions 跑后端（**免费、同账号同域名、免跨域**）。构建产物 `dist/`，CF 连 Git 自动部署（Build=`npm run build`、Output=`dist`）；`public/_redirects`（`/* /index.html 200`）做 SPA 路由回退。发布指南见 `DEPLOY.md`（已更正"纯前端"过时表述）。
+- **构建门禁**：`build-with-gate.bat` 先跑 `tsc --noEmit`，0 错误才允许 `vite build`；本地受限环境（safe-delete 沙箱）vite 清空 dist 会超时，可改用 `vite build --outDir dist-build` 再 `cp -r dist-build dist`。
+- 仓库已 `git init`（本地，未 push）；`.gitignore` 已排除 node_modules / .pw-* / dist 等。
 
 ## 长期约定（用户明确要求）
 - **升版必更新说明书**：用户要求「每次更新新版本后，都要更新使用说明书」。落地方式：① `src/content/manual.tsx` 内有「版本更新记录」章节，每次升版在该章节追加一条变更登记；② 新增功能须在「设置 → 帮助中心」「侧边栏」或 `src/config/searchIndex.ts` 补录入口；③ 版本铁律（src/version.ts）第 4 条已写入此约束。

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, Stack, Snackbar, Dialog, DialogTitle, DialogContent, DialogActions, Grid, Paper, Alert, TextField, FormControl, InputLabel, Select, MenuItem, Chip, LinearProgress, Typography } from '@mui/material';
+import type { LinearProgressProps } from '@mui/material';
 import { Share } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, FileUpload, ConfirmDialog, DetailActions } from '@/components/common';
@@ -160,7 +161,7 @@ const VendorDetail: React.FC = () => {
                 <LinearProgress
                   variant="determinate"
                   value={ind.value ?? 0}
-                  color={RATING_GRADE_COLOR[vendorRating.grade]}
+                  color={RATING_GRADE_COLOR[vendorRating.grade] as LinearProgressProps['color']}
                   sx={{ height: 6, borderRadius: 3 }}
                 />
               </Box>

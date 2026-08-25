@@ -189,10 +189,9 @@ export const useSalesAdvancedStore = create<SalesAdvancedState>()(
         });
         // 2) 红冲应收(AR)：借主营业务收入(净额)/借销项税额(税)；贷应收账款(含税)
         // A5 修复：原销项税额写死 0、应收账款用净额未含税 → 税额按原单据税率计算、AR 用价税合计
-        const rateOf = (materialId: string): number => {
+        const rateOf = (_materialId: string): number => {
           const so = useSalesStore.getState().salesOrders.find((o) => o.orderNo === r.salesOrderNo);
-          const it = so?.items.find((i) => i.materialId === materialId);
-          return typeof it?.taxRate === 'number' ? it.taxRate : DEFAULT_TAX_RATE;
+          return typeof so?.taxRate === 'number' ? so.taxRate : DEFAULT_TAX_RATE;
         };
         const cnItems = r.items.map((it) => {
           const rate = rateOf(it.materialId);

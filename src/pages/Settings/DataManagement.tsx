@@ -6,7 +6,7 @@ import {
   Card, CardContent, IconButton, Tooltip,
 } from '@mui/material';
 import {
-  Storage, Download, Upload, DeleteOutline, Refresh,
+  Storage, Download, Upload, DeleteOutline, Refresh, CloudDownload, Sync,
 } from '@mui/icons-material';
 import { listCollections, estimateStorageKB } from '@/services/serverService';
 
@@ -103,6 +103,67 @@ const DataManagement: React.FC = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
+  const handleCloudBackup = async () => {
+    try {
+      const token = localStorage.getItem('ssa-erp-auth-token');
+      if (!token) {
+        setAlert({ type: 'info', msg: '当前未登录云端，请先登录后再备份' });
+        return;
+      }
+      const res = await fetch('/api/system/backup', {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store',
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setAlert({ type: 'error', msg: `云端备份失败：${err.error || res.status}` });
+        return;
+      }
+      const payload = await res.json();
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ssa-erp-cloud-backup-${formatTimestamp()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setAlert({
+        type: 'success',
+        msg: `已下载云端备份（${payload.counts?.tables ?? 0} 张表，导出时间 ${payload.exportedAt}）`,
+      });
+    } catch (e) {
+      setAlert({ type: 'error', msg: `云端备份失败：${e}` });
+    }
+  };
+
+  const handleSyncMaterials = async () => {
+    try {
+      const token = localStorage.getItem('ssa-erp-auth-token');
+      if (!token) {
+        setAlert({ type: 'info', msg: '当前未登录云端，请先登录后再同步' });
+        return;
+      }
+      const res = await fetch('/api/system/migrate-materials', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setAlert({ type: 'error', msg: `同步失败：${err.error || res.status}` });
+        return;
+      }
+      const data = await res.json();
+      setAlert({
+        type: 'success',
+        msg: `物料云端同步完成：${data.message}`,
+      });
+    } catch (e) {
+      setAlert({ type: 'error', msg: `同步失败：${e}` });
+    }
+  };
+
   const handleReset = () => {
     try {
       listCollections().forEach(k => localStorage.removeItem(k));
@@ -158,6 +219,24 @@ const DataManagement: React.FC = () => {
           data-testid="dm-reset"
         >
           重置所有数据
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          startIcon={<CloudDownload />}
+          onClick={handleCloudBackup}
+          data-testid="dm-cloud-backup"
+        >
+          云端备份下载
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<Sync />}
+          onClick={handleSyncMaterials}
+          data-testid="dm-sync-materials"
+        >
+          同步物料至云端表
         </Button>
         <Tooltip title="刷新信息">
           <IconButton onClick={loadStorageInfo}>

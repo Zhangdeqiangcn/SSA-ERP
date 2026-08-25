@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  Box, Typography, Paper, Chip, Grid, LinearProgress, Stack,
+  Box, Button, Typography, Paper, Chip, Grid, LinearProgress, Stack,
   Divider, TextField, Dialog, DialogTitle, DialogContent, DialogActions,
   IconButton, Alert, Snackbar, Step, StepLabel, Stepper, MenuItem,
 } from '@mui/material';
 import {
-  Warning, Add, CheckCircle, Error, Timer, TrendingUp, Share,
+  Warning, Add, CheckCircle, Edit, Error, Timer, TrendingUp, Share,
 } from '@mui/icons-material';
 import { useSalesStore } from '@/stores/salesStore';
 import { ProjectException, ExceptionSeverity } from '@/types';
@@ -40,8 +40,11 @@ const ProjectDetail: React.FC = () => {
     return <PageWrapper title="项目详情"><Alert severity="error">项目不存在</Alert></PageWrapper>;
   }
 
-  const completedMilestones = project.milestones.filter(m => m.status === 'completed').length;
-  const activeStep = project.milestones.findIndex(m => m.status === 'in_progress');
+  // 防御：历史脏数据/旧版本迁移时可能缺失数组字段，缺省为空数组避免白屏
+  const milestones = project.milestones || [];
+  const exceptions = project.exceptions || [];
+  const completedMilestones = milestones.filter(m => m.status === 'completed').length;
+  const activeStep = milestones.findIndex(m => m.status === 'in_progress');
   const currentStep = activeStep >= 0 ? activeStep : completedMilestones;
 
   const handleShare = () => {
@@ -72,7 +75,7 @@ const ProjectDetail: React.FC = () => {
             <Stack direction="row" spacing={1} mb={1}>
               <Chip label={project.status === 'in_progress' ? '执行中' : project.status} size="small"
                 color={project.status === 'in_progress' ? 'primary' : project.status === 'completed' ? 'success' : 'default'} />
-              {project.exceptions.filter(e => e.status !== 'closed').length > 0 && (
+              {exceptions.filter(e => e.status !== 'closed').length > 0 && (
                 <Chip icon={<Warning />} label="有异常" size="small" color="error" variant="outlined" />
               )}
             </Stack>
@@ -124,14 +127,14 @@ const ProjectDetail: React.FC = () => {
               <Button size="small" startIcon={<Edit />}>编辑里程碑</Button>
             </Stack>
             <Box sx={{ ml: 2 }}>
-              {project.milestones.map((m, idx) => (
-                <Box key={m.id} sx={{ display: 'flex', mb: idx < project.milestones.length - 1 ? 0 : 0 }}>
+              {milestones.map((m, idx) => (
+                <Box key={m.id} sx={{ display: 'flex', mb: idx < milestones.length - 1 ? 0 : 0 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 2 }}>
                     <Box sx={{ width: 12, height: 12, borderRadius: '50%',
                       bgcolor: m.status === 'completed' ? '#10B981' : m.status === 'in_progress' ? '#3B82F6' : m.status === 'delayed' ? '#EF4444' : '#E2E8F0',
                       border: '2px solid white', boxShadow: m.status === 'in_progress' ? '0 0 0 2px #3B82F6' : 'none',
                     }} />
-                    {idx < project.milestones.length - 1 && (
+                    {idx < milestones.length - 1 && (
                       <Box sx={{ width: 2, flex: 1, bgcolor: m.status === 'completed' ? '#10B981' : '#E2E8F0', minHeight: 30 }} />
                     )}
                   </Box>
@@ -160,11 +163,11 @@ const ProjectDetail: React.FC = () => {
                 反馈异常
               </Button>
             </Stack>
-            {project.exceptions.length === 0 ? (
+            {exceptions.length === 0 ? (
               <Alert severity="success" sx={{ mt: 1 }}>暂无异常，项目运行良好</Alert>
             ) : (
               <Stack spacing={2}>
-                {project.exceptions.map((ex: ProjectException) => (
+                {exceptions.map((ex: ProjectException) => (
                   <Paper key={ex.id} sx={{ p: 2, bgcolor: '#FFF5F5', borderLeft: `4px solid ${SEVERITY_COLORS[ex.severity]}` }}>
                     <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={0.5}>
                       <Stack direction="row" spacing={1} alignItems="center">
@@ -235,7 +238,7 @@ const ProjectDetail: React.FC = () => {
         onConfirm={() => { setDeleteDialog(false); }}
         onCancel={() => setDeleteDialog(false)}
         confirmText="确认删除"
-        confirmColor="error"
+        type="danger"
       />
       <Snackbar
         open={snackbar}

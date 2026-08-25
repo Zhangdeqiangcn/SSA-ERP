@@ -78,6 +78,10 @@ export default function Forecast() {
         },
       ],
       totalAmount: Math.round(result.suggestedOrderQty * (mat.price || 0)),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      createdBy: '智能分析',
+      updatedBy: '智能分析',
     };
     addPurchaseRequest(req);
     addForecastSuggestion({

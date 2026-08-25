@@ -76,6 +76,12 @@ export default function WorkOrderDetail() {
   const { addOutboundOrder } = useWarehouseStore();
   const wo = workOrders.find(w => w.id === id);
 
+  // BOM 物料清单（多级展开用），提升到组件作用域供领料出库与打印共用
+  const bom = bomList.find(b => b.id === wo?.bomId || b.productCode === wo?.productCode);
+  const sourceItems = bom?.items && bom.items.length > 0
+    ? bom.items
+    : bomTreeData.filter(t => t.bomId === (bom?.id || ''));
+
   if (!wo) {
     return (
       <Box sx={{ p: 3 }}>
@@ -94,11 +100,6 @@ export default function WorkOrderDetail() {
 
   // ── 生成领料出库单（多级 BOM 展开 + 事件驱动库存扣减）──
   const handleGenOutbound = () => {
-    // 优先用 BOM 头内联 items，否则回退到树形数据（按 bomId 过滤）
-    const bom = bomList.find(b => b.id === wo.bomId || b.productCode === wo.productCode);
-    const sourceItems = bom?.items && bom.items.length > 0
-      ? bom.items
-      : bomTreeData.filter(t => t.bomId === (bom?.id || ''));
     if (!sourceItems || sourceItems.length === 0) {
       alert('未找到对应的BOM物料清单，请先创建BOM');
       return;
@@ -141,6 +142,8 @@ export default function WorkOrderDetail() {
       items,
       createdAt: now,
       updatedAt: now,
+      createdBy: wo.supervisor || 'system',
+      updatedBy: wo.supervisor || 'system',
     });
 
     alert(`已生成领料出库单 ${outboundNo}，共 ${items.length} 种物料，库存已自动扣减`);
@@ -199,11 +202,11 @@ export default function WorkOrderDetail() {
             workOrderNo: wo.orderNo,
             productName: wo.productName,
             bomName: wo.bomNo,
-            quantity: wo.quantity,
+            quantity: wo.plannedQuantity,
             plannedStartDate: wo.plannedStartDate,
             plannedEndDate: wo.plannedEndDate,
             status: wo.status,
-            remarks: wo.remarks,
+            remarks: wo.note,
             items: sourceItems.map((i: any) => ({
               materialCode: i.materialCode, materialName: i.materialName, specification: i.materialSpec || i.specification,
               unit: i.unit, quantity: i.quantity, unitPrice: i.unitCost, amount: i.totalCost,
@@ -331,7 +334,7 @@ export default function WorkOrderDetail() {
         onConfirm={() => { deleteWorkOrder(wo.id); setDeleteDialog(false); navigate('/production/orders'); }}
         onCancel={() => setDeleteDialog(false)}
         confirmText="确认删除"
-        confirmColor="error"
+        type="danger"
       />
       <Snackbar
         open={snackbar}

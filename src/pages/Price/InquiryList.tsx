@@ -253,7 +253,7 @@ const InquiryList: React.FC = () => {
           <FlowTracker module="price-inquiry" currentStatus="pi_draft" label="流程追踪" />
           <ActionBar
             primary={{ label: '新建询价单', onClick: () => navigate('/price/inquiry/create'), icon: <Add /> }}
-            secondary={[{ label: '从采购申请生成', onClick: () => setSelectDialogOpen(true), icon: <ContentCopy /> }]}
+            secondaries={[{ label: '从采购申请生成', onClick: () => setSelectDialogOpen(true) }]}
           />
         </Box>
       }
@@ -314,7 +314,7 @@ const InquiryList: React.FC = () => {
                       </Button>
                     </Box>
                     <DataTable<PriceInquiryItem>
-                      data={request.items}
+                      data={request.items as unknown as PriceInquiryItem[]}
                       columns={buildMaterialColumns(request.id)}
                       enablePagination={false}
                     />

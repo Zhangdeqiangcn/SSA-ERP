@@ -268,6 +268,8 @@ const PurchaseList: React.FC = () => {
         projectName: (row['项目名称'] as string) || undefined,
         createdAt: now,
         updatedAt: now,
+        createdBy: '当前用户',
+        updatedBy: '当前用户',
       };
     });
     newRequests.forEach(r => addPurchaseRequest(r));

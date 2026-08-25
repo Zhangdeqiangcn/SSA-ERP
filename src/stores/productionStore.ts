@@ -47,10 +47,10 @@ interface ProductionState {
   deleteProcessRoute: (id: string) => void;
 }
 
-const addArr = <T,>(setter: (v: T[]) => void, list: T[], item: T) => [...list, item];
-const updateArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string, u: Partial<T>) =>
+const addArr = <T,>(list: T[], item: T) => [...list, item];
+const updateArr = <T extends { id: string }>(list: T[], id: string, u: Partial<T>) =>
   list.map((x) => (x.id === id ? { ...x, ...u } : x));
-const deleteArr = <T extends { id: string }>(setter: (v: T[]) => void, list: T[], id: string) =>
+const deleteArr = <T extends { id: string }>(list: T[], id: string) =>
   list.filter((x) => x.id !== id);
 
 export const useProductionStore = create<ProductionState>()(
@@ -61,9 +61,9 @@ export const useProductionStore = create<ProductionState>()(
       processRoutes: [...mockProcessRoutes],
 
       // WorkOrder
-      addWorkOrder: (wo) => set((s) => ({ workOrders: addArr(set, s.workOrders, wo) })),
-      updateWorkOrder: (id, u) => set((s) => ({ workOrders: updateArr(set, s.workOrders, id, u) })),
-      deleteWorkOrder: (id) => set((s) => ({ workOrders: deleteArr(set, s.workOrders, id) })),
+      addWorkOrder: (wo) => set((s) => ({ workOrders: addArr(s.workOrders, wo) })),
+      updateWorkOrder: (id, u) => set((s) => ({ workOrders: updateArr(s.workOrders, id, u) })),
+      deleteWorkOrder: (id) => set((s) => ({ workOrders: deleteArr(s.workOrders, id) })),
 
       // ── B3 完工回写：工单完工 → 自动生成成品入库单（type='production'）+ 回写工单 ──
       // 对标 SAP 生产收货 101：借 1405 库存商品 / 贷 5001 生产成本 = 工单 actualTotalCost
@@ -173,15 +173,15 @@ export const useProductionStore = create<ProductionState>()(
       },
 
       // MRP
-      addMrpRecommendation: (rec) => set((s) => ({ mrpRecommendations: addArr(set, s.mrpRecommendations, rec) })),
-      updateMrpRecommendation: (id, u) => set((s) => ({ mrpRecommendations: updateArr(set, s.mrpRecommendations, id, u) })),
-      deleteMrpRecommendation: (id) => set((s) => ({ mrpRecommendations: deleteArr(set, s.mrpRecommendations, id) })),
+      addMrpRecommendation: (rec) => set((s) => ({ mrpRecommendations: addArr(s.mrpRecommendations, rec) })),
+      updateMrpRecommendation: (id, u) => set((s) => ({ mrpRecommendations: updateArr(s.mrpRecommendations, id, u) })),
+      deleteMrpRecommendation: (id) => set((s) => ({ mrpRecommendations: deleteArr(s.mrpRecommendations, id) })),
       setMrpRecommendations: (recs) => set({ mrpRecommendations: recs }),
 
       // ProcessRoute
-      addProcessRoute: (route) => set((s) => ({ processRoutes: addArr(set, s.processRoutes, route) })),
-      updateProcessRoute: (id, u) => set((s) => ({ processRoutes: updateArr(set, s.processRoutes, id, u) })),
-      deleteProcessRoute: (id) => set((s) => ({ processRoutes: deleteArr(set, s.processRoutes, id) })),
+      addProcessRoute: (route) => set((s) => ({ processRoutes: addArr(s.processRoutes, route) })),
+      updateProcessRoute: (id, u) => set((s) => ({ processRoutes: updateArr(s.processRoutes, id, u) })),
+      deleteProcessRoute: (id) => set((s) => ({ processRoutes: deleteArr(s.processRoutes, id) })),
     }),
     { storage: backendStorage,
     
