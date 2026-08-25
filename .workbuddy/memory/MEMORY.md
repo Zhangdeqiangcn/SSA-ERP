@@ -2,6 +2,7 @@
 
 ## 版本沿革
 
+- **V2.64.0** (2026-08-25) — **深度对标分析完成**：vs SAP/金蝶/用友三家最新版全面对标，12模块7维度评分；P0六项地基已全部完成（凭证重构/V2.62 + PO税价拆分/V2.60 + Customer主数据/V2.59 + GR/IR暂估/V2.60-62 + 退货税额修复/V2.61 + 会计期间/V2.63）；D1关系表21张支撑多租户隔离；生成两份权威文档：`docs/benchmark-V2.64-deep-analysis.md`（对标分析）+ `docs/development-plan-V2.64.md`（开发计划）；下一步重点P1九项流程闭环（信用卡点/孤岛联动/完工回写/NCR联动/门户回写等）。
 - **V2.63.0** (2026-08-25) — **P1 Phase 6 审计日志落库**：新增 D1 表 `audit_logs`（不可篡改 + 索引），后端 API `/api/audit/logs`（POST 写入 + GET 分页查询，支持 keyword/action/entity 过滤，按 org_id 隔离，最多保留 10000 条）；种子数据 3 条审计记录已写入生产 D1（采购订单创建/审批通过/管理员登录）；D1 表从 20 张增至 21 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
 - **V2.62.0** (2026-08-25) — **P1 Phase 5 凭证/库存/工单关系化**：新增 D1 关系表 `vouchers` / `voucher_items` / `inventory_records` / `work_orders`（共 4 张表），覆盖凭证分录、库存记录、生产工单的完整属性；新增后端 API `/api/vouchers`（GET 分页 + GET/PUT/DELETE 单条）、`/api/inventory-records`（GET 分页）、`/api/work-orders`（GET 分页 + GET/PUT/DELETE 单条），按 org_id 隔离；种子数据：3 条生产工单（in_progress/draft/completed 状态）已写入生产 D1；D1 表从 16 张增至 20 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
 - **V2.61.0** (2026-08-25) — **P1 Phase 4 销售订单关系化**：新增 D1 关系表 `sales_orders` / `sales_order_items`（共 2 张表），覆盖销售订单完整属性及行明细；新增后端 API `/api/sales-orders`（GET 分页查询，支持 keyword/status/customerId 过滤）和 `/api/sales-orders/:id`（GET/PUT/DELETE）；种子数据：3 条销售订单 + 6 行明细已写入生产 D1（华润建筑/新源机械/远达钢结构项目）；D1 表从 14 张增至 16 张；tsc 0 错误；已部署 https://ssa-erp.pages.dev。
