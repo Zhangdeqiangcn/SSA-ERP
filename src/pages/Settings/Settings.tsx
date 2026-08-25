@@ -612,6 +612,7 @@ const Settings: React.FC = () => {
         { id: 'integration', label: '第三方对接通道', icon: <Hub fontSize="small" />, render: () => <IntegrationTab /> },
         { id: 'integrationHub', label: '开放接口与Webhook', icon: <Api fontSize="small" />, render: () => <IntegrationHub /> },
         { id: 'api', label: 'API接口文档', icon: <Code fontSize="small" />, render: () => <APIDocTab /> },
+        { id: 'ai', label: 'AI大模型配置', icon: <SmartToy fontSize="small" />, render: () => <AIConfigPage /> },
         { id: 'server', label: '服务端与审计', icon: <Security fontSize="small" />, render: () => <ServerAuditTab /> },
       ],
     },
