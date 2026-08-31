@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Chip, Grid, Alert, LinearProgress,
+  TableHead, TableRow, Chip, Grid, Alert, LinearProgress, Button,
 } from '@mui/material';
 import { Warning, Star } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
+import { Sync, CheckCircle } from '@mui/icons-material';
 
 type CustomerClass = 'A' | 'B' | 'C';
 const CLASS_CONFIG: Record<CustomerClass, { label: string; color: string; bg: string }> = {
@@ -22,7 +23,7 @@ const dayDiff = (d: string) => {
 
 const CustomerABC: React.FC = () => {
   const { salesOrders } = useSalesStore();
-  const { customers } = useCustomerStore();
+  const { customers, updateCustomer } = useCustomerStore();
 
   const analysis = useMemo(() => {
     // 按客户聚合销售额
@@ -102,6 +103,32 @@ const CustomerABC: React.FC = () => {
 
     return { items: classified, totalSales, classCount, classValue, churnCustomers };
   }, [salesOrders, customers]);
+
+  // ── P2-26 客户 ABC 信用联动 ──
+  // 按 ABC 系数（A30% / B20% / C10%）基于年销售额推算推荐信用额度，标记超占/授信不足
+  const ABC_CREDIT_COEFF: Record<CustomerClass, number> = { A: 0.3, B: 0.2, C: 0.1 };
+  const creditLinkage = useMemo(() => {
+    return analysis.items
+      .filter((item) => item.totalAmount > 0)
+      .map((item) => {
+        const cust = customers.find((c) => c.id === item.customerId || c.name === item.customerName);
+        const creditLimit = cust?.creditLimit ?? 0;
+        const usedCredit = cust?.usedCredit ?? 0;
+        const recommended = Math.max(10000, Math.round(item.totalAmount * ABC_CREDIT_COEFF[item.cls]));
+        const usage = creditLimit > 0 ? usedCredit / creditLimit : 0;
+        let risk: 'ok' | 'over' | 'under' = 'ok';
+        if (creditLimit > 0 && usedCredit > creditLimit) risk = 'over';
+        else if (creditLimit > 0 && usage > 0.8) risk = 'over';
+        else if (creditLimit > 0 && creditLimit < recommended * 0.6) risk = 'under';
+        return { ...item, custId: cust?.id, creditLimit, usedCredit, recommended, usage, risk };
+      })
+      .sort((a, b) => b.recommended - a.recommended);
+  }, [analysis, customers]);
+
+  const handleSyncCredit = (custId: string | undefined, recommended: number) => {
+    if (!custId) return;
+    updateCustomer(custId, { creditLimit: recommended });
+  };
 
   return (
     <PageWrapper title="客户 ABC 分析" subtitle="按销售额分类客户，识别核心客户与流失风险">
@@ -227,6 +254,83 @@ const CustomerABC: React.FC = () => {
                 <TableRow>
                   <TableCell colSpan={9} align="center" sx={{ py: 4, color: '#94A3B8' }}>
                     暂无客户销售数据
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+
+      {/* 信用联动建议 */}
+      <Paper sx={{ borderRadius: 2, mt: 3 }} data-testid="cabc-credit">
+        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #E5E7EB', display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Sync sx={{ color: '#3B82F6', fontSize: 20 }} />
+          <Typography variant="subtitle2" fontWeight={600}>
+            信用联动建议（按 ABC 系数推算推荐额度：A类30% / B类20% / C类10% 年销售额）
+          </Typography>
+        </Box>
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ bgcolor: '#F8FAFC' }}>
+                <TableCell sx={{ fontWeight: 600 }}>客户</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>分类</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="right">年销售额</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="right">当前授信</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="right">已用信用</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="right">占用率</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>风险</TableCell>
+                <TableCell sx={{ fontWeight: 600 }} align="right">推荐额度</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>操作</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {creditLinkage.map((item) => {
+                const cfg = CLASS_CONFIG[item.cls];
+                const riskCfg = item.risk === 'over'
+                  ? { label: '超额/高占用', color: '#DC2626', bg: '#FEE2E2' }
+                  : item.risk === 'under'
+                    ? { label: '授信不足', color: '#F59E0B', bg: '#FFFBEB' }
+                    : { label: '正常', color: '#10B981', bg: '#ECFDF5' };
+                const needSync = item.custId && item.creditLimit !== item.recommended;
+                return (
+                  <TableRow key={item.customerId || item.customerName} hover>
+                    <TableCell>
+                      <Typography variant="body2" fontWeight={500}>{item.customerName}</Typography>
+                      <Typography variant="caption" color="text.secondary">{item.customerCode}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip size="small" label={item.cls} sx={{ bgcolor: cfg.bg, color: cfg.color, fontWeight: 700 }} />
+                    </TableCell>
+                    <TableCell align="right">{item.totalAmount.toLocaleString()}</TableCell>
+                    <TableCell align="right">{item.creditLimit.toLocaleString()}</TableCell>
+                    <TableCell align="right">{item.usedCredit.toLocaleString()}</TableCell>
+                    <TableCell align="right">
+                      <Typography fontWeight={600} color={item.usage > 0.8 ? '#DC2626' : 'inherit'}>
+                        {(item.usage * 100).toFixed(0)}%
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Chip size="small" label={riskCfg.label} sx={{ bgcolor: riskCfg.bg, color: riskCfg.color, fontWeight: 600 }} />
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography fontWeight={700} color="#3B82F6">{item.recommended.toLocaleString()}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Button size="small" variant="outlined" startIcon={<CheckCircle />} disabled={!needSync}
+                        data-testid={`sync-credit-${item.customerId || item.customerName}`}
+                        onClick={() => handleSyncCredit(item.custId, item.recommended)}>
+                        同步
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+              {creditLinkage.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={9} align="center" sx={{ py: 3, color: '#94A3B8' }}>
+                    暂无有销售额的客户可联动信用
                   </TableCell>
                 </TableRow>
               )}

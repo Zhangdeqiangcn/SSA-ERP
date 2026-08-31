@@ -4,12 +4,14 @@ import {
   Select, MenuItem, Button, Table, TableHead, TableBody, TableRow, TableCell,
   Snackbar, Alert, Chip, useTheme,
 } from '@mui/material';
-import { Autorenew as AutorenewIcon, ShoppingCart as CartIcon } from '@mui/icons-material';
+import { Autorenew as AutorenewIcon, ShoppingCart as CartIcon, PriorityHigh, Warning, Build } from '@mui/icons-material';
 import { BarChart } from '@mui/x-charts';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useAnalyticsStore } from '@/stores/analyticsStore';
+import { useWarehouseStore } from '@/stores/warehouseStore';
+import { useFMEAStore } from '@/stores/fmeaStore';
 import { buildMonthlySales, computeDemandForecast } from '@/utils/forecast';
 import type { PurchaseRequest } from '@/types/purchase';
 
@@ -22,6 +24,36 @@ export default function Forecast() {
   const addPurchaseRequest = usePurchaseStore((s) => s.addPurchaseRequest);
   const addForecastSuggestion = useAnalyticsStore((s) => s.addForecastSuggestion);
   const suggestions = useAnalyticsStore((s) => s.forecastSuggestions);
+  const { batchRecords } = useWarehouseStore();
+  const { items: fmeas } = useFMEAStore();
+
+  // ── P2-03 智能推荐汇总：聚合跨模块信号为优先级行动清单 ──
+  const digest = useMemo(() => {
+    type Rec = { level: 'high' | 'mid'; kind: string; title: string; detail: string };
+    const recs: Rec[] = [];
+    materials.forEach((m) => {
+      const rop = m.reorderPoint || 0;
+      const stock = m.currentStock || 0;
+      if (rop > 0 && stock <= rop) {
+        recs.push({ level: 'high', kind: 'reorder', title: `补货建议：${m.name}`, detail: `当前库存 ${fmt(stock)} ≤ 再订货点 ${fmt(rop)}` });
+      }
+    });
+    batchRecords
+      .filter((b) => b.status === 'expiring' || b.status === 'expired')
+      .forEach((b) => recs.push({
+        level: 'high', kind: 'expire',
+        title: `优先出库：${b.materialName}`,
+        detail: `${b.status === 'expired' ? '已过期' : '临期'} 批次 ${b.batchNo}`,
+      }));
+    fmeas
+      .filter((f) => f.rpn >= 100 && f.status !== 'approved')
+      .forEach((f) => recs.push({
+        level: 'mid', kind: 'fmea',
+        title: `优先改进：${f.item} / ${f.failureMode}`,
+        detail: `RPN=${f.rpn} 状态=${f.status === 'draft' ? '草稿' : '已评审'}`,
+      }));
+    return recs.sort((a, b) => (a.level === 'high' ? 0 : 1) - (b.level === 'high' ? 0 : 1));
+  }, [materials, batchRecords, fmeas]);
 
   const [selectedId, setSelectedId] = useState<string>(materials[0]?.id || '');
   const [snack, setSnack] = useState<string>('');
@@ -224,6 +256,55 @@ export default function Forecast() {
               )}
             </TableBody>
           </Table>
+        </CardContent>
+      </Card>
+
+      {/* P2-03 智能推荐汇总：跨模块信号聚合 */}
+      <Card sx={{ mt: 3 }} data-testid="fc-digest">
+        <CardContent>
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+            <PriorityHigh color="primary" />
+            <Typography variant="subtitle1" fontWeight={600}>
+              智能推荐汇总（跨模块信号）
+            </Typography>
+            <Chip size="small" label={`${digest.length} 条`} color={digest.length ? 'warning' : 'default'} variant="outlined" />
+          </Stack>
+          <Typography variant="caption" color="text.secondary">
+            自动聚合：低于再订货点的物料、临期/过期批次、RPN≥100 且未批准的 FMEA，按优先级排序。
+          </Typography>
+          {digest.length === 0 ? (
+            <Alert severity="success" sx={{ mt: 2 }}>暂无高优先推荐项，供应链状态良好。</Alert>
+          ) : (
+            <Table size="small" sx={{ mt: 1 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>优先级</TableCell>
+                  <TableCell>类别</TableCell>
+                  <TableCell>推荐事项</TableCell>
+                  <TableCell>依据</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {digest.map((d, i) => (
+                  <TableRow key={i} hover>
+                    <TableCell>
+                      <Chip
+                        size="small"
+                        icon={d.level === 'high' ? <Warning /> : <Build />}
+                        label={d.level === 'high' ? '高' : '中'}
+                        color={d.level === 'high' ? 'error' : 'warning'}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      {d.kind === 'reorder' ? '补货' : d.kind === 'expire' ? '出库' : '质量改进'}
+                    </TableCell>
+                    <TableCell>{d.title}</TableCell>
+                    <TableCell>{d.detail}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 

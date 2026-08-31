@@ -19,6 +19,9 @@ export interface FMEA {
   rpn: number;
   recommendedAction?: string;
   status: FMEAStatus;
+  /** P2-15 关联物料主数据 */
+  materialId?: string;
+  materialName?: string;
   createdAt: string;
   updatedAt: string;
   createdBy: string;

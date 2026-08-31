@@ -1,37 +1,22 @@
 import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Chip, FormControl, InputLabel, Select, MenuItem, Grid, Alert, Divider,
+  Button, Chip, FormControl, InputLabel, Select, MenuItem, Grid, Alert, Divider, Stack, IconButton,
 } from '@mui/material';
-import { Print, PictureAsPdf } from '@mui/icons-material';
+import { Print, PictureAsPdf, History, Delete } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { useQualityStore } from '@/stores/qualityStore';
+import { useCOAStore, type COARecord, type COAItem } from '@/stores/coaStore';
 
-interface COAItem {
-  inspectionItem: string;
-  standard: string;
-  result: string;
-  unit: string;
-  conclusion: 'pass' | 'fail';
-}
-
-interface COA {
-  id: string;
-  taskId: string;
-  taskNo: string;
-  productName: string;
-  batchNo: string;
-  standardName: string;
-  items: COAItem[];
-  overallConclusion: string;
-  generatedDate: string;
-  inspector: string;
-}
+const COMPANY_NAME = '新光精密制造（武汉）有限公司';
+const DEFAULT_DISCLAIMER =
+  '本证书所检项目均依据相应检验标准判定；本报告仅对受检批次负责，未经授权不得部分复制。';
 
 const COAGenerator: React.FC = () => {
   const { inspectionTasks } = useQualityStore();
+  const { records: coaRecords, saveCoa, removeCoa } = useCOAStore();
   const [selectedTaskId, setSelectedTaskId] = useState<string>('');
-  const [coa, setCoa] = useState<COA | null>(null);
+  const [coa, setCoa] = useState<COARecord | null>(null);
   const [feedback, setFeedback] = useState('');
 
   // 仅显示已完成（合格/不合格）的检验任务
@@ -77,7 +62,7 @@ const COAGenerator: React.FC = () => {
           },
         ];
 
-    const newCoa: COA = {
+    const newCoa: COARecord = {
       id: `COA-${Date.now()}`,
       taskId: selectedTask.id,
       taskNo: selectedTask.taskNo,
@@ -88,8 +73,11 @@ const COAGenerator: React.FC = () => {
       overallConclusion: selectedTask.status === 'passed' ? '检验合格，准予放行' : '检验不合格，详见不合格项',
       generatedDate: new Date().toISOString().slice(0, 10),
       inspector: selectedTask.assignedTo || '检验员',
+      companyName: COMPANY_NAME,
+      disclaimer: DEFAULT_DISCLAIMER,
     };
     setCoa(newCoa);
+    saveCoa(newCoa);
   };
 
   const handlePrint = () => {
@@ -148,6 +136,35 @@ const COAGenerator: React.FC = () => {
                 {feedback}
               </Alert>
             )}
+
+            {/* 已生成 COA 历史 */}
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="subtitle2" fontWeight={600} gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <History fontSize="small" /> 已生成 COA（{coaRecords.length}）
+              </Typography>
+              {coaRecords.length === 0 ? (
+                <Typography variant="caption" color="text.secondary">暂无历史记录，生成后将自动留存。</Typography>
+              ) : (
+                <Stack spacing={1} sx={{ maxHeight: 260, overflow: 'auto' }}>
+                  {coaRecords.map((rec) => (
+                    <Paper key={rec.id} variant="outlined" sx={{ p: 1.25, borderRadius: 1.5 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography variant="body2" fontWeight={600} noWrap>{rec.productName}</Typography>
+                          <Typography variant="caption" color="text.secondary">批号 {rec.batchNo} · {rec.generatedDate}</Typography>
+                        </Box>
+                        <Box>
+                          <Button size="small" data-testid={`coa-open-${rec.id}`} onClick={() => setCoa(rec)}>查看</Button>
+                          <IconButton size="small" color="error" data-testid={`coa-del-${rec.id}`} onClick={() => removeCoa(rec.id)}>
+                            <Delete fontSize="small" />
+                          </IconButton>
+                        </Box>
+                      </Box>
+                    </Paper>
+                  ))}
+                </Stack>
+              )}
+            </Box>
           </Paper>
         </Grid>
 
@@ -157,12 +174,16 @@ const COAGenerator: React.FC = () => {
             <Paper sx={{ p: 4, borderRadius: 2, bgcolor: '#fff' }} id="coa-preview">
               {/* 标题 */}
               <Box sx={{ textAlign: 'center', mb: 3, pb: 2, borderBottom: '2px solid #1E293B' }}>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: '#1E293B', letterSpacing: 2 }}>
+                <Typography variant="body2" fontWeight={700} color="#1E293B">
+                  {coa.companyName || COMPANY_NAME}
+                </Typography>
+                <Typography variant="h5" sx={{ fontWeight: 700, color: '#1E293B', letterSpacing: 2, mt: 0.5 }}>
                   CERTIFICATE OF ANALYSIS
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary">
                   产品合格证 / 分析证书
                 </Typography>
+                <Typography variant="caption" color="text.secondary">编号：{coa.id}</Typography>
               </Box>
 
               {/* 基本信息 */}
@@ -248,6 +269,13 @@ const COAGenerator: React.FC = () => {
                   </Box>
                 </Grid>
               </Grid>
+
+              {/* 声明 */}
+              <Box sx={{ mt: 3, p: 2, bgcolor: '#F8FAFC', borderRadius: 2 }}>
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', whiteSpace: 'pre-wrap' }}>
+                  {coa.disclaimer || DEFAULT_DISCLAIMER}
+                </Typography>
+              </Box>
 
               {/* 操作按钮 */}
               <Box sx={{ mt: 3, display: 'flex', gap: 1, justifyContent: 'center', '@media print': { display: 'none' } }}>

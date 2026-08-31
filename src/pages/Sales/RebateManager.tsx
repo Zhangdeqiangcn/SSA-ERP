@@ -5,7 +5,7 @@ import {
   Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField,
   MenuItem, Grid, Tooltip, Alert,
 } from '@mui/material';
-import { Add, Edit, Delete, Payment, Calculate } from '@mui/icons-material';
+import { Add, Edit, Delete, Payment, Calculate, AutoFixHigh, Dataset } from '@mui/icons-material';
 import { useRebateStore } from '@/stores/rebateStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { RebateRule, RebateSettlement } from '@/types/sales';
@@ -61,6 +61,72 @@ const RebateManager: React.FC = () => {
     }
     return Object.values(map);
   }, [salesOrders]);
+
+  // ── P2-11 返利自动结算：按规则真实范围从销售单聚合基数 ──
+  // 范围 = 客户（customerId 优先，回退 customerName）+ 可选物料 + 有效期窗口（orderDate）
+  const computeAutoBase = (rule: RebateRule, orders: typeof salesOrders): { baseAmount: number; matchedCount: number; scopeNote: string } => {
+    let base = 0;
+    let count = 0;
+    const hasMaterial = !!rule.materialId;
+    for (const o of orders) {
+      if (o.status === 'cancelled') continue;
+      if (rule.customerId && o.customerId && o.customerId !== rule.customerId) continue;
+      if (!rule.customerId && rule.customerName && o.customerName !== rule.customerName) continue;
+      if (rule.validFrom && o.orderDate && o.orderDate < rule.validFrom) continue;
+      if (rule.validTo && o.orderDate && o.orderDate > rule.validTo) continue;
+      if (hasMaterial) {
+        const matched = o.items.filter((it) => it.materialId === rule.materialId);
+        if (matched.length === 0) continue;
+        base += matched.reduce((s, it) => s + (it.amount || 0), 0);
+      } else {
+        base += o.totalAmount;
+      }
+      count += 1;
+    }
+    const parts: string[] = [];
+    if (rule.customerName) parts.push(`客户「${rule.customerName}」`);
+    if (hasMaterial) parts.push(`物料「${rule.materialName || rule.materialId}」`);
+    if (rule.validFrom || rule.validTo) parts.push(`${rule.validFrom || '*'} ~ ${rule.validTo || '*'}`);
+    return {
+      baseAmount: Math.round(base * 100) / 100,
+      matchedCount: count,
+      scopeNote: parts.length ? `匹配 ${count} 张销售单（${parts.join(' / ')}）` : `匹配 ${count} 张销售单`,
+    };
+  };
+
+  const [autoBaseNote, setAutoBaseNote] = useState('');
+  const handleAutoFetch = () => {
+    const rule = rules.find((r) => r.id === settlementForm.ruleId);
+    if (!rule) return;
+    const { baseAmount, scopeNote } = computeAutoBase(rule, salesOrders);
+    setSettlementForm({ ...settlementForm, baseAmount });
+    setAutoBaseNote(scopeNote);
+  };
+
+  // 批量：按所有启用规则自动生成待结算（基数取真实销售单）
+  const [bulkNote, setBulkNote] = useState('');
+  const handleAutoGenerateAll = () => {
+    const enabled = rules.filter((r) => r.enabled);
+    let created = 0;
+    for (const rule of enabled) {
+      const { baseAmount } = computeAutoBase(rule, salesOrders);
+      if (baseAmount <= 0) continue;
+      addSettlement({
+        ruleId: rule.id,
+        ruleName: rule.name,
+        customerId: rule.customerId || '',
+        customerName: rule.customerName || '',
+        period: rule.validFrom ? `${rule.validFrom}~${rule.validTo}` : 'auto',
+        baseAmount,
+        rebateAmount: calculateRebate(rule.id, baseAmount),
+        status: 'pending',
+      });
+      created += 1;
+    }
+    setBulkNote(created > 0
+      ? `已按 ${created} 条启用规则自动生成待结算记录（基数取自真实销售单）`
+      : '启用规则在有效期内无匹配销售数据，未生成结算');
+  };
 
   const handleSettlementCreate = () => {
     const rule = rules.find((r) => r.id === settlementForm.ruleId);
@@ -157,11 +223,19 @@ const RebateManager: React.FC = () => {
 
       {/* ── 返利结算 ── */}
       <TabPanel value={tab} index={1}>
-        <Box sx={{ mb: 2, display: 'flex', gap: 1 }}>
+        <Box sx={{ mb: 2, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           <Button variant="contained" startIcon={<Calculate />} onClick={() => setSettlementDialog(true)}>
             新增结算
           </Button>
+          <Button variant="outlined" startIcon={<Dataset />} onClick={handleAutoGenerateAll}>
+            按启用规则自动结算
+          </Button>
         </Box>
+        {bulkNote && (
+          <Alert severity={bulkNote.includes('未生成') ? 'info' : 'success'} sx={{ mb: 2 }} onClose={() => setBulkNote('')}>
+            {bulkNote}
+          </Alert>
+        )}
 
         {/* 客户销售额汇总 */}
         <Box sx={{ mb: 3 }}>
@@ -300,7 +374,19 @@ const RebateManager: React.FC = () => {
               <TextField fullWidth size="small" label="结算周期" placeholder="如 2026-Q3" value={settlementForm.period} onChange={(e) => setSettlementForm({ ...settlementForm, period: e.target.value })} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth size="small" label="基数金额" type="number" value={settlementForm.baseAmount} onChange={(e) => setSettlementForm({ ...settlementForm, baseAmount: Number(e.target.value) })} />
+              <TextField fullWidth size="small" label="基数金额" type="number" value={settlementForm.baseAmount} onChange={(e) => { setSettlementForm({ ...settlementForm, baseAmount: Number(e.target.value) }); setAutoBaseNote(''); }}
+                InputProps={{ endAdornment: (
+                  <Button size="small" startIcon={<AutoFixHigh />} onClick={handleAutoFetch} disabled={!settlementForm.ruleId}
+                    sx={{ whiteSpace: 'nowrap' }}>
+                    自动取数
+                  </Button>
+                ) }}
+              />
+              {autoBaseNote && (
+                <Typography variant="caption" color="success.main" sx={{ display: 'block', mt: 0.5 }}>
+                  {autoBaseNote}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={6}>
               <Box sx={{ pt: 1 }}>

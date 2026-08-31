@@ -120,8 +120,8 @@ const PriceAnalysis: React.FC = () => {
     return allPriceData.filter((d) => d.materialName === selectedMaterial);
   }, [allPriceData, selectedMaterial]);
 
-  // 按月份聚合趋势数据
-  const monthlyTrend = useMemo(() => {
+  // 全量月份均价映射（用于同比取去年同期，不受最近12个月窗口限制）
+  const monthMap = useMemo(() => {
     const sorted = [...filteredData].sort((a, b) => a.date.localeCompare(b.date));
     const months: Record<string, { total: number; count: number }> = {};
     sorted.forEach((d) => {
@@ -130,15 +130,24 @@ const PriceAnalysis: React.FC = () => {
       months[month].total += d.price;
       months[month].count++;
     });
-
-    return Object.entries(months)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .slice(-12) // 最近12个月
-      .map(([label, v]) => ({
-        label: label.slice(2), // MM 或 YY-MM
-        price: Math.round(v.total / v.count * 100) / 100,
-      }));
+    const map: Record<string, number> = {};
+    Object.entries(months).forEach(([k, v]) => {
+      map[k] = Math.round((v.total / v.count) * 100) / 100;
+    });
+    return map;
   }, [filteredData]);
+
+  // 按月份聚合趋势数据（最近12个月用于图表）
+  const monthlyTrend = useMemo(() => {
+    const entries = Object.entries(monthMap)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-12); // 最近12个月
+    return entries.map(([key, price]) => ({
+      key, // YYYY-MM 完整键，供同比定位去年同期
+      label: key.slice(2), // YY-MM 显示用
+      price,
+    }));
+  }, [monthMap]);
 
   // 同比环比计算
   const trendMetrics = useMemo(() => {
@@ -147,17 +156,19 @@ const PriceAnalysis: React.FC = () => {
     const prev = monthlyTrend[monthlyTrend.length - 2];
     const mom = prev.price > 0 ? ((current.price - prev.price) / prev.price * 100) : 0;
 
-    // 同比（如果有去年同期数据）
-    const yoyMonth = current.label;
-    const yoyData = monthlyTrend.filter((d) => d.label === yoyMonth);
+    // 同比：对应当前月的去年同期（去年同月），从全量 monthMap 取真实去年同期均价
     let yoy = 0;
-    if (yoyData.length >= 2) {
-      const lastYear = yoyData[yoyData.length - 2];
-      yoy = lastYear.price > 0 ? ((current.price - lastYear.price) / lastYear.price * 100) : 0;
+    let hasYoY = false;
+    const [cy, cm] = current.key.split('-');
+    const lastYearKey = `${Number(cy) - 1}-${cm}`;
+    const lastYearPrice = monthMap[lastYearKey];
+    if (lastYearPrice != null && lastYearPrice > 0) {
+      hasYoY = true;
+      yoy = ((current.price - lastYearPrice) / lastYearPrice) * 100;
     }
 
-    return { mom, yoy, current: current.price, prev: prev.price };
-  }, [monthlyTrend]);
+    return { mom, yoy, hasYoY, current: current.price, prev: prev.price };
+  }, [monthlyTrend, monthMap]);
 
   // 价格波动分析（方差/标准差）
   const volatility = useMemo(() => {
@@ -217,9 +228,9 @@ const PriceAnalysis: React.FC = () => {
                 },
                 {
                   label: '同比变化',
-                  value: `${trendMetrics.yoy > 0 ? '+' : ''}${trendMetrics.yoy.toFixed(1)}%`,
-                  color: trendMetrics.yoy > 0 ? '#EF4444' : trendMetrics.yoy < 0 ? '#10B981' : '#6B7280',
-                  icon: trendMetrics.yoy > 0 ? <TrendingUp /> : trendMetrics.yoy < 0 ? <TrendingDown /> : <Remove />,
+                  value: trendMetrics.hasYoY ? `${trendMetrics.yoy > 0 ? '+' : ''}${trendMetrics.yoy.toFixed(1)}%` : '—',
+                  color: trendMetrics.hasYoY ? (trendMetrics.yoy > 0 ? '#EF4444' : trendMetrics.yoy < 0 ? '#10B981' : '#6B7280') : '#6B7280',
+                  icon: trendMetrics.hasYoY ? (trendMetrics.yoy > 0 ? <TrendingUp /> : trendMetrics.yoy < 0 ? <TrendingDown /> : <Remove />) : <Remove />,
                 },
                 volatility && {
                   label: '价格变异系数',

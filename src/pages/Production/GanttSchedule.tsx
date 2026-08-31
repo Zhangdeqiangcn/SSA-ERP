@@ -11,6 +11,8 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { PageWrapper } from '@/components/layout';
 import { useProductionStore } from '@/stores/productionStore';
 import { useProductionOperationStore, mapCenter, CENTER_COLORS, DEFAULT_WORK_CENTERS } from '@/stores/productionOperationStore';
@@ -59,6 +61,7 @@ export default function GanttSchedule() {
   const {
     schedulingMode, setSchedulingMode,
     setRescheduleResult,
+    locks, toggleLock,
   } = useProductionSchedulingStore();
   const [dragId, setDragId] = useState<string | null>(null);
   const [conflictDialogOpen, setConflictDialogOpen] = useState(false);
@@ -150,6 +153,7 @@ export default function GanttSchedule() {
 
   // 拖拽：按像素位移换算天数并改期
   const onBarPointerDown = (e: React.PointerEvent, wo: WorkOrder) => {
+    if (locks[wo.id]?.locked) return; // 锁定的工单不可拖拽
     e.preventDefault();
     const startX = e.clientX;
     const track = (e.currentTarget as HTMLElement).parentElement;
@@ -179,6 +183,7 @@ export default function GanttSchedule() {
   };
 
   const shift = (wo: WorkOrder, delta: number) => {
+    if (locks[wo.id]?.locked) return; // 锁定的工单不可手动改期
     updateWorkOrder(wo.id, {
       plannedStartDate: addDays(wo.plannedStartDate, delta),
       plannedEndDate: addDays(wo.plannedEndDate, delta),
@@ -197,6 +202,7 @@ export default function GanttSchedule() {
       );
       let cursor = cursorBase;
       wos.forEach((wo) => {
+        if (locks[wo.id]?.locked) return; // 锁定的工单保持原位，不参与顺排
         const h = woHours(wo);
         const dur = Math.max(1, Math.ceil(h / cap));
         const start = cursor;
@@ -252,6 +258,7 @@ export default function GanttSchedule() {
       if (schedulingMode === 'forward') {
         let cursor = windowStart;
         wos.forEach((wo) => {
+          if (locks[wo.id]?.locked) return; // 锁定的工单不参与自动重排
           const h = woHours(wo);
           const dur = Math.max(1, Math.ceil(h / cap));
           updateWorkOrder(wo.id, { plannedStartDate: cursor, plannedEndDate: addDays(cursor, dur - 1) });
@@ -263,6 +270,7 @@ export default function GanttSchedule() {
         let cursor = windowEnd;
         const reversed = [...wos].reverse();
         reversed.forEach((wo) => {
+          if (locks[wo.id]?.locked) return; // 锁定的工单不参与自动重排
           const h = woHours(wo);
           const dur = Math.max(1, Math.ceil(h / cap));
           const endDate = cursor;
@@ -427,9 +435,22 @@ export default function GanttSchedule() {
                           <ChevronLeftIcon sx={{ fontSize: 16 }} />
                         </IconButton>
                         <Box sx={{ flex: 1, minWidth: 0 }}>
-                          <Typography variant="caption" fontWeight={700} sx={{ fontSize: '0.66rem', lineHeight: 1.1, display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {wo.orderNo}
-                          </Typography>
+                          <Stack direction="row" spacing={0.25} alignItems="center">
+                            <Typography variant="caption" fontWeight={700} sx={{ fontSize: '0.66rem', lineHeight: 1.1, display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
+                              {wo.orderNo}
+                            </Typography>
+                            <Tooltip title={locks[wo.id]?.locked ? '已锁单（拖拽/改期/自动重排均跳过）' : '点击锁单，防止被排程调整移动'}>
+                              <IconButton
+                                size="small"
+                                data-testid={`wo-lock-${wo.id}`}
+                                aria-label={locks[wo.id]?.locked ? '解锁工单' : '锁单'}
+                                onClick={(e) => { e.stopPropagation(); toggleLock(wo.id); }}
+                                sx={{ color: locks[wo.id]?.locked ? '#FBBF24' : 'rgba(255,255,255,0.75)', p: 0.1, flexShrink: 0 }}
+                              >
+                                {locks[wo.id]?.locked ? <LockIcon sx={{ fontSize: 14 }} /> : <LockOpenIcon sx={{ fontSize: 14 }} />}
+                              </IconButton>
+                            </Tooltip>
+                          </Stack>
                           <Typography
                             variant="caption"
                             data-testid={`wo-planned-start-${wo.id}`}

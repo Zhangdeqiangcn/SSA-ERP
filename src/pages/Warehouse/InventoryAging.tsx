@@ -2,11 +2,13 @@ import React, { useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Chip, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Stack, Alert, Grid, Tabs, Tab,
+  Dialog, DialogTitle, DialogContent, DialogActions, Select, FormControl, MenuItem, Button, IconButton, TextField,
 } from '@mui/material';
-import { Warning, Schedule, PieChart } from '@mui/icons-material';
+import { Warning, Schedule, PieChart, AssignmentTurnedIn, Delete, Undo } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
+import { useSlowMovingStore, DISPOSITION_LABEL, type DispositionAction } from '@/stores/slowMovingStore';
 import { BarChart } from '@mui/x-charts/BarChart';
 
 const BUCKETS = [
@@ -33,7 +35,35 @@ const ABC_LABEL: Record<ABCClass, { label: string; color: string }> = {
 const InventoryAging: React.FC = () => {
   const { batchRecords, inventoryRecords } = useWarehouseStore();
   const { materials } = useMaterialStore();
+  const { disposals, dispose, removeDisposal } = useSlowMovingStore();
   const [tabValue, setTabValue] = useState(0);
+
+  // ── P2-24 呆滞料处置流 ──
+  const [dispDialog, setDispDialog] = useState(false);
+  const [dispTarget, setDispTarget] = useState<{
+    id: string; materialName: string; materialCode: string; quantity: number; value: number;
+  } | null>(null);
+  const [dispForm, setDispForm] = useState<{ action: DispositionAction; reason: string }>({ action: 'scrap', reason: '' });
+
+  const openDispose = (row: { id: string; materialName: string; materialCode: string; quantity: number; value: number }) => {
+    setDispTarget(row);
+    setDispForm({ action: 'scrap', reason: '' });
+    setDispDialog(true);
+  };
+  const handleDisposeSave = () => {
+    if (!dispTarget) return;
+    dispose({
+      materialId: dispTarget.id,
+      materialName: dispTarget.materialName,
+      materialCode: dispTarget.materialCode,
+      action: dispForm.action,
+      reason: dispForm.reason,
+      quantity: dispTarget.quantity,
+      value: dispTarget.value,
+      by: '当前用户',
+    });
+    setDispDialog(false);
+  };
 
   const refDate = useMemo(() => {
     const dates = [
@@ -116,6 +146,12 @@ const InventoryAging: React.FC = () => {
       })
       .sort((a, b) => b.value - a.value);
   }, [invDetail, materials]);
+
+  // P2-24: 待处置 = 呆滞料中尚未登记处置决策的
+  const pendingSlow = useMemo(
+    () => slowMoving.filter((r) => !disposals.find((d) => d.materialId === r.id)),
+    [slowMoving, disposals]
+  );
 
   return (
     <PageWrapper
@@ -357,17 +393,17 @@ const InventoryAging: React.FC = () => {
         <Box data-testid="aging-slow">
           <Alert severity="warning" sx={{ mb: 3 }}>
             <Typography variant="subtitle2" fontWeight={600}>
-              呆滞料预警：库龄超过90天未动物料共 {slowMoving.length} 项
+              呆滞料预警：库龄超过90天未动物料共 {slowMoving.length} 项，其中待处置 {pendingSlow.length} 项
             </Typography>
             <Typography variant="body2">
-              以下物料超过90天无出库记录，建议优先消耗或处置。
+              以下物料超过90天无出库记录，建议优先消耗或处置；可对每项登记处置决策（报废/转用/退供应商/促销）。
             </Typography>
           </Alert>
 
           <Paper sx={{ borderRadius: 3 }}>
             <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid rgba(226,232,240,.6)', display: 'flex', alignItems: 'center', gap: 1 }}>
               <Warning sx={{ color: '#EF4444', fontSize: 20 }} />
-              <Typography variant="subtitle2" fontWeight={600}>呆滞料列表（{'>'}90天未动）</Typography>
+              <Typography variant="subtitle2" fontWeight={600}>呆滞料列表（待处置）</Typography>
             </Box>
             <TableContainer>
               <Table size="small">
@@ -379,10 +415,11 @@ const InventoryAging: React.FC = () => {
                     <TableCell sx={{ fontWeight: 600 }} align="right">库龄(天)</TableCell>
                     <TableCell sx={{ fontWeight: 600 }} align="right">库存金额</TableCell>
                     <TableCell sx={{ fontWeight: 600 }}>最新入库</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>操作</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {slowMoving.map((r) => (
+                  {pendingSlow.map((r) => (
                     <TableRow key={r.id} hover sx={{ bgcolor: '#FFF5F5' }}>
                       <TableCell>
                         <Typography variant="body2" fontWeight={500}>{r.materialName}</Typography>
@@ -407,12 +444,72 @@ const InventoryAging: React.FC = () => {
                         </Typography>
                       </TableCell>
                       <TableCell>{r.lastInboundDate || '-'}</TableCell>
+                      <TableCell>
+                        <Button size="small" variant="outlined" color="warning" startIcon={<AssignmentTurnedIn />}
+                          data-testid={`dispose-${r.id}`} onClick={() => openDispose(r)}>
+                          处置
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))}
-                  {slowMoving.length === 0 && (
+                  {pendingSlow.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={6} align="center" sx={{ py: 3, color: '#94A3B8' }}>
-                        暂无呆滞物料，库存周转良好
+                      <TableCell colSpan={7} align="center" sx={{ py: 3, color: '#94A3B8' }}>
+                        待处置呆滞物料已全部登记处置决策
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+
+          {/* 处置记录 */}
+          <Paper sx={{ borderRadius: 3, mt: 3 }}>
+            <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid rgba(226,232,240,.6)', display: 'flex', alignItems: 'center', gap: 1 }}>
+              <AssignmentTurnedIn sx={{ color: '#10B981', fontSize: 20 }} />
+              <Typography variant="subtitle2" fontWeight={600}>处置记录（已登记 {disposals.length} 项）</Typography>
+            </Box>
+            <TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow sx={{ bgcolor: '#F8FAFC' }}>
+                    <TableCell sx={{ fontWeight: 600 }}>物料</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>处置方式</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>原因</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }} align="right">数量</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }} align="right">金额</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>登记日期</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>操作</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {disposals.map((d) => (
+                    <TableRow key={d.materialId} hover>
+                      <TableCell>
+                        <Typography variant="body2" fontWeight={500}>{d.materialName}</Typography>
+                        <Typography variant="caption" color="text.secondary">{d.materialCode}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Chip size="small" label={DISPOSITION_LABEL[d.action]}
+                          sx={{ bgcolor: '#10B98115', color: '#10B981', fontWeight: 600 }} />
+                      </TableCell>
+                      <TableCell>{d.reason || '-'}</TableCell>
+                      <TableCell align="right">{d.quantity}</TableCell>
+                      <TableCell align="right">{d.value.toLocaleString()} 元</TableCell>
+                      <TableCell>{d.date}</TableCell>
+                      <TableCell>
+                        <IconButton size="small" color="error" data-testid={`undo-dispose-${d.materialId}`}
+                          onClick={() => removeDisposal(d.materialId)}>
+                          <Undo fontSize="small" />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {disposals.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} align="center" sx={{ py: 3, color: '#94A3B8' }}>
+                        暂无处置记录
                       </TableCell>
                     </TableRow>
                   )}
@@ -422,6 +519,37 @@ const InventoryAging: React.FC = () => {
           </Paper>
         </Box>
       )}
+
+      {/* 处置决策对话框 */}
+      <Dialog open={dispDialog} onClose={() => setDispDialog(false)} maxWidth="xs" fullWidth>
+        <DialogTitle>登记呆滞料处置决策</DialogTitle>
+        <DialogContent>
+          {dispTarget && (
+            <Box sx={{ pt: 0.5 }}>
+              <Typography variant="body2" gutterBottom>
+                物料：<strong>{dispTarget.materialName}</strong>（{dispTarget.materialCode}）
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                数量 {dispTarget.quantity} · 金额 {dispTarget.value.toLocaleString()} 元
+              </Typography>
+              <FormControl fullWidth size="small" sx={{ mt: 2 }}>
+                <Typography variant="caption" color="text.secondary">处置方式</Typography>
+                <Select value={dispForm.action} onChange={(e) => setDispForm({ ...dispForm, action: e.target.value as DispositionAction })}>
+                  {(Object.keys(DISPOSITION_LABEL) as DispositionAction[]).map((a) => (
+                    <MenuItem key={a} value={a}>{DISPOSITION_LABEL[a]}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField fullWidth size="small" label="处置原因" multiline minRows={2} sx={{ mt: 2 }}
+                value={dispForm.reason} onChange={(e) => setDispForm({ ...dispForm, reason: e.target.value })} />
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDispDialog(false)}>取消</Button>
+          <Button variant="contained" color="warning" onClick={handleDisposeSave} disabled={!dispTarget}>确认处置</Button>
+        </DialogActions>
+      </Dialog>
     </PageWrapper>
   );
 };

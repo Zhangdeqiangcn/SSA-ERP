@@ -108,3 +108,9 @@ export { useECNStore } from './ecnStore';
 export { useRebateStore } from './rebateStore';
 // P2-15 FMEA 失效模式分析
 export { useFMEAStore } from './fmeaStore';
+// 寄售库存（P2-06）
+export { useConsignmentStore } from './consignmentStore';
+// 呆滞料处置流（P2-24）
+export { useSlowMovingStore, DISPOSITION_LABEL, type SlowMovingDisposal, type DispositionAction } from './slowMovingStore';
+// COA 产品合格证记录（P2-17）
+export { useCOAStore, type COARecord, type COAItem } from './coaStore';

@@ -9,7 +9,7 @@ import {
   ArrowBack, Edit, Delete, Share, LinkOutlined, OpenInNew, ContentCopy, History, EditNote,
 } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
-import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable } from '@/components/common';
+import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable, SecureField } from '@/components/common';
 import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
@@ -453,7 +453,11 @@ const OrderDetail: React.FC = () => {
                     },
                     {
                       id: 'unitPrice', header: '未税单价', accessorKey: 'unitPrice',
-                      cell: ({ row }) => <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.unitPrice, currency)}</Box>,
+                      cell: ({ row }) => (
+                        <SecureField module="purchase" fieldName="unitPrice">
+                          <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.unitPrice, currency)}</Box>
+                        </SecureField>
+                      ),
                     },
                     {
                       id: 'amount', header: '未税金额', accessorKey: 'amount',

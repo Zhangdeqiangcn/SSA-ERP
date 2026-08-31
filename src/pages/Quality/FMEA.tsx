@@ -2,11 +2,12 @@ import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField,
-  MenuItem, Grid, IconButton, Alert,
+  MenuItem, Grid, IconButton, Alert, FormControl, InputLabel, Select,
 } from '@mui/material';
-import { Add, Edit, Delete } from '@mui/icons-material';
+import { Add, Edit, Delete, Link } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { useFMEAStore, FMEA, FMEAStatus } from '@/stores/fmeaStore';
+import { useMaterialStore } from '@/stores/materialStore';
 
 const STATUS_LABEL: Record<FMEAStatus, { label: string; color: 'default' | 'warning' | 'success' }> = {
   draft: { label: '草稿', color: 'default' },
@@ -37,6 +38,8 @@ const emptyForm: Partial<FMEA> = {
 
 const FMEAPage: React.FC = () => {
   const { items, addItem, updateItem, deleteItem } = useFMEAStore();
+  const { materials } = useMaterialStore();
+  const [materialFilter, setMaterialFilter] = useState<string>('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<Partial<FMEA>>({ ...emptyForm });
@@ -69,6 +72,8 @@ const FMEAPage: React.FC = () => {
       currentControl: fmea.currentControl,
       detection: fmea.detection,
       recommendedAction: fmea.recommendedAction,
+      materialId: fmea.materialId,
+      materialName: fmea.materialName,
     });
     setDialogOpen(true);
     setFeedback('');
@@ -105,6 +110,8 @@ const FMEAPage: React.FC = () => {
         detection: form.detection ?? 5,
         rpn,
         recommendedAction: form.recommendedAction,
+        materialId: form.materialId,
+        materialName: form.materialName,
         status: 'draft',
         createdAt: now(),
         updatedAt: now(),
@@ -121,15 +128,34 @@ const FMEAPage: React.FC = () => {
     updateItem(id, { status });
   };
 
-  const sortedItems = useMemo(() => [...items].sort((a, b) => b.rpn - a.rpn), [items]);
+  const sortedItems = useMemo(
+    () => [...items]
+      .filter((x) => !materialFilter || x.materialId === materialFilter)
+      .sort((a, b) => b.rpn - a.rpn),
+    [items, materialFilter]
+  );
 
   return (
     <PageWrapper title="FMEA 失效模式与影响分析" subtitle="潜在失效模式分析：严重度(S) × 频度(O) × 探测度(D) = RPN">
-      <Box sx={{ mb: 2, display: 'flex', gap: 1 }}>
+      <Box sx={{ mb: 2, display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
         <Button variant="contained" startIcon={<Add />} onClick={openCreate} data-testid="fmea-add">
           新增FMEA
         </Button>
         <Chip label={`共 ${items.length} 条`} variant="outlined" />
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <InputLabel>按关联物料筛选</InputLabel>
+          <Select
+            value={materialFilter}
+            label="按关联物料筛选"
+            onChange={(e) => setMaterialFilter(e.target.value)}
+            data-testid="fmea-material-filter"
+          >
+            <MenuItem value="">全部</MenuItem>
+            {materials.map((m) => (
+              <MenuItem key={m.id} value={m.id}>{m.name}（{m.code}）</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
 
       <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
@@ -138,6 +164,7 @@ const FMEAPage: React.FC = () => {
             <TableRow sx={{ bgcolor: '#F8FAFC' }}>
               <TableCell sx={{ fontWeight: 600 }}>编号</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>项目</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>关联物料</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>功能</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>失效模式</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>影响(S)</TableCell>
@@ -157,6 +184,14 @@ const FMEAPage: React.FC = () => {
                   </Typography>
                 </TableCell>
                 <TableCell>{fmea.item}</TableCell>
+                <TableCell>
+                  {fmea.materialName ? (
+                    <Chip size="small" icon={<Link />} variant="outlined" color="primary"
+                      label={fmea.materialName} title={fmea.materialId} />
+                  ) : (
+                    <Typography variant="caption" color="text.secondary">—</Typography>
+                  )}
+                </TableCell>
                 <TableCell>
                   <Typography variant="body2" sx={{ maxWidth: 150 }} noWrap>
                     {fmea.function}
@@ -224,7 +259,7 @@ const FMEAPage: React.FC = () => {
             ))}
             {sortedItems.length === 0 && (
               <TableRow>
-                <TableCell colSpan={10} align="center" sx={{ py: 4, color: '#94A3B8' }}>
+                <TableCell colSpan={11} align="center" sx={{ py: 4, color: '#94A3B8' }}>
                   暂无FMEA记录，点击"新增FMEA"创建
                 </TableCell>
               </TableRow>
@@ -246,6 +281,25 @@ const FMEAPage: React.FC = () => {
                 onChange={(e) => setForm({ ...form, item: e.target.value })}
                 data-testid="fmea-item"
               />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel>关联物料（可选）</InputLabel>
+                <Select
+                  value={form.materialId ?? ''}
+                  label="关联物料（可选）"
+                  onChange={(e) => {
+                    const m = materials.find((x) => x.id === e.target.value);
+                    setForm({ ...form, materialId: e.target.value || undefined, materialName: m?.name });
+                  }}
+                  data-testid="fmea-material"
+                >
+                  <MenuItem value="">不关联</MenuItem>
+                  {materials.map((m) => (
+                    <MenuItem key={m.id} value={m.id}>{m.name}（{m.code}）</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField

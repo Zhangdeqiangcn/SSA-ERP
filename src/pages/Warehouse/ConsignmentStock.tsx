@@ -9,6 +9,7 @@ import { Payment, Calculate } from '@mui/icons-material';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
+import { useConsignmentStore } from '@/stores/consignmentStore';
 import { ConsignmentStock } from '@/types/purchase';
 
 const genId = () => `cs-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -18,30 +19,8 @@ const ConsignmentStockPage: React.FC = () => {
   const vendors = useVendorStore((s) => s.vendors);
   const { addPurchaseOrder } = usePurchaseStore();
 
-  // 模拟寄售库存数据（实际应从专门的寄售 store 读取）
-  const [consignmentRecords, setConsignmentRecords] = useState<ConsignmentStock[]>([
-    {
-      id: 'cs-001', vendorId: 'V001', vendorName: '宝钢股份', vendorCode: 'BG001',
-      materialId: 'M001', materialCode: 'SPCC-1.0', materialName: '冷轧板 SPCC 1.0',
-      specification: '1.0×1250×C', unit: '吨',
-      agreedUnitPrice: 5200, consignedQty: 500, consumedQty: 320, balanceQty: 180,
-      warehouseId: 'WH001', warehouseName: '原料仓A',
-    },
-    {
-      id: 'cs-002', vendorId: 'V002', vendorName: '鞍钢集团', vendorCode: 'AG001',
-      materialId: 'M002', materialCode: 'Q235B-2.0', materialName: '热轧卷 Q235B 2.0',
-      specification: '2.0×1500×C', unit: '吨',
-      agreedUnitPrice: 4800, consignedQty: 300, consumedQty: 120, balanceQty: 180,
-      warehouseId: 'WH001', warehouseName: '原料仓A',
-    },
-    {
-      id: 'cs-003', vendorId: 'V003', vendorName: '首钢集团', vendorCode: 'SG001',
-      materialId: 'M003', materialCode: 'DX51D-0.8', materialName: '镀锌板 DX51D 0.8',
-      specification: '0.8×1250×C', unit: '吨',
-      agreedUnitPrice: 6200, consignedQty: 200, consumedQty: 80, balanceQty: 120,
-      warehouseId: 'WH002', warehouseName: '原料仓B',
-    },
-  ]);
+  // 寄售库存数据来自专门的 consignmentStore（持久化，刷新不丢失）
+  const { records: consignmentRecords, settleConsumption } = useConsignmentStore();
 
   // 结算对话框
   const [settleDialog, setSettleDialog] = useState(false);
@@ -94,14 +73,8 @@ const ConsignmentStockPage: React.FC = () => {
       updatedBy: '当前用户',
     });
 
-    // 更新本地寄售记录
-    setConsignmentRecords((prev) =>
-      prev.map((r) =>
-        r.id === settleRecord.id
-          ? { ...r, consumedQty: r.consumedQty + settleQty, balanceQty: r.consignedQty - (r.consumedQty + settleQty) }
-          : r
-      )
-    );
+    // 更新寄售记录（持久化 store）
+    settleConsumption(settleRecord.id, settleQty);
 
     setSettleDialog(false);
     alert(`消耗结算采购订单 ${orderNo} 已生成，金额 ¥${totalAmount.toLocaleString()}`);

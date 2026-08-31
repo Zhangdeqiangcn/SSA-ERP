@@ -8,7 +8,7 @@ import {
   Tabs, Tab,
 } from '@mui/material';
 import { Add, Delete, ArrowBack, Save, Autorenew } from '@mui/icons-material';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageWrapper } from '@/components/layout';
@@ -130,6 +130,26 @@ const materialSchema = z.object({
 
 type MaterialFormData = z.infer<typeof materialSchema>;
 
+// P2-23 GTIN 校验位算法（适用于 GTIN-8/12/13/14，mod-10 权重 1/3 交替）
+const validateGTIN = (raw: string): { valid: boolean; message: string } => {
+  const code = (raw || '').replace(/[\s-]/g, '');
+  if (!code) return { valid: true, message: '未填写' };
+  if (!/^\d+$/.test(code)) return { valid: false, message: 'GTIN 仅能包含数字' };
+  const len = code.length;
+  if (![8, 12, 13, 14].includes(len)) {
+    return { valid: false, message: `长度应为 8 / 12 / 13 / 14 位（当前 ${len} 位）` };
+  }
+  let sum = 0;
+  for (let p = 1; p <= len - 1; p++) {
+    sum += Number(code[p - 1]) * (p % 2 === 1 ? 1 : 3);
+  }
+  const check = (10 - (sum % 10)) % 10;
+  if (check !== Number(code[len - 1])) {
+    return { valid: false, message: `校验位错误（应为 ${check}）` };
+  }
+  return { valid: true, message: `有效（GTIN-${len}）` };
+};
+
 const MaterialForm: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -219,6 +239,10 @@ const MaterialForm: React.FC = () => {
       gtin: existingMaterial?.gtin || '',
     },
   });
+
+  // P2-23 GTIN 实时校验
+  const gtinValue = useWatch({ control, name: 'gtin' }) || '';
+  const gtinCheck = validateGTIN(gtinValue);
 
   // 监听分类变化
   const watchedCategoryId = watch('categoryId');
@@ -660,7 +684,7 @@ const MaterialForm: React.FC = () => {
                     )}
                   />
                 </Grid>
-                {/* P2-23 GTIN 条码字段 */}
+                {/* P2-23 GTIN 条码字段 + 扫码校验 */}
                 <Grid item xs={12} sm={6}>
                   <Controller
                     name="gtin"
@@ -672,9 +696,38 @@ const MaterialForm: React.FC = () => {
                         fullWidth
                         inputProps={{ 'data-testid': 'mat-gtin' }}
                         placeholder="全球贸易项目代码（EAN/UPC/GTIN）"
+                        error={!!gtinValue && !gtinCheck.valid}
+                        helperText={gtinValue ? gtinCheck.message : '可点击右侧"扫码"录入并自动校验'}
+                        FormHelperTextProps={{ component: 'div' }}
+                        InputProps={{
+                          endAdornment: (
+                            <Button size="small" sx={{ whiteSpace: 'nowrap' }} data-testid="mat-gtin-scan"
+                              onClick={() => {
+                                const scanned = window.prompt('请扫描或粘贴 GTIN 条码：');
+                                if (scanned != null) {
+                                  const v = scanned.trim();
+                                  setValue('gtin', v, { shouldValidate: true, shouldDirty: true });
+                                  const r = validateGTIN(v);
+                                  if (v && !r.valid) window.alert(`GTIN 校验未通过：${r.message}`);
+                                }
+                              }}>
+                              扫码
+                            </Button>
+                          ),
+                        }}
                       />
                     )}
                   />
+                  {gtinValue && (
+                    <Chip
+                      size="small"
+                      sx={{ mt: 0.5 }}
+                      data-testid="mat-gtin-status"
+                      label={gtinCheck.valid ? `✓ ${gtinCheck.message}` : `✗ ${gtinCheck.message}`}
+                      color={gtinCheck.valid ? 'success' : 'error'}
+                      variant="outlined"
+                    />
+                  )}
                 </Grid>
               </Grid>
 

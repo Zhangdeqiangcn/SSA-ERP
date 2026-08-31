@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import type { ObjectPageSection } from '@/components/layout';
-import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable } from '@/components/common';
+import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable, SecureField } from '@/components/common';
 import { AttachmentUploader, type AttachmentItem } from '@/components/common';
 import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { useSalesStore } from '@/stores/salesStore';
@@ -308,7 +308,11 @@ const SalesOrderDetail: React.FC = () => {
           { id: 'quantity', header: '数量', accessorKey: 'quantity',
             cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 500 }}>{row.original.quantity.toLocaleString()}</Box> },
           { id: 'unitPrice', header: '单价', accessorKey: 'unitPrice',
-            cell: ({ row }) => <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.unitPrice)}</Box> },
+            cell: ({ row }) => (
+              <SecureField module="sales" fieldName="unitPrice">
+                <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.unitPrice)}</Box>
+              </SecureField>
+            ) },
           { id: 'amount', header: '金额', accessorKey: 'amount',
             cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 600, color: '#16A34A' }}>{formatCurrency(row.original.amount)}</Box> },
           { id: 'deliveryDate', header: '交货日期', accessorKey: 'deliveryDate',
