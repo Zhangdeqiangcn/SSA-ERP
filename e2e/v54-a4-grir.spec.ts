@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * A4-③ GR/IR 暂估 — 专项 E2E

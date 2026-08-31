@@ -1,3 +1,19 @@
+/**
+ * 通用工作流引擎（BPMN-lite，实验性）
+ * ------------------------------------------------------------
+ * ⚠️ 定位澄清（B7-4）：本 store / WorkflowEngine 是一个「通用流程设计器」，
+ * 提供起止节点 + 任意 transition 的可视化编排（开始→审批→执行→结束），
+ * 用于自定义非标流程（如 OA 流转、特殊项目审批）的沙盒演练。
+ *
+ * 它与业务审批引擎 `approvalFlowStore` 是**两套独立机制**，请勿混淆：
+ *   - approvalFlowStore：采购申请 / 供应商准入 / 价格审批 / 物料新增等
+ *     业务审批的「单一数据源」，由各业务审批队列（Vendor/ApprovalQueue、
+ *     Purchase/PurchaseApproval、Price/PriceApproval、Material/MaterialApprovalQueue）
+ *     与 FlowTracker 按配置驱动多步审批，并支持结构化条件 + 跳过规则运行时执行。
+ *   - workflowStore（本文件）：通用工作流设计器，示例/实验用途，不参与上述
+ *     业务审批的真实推进链路。
+ * 两者不强制合并，避免破坏已上线的业务审批闭环。
+ */
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';

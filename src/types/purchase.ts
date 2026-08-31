@@ -47,6 +47,26 @@ export interface PurchaseRequest extends BaseEntity {
   customFields?: Record<string, unknown>;
 }
 
+/** B10 订单变更：历史版本快照（记录变更前的关键字段，支持差异对比） */
+export interface PurchaseOrderVersion {
+  /** 变更前版本号（变更后 version 自增 1） */
+  version: number;
+  changedAt: string;
+  changedBy: string;
+  /** 变更原因（必填，人读留痕） */
+  changeReason: string;
+  /** 变更前快照（当前字段被覆盖前的值） */
+  snapshot: {
+    expectedDeliveryDate?: string;
+    items?: PurchaseOrderItem[];
+    totalAmount?: number;
+    paymentTerms?: string;
+    tradeTerms?: string;
+    deliveryAddress?: string;
+    remarks?: string;
+  };
+}
+
 export interface PurchaseOrderItem {
   id: string;
   materialId: string;
@@ -115,6 +135,12 @@ export interface PurchaseOrder extends BaseEntity {
   confirmedBy?: string;
   confirmedAt?: string;
   confirmedNote?: string;
+  /** B5 门户回写：供应商确认的交期（独立列，不修改原expectedDeliveryDate） */
+  vendorConfirmedDate?: string;
+  /** B10 订单变更：当前版本号（初始 1，每次变更 +1，变更留痕可追溯） */
+  version?: number;
+  /** B10 订单变更：历史版本快照（变更前记录，最新在前），支撑差异对比与审计 */
+  history?: PurchaseOrderVersion[];
   /** 自定义字段 */
   customFields?: Record<string, unknown>;
   /** P2-06 寄售采购：采购模式 */

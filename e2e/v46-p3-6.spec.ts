@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test.describe('P3-6 智能分析', () => {
   test('三个分析页面可达（无白屏）', async ({ page }) => {

@@ -58,6 +58,19 @@ export interface WorkOrder extends BaseEntity {
   actualMaterialCost?: number;
   actualMachineCost?: number;
   actualTotalCost?: number;
+  /** B2-② 领料联动：本工单已领料明细（防重复领料） */
+  issuedMaterials?: IssuedMaterial[];
+}
+
+/** B2-② 工单领料明细 */
+export interface IssuedMaterial {
+  id: string;
+  materialId: string;
+  materialCode: string;
+  materialName: string;
+  quantity: number;
+  issuedAt: string;
+  outboundNo: string; // 关联的出库单号
 }
 
 /** 工作中心（产能主数据，P2-3 从 CapacityScheduling 的 localStorage 迁入独立 store） */

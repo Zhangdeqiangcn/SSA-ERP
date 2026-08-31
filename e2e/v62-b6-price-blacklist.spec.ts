@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B6 价目表回写 + 供应商黑名单硬拦截专项（P1 流程闭环第六战役，目标 V2.41）：
@@ -66,11 +66,11 @@ test('B6-1 采购订单选黑名单供应商(ven-011)：预警横幅 + 提交被
 
   // 加一行物料
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料');
+  const mat = page.getByPlaceholder('输入物料名称');
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
-  await page.locator('[data-testid^="po-line-price-"]').locator('input').fill('1000');
+  await page.locator('[data-testid^="po-cell-unitPrice-"]').fill('1000');
 
   // 预警横幅出现
   await expect(page.getByTestId('po-vendor-blacklist')).toBeVisible();
@@ -236,11 +236,11 @@ test('B6-4 非黑名单供应商(ven-003)采购订单正常落库（对照，无
   await page.getByRole('option').first().click();
 
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料');
+  const mat = page.getByPlaceholder('输入物料名称');
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
-  await page.locator('[data-testid^="po-line-price-"]').locator('input').fill('1000');
+  await page.locator('[data-testid^="po-cell-unitPrice-"]').fill('1000');
 
   // 正常供应商不展示黑名单横幅
   await expect(page.getByTestId('po-vendor-blacklist')).toHaveCount(0);
@@ -332,18 +332,18 @@ test('B6-6 采购订单行项目选「供应商+物料」自动带出价目表�
 
   // 物料选 mat-001（钢板Q235B）→ 自动带出价目表价 pl-001（ven-003+mat-001）
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料');
+  const mat = page.getByPlaceholder('输入物料名称');
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
 
   // 价目表价 Chip 可见（sourceApprovalNo = PA20240517001）
-  const chip = page.getByText(/价目表价/).first();
+  const chip = page.getByText(/价目表 PA20240517001/).first();
   await expect(chip).toBeVisible();
   await expect(chip).toContainText('PA20240517001');
 
   // 单价应被价目表价自动带出（pl-001 单价 4050）
-  await expect(page.locator('[data-testid^="po-line-price-"]').locator('input').first()).toHaveValue('4050');
+  await expect(page.locator('[data-testid^="po-cell-unitPrice-"]').first()).toHaveValue('4050');
 
   expect(errors).toEqual([]);
 });

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test.setTimeout(180_000);
 

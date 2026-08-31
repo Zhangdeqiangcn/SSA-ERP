@@ -186,13 +186,14 @@ export interface PriceApproval {
   items: PriceApprovalItem[];
   totalAmount: number;
   approvalRecords: PriceApprovalRecord[];
-  status: 'pending' | 'approved' | 'rejected'; // 待审批/已通过/已驳回
+  status: 'pending' | 'reviewing' | 'approved' | 'rejected'; // 待审批/审批中/已通过/已驳回
   remarks?: string;
   currency?: string;         // 币种（缺省 CNY）
   createdAt: string;
   updatedAt: string;
   createdBy: string;
   updatedBy?: string;
+  currentStep?: number;       // 当前审批步骤索引（统一审批引擎多步推进用，B7-1）
 }
 
 // ── 价目表 ───────────────────────────────────────────────

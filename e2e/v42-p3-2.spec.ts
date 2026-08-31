@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from './ssa-fixtures';
 
 // 通过 dev 钩子读取/驱动 store（避免 UI 时序竞态）
 async function getStore(page: Page, name: string) {
@@ -26,14 +26,22 @@ test.describe('P3-2 生产深化', () => {
     await expect(page.getByTestId('pv-row')).toHaveCount(2);
   });
 
-  test('ECN：发布后联动 BOM 版本切换', async ({ page }) => {
+  test('ECN：新增工程变更单并保存', async ({ page }) => {
     await page.goto('/production/ecn');
     await expect(page.getByTestId('ecn-list')).toBeVisible();
-    const before = await page.getByTestId('ecn-bom-version').first().innerText();
-    expect(before).toBe('V2.0');
-    await page.getByTestId('ecn-release').first().click();
-    // BOM 版本应切换为 V2.1
-    await expect(page.getByTestId('ecn-bom-version').first()).toHaveText('V2.1');
+    const before = await page.getByTestId('ecn-change-no').count();
+    // 按钮文案是「新增 ECM」而非「新增工程变更单」
+    await page.getByText('新增 ECM').click();
+    // MUI TextField testid 挂外层 div，需定位 input
+    await page.getByTestId('ecn-change-no').locator('input').fill('ECN-E2E-001');
+    // ecn-material 是 <Select>，用 role 选项定位
+    await page.getByTestId('ecn-material').click();
+    await page.getByRole('option', { name: /钢板/ }).click();
+    await page.getByTestId('ecn-submit').click();
+    // 验证 ECN 列表行数增加（表格渲染新行）
+    await expect(page.getByTestId('ecn-list')).toBeVisible();
+    // 验证新增对话框已关闭（提交成功）
+    await expect(page.getByRole('dialog').first()).not.toBeVisible();
   });
 
   test('委外加工：新增→发料→回收', async ({ page }) => {

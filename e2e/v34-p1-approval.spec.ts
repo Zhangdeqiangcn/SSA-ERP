@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
@@ -10,11 +10,11 @@ test('设置页审批流程 Tab：供应商注册审批步骤按配置渲染', a
   const errors = await captureErrors(page);
   await page.goto('/settings');
 
-  // 打开「审批流程」Tab（index 7）
-  await page.getByRole('tab', { name: '审批流程' }).click();
+  // 打开「审批流程」导航项（Settings 页面使用 Button 侧栏，非 MUI Tab）
+  await page.getByRole('button', { name: '审批流程' }).click();
 
-  // 供应商注册审批流配置行存在（data-testid 由 ApprovalFlowTab 提供）
-  const vendorRow = page.getByTestId('approval-flow-vendor');
+  // 供应商注册审批流配置行存在（moduleLabel 文本由 ApprovalFlowTab 渲染）
+  const vendorRow = page.getByText('供应商注册', { exact: false }).first();
   await expect(vendorRow).toBeVisible();
 
   // 该配置默认含 3 个步骤，至少渲染出步骤标签（如「采购初审」）

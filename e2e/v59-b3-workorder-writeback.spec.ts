@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B3 完工回写专项（P1 流程闭环第三战役）：

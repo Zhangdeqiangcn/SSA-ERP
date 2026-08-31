@@ -40,6 +40,9 @@ const GuidedTour: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
+    // DEV 下跳过引导：E2E 回归（v34–v65、flow）会清空 localStorage 直达业务页，
+    // 弹窗遮住表单会导致 fill/click 等待可交互直至超时；生产环境（部署站点）保持首次引导。
+    if (import.meta.env.DEV) return;
     const done = localStorage.getItem(TOUR_STORAGE_KEY);
     if (!done) {
       // 首次登录自动弹出

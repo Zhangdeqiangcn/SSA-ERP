@@ -2,7 +2,7 @@
 import { getUserFromRequest, json } from '../../_shared/auth';
 
 export async function onRequestGet(context) {
-  const user = getUserFromRequest(context);
+  const user = await getUserFromRequest(context.request, context.env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
   const url = new URL(context.request.url);
@@ -41,8 +41,8 @@ export async function onRequestGet(context) {
   const sortCol = allowedSort.includes(sortBy) ? sortBy : 'outbound_date';
 
   const offset = (page - 1) * pageSize;
-  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM outbound_orders ${where}`).bind(...params).first();
-  const rows = await db.prepare(`SELECT * FROM outbound_orders ${where} ORDER BY ${sortCol} ${sortOrder} LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
+  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM outbound_orders oo ${where}`).bind(...params).first();
+  const rows = await db.prepare(`SELECT * FROM outbound_orders oo ${where} ORDER BY ${sortCol} ${sortOrder} LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
 
   return json({
     data: (rows.results || []).map(r => ({ ...r, items: [] })),
@@ -50,4 +50,34 @@ export async function onRequestGet(context) {
     page,
     pageSize,
   });
+}
+
+// POST /api/outbound-orders — 创建出库单（仅新增，未改动上方 onRequestGet）
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const id = 'out-' + crypto.randomUUID();
+  await db.prepare(`INSERT INTO outbound_orders (id, org_id, outbound_no, type, source_no, customer_id, customer_name, vendor_id, vendor_name, status, warehouse_id, warehouse_name, operator, outbound_date, remarks, picker, created_at, updated_at, created_by, updated_by, inventory_posted, cogs_posted) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)`).bind(
+    id, user.org_id, body.outboundNo, body.type || 'sale', body.sourceNo || null, body.customerId || null, body.customerName || null,
+    body.vendorId || null, body.vendorName || null, body.status || 'pending', body.warehouseId || null, body.warehouseName || null,
+    body.operator || null, body.outboundDate || null, body.remarks || null, body.picker || null, now, now, user.name, user.name
+  ).run();
+
+  if (body.items && Array.isArray(body.items)) {
+    for (const item of body.items) {
+      const serialNos = Array.isArray(item.serialNos) ? JSON.stringify(item.serialNos) : (item.serialNos || null);
+      await db.prepare(`INSERT INTO outbound_order_items (id, outbound_order_id, material_id, material_code, material_name, specification, unit, quantity, batch_no, location_id, location_name, unit_cost, cost_amount, serial_nos, hu_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+        'ooi-' + crypto.randomUUID(), id, item.materialId || null, item.materialCode || null, item.materialName || null, item.specification || null, item.unit || null,
+        Number(item.quantity) || 0, item.batchNo || null, item.locationId || null, item.locationName || null, Number(item.unitCost) || 0, Number(item.costAmount) || 0, serialNos, item.huId || null
+      ).run();
+    }
+  }
+
+  const row = await db.prepare(`SELECT * FROM outbound_orders WHERE id = ?`).bind(id).first();
+  return json(row);
 }

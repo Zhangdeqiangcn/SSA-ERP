@@ -191,17 +191,21 @@ const __qaSeen = new Set<string>();
 const __qaMarkSeen = () => {
   useWarehouseStore.getState().inboundOrders.forEach((o) => __qaSeen.add(o.id));
 };
-__qaMarkSeen(); // 同步 rehydration 已完成时直接登记
-if (useWarehouseStore.persist?.onFinishHydration) {
-  useWarehouseStore.persist.onFinishHydration(__qaMarkSeen); // 异步 rehydration 完成后再登记
-}
-useWarehouseStore.subscribe((state, prev) => {
-  const prevIds = new Set((prev?.inboundOrders || []).map((o) => o.id));
-  for (const o of state.inboundOrders) {
-    if (prevIds.has(o.id) || __qaSeen.has(o.id)) continue; // 仅处理新增且未处理的
-    __qaSeen.add(o.id);
-    if (o.type === 'purchase' && o.status === 'completed') {
-      useQualityAdvancedStore.getState().autoCreateLotsFromInbound(o);
-    }
+// 延迟到模块初始化完成后执行：避免本模块被其他 store（如 warehouseStore 经中间模块）静态 import 时，
+// 顶层直接访问 useWarehouseStore 触发循环依赖 TDZ（Cannot access ... before initialization）
+setTimeout(() => {
+  __qaMarkSeen(); // 同步 rehydration 已完成时直接登记
+  if (useWarehouseStore.persist?.onFinishHydration) {
+    useWarehouseStore.persist.onFinishHydration(__qaMarkSeen); // 异步 rehydration 完成后再登记
   }
-});
+  useWarehouseStore.subscribe((state, prev) => {
+    const prevIds = new Set((prev?.inboundOrders || []).map((o) => o.id));
+    for (const o of state.inboundOrders) {
+      if (prevIds.has(o.id) || __qaSeen.has(o.id)) continue; // 仅处理新增且未处理的
+      __qaSeen.add(o.id);
+      if (o.type === 'purchase' && o.status === 'completed') {
+        useQualityAdvancedStore.getState().autoCreateLotsFromInbound(o);
+      }
+    }
+  });
+}, 0);

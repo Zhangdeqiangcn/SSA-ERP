@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B2 三岛后台联动专项（P1 流程闭环第二战役）：

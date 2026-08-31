@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B4 NCR 联动库存（P1 流程闭环第四战役）：
@@ -200,15 +200,20 @@ test('B4-3 报废凭证按评估类分流：成品(FG)报废贷 1405 库存商�
 });
 
 // ═══════════════════════════════════════════════════════════════
-test('B4-4 非报废处置(rework)仅状态闭环：不联动库存、不生成报废凭证', async ({ page }) => {
+test('B4-4 返工(rework)联动：生成返工入库(库存增加)+凭证(借1403原材料/贷6601生产损失)+状态闭环', async ({ page }) => {
   const errors = await captureErrors(page);
   await bootstrap(page);
 
   const result = await page.evaluate(() => {
     const S = (window as any).__ssaStores;
+    const uqItem = S.useQualityStore.getState().unqualifiedItems.find((x: any) => x.id === 'uq-001');
+    const defectQty = uqItem.defectQuantity as number;
+
     const obBefore = S.useWarehouseStore.getState().outboundOrders.filter((o: any) => o.type === 'scrap').length;
     const vBefore = S.useFinanceStore.getState().vouchers.filter((x: any) => x.source === 'scrap').length;
     const stockBefore = S.useMaterialStore.getState().materials.find((m: any) => m.id === 'mat-004')?.currentStock ?? 0;
+    const ibReworkBefore = S.useWarehouseStore.getState().inboundOrders.filter((o: any) => o.type === 'rework').length;
+    const vAllBefore = S.useFinanceStore.getState().vouchers.length;
 
     const ok = S.useQualityStore.getState().disposeUnqualified('uq-001', { disposition: 'rework', operator: '质量员' });
 
@@ -216,20 +221,46 @@ test('B4-4 非报废处置(rework)仅状态闭环：不联动库存、不生成�
     const obAfter = S.useWarehouseStore.getState().outboundOrders.filter((o: any) => o.type === 'scrap').length;
     const vAfter = S.useFinanceStore.getState().vouchers.filter((x: any) => x.source === 'scrap').length;
     const stockAfter = S.useMaterialStore.getState().materials.find((m: any) => m.id === 'mat-004')?.currentStock ?? 0;
+    const ibReworkAfter = S.useWarehouseStore.getState().inboundOrders.filter((o: any) => o.type === 'rework').length;
+    const reworkVoucher = S.useFinanceStore.getState().vouchers.find(
+      (x: any) => x.source === 'ocr' && x.sourceNo === uqItem.itemNo && x.items?.some((it: any) => it.accountCode === '1403')
+    );
+    const reworkInbound = S.useWarehouseStore.getState().inboundOrders.find(
+      (o: any) => o.type === 'rework' && o.sourceNo === uqItem.itemNo
+    );
 
     return {
       ok, dispositionStatus: uq.dispositionStatus, actualDisposition: uq.actualDisposition,
-      linkedOutboundNo: uq.linkedOutboundNo, obBefore, obAfter, vBefore, vAfter, stockBefore, stockAfter,
+      linkedOutboundNo: uq.linkedOutboundNo, linkedInboundNo: uq.linkedInboundNo,
+      obBefore, obAfter, vBefore, vAfter, stockBefore, stockAfter, defectQty,
+      ibReworkDelta: ibReworkAfter - ibReworkBefore,
+      reworkInboundNo: reworkInbound?.inboundNo,
+      reworkInboundStatus: reworkInbound?.status,
+      hasReworkVoucher: !!reworkVoucher,
+      voucherDebit: reworkVoucher?.items?.find((it: any) => it.accountCode === '1403')?.debit,
+      voucherCredit: reworkVoucher?.items?.find((it: any) => it.accountCode === '6601')?.credit,
+      vAllDelta: S.useFinanceStore.getState().vouchers.length - vAllBefore,
     };
   });
 
   expect(result.ok).toBe(true);
   expect(result.dispositionStatus).toBe('completed'); // 状态闭环
   expect(result.actualDisposition).toBe('rework');
-  expect(result.linkedOutboundNo).toBeUndefined(); // 未生成报废出库单
-  expect(result.obAfter).toBe(result.obBefore);     // 无新增报废出库
-  expect(result.vAfter).toBe(result.vBefore);       // 无新增报废凭证
-  expect(result.stockAfter).toBe(result.stockBefore); // 库存不受影响
+  expect(result.linkedOutboundNo).toBeUndefined();    // rework 不生成报废出库
+  expect(result.linkedInboundNo).toBeDefined();       // rework 生成返工入库
+  expect(result.obAfter).toBe(result.obBefore);        // 无新增报废出库
+  expect(result.vAfter).toBe(result.vBefore);          // 无 source='scrap' 凭证
+  // 库存增加：返工入库过账使 mat-004 currentStock += defectQty
+  expect(result.stockAfter).toBe(result.stockBefore + result.defectQty);
+  // 生成 1 条 rework 入库单
+  expect(result.ibReworkDelta).toBe(1);
+  expect(result.reworkInboundNo).toMatch(/^IN-REWORK-/);
+  expect(result.reworkInboundStatus).toBe('completed');
+  // 生成 1 条凭证（借1403 原材料 / 贷6601 生产损失，金额平衡）
+  expect(result.vAllDelta).toBe(1);
+  expect(result.hasReworkVoucher).toBe(true);
+  expect(result.voucherDebit).toBe(result.voucherCredit);
+  expect(result.voucherDebit).toBeGreaterThan(0);
 
   expect(errors).toEqual([]);
 });

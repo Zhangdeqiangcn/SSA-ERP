@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B1 信用卡点专项（P1 流程闭环第一战役）：
@@ -19,7 +19,8 @@ const gotoNewPO = async (page: Page) => {
   await page.goto('/');
   await page.evaluate(() => localStorage.clear());
   await page.goto('/purchase/orders/create');
-  await expect(page.getByRole('heading', { name: '新建采购订单' })).toBeVisible();
+  // 冷启动时懒加载 chunk 编译较慢，超时放宽到 120s
+  await expect(page.getByRole('heading', { name: '新建采购订单' })).toBeVisible({ timeout: 120000 });
   await page.waitForFunction(() => (window as any).__ssaStores);
 };
 
@@ -41,12 +42,14 @@ const fillPO = async (page: Page, vendorKeyword: string, price: string, title: s
   await page.getByRole('option').first().click();
 
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料');
+  // 物料列是行内 Autocomplete（占位符「输入物料编码」，testid po-cell-materialCode-*）
+  const mat = page.getByPlaceholder('输入物料编码').first();
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
 
-  await page.locator('[data-testid^="po-line-price-"]').locator('input').fill(price);
+  // 未税单价列：testid 直接打在 input 上（`po-cell-unitPrice-${rowId}`），无需再嵌套 .locator('input')
+  await page.locator('[data-testid^="po-cell-unitPrice-"]').first().fill(price);
 };
 
 test('B1-1 采购订单表单实时展示供应商授信画像与本单占用额', async ({ page }) => {

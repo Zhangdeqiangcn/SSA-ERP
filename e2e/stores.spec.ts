@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * 回归加固：直接驱动每个业务 store 的 add 动作，断言

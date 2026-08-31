@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
@@ -16,6 +16,8 @@ test('物料详情：多单位绑定换算展示 unit-conversion', async ({ page
   await expect(page.getByTestId('material-rating')).toBeVisible();
   await page.getByRole('button', { name: '编辑' }).click();
 
+  // 采购单位 / 单位换算系数 位于「采购」标签页，需先切换
+  await page.getByRole('tab', { name: '采购' }).click();
   await page.getByLabel('采购单位').fill('箱');
   await page.getByLabel('单位换算系数').fill('12');
   await page.getByRole('button', { name: '保存' }).click();

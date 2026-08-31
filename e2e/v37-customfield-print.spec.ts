@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V2.13 P2-1 剩余：自定义字段 + 打印模板设计器 E2E：
@@ -29,7 +29,10 @@ test.describe('P2-1 自定义字段 + 打印模板', () => {
         msg.type() === 'error' &&
         !t.includes('validateDOMNesting') &&
         !t.includes('A props object containing a "key" prop') &&
-        !t.includes('disabled `button` child to the Tooltip')
+        !t.includes('disabled `button` child to the Tooltip') &&
+        // 忽略浏览器对“资源加载失败”的噪声（外部字体/CDN 离线不可达、非应用 bug）
+        !t.includes('Failed to load resource') &&
+        !t.includes('net::ERR_FAILED')
       ) {
         errors.push('console.error: ' + t);
       }
@@ -40,8 +43,8 @@ test.describe('P2-1 自定义字段 + 打印模板', () => {
     const marker = `环保等级${Date.now()}`;
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '自定义字段' }).click();
-    await expect(page.getByRole('heading', { name: '自定义字段' })).toBeVisible();
+    await page.getByRole('button', { name: '自定义字段' }).click();
+    await expect(page.getByRole('heading', { name: '自定义字段' }).first()).toBeVisible();
 
     // 默认实体为「物料」，直接新增字段
     await page.getByRole('button', { name: '新增字段' }).click();
@@ -94,8 +97,8 @@ test.describe('P2-1 自定义字段 + 打印模板', () => {
   test('打印模板：设计器渲染 + 默认模板预览', async ({ page }) => {
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '打印模板' }).click();
-    await expect(page.getByRole('heading', { name: '打印模板设计器' })).toBeVisible();
+    await page.getByRole('button', { name: '打印模板' }).click();
+    await expect(page.getByRole('heading', { name: '打印模板' }).first()).toBeVisible();
 
     // 默认采购订单模板存在并预览渲染（模板标题「采购订单」出现）
     await expect(page.getByText('采购订单', { exact: false }).first()).toBeVisible();

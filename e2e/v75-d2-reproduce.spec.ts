@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from './ssa-fixtures';
 
 test('reproduce settings page error by clicking every item', async ({ page }) => {
   const errors: string[] = [];

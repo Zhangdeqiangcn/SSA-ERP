@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 // Phase 2 / Phase 3 新增页面冒烟测试（验证渲染，避免白屏）
 // 路由：/quality/aql, /warehouse/barcode, /production/capacity,
@@ -44,21 +44,21 @@ test('Phase2 BI 自助分析页渲染', async ({ page }) => {
 
 test('Phase3 系统设置-单位换算 Tab 渲染', async ({ page }) => {
   await page.goto('/settings');
-  await page.getByRole('tab', { name: '单位换算' }).click();
+  await page.getByRole('button', { name: '单位换算' }).click();
   await expect(page.getByText('换算规则').first()).toBeVisible();
   await expect(page.getByText('单位换算计算器').first()).toBeVisible();
 });
 
 test('Phase3 系统设置-对接配置 Tab 渲染', async ({ page }) => {
   await page.goto('/settings');
-  await page.getByRole('tab', { name: '对接配置' }).click();
+  await page.getByRole('button', { name: '第三方对接通道' }).click();
   await expect(page.getByText('对接通道列表').first()).toBeVisible();
   await expect(page.getByRole('button', { name: '新增通道' })).toBeVisible();
 });
 
 test('Phase3 系统设置-移动端 Tab 渲染', async ({ page }) => {
   await page.goto('/settings');
-  await page.getByRole('tab', { name: '移动端' }).click();
+  await page.getByRole('button', { name: '移动端' }).click();
   await expect(page.getByText('支持的现场作业').first()).toBeVisible();
   await expect(page.getByText('移动端访问').first()).toBeVisible();
 });

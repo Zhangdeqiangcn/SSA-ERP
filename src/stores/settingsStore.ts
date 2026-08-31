@@ -2,20 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 
-export interface MaterialApprovalStepConfig {
-  role: string;
-  label: string;
-  fields: string[];
-}
-
-export interface MaterialApprovalConfig {
-  enabled: boolean;
-  /** 外购件(buy)审批步骤 */
-  steps: MaterialApprovalStepConfig[];
-  /** 自制件(make)审批步骤（可选，默认使用 DEFAULT_MATERIAL_MAKE_STEPS） */
-  makeSteps?: MaterialApprovalStepConfig[];
-}
-
 export interface MaterialRatingWeights {
   bomUsage: number;     // 更多 BOM 使用
   purchaseFreq: number; // 采购频次高
@@ -79,45 +65,6 @@ export interface VendorPortalConfig {
   inquiryAttachmentDownloadHours: number;
 }
 
-/** 默认物料新增审批步骤 —— 外购件(buy)路径：发起人(基本属性) → 采购(采购属性) → 管理员(批准生效) */
-export const DEFAULT_MATERIAL_BUY_STEPS: MaterialApprovalStepConfig[] = [
-  {
-    role: 'rd_engineer',
-    label: '发起申请（基本属性）',
-    fields: [
-      'name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType',
-      'categoryId', 'safetyStock', 'minStock', 'maxStock', 'price', 'currency', 'remarks',
-    ],
-  },
-  {
-    role: 'buyer',
-    label: '采购审核（采购属性）',
-    fields: ['leadTime', 'moq', 'mpq', 'defaultVendorId', 'defaultVendorName', 'purchaseUnit', 'unitConversion'],
-  },
-  { role: 'admin', label: '批准生效', fields: [] },
-];
-
-/** 默认物料新增审批步骤 —— 自制件(make)路径：发起人(基本属性) → 工艺(工艺属性) → 管理员(批准生效） */
-export const DEFAULT_MATERIAL_MAKE_STEPS: MaterialApprovalStepConfig[] = [
-  {
-    role: 'rd_engineer',
-    label: '发起申请（基本属性）',
-    fields: [
-      'name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType',
-      'categoryId', 'safetyStock', 'minStock', 'maxStack', 'price', 'currency', 'remarks',
-    ],
-  },
-  {
-    role: 'process_engineer',
-    label: '工艺审核（工艺属性）',
-    fields: ['routing', 'workCenter', 'cycleTime', 'scrapRate', 'inspectionPoint'],
-  },
-  { role: 'admin', label: '批准生效', fields: [] },
-];
-
-/** @deprecated 向后兼容别名，指向 BUY_STEPS */
-export const DEFAULT_MATERIAL_APPROVAL_STEPS = DEFAULT_MATERIAL_BUY_STEPS;
-
 export const DEFAULT_INTEGRATIONS: Integration[] = [
   { id: 'i1', name: '立体库 WMS', type: 'WMS', url: 'https://wms.ssa.com/api/v1', enabled: true, frequency: '实时', status: 'connected' },
   { id: 'i2', name: '干线运输 TMS', type: 'TMS', url: 'https://tms.ssa.com/api/v1', enabled: true, frequency: '每 15 分钟', status: 'connected' },
@@ -177,14 +124,12 @@ const seedMenuConfig = (): MenuConfigShape => {
 };
 
 interface SettingsState {
-  materialApprovalConfig: MaterialApprovalConfig;
   materialRatingConfig: MaterialRatingConfig;
   vendorRatingConfig: VendorRatingConfig;
   integrations: Integration[];
   mobileConfig: MobileConfig;
   menuConfig: MenuConfigShape;
   vendorPortalConfig: VendorPortalConfig;
-  setMaterialApprovalConfig: (c: MaterialApprovalConfig) => void;
   setMaterialRatingConfig: (c: MaterialRatingConfig) => void;
   setVendorRatingConfig: (c: VendorRatingConfig) => void;
   setIntegrations: (items: Integration[]) => void;
@@ -196,11 +141,6 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>()(
   persist(
     (set) => ({
-      materialApprovalConfig: {
-        enabled: true,
-        steps: DEFAULT_MATERIAL_BUY_STEPS.map((s) => ({ ...s, fields: [...s.fields] })),
-        makeSteps: DEFAULT_MATERIAL_MAKE_STEPS.map((s) => ({ ...s, fields: [...s.fields] })),
-      },
       materialRatingConfig: {
         enabled: true,
         weights: { bomUsage: 25, purchaseFreq: 25, shortLead: 20, lowMoq: 15, goodQuality: 15 },
@@ -219,7 +159,6 @@ export const useSettingsStore = create<SettingsState>()(
         inquiryAttachmentPolicy: 'viewOnly',
         inquiryAttachmentDownloadHours: 24,
       },
-      setMaterialApprovalConfig: (c) => set({ materialApprovalConfig: c }),
       setMaterialRatingConfig: (c) => set({ materialRatingConfig: c }),
       setVendorRatingConfig: (c) => set({ vendorRatingConfig: c }),
       setIntegrations: (items) => set({ integrations: items }),

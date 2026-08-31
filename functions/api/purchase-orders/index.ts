@@ -2,7 +2,7 @@
 import { getUserFromRequest, json } from '../../_shared/auth';
 
 export async function onRequestGet(context) {
-  const user = getUserFromRequest(context);
+  const user = await getUserFromRequest(context.request, context.env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
   const url = new URL(context.request.url);
@@ -37,8 +37,8 @@ export async function onRequestGet(context) {
   const order = `${sortCol} ${sortOrder}`;
 
   const offset = (page - 1) * pageSize;
-  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM purchase_orders ${where}`).bind(...params).first();
-  const rows = await db.prepare(`SELECT * FROM purchase_orders ${where} ORDER BY ${order} LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
+  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM purchase_orders po ${where}`).bind(...params).first();
+  const rows = await db.prepare(`SELECT * FROM purchase_orders po ${where} ORDER BY ${order} LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
 
   return json({
     data: (rows.results || []).map(r => ({

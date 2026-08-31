@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, safeEval, type Page } from './ssa-fixtures';
 
 /**
  * v32 — P0 五处死链修复专项回归
@@ -46,7 +46,7 @@ test.describe('v32 P0 死链修复', () => {
     captureErrors(page, errors);
 
     await resetAndReady(page);
-    const before = await page.evaluate(() => (window as any).__ssaStores.useWarehouseStore.getState().checkTasks.length);
+    const before = await safeEval(page, () => (window as any).__ssaStores.useWarehouseStore.getState().checkTasks.length);
 
     await page.goto('/warehouse/check');
     await page.getByRole('button', { name: '新建盘点' }).click();
@@ -67,7 +67,7 @@ test.describe('v32 P0 死链修复', () => {
     await page.getByRole('option', { name: whName as string }).click();
     await page.getByTestId('check-create-confirm').click();
 
-    const afterCreate = await page.evaluate(() => (window as any).__ssaStores.useWarehouseStore.getState().checkTasks.length);
+    const afterCreate = await safeEval(page, () => (window as any).__ssaStores.useWarehouseStore.getState().checkTasks.length);
     expect(afterCreate, '盘点单应 +1').toBe(before + 1);
 
     // 等待盘点任务页渲染
@@ -115,7 +115,7 @@ test.describe('v32 P0 死链修复', () => {
     captureErrors(page, errors);
 
     await resetAndReady(page);
-    const before = await page.evaluate(() => (window as any).__ssaStores.useProductionStore.getState().processRoutes.length);
+    const before = await safeEval(page, () => (window as any).__ssaStores.useProductionStore.getState().processRoutes.length);
 
     await page.goto('/production/routes');
     await page.getByRole('button', { name: '新建工艺路线' }).click();
@@ -126,7 +126,7 @@ test.describe('v32 P0 死链修复', () => {
     await page.getByLabel('工作中心').first().fill('CNC中心');
     await page.getByTestId('route-save').click();
 
-    const after = await page.evaluate(() => (window as any).__ssaStores.useProductionStore.getState().processRoutes.length);
+    const after = await safeEval(page, () => (window as any).__ssaStores.useProductionStore.getState().processRoutes.length);
     expect(after, '工艺路线应 +1').toBe(before + 1);
     expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
   });
@@ -136,14 +136,14 @@ test.describe('v32 P0 死链修复', () => {
     captureErrors(page, errors);
 
     await resetAndReady(page);
-    const before = await page.evaluate(() => (window as any).__ssaStores.useProductionStore.getState().workOrders.length);
+    const before = await safeEval(page, () => (window as any).__ssaStores.useProductionStore.getState().workOrders.length);
 
     await page.goto('/production/orders');
     await page.getByRole('button', { name: '新建工单' }).click();
     await page.getByTestId('wo-product').locator('input').fill('E2E生产产品');
     await page.getByTestId('wo-save').click();
 
-    const after = await page.evaluate(() => (window as any).__ssaStores.useProductionStore.getState().workOrders.length);
+    const after = await safeEval(page, () => (window as any).__ssaStores.useProductionStore.getState().workOrders.length);
     expect(after, '工单应 +1').toBe(before + 1);
     expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
   });
@@ -153,14 +153,14 @@ test.describe('v32 P0 死链修复', () => {
     captureErrors(page, errors);
 
     await resetAndReady(page);
-    const before = await page.evaluate(() => (window as any).__ssaStores.useSalesStore.getState().prospects.length);
+    const before = await safeEval(page, () => (window as any).__ssaStores.useSalesStore.getState().prospects.length);
 
     await page.goto('/sales/prospects');
     await page.getByRole('button', { name: '新增意向客户' }).click();
     await page.getByTestId('prospect-company').locator('input').fill(`E2E公司${Date.now()}`);
     await page.getByTestId('prospect-save').click();
 
-    const after = await page.evaluate(() => (window as any).__ssaStores.useSalesStore.getState().prospects.length);
+    const after = await safeEval(page, () => (window as any).__ssaStores.useSalesStore.getState().prospects.length);
     expect(after, '意向客户应 +1').toBe(before + 1);
     expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
   });
@@ -170,7 +170,7 @@ test.describe('v32 P0 死链修复', () => {
     captureErrors(page, errors);
 
     await resetAndReady(page);
-    const before = await page.evaluate(() => (window as any).__ssaStores.usePriceStore.getState().priceList.length);
+    const before = await safeEval(page, () => (window as any).__ssaStores.usePriceStore.getState().priceList.length);
 
     await page.goto('/price/list');
     await page.getByRole('button', { name: '手工录入' }).click();
@@ -179,7 +179,7 @@ test.describe('v32 P0 死链修复', () => {
     await page.getByTestId('price-unitprice').locator('input').fill('99');
     await page.getByTestId('price-save').click();
 
-    const after = await page.evaluate(() => (window as any).__ssaStores.usePriceStore.getState().priceList.length);
+    const after = await safeEval(page, () => (window as any).__ssaStores.usePriceStore.getState().priceList.length);
     expect(after, '价目表项应 +1').toBe(before + 1);
     expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
   });

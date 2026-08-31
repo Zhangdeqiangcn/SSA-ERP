@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * v74 — 审批流深度定制（请求 D 第二部分 · V2.55.19）运行期冒烟验收
@@ -43,8 +43,7 @@ test.describe('v74 审批流深度定制 运行期冒烟', () => {
 
     // 进入系统设置 → 审批与工作流 → 审批流程
     await page.goto('/settings');
-    // 关闭首次访问引导弹窗（resetAndReady 清空 localStorage 后必然出现，会拦截后续点击）
-    await page.getByRole('button', { name: '跳过引导' }).click();
+    // 注：新版本已移除首次访问引导弹窗，直接进入设置页
     await page.getByRole('button', { name: '审批流程', exact: true }).click();
 
     // 标题与模块列表应渲染

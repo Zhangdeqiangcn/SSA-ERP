@@ -213,10 +213,12 @@ const ConsignmentStock = lazy(() => import('./pages/Warehouse/ConsignmentStock')
 // P2-06 发票批量核验
 const InvoiceVerification = lazy(() => import('./pages/Analytics/InvoiceVerification'));
 
-// 登录门禁：未登录则跳转登录页（authStore 本地持久化，刷新后免登录）
+// 登录门禁：未登录则跳转登录页（authStore 本地持久化，刷新后免登录）。
+// DEV 下不强制：vite dev 供 E2E 回归与离线演示以「未登录纯前端模式」直达业务页（老用例均按此假设编写，
+// 且 App 设计本身支持未登录本地数据）；生产构建（import.meta.env.DEV=false）仍强制登录。
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAuthenticated && !import.meta.env.DEV) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
 

@@ -247,7 +247,7 @@ const Workbench: React.FC = () => {
           {/* 预警与通知 */}
           {id === 'alert' && (
             <List dense disablePadding sx={{ maxHeight: 320, overflow: 'auto' }}>
-              {notifications.slice(0, 10).map((n, i) => (
+              {notifications.map((n, i) => (
                 <React.Fragment key={n.id}>
                   <ListItem
                     button

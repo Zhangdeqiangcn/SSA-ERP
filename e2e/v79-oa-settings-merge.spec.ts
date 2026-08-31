@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 // V2.55.21 导航整合验证：
 // 1) 侧栏不再有「平台生态」分组
@@ -11,12 +11,12 @@ test('OA流程定制整合与系统设置去重回归', async ({ page }) => {
   page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
 
   // 1) 侧栏无「平台生态」
-  await page.goto('http://localhost:3001/');
+  await page.goto('http://localhost:3000/');
   await page.waitForLoadState('networkidle');
   await expect(page.getByText('平台生态', { exact: true })).toHaveCount(0);
 
   // 2) 系统设置页
-  await page.goto('http://localhost:3001/settings');
+  await page.goto('http://localhost:3000/settings');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(800);
 

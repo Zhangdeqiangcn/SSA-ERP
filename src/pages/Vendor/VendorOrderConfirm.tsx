@@ -59,6 +59,8 @@ const ConfirmOrderDialog: React.FC<{
   // Hook 必须在任何提前 return 之前无条件调用，避免违反 Hooks 规则导致整页崩溃
   const [items, setItems] = useState(order ? order.confirmedItems.map(i => ({ ...i })) : []);
   const [remark, setRemark] = useState(order?.vendorRemark || '');
+  // B5: 供应商确认交期（独立列，默认与原PO交期一致，允许修改）
+  const [vendorConfirmedDate, setVendorConfirmedDate] = useState(order?.vendorConfirmedDate || '');
   if (!order) return null;
 
   // 系统默认自动确认时间
@@ -161,9 +163,28 @@ const ConfirmOrderDialog: React.FC<{
             </TableBody>
           </Table>
         </TableContainer>
-        <TextField fullWidth size="small" label="整体说明" multiline rows={2}
-          value={remark} onChange={(e) => setRemark(e.target.value)}
-          placeholder="如有分批交货、价格异议等，请在此说明" />
+        {/* B5: 供应商确认交期（独立列，不修改原PO交期） */}
+        <Paper variant="outlined" sx={{ p: 2, mb: 2, borderRadius: 2 }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={4}>
+              <Typography variant="caption" color="text.secondary">原采购交期</Typography>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>{order.expectedDeliveryDate || '—'}</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="caption" color="text.secondary">供应商确认交期</Typography>
+              <TextField size="small" type="date" value={vendorConfirmedDate}
+                onChange={(e) => setVendorConfirmedDate(e.target.value)}
+                InputLabelProps={{ shrink: true }}
+                sx={{ width: '100%' }} />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="caption" color="text.secondary">整体说明</Typography>
+              <TextField fullWidth size="small" multiline rows={1}
+                value={remark} onChange={(e) => setRemark(e.target.value)}
+                placeholder="如有分批交货、价格异议等，请在此说明" />
+            </Grid>
+          </Grid>
+        </Paper>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
         <Button onClick={onClose}>取消</Button>
@@ -172,7 +193,12 @@ const ConfirmOrderDialog: React.FC<{
         <Button variant="contained" color="success" startIcon={<CheckCircle />} onClick={() => {
           updateVendorOrderConfirm(order!.id, { status: 'confirmed', vendorRemark: remark, confirmedItems: items, confirmedAt: nowStr(), confirmedBy: order!.vendorName });
           // B5-T2 回写主系统采购订单：供应商门户确认 → PO 状态推进为 vendorConfirmed
-          usePurchaseStore.getState().confirmOrderByVendor(order!.purchaseOrderId, { vendorId: order!.vendorId, operator: order!.vendorName, note: remark });
+          usePurchaseStore.getState().confirmOrderByVendor(order!.purchaseOrderId, {
+            vendorId: order!.vendorId,
+            operator: order!.vendorName,
+            note: remark,
+            confirmedDeliveryDate: vendorConfirmedDate || undefined, // B5: 供应商确认交期
+          });
           onClose();
         }}>确认订单</Button>
       </DialogActions>

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test('V2.55.20 通用详情打印模块 — 供应商详情页接入验证', async ({ page }) => {
   const errors: string[] = [];

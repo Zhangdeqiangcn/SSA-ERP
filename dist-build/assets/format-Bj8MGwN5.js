@@ -1,1 +1,0 @@
-import{dL as n}from"./vendor-CB_hw-T-.js";const o=(r,t="YYYY-MM-DD")=>r?n(r).format(t):"-",a=(r,t="CNY")=>r==null?"-":new Intl.NumberFormat("zh-CN",{style:"currency",currency:t,minimumFractionDigits:2}).format(r),f=r=>r||"-";export{o as a,f as b,a as f};

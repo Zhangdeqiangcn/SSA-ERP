@@ -183,6 +183,50 @@ export function getEffectiveSteps(
     });
 }
 
+/** 供 FlowTracker 使用：将审批流配置转换为 FlowDe  }
+
+/* ==========================================================================
+ * 4. 运行时推进解析（B7-3）
+ *    供各业务审批队列在「提交下一步」时调用，使结构化条件 + 跳过规则在运行时真正生效：
+ *    - 命中 skipRule.action='auto_approve' 的节点：自动记为通过并跳过（需追加系统自动审批记录）
+ *    - 命中 skipRule.action='skip'（或简化模式被省略）的节点：直接跳过（不记审批记录）
+ *    - 其余节点：作为真正的下一步返回
+ *    默认配置无 skipRule，等价于 nextStep = currentStep + 1，不改变既有行为（向后兼容 E2E）。
+ * ========================================================================== */
+export interface ResolvedApprovalAdvance {
+  /** 真正的下一步索引（跳过 auto_approve / skip 节点后） */
+  nextStep: number;
+  /** 被自动通过的节点（需追加系统自动审批记录） */
+  autoApprovedNodes: ApprovalFlowNode[];
+  /** 被直接跳过的节点（不记审批记录） */
+  skippedNodes: ApprovalFlowNode[];
+}
+
+export function resolveApprovalAdvance(
+  module: string,
+  currentStep: number,
+  fullSteps: ApprovalFlowNode[],
+  context?: ApprovalContext
+): ResolvedApprovalAdvance {
+  const autoApprovedNodes: ApprovalFlowNode[] = [];
+  const skippedNodes: ApprovalFlowNode[] = [];
+  // 不传 context（或无条件可求值）时，退化为简单 +1，保证向后兼容
+  if (!context) {
+    return { nextStep: Math.min(currentStep + 1, fullSteps.length), autoApprovedNodes, skippedNodes };
+  }
+  const eff = getEffectiveSteps(module, context);
+  const effById = new Map(eff.map((s) => [s.id, s]));
+  let next = currentStep + 1;
+  while (next < fullSteps.length) {
+    const e = effById.get(fullSteps[next].id);
+    if (!e) { next = fullSteps.length; break; }       // 节点不在有效链中（极端情况），终止
+    if (!e.active) { skippedNodes.push(fullSteps[next]); next++; continue; }   // 被跳过
+    if (e.autoApproved) { autoApprovedNodes.push(fullSteps[next]); next++; continue; } // 自动通过
+    break;                                              // 第一个需人工审批的节点即停
+  }
+  return { nextStep: next, autoApprovedNodes, skippedNodes };
+}
+
 /** 供 FlowTracker 使用：将审批流配置转换为 FlowDefinition（保持旧行为，返回全部节点） */
 export function buildApprovalFlowDefinition(module: string): FlowDefinition | null {
   const flow = getApprovalFlow(module);

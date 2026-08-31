@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from './ssa-fixtures';
 
 /**
  * A5 退货红冲税额写死 0 的 bug 修复 E2E

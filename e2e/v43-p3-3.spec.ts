@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from './ssa-fixtures';
 
 /**
  * P3-3 供应链深化 E2E

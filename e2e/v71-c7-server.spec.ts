@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * v71 — C7 服务端化（多用户会话 + 落库审计 + 持久化抽象层）专项验收
@@ -118,7 +118,7 @@ test.describe('v71 C7 服务端化：多用户会话 / 落库审计 / 持久化�
 
     await page.goto('/settings');
     await page.waitForFunction(() => (window as any).__ssaStores);
-    await page.getByRole('tab', { name: '服务端与审计' }).click();
+    await page.getByRole('button', { name: '服务端与审计' }).click();
 
     await expect(page.getByTestId('srv-driver')).toContainText('local');
     await expect(page.getByTestId('srv-current-user')).toContainText('张德强');

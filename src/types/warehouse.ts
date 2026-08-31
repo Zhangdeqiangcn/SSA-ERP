@@ -3,7 +3,7 @@ import { BaseEntity } from './common';
 /** B2：新增 subcontract —— 委外加工收货入库（对标 SAP 543 组件消耗的反向收货口径） */
 /** B3：新增 production —— 生产完工入库（对标 SAP 生产收货 101，借 1405 库存商品 / 贷 5001 生产成本） */
 /** B7-T1：新增 asn —— 供应商门户发货通知单（Advanced Shipping Notice）在途预告，status='in_transit' 仅登记不入库 */
-export type InboundType = 'purchase' | 'return' | 'transfer' | 'subcontract' | 'production' | 'asn';
+export type InboundType = 'purchase' | 'return' | 'transfer' | 'subcontract' | 'production' | 'asn' | 'rework';
 export type InboundStatus = 'pending' | 'processing' | 'completed' | 'cancelled';
 /** B2：新增 subcontract —— 委外发料给供应商（对标 SAP 541 移动类型） */
 /** B4：新增 scrap —— 报废出库（不合格品 NCR 报废处置联动库存扣减 + 借6602管理费用/贷1403原材料|1405库存商品，对标报废损失） */
@@ -37,6 +37,8 @@ export interface InboundOrderItem {
   productionDate?: string;
   /** P1-08 保质期管理：到期日（生产日期+物料保质期天数） */
   expiryDate?: string;
+  /** B2-① 序列号驱动：是否强制校验序列号（serialized物料必填） */
+  requireSerialNo?: boolean;
 }
 
 export interface InboundOrder extends BaseEntity {

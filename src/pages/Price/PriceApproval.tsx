@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import {
   Box, Paper, Typography, Table, TableBody, TableCell,
@@ -8,10 +8,14 @@ import {
 } from '@mui/material';
 import { ArrowBack, Check, Close, Send } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DetailSection, FlowTracker } from '@/components/common';
+import { FlowTracker } from '@/components/common';
 import { usePriceStore } from '@/stores/priceStore';
+import { useAuthStore } from '@/stores/authStore';
+import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
 import { PriceApprovalRecord, PriceApproval as PriceApprovalType, PriceApprovalItem } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
+
+const PRICE_MODULE = 'price_approval';
 
 interface ApprovalStateItem {
   materialId: string;
@@ -33,11 +37,22 @@ const PriceApproval: React.FC = () => {
   const { priceApprovals } = usePriceStore();
   const approvePriceApproval = usePriceStore((s) => s.approvePriceApproval);
   const addPriceApproval = usePriceStore((s) => s.addPriceApproval);
+  const updatePriceApproval = usePriceStore((s) => s.updatePriceApproval);
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 从比价单传入或从mock加载
+  // 由统一审批引擎驱动的步骤（price_approval）
+  const steps = useMemo<ApprovalFlowNode[]>(() => {
+    const cfg = getApprovalSteps(PRICE_MODULE);
+    return cfg.length
+      ? cfg
+      : [{ id: 'pa-1', name: '审批', role: 'buyer', roleName: '采购员', order: 1 } as ApprovalFlowNode];
+  }, []);
+
+  const currentUser = useAuthStore((s) => s.currentUser);
+
+  // 从比价单传入或从 mock 加载
   const [items, setItems] = useState<ApprovalStateItem[]>([]);
   const [comparisonId, setComparisonId] = useState('');
   const [comparisonNo, setComparisonNo] = useState('');
@@ -47,18 +62,15 @@ const PriceApproval: React.FC = () => {
   const [remarks, setRemarks] = useState('');
   const [approvalNo, setApprovalNo] = useState('');
   const [approvalStatus, setApprovalStatus] = useState<string>('pending');
-  const [approvalRecords, setApprovalRecords] = useState<any[]>([]);
+  const [approvalRecords, setApprovalRecords] = useState<PriceApprovalRecord[]>([]);
+  const [currentStep, setCurrentStep] = useState(0);
   const [showApprovalDialog, setShowApprovalDialog] = useState(false);
   const [approvalAction, setApprovalAction] = useState<'approve' | 'reject'>('approve');
-
-  // 审批角色（模拟当前用户为采购经理）
-  const currentApprover = '赵强'; // 采购经理
-  const isApprover = currentApprover === '赵强';
 
   useEffect(() => {
     // 优先从路由参数加载已有审批单
     if (id && id !== 'new') {
-      const existing = priceApprovals.find(a => a.id === id);
+      const existing = priceApprovals.find((a) => a.id === id);
       if (existing) {
         setItems(existing.items);
         setComparisonId(existing.comparisonId);
@@ -69,13 +81,19 @@ const PriceApproval: React.FC = () => {
         setRemarks(existing.remarks || '');
         setApprovalNo(existing.approvalNo);
         setApprovalStatus(existing.status);
+        // 已批准/已驳回则定位到流程末尾，避免「当前步骤」误显首节点
+        setCurrentStep(
+          existing.status === 'approved' || existing.status === 'rejected'
+            ? steps.length
+            : (existing.currentStep ?? 0)
+        );
         setApprovalRecords(existing.approvalRecords || []);
         return;
       }
     }
 
-    // 其次从location state加载（新建模式）
-    const state = location.state as any;
+    // 其次从 location state 加载（新建模式）
+    const state = location.state as { items?: ApprovalStateItem[]; comparisonId?: string; comparisonNo?: string; inquiryId?: string; inquiryNo?: string; title?: string } | null;
     if (state?.items) {
       setItems(state.items);
       setComparisonId(state.comparisonId || '');
@@ -83,13 +101,23 @@ const PriceApproval: React.FC = () => {
       setInquiryId(state.inquiryId || '');
       setInquiryNo(state.inquiryNo || '');
       setTitle(state.title || '');
+      setCurrentStep(0);
     }
-  }, [id, location.state]);
+  }, [id, location.state, steps]);
 
   const totalAmount = items.reduce((sum, item) => sum + item.selectedAmount, 0);
 
+  const step = steps[currentStep];
+  const isLastStep = currentStep >= steps.length - 1;
+  const inProgress = !['approved', 'rejected'].includes(approvalStatus);
+  const canAct = inProgress && !!step && !!currentUser && (
+    currentUser.role === step.role ||
+    currentUser.role === 'admin' ||
+    useAuthStore.getState().hasPermission('price.approve')
+  );
+
   const handleSubmitForApproval = () => {
-    alert('价格审批单已提交！（演示模式）\n将依次由采购经理 → 财务进行审批');
+    alert('价格审批单已提交！（演示模式）\n将按设置中心配置的审批流依次审批');
     navigate('/price/approvals');
   };
 
@@ -106,23 +134,22 @@ const PriceApproval: React.FC = () => {
   const handleConfirmApproval = (comments: string) => {
     if (approvalAction === 'approve') {
       const now = new Date().toISOString();
+      const stepNode = steps[currentStep];
       const record: PriceApprovalRecord = {
-        id: `ar-${Date.now()}`,
-        approver: currentApprover,
+        id: `par-${Date.now()}`,
+        approver: currentUser?.name || '当前用户',
         action: 'approve',
         comments,
         operatedAt: now,
-        nodeName: '采购经理审批',
+        nodeName: stepNode?.name || '审批',
       };
-      const existing = priceApprovals.find((a) => a.id === id);
-      if (existing) {
-        approvePriceApproval(existing.id, record);
-        alert('审批通过！价格已生效，已自动生成价目表记录。');
-      } else if (id && id !== 'new') {
-        approvePriceApproval(id, record);
-        alert('审批通过！价格已生效，已自动生成价目表记录。');
-      } else {
-        // 新建审批单：先落库再审批，触发价目表自动生成
+
+      const target = priceApprovals.find((a) => a.id === id);
+      let approvalId = id ?? target?.id ?? '';
+      let baseRecords: PriceApprovalRecord[] = target?.approvalRecords || [];
+
+      // 新建模式的审批单：先落库再推进
+      if (!target) {
         const newApproval: PriceApprovalType = {
           id: `pa-${Date.now()}`,
           approvalNo: `PA${now.slice(0, 10).replace(/-/g, '')}${String(Date.now()).slice(-4)}`,
@@ -131,7 +158,7 @@ const PriceApproval: React.FC = () => {
           inquiryId,
           inquiryNo,
           title,
-          applicant: '当前用户',
+          applicant: currentUser?.name || '当前用户',
           applicationDate: now.slice(0, 10),
           items: items.map(
             (it): PriceApprovalItem => ({
@@ -152,63 +179,93 @@ const PriceApproval: React.FC = () => {
           ),
           totalAmount,
           approvalRecords: [record],
-          status: 'approved',
+          status: 'reviewing',
+          currentStep: 0,
+          remarks,
+          currency: 'CNY',
           createdAt: now,
           updatedAt: now,
-          createdBy: '当前用户',
-          updatedBy: '当前用户',
-          currency: 'CNY',
+          createdBy: currentUser?.name || '当前用户',
         };
         addPriceApproval(newApproval);
-        approvePriceApproval(newApproval.id, record);
-        alert('审批通过！价格已生效，已自动生成价目表记录。');
+        approvalId = newApproval.id;
+        baseRecords = [record];
       }
-      setApprovalStatus('approved');
+
+      // 运行时条件执行：计算真正的下一步（默认配置等价于 currentStep + 1）
+      const { nextStep, autoApprovedNodes } = resolveApprovalAdvance(PRICE_MODULE, currentStep, steps, { amount: totalAmount });
+      const autoRecords: PriceApprovalRecord[] = autoApprovedNodes.map((n) => ({
+        id: `par-auto-${Date.now()}-${n.id}`,
+        approver: '系统自动',
+        action: 'approve',
+        comments: `命中自动通过规则（${n.name}）`,
+        operatedAt: now,
+        nodeName: n.name,
+      }));
+
+      if (nextStep < steps.length) {
+        updatePriceApproval(approvalId, {
+          currentStep: nextStep,
+          status: 'reviewing',
+          approvalRecords: [...baseRecords, ...autoRecords, record],
+        });
+        setCurrentStep(nextStep);
+        setApprovalStatus('reviewing');
+      } else {
+        // 终审：触发价目表自动生成（事件驱动）
+        approvePriceApproval(approvalId, record);
+        setApprovalStatus('approved');
+      }
+      alert('审批通过！价格已生效，已自动生成价目表记录。');
     } else {
+      const now = new Date().toISOString();
+      const stepNode = steps[currentStep];
+      const record: PriceApprovalRecord = {
+        id: `par-${Date.now()}`,
+        approver: currentUser?.name || '当前用户',
+        action: 'reject',
+        comments,
+        operatedAt: now,
+        nodeName: stepNode?.name || '审批',
+      };
+      const target = priceApprovals.find((a) => a.id === id);
+      if (target) {
+        updatePriceApproval(target.id, {
+          status: 'rejected',
+          approvalRecords: [...(target.approvalRecords || []), record],
+        });
+      }
+      setApprovalStatus('rejected');
       alert('审批驳回！请重新比价。（演示模式）');
     }
     setShowApprovalDialog(false);
     navigate('/price/approvals');
   };
 
-  // 审批步骤
-  const getApprovalSteps = () => {
-    const steps = [
-      { label: '采购员提交', status: approvalStatus === 'pending' || approvalStatus === 'approved' ? 'completed' : 'active' },
-      { label: '采购经理审批', status: approvalStatus === 'approved' ? 'completed' : approvalStatus === 'pending' ? 'active' : 'pending' },
-      { label: '财务审批', status: approvalStatus === 'approved' ? 'completed' : 'pending' },
-      { label: '审批完成', status: approvalStatus === 'approved' ? 'completed' : 'pending' },
-    ];
-    return steps;
-  };
-
-  const getActiveStep = () => {
-    if (approvalStatus === 'approved') return 4;
-    if (approvalStatus === 'rejected') return 1;
-    return 1;
-  };
-
   const isReadonly = approvalStatus === 'approved' || approvalStatus === 'rejected';
+  const flowStatus = approvalStatus === 'approved' || approvalStatus === 'rejected'
+    ? (steps[steps.length - 1]?.id ?? 'pa-3')
+    : (steps[currentStep]?.id ?? 'pa-1');
 
   return (
     <PageWrapper
       title={`价格审批单 ${approvalNo ? approvalNo : ''}`}
       actions={
         <Stack direction="row" spacing={1}>
-          <FlowTracker module="price-approval" currentStatus={approvalStatus}
+          <FlowTracker module="price_approval" currentStatus={flowStatus}
             documentNo={approvalNo || comparisonNo} />
           <Button variant="outlined" startIcon={<ArrowBack />}
             onClick={() => navigate('/price/approvals')}>返回列表</Button>
         </Stack>
       }
     >
-      {/* 审批进度 */}
+      {/* 审批进度（统一引擎驱动） */}
       <Paper sx={{ p: 2, mb: 2 }}>
-        <Typography variant="subtitle2" fontWeight={600} mb={1}>审批进度</Typography>
-        <Stepper activeStep={getActiveStep()} alternativeLabel>
-          {getApprovalSteps().map((step, idx) => (
-            <Step key={idx} completed={step.status === 'completed'}>
-              <StepLabel>{step.label}</StepLabel>
+        <Typography variant="subtitle2" fontWeight={600} mb={1}>审批进度（{steps.length} 步，按设置中心配置驱动）</Typography>
+        <Stepper activeStep={approvalStatus === 'approved' ? steps.length : currentStep} alternativeLabel>
+          {steps.map((s, idx) => (
+            <Step key={s.id} completed={approvalStatus === 'approved' ? true : idx < currentStep}>
+              <StepLabel>{s.name}</StepLabel>
             </Step>
           ))}
         </Stepper>
@@ -225,7 +282,7 @@ const PriceApproval: React.FC = () => {
           <Box><Typography variant="caption" color="text.secondary">标题</Typography>
             <Typography variant="body2">{title}</Typography></Box>
           <Box><Typography variant="caption" color="text.secondary">申请人</Typography>
-            <Typography variant="body2">张华（采购部）</Typography></Box>
+            <Typography variant="body2">{currentUser?.name || '张华'}（采购部）</Typography></Box>
           <Box><Typography variant="caption" color="text.secondary">申请日期</Typography>
             <Typography variant="body2">{formatDate(new Date().toISOString().split('T')[0])}</Typography></Box>
           <Box><Typography variant="caption" color="text.secondary">状态</Typography>

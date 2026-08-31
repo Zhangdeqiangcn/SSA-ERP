@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * 防回归：详情页脏数据白屏防御
@@ -66,9 +66,10 @@ test('OutboundDetail 在 items 缺失时不白屏', async ({ page }) => {
   }, id);
 
   await page.goto('/warehouse/outbound/' + id);
-  await page.waitForTimeout(800);
+  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(1500);
 
   const rootLen = await page.evaluate(() => document.getElementById('root')?.innerHTML.length || 0);
   expect(rootLen).toBeGreaterThan(1000);
-  expect(errors).toHaveLength(0);
+  expect(errors, `页面错误: ${errors.join('; ')}`).toEqual([]);
 });

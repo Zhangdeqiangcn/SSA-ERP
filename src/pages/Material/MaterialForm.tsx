@@ -15,6 +15,8 @@ import { PageWrapper } from '@/components/layout';
 import { FileUpload, CustomFieldsSection } from '@/components/common';
 import { useMaterialStore, useDataDictStore, useCustomFieldStore } from '@/stores';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useApprovalFlowStore } from '@/stores/approvalFlowStore';
+import { getApprovalSteps } from '@/data/approvalFlowConfig';
 import { useMaterialApprovalStore } from '@/stores/materialApprovalStore';
 import { useAuthStore } from '@/stores/authStore';
 import { Material, MaterialApplication, MaterialType, MakeOrBuy, MaterialCategory } from '@/types';
@@ -141,13 +143,13 @@ const MaterialForm: React.FC = () => {
   const templateUnit = searchParams.get('unit');
   const templateSpecification = searchParams.get('specification');
   const { materials, addMaterial, updateMaterial, categories } = useMaterialStore();
-  // 审批配置（新增物料时若启用审批，则走申请流程）
-  const approvalConfig = useSettingsStore(s => s.materialApprovalConfig);
+  // 审批配置（新增物料时若启用审批，则走申请流程，统一由审批流引擎 material 模块驱动）
+  const materialFlowEnabled = useApprovalFlowStore(s => s.flows.find(f => f.module === 'material')?.enabled ?? true);
+  const steps = getApprovalSteps('material');
   const addMaterialApplication = useMaterialApprovalStore(s => s.addMaterialApplication);
   const currentUser = useAuthStore(s => s.currentUser);
 
-  const isApprovalMode = !isEdit && approvalConfig.enabled;
-  const steps = approvalConfig.steps;
+  const isApprovalMode = !isEdit && materialFlowEnabled;
 
   const categoryOptions = buildCategoryOptions(categories);
   // 单位下拉：直接读取数据字典单一数据源（ssa-erp-datadict），随设置页维护实时同步
@@ -293,7 +295,7 @@ const MaterialForm: React.FC = () => {
         stepHistory: [{
           step: 0,
           role: currentUser?.role || 'admin',
-          label: steps[0]?.label || '发起申请',
+          label: steps[0]?.name || '发起申请',
           action: 'submit',
           fields: steps[0]?.fields ?? [],
           at: new Date().toISOString(),

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V3.0 事件驱动自动流转 E2E：
@@ -15,6 +15,14 @@ test.use({ expect: { timeout: 60_000 } });
 
 const waitStores = (page: PageEx) =>
   page.waitForFunction(() => (window as unknown as Record<string, unknown>).__ssaStores);
+
+// reload 后必须等 navigation 完全 settle 再 evaluate，否则高负载下偶发撞
+// "Execution context was destroyed"（reload 上下文正在重建时 evaluate 被 cancel）
+const reloadAndWait = async (page: PageEx) => {
+  await page.reload();
+  await page.waitForLoadState('load');
+  await waitStores(page);
+};
 
 const invQtyById = (page: PageEx, id: string) =>
   page.evaluate((mid: string) => {
@@ -83,8 +91,7 @@ test.describe('事件驱动自动流转', () => {
       .toBe(before + info.qty);
 
     // 刷新后仍然保留（持久化）
-    await page.reload();
-    await waitStores(page);
+    await reloadAndWait(page);
     const persisted = await invQtyByMat(page, info.materialId, info.warehouseId);
     expect(persisted, `入库库存未持久化（期望 ${before + info.qty}，实际 ${persisted}）`).toBe(before + info.qty);
 
@@ -123,8 +130,7 @@ test.describe('事件驱动自动流转', () => {
 
     await expect.poll(() => invQtyById(page, before.id), { timeout: 15_000 }).toBe(before.qty - deduct);
 
-    await page.reload();
-    await waitStores(page);
+    await reloadAndWait(page);
     const persisted = await invQtyById(page, before.id);
     expect(persisted, `出库库存未持久化（期望 ${before.qty - deduct}，实际 ${persisted}）`).toBe(before.qty - deduct);
 
@@ -161,8 +167,7 @@ test.describe('事件驱动自动流转', () => {
       .toBe(true);
 
     // 刷新后仍然保留（持久化）
-    await page.reload();
-    await waitStores(page);
+    await reloadAndWait(page);
     const persisted = await page.evaluate((id: string) => {
       const pl = (window as unknown as Record<string, any>).__ssaStores.usePriceStore.getState().priceList as any[];
       return pl.some((x) => x.sourceApprovalId === id);

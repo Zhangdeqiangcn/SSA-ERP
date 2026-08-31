@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];

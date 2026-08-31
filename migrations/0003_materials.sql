@@ -104,7 +104,9 @@ CREATE INDEX IF NOT EXISTS idx_materials_status ON materials(status);
 CREATE INDEX IF NOT EXISTS idx_materials_type ON materials(material_type);
 
 -- 记录迁移状态（幂等守卫）
+-- 注意：version 必须是 TEXT 主键——0005+ 迁移以文本版本号（如 '0005_purchase_orders'）INSERT，
+-- 若定义为 INTEGER PRIMARY KEY，向 INTEGER 主键插入文本会触发 SQLITE_MISMATCH，导致迁移无法幂等重放。
 CREATE TABLE IF NOT EXISTS schema_migrations (
-  version     INTEGER PRIMARY KEY,
+  version     TEXT PRIMARY KEY,
   applied_at  TEXT NOT NULL DEFAULT (datetime('now'))
 );

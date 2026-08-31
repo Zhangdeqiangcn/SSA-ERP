@@ -27,9 +27,23 @@ export interface Invoice extends BaseEntity {
   exchangeRate?: number;      // 原币→本位币汇率（1 原币 = exchangeRate CNY）
 }
 
+// B11 多笔付款计划：单笔付款计划可拆为多期（预付款/进度款/尾款）
+export type PaymentInstallmentType = 'advance' | 'progress' | 'final' | 'lump';
+export interface PaymentInstallment {
+  id: string;
+  type: PaymentInstallmentType;
+  label: string;          // 预付款 / 进度款1 / 尾款
+  amount: number;
+  dueDate: string;
+  status: PaymentStatus;  // pending / partial / paid / overdue
+  paidDate?: string;
+  note?: string;
+}
+
 export interface PaymentPlan extends BaseEntity {
   planNo: string;
   vendorName: string;
+  vendorId?: string;        // B11：关联供应商（用于预付款占用信用）
   purchaseOrderNo: string;
   invoiceNo: string;
   totalAmount: number;
@@ -41,6 +55,10 @@ export interface PaymentPlan extends BaseEntity {
   bankAccount?: string;
   note?: string;
   voucherGenerated?: boolean; // 是否已生成付款凭证
+  // B11 多笔付款计划（可选，向后兼容单笔计划）
+  installments?: PaymentInstallment[];
+  advanceAmount?: number;     // 预付款合计（占用信用的部分）
+  advanceOccupied?: boolean;  // 预付款信用是否已占用
   // P2-5 多币种支持（可选，向后兼容）
   currency?: string;          // 原币代码，缺省 CNY
   exchangeRate?: number;      // 原币→本位币汇率

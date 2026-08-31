@@ -54,6 +54,8 @@ const InboundForm: React.FC = () => {
   const [itemLocations, setItemLocations] = useState<Record<string, string>>({});
   // P1-08 保质期管理：入库行生产日期
   const [itemProductionDates, setItemProductionDates] = useState<Record<string, string>>({});
+  // B2-① 序列号驱动：serialized 物料入库必须填写序列号（逗号/换行分隔，数量=本次入库量）
+  const [itemSerials, setItemSerials] = useState<Record<string, string>>({});
 
   const handleSearch = () => {
     const order = purchaseOrders.find(o => o.orderNo === orderNo);
@@ -64,6 +66,18 @@ const InboundForm: React.FC = () => {
 
   const buildInboundOrder = (status: 'completed' | 'pending') => {
     if (!selectedOrder) return;
+    // B2-① 序列号强制校验：serialized 物料必须填写与入库数量一致的序列号
+    const serialErrs: string[] = [];
+    selectedOrder.items.forEach(item => {
+      const material = useMaterialStore.getState().materials.find(m => m.id === (item.materialId || item.id));
+      if (material?.serialized) {
+        const serials = (itemSerials[item.id] || '').split(/[,\n]/).map(s => s.trim()).filter(Boolean);
+        const qty = (item.orderedQuantity || 0) - (item.deliveredQuantity || 0);
+        if (serials.length === 0) serialErrs.push(`物料【${item.materialName}】为序列号管理，本次入库必须填写序列号`);
+        else if (serials.length !== qty) serialErrs.push(`物料【${item.materialName}】序列号数量(${serials.length})必须等于本次入库数量(${qty})`);
+      }
+    });
+    if (serialErrs.length) { alert('序列号校验未通过：\n' + serialErrs.join('\n')); return; }
     const now = new Date().toISOString();
     const id = `inbound-${Date.now()}`;
     const inboundNo = `IB${new Date().toISOString().slice(0, 10).replace(/-/g, '')}${String(Date.now()).slice(-4)}`;
@@ -109,6 +123,10 @@ const InboundForm: React.FC = () => {
           locationName: loc?.name || undefined,
           productionDate: prodDate || undefined,
           expiryDate: expiryDate || undefined,
+          // B2-① 序列号驱动：serialized 物料写入序列号清单
+          serialNos: material?.serialized
+            ? (itemSerials[item.id] || '').split(/[,\n]/).map(s => s.trim()).filter(Boolean)
+            : undefined,
         };
       }),
       createdAt: now,
@@ -222,6 +240,7 @@ const InboundForm: React.FC = () => {
                     <TableCell>批次号</TableCell>
                     <TableCell>库位</TableCell>
                     <TableCell>生产日期</TableCell>
+                    <TableCell>序列号</TableCell>
                     <TableCell>到期日</TableCell>
                   </TableRow>
                 </TableHead>
@@ -274,6 +293,24 @@ const InboundForm: React.FC = () => {
                           InputLabelProps={{ shrink: true }}
                           sx={{ width: 150 }}
                         />
+                      </TableCell>
+                      <TableCell>
+                        {(() => {
+                          const mat = useMaterialStore.getState().materials.find(m => m.id === (item.materialId || item.id));
+                          if (!mat?.serialized) return <Typography variant="caption" color="text.secondary">非序列号</Typography>;
+                          const qty = (item.orderedQuantity || 0) - (item.deliveredQuantity || 0);
+                          return (
+                            <TextField
+                              size="small"
+                              multiline
+                              minRows={1}
+                              placeholder={`序列号×${qty}`}
+                              value={itemSerials[item.id] || ''}
+                              onChange={e => setItemSerials(prev => ({ ...prev, [item.id]: e.target.value }))}
+                              sx={{ width: 160 }}
+                            />
+                          );
+                        })()}
                       </TableCell>
                       <TableCell>
                         {(() => {

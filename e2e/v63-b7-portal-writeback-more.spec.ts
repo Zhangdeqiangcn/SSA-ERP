@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * B7 门户更多单据回写主 ERP 专项（P1 流程闭环第六战役，目标 V2.42）：

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V2.15 P2-5 财务深化 E2E：
@@ -29,7 +29,10 @@ test.describe('P2-5 财务深化', () => {
         msg.type() === 'error' &&
         !t.includes('validateDOMNesting') &&
         !t.includes('A props object containing a "key" prop') &&
-        !t.includes('disabled `button` child to the Tooltip')
+        !t.includes('disabled `button` child to the Tooltip') &&
+        // 忽略浏览器对“资源加载失败”的噪声（外部字体/CDN 离线不可达、非应用 bug）
+        !t.includes('Failed to load resource') &&
+        !t.includes('net::ERR_FAILED')
       ) {
         errors.push('console.error: ' + t);
       }

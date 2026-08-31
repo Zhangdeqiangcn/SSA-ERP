@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V2.9 表单提交 → store add 动作 → localStorage 持久化 集成测试。
@@ -65,11 +65,11 @@ test.describe('表单提交 → store 持久化（真实 UI 链路）', () => {
     await page.getByLabel('部门').fill('测试部');
     await page.getByLabel('申请原因').fill('E2E自动化测试原因');
     await page.getByLabel('期望日期').fill('2026-12-31');
-    await page.getByRole('button', { name: '添加物料' }).click();
-    const row = page.locator('table tbody tr').last();
-    await row.getByPlaceholder('输入或选择物料编码').fill('钢板');
-    await page.getByRole('option').first().click();
-    await page.getByRole('button', { name: '提交申请' }).click();
+  await page.getByRole('button', { name: '添加物料' }).click();
+  const row = page.locator('table tbody tr').last();
+  await row.getByPlaceholder('输入物料编码').fill('钢板');
+  await page.getByRole('option').first().click();
+  await page.getByRole('button', { name: '提交申请' }).click();
     await page.waitForURL('**/purchase/requests');
     expect(await recordExists(page, 'usePurchaseStore', 'purchaseRequests', marker)).toBe(true);
     await expect(page.getByRole('heading', { name: '采购申请' })).toBeVisible();
@@ -92,11 +92,11 @@ test.describe('表单提交 → store 持久化（真实 UI 链路）', () => {
     await page.getByRole('option').filter({ hasText: '新源机械' }).first().click();
     // 销售员填唯一标记，用于验证新订单落库（客户是主数据、不可自由命名）
     await page.getByLabel('销售员').fill(marker);
-    await page.getByRole('button', { name: '添加物料' }).click();
-    const row = page.locator('table tbody tr').last();
-    await row.getByPlaceholder('输入关键字搜索物料').fill('钢板');
-    await page.getByRole('option').first().click();
-    await page.getByRole('button', { name: '提交订单' }).click();
+  await page.getByRole('button', { name: '添加物料' }).click();
+  const row = page.locator('table tbody tr').last();
+  await row.getByPlaceholder('输入物料编码').fill('钢板');
+  await page.getByRole('option').first().click();
+  await page.getByRole('button', { name: '提交订单' }).click();
     await page.waitForURL('**/sales/orders');
     expect(await recordExists(page, 'useSalesStore', 'salesOrders', marker)).toBe(true);
     await expect(page.getByRole('heading', { name: '销售订单管理' })).toBeVisible();
@@ -116,6 +116,11 @@ test.describe('表单提交 → store 持久化（真实 UI 链路）', () => {
     await page.getByRole('option').first().click();
     await page.getByLabel('物料名称').fill(marker);
     await page.getByLabel('单位').fill('个');
+    // 物料类型 / 自制外购 为 zod enum.optional()，默认空字符串会被校验拒绝，需显式选择
+    await page.getByLabel('物料类型').click();
+    await page.getByRole('option').first().click();
+    await page.getByLabel('自制/外购').click();
+    await page.getByRole('option').first().click();
     // 末位填写编码：置 codeManuallyEdited，避免自动生成覆盖
     await page.getByLabel('物料编码').fill(`MATE2E${Date.now()}`);
     await page.getByRole('button', { name: '保存' }).click();
@@ -162,11 +167,11 @@ test.describe('表单提交 → store 持久化（真实 UI 链路）', () => {
     expect(vendorName, '种子供应商为空，无法选择目标供应商').toBeTruthy();
     await page.getByLabel('目标供应商').fill(vendorName);
     await page.getByRole('option').first().click();
-    await page.getByRole('button', { name: '添加物料' }).click();
-    const row = page.locator('table tbody tr').last();
-    await row.getByPlaceholder('输入关键字搜索物料').fill('钢板');
-    await page.getByRole('option').first().click();
-    await page.getByRole('button', { name: '发布询价' }).click();
+  await page.getByRole('button', { name: '添加物料' }).click();
+  const row = page.locator('table tbody tr').last();
+  await row.getByPlaceholder('输入物料编码').fill('钢板');
+  await page.getByRole('option').first().click();
+  await page.getByRole('button', { name: '发布询价' }).click();
     await page.waitForURL('**/price/inquiry');
     expect(await recordExists(page, 'usePriceStore', 'priceInquiries', marker)).toBe(true);
     await expect(page.getByRole('heading', { name: '询价单管理' })).toBeVisible();

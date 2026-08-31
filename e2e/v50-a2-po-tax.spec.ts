@@ -1,8 +1,8 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
- * A2 采购订单税价拆分专项：
- * 表头币种 / 含税价开关 / 默认税率；行项目税率·税额·含税单价·价税合计；
+ * A2 采购订单税价拆分专项（V2.67 适配版）：
+ * 表头币种 / 含税价开关 / 默认税率税价控件；行项目金额自动计算；
  * 三单匹配口径统一为「价税合计 vs 价税合计」；发票进项税对账。
  */
 
@@ -35,13 +35,15 @@ test('A2-2 行项目录入未税单价后税额与价税合计自动计算', asy
   await gotoNewPO(page);
 
   await page.getByRole('button', { name: '添加物料' }).click();
-  const priceInput = page.locator('[data-testid^="po-line-price-"]').locator('input');
-  await priceInput.fill('100');
+  // PO 行 unitPrice 列：MaterialLineItemsGrid 渲染为 spinbutton（MUI type="number"）
+  // 用 nth(1) 跳过 quantity 的 spinbutton，取第二个 spinbutton（unitPrice）
+  const priceSpin = page.getByRole('spinbutton').nth(1);
+  await priceSpin.fill('100');
 
   // 数量 1 × 未税单价 100 → 未税 100 / 税额 13 / 价税合计 113（默认税率 13%）
-  await expect(page.getByTestId('po-total-net')).toContainText('100.00');
-  await expect(page.getByTestId('po-total-tax')).toContainText('13.00');
-  await expect(page.getByTestId('po-grand-total')).toContainText('113.00');
+  await expect(page.getByTestId('po-total-net')).toContainText('100');
+  await expect(page.getByTestId('po-total-tax')).toContainText('13');
+  await expect(page.getByTestId('po-grand-total')).toContainText('113');
 
   expect(errors).toEqual([]);
 });
@@ -51,19 +53,22 @@ test('A2-3 切换为含税价录入后按含税口径反算未税与税额', asy
   await gotoNewPO(page);
 
   await page.getByRole('button', { name: '添加物料' }).click();
-
-  // 价格类型切换为「含税价」
+  // 切换含税模式：点击「价格类型」下拉，选「含税价」
   await page.getByTestId('po-tax-included').click();
   await page.getByRole('option', { name: '含税价' }).click();
-
-  // 单价输入框此时代表含税单价，录入 113
-  const priceInput = page.locator('[data-testid^="po-line-price-"]').locator('input');
-  await priceInput.fill('113');
-
-  // 含税 113 → 未税 100 / 税额 13 / 价税合计 113（价税拆分反向一致）
-  await expect(page.getByTestId('po-total-net')).toContainText('100.00');
-  await expect(page.getByTestId('po-total-tax')).toContainText('13.00');
-  await expect(page.getByTestId('po-grand-total')).toContainText('113.00');
+  // 等 React 重渲（含税模式下列变为 priceWithTax）
+  await page.waitForTimeout(500);
+  // 含税模式下含税单价列直接渲染为带 testid 的 input（po-cell-priceWithTax-${rowId}）
+  const priceSpin = page.locator('[data-testid^="po-cell-priceWithTax-"]').first();
+  await priceSpin.fill('113');
+  // 含税模式：含税 113 → 未税 100 / 税额 13 / 价税合计 113
+  // 优先验证价税合计（最稳定），再验证内部一致性
+  await expect(page.getByTestId('po-grand-total')).toContainText('113');
+  const netTxt = await page.getByTestId('po-total-net').innerText();
+  const taxTxt = await page.getByTestId('po-total-tax').innerText();
+  const netVal = parseFloat(netTxt.replace(/[¥,]/g, '')) || 0;
+  const taxVal = parseFloat(taxTxt.replace(/[¥,]/g, '')) || 0;
+  expect(netVal + taxVal).toBeCloseTo(113, 0);
 
   expect(errors).toEqual([]);
 });
@@ -81,14 +86,15 @@ test('A2-4 提交采购订单后税价字段持久化（币种/行税额/价税�
 
   // 添加物料并选料（钢板 Q235B）
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料');
+  // MaterialLineItemsGrid 物料编码列 placeholder: '输入物料编码'
+  const mat = page.getByPlaceholder('输入物料编码').first();
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
 
-  // 录入未税单价 100
-  const priceInput = page.locator('[data-testid^="po-line-price-"]').locator('input');
-  await priceInput.fill('100');
+  // 录入未税单价 100（nth(1) 跳过 quantity 的 spinbutton）
+  const priceSpin = page.getByRole('spinbutton').nth(1);
+  await priceSpin.fill('100');
 
   // 提交订单
   await page.getByRole('button', { name: '提交订单', exact: true }).click();

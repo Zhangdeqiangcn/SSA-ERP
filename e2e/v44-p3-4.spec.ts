@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test.describe('P3-4 质量深化（8D / SPC控制图 / 实验室设备）', () => {
   test('三个新页面可达（无白屏）', async ({ page }) => {
@@ -28,7 +28,7 @@ test.describe('P3-4 质量深化（8D / SPC控制图 / 实验室设备）', () =
     await page.getByTestId('spc-detail').waitFor();
     const ooc = await page.getByTestId('spc-ooc-count').textContent();
     expect(Number((ooc || '').replace(/\D/g, ''))).toBeGreaterThan(0);
-    await expect(page.getByTestId('spc-cpk')).toBeVisible();
+    await expect(page.getByTestId('spc-cpk').first()).toBeVisible();
   });
 
   test('实验室设备：新增 → 列表出现；到期设备预警', async ({ page }) => {

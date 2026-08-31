@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
-import { WorkOrder, MRPRecommendation, ProcessRoute } from '@/types/production';
+import { WorkOrder, MRPRecommendation, ProcessRoute, IssuedMaterial } from '@/types/production';
 import { FinishedGoodsInbound } from '@/types';
 import {
   workOrders as mockWorkOrders,
@@ -12,6 +12,7 @@ import {
 import { useMaterialStore } from '@/stores/materialStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { roundAmount, roundPrice } from '@/utils/cost';
+import { b2Api, isAuthed } from '@/services/b2Api';
 
 interface ProductionState {
   workOrders: WorkOrder[];
@@ -34,6 +35,12 @@ interface ProductionState {
       operator?: string;
     }
   ) => boolean;
+
+  // B2-② 工单领料：按BOM展开生成生产领料出库单，扣减原料库存，回写工单领料明细
+  issueMaterials: (
+    id: string,
+    items: { materialId: string; materialCode: string; materialName: string; quantity: number; unit: string }[]
+  ) => { ok: boolean; outboundNo?: string; reason?: string };
 
   // MRP
   addMrpRecommendation: (rec: MRPRecommendation) => void;
@@ -65,7 +72,103 @@ export const useProductionStore = create<ProductionState>()(
       updateWorkOrder: (id, u) => set((s) => ({ workOrders: updateArr(s.workOrders, id, u) })),
       deleteWorkOrder: (id) => set((s) => ({ workOrders: deleteArr(s.workOrders, id) })),
 
-      // ── B3 完工回写：工单完工 → 自动生成成品入库单（type='production'）+ 回写工单 ──
+      // ── B2-② 工单领料：按BOM展开生成生产领料出库单，扣减原料库存，回写工单领料明细 ──
+      // 对标 SAP 生产发料 261：借 5001 生产成本 / 贷 1403 原材料
+      issueMaterials: (id, items) => {
+        const wo = get().workOrders.find((o) => o.id === id);
+        if (!wo) return { ok: false };
+        // 幂等守卫：已完工/已关闭不再领料
+        if (wo.status === 'completed' || wo.status === 'closed') return { ok: false };
+        // 幂等守卫：已领料则不重复生成
+        if (wo.issuedMaterials && wo.issuedMaterials.length > 0) return { ok: false };
+
+        const today = new Date().toISOString().slice(0, 10);
+        const stamp = Date.now();
+        const outboundNo = `OUT-WO-ISSUE-${stamp}`;
+        const outboundId = `out-wo-issue-${stamp}`;
+
+        // 1. 检查库存充足
+        const wh = useWarehouseStore.getState();
+        for (const item of items) {
+          const inventory = wh.inventoryRecords.find(
+            (r) => r.materialId === item.materialId && r.warehouseId === 'wh-001'
+          );
+          const availableQty = inventory?.availableQuantity || 0;
+          if (availableQty < item.quantity) {
+            return {
+              ok: false,
+              reason: `物料 ${item.materialCode}（${item.materialName}）库存不足：当前可用 ${availableQty}，需领 ${item.quantity}`
+            };
+          }
+        }
+
+        // 2. 生成生产领料出库单（status: completed 触发仓库 store 事件驱动自动扣减库存）
+        //    出库单经 warehouseStore.addOutboundOrder 中央双写落 D1（type='pick', sourceNo=工单号）。
+        const outboundOrder = {
+          id: outboundId,
+          outboundNo,
+          type: 'pick' as const,
+          sourceNo: wo.orderNo,
+          status: 'completed' as const,
+          warehouseId: 'wh-001',
+          warehouseName: '原材料仓',
+          operator: wo.supervisor || '生产主管',
+          outboundDate: today,
+          remarks: `生产领料 - 工单${wo.orderNo} - ${wo.productName}`,
+          items: items.map((item, idx) => ({
+            id: `ob-wo-item-${idx}`,
+            materialId: item.materialId,
+            materialCode: item.materialCode,
+            materialName: item.materialName,
+            specification: '',
+            unit: item.unit,
+            quantity: item.quantity,
+          })),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          createdBy: wo.supervisor || 'system',
+          updatedBy: wo.supervisor || 'system',
+        };
+        wh.addOutboundOrder(outboundOrder);
+
+        // 双写：工单领料明细逐条落 D1（POST /api/work-orders/picking），与本地领料明细一一对应
+        if (isAuthed()) {
+          for (const item of items) {
+            b2Api
+              .postPicking({
+                workOrderId: wo.id,
+                workOrderNo: wo.orderNo,
+                materialId: item.materialId,
+                materialCode: item.materialCode,
+                materialName: item.materialName,
+                unit: item.unit,
+                quantity: item.quantity,
+                outboundNo,
+                issuedAt: today,
+              })
+              .catch(() => {});
+          }
+        }
+
+        // 3. 回写工单领料明细（防重复领料）
+        const issuedMaterials: IssuedMaterial[] = items.map((item, idx) => ({
+          id: `issued-${stamp}-${idx}`,
+          materialId: item.materialId,
+          materialCode: item.materialCode,
+          materialName: item.materialName,
+          quantity: item.quantity,
+          issuedAt: today,
+          outboundNo,
+        }));
+
+        set((s) => ({
+          workOrders: s.workOrders.map((o) =>
+            o.id === id ? { ...o, issuedMaterials, updatedAt: new Date().toISOString() } : o
+          ),
+        }));
+
+        return { ok: true, outboundNo };
+      },
       // 对标 SAP 生产收货 101：借 1405 库存商品 / 贷 5001 生产成本 = 工单 actualTotalCost
       completeWorkOrder: (id, payload) => {
         const wo = get().workOrders.find((o) => o.id === id);

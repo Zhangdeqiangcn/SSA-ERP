@@ -199,6 +199,42 @@ export function useNotificationData(): {
       }
     });
 
+    // 4.5 供应商资质到期预警（B6）：过期→error，30天内临期→warning
+    (vendors ?? []).forEach((v) => {
+      if (!v.qualificationExpiry) return;
+      const exp = new Date(v.qualificationExpiry);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const diffDays = Math.ceil((exp.getTime() - today.getTime()) / 86400000);
+      if (diffDays < 0) {
+        items.push({
+          id: `biz:venq:${v.id}`,
+          title: '供应商资质已过期',
+          desc: `${v.name} 资质有效期 ${v.qualificationExpiry} 已过期，请尽快更新以免影响合作`,
+          level: 'error',
+          path: '/vendor/risk',
+          time: `已过期 ${Math.abs(diffDays)} 天`,
+          category: 'vendor_qualification',
+          source: 'biz',
+          read: !!readIds[`biz:venq:${v.id}`],
+          dismissible: false,
+        });
+      } else if (diffDays <= 30) {
+        items.push({
+          id: `biz:venq:${v.id}`,
+          title: '供应商资质即将到期',
+          desc: `${v.name} 资质有效期 ${v.qualificationExpiry} 将于 ${diffDays} 天后到期`,
+          level: 'warning',
+          path: '/vendor/risk',
+          time: `剩 ${diffDays} 天`,
+          category: 'vendor_qualification',
+          source: 'biz',
+          read: !!readIds[`biz:venq:${v.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
     // 5. 检验任务（待检验 / 检验中）
     (inspectionTasks ?? []).forEach((t) => {
       if (t.status === 'pending' || t.status === 'in_progress') {
@@ -260,6 +296,7 @@ export function useNotificationData(): {
       { key: 'pending_payment', label: '待付款', count: catCount['pending_payment'] ?? 0, level: 'warning', path: '/finance/payments' },
       { key: 'low_stock', label: '库存告急', count: catCount['low_stock'] ?? 0, level: 'warning', path: '/warehouse/inventory' },
       { key: 'vendor_pending', label: '供应商待审', count: catCount['vendor_pending'] ?? 0, level: 'warning', path: '/vendor/approvals' },
+      { key: 'vendor_qualification', label: '资质到期', count: catCount['vendor_qualification'] ?? 0, level: catCount['vendor_qualification'] ? 'error' : 'info', path: '/vendor/risk' },
       { key: 'inspection', label: '检验任务', count: catCount['inspection'] ?? 0, level: 'info', path: '/quality/inspection' },
       { key: 'invoice_pending', label: '发票待验证', count: catCount['invoice_pending'] ?? 0, level: 'info', path: '/finance/invoices' },
     ];

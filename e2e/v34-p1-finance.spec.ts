@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
@@ -49,7 +49,7 @@ test('凭证列表：按凭证号分组渲染无白屏', async ({ page }) => {
   const errors = await captureErrors(page);
   await page.goto('/finance/vouchers');
   await expect(page.getByTestId('voucher-count')).toBeVisible();
-  await expect(page.getByTestId('voucher-row').first()).toBeVisible();
+  await expect(page.locator('tbody tr').first()).toBeVisible();
   expect(errors).toEqual([]);
 });
 

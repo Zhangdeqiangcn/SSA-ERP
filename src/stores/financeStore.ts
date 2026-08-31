@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 import { Invoice, PaymentPlan, AccountEntry, FinanceStats, TaxRecord, ProjectAccount, ChartAccount } from '@/types';
-import type { Voucher, VoucherItem, VoucherValidation, Reconciliation } from '@/types/finance';
+import type { Voucher, VoucherItem, VoucherValidation, Reconciliation, PaymentStatus } from '@/types/finance';
 import {
   entriesToVouchers,
   upsertEntriesIntoVouchers,
@@ -21,6 +21,7 @@ const nowStr = () => {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
 };
 import { useFinanceLedgerStore } from '@/stores/financeLedgerStore';
+import { useVendorStore } from './vendorStore';
 import {
   invoices as mockInvoices,
   paymentPlans as mockPaymentPlans,
@@ -113,6 +114,8 @@ interface FinanceState {
   addPaymentPlan: (plan: PaymentPlan) => void;
   updatePaymentPlan: (id: string, updates: Partial<PaymentPlan>) => void;
   deletePaymentPlan: (id: string) => void;
+  /** B11 逐期付款：标记某期已付，重算计划已付/状态；全部付清后释放预付款占用信用 */
+  payInstallment: (planId: string, installmentId: string) => void;
 
   // AccountEntry CRUD
   addAccountEntry: (entry: AccountEntry) => void;
@@ -189,8 +192,21 @@ export const useFinanceStore = create<FinanceState>()(
         set((state) => ({ invoices: state.invoices.filter((o) => o.id !== id) })),
 
       // PaymentPlan CRUD
-      addPaymentPlan: (plan) =>
-        set((state) => ({ paymentPlans: [...state.paymentPlans, plan] })),
+      addPaymentPlan: (plan) => {
+        // B11：含预付款的分批计划 → 创建时占用供应商信用额度
+        if (plan.installments && plan.installments.length > 0 && plan.vendorId) {
+          const advance = plan.installments
+            .filter((i) => i.type === 'advance')
+            .reduce((s, i) => s + i.amount, 0);
+          if (advance > 0) {
+            const ok = useVendorStore.getState().applyVendorCreditDelta(plan.vendorId, advance);
+            if (ok) {
+              plan = { ...plan, advanceAmount: advance, advanceOccupied: true };
+            }
+          }
+        }
+        set((state) => ({ paymentPlans: [...state.paymentPlans, plan] }));
+      },
       updatePaymentPlan: (id, updates) => {
         set((state) => ({
           paymentPlans: state.paymentPlans.map((p) => (p.id === id ? { ...p, ...updates } : p)),
@@ -203,6 +219,39 @@ export const useFinanceStore = create<FinanceState>()(
       },
       deletePaymentPlan: (id) =>
         set((state) => ({ paymentPlans: state.paymentPlans.filter((p) => p.id !== id) })),
+
+      // B11 逐期付款：标记某期已付，重算计划已付/状态；全部付清后释放预付款占用信用
+      payInstallment: (planId, installmentId) => {
+        const plan = get().paymentPlans.find((p) => p.id === planId);
+        if (!plan || !plan.installments) return;
+        const installments = plan.installments.map((i) =>
+          i.id === installmentId && i.status !== 'paid'
+            ? { ...i, status: 'paid' as PaymentStatus, paidDate: new Date().toISOString().split('T')[0] }
+            : i
+        );
+        const paidAmount = installments
+          .filter((i) => i.status === 'paid')
+          .reduce((s, i) => s + i.amount, 0);
+        const allPaid = installments.every((i) => i.status === 'paid');
+        const now = new Date().toISOString();
+        const updates: Partial<PaymentPlan> = {
+          installments,
+          paidAmount,
+          status: allPaid ? 'paid' : 'partial',
+          paidDate: allPaid ? now.split('T')[0] : plan.paidDate,
+          updatedAt: now,
+        };
+        // 全部付清 → 释放预付款占用信用
+        if (allPaid && plan.advanceOccupied && plan.advanceAmount && plan.vendorId) {
+          useVendorStore.getState().applyVendorCreditDelta(plan.vendorId, -plan.advanceAmount);
+          updates.advanceOccupied = false;
+        }
+        set((state) => ({
+          paymentPlans: state.paymentPlans.map((p) => (p.id === planId ? { ...p, ...updates } : p)),
+        }));
+        // 状态流转到「已付清」时自动生成凭证（仅一次）
+        if (allPaid && !plan.voucherGenerated) get().generateVoucherFromPayment(planId);
+      },
 
       // AccountEntry CRUD
       // A1 兼容适配层：业务单据仍写扁平分录，这里同步 upsert 到凭证视图

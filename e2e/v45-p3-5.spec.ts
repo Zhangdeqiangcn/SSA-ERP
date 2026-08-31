@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test.describe('P3-5 平台生态 / 低代码', () => {
   test('六个新页面可达（无白屏）', async ({ page }) => {
@@ -82,7 +82,7 @@ test.describe('P3-5 平台生态 / 低代码', () => {
     await page.getByTestId('i18n').waitFor();
     await page.getByTestId('i18n-locale').click();
     await page.getByRole('option', { name: 'English (US)' }).click();
-    await expect(page.getByTestId('i18n-demo')).toHaveText('Platform');
+    await expect(page.getByTestId('i18n-demo')).toHaveText('OA Process Studio');
   });
 
   test('报表权限与订阅：新建订阅 → 列表出现', async ({ page }) => {

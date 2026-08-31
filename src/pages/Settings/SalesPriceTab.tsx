@@ -4,7 +4,7 @@ import {
   TableHead, TableRow, Chip, IconButton, Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, MenuItem, Stack, Divider, Alert,
 } from '@mui/material';
-import { Add as AddIcon, Delete as DeleteIcon, Calculate } from '@mui/icons-material';
+import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon, Calculate } from '@mui/icons-material';
 import { useSalesPriceStore } from '@/stores/salesPriceStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -27,9 +27,11 @@ const SalesPriceTab: React.FC = () => {
 
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState<Omit<SalesPriceListItem, 'id'>>(emptyItem);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const [promoOpen, setPromoOpen] = useState(false);
   const [promo, setPromo] = useState<Omit<SalesPromotion, 'id'>>(emptyPromo);
+  const [editingPromoId, setEditingPromoId] = useState<string | null>(null);
 
   // 取价试算
   const [calcCustomer, setCalcCustomer] = useState('');
@@ -50,16 +52,31 @@ const SalesPriceTab: React.FC = () => {
     setCalcResult('');
   };
 
+  const openEdit = (p: SalesPriceListItem) => {
+    // 直接展开行数据预填，不要调用 onPickMaterial，否则 basePrice 会被物料主数据价覆盖
+    setItem({ ...p });
+    setEditingId(p.id);
+    setOpen(true);
+  };
+  const openEditPromo = (p: SalesPromotion) => {
+    setPromo({ ...p });
+    setEditingPromoId(p.id);
+    setPromoOpen(true);
+  };
+
   const handleSave = () => {
     if (!item.materialId) return;
     const cust = customers.find((c) => c.id === item.customerId);
-    addPriceItem({ ...item, customerName: cust?.name });
-    setOpen(false); setItem(emptyItem);
+    const payload: Omit<SalesPriceListItem, 'id'> = { ...item, customerName: cust?.name };
+    if (editingId) updatePriceItem(editingId, payload);
+    else addPriceItem(payload);
+    setEditingId(null); setOpen(false); setItem(emptyItem);
   };
   const handleSavePromo = () => {
     if (!promo.name.trim()) return;
-    addPromotion(promo);
-    setPromoOpen(false); setPromo(emptyPromo);
+    if (editingPromoId) updatePromotion(editingPromoId, promo);
+    else addPromotion(promo);
+    setEditingPromoId(null); setPromoOpen(false); setPromo(emptyPromo);
   };
   const doCalc = () => {
     if (!calcMaterial) return;
@@ -101,7 +118,7 @@ const SalesPriceTab: React.FC = () => {
       {/* 价目表 */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
         <Typography variant="subtitle1" fontWeight={600}>价目表（{priceList.length}）</Typography>
-        <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => { setItem(emptyItem); setOpen(true); }}>新增价目表项</Button>
+        <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => { setEditingId(null); setItem(emptyItem); setOpen(true); }} data-testid="sp-price-add">新增价目表项</Button>
       </Box>
       <TableContainer component={Paper} sx={{ borderRadius: 2, mb: 3 }}>
         <Table size="small">
@@ -117,14 +134,15 @@ const SalesPriceTab: React.FC = () => {
           </TableHead>
           <TableBody>
             {priceList.map((p) => (
-              <TableRow key={p.id}>
+              <TableRow key={p.id} data-testid={`sp-price-row-${p.id}`}>
                 <TableCell>{p.customerName || <Chip size="small" label="通用" color="default" />}</TableCell>
                 <TableCell>{p.materialName} <Typography variant="caption" color="text.secondary">({p.materialCode})</Typography></TableCell>
                 <TableCell align="right">{formatCurrency(p.basePrice)}</TableCell>
                 <TableCell align="right">{p.discountRate}%</TableCell>
                 <TableCell>{p.tiers?.length ? p.tiers.map((t) => `≥${t.minQty}:${t.unitPrice}`).join(' / ') : '-'}</TableCell>
                 <TableCell align="right">
-                  <IconButton size="small" color="error" onClick={() => deletePriceItem(p.id)}><DeleteIcon fontSize="small" /></IconButton>
+                  <IconButton size="small" onClick={() => openEdit(p)} data-testid={`sp-price-edit-${p.id}`} aria-label="编辑价目表项"><EditIcon fontSize="small" /></IconButton>
+                  <IconButton size="small" color="error" onClick={() => deletePriceItem(p.id)} data-testid={`sp-price-delete-${p.id}`} aria-label="删除价目表项"><DeleteIcon fontSize="small" /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -135,7 +153,7 @@ const SalesPriceTab: React.FC = () => {
       {/* 促销 */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
         <Typography variant="subtitle1" fontWeight={600}>促销活动（{promotions.length}）</Typography>
-        <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => { setPromo(emptyPromo); setPromoOpen(true); }}>新增促销</Button>
+        <Button variant="outlined" size="small" startIcon={<AddIcon />} onClick={() => { setEditingPromoId(null); setPromo(emptyPromo); setPromoOpen(true); }} data-testid="sp-promo-add">新增促销</Button>
       </Box>
       <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
         <Table size="small">
@@ -151,7 +169,7 @@ const SalesPriceTab: React.FC = () => {
           </TableHead>
           <TableBody>
             {promotions.map((p) => (
-              <TableRow key={p.id}>
+              <TableRow key={p.id} data-testid={`sp-promo-row-${p.id}`}>
                 <TableCell>{p.name}</TableCell>
                 <TableCell>
                   <Chip size="small" label={p.type === 'percent' ? '百分比折扣' : p.type === 'amount' ? '立减金额' : '固定特价'} />
@@ -164,7 +182,8 @@ const SalesPriceTab: React.FC = () => {
                 </TableCell>
                 <TableCell><Chip size="small" label={p.enabled ? '启用' : '停用'} color={p.enabled ? 'success' : 'default'} /></TableCell>
                 <TableCell align="right">
-                  <IconButton size="small" color="error" onClick={() => deletePromotion(p.id)}><DeleteIcon fontSize="small" /></IconButton>
+                  <IconButton size="small" onClick={() => openEditPromo(p)} data-testid={`sp-promo-edit-${p.id}`} aria-label="编辑促销"><EditIcon fontSize="small" /></IconButton>
+                  <IconButton size="small" color="error" onClick={() => deletePromotion(p.id)} data-testid={`sp-promo-delete-${p.id}`} aria-label="删除促销"><DeleteIcon fontSize="small" /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -173,19 +192,21 @@ const SalesPriceTab: React.FC = () => {
       </TableContainer>
 
       {/* 价目表新增/编辑 */}
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>新增价目表项</DialogTitle>
+      <Dialog open={open} onClose={() => { setEditingId(null); setOpen(false); }} maxWidth="sm" fullWidth>
+        <DialogTitle>{editingId ? '编辑价目表项' : '新增价目表项'}</DialogTitle>
         <DialogContent>
-          <TextField select fullWidth label="客户(可空=通用)" value={item.customerId} onChange={(e) => setItem({ ...item, customerId: e.target.value })} sx={{ mt: 1, mb: 2 }}>
+          <TextField select fullWidth label="客户(可空=通用)" value={item.customerId} onChange={(e) => setItem({ ...item, customerId: e.target.value })} sx={{ mt: 1, mb: 2 }}
+            SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-dlg-customer' } as React.HTMLAttributes<HTMLDivElement> }}>
             <MenuItem value="">通用物料价</MenuItem>
             {customers.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
           </TextField>
-          <TextField select fullWidth label="物料" value={item.materialId} onChange={(e) => onPickMaterial(e.target.value)} sx={{ mb: 2 }}>
+          <TextField select fullWidth label="物料" value={item.materialId} onChange={(e) => onPickMaterial(e.target.value)} sx={{ mb: 2 }}
+            SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-dlg-material' } as React.HTMLAttributes<HTMLDivElement> }}>
             {materials.slice(0, 30).map((m) => <MenuItem key={m.id} value={m.id}>{m.name}</MenuItem>)}
           </TextField>
           <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-            <TextField fullWidth label="基准单价" type="number" value={item.basePrice} onChange={(e) => setItem({ ...item, basePrice: Number(e.target.value) })} />
-            <TextField fullWidth label="折扣率(%)" type="number" value={item.discountRate} onChange={(e) => setItem({ ...item, discountRate: Number(e.target.value) })} />
+            <TextField fullWidth label="基准单价" type="number" value={item.basePrice} onChange={(e) => setItem({ ...item, basePrice: Number(e.target.value) })} data-testid="sp-dlg-basePrice" />
+            <TextField fullWidth label="折扣率(%)" type="number" value={item.discountRate} onChange={(e) => setItem({ ...item, discountRate: Number(e.target.value) })} data-testid="sp-dlg-discount" />
           </Stack>
           <Divider sx={{ my: 1 }}><Typography variant="caption">阶梯量价（可选，每行：起订量:单价，逗号分隔）</Typography></Divider>
           <TextField fullWidth label="阶梯量价" value={(item.tiers || []).map((t) => `${t.minQty}:${t.unitPrice}`).join(', ')}
@@ -195,26 +216,27 @@ const SalesPriceTab: React.FC = () => {
                 return { minQty: minQty || 0, unitPrice: unitPrice || 0 };
               }).filter((t) => t.unitPrice > 0);
               setItem({ ...item, tiers });
-            }} helperText="例：50:4050, 100:3950" />
+            }} helperText="例：50:4050, 100:3950" data-testid="sp-dlg-tiers" />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>取消</Button>
-          <Button variant="contained" onClick={handleSave}>确定</Button>
+          <Button onClick={() => { setEditingId(null); setOpen(false); }}>取消</Button>
+          <Button variant="contained" onClick={handleSave} data-testid="sp-dlg-save">保存</Button>
         </DialogActions>
       </Dialog>
 
-      {/* 促销新增 */}
-      <Dialog open={promoOpen} onClose={() => setPromoOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>新增促销</DialogTitle>
+      {/* 促销新增/编辑 */}
+      <Dialog open={promoOpen} onClose={() => { setEditingPromoId(null); setPromoOpen(false); }} maxWidth="sm" fullWidth>
+        <DialogTitle>{editingPromoId ? '编辑促销' : '新增促销'}</DialogTitle>
         <DialogContent>
-          <TextField fullWidth label="促销名称" value={promo.name} onChange={(e) => setPromo({ ...promo, name: e.target.value })} sx={{ mt: 1, mb: 2 }} />
-          <TextField select fullWidth label="类型" value={promo.type} onChange={(e) => setPromo({ ...promo, type: e.target.value as SalesPromotionType })} sx={{ mb: 2 }}>
+          <TextField fullWidth label="促销名称" value={promo.name} onChange={(e) => setPromo({ ...promo, name: e.target.value })} sx={{ mt: 1, mb: 2 }} data-testid="sp-dlg-promo-name" />
+          <TextField select fullWidth label="类型" value={promo.type} onChange={(e) => setPromo({ ...promo, type: e.target.value as SalesPromotionType })} sx={{ mb: 2 }}
+            SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-dlg-promo-type' } as React.HTMLAttributes<HTMLDivElement> }}>
             <MenuItem value="percent">百分比折扣</MenuItem>
             <MenuItem value="amount">立减金额</MenuItem>
             <MenuItem value="fixed">固定特价</MenuItem>
           </TextField>
           <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
-            <TextField fullWidth label="优惠值" type="number" value={promo.value} onChange={(e) => setPromo({ ...promo, value: Number(e.target.value) })} />
+            <TextField fullWidth label="优惠值" type="number" value={promo.value} onChange={(e) => setPromo({ ...promo, value: Number(e.target.value) })} data-testid="sp-dlg-promo-value" />
             <TextField select fullWidth label="适用客户(可空=全部)" value={promo.customerId || ''} onChange={(e) => setPromo({ ...promo, customerId: e.target.value || undefined })}>
               <MenuItem value="">全部客户</MenuItem>
               {customers.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
@@ -226,8 +248,8 @@ const SalesPriceTab: React.FC = () => {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setPromoOpen(false)}>取消</Button>
-          <Button variant="contained" onClick={handleSavePromo}>确定</Button>
+          <Button onClick={() => { setEditingPromoId(null); setPromoOpen(false); }}>取消</Button>
+          <Button variant="contained" onClick={handleSavePromo} data-testid="sp-dlg-promo-save">保存</Button>
         </DialogActions>
       </Dialog>
     </Box>

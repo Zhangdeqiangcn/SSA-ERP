@@ -2,7 +2,7 @@
 import { getUserFromRequest, json } from '../../_shared/auth';
 
 export async function onRequestGet(context) {
-  const user = getUserFromRequest(context);
+  const user = await getUserFromRequest(context.request, context.env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
   const db = context.env.DB;
@@ -15,7 +15,7 @@ export async function onRequestGet(context) {
 }
 
 export async function onRequestPut(context) {
-  const user = getUserFromRequest(context);
+  const user = await getUserFromRequest(context.request, context.env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
   const db = context.env.DB;
@@ -60,7 +60,7 @@ export async function onRequestPut(context) {
 }
 
 export async function onRequestDelete(context) {
-  const user = getUserFromRequest(context);
+  const user = await getUserFromRequest(context.request, context.env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
   const db = context.env.DB;

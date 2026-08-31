@@ -84,6 +84,8 @@ export interface UnqualifiedItem extends BaseEntity {
   dispositionStatus: 'pending' | 'in_progress' | 'completed';
   /** B4：报废(scrap)处置联动生成的出库单号（供库存/凭证联动追溯与 E2E 断言） */
   linkedOutboundNo?: string;
+  /** B4：返工(rework)处置联动生成的入库单号（供库存/凭证联动追溯与 E2E 断言） */
+  linkedInboundNo?: string;
   /** B4：实际处置方式（用户从处置弹窗选择，可能与预设 disposition 不同，如 rework/scrap/concession 等） */
   actualDisposition?: string;
   /** B7-T2：质量异常来源（区别于内部 inspection 等；'vendor' 表示供应商门户上报） */

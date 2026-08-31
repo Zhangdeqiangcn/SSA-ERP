@@ -1,13 +1,15 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "2.64.0",
+  "version": "2.70.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node node_modules/vite/bin/vite.js build",
+    "build": "tsc --noEmit && node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "build:fast": "node node_modules/vite/bin/vite.js build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

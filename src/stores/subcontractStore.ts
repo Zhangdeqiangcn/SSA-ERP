@@ -3,6 +3,35 @@ import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 import { SubcontractOrder } from '@/types/production';
 import { useWarehouseStore } from './warehouseStore';
+import { b2Api, isAuthed } from '@/services/b2Api';
+
+// B2 双写桥：本地 orders 的 id（'sub-...'）与 D1 后端 id 不同，用模块级映射表桥接。
+// 仅存活于当前会话；刷新前已存在的委外单无法回写 D1（见报告未覆盖点）。
+const subBackendId = new Map<string, string>();
+
+/** 把 SubcontractOrder 映射为 POST/PUT /api/subcontracts 允许的字段 */
+const toSubcontractPayload = (o: SubcontractOrder): Record<string, unknown> => ({
+  orderNo: o.orderNo,
+  type: o.type,
+  materialId: o.materialId,
+  materialCode: o.materialCode,
+  materialName: o.materialName,
+  vendorId: o.vendorId,
+  vendorName: o.vendorName,
+  qty: o.qty,
+  bomId: o.bomId,
+  sourceWorkOrderId: o.sourceWorkOrderId,
+  status: o.status,
+  planDate: o.planDate,
+  processFee: o.processFee,
+  issueItems: (o.issueItems || []).map((it) => ({
+    materialId: it.materialId,
+    materialCode: it.materialCode,
+    materialName: it.materialName,
+    unit: it.unit,
+    qty: it.qty,
+  })),
+});
 
 const STORE_KEY = 'ssa-erp-subcontract';
 
@@ -53,10 +82,34 @@ export const useSubcontractStore = create<SubcontractState>()(
   persist(
     (set, get) => ({
       orders: seedOrders.map((o) => ({ ...o })),
-      addOrder: (o) => set((s) => ({ orders: [...s.orders, o] })),
-      updateOrder: (id, patch) =>
-        set((s) => ({ orders: s.orders.map((o) => (o.id === id ? { ...o, ...patch } : o)) })),
-      deleteOrder: (id) => set((s) => ({ orders: s.orders.filter((o) => o.id !== id) })),
+      // 双写：本地更新先行；登录态下再 fire-and-forget 落 D1
+      addOrder: (o) => {
+        set((s) => ({ orders: [...s.orders, o] }));
+        if (isAuthed()) {
+          b2Api
+            .postSubcontract(toSubcontractPayload(o))
+            .then((data) => {
+              if (data && data.id) subBackendId.set(o.id, data.id);
+            })
+            .catch(() => {});
+        }
+      },
+      updateOrder: (id, patch) => {
+        set((s) => ({ orders: s.orders.map((o) => (o.id === id ? { ...o, ...patch } : o)) }));
+        const backendId = subBackendId.get(id);
+        if (isAuthed() && backendId) {
+          const merged = useSubcontractStore.getState().orders.find((o) => o.id === id);
+          if (merged) b2Api.putSubcontract(backendId, toSubcontractPayload(merged)).catch(() => {});
+        }
+      },
+      deleteOrder: (id) => {
+        set((s) => ({ orders: s.orders.filter((o) => o.id !== id) }));
+        const backendId = subBackendId.get(id);
+        if (isAuthed() && backendId) {
+          b2Api.deleteSubcontract(backendId).catch(() => {});
+          subBackendId.delete(id);
+        }
+      },
 
       // ── B2-① 委外发料：真扣库存（借 1408 委托加工物资 / 贷 1403 原材料）──
       issueMaterials: (id, items) => {

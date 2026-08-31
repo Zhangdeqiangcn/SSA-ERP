@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test('V2.7 批次管理页渲染与种子数据', async ({ page }) => {
   await page.goto('/warehouse/batch');
@@ -44,15 +44,15 @@ test('V2.7 销售订单信用检查超额度提示', async ({ page }) => {
   await combo.fill('华润建筑集团');
   await page.getByRole('option').filter({ hasText: '华润建筑集团' }).first().click();
   await page.getByRole('button', { name: '添加物料' }).click();
-  const mat = page.getByPlaceholder('输入关键字搜索物料').first();
+  const mat = page.getByPlaceholder('输入物料编码').first();
   await mat.click();
   await mat.fill('钢板');
   await page.getByRole('option').first().click();
-  // 单价设为超高：价税合计远超 C001 可用额度(约47万)
-  const priceInput = page.locator('[data-testid^="so-line-price-"]').first();
+  // 单价设为超高：价税合计远超可用额度
+  const priceInput = page.locator('[data-testid^="so-cell-unitPrice-"]').first();
   await priceInput.waitFor({ state: 'visible' });
   await priceInput.fill('9999999');
-  await page.locator('[data-testid^="so-line-qty-"]').first().fill('1');
+  await page.locator('[data-testid^="so-cell-quantity-"]').first().fill('1');
   await page.getByRole('button', { name: '提交订单', exact: true }).click();
   // A3 信用硬拦截：超额禁止提交，弹错误 Alert（区别于旧 Prospect 只警告）
   await expect(page.getByTestId('so-credit-error')).toContainText('禁止提交', { timeout: 5000 });

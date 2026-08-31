@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * 首次运行（localStorage 为空）会出现「欢迎使用 SSA ERP」引导向导，

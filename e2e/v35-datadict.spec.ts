@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V2.12 P2-1 数据字典单一数据源 E2E：
@@ -38,8 +38,8 @@ test.describe('P2-1 数据字典单一数据源', () => {
   test('数据字典 Tab 渲染 + 分类列表可见', async ({ page }) => {
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '数据字典' }).click();
-    await expect(page.getByRole('heading', { name: '数据字典' })).toBeVisible();
+    await page.getByRole('button', { name: '数据字典' }).click();
+    await expect(page.getByRole('heading', { name: '数据字典' }).first()).toBeVisible();
     // 左侧分类列表中应能看到「计量单位」「付款方式」（用 button 角色避免与详情标题重名）
     await expect(page.getByRole('button', { name: '计量单位' })).toBeVisible();
     await expect(page.getByRole('button', { name: '付款方式' })).toBeVisible();
@@ -50,7 +50,7 @@ test.describe('P2-1 数据字典单一数据源', () => {
     const marker = `E2EUNIT${Date.now()}`;
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '数据字典' }).click();
+    await page.getByRole('button', { name: '数据字典' }).click();
 
     // 「计量单位」为默认选中分类，直接点详情区「添加」
     await page.getByRole('button', { name: '添加' }).click();
@@ -105,7 +105,7 @@ test.describe('P2-1 数据字典单一数据源', () => {
     const marker = `E2ERESET${Date.now()}`;
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '数据字典' }).click();
+    await page.getByRole('button', { name: '数据字典' }).click();
 
     // 先自定义一个单位
     await page.getByRole('button', { name: '添加' }).click();
@@ -129,7 +129,7 @@ test.describe('P2-1 数据字典单一数据源', () => {
     // 持久化：刷新后自定义项不再存在
     await page.reload();
     await waitStores(page);
-    await page.getByRole('tab', { name: '数据字典' }).click();
+    await page.getByRole('button', { name: '数据字典' }).click();
     expect(
       await page.evaluate(
         (m: string) =>

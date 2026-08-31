@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 test('V2.55.20 货源清单物料编码列 + 联动 selector 回归', async ({ page }) => {
   const errors: string[] = [];

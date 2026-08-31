@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * V2.13 P2-2 多组织/多账套 + 多仓多库位主数据 E2E：
@@ -37,7 +37,7 @@ test.describe('P2-2 组织账套 + 仓库主数据', () => {
   test('组织账套 Tab 渲染 + 种子组织', async ({ page }) => {
     await page.goto('/settings');
     await waitStores(page);
-    await page.getByRole('tab', { name: '组织账套' }).click();
+    await page.getByRole('button', { name: '组织账套' }).click();
     await expect(page.getByText('多组织 / 多账套', { exact: false })).toBeVisible();
     // 种子组织可见
     await expect(page.getByText('华东制造公司', { exact: false })).toBeVisible();
@@ -46,7 +46,7 @@ test.describe('P2-2 组织账套 + 仓库主数据', () => {
       await page.evaluate(
         () => (window as unknown as Record<string, any>).__ssaStores.useOrgStore.getState().organizations.length
       )
-    ).toBe(3);
+    ).toBe(6);
     expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
   });
 

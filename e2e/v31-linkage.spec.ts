@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 /**
  * v31 — 跨域「上下表单关联性 / 数据易用性 / 可定制性」专项回归
@@ -111,17 +111,52 @@ test.describe('v31 跨域表单关联与可定制性', () => {
     page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
-    // 取一个可生成领料的工单（非 draft/closed）
-    const woId = await page.evaluate(() => {
-      const wos = (window as any).__ssaStores.useProductionStore.getState().workOrders;
-      const wo = wos.find((w: any) => w.status !== 'draft' && w.status !== 'closed');
-      return wo?.id;
+    // 取一个可生成领料的工单（非 draft/closed/completed，且未领料过），并为 BOM 所需物料预置充足库存
+    const setup = await page.evaluate(() => {
+      const prod = (window as any).__ssaStores.useProductionStore.getState();
+      const bom = (window as any).__ssaStores.useBOMStore.getState();
+      const wh = (window as any).__ssaStores.useWarehouseStore.getState();
+      const materials = (window as any).__ssaStores.useMaterialStore.getState().materials;
+      const wo = prod.workOrders.find((w: any) =>
+        w.status !== 'draft' && w.status !== 'closed' && w.status !== 'completed' &&
+        (!w.issuedMaterials || w.issuedMaterials.length === 0)
+      );
+      const bomRecord = bom.bomList.find((b: any) => b.id === wo?.bomId || b.productCode === wo?.productCode);
+      const bomItems = (bomRecord?.items || []).filter((it: any) => it.materialId);
+      const records = [...wh.inventoryRecords];
+      for (const item of bomItems) {
+        const idx = records.findIndex((r: any) => r.materialId === item.materialId && r.warehouseId === 'wh-001');
+        if (idx >= 0) {
+          records[idx] = { ...records[idx], quantity: 100000, availableQuantity: 100000 };
+        } else {
+          const mat = materials.find((m: any) => m.id === item.materialId);
+          records.push({
+            id: `inv-e2e-${item.materialId}`,
+            materialId: item.materialId,
+            materialCode: item.materialCode || mat?.code || item.materialCode,
+            materialName: item.materialName || mat?.name || item.materialName,
+            specification: mat?.specification || '',
+            warehouseId: 'wh-001',
+            warehouseName: '原材料仓',
+            locationId: 'loc-001',
+            locationName: 'A-01-01',
+            quantity: 100000,
+            availableQuantity: 100000,
+            frozenQuantity: 0,
+            unit: item.unit || mat?.unit || '个',
+            lastInboundDate: new Date().toISOString().slice(0, 10),
+          });
+        }
+      }
+      wh.setInventoryRecords(records);
+      return { woId: wo?.id, bomItemCount: bomItems.length };
     });
-    expect(woId, '应存在可生成领料的工单').toBeTruthy();
+    expect(setup.woId, '应存在可生成领料的工单').toBeTruthy();
+    expect(setup.bomItemCount, '工单应有BOM物料').toBeGreaterThan(0);
 
     const beforeOut = await page.evaluate(() => (window as any).__ssaStores.useWarehouseStore.getState().outboundOrders.length);
 
-    await page.goto(`/production/orders/${woId}`);
+    await page.goto(`/production/orders/${setup.woId}`);
     await page.getByRole('button', { name: '生成领料出库' }).click();
 
     const res = await page.evaluate(() => {
@@ -195,7 +230,12 @@ test.describe('v31 跨域表单关联与可定制性', () => {
       localStorage.setItem('ssa-menu-config', JSON.stringify({ visible: { '/sales/analysis': false } }));
     });
     await page.reload();
-    await page.waitForFunction(() => (window as any).__ssaStores);
+    await page.waitForLoadState('load');
+    // 等菜单配置从 localStorage 加载并生效，避免高负载下 reload 竞态导致侧栏短暂仍显示
+    await page.waitForFunction(() => {
+      const s = (window as any).__ssaStores?.useSettingsStore?.getState?.();
+      return !!(s && s.menuConfig && s.menuConfig.visible && s.menuConfig.visible['/sales/analysis'] === false);
+    });
 
     await expect(page.getByText('市场分析', { exact: true })).toHaveCount(0);
     // 对照组：未被隐藏的项仍可见

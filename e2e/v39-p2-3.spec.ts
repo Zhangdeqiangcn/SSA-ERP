@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from './ssa-fixtures';
 
 /**
  * P2-3 生产执行深化 E2E

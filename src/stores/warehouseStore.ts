@@ -20,6 +20,75 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { rollInMovingAverage, getUnitCost, getStockValue, roundAmount } from '@/utils/cost';
+import { b2Api, isAuthed } from '@/services/b2Api';
+
+// ── B2 双写：出库单 / 入库单 落 D1 的字段映射（严格照后端字段调用）────────
+// 用显式映射而非整体展开，避免把本地私有字段（inventoryPosted/cogsPosted 等）误传后端。
+const toOutboundPayload = (o: OutboundOrder): Record<string, unknown> => ({
+  outboundNo: o.outboundNo,
+  type: o.type,
+  sourceNo: o.sourceNo,
+  customerId: o.customerId,
+  customerName: o.customerName,
+  vendorId: o.vendorId,
+  vendorName: o.vendorName,
+  status: o.status,
+  warehouseId: o.warehouseId,
+  warehouseName: o.warehouseName,
+  operator: o.operator,
+  outboundDate: o.outboundDate,
+  remarks: o.remarks,
+  picker: o.picker,
+  items: (o.items || []).map((it) => ({
+    materialId: it.materialId,
+    materialCode: it.materialCode,
+    materialName: it.materialName,
+    specification: it.specification,
+    unit: it.unit,
+    quantity: it.quantity,
+    batchNo: it.batchNo,
+    locationId: it.locationId,
+    locationName: it.locationName,
+    unitCost: it.unitCost,
+    costAmount: it.costAmount,
+    serialNos: it.serialNos,
+    huId: it.huId,
+  })),
+});
+
+const toInboundPayload = (o: InboundOrder): Record<string, unknown> => ({
+  inboundNo: o.inboundNo,
+  type: o.type,
+  sourceNo: o.sourceNo,
+  vendorId: o.vendorId,
+  vendorName: o.vendorName,
+  status: o.status,
+  warehouseId: o.warehouseId,
+  warehouseName: o.warehouseName,
+  operator: o.operator,
+  inboundDate: o.inboundDate,
+  remarks: o.remarks,
+  asnShipmentNo: o.asnShipmentNo,
+  items: (o.items || []).map((it) => ({
+    materialId: it.materialId,
+    materialCode: it.materialCode,
+    materialName: it.materialName,
+    specification: it.specification,
+    unit: it.unit,
+    expectedQuantity: it.expectedQuantity,
+    actualQuantity: it.actualQuantity,
+    batchNo: it.batchNo,
+    locationId: it.locationId,
+    locationName: it.locationName,
+    qualityStatus: it.qualityStatus,
+    unitPrice: it.unitPrice,
+    amount: it.amount,
+    serialNos: it.serialNos,
+    huId: it.huId,
+    productionDate: it.productionDate,
+    expiryDate: it.expiryDate,
+  })),
+});
 
 // ── 事件驱动：入库/出库自动过账库存（纯函数，便于单测与复用）────────
 // 入库：按 物料+仓库+库位 聚合库存；带批次号的行同步 upsert 批次记录（P2-2 批次）
@@ -611,24 +680,25 @@ export const useWarehouseStore = create<WarehouseState>()(
           if (o.type === 'production') postProductionReceipt(o, totalCost);
           costPosted = true;
         }
+        const finalOrder: InboundOrder = {
+          ...o,
+          inventoryPosted: shouldPost ? true : o.inventoryPosted,
+          costPosted: costPosted || o.costPosted,
+          totalCost: totalCost || o.totalCost,
+        };
         set((state) => {
           const posted = shouldPost
             ? postInboundToInventory(state.inventoryRecords, state.batchRecords, o)
             : null;
           return {
-            inboundOrders: [
-              ...state.inboundOrders,
-              {
-                ...o,
-                inventoryPosted: shouldPost ? true : o.inventoryPosted,
-                costPosted: costPosted || o.costPosted,
-                totalCost: totalCost || o.totalCost,
-              },
-            ],
+            inboundOrders: [...state.inboundOrders, finalOrder],
             inventoryRecords: posted ? posted.inventoryRecords : state.inventoryRecords,
             batchRecords: posted ? posted.batchRecords : state.batchRecords,
           };
         });
+        // B2 双写：入库单（含 items）落 D1。中央落库点，覆盖 purchase/subcontract/production/transfer 等全部路径，
+        // 因此 subcontractStore.receiveSubcontract、productionStore.completeWorkOrder 等不再重复 POST。
+        if (isAuthed()) b2Api.postInbound(toInboundPayload(finalOrder)).catch(() => {});
       },
       updateInboundOrder: (id, updates) =>
         set((state) => {
@@ -674,24 +744,25 @@ export const useWarehouseStore = create<WarehouseState>()(
         const enrichedItems = shouldPost && !o.cogsPosted ? postOutboundCost(o) : o.items;
         if (shouldPost && !o.cogsPosted) costPosted = true;
         if (shouldPost) writeBackSalesShipment(o);
+        const finalOrder: OutboundOrder = {
+          ...o,
+          items: enrichedItems,
+          inventoryPosted: shouldPost ? true : o.inventoryPosted,
+          cogsPosted: costPosted || o.cogsPosted,
+        };
         set((state) => {
           const posted = shouldPost
             ? postOutboundToInventory(state.inventoryRecords, state.batchRecords, o)
             : null;
           return {
-            outboundOrders: [
-              ...state.outboundOrders,
-              {
-                ...o,
-                items: enrichedItems,
-                inventoryPosted: shouldPost ? true : o.inventoryPosted,
-                cogsPosted: costPosted || o.cogsPosted,
-              },
-            ],
+            outboundOrders: [...state.outboundOrders, finalOrder],
             inventoryRecords: posted ? posted.inventoryRecords : state.inventoryRecords,
             batchRecords: posted ? posted.batchRecords : state.batchRecords,
           };
         });
+        // B2 双写：出库单（含 items 与成本快照）落 D1。中央落库点，覆盖 sale/pick/subcontract/transfer 等全部路径，
+        // 因此 productionStore.issueMaterials、subcontractStore.issueMaterials 等不再重复 POST，避免双写重复。
+        if (isAuthed()) b2Api.postOutbound(toOutboundPayload(finalOrder)).catch(() => {});
       },
       updateOutboundOrder: (id, updates) =>
         set((state) => {

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
-import { PurchaseRequest, PurchaseOrder, VendorQuote } from '@/types';
+import { PurchaseRequest, PurchaseOrder, PurchaseOrderVersion, VendorQuote } from '@/types';
 import { purchaseRequests as mockPurchaseRequests, purchaseOrders as mockPurchaseOrders, vendorQuotes as mockVendorQuotes } from '@/mocks/data/purchase';
 import { normalizeOrderTax } from '@/utils/tax';
 
@@ -28,12 +28,19 @@ interface PurchaseState {
   // Order CRUD
   addPurchaseOrder: (order: PurchaseOrder) => void;
   updatePurchaseOrder: (id: string, updates: Partial<PurchaseOrder>) => void;
+  /** B10 订单变更单：变更生成新版本（非原地修改），已收货/终态锁定；返回 ok/error/新版本号 */
+  changePurchaseOrder: (
+    id: string,
+    updates: Partial<Pick<PurchaseOrder, 'expectedDeliveryDate' | 'items' | 'paymentTerms' | 'tradeTerms' | 'deliveryAddress' | 'remarks' | 'totalAmount'>>,
+    reason: string,
+    changedBy?: string
+  ) => { ok: boolean; error?: string; version?: number };
   deletePurchaseOrder: (id: string) => void;
   /**
    * B5 门户回写：供应商门户确认订单后，将主系统采购订单状态推进为 'vendorConfirmed'。
    * 幂等守卫：已是 vendorConfirmed/confirmed/received/closed/cancelled 则不重复回写。
    */
-  confirmOrderByVendor: (poId: string, info: { vendorId: string; operator?: string; note?: string }) => boolean;
+  confirmOrderByVendor: (poId: string, info: { vendorId: string; operator?: string; note?: string; confirmedDeliveryDate?: string }) => boolean;
 
   // Quote CRUD
   addVendorQuote: (quote: VendorQuote) => void;
@@ -116,12 +123,68 @@ export const usePurchaseStore = create<PurchaseState>()(
                     confirmedBy: info.operator || info.vendorId,
                     confirmedAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
                     confirmedNote: info.note,
+                    // B5: 供应商确认交期（独立列，不修改原expectedDeliveryDate）
+                    vendorConfirmedDate: info.confirmedDeliveryDate || o.expectedDeliveryDate,
                   }
                 : o
             ),
           };
         });
         return ok;
+      },
+
+      // ── B10 采购订单变更单：版本留痕，非原地修改 ──────────────
+      changePurchaseOrder: (id, updates, reason, changedBy = 'admin') => {
+        let result: { ok: boolean; error?: string; version?: number } = { ok: false };
+        set((state) => {
+          const po = state.purchaseOrders.find((o) => o.id === id);
+          if (!po) {
+            result = { ok: false, error: '采购订单不存在' };
+            return {};
+          }
+          // 锁定规则：已收货（有累计收货量或收货态）或终态禁止变更
+          const locked =
+            (po.deliveredQuantity || 0) > 0 ||
+            po.status === 'received' ||
+            po.status === 'closed' ||
+            po.status === 'cancelled';
+          if (locked) {
+            result = { ok: false, error: '订单已收货或已结束，禁止变更' };
+            return {};
+          }
+          const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+          const curVersion = po.version || 1;
+          // 快照当前关键字段入历史（最新在前），支撑差异对比与审计
+          const historyEntry: PurchaseOrderVersion = {
+            version: curVersion,
+            changedAt: now,
+            changedBy,
+            changeReason: reason || '未填写变更原因',
+            snapshot: {
+              expectedDeliveryDate: po.expectedDeliveryDate,
+              items: po.items,
+              totalAmount: po.totalAmount,
+              paymentTerms: po.paymentTerms,
+              tradeTerms: po.tradeTerms,
+              deliveryAddress: po.deliveryAddress,
+              remarks: po.remarks,
+            },
+          };
+          result = { ok: true, version: curVersion + 1 };
+          return {
+            purchaseOrders: state.purchaseOrders.map((o) =>
+              o.id === id
+                ? {
+                    ...o,
+                    ...updates,
+                    version: curVersion + 1,
+                    history: [historyEntry, ...(o.history || [])],
+                  }
+                : o
+            ),
+          };
+        });
+        return result;
       },
 
       deletePurchaseOrder: (id) =>

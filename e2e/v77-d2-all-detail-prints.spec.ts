@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './ssa-fixtures';
 
 const PAGES = [
   { path: '/vendor/ven-001', name: '供应商详情', entity: 'vendor' },

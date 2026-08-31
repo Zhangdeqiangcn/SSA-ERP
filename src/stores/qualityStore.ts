@@ -3,14 +3,15 @@ import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 import { InspectionTask, InspectionStandard, UnqualifiedItem, PDCARecord } from '@/types/quality';
 import type { VendorQualityIssue } from '@/mocks/data/flowData';
+import { useWarehouseStore } from './warehouseStore';
+import { useFinanceStore } from './financeStore';
+import { useMaterialStore } from './materialStore';
 import {
   inspectionTasks as mockInspectionTasks,
   inspectionStandards as mockInspectionStandards,
   unqualifiedItems as mockUnqualifiedItems,
   pdcaRecords as mockPdcaRecords,
 } from '@/mocks/data/quality';
-import { useMaterialStore } from '@/stores/materialStore';
-import { useWarehouseStore } from '@/stores/warehouseStore';
 
 interface QualityState {
   inspectionTasks: InspectionTask[];
@@ -109,7 +110,9 @@ export const useQualityStore = create<QualityState>()(
 
       // ── B4：NCR 处置联动库存与财务 ──────────────────────────────
       // scrap(报废)：生成 scrap 出库单 → 真实扣减库存 + 自动生成报废凭证（借6602/贷1403|1405）
-      // 其余处置方式（rework/concession/return/isolate/other 等）：仅完成状态闭环，不联动库存
+      // rework(返工)：生成 rework 入库单 → 库存增加 + 自动生成凭证（借1403/贷6601）
+      // return_vendor(退货)：生成 return 出库单 → 库存减少 + AP冲销凭证（借2202/贷1403）
+      // concession(让步接收)：不生成出入库，但记录折价凭证（借6602/贷1403）
       disposeUnqualified: (id, payload = {}) => {
         const item = get().unqualifiedItems.find((x) => x.id === id);
         if (!item) return false;
@@ -119,12 +122,21 @@ export const useQualityStore = create<QualityState>()(
         const method = payload.disposition || item.disposition || 'other';
         const operator = payload.operator || item.responsiblePerson || '质量员';
         const today = new Date().toISOString().slice(0, 10);
+        const cost = payload.actualCost || 0; // 实际成本（用于凭证金额）
 
         let linkedOutboundNo: string | undefined;
+        let linkedInboundNo: string | undefined;
         let actualDisposition: string | undefined;
 
+        const material = useMaterialStore.getState().materials.find((m) => m.code === item.materialCode);
+        const unitCost = material?.price || cost / item.defectQuantity || 0; // 单价
+        const totalCost = unitCost * item.defectQuantity;
+        // 评估类分流（对标 SAP valuation class）：FG → 贷 1405 库存商品；其余 → 贷 1403 原材料
+        const isFG = material?.valuationClass === 'FG' || material?.materialType === 'finished';
+        const creditAccount = isFG ? { code: '1405', name: '库存商品' } : { code: '1403', name: '原材料' };
+
         if (method === 'scrap') {
-          const material = useMaterialStore.getState().materials.find((m) => m.code === item.materialCode);
+          // 报废：生成 scrap 出库单 + 凭证（借6602管理费用/贷1403原材料）
           if (material) {
             const ts = Date.now();
             const outboundNo = `OUT-SCRAP-${ts}`;
@@ -156,9 +168,131 @@ export const useQualityStore = create<QualityState>()(
             });
             linkedOutboundNo = outboundNo;
           }
+          // 凭证：借 6602 管理费用 / 贷 ${creditAccount.code} ${creditAccount.name}（按评估类 FG→1405 库存商品；其余→1403 原材料）
+          useFinanceStore.getState().createVoucher({
+            date: today,
+            items: [
+              { id: `voucher-scrap-d`, lineNo: 0, summary: `NCR报废 ${item.itemNo}`, accountCode: '6602', accountName: '管理费用', debit: totalCost, credit: 0 },
+              { id: `voucher-scrap-c`, lineNo: 0, summary: `结转报废损失 ${item.itemNo}（${creditAccount.name}）`, accountCode: creditAccount.code, accountName: creditAccount.name, debit: 0, credit: totalCost },
+            ],
+            source: 'ocr', // NCR处置使用ocr来源标识
+            sourceNo: item.itemNo,
+            remark: `NCR报废处置：${item.itemNo}`,
+            createdBy: operator,
+          });
           actualDisposition = 'scrap';
+        } else if (method === 'rework') {
+          // 返工：生成 rework 入库单 + 凭证（借1403原材料/贷6601生产损失）
+          if (material) {
+            const ts = Date.now();
+            const inboundNo = `IN-REWORK-${ts}`;
+            useWarehouseStore.getState().addInboundOrder({
+              id: `ib-rework-${ts}`,
+              inboundNo,
+              type: 'rework',
+              sourceNo: item.itemNo,
+              status: 'completed',
+              warehouseId: 'wh-001',
+              warehouseName: '主仓库-A区',
+              operator,
+              inboundDate: today,
+              items: [
+                {
+                  id: `ib-rework-item-${ts}`,
+                  materialId: material.id,
+                  materialCode: material.code,
+                  materialName: material.name,
+                  specification: material.specification,
+                  unit: material.unit,
+                  expectedQuantity: item.defectQuantity,
+                  actualQuantity: item.defectQuantity,
+                  qualityStatus: 'passed' as any,
+                },
+              ],
+              remarks: `NCR 返工入库联动：${item.itemNo}`,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              createdBy: 'system',
+              updatedBy: 'system',
+            });
+            linkedInboundNo = inboundNo;
+          }
+          // 凭证：借1403原材料/贷6601生产损失
+          useFinanceStore.getState().createVoucher({
+            date: today,
+            items: [
+              { id: `voucher-rework-d`, lineNo: 0, summary: `NCR返工入库 ${item.itemNo}`, accountCode: '1403', accountName: '原材料', debit: totalCost, credit: 0 },
+              { id: `voucher-rework-c`, lineNo: 0, summary: `结转返工损失 ${item.itemNo}`, accountCode: '6601', accountName: '生产损失', debit: 0, credit: totalCost },
+            ],
+            source: 'ocr',
+            sourceNo: item.itemNo,
+            remark: `NCR返工处置：${item.itemNo}`,
+            createdBy: operator,
+          });
+          actualDisposition = 'rework';
+        } else if (method === 'return_vendor') {
+          // 退货：生成 return 出库单 + AP冲销凭证（借2202应付账款/贷1403原材料）
+          if (material) {
+            const ts = Date.now();
+            const outboundNo = `OUT-RETURN-${ts}`;
+            useWarehouseStore.getState().addOutboundOrder({
+              id: `ob-return-${ts}`,
+              outboundNo,
+              type: 'return',
+              status: 'completed',
+              warehouseId: 'wh-001',
+              warehouseName: '主仓库-A区',
+              operator,
+              outboundDate: today,
+              items: [
+                {
+                  id: `ob-return-item-${ts}`,
+                  materialId: material.id,
+                  materialCode: material.code,
+                  materialName: material.name,
+                  specification: material.specification,
+                  unit: material.unit,
+                  quantity: item.defectQuantity,
+                },
+              ],
+              remarks: `NCR 退货供应商联动：${item.itemNo}`,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              createdBy: 'system',
+              updatedBy: 'system',
+            });
+            linkedOutboundNo = outboundNo;
+          }
+          // 凭证：借 2202 应付账款 / 贷 ${creditAccount.code} ${creditAccount.name}（按评估类 FG→1405 库存商品；其余→1403 原材料）
+          useFinanceStore.getState().createVoucher({
+            date: today,
+            items: [
+              { id: `voucher-return-d`, lineNo: 0, summary: `NCR退货冲销 ${item.itemNo}`, accountCode: '2202', accountName: '应付账款', debit: totalCost, credit: 0 },
+              { id: `voucher-return-c`, lineNo: 0, summary: `结转退货库存 ${item.itemNo}（${creditAccount.name}）`, accountCode: creditAccount.code, accountName: creditAccount.name, debit: 0, credit: totalCost },
+            ],
+            source: 'ocr',
+            sourceNo: item.itemNo,
+            remark: `NCR退货处置：${item.itemNo}`,
+            createdBy: operator,
+          });
+          actualDisposition = 'return_vendor';
+        } else if (method === 'conditional_accept') {
+          // 让步接收：不生成出入库，但记录折价凭证（借6602管理费用/贷1403原材料）
+          // 凭证：借6602管理费用/贷1403原材料（折价损失）
+          useFinanceStore.getState().createVoucher({
+            date: today,
+            items: [
+              { id: `voucher-concession-d`, lineNo: 0, summary: `NCR让步接收 ${item.itemNo}`, accountCode: '6602', accountName: '管理费用', debit: totalCost, credit: 0 },
+              { id: `voucher-concession-c`, lineNo: 0, summary: `结转让步损失 ${item.itemNo}`, accountCode: '1403', accountName: '原材料', debit: 0, credit: totalCost },
+            ],
+            source: 'ocr',
+            sourceNo: item.itemNo,
+            remark: `NCR让步接收处置：${item.itemNo}`,
+            createdBy: operator,
+          });
+          actualDisposition = 'conditional_accept';
         } else {
-          // 非报废处置：仅状态闭环，不联动库存/凭证（return_vendor/concession 等更大联动留待后续）
+          // 其他处置：仅状态闭环
           actualDisposition = method;
         }
 
@@ -170,6 +304,7 @@ export const useQualityStore = create<QualityState>()(
                   dispositionStatus: 'completed',
                   completedDate: x.completedDate || today,
                   linkedOutboundNo: linkedOutboundNo ?? x.linkedOutboundNo,
+                  linkedInboundNo: linkedInboundNo ?? x.linkedInboundNo,
                   actualDisposition: actualDisposition ?? x.actualDisposition,
                 }
               : x

@@ -3,6 +3,8 @@
 > 标题基线：**V2.54**（2.54.0，构建于 2026-08-12）；**V2.56 对标整改基线**（见 §九，package.json 2.56.0）：本计划在此基线追加「地基修复」P0/P1/P2 路线图。
 > 版本单一来源：`src/version.ts` 的 `APP_VERSION`(==`package.json`.version) 与 `APP_VERSION_LABEL`(展示)；UI 读 `APP_VERSION_LABEL`。
 > 版本铁律：每次变更同步四处 —— ①`src/version.ts` ②`package.json`.version ③项目记忆 `MEMORY.md` 版本沿革 ④本主计划（标题基线 + §二模块现状 + §八沿革）。
+>
+> **开发计划铁律**：全项目只保留本文件（`docs/ssa-erp-master-plan.md`）作为唯一开发计划。带版本/日期后缀的计划副本（如 `development-plan-V2.64.md`、`P2-COMPLETION.md`）在完成对应阶段后必须合并进本文件并删除，不保留重复/历史副本。版本升级时先更新本文档再升版号。
 
 ---
 
@@ -13,7 +15,9 @@
 - 数据：`src/mocks/data/`(11 文件) 仅种子源
 - 自动化回归：Playwright `e2e/*.spec.ts`，`window.__ssaStores`（DEV 暴露）驱动断言
 
-## 二、模块现状（截至 V2.54）
+## 二、模块现状（截至 V2.68）
+
+> 下表为 V2.54 基线盘点；V2.55–V2.68 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P2 智能增强 17/30 项均已落地**；纯前端可验证，生产态真实后端见 §九。
 | 域 | 状态 | 说明 |
 |----|------|------|
 | 物料主数据 | **V2.51 增强** | 审批流 + 评级 + 多单位 + 自定义字段；**P0-04 多视图**：Material加14字段（采购组/MRP类型/税分类/科目分配组等），Form改5个Tab分组；**P2-23 GTIN**：条码字段 |
@@ -119,6 +123,19 @@
 - **V2.53 P1 对标增强第二波**（构建EXIT=0）——多组织/条件技术引擎/排程引擎/拣配流程/KPI扩充20张/嵌入式分析（纯SVG）。P1合计18/25落地。全量235/244。
 - **V2.54 P2 智能增强**（构建EXIT=0）——AI Agent对话助手/ChatBI/异常检测预警/返利管理/寄售采购/FMEA/动态检验/COA/计量校准/价格分析/客户ABC/RLS/帮助体系/三方销售。P2合计17/30落地，13项后端依赖跳过。
 - **V2.55 SAP/ALV 列表能力统一 + 全列表导入导出**（构建EXIT=0）——把 SAP ALV 式交互（Ctrl+Y 块选复制、列排序、列漏斗检索、Excel 粘贴按物料属性回填、SAP 蓝灰表头+网格线+斑马纹）统一到共享 `DataTable` 组件，并扩展导入(粘贴/上传 TSV-CSV)+导出(xlsx/CSV)；①增强 `DataTable` 一次性获得以上能力，原 13 页即时升级；②将残留 16 个裸 MUI `<Table>` 列表页（销售/生产/质量/BOM/物料/财务）+ 全部详情页子表 + SalesOrderDetail 迁移到 `DataTable`；③修 TDZ(`Cannot access 'table' before initialization`)崩溃（V2.55.5）；④**V2.55.6 排序/筛选补全**：组件内对「有 id 但缺 accessor 的列」自动补 `accessorKey:id`（覆盖绝大多数"点了没反应"的列），并让 `fuzzyIncludes` 状态列同时匹配 `StatusBadge.statusConfig` 中文标签，实现中文检索。dev server :3002。
+- **V2.56 对标整改基线**（2026-08-12）——确立"先修地基"路线：深度对标 SAP/金蝶/用友，发布 V2.56 改善报告，定义 P0 地基修复(13项)/P1 关系化(17项)/P2 合规智能化(14项)三套路线图（详见 §九）。
+- **V2.57 密码与认证加固**——`functions/_shared/auth.ts` 弱哈希升级 PBKDF2-HMAC-SHA-256（10万次迭代+随机盐，兼容旧 SHA-256）；D1 云端备份下载（P0-07）；供应商激活死路修复（P0-08）；DEPLOY.md 更正为"前端 SPA + Cloudflare Pages Functions(D1+KV)"。
+- **V2.58 物料主数据关系化（P1 Phase 1）**——`migrations/0003_materials.sql` + `functions/api/materials` + 幂等迁移脚本，D1 `materials` 表落地（对标 §9.3）。
+- **V2.59 供应商/客户主数据关系化（P1 Phase 2）**——`vendors`(增强)/`customers` 表 + 对应 functions，12 供应商 + 5 客户种子入生产 D1。
+- **V2.60 采购订单/入库/出库关系化（P1 Phase 3）**——6 张表 `purchase_orders`/`purchase_order_items`/`inbound_orders`(+items)/`outbound_orders`(+items) + functions；D1 表 8→14。
+- **V2.61 销售订单关系化（P1 Phase 4）**——`sales_orders`/`sales_order_items` + functions；3 销售订单种子入 D1；D1 表 14→16。
+- **V2.62 凭证/库存/工单关系化（P1 Phase 5）**——`vouchers`/`inventory_records`/`work_orders` + functions。
+- **V2.63 审计日志落库（P1 Phase 6）**——`audit_logs`(不可篡改) + functions，P1 关系化 17 项全完。
+- **V2.64 三单匹配服务端闭环（P1 Phase 7）+ 深度对标收官**——`three_way_match` 表 + functions；P0 六项地基全成；发布 `benchmark-V2.64-deep-analysis.md` + `development-plan-V2.64.md`；D1 关系表达 21 张。
+- **V2.65 P1 Phase 1（B1–B5）流程闭环 + E2E 基建修复**——B4 NCR 四处置全出凭证（评估类分流+幂等）、B5 交期回写独立列 `vendorConfirmedDate`、B2-② 工单领料出库单、B2-① 序列号 FIFO 核销（整合 warehouseStore 冗余、修复循环依赖 TDZ 白屏）、E2E 基建（DEV 登录放行+演示用户+引导跳过）；全量回归 30/30 全绿。
+- **V2.66 B10 采购订单变更单（P1 Phase 2 唯一空白项）**——`PurchaseOrder.version/history[]` + `changePurchaseOrder`(锁定校验+快照留痕+版本自增) + 详情页「变更订单/版本历史」差异对比；E2E `v70-b10-po-change.spec.ts` 4/4 + 全量 34/34 全绿。
+- **V2.67 B7 工作流引擎统一收尾 + E2E 全量回归修复**——价格/物料/三队列统一接入审批引擎(`approvalFlowStore`+`approvalFlowConfig`)，条件技术引擎(`useConditionStore`)与审批流引擎解耦，`resolvePrice` 经条件引擎叠加含税价；E2E 修复 9 项陈旧用例，最终 17/17 全绿。
+- **V2.68 全量 E2E 回归收口 + 开发计划合并 + 代码审计**（2026-08-28）——①全量 271 E2E 用例收口全绿（修复 v50/v51/v68/v80 四例过时定位器、v34/v37/v38/v69 资源噪声守卫误判、v30 reload race、v68 goto race，新增 B8/B9 固化用例）；②开发计划合并为单一权威版（本文件），删除 `development-plan-V2.64.md`/`P2-COMPLETION.md` 冗余副本，确立开发计划铁律；③全仓 src 代码审计（见 §十），如实标注实现度与双通道风险。
 
 ---
 
@@ -216,3 +233,39 @@
 
 ### 9.5 版本沿革补充
 - **V2.56 对标整改基线**（2026-08-12）—— 本基线在后续 V2.57 轮落地：P0-01~P0-13 全部完成（白屏修复 + 类型门禁 + 弱哈希升级为 PBKDF2 + D1 备份 + 供应商激活死路修复 + DEPLOY.md 更正 + Sidebar 版本号修正 + 防回归 e2e 用例），同步推进至 V2.57.0；P1 关系化地基（17 项，约 4 人月）与 P2 合规智能化（14 项，约 6 人月）为下一阶段的长期路线。
+
+---
+
+## 十、代码审计现实（2026-08-28 全仓 src 扫描）
+
+> 来源：Explore-1 子代理对 `src/` 全量代码审计（看实现，非看文档）。结论用于校准本计划"声称完成"与"代码真实"的偏差。
+
+### 10.1 双数据通道（关键架构前提）
+- **DEV/本地/E2E/离线演示**：`src/main.tsx` 仅在 `import.meta.env.DEV` 启动 MSW（`src/mocks/handlers.ts` 拦截全部 `/api/*`），stores 直接 import `@/mocks/data/*` 种子 → **100% 浏览器内 mock，不触达 D1**。
+- **生产通道**：Cloudflare Pages 构建不启动 MSW，`fetch('/api/...')` 真实打到 `functions/api`（39 个 serverless 函数）+ D1（migrations 0001–0008）。关系完整性仅在生产函数层成立，未被现有 E2E 走通验证 → **属并行两套实现，生产部署后须回归验证**。
+- 含义：下文"已实现"指源码含真实业务逻辑/算法；依赖持久化与跨表关系的，在 DEV 仅作用于 mock。
+
+### 10.2 实现度校准（偏差项）
+| 功能 | 计划声称 | 代码真实 | 证据/说明 |
+|------|---------|---------|-----------|
+| B2 三岛后台联动 | ✅ 完成 V2.37 | ⚠️ 源码零命中"三岛/three.island" | 命名代号未在 src 落地；序列号/委外/领料相关逻辑分散在 warehouse/production，须业务走查确认是否等价于 B2 |
+| B8 MRP 增强 | ✅ 完成 V2.44 | ✅ 真实（但无独立算法文件） | `MRPPlan.tsx#computeNetRequirements` 含安全库存分层/批量规则/提前期偏置真实运算；`src/utils` 无 `mrp.ts`，算法内联页内 |
+| B10 PO 变更单 | ✅ 完成 V2.66 | 🟡 部分 | 原 PO 上「变更」入口+痕迹（`Purchase/OrderDetail.tsx`、`OrderForm.tsx`）；独立 PO 变更单实体/流程未见独立页或 store |
+| 类型门禁 tsc 0 错 | ✅ 已建门禁 | 🟡 非默认路径 | `build-with-gate.bat` 提供 `tsc --noEmit` 门禁；`package.json` build 仅 `vite build`（esbuild 不跑类型检查），门禁非强制默认 |
+| RLS 行级安全 | ✅ P2-28 | 🟡 前端级 | `dataPermissionStore`+`SecureField`+`DataPermissionTab` 为展示级权限，未下沉 D1 行级策略 |
+| 智能推荐 P2-03 | 部分 | 🟡 雏形 | `Analytics/Cockpit`/`Forecast` 含推荐雏形，无独立引擎 |
+| 智能排程 P2-04 | 部分 | 🟡 壳倾向 | `GanttSchedule`/`DetailedScheduling`/`FiniteCapacity`(APS)/`CRP` 存在，但 `CRP.tsx` 59 行、`DetailedScheduling` 98 行，算法深度有限 |
+| 移动端 P2-20 | 部分 | 🟡 壳 | `Settings/MobileTab.tsx` 为配置壳，无独立移动端构建/路由 |
+| 三方销售 P2-12 | 部分 | 🟡 无专项实体 | 销售模块含 SO/Quotation/Contract，三方/代销专项逻辑未见独立实体 |
+
+### 10.3 真实落地（确认无偏差）
+- **P0 六项地基**：A1 凭证(`utils/voucher.ts`)、A2 税价(`utils/tax.ts`)、A3 信用(`customerStore`)、A4 成本(`utils/cost.ts`)、A5 红冲(`buildReversalVoucher`)、A6 期间(`PeriodClosing.tsx`)——核心算法可逐行核验。
+- **P2 智能后端**：AI Agent(`functions/api/ai/chat.ts`)、ChatBI(`functions/api/chatbi`)、异常预警(`functions/api/alerts`)、OCR(`functions/api/ocr/recognize.ts`)、数电票核验(`functions/api/tax-gateway/verify.ts`)、审计(`functions/api/audit`)——均为真实转发/核验实现。
+- **整改项**：PBKDF2(`functions/_shared/auth.ts`)、D1 备份(`functions/api/system/backup.ts`)、白屏(`ErrorBoundary`+`PageFallback`+`white-screen-guard.spec.ts`)、DEPLOY 更正——代码/配置已落地。
+
+### 10.4 下一步重点（按用户价值排序）
+1. **生产态 E2E 回归**：部署后用真实 D1 后端跑关系化/三单匹配回归，验证"并行两套实现"一致性（最高风险项）。
+2. **B2 三岛后台走查**：确认分散逻辑是否等价于计划 B2，补独立标识或文档澄清。
+3. **B10 PO 变更单独立实体**：从"原单变更标记"升级为独立变更单流程（若业务需要）。
+4. **类型门禁纳入默认构建**：`package.json` build 改为 `tsc --noEmit && vite build` 或 CI 强制 build-with-gate，杜绝类型债回潮。
+5. **P2 深水区**（需后端/外部）：智能推荐、智能排程深化、移动端、多币种、开放 API、国产化合规（金税/数电票对接）。

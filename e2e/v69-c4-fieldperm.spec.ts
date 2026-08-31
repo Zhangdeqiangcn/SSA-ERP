@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * v69 — C4 字段级权限扩展（只读/必填/脱敏）+ Webhook 鉴权/重试 专项验收
@@ -33,7 +33,10 @@ const captureErrors = (page: Page, errors: string[]) => {
   page.on('console', (m) => {
     if (m.type() === 'error' &&
         !m.text().includes('validateDOMNesting') &&
-        !m.text().includes('A props object containing a "key" prop')) {
+        !m.text().includes('A props object containing a "key" prop') &&
+        // 忽略浏览器对“资源加载失败”的噪声（Webhook 触发外部地址不可达、非应用 bug）
+        !m.text().includes('Failed to load resource') &&
+        !m.text().includes('net::ERR_FAILED')) {
       errors.push('console.error: ' + m.text());
     }
   });

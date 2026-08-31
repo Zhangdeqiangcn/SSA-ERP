@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
+/* 字体使用系统字体栈（移除外部 Google Fonts @import：离线/内网环境不可达会产生 net::ERR_FAILED 控制台噪声，
+   且生产环境不应强依赖外部 CDN）。回退链见 body font-family。 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

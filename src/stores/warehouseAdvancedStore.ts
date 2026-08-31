@@ -5,6 +5,28 @@ import {
   StockTransfer, InventoryAdjustment, SerialMaster, QualityHold,
   InboundOrder, OutboundOrder,
 } from '@/types';
+import { b2Api, isAuthed } from '@/services/b2Api';
+
+// B2 双写桥：本地 serialMasters 的 id 是前端 uid（'sn-...'），与 D1 后端的自增/生成 id 不同，
+// 这里用模块级映射表把「本次会话新建/登记的序列号 localId → D1 backendId」桥接起来。
+// 注意：映射表仅存活于当前会话（不落盘、不改类型），刷新后重建；
+// 因此刷新前已存在（rehydration 恢复）的序列号，本会话内无法回写 D1（见报告「未覆盖点」）。
+const serialBackendId = new Map<string, string>();
+
+/** 把 SerialMaster 映射为 POST /api/serial-numbers 允许的字段（严格照后端字段调用） */
+const toSerialPayload = (s: SerialMaster): Record<string, unknown> => ({
+  serialNo: s.serialNo,
+  materialId: s.materialId,
+  materialCode: s.materialCode,
+  materialName: s.materialName,
+  batchNo: s.batchNo,
+  warehouseId: s.warehouseId,
+  huId: s.huId,
+  status: s.status,
+  inboundDate: s.inboundDate,
+  customerName: s.customerName,
+  remarks: s.remarks,
+});
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -233,10 +255,34 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
       },
 
       // ── 序列号 / HU ──
-      addSerialMaster: (s) => set((state) => ({ serialMasters: [...state.serialMasters, s] })),
-      updateSerialMaster: (id, u) =>
-        set((state) => ({ serialMasters: state.serialMasters.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteSerialMaster: (id) => set((state) => ({ serialMasters: state.serialMasters.filter((x) => x.id !== id) })),
+      // 双写：本地更新先行；登录态下再 fire-and-forget 落 D1（失败静默忽略，不影响本地 UI）
+      addSerialMaster: (s) => {
+        set((state) => ({ serialMasters: [...state.serialMasters, s] }));
+        if (isAuthed()) {
+          b2Api
+            .postSerial(toSerialPayload(s))
+            .then((data) => {
+              if (data && data.id) serialBackendId.set(s.id, data.id);
+            })
+            .catch(() => {});
+        }
+      },
+      updateSerialMaster: (id, u) => {
+        set((state) => ({ serialMasters: state.serialMasters.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
+        const backendId = serialBackendId.get(id);
+        if (isAuthed() && backendId) {
+          const merged = useWarehouseAdvancedStore.getState().serialMasters.find((x) => x.id === id);
+          if (merged) b2Api.putSerial(backendId, toSerialPayload(merged)).catch(() => {});
+        }
+      },
+      deleteSerialMaster: (id) => {
+        set((state) => ({ serialMasters: state.serialMasters.filter((x) => x.id !== id) }));
+        const backendId = serialBackendId.get(id);
+        if (isAuthed() && backendId) {
+          b2Api.deleteSerial(backendId).catch(() => {});
+          serialBackendId.delete(id);
+        }
+      },
 
       // ── 质检扣留 ──
       addQualityHold: (h) => set((state) => ({ qualityHolds: [...state.qualityHolds, h] })),
@@ -298,10 +344,14 @@ const __snMarkSeen = () => {
   wh.inboundOrders.forEach((o) => __snSeenIn.add(o.id));
   wh.outboundOrders.forEach((o) => __snSeenOut.add(o.id));
 };
-__snMarkSeen();
-if (useWarehouseStore.persist?.onFinishHydration) {
-  useWarehouseStore.persist.onFinishHydration(__snMarkSeen);
-}
+// 延迟到模块初始化完成后执行：避免 warehouseStore 静态 import 本模块时，
+// 顶层直接访问 useWarehouseStore 触发循环依赖 TDZ（Cannot access ... before initialization）
+setTimeout(() => {
+  __snMarkSeen();
+  if (useWarehouseStore.persist?.onFinishHydration) {
+    useWarehouseStore.persist.onFinishHydration(__snMarkSeen);
+  }
+}, 0);
 
 /** 判断物料是否受序列号管控 */
 const isSerialized = (materialId: string): boolean =>
@@ -349,6 +399,18 @@ const registerSerialsOnInbound = (o: InboundOrder) => {
   }
   if (created.length > 0) {
     useWarehouseAdvancedStore.setState((s) => ({ serialMasters: [...s.serialMasters, ...created] }));
+    // 双写：入库自动登记的序列号同时落 D1，并把 backendId 记入映射表，
+    // 这样后续 FIFO 核销（consumeSerialsOnOutbound）才能用「逐条 PUT」精准对齐前端状态。
+    if (isAuthed()) {
+      for (const sn of created) {
+        b2Api
+          .postSerial(toSerialPayload(sn))
+          .then((data) => {
+            if (data && data.id) serialBackendId.set(sn.id, data.id);
+          })
+          .catch(() => {});
+      }
+    }
   }
 };
 
@@ -394,19 +456,36 @@ const consumeSerialsOnOutbound = (o: OutboundOrder) => {
       };
     }),
   }));
+
+  // 双写（逐条 PUT 同步）：完全对齐前端 FIFO 取号结果，把受影响序列号的状态/outboundDate/customerName 同步到 D1。
+  // 仅同步「本会话已落 D1（有 backendId）」的序列号；刷新前遗留、无 backendId 的序列号跳过（见报告未覆盖点）。
+  // 选「逐条 PUT」而非 consume 端点：前端 FIFO 取号是权威结果，PUT 能逐件精确对齐，避免与后端取号不一致。
+  if (isAuthed()) {
+    const masters = useWarehouseAdvancedStore.getState().serialMasters;
+    for (const serialNo of picked.keys()) {
+      const sm = masters.find((m) => m.serialNo === serialNo);
+      if (!sm) continue;
+      const backendId = serialBackendId.get(sm.id);
+      if (!backendId) continue;
+      b2Api.putSerial(backendId, toSerialPayload(sm)).catch(() => {});
+    }
+  }
 };
 
-useWarehouseStore.subscribe((state, prev) => {
-  const prevIn = new Set((prev?.inboundOrders || []).map((o) => o.id));
-  for (const o of state.inboundOrders) {
-    if (prevIn.has(o.id) || __snSeenIn.has(o.id)) continue;
-    __snSeenIn.add(o.id);
-    if (o.status === 'completed') registerSerialsOnInbound(o);
-  }
-  const prevOut = new Set((prev?.outboundOrders || []).map((o) => o.id));
-  for (const o of state.outboundOrders) {
-    if (prevOut.has(o.id) || __snSeenOut.has(o.id)) continue;
-    __snSeenOut.add(o.id);
-    if (o.status === 'completed') consumeSerialsOnOutbound(o);
-  }
-});
+// 延迟注册订阅：避免 warehouseStore 静态 import 本模块时顶层访问 useWarehouseStore 触发循环依赖 TDZ
+setTimeout(() => {
+  useWarehouseStore.subscribe((state, prev) => {
+    const prevIn = new Set((prev?.inboundOrders || []).map((o) => o.id));
+    for (const o of state.inboundOrders) {
+      if (prevIn.has(o.id) || __snSeenIn.has(o.id)) continue;
+      __snSeenIn.add(o.id);
+      if (o.status === 'completed') registerSerialsOnInbound(o);
+    }
+    const prevOut = new Set((prev?.outboundOrders || []).map((o) => o.id));
+    for (const o of state.outboundOrders) {
+      if (prevOut.has(o.id) || __snSeenOut.has(o.id)) continue;
+      __snSeenOut.add(o.id);
+      if (o.status === 'completed') consumeSerialsOnOutbound(o);
+    }
+  });
+}, 0);

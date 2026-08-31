@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Button, Paper, Typography, Chip, Divider, Alert,
   Grid, Stack, LinearProgress, Tooltip, Snackbar,
+  Dialog, DialogTitle, DialogContent, DialogActions, TextField,
 } from '@mui/material';
 import {
-  ArrowBack, Edit, Delete, Share, LinkOutlined, OpenInNew, ContentCopy,
+  ArrowBack, Edit, Delete, Share, LinkOutlined, OpenInNew, ContentCopy, History, EditNote,
 } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable } from '@/components/common';
@@ -39,11 +40,18 @@ const OrderDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { invoices } = useFinanceStore();
-  const { purchaseOrders, purchaseRequests, deletePurchaseOrder } = usePurchaseStore();
+  const { purchaseOrders, purchaseRequests, deletePurchaseOrder, changePurchaseOrder } = usePurchaseStore();
   const applyVendorCreditDelta = useVendorStore(s => s.applyVendorCreditDelta);
   const order = purchaseOrders.find(o => o.id === id);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
+  const [snackMsg, setSnackMsg] = useState('订单信息已复制到剪贴板');
+  // B10 订单变更单：变更对话框 / 版本历史对话框
+  const [changeDialog, setChangeDialog] = useState(false);
+  const [historyDialog, setHistoryDialog] = useState(false);
+  const [changeDelivery, setChangeDelivery] = useState('');
+  const [changeReason, setChangeReason] = useState('');
+  const [itemEdits, setItemEdits] = useState<Record<string, { quantity: number; unitPrice: number }>>({});
 
   if (!order) {
     return (
@@ -68,6 +76,64 @@ const OrderDetail: React.FC = () => {
   const creditOutstanding = order.creditOccupied
     ? Math.max(0, round2(creditTotal - (order.creditReleasedAmount ?? 0)))
     : 0;
+
+  // B10 订单变更单：锁定规则（已收货或终态禁止变更）
+  const orderLocked = (order.deliveredQuantity || 0) > 0 || ['received', 'closed', 'cancelled'].includes(order.status);
+
+  // B10 提交变更：重算行金额 → 调用 changePurchaseOrder 生成新版本（非原地修改）
+  const handleChangeSubmit = () => {
+    const newItems = order.items.map((item) => {
+      const edit = itemEdits[item.id] || { quantity: item.orderedQuantity, unitPrice: item.unitPrice };
+      const orderedQuantity = Math.max(0, Number(edit.quantity) || 0);
+      const unitPrice = Math.max(0, Number(edit.unitPrice) || 0);
+      const amount = round2(orderedQuantity * unitPrice);
+      const taxRate = item.taxRate ?? 0;
+      const taxAmount = round2((amount * taxRate) / 100);
+      return {
+        ...item,
+        orderedQuantity,
+        unitPrice,
+        amount,
+        taxAmount,
+        priceWithTax: round2(unitPrice * (1 + taxRate / 100)),
+        amountWithTax: round2(amount + taxAmount),
+      };
+    });
+    const totalAmount = round2(newItems.reduce((s, i) => s + i.amount, 0));
+    const res = changePurchaseOrder(
+      order.id,
+      { expectedDeliveryDate: changeDelivery, items: newItems, totalAmount },
+      changeReason.trim() || '订单变更'
+    );
+    setChangeDialog(false);
+    setSnackMsg(res.ok ? `变更成功，已生成新版本 V${res.version}` : (res.error || '变更失败'));
+    setSnackbar(true);
+  };
+
+  // B10 版本差异对比：before(快照) → after(下一版本或当前)
+  const describeDiff = (before: { expectedDeliveryDate?: string; items?: typeof order.items; totalAmount?: number }, after: { expectedDeliveryDate: string; items: typeof order.items; totalAmount: number }) => {
+    const lines: string[] = [];
+    if ((before.expectedDeliveryDate || '') !== (after.expectedDeliveryDate || '')) {
+      lines.push(`交期：${formatDate(before.expectedDeliveryDate || '')} → ${formatDate(after.expectedDeliveryDate)}`);
+    }
+    const bItems = before.items || [];
+    const afterMap = new Map(after.items.map(i => [i.id, i]));
+    bItems.forEach((bi) => {
+      const ai = afterMap.get(bi.id);
+      const qtyChanged = ai && ai.orderedQuantity !== bi.orderedQuantity;
+      const priceChanged = ai && ai.unitPrice !== bi.unitPrice;
+      if (qtyChanged || priceChanged) {
+        const parts: string[] = [];
+        if (qtyChanged) parts.push(`数量 ${bi.orderedQuantity} → ${ai!.orderedQuantity}`);
+        if (priceChanged) parts.push(`单价 ${bi.unitPrice} → ${ai!.unitPrice}`);
+        lines.push(`「${bi.materialName || bi.materialCode}」${parts.join('；')}`);
+      }
+    });
+    if (Math.abs((before.totalAmount || 0) - after.totalAmount) >= 0.01) {
+      lines.push(`未税总额：${formatCurrency(before.totalAmount || 0, currency)} → ${formatCurrency(after.totalAmount, currency)}`);
+    }
+    return lines;
+  };
 
   // 三单匹配（采购订单 / 收货入库 / 发票）— 对标 SAP MM 三单匹配
   const { inboundOrders } = useWarehouseStore();
@@ -182,6 +248,20 @@ const OrderDetail: React.FC = () => {
               <Button variant="outlined" startIcon={<Edit />}
                 onClick={() => navigate(`/purchase/orders/${id}/edit`)}>修改</Button>
             )}
+            {/* B10 订单变更单：未收货/未结束可变更，已收货锁定 */}
+            <Tooltip title={orderLocked ? '订单已收货或已结束，禁止变更' : '变更生成新版本（历史留痕可追溯）'}>
+              <span>
+                <Button variant="outlined" startIcon={<EditNote />} disabled={orderLocked}
+                  onClick={() => {
+                    setChangeDelivery(order.expectedDeliveryDate);
+                    setChangeReason('');
+                    setItemEdits(Object.fromEntries(order.items.map(i => [i.id, { quantity: i.orderedQuantity, unitPrice: i.unitPrice }])));
+                    setChangeDialog(true);
+                  }}>变更订单</Button>
+              </span>
+            </Tooltip>
+            <Button variant="outlined" startIcon={<History />}
+              onClick={() => setHistoryDialog(true)}>版本历史{order.version && order.version > 1 ? `（V${order.version}）` : ''}</Button>
             <Button variant="outlined" color="error" startIcon={<Delete />}
               onClick={() => setDeleteDialog(true)}>删除</Button>
             <Button variant="outlined" startIcon={<Share />}
@@ -444,6 +524,88 @@ const OrderDetail: React.FC = () => {
         ]}
       />
 
+      {/* ── B10 变更订单对话框（未收货/未结束可变更，生成新版本） ── */}
+      <Dialog open={changeDialog} onClose={() => setChangeDialog(false)} maxWidth="md" fullWidth>
+        <DialogTitle>变更采购订单 {order.orderNo}（V{order.version || 1} → V{(order.version || 1) + 1}）</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="预计交货日期"
+            type="date"
+            value={changeDelivery}
+            onChange={(e) => setChangeDelivery(e.target.value)}
+            fullWidth
+            size="small"
+            InputLabelProps={{ shrink: true }}
+            sx={{ mt: 1, mb: 2 }}
+          />
+          <Typography variant="subtitle2" sx={{ mb: 1 }}>物料明细（数量 / 未税单价）</Typography>
+          {order.items.map((item) => {
+            const edit = itemEdits[item.id] || { quantity: item.orderedQuantity, unitPrice: item.unitPrice };
+            return (
+              <Stack key={item.id} direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                <Typography variant="body2" sx={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {item.materialName || item.materialCode}
+                </Typography>
+                <TextField size="small" type="number" label="数量" value={edit.quantity}
+                  onChange={(e) => setItemEdits({ ...itemEdits, [item.id]: { ...edit, quantity: Number(e.target.value) } })}
+                  sx={{ width: 110 }} />
+                <TextField size="small" type="number" label="未税单价" value={edit.unitPrice}
+                  onChange={(e) => setItemEdits({ ...itemEdits, [item.id]: { ...edit, unitPrice: Number(e.target.value) } })}
+                  sx={{ width: 130 }} />
+              </Stack>
+            );
+          })}
+          <TextField
+            label="变更原因（必填，将写入版本历史）"
+            value={changeReason}
+            onChange={(e) => setChangeReason(e.target.value)}
+            fullWidth
+            multiline
+            rows={2}
+            size="small"
+            sx={{ mt: 1 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setChangeDialog(false)}>取消</Button>
+          <Button variant="contained" disabled={!changeReason.trim()} onClick={handleChangeSubmit}>确认变更</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ── B10 版本历史对话框（差异对比视图） ── */}
+      <Dialog open={historyDialog} onClose={() => setHistoryDialog(false)} maxWidth="md" fullWidth>
+        <DialogTitle>版本历史 — {order.orderNo}（当前 V{order.version || 1}）</DialogTitle>
+        <DialogContent>
+          {(order.history || []).length === 0 ? (
+            <Alert severity="info">暂无变更记录，当前为初始版本 V1。</Alert>
+          ) : (
+            (order.history || []).map((h, idx) => {
+              const after = idx === 0
+                ? { expectedDeliveryDate: order.expectedDeliveryDate, items: order.items, totalAmount: orderGrandTotal }
+                : ((order.history || [])[idx - 1].snapshot as unknown as { expectedDeliveryDate: string; items: typeof order.items; totalAmount: number });
+              const diffLines = describeDiff(h.snapshot as unknown as Parameters<typeof describeDiff>[0], after);
+              return (
+                <Paper key={`${h.version}-${h.changedAt}`} variant="outlined" sx={{ p: 1.5, mb: 1.5 }}>
+                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                    <Typography variant="subtitle2">V{h.version} → V{h.version + 1}</Typography>
+                    <Typography variant="caption" color="text.secondary">{h.changedAt} · {h.changedBy}</Typography>
+                  </Stack>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>原因：{h.changeReason}</Typography>
+                  {diffLines.length === 0 ? (
+                    <Typography variant="body2" sx={{ mt: 0.5, color: '#94A3B8' }}>（无差异）</Typography>
+                  ) : (
+                    diffLines.map((l, i) => <Typography key={i} variant="body2" sx={{ mt: 0.5 }}>· {l}</Typography>)
+                  )}
+                </Paper>
+              );
+            })
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setHistoryDialog(false)}>关闭</Button>
+        </DialogActions>
+      </Dialog>
+
       {/* ── 删除确认对话框 ── */}
       <ConfirmDialog
         open={deleteDialog}
@@ -472,7 +634,7 @@ const OrderDetail: React.FC = () => {
         open={snackbar}
         autoHideDuration={2000}
         onClose={() => setSnackbar(false)}
-        message="订单信息已复制到剪贴板"
+        message={snackMsg}
       />
     </>
   );

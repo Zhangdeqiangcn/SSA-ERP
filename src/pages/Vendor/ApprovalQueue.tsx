@@ -15,7 +15,7 @@ import { DataTable, FilterBar, FlowTracker } from '@/components/common';
 import { useFlowStore } from '@/stores/flowStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useAuthStore } from '@/stores/authStore';
-import { getApprovalSteps } from '@/data/approvalFlowConfig';
+import { getApprovalSteps, resolveApprovalAdvance } from '@/data/approvalFlowConfig';
 import type { VendorApplication, Vendor } from '@/types';
 import { formatDate } from '@/utils/format';
 
@@ -317,20 +317,33 @@ const ApprovalQueue: React.FC = () => {
     if (!selected) return;
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const currentStep = selected.currentStep ?? 0;
-    const isLast = currentStep >= steps.length - 1;
+    // B7-3：运行时条件执行——计算真正的下一步（供应商准入默认无 skipRule，等价于 currentStep + 1）
+    const { nextStep, autoApprovedNodes } = resolveApprovalAdvance(VENDOR_MODULE, currentStep, steps);
+    const isLast = nextStep >= steps.length;
     const step = steps[currentStep];
     const record = { approver: currentUser?.name || 'admin', action: 'submit' as const, comment: '', at: now };
     const historyEntry = {
       step: currentStep, role: step?.role || 'admin', label: step?.name || '审批', action: 'submit' as const, at: now,
     };
+    // 被自动通过的节点：追加系统自动审批记录（默认配置为空，不改变既有行为）
+    const autoRecords = autoApprovedNodes.map((n) => ({
+      approver: '系统自动', action: 'approve' as const, comment: `命中自动通过规则（${n.name}）`, at: now,
+    }));
+    const autoHistory = autoApprovedNodes.map((n) => ({
+      step: steps.indexOf(n), role: n.role, label: n.name, action: 'approve' as const, at: now,
+    }));
     applyEditedFields(selected, edited);
     if (!isLast) {
       updateVendorApplication(selected.id, {
         status: 'reviewing',
-        currentStep: currentStep + 1,
+        currentStep: nextStep,
         reviewedAt: now,
-        approvalRecords: [...(selected.approvalRecords || []), { ...record, action: 'submit', comment: record.comment }],
-        stepHistory: [...(selected.stepHistory || []), historyEntry],
+        approvalRecords: [
+          ...(selected.approvalRecords || []),
+          { ...record, action: 'submit', comment: record.comment },
+          ...autoRecords,
+        ],
+        stepHistory: [...(selected.stepHistory || []), historyEntry, ...autoHistory],
       });
     } else {
       // 终审：批准注册并生成供应商档案

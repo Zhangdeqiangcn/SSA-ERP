@@ -7,10 +7,10 @@ import {
 import { Visibility, ThumbUp, Clear, Close } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import FlowTracker from '@/components/common/FlowTracker';
+import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
 import { useMaterialApprovalStore, buildMaterialFromApplication } from '@/stores/materialApprovalStore';
 import { useMaterialStore } from '@/stores';
 import { useVendorStore } from '@/stores/vendorStore';
-import { useSettingsStore } from '@/stores/settingsStore';
 import { useAuthStore } from '@/stores/authStore';
 import { Material, MaterialApplication, MaterialApprovalStatus } from '@/types';
 import { ROLE_NAMES } from '@/types/settings';
@@ -58,16 +58,14 @@ const MATERIAL_TYPE_OPTIONS = [
 ];
 
 // 当前步骤 → 流程节点 id（供 FlowTracker 高亮）
-const BUY_STEP_NODE_IDS = ['ma_submit', 'ma_purchase', 'ma_approve'];
-const MAKE_STEP_NODE_IDS = ['mam_submit', 'mam_process', 'mam_approve'];
+const BUY_STEP_NODE_IDS = ['mat-1', 'mat-2', 'mat-3'];
+const MAKE_STEP_NODE_IDS = ['matm-1', 'matm-2', 'matm-3'];
 
 const roleName = (role?: string) =>
   role ? (ROLE_NAMES[role as keyof typeof ROLE_NAMES] || role) : '-';
 
 const MaterialApprovalQueue: React.FC = () => {
   const { materialApplications, updateMaterialApplication } = useMaterialApprovalStore();
-  const buySteps = useSettingsStore(s => s.materialApprovalConfig.steps);
-  const makeSteps = useSettingsStore(s => s.materialApprovalConfig.makeSteps);
   const currentUser = useAuthStore(s => s.currentUser);
   const vendors = useVendorStore(s => s.vendors);
 
@@ -80,17 +78,18 @@ const MaterialApprovalQueue: React.FC = () => {
   const selectedApp = materialApplications.find(a => a.id === selectedId) || null;
 
   // 根据草稿的 makeOrBuy 字段动态选择审批步骤（外购→采购审核，自制→工艺审核）
-  const effectiveSteps = useMemo(() => {
+  const effectiveSteps = useMemo<ApprovalFlowNode[]>(() => {
     const isMake = selectedApp?.draft?.makeOrBuy === 'make';
-    return (isMake ? makeSteps : buySteps) || buySteps;
-  }, [selectedApp?.draft?.makeOrBuy, makeSteps, buySteps]);
+    const cfg = getApprovalSteps(isMake ? 'material_make' : 'material');
+    return cfg.length ? cfg : getApprovalSteps('material');
+  }, [selectedApp?.draft?.makeOrBuy]);
 
   const steps = effectiveSteps; // 向后兼容：后续代码仍用 steps 引用
 
   // 动态流程节点 ID（根据自制/外购切换 FlowTracker 高亮）
   const stepNodeIds = selectedApp?.draft?.makeOrBuy === 'make' ? MAKE_STEP_NODE_IDS : BUY_STEP_NODE_IDS;
-  // 动态 FlowTracker module（区分流程追踪）
-  const flowModule = selectedApp?.draft?.makeOrBuy === 'make' ? 'material-approval-make' : 'material-approval';
+  // 动态 FlowTracker module（统一引擎 module：material / material_make）
+  const flowModule = selectedApp?.draft?.makeOrBuy === 'make' ? 'material_make' : 'material';
 
   const canEdit = useMemo(() => {
     if (!selectedApp) return false;
@@ -123,22 +122,31 @@ const MaterialApprovalQueue: React.FC = () => {
   };
 
   const handleSubmitNext = (app: MaterialApplication) => {
-    const cfg = useSettingsStore.getState().materialApprovalConfig;
-    const nextStep = app.currentStep + 1;
-    const nextCfg = cfg.steps[nextStep];
+    const isMake = app.draft?.makeOrBuy === 'make';
+    const cfg = getApprovalSteps(isMake ? 'material_make' : 'material');
+    // B7-3：运行时条件执行——计算真正的下一步（物料审批默认无 skipRule，等价于 currentStep + 1）
+    const { nextStep, autoApprovedNodes } = resolveApprovalAdvance(
+      isMake ? 'material_make' : 'material', app.currentStep, cfg
+    );
+    const nextCfg = cfg[nextStep];
     const edited = editValues[app.id] || {};
     const fieldNames = Object.keys(edited).filter(k => edited[k] !== '' && edited[k] !== undefined && edited[k] !== null);
     const mergedDraft: Partial<Material> = { ...app.draft, ...edited };
     const now = new Date().toISOString();
+    // 被自动通过的节点：追加系统自动审批历史（默认配置为空，不改变既有行为）
+    const autoHistory = autoApprovedNodes.map((n) => ({
+      step: cfg.indexOf(n), role: n.role, label: n.name, action: 'approve' as const, at: now,
+    }));
     updateMaterialApplication(app.id, {
       draft: mergedDraft,
       currentStep: nextStep,
       stepHistory: [
         ...app.stepHistory,
+        ...autoHistory,
         {
           step: nextStep,
           role: currentUser?.role || 'admin',
-          label: nextCfg?.label || '审核',
+          label: nextCfg?.name || '审核',
           action: 'submit',
           fields: nextCfg?.fields ?? [],
           at: now,
@@ -149,7 +157,7 @@ const MaterialApprovalQueue: React.FC = () => {
     const savedFields = fieldNames.length > 0
       ? `（已保存：${fieldNames.map(f => FIELD_LABELS[f] || f).join('、')}）`
       : '';
-    setSuccessMsg(`✅ 已提交至下一步「${nextCfg?.label || '审核'}」${savedFields}，等待处理`);
+    setSuccessMsg(`✅ 已提交至下一步「${nextCfg?.name || '审核'}」${savedFields}，等待处理`);
   };
 
   const handleApprove = (app: MaterialApplication) => {
@@ -167,7 +175,7 @@ const MaterialApprovalQueue: React.FC = () => {
         {
           step: app.currentStep,
           role: currentUser?.role || 'admin',
-          label: steps[app.currentStep]?.label || '批准生效',
+          label: steps[app.currentStep]?.name || '批准生效',
           action: 'approve',
           at: now,
         },
@@ -186,7 +194,7 @@ const MaterialApprovalQueue: React.FC = () => {
         {
           step: app.currentStep,
           role: currentUser?.role || 'admin',
-          label: steps[app.currentStep]?.label || '驳回',
+          label: steps[app.currentStep]?.name || '驳回',
           action: 'reject',
           comment: rejectComment || undefined,
           at: now,
@@ -225,7 +233,7 @@ const MaterialApprovalQueue: React.FC = () => {
                   <TableCell>{app.applicationNo}</TableCell>
                   <TableCell>{app.applicant}</TableCell>
                   <TableCell>{app.draft?.name || '-'}</TableCell>
-                  <TableCell>{steps[app.currentStep]?.label || '-'}</TableCell>
+                  <TableCell>{steps[app.currentStep]?.name || '-'}</TableCell>
                   <TableCell>
                     <Chip label={STATUS_LABEL[app.status]} color={STATUS_COLOR[app.status]} size="small" />
                   </TableCell>
@@ -263,7 +271,7 @@ const MaterialApprovalQueue: React.FC = () => {
 
               <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
-                  当前步骤：{steps[selectedApp.currentStep]?.label}
+                  当前步骤：{steps[selectedApp.currentStep]?.name}
                   <Chip sx={{ ml: 1 }} label={STATUS_LABEL[selectedApp.status]} color={STATUS_COLOR[selectedApp.status]} size="small" />
                 </Typography>
 

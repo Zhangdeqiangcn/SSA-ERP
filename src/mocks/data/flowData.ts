@@ -90,6 +90,10 @@ export interface VendorOrderConfirm {
   vendorName: string;
   status: 'pending' | 'confirmed' | 'modified' | 'rejected';
   confirmedDeliveryDate?: string;
+  /** B5: 原采购订单交期（独立显示，不修改PO） */
+  expectedDeliveryDate?: string;
+  /** B5: 供应商确认的交期（独立列，记录供应商承诺交期） */
+  vendorConfirmedDate?: string;
   confirmedItems: {
     itemId: string;
     materialCode: string;

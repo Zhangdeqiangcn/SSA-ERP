@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
@@ -37,8 +37,14 @@ test('物料新增审批闭环：发起→采购审核→批准生效→正式�
   await page.getByLabel('物料名称').fill(name);
   await page.getByLabel('物料分类').click();
   await page.getByRole('option').first().click();
+  // 编码按分类自动生成；若首选项为父级分类导致编码为空，显式补填以满足必填校验
+  await page.getByLabel('物料编码').fill('E2E' + Date.now());
   await page.getByLabel('单位').fill('个');
-  await page.keyboard.press('Enter');
+  // 物料类型 / 自制外购 为必填枚举（zod enum 不接受空串），需选择，否则提交被校验拦截
+  await page.getByRole('combobox', { name: '物料类型' }).click();
+  await page.getByRole('option').first().click();
+  await page.getByRole('combobox', { name: '自制/外购' }).click();
+  await page.getByRole('option').first().click();
   await page.getByTestId('material-submit').click();
   await expect(page.getByText('已提交物料新增审批，等待采购审核与批准生效')).toBeVisible();
 
@@ -68,13 +74,14 @@ test('物料新增审批闭环：发起→采购审核→批准生效→正式�
   expect(errors).toEqual([]);
 });
 
-test('设置页：物料审批 / 物料评级 两个 Tab 可打开且无白屏', async ({ page }) => {
+test('设置页：物料审批 / 物料评级 两个导航项可打开且无白屏', async ({ page }) => {
   const errors = await captureErrors(page);
   await page.goto('/settings');
-  await page.getByRole('tab', { name: '物料审批' }).click();
+  // Settings 页面使用 Button 侧栏导航（V2.55.22 导航整合后从 MUI Tab 改为 Button）
+  await page.getByRole('button', { name: '物料审批' }).click();
   await expect(page.getByTestId('approval-enabled')).toBeVisible();
 
-  await page.getByRole('tab', { name: '物料评级' }).click();
+  await page.getByRole('button', { name: '物料评级' }).click();
   await expect(page.getByTestId('rating-enabled')).toBeVisible();
 
   expect(errors).toEqual([]);
@@ -89,10 +96,12 @@ test('物料详情：自动评级卡片渲染（聚合数据，无白屏）', as
   expect(errors).toEqual([]);
 });
 
-test('导入导出页：导出/导入控件渲染无白屏', async ({ page }) => {
+test('数据管理页：导出/导入控件渲染无白屏', async ({ page }) => {
   const errors = await captureErrors(page);
-  await page.goto('/material/import-export');
-  await expect(page.getByTestId('export-btn')).toBeVisible();
-  await expect(page.getByTestId('import-file')).toBeAttached();
+  // 导入导出功能已从 /material/import-export 迁移至 Settings→数据管理（DataManagement）
+  await page.goto('/settings');
+  await page.getByRole('button', { name: '数据管理' }).click();
+  await expect(page.getByTestId('dm-export')).toBeVisible();
+  await expect(page.getByTestId('dm-import')).toBeAttached();
   expect(errors).toEqual([]);
 });

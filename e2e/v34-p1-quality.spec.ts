@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
@@ -13,10 +13,10 @@ test('NCR→CAPA：打开不合格品详情，生成 CAPA 并关闭 NCR 闭环',
 
   // 打开首条 NCR 详情
   await page.locator('tbody tr').first().getByRole('button', { name: '查看不合格品详情' }).click();
-  await expect(page.getByTestId('ncr-to-capa')).toBeVisible();
+  await expect(page.getByRole('dialog').getByTestId('ncr-to-capa')).toBeVisible();
 
   // 生成 CAPA
-  await page.getByTestId('ncr-to-capa').click();
+  await page.getByRole('dialog').getByTestId('ncr-to-capa').click();
 
   // 成功提示出现
   await expect(page.getByText(/已为 NCR/)).toBeVisible();

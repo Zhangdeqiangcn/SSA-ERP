@@ -114,3 +114,28 @@ export const useAuthStore = create<AuthState>()(
     }
   )
 );
+
+// ── DEV 自动登录演示用户 ────────────────────────────────────────
+// 背景：E2E 套件（v34–v65、flow）写于登录守卫之前，按「未登录纯前端模式」直达业务页。
+// 但 Header 等布局组件依赖 currentUser，否则渲染崩溃整页白屏。
+// 解决：vite dev 下若 persist 未恢复出用户 *且* localStorage 也完全没有过会话
+//（fresh load 或被 localStorage.clear()）—— 自动注入演示管理员，不调 /api、不 reload。
+// 已有会话（含已登出）则不动，避免「登出立刻自动登回」。
+// 生产构建（import.meta.env.DEV=false）不受影响。
+if (import.meta.env.DEV) {
+  const hadSession = !!localStorage.getItem('auth-storage');
+  if (!useAuthStore.getState().currentUser && !hadSession) {
+    useAuthStore.setState({
+      currentUser: {
+        id: 'dev-admin',
+        name: '演示管理员',
+        role: 'admin' as UserRole,
+        department: 'DEV',
+        username: 'dev-admin',
+        org_id: 'dev',
+      },
+      isAuthenticated: true,
+      token: 'dev-token',
+    });
+  }
+}

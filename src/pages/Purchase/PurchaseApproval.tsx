@@ -12,7 +12,7 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, FlowTracker } from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useAuthStore } from '@/stores/authStore';
-import { getApprovalSteps } from '@/data/approvalFlowConfig';
+import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
 import type { PurchaseRequest } from '@/types';
 import { formatDate } from '@/utils/format';
 
@@ -151,11 +151,11 @@ const PurchaseApproval: React.FC = () => {
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [selected, setSelected] = useState<PurchaseRequest | null>(null);
 
-  const steps = useMemo<StepRole[]>(() => {
+  const steps = useMemo<ApprovalFlowNode[]>(() => {
     const cfg = getApprovalSteps(PURCHASE_MODULE);
     return cfg.length
       ? cfg
-      : [{ id: 'default', name: '审批', role: 'admin', roleName: '系统管理员', order: 1 }];
+      : [{ id: 'default', name: '审批', role: 'admin', roleName: '系统管理员', order: 1 } as ApprovalFlowNode];
   }, []);
 
   const currentUser = useAuthStore((s) => s.currentUser);
@@ -174,13 +174,26 @@ const PurchaseApproval: React.FC = () => {
     if (!selected) return;
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const currentStep = selected.currentStep ?? 0;
-    const isLast = currentStep >= steps.length - 1;
+    // B7-3：运行时条件执行——依据金额上下文计算真正的下一步（默认配置无 skipRule，等价于 currentStep + 1）
+    const { nextStep, autoApprovedNodes } = resolveApprovalAdvance(
+      PURCHASE_MODULE, currentStep, steps, { amount: selected.totalAmount ?? 0 }
+    );
+    const isLast = nextStep >= steps.length;
     const step = steps[currentStep];
-    const records = [...(selected.approvalRecords || []), { id: `ar-${Date.now()}`, approver: currentUser?.name || 'admin', action: 'approve' as const, comments: comment, operatedAt: now }];
+    // 被自动通过的节点：追加系统自动审批记录（默认配置为空，不改变既有行为）
+    const autoRecords = autoApprovedNodes.map((n) => ({
+      id: `ar-auto-${Date.now()}-${n.id}`, approver: '系统自动', action: 'approve' as const,
+      comments: `命中自动通过规则（${n.name}）`, operatedAt: now,
+    }));
+    const records = [
+      ...(selected.approvalRecords || []),
+      ...autoRecords,
+      { id: `ar-${Date.now()}`, approver: currentUser?.name || 'admin', action: 'approve' as const, comments: comment, operatedAt: now },
+    ];
     if (!isLast) {
       updatePurchaseRequest(selected.id, {
         status: 'pending',
-        currentStep: currentStep + 1,
+        currentStep: nextStep,
         approvalRecords: records,
       });
     } else {

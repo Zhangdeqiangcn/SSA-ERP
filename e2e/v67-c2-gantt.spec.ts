@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Page } from './ssa-fixtures';
 
 /**
  * v67 — C2 甘特图拖拽排产 + 负荷联动重排 专项验收

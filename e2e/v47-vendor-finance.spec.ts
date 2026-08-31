@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page } from './ssa-fixtures';
 
 /**
  * V2.26 供应商门户·对账单→开票全流程 E2E

@@ -85,7 +85,8 @@ export interface ApprovalNode {
   conditions?: ConditionGroup;     // 结构化审批条件（取代自由文本 condition）
   skipRule?: SkipRule;             // 跳过/自动通过规则
   escalation?: EscalationRule;     // 超时升级规则
-  optional?: boolean;              // 简化 profile 下可省略
+  optional?: boolean;
+  fields?: string[];             // 该步骤可编辑/采集的业务字段（物料审批需按步录入主数据字段时使用）              // 简化 profile 下可省略
 }
 
 /** 兼容历史命名（approvalFlowConfig.ts 使用 ApprovalFlowNode） */
@@ -261,6 +262,46 @@ export const DEFAULT_APPROVAL_FLOWS: ApprovalFlowConfig[] = [
       {
         id: 'vr-3', name: '管理员终审', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
         approverType: 'role', mode: 'serial',
+      },
+    ],
+  },
+  {
+    id: 'material', module: 'material', moduleLabel: '物料新增(外购)', enabled: true, profile: 'standard',
+    nodes: [
+      {
+        id: 'mat-1', name: '发起申请（基本属性）', role: 'rd_engineer', roleName: '研发工程师', timeout: 48, order: 1,
+        approverType: 'role', mode: 'serial',
+        fields: ['name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType', 'categoryId', 'safetyStock', 'minStock', 'maxStock', 'price', 'currency', 'remarks'],
+      },
+      {
+        id: 'mat-2', name: '采购审核（采购属性）', role: 'buyer', roleName: '采购员', timeout: 48, order: 2,
+        approverType: 'role', mode: 'serial',
+        fields: ['leadTime', 'moq', 'mpq', 'defaultVendorId', 'defaultVendorName', 'purchaseUnit', 'unitConversion'],
+      },
+      {
+        id: 'mat-3', name: '批准生效', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
+        approverType: 'role', mode: 'serial',
+        fields: [],
+      },
+    ],
+  },
+  {
+    id: 'material_make', module: 'material_make', moduleLabel: '物料新增(自制)', enabled: true, profile: 'standard',
+    nodes: [
+      {
+        id: 'matm-1', name: '发起申请（基本属性）', role: 'rd_engineer', roleName: '研发工程师', timeout: 48, order: 1,
+        approverType: 'role', mode: 'serial',
+        fields: ['name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType', 'categoryId', 'safetyStock', 'minStock', 'maxStock', 'price', 'currency', 'remarks'],
+      },
+      {
+        id: 'matm-2', name: '工艺审核（工艺属性）', role: 'process_engineer', roleName: '工艺工程师', timeout: 48, order: 2,
+        approverType: 'role', mode: 'serial',
+        fields: ['routing', 'workCenter', 'cycleTime', 'scrapRate', 'inspectionPoint'],
+      },
+      {
+        id: 'matm-3', name: '批准生效', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
+        approverType: 'role', mode: 'serial',
+        fields: [],
       },
     ],
   },

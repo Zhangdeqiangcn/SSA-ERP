@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test } from './ssa-fixtures';
 
 test('verify settings page works on fresh dev server', async ({ page }) => {
   const errors: string[] = [];

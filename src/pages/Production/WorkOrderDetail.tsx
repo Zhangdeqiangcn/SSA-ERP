@@ -72,6 +72,7 @@ export default function WorkOrderDetail() {
   const workOrders = useProductionStore(s => s.workOrders);
   const deleteWorkOrder = useProductionStore(s => s.deleteWorkOrder);
   const completeWorkOrder = useProductionStore(s => s.completeWorkOrder);
+  const issueMaterials = useProductionStore(s => s.issueMaterials);
   const { bomList, bomTreeData } = useBOMStore();
   const { addOutboundOrder } = useWarehouseStore();
   const wo = workOrders.find(w => w.id === id);
@@ -98,10 +99,15 @@ export default function WorkOrderDetail() {
     navigator.clipboard.writeText(text).then(() => setSnackbar(true));
   };
 
-  // ── 生成领料出库单（多级 BOM 展开 + 事件驱动库存扣减）──
+  // ── 生成领料出库单（B2-② 工单领料联动：调用 issueMaterials → 生成出库单 + 扣减库存 + 回写工单）──
   const handleGenOutbound = () => {
     if (!sourceItems || sourceItems.length === 0) {
       alert('未找到对应的BOM物料清单，请先创建BOM');
+      return;
+    }
+    // 幂等守卫：已领料则不再重复生成
+    if (wo.issuedMaterials && wo.issuedMaterials.length > 0) {
+      alert('本工单已领料，不可重复领料');
       return;
     }
 
@@ -109,11 +115,9 @@ export default function WorkOrderDetail() {
     const acc = new Map<string, { item: BOMItem; quantity: number }>();
     explodeBOM(sourceItems, wo.plannedQuantity, acc);
     const items = Array.from(acc.values()).map(({ item, quantity }, idx) => ({
-      id: `oob-wo-${idx}`,
       materialId: item.materialId,
       materialCode: item.materialCode,
       materialName: item.materialName,
-      specification: item.materialSpec || '',
       unit: item.unit,
       quantity: Math.max(1, Math.ceil(quantity)),
     }));
@@ -122,31 +126,13 @@ export default function WorkOrderDetail() {
       return;
     }
 
-    const now = new Date().toISOString();
-    const seq = String(Date.now()).slice(-6);
-    const outboundNo = `OUT-WO-${seq}`;
-    const outboundId = `out-wo-${Date.now()}`;
-
-    // status: completed 触发仓库 store 事件驱动自动扣减库存（生产 → 库存 关联闭环）
-    addOutboundOrder({
-      id: outboundId,
-      outboundNo,
-      type: 'pick' as const,
-      sourceNo: wo.orderNo,
-      status: 'completed',
-      warehouseId: 'WH-001',
-      warehouseName: '原材料仓',
-      operator: wo.supervisor || '生产主管',
-      outboundDate: now.split('T')[0],
-      remarks: `生产领料 - 工单${wo.orderNo} - ${wo.productName}`,
-      items,
-      createdAt: now,
-      updatedAt: now,
-      createdBy: wo.supervisor || 'system',
-      updatedBy: wo.supervisor || 'system',
-    });
-
-    alert(`已生成领料出库单 ${outboundNo}，共 ${items.length} 种物料，库存已自动扣减`);
+    // 调用 store 方法：检查库存 → 生成出库单 → 扣减库存 → 回写工单领料明细
+    const result = issueMaterials(wo.id, items);
+    if (!result.ok) {
+      alert(result.reason || '领料失败，请检查库存是否充足');
+      return;
+    }
+    alert(`领料成功！出库单号：${result.outboundNo}，共 ${items.length} 种物料`);
     navigate('/warehouse/outbound');
   };
 
