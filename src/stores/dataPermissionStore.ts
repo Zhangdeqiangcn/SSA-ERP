@@ -50,9 +50,20 @@ const seedModules: Record<string, boolean> = {
 };
 
 const defaultSensitiveFields: SensitiveFieldConfig[] = [
-  { role: 'warehouse_keeper', module: 'purchase', fields: ['unitPrice'] },
-  { role: 'buyer', module: 'sales', fields: ['unitPrice'] },
-  { role: 'qa_inspector', module: 'purchase', fields: ['unitPrice'] },
+  // 采购：仓库/质检看不到单价与订单金额
+  { role: 'warehouse_keeper', module: 'purchase', fields: ['unitPrice', 'orderAmount'] },
+  { role: 'qa_inspector', module: 'purchase', fields: ['unitPrice', 'orderAmount'] },
+  // 销售：采购/仓库/质检看不到单价与订单金额
+  { role: 'buyer', module: 'sales', fields: ['unitPrice', 'orderAmount'] },
+  { role: 'warehouse_keeper', module: 'sales', fields: ['orderAmount'] },
+  { role: 'qa_inspector', module: 'sales', fields: ['orderAmount'] },
+  // 客户：仓库/采购/质检看不到授信额度
+  { role: 'warehouse_keeper', module: 'customer', fields: ['creditLimit'] },
+  { role: 'buyer', module: 'customer', fields: ['creditLimit'] },
+  { role: 'qa_inspector', module: 'customer', fields: ['creditLimit'] },
+  // 供应商：仓库/质检看不到授信额度
+  { role: 'warehouse_keeper', module: 'vendor', fields: ['creditLimit'] },
+  { role: 'qa_inspector', module: 'vendor', fields: ['creditLimit'] },
 ];
 
 export const useDataPermissionStore = create<DataPermissionState>()(

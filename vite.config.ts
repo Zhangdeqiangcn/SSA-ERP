@@ -29,6 +29,11 @@ export default defineConfig({
           if (id.includes('/xlsx') || id.includes('file-saver')) {
             return 'vendor-xlsx';
           }
+          // OCR 引擎体积大且仅「浏览器本地识别」模式按需动态 import，隔离成独立 chunk，
+          // 避免被合进首屏 modulepreload 的 vendor 主包（tesseract.js 不依赖 React，可安全独立）
+          if (id.includes('/tesseract.js') || id.includes('/tesseract.js-core')) {
+            return 'vendor-tesseract';
+          }
           // 其余第三方库（含 React / MUI / zustand / react-hook-form / 图表等）统一留在主 vendor chunk，
           // 避免「顶层引用 React 的库」被拆到与 React 不同的 chunk 而触发
           // 「Cannot access 'React' before initialization」的跨 chunk 循环依赖 TDZ。

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Share } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
-import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, DetailActions } from '@/components/common';
+import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, DetailActions, SecureField } from '@/components/common';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { CustomerStatus, CustomerType, CreditLevel } from '@/types';
@@ -95,9 +95,9 @@ const CustomerDetail: React.FC = () => {
     <Box>
       <DetailSection
         fields={[
-          { label: '授信额度', value: limit != null ? formatCurrency(limit) : '未授信' },
-          { label: '已用信用', value: formatCurrency(used) },
-          { label: '可用信用', value: available != null ? formatCurrency(available) : '-' },
+          { label: '授信额度', value: <SecureField module="customer" fieldName="creditLimit">{limit != null ? formatCurrency(limit) : '未授信'}</SecureField> },
+          { label: '已用信用', value: <SecureField module="customer" fieldName="creditLimit">{formatCurrency(used)}</SecureField> },
+          { label: '可用信用', value: <SecureField module="customer" fieldName="creditLimit">{available != null ? formatCurrency(available) : '-'}</SecureField> },
         ]}
       />
       <Box data-testid="credit-status" sx={{ mt: 2 }}>
@@ -187,7 +187,7 @@ const CustomerDetail: React.FC = () => {
           { label: '联系人', value: customer.contactName || '-' },
           { label: '电话', value: customer.contactPhone || '-' },
           { label: '信用等级', value: customer.creditLevel || '-' },
-          { label: '可用信用', value: available != null ? formatCurrency(available) : '未授信' },
+          { label: '可用信用', value: <SecureField module="customer" fieldName="creditLimit">{available != null ? formatCurrency(available) : '未授信'}</SecureField> },
         ]}
         actions={
           <DetailActions

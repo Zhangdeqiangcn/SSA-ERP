@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { Box, Chip, LinearProgress, Typography, Stack, Alert, Button } from '@mui/material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, StatusBadge } from '@/components/common';
+import { DataTable, FilterBar, ActionBar, StatusBadge, SecureField } from '@/components/common';
 import { useVendorStore } from '@/stores/vendorStore';
 import { Vendor } from '@/types';
 import { formatPhone, formatCurrency } from '@/utils/format';
@@ -87,7 +87,11 @@ const VendorList: React.FC = () => {
     {
       id: 'credit',
       header: '信用状态',
-      cell: ({ row }) => renderVendorCredit(row.original),
+      cell: ({ row }) => (
+        <SecureField module="vendor" fieldName="creditLimit">
+          {renderVendorCredit(row.original)}
+        </SecureField>
+      ),
     },
     {
       id: 'profilePending',

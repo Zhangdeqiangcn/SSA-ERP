@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "2.71.0",
+  "version": "2.72.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,7 @@
     "@mui/x-charts": "^6.19.5",
     "@mui/x-date-pickers": "^6.19.9",
     "@tanstack/react-table": "^8.15.3",
+    "axios": "^1.20.0",
     "dayjs": "^1.11.10",
     "file-saver": "^2.0.5",
     "msw": "^2.2.13",
@@ -30,6 +31,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
     "react-router-dom": "^6.22.3",
+    "tesseract.js": "^7.0.0",
     "ts-interface-checker": "^0.1.13",
     "xlsx": "^0.18.5",
     "zod": "^3.23.4",

@@ -184,7 +184,7 @@ const OrderDetail: React.FC = () => {
     { label: '价格类型', value: order.taxIncluded ? '含税价' : '未税价' },
     { label: '未税总额', value: formatCurrency(orderNetTotal, currency) },
     { label: '税额合计', value: formatCurrency(orderTaxTotal, currency) },
-    { label: '价税合计', value: <strong style={{ color: '#1D4ED8' }}>{formatCurrency(orderGrandTotal, currency)}</strong> },
+    { label: '价税合计', value: <SecureField module="purchase" fieldName="orderAmount"><strong style={{ color: '#1D4ED8' }}>{formatCurrency(orderGrandTotal, currency)}</strong></SecureField> },
     {
       label: '信用占用',
       value: (
@@ -239,7 +239,7 @@ const OrderDetail: React.FC = () => {
           { label: '下单日期', value: formatDate(order.orderDate) },
           { label: '预计交货', value: formatDate(order.expectedDeliveryDate) },
           { label: '未税总额', value: formatCurrency(orderNetTotal, currency) },
-          { label: '价税合计', value: formatCurrency(orderGrandTotal, currency) },
+          { label: '价税合计', value: <SecureField module="purchase" fieldName="orderAmount">{formatCurrency(orderGrandTotal, currency)}</SecureField> },
         ]}
         actions={
           <Stack direction="row" spacing={1}>

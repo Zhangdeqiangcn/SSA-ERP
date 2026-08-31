@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { Box, Chip, LinearProgress, Typography, Stack } from '@mui/material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, StatusBadge } from '@/components/common';
+import { DataTable, FilterBar, ActionBar, StatusBadge, SecureField } from '@/components/common';
 import { useCustomerStore } from '@/stores/customerStore';
 import { Customer, CustomerStatus, CustomerType, CreditLevel } from '@/types';
 import {
@@ -90,7 +90,11 @@ const CustomerList: React.FC = () => {
     {
       id: 'credit',
       header: '信用状态',
-      cell: ({ row }) => renderCustomerCredit(row.original),
+      cell: ({ row }) => (
+        <SecureField module="customer" fieldName="creditLimit">
+          {renderCustomerCredit(row.original)}
+        </SecureField>
+      ),
     },
   ], []);
 

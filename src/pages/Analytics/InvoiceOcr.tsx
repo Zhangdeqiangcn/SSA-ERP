@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import {
   Box, Grid, Card, CardContent, Typography, Stack, TextField, Button,
   Table, TableHead, TableBody, TableRow, TableCell, Snackbar, Alert, Chip,
-  IconButton, Input, LinearProgress,
+  IconButton, Input, LinearProgress, ToggleButton, ToggleButtonGroup,
 } from '@mui/material';
 import {
   Receipt as ReceiptIcon, DocumentScanner as ScanIcon,
   AutoAwesome as AweIcon, CloudUpload as UploadIcon,
-  Image as ImageIcon,
+  Image as ImageIcon, Cloud as CloudIcon, Computer as ComputerIcon,
 } from '@mui/icons-material';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useAnalyticsStore } from '@/stores/analyticsStore';
@@ -85,6 +85,8 @@ export default function InvoiceOcr() {
   const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
+  // P2-B OCR 浏览器端化：默认走云端后端，可选浏览器本地识别（绕开后端 Worker 风险，离线可用）
+  const [ocrMode, setOcrMode] = useState<'cloud' | 'local'>('cloud');
 
   // 文本模式识别
   const handleRecognize = () => {
@@ -93,9 +95,7 @@ export default function InvoiceOcr() {
   };
 
   // 图片上传识别（调用后端 OCR API）
-  const handleImageUpload = async (file: File) => {
-    if (!file) return;
-
+  const handleCloudOcr = async (file: File) => {
     setSelectedFile(file);
     setPreviewUrl(URL.createObjectURL(file));
     setUploading(true);
@@ -142,6 +142,41 @@ export default function InvoiceOcr() {
       setUploading(false);
       setProgress(0);
     }
+  };
+
+  // 浏览器本地识别（tesseract.js，动态加载，离线可用，绕开后端 Worker 运行风险）
+  const handleLocalOcr = async (file: File) => {
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+    setUploading(true);
+    setProgress(0);
+    try {
+      const { createWorker } = await import('tesseract.js');
+      const worker = await createWorker('chi_sim+eng', 1, {
+        logger: (m: any) => {
+          if (m.status === 'recognizing text') setProgress(Math.round((m.progress || 0) * 100));
+        },
+      });
+      const { data } = await worker.recognize(file);
+      await worker.terminate();
+      const result = parseInvoice(data.text);
+      result.rawText = data.text;
+      result.confidence = data.confidence;
+      result.duration = undefined;
+      setParsed(result);
+      setSnack(`浏览器本地识别完成（离线可用）！置信度 ${Math.round(data.confidence || 0)}%`);
+    } catch (err: any) {
+      setSnack(err?.message ? `本地识别失败：${err.message}` : '本地识别失败（可能缺少 OCR 语言包网络资源）');
+    } finally {
+      setUploading(false);
+      setProgress(0);
+    }
+  };
+
+  const handleImageSelected = (file: File | undefined) => {
+    if (!file || !file.type.startsWith('image/')) return;
+    if (ocrMode === 'local') handleLocalOcr(file);
+    else handleCloudOcr(file);
   };
 
   const handleGenerate = () => {
@@ -194,7 +229,12 @@ export default function InvoiceOcr() {
         <Typography variant="h5" fontWeight={700}>
           发票 OCR 与智能凭证
         </Typography>
-        <Chip size="small" label="Tesseract.js 内置 OCR" color="success" variant="outlined" />
+        <Chip
+          size="small"
+          label={ocrMode === 'local' ? '浏览器本地 OCR（离线）' : '云端 OCR（后端）'}
+          color="success"
+          variant="outlined"
+        />
       </Stack>
 
       <Grid container spacing={2}>
@@ -205,6 +245,22 @@ export default function InvoiceOcr() {
               <Typography variant="subtitle2" sx={{ mb: 1 }}>
                 上传发票图片或粘贴文本
               </Typography>
+
+              {/* OCR 识别方式切换（P2-B 浏览器端化） */}
+              <ToggleButtonGroup
+                size="small"
+                exclusive
+                value={ocrMode}
+                onChange={(_, v: 'cloud' | 'local' | null) => v && setOcrMode(v)}
+                sx={{ mb: 1.5 }}
+              >
+                <ToggleButton value="cloud" data-testid="ocr-mode-cloud">
+                  <CloudIcon fontSize="small" />&nbsp;云端识别（后端）
+                </ToggleButton>
+                <ToggleButton value="local" data-testid="ocr-mode-local">
+                  <ComputerIcon fontSize="small" />&nbsp;浏览器本地识别
+                </ToggleButton>
+              </ToggleButtonGroup>
 
               {/* 图片上传区域 */}
               <Box
@@ -221,8 +277,7 @@ export default function InvoiceOcr() {
                 onClick={() => document.getElementById('file-input')?.click()}
                 onDrop={(e) => {
                   e.preventDefault();
-                  const file = e.dataTransfer.files[0];
-                  if (file?.type.startsWith('image/')) handleImageUpload(file);
+                  handleImageSelected(e.dataTransfer.files[0]);
                 }}
                 onDragOver={(e) => e.preventDefault()}
               >
@@ -254,8 +309,7 @@ export default function InvoiceOcr() {
                   accept="image/*"
                   style={{ display: 'none' }}
                   onChange={(e) => {
-                    const file = (e.target as HTMLInputElement).files?.[0];
-                    if (file) handleImageUpload(file);
+                    handleImageSelected((e.target as HTMLInputElement).files?.[0]);
                   }}
                 />
               </Box>

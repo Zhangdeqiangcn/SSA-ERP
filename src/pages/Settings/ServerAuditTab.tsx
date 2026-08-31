@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Grid, Chip, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Button, Alert, Stack, TextField, MenuItem, Divider,
@@ -18,6 +18,17 @@ const ACTION_COLORS: Record<AuditAction, 'success' | 'info' | 'error' | 'warning
   approve: 'success',
 };
 
+// 服务端审计日志行（来自 /api/audit/logs，D1 真实落库，按 org 隔离）
+interface ServerAuditRow {
+  id: string;
+  entity: string;
+  action: AuditAction | string;
+  summary: string;
+  userId: string;
+  userName: string;
+  createdAt: string;
+}
+
 const ServerAuditTab: React.FC = () => {
   const session = useSessionStore((s) => s.current);
   const history = useSessionStore((s) => s.history);
@@ -26,6 +37,34 @@ const ServerAuditTab: React.FC = () => {
   const records = useAuditStore((s) => s.records);
   const clearAudit = useAuditStore((s) => s.clearAudit);
 
+  // P2-B 审计日志真接通：生产态拉取服务端 D1 审计（org 隔离），DEV/离线回退本地
+  const [serverLogs, setServerLogs] = useState<ServerAuditRow[] | null>(null);
+  const [dataSource, setDataSource] = useState<'local' | 'server'>('local');
+
+  useEffect(() => {
+    if (import.meta.env.DEV) return; // DEV 无后端代理，使用本地审计
+    let cancelled = false;
+    (async () => {
+      try {
+        const resp = await fetch('/api/audit/logs?pageSize=200', { credentials: 'include' });
+        if (!resp.ok) return;
+        const json = await resp.json();
+        if (cancelled) return;
+        const rows: ServerAuditRow[] = (json.data || []).map((r: any) => ({
+          id: r.id, entity: r.entity, action: r.action,
+          summary: r.summary, userId: r.userId, userName: r.userName, createdAt: r.createdAt,
+        }));
+        if (rows.length > 0) {
+          setServerLogs(rows);
+          setDataSource('server');
+        }
+      } catch {
+        /* 服务端不可达时维持本地审计 */
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   const [filterAction, setFilterAction] = useState<'' | AuditAction>('');
   const [filterUser, setFilterUser] = useState('');
 
@@ -33,7 +72,9 @@ const ServerAuditTab: React.FC = () => {
   const status = useMemo(() => getServerStatus(), [records.length, session.token]);
   const collections = useMemo(() => listCollections(), [records.length]);
 
-  const filtered = records.filter(
+  const displayRecords = dataSource === 'server' && serverLogs ? serverLogs : records;
+
+  const filtered = displayRecords.filter(
     (r) => (!filterAction || r.action === filterAction) && (!filterUser || r.userId === filterUser)
   );
 
@@ -108,7 +149,16 @@ const ServerAuditTab: React.FC = () => {
 
       {/* 审计日志 */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, gap: 1, flexWrap: 'wrap' }}>
-        <Typography variant="subtitle1" fontWeight={600}>审计日志（{filtered.length}/{records.length}）</Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="subtitle1" fontWeight={600}>审计日志（{filtered.length}/{displayRecords.length}）</Typography>
+          <Chip
+            size="small"
+            data-testid="audit-source"
+            label={dataSource === 'server' ? '服务端 D1 落库' : '本地审计'}
+            color={dataSource === 'server' ? 'success' : 'default'}
+            variant="outlined"
+          />
+        </Stack>
         <Stack direction="row" spacing={1}>
           <TextField select size="small" label="操作类型" value={filterAction}
             onChange={(e) => setFilterAction(e.target.value as '' | AuditAction)} sx={{ minWidth: 120 }}>

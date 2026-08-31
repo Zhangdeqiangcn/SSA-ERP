@@ -256,7 +256,7 @@ const SalesOrderDetail: React.FC = () => {
         </Box>
         <Box>
           <Typography variant="caption" color="text.secondary">价税合计</Typography>
-          <Typography variant="h6" fontWeight={700} color="success.main">{formatCurrency(order.grandTotal)}</Typography>
+          <SecureField module="sales" fieldName="orderAmount"><Typography variant="h6" fontWeight={700} color="success.main">{formatCurrency(order.grandTotal)}</Typography></SecureField>
         </Box>
       </Box>
     </Paper>
@@ -323,7 +323,7 @@ const SalesOrderDetail: React.FC = () => {
       <Box sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'flex-end', gap: 3 }}>
         <Typography variant="body2" color="text.secondary">货款：{formatCurrency(order.totalAmount)}</Typography>
         <Typography variant="body2" color="text.secondary">税额：{formatCurrency(order.taxAmount)}</Typography>
-        <Typography variant="body2" fontWeight={700}>价税合计：<span style={{ color: '#16A34A', fontSize: '1.05rem' }}>{formatCurrency(order.grandTotal)}</span></Typography>
+        <SecureField module="sales" fieldName="orderAmount"><Typography variant="body2" fontWeight={700}>价税合计：<span style={{ color: '#16A34A', fontSize: '1.05rem' }}>{formatCurrency(order.grandTotal)}</span></Typography></SecureField>
       </Box>
     </Paper>
   );
@@ -427,7 +427,7 @@ const SalesOrderDetail: React.FC = () => {
         status={<StatusBadge status={order.status} />}
         headerFields={[
           { label: '客户', value: order.customerName },
-          { label: '价税合计', value: formatCurrency(order.grandTotal) },
+          { label: '价税合计', value: <SecureField module="sales" fieldName="orderAmount">{formatCurrency(order.grandTotal)}</SecureField> },
           { label: '下单日期', value: formatDate(order.orderDate) },
           { label: '预计交货', value: formatDate(order.expectedDeliveryDate) },
           { label: '销售员', value: order.salesPerson },

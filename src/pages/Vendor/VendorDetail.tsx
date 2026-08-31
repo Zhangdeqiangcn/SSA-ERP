@@ -4,7 +4,7 @@ import { Box, Button, Stack, Snackbar, Dialog, DialogTitle, DialogContent, Dialo
 import type { LinearProgressProps } from '@mui/material';
 import { Share } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
-import { DetailSection, StatusBadge, OperationTimeline, FileUpload, ConfirmDialog, DetailActions } from '@/components/common';
+import { DetailSection, StatusBadge, OperationTimeline, FileUpload, ConfirmDialog, DetailActions, SecureField } from '@/components/common';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useQualityStore } from '@/stores/qualityStore';
@@ -179,11 +179,11 @@ const VendorDetail: React.FC = () => {
         fields={[
           {
             label: '授信额度',
-            value: vendor.creditLimit != null ? formatCurrency(vendor.creditLimit) : '未授信',
+            value: <SecureField module="vendor" fieldName="creditLimit">{vendor.creditLimit != null ? formatCurrency(vendor.creditLimit) : '未授信'}</SecureField>,
           },
           {
             label: '已用信用',
-            value: vendor.usedCredit != null ? formatCurrency(vendor.usedCredit) : '-',
+            value: <SecureField module="vendor" fieldName="creditLimit">{vendor.usedCredit != null ? formatCurrency(vendor.usedCredit) : '-'}</SecureField>,
           },
         ]}
       />
