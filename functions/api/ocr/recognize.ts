@@ -44,7 +44,12 @@ export async function onRequestPost(context: any) {
   const user = await getUserFromRequest(request, env.DB);
   if (!user) return json({ success: false, error: '未登录' }, 401);
 
-  const formData = await request.formData();
+  let formData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return json({ success: false, error: '请上传发票图片' }, 400);
+  }
   const imageFile = formData.get('image') as File;
 
   if (!imageFile) {

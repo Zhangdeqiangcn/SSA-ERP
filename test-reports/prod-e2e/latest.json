@@ -1,0 +1,1245 @@
+{
+  "product": "SSA ERP",
+  "kind": "production-e2e",
+  "verdict": "FAIL",
+  "base": "https://ssa-erp.pages.dev",
+  "runId": "260901080020",
+  "startedAt": "2026-09-01T08:00:20.379Z",
+  "durationMs": 121391,
+  "totals": {
+    "pass": 204,
+    "fail": 7,
+    "warn": 2,
+    "info": 6,
+    "total": 219
+  },
+  "httpStats": {
+    "calls": 185,
+    "totalMs": 121312,
+    "failures": 0,
+    "avgMs": 656
+  },
+  "cleanup": {
+    "attempted": 12,
+    "removed": 12,
+    "failed": []
+  },
+  "bootstrapError": null,
+  "suites": [
+    {
+      "id": "01-auth",
+      "title": "认证与会话（注册/登录/会话/登出/拒绝路径）",
+      "pass": 17,
+      "fail": 0,
+      "warn": 0,
+      "info": 0,
+      "total": 17,
+      "ms": 10059,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/auth/me 会话有效",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "me 返回当前用户且组织一致",
+          "detail": "org_id=org_f0cc03a0923e4fe6a76af8adba00ec4a 期望=org_f0cc03a0923e4fe6a76af8adba00ec4a"
+        },
+        {
+          "status": "PASS",
+          "name": "me 角色为 admin",
+          "detail": "实际=\"admin\" 期望=\"admin\""
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/auth/me 无凭据拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/auth/me 伪造 token 拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "同公司码注册普通用户（manager）",
+          "detail": "username=e2e_buyer1_260901080020"
+        },
+        {
+          "status": "PASS",
+          "name": "同公司码归并至同一组织 org_id",
+          "detail": "组织归并: 实际=\"org_f0cc03a0923e4fe6a76af8adba00ec4a\" 期望=\"org_f0cc03a0923e4fe6a76af8adba00ec4a\""
+        },
+        {
+          "status": "PASS",
+          "name": "普通用户角色为 manager（非特权）",
+          "detail": "实际=\"manager\" 期望=\"manager\""
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/login 正确密码登录",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "登录返回新会话 token",
+          "detail": "token=有"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/login 错误密码拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/login 不存在用户拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/register 重复用户名拒绝",
+          "detail": "status=409"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/register 缺公司码拒绝",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/auth/logout 登出",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "登出后原会话失效",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "登出其他会话不影响主会话",
+          "detail": "status=200"
+        }
+      ]
+    },
+    {
+      "id": "02-state-blob",
+      "title": "app_state Blob 通道（写读往返/覆盖/删除/隔离）",
+      "pass": 11,
+      "fail": 0,
+      "warn": 0,
+      "info": 0,
+      "total": 11,
+      "ms": 7636,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/state/:key 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "新键首次读为空",
+          "detail": "status=404 value=null"
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/state/:key 写入",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "写入返回 updated_at",
+          "detail": "updated_at=2026-09-01T08:00:34.983Z"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/state/:key 读回",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "Blob 写→读 往返内容完全一致",
+          "detail": "读回={\"runId\":\"260901080020\",\"nested\":{\"a\":1,\"b\":[1,2,3]},\"ts\":1788249634361}"
+        },
+        {
+          "status": "PASS",
+          "name": "同键覆盖更新生效（非追加）",
+          "detail": "读回={\"runId\":\"260901080020\",\"overwritten\":true}"
+        },
+        {
+          "status": "PASS",
+          "name": "跨组织读不到同名 Blob 键（org 隔离生效）",
+          "detail": "status=404 value=null"
+        },
+        {
+          "status": "PASS",
+          "name": "隔离校验组织 org_id 与主组织不同",
+          "detail": "other=org_cde272fc40754d128774787bace59bc8"
+        },
+        {
+          "status": "PASS",
+          "name": "DELETE /api/state/:key 删除",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "删除后读为空",
+          "detail": "status=404"
+        }
+      ]
+    },
+    {
+      "id": "03-relational",
+      "title": "关系域读取护栏（10 域 GET/契约/鉴权/分页）",
+      "pass": 25,
+      "fail": 0,
+      "warn": 0,
+      "info": 0,
+      "total": 25,
+      "ms": 10431,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/materials（物料）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ materials 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/customers（客户）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ customers 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/vendors（供应商主数据(vendor_master)）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ vendors 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/purchase-orders（采购订单）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ purchase-orders 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/sales-orders（销售订单）返回 200",
+          "detail": "status=200 total=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ sales-orders 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/inbound-orders（入库单）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ inbound-orders 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/outbound-orders（出库单）返回 200",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ outbound-orders 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/work-orders（工单）返回 200",
+          "detail": "status=200 total=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ work-orders 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/vouchers（会计凭证）返回 200",
+          "detail": "status=200 total=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ vouchers 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/inventory-records（库存流水）返回 200",
+          "detail": "status=200 total=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ inventory-records 列表契约 {data,total,page,pageSize}",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "关系域可读性 10/10",
+          "detail": "域数: 实际=10 期望=10"
+        },
+        {
+          "status": "PASS",
+          "name": "未登录访问全部关系域被拒 10/10",
+          "detail": "全部 401"
+        },
+        {
+          "status": "PASS",
+          "name": "分页 pageSize=2 生效（返回条数 ≤ 2）",
+          "detail": "返回=0 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "分页回显 page",
+          "detail": "实际=1 期望=1"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/materials/:id 不存在返回 404（非 500）",
+          "detail": "status=404"
+        }
+      ]
+    },
+    {
+      "id": "04-vendor",
+      "title": "供应商 CRUD + 前端/网关同源（消除双数据源护栏）",
+      "pass": 20,
+      "fail": 0,
+      "warn": 0,
+      "info": 0,
+      "total": 20,
+      "ms": 17538,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "POST /api/vendors 创建供应商",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "创建回显 code 一致",
+          "detail": "实际=\"E2EV260901080020\" 期望=\"E2EV260901080020\""
+        },
+        {
+          "status": "PASS",
+          "name": "创建返回 createdBy 审计字段",
+          "detail": "createdBy=user_4a57c2b0b744482fb560ac6d51859508"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/vendors/:id 详情",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "详情 creditLimit 与创建一致",
+          "detail": "实际=1000000 期望=1000000"
+        },
+        {
+          "status": "PASS",
+          "name": "详情 name 与创建一致",
+          "detail": "实际=\"E2E 常驻套件供应商\" 期望=\"E2E 常驻套件供应商\""
+        },
+        {
+          "status": "PASS",
+          "name": "新建供应商在列表中可见",
+          "detail": "total=1"
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/vendors/:id 仅传单字段不报 500（回潮护栏）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "局部更新后 creditLimit 生效",
+          "detail": "实际=88888 期望=88888"
+        },
+        {
+          "status": "PASS",
+          "name": "局部更新未清空 name（COALESCE 保留）",
+          "detail": "实际=\"E2E 常驻套件供应商\" 期望=\"E2E 常驻套件供应商\""
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/vendors/:id 扩展 JSON 列写入",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "扩展列 customFields JSON 往返一致",
+          "detail": "customFields={\"e2eField\":\"e2eValue\",\"n\":42}"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/vendors 网关读取",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "【同源】前端 POST 创建的供应商在网关可见",
+          "detail": "网关 code=E2EV260901080020"
+        },
+        {
+          "status": "PASS",
+          "name": "【同源】网关读到的 credit_limit 反映前端 PUT 结果",
+          "detail": "网关 credit_limit=88888 期望=88888"
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/open/vendors/:id 网关侧更新",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "【反向同源】网关写入在前端路径立即可见",
+          "detail": "creditLimit: 实际=77777 期望=77777"
+        },
+        {
+          "status": "PASS",
+          "name": "DELETE /api/vendors/:id 删除",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "删除后前端详情 404",
+          "detail": "status=404"
+        },
+        {
+          "status": "PASS",
+          "name": "【同源】删除后网关侧同步消失",
+          "detail": "已消失"
+        }
+      ]
+    },
+    {
+      "id": "05-b2-islands",
+      "title": "B2 三岛后端（序列号 FIFO/委外/工单领料）",
+      "pass": 26,
+      "fail": 0,
+      "warn": 0,
+      "info": 0,
+      "total": 26,
+      "ms": 13913,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/serial-numbers 列表",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ 序列号列表契约",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "序列号主档创建 3 条",
+          "detail": "成功条数: 实际=3 期望=3"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/serial-numbers/consume FIFO 核销 2 个",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "核销数量为 2",
+          "detail": "核销条数: 实际=2 期望=2"
+        },
+        {
+          "status": "PASS",
+          "name": "【FIFO 正确性】核销命中最早入库的 A(01-01)+B(02-02)",
+          "detail": "实际核销=[\"SN-260901080020-A\",\"SN-260901080020-B\"] 期望含=[\"SN-260901080020-A\",\"SN-260901080020-B\"]"
+        },
+        {
+          "status": "PASS",
+          "name": "核销后在库仅剩 1 个",
+          "detail": "在库条数: 实际=1 期望=1"
+        },
+        {
+          "status": "PASS",
+          "name": "剩余在库者为入库最晚的 C(03-03)",
+          "detail": "剩余=SN-260901080020-C"
+        },
+        {
+          "status": "PASS",
+          "name": "在库不足核销返回 409（不静默成功）",
+          "detail": "status=409 available=1 required=99"
+        },
+        {
+          "status": "PASS",
+          "name": "核销 qty=0 参数校验 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/subcontracts 列表",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ 委外列表契约",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/subcontracts 创建委外单（含发料明细）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "委外单回显 order_no",
+          "detail": "实际=\"E2E-SUB-260901080020\" 期望=\"E2E-SUB-260901080020\""
+        },
+        {
+          "status": "PASS",
+          "name": "委外单 qty 落库正确",
+          "detail": "实际=100 期望=100"
+        },
+        {
+          "status": "PASS",
+          "name": "委外单加工费落库正确",
+          "detail": "实际=3500 期望=3500"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/subcontracts/:id 详情",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "委外发料明细 2 条随主单返回",
+          "detail": "明细条数=2"
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/subcontracts/:id 状态流转",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/work-orders/picking 列表",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ 工单领料列表契约",
+          "detail": "data=0条 total=0 page=1/20"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/work-orders/picking 创建领料记录",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "领料数量落库正确",
+          "detail": "实际=20 期望=20"
+        },
+        {
+          "status": "PASS",
+          "name": "同工单同物料重复领料返回 409（幂等护栏）",
+          "detail": "status=409 既有 id=wop-90f44736-ec79-46b9-b325-9ccda0ab9f50"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/work-orders/picking/:id 详情",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "三岛端点未登录全部拒绝",
+          "detail": "全部 401: 实际=3 期望=3"
+        }
+      ]
+    },
+    {
+      "id": "06-open-gateway",
+      "title": "开放 API 网关（Key/scope 护栏/5 资源/隔离）",
+      "pass": 39,
+      "fail": 2,
+      "warn": 0,
+      "info": 0,
+      "total": 41,
+      "ms": 13875,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "POST /api/open/keys 创建 read Key（201）",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "read Key 返回明文 plainKey（仅此一次）",
+          "detail": "前缀=sk_9fc…"
+        },
+        {
+          "status": "PASS",
+          "name": "read Key scopes 回显",
+          "detail": "实际=\"read\" 期望=\"read\""
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/open/keys 创建 write Key（201）",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/keys 列表",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "列表包含本轮创建的两个 Key",
+          "detail": "本轮 Key 数=3"
+        },
+        {
+          "status": "PASS",
+          "name": "列表不泄露 key_hash / 明文",
+          "detail": "仅返回 id/label/scopes/revoked 等元数据"
+        },
+        {
+          "status": "FAIL",
+          "name": "创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销）",
+          "detail": "响应 id=ak_78603b2c4eb44d6eb498e90f5fe1fa0a 库内 id=ak_b6ace7ca3ebe421e896780f912459ab7"
+        },
+        {
+          "status": "PASS",
+          "name": "无 Key 访问网关拒绝 401",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "无效 Key 访问网关拒绝 401",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "read Key 可读",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "read Key 写入被拒 403（scope 护栏）",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "write Key 天然可读（read ⊂ write）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "非管理员创建 Key 被拒 403",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "非管理员查看 Key 列表被拒 403",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/materials 可读",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ materials 契约 {data,total,page,pageSize}",
+          "detail": "data=0"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/vendors 可读",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ vendors 契约 {data,total,page,pageSize}",
+          "detail": "data=0"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/customers 可读",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ customers 契约 {data,total,page,pageSize}",
+          "detail": "data=0"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/purchase-orders 可读",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ purchase-orders 契约 {data,total,page,pageSize}",
+          "detail": "data=0"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/sales-orders 可读",
+          "detail": "status=200 total=0"
+        },
+        {
+          "status": "PASS",
+          "name": "  └ sales-orders 契约 {data,total,page,pageSize}",
+          "detail": "data=0"
+        },
+        {
+          "status": "PASS",
+          "name": "网关资源可读性 5/5",
+          "detail": "资源数: 实际=5 期望=5"
+        },
+        {
+          "status": "PASS",
+          "name": "不支持的资源返回 404",
+          "detail": "status=404"
+        },
+        {
+          "status": "PASS",
+          "name": "404 提示列出可选资源清单",
+          "detail": "error=不支持的资源，可选: materials, vendors, customers, purchase-orders, sales-orders"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/open/materials 网关创建（201）",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/open/materials/:id 详情",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "网关创建内容落库正确（code）",
+          "detail": "实际=\"E2E-GW-260901080020\" 期望=\"E2E-GW-260901080020\""
+        },
+        {
+          "status": "PASS",
+          "name": "PUT /api/open/materials/:id 网关更新",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "网关更新生效",
+          "detail": "实际=\"E2E 网关物料（已改）\" 期望=\"E2E 网关物料（已改）\""
+        },
+        {
+          "status": "PASS",
+          "name": "【同源】网关创建的物料在前端会话路径可见",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "DELETE /api/open/materials/:id 网关删除",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "删除后网关详情 404",
+          "detail": "status=404"
+        },
+        {
+          "status": "FAIL",
+          "name": "PUT 不存在 id 返回 404（非 500）",
+          "detail": "status=200 期望=404 body={\"ok\":true}"
+        },
+        {
+          "status": "PASS",
+          "name": "DELETE /api/open/keys/:id 吊销 Key",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "吊销后该 Key 立即失效 401",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "重复吊销幂等（200/404，非 500）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "【组织隔离】本组织 Key 读不到他组织供应商",
+          "detail": "本组织 total=0"
+        }
+      ]
+    },
+    {
+      "id": "07-rls",
+      "title": "RLS 行级安全（own/all/privileged/归属校验）",
+      "pass": 20,
+      "fail": 0,
+      "warn": 0,
+      "info": 1,
+      "total": 21,
+      "ms": 15987,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "准备两个同组织非特权用户",
+          "detail": "e2e_buyer1_260901080020(QA-采购部) / e2e_buyer2_260901080020(QA-采购二部)"
+        },
+        {
+          "status": "PASS",
+          "name": "两用户属同一组织",
+          "detail": "b1=org_f0cc03a0923e4fe6a76af8adba00ec4a b2=org_f0cc03a0923e4fe6a76af8adba00ec4a"
+        },
+        {
+          "status": "PASS",
+          "name": "buyer1 创建供应商",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "buyer2 创建供应商",
+          "detail": "status=201"
+        },
+        {
+          "status": "PASS",
+          "name": "创建时自动填入 owner_id（归属本人）",
+          "detail": "ownerId=user_9453c7c8515d48ebb919e986169fbe97 期望=user_9453c7c8515d48ebb919e986169fbe97"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 能看到自己的供应商",
+          "detail": "可见 1 条"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 看不到 buyer2 的供应商",
+          "detail": "隔离生效"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer2 能看到自己的供应商",
+          "detail": "可见 1 条"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer2 看不到 buyer1 的供应商",
+          "detail": "隔离生效"
+        },
+        {
+          "status": "PASS",
+          "name": "【privileged】admin 同时看到两人的供应商",
+          "detail": "admin 可见 2 条（含 b1=true b2=true）"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 读 buyer2 的供应商详情被拒",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 更新 buyer2 的供应商被拒",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 删除 buyer2 的供应商被拒",
+          "detail": "status=403"
+        },
+        {
+          "status": "PASS",
+          "name": "越权尝试后 buyer2 的数据未被篡改",
+          "detail": "creditLimit: 实际=200 期望=200"
+        },
+        {
+          "status": "PASS",
+          "name": "越权尝试后 buyer2 的数据仍存在",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "【own】buyer1 更新自己的供应商成功",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "【all】物料 对两个非特权用户可见总数一致（共享主数据）",
+          "detail": "b1=0 b2=0 admin=0"
+        },
+        {
+          "status": "PASS",
+          "name": "【all】工单 对两个非特权用户可见总数一致（共享主数据）",
+          "detail": "b1=undefined b2=undefined admin=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "【all】凭证 对两个非特权用户可见总数一致（共享主数据）",
+          "detail": "b1=undefined b2=undefined admin=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "【dept】三个部门档端点在非特权用户下均可查询",
+          "detail": "端点数: 实际=3 期望=3"
+        },
+        {
+          "status": "INFO",
+          "name": "【dept】过滤效果未做数据级验证",
+          "detail": "隔离组织内 inbound/outbound/inventory 无创建端点、为空表，无法构造跨部门数据；仅验证 SQL 可执行"
+        }
+      ]
+    },
+    {
+      "id": "08-fx",
+      "title": "多币种汇率（写入/upsert/校验/隔离/外部刷新）",
+      "pass": 17,
+      "fail": 0,
+      "warn": 1,
+      "info": 1,
+      "total": 19,
+      "ms": 9189,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/fx 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/fx?base=CNY 读取",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "返回 data 数组契约",
+          "detail": "type=object"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/fx 缺 quote 返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/fx 缺 rate 返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "汇率写入 3 条成功",
+          "detail": "成功条数: 实际=3 期望=3"
+        },
+        {
+          "status": "PASS",
+          "name": "读回包含写入的 3 个币种",
+          "detail": "读回币种=EUR,JPY,USD"
+        },
+        {
+          "status": "PASS",
+          "name": "CNY→USD 汇率值精确往返",
+          "detail": "rate: 实际=0.1392 期望=0.1392"
+        },
+        {
+          "status": "PASS",
+          "name": "汇率来源标记为 manual",
+          "detail": "实际=\"manual\" 期望=\"manual\""
+        },
+        {
+          "status": "PASS",
+          "name": "返回 updatedAt 时间戳",
+          "detail": "updatedAt=2026-09-01T08:01:55.115Z"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/fx 同键重复写入",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "同键 upsert 未产生重复行",
+          "detail": "行数: 实际=3 期望=3"
+        },
+        {
+          "status": "PASS",
+          "name": "同键 upsert 覆盖为新汇率",
+          "detail": "rate: 实际=0.14 期望=0.14"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/fx 写入不同 base（USD→CNY）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "不同 base 独立存储互不干扰",
+          "detail": "USD base 行数=1"
+        },
+        {
+          "status": "PASS",
+          "name": "写入 USD base 未污染 CNY base",
+          "detail": "CNY 行数: 实际=3 期望=3"
+        },
+        {
+          "status": "PASS",
+          "name": "【组织隔离】他组织读不到本组织汇率",
+          "detail": "他组织可见=0 条"
+        },
+        {
+          "status": "WARN",
+          "name": "POST /api/fx/refresh 外部汇率源暂不可用",
+          "detail": "端点已正确返回 502（非 500 崩溃），属外部依赖问题"
+        },
+        {
+          "status": "INFO",
+          "name": "汇率数据未清理",
+          "detail": "fx_rates 无删除端点；数据仅存于本轮隔离组织，不影响真实业务组织"
+        }
+      ]
+    },
+    {
+      "id": "09-audit-match",
+      "title": "审计日志落库 + 三单匹配（一致/超差/校验）",
+      "pass": 11,
+      "fail": 3,
+      "warn": 0,
+      "info": 2,
+      "total": 16,
+      "ms": 3709,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "POST /api/audit/logs 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/audit/logs 缺 entity 返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "FAIL",
+          "name": "POST /api/audit/logs 写入审计",
+          "detail": "status=500 期望=200 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+        },
+        {
+          "status": "FAIL",
+          "name": "审计写入返回 success + id",
+          "detail": "id=undefined"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/audit 查询审计",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "审计查询返回列表结构",
+          "detail": "type=array(12)"
+        },
+        {
+          "status": "FAIL",
+          "name": "刚写入的审计记录可被查到",
+          "detail": "最近 12 条中未找到"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/three-way-match/create 缺 poId 返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "三单完全一致创建匹配单",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "一致场景返回 success",
+          "detail": "{\"success\":true,\"id\":\"twm-1788249724842-3loz\"}"
+        },
+        {
+          "status": "PASS",
+          "name": "三单超差创建匹配单",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "超差场景返回 success（差异由后端判定入库）",
+          "detail": "{\"success\":true,\"id\":\"twm-1788249725435-k3g5\"}"
+        },
+        {
+          "status": "INFO",
+          "name": "匹配判定结果未在响应中回显",
+          "detail": "端点仅返回 {success,id}，matchStatus(matched/discrepancy) 落库但不回显；如需断言判定值，需后端补回显字段"
+        },
+        {
+          "status": "PASS",
+          "name": "三单 0.5% 容差内创建（不应报错）",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/three-way-match/create 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "INFO",
+          "name": "三单匹配与审计记录未清理",
+          "detail": "两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901080020），不影响真实业务组织"
+        }
+      ]
+    },
+    {
+      "id": "10-intelligence",
+      "title": "智能与合规端点探活（AI/ChatBI/预警/OCR/数电票）",
+      "pass": 18,
+      "fail": 2,
+      "warn": 1,
+      "info": 2,
+      "total": 23,
+      "ms": 5879,
+      "results": [
+        {
+          "status": "PASS",
+          "name": "GET /api/alerts 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "FAIL",
+          "name": "GET /api/alerts 异常预警计算",
+          "detail": "status=500 期望=200 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/ai/models 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/ai/models 端点真实存在（非 SPA 回退）",
+          "detail": "status=200 ct=application/json; charset=utf-8"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/ai/models 返回 200",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/ai/models 缺必填字段返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/ai/chat 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/ai/chat 端点真实存在（非 SPA 回退）",
+          "detail": "status=404 ct=application/json; charset=utf-8"
+        },
+        {
+          "status": "WARN",
+          "name": "AI 对话未返回成功（大概率未配置模型或外部额度问题）",
+          "detail": "status=404 body={\"success\":false,\"error\":\"模型配置未找到，请先在设置中配置AI模型\"}"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/chatbi 端点真实存在（非 SPA 回退）",
+          "detail": "status=200 ct=application/json; charset=utf-8"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/chatbi 缺 query 返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "ChatBI 查询成功返回",
+          "detail": "{\"title\":\"本月销售趋势\",\"description\":\"2026年9月销售数据，共 0 笔订单\",\"chartType\":\"bar\",\"data\":[{\"label\":\"无数据\",\"value\":0,\"orders\":0}],\"summary\":\"本月订单总额: 0.0"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/chatbi 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/ocr/recognize 端点说明可用",
+          "detail": "status=200"
+        },
+        {
+          "status": "FAIL",
+          "name": "POST /api/ocr/recognize 未传图片返回 400",
+          "detail": "status=500 期望=400 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/ocr/recognize 未登录拒绝",
+          "detail": "status=401"
+        },
+        {
+          "status": "INFO",
+          "name": "发票 OCR 识别精度未做断言",
+          "detail": "当前实现为文本正则解析（未接 OCR/大模型），精度类断言待模型对接后补充"
+        },
+        {
+          "status": "PASS",
+          "name": "GET /api/tax-gateway/verify 端点说明可用",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/tax-gateway/verify 空发票列表返回 400",
+          "detail": "status=400"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/tax-gateway/verify 单张核验返回 200",
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "核验返回统计结构（data.total/valid/invalid/error）",
+          "detail": "total=1 results=1"
+        },
+        {
+          "status": "INFO",
+          "name": "数电票核验为桩实现（唯一确认桩）",
+          "detail": "functions/api/tax-gateway/verify.ts 为 mock + TODO，未对接真实税局接口；本断言仅护栏契约不回归"
+        },
+        {
+          "status": "PASS",
+          "name": "POST /api/tax-gateway/verify 超 100 张返回 400（批量上限护栏）",
+          "detail": "status=400"
+        }
+      ]
+    }
+  ]
+}

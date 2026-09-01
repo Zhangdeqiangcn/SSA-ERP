@@ -88,7 +88,7 @@ export async function onRequestPut(context: any) {
   const res = await context.env.DB.prepare(
     `UPDATE ${def.table} SET ${setSql} WHERE id = ? AND org_id = ?`
   ).bind(...values).run();
-  if (res.changes === 0) return json({ error: '记录不存在' }, 404);
+  if ((res.meta?.changes ?? 0) === 0) return json({ error: '记录不存在' }, 404);
   await audit(context.env.DB, auth.org_id, auth.keyId, def.table, 'update', `API更新 ${resource} ${id}`);
   return json({ ok: true });
 }
@@ -105,7 +105,7 @@ export async function onRequestDelete(context: any) {
   const res = await context.env.DB.prepare(
     `DELETE FROM ${def.table} WHERE id = ? AND org_id = ?`
   ).bind(id, auth.org_id).run();
-  if (res.changes === 0) return json({ error: '记录不存在' }, 404);
+  if ((res.meta?.changes ?? 0) === 0) return json({ error: '记录不存在' }, 404);
   await audit(context.env.DB, auth.org_id, auth.keyId, def.table, 'delete', `API删除 ${resource} ${id}`);
   return json({ ok: true });
 }

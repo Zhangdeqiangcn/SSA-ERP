@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "build:fast": "node node_modules/vite/bin/vite.js build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:prod-e2e": "node scripts/prod-e2e/run.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

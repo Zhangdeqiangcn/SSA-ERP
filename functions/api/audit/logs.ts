@@ -17,7 +17,7 @@ export async function onRequestPost(context) {
   await db.prepare(
     `INSERT INTO audit_logs (id, org_id, user_id, user_name, action, entity, entity_id, summary, created_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  ).bind(id, user.org_id, user.userId, user.name, action, entity, entityId || null, summary || '', now).run();
+  ).bind(id, user.org_id, user.id, user.name, action, entity, entityId || null, summary || '', now).run();
 
   // 只保留最近 10000 条
   await db.prepare(

@@ -19,10 +19,9 @@ export async function onRequestGet(context: any) {
            COALESCE(i.quantity, 0) as available_qty,
            COALESCE(i.quantity, 0) as total_qty,
            COALESCE(m.safety_stock, 100) as safety_stock,
-           w.name as warehouse_name
+           i.warehouse_name as warehouse_name
     FROM materials m
     LEFT JOIN inventory_records i ON m.id = i.material_id AND i.org_id = ?
-    LEFT JOIN warehouses w ON i.warehouse_id = w.id
     WHERE m.org_id = ? AND m.status = 'active'
       AND COALESCE(i.quantity, 0) < COALESCE(m.safety_stock, 100)
     ORDER BY available_qty ASC
@@ -86,9 +85,9 @@ export async function onRequestGet(context: any) {
 
   // 4. 临期物料（shelf_life_status = 'expiring' 或 'expired'）
   const expiringRows = await db.prepare(`
-    SELECT material_code, material_name, quantity_on_hand, shelf_life_status
+    SELECT material_code, material_name, quantity as quantity_on_hand, shelf_life_status
     FROM inventory_records
-    WHERE org_id = ? AND shelf_life_status IN ('expiring', 'expired') AND quantity_on_hand > 0
+    WHERE org_id = ? AND shelf_life_status IN ('expiring', 'expired') AND quantity > 0
     ORDER BY updated_at DESC
     LIMIT 20
   `).bind(user.org_id).all();

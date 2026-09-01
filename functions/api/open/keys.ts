@@ -35,11 +35,12 @@ export async function onRequestPost(context: any) {
   const plain = genKey();
   const hash = await sha256(plain);
   const now = new Date().toISOString();
+  const keyId = uid('ak');
 
   await context.env.DB.prepare(
     `INSERT INTO api_keys (id, org_id, key_hash, label, scopes, created_by, revoked, rate_limit, created_at)
      VALUES (?, ?, ?, ?, ?, ?, 0, 60, ?)`
-  ).bind(uid('ak'), user.org_id, hash, label, scopes, user.username, now).run();
+  ).bind(keyId, user.org_id, hash, label, scopes, user.username, now).run();
 
-  return json({ ok: true, id: uid('ak'), plainKey: plain, label, scopes }, 201);
+  return json({ ok: true, id: keyId, plainKey: plain, label, scopes }, 201);
 }
