@@ -1,28 +1,30 @@
 {
   "product": "SSA ERP",
   "kind": "production-e2e",
-  "verdict": "FAIL",
-  "base": "https://ssa-erp.pages.dev",
-  "runId": "260901080020",
-  "startedAt": "2026-09-01T08:00:20.379Z",
-  "durationMs": 121391,
+  "verdict": "PASS",
+  "base": "https://79a0d944.ssa-erp.pages.dev",
+  "runId": "260901083833",
+  "startedAt": "2026-09-01T08:38:33.764Z",
+  "durationMs": 105082,
   "totals": {
-    "pass": 204,
-    "fail": 7,
+    "pass": 214,
+    "fail": 0,
     "warn": 2,
     "info": 6,
-    "total": 219
+    "total": 222
   },
   "httpStats": {
     "calls": 185,
-    "totalMs": 121312,
+    "totalMs": 104960,
     "failures": 0,
-    "avgMs": 656
+    "avgMs": 567
   },
   "cleanup": {
     "attempted": 12,
-    "removed": 12,
-    "failed": []
+    "removed": 11,
+    "failed": [
+      "openres:materials/mate_e438ebc769b04f2e8ad2f0b1856bdec0=404"
+    ]
   },
   "bootstrapError": null,
   "suites": [
@@ -34,7 +36,7 @@
       "warn": 0,
       "info": 0,
       "total": 17,
-      "ms": 10059,
+      "ms": 4547,
       "results": [
         {
           "status": "PASS",
@@ -44,7 +46,7 @@
         {
           "status": "PASS",
           "name": "me 返回当前用户且组织一致",
-          "detail": "org_id=org_f0cc03a0923e4fe6a76af8adba00ec4a 期望=org_f0cc03a0923e4fe6a76af8adba00ec4a"
+          "detail": "org_id=org_a205859ffa5441b8b15d3e6de9f52a60 期望=org_a205859ffa5441b8b15d3e6de9f52a60"
         },
         {
           "status": "PASS",
@@ -64,12 +66,12 @@
         {
           "status": "PASS",
           "name": "同公司码注册普通用户（manager）",
-          "detail": "username=e2e_buyer1_260901080020"
+          "detail": "username=e2e_buyer1_260901083833"
         },
         {
           "status": "PASS",
           "name": "同公司码归并至同一组织 org_id",
-          "detail": "组织归并: 实际=\"org_f0cc03a0923e4fe6a76af8adba00ec4a\" 期望=\"org_f0cc03a0923e4fe6a76af8adba00ec4a\""
+          "detail": "组织归并: 实际=\"org_a205859ffa5441b8b15d3e6de9f52a60\" 期望=\"org_a205859ffa5441b8b15d3e6de9f52a60\""
         },
         {
           "status": "PASS",
@@ -131,7 +133,7 @@
       "warn": 0,
       "info": 0,
       "total": 11,
-      "ms": 7636,
+      "ms": 5127,
       "results": [
         {
           "status": "PASS",
@@ -151,7 +153,7 @@
         {
           "status": "PASS",
           "name": "写入返回 updated_at",
-          "detail": "updated_at=2026-09-01T08:00:34.983Z"
+          "detail": "updated_at=2026-09-01T08:38:41.230Z"
         },
         {
           "status": "PASS",
@@ -161,12 +163,12 @@
         {
           "status": "PASS",
           "name": "Blob 写→读 往返内容完全一致",
-          "detail": "读回={\"runId\":\"260901080020\",\"nested\":{\"a\":1,\"b\":[1,2,3]},\"ts\":1788249634361}"
+          "detail": "读回={\"runId\":\"260901083833\",\"nested\":{\"a\":1,\"b\":[1,2,3]},\"ts\":1788251920589}"
         },
         {
           "status": "PASS",
           "name": "同键覆盖更新生效（非追加）",
-          "detail": "读回={\"runId\":\"260901080020\",\"overwritten\":true}"
+          "detail": "读回={\"runId\":\"260901083833\",\"overwritten\":true}"
         },
         {
           "status": "PASS",
@@ -176,7 +178,7 @@
         {
           "status": "PASS",
           "name": "隔离校验组织 org_id 与主组织不同",
-          "detail": "other=org_cde272fc40754d128774787bace59bc8"
+          "detail": "other=org_bd20af05a0fd47f085d85e5d781d453b"
         },
         {
           "status": "PASS",
@@ -198,7 +200,7 @@
       "warn": 0,
       "info": 0,
       "total": 25,
-      "ms": 10431,
+      "ms": 8559,
       "results": [
         {
           "status": "PASS",
@@ -335,7 +337,7 @@
       "warn": 0,
       "info": 0,
       "total": 20,
-      "ms": 17538,
+      "ms": 8546,
       "results": [
         {
           "status": "PASS",
@@ -345,12 +347,12 @@
         {
           "status": "PASS",
           "name": "创建回显 code 一致",
-          "detail": "实际=\"E2EV260901080020\" 期望=\"E2EV260901080020\""
+          "detail": "实际=\"E2EV260901083833\" 期望=\"E2EV260901083833\""
         },
         {
           "status": "PASS",
           "name": "创建返回 createdBy 审计字段",
-          "detail": "createdBy=user_4a57c2b0b744482fb560ac6d51859508"
+          "detail": "createdBy=user_18bb1db3a08b46c086a0448c6a07be27"
         },
         {
           "status": "PASS",
@@ -405,7 +407,7 @@
         {
           "status": "PASS",
           "name": "【同源】前端 POST 创建的供应商在网关可见",
-          "detail": "网关 code=E2EV260901080020"
+          "detail": "网关 code=E2EV260901083833"
         },
         {
           "status": "PASS",
@@ -447,7 +449,7 @@
       "warn": 0,
       "info": 0,
       "total": 26,
-      "ms": 13913,
+      "ms": 12387,
       "results": [
         {
           "status": "PASS",
@@ -477,7 +479,7 @@
         {
           "status": "PASS",
           "name": "【FIFO 正确性】核销命中最早入库的 A(01-01)+B(02-02)",
-          "detail": "实际核销=[\"SN-260901080020-A\",\"SN-260901080020-B\"] 期望含=[\"SN-260901080020-A\",\"SN-260901080020-B\"]"
+          "detail": "实际核销=[\"SN-260901083833-A\",\"SN-260901083833-B\"] 期望含=[\"SN-260901083833-A\",\"SN-260901083833-B\"]"
         },
         {
           "status": "PASS",
@@ -487,7 +489,7 @@
         {
           "status": "PASS",
           "name": "剩余在库者为入库最晚的 C(03-03)",
-          "detail": "剩余=SN-260901080020-C"
+          "detail": "剩余=SN-260901083833-C"
         },
         {
           "status": "PASS",
@@ -517,7 +519,7 @@
         {
           "status": "PASS",
           "name": "委外单回显 order_no",
-          "detail": "实际=\"E2E-SUB-260901080020\" 期望=\"E2E-SUB-260901080020\""
+          "detail": "实际=\"E2E-SUB-260901083833\" 期望=\"E2E-SUB-260901083833\""
         },
         {
           "status": "PASS",
@@ -567,7 +569,7 @@
         {
           "status": "PASS",
           "name": "同工单同物料重复领料返回 409（幂等护栏）",
-          "detail": "status=409 既有 id=wop-90f44736-ec79-46b9-b325-9ccda0ab9f50"
+          "detail": "status=409 既有 id=wop-4e6cd755-a33f-41e5-8efb-5bc0fc536bf1"
         },
         {
           "status": "PASS",
@@ -584,12 +586,12 @@
     {
       "id": "06-open-gateway",
       "title": "开放 API 网关（Key/scope 护栏/5 资源/隔离）",
-      "pass": 39,
-      "fail": 2,
+      "pass": 41,
+      "fail": 0,
       "warn": 0,
       "info": 0,
       "total": 41,
-      "ms": 13875,
+      "ms": 15930,
       "results": [
         {
           "status": "PASS",
@@ -599,7 +601,7 @@
         {
           "status": "PASS",
           "name": "read Key 返回明文 plainKey（仅此一次）",
-          "detail": "前缀=sk_9fc…"
+          "detail": "前缀=sk_a36…"
         },
         {
           "status": "PASS",
@@ -627,9 +629,9 @@
           "detail": "仅返回 id/label/scopes/revoked 等元数据"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销）",
-          "detail": "响应 id=ak_78603b2c4eb44d6eb498e90f5fe1fa0a 库内 id=ak_b6ace7ca3ebe421e896780f912459ab7"
+          "detail": "响应 id=ak_e55e167ac1e74966aff6e4ff3e582c86 库内 id=ak_e55e167ac1e74966aff6e4ff3e582c86"
         },
         {
           "status": "PASS",
@@ -744,7 +746,7 @@
         {
           "status": "PASS",
           "name": "网关创建内容落库正确（code）",
-          "detail": "实际=\"E2E-GW-260901080020\" 期望=\"E2E-GW-260901080020\""
+          "detail": "实际=\"E2E-GW-260901083833\" 期望=\"E2E-GW-260901083833\""
         },
         {
           "status": "PASS",
@@ -772,9 +774,9 @@
           "detail": "status=404"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "PUT 不存在 id 返回 404（非 500）",
-          "detail": "status=200 期望=404 body={\"ok\":true}"
+          "detail": "status=404"
         },
         {
           "status": "PASS",
@@ -806,17 +808,17 @@
       "warn": 0,
       "info": 1,
       "total": 21,
-      "ms": 15987,
+      "ms": 17729,
       "results": [
         {
           "status": "PASS",
           "name": "准备两个同组织非特权用户",
-          "detail": "e2e_buyer1_260901080020(QA-采购部) / e2e_buyer2_260901080020(QA-采购二部)"
+          "detail": "e2e_buyer1_260901083833(QA-采购部) / e2e_buyer2_260901083833(QA-采购二部)"
         },
         {
           "status": "PASS",
           "name": "两用户属同一组织",
-          "detail": "b1=org_f0cc03a0923e4fe6a76af8adba00ec4a b2=org_f0cc03a0923e4fe6a76af8adba00ec4a"
+          "detail": "b1=org_a205859ffa5441b8b15d3e6de9f52a60 b2=org_a205859ffa5441b8b15d3e6de9f52a60"
         },
         {
           "status": "PASS",
@@ -831,7 +833,7 @@
         {
           "status": "PASS",
           "name": "创建时自动填入 owner_id（归属本人）",
-          "detail": "ownerId=user_9453c7c8515d48ebb919e986169fbe97 期望=user_9453c7c8515d48ebb919e986169fbe97"
+          "detail": "ownerId=user_d930255c8aab40319770d2f805e9db33 期望=user_d930255c8aab40319770d2f805e9db33"
         },
         {
           "status": "PASS",
@@ -923,7 +925,7 @@
       "warn": 1,
       "info": 1,
       "total": 19,
-      "ms": 9189,
+      "ms": 9341,
       "results": [
         {
           "status": "PASS",
@@ -973,7 +975,7 @@
         {
           "status": "PASS",
           "name": "返回 updatedAt 时间戳",
-          "detail": "updatedAt=2026-09-01T08:01:55.115Z"
+          "detail": "updatedAt=2026-09-01T08:39:50.544Z"
         },
         {
           "status": "PASS",
@@ -1025,12 +1027,12 @@
     {
       "id": "09-audit-match",
       "title": "审计日志落库 + 三单匹配（一致/超差/校验）",
-      "pass": 11,
-      "fail": 3,
+      "pass": 14,
+      "fail": 0,
       "warn": 0,
       "info": 2,
       "total": 16,
-      "ms": 3709,
+      "ms": 4239,
       "results": [
         {
           "status": "PASS",
@@ -1043,14 +1045,14 @@
           "detail": "status=400"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "POST /api/audit/logs 写入审计",
-          "detail": "status=500 期望=200 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+          "detail": "status=200"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "审计写入返回 success + id",
-          "detail": "id=undefined"
+          "detail": "id=audit-1788251998954-0qvshp"
         },
         {
           "status": "PASS",
@@ -1063,9 +1065,9 @@
           "detail": "type=array(12)"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "刚写入的审计记录可被查到",
-          "detail": "最近 12 条中未找到"
+          "detail": "最近 12 条中找到"
         },
         {
           "status": "PASS",
@@ -1080,7 +1082,7 @@
         {
           "status": "PASS",
           "name": "一致场景返回 success",
-          "detail": "{\"success\":true,\"id\":\"twm-1788249724842-3loz\"}"
+          "detail": "{\"success\":true,\"id\":\"twm-1788252000929-5pxn\"}"
         },
         {
           "status": "PASS",
@@ -1090,7 +1092,7 @@
         {
           "status": "PASS",
           "name": "超差场景返回 success（差异由后端判定入库）",
-          "detail": "{\"success\":true,\"id\":\"twm-1788249725435-k3g5\"}"
+          "detail": "{\"success\":true,\"id\":\"twm-1788252001542-zlvq\"}"
         },
         {
           "status": "INFO",
@@ -1110,19 +1112,19 @@
         {
           "status": "INFO",
           "name": "三单匹配与审计记录未清理",
-          "detail": "两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901080020），不影响真实业务组织"
+          "detail": "两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901083833），不影响真实业务组织"
         }
       ]
     },
     {
       "id": "10-intelligence",
       "title": "智能与合规端点探活（AI/ChatBI/预警/OCR/数电票）",
-      "pass": 18,
-      "fail": 2,
+      "pass": 23,
+      "fail": 0,
       "warn": 1,
       "info": 2,
-      "total": 23,
-      "ms": 5879,
+      "total": 26,
+      "ms": 6888,
       "results": [
         {
           "status": "PASS",
@@ -1130,9 +1132,24 @@
           "detail": "status=401"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "GET /api/alerts 异常预警计算",
-          "detail": "status=500 期望=200 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+          "detail": "status=200"
+        },
+        {
+          "status": "PASS",
+          "name": "预警返回六类规则结果结构完整",
+          "detail": "lowStock/overduePO/overdueSO/expiringBatches/creditOverdue/pendingApprovals"
+        },
+        {
+          "status": "PASS",
+          "name": "待审批统计含采购/销售/工单三项",
+          "detail": "pendingApprovals={\"purchaseOrders\":0,\"salesOrders\":0,\"workOrders\":0}"
+        },
+        {
+          "status": "PASS",
+          "name": "隔离组织内预警计算不报错且数值为合法数字",
+          "detail": "purchaseOrders=0"
         },
         {
           "status": "PASS",
@@ -1195,9 +1212,9 @@
           "detail": "status=200"
         },
         {
-          "status": "FAIL",
+          "status": "PASS",
           "name": "POST /api/ocr/recognize 未传图片返回 400",
-          "detail": "status=500 期望=400 body=<!DOCTYPE html>\n<!--[if lt IE 7]> <html class=\"no-js ie6 oldie\" lang=\"en-US\"> <![endif]-->\n<!--[if IE 7]>    <html class"
+          "detail": "status=400"
         },
         {
           "status": "PASS",

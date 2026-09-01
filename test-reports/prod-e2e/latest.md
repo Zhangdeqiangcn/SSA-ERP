@@ -1,46 +1,28 @@
 # SSA ERP 生产 E2E 报告
 
-- **结论**：❌ 存在 7 条失败
-- **目标环境**：https://ssa-erp.pages.dev
-- **运行批次**：`260901080020`（隔离组织公司码 `E2E-260901080020`）
-- **开始时间**：2026/9/1 16:00:20
-- **耗时**：121.4 秒
-- **断言汇总**：PASS 204 / FAIL 7 / WARN 2 / INFO 6（共 219）
-- **HTTP 调用**：185 次，平均 656ms
-- **数据清理**：尝试 12 项，成功 12 项
+- **结论**：✅ 全绿
+- **目标环境**：https://79a0d944.ssa-erp.pages.dev
+- **运行批次**：`260901083833`（隔离组织公司码 `E2E-260901083833`）
+- **开始时间**：2026/9/1 16:38:33
+- **耗时**：105.1 秒
+- **断言汇总**：PASS 214 / FAIL 0 / WARN 2 / INFO 6（共 222）
+- **HTTP 调用**：185 次，平均 567ms
+- **数据清理**：尝试 12 项，成功 11 项，失败 1 项（openres:materials/mate_e438ebc769b04f2e8ad2f0b1856bdec0=404）
 
 ## 套件总览
 
 | 套件 | 说明 | PASS | FAIL | WARN | INFO | 耗时 |
 |---|---|---:|---:|---:|---:|---:|
-| ✅ 01-auth | 认证与会话（注册/登录/会话/登出/拒绝路径） | 17 | 0 | 0 | 0 | 10.1s |
-| ✅ 02-state-blob | app_state Blob 通道（写读往返/覆盖/删除/隔离） | 11 | 0 | 0 | 0 | 7.6s |
-| ✅ 03-relational | 关系域读取护栏（10 域 GET/契约/鉴权/分页） | 25 | 0 | 0 | 0 | 10.4s |
-| ✅ 04-vendor | 供应商 CRUD + 前端/网关同源（消除双数据源护栏） | 20 | 0 | 0 | 0 | 17.5s |
-| ✅ 05-b2-islands | B2 三岛后端（序列号 FIFO/委外/工单领料） | 26 | 0 | 0 | 0 | 13.9s |
-| ❌ 06-open-gateway | 开放 API 网关（Key/scope 护栏/5 资源/隔离） | 39 | 2 | 0 | 0 | 13.9s |
-| ✅ 07-rls | RLS 行级安全（own/all/privileged/归属校验） | 20 | 0 | 0 | 1 | 16.0s |
-| ⚠️ 08-fx | 多币种汇率（写入/upsert/校验/隔离/外部刷新） | 17 | 0 | 1 | 1 | 9.2s |
-| ❌ 09-audit-match | 审计日志落库 + 三单匹配（一致/超差/校验） | 11 | 3 | 0 | 2 | 3.7s |
-| ❌ 10-intelligence | 智能与合规端点探活（AI/ChatBI/预警/OCR/数电票） | 18 | 2 | 1 | 2 | 5.9s |
-
-## ❌ 失败明细（需修复）
-
-| 套件 | 断言 | 详情 |
-|---|---|---|
-| 06-open-gateway | 创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销） | `响应 id=ak_78603b2c4eb44d6eb498e90f5fe1fa0a 库内 id=ak_b6ace7ca3ebe421e896780f912459ab7` |
-| 06-open-gateway | PUT 不存在 id 返回 404（非 500） | `status=200 期望=404 body={"ok":true}` |
-| 09-audit-match | POST /api/audit/logs 写入审计 | `status=500 期望=200 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class` |
-| 09-audit-match | 审计写入返回 success + id | `id=undefined` |
-| 09-audit-match | 刚写入的审计记录可被查到 | `最近 12 条中未找到` |
-| 10-intelligence | GET /api/alerts 异常预警计算 | `status=500 期望=200 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class` |
-| 10-intelligence | POST /api/ocr/recognize 未传图片返回 400 | `status=500 期望=400 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class` |
+| ✅ 01-auth | 认证与会话（注册/登录/会话/登出/拒绝路径） | 17 | 0 | 0 | 0 | 4.5s |
+| ✅ 02-state-blob | app_state Blob 通道（写读往返/覆盖/删除/隔离） | 11 | 0 | 0 | 0 | 5.1s |
+| ✅ 03-relational | 关系域读取护栏（10 域 GET/契约/鉴权/分页） | 25 | 0 | 0 | 0 | 8.6s |
+| ✅ 04-vendor | 供应商 CRUD + 前端/网关同源（消除双数据源护栏） | 20 | 0 | 0 | 0 | 8.5s |
+| ✅ 05-b2-islands | B2 三岛后端（序列号 FIFO/委外/工单领料） | 26 | 0 | 0 | 0 | 12.4s |
+| ✅ 06-open-gateway | 开放 API 网关（Key/scope 护栏/5 资源/隔离） | 41 | 0 | 0 | 0 | 15.9s |
+| ✅ 07-rls | RLS 行级安全（own/all/privileged/归属校验） | 20 | 0 | 0 | 1 | 17.7s |
+| ⚠️ 08-fx | 多币种汇率（写入/upsert/校验/隔离/外部刷新） | 17 | 0 | 1 | 1 | 9.3s |
+| ✅ 09-audit-match | 审计日志落库 + 三单匹配（一致/超差/校验） | 14 | 0 | 0 | 2 | 4.2s |
+| ⚠️ 10-intelligence | 智能与合规端点探活（AI/ChatBI/预警/OCR/数电票） | 23 | 0 | 1 | 2 | 6.9s |
 
 ## ⚠️ 告警（不阻断，但需关注）
 
@@ -52,12 +34,12 @@
 ### 01-auth · 认证与会话（注册/登录/会话/登出/拒绝路径）
 
 - ✅ GET /api/auth/me 会话有效 — status=200
-- ✅ me 返回当前用户且组织一致 — org_id=org_f0cc03a0923e4fe6a76af8adba00ec4a 期望=org_f0cc03a0923e4fe6a76af8adba00ec4a
+- ✅ me 返回当前用户且组织一致 — org_id=org_a205859ffa5441b8b15d3e6de9f52a60 期望=org_a205859ffa5441b8b15d3e6de9f52a60
 - ✅ me 角色为 admin — 实际="admin" 期望="admin"
 - ✅ GET /api/auth/me 无凭据拒绝 — status=401
 - ✅ GET /api/auth/me 伪造 token 拒绝 — status=401
-- ✅ 同公司码注册普通用户（manager） — username=e2e_buyer1_260901080020
-- ✅ 同公司码归并至同一组织 org_id — 组织归并: 实际="org_f0cc03a0923e4fe6a76af8adba00ec4a" 期望="org_f0cc03a0923e4fe6a76af8adba00ec4a"
+- ✅ 同公司码注册普通用户（manager） — username=e2e_buyer1_260901083833
+- ✅ 同公司码归并至同一组织 org_id — 组织归并: 实际="org_a205859ffa5441b8b15d3e6de9f52a60" 期望="org_a205859ffa5441b8b15d3e6de9f52a60"
 - ✅ 普通用户角色为 manager（非特权） — 实际="manager" 期望="manager"
 - ✅ POST /api/auth/login 正确密码登录 — status=200
 - ✅ 登录返回新会话 token — token=有
@@ -74,12 +56,12 @@
 - ✅ GET /api/state/:key 未登录拒绝 — status=401
 - ✅ 新键首次读为空 — status=404 value=null
 - ✅ PUT /api/state/:key 写入 — status=200
-- ✅ 写入返回 updated_at — updated_at=2026-09-01T08:00:34.983Z
+- ✅ 写入返回 updated_at — updated_at=2026-09-01T08:38:41.230Z
 - ✅ GET /api/state/:key 读回 — status=200
-- ✅ Blob 写→读 往返内容完全一致 — 读回={"runId":"260901080020","nested":{"a":1,"b":[1,2,3]},"ts":1788249634361}
-- ✅ 同键覆盖更新生效（非追加） — 读回={"runId":"260901080020","overwritten":true}
+- ✅ Blob 写→读 往返内容完全一致 — 读回={"runId":"260901083833","nested":{"a":1,"b":[1,2,3]},"ts":1788251920589}
+- ✅ 同键覆盖更新生效（非追加） — 读回={"runId":"260901083833","overwritten":true}
 - ✅ 跨组织读不到同名 Blob 键（org 隔离生效） — status=404 value=null
-- ✅ 隔离校验组织 org_id 与主组织不同 — other=org_cde272fc40754d128774787bace59bc8
+- ✅ 隔离校验组织 org_id 与主组织不同 — other=org_bd20af05a0fd47f085d85e5d781d453b
 - ✅ DELETE /api/state/:key 删除 — status=200
 - ✅ 删除后读为空 — status=404
 
@@ -114,8 +96,8 @@
 ### 04-vendor · 供应商 CRUD + 前端/网关同源（消除双数据源护栏）
 
 - ✅ POST /api/vendors 创建供应商 — status=201
-- ✅ 创建回显 code 一致 — 实际="E2EV260901080020" 期望="E2EV260901080020"
-- ✅ 创建返回 createdBy 审计字段 — createdBy=user_4a57c2b0b744482fb560ac6d51859508
+- ✅ 创建回显 code 一致 — 实际="E2EV260901083833" 期望="E2EV260901083833"
+- ✅ 创建返回 createdBy 审计字段 — createdBy=user_18bb1db3a08b46c086a0448c6a07be27
 - ✅ GET /api/vendors/:id 详情 — status=200
 - ✅ 详情 creditLimit 与创建一致 — 实际=1000000 期望=1000000
 - ✅ 详情 name 与创建一致 — 实际="E2E 常驻套件供应商" 期望="E2E 常驻套件供应商"
@@ -126,7 +108,7 @@
 - ✅ PUT /api/vendors/:id 扩展 JSON 列写入 — status=200
 - ✅ 扩展列 customFields JSON 往返一致 — customFields={"e2eField":"e2eValue","n":42}
 - ✅ GET /api/open/vendors 网关读取 — status=200
-- ✅ 【同源】前端 POST 创建的供应商在网关可见 — 网关 code=E2EV260901080020
+- ✅ 【同源】前端 POST 创建的供应商在网关可见 — 网关 code=E2EV260901083833
 - ✅ 【同源】网关读到的 credit_limit 反映前端 PUT 结果 — 网关 credit_limit=88888 期望=88888
 - ✅ PUT /api/open/vendors/:id 网关侧更新 — status=200
 - ✅ 【反向同源】网关写入在前端路径立即可见 — creditLimit: 实际=77777 期望=77777
@@ -141,15 +123,15 @@
 - ✅ 序列号主档创建 3 条 — 成功条数: 实际=3 期望=3
 - ✅ POST /api/serial-numbers/consume FIFO 核销 2 个 — status=200
 - ✅ 核销数量为 2 — 核销条数: 实际=2 期望=2
-- ✅ 【FIFO 正确性】核销命中最早入库的 A(01-01)+B(02-02) — 实际核销=["SN-260901080020-A","SN-260901080020-B"] 期望含=["SN-260901080020-A","SN-260901080020-B"]
+- ✅ 【FIFO 正确性】核销命中最早入库的 A(01-01)+B(02-02) — 实际核销=["SN-260901083833-A","SN-260901083833-B"] 期望含=["SN-260901083833-A","SN-260901083833-B"]
 - ✅ 核销后在库仅剩 1 个 — 在库条数: 实际=1 期望=1
-- ✅ 剩余在库者为入库最晚的 C(03-03) — 剩余=SN-260901080020-C
+- ✅ 剩余在库者为入库最晚的 C(03-03) — 剩余=SN-260901083833-C
 - ✅ 在库不足核销返回 409（不静默成功） — status=409 available=1 required=99
 - ✅ 核销 qty=0 参数校验 400 — status=400
 - ✅ GET /api/subcontracts 列表 — status=200
 - ✅   └ 委外列表契约 — data=0条 total=0 page=1/20
 - ✅ POST /api/subcontracts 创建委外单（含发料明细） — status=200
-- ✅ 委外单回显 order_no — 实际="E2E-SUB-260901080020" 期望="E2E-SUB-260901080020"
+- ✅ 委外单回显 order_no — 实际="E2E-SUB-260901083833" 期望="E2E-SUB-260901083833"
 - ✅ 委外单 qty 落库正确 — 实际=100 期望=100
 - ✅ 委外单加工费落库正确 — 实际=3500 期望=3500
 - ✅ GET /api/subcontracts/:id 详情 — status=200
@@ -159,20 +141,20 @@
 - ✅   └ 工单领料列表契约 — data=0条 total=0 page=1/20
 - ✅ POST /api/work-orders/picking 创建领料记录 — status=200
 - ✅ 领料数量落库正确 — 实际=20 期望=20
-- ✅ 同工单同物料重复领料返回 409（幂等护栏） — status=409 既有 id=wop-90f44736-ec79-46b9-b325-9ccda0ab9f50
+- ✅ 同工单同物料重复领料返回 409（幂等护栏） — status=409 既有 id=wop-4e6cd755-a33f-41e5-8efb-5bc0fc536bf1
 - ✅ GET /api/work-orders/picking/:id 详情 — status=200
 - ✅ 三岛端点未登录全部拒绝 — 全部 401: 实际=3 期望=3
 
 ### 06-open-gateway · 开放 API 网关（Key/scope 护栏/5 资源/隔离）
 
 - ✅ POST /api/open/keys 创建 read Key（201） — status=201
-- ✅ read Key 返回明文 plainKey（仅此一次） — 前缀=sk_9fc…
+- ✅ read Key 返回明文 plainKey（仅此一次） — 前缀=sk_a36…
 - ✅ read Key scopes 回显 — 实际="read" 期望="read"
 - ✅ POST /api/open/keys 创建 write Key（201） — status=201
 - ✅ GET /api/open/keys 列表 — status=200
 - ✅ 列表包含本轮创建的两个 Key — 本轮 Key 数=3
 - ✅ 列表不泄露 key_hash / 明文 — 仅返回 id/label/scopes/revoked 等元数据
-- ❌ 创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销） — 响应 id=ak_78603b2c4eb44d6eb498e90f5fe1fa0a 库内 id=ak_b6ace7ca3ebe421e896780f912459ab7
+- ✅ 创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销） — 响应 id=ak_e55e167ac1e74966aff6e4ff3e582c86 库内 id=ak_e55e167ac1e74966aff6e4ff3e582c86
 - ✅ 无 Key 访问网关拒绝 401 — status=401
 - ✅ 无效 Key 访问网关拒绝 401 — status=401
 - ✅ read Key 可读 — status=200
@@ -195,13 +177,13 @@
 - ✅ 404 提示列出可选资源清单 — error=不支持的资源，可选: materials, vendors, customers, purchase-orders, sales-orders
 - ✅ POST /api/open/materials 网关创建（201） — status=201
 - ✅ GET /api/open/materials/:id 详情 — status=200
-- ✅ 网关创建内容落库正确（code） — 实际="E2E-GW-260901080020" 期望="E2E-GW-260901080020"
+- ✅ 网关创建内容落库正确（code） — 实际="E2E-GW-260901083833" 期望="E2E-GW-260901083833"
 - ✅ PUT /api/open/materials/:id 网关更新 — status=200
 - ✅ 网关更新生效 — 实际="E2E 网关物料（已改）" 期望="E2E 网关物料（已改）"
 - ✅ 【同源】网关创建的物料在前端会话路径可见 — status=200
 - ✅ DELETE /api/open/materials/:id 网关删除 — status=200
 - ✅ 删除后网关详情 404 — status=404
-- ❌ PUT 不存在 id 返回 404（非 500） — status=200 期望=404 body={"ok":true}
+- ✅ PUT 不存在 id 返回 404（非 500） — status=404
 - ✅ DELETE /api/open/keys/:id 吊销 Key — status=200
 - ✅ 吊销后该 Key 立即失效 401 — status=401
 - ✅ 重复吊销幂等（200/404，非 500） — status=200
@@ -209,11 +191,11 @@
 
 ### 07-rls · RLS 行级安全（own/all/privileged/归属校验）
 
-- ✅ 准备两个同组织非特权用户 — e2e_buyer1_260901080020(QA-采购部) / e2e_buyer2_260901080020(QA-采购二部)
-- ✅ 两用户属同一组织 — b1=org_f0cc03a0923e4fe6a76af8adba00ec4a b2=org_f0cc03a0923e4fe6a76af8adba00ec4a
+- ✅ 准备两个同组织非特权用户 — e2e_buyer1_260901083833(QA-采购部) / e2e_buyer2_260901083833(QA-采购二部)
+- ✅ 两用户属同一组织 — b1=org_a205859ffa5441b8b15d3e6de9f52a60 b2=org_a205859ffa5441b8b15d3e6de9f52a60
 - ✅ buyer1 创建供应商 — status=201
 - ✅ buyer2 创建供应商 — status=201
-- ✅ 创建时自动填入 owner_id（归属本人） — ownerId=user_9453c7c8515d48ebb919e986169fbe97 期望=user_9453c7c8515d48ebb919e986169fbe97
+- ✅ 创建时自动填入 owner_id（归属本人） — ownerId=user_d930255c8aab40319770d2f805e9db33 期望=user_d930255c8aab40319770d2f805e9db33
 - ✅ 【own】buyer1 能看到自己的供应商 — 可见 1 条
 - ✅ 【own】buyer1 看不到 buyer2 的供应商 — 隔离生效
 - ✅ 【own】buyer2 能看到自己的供应商 — 可见 1 条
@@ -242,7 +224,7 @@
 - ✅ 读回包含写入的 3 个币种 — 读回币种=EUR,JPY,USD
 - ✅ CNY→USD 汇率值精确往返 — rate: 实际=0.1392 期望=0.1392
 - ✅ 汇率来源标记为 manual — 实际="manual" 期望="manual"
-- ✅ 返回 updatedAt 时间戳 — updatedAt=2026-09-01T08:01:55.115Z
+- ✅ 返回 updatedAt 时间戳 — updatedAt=2026-09-01T08:39:50.544Z
 - ✅ POST /api/fx 同键重复写入 — status=200
 - ✅ 同键 upsert 未产生重复行 — 行数: 实际=3 期望=3
 - ✅ 同键 upsert 覆盖为新汇率 — rate: 实际=0.14 期望=0.14
@@ -257,29 +239,28 @@
 
 - ✅ POST /api/audit/logs 未登录拒绝 — status=401
 - ✅ POST /api/audit/logs 缺 entity 返回 400 — status=400
-- ❌ POST /api/audit/logs 写入审计 — status=500 期望=200 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class
-- ❌ 审计写入返回 success + id — id=undefined
+- ✅ POST /api/audit/logs 写入审计 — status=200
+- ✅ 审计写入返回 success + id — id=audit-1788251998954-0qvshp
 - ✅ GET /api/audit 查询审计 — status=200
 - ✅ 审计查询返回列表结构 — type=array(12)
-- ❌ 刚写入的审计记录可被查到 — 最近 12 条中未找到
+- ✅ 刚写入的审计记录可被查到 — 最近 12 条中找到
 - ✅ POST /api/three-way-match/create 缺 poId 返回 400 — status=400
 - ✅ 三单完全一致创建匹配单 — status=200
-- ✅ 一致场景返回 success — {"success":true,"id":"twm-1788249724842-3loz"}
+- ✅ 一致场景返回 success — {"success":true,"id":"twm-1788252000929-5pxn"}
 - ✅ 三单超差创建匹配单 — status=200
-- ✅ 超差场景返回 success（差异由后端判定入库） — {"success":true,"id":"twm-1788249725435-k3g5"}
+- ✅ 超差场景返回 success（差异由后端判定入库） — {"success":true,"id":"twm-1788252001542-zlvq"}
 - ℹ️ 匹配判定结果未在响应中回显 — 端点仅返回 {success,id}，matchStatus(matched/discrepancy) 落库但不回显；如需断言判定值，需后端补回显字段
 - ✅ 三单 0.5% 容差内创建（不应报错） — status=200
 - ✅ POST /api/three-way-match/create 未登录拒绝 — status=401
-- ℹ️ 三单匹配与审计记录未清理 — 两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901080020），不影响真实业务组织
+- ℹ️ 三单匹配与审计记录未清理 — 两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901083833），不影响真实业务组织
 
 ### 10-intelligence · 智能与合规端点探活（AI/ChatBI/预警/OCR/数电票）
 
 - ✅ GET /api/alerts 未登录拒绝 — status=401
-- ❌ GET /api/alerts 异常预警计算 — status=500 期望=200 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class
+- ✅ GET /api/alerts 异常预警计算 — status=200
+- ✅ 预警返回六类规则结果结构完整 — lowStock/overduePO/overdueSO/expiringBatches/creditOverdue/pendingApprovals
+- ✅ 待审批统计含采购/销售/工单三项 — pendingApprovals={"purchaseOrders":0,"salesOrders":0,"workOrders":0}
+- ✅ 隔离组织内预警计算不报错且数值为合法数字 — purchaseOrders=0
 - ✅ GET /api/ai/models 未登录拒绝 — status=401
 - ✅ GET /api/ai/models 端点真实存在（非 SPA 回退） — status=200 ct=application/json; charset=utf-8
 - ✅ GET /api/ai/models 返回 200 — status=200
@@ -292,9 +273,7 @@
 - ✅ ChatBI 查询成功返回 — {"title":"本月销售趋势","description":"2026年9月销售数据，共 0 笔订单","chartType":"bar","data":[{"label":"无数据","value":0,"orders":0}],"summary":"本月订单总额: 0.0
 - ✅ POST /api/chatbi 未登录拒绝 — status=401
 - ✅ GET /api/ocr/recognize 端点说明可用 — status=200
-- ❌ POST /api/ocr/recognize 未传图片返回 400 — status=500 期望=400 body=<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->
-<!--[if IE 7]>    <html class
+- ✅ POST /api/ocr/recognize 未传图片返回 400 — status=400
 - ✅ POST /api/ocr/recognize 未登录拒绝 — status=401
 - ℹ️ 发票 OCR 识别精度未做断言 — 当前实现为文本正则解析（未接 OCR/大模型），精度类断言待模型对接后补充
 - ✅ GET /api/tax-gateway/verify 端点说明可用 — status=200

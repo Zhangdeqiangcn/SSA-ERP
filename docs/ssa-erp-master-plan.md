@@ -286,7 +286,7 @@
 - **供应商主数据同源**：V2.74.3 `vendorStore` 直连 `vendor_master`，与开放网关 `/api/open/vendors` 同源，双数据源消除（前端仅 `vendor-ratings` 走 localStorage）。
 
 ### 10.4 下一步重点（按用户价值排序，V2.74.3）
-1. **生产态常驻 E2E**：现有 `d1-backend-e2e.mjs`(13/13) + 各版本网关/vendor 同源冒烟已覆盖关键路径，但**缺覆盖全关系域的常驻生产 E2E 套件**，"双通道并行"残留风险仍在（前端 store 仍多走 Blob），建议补。
+1. **生产态常驻 E2E（已交付 V2.74.4）**：`scripts/prod-e2e/` 常驻套件（10 套件，默认打真实生产 `https://ssa-erp.pages.dev`、时间戳隔离组织+自动清理+机器可读报告，`npm run test:prod-e2e` 入口）已补，覆盖认证/Blob/关系10域/供应商同源/B2三岛/开放网关/RLS/多币种/审计三单/智能端点；部署后重跑 **214/0 全绿**，"双通道并行"残留风险由套件持续值守（前端 store 仍多走 Blob 属已知架构事实）；旧 `d1-backend-e2e.mjs`(13/13) 断言已过时（关系表已支持 POST、B2 三岛已有专属后端），建议标注废弃或更新。
 2. **前端 store 迁真实 API**：vendorStore 已验证路径；material/customer/sales/purchase 等主数据 store 仍写 `app_state` Blob，建议按 vendorStore 模式逐步迁 D1 关系表，根治双通道。
 3. **P2 深水区（9 项整页缺失 + 2 壳 + 1 桩）**：波次RFID(P2-07)/重复制造(P2-08)/MES集成(P2-09)/S&OP(P2-10)/三方销售(P2-12)/COPA(P2-13)/资金管理(P2-14)/BI集成(P2-19)/ESG(P2-30) 无专项页；DetailedScheduling(P2-04 壳)/MobileTab(P2-20 壳)；数电票核验(tax-gateway/verify 桩)。
 4. **OCR 字段抽取模型化**：Tesseract 已真，字段解析仍正则，待接大模型结构化抽取。
