@@ -10,6 +10,7 @@ import {
   Key, Security,
 } from '@mui/icons-material';
 import api from '@/services/apiService';
+import ApiKeyManager from './ApiKeyManager';
 
 // ── 类型定义 ──
 
@@ -203,6 +204,19 @@ const apiModules: ApiModule[] = [
       { id: 'sys-import', method: 'POST', path: '/api/import', description: '导入数据', action: () => api.system.importAll({}) },
     ],
   },
+  {
+    key: 'open', label: '开放 API 网关', color: '#0EA5E9',
+    endpoints: [
+      { id: 'open-list', method: 'GET', path: '/api/open/:resource', description: '查询资源（resource∈materials|vendors|customers|purchase-orders|sales-orders），按 org_id 隔离；需 API Key(read)。支持 ?page&pageSize' },
+      { id: 'open-get', method: 'GET', path: '/api/open/:resource/:id', description: '按 ID 查询单条资源；需 API Key(read)' },
+      { id: 'open-create', method: 'POST', path: '/api/open/:resource', description: '新建资源；需 API Key(write)。系统强制 org_id=当前组织并记审计' },
+      { id: 'open-update', method: 'PUT', path: '/api/open/:resource/:id', description: '更新资源；需 API Key(write)。强制 org_id 归属 + 审计' },
+      { id: 'open-delete', method: 'DELETE', path: '/api/open/:resource/:id', description: '删除资源；需 API Key(write)。强制 org_id 归属 + 审计' },
+      { id: 'open-keys', method: 'GET', path: '/api/open/keys', description: '（管理员）列出本组织 API Key；session 鉴权' },
+      { id: 'open-keys-create', method: 'POST', path: '/api/open/keys', description: '（管理员）创建 API Key，明文仅返回一次；session 鉴权' },
+      { id: 'open-keys-revoke', method: 'DELETE', path: '/api/open/keys/:id', description: '（管理员）吊销 API Key；session 鉴权' },
+    ],
+  },
 ];
 
 // ── 组件 ──
@@ -242,7 +256,7 @@ const APIDocTab: React.FC = () => {
   }, [selectedEndpoint]);
 
   return (
-    <Box sx={{ height: 'calc(100vh - 300px)', minHeight: 500 }}>
+    <Box sx={{ overflow: 'auto', pb: 2 }}>
       {/* 认证说明横幅 */}
       <Alert severity="info" icon={<Key />} sx={{ mb: 2, borderRadius: 2, fontSize: '0.8125rem' }}>
         <AlertTitle sx={{ fontWeight: 600, fontSize: '0.875rem' }}>认证方式（Demo 模式无需认证）</AlertTitle>
@@ -262,8 +276,11 @@ const APIDocTab: React.FC = () => {
         </Stack>
       </Alert>
 
+      {/* 开放网关 API Key 管理 */}
+      <ApiKeyManager />
+
       {/* 主体：左侧目录 + 右侧详情 */}
-      <Box sx={{ display: 'flex', gap: 2, height: '100%' }}>
+      <Box sx={{ display: 'flex', gap: 2, height: 'calc(100vh - 440px)', minHeight: 420 }}>
         {/* 左侧 API 目录树 */}
         <Paper
           elevation={0}

@@ -1,5 +1,6 @@
 // GET /api/customers — 分页查询客户列表（按 org_id 隔离）
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsFragment } from '../../_shared/rls';
 
 export async function onRequestGet(context: any) {
   const { request, env } = context;
@@ -17,6 +18,8 @@ export async function onRequestGet(context: any) {
 
   let sql = 'SELECT * FROM customers WHERE org_id = ?';
   const params: any[] = [user.org_id];
+  const rls = rlsFragment(user, 'customers');
+  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(rls.param!); }
 
   if (keyword) {
     sql += ' AND (code LIKE ? OR name LIKE ? OR short_name LIKE ?)';
@@ -34,6 +37,7 @@ export async function onRequestGet(context: any) {
 
   let countSql = 'SELECT COUNT(*) as cnt FROM customers WHERE org_id = ?';
   const countParams: any[] = [user.org_id];
+  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(rls.param!); }
   if (keyword) {
     countSql += ' AND (code LIKE ? OR name LIKE ? OR short_name LIKE ?)';
     const kw = `%${keyword}%`;

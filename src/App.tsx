@@ -176,7 +176,7 @@ const CashFlowStatement = lazy(() => import('./pages/Finance/CashFlowStatement')
 const ReceivableList = lazy(() => import('./pages/Finance/ReceivableList'));
 const PayableList = lazy(() => import('./pages/Finance/PayableList'));
 // 财务深化（P2-5）
-const ExchangeRate = lazy(() => import('./pages/Finance/ExchangeRate'));
+const FxConfig = lazy(() => import('./pages/Settings/FxConfig'));
 const AgingReport = lazy(() => import('./pages/Finance/AgingReport'));
 const AuxiliaryAccounting = lazy(() => import('./pages/Finance/AuxiliaryAccounting'));
 const BudgetControl = lazy(() => import('./pages/Finance/BudgetControl'));
@@ -425,7 +425,7 @@ function App() {
         <Route path="finance/project-accounting" element={<ProjectAccounting />} />
         <Route path="finance/cash-flow" element={<CashFlowStatement />} />
         {/* 财务深化（P2-5） */}
-        <Route path="finance/exchange-rates" element={<ExchangeRate />} />
+        <Route path="finance/exchange-rates" element={<FxConfig />} />
         <Route path="finance/aging" element={<AgingReport />} />
         <Route path="finance/auxiliary" element={<AuxiliaryAccounting />} />
         <Route path="finance/budget" element={<BudgetControl />} />

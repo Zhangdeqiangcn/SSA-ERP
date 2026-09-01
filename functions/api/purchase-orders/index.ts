@@ -1,5 +1,6 @@
 // GET /api/purchase-orders — 分页查询采购订单（按 org_id 隔离）
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsFragment } from '../../_shared/rls';
 
 export async function onRequestGet(context) {
   const user = await getUserFromRequest(context.request, context.env.DB);
@@ -17,6 +18,8 @@ export async function onRequestGet(context) {
   const db = context.env.DB;
   let where = `WHERE po.org_id = ?`;
   const params = [user.org_id];
+  const rls = rlsFragment(user, 'purchase_orders');
+  if (rls.clause !== '1=1') { where += ' AND ' + rls.clause.replace(/owner_id/g, 'po.owner_id'); params.push(rls.param!); }
 
   if (keyword) {
     where += ` AND (po.order_no LIKE ? OR po.vendor_name LIKE ? OR po.contact LIKE ?)`;

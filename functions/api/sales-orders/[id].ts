@@ -1,5 +1,6 @@
 // GET/PUT/DELETE /api/sales-orders/:id
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { assertRlsOwnership } from '../../_shared/rls';
 
 export async function onRequestGet(context) {
   const user = await getUserFromRequest(context.request, context.env.DB);
@@ -32,8 +33,9 @@ export async function onRequestPut(context) {
   const db = context.env.DB;
   const id = context.params.id;
 
-  const existing = await db.prepare(`SELECT id FROM sales_orders WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  const existing = await db.prepare(`SELECT id, owner_id FROM sales_orders WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
   if (!existing) return json({ error: '订单不存在' }, 404);
+  if (!assertRlsOwnership(user, existing, 'sales_orders')) return json({ error: '无权限修改他人订单' }, 403);
 
   const body = await context.request.json().catch(() => ({}));
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
@@ -93,8 +95,9 @@ export async function onRequestDelete(context) {
   const db = context.env.DB;
   const id = context.params.id;
 
-  const row = await db.prepare(`SELECT id FROM sales_orders WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  const row = await db.prepare(`SELECT id, owner_id FROM sales_orders WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
   if (!row) return json({ error: '订单不存在' }, 404);
+  if (!assertRlsOwnership(user, row, 'sales_orders')) return json({ error: '无权限删除他人订单' }, 403);
 
   await db.prepare(`DELETE FROM sales_orders WHERE id = ?`).bind(id).run();
   await db.prepare(`DELETE FROM sales_order_items WHERE sales_order_id = ?`).bind(id).run();

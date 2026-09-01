@@ -16,6 +16,27 @@ import { backendStorage } from './persistStorage';
 
 export type PermissionMode = 'all' | 'current-org';
 
+// ── 行级可见性范围（镜像后端 functions/_shared/rls.ts TABLE_RLS）──
+//  D1/SQLite 无原生 RLS，后端在 org_id 隔离基础上按角色追加 owner/dept 过滤。
+//  前端此处仅做「展示一致性」对齐（非强制，真强制在后端），避免界面出现后端会拦截的数据。
+export type RlsScope = 'all' | 'own' | 'dept';
+
+/** 前端业务模块 → 行级可见性范围（与后端表范围语义对齐） */
+export const MODULE_RLS_SCOPE: Record<string, RlsScope> = {
+  materials: 'all',      // 物料=共享主数据
+  production: 'all',     // 工单=共享
+  finance: 'all',        // 凭证=共享
+  warehouse: 'dept',     // 出入库/库存按部门
+  quality: 'dept',
+  purchase: 'own',       // 采购单/供应商按负责人
+  vendor: 'own',
+  sales: 'own',          // 销售单/客户按负责人
+  customer: 'own',
+};
+
+/** 豁免角色：组织内管理员/老板看全部（与后端 RLS_PRIVILEGED 一致） */
+export const RLS_PRIVILEGED = new Set(['admin', 'owner', 'boss']);
+
 /** 敏感字段屏蔽配置：按角色 + 模块隐藏特定字段 */
 export interface SensitiveFieldConfig {
   role: string;
@@ -134,6 +155,12 @@ export const useDataPermissionStore = create<DataPermissionState>()(
  * @param mode         组织级模式
  * @param moduleKey    业务模块键
  * @param modules      各模块纳入过滤的开关
+ * @param opts         对接后端 D1 行级策略（角色可见性）的可选项，仅影响前端展示一致性，非强制
+ *                       - role:    当前用户角色（admin/owner/boss 豁免）
+ *                       - userId:  当前用户 id（'own' 范围比对 ownerId）
+ *                       - userDept:当前用户部门（'dept' 范围比对 deptId）
+ *                       - ownerId: 该行负责人 id
+ *                       - deptId:  该行部门
  */
 export const passDataPermission = (
   orgId: string | undefined,
@@ -141,11 +168,21 @@ export const passDataPermission = (
   enabled: boolean,
   mode: PermissionMode,
   moduleKey: string,
-  modules: Record<string, boolean>
+  modules: Record<string, boolean>,
+  opts?: { role?: string; userId?: string; userDept?: string; ownerId?: string; deptId?: string }
 ): boolean => {
   if (!enabled) return true;                 // 总开关关闭：全部可见
   if (mode === 'all') return true;           // 组织级「全部可见」
   if (!modules[moduleKey]) return true;      // 该模块未纳入过滤
   if (!orgId) return true;                   // 遗留数据默认可见
-  return orgId === currentOrgId;             // 仅当前组织
+  if (orgId !== currentOrgId) return false;  // 仅当前组织
+
+  // ── 后端 D1 行级策略（角色可见性）前端展示一致性对齐 ──
+  // 豁免角色看全部；'all' 范围不过滤；'own' 比负责人；'dept' 比部门。
+  if (opts?.role && RLS_PRIVILEGED.has(opts.role)) return true;
+  const scope = MODULE_RLS_SCOPE[moduleKey] ?? 'all';
+  if (scope === 'all') return true;
+  if (scope === 'own') return !opts?.ownerId || opts.ownerId === opts.userId;
+  if (scope === 'dept') return !opts?.deptId || opts.deptId === opts.userDept;
+  return true;
 };

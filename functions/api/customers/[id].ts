@@ -1,5 +1,6 @@
 // GET/PUT/DELETE /api/customers/:id
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { assertRlsOwnership } from '../../_shared/rls';
 
 export async function onRequestGet(context: any) {
   const { request, env, params } = context;
@@ -22,9 +23,10 @@ export async function onRequestPut(context: any) {
   try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
 
   const existing = await env.DB.prepare(
-    'SELECT id, code FROM customers WHERE id = ? AND org_id = ?'
+    'SELECT id, code, owner_id FROM customers WHERE id = ? AND org_id = ?'
   ).bind(params.id, user.org_id).first();
   if (!existing) return json({ error: '客户不存在' }, 404);
+  if (!assertRlsOwnership(user, existing, 'customers')) return json({ error: '无权限修改他人客户' }, 403);
 
   if (body.code && body.code !== (existing as any).code) {
     const dup = await env.DB.prepare(
@@ -88,6 +90,11 @@ export async function onRequestDelete(context: any) {
   const user = await getUserFromRequest(request, env.DB);
   if (!user) return json({ error: '未登录' }, 401);
 
+  const target = await env.DB.prepare(
+    'SELECT id, owner_id FROM customers WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!target) return json({ error: '客户不存在' }, 404);
+  if (!assertRlsOwnership(user, target, 'customers')) return json({ error: '无权限删除他人客户' }, 403);
   const result = await env.DB.prepare(
     'DELETE FROM customers WHERE id = ? AND org_id = ?'
   ).bind(params.id, user.org_id).run();

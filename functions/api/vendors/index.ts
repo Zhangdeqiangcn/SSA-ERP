@@ -1,5 +1,6 @@
 // GET /api/vendors — 分页查询供应商列表（按 org_id 隔离）
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsFragment } from '../../_shared/rls';
 
 export async function onRequestGet(context: any) {
   const { request, env } = context;
@@ -17,6 +18,8 @@ export async function onRequestGet(context: any) {
 
   let sql = 'SELECT * FROM vendors WHERE org_id = ?';
   const params: any[] = [user.org_id];
+  const rls = rlsFragment(user, 'vendors');
+  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(rls.param!); }
 
   if (keyword) {
     sql += ' AND (vendor_code LIKE ? OR company_name LIKE ? OR contact_name LIKE ?)';
@@ -41,6 +44,7 @@ export async function onRequestGet(context: any) {
   // 总数
   let countSql = 'SELECT COUNT(*) as cnt FROM vendors WHERE org_id = ?';
   const countParams: any[] = [user.org_id];
+  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(rls.param!); }
   if (keyword) {
     countSql += ' AND (vendor_code LIKE ? OR company_name LIKE ? OR contact_name LIKE ?)';
     const kw = `%${keyword}%`;

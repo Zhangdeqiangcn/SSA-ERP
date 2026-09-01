@@ -1,5 +1,6 @@
 // GET /api/sales-orders — 分页查询销售订单（按 org_id 隔离）
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsFragment } from '../../_shared/rls';
 
 export async function onRequestGet(context) {
   const user = await getUserFromRequest(context.request, context.env.DB);
@@ -15,6 +16,8 @@ export async function onRequestGet(context) {
 
   let sql = `SELECT * FROM sales_orders WHERE org_id = ?`;
   const params = [user.org_id];
+  const rls = rlsFragment(user, 'sales_orders');
+  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(rls.param!); }
 
   if (keyword) {
     sql += ` AND (order_no LIKE ? OR customer_name LIKE ? OR sales_person LIKE ?)`;
@@ -47,6 +50,7 @@ export async function onRequestGet(context) {
   // 查询总数
   let countSql = `SELECT COUNT(*) as cnt FROM sales_orders WHERE org_id = ?`;
   const countParams = [user.org_id];
+  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(rls.param!); }
   if (keyword) {
     countSql += ` AND (order_no LIKE ? OR customer_name LIKE ? OR sales_person LIKE ?)`;
     countParams.push(`%${keyword}%`, `%${keyword}%`, `%${keyword}%`);
