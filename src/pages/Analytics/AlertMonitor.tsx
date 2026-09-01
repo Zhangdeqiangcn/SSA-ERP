@@ -2,19 +2,23 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Card, CardContent, CardActions, Button, Grid,
   Chip, IconButton, Collapse, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Paper, Alert, CircularProgress,
+  TableHead, TableRow, Paper, Alert, CircularProgress, Dialog, DialogTitle,
+  DialogContent, DialogActions, Switch, FormControlLabel, Divider, TextField,
+  Tooltip, InputAdornment,
 } from '@mui/material';
 import {
   WarningAmber, Inventory2, ReceiptLong, EventBusy, CreditCardOff,
-  ExpandMore, ExpandLess, Error, Warning, Refresh,
+  ExpandMore, ExpandLess, Refresh, Settings, RestartAlt,
+  // 注意：MUI 的 Error/Warning 图标会遮蔽全局 Error 构造函数，必须改名导入
+  Error as ErrorIcon, Warning as WarningIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-
-interface AlertItem {
-  label: string;
-  value: string;
-  extra?: string;
-}
+import { ExportMenu } from '@/components/common';
+import { useAlertRuleStore, type AlertRule, type AlertRuleKey } from '@/stores/alertRuleStore';
+import {
+  computeLocalAlerts, applyAlertRules, normalizeServerAlerts,
+  type AlertData, type AlertItem, type AlertSource,
+} from '@/utils/localAlerts';
 
 interface AlertCardProps {
   icon: React.ReactNode;
@@ -35,9 +39,9 @@ const severityColors: Record<string, { bg: string; icon: string }> = {
 };
 
 const severityIcons: Record<string, React.ReactNode> = {
-  high: <Error fontSize="small" sx={{ color: '#d32f2f' }} />,
-  medium: <Warning fontSize="small" sx={{ color: '#f57c00' }} />,
-  low: <Warning fontSize="small" sx={{ color: '#388e3c' }} />,
+  high: <ErrorIcon fontSize="small" sx={{ color: '#d32f2f' }} />,
+  medium: <WarningIcon fontSize="small" sx={{ color: '#f57c00' }} />,
+  low: <WarningIcon fontSize="small" sx={{ color: '#388e3c' }} />,
 };
 
 const AlertCard: React.FC<AlertCardProps> = ({
@@ -125,30 +129,39 @@ const AlertCard: React.FC<AlertCardProps> = ({
   );
 };
 
-interface AlertData {
-  lowStock: AlertItem[];
-  overduePO: AlertItem[];
-  overdueSO: AlertItem[];
-  expiringBatches: AlertItem[];
-  creditOverdue: AlertItem[];
-  pendingApprovals: { purchaseOrders: number; salesOrders: number; workOrders: number };
-  summary: { total: number; critical: number };
+/** 严重度：按命中条数升级（保留原口径） */
+function severityByCount(count: number, highAt: number, mediumAt: number): 'high' | 'medium' | 'low' {
+  if (count > highAt) return 'high';
+  if (count > mediumAt) return 'medium';
+  return 'low';
 }
 
 const AlertMonitor: React.FC = () => {
   const [alertData, setAlertData] = useState<AlertData | null>(null);
+  const [source, setSource] = useState<AlertSource>('local');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [rulesOpen, setRulesOpen] = useState(false);
+
+  const rules = useAlertRuleStore((s) => s.rules);
+  const setRuleEnabled = useAlertRuleStore((s) => s.setRuleEnabled);
+  const updateRuleParams = useAlertRuleStore((s) => s.updateRuleParams);
+  const resetRules = useAlertRuleStore((s) => s.resetRules);
 
   const fetchAlerts = async () => {
     setLoading(true);
     setError(null);
     try {
       const resp = await fetch('/api/alerts');
-      const data = await resp.json() as AlertData;
-      setAlertData(data);
-    } catch (e: any) {
-      setError(e.message || '加载失败');
+      if (!resp.ok) throw new Error(`服务端返回 ${resp.status}`);
+      const data = (await resp.json()) as AlertData;
+      setAlertData(normalizeServerAlerts(data));
+      setSource('server');
+    } catch {
+      // 生产环境才有 /api/alerts（Cloudflare Functions + D1）。
+      // DEV / E2E / 离线场景回退到「本地同源重算」，口径与服务端一致，保证预警页始终可用。
+      setAlertData(computeLocalAlerts());
+      setSource('local');
     } finally {
       setLoading(false);
     }
@@ -158,14 +171,61 @@ const AlertMonitor: React.FC = () => {
     fetchAlerts();
   }, []);
 
-  const overdueOrders = useMemo(() => {
-    if (!alertData) return [];
-    return [...alertData.overduePO, ...alertData.overdueSO].slice(0, 10);
-  }, [alertData]);
+  /** 按前端规则（启停 + 阈值）过滤后的视图 */
+  const view = useMemo(
+    () => (alertData ? applyAlertRules(alertData, rules) : null),
+    [alertData, rules]
+  );
 
-  const totalAlerts = alertData?.summary.total || 0;
-  const criticalAlerts = alertData?.summary.critical || 0;
-  const pendingCount = (alertData?.pendingApprovals.purchaseOrders || 0) + (alertData?.pendingApprovals.salesOrders || 0) + (alertData?.pendingApprovals.workOrders || 0);
+  const isRuleOn = (key: AlertRuleKey) => rules.find((r) => r.key === key)?.enabled ?? true;
+
+  const overdueOrders = useMemo(() => {
+    if (!view) return [];
+    return [...view.overduePO, ...view.overdueSO].slice(0, 10);
+  }, [view]);
+
+  const totalAlerts = view?.summary.total || 0;
+  const criticalAlerts = view?.summary.critical || 0;
+  const pendingCount = (view?.pendingApprovals.purchaseOrders || 0) + (view?.pendingApprovals.salesOrders || 0) + (view?.pendingApprovals.workOrders || 0);
+
+  /** 导出：合并各类别为一张明细表 */
+  const exportSheets = () => {
+    if (!view) return [];
+    const rows: { category: string; label: string; value: string; extra: string }[] = [];
+    const push = (category: string, list: AlertItem[]) => {
+      list.forEach((d) => rows.push({ category, label: d.label, value: d.value, extra: d.extra ?? '-' }));
+    };
+    push('库存低于安全库存', view.lowStock);
+    push('采购订单逾期', view.overduePO);
+    push('销售订单逾期', view.overdueSO);
+    push('临期/过期物料', view.expiringBatches);
+    push('客户信用超额', view.creditOverdue);
+    return [
+      {
+        name: '预警明细',
+        rows,
+        columns: [
+          { key: 'category', label: '预警类别' },
+          { key: 'label', label: '物料/单据' },
+          { key: 'value', label: '异常详情' },
+          { key: 'extra', label: '备注' },
+        ],
+      },
+      {
+        name: '规则配置快照',
+        rows: rules.map((r) => ({
+          name: r.name,
+          enabled: r.enabled ? '启用' : '停用',
+          param: Object.entries(r.params).map(([k, v]) => `${k}=${v}`).join('; ') || '-',
+        })),
+        columns: [
+          { key: 'name', label: '规则' },
+          { key: 'enabled', label: '状态' },
+          { key: 'param', label: '阈值' },
+        ],
+      },
+    ];
+  };
 
   if (loading) {
     return (
@@ -185,7 +245,7 @@ const AlertMonitor: React.FC = () => {
     );
   }
 
-  if (!alertData) return null;
+  if (!view) return null;
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
@@ -194,12 +254,46 @@ const AlertMonitor: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <WarningAmber color="warning" fontSize="large" />
             <Typography variant="h5">异常检测与预警</Typography>
+            <Tooltip
+              title={
+                source === 'server'
+                  ? '数据来自服务端 /api/alerts（D1 实时计算），前端规则在此基础上二次过滤'
+                  : '当前环境无服务端预警接口（DEV/离线），已按相同口径基于本地数据重算；前端规则同样生效'
+              }
+            >
+              <Chip
+                size="small"
+                data-testid="alert-source"
+                label={source === 'server' ? 'D1 服务端预警' : '本地同源重算'}
+                color={source === 'server' ? 'primary' : 'default'}
+                variant="outlined"
+              />
+            </Tooltip>
           </Box>
           <Typography variant="body2" color="text.secondary">
             实时监控业务异常 · 共 {totalAlerts} 项预警（其中 {criticalAlerts} 项严重）· 待审批 {pendingCount} 单
           </Typography>
         </Box>
-        <Button startIcon={<Refresh />} onClick={fetchAlerts} disabled={loading} variant="outlined" size="small">刷新</Button>
+        <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+          <ExportMenu
+            testid="alert-export"
+            filename="异常预警明细"
+            sheets={exportSheets}
+            disabledHint="当前无预警明细可导出"
+          />
+          <Button
+            startIcon={<Settings />}
+            onClick={() => setRulesOpen(true)}
+            variant="outlined"
+            size="small"
+            data-testid="alert-rules-open"
+          >
+            规则配置
+          </Button>
+          <Button startIcon={<Refresh />} onClick={fetchAlerts} disabled={loading} variant="outlined" size="small">
+            刷新
+          </Button>
+        </Box>
       </Box>
 
       {totalAlerts > 0 && (
@@ -207,48 +301,150 @@ const AlertMonitor: React.FC = () => {
       )}
 
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <AlertCard icon={<Inventory2 color="warning" />} title="库存低于安全库存"
-            count={alertData.lowStock.length}
-            severity={alertData.lowStock.length > 5 ? 'high' : alertData.lowStock.length > 2 ? 'medium' : 'low'}
-            description="物料可用量低于安全库存阈值，需及时补货"
-            details={alertData.lowStock} actionLabel="跳转到库存页" actionPath="/warehouse/inventory" testid="alert-stock" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <AlertCard icon={<EventBusy color="error" />} title="逾期订单"
-            count={overdueOrders.length}
-            severity={overdueOrders.length > 5 ? 'high' : overdueOrders.length > 2 ? 'medium' : 'low'}
-            description="已超过期望交货日期但未完成的订单"
-            details={overdueOrders} actionLabel="跳转到销售订单" actionPath="/sales/orders" testid="alert-overdue" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <AlertCard icon={<ReceiptLong color="warning" />} title="临期物料"
-            count={alertData.expiringBatches.length}
-            severity={alertData.expiringBatches.length > 3 ? 'high' : alertData.expiringBatches.length > 0 ? 'medium' : 'low'}
-            description="临期或过期物料，需关注处理"
-            details={alertData.expiringBatches} actionLabel="跳转到批次管理" actionPath="/warehouse/batch" testid="alert-expiry" />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <AlertCard icon={<CreditCardOff color="error" />} title="信用超额"
-            count={alertData.creditOverdue.length}
-            severity={alertData.creditOverdue.length > 2 ? 'high' : alertData.creditOverdue.length > 0 ? 'medium' : 'low'}
-            description="客户已使用信用额度超过授信额度"
-            details={alertData.creditOverdue} actionLabel="跳转到客户列表" actionPath="/customer/list" testid="alert-credit" />
-        </Grid>
+        {isRuleOn('lowStock') && (
+          <Grid item xs={12} md={6}>
+            <AlertCard icon={<Inventory2 color="warning" />} title="库存低于安全库存"
+              count={view.lowStock.length}
+              severity={severityByCount(view.lowStock.length, 5, 2)}
+              description="物料可用量低于安全库存阈值，需及时补货"
+              details={view.lowStock} actionLabel="跳转到库存页" actionPath="/warehouse/inventory" testid="alert-stock" />
+          </Grid>
+        )}
+        {(isRuleOn('overduePO') || isRuleOn('overdueSO')) && (
+          <Grid item xs={12} md={6}>
+            <AlertCard icon={<EventBusy color="error" />} title="逾期订单"
+              count={overdueOrders.length}
+              severity={severityByCount(overdueOrders.length, 5, 2)}
+              description="已超过期望交货日期但未完成的订单"
+              details={overdueOrders} actionLabel="跳转到销售订单" actionPath="/sales/orders" testid="alert-overdue" />
+          </Grid>
+        )}
+        {isRuleOn('expiring') && (
+          <Grid item xs={12} md={6}>
+            <AlertCard icon={<ReceiptLong color="warning" />} title="临期物料"
+              count={view.expiringBatches.length}
+              severity={severityByCount(view.expiringBatches.length, 3, 0)}
+              description="临期或过期物料，需关注处理"
+              details={view.expiringBatches} actionLabel="跳转到批次管理" actionPath="/warehouse/batch" testid="alert-expiry" />
+          </Grid>
+        )}
+        {isRuleOn('credit') && (
+          <Grid item xs={12} md={6}>
+            <AlertCard icon={<CreditCardOff color="error" />} title="信用超额"
+              count={view.creditOverdue.length}
+              severity={severityByCount(view.creditOverdue.length, 2, 0)}
+              description="客户已使用信用额度超过授信额度"
+              details={view.creditOverdue} actionLabel="跳转到客户列表" actionPath="/customer/list" testid="alert-credit" />
+          </Grid>
+        )}
       </Grid>
 
-      {pendingCount > 0 && (
+      {pendingCount > 0 && isRuleOn('pendingApproval') && (
         <Box sx={{ mt: 3 }}>
           <Typography variant="subtitle2" gutterBottom>待审批单据</Typography>
           <Grid container spacing={1}>
-            <Grid item><Chip label={`采购订单 ${alertData.pendingApprovals.purchaseOrders} 单`} color="warning" size="small" /></Grid>
-            <Grid item><Chip label={`销售订单 ${alertData.pendingApprovals.salesOrders} 单`} color="info" size="small" /></Grid>
-            <Grid item><Chip label={`生产工单 ${alertData.pendingApprovals.workOrders} 单`} color="secondary" size="small" /></Grid>
+            <Grid item><Chip label={`采购订单 ${view.pendingApprovals.purchaseOrders} 单`} color="warning" size="small" /></Grid>
+            <Grid item><Chip label={`销售订单 ${view.pendingApprovals.salesOrders} 单`} color="info" size="small" /></Grid>
+            <Grid item><Chip label={`生产工单 ${view.pendingApprovals.workOrders} 单`} color="secondary" size="small" /></Grid>
           </Grid>
         </Box>
       )}
+
+      {/* 规则配置 */}
+      <Dialog open={rulesOpen} onClose={() => setRulesOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Settings fontSize="small" />
+            预警规则配置
+          </Box>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5 }}>
+            规则对「服务端 D1 计算」与「本地同源重算」两种数据源同样生效；关闭后该类预警不再展示与导出。
+          </Typography>
+          {rules.map((rule, idx) => (
+            <Box key={rule.key} sx={{ mb: 1.5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="body2" fontWeight={600}>{rule.name}</Typography>
+                  <Typography variant="caption" color="text.secondary">{rule.description}</Typography>
+                </Box>
+                <Switch
+                  checked={rule.enabled}
+                  onChange={(e) => setRuleEnabled(rule.key, e.target.checked)}
+                  inputProps={{ 'aria-label': rule.name } as any}
+                  data-testid={`alert-rule-switch-${rule.key}`}
+                />
+              </Box>
+              {rule.enabled && (
+                <Box sx={{ display: 'flex', gap: 1.5, mt: 1, flexWrap: 'wrap' }}>
+                  {rule.key === 'lowStock' && (
+                    <TextField
+                      size="small"
+                      type="number"
+                      label="低于安全库存百分比"
+                      value={rule.params.ratioPct ?? 100}
+                      onChange={(e) => updateRuleParams('lowStock', { ratioPct: Number(e.target.value) })}
+                      InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
+                      inputProps={{ min: 1, max: 200, step: 5, 'data-testid': 'alert-rule-lowstock-pct' } as any}
+                      sx={{ width: 200 }}
+                      helperText="可用量/安全库存 低于该比例才预警"
+                    />
+                  )}
+                  {(rule.key === 'overduePO' || rule.key === 'overdueSO') && (
+                    <TextField
+                      size="small"
+                      type="number"
+                      label="最小逾期天数"
+                      value={rule.params.minDays ?? 0}
+                      onChange={(e) => updateRuleParams(rule.key, { minDays: Number(e.target.value) })}
+                      InputProps={{ endAdornment: <InputAdornment position="end">天</InputAdornment> }}
+                      inputProps={{ min: 0, max: 365, step: 1, 'data-testid': `alert-rule-${rule.key}-days` } as any}
+                      sx={{ width: 180 }}
+                      helperText="逾期天数 ≥ 该值才预警"
+                    />
+                  )}
+                  {rule.key === 'expiring' && (
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={rule.params.includeExpired ?? true}
+                          onChange={(e) => updateRuleParams('expiring', { includeExpired: e.target.checked })}
+                          data-testid="alert-rule-expiring-include-expired"
+                        />
+                      }
+                      label={<Typography variant="caption">包含已过期物料</Typography>}
+                    />
+                  )}
+                  {rule.key === 'credit' && (
+                    <TextField
+                      size="small"
+                      type="number"
+                      label="最小超额比例"
+                      value={rule.params.overRatePct ?? 0}
+                      onChange={(e) => updateRuleParams('credit', { overRatePct: Number(e.target.value) })}
+                      InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
+                      inputProps={{ min: 0, max: 500, step: 5, 'data-testid': 'alert-rule-credit-pct' } as any}
+                      sx={{ width: 180 }}
+                      helperText="超出授信额度的比例 ≥ 该值才预警"
+                    />
+                  )}
+                </Box>
+              )}
+              {idx < rules.length - 1 && <Divider sx={{ mt: 1.5 }} />}
+            </Box>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button startIcon={<RestartAlt />} onClick={resetRules} data-testid="alert-rules-reset">恢复默认</Button>
+          <Button variant="contained" onClick={() => setRulesOpen(false)} data-testid="alert-rules-close">完成</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
 
 export default AlertMonitor;
+
+/** 规则类型导出，便于测试与后续复用 */
+export type { AlertRule };

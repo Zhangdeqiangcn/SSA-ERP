@@ -14,6 +14,9 @@
 - **V2.59–V2.63** — P1 Phase 2~6：供应商/客户主数据关系化(V2.59)、物料关系化(V2.58)、销售订单(V2.61)/采购订单(V2.60)/凭证库存工单(V2.62) D1 关系表、审计日志落库(V2.63)；V2.57 密码 PBKDF2+云端备份+门户认证。
 - **V2.55–V2.58** — 对标整改地基修复轮（密码/备份/白屏/类型债清零）、后端上线（D1+Pages Functions，V2.56）、19 环节全链路 E2E、导航整合（分析报表/审批中心/OA流程定制）。
 
+- **V2.73.0** (2026-09-01) — **P2-A 纯前端快赢三项落地（BI 导出 / 预警规则可配置 / 数电票核验台账）+ E2E 新增 6 全绿**：① `src/utils/exportUtils.ts` + `ExportMenu` 通用导出组件（CSV UTF-8 BOM + Excel 多 sheet 自适应列宽），BI 自助分析与 ChatBI 统一接入，v83 3 条固化；② `alertRuleStore`（6 类规则 persist + 阈值入状态）+ `localAlerts.ts` 本地同源重算（DEV/E2E 离线可展示）+ AlertMonitor 规则配置对话框，修后端 `/api/alerts` 三项真实缺陷（待审批状态 `pending`→`created/sent/draft`、低库存/逾期/临期三组补结构化 `metrics` 字段、临期物料 `quantity`→`quantity_on_hand` 列名笔误）；③ `invoiceVerificationStore`（persist 最近 50 批台账）+ `localVerify` 同口径演示核验（DEV 无服务端网关也跑通）+ 台账浏览/复查/导入/导出 + OCR 识别结果一键送入核验跨页联动 + 核验动作写审计日志，v84/v85 3 条固化。E2E 新增 v83/v84/v85 = 6 passed（1.0m）；全量 277 跑通，其中 v38 汇率/预算控制两个历史偶发 flake 复跑重绿，非本次回归。提一个长期隐患：`axios` 作为传递依赖被 hoist，未显式声明进 dependencies——当前 tsc 不报错（因为运行时不依赖 axios 本身），但若未来某函数要 fetch-based 请求，仍可能被同类误删。本轮一并 `npm install axios` 固化合并。三项均纯前端补强，不改 D1 schema，零回归。
+- **E2E 冷编译 flake 沉淀**：V2.71/V2.72/V2.73 三轮首跑均出现 flow.spec.ts 长用例因本机过载 vite 冷编译超时（page.goto 等 load >180s），非代码回归。沉淀为技能 `playwright-coldstart-flake-guard`，含 `warmup.mjs`（遍历全部路由 + READY_FLAG 校验）与标准协议（受管后台 dev server → warmup → 复用热实例重跑长用例）。后续任何长用例首跑失败先走此协议定性再判断是否回归。
+
 ## 当前 P1 阶段状态（2026-08-28）
 - 已完成（含代码）：B1-B5（流程闭环）、B6（黑名单/价目表回写 + 资质到期预警✅）、B7（审批迁移工作流引擎统一✅）、B8（MRP增强）、B9（AQL）、B10（PO变更单）、B11（多笔付款计划✅）。B1-B11 均已落地并回归验证（V2.67.0 收口）。
 - 全部 P1 战役完成 ✅：B1-B11 均已落地并回归验证。

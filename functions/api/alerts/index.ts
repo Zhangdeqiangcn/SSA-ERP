@@ -29,12 +29,18 @@ export async function onRequestGet(context: any) {
     LIMIT 20
   `).bind(user.org_id, user.org_id).all();
 
-  const lowStockAlerts = (lowStockRows.results || []).map((r: any) => ({
-    id: r.material_code,
-    label: `${r.material_name} (${r.material_code})`,
-    value: `可用 ${r.available_qty} / 安全库存 ${r.safety_stock}`,
-    extra: r.warehouse_name || '-',
-  }));
+  // V2.73：下发结构化数值，供前端规则阈值二次过滤（不再依赖文本解析）
+  const lowStockAlerts = (lowStockRows.results || []).map((r: any) => {
+    const qty = Number(r.available_qty) || 0;
+    const safety = Number(r.safety_stock) || 0;
+    return {
+      id: r.material_code,
+      label: `${r.material_name} (${r.material_code})`,
+      value: `可用 ${qty} / 安全库存 ${safety}`,
+      extra: r.warehouse_name || '-',
+      metrics: { qty, safetyStock: safety, ratioPct: safety > 0 ? (qty / safety) * 100 : 0 },
+    };
+  });
 
   // 2. 逾期采购订单
   const poOverdueRows = await db.prepare(`
@@ -48,7 +54,13 @@ export async function onRequestGet(context: any) {
 
   const poOverdue = (poOverdueRows.results || []).map((r: any) => {
     const days = Math.floor((today.getTime() - new Date(r.expected_delivery_date).getTime()) / (1000 * 60 * 60 * 24));
-    return { id: r.order_no, label: `${r.order_no} - ${r.vendor_name}`, value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`, extra: r.status };
+    return {
+      id: r.order_no,
+      label: `${r.order_no} - ${r.vendor_name}`,
+      value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`,
+      extra: r.status,
+      metrics: { overdueDays: days },
+    };
   });
 
   // 3. 逾期销售订单
@@ -63,7 +75,13 @@ export async function onRequestGet(context: any) {
 
   const soOverdue = (soOverdueRows.results || []).map((r: any) => {
     const days = Math.floor((today.getTime() - new Date(r.expected_delivery_date).getTime()) / (1000 * 60 * 60 * 24));
-    return { id: r.order_no, label: `${r.order_no} - ${r.customer_name}`, value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`, extra: r.status };
+    return {
+      id: r.order_no,
+      label: `${r.order_no} - ${r.customer_name}`,
+      value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`,
+      extra: r.status,
+      metrics: { overdueDays: days },
+    };
   });
 
   // 4. 临期物料（shelf_life_status = 'expiring' 或 'expired'）
@@ -79,7 +97,9 @@ export async function onRequestGet(context: any) {
     id: r.material_code,
     label: `${r.material_name} (${r.material_code})`,
     value: `状态: ${r.shelf_life_status === 'expiring' ? '临期' : '过期'}`,
-    extra: `库存 ${r.quantity}`,
+    // V2.73 修复：原引用 r.quantity，但 SELECT 的是 quantity_on_hand，导致显示 undefined
+    extra: `库存 ${r.quantity_on_hand}`,
+    metrics: { expired: r.shelf_life_status === 'expired', qty: Number(r.quantity_on_hand) || 0 },
   }));
 
   // 5. 信用超额客户
@@ -91,16 +111,27 @@ export async function onRequestGet(context: any) {
     LIMIT 10
   `).bind(user.org_id).all();
 
-  const creditOverdue = (creditRows.results || []).map((r: any) => ({
-    id: r.code,
-    label: r.name,
-    value: `已用 ¥${Number(r.used_credit).toLocaleString()} / 授信 ¥${Number(r.credit_limit).toLocaleString()}`,
-    extra: `超出 ¥${(Number(r.used_credit) - Number(r.credit_limit)).toLocaleString()}`,
-  }));
+  const creditOverdue = (creditRows.results || []).map((r: any) => {
+    const limit = Number(r.credit_limit) || 0;
+    const used = Number(r.used_credit) || 0;
+    return {
+      id: r.code,
+      label: r.name,
+      value: `已用 ¥${used.toLocaleString()} / 授信 ¥${limit.toLocaleString()}`,
+      extra: `超出 ¥${(used - limit).toLocaleString()}`,
+      metrics: { overRatePct: limit > 0 ? ((used - limit) / limit) * 100 : 0 },
+    };
+  });
 
   // 6. 待审批单据
-  const pendingPO = await db.prepare(`SELECT COUNT(*) as cnt FROM purchase_orders WHERE org_id = ? AND status = 'pending'`).bind(user.org_id).first();
-  const pendingSO = await db.prepare(`SELECT COUNT(*) as cnt FROM sales_orders WHERE org_id = ? AND status = 'pending'`).bind(user.org_id).first();
+  // V2.73 修复：原口径用 status='pending'，但该值不在订单状态枚举内（采购默认 'draft'），
+  // 导致三项计数恒为 0。改为与前端一致的真实待处理状态集：
+  //   采购 created/sent（已下单待供应商确认）、销售 draft、工单 draft
+  const pendingPO = await db
+    .prepare(`SELECT COUNT(*) as cnt FROM purchase_orders WHERE org_id = ? AND status IN ('created','sent')`)
+    .bind(user.org_id)
+    .first();
+  const pendingSO = await db.prepare(`SELECT COUNT(*) as cnt FROM sales_orders WHERE org_id = ? AND status = 'draft'`).bind(user.org_id).first();
   const pendingWO = await db.prepare(`SELECT COUNT(*) as cnt FROM work_orders WHERE org_id = ? AND status = 'draft'`).bind(user.org_id).first();
 
   return json({

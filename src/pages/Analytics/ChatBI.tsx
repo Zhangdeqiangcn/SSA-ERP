@@ -4,6 +4,7 @@ import {
   Chip, Grid, Divider, CircularProgress, Alert,
 } from '@mui/material';
 import { Send, TrendingUp, BarChart, PieChart, Assessment, History } from '@mui/icons-material';
+import { ExportMenu } from '@/components/common';
 
 // ── 纯 SVG 柱状图 ──
 const BarChartSVG: React.FC<{ data: { label: string; value: number }[]; title: string }> = ({ data, title }) => {
@@ -288,7 +289,40 @@ const ChatBI: React.FC = () => {
           <CardContent>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
               <BarChart color="primary" fontSize="small" />
-              <Typography variant="subtitle1" fontWeight={600}>{result.title}</Typography>
+              <Typography variant="subtitle1" fontWeight={600} sx={{ flex: 1 }}>{result.title}</Typography>
+              {/* 分析结果导出（CSV / Excel） */}
+              <ExportMenu
+                testid="chatbi-export"
+                filename={`ChatBI_${result.title}`}
+                sheets={() => [
+                  {
+                    name: '分析数据',
+                    rows: result.data,
+                    columns: [
+                      { key: 'label', label: '分组' },
+                      { key: 'value', label: '数值' },
+                      ...(result.data.some((d) => d.secondary !== undefined)
+                        ? [{ key: 'secondary' as const, label: '对比值' }]
+                        : []),
+                    ],
+                  },
+                  {
+                    name: '问句说明',
+                    rows: [
+                      { item: '问句', value: history[history.length - 1]?.query || '' },
+                      { item: '标题', value: result.title },
+                      { item: '说明', value: result.description },
+                      { item: '结论', value: result.summary || '' },
+                      { item: '图表类型', value: result.chartType },
+                      { item: '导出时间', value: new Date().toLocaleString() },
+                    ],
+                    columns: [
+                      { key: 'item', label: '项目' },
+                      { key: 'value', label: '内容' },
+                    ],
+                  },
+                ]}
+              />
             </Box>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
               {result.description}

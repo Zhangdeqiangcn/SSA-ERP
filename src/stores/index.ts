@@ -114,3 +114,20 @@ export { useConsignmentStore } from './consignmentStore';
 export { useSlowMovingStore, DISPOSITION_LABEL, type SlowMovingDisposal, type DispositionAction } from './slowMovingStore';
 // COA 产品合格证记录（P2-17）
 export { useCOAStore, type COARecord, type COAItem } from './coaStore';
+// V2.73 异常预警规则配置（前端可配阈值，对服务端/本地两种数据源同样生效）
+export {
+  useAlertRuleStore,
+  DEFAULT_ALERT_RULES,
+  getRule,
+  type AlertRule,
+  type AlertRuleKey,
+  type AlertRuleParams,
+} from './alertRuleStore';
+// V2.73 数电票核验台账（历史批次留存 + OCR 联动队列）
+export {
+  useInvoiceVerificationStore,
+  type VerifyBatch,
+  type VerifyRow,
+  type VerifyStatus,
+  type OcrQueueItem,
+} from './invoiceVerificationStore';

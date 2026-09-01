@@ -8,9 +8,12 @@ import {
   Receipt as ReceiptIcon, DocumentScanner as ScanIcon,
   AutoAwesome as AweIcon, CloudUpload as UploadIcon,
   Image as ImageIcon, Cloud as CloudIcon, Computer as ComputerIcon,
+  Verified as VerifiedIcon,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useAnalyticsStore } from '@/stores/analyticsStore';
+import { useInvoiceVerificationStore } from '@/stores/invoiceVerificationStore';
 import type { AccountEntry } from '@/types/finance';
 
 const SAMPLE_INVOICE = `增值税专用发票
@@ -73,9 +76,12 @@ function parseInvoice(text: string): ParsedInvoice {
 }
 
 export default function InvoiceOcr() {
+  const navigate = useNavigate();
   const addAccountEntry = useFinanceStore((s) => s.addAccountEntry);
   const addOcrHistory = useAnalyticsStore((s) => s.addOcrHistory);
   const history = useAnalyticsStore((s) => s.ocrHistory);
+  // V2.73：OCR → 数电票核验 联动
+  const pushOcrQueue = useInvoiceVerificationStore((s) => s.pushOcrQueue);
 
   const [text, setText] = useState<string>(SAMPLE_INVOICE);
   const [parsed, setParsed] = useState<ParsedInvoice | null>(null);
@@ -432,6 +438,31 @@ export default function InvoiceOcr() {
                     data-testid="ocr-generate"
                   >
                     一键生成凭证
+                  </Button>
+                  {/* V2.73：识别结果一键送入数电票核验，免去手工重抄号码/日期/金额 */}
+                  <Button
+                    variant="outlined"
+                    startIcon={<VerifiedIcon />}
+                    onClick={() => {
+                      if (!parsed?.invoiceNo) {
+                        setSnack('发票号码为空，请先校正后再送入核验');
+                        return;
+                      }
+                      pushOcrQueue([
+                        {
+                          type: '09',
+                          number: parsed.invoiceNo,
+                          date: parsed.invoiceDate || new Date().toISOString().slice(0, 10),
+                          amount: String(parsed.amount || 0),
+                          totalAmount: String(parsed.total || 0),
+                        },
+                      ]);
+                      setSnack('已送入数电票核验，正在跳转...');
+                      navigate('/analytics/invoice-verify');
+                    }}
+                    data-testid="ocr-send-verify"
+                  >
+                    送入数电票核验
                   </Button>
                   <Alert severity="success" sx={{ mt: 1 }}>
                     凭证分录：借 原材料 / 应交税费-应交增值税；贷 应付账款

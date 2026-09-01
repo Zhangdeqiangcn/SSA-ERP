@@ -161,8 +161,7 @@ export const searchIndex: SearchEntry[] = [
   { label: 'ChatBI对话分析', path: '/analytics/chatbi', module: '分析与报表', group: '分析与报表', keywords: ['chatbi', '对话分析', '问答'], desc: '对话式 BI' },
   { label: '异常检测预警', path: '/analytics/alerts', module: '分析与报表', group: '分析与报表', keywords: ['alert', '预警', '异常'], desc: '异常预警' },
   { label: '价格趋势分析', path: '/analytics/price', module: '分析与报表', group: '分析与报表', keywords: ['price trend', '价格趋势'], desc: '价格趋势分析' },
-
-  // ── 系统 / 测试 ──
+  { label: '数电票核验台账', path: '/analytics/invoice-verify', module: '分析与报表', group: '分析与报表', keywords: ['invoice', '核验', '发票核验', '数电票', '台账'], desc: '数电票批量核验与历史记录台账' },
   { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数'], desc: '系统参数配置' },
   { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档'], desc: 'ERP 使用说明书' },
   { label: '账号登录', path: '/login', module: '系统', group: '账号', keywords: ['login', '登录', '注册', '账号', '密码', '登出', 'logout', '公司码'], desc: '账号注册/登录与多人协同' },

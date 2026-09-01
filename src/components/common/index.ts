@@ -31,3 +31,5 @@ export type { GridColumn, MaterialLite } from './MaterialLineItemsGrid';
 export { default as PrintPreviewButton } from './PrintPreviewButton';
 export { default as DetailActions } from './DetailActions';
 export type { DetailActionsProps, DetailActionExtra } from './DetailActions';
+export { default as ExportMenu } from './ExportMenu';
+export type { ExportMenuProps } from './ExportMenu';

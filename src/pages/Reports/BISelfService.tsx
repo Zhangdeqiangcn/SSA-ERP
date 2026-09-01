@@ -9,7 +9,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { PageWrapper } from '@/components/layout';
-import { DataTable } from '@/components/common';
+import { DataTable, ExportMenu } from '@/components/common';
 import {
   DATASETS,
   useReportDataMap,
@@ -317,7 +317,47 @@ const BISelfService: React.FC = () => {
                 <Insights sx={{ fontSize: 18, mr: 0.5, verticalAlign: 'middle', color: PRIMARY }} />
                 分析结果（{aggData.length} 组）
               </Typography>
-              <Stack direction="row" spacing={1}>
+              <Stack direction="row" spacing={1} alignItems="center">
+                {/* BI 分析结果导出（CSV / Excel，含分析配置元数据 sheet） */}
+                <ExportMenu
+                  testid="bi-export"
+                  filename={`BI分析_${DATASETS[dataset]?.label || dataset}`}
+                  sheets={() => [
+                    {
+                      name: '分析结果',
+                      rows: aggData,
+                      columns: [
+                        { key: 'label', label: dimensionField?.label ?? '维度' },
+                        {
+                          key: 'value',
+                          label: `${measureField?.label ?? '度量'}(${agg === 'count' ? '计数' : agg === 'avg' ? '平均' : '合计'})`,
+                        },
+                      ],
+                    },
+                    {
+                      name: '分析配置',
+                      rows: [
+                        { item: '数据集', value: DATASETS[dataset]?.label ?? dataset },
+                        { item: '维度', value: dimensionField?.label ?? dimension },
+                        { item: '度量', value: measureField?.label ?? measure },
+                        { item: '聚合方式', value: agg === 'count' ? '计数(count)' : agg === 'avg' ? '平均(avg)' : '求和(sum)' },
+                        { item: '图表类型', value: chartType },
+                        {
+                          item: '跨模块关联',
+                          value: joinActive
+                            ? `${DATASETS[joinLeft]?.label}.${joinLeftKey} = ${DATASETS[joinRight]?.label}.${joinRightKey}（${joinType === 'inner' ? '内连接' : '左连接'}，${joinedRows.length} 条）`
+                            : '未启用',
+                        },
+                        { item: '分组数', value: aggData.length },
+                        { item: '导出时间', value: new Date().toLocaleString() },
+                      ],
+                      columns: [
+                        { key: 'item', label: '配置项' },
+                        { key: 'value', label: '取值' },
+                      ],
+                    },
+                  ]}
+                />
                 <TextField
                   size="small"
                   label="分析名称"
