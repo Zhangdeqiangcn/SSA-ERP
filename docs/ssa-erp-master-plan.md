@@ -15,9 +15,10 @@
 - 数据：`src/mocks/data/`(11 文件) 仅种子源
 - 自动化回归：Playwright `e2e/*.spec.ts`，`window.__ssaStores`（DEV 暴露）驱动断言
 
-## 二、模块现状（截至 V2.68）
+## 二、模块现状（截至 V2.74.3）
 
-> 下表为 V2.54 基线盘点；V2.55–V2.68 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P2 智能增强 17/30 项均已落地**；纯前端可验证，生产态真实后端见 §九。
+> 下表为 V2.54 基线盘点；V2.55–V2.74.3 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P1 关系化后端 17 项、P2 智能增强（17/30 功能落地，9 项整页缺失 + 2 壳 + 1 桩）均已落地**；生产态真实后端见 §九/§十。
+> **架构注意（V2.74.3 复核）**：关系化 D1 后端已在 V2.58–V2.74.3 建表打通（migrations 0001–0017，约 30 张表），但**前端 store 绝大多数仍以 `app_state` Blob 为主源**（persist+backendStorage 写 `/api/state/:key`），仅 `vendorStore`(V2.74.3) 直连 D1 `vendor_master`；`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」。双通道并行风险具体化，根治路线见 §十.4。
 | 域 | 状态 | 说明 |
 |----|------|------|
 | 物料主数据 | **V2.51 增强** | 审批流 + 评级 + 多单位 + 自定义字段；**P0-04 多视图**：Material加14字段（采购组/MRP类型/税分类/科目分配组等），Form改5个Tab分组；**P2-23 GTIN**：条码字段 |
@@ -91,7 +92,11 @@
 - **P2 达标线（V2.54）**：AI Agent + ChatBI + 异常预警 + 返利管理 + 寄售采购 + FMEA + 动态检验 + COA + 计量校准 + 价格分析 + 客户ABC + RLS + 帮助体系 已落地（17/30项）
 - **P1 达标线（V2.52~V2.53）**：多组织/应收应付/销售合同/销售漏斗/供应商绩效/物料模板/保质期/CAPA/循环盘点/Webhook/SPC/KPI/嵌入分析/拣配/条件引擎/排程 已落地（18/25项）
 - **P0 达标线（V2.51）**：信息记录/货源清单/三单匹配/凭证冲销/物料多视图/数据管理 已落地（10/12项）
-- **P2 剩余（13项跳过）**：智能推荐(P2-03)、智能排程(P2-04)、波次RFID(P2-07)、重复制造(P2-08)、MES集成(P2-09)、S&OP(P2-10)、COPA(P2-13)、资金管理(P2-14)、BI集成(P2-19)、移动端(P2-20)、开放API(P2-21)、多币种(P2-27)、ESG(P2-30)——均需后端/外部系统/行业定制
+- **P2 剩余（真实缺口，V2.74.3 代码扫描复核）**：以下为扫描确认**仍缺失/壳/桩**的项（开放API P2-21、多币种 P2-27、AI Agent P2-01、ChatBI P2-02、智能推荐 P2-03、智能排程 P2-04 大部、发票OCR P2 智能 均已落地，已从剩余清单移除）：
+  - **整页缺失（9 项）**：波次RFID(P2-07)、重复制造(P2-08)、MES集成(P2-09)、S&OP(P2-10)、三方销售(P2-12)、COPA获利分析(P2-13)、资金管理(P2-14)、BI集成(P2-19)、ESG(P2-30)
+  - **壳（2 项）**：智能排程 DetailedScheduling(P2-04 部分，Gantt/APS/CRP 已真实)、移动端 MobileTab(P2-20，仅模拟 PDA 屏 + 伪二维码)
+  - **桩（1 项）**：数电票核验 `tax-gateway/verify.ts`（mockVerifyInvoice + TODO 真实 API）
+  - 其余 P2（寄售/返利/FMEA/动态检验/COA/计量校准/价格分析/客户ABC/RLS/帮助/异常预警）均已真实落地。
 
 ## 八、版本沿革
 - V2.5–V2.21 价格闭环/销售财务/全面 store 化/P2 五域深化/P3 财务·生产·供应链·质量·平台·智能分析（全量 E2E 110→127）
@@ -136,6 +141,13 @@
 - **V2.66 B10 采购订单变更单（P1 Phase 2 唯一空白项）**——`PurchaseOrder.version/history[]` + `changePurchaseOrder`(锁定校验+快照留痕+版本自增) + 详情页「变更订单/版本历史」差异对比；E2E `v70-b10-po-change.spec.ts` 4/4 + 全量 34/34 全绿。
 - **V2.67 B7 工作流引擎统一收尾 + E2E 全量回归修复**——价格/物料/三队列统一接入审批引擎(`approvalFlowStore`+`approvalFlowConfig`)，条件技术引擎(`useConditionStore`)与审批流引擎解耦，`resolvePrice` 经条件引擎叠加含税价；E2E 修复 9 项陈旧用例，最终 17/17 全绿。
 - **V2.68 全量 E2E 回归收口 + 开发计划合并 + 代码审计**（2026-08-28）——①全量 271 E2E 用例收口全绿（修复 v50/v51/v68/v80 四例过时定位器、v34/v37/v38/v69 资源噪声守卫误判、v30 reload race、v68 goto race，新增 B8/B9 固化用例）；②开发计划合并为单一权威版（本文件），删除 `development-plan-V2.64.md`/`P2-COMPLETION.md` 冗余副本，确立开发计划铁律；③全仓 src 代码审计（见 §十），如实标注实现度与双通道风险。
+- **V2.69 D1 后端 E2E 打通 + 2 真实缺陷修复**（2026-08-28）——真实 Cloudflare 运行时 + 本地 D1 跑通生产后端全链路（注册→登录→app_state Blob 往返→10 域关系表读→B2 三岛探测）；新增可复用 harness `scripts/d1-backend-e2e.mjs`(13/13 全绿)；修复 15 个 functions 漏 `await getUserFromRequest`（7 域 GET 500）+ PO/inbound/outbound 列表查询 `FROM` 缺别名（no such column 500）；迁移 `schema_migrations` 主键 INTEGER→TEXT；架构实证双通道（10 张关系表只读、业务写经 app_state Blob）+ B2 三岛无专属后端。
+- **V2.70 B2 三岛专属 D1 后端落地**（2026-08-28）——新增三岛关系表（0010 serial_masters/serial_movements、0011 subcontract_orders/subcontract_issue_items、0012 work_order_pickings）+ 端点（序列号 GET/POST/[id] + FIFO 核销 consume、委外、工单领料）+ 出/入库补 POST 落 D1；前端 `b2Api.ts` 双写桥接（登录态 fire-and-forget 落 D1、失败静默回退本地 persist），UI 零回归。**已部署生产**。
+- **V2.73 P1 快赢三项**（2026-09-01）——BI 报表导出 / 预警规则可配置 UI / 数电票核验台账；新增 6 条 E2E(v83-v85)，全量 277 用例通过。
+- **V2.74.0 RLS 下沉 D1 + 开放 API 网关 + 多币种 FX**（2026-09-01）——④ RLS：10 表 owner_id/dept_id + 应用层行级策略下沉 D1（`functions/_shared/rls.ts`）；⑤ FX：`fx_rates` + `fxStore` 三角换算引擎 + FxConfig；⑤ 开放网关：`api_keys`(SHA-256+scope) + 读写全端点（写操作四道护栏）+ 前端 ApiKeyManager；生产鉴权实测生效，部署 `b764bd27.ssa-erp.pages.dev`。
+- **V2.74.1 网关生产实测 + 3 真实缺陷修复**（2026-09-01）——真实 sk_ Key 打生产 D1 暴露：写路径 500(缺审计列)、scope 语义错误(write⊃read)、Key 吊销 405(缺 [id].ts 路由)；根因修复 + 复测全绿；升 V2.74.1，部署 `90722bc4`。
+- **V2.74.2 供应商主数据独立关系表 vendor_master**（2026-09-01）——新建 `vendor_master`(0016，主数据列+审计列，**不含 password_hash/salt**)+ 网关 `vendors` 端点改指；顺带修复子路由漏改([id].ts 仍指旧门户表致 GET/:id 404)；生产实测全绿（零凭据泄露），部署 `484836d3`。
+- **V2.74.3 前端 vendorStore 对齐 D1 vendor_master（消除双数据源）**（2026-09-01）——`vendorStore` 移除 persist+backendStorage(app_state Blob 双源根治)，改经 `vendorApi` 直连 `vendor_master`；后端 `functions/api/vendors/*` 由门户表改指 vendor_master + RLS own + POST 创建(201)；修复 PUT `.bind` 未传字段 undefined→D1 500；迁移 0017 补 6 JSON 扩展列；同源冒烟全绿（前端 POST→网关 GET 同一条 / PUT 改 credit_limit 网关反映 / DELETE 网关消失）；部署 `a7572d01`，归档 ima。
 
 ---
 
@@ -194,6 +206,7 @@
 - `functions/api/customers/index.ts`：GET 分页查询
 - `functions/api/customers/[id].ts`：GET/PUT/DELETE
 - 种子数据：12 条供应商 + 5 条客户已写入生产 D1
+- **V2.74.2/74.3 供应商主数据重构（重要）**：V2.59 的 `vendors` 增强表实为「门户登录账号表」（含 `password_hash`/`salt` + role/status），并非纯主数据，网关/前端直读会泄露凭据或触发 NOT NULL 约束。V2.74.2 新建**独立** `vendor_master`(0016，主数据列 + 审计列，**不含 password_hash/salt**) + 扩展(0017 补 6 JSON 列)；网关 `vendors` 端点与前端 `vendorStore`(V2.74.3) 均改指 `vendor_master`，与开放网关 `/api/open/vendors` 同源、消除双数据源（前端仅 `vendor-ratings` 走 localStorage）。原 `vendors` 门户表保留用于登录鉴权。
 #### Phase 3 已落地（V2.60）
 - `migrations/0005_purchase_orders.sql`：新建 6 张表 `purchase_orders` / `purchase_order_items` / `inbound_orders` / `inbound_order_items` / `outbound_orders` / `outbound_order_items`
 - `functions/api/purchase-orders/index.ts`：GET 分页查询（keyword/vendorId/status 过滤）
@@ -221,51 +234,59 @@
 4. 迁移前必先做云端备份（`/api/system/backup`）
 5. 每次 Phase 落地后 bump 版本号、更新 §九 状态表、更新 manual.tsx
 
-### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI
-
-### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI
-- 等保/审计/权限矩阵（角色 × 敏感字段屏蔽，强化 RLS）。
-- 真正 ChatBI（自然语言→查询，替换写死 `MOCK_RESPONSES`）。
-- 发票 OCR 模型对接（替换仅正则的 `parseInvoice`）。
-- 异常预警规则引擎（库存/逾期/临期/信用四类真实计算）。
-- AI Agent 真实化（当前为模拟对话）。
-- 多币种、开放 API、BI 集成等 P2 剩余项（见 §七）。
+### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI（V2.74.3 复核状态）
+- 等保/审计/权限矩阵（RLS 强化）：✅ **已完成**——V2.74.0 `functions/_shared/rls.ts` 11 表行级策略下沉 D1；前端 `dataPermissionStore`/`SecureField` 为展示级脱敏（非强制，真强制在后端）。
+- 真正 ChatBI：✅ **已完成（规则型）**——`functions/api/chatbi` 关键词→类型映射 + 真实 D1 SQL 执行（非 LLM-to-SQL，无写死 MOCK_RESPONSES）。
+- 发票 OCR 模型对接：🟢 **部分**——`ocr/recognize.ts` 已调 Tesseract.js 真实 OCR，但字段抽取仍 `text.match` 正则（OCR 已真、结构化抽取待模型化）。
+- 异常预警规则引擎：✅ **已完成**——`functions/api/alerts` 库存/逾期/临期/信用/待审批 6 类真实计算。
+- AI Agent 真实化：✅ **已完成**——`functions/api/ai/chat.ts` 真实 LLM 代理（KV 模型配置 + fetch `/chat/completions`），无模拟兜底。
+- 数电票核验：🟡 **仍桩**——`tax-gateway/verify.ts` `mockVerifyInvoice` + TODO 真实 API（全仓唯一确认桩）。
+- 多币种：✅ **已完成（V2.74.0）**；开放 API：✅ **已完成（V2.74.0–74.2）**；BI 集成(P2-19)/ESG(P2-30) 等见 §七 剩余清单。
 
 ### 9.5 版本沿革补充
 - **V2.56 对标整改基线**（2026-08-12）—— 本基线在后续 V2.57 轮落地：P0-01~P0-13 全部完成（白屏修复 + 类型门禁 + 弱哈希升级为 PBKDF2 + D1 备份 + 供应商激活死路修复 + DEPLOY.md 更正 + Sidebar 版本号修正 + 防回归 e2e 用例），同步推进至 V2.57.0；P1 关系化地基（17 项，约 4 人月）与 P2 合规智能化（14 项，约 6 人月）为下一阶段的长期路线。
 
 ---
 
-## 十、代码审计现实（2026-08-28 全仓 src 扫描）
+## 十、代码审计现实（V2.74.3 全仓 src + functions 扫描）
 
-> 来源：Explore-1 子代理对 `src/` 全量代码审计（看实现，非看文档）。结论用于校准本计划"声称完成"与"代码真实"的偏差。
+> 来源：V2.74.3 轮 4 个 Explore 子代理对 `src/`（67 store / 191 页 / ~9 万行）+ `functions/`（39 serverless）+ `migrations/`（0001–0017）全量扫描。结论校准"计划声称"与"代码真实"的偏差。**关键修正：V2.68 审计的多项 🟡 已在 V2.69–V2.74.3 闭合（B10 / 类型门禁 / RLS / AI / ChatBI / 开放API / 多币种）。**
 
-### 10.1 双数据通道（关键架构前提）
-- **DEV/本地/E2E/离线演示**：`src/main.tsx` 仅在 `import.meta.env.DEV` 启动 MSW（`src/mocks/handlers.ts` 拦截全部 `/api/*`），stores 直接 import `@/mocks/data/*` 种子 → **100% 浏览器内 mock，不触达 D1**。
-- **生产通道**：Cloudflare Pages 构建不启动 MSW，`fetch('/api/...')` 真实打到 `functions/api`（39 个 serverless 函数）+ D1（migrations 0001–0008）。关系完整性仅在生产函数层成立，未被现有 E2E 走通验证 → **属并行两套实现，生产部署后须回归验证**。
-- 含义：下文"已实现"指源码含真实业务逻辑/算法；依赖持久化与跨表关系的，在 DEV 仅作用于 mock。
+### 10.1 双数据通道（关键架构前提，已细化）
+- **DEV/本地/E2E/离线演示**：`src/main.tsx` 仅 `import.meta.env.DEV` 启动 MSW（`src/mocks/handlers.ts` 拦截 `/api/*`），stores 直接 import `@/mocks/data/*` 种子 → 浏览器内 mock，不触达 D1。
+- **生产通道**：Cloudflare Pages 构建不启动 MSW，`fetch('/api/...')` 真实打 `functions/api` + D1（migrations 0001–0017，约 30 张表）。`functions/api` 39 个端点绝大多数真实落库（详见 §十.3）。
+- **双通道现状（V2.74.3 实测）**：关系化后端已在 V2.58–V2.64 建表（materials/customers/purchase_orders/sales_orders/vouchers/inventory_records/work_orders 等）+ 函数在 V2.69–V2.74.3 打通，但**前端 store 绝大多数仍以 `app_state` Blob 为主源**（`persist`+`backendStorage` 写 `/api/state/:key`），仅 `vendorStore` 在 V2.74.3 改为直连 D1 `vendor_master`（`vendorApi`）；`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。即"后端关系表"与"前端主源 Blob"长期并行，需逐步把前端 store 迁到真实 API（vendorStore 已验证路径）。
+- 含义：下文"已实现"指源码含真实业务逻辑/算法；依赖持久化与跨表关系的，在生产态落 D1、在 DEV 落 Blob。
 
-### 10.2 实现度校准（偏差项）
-| 功能 | 计划声称 | 代码真实 | 证据/说明 |
+### 10.2 实现度校准（偏差项，V2.74.3）
+| 功能 | 计划声称 | 代码真实（V2.74.3 扫描） | 证据/说明 |
 |------|---------|---------|-----------|
-| B2 三岛后台联动 | ✅ 完成 V2.37 | ⚠️ 源码零命中"三岛/three.island" | 命名代号未在 src 落地；序列号/委外/领料相关逻辑分散在 warehouse/production，须业务走查确认是否等价于 B2 |
-| B8 MRP 增强 | ✅ 完成 V2.44 | ✅ 真实（但无独立算法文件） | `MRPPlan.tsx#computeNetRequirements` 含安全库存分层/批量规则/提前期偏置真实运算；`src/utils` 无 `mrp.ts`，算法内联页内 |
-| B10 PO 变更单 | ✅ 完成 V2.66 | 🟡 部分 | 原 PO 上「变更」入口+痕迹（`Purchase/OrderDetail.tsx`、`OrderForm.tsx`）；独立 PO 变更单实体/流程未见独立页或 store |
-| 类型门禁 tsc 0 错 | ✅ 已建门禁 | 🟡 非默认路径 | `build-with-gate.bat` 提供 `tsc --noEmit` 门禁；`package.json` build 仅 `vite build`（esbuild 不跑类型检查），门禁非强制默认 |
-| RLS 行级安全 | ✅ P2-28 | 🟡 前端级 | `dataPermissionStore`+`SecureField`+`DataPermissionTab` 为展示级权限，未下沉 D1 行级策略 |
-| 智能推荐 P2-03 | 部分 | 🟡 雏形 | `Analytics/Cockpit`/`Forecast` 含推荐雏形，无独立引擎 |
-| 智能排程 P2-04 | 部分 | 🟡 壳倾向 | `GanttSchedule`/`DetailedScheduling`/`FiniteCapacity`(APS)/`CRP` 存在，但 `CRP.tsx` 59 行、`DetailedScheduling` 98 行，算法深度有限 |
-| 移动端 P2-20 | 部分 | 🟡 壳 | `Settings/MobileTab.tsx` 为配置壳，无独立移动端构建/路由 |
-| 三方销售 P2-12 | 部分 | 🟡 无专项实体 | 销售模块含 SO/Quotation/Contract，三方/代销专项逻辑未见独立实体 |
+| B2 三岛后台联动 | ✅ 完成 V2.37 | ✅ 已闭环（V2.70） | `b2Api.ts` + 迁移 0010–0012（serial_masters/subcontract_orders/work_order_pickings）+ `functions/api/serial-numbers`、`subcontracts`、`work-orders/picking` 真实端点；仅源码未用"三岛"代号。注意：V2.70 发布说明称"失败回退本地 Blob"不实——全仓无 Blob/R2 回退通道，失败静默 `return null`，真实回退为本地 zustand persist(localStorage) |
+| B8 MRP 增强 | ✅ 完成 V2.44 | ✅ 真实（页面内算法） | `MRPPlan.tsx#computeNetRequirements` 安全库存/批量/提前期偏置真实运算；`productionStore.MRP` 仅 mock 推荐无计算引擎 |
+| B10 PO 变更单 | ✅ 完成 V2.66 | ✅ 真实独立变更单 | `purchaseStore.changePurchaseOrder`(L137) 版本自增+快照入 `history[]`+终态/已收货锁定禁改；`OrderDetail.tsx` 版本历史差异对比视图（非原单标记） |
+| 类型门禁 tsc 0 错 | ✅ 已建门禁 | ✅ 已纳入默认构建 | `package.json` build = `tsc --noEmit && vite build`（门禁强制默认，`build-with-gate.bat` 同逻辑） |
+| RLS 行级安全 | ✅ P2-28 | ✅ 后端下沉 D1 | `functions/_shared/rls.ts` TABLE_RLS 映射 11 表 + `rlsFragment`/`assertRlsOwnership` 22 处调用；前端 `dataPermissionStore`/`SecureField` 仍为展示级脱敏（非强制） |
+| 智能推荐 P2-03 | 部分 | ✅ 真实 | `Forecast.tsx#computeDemandForecast/buildMonthlySales` 真实算法 |
+| 智能排程 P2-04 | 部分 | 🟢 大部分真实（仅 1 壳） | `GanttSchedule`/`FiniteCapacity`(APS)/`CRP`(`utils/crp.ts`) 真实有限产能排程；`DetailedScheduling.tsx` 仅锁单/锚定 UI（壳） |
+| 移动端 P2-20 | 部分 | 🟡 壳 | `Settings/MobileTab.tsx` 静态模拟 PDA 屏 + 伪二维码，无真实移动端构建/路由 |
+| 三方销售 P2-12 | 部分 | 🟡 无专项实体 | 销售含 SO/Quotation/Contract，三方/代销无独立实体 |
+| AI Agent（P2-01） | 模拟对话 | ✅ 真实代理 | `functions/api/ai/chat.ts` 读 KV 模型配置 + `fetch` LLM `/chat/completions`（无写死）；前端 `AIAssistant.tsx` 真实 fetch，无模拟兜底 |
+| ChatBI（P2-02） | 模拟 | ✅ 真实（规则型） | `functions/api/chatbi` 关键词→类型映射 + 真实 D1 SQL 执行（非 LLM-to-SQL） |
+| 发票 OCR | 正则 parseInvoice | 🟢 真实 OCR + 正则抽取 | `ocr/recognize.ts` 调 Tesseract.js 真实 OCR；字段抽取仍用 `text.match` 正则（OCR 已真，抽取待模型化） |
+| 数电票核验 | 真实转发 | 🟡 仍桩 | `tax-gateway/verify.ts` `mockVerifyInvoice` + `TODO` 真实 API（唯一确认桩）；`index.ts` `encryptApiKey` 仅 base64 |
+| 开放 API（P2-21） | 跳过 | ✅ 已完成（V2.74.0–74.2） | `functions/api/open/*` 网关：materials/vendors(vendor_master)/customers/purchase-orders/sales-orders + api_keys(scope write⊃read) |
+| 多币种 FX（P2-27） | 跳过 | ✅ 已完成（V2.74.0） | `fxStore.convert` 三角折算 + `fx_rates` 表 + 网关刷新 exchangerate.host |
 
-### 10.3 真实落地（确认无偏差）
-- **P0 六项地基**：A1 凭证(`utils/voucher.ts`)、A2 税价(`utils/tax.ts`)、A3 信用(`customerStore`)、A4 成本(`utils/cost.ts`)、A5 红冲(`buildReversalVoucher`)、A6 期间(`PeriodClosing.tsx`)——核心算法可逐行核验。
-- **P2 智能后端**：AI Agent(`functions/api/ai/chat.ts`)、ChatBI(`functions/api/chatbi`)、异常预警(`functions/api/alerts`)、OCR(`functions/api/ocr/recognize.ts`)、数电票核验(`functions/api/tax-gateway/verify.ts`)、审计(`functions/api/audit`)——均为真实转发/核验实现。
-- **整改项**：PBKDF2(`functions/_shared/auth.ts`)、D1 备份(`functions/api/system/backup.ts`)、白屏(`ErrorBoundary`+`PageFallback`+`white-screen-guard.spec.ts`)、DEPLOY 更正——代码/配置已落地。
+### 10.3 真实落地（确认无偏差，V2.74.3）
+- **P0 六项地基**：A1 凭证(`utils/voucher.ts`)、A2 税价(`utils/tax.ts`)、A3 信用(`customerStore`)、A4 成本(`utils/cost.ts`)、A5 红冲(`buildReversalVoucher`)、A6 期间(`PeriodClosing.tsx`)——核心算法逐行可核验。
+- **P1 关系化后端**：materials/customers/purchase_orders/sales_orders/vouchers/inventory_records/work_orders/three_way_match/audit_logs + **vendor_master(0016/0017)** + **三岛表(0010–0012)** + **fx_rates(0014)/api_keys(0015)** 均真实落库；网关/会话/关系端点 39 个真实。
+- **P2 智能后端**：AI(`ai/chat.ts` 真实 LLM 代理)、ChatBI(`chatbi` 规则+真实 SQL)、异常预警(`alerts` 6 类规则)、审计(`audit`)、OCR(`ocr` Tesseract)——均为真实实现（仅 `tax-gateway/verify` 为桩）。
+- **整改项**：PBKDF2(`auth.ts`)、D1 备份(`system/backup.ts`)、白屏(`ErrorBoundary`+`PageFallback`+`white-screen-guard.spec.ts`)、RLS 下沉 D1、DEPLOY 更正——代码/配置已落地。
+- **供应商主数据同源**：V2.74.3 `vendorStore` 直连 `vendor_master`，与开放网关 `/api/open/vendors` 同源，双数据源消除（前端仅 `vendor-ratings` 走 localStorage）。
 
-### 10.4 下一步重点（按用户价值排序）
-1. **生产态 E2E 回归**：部署后用真实 D1 后端跑关系化/三单匹配回归，验证"并行两套实现"一致性（最高风险项）。
-2. **B2 三岛后台走查**：确认分散逻辑是否等价于计划 B2，补独立标识或文档澄清。
-3. **B10 PO 变更单独立实体**：从"原单变更标记"升级为独立变更单流程（若业务需要）。
-4. **类型门禁纳入默认构建**：`package.json` build 改为 `tsc --noEmit && vite build` 或 CI 强制 build-with-gate，杜绝类型债回潮。
-5. **P2 深水区**（需后端/外部）：智能推荐、智能排程深化、移动端、多币种、开放 API、国产化合规（金税/数电票对接）。
+### 10.4 下一步重点（按用户价值排序，V2.74.3）
+1. **生产态常驻 E2E**：现有 `d1-backend-e2e.mjs`(13/13) + 各版本网关/vendor 同源冒烟已覆盖关键路径，但**缺覆盖全关系域的常驻生产 E2E 套件**，"双通道并行"残留风险仍在（前端 store 仍多走 Blob），建议补。
+2. **前端 store 迁真实 API**：vendorStore 已验证路径；material/customer/sales/purchase 等主数据 store 仍写 `app_state` Blob，建议按 vendorStore 模式逐步迁 D1 关系表，根治双通道。
+3. **P2 深水区（9 项整页缺失 + 2 壳 + 1 桩）**：波次RFID(P2-07)/重复制造(P2-08)/MES集成(P2-09)/S&OP(P2-10)/三方销售(P2-12)/COPA(P2-13)/资金管理(P2-14)/BI集成(P2-19)/ESG(P2-30) 无专项页；DetailedScheduling(P2-04 壳)/MobileTab(P2-20 壳)；数电票核验(tax-gateway/verify 桩)。
+4. **OCR 字段抽取模型化**：Tesseract 已真，字段解析仍正则，待接大模型结构化抽取。
+5. **采购订单变更单**：已实现独立版本化变更单，按业务是否需要进一步升为"独立变更单实体 + 独立审批流"再评估（当前已满足大多数场景）。
