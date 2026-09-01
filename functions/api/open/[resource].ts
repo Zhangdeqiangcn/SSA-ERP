@@ -1,6 +1,7 @@
-// 开放 API 网关：/api/open/:resource  — 物料/供应商/客户/采购单/销售单 读写全端点
+// 开放 API 网关（集合）：/api/open/:resource  — 列表 GET + 创建 POST
+// 单条记录的 GET/PUT/DELETE 在 [resource]/[id].ts（Pages Functions 路由要求）
 // 鉴权：API Key（Authorization: Bearer sk_xxx 或 ?api_key=），scope 校验 read/write
-// 安全：强制 org_id 归属（防跨组织写）；写操作记审计；API Key 视为组织级特权（看全部，不过角色过滤）
+// 安全：强制 org_id 归属（防跨组织写）；写操作补审计列 + 记审计；API Key 视为组织级特权（看全部，不过角色过滤）
 import { json, uid } from '../../_shared/auth';
 import { requireApiKey } from '../../_shared/apiKey';
 
@@ -38,6 +39,13 @@ function badResource() {
   return json({ error: '不支持的资源，可选: ' + Object.keys(RESOURCES).join(', ') }, 404);
 }
 
+// 探测表实际存在的审计列（各关系表 NOT NULL 审计列不一致：materials/customers 含 created_at/updated_at/created_by/updated_by，
+// vendors 仅 created_at，purchase_orders/sales_orders 含 created_at/updated_at）。网关写操作必须补齐这些列，否则触发 NOT NULL 约束 500。
+async function presentCols(DB: any, table: string): Promise<Set<string>> {
+  const info = await DB.prepare(`PRAGMA table_info(${table})`).all();
+  return new Set((info.results || []).map((r: any) => r.name));
+}
+
 async function audit(DB: any, org_id: string, keyId: string, entity: string, action: string, summary: string) {
   try {
     await DB.prepare(
@@ -55,14 +63,7 @@ export async function onRequestGet(context: any) {
   if (!def) return badResource();
 
   const url = new URL(context.request.url);
-  const id = context.params.id;
   const db = context.env.DB;
-
-  if (id) {
-    const row = await db.prepare(`SELECT * FROM ${def.table} WHERE id = ? AND org_id = ?`).bind(id, auth.org_id).first();
-    if (!row) return json({ error: '记录不存在' }, 404);
-    return json(row);
-  }
 
   const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
   const pageSize = Math.min(100, Math.max(1, parseInt(url.searchParams.get('pageSize') || '20', 10)));
@@ -86,53 +87,22 @@ export async function onRequestPost(context: any) {
 
   const id = uid(resource.replace(/-/g, '_').slice(0, 4));
   const now = new Date().toISOString();
-  const colNames = ['id', 'org_id', ...cols];
+  const actor = 'apikey:' + auth.keyId;
+  const present = await presentCols(context.env.DB, def.table);
+  const auditNames: string[] = [];
+  const auditVals: any[] = [];
+  if (present.has('created_at')) { auditNames.push('created_at'); auditVals.push(now); }
+  if (present.has('updated_at')) { auditNames.push('updated_at'); auditVals.push(now); }
+  if (present.has('created_by')) { auditNames.push('created_by'); auditVals.push(actor); }
+  if (present.has('updated_by')) { auditNames.push('updated_by'); auditVals.push(actor); }
+
+  const colNames = ['id', 'org_id', ...cols, ...auditNames];
   const placeholders = colNames.map(() => '?').join(', ');
-  const values = [id, auth.org_id, ...cols.map((c) => body[c])];
+  const values = [id, auth.org_id, ...cols.map((c) => body[c]), ...auditVals];
 
   await context.env.DB.prepare(
     `INSERT INTO ${def.table} (${colNames.join(', ')}) VALUES (${placeholders})`
   ).bind(...values).run();
   await audit(context.env.DB, auth.org_id, auth.keyId, def.table, 'create', `API创建 ${resource} ${id}`);
   return json({ ok: true, id }, 201);
-}
-
-export async function onRequestPut(context: any) {
-  const auth = await requireApiKey(context.request, context.env.DB, 'write');
-  if (auth instanceof Response) return auth;
-  const resource = context.params.resource;
-  const def = RESOURCES[resource];
-  if (!def) return badResource();
-  const id = context.params.id;
-  if (!id) return json({ error: '缺少 id' }, 400);
-
-  const body = await context.request.json().catch(() => ({}));
-  const cols = def.cols.filter((c) => body[c] !== undefined);
-  if (cols.length === 0) return json({ error: '无可更新字段' }, 400);
-
-  const setClauses = cols.map((c) => `${c} = ?`).join(', ');
-  const values = [...cols.map((c) => body[c]), new Date().toISOString(), id, auth.org_id];
-  const res = await context.env.DB.prepare(
-    `UPDATE ${def.table} SET ${setClauses}, updated_at = ? WHERE id = ? AND org_id = ?`
-  ).bind(...values).run();
-  if (res.changes === 0) return json({ error: '记录不存在' }, 404);
-  await audit(context.env.DB, auth.org_id, auth.keyId, def.table, 'update', `API更新 ${resource} ${id}`);
-  return json({ ok: true });
-}
-
-export async function onRequestDelete(context: any) {
-  const auth = await requireApiKey(context.request, context.env.DB, 'write');
-  if (auth instanceof Response) return auth;
-  const resource = context.params.resource;
-  const def = RESOURCES[resource];
-  if (!def) return badResource();
-  const id = context.params.id;
-  if (!id) return json({ error: '缺少 id' }, 400);
-
-  const res = await context.env.DB.prepare(
-    `DELETE FROM ${def.table} WHERE id = ? AND org_id = ?`
-  ).bind(id, auth.org_id).run();
-  if (res.changes === 0) return json({ error: '记录不存在' }, 404);
-  await audit(context.env.DB, auth.org_id, auth.keyId, def.table, 'delete', `API删除 ${resource} ${id}`);
-  return json({ ok: true });
 }

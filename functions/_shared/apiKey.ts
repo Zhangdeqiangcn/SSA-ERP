@@ -37,7 +37,10 @@ export async function getApiKeyFromRequest(request: Request, DB: any): Promise<A
 }
 
 export function hasScope(auth: ApiKeyAuth, need: 'read' | 'write'): boolean {
-  return auth.scopes.includes('*') || auth.scopes.includes(need);
+  if (auth.scopes.includes('*')) return true;
+  if (need === 'write') return auth.scopes.includes('write');
+  // read 是 write 的子集：拥有 write 权限的 Key 天然可读（程序化集成通常需要先读后写）
+  return auth.scopes.includes('read') || auth.scopes.includes('write');
 }
 
 /** 统一鉴权：失败返回 Response，成功返回 ApiKeyAuth（null 表示需继续） */

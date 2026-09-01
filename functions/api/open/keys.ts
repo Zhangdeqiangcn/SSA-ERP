@@ -43,17 +43,3 @@ export async function onRequestPost(context: any) {
 
   return json({ ok: true, id: uid('ak'), plainKey: plain, label, scopes }, 201);
 }
-
-export async function onRequestDelete(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
-
-  const id = context.params.id;
-  if (!id) return json({ error: '缺少 id' }, 400);
-  const res = await context.env.DB.prepare(
-    'UPDATE api_keys SET revoked = 1, revoked_at = ? WHERE id = ? AND org_id = ?'
-  ).bind(new Date().toISOString(), id, user.org_id).run();
-  if (res.changes === 0) return json({ error: 'Key 不存在' }, 404);
-  return json({ ok: true });
-}
