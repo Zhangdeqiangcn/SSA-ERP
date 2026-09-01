@@ -13,9 +13,11 @@ const RESOURCES: Record<string, { table: string; cols: string[] }> = {
       'price', 'currency', 'standard_price', 'status', 'lifecycle_status', 'remarks'],
   },
   vendors: {
-    table: 'vendors',
+    table: 'vendor_master',
     cols: ['vendor_code', 'company_name', 'short_name', 'type', 'contact_name', 'contact_phone',
-      'contact_email', 'address', 'status', 'credit_level', 'credit_limit', 'used_credit', 'remarks'],
+      'contact_email', 'address', 'status', 'credit_level', 'credit_limit', 'used_credit',
+      'tax_id', 'bank_account', 'sales_org', 'reconciliation_account', 'tax_code', 'rating',
+      'blacklist_reason', 'blacklisted_at', 'qualification_expiry', 'remarks'],
   },
   customers: {
     table: 'customers',
