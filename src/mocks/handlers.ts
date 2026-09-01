@@ -104,17 +104,25 @@ const handlers = [
     return HttpResponse.json({ success: true });
   }),
 
-  // Vendors
+  // Vendors（V2.74.3：与真实 /api/vendors 端点同构，去掉 success 包裹）
   http.get('/api/vendors', async ({ request }) => {
     await delay(300);
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 1;
-    const pageSize = Number(url.searchParams.get('pageSize')) || 10;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
     const status = url.searchParams.get('status');
+    const type = url.searchParams.get('type');
+    const keyword = (url.searchParams.get('keyword') || '').trim();
 
     let filteredVendors = [...vendors];
-    if (status) {
-      filteredVendors = filteredVendors.filter(v => v.status === status);
+    if (status) filteredVendors = filteredVendors.filter(v => v.status === status);
+    if (type) filteredVendors = filteredVendors.filter(v => v.type === type);
+    if (keyword) {
+      const kw = keyword.toLowerCase();
+      filteredVendors = filteredVendors.filter(v =>
+        (v.code || '').toLowerCase().includes(kw) ||
+        (v.name || '').toLowerCase().includes(kw) ||
+        (v.contact || '').toLowerCase().includes(kw));
     }
 
     const start = (page - 1) * pageSize;
@@ -122,13 +130,11 @@ const handlers = [
     const paginatedData = filteredVendors.slice(start, end);
 
     return HttpResponse.json({
-      success: true,
-      data: {
-        data: paginatedData,
-        total: filteredVendors.length,
-        page,
-        pageSize,
-      },
+      data: paginatedData,
+      total: filteredVendors.length,
+      page,
+      pageSize,
+      totalPages: Math.ceil(filteredVendors.length / pageSize),
     });
   }),
 
@@ -148,21 +154,39 @@ const handlers = [
     await delay(200);
     const vendor = vendors.find(v => v.id === params.id);
     if (!vendor) {
-      return HttpResponse.json(
-        { success: false, error: { code: 'NOT_FOUND', message: '供应商不存在' } },
-        { status: 404 }
-      );
+      return HttpResponse.json({ error: '供应商不存在' }, { status: 404 });
     }
-    return HttpResponse.json({ success: true, data: vendor });
+    return HttpResponse.json({ ...vendor });
   }),
 
   http.post('/api/vendors', async ({ request }) => {
     await delay(300);
     const body = await request.json() as Record<string, unknown>;
-    return HttpResponse.json({
-      success: true,
-      data: { ...body, id: `ven-${Date.now()}`, createdAt: new Date().toISOString() },
-    });
+    const created = {
+      ...body,
+      id: `ven-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    vendors.push(created as any);
+    return HttpResponse.json({ ...created });
+  }),
+
+  http.put('/api/vendors/:id', async ({ params, request }) => {
+    await delay(300);
+    const body = await request.json() as Record<string, unknown>;
+    const idx = vendors.findIndex(v => v.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '供应商不存在' }, { status: 404 });
+    vendors[idx] = { ...vendors[idx], ...body, updatedAt: new Date().toISOString() } as any;
+    return HttpResponse.json({ ...vendors[idx] });
+  }),
+
+  http.delete('/api/vendors/:id', async ({ params }) => {
+    await delay(200);
+    const idx = vendors.findIndex(v => v.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '供应商不存在' }, { status: 404 });
+    vendors.splice(idx, 1);
+    return HttpResponse.json({ ok: true });
   }),
 
   http.post('/api/vendors/:id/approve', async ({ params }) => {

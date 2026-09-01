@@ -14,7 +14,8 @@ export const TABLE_RLS: Record<string, RlsScope> = {
   vouchers: 'all',           // 凭证 = 共享
   customers: 'own',          // 销售看自己客户
   sales_orders: 'own',       // 销售看自己订单
-  vendors: 'own',            // 采购看自己供应商
+  vendors: 'own',            // 采购看自己供应商（门户登录表，历史保留）
+  vendor_master: 'own',      // 采购看自己供应商主数据（V2.74.2 起的关系表）
   purchase_orders: 'own',    // 采购看自己订单
   inbound_orders: 'dept',    // 仓库按部门
   outbound_orders: 'dept',
