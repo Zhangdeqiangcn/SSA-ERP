@@ -7,6 +7,8 @@ import VendorPortalRegister from './pages/Vendor/VendorPortalRegister';
 import Login from './pages/Login/Login';
 import { useAuthStore } from './stores/authStore';
 import { useVendorStore } from './stores/vendorStore';
+import { useMaterialStore } from './stores/materialStore';
+import { useCustomerStore } from './stores/customerStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 // P4-1 个人工作台
@@ -224,9 +226,12 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
-  // V2.74.3：启动即拉取供应商主数据（直连 D1 vendor_master，与网关同源）；离线/未登录回退内存 mockVendors。
+  // V2.74.3/V2.74.5：启动即拉取主数据（直连 D1，与开放网关同源）；离线/未登录回退内存 mock。
+  // 物料/客户/供应商三张主数据表全收口到 D1，根治 app_state Blob 双通道。
   useEffect(() => {
     useVendorStore.getState().loadVendors();
+    useMaterialStore.getState().loadMaterials();
+    useCustomerStore.getState().loadCustomers();
   }, []);
   return (
     <Routes>

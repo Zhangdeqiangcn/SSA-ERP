@@ -36,6 +36,7 @@ export async function onRequestPut(context: any) {
   }
 
   const now = new Date().toISOString();
+  try {
   await env.DB.prepare(`
     UPDATE customers SET
       code = COALESCE(?, code),
@@ -67,21 +68,25 @@ export async function onRequestPut(context: any) {
       custom_fields = COALESCE(?, custom_fields),
       updated_at = ?
     WHERE id = ? AND org_id = ?
-  `).bind(
-    body.code, body.name, body.shortName, body.type, body.status,
-    body.creditLevel, body.creditLimit ?? null, body.usedCredit ?? null,
+  `  ).bind(
+    body.code ?? null, body.name ?? null, body.shortName ?? null, body.type ?? null, body.status ?? null,
+    body.creditLevel ?? null, body.creditLimit ?? null, body.usedCredit ?? null,
     body.settlementTermDays ?? null,
-    body.taxId, body.invoiceTitle, body.invoiceAddress, body.invoicePhone,
-    body.bankName, body.bankAccount, body.bankAccountName,
-    body.contactName, body.contactPhone, body.contactEmail, body.address,
-    body.defaultCurrency, body.defaultTaxRate ?? null,
-    body.salesOrg, body.reconciliationAccount, body.taxCode,
-    body.remarks,
+    body.taxId ?? null, body.invoiceTitle ?? null, body.invoiceAddress ?? null, body.invoicePhone ?? null,
+    body.bankName ?? null, body.bankAccount ?? null, body.bankAccountName ?? null,
+    body.contactName ?? null, body.contactPhone ?? null, body.contactEmail ?? null, body.address ?? null,
+    body.defaultCurrency ?? null, body.defaultTaxRate ?? null,
+    body.salesOrg ?? null, body.reconciliationAccount ?? null, body.taxCode ?? null,
+    body.remarks ?? null,
     body.customFields ? JSON.stringify(body.customFields) : null,
     now, params.id, user.org_id
   ).run();
+  } catch (e: any) {
+    return json({ error: '更新失败: ' + (e?.message || String(e)) }, 500);
+  }
 
   const updated = await env.DB.prepare('SELECT * FROM customers WHERE id = ? AND org_id = ?').bind(params.id, user.org_id).first();
+  if (!updated) return json({ error: '客户不存在' }, 404);
   return json(formatCustomer(updated as any));
 }
 
@@ -98,7 +103,7 @@ export async function onRequestDelete(context: any) {
   const result = await env.DB.prepare(
     'DELETE FROM customers WHERE id = ? AND org_id = ?'
   ).bind(params.id, user.org_id).run();
-  if (result.changes === 0) return json({ error: '客户不存在' }, 404);
+  if ((result.meta?.changes ?? result.changes) === 0) return json({ error: '客户不存在' }, 404);
   return json({ ok: true });
 }
 

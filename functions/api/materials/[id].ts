@@ -54,6 +54,7 @@ export async function onRequestPut(context: any) {
     remarks, parameters, plantParams, customFields,
   } = body || {};
 
+  try {
   await env.DB.prepare(`
     UPDATE materials SET
       code = COALESCE(?, code),
@@ -116,32 +117,36 @@ export async function onRequestPut(context: any) {
       updated_at = ?,
       updated_by = ?
     WHERE id = ? AND org_id = ?
-  `).bind(
-    code, name, categoryId, categoryName, specification, model, unit,
-    materialType, makeOrBuy,
-    safetyStock ?? 0, minStock ?? 0, maxStock ?? 0, currentStock ?? 0,
-    price ?? 0, currency || 'CNY', standardPrice, movingAvgPrice, stockValue,
-    leadTime, moq, mpq, defaultVendorId, defaultVendorName,
-    purchaseUnit, unitConversion,
-    purchasingGroup, orderUnit, purchasingValueKey, grProcessingDays,
-    mrpType, mrpController, lotSize, reorderPoint, plannedDeliveryDays,
-    taxClassification, deliveryUnit, minOrderQty, minDeliveryQty, accountAssignmentGroup,
-    valuationClass, priceControl,
-    routing, workCenter, cycleTime, scrapRate, inspectionPoint,
-    status, lifecycleStatus,
-    shelfLifeDays ?? 0, shelfLifeWarningDays ?? 0,
-    batchManaged ? 1 : 0, serialized ? 1 : 0,
-    gtin, remarks,
+  `  ).bind(
+    code ?? null, name ?? null, categoryId ?? null, categoryName ?? null, specification ?? null, model ?? null, unit ?? null,
+    materialType ?? null, makeOrBuy ?? null,
+    safetyStock ?? null, minStock ?? null, maxStock ?? null, currentStock ?? null,
+    price ?? null, currency ?? null, standardPrice ?? null, movingAvgPrice ?? null, stockValue ?? null,
+    leadTime ?? null, moq ?? null, mpq ?? null, defaultVendorId ?? null, defaultVendorName ?? null,
+    purchaseUnit ?? null, unitConversion ?? null,
+    purchasingGroup ?? null, orderUnit ?? null, purchasingValueKey ?? null, grProcessingDays ?? null,
+    mrpType ?? null, mrpController ?? null, lotSize ?? null, reorderPoint ?? null, plannedDeliveryDays ?? null,
+    taxClassification ?? null, deliveryUnit ?? null, minOrderQty ?? null, minDeliveryQty ?? null, accountAssignmentGroup ?? null,
+    valuationClass ?? null, priceControl ?? null,
+    routing ?? null, workCenter ?? null, cycleTime ?? null, scrapRate ?? null, inspectionPoint ?? null,
+    status ?? null, lifecycleStatus ?? null,
+    shelfLifeDays ?? null, shelfLifeWarningDays ?? null,
+    batchManaged == null ? null : (batchManaged ? 1 : 0), serialized == null ? null : (serialized ? 1 : 0),
+    gtin ?? null, remarks ?? null,
     parameters ? JSON.stringify(parameters) : null,
     plantParams ? JSON.stringify(plantParams) : null,
     customFields ? JSON.stringify(customFields) : null,
     now, user.username,
     params.id, user.org_id
   ).run();
+  } catch (e: any) {
+    return json({ error: '更新失败: ' + (e?.message || String(e)) }, 500);
+  }
 
   const updated = await env.DB.prepare(
     'SELECT * FROM materials WHERE id = ? AND org_id = ?'
   ).bind(params.id, user.org_id).first();
+  if (!updated) return json({ error: '物料不存在' }, 404);
   return json(formatMaterial(updated as any), 200);
 }
 
@@ -154,7 +159,7 @@ export async function onRequestDelete(context: any) {
     'DELETE FROM materials WHERE id = ? AND org_id = ?'
   ).bind(params.id, user.org_id).run();
 
-  if (result.changes === 0) return json({ error: '物料不存在' }, 404);
+  if ((result.meta?.changes ?? result.changes) === 0) return json({ error: '物料不存在' }, 404);
   return json({ ok: true });
 }
 

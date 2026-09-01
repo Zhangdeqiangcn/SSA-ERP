@@ -15,10 +15,10 @@
 - 数据：`src/mocks/data/`(11 文件) 仅种子源
 - 自动化回归：Playwright `e2e/*.spec.ts`，`window.__ssaStores`（DEV 暴露）驱动断言
 
-## 二、模块现状（截至 V2.74.3）
+## 二、模块现状（截至 V2.74.5）
 
 > 下表为 V2.54 基线盘点；V2.55–V2.74.3 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P1 关系化后端 17 项、P2 智能增强（17/30 功能落地，9 项整页缺失 + 2 壳 + 1 桩）均已落地**；生产态真实后端见 §九/§十。
-> **架构注意（V2.74.3 复核）**：关系化 D1 后端已在 V2.58–V2.74.3 建表打通（migrations 0001–0017，约 30 张表），但**前端 store 绝大多数仍以 `app_state` Blob 为主源**（persist+backendStorage 写 `/api/state/:key`），仅 `vendorStore`(V2.74.3) 直连 D1 `vendor_master`；`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」。双通道并行风险具体化，根治路线见 §十.4。
+> **架构注意（V2.74.5 复核）**：关系化 D1 后端已在 V2.58–V2.74.3 建表打通（migrations 0001–0017，约 30 张表）。**主数据三张表（materials/customers/vendors）前端已直连真实 D1**：`vendorStore`(V2.74.3) 直连 `vendor_master`、`materialStore`/`customerStore`(V2.74.5) 直连 `materials`/`customers`，与开放网关同源（同 org_id+RLS），彻底脱离 app_state Blob 双源；除主数据三张外，其余前端 store 仍大多以 `app_state` Blob 为主源（persist+backendStorage 写 `/api/state/:key`），`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。双通道并行风险具体化，根治路线见 §十.4。
 | 域 | 状态 | 说明 |
 |----|------|------|
 | 物料主数据 | **V2.51 增强** | 审批流 + 评级 + 多单位 + 自定义字段；**P0-04 多视图**：Material加14字段（采购组/MRP类型/税分类/科目分配组等），Form改5个Tab分组；**P2-23 GTIN**：条码字段 |
@@ -149,6 +149,7 @@
 - **V2.74.2 供应商主数据独立关系表 vendor_master**（2026-09-01）——新建 `vendor_master`(0016，主数据列+审计列，**不含 password_hash/salt**)+ 网关 `vendors` 端点改指；顺带修复子路由漏改([id].ts 仍指旧门户表致 GET/:id 404)；生产实测全绿（零凭据泄露），部署 `484836d3`。
 - **V2.74.3 前端 vendorStore 对齐 D1 vendor_master（消除双数据源）**（2026-09-01）——`vendorStore` 移除 persist+backendStorage(app_state Blob 双源根治)，改经 `vendorApi` 直连 `vendor_master`；后端 `functions/api/vendors/*` 由门户表改指 vendor_master + RLS own + POST 创建(201)；修复 PUT `.bind` 未传字段 undefined→D1 500；迁移 0017 补 6 JSON 扩展列；同源冒烟全绿（前端 POST→网关 GET 同一条 / PUT 改 credit_limit 网关反映 / DELETE 网关消失）；部署 `a7572d01`，归档 ima。
 - **V2.74.4 常驻生产 E2E 套件 + 5 真实后端缺陷修复（待部署验证）**（2026-09-01）——①新增 `scripts/prod-e2e/` 常驻生产 E2E 套件：`lib/{http,harness,report}.mjs` + `suites/01-auth`…`10-intelligence` 共 10 套件，覆盖认证/Blob 通道/关系 10 域/供应商同源/B2 三岛/开放网关/RLS/多币种 FX/审计三单/智能端点；打真实生产域（默认 `https://ssa-erp.pages.dev`，`PROD_E2E_BASE` 可覆盖）、时间戳隔离组织 `E2E-<runId>`、跑完自动清理业务行+吊销测试 Key、`npm run test:prod-e2e` 入口、输出 `test-reports/prod-e2e/latest.{md,json}`。②套件首跑即暴露并修复 5 个真实后端缺陷：`functions/api/open/keys.ts` 创建响应 id 与库内 id 不一致（`uid('ak')` 双调用，致调用方无法按 id 吊销）；`functions/api/audit/logs.ts` 用 `user.userId`(undefined)致 D1 绑参 500→改 `user.id`；`functions/api/ocr/recognize.ts` 非表单请求 `request.formData()` 抛错 500→包 try/catch 返回 400；开放网关 `functions/api/open/[resource]/[id].ts` PUT/DELETE 误用 `res.changes`（D1 应为 `res.meta.changes`）致缺失 404；`functions/api/alerts/index.ts` 引用不存在的 `warehouses` 表 JOIN 与 `inventory_records.quantity_on_hand` 列漂移→改用已有 `warehouse_name`/`quantity` 列。基线：首跑 18 FAIL → 修正我方断言后 7 FAIL（均为上述后端缺陷，部署后即全绿）。注意：`scripts/d1-backend-e2e.mjs`（V2.69 本地 harness）断言已过时（仍称「关系表无 POST 创建端点」「B2 三岛无专属后端」），V2.70/V2.74.3 后不成立，仅作历史参考，以 `scripts/prod-e2e/` 为准。
+- **V2.74.5 主数据 materialStore/customerStore 迁真实 D1 API（根治双通道·收口物料+客户）**（2026-09-01）——① 后端 `functions/api/materials` 补 POST 创建（校验 code/name 必填、code 唯一查重 409、uid('mat')、INSERT 全列含 owner_id/dept_id/审计列 + audit helper）；`[id].ts` DELETE 修 D1 changes 坑（`res.meta?.changes ?? res.changes`，否则非存在 id 返回 200 缺 404，与 V2.74.4 网关修复同因）。② 后端 `functions/api/customers` 同构补 POST + DELETE meta.changes 修复。③ 前端新建 `src/services/customer.ts`（customerApi，与 vendorApi 同构直连 /customers）。④ 前端 `materialStore`/`customerStore` 重写去 `persist`+`backendStorage`(app_state Blob)：`loadMaterials`/`loadCustomers` 经 `materialApi`/`customerApi` 读 D1；add/update/delete 改 async 乐观更新+写回 D1（写失败 catch 保留内存态、离线回退 mock）；首次空库从 legacy app_state(或 mock)一次性回填 D1；App 启动 useEffect 同时拉 vendor/material/customer 三张主数据。⑤ MSW handlers：materials 5 处理器去 success 包裹与真实端点同构；补 customers 5 个 CRUD 处理器（原缺失）。tsc 0 错；vite build 通过（safe-delete 清空 dist 超时，按既定 workaround 移旧 dist 后构建到全新 dist）。主数据三张表（materials/customers/vendors）至此全部直连真实 D1、与开放网关同源，双通道仅剩非主数据部分（仓库/设备/单位换算/数据字典等后端暂无表仍走 Blob）。
 
 > 部署门禁：每次生产部署后运行 `npm run test:prod-e2e`（默认自动清理），全绿方可视为收口；WARN 属外部依赖（OCR/AI/数电票/汇率刷新）不阻断，FAIL 必修。
 
@@ -256,7 +257,7 @@
 ### 10.1 双数据通道（关键架构前提，已细化）
 - **DEV/本地/E2E/离线演示**：`src/main.tsx` 仅 `import.meta.env.DEV` 启动 MSW（`src/mocks/handlers.ts` 拦截 `/api/*`），stores 直接 import `@/mocks/data/*` 种子 → 浏览器内 mock，不触达 D1。
 - **生产通道**：Cloudflare Pages 构建不启动 MSW，`fetch('/api/...')` 真实打 `functions/api` + D1（migrations 0001–0017，约 30 张表）。`functions/api` 39 个端点绝大多数真实落库（详见 §十.3）。
-- **双通道现状（V2.74.3 实测）**：关系化后端已在 V2.58–V2.64 建表（materials/customers/purchase_orders/sales_orders/vouchers/inventory_records/work_orders 等）+ 函数在 V2.69–V2.74.3 打通，但**前端 store 绝大多数仍以 `app_state` Blob 为主源**（`persist`+`backendStorage` 写 `/api/state/:key`），仅 `vendorStore` 在 V2.74.3 改为直连 D1 `vendor_master`（`vendorApi`）；`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。即"后端关系表"与"前端主源 Blob"长期并行，需逐步把前端 store 迁到真实 API（vendorStore 已验证路径）。
+- **双通道现状（V2.74.5 实测）**：关系化后端已在 V2.58–V2.64 建表 + 函数在 V2.69–V2.74.5 打通。**主数据三张（materials/customers/vendors）前端已直连真实 D1**：`vendorStore`(V2.74.3) 直连 `vendor_master`、`materialStore`/`customerStore`(V2.74.5) 直连 `materials`/`customers`（与开放网关同源）；其余前端 store 仍大多以 `app_state` Blob 为主源（`persist`+`backendStorage` 写 `/api/state/:key`），`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。即"后端关系表"与"前端主源 Blob"并行仅剩非主数据部分，主数据三张已根治双源。
 - 含义：下文"已实现"指源码含真实业务逻辑/算法；依赖持久化与跨表关系的，在生产态落 D1、在 DEV 落 Blob。
 
 ### 10.2 实现度校准（偏差项，V2.74.3）

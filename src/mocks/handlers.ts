@@ -1,16 +1,18 @@
 import { http, HttpResponse, delay } from 'msw';
 import { materials, materialCategories } from './data/material';
+import { customers } from './data/customer';
 import { vendors } from './data/vendor';
 import { purchaseRequests, purchaseOrders, vendorQuotes } from './data/purchase';
 import { inboundOrders, outboundOrders, checkTasks, inventoryRecords, inventoryAlerts } from './data/warehouse';
 
 const handlers = [
   // Materials
+  // Materials（V2.74.5：与真实 /api/materials 端点同构，去掉 success 包裹）
   http.get('/api/materials', async ({ request }) => {
     await delay(300);
     const url = new URL(request.url);
     const page = Number(url.searchParams.get('page')) || 1;
-    const pageSize = Number(url.searchParams.get('pageSize')) || 10;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
     const name = url.searchParams.get('name');
     const code = url.searchParams.get('code');
 
@@ -27,13 +29,11 @@ const handlers = [
     const paginatedData = filteredMaterials.slice(start, end);
 
     return HttpResponse.json({
-      success: true,
-      data: {
-        data: paginatedData,
-        total: filteredMaterials.length,
-        page,
-        pageSize,
-      },
+      data: paginatedData,
+      total: filteredMaterials.length,
+      page,
+      pageSize,
+      totalPages: Math.ceil(filteredMaterials.length / pageSize),
     });
   }),
 
@@ -41,38 +41,111 @@ const handlers = [
     await delay(200);
     const material = materials.find(m => m.id === params.id);
     if (!material) {
-      return HttpResponse.json(
-        { success: false, error: { code: 'NOT_FOUND', message: '物料不存在' } },
-        { status: 404 }
-      );
+      return HttpResponse.json({ error: '物料不存在' }, { status: 404 });
     }
-    return HttpResponse.json({ success: true, data: material });
+    return HttpResponse.json({ ...material });
   }),
 
   http.post('/api/materials', async ({ request }) => {
     await delay(300);
     const body = await request.json() as Record<string, unknown>;
-    const newMaterial = {
+    const created = {
       ...body,
       id: `mat-${Date.now()}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    return HttpResponse.json({ success: true, data: newMaterial });
+    materials.push(created as any);
+    return HttpResponse.json({ ...created });
   }),
 
   http.put('/api/materials/:id', async ({ params, request }) => {
     await delay(300);
     const body = await request.json() as Record<string, unknown>;
+    const idx = materials.findIndex(m => m.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '物料不存在' }, { status: 404 });
+    materials[idx] = { ...materials[idx], ...body, updatedAt: new Date().toISOString() } as any;
+    return HttpResponse.json({ ...materials[idx] });
+  }),
+
+  http.delete('/api/materials/:id', async ({ params }) => {
+    await delay(200);
+    const idx = materials.findIndex(m => m.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '物料不存在' }, { status: 404 });
+    materials.splice(idx, 1);
+    return HttpResponse.json({ ok: true });
+  }),
+
+  // Customers（V2.74.5：与真实 /api/customers 端点同构，去掉 success 包裹）
+  http.get('/api/customers', async ({ request }) => {
+    await delay(300);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    const keyword = (url.searchParams.get('keyword') || '').trim();
+    const status = url.searchParams.get('status');
+    const type = url.searchParams.get('type');
+
+    let filtered = [...customers];
+    if (keyword) {
+      const kw = keyword.toLowerCase();
+      filtered = filtered.filter(c =>
+        (c.code || '').toLowerCase().includes(kw) ||
+        (c.name || '').toLowerCase().includes(kw));
+    }
+    if (status) filtered = filtered.filter(c => c.status === status);
+    if (type) filtered = filtered.filter(c => c.type === type);
+
+    const start = (page - 1) * pageSize;
+    const end = start + pageSize;
+    const paginatedData = filtered.slice(start, end);
+
     return HttpResponse.json({
-      success: true,
-      data: { ...body, id: params.id, updatedAt: new Date().toISOString() },
+      data: paginatedData,
+      total: filtered.length,
+      page,
+      pageSize,
+      totalPages: Math.ceil(filtered.length / pageSize),
     });
   }),
 
-  http.delete('/api/materials/:id', async () => {
+  http.get('/api/customers/:id', async ({ params }) => {
     await delay(200);
-    return HttpResponse.json({ success: true });
+    const customer = customers.find(c => c.id === params.id);
+    if (!customer) {
+      return HttpResponse.json({ error: '客户不存在' }, { status: 404 });
+    }
+    return HttpResponse.json({ ...customer });
+  }),
+
+  http.post('/api/customers', async ({ request }) => {
+    await delay(300);
+    const body = await request.json() as Record<string, unknown>;
+    const created = {
+      ...body,
+      id: `cus-${Date.now()}`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    customers.push(created as any);
+    return HttpResponse.json({ ...created });
+  }),
+
+  http.put('/api/customers/:id', async ({ params, request }) => {
+    await delay(300);
+    const body = await request.json() as Record<string, unknown>;
+    const idx = customers.findIndex(c => c.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '客户不存在' }, { status: 404 });
+    customers[idx] = { ...customers[idx], ...body, updatedAt: new Date().toISOString() } as any;
+    return HttpResponse.json({ ...customers[idx] });
+  }),
+
+  http.delete('/api/customers/:id', async ({ params }) => {
+    await delay(200);
+    const idx = customers.findIndex(c => c.id === params.id);
+    if (idx === -1) return HttpResponse.json({ error: '客户不存在' }, { status: 404 });
+    customers.splice(idx, 1);
+    return HttpResponse.json({ ok: true });
   }),
 
   // Categories
