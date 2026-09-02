@@ -23,3 +23,6 @@ export * from './mes';
 export * from './tripartySales';
 export * from './copa';
 export * from './cashMgmt';
+export * from './sop';
+export * from './bi';
+export * from './esg';

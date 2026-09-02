@@ -143,3 +143,9 @@ export { useTripartySalesStore } from './tripartySalesStore';
 export { useCopaStore } from './copaStore';
 // V2.74.7 资金管理（账户/流水 + 余额联动）（P2-14）
 export { useCashMgmtStore } from './cashMgmtStore';
+// V2.74.8 S&OP 销售与运营计划（P2-10）
+export { useSopStore } from './sopStore';
+// V2.74.8 BI 集成（外部 BI 平台连接 / 同步）（P2-19）
+export { useBiStore } from './biStore';
+// V2.74.8 ESG 报告（环境/社会/治理指标）（P2-30）
+export { useEsgStore } from './esgStore';

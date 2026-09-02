@@ -169,6 +169,7 @@ const GanttSchedule = lazy(() => import('./pages/Production/GanttSchedule'));
 const WaveRfidList = lazy(() => import('./pages/Warehouse/WaveRfidList'));
 const RepetitiveMfgList = lazy(() => import('./pages/Production/RepetitiveMfgList'));
 const MesIntegrationList = lazy(() => import('./pages/Production/MesIntegrationList'));
+const SopPlan = lazy(() => import('./pages/Production/SopPlan'));
 // 财务
 const InvoiceList = lazy(() => import('./pages/Finance/InvoiceList'));
 const PaymentPlanPage = lazy(() => import('./pages/Finance/PaymentPlan'));
@@ -187,6 +188,8 @@ const PayableList = lazy(() => import('./pages/Finance/PayableList'));
 // 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理）
 const CopaAnalysis = lazy(() => import('./pages/Finance/CopaAnalysis'));
 const CashMgmtList = lazy(() => import('./pages/Finance/CashMgmtList'));
+const BiIntegration = lazy(() => import('./pages/Finance/BiIntegration'));
+const EsgReport = lazy(() => import('./pages/Finance/EsgReport'));
 // 财务深化（P2-5）
 const FxConfig = lazy(() => import('./pages/Settings/FxConfig'));
 const AgingReport = lazy(() => import('./pages/Finance/AgingReport'));
@@ -436,6 +439,7 @@ function App() {
         <Route path="warehouse/wave-rfid" element={<WaveRfidList />} />
         <Route path="production/repetitive" element={<RepetitiveMfgList />} />
         <Route path="production/mes" element={<MesIntegrationList />} />
+        <Route path="production/sop" element={<SopPlan />} />
         {/* 财务管理 */}
         <Route path="finance" element={<Navigate to="/finance/invoices" replace />} />
         <Route path="finance/invoices" element={<InvoiceList />} />
@@ -460,6 +464,8 @@ function App() {
         {/* 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理） */}
         <Route path="finance/copa" element={<CopaAnalysis />} />
         <Route path="finance/cash" element={<CashMgmtList />} />
+        <Route path="finance/bi" element={<BiIntegration />} />
+        <Route path="finance/esg" element={<EsgReport />} />
         {/* 财务深化（P3-1）：三大财务报表 + 固定资产 + 期末结账 */}
         <Route path="finance/statements" element={<FinancialStatements />} />
         <Route path="finance/fixed-assets" element={<FixedAssets />} />

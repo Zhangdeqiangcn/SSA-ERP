@@ -131,6 +131,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '工序SPC', path: '/production/spc', module: '生产与质量', group: '生产管理', keywords: ['spc', '工序质量'], desc: '工序质量控制' },
   { label: '重复制造', path: '/production/repetitive', module: '生产与质量', group: '生产管理', keywords: ['repetitive', 'backflush', '重复制造', '倒冲'], desc: '重复制造产线与倒冲' },
   { label: 'MES集成', path: '/production/mes', module: '生产与质量', group: '生产管理', keywords: ['mes', '集成', '设备', 'wip'], desc: 'MES 连接与在制品同步' },
+  { label: 'S&OP销售与运营计划', path: '/production/sop', module: '生产与质量', group: '生产管理', keywords: ['sop', '销售运营计划', '产销平衡', '需求预测', '供应计划'], desc: '需求预测与供应能力平衡的月度计划' },
 
   // ── 财务与报表 ──
   { label: '发票管理', path: '/finance/invoices', module: '财务与报表', group: '财务管理', keywords: ['invoice', '发票', '采购发票'], desc: '采购发票管理' },
@@ -155,6 +156,8 @@ export const searchIndex: SearchEntry[] = [
   { label: '应付管理', path: '/finance/payables', module: '财务与报表', group: '财务管理', keywords: ['ap', 'payable', '应付', '应付账款'], desc: '应付账款' },
   { label: 'COPA获利分析', path: '/finance/copa', module: '财务与报表', group: '财务管理', keywords: ['copa', '获利分析', '毛利', '贡献'], desc: '按产品/客户/区域/期间的获利分析' },
   { label: '资金管理', path: '/finance/cash', module: '财务与报表', group: '财务管理', keywords: ['cash', '资金', '账户', '流水', '余额'], desc: '资金账户与收付款流水' },
+  { label: 'BI集成', path: '/finance/bi', module: '财务与报表', group: '财务管理', keywords: ['bi', '商业智能', 'powerbi', 'tableau', '帆软', '看板', '集成'], desc: '外部 BI 平台连接与看板同步' },
+  { label: 'ESG报告', path: '/finance/esg', module: '财务与报表', group: '财务管理', keywords: ['esg', '环境', '社会', '治理', '可持续', '碳'], desc: '环境/社会/治理可持续发展指标' },
 
   // ── 分析与报表 ──
   { label: '报表中心', path: '/reports', module: '分析与报表', group: '报表中心', keywords: ['report center', '报表'], desc: '报表查询中心' },
