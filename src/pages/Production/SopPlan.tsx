@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -17,11 +17,17 @@ const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
 
 export default function SopPlan() {
-  const list = useSopStore((s) => s.list);
-  const addPlan = useSopStore((s) => s.addPlan);
-  const updatePlan = useSopStore((s) => s.updatePlan);
-  const deletePlan = useSopStore((s) => s.deletePlan);
+  const list = useSopStore((s) => s.items);
+  const load = useSopStore((s) => s.load);
+  const addPlan = useSopStore((s) => s.add);
+  const updatePlan = useSopStore((s) => s.update);
+  const deletePlan = useSopStore((s) => s.remove);
   const nextNo = useNumberingStore((s) => s.nextNo);
+
+  // V2.75.0 W0：挂载即从 D1 拉取 S&OP 计划（离线/Mock 兜底，不阻断 UI）
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);

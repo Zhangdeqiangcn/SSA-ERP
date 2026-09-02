@@ -1,35 +1,11 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
 import { SopPlan } from '@/types/sop';
 import { sopPlans } from '@/mocks/data/sop';
+import { createEntityStore } from './createEntityStore';
 
-interface SopState {
-  list: SopPlan[];
-  addPlan: (p: SopPlan) => void;
-  updatePlan: (id: string, updates: Partial<SopPlan>) => void;
-  deletePlan: (id: string) => void;
-}
-
-const addArr = <T,>(list: T[], item: T) => [...list, item];
-const updateArr = <T extends { id: string }>(list: T[], id: string, u: Partial<T>) =>
-  list.map((x) => (x.id === id ? { ...x, ...u } : x));
-const deleteArr = <T extends { id: string }>(list: T[], id: string) =>
-  list.filter((x) => x.id !== id);
-
-export const useSopStore = create<SopState>()(
-  persist(
-    (set) => ({
-      list: [...sopPlans],
-      addPlan: (p) => set((s) => ({ list: addArr(s.list, p) })),
-      updatePlan: (id, u) => set((s) => ({ list: updateArr(s.list, id, u) })),
-      deletePlan: (id) => set((s) => ({ list: deleteArr(s.list, id) })),
-    }),
-    {
-      storage: backendStorage,
-      name: 'ssa-erp-sop',
-      version: 1,
-      partialize: (state) => ({ list: state.list }),
-    }
-  )
-);
+// V2.75.0 W0：S&OP 计划迁真实 D1（根治双通道参考实现）。
+// 数据主源 = /api/entities/sop（D1 sop_plans 表），移除原 app_state Blob persist(backendStorage)。
+// 离线/Mock 兜底 + 首次空库回填（与 materialStore 同策略，避免存量数据丢失）。
+export const useSopStore = createEntityStore<SopPlan>({
+  resource: 'sop',
+  seed: [...sopPlans],
+});
