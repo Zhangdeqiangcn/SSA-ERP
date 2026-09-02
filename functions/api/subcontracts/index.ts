@@ -28,12 +28,28 @@ export async function onRequestGet(context) {
   params.push(pageSize, (page - 1) * pageSize);
 
   const result = await db.prepare(sql).bind(...params).all();
-  const data = (result.results || []).map(r => ({
+  const rows = (result.results || []).map(r => ({
     ...r,
     qty: Number(r.qty),
     process_fee: r.process_fee ? Number(r.process_fee) : 0,
     received_qty: r.received_qty ? Number(r.received_qty) : 0,
   }));
+
+  // 关联发料明细：一次 IN 查询按 subcontract_order_id 归组，避免 N+1；列表也展示发料明细
+  const itemsByOrder: Record<string, unknown[]> = {};
+  if (rows.length) {
+    const ids = rows.map((r) => r.id);
+    const placeholders = ids.map(() => '?').join(',');
+    const ir = await db
+      .prepare(`SELECT * FROM subcontract_issue_items WHERE subcontract_order_id IN (${placeholders})`)
+      .bind(...ids)
+      .all();
+    for (const it of ir.results || []) {
+      const oid = (it as Record<string, unknown>).subcontract_order_id as string;
+      (itemsByOrder[oid] = itemsByOrder[oid] || []).push(it);
+    }
+  }
+  const data = rows.map((r) => ({ ...r, issueItems: itemsByOrder[r.id as string] || [] }));
 
   let countSql = `SELECT COUNT(*) as cnt FROM subcontract_orders WHERE org_id = ?`;
   const countParams = [user.org_id];

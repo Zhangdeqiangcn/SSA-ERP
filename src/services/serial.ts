@@ -1,17 +1,25 @@
 // 序列号 / HU 主数据专用服务（W1-B1：根治双通道）。
 // 直连真实 D1 serial_masters（与 B2 三岛同源），替代原 b2Api 双写桥。
-// 行表 serial_masters 为 snake_case，这里统一转 camelCase 的 SerialMaster。
+// 行表 serial_masters / serial_movements 为 snake_case，这里统一转 camelCase 的 SerialMaster / SerialMovement。
 import { api } from './api';
 import type { SerialMaster, SerialMovement } from '@/types/supplyChain';
 
-export interface SerialListResponse {
-  data: SerialMaster[];
-  pagination: { page: number; pageSize: number; total: number; totalPages: number };
+/** D1 snake_case 流转记录 → 前端 SerialMovement */
+function rowToMovement(r: Record<string, unknown>): SerialMovement {
+  return {
+    type: (r.type as SerialMovement['type']) || 'inbound',
+    docNo: (r.doc_no as string) || '',
+    date: (r.date as string) || '',
+    status: (r.status as SerialMovement['status']) || 'in_stock',
+    note: (r.note as string) || undefined,
+  };
 }
 
 /** D1 snake_case 行 → 前端 SerialMaster */
 function rowToSerialMaster(r: Record<string, unknown>): SerialMaster {
-  const movements = Array.isArray(r.movements) ? (r.movements as SerialMovement[]) : [];
+  const movements = Array.isArray(r.movements)
+    ? (r.movements as Record<string, unknown>[]).map(rowToMovement)
+    : [];
   return {
     id: r.id as string,
     serialNo: (r.serial_no as string) || '',
@@ -54,8 +62,13 @@ export function toSerialPayload(s: Partial<SerialMaster> & { movement?: SerialMo
   return p;
 }
 
+export interface SerialListResult {
+  data: SerialMaster[];
+  pagination: { page: number; pageSize: number; total: number; totalPages: number };
+}
+
 export interface SerialApi {
-  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SerialListResponse>;
+  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SerialListResult>;
   get: (id: string) => Promise<SerialMaster>;
   create: (data: Partial<SerialMaster> & { movement?: SerialMovement }) => Promise<SerialMaster>;
   update: (id: string, data: Partial<SerialMaster> & { movement?: SerialMovement }) => Promise<SerialMaster>;
@@ -63,11 +76,21 @@ export interface SerialApi {
 }
 
 export const serialApi: SerialApi = {
-  list: (params) => api.get<SerialListResponse>('/serial-numbers', params),
-  get: (id) => api.get<SerialMaster>(`/serial-numbers/${encodeURIComponent(id)}`),
-  create: (data) => api.post<SerialMaster>('/serial-numbers', toSerialPayload(data)),
-  update: (id, data) => api.put<SerialMaster>(`/serial-numbers/${encodeURIComponent(id)}`, toSerialPayload(data)),
-  remove: (id) => api.delete(`/serial-numbers/${encodeURIComponent(id)}`),
+  list: async (params) => {
+    const res = await api.get<{ data: Record<string, unknown>[]; pagination: SerialListResult['pagination'] }>(
+      '/serial-numbers',
+      params,
+    );
+    return {
+      data: (res?.data || []).map(rowToSerialMaster),
+      pagination: res?.pagination || { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+    };
+  },
+  get: async (id) => rowToSerialMaster(await api.get<Record<string, unknown>>(`/serial-numbers/${encodeURIComponent(id)}`)),
+  create: async (data) => rowToSerialMaster(await api.post<Record<string, unknown>>('/serial-numbers', toSerialPayload(data))),
+  update: async (id, data) =>
+    rowToSerialMaster(await api.put<Record<string, unknown>>(`/serial-numbers/${encodeURIComponent(id)}`, toSerialPayload(data))),
+  remove: async (id) => api.delete(`/serial-numbers/${encodeURIComponent(id)}`),
 };
 
 export default serialApi;

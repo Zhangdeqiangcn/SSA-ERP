@@ -1,13 +1,8 @@
 // 委外订单专用服务（W1-B1：根治双通道）。
 // 直连真实 D1 subcontract_orders（与 B2 三岛同源），替代原 b2Api 双写桥。
-// 行表 subcontract_orders 为 snake_case，这里统一转 camelCase 的 SubcontractOrder。
+// 行表 subcontract_orders / subcontract_issue_items 为 snake_case，这里统一转 camelCase 的 SubcontractOrder。
 import { api } from './api';
 import type { SubcontractOrder, SubcontractIssueItem } from '@/types/production';
-
-export interface SubcontractListResponse {
-  data: SubcontractOrder[];
-  pagination: { page: number; pageSize: number; total: number; totalPages: number };
-}
 
 /** D1 snake_case 行 → 前端 SubcontractOrder */
 function rowToSubcontract(r: Record<string, unknown>): SubcontractOrder {
@@ -91,8 +86,13 @@ export function toSubcontractPayload(o: Partial<SubcontractOrder>): Record<strin
   };
 }
 
+export interface SubcontractListResult {
+  data: SubcontractOrder[];
+  pagination: { page: number; pageSize: number; total: number; totalPages: number };
+}
+
 export interface SubcontractApi {
-  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SubcontractListResponse>;
+  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SubcontractListResult>;
   get: (id: string) => Promise<SubcontractOrder>;
   create: (data: Partial<SubcontractOrder>) => Promise<SubcontractOrder>;
   update: (id: string, data: Partial<SubcontractOrder>) => Promise<SubcontractOrder>;
@@ -100,11 +100,21 @@ export interface SubcontractApi {
 }
 
 export const subcontractApi: SubcontractApi = {
-  list: (params) => api.get<SubcontractListResponse>('/subcontracts', params),
-  get: (id) => api.get<SubcontractOrder>(`/subcontracts/${encodeURIComponent(id)}`),
-  create: (data) => api.post<SubcontractOrder>('/subcontracts', toSubcontractPayload(data)),
-  update: (id, data) => api.put<SubcontractOrder>(`/subcontracts/${encodeURIComponent(id)}`, toSubcontractPayload(data)),
-  remove: (id) => api.delete(`/subcontracts/${encodeURIComponent(id)}`),
+  list: async (params) => {
+    const res = await api.get<{ data: Record<string, unknown>[]; pagination: SubcontractListResult['pagination'] }>(
+      '/subcontracts',
+      params,
+    );
+    return {
+      data: (res?.data || []).map(rowToSubcontract),
+      pagination: res?.pagination || { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+    };
+  },
+  get: async (id) => rowToSubcontract(await api.get<Record<string, unknown>>(`/subcontracts/${encodeURIComponent(id)}`)),
+  create: async (data) => rowToSubcontract(await api.post<Record<string, unknown>>('/subcontracts', toSubcontractPayload(data))),
+  update: async (id, data) =>
+    rowToSubcontract(await api.put<Record<string, unknown>>(`/subcontracts/${encodeURIComponent(id)}`, toSubcontractPayload(data))),
+  remove: async (id) => api.delete(`/subcontracts/${encodeURIComponent(id)}`),
 };
 
 export default subcontractApi;
