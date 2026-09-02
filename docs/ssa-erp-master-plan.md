@@ -17,7 +17,7 @@
 
 ## 二、模块现状（截至 V2.74.6）
 
-> 下表为 V2.54 基线盘点；V2.55–V2.74.6 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P1 关系化后端 17 项、P2 智能增强（20/30 功能落地——V2.74.6 补齐波次RFID/重复制造/MES集成，剩 6 项整页缺失 + 2 壳 + 1 桩）均已落地**；生产态真实后端见 §九/§十。
+> 下表为 V2.54 基线盘点；V2.55–V2.74.7 的逐项变更见 §八版本沿革。核心结论：**P0 六项地基、P1 业务闭环（B1–B11 + C1–C7）、P1 关系化后端 17 项、P2 智能增强（20/30 功能落地——V2.74.7 补齐波次RFID/重复制造/MES集成 + 三方销售/COPA/资金管理，即 A/B 两轮共 6 项整页缺失，剩 3 项整页缺失（C 轮：S&OP/BI集成/ESG）+ 2 壳 + 1 桩）均已落地**；生产态真实后端见 §九/§十。
 > **架构注意（V2.74.5 复核）**：关系化 D1 后端已在 V2.58–V2.74.3 建表打通（migrations 0001–0017，约 30 张表）。**主数据三张表（materials/customers/vendors）前端已直连真实 D1**：`vendorStore`(V2.74.3) 直连 `vendor_master`、`materialStore`/`customerStore`(V2.74.5) 直连 `materials`/`customers`，与开放网关同源（同 org_id+RLS），彻底脱离 app_state Blob 双源；除主数据三张外，其余前端 store 仍大多以 `app_state` Blob 为主源（persist+backendStorage 写 `/api/state/:key`），`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。双通道并行风险具体化，根治路线见 §十.4。
 | 域 | 状态 | 说明 |
 |----|------|------|
@@ -93,7 +93,7 @@
 - **P1 达标线（V2.52~V2.53）**：多组织/应收应付/销售合同/销售漏斗/供应商绩效/物料模板/保质期/CAPA/循环盘点/Webhook/SPC/KPI/嵌入分析/拣配/条件引擎/排程 已落地（18/25项）
 - **P0 达标线（V2.51）**：信息记录/货源清单/三单匹配/凭证冲销/物料多视图/数据管理 已落地（10/12项）
 - **P2 剩余（真实缺口，V2.74.3 代码扫描复核）**：以下为扫描确认**仍缺失/壳/桩**的项（开放API P2-21、多币种 P2-27、AI Agent P2-01、ChatBI P2-02、智能推荐 P2-03、智能排程 P2-04 大部、发票OCR P2 智能 均已落地，已从剩余清单移除）：
-  - **整页缺失（9 项，按三轮排期推进，见 §七之二）**：波次RFID(P2-07)✅V2.74.6、重复制造(P2-08)✅V2.74.6、MES集成(P2-09)✅V2.74.6、S&OP(P2-10，B轮)、三方销售(P2-12，B轮)、COPA获利分析(P2-13，B轮)、资金管理(P2-14，C轮)、BI集成(P2-19，C轮)、ESG(P2-30，C轮)
+  - **整页缺失（9 项，按三轮排期推进，见 §七之二）**：波次RFID(P2-07)✅V2.74.6、重复制造(P2-08)✅V2.74.6、MES集成(P2-09)✅V2.74.6、三方销售(P2-12，B轮)✅V2.74.7、COPA获利分析(P2-13，B轮)✅V2.74.7、资金管理(P2-14，B轮)✅V2.74.7、S&OP(P2-10，C轮)、BI集成(P2-19，C轮)、ESG(P2-30，C轮)
   - **壳（2 项）**：智能排程 DetailedScheduling(P2-04 部分，Gantt/APS/CRP 已真实)、移动端 MobileTab(P2-20，仅模拟 PDA 屏 + 伪二维码)
   - **桩（1 项）**：数电票核验 `tax-gateway/verify.ts`（mockVerifyInvoice + TODO 真实 API）
   - 其余 P2（寄售/返利/FMEA/动态检验/COA/计量校准/价格分析/客户ABC/RLS/帮助/异常预警）均已真实落地。
@@ -107,9 +107,9 @@
 | **A 轮** | 波次RFID | P2-07 | 仓储物流 | ✅ V2.74.6 | 波次（草稿/已下达/拣货中/已完成/关闭）+ 波次行明细 + 下达并拣货；RFID 事件（收货/上架/拣货/移位/盘点，含失败事件）+ 模拟扫描登记 |
 | **A 轮** | 重复制造 | P2-08 | 生产管理 | ✅ V2.74.6 | 生产线（运行/空闲/保养）+ 生产周期 + **倒冲 backflush**：产量报工按「合格数 × 单件标准耗用」累加物料消耗，已关闭周期拒绝报工；倒冲明细查看标准耗用 vs 累计消耗 |
 | **A 轮** | MES集成 | P2-09 | 生产管理 | ✅ V2.74.6 | 连接配置（已连接/异常）+ 手动同步；设备状态（运行/停机/保养）；在制品 WIP 跟踪；工序报工 |
-| **B 轮** | 三方销售 | P2-12 | 销售管理 | 待排 | 三方贸易/直发：供应商直发客户、两头在外的订单与结算 |
-| **B 轮** | COPA获利分析 | P2-13 | 财务与报表 | 待排 | 获利能力分析：按产品/客户/区域/渠道多维度贡献毛利 |
-| **B 轮** | 资金管理 | P2-14 | 财务与报表 | 待排 | 资金计划/头寸/内部计息/银行账户与流水 |
+| **B 轮** | 三方销售 | P2-12 | 销售管理 | ✅ V2.74.7 | 三方贸易/直发：供应商直发客户、两头在外的订单与结算 |
+| **B 轮** | COPA获利分析 | P2-13 | 财务与报表 | ✅ V2.74.7 | 获利能力分析：按产品/客户/区域/渠道多维度贡献毛利 |
+| **B 轮** | 资金管理 | P2-14 | 财务与报表 | ✅ V2.74.7 | 资金计划/头寸/内部计息/银行账户与流水 |
 | **C 轮** | S&OP | P2-10 | 计划 | 待排 | 销售与运营计划：需求-供应平衡会、共识预测与产能对齐 |
 | **C 轮** | BI集成 | P2-19 | 分析报表 | 待排 | 外部 BI 数据源/看板嵌入与数据集发布 |
 | **C 轮** | ESG | P2-30 | 分析报表 | 待排 | 碳排/能耗/合规披露指标采集与报表 |
@@ -168,6 +168,7 @@
 - **V2.74.3 前端 vendorStore 对齐 D1 vendor_master（消除双数据源）**（2026-09-01）——`vendorStore` 移除 persist+backendStorage(app_state Blob 双源根治)，改经 `vendorApi` 直连 `vendor_master`；后端 `functions/api/vendors/*` 由门户表改指 vendor_master + RLS own + POST 创建(201)；修复 PUT `.bind` 未传字段 undefined→D1 500；迁移 0017 补 6 JSON 扩展列；同源冒烟全绿（前端 POST→网关 GET 同一条 / PUT 改 credit_limit 网关反映 / DELETE 网关消失）；部署 `a7572d01`，归档 ima。
 - **V2.74.4 常驻生产 E2E 套件 + 5 真实后端缺陷修复（待部署验证）**（2026-09-01）——①新增 `scripts/prod-e2e/` 常驻生产 E2E 套件：`lib/{http,harness,report}.mjs` + `suites/01-auth`…`10-intelligence` 共 10 套件，覆盖认证/Blob 通道/关系 10 域/供应商同源/B2 三岛/开放网关/RLS/多币种 FX/审计三单/智能端点；打真实生产域（默认 `https://ssa-erp.pages.dev`，`PROD_E2E_BASE` 可覆盖）、时间戳隔离组织 `E2E-<runId>`、跑完自动清理业务行+吊销测试 Key、`npm run test:prod-e2e` 入口、输出 `test-reports/prod-e2e/latest.{md,json}`。②套件首跑即暴露并修复 5 个真实后端缺陷：`functions/api/open/keys.ts` 创建响应 id 与库内 id 不一致（`uid('ak')` 双调用，致调用方无法按 id 吊销）；`functions/api/audit/logs.ts` 用 `user.userId`(undefined)致 D1 绑参 500→改 `user.id`；`functions/api/ocr/recognize.ts` 非表单请求 `request.formData()` 抛错 500→包 try/catch 返回 400；开放网关 `functions/api/open/[resource]/[id].ts` PUT/DELETE 误用 `res.changes`（D1 应为 `res.meta.changes`）致缺失 404；`functions/api/alerts/index.ts` 引用不存在的 `warehouses` 表 JOIN 与 `inventory_records.quantity_on_hand` 列漂移→改用已有 `warehouse_name`/`quantity` 列。基线：首跑 18 FAIL → 修正我方断言后 7 FAIL（均为上述后端缺陷，部署后即全绿）。注意：`scripts/d1-backend-e2e.mjs`（V2.69 本地 harness）断言已过时（仍称「关系表无 POST 创建端点」「B2 三岛无专属后端」），V2.70/V2.74.3 后不成立，仅作历史参考，以 `scripts/prod-e2e/` 为准。
 - **V2.74.5 主数据 materialStore/customerStore 迁真实 D1 API（根治双通道·收口物料+客户）**（2026-09-01）——① 后端 `functions/api/materials` 补 POST 创建（校验 code/name 必填、code 唯一查重 409、uid('mat')、INSERT 全列含 owner_id/dept_id/审计列 + audit helper）；`[id].ts` DELETE 修 D1 changes 坑（`res.meta?.changes ?? res.changes`，否则非存在 id 返回 200 缺 404，与 V2.74.4 网关修复同因）。② 后端 `functions/api/customers` 同构补 POST + DELETE meta.changes 修复。③ 前端新建 `src/services/customer.ts`（customerApi，与 vendorApi 同构直连 /customers）。④ 前端 `materialStore`/`customerStore` 重写去 `persist`+`backendStorage`(app_state Blob)：`loadMaterials`/`loadCustomers` 经 `materialApi`/`customerApi` 读 D1；add/update/delete 改 async 乐观更新+写回 D1（写失败 catch 保留内存态、离线回退 mock）；首次空库从 legacy app_state(或 mock)一次性回填 D1；App 启动 useEffect 同时拉 vendor/material/customer 三张主数据。⑤ MSW handlers：materials 5 处理器去 success 包裹与真实端点同构；补 customers 5 个 CRUD 处理器（原缺失）。tsc 0 错；vite build 通过（safe-delete 清空 dist 超时，按既定 workaround 移旧 dist 后构建到全新 dist）。主数据三张表（materials/customers/vendors）至此全部直连真实 D1、与开放网关同源，双通道仅剩非主数据部分（仓库/设备/单位换算/数据字典等后端暂无表仍走 Blob）。
+- **V2.74.7 整页缺失补齐 B 轮（三方销售 P2-12 / COPA获利分析 P2-13 / 资金管理 P2-14）**（2026-08-27）——延续 A 轮「前端页 + mock 持久化」深度（CRUD 经 `backendStorage` 落 `app_state` Blob，不建 D1 表、不改后端 Functions），本版交付 B 轮三项：①**三方销售**（`types/tripartySales.ts` + `mocks/data/tripartySales.ts` + `stores/tripartySalesStore.ts` + `pages/Sales/TripartySalesList.tsx`，路由 `/sales/triparty`）：代销结算单（pending/partial/settled 三态）+ 统计卡（代销总额/待结算/已结算）+ 新建代销结算单（`useNumberingStore.nextNo('TPS')`）+ DataTable 增删改。②**COPA 获利分析**（`types/copa.ts` + mocks 12 条 + `stores/copaStore.ts` + `pages/Finance/CopaAnalysis.tsx`，路由 `/finance/copa`）：按 产品/客户/区域/期间 四维，派生 毛利/毛利率 + 统计卡 + 毛利条形图 + 新增分析行弹窗。③**资金管理**（`types/cashMgmt.ts` + mocks 3 账户/4 流水 + `stores/cashMgmtStore.ts` + `pages/Finance/CashMgmtList.tsx`，路由 `/finance/cash`）：账户总余额 + 账户/流水双 Tab，`addFlow` 余额联动（in 加/out 减 四舍五入 2 位），新增账户（`nextNo('ACC')`）/新增流水。复用范式：编号中心 `numberingStore` 的 `DocType` 为封闭 union + `seedRules` 强类型，新单号前缀须同步扩展两处（tsc 修 TPS/ACC 缺键）。tsc 0 错；vite build 通过（三页面分块均产出）；e2e v88 三页面冒烟 3 passed；全局 flow 回归 5 passed 无破坏；已部署 `https://afe36928.ssa-erp.pages.dev`，提交 368cb7a。四处注册齐备（types/index re-export / stores/index 导出 / App lazy+Route / Sidebar 销售组+财务组 / searchIndex）+ manual 版本登记。
 - **V2.74.6 整页缺失补齐 A 轮（波次RFID P2-07 / 重复制造 P2-08 / MES集成 P2-09）**（2026-09-02）——9 项整页缺失排定三轮实施计划（见 §七之二），统一落地深度=「前端页 + mock 持久化」（与 productionStore/warehouseStore 完全一致，CRUD 经 `backendStorage` 落 `app_state` Blob，不建 D1 表、不改后端 Functions），本版交付 A 轮三项：①**波次RFID**（`types/waveRfid.ts` + `mocks/data/waveRfid.ts` + `stores/waveRfidStore.ts` + `pages/Warehouse/WaveRfidList.tsx`，路由 `/warehouse/wave-rfid`）：波次（草稿/已下达/拣货中/已完成/关闭，策略=按区域/按订单/按承运商）+ 波次行明细内嵌编辑 + 「下达并拣货」推进状态；RFID 事件（收货/上架/拣货/移位/盘点，含失败事件）+ 模拟 RFID 扫描登记。②**重复制造**（`types/repetitiveMfg.ts` + mocks + `stores/repetitiveMfgStore.ts` + `pages/Production/RepetitiveMfgList.tsx`，路由 `/production/repetitive`）：生产线（运行/空闲/保养）+ 生产周期；核心 `reportProduction(periodId, goodQty, scrapQty)` 按「合格数 × 单件标准耗用」累加倒冲消耗（3 位小数），已关闭周期拒绝报工；倒冲明细对比标准耗用 vs 累计消耗。③**MES集成**（`types/mes.ts` + mocks + `stores/mesStore.ts` + `pages/Production/MesIntegrationList.tsx`，路由 `/production/mes`）：连接配置（已连接/异常 + 手动同步）、设备状态（运行/停机/保养）、在制品 WIP 跟踪、工序报工四 Tab。④ 四处注册齐备（App lazy+Route / Sidebar 仓储组+生产组 / searchIndex / stores/index.ts 导出）+ manual 版本登记。tsc 0 错（修 4 类问题：mock 重复属性、`DocType` 不含 WAVE/LINE/RP 改本地 `seqNo` 生成编号、DataTable `batchActions.color` 不支持 'info'）；vite build 通过，三页面分块均已产出。
 
 > 部署门禁：每次生产部署后运行 `npm run test:prod-e2e`（默认自动清理），全绿方可视为收口；WARN 属外部依赖（OCR/AI/数电票/汇率刷新）不阻断，FAIL 必修。
@@ -308,6 +309,6 @@
 ### 10.4 下一步重点（按用户价值排序，V2.74.3）
 1. **生产态常驻 E2E（已交付 V2.74.4）**：`scripts/prod-e2e/` 常驻套件（10 套件，默认打真实生产 `https://ssa-erp.pages.dev`、时间戳隔离组织+自动清理+机器可读报告，`npm run test:prod-e2e` 入口）已补，覆盖认证/Blob/关系10域/供应商同源/B2三岛/开放网关/RLS/多币种/审计三单/智能端点；部署后重跑 **214/0 全绿**，"双通道并行"残留风险由套件持续值守（前端 store 仍多走 Blob 属已知架构事实）；旧 `d1-backend-e2e.mjs`(13/13) 断言已过时（关系表已支持 POST、B2 三岛已有专属后端），建议标注废弃或更新。
 2. **前端 store 迁真实 API**：vendorStore 已验证路径；material/customer/sales/purchase 等主数据 store 仍写 `app_state` Blob，建议按 vendorStore 模式逐步迁 D1 关系表，根治双通道。
-3. **P2 深水区（9 项整页缺失 + 2 壳 + 1 桩）**：9 项已按三轮排期（详见 §七之二），**A 轮三项已交付 V2.74.6**（波次RFID P2-07 / 重复制造 P2-08 / MES集成 P2-09，均「前端页 + mock 持久化」深度）；B 轮=三方销售 P2-12 / COPA P2-13 / 资金管理 P2-14，C 轮=S&OP P2-10 / BI集成 P2-19 / ESG P2-30。另：DetailedScheduling(P2-04 壳)/MobileTab(P2-20 壳)；数电票核验(tax-gateway/verify 桩)。
+3. **P2 深水区（9 项整页缺失 + 2 壳 + 1 桩）**：9 项已按三轮排期（详见 §七之二），**A 轮 + B 轮共 6 项已交付（V2.74.6 + V2.74.7）**（A 轮=波次RFID P2-07 / 重复制造 P2-08 / MES集成 P2-09；B 轮=三方销售 P2-12 / COPA P2-13 / 资金管理 P2-14，均「前端页 + mock 持久化」深度）；C 轮=S&OP P2-10 / BI集成 P2-19 / ESG P2-30（待排）。另：DetailedScheduling(P2-04 壳)/MobileTab(P2-20 壳)；数电票核验(tax-gateway/verify 桩)。
 4. **OCR 字段抽取模型化**：Tesseract 已真，字段解析仍正则，待接大模型结构化抽取。
 5. **采购订单变更单**：已实现独立版本化变更单，按业务是否需要进一步升为"独立变更单实体 + 独立审批流"再评估（当前已满足大多数场景）。
