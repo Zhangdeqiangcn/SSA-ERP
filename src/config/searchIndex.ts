@@ -90,6 +90,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '客户ABC分析', path: '/sales/customer-abc', module: '销售管理', group: '销售管理', keywords: ['abc', '客户分级'], desc: '客户 ABC 分级' },
   { label: '市场分析', path: '/sales/analysis', module: '销售管理', group: '销售管理', keywords: ['analysis', '市场', '分析'], desc: '销售市场分析' },
   { label: '项目管理', path: '/sales/projects', module: '销售管理', group: '销售管理', keywords: ['project', '项目'], desc: '销售项目管理' },
+  { label: '三方销售', path: '/sales/triparty', module: '销售管理', group: '销售管理', keywords: ['triparty', '三方', '代销', '寄售结算'], desc: '三方代销与实销结算' },
 
   // ── 生产与质量 · 质量 ──
   { label: '检验任务', path: '/quality/inspection', module: '生产与质量', group: '质量管理', keywords: ['inspection', '检验', 'iqc', 'oqc'], desc: '来料/过程/成品检验' },
@@ -152,6 +153,8 @@ export const searchIndex: SearchEntry[] = [
   { label: '期末结账', path: '/finance/closing', module: '财务与报表', group: '财务管理', keywords: ['closing', '结账', '月结'], desc: '期末结账' },
   { label: '应收管理', path: '/finance/receivables', module: '财务与报表', group: '财务管理', keywords: ['ar', 'receivable', '应收', '应收账款'], desc: '应收账款' },
   { label: '应付管理', path: '/finance/payables', module: '财务与报表', group: '财务管理', keywords: ['ap', 'payable', '应付', '应付账款'], desc: '应付账款' },
+  { label: 'COPA获利分析', path: '/finance/copa', module: '财务与报表', group: '财务管理', keywords: ['copa', '获利分析', '毛利', '贡献'], desc: '按产品/客户/区域/期间的获利分析' },
+  { label: '资金管理', path: '/finance/cash', module: '财务与报表', group: '财务管理', keywords: ['cash', '资金', '账户', '流水', '余额'], desc: '资金账户与收付款流水' },
 
   // ── 分析与报表 ──
   { label: '报表中心', path: '/reports', module: '分析与报表', group: '报表中心', keywords: ['report center', '报表'], desc: '报表查询中心' },

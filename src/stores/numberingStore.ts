@@ -15,7 +15,8 @@ import { backendStorage } from './persistStorage';
  */
 
 export type DocType =
-  | 'PO' | 'SO' | 'WO' | 'PR' | 'IN' | 'OUT' | 'FG' | 'QC' | 'MRP';
+  | 'PO' | 'SO' | 'WO' | 'PR' | 'IN' | 'OUT' | 'FG' | 'QC' | 'MRP'
+  | 'TPS' | 'ACC';
 
 export type DatePattern = 'none' | 'YYYY' | 'YYYYMM' | 'YYYYMMDD';
 
@@ -61,6 +62,8 @@ const seedRules: Record<DocType, NumberingRule> = {
   FG:  { docType: 'FG',  prefix: 'FG',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '成品入库' },
   QC:  { docType: 'QC',  prefix: 'QC',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '质检单' },
   MRP: { docType: 'MRP', prefix: 'MRP', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: 'MRP计划' },
+  TPS: { docType: 'TPS', prefix: 'TPS', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '三方销售单' },
+  ACC: { docType: 'ACC', prefix: 'ACC', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '资金账户' },
 };
 
 export const DOC_TYPES = Object.keys(seedRules) as DocType[];

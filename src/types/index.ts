@@ -20,3 +20,6 @@ export * from './flow';
 export * from './waveRfid';
 export * from './repetitiveMfg';
 export * from './mes';
+export * from './tripartySales';
+export * from './copa';
+export * from './cashMgmt';

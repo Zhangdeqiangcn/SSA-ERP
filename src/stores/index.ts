@@ -137,3 +137,9 @@ export { useWaveRfidStore } from './waveRfidStore';
 export { useRepetitiveMfgStore } from './repetitiveMfgStore';
 // V2.74.6 MES 集成（连接/设备/WIP/报工）（P2-09）
 export { useMesStore } from './mesStore';
+// V2.74.7 三方销售（代销结算）（P2-12）
+export { useTripartySalesStore } from './tripartySalesStore';
+// V2.74.7 COPA 获利分析（P2-13）
+export { useCopaStore } from './copaStore';
+// V2.74.7 资金管理（账户/流水 + 余额联动）（P2-14）
+export { useCashMgmtStore } from './cashMgmtStore';

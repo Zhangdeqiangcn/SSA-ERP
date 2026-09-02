@@ -141,6 +141,8 @@ const ProjectDetail = lazy(() => import('./pages/Sales/ProjectDetail'));
 const MarketAnalysis = lazy(() => import('./pages/Sales/MarketAnalysis'));
 const SalesFunnel = lazy(() => import('./pages/Sales/SalesFunnel'));
 const LogisticsList = lazy(() => import('./pages/Sales/LogisticsList'));
+// 整页补齐 B 轮（P2-12 三方销售）
+const TripartySalesList = lazy(() => import('./pages/Sales/TripartySalesList'));
 // 生产
 const WorkOrderList = lazy(() => import('./pages/Production/WorkOrderList'));
 const WorkOrderDetail = lazy(() => import('./pages/Production/WorkOrderDetail'));
@@ -182,6 +184,9 @@ const CashFlowStatement = lazy(() => import('./pages/Finance/CashFlowStatement')
 // 应收应付独立管理（P1-12）
 const ReceivableList = lazy(() => import('./pages/Finance/ReceivableList'));
 const PayableList = lazy(() => import('./pages/Finance/PayableList'));
+// 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理）
+const CopaAnalysis = lazy(() => import('./pages/Finance/CopaAnalysis'));
+const CashMgmtList = lazy(() => import('./pages/Finance/CashMgmtList'));
 // 财务深化（P2-5）
 const FxConfig = lazy(() => import('./pages/Settings/FxConfig'));
 const AgingReport = lazy(() => import('./pages/Finance/AgingReport'));
@@ -402,6 +407,8 @@ function App() {
         <Route path="sales/rebates" element={<RebateManager />} />
         {/* P2-26 客户ABC分析 */}
         <Route path="sales/customer-abc" element={<CustomerABC />} />
+        {/* 整页补齐 B 轮（P2-12 三方销售） */}
+        <Route path="sales/triparty" element={<TripartySalesList />} />
         {/* 生产管理 */}
         <Route path="production" element={<Navigate to="/production/orders" replace />} />
         <Route path="production/orders" element={<WorkOrderList />} />
@@ -450,6 +457,9 @@ function App() {
         {/* 应收应付独立管理（P1-12） */}
         <Route path="finance/receivables" element={<ReceivableList />} />
         <Route path="finance/payables" element={<PayableList />} />
+        {/* 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理） */}
+        <Route path="finance/copa" element={<CopaAnalysis />} />
+        <Route path="finance/cash" element={<CashMgmtList />} />
         {/* 财务深化（P3-1）：三大财务报表 + 固定资产 + 期末结账 */}
         <Route path="finance/statements" element={<FinancialStatements />} />
         <Route path="finance/fixed-assets" element={<FixedAssets />} />

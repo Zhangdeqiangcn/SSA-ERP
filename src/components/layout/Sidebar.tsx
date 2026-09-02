@@ -147,6 +147,7 @@ const menuGroups: MenuGroup[] = [
           { label: '销售漏斗', icon: <FilterAlt />, path: '/sales/funnel' },
           { label: '返利管理', icon: <MonetizationOn />, path: '/sales/rebates' },
           { label: '客户ABC分析', icon: <Star />, path: '/sales/customer-abc' },
+          { label: '三方销售', icon: <Storefront />, path: '/sales/triparty' },
         ],
       },
       {
@@ -237,6 +238,8 @@ const menuGroups: MenuGroup[] = [
           { label: '期末结账', icon: <Lock />, path: '/finance/closing' },
           { label: '应收管理', icon: <CallReceived />, path: '/finance/receivables' },
           { label: '应付管理', icon: <Outbound />, path: '/finance/payables' },
+          { label: 'COPA获利分析', icon: <Assessment />, path: '/finance/copa' },
+          { label: '资金管理', icon: <AccountBalanceWallet />, path: '/finance/cash' },
         ],
       },
     ],
