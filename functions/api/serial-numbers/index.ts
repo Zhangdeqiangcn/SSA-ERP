@@ -1,6 +1,7 @@
 // GET /api/serial-numbers — 分页查询序列号主档（按 org_id 隔离）
 // POST /api/serial-numbers — 创建序列号主档
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { insertSerialMovement } from '../../_shared/serial';
 
 export async function onRequestGet(context) {
   const user = await getUserFromRequest(context.request, context.env.DB);
@@ -30,7 +31,23 @@ export async function onRequestGet(context) {
   params.push(pageSize, (page - 1) * pageSize);
 
   const result = await db.prepare(sql).bind(...params).all();
-  const data = result.results || [];
+  const rows = result.results || [];
+
+  // 关联流转记录：一次 IN 查询按 serial_master_id 归组，避免 N+1；列表也展示全生命周期轨迹
+  const movementsByMaster: Record<string, unknown[]> = {};
+  if (rows.length) {
+    const ids = rows.map((r) => (r as Record<string, unknown>).id);
+    const placeholders = ids.map(() => '?').join(',');
+    const mvRes = await db
+      .prepare(`SELECT * FROM serial_movements WHERE serial_master_id IN (${placeholders})`)
+      .bind(...ids)
+      .all();
+    for (const mv of mvRes.results || []) {
+      const mid = (mv as Record<string, unknown>).serial_master_id as string;
+      (movementsByMaster[mid] = movementsByMaster[mid] || []).push(mv);
+    }
+  }
+  const data = rows.map((r) => ({ ...r, movements: movementsByMaster[(r as Record<string, unknown>).id as string] || [] }));
 
   let countSql = `SELECT COUNT(*) as cnt FROM serial_masters WHERE org_id = ?`;
   const countParams = [user.org_id];
@@ -72,5 +89,15 @@ export async function onRequestPost(context) {
   ).run();
 
   const row = await db.prepare(`SELECT * FROM serial_masters WHERE id = ?`).bind(id).first();
-  return json(row);
+
+  // 写入流转记录：若显式传入 movement 则按传入；否则若带入库日期且状态为在库，
+  // 自动补一条入库流转，保证历史轨迹完整。
+  if (body.movement && typeof body.movement === 'object') {
+    await insertSerialMovement(db, id, body.movement, user, now);
+  } else if (body.inboundDate && (body.status || 'in_stock') === 'in_stock') {
+    await insertSerialMovement(db, id, { type: 'inbound', docNo: body.docNo || null, date: body.inboundDate, status: 'in_stock', note: '初始入库' }, user, now);
+  }
+
+  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
+  return json({ ...row, movements: movements.results || [] });
 }

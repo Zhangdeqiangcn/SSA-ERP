@@ -5,28 +5,15 @@ import {
   StockTransfer, InventoryAdjustment, SerialMaster, QualityHold,
   InboundOrder, OutboundOrder,
 } from '@/types';
-import { b2Api, isAuthed } from '@/services/b2Api';
+import { serialApi } from '@/services/serial';
 
-// B2 双写桥：本地 serialMasters 的 id 是前端 uid（'sn-...'），与 D1 后端的自增/生成 id 不同，
-// 这里用模块级映射表把「本次会话新建/登记的序列号 localId → D1 backendId」桥接起来。
-// 注意：映射表仅存活于当前会话（不落盘、不改类型），刷新后重建；
-// 因此刷新前已存在（rehydration 恢复）的序列号，本会话内无法回写 D1（见报告「未覆盖点」）。
-const serialBackendId = new Map<string, string>();
+// W1-B1：序列号 / HU 主数据改为直连真实 D1 serial_masters（专用服务 serialApi，走 api 客户端），
+// 替代原 b2Api 双写桥。serialMasters 不再落 app_state Blob（partialize 已移除），D1 为唯一真源，
+// 根治双通道。stockTransfers / inventoryAdjustments / qualityHolds 三切片仍走 Blob（本批未迁移）。
+// 在线时：loadSerialMasters 从 D1 拉取、增删改经 serialApi 写回；离线/未登录/异常回退内存 seed。
 
-/** 把 SerialMaster 映射为 POST /api/serial-numbers 允许的字段（严格照后端字段调用） */
-const toSerialPayload = (s: SerialMaster): Record<string, unknown> => ({
-  serialNo: s.serialNo,
-  materialId: s.materialId,
-  materialCode: s.materialCode,
-  materialName: s.materialName,
-  batchNo: s.batchNo,
-  warehouseId: s.warehouseId,
-  huId: s.huId,
-  status: s.status,
-  inboundDate: s.inboundDate,
-  customerName: s.customerName,
-  remarks: s.remarks,
-});
+const SERIAL_BACKFILL_FLAG = 'ssa-erp-serial-backfilled';
+
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -81,10 +68,11 @@ interface WarehouseAdvancedState {
   // 过账 → 调整库存 + 生成存货凭证
   postAdjustment: (adjustmentId: string) => void;
 
-  // 序列号 / HU 主数据
-  addSerialMaster: (s: SerialMaster) => void;
-  updateSerialMaster: (id: string, u: Partial<SerialMaster>) => void;
-  deleteSerialMaster: (id: string) => void;
+  // 序列号 / HU 主数据（W1-B1：直连 D1 serial_masters）
+  loadSerialMasters: () => Promise<void>;
+  addSerialMaster: (s: SerialMaster) => Promise<void>;
+  updateSerialMaster: (id: string, u: Partial<SerialMaster>) => Promise<void>;
+  deleteSerialMaster: (id: string) => Promise<void>;
 
   // 质检扣留（质检库存状态）
   addQualityHold: (h: QualityHold) => void;
@@ -254,33 +242,72 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
         }
       },
 
-      // ── 序列号 / HU ──
-      // 双写：本地更新先行；登录态下再 fire-and-forget 落 D1（失败静默忽略，不影响本地 UI）
-      addSerialMaster: (s) => {
+      // ── 序列号 / HU（W1-B1：直连 D1 serial_masters）──
+      // 启动期从 D1 拉取；空库（且本机未回填过）回填种子一次，消除双源过渡缺口。
+      loadSerialMasters: async () => {
+        try {
+          const res = await serialApi.list({ page: 1, pageSize: 200 });
+          const list = (res?.data || []) as SerialMaster[];
+          set({ serialMasters: list });
+          if (list.length === 0 && !window.localStorage.getItem(SERIAL_BACKFILL_FLAG)) {
+            window.localStorage.setItem(SERIAL_BACKFILL_FLAG, '1');
+            for (const s of seedSerialMasters) {
+              try {
+                const created = await serialApi.create(s);
+                // 回填流转轨迹（入库 + 发货）
+                for (const mv of s.movements || []) {
+                  if (created?.id) {
+                    try {
+                      await serialApi.update(created.id, { movement: mv } as Partial<SerialMaster> & { movement: SerialMaster['movements'] extends Array<infer M> ? M : never });
+                    } catch {
+                      /* 轨迹回填尽力而为 */
+                    }
+                  }
+                }
+              } catch {
+                /* 编码冲突等忽略，回填尽力而为 */
+              }
+            }
+            const refreshed = await serialApi.list({ page: 1, pageSize: 200 });
+            set({ serialMasters: (refreshed?.data || []) as SerialMaster[] });
+          }
+        } catch {
+          // 离线/未登录/接口异常：保留内存 seedSerialMasters，不阻断 UI
+        }
+      },
+      // 乐观更新先行；写 D1 后把本地 id 对齐为 D1 id（sm-...），保证后续 PUT/DELETE 精准。
+      addSerialMaster: async (s) => {
         set((state) => ({ serialMasters: [...state.serialMasters, s] }));
-        if (isAuthed()) {
-          b2Api
-            .postSerial(toSerialPayload(s))
-            .then((data) => {
-              if (data && data.id) serialBackendId.set(s.id, data.id);
-            })
-            .catch(() => {});
+        try {
+          const created = await serialApi.create(s);
+          if (created?.id && created.id !== s.id) {
+            set((state) => ({
+              serialMasters: state.serialMasters.map((x) =>
+                x.id === s.id ? { ...x, id: created.id, movements: created.movements || x.movements } : x
+              ),
+            }));
+          }
+        } catch {
+          /* 写失败：保留内存态（离线容忍） */
         }
       },
-      updateSerialMaster: (id, u) => {
+      updateSerialMaster: async (id, u) => {
         set((state) => ({ serialMasters: state.serialMasters.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
-        const backendId = serialBackendId.get(id);
-        if (isAuthed() && backendId) {
-          const merged = useWarehouseAdvancedStore.getState().serialMasters.find((x) => x.id === id);
-          if (merged) b2Api.putSerial(backendId, toSerialPayload(merged)).catch(() => {});
+        const merged = useWarehouseAdvancedStore.getState().serialMasters.find((x) => x.id === id);
+        if (merged) {
+          try {
+            await serialApi.update(id, merged);
+          } catch {
+            /* 写失败：保留内存态 */
+          }
         }
       },
-      deleteSerialMaster: (id) => {
+      deleteSerialMaster: async (id) => {
         set((state) => ({ serialMasters: state.serialMasters.filter((x) => x.id !== id) }));
-        const backendId = serialBackendId.get(id);
-        if (isAuthed() && backendId) {
-          b2Api.deleteSerial(backendId).catch(() => {});
-          serialBackendId.delete(id);
+        try {
+          await serialApi.remove(id);
+        } catch {
+          /* 写失败：保留内存态 */
         }
       },
 
@@ -293,14 +320,14 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
           ),
         })),
     }),
-    { storage: backendStorage,
-    
+    {
+      storage: backendStorage,
       name: 'ssa-erp-wh-adv',
       version: 1,
       partialize: (state) => ({
         stockTransfers: state.stockTransfers,
         inventoryAdjustments: state.inventoryAdjustments,
-        serialMasters: state.serialMasters,
+        // W1-B1：serialMasters 不再落 Blob（已直连 D1），从 partialize 移除
         qualityHolds: state.qualityHolds,
       }),
     }
@@ -315,8 +342,9 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
 //      单据行若已显填 serialNos 则以显填为准（预留逐件扫码界面的接入口）。
 //   2. 出库单完成过账 → 按 FIFO 取在库序列号自动核销：
 //      sale=shipped / pick=scrapped(领用消耗) / subcontract=in_transit(在供应商处) / transfer=in_transit。
-//   3. 每次流转在 SerialMaster.movements 追加一条轨迹，形成一物一码全生命周期。
+//   3. 每次流转在 serial_masters 状态 + serial_movements 追加一条轨迹，形成一物一码全生命周期。
 //   4. 幂等：种子单据 rehydration 前后一律标记已见，只处理「本次变更真正新增」的单据。
+//   5. W1-B1：登记/核销经 serialApi 直写 D1（本地 id 在 create 后对齐 D1 id），不再走 b2Api 双写桥。
 // ═══════════════════════════════════════════════════════════════
 
 /** 出库类型 → 序列号流转后状态 */
@@ -399,17 +427,16 @@ const registerSerialsOnInbound = (o: InboundOrder) => {
   }
   if (created.length > 0) {
     useWarehouseAdvancedStore.setState((s) => ({ serialMasters: [...s.serialMasters, ...created] }));
-    // 双写：入库自动登记的序列号同时落 D1，并把 backendId 记入映射表，
-    // 这样后续 FIFO 核销（consumeSerialsOnOutbound）才能用「逐条 PUT」精准对齐前端状态。
-    if (isAuthed()) {
-      for (const sn of created) {
-        b2Api
-          .postSerial(toSerialPayload(sn))
-          .then((data) => {
-            if (data && data.id) serialBackendId.set(sn.id, data.id);
-          })
-          .catch(() => {});
-      }
+    // W1-B1：入库自动登记的序列号直写 D1；create 返回 D1 id（sm-...），本地对齐，
+    // 这样后续 FIFO 核销（consumeSerialsOnOutbound）用同一 id 精准 PUT。
+    for (const sn of created) {
+      serialApi.create(sn).then((data) => {
+        if (data?.id && data.id !== sn.id) {
+          useWarehouseAdvancedStore.setState((s) => ({
+            serialMasters: s.serialMasters.map((x) => (x.id === sn.id ? { ...x, id: data.id, movements: data.movements || x.movements } : x)),
+          }));
+        }
+      }).catch(() => {});
     }
   }
 };
@@ -457,18 +484,17 @@ const consumeSerialsOnOutbound = (o: OutboundOrder) => {
     }),
   }));
 
-  // 双写（逐条 PUT 同步）：完全对齐前端 FIFO 取号结果，把受影响序列号的状态/outboundDate/customerName 同步到 D1。
-  // 仅同步「本会话已落 D1（有 backendId）」的序列号；刷新前遗留、无 backendId 的序列号跳过（见报告未覆盖点）。
-  // 选「逐条 PUT」而非 consume 端点：前端 FIFO 取号是权威结果，PUT 能逐件精确对齐，避免与后端取号不一致。
-  if (isAuthed()) {
-    const masters = useWarehouseAdvancedStore.getState().serialMasters;
-    for (const serialNo of picked.keys()) {
-      const sm = masters.find((m) => m.serialNo === serialNo);
-      if (!sm) continue;
-      const backendId = serialBackendId.get(sm.id);
-      if (!backendId) continue;
-      b2Api.putSerial(backendId, toSerialPayload(sm)).catch(() => {});
-    }
+  // W1-B1：核销结果直写 D1。本地 id 已对齐 D1 id，PUT 精准；附带 movement 落 serial_movements。
+  const masters = useWarehouseAdvancedStore.getState().serialMasters;
+  for (const serialNo of picked.keys()) {
+    const sm = masters.find((m) => m.serialNo === serialNo);
+    if (!sm) continue;
+    serialApi.update(sm.id, {
+      status: sm.status,
+      outboundDate: sm.outboundDate,
+      customerName: sm.customerName,
+      movement: { type: moveType, docNo: o.outboundNo, date: o.outboundDate, status: sm.status, note: o.customerName || o.remarks },
+    } as Partial<SerialMaster> & { movement: SerialMaster['movements'] extends Array<infer M> ? M : never }).catch(() => {});
   }
 };
 

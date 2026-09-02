@@ -1,5 +1,6 @@
 // GET/PUT/DELETE /api/serial-numbers/:id
 import { getUserFromRequest, json } from '../../_shared/auth';
+import { insertSerialMovement } from '../../_shared/serial';
 
 export async function onRequestGet(context) {
   const user = await getUserFromRequest(context.request, context.env.DB);
@@ -50,8 +51,14 @@ export async function onRequestPut(context) {
 
   await db.prepare(`UPDATE serial_masters SET ${setClauses.join(', ')} WHERE id = ?`).bind(...values, id).run();
 
+  // 流转记录：状态变更 / 显式传入 movement 时落 serial_movements，保留全生命周期轨迹
+  if (body.movement && typeof body.movement === 'object') {
+    await insertSerialMovement(db, id, body.movement, user, now);
+  }
+
   const updated = await db.prepare(`SELECT * FROM serial_masters WHERE id = ?`).bind(id).first();
-  return json(updated);
+  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
+  return json({ ...updated, movements: movements.results || [] });
 }
 
 export async function onRequestDelete(context) {

@@ -9,6 +9,8 @@ import { useAuthStore } from './stores/authStore';
 import { useVendorStore } from './stores/vendorStore';
 import { useMaterialStore } from './stores/materialStore';
 import { useCustomerStore } from './stores/customerStore';
+import { useWarehouseAdvancedStore } from './stores/warehouseAdvancedStore';
+import { useSubcontractStore } from './stores/subcontractStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 // P4-1 个人工作台
@@ -244,6 +246,9 @@ function App() {
     useVendorStore.getState().loadVendors();
     useMaterialStore.getState().loadMaterials();
     useCustomerStore.getState().loadCustomers();
+    // W1-B1：序列号 / 委外订单直连 D1（根治双通道），启动期拉取
+    useWarehouseAdvancedStore.getState().loadSerialMasters();
+    useSubcontractStore.getState().loadOrders();
   }, []);
   return (
     <Routes>
