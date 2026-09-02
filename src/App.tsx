@@ -163,6 +163,10 @@ const MTOCreate = lazy(() => import('./pages/Production/MTOCreate'));
 const DetailedScheduling = lazy(() => import('./pages/Production/DetailedScheduling'));
 const ProcessSPC = lazy(() => import('./pages/Production/ProcessSPC'));
 const GanttSchedule = lazy(() => import('./pages/Production/GanttSchedule'));
+// 整页补齐 A 轮（P2-07/08/09）
+const WaveRfidList = lazy(() => import('./pages/Warehouse/WaveRfidList'));
+const RepetitiveMfgList = lazy(() => import('./pages/Production/RepetitiveMfgList'));
+const MesIntegrationList = lazy(() => import('./pages/Production/MesIntegrationList'));
 // 财务
 const InvoiceList = lazy(() => import('./pages/Finance/InvoiceList'));
 const PaymentPlanPage = lazy(() => import('./pages/Finance/PaymentPlan'));
@@ -421,6 +425,10 @@ function App() {
         <Route path="production/scheduling" element={<DetailedScheduling />} />
         <Route path="production/spc" element={<ProcessSPC />} />
         <Route path="production/gantt" element={<GanttSchedule />} />
+        {/* 整页补齐 A 轮（P2-07/08/09） */}
+        <Route path="warehouse/wave-rfid" element={<WaveRfidList />} />
+        <Route path="production/repetitive" element={<RepetitiveMfgList />} />
+        <Route path="production/mes" element={<MesIntegrationList />} />
         {/* 财务管理 */}
         <Route path="finance" element={<Navigate to="/finance/invoices" replace />} />
         <Route path="finance/invoices" element={<InvoiceList />} />

@@ -17,3 +17,6 @@ export * from './supplyChain';
 export * from './platform';
 export * from './analytics';
 export * from './flow';
+export * from './waveRfid';
+export * from './repetitiveMfg';
+export * from './mes';

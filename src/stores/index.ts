@@ -131,3 +131,9 @@ export {
   type VerifyStatus,
   type OcrQueueItem,
 } from './invoiceVerificationStore';
+// V2.74.6 波次拣货 + RFID 事件（P2-07）
+export { useWaveRfidStore } from './waveRfidStore';
+// V2.74.6 重复制造（倒冲）（P2-08）
+export { useRepetitiveMfgStore } from './repetitiveMfgStore';
+// V2.74.6 MES 集成（连接/设备/WIP/报工）（P2-09）
+export { useMesStore } from './mesStore';

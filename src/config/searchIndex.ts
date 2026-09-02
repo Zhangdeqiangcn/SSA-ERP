@@ -73,6 +73,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '序列号/HU', path: '/warehouse/serial', module: '供应链', group: '仓储物流', keywords: ['serial', '序列号', 'hu', '处理单元'], desc: '序列号与处理单元' },
   { label: '批次追溯穿透', path: '/warehouse/trace', module: '供应链', group: '仓储物流', keywords: ['trace', '追溯', '穿透'], desc: '批次全链路追溯' },
   { label: '寄售库存', path: '/warehouse/consignment', module: '供应链', group: '仓储物流', keywords: ['consignment', '寄售'], desc: '供应商寄售库存' },
+  { label: '波次RFID', path: '/warehouse/wave-rfid', module: '供应链', group: '仓储物流', keywords: ['wave', 'rfid', '波次', '拣货', '射频'], desc: '波次拣货与 RFID 事件' },
 
   // ── 销售管理 ──
   { label: '意向客户', path: '/sales/prospects', module: '销售管理', group: '销售管理', keywords: ['prospect', '线索', '潜在客户', 'crm'], desc: '潜在客户跟进' },
@@ -127,6 +128,8 @@ export const searchIndex: SearchEntry[] = [
   { label: '详细排程', path: '/production/scheduling', module: '生产与质量', group: '生产管理', keywords: ['scheduling', '详细排程', '工序排程'], desc: '工序详细排程' },
   { label: '甘特排产', path: '/production/gantt', module: '生产与质量', group: '生产管理', keywords: ['gantt', '甘特', '排产'], desc: '甘特图排产' },
   { label: '工序SPC', path: '/production/spc', module: '生产与质量', group: '生产管理', keywords: ['spc', '工序质量'], desc: '工序质量控制' },
+  { label: '重复制造', path: '/production/repetitive', module: '生产与质量', group: '生产管理', keywords: ['repetitive', 'backflush', '重复制造', '倒冲'], desc: '重复制造产线与倒冲' },
+  { label: 'MES集成', path: '/production/mes', module: '生产与质量', group: '生产管理', keywords: ['mes', '集成', '设备', 'wip'], desc: 'MES 连接与在制品同步' },
 
   // ── 财务与报表 ──
   { label: '发票管理', path: '/finance/invoices', module: '财务与报表', group: '财务管理', keywords: ['invoice', '发票', '采购发票'], desc: '采购发票管理' },

@@ -1,0 +1,103 @@
+import { ProductionLine, RepetitiveMfgPeriod } from '@/types/repetitiveMfg';
+
+const ts = (offsetDays = 0) => {
+  const d = new Date(Date.now() + offsetDays * 86400000);
+  return d.toISOString();
+};
+
+export const productionLines: ProductionLine[] = [
+  {
+    id: 'line-001',
+    lineNo: 'LINE-A',
+    name: '总装一线',
+    workCenterId: 'wc-01',
+    workCenterName: '总装中心',
+    status: 'running',
+    dailyCapacity: 500,
+    note: '标准件流水装配',
+    createdAt: ts(-10),
+    updatedAt: ts(-1),
+    createdBy: 'admin',
+    updatedBy: 'admin',
+  },
+  {
+    id: 'line-002',
+    lineNo: 'LINE-B',
+    name: '冲压线',
+    workCenterId: 'wc-02',
+    workCenterName: '冲压中心',
+    status: 'running',
+    dailyCapacity: 800,
+    note: '卷材连续冲压',
+    createdAt: ts(-10),
+    updatedAt: ts(-1),
+    createdBy: 'admin',
+    updatedBy: 'admin',
+  },
+  {
+    id: 'line-003',
+    lineNo: 'LINE-C',
+    name: '涂装线',
+    workCenterId: 'wc-03',
+    workCenterName: '涂装中心',
+    status: 'maintenance',
+    dailyCapacity: 300,
+    note: '本周计划保养',
+    createdAt: ts(-10),
+    updatedAt: ts(0),
+    createdBy: 'admin',
+    updatedBy: 'admin',
+  },
+];
+
+export const repetitivePeriods: RepetitiveMfgPeriod[] = [
+  {
+    id: 'rp-001',
+    periodNo: 'RP-2026-W35-A',
+    lineId: 'line-001',
+    lineNo: 'LINE-A',
+    lineName: '总装一线',
+    materialCode: 'FG-5001',
+    materialName: '交流接触器',
+    startDate: '2026-08-25',
+    endDate: '2026-08-31',
+    plannedQty: 3000,
+    producedQty: 2680,
+    scrapQty: 22,
+    status: 'active',
+    note: '本周累计产量，按班次倒冲',
+    createdAt: ts(-7),
+    updatedAt: ts(0),
+    createdBy: 'admin',
+    updatedBy: 'admin',
+    backflushItems: [
+      { id: 'bf-1', materialCode: 'MAT-1001', materialName: '钢板 Q235B', unit: 'kg', stdQty: 2.5, consumedQty: 6700 },
+      { id: 'bf-2', materialCode: 'MAT-2001', materialName: '不锈钢板 304', unit: 'kg', stdQty: 0.8, consumedQty: 2144 },
+      { id: 'bf-3', materialCode: 'MAT-9001', materialName: '漆包线', unit: 'm', stdQty: 12, consumedQty: 32160 },
+    ],
+  },
+  {
+    id: 'rp-002',
+    periodNo: 'RP-2026-W35-B',
+    lineId: 'line-002',
+    lineNo: 'LINE-B',
+    lineName: '冲压线',
+    materialCode: 'FG-6001',
+    materialName: '支架组件',
+    startDate: '2026-08-25',
+    endDate: '2026-08-31',
+    plannedQty: 5000,
+    producedQty: 4910,
+    scrapQty: 40,
+    status: 'active',
+    note: '连续冲压，按产出倒冲卷材',
+    createdAt: ts(-7),
+    updatedAt: ts(0),
+    createdBy: 'admin',
+    updatedBy: 'admin',
+    backflushItems: [
+      { id: 'bf-4', materialCode: 'MAT-3001', materialName: '铝型材', unit: 'kg', stdQty: 1.2, consumedQty: 5892 },
+      { id: 'bf-5', materialCode: 'MAT-3002', materialName: '铜排', unit: 'kg', stdQty: 0.3, consumedQty: 1473 },
+    ],
+  },
+];
