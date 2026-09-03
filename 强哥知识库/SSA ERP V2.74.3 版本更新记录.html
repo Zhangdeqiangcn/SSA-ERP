@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V2.74.3 版本更新记录</title>
+<style>
+  body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;max-width:920px;margin:24px auto;padding:0 18px;color:#1f2933;line-height:1.7;background:#f7f9fc;}
+  h1{font-size:24px;color:#0b69ff;border-bottom:3px solid #0b69ff;padding-bottom:10px;}
+  h2{font-size:18px;color:#0b69ff;margin-top:28px;}
+  .meta{color:#66727f;font-size:13px;margin-bottom:18px;}
+  .card{background:#fff;border:1px solid #e3e8ef;border-radius:10px;padding:16px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(16,24,40,.04);}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
+  th,td{border:1px solid #e3e8ef;padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:#eef4ff;color:#0b69ff;}
+  .ok{color:#0a8f3c;font-weight:600;}
+  .fix{color:#c2410c;font-weight:600;}
+  code{background:#eef1f5;padding:1px 6px;border-radius:4px;font-size:13px;color:#c0392b;}
+  ul{margin:8px 0;padding-left:22px;}
+  .tag{display:inline-block;background:#0b69ff;color:#fff;border-radius:4px;padding:1px 8px;font-size:12px;margin-right:6px;}
+</style>
+</head>
+<body>
+<h1>SSA ERP V2.74.3 版本更新记录</h1>
+<div class="meta">发布日期：2026-09-01 ｜ 版本号：V2.74.3 ｜ 部署：a7572d01（canonical ssa-erp.pages.dev 已同步）</div>
+
+<div class="card">
+  <h2 style="margin-top:6px">一、变更概览</h2>
+  <p><b>核心目标：消除供应商主数据双数据源。</b>V2.74.2 让开放网关直写 D1 <code>vendor_master</code>，但前端 <code>vendorStore</code> 仍写 <code>app_state</code> Blob，两套来源并存（前端与网关看到的供应商可能不一致）。本次把前端也接到 <code>vendor_master</code>，<b>前端与网关真正同源</b>。</p>
+  <table>
+    <tr><th>模块</th><th>改动</th><th>关键事实</th></tr>
+    <tr><td>vendorStore</td><td>移除 <code>persist+backendStorage</code>(app_state Blob)，改经 <code>vendorApi</code> 直连 D1 <code>vendor_master</code></td><td>双源根治；离线/未登录回退内存 mockVendors；首次空库从旧 app_state 一次性回填</td></tr>
+    <tr><td>后端 /api/vendors</td><td>会话端点从旧 <code>vendors</code> 门户表改指 <code>vendor_master</code>；新增 POST 创建；[id] 补 JSON 扩展列</td><td>与网关 open/vendors 同一张表</td></tr>
+    <tr><td>迁移 0017</td><td><code>vendor_master</code> 补 6 个 JSON 扩展列</td><td>D1 不支持 ADD COLUMN IF NOT EXISTS，用纯 ALTER + schema_migrations 守卫</td></tr>
+    <tr><td>RLS</td><td><code>vendor_master:'own'</code>（采购看自己供应商）</td><td>与网关/会话写操作归属校验一致</td></tr>
+    <tr><td>MSW</td><td>/api/vendors CRUD 去 success 包裹、同构真实端点、补 PUT/DELETE</td><td>DEV 联调一致</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:6px">二、同源验证（真实 session 打真实生产 D1）</h2>
+  <ul>
+    <li><span class="ok">✅ 同源创建</span>：前端路径 <code>POST /api/vendors</code> 创建 → 网关路径 <code>GET /api/open/vendors</code> 立即可见同一条</li>
+    <li><span class="ok">✅ 同源更新</span>：前端 <code>PUT /api/vendors/:id</code> 改 credit_limit → 网关 GET 反映一致</li>
+    <li><span class="ok">✅ 同源删除</span>：前端 <code>DELETE /api/vendors/:id</code> → 网关 GET 该供应商消失</li>
+  </ul>
+  <p class="fix">顺带修复实测暴露的 PUT 500</p>
+  <p>根因：绑参 <code>body.code</code> 等未传字段以 <code>undefined</code> 传入 D1（D1 不接受 <code>undefined</code>）。修复：绑参统一 <code>?? null</code> + 写操作 <code>try/catch</code> 返回错误明细便于诊断。</p>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:6px">三、质量验证</h2>
+  <ul>
+    <li><code>tsc --noEmit</code> 0 错；<code>vite build</code> 成功</li>
+    <li>版本四处同步：<code>src/version.ts</code>=2.74.3 = <code>package.json</code> = <code>manual.tsx</code>(v2743) = <code>MEMORY.md</code></li>
+    <li>迁移 <code>0017_vendor_master_ext</code> 已 apply 到远程 D1（8 命令全绿）</li>
+    <li>已部署 <code>a7572d01</code>，canonical <code>ssa-erp.pages.dev</code> 同源冒烟全绿</li>
+    <li>测试组织与数据均已清理（Key 吊销、供应商记录删除），无污染</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:6px">四、使用提示与边界</h2>
+  <ul>
+    <li><b>在线优先</b>：登录后供应商主数据来自 <code>vendor_master</code>（与网关同源）；离线/未登录时回退本地 mock，页面不白屏但不持久。</li>
+    <li><b>存量迁移</b>：首次访问空库会从旧 app_state（或 mockVendors）自动回填 <code>vendor_master</code> 一次，之后以 D1 为准。</li>
+    <li><b>评级记录</b>：<code>ratingRecords</code> 暂用浏览器 localStorage 缓存（非 D1 表），刷新不丢但不跨设备；后续可独立建表。</li>
+    <li><b>字段覆盖</b>：<code>vendor_master</code> 已补齐 <code>blacklist_reason_history</code>/<code>profile_pending</code>/<code>custom_fields</code> 等 JSON 扩展列，覆盖 Vendor 业务模型全部字段。</li>
+  </ul>
+</div>
+</body>
+</html>

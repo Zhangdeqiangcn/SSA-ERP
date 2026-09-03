@@ -6,13 +6,18 @@ import {
   InboundOrder, OutboundOrder,
 } from '@/types';
 import { serialApi } from '@/services/serial';
+import { warehouseAdv } from '@/services/warehouseAdv';
 
-// W1-B1：序列号 / HU 主数据改为直连真实 D1 serial_masters（专用服务 serialApi，走 api 客户端），
-// 替代原 b2Api 双写桥。serialMasters 不再落 app_state Blob（partialize 已移除），D1 为唯一真源，
-// 根治双通道。stockTransfers / inventoryAdjustments / qualityHolds 三切片仍走 Blob（本批未迁移）。
-// 在线时：loadSerialMasters 从 D1 拉取、增删改经 serialApi 写回；离线/未登录/异常回退内存 seed。
+// W2 收尾：仓库高级三切片（stockTransfers / inventoryAdjustments / qualityHolds）去 Blob 直连真实 D1，
+// 与已迁域同源——D1 为唯一真源，根治双通道。
+// 在线时：loadWarehouseAdvanced 从 D1 拉取（含 items 明细）；add/update/delete 乐观更新内存 + 写回 D1；
+// 离线/未登录/异常回退内存（含遗留 Blob 一次性回填）。serialMasters 早已直连 D1（W1-B1）。
+// 注：partialize 返回 {} —— 三切片与序列号均 D1 托管，不再落 app_state Blob（旧 Blob 仅用于首次启动一次性回填）。
 
 const SERIAL_BACKFILL_FLAG = 'ssa-erp-serial-backfilled';
+const ST_BACKFILL_FLAG = 'ssa-erp-st-backfilled';
+const ADJ_BACKFILL_FLAG = 'ssa-erp-adj-backfilled';
+const QH_BACKFILL_FLAG = 'ssa-erp-qh-backfilled';
 
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useFinanceStore } from '@/stores/financeStore';
@@ -48,11 +53,28 @@ const seedSerialMasters: SerialMaster[] = [
   },
 ];
 
+/** 遗留 Blob 一次性回填到 D1（防数据丢失）：仅当 D1 为空且本机遗留有数据且未回填过 */
+const backfillOnce = async (
+  flag: string,
+  records: { id: string }[],
+  create: (r: Record<string, unknown>) => Promise<unknown>,
+) => {
+  if (!records || records.length === 0) return;
+  if (typeof window !== 'undefined' && window.localStorage.getItem(flag)) return;
+  if (typeof window !== 'undefined') window.localStorage.setItem(flag, '1');
+  for (const r of records) {
+    try { await create(r as Record<string, unknown>); } catch { /* 编码冲突等忽略，回填尽力而为 */ }
+  }
+};
+
 interface WarehouseAdvancedState {
   stockTransfers: StockTransfer[];
   inventoryAdjustments: InventoryAdjustment[];
   serialMasters: SerialMaster[];
   qualityHolds: QualityHold[];
+
+  // 启动加载（D1 为唯一真源，含遗留 Blob 一次性回填）
+  loadWarehouseAdvanced: () => Promise<void>;
 
   // 跨组织转储
   addStockTransfer: (t: StockTransfer) => void;
@@ -71,12 +93,13 @@ interface WarehouseAdvancedState {
   // 序列号 / HU 主数据（W1-B1：直连 D1 serial_masters）
   loadSerialMasters: () => Promise<void>;
   addSerialMaster: (s: SerialMaster) => Promise<void>;
-  updateSerialMaster: (id: string, u: Partial<SerialMaster>) => Promise<void>;
+  updateSerialMaster: (id: string, u: Partial<SerialMaster>) => void;
   deleteSerialMaster: (id: string) => Promise<void>;
 
   // 质检扣留（质检库存状态）
   addQualityHold: (h: QualityHold) => void;
   releaseQualityHold: (id: string, status: 'passed' | 'rejected', inspector?: string) => void;
+  deleteQualityHold: (id: string) => void;
 }
 
 export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
@@ -87,11 +110,50 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
       serialMasters: seedSerialMasters,
       qualityHolds: [],
 
-      // ── 跨组织转储 ──
-      addStockTransfer: (t) => set((s) => ({ stockTransfers: [...s.stockTransfers, t] })),
-      updateStockTransfer: (id, u) =>
-        set((s) => ({ stockTransfers: s.stockTransfers.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteStockTransfer: (id) => set((s) => ({ stockTransfers: s.stockTransfers.filter((x) => x.id !== id) })),
+      // ── 启动加载：D1 拉取 + 遗留 Blob 一次性回填 ──
+      loadWarehouseAdvanced: async () => {
+        const store = useWarehouseAdvancedStore;
+        // 等待 persist 水合完成（遗留 Blob 数据需先载入内存才能回填）
+        if (!store.persist.hasHydrated()) {
+          await new Promise<void>((resolve) => {
+            const unsub = store.persist.onFinishHydration(() => { unsub(); resolve(); });
+            store.persist.rehydrate();
+          });
+        }
+        try {
+          const local = get();
+          await backfillOnce(ST_BACKFILL_FLAG, local.stockTransfers as { id: string }[], (r) => warehouseAdv.stockTransfers.create(r as Partial<StockTransfer>));
+          await backfillOnce(ADJ_BACKFILL_FLAG, local.inventoryAdjustments as { id: string }[], (r) => warehouseAdv.inventoryAdjustments.create(r as Partial<InventoryAdjustment>));
+          await backfillOnce(QH_BACKFILL_FLAG, local.qualityHolds as { id: string }[], (r) => warehouseAdv.qualityHolds.create(r as Partial<QualityHold>));
+          const [st, adj, qh] = await Promise.all([
+            warehouseAdv.stockTransfers.list({ page: 1, pageSize: 500 }),
+            warehouseAdv.inventoryAdjustments.list({ page: 1, pageSize: 500 }),
+            warehouseAdv.qualityHolds.list({ page: 1, pageSize: 500 }),
+          ]);
+          set({ stockTransfers: st.data, inventoryAdjustments: adj.data, qualityHolds: qh.data });
+        } catch {
+          // 离线/未登录/接口异常：保留内存（含遗留 Blob 回填）态，不阻断 UI
+        }
+      },
+
+      // ── 跨组织转储（D1 直连）──
+      addStockTransfer: (t) => {
+        set((s) => ({ stockTransfers: [...s.stockTransfers, t] }));
+        warehouseAdv.stockTransfers.create(t).then((created) => {
+          if (created?.id && created.id !== t.id) {
+            set((s) => ({ stockTransfers: s.stockTransfers.map((x) => (x.id === t.id ? { ...x, id: created.id } : x)) }));
+          }
+        }).catch(() => {});
+      },
+      updateStockTransfer: (id, u) => {
+        set((s) => ({ stockTransfers: s.stockTransfers.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
+        const merged = get().stockTransfers.find((x) => x.id === id);
+        if (merged) warehouseAdv.stockTransfers.update(id, merged as Partial<StockTransfer>).catch(() => {});
+      },
+      deleteStockTransfer: (id) => {
+        set((s) => ({ stockTransfers: s.stockTransfers.filter((x) => x.id !== id) }));
+        warehouseAdv.stockTransfers.remove(id).catch(() => {});
+      },
       // 确认转储：调出方出库 + 调入方入库
       confirmTransfer: (transferId) => {
         const t = get().stockTransfers.find((x) => x.id === transferId);
@@ -159,13 +221,29 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
             x.id === transferId ? { ...x, status: 'completed', fromOrgId: x.fromOrgId || orgState.organizations.find((o) => o.id !== x.toOrgId)?.id } : x
           ),
         }));
+        // W2：转储状态写回 D1（与仓库入/出库过账同源）
+        const st2 = get().stockTransfers.find((x) => x.id === transferId);
+        if (st2) warehouseAdv.stockTransfers.update(transferId, { status: st2.status, fromOrgId: st2.fromOrgId, toOrgId: st2.toOrgId }).catch(() => {});
       },
 
-      // ── 库存调整单 ──
-      addInventoryAdjustment: (a) => set((s) => ({ inventoryAdjustments: [...s.inventoryAdjustments, a] })),
-      updateInventoryAdjustment: (id, u) =>
-        set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteInventoryAdjustment: (id) => set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.filter((x) => x.id !== id) })),
+      // ── 库存调整单（D1 直连）──
+      addInventoryAdjustment: (a) => {
+        set((s) => ({ inventoryAdjustments: [...s.inventoryAdjustments, a] }));
+        warehouseAdv.inventoryAdjustments.create(a).then((created) => {
+          if (created?.id && created.id !== a.id) {
+            set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === a.id ? { ...x, id: created.id } : x)) }));
+          }
+        }).catch(() => {});
+      },
+      updateInventoryAdjustment: (id, u) => {
+        set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
+        const merged = get().inventoryAdjustments.find((x) => x.id === id);
+        if (merged) warehouseAdv.inventoryAdjustments.update(id, merged as Partial<InventoryAdjustment>).catch(() => {});
+      },
+      deleteInventoryAdjustment: (id) => {
+        set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.filter((x) => x.id !== id) }));
+        warehouseAdv.inventoryAdjustments.remove(id).catch(() => {});
+      },
       // 过账：调整库存 + 存货凭证
       postAdjustment: (adjustmentId) => {
         const adj = get().inventoryAdjustments.find((x) => x.id === adjustmentId);
@@ -240,6 +318,9 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
             inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === adjustmentId ? { ...x, status: 'posted' } : x)),
           }));
         }
+        // W2：调整单状态写回 D1
+        const adj2 = get().inventoryAdjustments.find((x) => x.id === adjustmentId);
+        if (adj2) warehouseAdv.inventoryAdjustments.update(adjustmentId, { status: adj2.status, voucherNo: adj2.voucherNo }).catch(() => {});
       },
 
       // ── 序列号 / HU（W1-B1：直连 D1 serial_masters）──
@@ -311,25 +392,35 @@ export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
         }
       },
 
-      // ── 质检扣留 ──
-      addQualityHold: (h) => set((state) => ({ qualityHolds: [...state.qualityHolds, h] })),
-      releaseQualityHold: (id, status, inspector) =>
+      // ── 质检扣留（D1 直连）──
+      addQualityHold: (h) => {
+        set((state) => ({ qualityHolds: [...state.qualityHolds, h] }));
+        warehouseAdv.qualityHolds.create(h).then((created) => {
+          if (created?.id && created.id !== h.id) {
+            set((state) => ({ qualityHolds: state.qualityHolds.map((x) => (x.id === h.id ? { ...x, id: created.id } : x)) }));
+          }
+        }).catch(() => {});
+      },
+      releaseQualityHold: (id, status, inspector) => {
         set((state) => ({
           qualityHolds: state.qualityHolds.map((x) =>
             x.id === id ? { ...x, status, releaseDate: today(), inspector: inspector || x.inspector } : x
           ),
-        })),
+        }));
+        const merged = get().qualityHolds.find((x) => x.id === id);
+        if (merged) warehouseAdv.qualityHolds.update(id, merged as Partial<QualityHold>).catch(() => {});
+      },
+      deleteQualityHold: (id) => {
+        set((state) => ({ qualityHolds: state.qualityHolds.filter((x) => x.id !== id) }));
+        warehouseAdv.qualityHolds.remove(id).catch(() => {});
+      },
     }),
     {
       storage: backendStorage,
       name: 'ssa-erp-wh-adv',
       version: 1,
-      partialize: (state) => ({
-        stockTransfers: state.stockTransfers,
-        inventoryAdjustments: state.inventoryAdjustments,
-        // W1-B1：serialMasters 不再落 Blob（已直连 D1），从 partialize 移除
-        qualityHolds: state.qualityHolds,
-      }),
+      // W2：三切片 + 序列号均 D1 托管，partialize 不再落 Blob（旧 Blob 仅用于首次启动一次性回填，见 loadWarehouseAdvanced）
+      partialize: () => ({}),
     }
   )
 );

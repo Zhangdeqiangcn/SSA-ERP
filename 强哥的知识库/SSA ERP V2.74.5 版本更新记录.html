@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V2.74.5 版本更新记录</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --ink:#1f2d3d; --sub:#5a6b7b; --line:#e3e8ef; --brand:#2563eb; --ok:#16a34a; --warn:#d97706; --code:#0f172a; }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 20px 64px;}
+  header{border-bottom:3px solid var(--brand);padding-bottom:16px;margin-bottom:24px;}
+  h1{font-size:26px;margin:0 0 4px;color:var(--brand);}
+  .meta{color:var(--sub);font-size:13px;}
+  h2{font-size:18px;margin:28px 0 10px;border-left:4px solid var(--brand);padding-left:10px;}
+  h3{font-size:15px;margin:18px 0 6px;color:var(--ink);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:12px 0;}
+  ul{margin:6px 0;padding-left:22px;}
+  li{margin:4px 0;}
+  .tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;margin-right:6px;}
+  .t-ok{background:#dcfce7;color:var(--ok);} .t-warn{background:#fef3c7;color:var(--warn);} .t-feat{background:#dbeafe;color:var(--brand);}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:#eef2f7;color:var(--sub);font-weight:600;}
+  code{background:#eef2f7;padding:1px 6px;border-radius:4px;font-family:"SFMono-Regular",Consolas,monospace;font-size:13px;color:var(--code);}
+  .ok{color:var(--ok);font-weight:600;} .muted{color:var(--sub);}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:14px;color:var(--sub);font-size:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SSA ERP V2.74.5 版本更新记录</h1>
+    <div class="meta">发布日期：2026-09-01 · 部署产物 <code>c05c0ee6.ssa-erp.pages.dev</code> · 生产域 <code>ssa-erp.pages.dev</code> 已同步</div>
+  </header>
+
+  <div class="card">
+    <span class="tag t-feat">核心主题</span>
+    <strong>主数据双通道根治收口</strong>：继 V2.74.3 供应商（vendor_master）收口后，本次把<strong>物料（materials）</strong>与<strong>客户（customers）</strong>两张主数据的前端 store 从 <code>app_state</code> Blob 双源，迁到真实 D1 后端。<strong>主数据三张表（materials / customers / vendors）至此全部脱离 Blob、与开放网关同源</strong>，双通道并行风险在主数据域闭合。
+  </div>
+
+  <h2>一、变更明细</h2>
+
+  <h3>1. 前端 store 重写去 Blob</h3>
+  <ul>
+    <li><code>src/stores/materialStore.ts</code>、<code>src/stores/customerStore.ts</code>：CRUD 改为直连真实 <code>/api/materials</code>、<code>/api/customers</code>；启动时 <code>loadMaterials()</code> / <code>loadCustomers()</code> 已在 <code>App.tsx</code> 挂载（与 <code>loadVendors()</code> 并列）。</li>
+    <li><code>src/services/customer.ts</code>（<strong>新建</strong>）：<code>customerApi</code> 对齐既有 <code>vendorApi</code> 形态。</li>
+    <li><code>src/App.tsx</code>：补两行 import（tsc 报 <code>useMaterialStore</code> / <code>useCustomerStore</code> 未定义）。</li>
+    <li><code>src/stores/customerStore.ts</code>：移除无字段 <code>customFields</code>（Customer 类型无、后端 customers 表无该列）。</li>
+  </ul>
+
+  <h3>2. MSW 同构真实端点</h3>
+  <ul>
+    <li><code>src/mocks/handlers.ts</code>：materials / customers 的 POST / GET / PUT / DELETE 与真实端点同构；补充开放网关读取（<code>/api/open/materials</code>、<code>/api/open/customers</code>）。</li>
+  </ul>
+
+  <h3>3. 修复 3 个真实后端缺陷（04b 生产 E2E 实测先于理论暴露）</h3>
+  <table>
+    <tr><th style="width:26%">位置</th><th>问题</th><th>修复</th></tr>
+    <tr>
+      <td><code>functions/api/materials/index.ts</code> POST</td>
+      <td>静态 INSERT 写 65 列但只填 62 个 <code>?</code> → <code>62 values for 65 columns</code> 500</td>
+      <td>运行期动态构建 <code>colNames / placeholders / colValues</code>，列·占位符·值严格对齐</td>
+    </tr>
+    <tr>
+      <td><code>functions/api/customers/[id].ts</code> PUT</td>
+      <td>未捕获异常 + 裸 <code>body.X</code> 绑定 <code>undefined</code> → <code>D1_TYPE_ERROR: Type 'undefined' not supported</code> 返回 HTML 500</td>
+      <td>加 <code>try/catch</code> + 全部 <code>?? null</code> 兜底 + 更新后 <code>if(!updated) return 404</code></td>
+    </tr>
+    <tr>
+      <td><code>functions/api/materials/[id].ts</code> PUT</td>
+      <td>同构 <code>undefined</code> 绑定隐患（主动修，未等 E2E 暴露）</td>
+      <td>加 <code>try/catch</code> + <code>?? null</code>（数值字段不用 <code>?? 0</code> 避免局部更新清零）+ 布尔 <code>=null?null:(x?1:0)</code></td>
+    </tr>
+  </table>
+
+  <h3>4. 新增 04b 生产 E2E 套件</h3>
+  <ul>
+    <li><code>scripts/prod-e2e/suites/04b-material-customer-samesource.mjs</code>：覆盖 materials / customers 的 POST→GET→PUT→DELETE 全生命周期；DELETE 不存在 id 必须 404（<code>meta.changes</code> 护栏）；前端/网关同源校验（经 <code>/api/open/keys</code> 取 writeKey 验证 <code>/api/open/materials</code>、<code>/api/open/customers</code> 可见）。模板对齐 04-vendor。</li>
+  </ul>
+
+  <h2>二、验证结果（实测先于理论）</h2>
+  <div class="card">
+    <ul>
+      <li><span class="tag t-ok">类型</span> <code>tsc --noEmit</code> 0 错（EXIT_TSC=0）</li>
+      <li><span class="tag t-ok">构建</span> <code>vite build</code> 通过（safe-delete 清空 dist 超时 → 先 <code>mv dist</code> 再 build 再移出备份）</li>
+      <li><span class="tag t-ok">部署</span> 三次部署：<code>22268f2d</code> → <code>2a9a2ba8</code> → <code>c05c0ee6</code>（终态已上线，canonical 同源）</li>
+      <li><span class="tag t-ok">04b 套件</span> 重跑 <strong class="ok">PASS 25 / FAIL 0</strong>（首跑 4 失败全转绿）</li>
+      <li><span class="tag t-ok">全量生产 E2E</span> 重跑 <strong class="ok">PASS 239 / FAIL 0</strong> / WARN 2 / INFO 6（247）<br>
+        <span class="muted">WARN 2 = fx/refresh 外部汇率源 502 + ai/chat 模型未配置 404，均为外部依赖不可用，非我方回归</span></li>
+    </ul>
+  </div>
+
+  <h2>三、影响范围与注意事项</h2>
+  <div class="card">
+    <ul>
+      <li><strong class="ok">已根治</strong>：主数据三张（materials / customers / vendors）全部脱离 Blob，与开放网关同源；前端创建的物料/客户/供应商可在开放网关直接读到，反之亦然。</li>
+      <li><strong>仍走 Blob（非主数据）</strong>：库存、价格、凭证、工单、B2 三岛等业务数据仍经 <code>app_state</code> Blob 双通道，后续按需在后端建表后逐域迁移。</li>
+      <li><strong>暂不可迁</strong>：仓库、设备等主数据后端暂无对应表，维持原状。</li>
+      <li>版本四处同步：<code>src/version.ts</code> 2.74.5 / <code>package.json</code> / <code>src/content/manual.tsx</code> v2745 / <code>.workbuddy/memory/MEMORY.md</code> 沿革 / <code>docs/ssa-erp-master-plan.md</code>。</li>
+    </ul>
+  </div>
+
+  <h2>四、下一步建议</h2>
+  <ul>
+    <li>非主数据业务域（库存/价格/凭证等）的双通道迁移，待后端补表后按优先级推进。</li>
+    <li>仓库/设备等主数据若需去 Blob，需先在 D1 建表并补 CRUD 后端。</li>
+  </ul>
+
+  <footer>
+    SSA ERP · V2.74.5 · 本记录由 WorkBuddy 生成并归档至 ima「强哥的知识库 → erp开发项目」。<br>
+    交付铁律：每个主题仅留最新一份，重复生成以 REPLACE 覆盖同名旧文件。
+  </footer>
+</div>
+</body>
+</html>

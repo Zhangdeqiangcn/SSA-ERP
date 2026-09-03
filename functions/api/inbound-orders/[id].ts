@@ -51,7 +51,8 @@ export async function onRequestPut(context) {
       const col = f === 'inboundNo' ? 'inbound_no' : f === 'sourceNo' ? 'source_no' : f === 'vendorId' ? 'vendor_id' :
         f === 'vendorName' ? 'vendor_name' : f === 'warehouseId' ? 'warehouse_id' : f === 'warehouseName' ? 'warehouse_name' :
         f === 'inboundDate' ? 'inbound_date' : f === 'totalCost' ? 'total_cost' : f === 'subcontractMaterialCost' ? 'subcontract_material_cost' :
-        f === 'asnShipmentNo' ? 'asn_shipment_no' : f.toLowerCase();
+        f === 'asnShipmentNo' ? 'asn_shipment_no' : f === 'inventoryPosted' ? 'inventory_posted' : f === 'costPosted' ? 'cost_posted' :
+        f.toLowerCase();
       setClauses.push(`${col} = ?`);
       values.push(body[f]);
     }

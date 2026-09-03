@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V2.74.1 版本更新记录</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --ink:#1f2d3d; --sub:#5b6b7b; --line:#e3e8ef; --accent:#0EA5E9; --ok:#16a34a; --warn:#d97706; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 60px}
+  h1{font-size:26px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:24px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:18px}
+  h2{font-size:18px;margin:0 0 12px;color:var(--accent);border-left:4px solid var(--accent);padding-left:10px}
+  h3{font-size:15px;margin:16px 0 6px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f0f4f8;font-weight:600}
+  .tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600}
+  .tag.ok{background:#dcfce7;color:var(--ok)}
+  .tag.fix{background:#fee2e2;color:#dc2626}
+  .tag.warn{background:#fef3c7;color:var(--warn)}
+  code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:13px}
+  .ok-line{color:var(--ok);font-weight:600}
+  ul{margin:6px 0 6px 18px;padding:0}
+  .foot{color:var(--sub);font-size:12px;margin-top:30px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP V2.74.1 版本更新记录</h1>
+  <div class="meta">发布日期 2026-09-01 · 基于 V2.74.0（④ RLS / ⑤ 开放 API 网关 / 多币种 FX）· 网关生产实测热修补丁</div>
+
+  <div class="card">
+    <h2>一、变更概览</h2>
+    <p>V2.74.0 上线开放 API 网关后，用<strong>真实 <code>sk_</code> Key 打真实生产 D1</strong>做冒烟实测，暴露了 3 类 E2E（DEV/MSW 回退）漏网的真实生产缺陷。本补丁全部<strong>根因修复</strong>，仅改动网关函数，不改前端与 D1 schema，零回归风险。</p>
+    <table>
+      <tr><th>类别</th><th>修复内容</th><th>验证结果</th></tr>
+      <tr><td><span class="tag fix">缺陷1</span> 写路径 500</td><td>POST/PUT 漏填关系表强制 NOT NULL 审计列，改用 <code>PRAGMA table_info</code> 探测各表实际审计列补齐</td><td><span class="tag ok">已修</span></td></tr>
+      <tr><td><span class="tag fix">缺陷2</span> scope 语义</td><td>write 权限现包含 read（持有 write 的 Key 可读）</td><td><span class="tag ok">已修</span></td></tr>
+      <tr><td><span class="tag fix">缺陷3</span> 路由 405</td><td>拆分 <code>keys/[id].ts</code> 与 <code>[resource]/[id].ts</code> 正确处理吊销与单条 GET/PUT/DELETE</td><td><span class="tag ok">已修</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>二、缺陷详情与根因</h2>
+
+    <h3>① 写路径 500（最严重）</h3>
+    <p><strong>现象</strong>：<code>writeKey POST /api/open/materials</code> 返回 HTTP 500（body 为 null）。</p>
+    <p><strong>根因</strong>：各关系表（materials/customers 等）要求 <code>created_at/updated_at/created_by/updated_by</code> 为 <code>NOT NULL</code>，但网关 INSERT 只填了 <code>id/org_id</code> + 用户字段，漏填审计列（代码里 <code>now</code> 算了却没用）。</p>
+    <p><strong>修复</strong>：<code>functions/api/open/[resource].ts</code> 在写操作时用 <code>PRAGMA table_info(table)</code> 探测该表实际存在的审计列并补齐（vendors 仅 created_at、PO/SO 含 created_at/updated_at 等，自动适配）。</p>
+
+    <h3>② scope 语义错误</h3>
+    <p><strong>现象</strong>：<code>writeKey GET</code> 被错误返回 403（write 不能读）。</p>
+    <p><strong>根因</strong>：<code>hasScope</code> 严格相等判断，write 不含 read。</p>
+    <p><strong>修复</strong>：<code>functions/_shared/apiKey.ts</code> 改为「write 是 read 的超集」——持有 write 权限的 Key 天然可读（程序化集成需先读后写）。</p>
+
+    <h3>③ 路由 405（吊销 + 单条操作）</h3>
+    <p><strong>现象</strong>：<code>DELETE /api/open/keys/:id</code> 与 <code>GET/PUT/DELETE /api/open/:resource/:id</code> 均返回 405。</p>
+    <p><strong>根因</strong>：处理函数误放在集合级路由文件（<code>keys.ts</code> / <code>[resource].ts</code> 仅匹配 <code>/api/open/keys</code> 与 <code>/api/open/:resource</code>），缺 id 段路由文件。</p>
+    <p><strong>修复</strong>：拆出 <code>functions/api/open/keys/[id].ts</code>（吊销）与 <code>functions/api/open/[resource]/[id].ts</code>（单条 GET/PUT/DELETE）。</p>
+  </div>
+
+  <div class="card">
+    <h2>三、质量验证</h2>
+    <ul>
+      <li><span class="ok-line">✅ 类型门禁</span>：<code>tsc --noEmit</code> 0 错误。</li>
+      <li><span class="ok-line">✅ 前端 E2E</span>：网关 UI 用例 <code>v86</code> 3 条全绿（启动无白屏 / 多币种汇率 / API Key 管理 UI）。</li>
+      <li><span class="ok-line">✅ 生产实测（权威）</span>：注册隔离组织 → session 建真实 write/read 双 <code>sk_</code> Key → 真实打生产 D1，复验：
+        <br>writeKey GET <b>200</b> / POST materials <b>201</b> / POST customers <b>201</b> / readKey 写 <b>403「API Key 缺 write 权限」</b> / writeKey PUT <b>200</b> / DELETE <b>200</b> / 吊销 <b>200</b>。</li>
+      <li><span class="ok-line">✅ 部署</span>：已部署 <code>90722bc4.ssa-erp.pages.dev</code>，canonical <code>ssa-erp.pages.dev</code> 同步复验全绿。</li>
+      <li><span class="ok-line">✅ 版本四处同步</span>：<code>src/version.ts</code>(2.74.1) = <code>package.json</code>(2.74.1) = <code>manual.tsx</code>(v2741) = <code>MEMORY.md</code>(版本沿革)。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>四、遗留待决（V2.74.2 处理）</h2>
+    <p><span class="tag warn">待调查</span> <strong>网关 vendors 端点 schema 错位</strong>：网关 <code>vendors</code> 端点指向的 D1 <code>vendors</code> 表，实为「<strong>供应商门户登录账号表</strong>」（含 <code>password_hash/role/status(pending)</code>），并非供应商主数据关系表；其网关字段（<code>credit_limit/used_credit</code> 等）与该表 schema 不符，POST 会 <code>no such column</code>。供应商主数据当前存 <code>app_state</code> Blob、无独立 D1 关系表。需先调查主数据落库位置，再定 vendors 端点目标表（已与强哥确认「先调查再定」）。</p>
+    <p class="meta" style="margin-top:8px">备注：本次生产冒烟所用测试组织与数据均已清理（Key 吊销、物料/客户记录删除），无残留污染。</p>
+  </div>
+
+  <div class="foot">SSA ERP 企业资源管理平台 · V2.74.1 · 生成于 2026-09-01</div>
+</div>
+</body>
+</html>

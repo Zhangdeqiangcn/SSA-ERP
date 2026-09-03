@@ -53,7 +53,7 @@ export async function onRequestPut(context) {
     'expectedDeliveryDate', 'actualDeliveryDate', 'totalAmount', 'currency', 'exchangeRate', 'taxIncluded',
     'totalTaxAmount', 'grandTotal', 'paymentTerms', 'tradeTerms', 'deliveryAddress', 'remarks',
     'projectNo', 'projectName', 'deliveredQuantity', 'creditOccupied', 'creditAmount', 'creditReleasedAmount',
-    'confirmedBy', 'confirmedAt', 'confirmedNote', 'orderMode'];
+    'confirmedBy', 'confirmedAt', 'confirmedNote', 'orderMode', 'version', 'history'];
 
   const setClauses = [];
   const values = [];
@@ -67,9 +67,12 @@ export async function onRequestPut(context) {
         f === 'deliveryAddress' ? 'delivery_address' : f === 'projectNo' ? 'project_no' : f === 'projectName' ? 'project_name' :
         f === 'deliveredQuantity' ? 'delivered_quantity' : f === 'creditOccupied' ? 'credit_occupied' : f === 'creditAmount' ? 'credit_amount' :
         f === 'creditReleasedAmount' ? 'credit_released_amount' : f === 'confirmedBy' ? 'confirmed_by' : f === 'confirmedAt' ? 'confirmed_at' :
-        f === 'confirmedNote' ? 'confirmed_note' : f === 'orderMode' ? 'order_mode' : f.toLowerCase();
+        f === 'confirmedNote' ? 'confirmed_note' : f === 'orderMode' ? 'order_mode' :
+
+        f === 'version' ? 'version' : f === 'history' ? 'history' : f.toLowerCase();
+      const v = f === 'history' ? (body[f] != null ? JSON.stringify(body[f]) : null) : body[f];
       setClauses.push(`${col} = ?`);
-      values.push(body[f]);
+      values.push(v);
     }
   }
   setClauses.push('updated_at = ?', 'updated_by = ?');

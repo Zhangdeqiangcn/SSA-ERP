@@ -37,13 +37,21 @@ export async function onRequestPut(context) {
   const body = await context.request.json().catch(() => ({}));
   const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
 
-  const fields = ['voucherNo', 'date', 'description', 'source', 'status', 'totalDebit', 'totalCredit', 'remarks'];
+  const fields = ['voucherNo', 'voucherType', 'date', 'period', 'description', 'source', 'status', 'totalDebit', 'totalCredit', 'currency', 'attachmentCount', 'sourceNo', 'createdBy', 'reviewedBy', 'reviewedAt', 'postedBy', 'postedAt', 'reversed', 'reversedBy', 'reversedAt', 'reversalVoucherNo', 'remark', 'remarks'];
   const setClauses = [];
   const values = [];
 
   for (const f of fields) {
     if (body[f] !== undefined) {
-      const col = f === 'voucherNo' ? 'voucher_no' : f === 'totalDebit' ? 'total_debit' : f === 'totalCredit' ? 'total_credit' : f.toLowerCase().replace(/([A-Z])/g, '_$1').toLowerCase();
+      const col = f === 'voucherNo' ? 'voucher_no' : f === 'voucherType' ? 'voucher_type' : f === 'date' ? 'date' :
+        f === 'period' ? 'period' : f === 'description' ? 'description' : f === 'source' ? 'source' : f === 'status' ? 'status' :
+        f === 'totalDebit' ? 'totalDebit' : f === 'totalCredit' ? 'totalCredit' : f === 'currency' ? 'currency' :
+        f === 'attachmentCount' ? 'attachment_count' : f === 'sourceNo' ? 'source_no' : f === 'createdBy' ? 'createdBy' :
+        f === 'reviewedBy' ? 'reviewedBy' : f === 'reviewedAt' ? 'reviewed_at' : f === 'postedBy' ? 'postedBy' :
+        f === 'postedAt' ? 'posted_at' : f === 'reversed' ? 'reversed' : f === 'reversedBy' ? 'reversedBy' :
+        f === 'reversedAt' ? 'reversed_at' : f === 'reversalVoucherNo' ? 'reversal_voucher_no' :
+        f === 'remark' ? 'remarks' : f === 'remarks' ? 'remarks' :
+        f.toLowerCase();
       setClauses.push(`${col} = ?`);
       values.push(body[f]);
     }

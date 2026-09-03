@@ -51,7 +51,8 @@ export async function onRequestPut(context) {
         f === 'customerName' ? 'customer_name' : f === 'vendorId' ? 'vendor_id' : f === 'vendorName' ? 'vendor_name' :
         f === 'warehouseId' ? 'warehouse_id' : f === 'warehouseName' ? 'warehouse_name' : f === 'outboundDate' ? 'outbound_date' :
         f === 'packagingMethod' ? 'packaging_method' : f === 'packageCount' ? 'package_count' : f === 'shippingCompany' ? 'shipping_company' :
-        f === 'trackingNo' ? 'tracking_no' : f.toLowerCase();
+        f === 'trackingNo' ? 'tracking_no' : f === 'inventoryPosted' ? 'inventory_posted' : f === 'cogsPosted' ? 'cogs_posted' :
+        f.toLowerCase();
       setClauses.push(`${col} = ?`);
       values.push(body[f]);
     }

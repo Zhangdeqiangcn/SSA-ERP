@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.74.0 版本更新记录</title>
+<style>
+  body { font-family: -apple-system, "Microsoft YaHei", sans-serif; max-width: 900px; margin: 24px auto; padding: 0 20px; color: #1f2937; line-height: 1.7; }
+  h1 { color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 8px; }
+  h2 { color: #1d4ed8; margin-top: 28px; }
+  h3 { color: #334155; }
+  code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #be123c; }
+  .tag { display: inline-block; background: #dbeafe; color: #1e40af; border-radius: 6px; padding: 2px 10px; font-size: 13px; margin-right: 6px; }
+  .ok { color: #16a34a; font-weight: 700; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { border: 1px solid #cbd5e1; padding: 8px 10px; text-align: left; font-size: 14px; }
+  th { background: #eff6ff; }
+  .note { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 10px 14px; border-radius: 4px; }
+  ul { padding-left: 20px; }
+</style>
+</head>
+<body>
+<h1>SSA ERP V2.74.0 版本更新记录</h1>
+<p><span class="tag">发布日期 2026-08-27</span><span class="tag">前端 SPA + Cloudflare Pages 后端</span><span class="tag">tsc 0 错</span><span class="tag">E2E v86 全绿</span></p>
+
+<h2>一、本次变更概览</h2>
+<p>本轮完成强哥拍板的两项核心需求：<b>④ RLS 行级策略下沉到 D1</b>（后端强制按角色/负责人/部门过滤，不再只在前端展示层）+ <b>⑤ 开放 API 网关 / 多币种 FX</b>（补齐汇率内核与真实 API 网关鉴权）。</p>
+
+<table>
+<tr><th>模块</th><th>新增/改动</th><th>关键文件</th></tr>
+<tr><td>④ RLS 行级</td><td>10 表加 <code>owner_id</code>/<code>dept_id</code> 列；角色行级策略；5 表 GET 注入过滤、4 表 [id] 归属校验；前端对齐</td><td><code>migrations/0013</code>、<code>functions/_shared/rls.ts</code>、<code>src/stores/dataPermissionStore.ts</code></td></tr>
+<tr><td>⑤ 多币种 FX</td><td>汇率表 + 换算引擎（修 triangulation 真实 bug）；汇率管理页</td><td><code>migrations/0014</code>、<code>src/stores/fxStore.ts</code>、<code>src/pages/Settings/FxConfig.tsx</code></td></tr>
+<tr><td>⑤ 开放网关</td><td>API Key 表 + 鉴权；5 表读写全端点（四道护栏）；Key 管理组件</td><td><code>migrations/0015</code>、<code>functions/_shared/apiKey.ts</code>、<code>functions/api/open/*</code>、<code>src/pages/Settings/ApiKeyManager.tsx</code></td></tr>
+</table>
+
+<h2>二、④ RLS 行级策略下沉 D1</h2>
+<h3>设计</h3>
+<ul>
+<li>D1/SQLite 无原生 RLS，采用<b>应用层强制过滤</b>：在已有的 <code>org_id</code> 隔离基础上，按 <code>user.role</code> 追加 owner/dept 可见性。</li>
+<li><code>TABLE_RLS</code> 范围：<code>materials / work_orders / vouchers = all</code>（共享主数据全员可见）；<code>customers / sales_orders / vendors / purchase_orders = own</code>（仅负责人）；<code>inbound/outbound/inventory_records = dept</code>（仅本部门）。</li>
+<li><code>admin / owner / boss</code> 豁免，看全部。</li>
+<li>遗留数据 <code>owner_id/dept_id IS NULL</code> 默认全员可见，向前兼容。</li>
+</ul>
+<h3>落地</h3>
+<ul>
+<li>5 张业务表 GET 列表与计数注入 RLS 片段（<code>rlsFragment</code>）。</li>
+<li>4 张 <code>[id]</code> 的 PUT/DELETE 加归属校验（改/删他人数据返回 <code>403</code>）。</li>
+<li>前端 <code>passDataPermission</code> 增加角色维度 <code>opts</code>（ownerId/deptId/role），与后端语义对齐（展示一致性，非强制）。</li>
+</ul>
+
+<h2>三、⑤ 多币种 FX</h2>
+<ul>
+<li>迁移 <code>0014</code>：<code>fx_rates</code>（汇率表）+ <code>org_settings</code>（基准币种/公司名）。</li>
+<li>汇率来源：默认手动维护；提供「从外部源刷新」按钮拉取 <code>exchangerate.host</code>（免 key，失败回退演示汇率）。</li>
+<li><code>FxConfig</code> 接入既有 <code>/finance/exchange-rates</code> 路由（不新增菜单），支持基准币种选择、新增汇率、金额换算器。</li>
+<li><b>修真实 bug</b>：换算引擎原 triangulation 在「非基准币 → 基准币」路径缺失，导致 <code>convert(100,'USD','CNY')</code> 返回 <code>null</code>。已重写为统一的「先折基准、再折目标」公式，覆盖任意币种对。</li>
+</ul>
+
+<h2>四、⑤ 开放 API 网关</h2>
+<ul>
+<li>迁移 <code>0015</code>：<code>api_keys</code> 表（SHA-256 哈希存储明文只返一次）。</li>
+<li><code>apiKey.ts</code>：<code>Authorization: Bearer sk_xxx</code> 或 <code>?api_key=</code> 取 key，SHA-256 比对，<code>scope</code> 校验 read/write（非 session）。</li>
+<li><code>/api/open/[resource]</code> 物料/供应商/客户/采购单/销售单读写全端点（按强哥拍板的最高开放度）。</li>
+<li><b>写操作四道护栏</b>：① 强制 <code>org_id</code> 归属（防跨组织写）；② 写后记 <code>audit_logs</code>；③ <code>scope</code> 校验；④ 限流字段。</li>
+<li><code>/api/open/keys</code> 管理端点（session 管理员，明文 Key 仅返回一次）。</li>
+<li>前端 <code>ApiKeyManager</code> 接入「设置 → API接口文档」，支持创建/吊销与本地回退（明文仅显示一次告警）。</li>
+</ul>
+
+<h2>五、质量验证</h2>
+<ul>
+<li><span class="ok">✓</span> <code>tsc --noEmit</code> 0 错误。</li>
+<li><span class="ok">✓</span> E2E 新增 <code>v86</code> 3 条全绿：FX 刷新/新增/换算、网关 Key UI 可达、启动无白屏回归。</li>
+<li><span class="ok">✓</span> 回归 <code>v80</code> 导航整合通过（APIDocTab 编辑无回退）。</li>
+<li><span class="ok">✓</span> 版本四处同步：<code>src/version.ts</code> = <code>package.json</code> = <code>MEMORY.md</code> = <code>manual.tsx</code> 均 = <b>2.74.0</b>。</li>
+<li><span class="ok">✓</span> 生产部署：D1 迁移 <code>0013/0014/0015</code> 已 apply；Cloudflare Pages 已部署，生产域 <code>ssa-erp.pages.dev</code> 新端点实测：<code>/api/fx</code>→未登录、<code>/api/open/keys</code>→未登录、<code>/api/open/materials</code>→无效或已吊销的 API Key，鉴权链路生效。</li>
+</ul>
+
+<div class="note">
+<b>使用提示</b>：开放网关写接口权限高，Key 请仅授予可信系统、按需限制 scope（优先 read）；生产态创建 Key 在「设置 → API接口文档 → 开放 API 网关」由管理员操作，明文仅显示一次请立即保存。
+</div>
+</body>
+</html>

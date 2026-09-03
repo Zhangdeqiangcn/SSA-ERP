@@ -13,6 +13,31 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { roundAmount, roundPrice } from '@/utils/cost';
 import { b2Api, isAuthed } from '@/services/b2Api';
+import { workOrderApi } from '@/services/w1Api';
+import { snakeToCamel } from '@/utils/case';
+
+// W1 根治双通道：工单切片直连真实 D1 work_orders（仅 workOrders 迁 D1；
+// mrpRecommendations / processRoutes 仍走 Blob，后端无对应写入端点）。
+// 在线：loadWorkOrders 从 /api/work-orders 拉取；增改经 workOrderApi 写回。
+const BACKFILL_FLAG = 'ssa-erp-production-backfilled';
+
+function readLegacyWorkOrders(): WorkOrder[] {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-production');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const st = parsed?.state;
+      if (st?.workOrders && Array.isArray(st.workOrders) && st.workOrders.length) return st.workOrders as WorkOrder[];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [];
+}
+
+function rowToWorkOrder(row: any): WorkOrder {
+  return snakeToCamel(row) as WorkOrder;
+}
 
 interface ProductionState {
   workOrders: WorkOrder[];
@@ -23,6 +48,8 @@ interface ProductionState {
   addWorkOrder: (wo: WorkOrder) => void;
   updateWorkOrder: (id: string, updates: Partial<WorkOrder>) => void;
   deleteWorkOrder: (id: string) => void;
+  /** W1 根治双通道：从 D1 work_orders 拉取（在线）。空库首次从 legacy Blob / mock 回填一次。 */
+  loadWorkOrders: () => Promise<void>;
 
   // B3 完工回写：工单完工 → 回写状态/数量/成本 + 自动生成成品入库单（事件驱动过账库存与生产成本凭证）
   completeWorkOrder: (
@@ -68,9 +95,53 @@ export const useProductionStore = create<ProductionState>()(
       processRoutes: [...mockProcessRoutes],
 
       // WorkOrder
-      addWorkOrder: (wo) => set((s) => ({ workOrders: addArr(s.workOrders, wo) })),
-      updateWorkOrder: (id, u) => set((s) => ({ workOrders: updateArr(s.workOrders, id, u) })),
-      deleteWorkOrder: (id) => set((s) => ({ workOrders: deleteArr(s.workOrders, id) })),
+      addWorkOrder: async (wo) => {
+        set((s) => ({ workOrders: addArr(s.workOrders, wo) }));
+        try {
+          const created = await workOrderApi.createWorkOrder(wo as any);
+          const mapped = rowToWorkOrder(created);
+          if (mapped?.id && mapped.id !== wo.id) {
+            set((s) => ({ workOrders: s.workOrders.map((o) => (o.id === wo.id ? mapped : o)) }));
+          }
+        } catch {
+          /* 写失败：保留内存态（离线容忍） */
+        }
+      },
+      updateWorkOrder: async (id, u) => {
+        set((s) => ({ workOrders: updateArr(s.workOrders, id, u) }));
+        try {
+          await workOrderApi.updateWorkOrder(id, u as any);
+        } catch {
+          /* 写失败：保留内存态 */
+        }
+      },
+      deleteWorkOrder: async (id) => {
+        set((s) => ({ workOrders: deleteArr(s.workOrders, id) }));
+        try {
+          await workOrderApi.deleteWorkOrder(id);
+        } catch {
+          /* 写失败：保留内存态 */
+        }
+      },
+      loadWorkOrders: async () => {
+        try {
+          const res = await workOrderApi.getWorkOrders({ page: 1, pageSize: 200 });
+          const list = (res?.data || []).map(rowToWorkOrder);
+          set({ workOrders: list });
+          if (list.length === 0 && !window.localStorage.getItem(BACKFILL_FLAG)) {
+            window.localStorage.setItem(BACKFILL_FLAG, '1');
+            const legacy = readLegacyWorkOrders();
+            const seed = legacy.length ? legacy : [...mockWorkOrders];
+            for (const o of seed) {
+              try { await workOrderApi.createWorkOrder(o as any); } catch { /* 单号冲突等忽略 */ }
+            }
+            const refreshed = await workOrderApi.getWorkOrders({ page: 1, pageSize: 200 });
+            set({ workOrders: (refreshed?.data || []).map(rowToWorkOrder) });
+          }
+        } catch {
+          /* 离线/未登录/接口异常：保持内存 mockWorkOrders，不阻断 UI */
+        }
+      },
 
       // ── B2-② 工单领料：按BOM展开生成生产领料出库单，扣减原料库存，回写工单领料明细 ──
       // 对标 SAP 生产发料 261：借 5001 生产成本 / 贷 1403 原材料
@@ -291,7 +362,7 @@ export const useProductionStore = create<ProductionState>()(
       name: 'ssa-erp-production',
       version: 1,
       partialize: (state) => ({
-        workOrders: state.workOrders,
+        // 仅持久化无 D1 后端的切片；workOrders 已迁 D1，不再写 app_state Blob（根治双通道）
         mrpRecommendations: state.mrpRecommendations,
         processRoutes: state.processRoutes,
       }),

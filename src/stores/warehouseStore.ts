@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
 import { InboundOrder, OutboundOrder, OutboundOrderItem, CheckTask, CheckTaskItem, InventoryRecord, InventoryAlert, BatchRecord, PurchaseOrderStatus, SalesOrderStatus, VoucherItem } from '@/types';
+import { snakeToCamel } from '@/utils/case';
 import {
   inboundOrders as mockInboundOrders,
   outboundOrders as mockOutboundOrders,
@@ -39,6 +40,8 @@ const toOutboundPayload = (o: OutboundOrder): Record<string, unknown> => ({
   outboundDate: o.outboundDate,
   remarks: o.remarks,
   picker: o.picker,
+  inventoryPosted: o.inventoryPosted,
+  cogsPosted: o.cogsPosted,
   items: (o.items || []).map((it) => ({
     materialId: it.materialId,
     materialCode: it.materialCode,
@@ -69,6 +72,10 @@ const toInboundPayload = (o: InboundOrder): Record<string, unknown> => ({
   inboundDate: o.inboundDate,
   remarks: o.remarks,
   asnShipmentNo: o.asnShipmentNo,
+  totalCost: o.totalCost,
+  subcontractMaterialCost: o.subcontractMaterialCost,
+  inventoryPosted: o.inventoryPosted,
+  costPosted: o.costPosted,
   items: (o.items || []).map((it) => ({
     materialId: it.materialId,
     materialCode: it.materialCode,
@@ -588,6 +595,71 @@ const postOutboundCost = (order: OutboundOrder): OutboundOrderItem[] => {
   return enriched;
 };
 
+// ── W1 仓库战役：inbound/outbound 直连真实 D1 的工具函数（根治 Blob 双通道）────────
+const WAREHOUSE_BACKFILL_FLAG = 'ssa-erp-warehouse-backfilled';
+
+/** D1 snake_case 行 → 前端 InboundOrder（含 items 明细） */
+const rowToInboundOrder = (row: any): InboundOrder => {
+  const m = snakeToCamel(row) as any;
+  return {
+    ...m,
+    items: Array.isArray(m.items) ? m.items.map((it: any) => snakeToCamel(it)) : [],
+    inventoryPosted: !!m.inventoryPosted,
+    costPosted: !!m.costPosted,
+    orgId: m.orgId ?? row?.org_id,
+  } as InboundOrder;
+};
+
+/** D1 snake_case 行 → 前端 OutboundOrder（含 items 明细） */
+const rowToOutboundOrder = (row: any): OutboundOrder => {
+  const m = snakeToCamel(row) as any;
+  return {
+    ...m,
+    items: Array.isArray(m.items) ? m.items.map((it: any) => snakeToCamel(it)) : [],
+    inventoryPosted: !!m.inventoryPosted,
+    cogsPosted: !!m.cogsPosted,
+    orgId: m.orgId ?? row?.org_id,
+  } as OutboundOrder;
+};
+
+/** 从 legacy app_state Blob（localStorage）读取真实历史入库/出库单，用于首次空库回填一次 */
+const readLegacyWarehouseOrders = (): { inbounds: InboundOrder[]; outbounds: OutboundOrder[] } => {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-warehouse');
+    if (raw) {
+      const st = JSON.parse(raw)?.state;
+      return {
+        inbounds: Array.isArray(st?.inboundOrders) ? st.inboundOrders : [],
+        outbounds: Array.isArray(st?.outboundOrders) ? st.outboundOrders : [],
+      };
+    }
+  } catch {
+    /* ignore */
+  }
+  return { inbounds: [], outbounds: [] };
+};
+
+/** 以 D1 单据重算派生库存/批次（inventoryRecords/batchRecords 不再落 Blob，根治双通道） */
+const recomputeInventoryFromOrders = (inbounds: InboundOrder[], outbounds: OutboundOrder[]) => {
+  let inventoryRecords: InventoryRecord[] = [];
+  let batchRecords: BatchRecord[] = [];
+  for (const o of inbounds) {
+    if (o.inventoryPosted) {
+      const r = postInboundToInventory(inventoryRecords, batchRecords, o);
+      inventoryRecords = r.inventoryRecords;
+      batchRecords = r.batchRecords;
+    }
+  }
+  for (const o of outbounds) {
+    if (o.inventoryPosted) {
+      const r = postOutboundToInventory(inventoryRecords, batchRecords, o);
+      inventoryRecords = r.inventoryRecords;
+      batchRecords = r.batchRecords;
+    }
+  }
+  return { inventoryRecords, batchRecords };
+};
+
 interface WarehouseState {
   inboundOrders: InboundOrder[];
   outboundOrders: OutboundOrder[];
@@ -637,6 +709,8 @@ interface WarehouseState {
   setSelectedInbound: (order: InboundOrder | null) => void;
   setSelectedOutbound: (order: OutboundOrder | null) => void;
   setSelectedCheckTask: (task: CheckTask | null) => void;
+  /** W1 仓库战役：入库单/出库单从真实 D1 拉取（含 items 明细），并以 D1 单据重算派生库存/批次 */
+  loadWarehouseOrders: () => Promise<void>;
 }
 
 /** 新建/更新单据时自动打上当前组织 id（多组织上下文） */
@@ -647,7 +721,7 @@ const withOrg = <T extends { orgId?: string }>(entity: T): T => {
 
 export const useWarehouseStore = create<WarehouseState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       inboundOrders: [...mockInboundOrders],
       outboundOrders: [...mockOutboundOrders],
       checkTasks: [...mockCheckTasks],
@@ -696,11 +770,26 @@ export const useWarehouseStore = create<WarehouseState>()(
             batchRecords: posted ? posted.batchRecords : state.batchRecords,
           };
         });
-        // B2 双写：入库单（含 items）落 D1。中央落库点，覆盖 purchase/subcontract/production/transfer 等全部路径，
-        // 因此 subcontractStore.receiveSubcontract、productionStore.completeWorkOrder 等不再重复 POST。
-        if (isAuthed()) b2Api.postInbound(toInboundPayload(finalOrder)).catch(() => {});
+        // W1 仓库战役：入库单落真实 D1（直连 /api/inbound-orders，非 Blob）。
+        // 中央落库点，覆盖 purchase/subcontract/production/transfer 等全部路径。
+        if (isAuthed()) {
+          const payload = toInboundPayload(finalOrder);
+          b2Api.postInbound(payload).then((created) => {
+            const createdId = created?.id;
+            // 用 D1 服务端 id 回写本地（保证后续 update/delete 命中同一行）
+            if (createdId && createdId !== finalOrder.id) {
+              set((state) => ({
+                inboundOrders: state.inboundOrders.map((x) => (x.id === finalOrder.id ? { ...x, id: createdId } : x)),
+              }));
+            }
+            // 已收货(completed)单据：POST 后用 PUT 落 inventoryPosted/costPosted/status，保证 D1 与本地一致
+            if (shouldPost && createdId) {
+              b2Api.putInbound(createdId, { ...payload, status: 'completed', inventoryPosted: true, costPosted: true }).catch(() => {});
+            }
+          }).catch(() => {});
+        }
       },
-      updateInboundOrder: (id, updates) =>
+      updateInboundOrder: (id, updates) => {
         set((state) => {
           const prev = state.inboundOrders.find((o) => o.id === id);
           const next = state.inboundOrders.map((o) => (o.id === id ? { ...o, ...updates } : o));
@@ -727,9 +816,18 @@ export const useWarehouseStore = create<WarehouseState>()(
             }
           }
           return { inboundOrders: next, inventoryRecords, batchRecords };
-        }),
-      deleteInboundOrder: (id) =>
-        set((state) => ({ inboundOrders: state.inboundOrders.filter((o) => o.id !== id) })),
+        });
+        // W1 仓库战役：状态/库存过账变更回写真实 D1（根治 Blob 双通道）
+        if (isAuthed()) {
+          const cur = get().inboundOrders.find((o) => o.id === id);
+          if (cur) b2Api.putInbound(id, toInboundPayload(cur)).catch(() => {});
+        }
+      },
+      deleteInboundOrder: (id) => {
+        set((state) => ({ inboundOrders: state.inboundOrders.filter((o) => o.id !== id) }));
+        // W1 仓库战役：删除回写真实 D1（根治 Blob 双通道）
+        if (isAuthed()) b2Api.deleteInbound(id).catch(() => {});
+      },
 
       // Outbound CRUD（已出库 completed 即自动扣减库存 + 批次 FIFO 消耗 + 回写销售订单 + 结转成本）
       addOutboundOrder: (order) => {
@@ -760,11 +858,24 @@ export const useWarehouseStore = create<WarehouseState>()(
             batchRecords: posted ? posted.batchRecords : state.batchRecords,
           };
         });
-        // B2 双写：出库单（含 items 与成本快照）落 D1。中央落库点，覆盖 sale/pick/subcontract/transfer 等全部路径，
-        // 因此 productionStore.issueMaterials、subcontractStore.issueMaterials 等不再重复 POST，避免双写重复。
-        if (isAuthed()) b2Api.postOutbound(toOutboundPayload(finalOrder)).catch(() => {});
+        // W1 仓库战役：出库单落真实 D1（直连 /api/outbound-orders，非 Blob）。
+        // 中央落库点，覆盖 sale/pick/subcontract/transfer 等全部路径。
+        if (isAuthed()) {
+          const payload = toOutboundPayload(finalOrder);
+          b2Api.postOutbound(payload).then((created) => {
+            const createdId = created?.id;
+            if (createdId && createdId !== finalOrder.id) {
+              set((state) => ({
+                outboundOrders: state.outboundOrders.map((x) => (x.id === finalOrder.id ? { ...x, id: createdId } : x)),
+              }));
+            }
+            if (shouldPost && createdId) {
+              b2Api.putOutbound(createdId, { ...payload, status: 'completed', inventoryPosted: true, cogsPosted: true }).catch(() => {});
+            }
+          }).catch(() => {});
+        }
       },
-      updateOutboundOrder: (id, updates) =>
+      updateOutboundOrder: (id, updates) => {
         set((state) => {
           const prev = state.outboundOrders.find((o) => o.id === id);
           const next = state.outboundOrders.map((o) => (o.id === id ? { ...o, ...updates } : o));
@@ -789,9 +900,18 @@ export const useWarehouseStore = create<WarehouseState>()(
             }
           }
           return { outboundOrders: next, inventoryRecords, batchRecords };
-        }),
-      deleteOutboundOrder: (id) =>
-        set((state) => ({ outboundOrders: state.outboundOrders.filter((o) => o.id !== id) })),
+        });
+        // W1 仓库战役：状态/库存过账变更回写真实 D1（根治 Blob 双通道）
+        if (isAuthed()) {
+          const cur = get().outboundOrders.find((o) => o.id === id);
+          if (cur) b2Api.putOutbound(id, toOutboundPayload(cur)).catch(() => {});
+        }
+      },
+      deleteOutboundOrder: (id) => {
+        set((state) => ({ outboundOrders: state.outboundOrders.filter((o) => o.id !== id) }));
+        // W1 仓库战役：删除回写真实 D1（根治 Blob 双通道）
+        if (isAuthed()) b2Api.deleteOutbound(id).catch(() => {});
+      },
 
       // CheckTask CRUD
       addCheckTask: (task) =>
@@ -891,19 +1011,63 @@ export const useWarehouseStore = create<WarehouseState>()(
       setSelectedInbound: (order) => set({ selectedInbound: order }),
       setSelectedOutbound: (order) => set({ selectedOutbound: order }),
       setSelectedCheckTask: (task) => set({ selectedCheckTask: task }),
+
+      // W1 仓库战役：入库单/出库单直连真实 D1（根治 Blob 双通道）
+      // 在线：从 /api/inbound-orders + /api/outbound-orders 拉取（逐单 /:id 取 items 明细），
+      // 并以 D1 单据重算派生库存/批次（inventoryRecords/batchRecords 不再落 Blob）。
+      // 离线/未登录/异常：保持内存 mock，不阻断 UI。
+      loadWarehouseOrders: async () => {
+        if (!isAuthed()) return;
+        try {
+          const inList = (await b2Api.getInbounds()) as any;
+          const inRows: any[] = inList?.data || [];
+          const inbounds = (
+            await Promise.all(
+              inRows.map(async (r) => {
+                const detail = (await b2Api.getInbound(r.id)) as any;
+                return rowToInboundOrder(detail && detail.id ? detail : r);
+              })
+            )
+          ).filter(Boolean) as InboundOrder[];
+
+          const outList = (await b2Api.getOutbounds()) as any;
+          const outRows: any[] = outList?.data || [];
+          const outbounds = (
+            await Promise.all(
+              outRows.map(async (r) => {
+                const detail = (await b2Api.getOutbound(r.id)) as any;
+                return rowToOutboundOrder(detail && detail.id ? detail : r);
+              })
+            )
+          ).filter(Boolean) as OutboundOrder[];
+
+          if (inbounds.length > 0 || outbounds.length > 0) {
+            // D1 有数据：以 D1 单据为唯一真源，重算派生库存/批次
+            const { inventoryRecords, batchRecords } = recomputeInventoryFromOrders(inbounds, outbounds);
+            set({ inboundOrders: inbounds, outboundOrders: outbounds, inventoryRecords, batchRecords });
+          } else if (!window.localStorage.getItem(WAREHOUSE_BACKFILL_FLAG)) {
+            // D1 空库：仅首次从 legacy Blob（真实历史数据）回填一次；无 legacy 则保留 mock 演示态，避免污染生产库
+            window.localStorage.setItem(WAREHOUSE_BACKFILL_FLAG, '1');
+            const legacy = readLegacyWarehouseOrders();
+            for (const o of legacy.inbounds) get().addInboundOrder(o);
+            for (const o of legacy.outbounds) get().addOutboundOrder(o);
+          }
+        } catch {
+          /* 离线/未登录/接口异常：保持内存 mock，不阻断 UI */
+        }
+      },
     }),
     { storage: backendStorage,
     
       name: 'ssa-erp-warehouse',
       version: 1,
       // 只持久化业务数据，UI 选中态不落盘
+      // 根治双通道：inboundOrders/outboundOrders 已迁真实 D1（loadWarehouseOrders 拉取 + 各动作写回），
+      // inventoryRecords/batchRecords 为 D1 单据派生的库存缓存（load 时重算），三者均不再落 Blob。
+      // 仅 checkTasks/inventoryAlerts/finishedGoodsInbounds 无 D1 后端，仍走 Blob（非双通道）。
       partialize: (state) => ({
-        inboundOrders: state.inboundOrders,
-        outboundOrders: state.outboundOrders,
         checkTasks: state.checkTasks,
-        inventoryRecords: state.inventoryRecords,
         inventoryAlerts: state.inventoryAlerts,
-        batchRecords: state.batchRecords,
         finishedGoodsInbounds: state.finishedGoodsInbounds,
       }),
     }

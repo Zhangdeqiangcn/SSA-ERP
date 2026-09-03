@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { backendStorage } from './persistStorage';
+import { voucherApi } from '@/services/w1Api';
+import { snakeToCamel } from '@/utils/case';
 import { Invoice, PaymentPlan, AccountEntry, FinanceStats, TaxRecord, ProjectAccount, ChartAccount } from '@/types';
 import type { Voucher, VoucherItem, VoucherValidation, Reconciliation, PaymentStatus } from '@/types/finance';
 import {
@@ -22,6 +24,99 @@ const nowStr = () => {
 };
 import { useFinanceLedgerStore } from '@/stores/financeLedgerStore';
 import { useVendorStore } from './vendorStore';
+
+// ==================== W1 根治双通道：vouchers 切片直连真实 D1 ====================
+// 凭证头 + 分录行改为持久化到 vouchers / voucher_items 关系表（与手动凭证 UI / 状态机同源），
+// 移除 app_state Blob 双写。其余切片（invoices/paymentPlans/accountEntries 等）仍走 Blob。
+// 设计要点：vouchers 同时含「手工制单」与「由 accountEntries 派生」两类，统一以 D1 为唯一真相源；
+// 所有变更（手动 CRUD + 状态机 + addAccountEntry 派生）均 fire-and-forget 写回 D1，离线保留内存态。
+const VOUCHER_BACKFILL_FLAG = 'ssa-erp-vouchers-backfilled';
+
+/** 读取旧 app_state Blob 中遗留的 vouchers（迁移过渡期一次性回填用） */
+function readLegacyVouchers(): Voucher[] {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-finance');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const st = parsed?.state;
+      if (st?.vouchers && Array.isArray(st.vouchers)) return st.vouchers as Voucher[];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [];
+}
+
+/** D1 行（snake_case，含 items 行明细）→ 前端 Voucher（camelCase） */
+function rowToVoucher(row: any): Voucher {
+  const v: any = snakeToCamel(row || {});
+  // 后端列 remarks(snake→camel 仍为 remarks) 映射回前端 Voucher.remark
+  if (v.remarks !== undefined) { v.remark = v.remarks; delete v.remarks; }
+  if (v.remark === undefined && v.description) v.remark = v.description;
+  if (Array.isArray(v.items)) {
+    v.items = v.items.map((it: any) => {
+      const item: any = snakeToCamel(it);
+      item.id = item.id || `VI-${Math.random().toString(36).slice(2, 8)}`;
+      item.lineNo = item.lineNo || 0;
+      return item as VoucherItem;
+    });
+  } else {
+    v.items = [];
+  }
+  return v as Voucher;
+}
+
+/** 前端 Voucher → 后端 POST/PUT 载荷（remark 落 remarks 列；id 透传 VCH- 业务主键） */
+function toVoucherPayload(v: Voucher) {
+  return {
+    id: v.id,
+    voucherNo: v.voucherNo,
+    voucherType: v.voucherType,
+    date: v.date,
+    period: v.period,
+    source: v.source,
+    status: v.status,
+    totalDebit: v.totalDebit,
+    totalCredit: v.totalCredit,
+    currency: v.currency || 'CNY',
+    attachmentCount: v.attachmentCount ?? 0,
+    sourceNo: v.sourceNo,
+    createdBy: v.createdBy,
+    reviewedBy: v.reviewedBy,
+    reviewedAt: v.reviewedAt,
+    postedBy: v.postedBy,
+    postedAt: v.postedAt,
+    reversed: v.reversed ?? false,
+    reversedBy: v.reversedBy,
+    reversedAt: v.reversedAt,
+    reversalVoucherNo: v.reversalVoucherNo,
+    remark: v.remark,
+    items: (v.items || []).map((it) => ({
+      id: it.id,
+      lineNo: it.lineNo,
+      summary: it.summary,
+      accountCode: it.accountCode,
+      accountName: it.accountName,
+      debit: it.debit,
+      credit: it.credit,
+      currency: it.currency || 'CNY',
+      exchangeRate: it.exchangeRate || 1,
+      costCenterId: it.costCenterId,
+      projectId: it.projectId,
+    })),
+  };
+}
+
+/** fire-and-forget upsert：先建，已存在(409)则改。离线/未登录/异常静默保留内存态。 */
+function persistVoucher(v?: Voucher) {
+  if (!v) return;
+  voucherApi.createVoucher(toVoucherPayload(v)).catch((e: any) => {
+    const status = e?.response?.status ?? e?.status;
+    if (status === 409 || /已存在/.test(String(e?.message || ''))) {
+      voucherApi.updateVoucher(v.id, toVoucherPayload(v)).catch(() => {});
+    }
+  });
+}
 import {
   invoices as mockInvoices,
   paymentPlans as mockPaymentPlans,
@@ -143,6 +238,8 @@ interface FinanceState {
   unreviewVoucher: (id: string) => VoucherActionResult;
   postVoucher: (id: string, operator?: string) => VoucherActionResult;
   reverseVoucher: (id: string, operator?: string, reason?: string) => VoucherActionResult;
+  /** W1 根治双通道：从 D1 vouchers 拉取凭证（在线）；失败回退内存（initializer 已用 mock 派生）。首次空库回填一次。 */
+  loadVouchers: () => Promise<void>;
 
   // Voucher generation（自动生成凭证）
   generateVoucherFromInvoice: (invoiceId: string) => string | null;
@@ -255,17 +352,29 @@ export const useFinanceStore = create<FinanceState>()(
 
       // AccountEntry CRUD
       // A1 兼容适配层：业务单据仍写扁平分录，这里同步 upsert 到凭证视图
-      addAccountEntry: (entry) =>
+      // A1 兼容适配层：业务单据仍写扁平分录，这里同步 upsert 到凭证视图
+      addAccountEntry: (entry) => {
         set((state) => ({
           accountEntries: [...state.accountEntries, entry],
           vouchers: upsertEntriesIntoVouchers(state.vouchers, [entry]),
-        })),
+        }));
+        // W1 根治：派生凭证同步 D1（fire-and-forget，按 voucherNo 定位受影响凭证）
+        const affected = get().vouchers.find((x) => x.voucherNo === entry.voucherNo);
+        if (affected) persistVoucher(affected);
+      },
       updateAccountEntry: (id, updates) =>
         set((state) => ({
           accountEntries: state.accountEntries.map((e) => (e.id === id ? { ...e, ...updates } : e)),
         })),
-      deleteAccountEntry: (id) =>
-        set((state) => ({ accountEntries: state.accountEntries.filter((e) => e.id !== id) })),
+      deleteAccountEntry: (id) => {
+        const target = get().accountEntries.find((e) => e.id === id);
+        set((state) => ({ accountEntries: state.accountEntries.filter((e) => e.id !== id) }));
+        // W1 根治：删除分录后，受影响凭证(若仍存在)同步 D1 行明细（best-effort）
+        if (target) {
+          const affected = get().vouchers.find((x) => x.voucherNo === target.voucherNo);
+          if (affected) persistVoucher(affected);
+        }
+      },
 
       // ChartAccount CRUD
       addChartAccount: (account) =>
@@ -342,6 +451,8 @@ export const useFinanceStore = create<FinanceState>()(
           updatedBy: input.createdBy || '当前用户',
         };
         set((s) => ({ vouchers: [voucher, ...s.vouchers] }));
+        // W1 根治：新建凭证同步 D1（fire-and-forget）
+        persistVoucher(voucher);
         return { ok: true, message: `凭证 ${voucherNo} 已保存（制单）`, voucherNo, validation };
       },
 
@@ -368,6 +479,8 @@ export const useFinanceStore = create<FinanceState>()(
               : x
           ),
         }));
+        // W1 根治：更新同步 D1（fire-and-forget）
+        persistVoucher(get().vouchers.find((x) => x.id === id));
         return { ok: true, message: `凭证 ${v.voucherNo} 已更新`, voucherNo: v.voucherNo, validation };
       },
 
@@ -379,7 +492,29 @@ export const useFinanceStore = create<FinanceState>()(
         const blocked = checkPeriodWritable(v.date, '删除凭证');
         if (blocked) return blocked;
         set((s) => ({ vouchers: s.vouchers.filter((x) => x.id !== id) }));
+        // W1 根治：删除同步 D1（fire-and-forget）
+        voucherApi.deleteVoucher(id).catch(() => {});
         return { ok: true, message: `凭证 ${v.voucherNo} 已删除`, voucherNo: v.voucherNo };
+      },
+
+      // W1 根治双通道：vouchers 直连真实 D1（唯一真相源，含手工制单与 accountEntries 派生两类）。
+      loadVouchers: async () => {
+        try {
+          const res = await voucherApi.getVouchers({ page: 1, pageSize: 500 });
+          const list = ((res?.data || []) as any[]).map(rowToVoucher);
+          set({ vouchers: list });
+          // 首次空库：从 legacy app_state / 内存(含 mock 派生) 回填 D1 一次，消除双源过渡缺口
+          if (list.length === 0 && !window.localStorage.getItem(VOUCHER_BACKFILL_FLAG)) {
+            window.localStorage.setItem(VOUCHER_BACKFILL_FLAG, '1');
+            const legacy = readLegacyVouchers();
+            const seed = legacy.length ? legacy : get().vouchers;
+            await Promise.all(seed.map((v) => voucherApi.createVoucher(toVoucherPayload(v)).catch(() => {})));
+            const refreshed = await voucherApi.getVouchers({ page: 1, pageSize: 500 });
+            set({ vouchers: ((refreshed?.data || []) as any[]).map(rowToVoucher) });
+          }
+        } catch {
+          // 离线/未登录/接口异常：保留内存（initializer 已用 mock 派生），不阻断 UI
+        }
       },
 
       reviewVoucher: (id, operator) => {
@@ -394,6 +529,8 @@ export const useFinanceStore = create<FinanceState>()(
             x.id === id ? { ...x, status: 'reviewed', reviewedBy: operator || '当前用户', reviewedAt: now, updatedAt: now } : x
           ),
         }));
+        // W1 根治：审核同步 D1（fire-and-forget）
+        persistVoucher(get().vouchers.find((x) => x.id === id));
         return { ok: true, message: `凭证 ${v.voucherNo} 审核通过`, voucherNo: v.voucherNo };
       },
 
@@ -406,6 +543,8 @@ export const useFinanceStore = create<FinanceState>()(
             x.id === id ? { ...x, status: 'draft', reviewedBy: undefined, reviewedAt: undefined, updatedAt: new Date().toISOString() } : x
           ),
         }));
+        // W1 根治：反审核同步 D1（fire-and-forget）
+        persistVoucher(get().vouchers.find((x) => x.id === id));
         return { ok: true, message: `凭证 ${v.voucherNo} 已反审核`, voucherNo: v.voucherNo };
       },
 
@@ -424,6 +563,8 @@ export const useFinanceStore = create<FinanceState>()(
           vouchers: s.vouchers.map((x) => (x.id === id ? posted : x)),
           accountEntries: [...s.accountEntries.filter((e) => e.voucherNo !== v.voucherNo), ...entries],
         }));
+        // W1 根治：过账后凭证状态同步 D1（fire-and-forget）。accountEntries 仍走 Blob。
+        persistVoucher(get().vouchers.find((x) => x.id === id));
         return { ok: true, message: `凭证 ${v.voucherNo} 已过账，共 ${entries.length} 条明细入账`, voucherNo: v.voucherNo };
       },
 
@@ -451,6 +592,9 @@ export const useFinanceStore = create<FinanceState>()(
           ],
           accountEntries: [...s.accountEntries, ...revEntries],
         }));
+        // W1 根治：红字凭证建 D1 + 原凭证标记冲销同步 D1（fire-and-forget）
+        persistVoucher(reversal);
+        persistVoucher(get().vouchers.find((x) => x.id === id));
         return { ok: true, message: `已生成红字凭证 ${revNo} 冲销 ${v.voucherNo}`, voucherNo: revNo };
       },
 
@@ -523,6 +667,9 @@ export const useFinanceStore = create<FinanceState>()(
           vouchers: upsertEntriesIntoVouchers(s.vouchers, entries),
           paymentPlans: s.paymentPlans.map((x) => (x.id === paymentId ? { ...x, voucherGenerated: true } : x)),
         }));
+        // W1 根治：付款凭证同步 D1（fire-and-forget）
+        const affected = get().vouchers.find((x) => x.voucherNo === voucherNo);
+        if (affected) persistVoucher(affected);
         return voucherNo;
       },
 
@@ -563,16 +710,16 @@ export const useFinanceStore = create<FinanceState>()(
           ...p,
           chartOfAccounts: [...seedChartOfAccounts],
           accountEntries: entries,
-          vouchers: entriesToVouchers(entries),
           invoices: (p.invoices ?? []).map((i: any) => ({ ...i, voucherGenerated: false })),
           paymentPlans: (p.paymentPlans ?? []).map((x: any) => ({ ...x, voucherGenerated: false })),
         };
       },
+      // W1 根治双通道：vouchers 已迁真实 D1（loadVouchers + 各动作写回），
+      // 移出 Blob 持久化——vouchers 不再经 app_state，消除双数据源。其余切片仍走 Blob。
       partialize: (state) => ({
         invoices: state.invoices,
         paymentPlans: state.paymentPlans,
         accountEntries: state.accountEntries,
-        vouchers: state.vouchers,
         financeStats: state.financeStats,
         taxRecords: state.taxRecords,
         projectAccounts: state.projectAccounts,

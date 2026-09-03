@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V2.74.2 版本更新记录</title>
+<style>
+  body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;max-width:920px;margin:24px auto;padding:0 20px;color:#1f2937;line-height:1.7;}
+  h1{font-size:24px;border-bottom:3px solid #0EA5E9;padding-bottom:8px;color:#0c4a6e;}
+  h2{font-size:18px;margin-top:28px;color:#0369a1;border-left:4px solid #0EA5E9;padding-left:10px;}
+  .meta{color:#6b7280;font-size:13px;margin-bottom:18px;}
+  table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;}
+  th,td{border:1px solid #d1d5db;padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:#e0f2fe;color:#075985;}
+  .ok{color:#16a34a;font-weight:600;}
+  .warn{color:#d97706;font-weight:600;}
+  code{background:#f1f5f9;padding:1px 5px;border-radius:3px;font-size:13px;}
+  .box{background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:14px 16px;margin:14px 0;}
+  .box.danger{background:#fef2f2;border-color:#fecaca;}
+  ul{margin:8px 0;padding-left:22px;}
+</style>
+</head>
+<body>
+<h1>SSA ERP V2.74.2 版本更新记录</h1>
+<div class="meta">发布日期：2026-09-01 ｜ 部署：<code>484836d3.ssa-erp.pages.dev</code> ｜ 类型：供应商主数据网关端点落地（方案 A）</div>
+
+<h2>一、变更概览</h2>
+<table>
+<tr><th>模块</th><th>改动</th><th>实测结论</th></tr>
+<tr><td>供应商主数据表</td><td>迁移 0016 新建 <code>vendor_master</code> 关系表，与门户登录表 <code>vendors</code> 解耦</td><td class="ok">建表成功，已 apply 到生产 D1</td></tr>
+<tr><td>网关 vendors 端点</td><td>集合级 + 子路由两处 RESOURCES.vendors 改指 <code>vendor_master</code>，cols 对齐主数据</td><td class="ok">POST 201 / GET 200 / PUT 200 / DELETE 200</td></tr>
+<tr><td>子路由漏改修复</td><td>V2.74.1 拆分路由时 <code>[resource]/[id].ts</code> 的 vendors 仍指向旧门户表，致单条 GET 404</td><td class="ok">已统一指向 vendor_master，GET/:id 恢复 200</td></tr>
+<tr><td>凭据安全</td><td>新表不含 <code>password_hash/salt</code>；<code>SELECT *</code> 不再泄露登录凭据</td><td class="ok">实测返回 30 字段，password_hash/salt/role 均不存在</td></tr>
+</table>
+
+<h2>二、为什么新建 vendor_master 而不是复用 vendors 表</h2>
+<div class="box danger">
+<strong>根因：</strong>V2.74.1 实测发现网关 <code>vendors</code> 端点 POST 直接 500。D1 里唯一的 <code>vendors</code> 表是「供应商门户登录账号表」——<code>password_hash</code>/<code>salt</code> 为 <code>NOT NULL</code>（门户登录凭据），且 <code>SELECT *</code> 会把登录凭据返回给 API 调用方。供应商主数据本身是供应链核心，当前存 <code>app_state</code> Blob、无独立关系表。
+</div>
+<div class="box">
+<strong>方案 A（本次采用）：</strong>新建 <code>vendor_master</code> 关系表，与另外 4 类网关资源（materials / customers / purchase_orders / sales_orders）架构完全一致。网关直接读写该表，与 materials 网关同构（前端 vendorStore 仍走 app_state Blob，两套来源并存）。既止血 500+凭据泄露，又给供应商主数据干净的关系表归宿。
+</div>
+
+<h2>三、vendor_master 表结构</h2>
+<ul>
+<li><strong>org_id</strong> 隔离 + <strong>id</strong> 主键 + <code>UNIQUE(org_id, vendor_code)</code></li>
+<li>主数据列：<code>vendor_code / company_name / short_name / type / contact_name / contact_phone / contact_email / address / status / credit_level / credit_limit / used_credit / tax_id / bank_account / sales_org / reconciliation_account / tax_code / rating / blacklist_reason / blacklisted_at / qualification_expiry / remarks</code></li>
+<li>RLS 预留：<code>owner_id / dept_id</code>（可空）</li>
+<li>审计列：<code>created_at / updated_at / created_by / updated_by</code>（NOT NULL，网关写操作由 <code>PRAGMA table_info</code> 探测补齐）</li>
+<li><strong>不含</strong> <code>password_hash / salt / role / status(portal)</code> —— 与门户账号表彻底解耦</li>
+</ul>
+
+<h2>四、生产实测（真实 sk_ Key 打真实生产 D1）</h2>
+<table>
+<tr><th>用例</th><th>请求</th><th>结果</th></tr>
+<tr><td>创建供应商</td><td>writeKey POST /api/open/vendors</td><td class="ok">201</td></tr>
+<tr><td>列表查询</td><td>writeKey GET /api/open/vendors</td><td class="ok">200（30 字段，零凭据泄露）</td></tr>
+<tr><td>含 remarks 创建</td><td>writeKey POST（remarks='测试备注OK'）</td><td class="ok">201（remarks 列存在）</td></tr>
+<tr><td>更新 + 单条读</td><td>PUT /:id → GET /:id</td><td class="ok">200 / 200（credit_limit 更新生效）</td></tr>
+<tr><td>scope 拦截</td><td>readKey POST /api/open/vendors</td><td class="ok">403「API Key 缺 write 权限」</td></tr>
+<tr><td>删除清理</td><td>writeKey DELETE /:id</td><td class="ok">200</td></tr>
+</table>
+<p class="meta">测试组织与数据（供应商记录、API Key）均已清理，无生产污染。冒烟脚本：<code>.workbuddy/gw_vendors_smoke.mjs</code></p>
+
+<h2>五、质量验证</h2>
+<ul>
+<li><code>tsc --noEmit</code> 0 错；<code>npm run build</code> 成功（dist 生成）</li>
+<li>D1 迁移 0016 <code>wrangler d1 migrations apply --remote</code> ✅</li>
+<li>Cloudflare Pages 部署 <code>484836d3.ssa-erp.pages.dev</code>，canonical <code>ssa-erp.pages.dev</code> 复验全绿</li>
+<li>版本四处同步：<code>src/version.ts</code>(2.74.2) = <code>package.json</code>(2.74.2) = <code>manual.tsx</code>(v2742) = <code>MEMORY.md</code>(版本沿革)</li>
+</ul>
+
+<h2>六、使用提示与后续</h2>
+<div class="box">
+<strong>当前架构说明：</strong>网关 vendors 端点读写独立的 <code>vendor_master</code> 关系表；前端「供应商管理」页仍读写 <code>app_state</code> Blob（与 materials 网关同构）。两套来源并存，后续可独立战役把前端 vendorStore 也对齐 D1 <code>vendor_master</code>，实现前端与网关同源。
+</div>
+<ul>
+<li>开放 API 网关现 5 类资源（materials / vendor_master / customers / purchase_orders / sales_orders）均读写全端点、四道护栏生效。</li>
+<li>API Key 管理见「设置 → API 接口文档 → 开放 API 网关」。</li>
+</ul>
+</body>
+</html>

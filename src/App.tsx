@@ -11,6 +11,12 @@ import { useMaterialStore } from './stores/materialStore';
 import { useCustomerStore } from './stores/customerStore';
 import { useWarehouseAdvancedStore } from './stores/warehouseAdvancedStore';
 import { useSubcontractStore } from './stores/subcontractStore';
+// W1 根治双通道：采购订单 / 销售订单 / 工单 / 凭证 直连真实 D1（启动期拉取在下方 useEffect）
+import { usePurchaseStore } from './stores/purchaseStore';
+import { useSalesStore } from './stores/salesStore';
+import { useProductionStore } from './stores/productionStore';
+import { useFinanceStore } from './stores/financeStore';
+import { useWarehouseStore } from './stores/warehouseStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 // P4-1 个人工作台
@@ -249,6 +255,15 @@ function App() {
     // W1-B1：序列号 / 委外订单直连 D1（根治双通道），启动期拉取
     useWarehouseAdvancedStore.getState().loadSerialMasters();
     useSubcontractStore.getState().loadOrders();
+    // W1 根治双通道：采购订单 / 销售订单 / 工单 / 凭证 直连真实 D1 关系表
+    usePurchaseStore.getState().loadPurchaseOrders();
+    useSalesStore.getState().loadSalesOrders();
+    useProductionStore.getState().loadWorkOrders();
+    useFinanceStore.getState().loadVouchers();
+    // W1 仓库战役：入库单/出库单直连真实 D1（根治 Blob 双通道），启动期拉取
+    useWarehouseStore.getState().loadWarehouseOrders();
+    // W2 收尾：仓库高级三切片（转储/调整/质检扣留）直连真实 D1（根治 Blob 双通道），启动期拉取
+    useWarehouseAdvancedStore.getState().loadWarehouseAdvanced();
   }, []);
   return (
     <Routes>

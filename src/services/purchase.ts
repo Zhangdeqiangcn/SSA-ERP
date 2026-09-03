@@ -38,6 +38,9 @@ export const purchaseApi = {
   updatePurchaseOrder: (id: string, data: Partial<PurchaseOrder>) =>
     api.put<PurchaseOrder>(`/purchase-orders/${id}`, data),
 
+  deletePurchaseOrder: (id: string) =>
+    api.delete(`/purchase-orders/${id}`),
+
   // Price Compare
   getQuotes: (requestId: string) =>
     api.get<VendorQuote[]>(`/purchase-requests/${requestId}/quotes`),

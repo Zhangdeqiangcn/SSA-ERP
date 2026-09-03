@@ -4,6 +4,39 @@ import { backendStorage } from './persistStorage';
 import { PurchaseRequest, PurchaseOrder, PurchaseOrderVersion, VendorQuote } from '@/types';
 import { purchaseRequests as mockPurchaseRequests, purchaseOrders as mockPurchaseOrders, vendorQuotes as mockVendorQuotes } from '@/mocks/data/purchase';
 import { normalizeOrderTax } from '@/utils/tax';
+import { purchaseApi } from '@/services/purchase';
+import { snakeToCamel } from '@/utils/case';
+
+// W1 根治双通道：采购订单切片直连真实 D1 purchase_orders（仅 purchaseOrders 迁 D1；
+// purchaseRequests / vendorQuotes 仍走 Blob，后端无对应写入端点）。
+// 在线：loadPurchaseOrders 从 /api/purchase-orders 拉取；增改经 purchaseApi 写回。
+// 离线/未登录/接口异常：回退内存 mockPurchaseOrders，不阻断业务。
+const BACKFILL_FLAG = 'ssa-erp-purchase-backfilled';
+
+function readLegacyPurchaseOrders(): PurchaseOrder[] {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-purchase');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const st = parsed?.state;
+      if (st?.purchaseOrders && Array.isArray(st.purchaseOrders) && st.purchaseOrders.length) return st.purchaseOrders as PurchaseOrder[];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [];
+}
+
+function rowToPurchaseOrder(row: any): PurchaseOrder {
+  const m = snakeToCamel(row) as any;
+  let history = m.history;
+  if (typeof history === 'string') {
+    try { history = JSON.parse(history); } catch { history = []; }
+  }
+  return { ...m, history: history || [] } as PurchaseOrder;
+}
+
+const stamp = () => new Date().toISOString().slice(0, 19).replace('T', ' ');
 
 interface PurchaseFilter {
   requestNo?: string;
@@ -51,6 +84,8 @@ interface PurchaseState {
   setPurchaseRequests: (requests: PurchaseRequest[]) => void;
   setPurchaseOrders: (orders: PurchaseOrder[]) => void;
   setVendorQuotes: (quotes: VendorQuote[]) => void;
+  /** W1 根治双通道：从 D1 purchase_orders 拉取（在线）。空库首次从 legacy Blob / mock 回填一次。 */
+  loadPurchaseOrders: () => Promise<void>;
   setFilter: (filter: PurchaseFilter) => void;
   resetFilter: () => void;
   setSelectedRequest: (request: PurchaseRequest | null) => void;
@@ -61,7 +96,7 @@ const initialFilter: PurchaseFilter = {};
 
 export const usePurchaseStore = create<PurchaseState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       // 启动时直接加载 Mock 数据；persist 在刷新后优先用 localStorage 实际数据
       purchaseRequests: [...mockPurchaseRequests],
       purchaseOrders: [...mockPurchaseOrders],
@@ -87,15 +122,34 @@ export const usePurchaseStore = create<PurchaseState>()(
         })),
 
       // Order CRUD
-      addPurchaseOrder: (order) =>
-        set((state) => ({ purchaseOrders: [...state.purchaseOrders, order] })),
+      addPurchaseOrder: async (order) => {
+        // 乐观更新：先入内存，再写 D1
+        set((state) => ({ purchaseOrders: [order, ...state.purchaseOrders] }));
+        try {
+          const created = await purchaseApi.createPurchaseOrder(order as any);
+          const mapped = rowToPurchaseOrder(created);
+          if (mapped?.id && mapped.id !== order.id) {
+            set((state) => ({
+              purchaseOrders: state.purchaseOrders.map((o) => (o.id === order.id ? mapped : o)),
+            }));
+          }
+        } catch {
+          /* 写失败：保留内存态（离线容忍） */
+        }
+      },
 
-      updatePurchaseOrder: (id, updates) =>
+      updatePurchaseOrder: async (id, updates) => {
         set((state) => ({
           purchaseOrders: state.purchaseOrders.map((o) =>
             o.id === id ? { ...o, ...updates } : o
           ),
-        })),
+        }));
+        try {
+          await purchaseApi.updatePurchaseOrder(id, updates as any);
+        } catch {
+          /* 写失败：保留内存态 */
+        }
+      },
 
       confirmOrderByVendor: (poId, info) => {
         let ok = false;
@@ -130,6 +184,16 @@ export const usePurchaseStore = create<PurchaseState>()(
             ),
           };
         });
+        // 根治双通道：供应商确认状态经 PUT 落真实 D1（fire-and-forget，写失败保留内存态）
+        if (ok) {
+          purchaseApi.updatePurchaseOrder(poId, {
+            status: 'vendorConfirmed',
+            confirmedBy: info.operator || info.vendorId,
+            confirmedAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
+            confirmedNote: info.note,
+            vendorConfirmedDate: info.confirmedDeliveryDate,
+          } as any).catch(() => {});
+        }
         return ok;
       },
 
@@ -184,13 +248,48 @@ export const usePurchaseStore = create<PurchaseState>()(
             ),
           };
         });
+        // 根治双通道：B10 版本留痕经 PUT 落真实 D1（fire-and-forget，写失败保留内存态）
+        if (result.ok) {
+          const po = get().purchaseOrders.find((o) => o.id === id);
+          if (po) {
+            purchaseApi.updatePurchaseOrder(id, { ...updates, version: po.version, history: po.history } as any).catch(() => {});
+          }
+        }
         return result;
       },
 
-      deletePurchaseOrder: (id) =>
+      deletePurchaseOrder: async (id) => {
         set((state) => ({
           purchaseOrders: state.purchaseOrders.filter((o) => o.id !== id),
-        })),
+        }));
+        try {
+          await purchaseApi.deletePurchaseOrder(id);
+        } catch {
+          /* 写失败：保留内存态 */
+        }
+      },
+
+      // ── W1 根治双通道：采购订单切片直连 D1 ──────────────
+      loadPurchaseOrders: async () => {
+        try {
+          const res = await purchaseApi.getPurchaseOrders({ page: 1, pageSize: 200 });
+          const orders = (res?.data || []).map(rowToPurchaseOrder);
+          set({ purchaseOrders: orders });
+          // 首次空库：从 legacy app_state / mockPurchaseOrders 回填一次，消除双源过渡缺口
+          if (orders.length === 0 && !window.localStorage.getItem(BACKFILL_FLAG)) {
+            window.localStorage.setItem(BACKFILL_FLAG, '1');
+            const legacy = readLegacyPurchaseOrders();
+            const seed = legacy.length ? legacy : [...mockPurchaseOrders];
+            for (const o of seed) {
+              try { await purchaseApi.createPurchaseOrder(o as any); } catch { /* 单号冲突等忽略，回填尽力而为 */ }
+            }
+            const refreshed = await purchaseApi.getPurchaseOrders({ page: 1, pageSize: 200 });
+            set({ purchaseOrders: (refreshed?.data || []).map(rowToPurchaseOrder) });
+          }
+        } catch {
+          /* 离线/未登录/接口异常：保持内存 mockPurchaseOrders，不阻断 UI */
+        }
+      },
 
       // Quote CRUD
       addVendorQuote: (quote) =>
@@ -223,8 +322,8 @@ export const usePurchaseStore = create<PurchaseState>()(
       version: 2,
       // 只持久化业务数据，UI 态（筛选/选中）不落盘
       partialize: (state) => ({
+        // 仅持久化无 D1 后端的切片；purchaseOrders 已迁 D1，不再写 app_state Blob（根治双通道）
         purchaseRequests: state.purchaseRequests,
-        purchaseOrders: state.purchaseOrders,
         vendorQuotes: state.vendorQuotes,
       }),
       /**

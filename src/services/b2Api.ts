@@ -85,9 +85,23 @@ export const b2Api = {
 
   // ── 出库单 / 入库单 ──
   postOutbound: (p: Record<string, unknown>) =>
-    request('POST', '/outbound-orders', p),
+    request<IdResult>('POST', '/outbound-orders', p),
   postInbound: (p: Record<string, unknown>) =>
-    request('POST', '/inbound-orders', p),
+    request<IdResult>('POST', '/inbound-orders', p),
+
+  // 仓库战役：读 / 改 / 删（直连真实 D1，根治 app_state Blob 双通道）
+  getInbounds: () => request('GET', '/inbound-orders?pageSize=200'),
+  getInbound: (id: string) => request('GET', `/inbound-orders/${encodeURIComponent(id)}`),
+  getOutbounds: () => request('GET', '/outbound-orders?pageSize=200'),
+  getOutbound: (id: string) => request('GET', `/outbound-orders/${encodeURIComponent(id)}`),
+  putInbound: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/inbound-orders/${encodeURIComponent(id)}`, p),
+  deleteInbound: (id: string) =>
+    request('DELETE', `/inbound-orders/${encodeURIComponent(id)}`),
+  putOutbound: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/outbound-orders/${encodeURIComponent(id)}`, p),
+  deleteOutbound: (id: string) =>
+    request('DELETE', `/outbound-orders/${encodeURIComponent(id)}`),
 };
 
 export default b2Api;
