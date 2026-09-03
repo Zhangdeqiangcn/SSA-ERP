@@ -100,5 +100,10 @@ export async function onRequestPost(context) {
   }
 
   const row = await db.prepare(`SELECT * FROM subcontract_orders WHERE id = ?`).bind(id).first();
-  return json(row);
+  const itemsRes = await db.prepare(`SELECT * FROM subcontract_issue_items WHERE subcontract_order_id = ?`).bind(id).all();
+  const issueItems = (itemsRes.results || []).map(r => ({
+    id: r.id, subcontract_order_id: r.subcontract_order_id, material_id: r.material_id,
+    material_code: r.material_code, material_name: r.material_name, unit: r.unit, qty: Number(r.qty),
+  }));
+  return json({ ...row, issueItems });
 }
