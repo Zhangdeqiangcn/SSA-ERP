@@ -266,10 +266,10 @@
 ### 9.4 P2 合规与智能化（14 项，约 6 人月）—— 目标：跨合规红线 + 真 AI（V2.74.3 复核状态）
 - 等保/审计/权限矩阵（RLS 强化）：✅ **已完成**——V2.74.0 `functions/_shared/rls.ts` 11 表行级策略下沉 D1；前端 `dataPermissionStore`/`SecureField` 为展示级脱敏（非强制，真强制在后端）。
 - 真正 ChatBI：✅ **已完成（规则型）**——`functions/api/chatbi` 关键词→类型映射 + 真实 D1 SQL 执行（非 LLM-to-SQL，无写死 MOCK_RESPONSES）。
-- 发票 OCR 模型对接：🟢 **部分**——`ocr/recognize.ts` 已调 Tesseract.js 真实 OCR，但字段抽取仍 `text.match` 正则（OCR 已真、结构化抽取待模型化）。
+- 发票 OCR 模型对接：✅ **已完成（V2.80）**——`ocr/recognize.ts` 真实 Tesseract.js OCR + 大模型结构化抽取（发票类型/购销方/金额/税额/发票号字段），已落地页面 `Analytics/InvoiceOcr.tsx`。
 - 异常预警规则引擎：✅ **已完成**——`functions/api/alerts` 库存/逾期/临期/信用/待审批 6 类真实计算。
 - AI Agent 真实化：✅ **已完成**——`functions/api/ai/chat.ts` 真实 LLM 代理（KV 模型配置 + fetch `/chat/completions`），无模拟兜底。
-- 数电票核验：🟡 **仍桩**——`tax-gateway/verify.ts` `mockVerifyInvoice` + TODO 真实 API（全仓唯一确认桩）。
+- 数电票核验：🟢 **部分（V2.80 真实通道代码已就位）**——`tax-gateway/verify.ts` 已写 etoplive/航信/百望/票联云多服务商路由真实转发 + 发票结构化校验；默认走 `mockVerifyInvoice` 模拟兜底，**启用真实通道需配后端 KV `TAX_GATEWAY`（企业税号 + 服务商密钥）**；前端 `Analytics/InvoiceVerification.tsx` 已接真/模拟双通道。
 - 多币种：✅ **已完成（V2.74.0）**；开放 API：✅ **已完成（V2.74.0–74.2）**；BI 集成(P2-19)/ESG(P2-30) ✅ **已完成（V2.74.8，见 §七之二）**。
 
 ### 9.5 版本沿革补充
@@ -286,6 +286,7 @@
 - **生产通道**：Cloudflare Pages 构建不启动 MSW，`fetch('/api/...')` 真实打 `functions/api` + D1（migrations 0001–0017，约 30 张表）。`functions/api` 39 个端点绝大多数真实落库（详见 §十.3）。
 - **双通道现状（V2.74.5 实测）**：关系化后端已在 V2.58–V2.64 建表 + 函数在 V2.69–V2.74.5 打通。**主数据三张（materials/customers/vendors）前端已直连真实 D1**：`vendorStore`(V2.74.3) 直连 `vendor_master`、`materialStore`/`customerStore`(V2.74.5) 直连 `materials`/`customers`（与开放网关同源）；其余前端 store 仍大多以 `app_state` Blob 为主源（`persist`+`backendStorage` 写 `/api/state/:key`），`warehouse/production/subcontract` 4 个经 `b2Api`「本地主源 + fire-and-forget 双写 D1」（三岛表）。即"后端关系表"与"前端主源 Blob"并行仅剩非主数据部分，主数据三张已根治双源。
 - 含义：下文"已实现"指源码含真实业务逻辑/算法；依赖持久化与跨表关系的，在生产态落 D1、在 DEV 落 Blob。
+- **双通道根治进展（V2.81 实际）**：W0–W1 通用实体后端（`/api/entities`）+ 9 整页模块（V2.80）+ 入库/出库/盘点（`checkTasks`，V2.81）已迁真实 D1；截至 V2.81，仅 `inventoryAlerts` / `finishedGoodsInbounds` 两块仍走 Blob（仓库域双通道最后残留）。**V2.82 计划将这两块迁 D1（迁移 0036/0037 + 实体注册 + 启动期 load + 乐观更新 fire-and-forget 写回），彻底根治双通道**（详见 §十一.5）。
 
 ### 10.2 实现度校准（偏差项，V2.74.3）
 | 功能 | 计划声称 | 代码真实（V2.74.3 扫描） | 证据/说明 |
@@ -297,12 +298,12 @@
 | RLS 行级安全 | ✅ P2-28 | ✅ 后端下沉 D1 | `functions/_shared/rls.ts` TABLE_RLS 映射 11 表 + `rlsFragment`/`assertRlsOwnership` 22 处调用；前端 `dataPermissionStore`/`SecureField` 仍为展示级脱敏（非强制） |
 | 智能推荐 P2-03 | 部分 | ✅ 真实 | `Forecast.tsx#computeDemandForecast/buildMonthlySales` 真实算法 |
 | 智能排程 P2-04 | 部分 | 🟢 大部分真实（仅 1 壳） | `GanttSchedule`/`FiniteCapacity`(APS)/`CRP`(`utils/crp.ts`) 真实有限产能排程；`DetailedScheduling.tsx` 仅锁单/锚定 UI（壳） |
-| 移动端 P2-20 | 部分 | 🟡 壳 | `Settings/MobileTab.tsx` 静态模拟 PDA 屏 + 伪二维码，无真实移动端构建/路由 |
+| 移动端 P2-20 | 部分 | ✅ 已真落地（V2.78） | `/m` PWA 门户（manifest + SW + 真图标）+ `MobileInbound/Home/PortalLayout` 真实路由 + 真扫码 `BarcodeScanner` + 出库/盘点/质检移动过账写回 D1；`MobileTab` 仅设置入口说明（旧伪二维码壳已废弃） |
 | 三方销售 P2-12 | 部分 | 🟡 无专项实体 | 销售含 SO/Quotation/Contract，三方/代销无独立实体 |
 | AI Agent（P2-01） | 模拟对话 | ✅ 真实代理 | `functions/api/ai/chat.ts` 读 KV 模型配置 + `fetch` LLM `/chat/completions`（无写死）；前端 `AIAssistant.tsx` 真实 fetch，无模拟兜底 |
 | ChatBI（P2-02） | 模拟 | ✅ 真实（规则型） | `functions/api/chatbi` 关键词→类型映射 + 真实 D1 SQL 执行（非 LLM-to-SQL） |
-| 发票 OCR | 正则 parseInvoice | 🟢 真实 OCR + 正则抽取 | `ocr/recognize.ts` 调 Tesseract.js 真实 OCR；字段抽取仍用 `text.match` 正则（OCR 已真，抽取待模型化） |
-| 数电票核验 | 真实转发 | 🟡 仍桩 | `tax-gateway/verify.ts` `mockVerifyInvoice` + `TODO` 真实 API（唯一确认桩）；`index.ts` `encryptApiKey` 仅 base64 |
+| 发票 OCR | 正则 parseInvoice | ✅ 已模型化（V2.80） | `ocr/recognize.ts` 真实 Tesseract.js OCR + 大模型结构化抽取；`Analytics/InvoiceOcr.tsx` 落地 |
+| 数电票核验 | 真实转发 | 🟢 部分（V2.80） | `tax-gateway/verify.ts` 已写多服务商路由真实转发 + 结构化校验，默认模拟兜底；待 KV `TAX_GATEWAY` 密钥启用真实通道 |
 | 开放 API（P2-21） | 跳过 | ✅ 已完成（V2.74.0–74.2） | `functions/api/open/*` 网关：materials/vendors(vendor_master)/customers/purchase-orders/sales-orders + api_keys(scope write⊃read) |
 | 多币种 FX（P2-27） | 跳过 | ✅ 已完成（V2.74.0） | `fxStore.convert` 三角折算 + `fx_rates` 表 + 网关刷新 exchangerate.host |
 
@@ -319,3 +320,50 @@
 3. **P2 深水区（9 项整页缺失 + 2 壳 + 1 桩）**：9 项已按三轮排期（详见 §七之二），**A+B+C 三轮共 9 项全部交付（V2.74.6 + V2.74.7 + V2.74.8）**（A 轮=波次RFID P2-07 / 重复制造 P2-08 / MES集成 P2-09；B 轮=三方销售 P2-12 / COPA P2-13 / 资金管理 P2-14；C 轮=S&OP P2-10 / BI集成 P2-19 / ESG P2-30，均「前端页 + mock 持久化」深度）。**9 项整页缺失已全部收口 ✅**。另：DetailedScheduling(P2-04 壳)/MobileTab(P2-20 壳)；数电票核验(tax-gateway/verify 桩)。
 4. **OCR 字段抽取模型化**：Tesseract 已真，字段解析仍正则，待接大模型结构化抽取。
 5. **采购订单变更单**：已实现独立版本化变更单，按业务是否需要进一步升为"独立变更单实体 + 独立审批流"再评估（当前已满足大多数场景）。
+
+---
+
+## 十一、深度功能对标计划（V2.81 基线，对照 SAP S/4HANA 2026 / 金蝶云·星空 V9.1 / 用友 BIP·U9 cloud）
+
+> 来源：`SSA ERP 深度对标分析报告.html`（V2.81 基线，2026-09-07 生成，已归档 ima「强哥的知识库 → erp开发项目」REPLACE 覆盖）。
+> 方法：12 业务域 × 7 维度（功能完备度 / 深度 / 合规 / 智能 / 移动 / 集成 / 可扩展）评分；横向根因 G1–G8；分级路线图 P0/P1/P2。
+> 三家 2026 最新能力对标点：**SAP S/4HANA**（Joule 生成式 AI 助手 + 原生 Fiori 移动）、**金蝶云·星空 V9.1**（金钥 财报 AI + 数电票直连）、**用友 BIP / YonSuite / U9 cloud**（YonGPT 企业大模型 + 原生移动 App）——均把「大模型级智能助手 + 数电票直连 + 原生移动 App」作为新战场。
+
+### 11.1 总体跃迁（V2.64 → V2.81）
+| 指标 | V2.64 | V2.81 |
+|------|-------|-------|
+| 12 域综合评分均值 | 3.9 | 4.4 |
+| 三家标杆功能覆盖 | 82–85% | 92–95% |
+| 与三家平均差距 | ~0.8 | ~0.4–0.5 |
+| 云端 D1 实体资源（functions/_shared/entities.ts） | 10 | 19 |
+| 数据库迁移总数（migrations/） | 29 | 35（V2.82 本次 +2 → 37） |
+
+### 11.2 路线图完成状态
+- **P0 六项地基（A1–A6）**：✅ 全部完成（凭证/税价/信用/成本/红冲/期间；构建门禁 tsc 0 错；PBKDF2；D1 备份；白屏兜底；RLS 下沉 D1）。
+- **P1 业务闭环（B1–B11）**：✅ 11/11 全闭环（含 B2 三岛 D1 专属后端 + 序列号 FIFO 核销 + 委外 + 工单领料；B6 黑名单/价目表回写；B7 审批引擎统一；B8 MRP；B9 AQL；B10 PO 变更单；B11 多笔付款计划）。
+- **P2 合规与智能化（C1–C10）**：✅ 8/10 落地；⬜ C6 大模型级 AI 助手（框架就绪未接通）、C9 物料替代料组（零实现）。
+  - 已落地：C1 批次追溯穿透、C3 统一编号规则中心、C4 字段权限（readonly/required/mask）、C5 销售价目表/折扣/促销、C7 工作流引擎统一、C8 AQL（GB/T 2828.1 自动算 Ac/Re）、C10 生产版本组合；9 整页模块迁 D1（资金/三方销售/重复制造/COPA/MES/波次RFID/BI/ESG/S&OP）+ 发票 OCR 大模型抽取 + AI 真实代理（LLM-to-SQL 规则型 ChatBI）+ 异常预警 6 类规则引擎。
+
+### 11.3 横向根因 G1–G8 现状（V2.64 八条 → V2.81 校准）
+| 根因 | V2.64 判定 | V2.81 现状 |
+|------|-----------|-----------|
+| G1 成本核算深度 | 弱（无移动均价/COGS/暂估） | ✅ 闭合：移动均价滚动（`utils/cost.ts`）+ 出库 COGS 凭证（借 1405/1406 贷 6001）+ GR/IR 暂估（借 1403 贷 2201）+ 发票校验冲销 |
+| G2 信用管控 | 部分 | ✅ 闭合：信用额度占用（`customerStore`）+ 逾期冻结 |
+| G3 价格体系 | 部分 | ✅ 闭合：销售价目表/折扣/促销（`C5`）+ 条件技术引擎叠加含税价 |
+| G4 单据孤岛 | 严重 | ✅ 闭合：入库/出库/盘点/成品入库全迁 D1 + 三单匹配服务端闭环 |
+| G5 服务端化 | 弱（多 Blob） | ✅ 大部分闭合：19 实体资源迁真实 D1（剩 inventoryAlerts/finishedGoodsInbounds 待 V2.82） |
+| G6 计划层 | 弱 | ✅ 闭合：MRP/BOM/甘特拖拽排产/有限产能 APS/CRP |
+| G7 可定制性 | 弱 | ✅ 闭合：字段权限 + 工作流引擎 + 审批流配置 + OA 流程定制 |
+| G8 移动化 | 壳 | ✅ 闭合：PWA 门户（`/m` 真扫码 + 出库/盘点/质检过账写回 D1） |
+
+### 11.4 剩余净缺口（按用户价值排序）
+1. 🔴 **C6 大模型级 AI 助手**（差异化亮点，对标 Joule/金钥/YonGPT）：`ChatBI` 已搭多 provider 配置框架（OpenAI/DeepSeek/智谱等 `types/ai.ts`），但页面仍是规则查询，**未实际接通大模型对话**——需您提供大模型 API 密钥即做。
+2. 🔴 **C9 物料替代料组 + 优先级**：BOM/生产灵活可配硬缺口，源码零匹配（`AlternativeBOM`/`substitute` 无实现）。
+3. 🔶 **数电票真实核验**：V2.80 代码已就位（`tax-gateway/verify.ts` etoplive/航信/百望/票联云多服务商路由 + 结构化校验），默认模拟兜底——需您提供**企业税号 + 服务商密钥**（配后端 KV `TAX_GATEWAY`）才启用真实通道。
+4. 🔶 **精修项**：字段权限覆盖全部模块、Webhook 鉴权重试、物料表单拆多视图、凭证专业录入界面、应收账龄/汇兑损益。
+
+### 11.5 下一步路线（建议）
+- **短期（已排 V2.82）**：迁 `inventoryAlerts` / `finishedGoodsInbounds` 到 D1（根治双通道最后两块，迁移 0036/0037 + 实体注册 + 启动期 load + 乐观更新写回）。
+- **中期**：C9 替代料 → 字段权限全覆盖 → Webhook 鉴权重试 → 物料表单拆多视图。
+- **差异化（需密钥）**：C6 大模型助手接通 → 数电票真实核验启用。
+- **持续**：生产态常驻 E2E（prod-e2e）门禁全绿值守；全量前端 E2E 296 用例逐文件根除历史 flake。

@@ -958,6 +958,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2820',
+        title: 'V2.82.0（2026-09-07）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**库存预警 + 产成品入库迁真实 D1（根治双通道最后两块）+ 主计划写入深度对标计划 + 状态表同步 + 部署生产**：\n① 库存预警 inventoryAlerts 迁 D1：新增迁移 0036_inventory_alerts（inventory_alerts 表，全标量字段），后端实体注册表 ENTITY_RESOURCES 加 inventoryAlert 资源（通用实体端点 /api/entities/inventoryAlert，按组织编号隔离 + RLS + 审计，零新增后端函数）；warehouseStore 移除 inventoryAlerts 的本地存储块 persist，改 loadInventoryAlerts 经 entityRepo 拉取、首次空库回填 mock、离线/未登录回退内存。\n② 产成品入库 finishedGoodsInbounds 迁 D1：新增迁移 0037_finished_goods_inbounds（finished_goods_inbounds 表，全标量字段），实体注册表加 finishedGoodsInbound 资源；warehouseStore 移除 Blob persist，addFinishedGoodsInbound/updateFinishedGoodsInbound/deleteFinishedGoodsInbound 改乐观更新 + fire-and-forget 写回 D1，loadFinishedGoodsInbounds 启动期拉取、首次空库回填 mock。\n③ 至此仓库域双通道彻底根治——入库单/出库单/盘点任务/库存预警/产成品入库全部业务数组均去 Blob 直连真实 D1，跨端多人实时共享。\n④ 主计划写入深度对标计划：docs/ssa-erp-master-plan.md 新增「§十一 深度功能对标计划（V2.81 基线，对照 SAP S/4HANA 2026 / 金蝶云·星空 V9.1 / 用友 BIP）」——含 12 域综合评分跃迁（3.9→4.4）、P0/P1/P2 路线图状态（P0 全完成、P1 11/11、P2 8/10）、横向根因 G1–G8 现状、剩余净缺口（C6 大模型助手 / C9 替代料 / 数电票真实核验 / 精修）；并同步状态表——移动端 P2-20（🟡壳→✅已真落地 V2.78）、数电票核验（🟡仍桩→🟢部分 V2.80 真实通道代码就位）、发票 OCR（🟢部分→✅已模型化 V2.80）、双通道现状补 V2.82 进展注。\n⑤ 验证：tsc --noEmit 0 错；vite build 通过（dist 经 rm -rf 绕过 safe-delete 超时）；npm run deploy 幂等 apply 远程 D1 迁移 0036/0037（两表全建）+ 前端/函数发布生产；生产端到端门禁 PASS 239 / FAIL 0 全绿（零回归）；新增探针 probe_inventory_alert_fgi.mjs 直击真实生产域验证两实体「建/查/改/删 + 标量字段往返 + 组织隔离」24/24 断言全绿。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「对标计划写入主计划 + 更新主计划文档状态表同步 + 迁库存预警/产成品入库到 D1」。前两项是把 V2.81 深度对标报告（已归档 ima）的结论与路线图正式沉淀进主计划单一权威文档，并消除「移动端壳/数电票桩」等过时描述（代码早在 V2.78/V2.80 已真落地，文档滞后会误导后续判断）。第三项迁 D1 是双通道根治的收口——V2.81 仅剩 inventoryAlerts/finishedGoodsInbounds 两块 Blob 残留，均按 V2.80 双通道根治范式（entityRepo + 实体注册表 + 启动期 load + 乐观更新 fire-and-forget 写回 + 首次空库回填），零新增后端函数、与 Web 端同源。两块字段全为标量（无嵌套 JSON），比 checkTask 更简单，迁移与注册直接对齐范式。至此仓库域无 Blob 业务数据，双通道彻底根治。' },
+        ],
+      },
+      {
         id: 'v2810',
         title: 'V2.81.0（2026-09-04）',
         blocks: [

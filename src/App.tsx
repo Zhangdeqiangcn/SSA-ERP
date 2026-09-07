@@ -270,8 +270,11 @@ function App() {
     useFinanceStore.getState().loadVouchers();
     // W1 仓库战役：入库单/出库单直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseStore.getState().loadWarehouseOrders();
-    // V2.81.0 盘点任务直连真实 D1（根治 Blob 双通道），启动期拉取
-    useWarehouseStore.getState().loadCheckTasks();
+  // V2.81.0 盘点任务直连真实 D1（根治 Blob 双通道），启动期拉取
+  useWarehouseStore.getState().loadCheckTasks();
+  // V2.82.0 库存预警/产成品入库直连真实 D1（根治 Blob 双通道最后两块），启动期拉取
+  useWarehouseStore.getState().loadInventoryAlerts();
+  useWarehouseStore.getState().loadFinishedGoodsInbounds();
     // W2 收尾：仓库高级三切片（转储/调整/质检扣留）直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseAdvancedStore.getState().loadWarehouseAdvanced();
   }, []);
