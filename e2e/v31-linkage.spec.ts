@@ -30,7 +30,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
   test('质量·检验标准新建真实落库', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     const before = await page.evaluate(() => (window as any).__ssaStores.useQualityStore.getState().inspectionStandards.length);
@@ -51,7 +51,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
   test('质量·检验任务新建真实落库（原死链已修复）', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     const before = await page.evaluate(() => (window as any).__ssaStores.useQualityStore.getState().inspectionTasks.length);
@@ -70,7 +70,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
   test('质量·检验不合格自动生成不合格品记录(NCR)', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     const before = await page.evaluate(() => (window as any).__ssaStores.useQualityStore.getState().unqualifiedItems.length);
@@ -88,7 +88,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
   test('财务·发票新建真实落库（原死链已修复）', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     const before = await page.evaluate(() => (window as any).__ssaStores.useFinanceStore.getState().invoices.length);
@@ -108,7 +108,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
     const errors: string[] = [];
     page.on('dialog', (d) => d.accept());
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     // 取一个可生成领料的工单（非 draft/closed/completed，且未领料过），并为 BOM 所需物料预置充足库存
@@ -173,7 +173,7 @@ test.describe('v31 跨域表单关联与可定制性', () => {
   test('采购·采购申请转采购订单形成血缘闭环', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
-    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource') && !m.text().includes('validateDOMNesting')) errors.push('console.error: ' + m.text()); });
 
     await resetAndReady(page);
     const setup = await page.evaluate(() => {

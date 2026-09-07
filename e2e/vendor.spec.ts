@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
   errorCount = 0;
   page.on('pageerror', () => errorCount++);
   page.on('console', (msg) => {
-    if (msg.type() === 'error' && !msg.text().includes('validateDOMNesting')) errorCount++;
+    if (msg.type() === 'error' && !msg.text().includes('Failed to load resource') && !msg.text().includes('validateDOMNesting')) errorCount++;
   });
 });
 

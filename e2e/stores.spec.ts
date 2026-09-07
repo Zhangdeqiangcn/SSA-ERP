@@ -1,48 +1,52 @@
-import { test, expect } from './ssa-fixtures';
+import { test, expect, waitForAppReady, storeAppended, expectLocalStorageHas } from './ssa-fixtures';
 
 /**
  * 回归加固：直接驱动每个业务 store 的 add 动作，断言
- *   ① 增量真正写入对应 localStorage（证明 add 确为「追加」，而非 addArr 类静默失效）
- *   ② 整页刷新后增量仍在（证明 persist 落盘生效）
- * 这样任何把 `addArr` 误写成 `setter([...])` 的回归都会被立即抓出。
+ *   ① 增量真正写入 store 内存状态（证明 add 确为「追加」，而非 addArr 类静默失效）
+ *   ② 对已持久化到浏览器本地存储的 store，断言落盘生效（刷新后仍在）
+ * 每个 store 独立成 test，互不影响；「读 localStorage」改用轮询（expect.poll），
+ * 不持久化的列表（material / warehouse-inbound / production-workOrders / sales-salesOrders 等
+ * 已迁 D1 或 partialize 排除）只读内存状态，避免架构演进后的断言过时型假失败。
  */
 
-type Case = { key: string; hook: string; action: string };
+type Case = { key: string; hook: string; action: string; persisted: boolean };
 
+// persisted 按各 store 的 persist partialize 白名单标注：
+//   true  = 被测列表确实落 localStorage（purchase/price/quality/bom/finance/flow）
+//   false = 被测列表不落 localStorage（material 去持久化 / warehouse-inbound / production-workOrders
+//           / sales-salesOrders / vendor 均迁 D1 或被 partialize 排除），仅验证内存追加即可
 const STORES: Case[] = [
-  { key: 'material', hook: 'useMaterialStore', action: 'addMaterial' },
-  { key: 'vendor', hook: 'useVendorStore', action: 'addVendor' },
-  { key: 'purchase', hook: 'usePurchaseStore', action: 'addPurchaseRequest' },
-  { key: 'price', hook: 'usePriceStore', action: 'addPriceInquiry' },
-  { key: 'warehouse', hook: 'useWarehouseStore', action: 'addInboundOrder' },
-  { key: 'quality', hook: 'useQualityStore', action: 'addInspectionTask' },
-  { key: 'bom', hook: 'useBOMStore', action: 'addBOM' },
-  { key: 'production', hook: 'useProductionStore', action: 'addWorkOrder' },
-  { key: 'sales', hook: 'useSalesStore', action: 'addSalesOrder' },
-  { key: 'finance', hook: 'useFinanceStore', action: 'addInvoice' },
-  { key: 'flow', hook: 'useFlowStore', action: 'addInspectionNotice' },
+  { key: 'material', hook: 'useMaterialStore', action: 'addMaterial', persisted: false },
+  { key: 'vendor', hook: 'useVendorStore', action: 'addVendor', persisted: false },
+  { key: 'purchase', hook: 'usePurchaseStore', action: 'addPurchaseRequest', persisted: true },
+  { key: 'price', hook: 'usePriceStore', action: 'addPriceInquiry', persisted: true },
+  { key: 'warehouse', hook: 'useWarehouseStore', action: 'addInboundOrder', persisted: false },
+  { key: 'quality', hook: 'useQualityStore', action: 'addInspectionTask', persisted: true },
+  { key: 'bom', hook: 'useBOMStore', action: 'addBOM', persisted: true },
+  { key: 'production', hook: 'useProductionStore', action: 'addWorkOrder', persisted: false },
+  { key: 'sales', hook: 'useSalesStore', action: 'addSalesOrder', persisted: false },
+  { key: 'finance', hook: 'useFinanceStore', action: 'addInvoice', persisted: true },
+  { key: 'flow', hook: 'useFlowStore', action: 'addInspectionNotice', persisted: true },
 ];
 
-test('全部业务 store 的 add 均真正追加并持久化到 localStorage', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
+for (const s of STORES) {
+  test(`store ${s.hook}.${s.action} 真正追加（${s.persisted ? '内存+本地存储' : '仅内存'}）`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
 
-  await page.goto('/');
-  await page.waitForFunction(() => (window as any).__ssaStores);
+    await page.goto('/');
+    await waitForAppReady(page);
 
-  // 清空历史，从初始 Mock 开始
-  await page.evaluate(() => {
-    Object.keys(localStorage)
-      .filter((k) => k.startsWith('ssa-erp-'))
-      .forEach((k) => localStorage.removeItem(k));
-  });
-  await page.reload();
-  await page.waitForFunction(() => (window as any).__ssaStores);
+    // 清空历史，从初始 Mock 开始（仅清本地持久化切片，避免污染）
+    await page.evaluate(() => {
+      Object.keys(localStorage)
+        .filter((k) => k.startsWith('ssa-erp-'))
+        .forEach((k) => localStorage.removeItem(k));
+    });
+    await page.reload();
+    await waitForAppReady(page);
 
-  const markers: string[] = [];
-  for (const s of STORES) {
     const marker = `REGTEST_${s.key}_${Date.now()}_${Math.floor(Math.random() * 1e6)}`;
-    markers.push(marker);
     await page.evaluate(
       ({ hook, action, marker }) => {
         const st = (window as any).__ssaStores[hook].getState();
@@ -51,25 +55,17 @@ test('全部业务 store 的 add 均真正追加并持久化到 localStorage', a
       { hook: s.hook, action: s.action, marker }
     );
 
-    const found = await page.evaluate((m) => {
-      return Object.keys(localStorage).some(
-        (k) => k.startsWith('ssa-erp-') && (localStorage.getItem(k) ?? '').includes(m)
-      );
-    }, marker);
-    expect(found, `store ${s.hook}.${s.action} 未将增量写入 localStorage（疑似 add 未真正追加）`).toBe(true);
-  }
+    // ① 内存状态追加（与持久化策略无关，轮询防时序）
+    await expect.poll(() => storeAppended(page, s.hook, marker), { timeout: 10000 }).toBe(true);
 
-  // 持久化回归：整页刷新后所有 marker 仍应存在
-  await page.reload();
-  await page.waitForFunction(() => (window as any).__ssaStores);
-  for (const marker of markers) {
-    const stillThere = await page.evaluate((m) => {
-      return Object.keys(localStorage).some(
-        (k) => k.startsWith('ssa-erp-') && (localStorage.getItem(k) ?? '').includes(m)
-      );
-    }, marker);
-    expect(stillThere, `刷新后 marker 丢失：${marker}`).toBe(true);
-  }
+    // ② 持久化落盘（仅对确实持久化该列表的 store 验证；刷新后仍含标记）
+    if (s.persisted) {
+      await expectLocalStorageHas(page, marker);
+      await page.reload();
+      await waitForAppReady(page);
+      await expectLocalStorageHas(page, marker);
+    }
 
-  expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
-});
+    expect(errors, '页面运行时错误:\n' + errors.join('\n')).toEqual([]);
+  });
+}

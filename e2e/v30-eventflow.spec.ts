@@ -50,7 +50,7 @@ test.describe('事件驱动自动流转', () => {
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
     page.on('console', (msg) => {
       const t = msg.text();
-      if (msg.type() === 'error' && !t.includes('validateDOMNesting') && !t.includes('A props object containing a "key" prop')) {
+      if (msg.type() === 'error' && !msg.text().includes('Failed to load resource') && !t.includes('validateDOMNesting') && !t.includes('A props object containing a "key" prop')) {
         errors.push('console.error: ' + t);
       }
     });

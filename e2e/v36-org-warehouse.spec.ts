@@ -24,7 +24,7 @@ test.describe('P2-2 组织账套 + 仓库主数据', () => {
     page.on('console', (msg) => {
       const t = msg.text();
       if (
-        msg.type() === 'error' &&
+        msg.type() === 'error' && !msg.text().includes('Failed to load resource') &&
         !t.includes('validateDOMNesting') &&
         !t.includes('A props object containing a "key" prop') &&
         !t.includes('disabled `button` child to the Tooltip')

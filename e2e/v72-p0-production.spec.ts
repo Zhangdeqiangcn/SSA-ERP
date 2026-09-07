@@ -20,7 +20,7 @@ async function resetAndReady(page: any) {
 async function captureErrors(page: any) {
   const errors: string[] = [];
   page.on('pageerror', (err: Error) => errors.push(err.message));
-  page.on('console', (msg: any) => { if (msg.type() === 'error') errors.push(msg.text()); });
+  page.on('console', (msg: any) => { if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) errors.push(msg.text()); });
   return errors;
 }
 

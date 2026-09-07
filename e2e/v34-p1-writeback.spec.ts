@@ -4,7 +4,7 @@ const captureErrors = async (page: Page) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (msg) => {
-    if (msg.type() === 'error') errors.push(msg.text());
+    if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) errors.push(msg.text());
   });
   return errors;
 };

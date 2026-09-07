@@ -88,5 +88,61 @@ export const test = base.extend<{ page: Page }>({
   },
 });
 
+/**
+ * 根治「store add 后立即可步读 localStorage」的历史 flake（V2.78.0 复盘）：
+ *  - 很多业务 store（material / warehouse 的 inboundOrders / production 的 workOrders / sales 的
+ *    salesOrders 等）在 V2.70 / V2.74.5 之后已不把被测列表持久化到浏览器本地存储（改直连 D1 数据库、
+ *    或 persist 的 partialize 白名单排除），因此「读 localStorage 含标记」的断言天生失败——应改验证
+ *    「store 内存状态确实追加了」。本函数遍历 store 的全部数组字段，命中标记即视为 add 真正生效，
+ *    与持久化策略无关。
+ *  - 确实持久化的 store（purchase / price / quality / bom / finance / flow 等）未登录态写入是同步的，
+ *    但仍可能因机器过载 / 浏览器节流出现时序 flake，故需配合 expect.poll 轮询，而非立即读取。
+ */
+export async function storeAppended(page: Page, hook: string, marker: string): Promise<boolean> {
+  return page.evaluate(
+    ({ hook, marker }) => {
+      const st = (window as any).__ssaStores?.[hook]?.getState?.();
+      if (!st) return false;
+      for (const v of Object.values(st)) {
+        if (Array.isArray(v)) {
+          if (
+            v.some(
+              (x: any) =>
+                x &&
+                typeof x === 'object' &&
+                (x.id === marker ||
+                  x.name === marker ||
+                  x.code === marker ||
+                  x.itemNo === marker ||
+                  x.orderNo === marker)
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+    { hook, marker }
+  );
+}
+
+/** 轮询验证浏览器本地存储（任一 ssa-erp- 前缀键）含标记，覆盖异步落盘时序 */
+export async function expectLocalStorageHas(page: Page, marker: string, timeout = 10000): Promise<void> {
+  await expect
+    .poll(
+      () =>
+        page.evaluate(
+          (m) =>
+            Object.keys(localStorage).some(
+              (k) => k.startsWith('ssa-erp-') && (localStorage.getItem(k) ?? '').includes(m)
+            ),
+          marker
+        ),
+      { timeout }
+    )
+    .toBe(true);
+}
+
 export { expect };
 export type { Page };

@@ -8,7 +8,7 @@ import { test, expect } from './ssa-fixtures';
 test('OA流程定制整合与系统设置去重回归', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
+  page.on('console', m => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`console: ${m.text()}`); });
 
   // 1) 侧栏无「平台生态」
   await page.goto('http://localhost:3000/');

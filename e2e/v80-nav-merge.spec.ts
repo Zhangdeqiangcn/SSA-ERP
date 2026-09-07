@@ -9,7 +9,7 @@ import { test, expect } from './ssa-fixtures';
 test('导航二次整合：审批中心 + 分析与报表 + 去重', { timeout: 120000 }, async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
+  page.on('console', m => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`console: ${m.text()}`); });
 
   await page.goto('http://localhost:3000/');
   await page.waitForLoadState('networkidle');

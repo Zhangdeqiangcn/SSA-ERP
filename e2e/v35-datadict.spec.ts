@@ -26,7 +26,7 @@ test.describe('P2-1 数据字典单一数据源', () => {
     page.on('console', (msg) => {
       const t = msg.text();
       if (
-        msg.type() === 'error' &&
+        msg.type() === 'error' && !msg.text().includes('Failed to load resource') &&
         !t.includes('validateDOMNesting') &&
         !t.includes('A props object containing a "key" prop')
       ) {

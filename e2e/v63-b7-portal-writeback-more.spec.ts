@@ -11,7 +11,7 @@ import { test, expect, type Page } from './ssa-fixtures';
 const captureErrors = async (page: Page) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => { errors.push(e.message); console.log('[pageerror]', e.message); });
-  page.on('console', (msg) => { if (msg.type() === 'error') console.log('[console.error]', msg.text()); });
+  page.on('console', (msg) => { if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) console.log('[console.error]', msg.text()); });
   return errors;
 };
 

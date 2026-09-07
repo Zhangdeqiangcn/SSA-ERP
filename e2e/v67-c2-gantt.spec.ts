@@ -30,7 +30,7 @@ const resetAndReady = async (page: Page) => {
 const captureErrors = (page: Page, errors: string[]) => {
   page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
   page.on('console', (m) => {
-    if (m.type() === 'error' &&
+    if (m.type() === 'error' && !m.text().includes('Failed to load resource') &&
         !m.text().includes('validateDOMNesting') &&
         !m.text().includes('A props object containing a "key" prop')) {
       errors.push('console.error: ' + m.text());

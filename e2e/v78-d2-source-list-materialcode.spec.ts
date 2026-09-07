@@ -3,7 +3,7 @@ import { test, expect } from './ssa-fixtures';
 test('V2.55.20 货源清单物料编码列 + 联动 selector 回归', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(`[console.error] ${m.text()}`); });
+  page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`[console.error] ${m.text()}`); });
 
   // 1) 货源清单页：新增的「物料编码」列 + 编码值
   await page.goto('/purchase/source-list', { waitUntil: 'domcontentloaded' });

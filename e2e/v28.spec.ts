@@ -59,6 +59,10 @@ test('Phase3 系统设置-对接配置 Tab 渲染', async ({ page }) => {
 test('Phase3 系统设置-移动端 Tab 渲染', async ({ page }) => {
   await page.goto('/settings');
   await page.getByRole('button', { name: '移动端' }).click();
-  await expect(page.getByText('支持的现场作业').first()).toBeVisible();
+  await expect(page.getByText('现场作业能力').first()).toBeVisible();
   await expect(page.getByText('移动端访问').first()).toBeVisible();
+  // V2.79.0：出库 / 盘点 / 质检 已从「规划中」转为「已上线」真功能，设置页须如实反映
+  await expect(page.getByText('扫码出库').first()).toBeVisible();
+  await expect(page.getByText('移动盘点').first()).toBeVisible();
+  await expect(page.getByText('移动质检').first()).toBeVisible();
 });

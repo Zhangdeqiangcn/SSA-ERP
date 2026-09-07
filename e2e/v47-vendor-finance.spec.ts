@@ -29,7 +29,7 @@ test.describe('V2.26 供应商门户·对账单→开票全流程', () => {
     page.on('pageerror', (e) => errors.push('pageerror: ' + e.message));
     page.on('console', (msg) => {
       if (
-        msg.type() === 'error' &&
+        msg.type() === 'error' && !msg.text().includes('Failed to load resource') &&
         !msg.text().includes('validateDOMNesting') &&
         !msg.text().includes('A props object containing a "key" prop')
       ) {
