@@ -1,42 +1,30 @@
-// GET /api/system/backup — 导出当前组织的 D1 业务数据（回滚点）
-// 作用域：仅导出请求者所属组织（org_id），天然隔离其他组织数据。
-// 仅要求已登录；导出内容含 app_state（业务 JSON blob）+ 组织元信息 + 时间戳。
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  try {
-    const org = await env.DB.prepare('SELECT id, name, company_code, created_at FROM orgs WHERE id = ?')
-      .bind(user.org_id)
-      .first();
-
-    const rows = await env.DB.prepare(
-      'SELECT key, value, updated_at FROM app_state WHERE org_id = ? ORDER BY key'
-    )
-      .bind(user.org_id)
-      .all();
-
-    const state: Record<string, any> = {};
-    (rows.results || []).forEach((r: any) => {
-      state[r.key] = r.value;
-    });
-
-    const payload = {
-      schema: 'ssa-erp-d1-backup',
-      version: 1,
-      exportedAt: new Date().toISOString(),
-      org: org || { id: user.org_id },
-      state,
-      counts: {
-        tables: Object.keys(state).length,
-      },
-    };
-
-    return json(payload);
-  } catch (e: any) {
-    return json({ error: '备份导出失败: ' + (e?.message || 'unknown') }, 500);
-  }
-}
+U2FsdGVkX1/8hsvkUze3JoM/Nt+rtjVG7VJCrKOtlfvqNDlB2yQMTV7VeRCLiCF4
+Vl+Ro5K6jGGBcK2h6ARMpdOq4EnH25OCKq/57MxrT6dch7/dtzPBw0YBnvdtkCkg
+wdSXGUtGUBrXa5XBaST5863P03dSrP+hvix6lUzZ5aD1zOY5EIklr2Uy+/jpt8pU
+/EIpxn1kXnmYsfH/0Bp0VgswJR9tsB0fYzqAEG06b4F2NtlMpxr+M446uGzKJ7oV
+bQu2rBAzCvdEsbX20YlowZv6C3xKDHmryYHCjdkZS8jTpZZUodHjerR8+LHfdKRq
+N1z+Utl5EFGI0O/mWo/+GAbsdjb4DpLDo7aBxZ3UUI/Q42E0c69nYagtMvk9w9bM
+OXaUtPDL/cfs3JL10gfYGYw+MpDT1kmpT52LAxMZvpGJr+xumNWjKA2uKIMX1WqU
+OB+rhtuJ2WYfd7uGbGWJDxws3FcYjX7vQcjIQHJ/7s+z0n4kjgKXYbDx9Ff87kIp
+M95qpu8ODBMJLmmlaLVngfDh7FVEQg9wqppWsUSFiXwXEq1BRY54u6vfH570RJi9
+TZIeVTnn6aJjlkxf1GOW68cTtj9UqtBWAeqJXvoNzD5dqnshrgrWAX7g47s3aUwS
+5VrGLrhDJu2xNgil70+//acWWZSQSWejus1iOWbKFy0IMtai3PJ4/qggCeZzSc18
+zBxtIkNnEzcuDTR+AHN7PO+NNIknFFnHHJfnQkfZX5muwV63sIzMqkKinhQnx7TW
+p3wC1BXPFe9XM2AOmLK3Ho/iUiN1xXpA79ufBPo9S6iAVEPhQ2JB+fE9J7Ml82AF
+dU1WWFG6izD7FhcGhFl8ng6mRbZyK5PquhvTIK374BPSUmUU714p5mucmPFEADVp
+MPxn5rK1RmKCRvrUkbwFue7ORepFEM2HESMX6gwXM6WvEJTCRYYTXElMqnfEPm1R
+EnShjYeGFd2zsT8EO4j3KV6lwxAaZqtzYZ/f2KnnxBX6zICW7OlU04tCrju274vM
+dXj1radpf3sthKCOm2U/mq1kuMB/xgTVDcl5h6OvYRnuV/+FKpFS4Jzah9w4QtPv
+JzHSI3kqil4k95HcEpRUrBUFqBsrEYeBOipW+5AMCQ/zGT7RZJ11PLp2Hj+leiZx
+EhNVhV3cSkedm4i88F1ciSKdvYZUoMW7toh0EZt9d7qNdeyOTD15yppOerd82laf
+rMGlvoOtyyt3LgidNdSG7TGwOvmIxG84Ke4LZ5uZ8Nhtow6gtwwm/yX58qpVHbWD
+8pOsPw4iu9DtT2+cwhaWc+INKML0L/hBXfBkTfl1L1QeUv3unBv3qKelIdN/s20p
+t6TLK59lMX8o9hCvhArMVhmGHpc3MBs6wZeTZkMIBc28YQHcZNcw9eLyiP1So+ZK
+WFt/iL7KChA1Gnohwz21/suWqjzzy6Li2q+AL+4My5RdHf+Yd6TY7yiH7spx3WsC
+Ic75fyelwBk/OZ7LDLS+Jlpek4EiMWyvWd8Xr1FW80tuwhhZt/6nrvCmmASzad/8
+s7CE8cFfnzwkD7jxAD6XZDVOlwSOm5b3kClSVNtwtbgwmh5MLhd0IkBQH7r2dfVo
+uYYsUNqsrLFc1iO+MXM2VwJ1LkNUrlD8BKEqy0wFvxNu96wYLHdhoasAuUUZfF6u
+Ca/03urKdtkAOWse4l5ynwYKR+ZqmWLR+0G9+TESBeHDuUti+vASluDV2k+DvOvT
+uMLtMj/0TAe12V4uBF135+rzYgy//aJtNU79ffkkANUklp3AvPEXd2mL5CZLrs5g
+k9n7EhuZ5BropXtvvz/F4ollYAEkYWj/i+0GgJciQa9uu5qmNCrQ6KJ5GcW7a+bQ
+ItHMsXxX+sh/tF6RkyFSfA==

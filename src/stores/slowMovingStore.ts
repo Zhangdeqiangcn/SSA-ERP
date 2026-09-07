@@ -1,53 +1,33 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-export type DispositionAction = 'scrap' | 'reuse' | 'return' | 'promote' | 'other';
-
-export const DISPOSITION_LABEL: Record<DispositionAction, string> = {
-  scrap: '报废',
-  reuse: '转用/代用',
-  return: '退供应商',
-  promote: '促销处理',
-  other: '其他',
-};
-
-export interface SlowMovingDisposal {
-  materialId: string;
-  materialName: string;
-  materialCode: string;
-  action: DispositionAction;
-  reason: string;
-  quantity: number;
-  value: number;
-  date: string;
-  by?: string;
-}
-
-interface SlowMovingState {
-  disposals: SlowMovingDisposal[];
-  /** 对呆滞物料登记处置决策（同物料重复登记覆盖） */
-  dispose: (d: Omit<SlowMovingDisposal, 'date'> & { date?: string }) => void;
-  removeDisposal: (materialId: string) => void;
-}
-
-export const useSlowMovingStore = create<SlowMovingState>()(
-  persist(
-    (set) => ({
-      disposals: [],
-      dispose: (d) =>
-        set((s) => {
-          const others = s.disposals.filter((x) => x.materialId !== d.materialId);
-          return {
-            disposals: [
-              ...others,
-              { ...d, date: d.date || new Date().toISOString().slice(0, 10) },
-            ],
-          };
-        }),
-      removeDisposal: (materialId) =>
-        set((s) => ({ disposals: s.disposals.filter((x) => x.materialId !== materialId) })),
-    }),
-    { storage: backendStorage, name: 'ssa-erp-slow-moving', version: 1 }
-  )
-);
+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

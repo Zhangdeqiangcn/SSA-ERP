@@ -1,100 +1,76 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { Material, MaterialApplication } from '@/types';
-import { generateMaterialCodeByCategory } from '@/utils/codeGenerator';
-
-interface MaterialApprovalState {
-  materialApplications: MaterialApplication[];
-  addMaterialApplication: (a: MaterialApplication) => void;
-  updateMaterialApplication: (id: string, updates: Partial<MaterialApplication>) => void;
-  deleteMaterialApplication: (id: string) => void;
-}
-
-const addItem = <T,>(list: T[], item: T) => [...list, item];
-const updateItem = <T extends { id: string }>(list: T[], id: string, updates: Partial<T>) =>
-  list.map((x) => (x.id === id ? { ...x, ...updates } : x));
-const deleteItem = <T extends { id: string }>(list: T[], id: string) =>
-  list.filter((x) => x.id !== id);
-
-export const useMaterialApprovalStore = create<MaterialApprovalState>()(
-  persist(
-    (set) => ({
-      materialApplications: [],
-      addMaterialApplication: (a) =>
-        set((s) => ({ materialApplications: addItem(s.materialApplications, a) })),
-      updateMaterialApplication: (id, u) =>
-        set((s) => ({ materialApplications: updateItem(s.materialApplications, id, u) })),
-      deleteMaterialApplication: (id) =>
-        set((s) => ({ materialApplications: deleteItem(s.materialApplications, id) })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-material-approval',
-      version: 1,
-    }
-  )
-);
-
-type CatNode = { id: string; code: string; parentId: string | null; name?: string; sequenceLength?: number; children?: CatNode[] };
-
-function findCategory(nodes: CatNode[], id?: string): CatNode | null {
-  if (!id) return null;
-  for (const n of nodes) {
-    if (n.id === id) return n;
-    if (n.children) {
-      const f = findCategory(n.children, id);
-      if (f) return f;
-    }
-  }
-  return null;
-}
-
-/** 将审批通过的草稿转换为正式物料（生成编码、补齐默认值、状态 active） */
-export function buildMaterialFromApplication(
-  app: MaterialApplication,
-  ctx: { categories: CatNode[]; existingCodes: string[] }
-): Material {
-  const draft = app.draft;
-  const code = draft.categoryId
-    ? generateMaterialCodeByCategory(draft.categoryId, ctx.categories as any, ctx.existingCodes.map(c => ({ code: c })))
-    : `M${Date.now()}`;
-  const category = findCategory(ctx.categories, draft.categoryId);
-  const now = new Date().toISOString();
-  return {
-    id: `mat-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
-    code,
-    name: draft.name || '未命名物料',
-    categoryId: draft.categoryId || '',
-    categoryName: category?.name,
-    specification: draft.specification,
-    model: draft.model,
-    unit: draft.unit || '个',
-    materialType: draft.materialType,
-    makeOrBuy: draft.makeOrBuy,
-    safetyStock: draft.safetyStock ?? 0,
-    minStock: draft.minStock ?? 0,
-    maxStock: draft.maxStock ?? 0,
-    currentStock: 0,
-    price: draft.price ?? 0,
-    currency: draft.currency || 'CNY',
-    leadTime: draft.leadTime,
-    moq: draft.moq,
-    mpq: draft.mpq,
-    defaultVendorId: draft.defaultVendorId,
-    defaultVendorName: draft.defaultVendorName,
-    purchaseUnit: draft.purchaseUnit,
-    unitConversion: draft.unitConversion,
-    routing: draft.routing,
-    workCenter: draft.workCenter,
-    cycleTime: draft.cycleTime,
-    scrapRate: draft.scrapRate,
-    inspectionPoint: draft.inspectionPoint,
-    status: 'active',
-    remarks: draft.remarks,
-    createdAt: now,
-    updatedAt: now,
-    createdBy: app.applicant || 'system',
-    updatedBy: app.applicant || 'system',
-  };
-}
+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

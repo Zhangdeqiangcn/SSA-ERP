@@ -1,140 +1,110 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { Receivable, Payable, AgingBucket } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const today = () => new Date().toISOString().slice(0, 10);
-
-/** 根据 dueDate 和 today 自动计算账龄桶 */
-export function computeAging(dueDate: string, refDate?: string): AgingBucket {
-  const ref = refDate ? new Date(refDate) : new Date();
-  const due = new Date(dueDate);
-  const diffDays = Math.floor((ref.getTime() - due.getTime()) / (1000 * 60 * 60 * 24));
-  if (diffDays <= 0) return 'current';
-  if (diffDays <= 30) return '1-30';
-  if (diffDays <= 60) return '31-60';
-  if (diffDays <= 90) return '61-90';
-  return '90+';
-}
-
-const now = today();
-
-// 种子数据：4 应收 + 4 应付
-const seedReceivables: Receivable[] = [
-  {
-    id: 'ar-seed-1', customerId: 'cust-001', customerName: '宝钢建筑科技',
-    invoiceNo: 'SI-2026-0701', amount: 180000, paidAmount: 100000, balance: 80000,
-    dueDate: '2026-07-31', agingBucket: computeAging('2026-07-31'),
-    status: 'partial', remarks: '30%预付款已收',
-  },
-  {
-    id: 'ar-seed-2', customerId: 'cust-002', customerName: '华建集团',
-    invoiceNo: 'SI-2026-0715', amount: 240000, paidAmount: 120000, balance: 120000,
-    dueDate: '2026-07-15', agingBucket: computeAging('2026-07-15'),
-    status: 'partial',
-  },
-  {
-    id: 'ar-seed-3', customerId: 'cust-003', customerName: '中钢设备',
-    invoiceNo: 'SI-2026-0605', amount: 320000, paidAmount: 50000, balance: 270000,
-    dueDate: '2026-06-05', agingBucket: computeAging('2026-06-05'),
-    status: 'partial',
-  },
-  {
-    id: 'ar-seed-4', customerId: 'cust-004', customerName: '东方电机',
-    invoiceNo: 'SI-2026-0520', amount: 95000, paidAmount: 0, balance: 95000,
-    dueDate: '2026-05-20', agingBucket: computeAging('2026-05-20'),
-    status: 'overdue', remarks: '已发催款函',
-  },
-];
-
-const seedPayables: Payable[] = [
-  {
-    id: 'ap-seed-1', vendorId: 'vend-001', vendorName: '鞍钢股份',
-    invoiceNo: 'PI-2026-0801', amount: 420000, paidAmount: 0, balance: 420000,
-    dueDate: '2026-09-30', agingBucket: computeAging('2026-09-30'),
-    status: 'open',
-  },
-  {
-    id: 'ap-seed-2', vendorId: 'vend-002', vendorName: '马钢集团',
-    invoiceNo: 'PI-2026-0701', amount: 185000, paidAmount: 80000, balance: 105000,
-    dueDate: '2026-07-31', agingBucket: computeAging('2026-07-31'),
-    status: 'partial',
-  },
-  {
-    id: 'ap-seed-3', vendorId: 'vend-003', vendorName: '首钢京唐',
-    invoiceNo: 'PI-2026-0725', amount: 290000, paidAmount: 200000, balance: 90000,
-    dueDate: '2026-08-31', agingBucket: computeAging('2026-08-31'),
-    status: 'partial',
-  },
-  {
-    id: 'ap-seed-4', vendorId: 'vend-004', vendorName: '河钢邯钢',
-    invoiceNo: 'PI-2026-0601', amount: 130000, paidAmount: 0, balance: 130000,
-    dueDate: '2026-06-01', agingBucket: computeAging('2026-06-01'),
-    status: 'overdue', remarks: '供应商已催款',
-  },
-];
-
-interface ArapState {
-  receivables: Receivable[];
-  payables: Payable[];
-
-  // 应收 CRUD
-  addReceivable: (r: Receivable) => void;
-  updateReceivable: (id: string, u: Partial<Receivable>) => void;
-  deleteReceivable: (id: string) => void;
-
-  // 应付 CRUD
-  addPayable: (p: Payable) => void;
-  updatePayable: (id: string, u: Partial<Payable>) => void;
-  deletePayable: (id: string) => void;
-
-  // 刷新所有账龄
-  refreshAging: () => void;
-}
-
-export const useArapStore = create<ArapState>()(
-  persist(
-    (set, get) => ({
-      receivables: [...seedReceivables],
-      payables: [...seedPayables],
-
-      addReceivable: (r) => set((s) => ({ receivables: [...s.receivables, { ...r, agingBucket: computeAging(r.dueDate) }] })),
-      updateReceivable: (id, u) =>
-        set((s) => ({
-          receivables: s.receivables.map((x) =>
-            x.id === id
-              ? { ...x, ...u, agingBucket: computeAging(u.dueDate ?? x.dueDate) }
-              : x
-          ),
-        })),
-      deleteReceivable: (id) => set((s) => ({ receivables: s.receivables.filter((x) => x.id !== id) })),
-
-      addPayable: (p) => set((s) => ({ payables: [...s.payables, { ...p, agingBucket: computeAging(p.dueDate) }] })),
-      updatePayable: (id, u) =>
-        set((s) => ({
-          payables: s.payables.map((x) =>
-            x.id === id
-              ? { ...x, ...u, agingBucket: computeAging(u.dueDate ?? x.dueDate) }
-              : x
-          ),
-        })),
-      deletePayable: (id) => set((s) => ({ payables: s.payables.filter((x) => x.id !== id) })),
-
-      refreshAging: () =>
-        set((s) => ({
-          receivables: s.receivables.map((x) => ({ ...x, agingBucket: computeAging(x.dueDate) })),
-          payables: s.payables.map((x) => ({ ...x, agingBucket: computeAging(x.dueDate) })),
-        })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-arap',
-      version: 1,
-      partialize: (state) => ({
-        receivables: state.receivables,
-        payables: state.payables,
-      }),
-    }
-  )
-);
+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

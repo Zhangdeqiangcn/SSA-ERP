@@ -1,107 +1,72 @@
-// 共享存储适配器：登录态建立后，把各 store 的持久化数据代理到后端（按组织共享）
-// 未登录 / 后端不可达时，自动回退到浏览器 localStorage（保证离线可用、本地不丢）
-import { createJSONStorage, type StateStorage, type PersistStorage } from 'zustand/middleware';
-
-const TOKEN_KEY = 'ssa-erp-auth-token';
-const LS = typeof window !== 'undefined' ? window.localStorage : (undefined as any);
-
-// 由 authStore 在登录/登出时调用，写入/清除本地 token 副本
-export function setSyncToken(token: string | null) {
-  try {
-    if (token) LS.setItem(TOKEN_KEY, token);
-    else LS.removeItem(TOKEN_KEY);
-  } catch {
-    /* ignore */
-  }
-}
-
-function getToken(): string | null {
-  try {
-    return LS.getItem(TOKEN_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function apiUrl(key: string) {
-  return `/api/state/${encodeURIComponent(key)}`;
-}
-
-function authHeaders(token: string): Record<string, string> {
-  return { Authorization: `Bearer ${token}` };
-}
-
-const rawStateStorage: StateStorage = {
-  async getItem(name: string): Promise<string | null> {
-    const token = getToken();
-    if (!token) return LS.getItem(name);
-    try {
-      const res = await fetch(apiUrl(name), { headers: authHeaders(token), cache: 'no-store' });
-      if (res.status === 404) {
-        // 云端尚无此数据：用本地值兜底，并异步把本地数据首次上云（旧数据平滑迁移）
-        const local = LS.getItem(name);
-        if (local) {
-          fetch(apiUrl(name), {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
-            body: JSON.stringify({ value: local }),
-          }).catch(() => {});
-        }
-        return local;
-      }
-      if (!res.ok) return LS.getItem(name);
-      const data = await res.json();
-      return data && data.value != null ? String(data.value) : LS.getItem(name);
-    } catch {
-      return LS.getItem(name); // 网络异常 → 本地兜底
-    }
-  },
-
-  async setItem(name: string, value: string): Promise<void> {
-    const token = getToken();
-    if (!token) {
-      LS.setItem(name, value);
-      return;
-    }
-    try {
-      await fetch(apiUrl(name), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
-        body: JSON.stringify({ value }),
-      });
-    } catch {
-      /* 云端写入失败不阻塞，本地仍保留 */
-    }
-    // 本地始终保留一份（离线兜底 / 未登录时直接使用）
-    try {
-      LS.setItem(name, value);
-    } catch {
-      /* ignore */
-    }
-  },
-
-  async removeItem(name: string): Promise<void> {
-    const token = getToken();
-    if (!token) {
-      LS.removeItem(name);
-      return;
-    }
-    try {
-      await fetch(apiUrl(name), { method: 'DELETE', headers: authHeaders(token) });
-    } catch {
-      /* ignore */
-    }
-    try {
-      LS.removeItem(name);
-    } catch {
-      /* ignore */
-    }
-  },
-};
-
-// 用 createJSONStorage 把底层 string 型 StateStorage 包装成 zustand v4 要求的 PersistStorage<S>，
-// 这样所有 store 的 `storage: backendStorage` 既通过类型检查，又在运行期正确做 JSON 序列化往返
-// （之前直接传 StateStorage，v4 读取 .state 拿不到值，持久化实际失效）。
-export const backendStorage: PersistStorage<any> = createJSONStorage(
-  () => rawStateStorage
-) as PersistStorage<any>;
+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

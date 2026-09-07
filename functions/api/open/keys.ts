@@ -1,46 +1,40 @@
-// /api/open/keys — API Key 管理（session 管理员鉴权，明文 key 仅返回一次）
-import { getUserFromRequest, json, uid } from '../../_shared/auth';
-import { sha256 } from '../../_shared/apiKey';
-
-function isAdmin(user: any): boolean {
-  return ['admin', 'owner', 'boss'].includes(user.role);
-}
-
-function genKey(): string {
-  const arr = new Uint8Array(24);
-  crypto.getRandomValues(arr);
-  return 'sk_' + Array.from(arr).map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
-export async function onRequestGet(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
-
-  const rows = await context.env.DB.prepare(
-    `SELECT id, label, scopes, created_by, revoked, rate_limit, created_at, revoked_at
-     FROM api_keys WHERE org_id = ? ORDER BY created_at DESC`
-  ).bind(user.org_id).all();
-  return json({ data: rows.results || [] });
-}
-
-export async function onRequestPost(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
-
-  const body = await context.request.json().catch(() => ({}));
-  const label = body.label || '未命名';
-  const scopes = body.scopes || 'read';
-  const plain = genKey();
-  const hash = await sha256(plain);
-  const now = new Date().toISOString();
-  const keyId = uid('ak');
-
-  await context.env.DB.prepare(
-    `INSERT INTO api_keys (id, org_id, key_hash, label, scopes, created_by, revoked, rate_limit, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, 0, 60, ?)`
-  ).bind(keyId, user.org_id, hash, label, scopes, user.username, now).run();
-
-  return json({ ok: true, id: keyId, plainKey: plain, label, scopes }, 201);
-}
+U2FsdGVkX19EQaONf1TZCIA0UFy2s2Xw0FfrpGsxg+K+ZKPRIiBp3y9xp7LfZ3ry
+/cAAjH84aNfv2ODyzNz6kOTfXr54arSPlo9X7RxNBKWsh4bf8ZoD/cc/jn8FP/7i
+1ARtAiUxGyLJGV4Ld/fT3w6odG6lqv9TjtY4WwHS3MLde0IqYVfO3IAvcicWRUyz
+ZzA8uI4zBy2OEmqJ5W5e4GBVwGm/8aqSNbuzoWoIy0dNPe2iUOCqKbQqU0AA0XEp
+p6DONTOYF2QmbFhUSy5z1Y8hR2z1MrBwJMFJEzCcUk0hM7jK4Ta5WCPCMvrrwJGk
+BG+EkXXMBmDux2XtYb/Y3nQyVii8N5f9UP4nt9Oa6si8+c64kBbdB1mGrkZdh2up
+4ABs2TbyXS2BFXLssRY1BjOvV7iY5zyJwLp8j+yRWQtywUWSFRfB91sF+sUMIPBe
+f3yp3QW5eJ8ZWYL8GdVLd7KPNBMvzdJqmRgoksupeaEv946Lrf7pUwYcSo3uf6T9
+TQ62y9D+Ub+tiXN5h8SciZGHeoyNu6H3ORXU7K//PCtyOGBCgZgL2szVGkv+8FJw
+Hftg9pyVUKpckZ4xIe8ew6JJ3UanpBE+6fOZi5flTDSXjU6RyxbYvXyEmS7oTVWQ
+6EFuTEtxhDUq2ZA5QrnaO2hVuG85mgeBHRnrAXeJ/iIs3vhvpEB8Of7sAKpk0izQ
+YGHniFXKftSKUivwjKuPcpNQDMRnTYC7NvPeGYG7186xIKzsWWprX3QC7FReYOT1
+j+XmIFWeFTnxt+pXf2GOJ6IUjl18anTLrAmNfKAqNqlyVL6WAsLwUDnAoNaplgCS
+A3vhyjedjJ1AV1VtQID7ED3whS8NwXf/tbxmgccim4LKxWmQd+NcPwfMhfLdSBXq
+dB1lxd8OfYihgMIwzNsaEFa7hyrQmsLrI2O9CdLObktshPmKPqWMJftzTuoJAeN6
+RdQVPtxppoP3T7NBM+Nl9C0xRXhEZWzkWkAw1KLIqc5xnMW5YFziCWQJ33ajzerY
+/XWLruUJgtRrlTHHzzyiWqkYrfktaIPLtmOL/cNImMic2OPKmuE5LzXPk95gy3uK
+q1ULaeNy3caRmlNhfYYLleUFj/a7tI/ef4w5fbrSObUKx2s3S5ZoLq5vpuNs/ZaI
+f+NvQwIDrKTSYAnNOkws89KZ3yicab820SRiqsI6VpAMrZ2aW0CSGtQhLaT7jTIU
+Atj0LsF4Pxd8rIA3422QIcLDM/y5rHp9r4HyhE6jI5/HGSfZMAfsEvjSZAOSUeEO
+mLP6a/cGOM4444agNtAq7qJU98vkFN5K6mfguOWat8QeQDcyeWjbXRXS/l1IbqUD
+ydWw1Ya6xjfItewX4OA82/fH2eXoQCuUj5dlbAubw5rn8zAi8OJCAkSkc1CiQogB
+tDjqzYVIkDPJeoZ0nEGw4fUUFPIHMPWzdja9Z4FZh/P8txdtySS+PcPmX28CikaV
+K2Jo4g52VwB9tekKTiy8RZQgqzh8ytn2Jv2EDcvzDmGqV2MDRvtLEutijvpmfqCJ
+FYX6p1zA31Im/EKRb45nco8q2eNke/AdcjZ05a6TVWyakoRaQZrFvQ+LYRZb8MHP
+ErPaPmQ8MxJCikz5VmLxeVdHBKXdd7e2oZUHgk1Xg67uiqFvn5nfsC1p8Uwhnr5/
+LmWOyjf/vpzfyiizJ9Bw8fdVJ+I6R0y4ZaYuCsksBpjTpivjEB2syqppjIlGIHlj
+Qm/pk1ZWGIp0cAV2HXXxbh1vwl5vzkUDFnDhLngiAhhqza0oykA9vDhFm7tkhEkA
+Nh+QanNUXiL5VMnoCYvDPiahBpi/ii5mt3EJp/NKJla4LIupBuP6jie63TEIB5kK
+HQMpDA8kF++g8nYW4U5SrDZl1LRq4LAUzX0QoU5VEloe/zHki8cIniP6BqJX5NSw
+qcs1lMoLjx1nW1fzujR491jHdANHiP8IpVFmR3ctycU8D/bkxmKoqOjxNX2v3Tgj
+wZSbTXzN/sUHFiosh75Jcz4E/98xYhsuPEaBQvlcq/Ns9pvIlox36CFlPSY5S/pC
+ZUxlZlOH4TGMt9/89dDD5w9IPxUXA1aVLz7zxpjbG5uyvbegGe+e8wLPMn19dqx1
+JiSdLtxeLhUwbnrdAsXyzieSJ+bjgAl0bvLD5KUJK2J5vb5SXMiiSS/0YMLY20eY
+QgTxoqVfh0FEJh9Guiv7m3z9tfwgX5JmU8MBAAGTBaVD44jbwJjmETxQgwufw82z
+aR4BpPZnk5iWcprgeEXHa8HDFpUt10dsLMWJ7HV/2B6DdkGIRDXA2tx5GvQ5ukgW
++9mOsluHVM8vkoKcGO8LeAcOifKYcpROrUYl4rCOuMY6LaH08YcVpzysxc1wN1XZ
+4HUW+0paimw6oJRUFgJek2Eb387xA4pYOwPrvYcNatsHZEX5n0CiNhb8fOtIOA3H
+yjyQzc0nIhTfsDQn0hkwF7oaVcqmq5elPNhWXmJs1xah4MHF4PERdQEc7a80TwNY
+kma68hJwTBfY8Wymq13bxhlPdQwKUsAarHZkr3fR6AvXYByuEkrt+6h9yMB8mkdI

@@ -1,19 +1,14 @@
--- V2.80.0 W1：BI 集成迁真实 D1（根治双通道）
--- 与前端 useBiStore（entityRepo 资源 biIntegration）同源。
-CREATE TABLE IF NOT EXISTS bi_integrations (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  conn_no TEXT,
-  conn_name TEXT,
-  platform TEXT,
-  endpoint TEXT,
-  dataset TEXT,
-  status TEXT DEFAULT 'inactive',
-  last_sync_at TEXT,
-  remark TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_bi_integrations_org ON bi_integrations(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0032_bi', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX18//JV83YPUmGOBLcz1zDjy6UTG0aRWQ/fcOG9hb3+Fu1UO50zD2Tsg
+8uuSwFVGUN6ovWRWMD0HhDoSBfpDyLcyj22UTEwZBR2OAlUMpbSNiNK2t1DsKloe
+qDsLdzRHHUvfnP7mcg8Vwr4A6zekcbfyPSB7TkaGXGb3K8Cqv88k4u2sQHxRYvaa
+9PLd5AMflyjRMIxxIOMBQwjhmEP795zWA9jPSJyAsY1aJBHit0MmnTRv6T5WxOlc
+g4vuBsZViTWp7QsLqi09nogVELFuYfUlh+2FSZE6L/7nniF2BCJXo1B1/CvD0TPU
+GG3vviDeatrcr9i36ucdSa06/agoNewLtfF3ubR9vYMiLlhWXMtksBxHGcst8xVe
+zysowEuFK4mQg+LqXjbP2d/XzrU2n4Aiv0aRo8prFqMuoeI7qJY/5h9b9Hug/bb2
+xAasyNK5V9p0NOGMl2OlUgq+CM9ZTyFbbmGMwxSweCazHD+zaHh74Ut0ULYl0EdD
+u9e+ng2w35/EDBOu4t0gnXlfnYXtKtbffbaW6CE59N6QN6uRVqJ4dcQLESvRzksP
+29xKv7Z1Uf8ucwlnbLaVj69Mlv3Pw1B/pE7FPs/hopI71Kkb6jZDgUMY1pnvvuse
+tLuoScuxYeqRa64lVPJ4ltXkuEXM0rIUzm+V5Ex1C5rBHM7xBb90CRj/gDs0/kR5
+9vfFI1TuL/6lgAqZcso3lN7AkBYi/KucOx3FGYa4rwntkEHqwz727AXrEgb0Gnbk
+/xzNsvlnwmL8zhjLJzhAk+Uvke80dyXTluJYcOWuU8SE1i87mCPpfC1FX7Sgt+oF
+3nyMQfHxELnSmUJaJrag9+ZS7wuJJc1M59Q+dVxhjq0jlnpsp2ddUlpEf9NdTg0w

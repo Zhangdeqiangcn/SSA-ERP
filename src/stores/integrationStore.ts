@@ -1,129 +1,111 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { Webhook, WebhookLog, ApiEndpoint, WebhookEvent } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const now = () => new Date().toISOString();
-
-// OpenAPI 风格的服务端 API 注册表（文档/目录），描述 SSA ERP 对外暴露的接口
-export const API_REGISTRY: ApiEndpoint[] = [
-  { method: 'GET', path: '/api/v1/materials', module: '物料', description: '查询物料主数据（支持过滤/分页）' },
-  { method: 'POST', path: '/api/v1/materials', module: '物料', description: '创建物料主数据' },
-  { method: 'GET', path: '/api/v1/sales-orders', module: '销售', description: '查询销售订单列表' },
-  { method: 'POST', path: '/api/v1/sales-orders', module: '销售', description: '创建销售订单' },
-  { method: 'GET', path: '/api/v1/purchase-orders', module: '采购', description: '查询采购订单列表' },
-  { method: 'POST', path: '/api/v1/purchase-orders', module: '采购', description: '创建采购订单' },
-  { method: 'GET', path: '/api/v1/inventory', module: '仓储', description: '查询实时库存' },
-  { method: 'GET', path: '/api/v1/reports', module: '报表', description: '获取报表数据集' },
-  { method: 'POST', path: '/api/v1/webhooks', module: '集成', description: '注册事件 Webhook 订阅' },
-];
-
-interface IntegrationState {
-  webhooks: Webhook[];
-  webhookLogs: WebhookLog[];
-  addWebhook: (w: Omit<Webhook, 'id' | 'createdAt'>) => void;
-  updateWebhook: (id: string, patch: Partial<Omit<Webhook, 'id' | 'createdAt'>>) => void;
-  deleteWebhook: (id: string) => void;
-  triggerWebhook: (event: WebhookEvent, payload: Record<string, unknown>) => void;
-}
-
-// 按 Webhook 鉴权配置构建请求头
-function buildAuthHeaders(w: Webhook): Record<string, string> {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  const authType = w.authType ?? 'none';
-  if (authType === 'bearer' && w.authToken) {
-    headers['Authorization'] = `Bearer ${w.authToken}`;
-  } else if (authType === 'basic' && w.authUser) {
-    const basic = typeof btoa === 'function'
-      ? btoa(`${w.authUser}:${w.authPass ?? ''}`)
-      : Buffer.from(`${w.authUser}:${w.authPass ?? ''}`).toString('base64');
-    headers['Authorization'] = `Basic ${basic}`;
-  }
-  return headers;
-}
-
-// 单次投递（含失败重试）；返回最终日志条目
-async function deliverWebhook(w: Webhook, event: WebhookEvent, payload: Record<string, unknown>): Promise<WebhookLog> {
-  const headers = buildAuthHeaders(w);
-  const body = JSON.stringify({ event, payload });
-  const maxRetry = Math.max(0, w.retry ?? 0);
-  let lastError = '';
-  let resp: Response | null = null;
-  for (let attempt = 0; attempt <= maxRetry; attempt++) {
-    try {
-      resp = await fetch(w.url, { method: 'POST', headers, body });
-      if (resp.ok) break;
-      lastError = `HTTP ${resp.status}`;
-    } catch (e) {
-      lastError = String(e);
-    }
-  }
-  const ok = !!resp?.ok;
-  return {
-    id: uid('whl'),
-    webhookId: w.id,
-    webhookName: w.name,
-    event,
-    status: ok ? 'success' : 'failed',
-    detail: ok ? `HTTP ${resp!.status}` : `重试 ${maxRetry} 次仍失败：${lastError}`,
-    at: now(),
-  };
-}
-
-export const useIntegrationStore = create<IntegrationState>()(
-  persist(
-    (set, get) => ({
-      webhooks: [
-        {
-          id: 'wh-seed-1',
-          name: '示例-销售订单通知',
-          url: 'https://example.com/hooks/sales',
-          events: ['sales.order.created'],
-          enabled: true,
-          createdAt: now(),
-          authType: 'none',
-          retry: 0,
-        },
-      ],
-      webhookLogs: [],
-      addWebhook: (w) =>
-        set((s) => ({ webhooks: [...s.webhooks, { ...w, id: uid('wh'), createdAt: now() }] })),
-      updateWebhook: (id, patch) =>
-        set((s) => ({ webhooks: s.webhooks.map((w) => (w.id === id ? { ...w, ...patch } : w)) })),
-      deleteWebhook: (id) => set((s) => ({ webhooks: s.webhooks.filter((w) => w.id !== id) })),
-      triggerWebhook: (event, payload) => {
-        const targets = get().webhooks.filter((w) => w.enabled && w.events.includes(event));
-        targets.forEach((w) => {
-          const logId = uid('whl');
-          set((s) => ({
-            webhookLogs: [
-              {
-                id: logId,
-                webhookId: w.id,
-                webhookName: w.name,
-                event,
-                status: 'pending',
-                detail: '发送中…',
-                at: now(),
-              },
-              ...s.webhookLogs,
-            ],
-          }));
-          deliverWebhook(w, event, payload)
-            .then((log) =>
-              set((s) => ({
-                webhookLogs: s.webhookLogs.map((l) =>
-                  l.id === logId
-                    ? { ...l, status: log.status, detail: log.detail, at: log.at }
-                    : l,
-                ),
-              })),
-            );
-        });
-      },
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-integration' },
-  ),
-);
+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

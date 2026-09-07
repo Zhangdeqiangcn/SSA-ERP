@@ -1,21 +1,22 @@
-// /api/open/keys/:id — 吊销指定 API Key（session 管理员鉴权）
-// 独立路由文件：Pages Functions 将 /api/open/keys/:id 路由到此文件，原 keys.ts 仅匹配 /api/open/keys（集合）。
-import { getUserFromRequest, json } from '../../../_shared/auth';
-
-function isAdmin(user: any): boolean {
-  return ['admin', 'owner', 'boss'].includes(user.role);
-}
-
-export async function onRequestDelete(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
-
-  const id = context.params.id;
-  if (!id) return json({ error: '缺少 id' }, 400);
-  const res = await context.env.DB.prepare(
-    'UPDATE api_keys SET revoked = 1, revoked_at = ? WHERE id = ? AND org_id = ?'
-  ).bind(new Date().toISOString(), id, user.org_id).run();
-  if (res.changes === 0) return json({ error: 'Key 不存在' }, 404);
-  return json({ ok: true });
-}
+U2FsdGVkX19u6UtvjJ6Ae5bMWeEFMD45zM2wrN3c3+zwqzkvlCIz5Lp6TO/7YxLI
+1ejf40MEzYzjEyw1TJHQQ4UzRM3BviRyn2gp854zRjfIR7KkGas49hpTvcmidvN+
+QUq6vJY9m5+f1mF8ZfreOMCpsHL8OAUhduM2RLjBrSdLbrFgJILAbH7f5VwcLkkK
++FHilmP8Lo/HsdztDHluH+ff4FmoKgVkxd4EbDVbB4f/mA9vSqv8h042QLnrlfyi
+fEi4xseZVswUsudhfYloZOfKttmicMOXSCXD1G0u4pTvFG+X8m3hleE2lcHv9OKV
+CPfxnUJr9GEBIIt66j3zcBp36L/Pvzd7wIS6YS8SyjUCRY5aSBthpqkesJt4Tx0I
+ss+Djcp45W1gAkYZqC8+YIYYNCa8AxJSxcFYYowUvqqas4IDcW7cjnR2zLylRWVN
+gNeZS8C22wYrmsroUvqSY2ZIU8nNOHYwE6Y5kfZ8PIgYLquffd7chtAGkmrkVoSr
+e5UV6zVMtBC75ka5RN+ZlGe4t8Ob5ZI+Cx5IuyX/FnJKg8vvmQoAnGomLVjDoH/q
+h8zRuRmAGfnOogS1+qSTqDz5NYJ1nUCXd/wr9zVgV+qmQDgG3bbAuG58ff6c4M7+
+IcPc0W8fJXxlasSdTnnbid/rEeTi2lcK/VSNAdDxbyImp2e37sTW01sFq1lAXgV1
+GbEOoVjB5l2tVogrNc+t7ILmcmMtM7Tcr0EpfSdkobktcr9x4AMDwjsSB79ToI6a
+DAceeq1FDBaBLmFmv+y1lxNzAcPiNFwxW3bMJw16i6u874QRRLKIHkKYFon7+fxi
+4kAE+qonAp1xXZj0fOPqWip6teNO01Rfw4ot9EIKPk7WiUJ4Ay78pePaEHjNU/Xy
+HCsBREblUNtJPH/VDp+hXVchYrceLx4duGVEfdV9q4VgeWRT8/Ofh+63jnARUkUf
+LOoPq0BINFwIrFfmmGF1BtRJJNgpqvIZ4cKNM4JBtNq5YW1YSpYjlkKAjbZK/EYI
+WLKq759gRNEvTIXxEkDlnBk5aOAzRevebr0QJ0Foym1c008HHRR2xWnpGa0Inxf9
+WLB0EGJkkM5SJ8hhvWWdB8vOemHZsWJrGgFgCojC5nAIHzecWLTAC7MK5yX2Hf2R
+S0m4mWG87byh+2A4WVrm00YCGcXULMBpgFsrF0onEyk1I3uzhHWVUuOkXNK/9O0E
+qiwnYESG/hCjcntXR5CPmSVvrmW8MZ6oJ5wjFw6UOWpxBO1us7GTT08h7GMDGku1
+5RjJtKeHimU/5shMH7RpI7nT3D5W2QVEfv6hicgINFsB32AnDyOwiNWeANB8Rs5I
+ABrgCf2HUvX+JuFVUysdGA==

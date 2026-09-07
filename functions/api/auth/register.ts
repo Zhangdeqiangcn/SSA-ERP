@@ -1,70 +1,55 @@
-// 注册：填写公司码（companyCode）
-// - 该 code 首次出现 → 自动创建组织
-// - 之后相同 code 注册 → 加入同一组织（共享同一份业务数据）
-import { getUserFromRequest, hashPasswordPbkdf2, makeSalt, makeToken, json, uid } from '../../_shared/auth';
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: '请求格式错误' }, 400);
-  }
-
-  const username = (body.username || '').trim();
-  const password = (body.password || '').toString();
-  const name = (body.name || username).trim();
-  const companyCode = (body.companyCode || '').trim();
-  const role = (body.role && ['admin', 'manager', 'user'].includes(body.role)) ? body.role : 'user';
-  const department = (body.department || '').trim();
-
-  if (username.length < 3) return json({ error: '用户名至少 3 个字符' }, 400);
-  if (password.length < 6) return json({ error: '密码至少 6 位' }, 400);
-  if (!companyCode) return json({ error: '请填写公司码' }, 400);
-
-  // 用户名唯一性
-  const exist = await env.DB.prepare('SELECT id FROM users WHERE username = ?')
-    .bind(username)
-    .first();
-  if (exist) return json({ error: '用户名已被占用' }, 409);
-
-  // 组织：复用或新建
-  let org = await env.DB.prepare('SELECT id, name FROM orgs WHERE company_code = ?')
-    .bind(companyCode)
-    .first();
-  let orgId: string;
-  if (!org) {
-    orgId = uid('org');
-    await env.DB.prepare(
-      'INSERT INTO orgs (id, name, company_code, created_at) VALUES (?, ?, ?, ?)'
-    )
-      .bind(orgId, (body.orgName || companyCode).trim(), companyCode, new Date().toISOString())
-      .run();
-  } else {
-    orgId = (org as any).id;
-  }
-
-  const salt = makeSalt();
-  const passwordHash = await hashPasswordPbkdf2(password, salt);
-  const userId = uid('user');
-
-  await env.DB.prepare(
-    `INSERT INTO users (id, org_id, username, password_hash, salt, name, role, department, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  )
-    .bind(userId, orgId, username, passwordHash, salt, name, role, department, new Date().toISOString())
-    .run();
-
-  // 创建会话
-  const token = makeToken();
-  const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
-  await env.DB.prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)')
-    .bind(token, userId, expires)
-    .run();
-
-  return json({
-    token,
-    user: { id: userId, org_id: orgId, username, name, role, department },
-  });
-}
+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
+Ox9XtYDgjREUeECvuAOHGw==

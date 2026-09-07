@@ -1,90 +1,72 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-
-export interface EntityStoreConfig<T> {
-  /** 后端资源名（对应 ENTITY_RESOURCES 注册键，也是 D1 表逻辑名） */
-  resource: string;
-  /** 离线/未登录时的 Mock 兜底数据，以及首次空库回填源 */
-  seed: T[];
-  /** 主键字段名，默认 'id' */
-  idKey?: keyof T;
-  /** 首次空库时把 seed 回填到 D1（避免存量数据丢失），默认开启 */
-  backfill?: boolean;
-}
-
-export interface EntityState<T> {
-  items: T[];
-  loaded: boolean;
-  /** 从 D1 拉取（失败回退 Mock）；空库且开启回填时一次性写入 seed */
-  load: () => Promise<void>;
-  add: (item: T) => Promise<void>;
-  update: (id: string, updates: Partial<T>) => Promise<void>;
-  remove: (id: string) => Promise<void>;
-}
-
-// 通用实体 Store 工厂（根治双通道核心）：
-// 数据主源 = D1（经 entityRepo），乐观更新 + 失败回滚 + 离线/Mock 兜底。
-// 每业务域只需 createEntityStore({ resource, seed })，无需手写 persist(Blob) 或专用 Functions。
-export function createEntityStore<T extends { id: string }>(cfg: EntityStoreConfig<T>) {
-  const idKey = (cfg.idKey as string) || 'id';
-  const backfill = cfg.backfill !== false;
-  const flagKey = `ssa-erp-backfilled-${cfg.resource}`;
-
-  return create<EntityState<T>>()((set, get) => ({
-    items: [...cfg.seed],
-    loaded: false,
-
-    load: async () => {
-      try {
-        const res = await entityRepo.list<T>(cfg.resource, { page: 1, pageSize: 200 });
-        const list = (res?.data || []) as T[];
-        if (list.length === 0 && backfill && !localStorage.getItem(flagKey)) {
-          localStorage.setItem(flagKey, '1');
-          for (const item of cfg.seed) {
-            try {
-              await entityRepo.create<T>(cfg.resource, item);
-            } catch {
-              /* 编码冲突等忽略，回填尽力而为 */
-            }
-          }
-          const refreshed = await entityRepo.list<T>(cfg.resource, { page: 1, pageSize: 200 });
-          set({ items: (refreshed?.data || []) as T[], loaded: true });
-          return;
-        }
-        set({ items: list.length ? list : [...cfg.seed], loaded: true });
-      } catch {
-        set({ items: [...cfg.seed], loaded: true }); // 离线/未登录/接口异常：保持 Mock，不阻断 UI
-      }
-    },
-
-    add: async (item) => {
-      set((s) => ({ items: [...s.items, item] }));
-      try {
-        const created = await entityRepo.create<T>(cfg.resource, item);
-        set((s) => ({ items: s.items.map((x) => (x[idKey] === item[idKey] ? (created as T) : x)) }));
-      } catch {
-        set((s) => ({ items: s.items.filter((x) => x[idKey] !== item[idKey]) }));
-      }
-    },
-
-    update: async (id, updates) => {
-      const prev = get().items.find((x) => x[idKey] === id);
-      set((s) => ({ items: s.items.map((x) => (x[idKey] === id ? { ...x, ...updates } : x)) }));
-      try {
-        await entityRepo.update<T>(cfg.resource, id, updates);
-      } catch {
-        if (prev) set((s) => ({ items: s.items.map((x) => (x[idKey] === id ? prev : x)) }));
-      }
-    },
-
-    remove: async (id) => {
-      const prev = [...get().items];
-      set((s) => ({ items: s.items.filter((x) => x[idKey] !== id) }));
-      try {
-        await entityRepo.remove(cfg.resource, id);
-      } catch {
-        set({ items: prev });
-      }
-    },
-  }));
-}
+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

@@ -1,74 +1,52 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { DEFAULT_USERS, type SystemUser } from './userStore';
-
-/**
- * C7 服务端化雏形 · 会话 store（多用户）
- * ------------------------------------------------------------
- * 目标：把「当前登录人」从散落各页的硬编码收敛为唯一会话来源，
- * 为后续真实服务端（登录态 / token / 多租户）留出替换点。
- *
- * 现阶段仍走 localStorage（key = ssa-erp-session），
- * 用户主数据复用 userStore 的 DEFAULT_USERS，避免两套人员数据打架。
- */
-
-export interface SessionInfo {
-  userId: string;
-  userName: string;
-  role: string;
-  department: string;
-  /** 会话建立时间（ISO） */
-  loginAt: string;
-  /** 会话标识，切换用户即刷新 */
-  token: string;
-}
-
-const makeToken = () => `tk-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-
-const buildSession = (u: SystemUser): SessionInfo => ({
-  userId: u.id,
-  userName: u.name,
-  role: u.role,
-  department: u.department,
-  loginAt: new Date().toISOString(),
-  token: makeToken(),
-});
-
-const DEFAULT_SESSION: SessionInfo = buildSession(DEFAULT_USERS[0]);
-
-interface SessionState {
-  current: SessionInfo;
-  /** 历史会话（最近 20 条），便于审计溯源 */
-  history: SessionInfo[];
-  /** 切换当前用户（按 userStore 的用户 id） */
-  switchUser: (userId: string) => SessionInfo | null;
-  /** 主动登出并回到默认管理员 */
-  resetSession: () => void;
-}
-
-export const useSessionStore = create<SessionState>()(
-  persist(
-    (set, get) => ({
-      current: DEFAULT_SESSION,
-      history: [],
-      switchUser: (userId) => {
-        const user = DEFAULT_USERS.find((u) => u.id === userId);
-        if (!user) return null;
-        const next = buildSession(user);
-        const prev = get().current;
-        set((state) => ({
-          current: next,
-          history: [prev, ...state.history].slice(0, 20),
-        }));
-        return next;
-      },
-      resetSession: () => set({ current: buildSession(DEFAULT_USERS[0]), history: [] }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-session', version: 1 }
-  )
-);
-
-/** 非 React 环境（store / service 内部）取当前操作人 */
-export const currentUser = (): SessionInfo => useSessionStore.getState().current;
+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

@@ -1,78 +1,73 @@
-// GET/PUT/DELETE /api/serial-numbers/:id
-import { getUserFromRequest, json } from '../../_shared/auth';
-import { insertSerialMovement } from '../../_shared/serial';
-
-export async function onRequestGet(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const row = await db.prepare(`SELECT * FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!row) return json({ error: '序列号不存在' }, 404);
-
-  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
-
-  return json({
-    ...row,
-    movements: movements.results || [],
-  });
-}
-
-export async function onRequestPut(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const existing = await db.prepare(`SELECT id FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!existing) return json({ error: '序列号不存在' }, 404);
-
-  const body = await context.request.json().catch(() => ({}));
-  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
-
-  const fields = ['serialNo', 'materialId', 'materialCode', 'materialName', 'batchNo', 'warehouseId', 'huId', 'status', 'inboundDate', 'outboundDate', 'customerName', 'remarks'];
-  const setClauses = [];
-  const values = [];
-  for (const f of fields) {
-    if (body[f] !== undefined) {
-      const col = f === 'serialNo' ? 'serial_no' : f === 'materialId' ? 'material_id' : f === 'materialCode' ? 'material_code' :
-        f === 'materialName' ? 'material_name' : f === 'warehouseId' ? 'warehouse_id' : f === 'huId' ? 'hu_id' :
-        f === 'inboundDate' ? 'inbound_date' : f === 'outboundDate' ? 'outbound_date' : f === 'customerName' ? 'customer_name' :
-        f.toLowerCase();
-      setClauses.push(`${col} = ?`);
-      values.push(body[f]);
-    }
-  }
-  setClauses.push('updated_at = ?', 'updated_by = ?');
-  values.push(now, user.name);
-
-  await db.prepare(`UPDATE serial_masters SET ${setClauses.join(', ')} WHERE id = ?`).bind(...values, id).run();
-
-  // 流转记录：状态变更 / 显式传入 movement 时落 serial_movements，保留全生命周期轨迹
-  if (body.movement && typeof body.movement === 'object') {
-    await insertSerialMovement(db, id, body.movement, user, now);
-  }
-
-  const updated = await db.prepare(`SELECT * FROM serial_masters WHERE id = ?`).bind(id).first();
-  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
-  return json({ ...updated, movements: movements.results || [] });
-}
-
-export async function onRequestDelete(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const row = await db.prepare(`SELECT id FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!row) return json({ error: '序列号不存在' }, 404);
-
-  await db.prepare(`DELETE FROM serial_masters WHERE id = ?`).bind(id).run();
-  await db.prepare(`DELETE FROM serial_movements WHERE serial_master_id = ?`).bind(id).run();
-
-  return json({ success: true });
-}
+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

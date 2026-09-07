@@ -1,137 +1,154 @@
-// 仓库高级三切片专用服务（W2 收尾：根治双通道）。
-// 直连真实 D1 stock_transfers / inventory_adjustments / quality_holds（与已迁域同源），
-// 替代原 warehouseAdvancedStore 的 app_state Blob 持久化。行表为 snake_case，这里统一转 camelCase。
-import { api } from './api';
-import type { StockTransfer, StockTransferItem, InventoryAdjustment, InventoryAdjustmentItem, QualityHold } from '@/types/supplyChain';
-
-// ── stock_transfers ──
-function rowToTransfer(r: Record<string, unknown>): StockTransfer {
-  return {
-    id: r.id as string,
-    transferNo: (r.transfer_no as string) || '',
-    fromWarehouseId: (r.from_warehouse_id as string) || '',
-    fromWarehouseName: (r.from_warehouse_name as string) || undefined,
-    toWarehouseId: (r.to_warehouse_id as string) || '',
-    toWarehouseName: (r.to_warehouse_name as string) || undefined,
-    fromOrgId: (r.from_org_id as string) || undefined,
-    toOrgId: (r.to_org_id as string) || undefined,
-    status: (r.status as StockTransfer['status']) || 'draft',
-    transferDate: (r.transfer_date as string) || '',
-    remarks: (r.remarks as string) || undefined,
-    items: (Array.isArray(r.items) ? (r.items as Record<string, unknown>[]) : []).map(rowToTransferItem),
-    createdAt: (r.created_at as string) || '',
-    updatedAt: (r.updated_at as string) || '',
-    createdBy: (r.created_by as string) || '',
-    updatedBy: (r.updated_by as string) || '',
-  };
-}
-function rowToTransferItem(r: Record<string, unknown>): StockTransferItem {
-  return {
-    id: r.id as string,
-    materialId: (r.material_id as string) || '',
-    materialCode: (r.material_code as string) || undefined,
-    materialName: (r.material_name as string) || undefined,
-    unit: (r.unit as string) || undefined,
-    quantity: Number(r.quantity) || 0,
-    batchNo: (r.batch_no as string) || undefined,
-    locationId: (r.location_id as string) || undefined,
-  };
-}
-
-// ── inventory_adjustments ──
-function rowToAdjustment(r: Record<string, unknown>): InventoryAdjustment {
-  return {
-    id: r.id as string,
-    adjustmentNo: (r.adjustment_no as string) || '',
-    warehouseId: (r.warehouse_id as string) || '',
-    warehouseName: (r.warehouse_name as string) || undefined,
-    status: (r.status as InventoryAdjustment['status']) || 'draft',
-    reason: (r.reason as string) || '',
-    date: (r.date as string) || '',
-    items: (Array.isArray(r.items) ? (r.items as Record<string, unknown>[]) : []).map(rowToAdjustmentItem),
-    totalDeltaQty: Number(r.total_delta_qty) || 0,
-    voucherNo: (r.voucher_no as string) || undefined,
-    createdAt: (r.created_at as string) || '',
-    updatedAt: (r.updated_at as string) || '',
-    createdBy: (r.created_by as string) || '',
-    updatedBy: (r.updated_by as string) || '',
-  };
-}
-function rowToAdjustmentItem(r: Record<string, unknown>): InventoryAdjustmentItem {
-  return {
-    id: r.id as string,
-    materialId: (r.material_id as string) || '',
-    materialCode: (r.material_code as string) || undefined,
-    materialName: (r.material_name as string) || undefined,
-    unit: (r.unit as string) || undefined,
-    locationId: (r.location_id as string) || undefined,
-    bookQty: Number(r.book_qty) || 0,
-    actualQty: Number(r.actual_qty) || 0,
-    deltaQty: Number(r.delta_qty) || 0,
-    reason: (r.reason as string) || undefined,
-  };
-}
-
-// ── quality_holds ──
-function rowToHold(r: Record<string, unknown>): QualityHold {
-  return {
-    id: r.id as string,
-    materialId: (r.material_id as string) || '',
-    materialCode: (r.material_code as string) || undefined,
-    materialName: (r.material_name as string) || undefined,
-    warehouseId: (r.warehouse_id as string) || '',
-    warehouseName: (r.warehouse_name as string) || undefined,
-    batchNo: (r.batch_no as string) || undefined,
-    quantity: Number(r.quantity) || 0,
-    status: (r.status as QualityHold['status']) || 'pending',
-    sourceInboundNo: (r.source_inbound_no as string) || undefined,
-    holdDate: (r.hold_date as string) || '',
-    releaseDate: (r.release_date as string) || undefined,
-    inspector: (r.inspector as string) || undefined,
-    reason: (r.reason as string) || undefined,
-  };
-}
-
-export interface WarehouseAdvApi<T> {
-  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<{ data: T[]; total: number; page: number; pageSize: number }>;
-  get: (id: string) => Promise<T>;
-  create: (data: Partial<T>) => Promise<T>;
-  update: (id: string, data: Partial<T>) => Promise<T>;
-  remove: (id: string) => Promise<unknown>;
-}
-
-const stockTransfers: WarehouseAdvApi<StockTransfer> = {
-  list: async (params) => {
-    const res = await api.get<{ data: Record<string, unknown>[]; total: number; page: number; pageSize: number }>('/stock-transfers', params);
-    return { data: (res?.data || []).map(rowToTransfer), total: res?.total || 0, page: res?.page || 1, pageSize: res?.pageSize || 20 };
-  },
-  get: async (id) => rowToTransfer(await api.get<Record<string, unknown>>(`/stock-transfers/${encodeURIComponent(id)}`)),
-  create: async (data) => rowToTransfer(await api.post<Record<string, unknown>>('/stock-transfers', data as Record<string, unknown>)),
-  update: async (id, data) => rowToTransfer(await api.put<Record<string, unknown>>(`/stock-transfers/${encodeURIComponent(id)}`, data as Record<string, unknown>)),
-  remove: async (id) => api.delete(`/stock-transfers/${encodeURIComponent(id)}`),
-};
-
-const inventoryAdjustments: WarehouseAdvApi<InventoryAdjustment> = {
-  list: async (params) => {
-    const res = await api.get<{ data: Record<string, unknown>[]; total: number; page: number; pageSize: number }>('/inventory-adjustments', params);
-    return { data: (res?.data || []).map(rowToAdjustment), total: res?.total || 0, page: res?.page || 1, pageSize: res?.pageSize || 20 };
-  },
-  get: async (id) => rowToAdjustment(await api.get<Record<string, unknown>>(`/inventory-adjustments/${encodeURIComponent(id)}`)),
-  create: async (data) => rowToAdjustment(await api.post<Record<string, unknown>>('/inventory-adjustments', data as Record<string, unknown>)),
-  update: async (id, data) => rowToAdjustment(await api.put<Record<string, unknown>>(`/inventory-adjustments/${encodeURIComponent(id)}`, data as Record<string, unknown>)),
-  remove: async (id) => api.delete(`/inventory-adjustments/${encodeURIComponent(id)}`),
-};
-
-const qualityHolds: WarehouseAdvApi<QualityHold> = {
-  list: async (params) => {
-    const res = await api.get<{ data: Record<string, unknown>[]; total: number; page: number; pageSize: number }>('/quality-holds', params);
-    return { data: (res?.data || []).map(rowToHold), total: res?.total || 0, page: res?.page || 1, pageSize: res?.pageSize || 20 };
-  },
-  get: async (id) => rowToHold(await api.get<Record<string, unknown>>(`/quality-holds/${encodeURIComponent(id)}`)),
-  create: async (data) => rowToHold(await api.post<Record<string, unknown>>('/quality-holds', data as Record<string, unknown>)),
-  update: async (id, data) => rowToHold(await api.put<Record<string, unknown>>(`/quality-holds/${encodeURIComponent(id)}`, data as Record<string, unknown>)),
-  remove: async (id) => api.delete(`/quality-holds/${encodeURIComponent(id)}`),
-};
-
-export const warehouseAdv = { stockTransfers, inventoryAdjustments, qualityHolds };
-export default warehouseAdv;
+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

@@ -1,28 +1,22 @@
--- V2.81.0 盘点任务迁真实 D1（根治 Blob 双通道，对齐 W0/W1 实体范式）
--- 前端 warehouseStore.loadCheckTasks 经 /api/entities/checkTask 读写；
--- 嵌套 items（CheckTaskItem[]）以 JSON 文本落库；blindMode 布尔→INTEGER(0/1)。
--- 与 functions/_shared/entities.ts 注册 ENTITY_RESOURCES.checkTask 同源。
-CREATE TABLE IF NOT EXISTS check_tasks (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  task_no TEXT NOT NULL,
-  warehouse_id TEXT,
-  warehouse_name TEXT,
-  type TEXT DEFAULT 'full',
-  status TEXT DEFAULT 'pending',
-  start_date TEXT,
-  end_date TEXT,
-  operator TEXT,
-  items TEXT,
-  difference_amount REAL DEFAULT 0,
-  remarks TEXT,
-  blind_mode INTEGER DEFAULT 0,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_check_tasks_org ON check_tasks(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0035_check_tasks', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX19pnsV9hLhGalId3IiF6K2pW/pgFgwjlWXY59qdFaZWZWNfAmFnE6vz
+uFPY2ogUW5GlLqdO/dkhsA55HJsTc/TYBgHWjdy+eks2IxLPGHVL3Hc2oEMw220E
+adq4BJjlJsJtcjyQ0Cqgp/OSbeBaOGNUQ1uJF4rJHqbRHSsJ59BEEpOC3wHBoeUG
+hHA7J1e/y6krhz3svCxBkQIzihuT6cMxkZxUhBwDdjcWeY2q1pY6I/x3Ry3N3pan
+o0zV5M1JQD/+BwKBlLe3RGZ++k3rqfRpkFDE2w0eCbZU2+sDzw33cXZ9FDH0ntjx
+FULQz/2rXXMYLNhYj8w7ibmKuqCjG6c0W978IWvJwxsDHCC+PB+sbS+eG35NJngr
+5o8h6jRaEUjlOh6fwMEH4Xl/ATD75rAvlldzLH1UsyqzgRGHHt7BgBQ4bmIDY3TE
+sBkf3sQXMdCeFQvjd7qnc4j8jqOJlFOTVkYs2RU0GDsvrg4v27OC8/SLmh4I9fkW
+RyvbNv0nfTe3e44IYDMzK6xXLIrU3kEIknx+ITKEcF1sdF9Yb0oBb3fH0K4gGL1d
+sG9lsOVfmH15+sWL32HKQBaVh+cq7lwZVaVEUoHqY5Tp9BjjGHxoovAzE+LZvoNo
+RZoiH02baPLeGev1hZUQlCqccGh9a3aDXWrXO88eSwqM9zvcD6Zqk8r04M5ekS/K
+Yske4f8y8Q7X01WrIytTn5JknqQWAG0SKEPQqS4KNJsXnTLb05dH4ZVaq1DupJr3
+Fu3jd3h0lmnUJokymGeFGQV2KBHOJeCNJHHzYOrskKXZr0pc3x90mHp2D+dO5zwc
+yoVWwqH/AE2WRffnoefjK+jnhYPOJbO3d1jBx+5dVUsiSyOYMmYZTp31gVN7NRzx
+TL8axPbheY0EC6bbERKOx8RM6ZTQVvbCodiepfqpYILzTmr6jjqiohFr8MFtMkbS
+cYENNOjuQK4qstXBhHHo1kvEHqvK+x3qIijUnP0yoyT5l30qHaKN0e/HkUakFvZZ
+0h/Cgx4+32fsSE8tBsqiD1V8wIpyFUhAK1A+wiRbHCYotgkdMwOH5Cw7PvOj7RqK
+DYkasPFQ49fDe73tjcC99Wq3XlZ/vk/EOIxz8yHApIvLyzt+7c5gHbIlIrKl9ga7
+TwB3XLajee5y/jf4Ky6sXRSZi5mNmbGFOmD9li3WuwwoQVF7A8dYyGHQdeApYfig
+sDghGfCZjc37RoXxrm8q8mk8PxDcHKXmNNeV/2H3nVRs4kd5uEB1EuvjSMkzXx4f
+68wj7RzlwDJ9+tVE8DCFiB4kc6wjMjhJ32Qqh3OqQMTHuO5okcKrK4rF3dk1RTEO
+/dQnXAPBFXWw/nQ/5Keahw==

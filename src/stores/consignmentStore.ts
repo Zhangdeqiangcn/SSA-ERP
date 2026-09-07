@@ -1,72 +1,58 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { ConsignmentStock } from '@/types/purchase';
-
-/**
- * 寄售库存 store（P2-06 增强）
- * 把原先硬编码在 ConsignmentStock 页面的寄售数据抽成独立持久化 store，
- * 避免刷新丢失，并为后续寄售消耗/补货/对账提供统一数据源。
- */
-
-const seedRecords: ConsignmentStock[] = [
-  {
-    id: 'cs-001', vendorId: 'V001', vendorName: '宝钢股份', vendorCode: 'BG001',
-    materialId: 'M001', materialCode: 'SPCC-1.0', materialName: '冷轧板 SPCC 1.0',
-    specification: '1.0×1250×C', unit: '吨',
-    agreedUnitPrice: 5200, consignedQty: 500, consumedQty: 320, balanceQty: 180,
-    warehouseId: 'WH001', warehouseName: '原料仓A',
-  },
-  {
-    id: 'cs-002', vendorId: 'V002', vendorName: '鞍钢集团', vendorCode: 'AG001',
-    materialId: 'M002', materialCode: 'Q235B-2.0', materialName: '热轧卷 Q235B 2.0',
-    specification: '2.0×1500×C', unit: '吨',
-    agreedUnitPrice: 4800, consignedQty: 300, consumedQty: 120, balanceQty: 180,
-    warehouseId: 'WH001', warehouseName: '原料仓A',
-  },
-  {
-    id: 'cs-003', vendorId: 'V003', vendorName: '首钢集团', vendorCode: 'SG001',
-    materialId: 'M003', materialCode: 'DX51D-0.8', materialName: '镀锌板 DX51D 0.8',
-    specification: '0.8×1250×C', unit: '吨',
-    agreedUnitPrice: 6200, consignedQty: 200, consumedQty: 80, balanceQty: 120,
-    warehouseId: 'WH002', warehouseName: '原料仓B',
-  },
-];
-
-export interface ConsignmentState {
-  records: ConsignmentStock[];
-  /** 消耗结算：增加已消耗数量、等量减少结存 */
-  settleConsumption: (id: string, qty: number) => void;
-  addRecord: (record: ConsignmentStock) => void;
-  removeRecord: (id: string) => void;
-  reset: () => void;
-}
-
-export const useConsignmentStore = create<ConsignmentState>()(
-  persist(
-    (set) => ({
-      records: seedRecords,
-      settleConsumption: (id, qty) =>
-        set((s) => ({
-          records: s.records.map((r) =>
-            r.id === id
-              ? {
-                  ...r,
-                  consumedQty: r.consumedQty + qty,
-                  balanceQty: Math.max(0, r.consignedQty - (r.consumedQty + qty)),
-                }
-              : r
-          ),
-        })),
-      addRecord: (record) => set((s) => ({ records: [...s.records, record] })),
-      removeRecord: (id) => set((s) => ({ records: s.records.filter((r) => r.id !== id) })),
-      reset: () => set({ records: seedRecords }),
-    }),
-    {
-      storage: backendStorage,
-      name: 'ssa-erp-consignment',
-      version: 1,
-      partialize: (state) => ({ records: state.records }),
-    }
-  )
-);
+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

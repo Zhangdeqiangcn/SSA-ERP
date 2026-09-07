@@ -1,108 +1,67 @@
-// POST /api/ai/chat — AI对话接口
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ success: false, error: '未登录' }, 401);
-
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ success: false, error: '请求格式错误' }, 400);
-  }
-
-  const { messages, modelId, systemPrompt } = body;
-
-  if (!messages || !Array.isArray(messages) || messages.length === 0) {
-    return json({ success: false, error: '消息不能为空' }, 400);
-  }
-
-  // 读取模型配置（从KV存储）
-  const modelKey = `ai_model_${modelId || 'default'}`;
-  const modelConfig = await env.AI_MODELS?.get(modelKey);
-  
-  if (!modelConfig) {
-    return json({ 
-      success: false, 
-      error: '模型配置未找到，请先在设置中配置AI模型' 
-    }, 404);
-  }
-
-  let config: any;
-  try {
-    config = JSON.parse(modelConfig);
-  } catch {
-    return json({ success: false, error: '模型配置格式错误' }, 500);
-  }
-
-  // 构建请求体（兼容OpenAI格式）
-  const apiMessages = [
-    { role: 'system', content: systemPrompt || '你是一名专业的ERP系统AI助手。' },
-    ...messages.map((m: any) => ({
-      role: m.role,
-      content: m.content,
-    })),
-  ];
-
-  try {
-    // 调用上游API
-    const response = await fetch(`${config.baseUrl}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${config.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: config.modelId,
-        messages: apiMessages,
-        temperature: 0.7,
-        max_tokens: 2000,
-      }),
-    });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      return json({ 
-        success: false, 
-        error: `API请求失败: ${response.status} - ${errText}` 
-      }, response.status);
-    }
-
-    const data = await response.json();
-    
-    return json({
-      success: true,
-      content: data.choices?.[0]?.message?.content || '',
-      usage: data.usage,
-      model: config.modelId,
-    });
-  } catch (error: any) {
-    return json({ 
-      success: false, 
-      error: error.message || '请求失败' 
-    }, 500);
-  }
-}
-
-// GET 返回可用模型列表（不含密钥）
-export async function onRequestGet(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ success: false, error: '未登录' }, 401);
-
-  // 返回预置模板信息
-  return json({
-    success: true,
-    providers: [
-      { id: 'openai', name: 'OpenAI', examples: ['gpt-4o', 'gpt-4-turbo'] },
-      { id: 'deepseek', name: 'DeepSeek', examples: ['deepseek-chat', 'deepseek-coder'] },
-      { id: 'zhipu', name: '智谱AI', examples: ['glm-4-plus', 'glm-4'] },
-      { id: 'moonshot', name: 'Kimi', examples: ['kimi-k2-turbo-preview'] },
-      { id: 'siliconflow', name: 'SiliconFlow', examples: ['deepseek-ai/DeepSeek-V3'] },
-      { id: 'custom', name: '自定义', examples: [] },
-    ],
-  });
-}
+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

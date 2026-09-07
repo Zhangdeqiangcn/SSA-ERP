@@ -1,193 +1,117 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { Organization, OrgType } from '@/types';
-
-/**
- * 多组织 / 多账套（P2-2 核心）
- * ------------------------------------------------------------
- * 维护组织树（公司/子公司/部门）与账套信息，并提供 currentOrgId 作为全局
- * 组织上下文。顶栏切换器修改 currentOrgId；各业务模块按 orgId 过滤数据，
- * 新建单据自动打上 currentOrgId。遗留数据（无 orgId）在任一组织下可见，
- * 以兼容升级前的持久化数据。
- */
-
-const today = (): string => new Date().toISOString().slice(0, 10);
-
-type OrgInput = Omit<Organization, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
-
-const seedOrgs: Organization[] = [
-  {
-    id: 'ORG-001',
-    code: 'HQ',
-    name: 'SSA公司',
-    type: 'company',
-    ledgerCode: '1000',
-    currency: '人民币 (CNY)',
-    taxNo: '91310000HQ0001',
-    address: '上海市浦东新区世纪大道 100 号',
-    contact: '021-88888888',
-    status: 'active',
-    intercompanyEnabled: true,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-  {
-    id: 'ORG-WH-001',
-    code: 'WH-PLANT',
-    name: '武汉工厂',
-    type: 'plant',
-    parentOrgId: 'ORG-001',
-    parentId: 'ORG-001',
-    ledgerCode: '1100',
-    currency: '人民币 (CNY)',
-    address: '湖北省武汉市东湖高新区光谷大道 88 号',
-    contact: '027-66666666',
-    status: 'active',
-    intercompanyEnabled: false,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-  {
-    id: 'ORG-WH-DEPT-001',
-    code: 'WH-PROD',
-    name: '生产部',
-    type: 'department',
-    parentOrgId: 'ORG-WH-001',
-    parentId: 'ORG-WH-001',
-    ledgerCode: '1101',
-    currency: '人民币 (CNY)',
-    address: '湖北省武汉市东湖高新区光谷大道 88 号',
-    contact: '',
-    status: 'active',
-    intercompanyEnabled: false,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-  {
-    id: 'ORG-WH-DEPT-002',
-    code: 'WH-QC',
-    name: '质检部',
-    type: 'department',
-    parentOrgId: 'ORG-WH-001',
-    parentId: 'ORG-WH-001',
-    ledgerCode: '1102',
-    currency: '人民币 (CNY)',
-    address: '湖北省武汉市东湖高新区光谷大道 88 号',
-    contact: '',
-    status: 'active',
-    intercompanyEnabled: false,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-  {
-    id: 'ORG-002',
-    code: 'EAST',
-    name: '华东制造公司',
-    type: 'plant',
-    parentOrgId: 'ORG-001',
-    parentId: 'ORG-001',
-    ledgerCode: '2000',
-    currency: '人民币 (CNY)',
-    taxNo: '91320000EAST02',
-    address: '江苏省苏州市工业园区星湖街 88 号',
-    contact: '0512-66666666',
-    status: 'active',
-    intercompanyEnabled: true,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-  {
-    id: 'ORG-003',
-    code: 'TRADE',
-    name: '贸易事业部',
-    type: 'department',
-    parentOrgId: 'ORG-001',
-    parentId: 'ORG-001',
-    ledgerCode: '3000',
-    currency: '人民币 (CNY)',
-    address: '上海市黄浦区南京东路 200 号',
-    contact: '',
-    status: 'active',
-    intercompanyEnabled: false,
-    createdAt: today(),
-    updatedAt: today(),
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-];
-
-interface OrgState {
-  organizations: Organization[];
-  currentOrgId: string;
-  addOrg: (o: OrgInput) => void;
-  updateOrg: (id: string, u: Partial<Organization>) => void;
-  deleteOrg: (id: string) => void;
-  setCurrentOrg: (id: string) => void;
-  resetOrgs: () => void;
-}
-
-export const useOrgStore = create<OrgState>()(
-  persist(
-    (set) => ({
-      organizations: [...seedOrgs],
-      currentOrgId: 'ORG-001',
-
-      addOrg: (o) =>
-        set((state) => ({
-          organizations: [
-            ...state.organizations,
-            {
-              ...o,
-              id: `ORG-${Date.now()}`,
-              createdAt: today(),
-              updatedAt: today(),
-              createdBy: 'admin',
-              updatedBy: 'admin',
-            },
-          ],
-        })),
-
-      updateOrg: (id, u) =>
-        set((state) => ({
-          organizations: state.organizations.map((x) =>
-            x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: 'admin' } : x
-          ),
-        })),
-
-      // 不允许删除当前组织，避免上下文丢失
-      deleteOrg: (id) =>
-        set((state) => {
-          if (id === state.currentOrgId) return state;
-          return { organizations: state.organizations.filter((x) => x.id !== id) };
-        }),
-
-      setCurrentOrg: (id) => set({ currentOrgId: id }),
-
-      resetOrgs: () => set({ organizations: [...seedOrgs], currentOrgId: 'ORG-001' }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-org',
-      version: 2,
-      partialize: (state) => ({
-        organizations: state.organizations,
-        currentOrgId: state.currentOrgId,
-      }),
-    }
-  )
-);
-
-/** 取当前组织对象（供页面展示账套/本位币） */
-export const useCurrentOrg = (): Organization | undefined =>
-  useOrgStore((s) => s.organizations.find((o) => o.id === s.currentOrgId));
+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

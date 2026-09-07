@@ -1,16 +1,23 @@
--- V2.74.3: vendor_master 扩展列（前端 vendorStore 直连 D1 所需）
--- 让 vendor_master 覆盖 Vendor 业务模型的全部字段，与网关 open/vendors 端点、会话端点 /api/vendors 完全同构。
--- 对标 functions/api/vendors/[id].ts 的 UPDATE 列集合，避免 no such column。
--- 说明：D1 的 SQLite 不支持 ALTER TABLE ... ADD COLUMN IF NOT EXISTS，本迁移仅 apply 一次（成功后写入
--- schema_migrations 守卫，wrangler 不会重复执行），故用纯 ADD COLUMN。
-
-ALTER TABLE vendor_master ADD COLUMN blacklist_reason_history TEXT;
-ALTER TABLE vendor_master ADD COLUMN profile_pending TEXT;
-ALTER TABLE vendor_master ADD COLUMN profile_pending_at TEXT;
-ALTER TABLE vendor_master ADD COLUMN profile_pending_by TEXT;
-ALTER TABLE vendor_master ADD COLUMN profile_reviewed_by TEXT;
-ALTER TABLE vendor_master ADD COLUMN custom_fields TEXT;
-
--- 幂等守卫（version 为 TEXT 主键）
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0017_vendor_master_ext', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX1+YeMimSJwQDtXTgYQbqHJMjy535kU9jLOaEoaGTYH57dwIKH0VVUAQ
+Pzgxc/x3GYVBTjeKDZ7HdUfl5LTI1llbChA96mvcWwgA8AKKkwaboYrMMzUDhWGe
+LHApYUqAHe32oNdhVxqTDC60Oh1bPtL92IRi8Dn/ik7I/kYgtuk7hgGXMsIo/5gs
+D12X9Ipu+zOKpId8T3Itc8qZibxIQeBWmttOE85w5DQyHfG98Wzn6y+wH2WW3ojI
+2iqO7aeCNqHM6TpJh3X3+mrkATUIjtTrBQ7RU//LYHn+UvWjgwcECqdO+vrx2AQa
+N/HSLQcFN/DriFhy8+N+abQYduww772X+jg8WYuZ1/nvYQwKeJGWZRRLkiJ4tbhg
+ukpCwe5wIyCYiqoGo91vjF82cUnQKmmU79wIb+n4o2/4mduOqcH0wvGZKcxJKWM3
+vA9JYBbp3ns3DwPbt0ku1Obq+u/kG61dCTtpJmzvEL38NC6tnLtL+07QG/77nXYy
+127rDxOyjSvDd7hmeolxyHqZ+N/WCsl0LfV2+gs/ypYdo977tjH2SQlY+JGorfY0
+LvFZN7BA6F4OY6Z/ImCAoUNkr9H7zqHTTzzSzms5jVOZYqkwaWu0fJFx+QJybCmx
+D1i9AD9kufpQ5aeEXqjRV0jc1bmaam26vmWzsgvSbTXmvJb+Fr7b9BWcDZ3IJqaV
+j68NJUGn6Ztw4BC2nawH6oJnRq1L7Mf43QifQyiaTlQI5ZnER+wUkTiMSf2EzW2g
+24AN2n6yhmBXn6x3o+7jGtv1gokApmDkSbY8ZJQ71afz8479EGQ3WtEIsqHUITNQ
+LNwTSL7ZpxYm292VuPFZV/KYwd2KU4UA39ZLTcACfxz0mhmyRpFyLFyleWsiDgOn
+SCBPj9z48KX8vgvTFCLzwFVecc+h3zmvT7CEQmCI1AF1KrtlZ4bVy5s+vWKcl5Fj
+W0JYI+b8tT1WdsQ4dyxBu1Hdjp5qRltCNQ4fz3stkyYbbTAPsdTJFJj1L6J4MnId
+bxg6oyipNDvx3CNAb1zpy/DwagKNNm2G9bCoQRgrDlukmIFapIOp1dHHZCrq0Oj0
+EUwtaae/43qtlujVrxn9jOang3UFdy8n3uRYbCyQGZwLI6DtMjDu20l4U0Lyi1v9
+Rs8rFI37nTT0kTqdvL4pPCOMN5cuxDud7I1n4lYpe1r7I4WV2mUxZc8RYQEx9LAj
+OVw3UxAQwypkiQ049PiufQpcAC7nsu7QfvzGYSDlu0AaGn6tBmtnJe84lzOIlXQO
+HRXeR1Gnv89SCbwvj7iqCFj6TKQlOiz7IujNUFCZOHH5jCZL0IB3Zu4mBQNtn3NV
+Lm+HNHn8CsB4pK3tU26DZgstYbnueVZH/ZDN8S1WFiO9jKyqRnn4XU0FU2dRKW3V
+/rVewth40MbW292epWX7aL4UvY1GbWT6CjEtUbNB7GI=

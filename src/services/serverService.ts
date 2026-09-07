@@ -1,84 +1,59 @@
-import { recordAudit, type AuditAction } from '@/stores/auditStore';
-import { currentUser } from '@/stores/sessionStore';
-
-/**
- * C7 服务端化雏形 · 持久化抽象层
- * ------------------------------------------------------------
- * 当前后端 = 浏览器 localStorage（driver: 'local'）。
- * 所有写操作统一从这里走，好处有两点：
- *   1. 写操作自动落审计（谁在什么时候改了什么）；
- *   2. 将来接真实数据库/HTTP API 时，只需把 driver 换成 'remote'，
- *      页面与 store 侧调用方式不用动。
- *
- * 之所以不直接改 zustand persist：现有 200+ 条 E2E 依赖 localStorage 行为，
- * 抽象层采取「叠加而非替换」策略，保证零回归。
- */
-
-export type StorageDriver = 'local' | 'remote';
-
-const STORAGE_PREFIX = 'ssa-erp-';
-
-let driver: StorageDriver = 'local';
-
-export const getDriver = (): StorageDriver => driver;
-export const setDriver = (d: StorageDriver) => {
-  driver = d;
-};
-
-/** 当前"服务端"里属于本系统的数据表数量（localStorage key 数） */
-export const listCollections = (): string[] => {
-  if (typeof localStorage === 'undefined') return [];
-  return Object.keys(localStorage).filter((k) => k.startsWith(STORAGE_PREFIX)).sort();
-};
-
-/** 估算已用存储体积（KB），给运维面板看 */
-export const estimateStorageKB = (): number => {
-  if (typeof localStorage === 'undefined') return 0;
-  const bytes = listCollections().reduce((sum, k) => sum + (localStorage.getItem(k)?.length || 0), 0);
-  return Math.round((bytes / 1024) * 10) / 10;
-};
-
-/** 读取一张"表" */
-export const readCollection = <T>(name: string, fallback: T): T => {
-  if (typeof localStorage === 'undefined') return fallback;
-  const raw = localStorage.getItem(`${STORAGE_PREFIX}${name}`);
-  if (!raw) return fallback;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-};
-
-/**
- * 带审计的写操作包装：业务侧传入真正的写函数，这里负责记审计。
- * 用法：withAudit({ entity: 'salesPrice', action: 'create', summary: '新增价目表项 钢板' }, () => addPriceItem(x))
- */
-export const withAudit = <T>(
-  meta: { entity: string; entityId?: string; action: AuditAction; summary: string },
-  mutate: () => T
-): T => {
-  const result = mutate();
-  recordAudit(meta);
-  return result;
-};
-
-/** 服务端状态摘要，供设置页面板展示 */
-export interface ServerStatus {
-  driver: StorageDriver;
-  collections: number;
-  storageKB: number;
-  user: string;
-  token: string;
-}
-
-export const getServerStatus = (): ServerStatus => {
-  const u = currentUser();
-  return {
-    driver,
-    collections: listCollections().length,
-    storageKB: estimateStorageKB(),
-    user: u.userName,
-    token: u.token,
-  };
-};
+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
+sUvxG92wx3JS3UdMK+P00A==

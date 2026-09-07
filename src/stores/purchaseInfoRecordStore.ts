@@ -1,94 +1,52 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { PurchaseInfoRecord } from '@/types';
-
-const seedRecords: PurchaseInfoRecord[] = [
-  {
-    id: 'ir-001',
-    vendorId: 'cus-001',
-    vendorName: '华润建筑',
-    materialId: 'mat-001',
-    materialName: '钢板',
-    materialCode: 'MAT-001',
-    specification: 'Q235B',
-    unit: '吨',
-    unitPrice: 4100,
-    currency: 'CNY',
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    minQty: 1,
-    leadTime: 7,
-    purchasingGroup: 'PG01',
-    status: 'active',
-  },
-  {
-    id: 'ir-002',
-    vendorId: 'cus-002',
-    vendorName: '长江船舶',
-    materialId: 'mat-002',
-    materialName: '不锈钢管',
-    materialCode: 'MAT-002',
-    specification: '304',
-    unit: '吨',
-    unitPrice: 3800,
-    currency: 'CNY',
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    minQty: 2,
-    leadTime: 10,
-    purchasingGroup: 'PG02',
-    status: 'active',
-  },
-  {
-    id: 'ir-003',
-    vendorId: 'cus-003',
-    vendorName: '新源机械',
-    materialId: 'mat-003',
-    materialName: '角钢',
-    materialCode: 'MAT-003',
-    specification: 'L50×5',
-    unit: '吨',
-    unitPrice: 5200,
-    currency: 'CNY',
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    minQty: 1,
-    leadTime: 5,
-    purchasingGroup: 'PG01',
-    status: 'active',
-  },
-];
-
-interface PurchaseInfoRecordState {
-  records: PurchaseInfoRecord[];
-  addRecord: (record: PurchaseInfoRecord) => void;
-  updateRecord: (id: string, patch: Partial<PurchaseInfoRecord>) => void;
-  deleteRecord: (id: string) => void;
-}
-
-export const usePurchaseInfoRecordStore = create<PurchaseInfoRecordState>()(
-  persist(
-    (set) => ({
-      records: [...seedRecords],
-      addRecord: (record) =>
-        set((state) => ({ records: [record, ...state.records] })),
-      updateRecord: (id, patch) =>
-        set((state) => ({
-          records: state.records.map((r) =>
-            r.id === id ? { ...r, ...patch } : r
-          ),
-        })),
-      deleteRecord: (id) =>
-        set((state) => ({
-          records: state.records.filter((r) => r.id !== id),
-        })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-purchase-info-record',
-      version: 1,
-      partialize: (state) => ({ records: state.records }),
-    }
-  )
-);
+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

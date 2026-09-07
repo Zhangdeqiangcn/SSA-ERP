@@ -1,27 +1,32 @@
-import { api } from './api';
-
-// W1 根治双通道：销售订单 / 工单 / 凭证 直连真实 D1 关系表（会话鉴权）。
-// 后端 GET/POST 返回 snake_case 行（含 items），前端用 snakeToCamel 统一映射为前端 camelCase 形状。
-export const salesApi = {
-  getSalesOrders: (params?: Record<string, unknown>) => api.get<any>('/sales-orders', params),
-  getSalesOrder: (id: string) => api.get<any>(`/sales-orders/${id}`),
-  createSalesOrder: (data: any) => api.post<any>('/sales-orders', data),
-  updateSalesOrder: (id: string, data: any) => api.put<any>(`/sales-orders/${id}`, data),
-  deleteSalesOrder: (id: string) => api.delete(`/sales-orders/${id}`),
-};
-
-export const workOrderApi = {
-  getWorkOrders: (params?: Record<string, unknown>) => api.get<any>('/work-orders', params),
-  getWorkOrder: (id: string) => api.get<any>(`/work-orders/${id}`),
-  createWorkOrder: (data: any) => api.post<any>('/work-orders', data),
-  updateWorkOrder: (id: string, data: any) => api.put<any>(`/work-orders/${id}`, data),
-  deleteWorkOrder: (id: string) => api.delete(`/work-orders/${id}`),
-};
-
-export const voucherApi = {
-  getVouchers: (params?: Record<string, unknown>) => api.get<any>('/vouchers', params),
-  getVoucher: (id: string) => api.get<any>(`/vouchers/${id}`),
-  createVoucher: (data: any) => api.post<any>('/vouchers', data),
-  updateVoucher: (id: string, data: any) => api.put<any>(`/vouchers/${id}`, data),
-  deleteVoucher: (id: string) => api.delete(`/vouchers/${id}`),
-};
+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

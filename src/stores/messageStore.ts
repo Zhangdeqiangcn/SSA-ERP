@@ -1,118 +1,92 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { MobileMessage, MessageType } from '@/types/message';
-import { useAuthStore } from '@/stores/authStore';
-
-/**
- * V2.80.0 W2：移动端即时消息 store（根治双通道，真存云端 D1）。
- * 复用 entityRepo（通用 /entities/[resource] 端点，org 隔离 + 审计）。
- * 推送机制：移动端轮询拉取（每 30 秒），复用预警列表那种拉取模式，简单稳，无需长连接。
- * 可见性：recipientId 指定用户 / recipientRole 指定角色 / 二者皆空=全员可见。
- * 触发入口：send() 可被审批流、预警规则等业务调用（预留 push 接入点）；本版提供「发布全员公告」演示真多人同步。
- */
-const RES = 'mobileMsg';
-const flagKey = 'ssa-erp-backfilled-messages';
-
-const newId = () => `msg-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
-
-/** 当前用户是否可见该消息（指定用户 / 角色 / 全员） */
-export function isMine(m: MobileMessage, user: { id?: string; role?: string } | null | undefined): boolean {
-  if (!user) return false;
-  if (m.recipientId) return m.recipientId === user.id;
-  if (m.recipientRole) return m.recipientRole === user.role;
-  return true; // 全员
-}
-
-interface MessageState {
-  all: MobileMessage[];
-  loaded: boolean;
-  load: () => Promise<void>;
-  send: (m: {
-    title: string;
-    body: string;
-    type?: MessageType;
-    recipientId?: string | null;
-    recipientRole?: string | null;
-    refModule?: string;
-    refId?: string;
-  }) => Promise<void>;
-  markRead: (id: string) => Promise<void>;
-  markAllRead: () => Promise<void>;
-}
-
-export const useMessageStore = create<MessageState>()((set, get) => ({
-  all: [],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const r = await entityRepo.list<MobileMessage>(RES, { page: 1, pageSize: 500 });
-      const list = (r?.data || []) as MobileMessage[];
-      if (list.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        const seed: MobileMessage = {
-          id: newId(),
-          senderId: undefined,
-          senderName: '系统',
-          recipientId: null,
-          recipientRole: null,
-          title: '欢迎使用移动消息',
-          body: '审批与预警将推送至此；点击消息可标记已读，数据直连云端 D1 多人共享。',
-          type: 'system',
-          read: 0,
-          createdAt: new Date().toISOString(),
-        };
-        try { await entityRepo.create<MobileMessage>(RES, seed); } catch { /* 尽力回填 */ }
-        const r2 = await entityRepo.list<MobileMessage>(RES, { page: 1, pageSize: 500 });
-        set({ all: (r2?.data || []) as MobileMessage[], loaded: true });
-        return;
-      }
-      set({ all: list, loaded: true });
-    } catch {
-      set({ all: [], loaded: true });
-    }
-  },
-
-  send: async (m) => {
-    const user = useAuthStore.getState().currentUser;
-    const msg: MobileMessage = {
-      id: newId(),
-      senderId: user?.id || undefined,
-      senderName: user?.name || '系统',
-      recipientId: m.recipientId ?? null,
-      recipientRole: m.recipientRole ?? null,
-      title: m.title,
-      body: m.body,
-      type: m.type || 'announce',
-      refModule: m.refModule,
-      refId: m.refId,
-      read: 0,
-      createdAt: new Date().toISOString(),
-    };
-    set((s) => ({ all: [msg, ...s.all] }));
-    try {
-      await entityRepo.create<MobileMessage>(RES, msg);
-    } catch {
-      set((s) => ({ all: s.all.filter((x) => x.id !== msg.id) }));
-    }
-  },
-
-  markRead: async (id) => {
-    const now = new Date().toISOString();
-    set((s) => ({ all: s.all.map((x) => (x.id === id ? { ...x, read: 1, readAt: now } : x)) }));
-    try { await entityRepo.update<MobileMessage>(RES, id, { read: 1, readAt: now }); } catch { /* 尽力同步 */ }
-  },
-
-  markAllRead: async () => {
-    const user = useAuthStore.getState().currentUser;
-    const mine = get().all.filter((x) => !x.read && isMine(x, user));
-    if (mine.length === 0) return;
-    const now = new Date().toISOString();
-    set((s) => ({
-      all: s.all.map((x) => (mine.find((m) => m.id === x.id) ? { ...x, read: 1, readAt: now } : x)),
-    }));
-    await Promise.all(
-      mine.map((m) => entityRepo.update<MobileMessage>(RES, m.id, { read: 1, readAt: now }).catch(() => {})),
-    );
-  },
-}));
+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

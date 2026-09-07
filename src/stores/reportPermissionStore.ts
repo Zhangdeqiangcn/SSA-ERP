@@ -1,58 +1,54 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { ReportPermission, ReportSubscription, ReportRole } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const now = () => new Date().toISOString();
-
-interface ReportPermissionState {
-  reportPermissions: ReportPermission[];
-  subscriptions: ReportSubscription[];
-  setReportRoles: (reportId: string, reportName: string, roles: ReportRole[]) => void;
-  addSubscription: (sub: Omit<ReportSubscription, 'id' | 'createdAt'>) => void;
-  updateSubscription: (id: string, patch: Partial<Omit<ReportSubscription, 'id' | 'createdAt'>>) => void;
-  deleteSubscription: (id: string) => void;
-}
-
-export const useReportPermissionStore = create<ReportPermissionState>()(
-  persist(
-    (set) => ({
-      reportPermissions: [
-        { reportId: 'rp-1', reportName: '销售汇总报表', allowedRoles: ['admin', 'manager', 'finance'] },
-        { reportId: 'rp-2', reportName: '库存周转报表', allowedRoles: ['admin', 'warehouse'] },
-        { reportId: 'rp-3', reportName: '财务报表数据集', allowedRoles: ['admin', 'finance'] },
-      ],
-      subscriptions: [
-        {
-          id: 'sub-seed-1',
-          reportId: 'rp-1',
-          reportName: '销售汇总报表',
-          frequency: 'weekly',
-          recipients: 'manager@ssa.com',
-          channel: 'email',
-          enabled: true,
-          createdAt: now(),
-        },
-      ],
-      setReportRoles: (reportId, reportName, roles) =>
-        set((s) => {
-          const exists = s.reportPermissions.find((r) => r.reportId === reportId);
-          const next = exists
-            ? s.reportPermissions.map((r) => (r.reportId === reportId ? { ...r, allowedRoles: roles } : r))
-            : [...s.reportPermissions, { reportId, reportName, allowedRoles: roles }];
-          return { reportPermissions: next };
-        }),
-      addSubscription: (sub) =>
-        set((s) => ({
-          subscriptions: [...s.subscriptions, { ...sub, id: uid('sub'), createdAt: now() }],
-        })),
-      updateSubscription: (id, patch) =>
-        set((s) => ({ subscriptions: s.subscriptions.map((x) => (x.id === id ? { ...x, ...patch } : x)) })),
-      deleteSubscription: (id) =>
-        set((s) => ({ subscriptions: s.subscriptions.filter((x) => x.id !== id) })),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-report-perm' },
-  ),
-);
+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

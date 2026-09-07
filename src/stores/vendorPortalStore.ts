@@ -1,125 +1,95 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/** 供应商门户用户（可持久化的业务数据，替代原页面内 MOCK_USERS） */
-export interface VendorUser {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  roleId: string;
-  roleName: string;
-  status: 'active' | 'inactive';
-  lastLogin?: string;
-}
-
-/** 供应商门户角色（icon 为 UI 静态资源，存于页面，store 仅持久化可序列化字段） */
-export interface VendorRole {
-  id: string;
-  name: string;
-  code: string;
-  description: string;
-  color: string;
-  permissions: Record<string, string[]>;
-}
-
-const seedUsers: VendorUser[] = [
-  { id: 'vu-001', name: '张建国', email: 'zhangjg@shbaosteel.com', phone: '13800138001', roleId: 'vr-admin', roleName: '管理员', status: 'active', lastLogin: '2024-06-20 09:15:00' },
-  { id: 'vu-002', name: '李明辉', email: 'limh@shbaosteel.com', phone: '13800138002', roleId: 'vr-business', roleName: '业务员', status: 'active', lastLogin: '2024-06-20 14:30:00' },
-  { id: 'vu-003', name: '王会计', email: 'wangac@shbaosteel.com', phone: '13800138003', roleId: 'vr-finance', roleName: '财务', status: 'active', lastLogin: '2024-06-19 16:00:00' },
-  { id: 'vu-004', name: '赵质检', email: 'zhaozj@shbaosteel.com', phone: '13800138004', roleId: 'vr-quality', roleName: '质量员', status: 'inactive', lastLogin: '2024-06-15 10:00:00' },
-];
-
-const seedRoles: VendorRole[] = [
-  {
-    id: 'vr-admin',
-    name: '管理员',
-    code: 'admin',
-    description: '供应商门户全部功能管理权限',
-    color: '#6366F1',
-    permissions: {
-      orders: ['view', 'edit', 'confirm', 'reject'],
-      shipments: ['view', 'create', 'edit'],
-      quality: ['view', 'respond', 'submit_report', 'close'],
-      finance: ['view', 'confirm', 'submit_invoice', 'dispute'],
-      profile: ['view', 'edit', 'manage_certs'],
-      permissions: ['view', 'edit', 'create_user', 'delete_user'],
-    },
-  },
-  {
-    id: 'vr-business',
-    name: '业务员',
-    code: 'business',
-    description: '负责订单确认、发货、质量响应等业务操作',
-    color: '#3B82F6',
-    permissions: {
-      orders: ['view', 'edit', 'confirm'],
-      shipments: ['view', 'create', 'edit'],
-      quality: ['view', 'respond'],
-      finance: ['view'],
-      profile: ['view'],
-      permissions: ['view'],
-    },
-  },
-  {
-    id: 'vr-finance',
-    name: '财务',
-    code: 'finance',
-    description: '负责对账、开票、付款计划查询等财务操作',
-    color: '#10B981',
-    permissions: {
-      orders: ['view'],
-      shipments: ['view'],
-      quality: ['view'],
-      finance: ['view', 'confirm', 'submit_invoice', 'dispute'],
-      profile: ['view', 'edit'],
-      permissions: ['view'],
-    },
-  },
-  {
-    id: 'vr-quality',
-    name: '质量员',
-    code: 'quality',
-    description: '负责质量问题响应、8D报告提交等质量管理',
-    color: '#F59E0B',
-    permissions: {
-      orders: ['view'],
-      shipments: ['view'],
-      quality: ['view', 'respond', 'submit_report'],
-      finance: ['view'],
-      profile: ['view'],
-      permissions: ['view'],
-    },
-  },
-];
-
-interface VendorPortalState {
-  portalUsers: VendorUser[];
-  roles: VendorRole[];
-  addPortalUser: (u: VendorUser) => void;
-  updatePortalUser: (id: string, updates: Partial<VendorUser>) => void;
-  deletePortalUser: (id: string) => void;
-  updateRolePermissions: (id: string, permissions: Record<string, string[]>) => void;
-}
-
-export const useVendorPortalStore = create<VendorPortalState>()(
-  persist(
-    (set) => ({
-      portalUsers: [...seedUsers],
-      roles: [...seedRoles],
-      addPortalUser: (u) => set((s) => ({ portalUsers: [...s.portalUsers, u] })),
-      updatePortalUser: (id, updates) =>
-        set((s) => ({ portalUsers: s.portalUsers.map((x) => (x.id === id ? { ...x, ...updates } : x)) })),
-      deletePortalUser: (id) => set((s) => ({ portalUsers: s.portalUsers.filter((x) => x.id !== id) })),
-      updateRolePermissions: (id, permissions) =>
-        set((s) => ({ roles: s.roles.map((r) => (r.id === id ? { ...r, permissions } : r)) })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-vendor-portal',
-      version: 1,
-      partialize: (state) => ({ portalUsers: state.portalUsers, roles: state.roles }),
-    }
-  )
-);
+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

@@ -1,10 +1,18 @@
--- 迁移 0019：serial_movements 补 created_at / created_by 审计列
--- 根因：W1-B1 的 insertSerialMovement（functions/_shared/serial.ts）向 serial_movements 写入
---       created_at + created_by，但迁移 0010 建表时漏了这两列，导致生产/本地 serial POST/PUT 带
---       movement 时 D1 报 `table serial_movements has no column named created_at`（500）。
---       本地 E2E 校验（scripts/w1b1-local-e2e.mjs）于 2026-09-03 捕获该真实缺陷。
--- 此处补齐列，与 insertSerialMovement 的 INSERT 列严格对齐。SQLite ALTER 不支持 IF NOT EXISTS，
--- 由 wrangler migrations 状态机保证仅执行一次（schema_migrations 已登记 0001-0018）。
-
-ALTER TABLE serial_movements ADD COLUMN created_at TEXT;
-ALTER TABLE serial_movements ADD COLUMN created_by TEXT;
+U2FsdGVkX1+SORtgc59DG7TA/OFO0F9XNO3Zyfobng/6BuPQdQiNFJkaypS3EsBO
+m417gpR1GZrwtTDJPxj4N94jj20YlYwW9ib9aFjrcdckloetJR+2PRQQ6AV6bNke
+1aDQIeyyqr6GpNC8A6o7gXekLtTrHDZuzxD2UFP48NSF9wIrCQXMyCvOFQKfrm7A
+MyGigklGRpqaqNYyXZ33Cgy5xk/50SCJUbDUjTCEWJdlz2MoGrPHCjhjYPFZv+Dk
+c57Cmb/DkQS0k6Q5tWrpDDQg4yLzbMwY/bXJJe8Vl9+MiMD9pC/THND3kSSktqmR
+31nukDKepfMeEze+uaMzy4BTMnn9IWYcuYGMU7i+Jgs7+mHizsygUatLtV14xy62
+7b71cIQxzJDxGr9czlZbDa6N9j0Y5KnXCdYM60INJAqSpIUq7zdNstE6b0ehpqgP
+MtI/4Z4zOLWW4uAfWt6uauYfSzq2uHmj++JvhIghckfpIW+2MqhLVyCHaYW5XPtM
+Q9QJl1vdugjUXH2n1cORMawK+xDGvK+/bOp5YQ8SSJnSKR0AkpCl+9id3ewdTUlR
+TVRwxBt9UjPssFm+Xo051E+HZ3URUvuJTz/py3UWGc1ywOuvjlLRO0NSPslMr7ZL
+m9TeD68rzKkA0vLLAV7osG7AAUtIFAZyg4r06DebO+nlsUIPa4E3shwgyPNq1mqW
+mzDQkisMNbmM3PQkN3JOhdMk/3uDarLkE4sGSiZVLhuem7STMA6FUa5I1cioeJgA
+32512nJwJQczKul4gxxp4uAHhrO30Eb1ClHhW75anvDJ1/jV3TQGHF22hfWE3NEo
+dh2egz3u+UezD+Zq8ktgS5TqcBKMpzb3Odt2a5xJqEisOaDLZT6Z+4Po3am8rg5W
+7o7JCe57wmPhKIq6/vzeYmRW60rpVQI1Q4r52v+2L/tPcy+C8hQeIkxgVIPIi8cV
+A2iJ6b+bce+jRGmYnVkgj+uAclVLDN8i5zsZ4ajd+BjF0PSOo0t/12OEKFHVkdBV
++0R8vQajaMlKWvPaOgfCXDNKJqx1gRr31BRS8WzY5lZQTORsx6lLNqBFnUec/e+g
+n3mASzGFq97RCp466b8c4gCdkji9fB+KhKhAdlxZJ4w=

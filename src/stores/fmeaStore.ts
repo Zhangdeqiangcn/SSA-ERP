@@ -1,104 +1,58 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-export type FMEAStatus = 'draft' | 'reviewed' | 'approved';
-
-export interface FMEA {
-  id: string;
-  number: string;
-  item: string;
-  function: string;
-  failureMode: string;
-  effect: string;
-  severity: number;
-  cause: string;
-  occurrence: number;
-  currentControl: string;
-  detection: number;
-  rpn: number;
-  recommendedAction?: string;
-  status: FMEAStatus;
-  /** P2-15 关联物料主数据 */
-  materialId?: string;
-  materialName?: string;
-  createdAt: string;
-  updatedAt: string;
-  createdBy: string;
-  updatedBy: string;
-}
-
-const now = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-
-const seedFMEA: FMEA[] = [
-  {
-    id: uid('fmea'),
-    number: 'FMEA-2026-001',
-    item: '缸体铸造',
-    function: '提供发动机缸体毛坯',
-    failureMode: '气孔缺陷',
-    effect: '缸体强度不足，可能导致发动机漏油',
-    severity: 9,
-    cause: '浇注温度偏低，排气不畅',
-    occurrence: 5,
-    currentControl: 'X光探伤抽检',
-    detection: 6,
-    rpn: 270,
-    recommendedAction: '优化浇注系统排气设计，提高浇注温度监控',
-    status: 'reviewed',
-    createdAt: now(),
-    updatedAt: now(),
-    createdBy: '质量部',
-    updatedBy: '质量部',
-  },
-  {
-    id: uid('fmea'),
-    number: 'FMEA-2026-002',
-    item: '钢板剪裁',
-    function: '按规格尺寸剪裁钢板',
-    failureMode: '尺寸超差',
-    effect: '后续焊接装配困难，影响产品合格率',
-    severity: 7,
-    cause: '剪板机刀具磨损',
-    occurrence: 4,
-    currentControl: '首件检验+巡检',
-    detection: 3,
-    rpn: 84,
-    status: 'draft',
-    createdAt: now(),
-    updatedAt: now(),
-    createdBy: '质量部',
-    updatedBy: '质量部',
-  },
-];
-
-interface FMEAState {
-  items: FMEA[];
-  addItem: (item: FMEA) => void;
-  updateItem: (id: string, updates: Partial<FMEA>) => void;
-  deleteItem: (id: string) => void;
-}
-
-export const useFMEAStore = create<FMEAState>()(
-  persist(
-    (set) => ({
-      items: [...seedFMEA],
-
-      addItem: (item) => set((s) => ({ items: [...s.items, item] })),
-      updateItem: (id, updates) =>
-        set((s) => ({
-          items: s.items.map((x) =>
-            x.id === id ? { ...x, ...updates, updatedAt: now(), updatedBy: '当前用户' } : x
-          ),
-        })),
-      deleteItem: (id) => set((s) => ({ items: s.items.filter((x) => x.id !== id) })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-fmea',
-      version: 1,
-      partialize: (state) => ({ items: state.items }),
-    }
-  )
-);
+U2FsdGVkX193kuCtDMA2PAZrPtSAN8JzepaV1t0wnn030jrdyJY3vUvlOHVtwXT7
+v7A9tBkhfim8uGdDM75o6hzliOoceFQ3ad7bUNqTxEcBNfxDon1uRaslWZlfYFRD
+WLbWC7zM9KGFqPlXG/wn08liNkw4MNPDZLPqpLIXlI6Cjku8+F9ku1hJ46lcsWor
+l+BR7yKzjw7bY4i7DteiBrj6VDHrI+wgcdo5SLOKWYFds7MGQJE2IgY8o4Ehz9UD
+ju/ePCQdH4/HijVZTePyKECiAa2vPwDumIjl20JtuaowRt5MywBSsEZ3E2TDEhnT
+sNpGGZvWB4k3i8DC7jkf90H5+X21WEE4pIn2l7+B3OvM6LkwQ7yjyFRCJjfcFPtL
+vCRP1jD910oT00uywuGJqOgubcCRywmS2h8EPUjTfE578QLhQLKg5tOUyIaYIy62
+vCwtLh/bhc8FLh47wpCeFjoSHhBWsNCoAUnfuUmas7Q+ou1rdC9EVbuLVt3DfYHe
+kKNSk/v8w7xVXjIKITJoFT2F6gllr3OZXeWgZvoHo+xPnBBUCc2wnyjNlRn4lU5q
+8OJB6NZeJ6nQ9GCzJYNKpS6k/gwuwC+irvDwMb3oYC9tmm+bO3Tx0uIx79OzRFIp
+uLYMFnMsAczbn5+kPHN8Xy7YClD+gfhLkYH1r5pehz0StPawzYmMrUgK3Y5vmLsj
+LOgpnVWyWz66L2fA3VGd2hpTCRT1jA2LoVSOCm8ibAEexMv3q6FiFO7Q9SOV8vti
+zbavF20kHYAbys3b1BodG/44UypbSfZRxyCv22RoLTkG5zOKDHYr4/3351k1uia9
+A7/C5QffSSN6nlG9tK0aI8gtCskajwQPKu/a25+AvHTieCcuux7Sfd8tOrOzi6DZ
+COS6v+vWZ8fbcd9PQmQPocllGbx69uH6A0NtkzA4ABMfbQjvirFQ7qDvl8mJQ4QY
+r73+ictASDhMdKRZ+nn20Qc3wFtchZ48scJyPTz+rENoa9B2ZBMWGDVeoZRLKNTA
+ttan+DcIabNBtldBl5A7bXRnlpWdpuSBLbiFsBKDSAIzyl3RP9dsTjGBG746N50Y
+FGuWmI0D89B8rJlwNXN+owh23XGyhHjWKaYXuZv/2g4GIXhUaC9+1ODX2qwuV8Bg
+wzx9jvtLCsGDMvZQaRKvgN3g42WeSTsswCT3qZ4UnYJzQOFQ/y8RKbF+VdX0DLED
+kYqEsf2BaKUctZtMOIZY+vfHtzVC58EuPzx8ENKMmlsmvyFCQb3Iz2eywfrTaCH4
+AD6bkuysoEuDhIeLUYvHguIZQhDF7qNmEWNZ3dznM/9EgDSG0eERcwrRaj8WRjhM
+I5TAZLlcVKU72m4EUsQKKwiXKcCigt1qJTi0bMFmSNK/O/97+JbG2DWlvWi1fJH2
+nboCLuxbOPQO2bI4G/GlZFLDUlI/MvkBBDtabVGcUm1VBQyn0+msknxjlucPFUdZ
+gR3ZOrIQOtqSI3rADM/nxXnfQ3VxHHRi6wUnmpN3ftsjO2axJZ0/h4yKpQZCYYwx
+5bE5jjH6/IfsViCnWSzITf/4X1heHea3TAbonzq4wA7LfuYrkSlkGMCvfEwpAJyq
+K5lfktLQEzveWUsN6Gf6dH5DgqdcvnJv4s4+itCiG2tDVD7CgbhmlkEMC2Na3E52
+uEGOtfvGszTVfTM8eO6PChB+0dOv8iQk6ccwLabNUZBhASb/HVdNivFoInkpWS3n
+T0VRjsedI+13LQy8JnO53Bw/uVm1f9ySADT9z4PhOICIi4RHeR3viJw90O2wcgpr
+z7Rei4pdAp8csVbSc0DU+CsPdwSUv8gE8XanEjOcz/czAN19xa4bg+rWJpgO16eF
+NX2FNOantPaFxWS89da+YBRhDuHTf8tUVcxIYUSyWU7uxNV5C/Ab2kmk/fP35CgQ
+WAFo0lLZUaejZorDm/+poTDRsUIcM+jkDwRvxLOpcgc31v2PKcHRzRxxNTIxLRGc
+5OCM7xBOiS2YqaQVglVKJmuGTiAOW6kZ5cx4lxeyaMkx6aN4mt+KTVy1K7bv54Ut
+wCGmKH1v5pbJ9sCttqB6VdVwSUCkaEORu/2reItyaYAJ+IxZrdMnvxudpQ7WszzH
+NOyCNrHPQ1lE4z3kI/AvB1ByDeq07uIzSi/iUVlofB4BjxTgx3ipMDNaO96WfzOi
+fg6iCmWcpI3RiiHfNCdaImgi1mB0gXbYK3u3vdeQIttuwKibMi++tPm4/UktAlSZ
+CnvEkfgFixrIsKjwHcXd/gTakHMhQr4HitvdFshXqOH6LtKdvVtsqrvbDe2EfWH1
+I27TCA/wSJ7G8lGlo3ypPLccSaRxHeorLXDS4KWoTQYAlwRy41//3kxpz6sCGJRs
+8X7YFlSM2QRBw1foGvOGB6+8H5pHKVZA6iy5raYe8/jpIG86kAf+XFvLLiRjQf4e
+O3HyxPw9EFMm88GJ4yUa6fLG0wuT+LrUhz3R6Adqa3UahTifVCv/nC1Z0SCQXlUE
+LAgJ3UPqv31iCLVjBUmE3WqytFS+pJ1jdj0jV2TrpwNjoJflDEekrKozmYt/dvIU
+2N5tCxMQfjv9y68c5YOGyRovbN+RpCuxUlehBGaPhihFGvID37dqGjldoFRGWLcj
+ATP9RdI9j/0lOtPk1Sl1d+JXqV4vS7lXmc8UF8BAwpvN8P2GxF3R9R6884C4KbEE
+kaHMBjjRrPFuXyiXaAXNH6rSRlvvhlHR7RC+7AP2xjKGvCHWiEf1PW9UQ1iJY+6y
+QlKqwm220PCqQQo+fRhINLMRH6dMJ3vHpZ2mI3RsYAggxgTFsNcgnVE0Qt+yAO/7
+iyN7YmdKeL75mN04ayEVAByrr7oxTc7ur5O3dXmqlUZqYBkihTUIC7yXtDlxw6hZ
+6Lo+IaBqaXLQcRNAxhihyCuEbZNlyz/W/SPTT975njLh1+8PiuFZIS4yJpbEf3uI
+kYasoR/Kt4iQzRAgQtbqIOstXu77SFcnPjBI2GicrBTMTYhz9CCpdL1hqLCd/Qj7
+HfsoPAMj9nBmquUezpagMEDhzWtAa45d3tJ8N/S73SnivDG7ydx8OU+qSzkKxv7y
+v1KKVOlOnAbn2Dno4BAXd5VP2GyjGGigHRkUs+kYfRBxbKwbKdfJBFPP9m6NazMU
++WU6h/tQAsG1Zf96kW66N8XTZlXFfNBevkN8nGRUPpmnNkabntaUsIoJplZ6O6kZ
+q/9C+txzlUuyV9JQG7ldYS/euD+iGdTjxm37ptqoGeIjBvPL9aCss+qua1yeRaMJ
+DN3lc4SaP+bNQMYlQZ4BBZmQ0mYRKlrjTZx9NslpZiLfRN+shhjBpgdNM0AEM7ji
+SzamI0zy4IUyw8QhFaVsUCLyRORqnVt3EbWytIbE73HkGuIyDD+KXV+jthmz0SZc
+5JrktneerZDhISujFHWzJ/nt/fv+HPU+8fnMUDYmneDPlOzgSHC2EgHffyfRZrAZ
+1EI2OiLzXh0/tBGD2aPjDigviTRKtm/XON0vs+dzUxfiUofDj0D3mXeii1wD0XCc
+3i26Z9o8yb2aB6ECeBbR5nT2EJ8VPqMB32YEZn5WXMu9TZUrgtJD7WaRVbwcS7+a
+XU/LAkl6fOaIAeBc3Yy/2W8H52ec7wy6H2ZMyN/tIWW0JVFjS0iJNpnJccd7xjNs
+ANFz67obsOL+wJZs2bjtTrvxOAr/8E+j5hsaRHdoYO2rczXmmuPP2Uj9yvXuUBm+

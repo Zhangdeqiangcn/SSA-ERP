@@ -1,352 +1,329 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { UserRole } from '@/types/settings';
-
-/**
- * 审批流配置单一数据源（全面 store 化 · V2.14；深度定制 · V2.55.19）
- * ------------------------------------------------------------
- * 将审批流配置从 ApprovalFlowTab 的 `defaultFlows` 硬编码 +
- * localStorage `ssa-approval-flows` 收敛到唯一 zustand persist store。
- * 各业务审批队列（供应商准入 / 采购申请等）与 FlowTracker 通过
- * `approvalFlowConfig.ts` 的读取器统一消费本 store，消除「设置页一份、
- * 读取器又一份 DEFAULT_FLOWS」的双源不一致隐患。
- * 首次启动从旧的 `ssa-approval-flows` 一次性迁移（若有用户自定义），否则播种默认流程。
- *
- * V2.55.19 审批流深度定制（对照 SAP Release Strategy / Flexible Workflow / Agent Determination）：
- *   - 审批人类型 approverType：角色 / 职位 / 上级 / 部门负责人 / 指定用户
- *   - 会签模式 mode：串签 serial / 并签 parallel / 或签 or（多审批人时生效）
- *   - 结构化条件 conditions：字段 + 运算符 + 值，支持 AND/OR 组合（取代自由文本 condition）
- *   - 跳过规则 skipRule：满足某条件组时「跳过」或「自动通过」该节点
- *   - 超时升级 escalation：节点超时后升级给指定审批人并通知
- *   - 可省略 optional：简化 profile 下可省略该节点
- *   - 流程级 profile：standard 标准 / simplified 简化
- * 所有新增字段均为可选，旧持久化数据（仅含 role/condition 等）完全兼容。
- */
-
-/** 审批人类型（SAP Agent Determination 思路：按岗位/层级/具体人定审批人，而非写死一个人） */
-export type ApproverType =
-  | 'role'          // 角色（如财务主管）
-  | 'position'      // 职位（如采购经理）
-  | 'supervisor'    // 发起人上级
-  | 'dept_head'     // 部门负责人
-  | 'specific_user';// 指定用户
-
-/** 会签模式（SAP Flexible Workflow 串行/并行步骤） */
-export type ApprovalMode =
-  | 'serial'        // 串签：依次审批，全部通过
-  | 'parallel'      // 并签：同时审批，全部通过
-  | 'or';           // 或签：任一通过即可
-
-/** 条件比较运算符 */
-export type ConditionOperator = '>' | '>=' | '<' | '<=' | '==' | '!=' | 'in' | 'not_in';
-
-/** 单条结构化条件（如 金额 > 100000） */
-export interface ApprovalCondition {
-  field: string;                                  // 条件字段 key（注册于 approvalFlowConfig 的 CONDITION_FIELDS）
-  operator: ConditionOperator;
-  value: string | number;
-}
-
-/** 条件组：组内条件以 and/or 逻辑组合（SAP Release Strategy 特性组合） */
-export interface ConditionGroup {
-  logic: 'and' | 'or';
-  conditions: ApprovalCondition[];
-}
-
-/** 跳过规则：when 命中时对该节点执行 skip（跳过）或 auto_approve（自动通过） */
-export interface SkipRule {
-  when: ConditionGroup;
-  action: 'skip' | 'auto_approve';
-}
-
-/** 超时升级：节点超过 timeout 小时后升级给 escalateTo 指定的审批人，并通知 notify 角色/用户 */
-export interface EscalationRule {
-  timeout: number;                 // 升级触发小时数（通常为节点 timeout，可更短）
-  escalateTo: ApproverType;
-  targetRole?: UserRole;           // escalateTo = role 时生效
-  targetUserId?: string;           // escalateTo = specific_user 时生效
-  notify?: string[];               // 需通知的角色 id 或用户 id 列表
-}
-
-export interface ApprovalNode {
-  id: string;
-  name: string;
-  role: string;                    // 主审批角色 id（向后兼容，单审批人场景）
-  roleName: string;                // 主审批角色名称（向后兼容）
-  condition?: string;              // 旧版自由文本条件（向后兼容，新配置优先用 conditions）
-  timeout?: number;                // 超时小时
-  order: number;
-  // —— V2.55.19 深度定制新增（全部可选） ——
-  approverType?: ApproverType;     // 审批人类型，默认 'role'
-  approverRoles?: UserRole[];      // 多角色会签（approverType=role 且 mode 为 parallel/or 时）
-  approverUserIds?: string[];      // 指定用户列表（approverType=specific_user 时）
-  mode?: ApprovalMode;             // 会签模式，多审批人时生效，默认 'serial'
-  conditions?: ConditionGroup;     // 结构化审批条件（取代自由文本 condition）
-  skipRule?: SkipRule;             // 跳过/自动通过规则
-  escalation?: EscalationRule;     // 超时升级规则
-  optional?: boolean;
-  fields?: string[];             // 该步骤可编辑/采集的业务字段（物料审批需按步录入主数据字段时使用）              // 简化 profile 下可省略
-}
-
-/** 兼容历史命名（approvalFlowConfig.ts 使用 ApprovalFlowNode） */
-export type ApprovalFlowNode = ApprovalNode;
-
-/** 流程级配置：标准 / 简化 */
-export type ApprovalProfile = 'standard' | 'simplified';
-
-export interface ApprovalFlowConfig {
-  id: string;
-  module: string;
-  moduleLabel: string;
-  enabled: boolean;
-  profile?: ApprovalProfile;       // 标准 / 简化，默认 'standard'
-  nodes: ApprovalNode[];
-}
-
-/** 条件字段注册表（供 UI 构造结构化条件 + 求值器类型识别），详情见 approvalFlowConfig.ts */
-export type ConditionFieldType = 'number' | 'string' | 'enum';
-
-/** 默认审批流（与历史 ApprovalFlowTab 的 defaultFlows 保持一致，并补充 V2.55.19 结构化能力） */
-export const DEFAULT_APPROVAL_FLOWS: ApprovalFlowConfig[] = [
-  {
-    id: 'sales_order', module: 'sales_order', moduleLabel: '销售订单', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'so-1', name: '销售经理审批', role: 'buyer', roleName: '采购员', timeout: 24, order: 1,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 100000 }] },
-      },
-      {
-        id: 'so-2', name: '财务审批', role: 'finance_manager', roleName: '财务主管', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 500000 }] },
-        optional: true,
-      },
-    ],
-  },
-  {
-    id: 'purchase_request', module: 'purchase_request', moduleLabel: '采购申请', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'pr-1', name: '部门经理审批', role: 'buyer', roleName: '采购员', timeout: 24, order: 1,
-        approverType: 'dept_head', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 50000 }] },
-      },
-      {
-        id: 'pr-2', name: '财务审批', role: 'finance_manager', roleName: '财务主管', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'pr-3', name: '总经理审批', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 500000 }] },
-        optional: true,
-      },
-    ],
-  },
-  {
-    id: 'purchase_order', module: 'purchase_order', moduleLabel: '采购订单', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'po-1', name: '采购经理确认', role: 'buyer', roleName: '采购员', timeout: 24, order: 1,
-        approverType: 'position', mode: 'serial',
-      },
-      {
-        id: 'po-2', name: '财务审核', role: 'finance_manager', roleName: '财务主管', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 200000 }] },
-      },
-    ],
-  },
-  {
-    id: 'price_approval', module: 'price_approval', moduleLabel: '价格审批', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'pa-1', name: '采购经理审核', role: 'buyer', roleName: '采购员', timeout: 24, order: 1,
-        approverType: 'position', mode: 'serial',
-      },
-      {
-        id: 'pa-2', name: '财务主管审批', role: 'finance_manager', roleName: '财务主管', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'pa-3', name: '总经理或签', role: 'admin', roleName: '系统管理员', timeout: 48, order: 3,
-        approverType: 'role', mode: 'or', approverRoles: ['admin', 'finance_manager'],
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 1000000 }] },
-        optional: true,
-        escalation: { timeout: 24, escalateTo: 'role', targetRole: 'admin', notify: ['admin'] },
-      },
-    ],
-  },
-  {
-    id: 'work_order', module: 'work_order', moduleLabel: '生产工单', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'wo-1', name: '生产主管审批', role: 'prod_manager', roleName: '生产主管', timeout: 24, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-    ],
-  },
-  {
-    id: 'inbound', module: 'inbound', moduleLabel: '采购入库', enabled: false, profile: 'standard',
-    nodes: [
-      {
-        id: 'ib-1', name: '质检确认', role: 'qa_engineer', roleName: '质量工程师', timeout: 8, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-    ],
-  },
-  {
-    id: 'outbound', module: 'outbound', moduleLabel: '出库单', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'ob-1', name: '库管审核', role: 'warehouse_keeper', roleName: '库管员', timeout: 24, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-    ],
-  },
-  {
-    id: 'quality_dispose', module: 'quality_dispose', moduleLabel: '不合格品处置', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'qd-1', name: '质量工程师判定', role: 'qa_engineer', roleName: '质量工程师', timeout: 8, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'qd-2', name: '质量主管审批', role: 'qa_engineer', roleName: '质量工程师', timeout: 24, order: 2,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 10000 }] },
-      },
-    ],
-  },
-  {
-    id: 'invoice', module: 'invoice', moduleLabel: '发票', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'iv-1', name: '会计审核', role: 'accountant', roleName: '会计', timeout: 48, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'iv-2', name: '财务主管审批', role: 'finance_manager', roleName: '财务主管', timeout: 72, order: 2,
-        approverType: 'role', mode: 'serial',
-      },
-    ],
-  },
-  {
-    id: 'payment_plan', module: 'payment_plan', moduleLabel: '付款计划', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'pp-1', name: '财务主管审批', role: 'finance_manager', roleName: '财务主管', timeout: 48, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'pp-2', name: '总经理审批', role: 'admin', roleName: '系统管理员', timeout: 72, order: 2,
-        approverType: 'role', mode: 'serial',
-        conditions: { logic: 'and', conditions: [{ field: 'amount', operator: '>', value: 1000000 }] },
-        optional: true,
-      },
-    ],
-  },
-  {
-    id: 'vendor_register', module: 'vendor_register', moduleLabel: '供应商注册', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'vr-1', name: '采购初审', role: 'buyer', roleName: '采购员', timeout: 48, order: 1,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'vr-2', name: '质量审核', role: 'qa_engineer', roleName: '质量工程师', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-      },
-      {
-        id: 'vr-3', name: '管理员终审', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
-        approverType: 'role', mode: 'serial',
-      },
-    ],
-  },
-  {
-    id: 'material', module: 'material', moduleLabel: '物料新增(外购)', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'mat-1', name: '发起申请（基本属性）', role: 'rd_engineer', roleName: '研发工程师', timeout: 48, order: 1,
-        approverType: 'role', mode: 'serial',
-        fields: ['name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType', 'categoryId', 'safetyStock', 'minStock', 'maxStock', 'price', 'currency', 'remarks'],
-      },
-      {
-        id: 'mat-2', name: '采购审核（采购属性）', role: 'buyer', roleName: '采购员', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-        fields: ['leadTime', 'moq', 'mpq', 'defaultVendorId', 'defaultVendorName', 'purchaseUnit', 'unitConversion'],
-      },
-      {
-        id: 'mat-3', name: '批准生效', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
-        approverType: 'role', mode: 'serial',
-        fields: [],
-      },
-    ],
-  },
-  {
-    id: 'material_make', module: 'material_make', moduleLabel: '物料新增(自制)', enabled: true, profile: 'standard',
-    nodes: [
-      {
-        id: 'matm-1', name: '发起申请（基本属性）', role: 'rd_engineer', roleName: '研发工程师', timeout: 48, order: 1,
-        approverType: 'role', mode: 'serial',
-        fields: ['name', 'unit', 'specification', 'model', 'makeOrBuy', 'materialType', 'categoryId', 'safetyStock', 'minStock', 'maxStock', 'price', 'currency', 'remarks'],
-      },
-      {
-        id: 'matm-2', name: '工艺审核（工艺属性）', role: 'process_engineer', roleName: '工艺工程师', timeout: 48, order: 2,
-        approverType: 'role', mode: 'serial',
-        fields: ['routing', 'workCenter', 'cycleTime', 'scrapRate', 'inspectionPoint'],
-      },
-      {
-        id: 'matm-3', name: '批准生效', role: 'admin', roleName: '系统管理员', timeout: 72, order: 3,
-        approverType: 'role', mode: 'serial',
-        fields: [],
-      },
-    ],
-  },
-];
-
-/** 从旧的 ApprovalFlowTab localStorage 一次性迁移（若有用户自定义配置） */
-const seedFlows = (): ApprovalFlowConfig[] => {
-  try {
-    const raw = localStorage.getItem('ssa-approval-flows');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        localStorage.removeItem('ssa-approval-flows');
-        // 兼容旧数据：补齐 profile 缺省值
-        return (parsed as ApprovalFlowConfig[]).map((f) => ({
-          ...f,
-          profile: f.profile ?? 'standard',
-          nodes: f.nodes.map((n) => ({ ...n, order: n.order ?? 0 })),
-        }));
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_APPROVAL_FLOWS.map((f) => ({ ...f, nodes: f.nodes.map((n) => ({ ...n })) }));
-};
-
-interface ApprovalFlowState {
-  flows: ApprovalFlowConfig[];
-  setFlows: (flows: ApprovalFlowConfig[] | ((prev: ApprovalFlowConfig[]) => ApprovalFlowConfig[])) => void;
-  resetFlows: () => void;
-}
-
-export const useApprovalFlowStore = create<ApprovalFlowState>()(
-  persist(
-    (set) => ({
-      flows: seedFlows(),
-      setFlows: (updater) =>
-        set((state) => ({
-          flows: typeof updater === 'function' ? (updater as (prev: ApprovalFlowConfig[]) => ApprovalFlowConfig[])(state.flows) : updater,
-        })),
-      resetFlows: () =>
-        set({ flows: DEFAULT_APPROVAL_FLOWS.map((f) => ({ ...f, nodes: f.nodes.map((n) => ({ ...n })) })) }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-approval-flows', version: 1 }
-  )
-);
+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

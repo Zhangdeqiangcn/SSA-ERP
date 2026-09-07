@@ -1,100 +1,64 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { RebateRule, RebateSettlement } from '@/types/sales';
-
-interface RebateState {
-  rules: RebateRule[];
-  settlements: RebateSettlement[];
-
-  // 规则 CRUD
-  addRule: (rule: Omit<RebateRule, 'id'>) => void;
-  updateRule: (id: string, patch: Partial<RebateRule>) => void;
-  deleteRule: (id: string) => void;
-
-  // 结算 CRUD
-  addSettlement: (settlement: Omit<RebateSettlement, 'id'>) => void;
-  updateSettlement: (id: string, patch: Partial<RebateSettlement>) => void;
-  deleteSettlement: (id: string) => void;
-
-  // 计算返利
-  calculateRebate: (ruleId: string, baseAmount: number) => number;
-}
-
-const genId = () => `reb-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-
-const seedRules: RebateRule[] = [
-  {
-    id: 'rule-001',
-    name: '年度返利-宝钢',
-    customerId: 'cust-001',
-    customerName: '上海宝钢商贸',
-    type: 'percent',
-    rate: 3,
-    minAmount: 500000,
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    enabled: true,
-  },
-  {
-    id: 'rule-002',
-    name: '季度返利-鞍钢',
-    customerId: 'cust-002',
-    customerName: '鞍山钢铁贸易',
-    type: 'fixed',
-    rate: 50,
-    minAmount: 200000,
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    enabled: true,
-  },
-  {
-    id: 'rule-003',
-    name: '物料返利-冷轧板',
-    materialId: 'mat-001',
-    materialName: '冷轧板 SPCC 1.0',
-    type: 'percent',
-    rate: 2,
-    minAmount: 100000,
-    validFrom: '2026-07-01',
-    validTo: '2026-12-31',
-    enabled: true,
-  },
-];
-
-export const useRebateStore = create<RebateState>()(
-  persist(
-    (set, get) => ({
-      rules: seedRules,
-      settlements: [],
-
-      addRule: (rule) => set((s) => ({ rules: [...s.rules, { ...rule, id: genId() }] })),
-      updateRule: (id, patch) => set((s) => ({
-        rules: s.rules.map((r) => (r.id === id ? { ...r, ...patch } : r)),
-      })),
-      deleteRule: (id) => set((s) => ({
-        rules: s.rules.filter((r) => r.id !== id),
-      })),
-
-      addSettlement: (settlement) => set((s) => ({ settlements: [...s.settlements, { ...settlement, id: genId() }] })),
-      updateSettlement: (id, patch) => set((s) => ({
-        settlements: s.settlements.map((st) => (st.id === id ? { ...st, ...patch } : st)),
-      })),
-      deleteSettlement: (id) => set((s) => ({
-        settlements: s.settlements.filter((st) => st.id !== id),
-      })),
-
-      calculateRebate: (ruleId, baseAmount) => {
-        const rule = get().rules.find((r) => r.id === ruleId);
-        if (!rule) return 0;
-        if (rule.minAmount && baseAmount < rule.minAmount) return 0;
-        if (rule.type === 'percent') {
-          return Math.round(baseAmount * rule.rate / 100 * 100) / 100;
-        }
-        return rule.rate;
-      },
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-rebate' }
-  )
-);
+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

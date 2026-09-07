@@ -1,50 +1,52 @@
-// POST /api/three-way-match — 创建三单匹配记录
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestPost(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const body = await context.request.json().catch(() => ({}));
-
-  const {
-    poId, poNo, inboundId, inboundNo, invoiceId, invoiceNo,
-    poQuantity, inboundQuantity, poUnitPrice, invoiceUnitPrice,
-    poAmount, inboundAmount, invoiceAmount, remarks
-  } = body;
-
-  if (!poId || !poNo) return json({ error: '缺少采购订单信息' }, 400);
-
-  // 计算差异
-  const qtyVariance = Math.abs(inboundQuantity - poQuantity);
-  const priceVariance = invoiceUnitPrice ? Math.abs(invoiceUnitPrice - poUnitPrice) : 0;
-  const amountVariance = Math.abs(invoiceAmount - poAmount);
-
-  // 判断是否匹配（允许 1% 误差）
-  const qtyMatch = qtyVariance <= poQuantity * 0.01;
-  const priceMatch = !invoiceUnitPrice || priceVariance <= poUnitPrice * 0.01;
-  const amountMatch = amountVariance <= poAmount * 0.01;
-  const matchStatus = (qtyMatch && priceMatch && amountMatch) ? 'matched' : 'discrepancy';
-
-  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
-  const id = body.id || `twm-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
-
-  await db.prepare(`INSERT INTO three_way_match (
-    id, org_id, po_id, po_no, inbound_id, inbound_no, invoice_id, invoice_no,
-    match_status, po_quantity, inbound_quantity, qty_variance, qty_match,
-    po_unit_price, invoice_unit_price, price_variance, price_match,
-    po_amount, inbound_amount, invoice_amount, amount_variance, amount_match,
-    matched_by, matched_at, discrepancy, remarks, created_at, updated_at
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
-    id, user.org_id, poId, poNo, inboundId || null, inboundNo || null, invoiceId || null, invoiceNo || null,
-    matchStatus, poQuantity, inboundQuantity, qtyVariance, qtyMatch ? 1 : 0,
-    poUnitPrice, invoiceUnitPrice || null, priceVariance, priceMatch ? 1 : 0,
-    poAmount, inboundAmount || 0, invoiceAmount, amountVariance, amountMatch ? 1 : 0,
-    user.name, matchStatus === 'matched' ? now : null,
-    matchStatus === 'discrepancy' ? '数量/单价/金额存在差异' : null, remarks || null,
-    now, now
-  ).run();
-
-  return json({ success: true, id });
-}
+U2FsdGVkX18oT6AX84mt1LFh0eeWddjjKi7YPvO7DTyAxBre5wCVq8m6ZCyvVneE
+AtrRBsaEYbcVmJdHoQJTPqAQxabSHL+VTNI1fAXLcCpnAwfg4ZbIB4c0rV9NuO7n
+6yuU9ibn3zQditMnJhr4vZSyK4NjuP4SyjrwhGv0Caw0/+zohPm+XM9r8uLVXnIn
+sfd98/piMCQSHXQcsL2JpGhEbiwCUwjvKRsV+78jXqPhgk6dSl0i7ArrCuTvKuKY
+oRvAyec/MyjL0HVPZFLwlzqb5ac5liHvjzEa50xcaaOLTrM/jDYXzixzAErRkync
+E890uDTpVTirME22I8WXnBSb4uVDpRT0nC9tWUdV83/SMnl+dUaMbzBYEbqxPcKy
+Jq/T/vKVZ3UJ6tDNLyzyvV+TcDmlv1LgEJnJ0QuqFTrsOF5hr5+FCKDdtB56qtHO
+0T3WGM/0+aLuIqeIcptDq08v9jX0n4qBwyq6FhKknajiAHJKEcYVi/iW/dYdQ4Wx
+8pqD4coKsI2+AtXRVJD3rtsYyL7Xwi+SITwsZ7tO/G/yXJOe774lVFHv4NAUu6Hu
+rFvatcskNtaCT2Wjhti7bS0XBZ0wcWu1OIGX/X0MFU0q3nPo2LLViyDoQdjc3KLd
+h3blX/bTdNIx/2KuNINJRM4ac9MDGqThqGoiKSlTIH1ypKP+y/yGViQFpt/d2PEw
+xAI0Q6uJiXjneg6Ixff91cQ/jczsMp2dWJqII43a9AqLuBIhmE8xLh9uss8VITLa
++d6qmIfwXiLJ3i+Nfx1FLWr/SHaukwJeLw3yL+/6z20HO9LypybYiRjcpaqdvuEi
+CidZpf88u99t/4YpRoZFIq2H1iIhr7MbnB5lNmGFS1GFA+KjGl/B0ZTuVMds+Q0T
+ZLDmhDBLhdaWtoyDSRQdrnoAdGKAqBEUoNN7eKOAt5OMv8zPQ7/8KXM/+fqt7aub
+lWyIKp8FVKZIkJwOO47mlpQ2FHrEXWLtzUWQ1GM9gnWBzyzPyXo7sUINHraQGHYl
+U0OMJcipQLBp0Qi6Ycdk7uIBA2elS8wzIbvu0/niGc8uIEoACnO7Vecs9UJAEY5d
+p7hfU1PrfT+Vxoshq+8DC7HbW0WhI8XKJWmrsVRTo8yYlgWaXhdcsDGbwkZy50EL
+c1Zpbjb/rs/bU0iPfnLbCkfFNt84q9nptG7TBTBXlDDC7UBBu5KY0LXwV/zyTvlf
+BcuBoRbDKqLVEAJDuqjGVzk9AeAgalU1sJSNQ2jjmLSGbI2dh44gJKQhQ1w8eLhn
+4bcCz99A/RFKKirGz3iaLVU4zO4pdrr1XvPEQLXguQwSvpUr8D4E3nSfNTz1EIUA
+lc1vkVd3HhhK/PSlsutqSq08KG987PIrfjf+9wgOAhRbrdW3qwiiTNVzZKHXa+/P
+qKFYgNk4yo3JONaFVCZsTlpxdL3QBcZqlS9GbjMdkiHLsou2lfyc7q9mG670y0VG
+wnQU59pZMIPBLYGK0cAFcsYEEVSCi/rYpPIKPZxGyVdn8by7bTC9wqUI0ScKY34L
+6Jtm8So5MGweSlW0ZHEj+t6UmfRJ8J8LSYBIxTM9jJ+9Rmbdrpv8A4dQ7cB7sZcY
+EAoMNbbeg3w8v59vwaF95v6Z89EZNZiEhY1Nw1omz0K7DlSNic3LzFL5iw/VeeZ7
+YgtD0Ry+7aUP6sNx4P/fJDcnp6Df4Ao7bKebnuN8jPbjIqvVroT39u3E8BaM33il
+O8/0UwUSNF7T0mvkAvx6QP8Wmzn3VFAwseb+KJ+0MoTaNfraNLeU9U5dYzR5/zWN
+XqO/2s+HEsO58l7cIxfxJJljZ21koQXBB/lzJoaESzCRO+/NJhCauN4V1wVHVc/K
+UcLTPwLPRrtu7eeExJuaso0hd2SrYDeQxbyRf4y04XJFf0VZeQT0F2XJpn2Zq1/W
+JsNXcyyeo3lxFB88yvEfMbzJougcvw1reDISDCAUQV0btUyFN/9eW8SBGDu5Rb4E
+hnrADAKHZqjbkuF+Gfhvt42WQxeu7YHd8xJQVa+h/Hfb9Dp0Ff/jeBqBB1mfr50E
+9vTqtKOx0vHGJS6yQopNBBJbvaacIYMpKi8COv/zR7W0kKZNyL2FihjlShGrgPhQ
+LGxQnR9LAFYObWybNDRjMDElTqRV3GwriB6KtxDlHUISOJfR5gqlcEM8PgtGabKj
+/zBFAJusxwtS2tUAvI5Lio9oGYMoPI+BoAOKA1SF14b4caSpL/HklNlVDwbhl0kr
+MiLHnHjGs8TqIRBJAzkC3qSv1Vgf2UxF4yYBIqG+/oqApQjViCog7+2CsBnQ7GS+
+pAbZCeESTlBzj1YXJ5NfUnmX4DHrZ/0esHsgIrJD2wVt+8M6vFU19aSUc92LTi7j
+CHPiOOOtsYc0qnNjXk9n7XqcF1DNvU+uhUfq13pbYOJRHakY8gy7o466np8yjoWz
+7k3/h2reGo3QOkz2xUUbmoB80hHQGuZQS3egxIG4xs23bPGLgLJEw6rV2kM0ILWJ
+DlgbyTK4cQQCluL44Fwblgm+P1iet4WqDgF+BQtwMGUPj+kElu630TfSMzzXT4Js
+9KNQO/TyBsdIRU8Vwn/e3HUP00Q0a1qr+v45G5IOGeGKNwe88KushSONwDfDAqIz
+QPErYbL/jNBsRWufckwvRsf1SGSBTw+Bgw4lKY/bqznwRge53z0+4V8ivYHvaGpM
+Hent7QBC9eP7PSY7f0tKrKSnGGyxkHdKqcSwbGUKViczt3s3tQmNRKl9ObDaFL2q
+WKQItTmRmQIDLMrAaBy2YwjO/e4xQCQUwKi+CSsTCj/WqsVs6v5KKJknKIUCXZUt
+fPt3ciBX16LqQxmV02mNfrs1tvVkZ02ZuxJiFbx/r/gmoI+R2uy/vj2Adke7dbPn
+/fMvl+60BSMladkdDw1Jm8Ee3S/8qCCkSmhnBWRtNkbX+/pN9Zu3Cr3tgNfDm/HS
+MyIEWvGN5TQpEi81H8a60hLxmpgNGkmMwg0GdGV148S/GPfVqa4jFMivKPP92J/l
+S5ZHW7Zl2qlFHqVaDq4zMKS5HuXtaPi3Cdpx64ZHnHlphCzmroCGxDcqO8OjE6Ee
+8/U9CtL3kdpJCoDZ5/bfT/IhKAtY4LymztglAWEo/uesNd26XpIuzjqMrx3EjQ1f
+yFfwVAgJliUwWmp0f+QjlzcVkd0z6M+eS6XfhGAYA99GNPsZE2+khKFcyxtmWbxZ
+8kkLSNFaMRWSBlHTw12k9OeEyexxTfMR5PsI1at3a9hqvw/P2v7c4BnnThGwp4ug
+W/kx4c4t2rC+zfFUjkfJY3SjIRVvFAZW8+GqZZKLdd9mrzl83Rzyf9IBfoAKTjrM

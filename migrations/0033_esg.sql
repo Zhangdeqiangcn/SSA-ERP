@@ -1,20 +1,15 @@
--- V2.80.0 W1：ESG 报告迁真实 D1（根治双通道）
--- 与前端 useEsgStore（entityRepo 资源 esgReport）同源。
-CREATE TABLE IF NOT EXISTS esg_reports (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  report_no TEXT,
-  period TEXT,
-  category TEXT,
-  indicator TEXT,
-  value REAL DEFAULT 0,
-  unit TEXT,
-  target REAL DEFAULT 0,
-  status TEXT DEFAULT 'draft',
-  remark TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_esg_reports_org ON esg_reports(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0033_esg', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX18ywqoThvwzXlp9kBH2+SM2nMKdofpTsjFfoOzK7xr7qdqnXPNYZ+h0
+iiOEX+XD5jKQ4z+ZBlf4H8RF0V8xlzOKhrl+kOnvS0p+t5NZclF/jkZyUlEAil+z
+KDF3iiACtC+PMi7wOixJa3gNuTmIdCil9pK7TAqlMJgQqK+/XZd9P5KoJnAd0+po
+2rA4hj7TuUUwBqdQ4qo5b0owBjp1zK6ijx2eA9jfvCZE3+x0eIf7feLgGENrgzXJ
+r8+6znM+72xxSxSp2yc3yOuLXyyxTgdYyW7CWP0Wmw32Ey3xA9jIxalaCdH+dltT
+jSnoA1/tLbEr3oC1bB71tGE2VaQS2Pb8/Rx7U5dPJlA62HLfxdHLapRDPL4qzpzZ
+DVGKD7y0MHBTsGcMAmam1qRhnSyb6nlx5SfTdvnN9Nq3EL2jDKXe2rsItXTbJqD6
+T/qMP5H7wmLeShdA803yNSLhrkThkC3F2zCoIVwHnQlBkUjhmj2PB9mnBY4dq2uL
++OGPimFMen0ycERuND6CTNlkwUoWL4k+yn429xvhgZ/W1DlN6N5t/h6Vw4awRLun
+EuMuG3MWexSZlNDXTozSXDzIzLwIPGrn666hzS3nsADPqxUhuTKjOSlaXmXZFznt
+7+WBUj75IQpgJkwavyehEdj88ozxQD/hVlOFb4XkT7ZQEOhJg6y89Nc1tWynJmFN
+xhOPbzfWGIiBqhuNW4AQWNslkvCOCRwSEkHt0Pj2kbVlX6nj5YYvTtTmycpWjVWz
+NtgNYXhAan1/fUuTTRv0yivhK6jM7s6vfBR1Hh0herlvFByllLlILht7m/Sp4y4F
+ldkstgwwOf54esp7PF9iQCl1UWXa77zEz/x3Y48OXiZawDU0cEmOMTeDOhhr1iWE
+Lw1eYz+pOhNjX+eNwQHMBw==

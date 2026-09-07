@@ -1,56 +1,40 @@
-// 业务状态同步：GET 拉取 / PUT 保存 / DELETE 清除
-// 作用域：自动按当前用户所属组织（org_id）共享，同一组织所有人看同一份
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const key = params.key;
-  const row = await env.DB.prepare(
-    'SELECT value FROM app_state WHERE org_id = ? AND key = ?'
-  )
-    .bind(user.org_id, key)
-    .first();
-
-  if (!row) return json({ value: null }, 404);
-  return json({ value: (row as any).value });
-}
-
-export async function onRequestPut(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const key = params.key;
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: '请求格式错误' }, 400);
-  }
-  const value = typeof body.value === 'string' ? body.value : JSON.stringify(body.value);
-  const now = new Date().toISOString();
-
-  await env.DB.prepare(
-    `INSERT INTO app_state (org_id, key, value, updated_at) VALUES (?, ?, ?, ?)
-     ON CONFLICT(org_id, key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`
-  )
-    .bind(user.org_id, key, value, now)
-    .run();
-
-  return json({ ok: true, updated_at: now });
-}
-
-export async function onRequestDelete(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const key = params.key;
-  await env.DB.prepare('DELETE FROM app_state WHERE org_id = ? AND key = ?')
-    .bind(user.org_id, key)
-    .run();
-  return json({ ok: true });
-}
+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

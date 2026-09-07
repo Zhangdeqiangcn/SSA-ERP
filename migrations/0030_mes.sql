@@ -1,56 +1,38 @@
--- V2.80.0 W1：MES 集成迁真实 D1（根治双通道，4 张子表）
--- 与前端 useMesStore（entityRepo 资源 mesConnections/mesDevices/mesWips/mesOperationReports）同源。
-CREATE TABLE IF NOT EXISTS mes_connections (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  name TEXT,
-  endpoint TEXT,
-  protocol TEXT,
-  status TEXT DEFAULT 'inactive',
-  api_key TEXT,
-  last_sync_at TEXT,
-  note TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_mes_connections_org ON mes_connections(org_id);
-
-CREATE TABLE IF NOT EXISTS mes_devices (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  device_code TEXT,
-  device_name TEXT,
-  work_center TEXT,
-  oee REAL DEFAULT 0,
-  reported_at TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_mes_devices_org ON mes_devices(org_id);
-
-CREATE TABLE IF NOT EXISTS mes_wips (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  work_order_id TEXT,
-  work_order_no TEXT,
-  product_code TEXT,
-  product_name TEXT,
-  station TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_mes_wips_org ON mes_wips(org_id);
-
-CREATE TABLE IF NOT EXISTS mes_operation_reports (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  work_order_id TEXT,
-  work_order_no TEXT,
-  operation_name TEXT,
-  work_center TEXT,
-  good_quantity REAL DEFAULT 0,
-  scrap_quantity REAL DEFAULT 0,
-  reported_at TEXT,
-  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_mes_operation_reports_org ON mes_operation_reports(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0030_mes', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+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
+QaCk24BkZFJYXUqaA3jZVA==

@@ -1,52 +1,36 @@
-import { api } from './api';
-import { Vendor, VendorRatingRecord, PaginatedResponse } from '@/types';
-
-export const vendorApi = {
-  // Vendor CRUD
-  getVendors: (params?: { page?: number; pageSize?: number; name?: string; type?: string; status?: string }) =>
-    api.get<PaginatedResponse<Vendor>>('/vendors', params),
-
-  getVendor: (id: string) =>
-    api.get<Vendor>(`/vendors/${id}`),
-
-  createVendor: (data: Partial<Vendor>) =>
-    api.post<Vendor>('/vendors', data),
-
-  updateVendor: (id: string, data: Partial<Vendor>) =>
-    api.put<Vendor>(`/vendors/${id}`, data),
-
-  deleteVendor: (id: string) =>
-    api.delete(`/vendors/${id}`),
-
-  // Approval
-  getPendingApprovals: () =>
-    api.get<Vendor[]>('/vendors/pending-approvals'),
-
-  approveVendor: (id: string, comments?: string) =>
-    api.post<Vendor>(`/vendors/${id}/approve`, { comments }),
-
-  rejectVendor: (id: string, reason: string) =>
-    api.post<Vendor>(`/vendors/${id}/reject`, { reason }),
-
-  // Blacklist
-  getBlacklistedVendors: () =>
-    api.get<Vendor[]>('/vendors/blacklist'),
-
-  addToBlacklist: (id: string, reason: string) =>
-    api.post<Vendor>(`/vendors/${id}/blacklist`, { reason }),
-
-  removeFromBlacklist: (id: string) =>
-    api.post<Vendor>(`/vendors/${id}/unblacklist`),
-
-  // Rating
-  getVendorRatings: (vendorId: string) =>
-    api.get<VendorRatingRecord[]>(`/vendors/${vendorId}/ratings`),
-
-  rateVendor: (vendorId: string, data: { rating: number; criteria: Record<string, number>; remarks?: string }) =>
-    api.post<VendorRatingRecord>(`/vendors/${vendorId}/rate`, data),
-
-  getAllRatings: () =>
-    api.get<VendorRatingRecord[]>('/vendors/ratings'),
-};
-
-export default vendorApi;
+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
+ph7aNgQBR2q0FVC9O6L2lw==

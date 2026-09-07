@@ -1,81 +1,55 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { ScheduleLock } from '@/types/production';
-
-const STORE_KEY = 'ssa-erp-scheduling';
-
-export type SchedulingMode = 'forward' | 'backward';
-
-export interface ConflictInfo {
-  workCenter: string;
-  date: string;
-  orderIds: string[];
-  loadPercent: number;
-  suggestionMoveDays: number;
-}
-
-export interface RescheduleResult {
-  timestamp: string;
-  mode: SchedulingMode;
-  resolvedCount: number;
-  remainingConflicts: ConflictInfo[];
-}
-
-interface SchedulingState {
-  locks: Record<string, ScheduleLock>;
-  /** P1-20 排程模式偏好：正排(forward) / 倒排(backward) */
-  schedulingMode: SchedulingMode;
-  /** P1-20 最近一次重排结果 */
-  lastRescheduleResult: RescheduleResult | null;
-  toggleLock: (key: string) => void;
-  setAnchor: (key: string, date: string) => void;
-  clearAnchor: (key: string) => void;
-  setSchedulingMode: (mode: SchedulingMode) => void;
-  setRescheduleResult: (result: RescheduleResult) => void;
-}
-
-export const useProductionSchedulingStore = create<SchedulingState>()(
-  persist(
-    (set) => ({
-      locks: {},
-      schedulingMode: 'forward',
-      lastRescheduleResult: null,
-
-      toggleLock: (key) =>
-        set((s) => {
-          const existing = s.locks[key];
-          const next: ScheduleLock = existing
-            ? { ...existing, locked: !existing.locked }
-            : { key, locked: true };
-          return { locks: { ...s.locks, [key]: next } };
-        }),
-      setAnchor: (key, date) =>
-        set((s) => {
-          const existing = s.locks[key];
-          const next: ScheduleLock = existing ? { ...existing, anchorDate: date } : { key, locked: false, anchorDate: date };
-          return { locks: { ...s.locks, [key]: next } };
-        }),
-      clearAnchor: (key) =>
-        set((s) => {
-          const existing = s.locks[key];
-          if (!existing) return s;
-          const { anchorDate: _omit, ...rest } = existing;
-          void _omit;
-          return { locks: { ...s.locks, [key]: rest } };
-        }),
-      setSchedulingMode: (mode) => set({ schedulingMode: mode }),
-      setRescheduleResult: (result) => set({ lastRescheduleResult: result }),
-    }),
-    { storage: backendStorage,
-    
-      name: STORE_KEY,
-      version: 2,
-      partialize: (state) => ({
-        locks: state.locks,
-        schedulingMode: state.schedulingMode,
-        lastRescheduleResult: state.lastRescheduleResult,
-      }),
-    },
-  ),
-);
+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

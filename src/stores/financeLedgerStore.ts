@@ -1,209 +1,187 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { FixedAsset, ClosedPeriod, FixedAssetStatus, ClosingStatus } from '@/types/finance';
-
-// ===== A6 会计期间主数据 =====
-// 对标 SAP OB52 / 金蝶「会计期间」：系统预置整年 12 个会计期间作为主数据，
-// 期间是凭证记账的合法性边界（已结账期间禁止任何凭证增删改）。
-export const FISCAL_YEAR = 2026;
-
-/** 生成某会计年度的 12 个会计期间（默认全部为未结账 open） */
-export function buildYearPeriods(year: number): ClosedPeriod[] {
-  const stamp = `${year}-01-01T00:00:00Z`;
-  return Array.from({ length: 12 }, (_, i) => {
-    const period = `${year}-${String(i + 1).padStart(2, '0')}`;
-    return {
-      id: `cl-${period}`,
-      period,
-      status: 'open' as ClosingStatus,
-      createdAt: stamp,
-      updatedAt: stamp,
-      createdBy: 'system',
-      updatedBy: 'system',
-    } as ClosedPeriod;
-  });
-}
-
-const seedClosingPeriods: ClosedPeriod[] = buildYearPeriods(FISCAL_YEAR);
-
-/** 合并已有期间与整年期间清单（已有的优先保留，缺的补齐，按期间升序） */
-function mergeYearPeriods(existing: ClosedPeriod[], year: number): ClosedPeriod[] {
-  const map = new Map<string, ClosedPeriod>();
-  buildYearPeriods(year).forEach((p) => map.set(p.period, p));
-  existing.forEach((c) => {
-    if (c && c.period) map.set(c.period, c);
-  });
-  return Array.from(map.values()).sort((a, b) => a.period.localeCompare(b.period));
-}
-
-const seedFixedAssets: FixedAsset[] = [
-  {
-    id: 'fa-001', assetCode: 'FA-2024-001', assetName: '数控激光切割机', category: '生产设备',
-    originalValue: 500000, residualRate: 0.05, usefulLifeMonths: 120, startDate: '2024-01-01',
-    monthlyDepreciation: Number((500000 * (1 - 0.05) / 120).toFixed(2)),
-    accumulatedDepreciation: 95000, netValue: 405000, status: 'in_use',
-    createdAt: '2024-01-01T09:00:00Z', updatedAt: '2024-06-30T18:00:00Z', createdBy: '王会计', updatedBy: '王会计',
-  },
-  {
-    id: 'fa-002', assetCode: 'FA-2024-002', assetName: '总装厂房', category: '房屋及建筑物',
-    originalValue: 3000000, residualRate: 0.05, usefulLifeMonths: 600, startDate: '2024-01-01',
-    monthlyDepreciation: Number((3000000 * (1 - 0.05) / 600).toFixed(2)),
-    accumulatedDepreciation: 114000, netValue: 2886000, status: 'in_use',
-    createdAt: '2024-01-01T09:00:00Z', updatedAt: '2024-06-30T18:00:00Z', createdBy: '王会计', updatedBy: '王会计',
-  },
-  {
-    id: 'fa-003', assetCode: 'FA-2023-018', assetName: '旧式电焊机', category: '生产设备',
-    originalValue: 80000, residualRate: 0.03, usefulLifeMonths: 96, startDate: '2023-03-01',
-    monthlyDepreciation: Number((80000 * (1 - 0.03) / 96).toFixed(2)),
-    accumulatedDepreciation: 76000, netValue: 4000, status: 'scrapped', scrapDate: '2025-12-20',
-    createdAt: '2023-03-01T09:00:00Z', updatedAt: '2025-12-20T10:00:00Z', createdBy: '王会计', updatedBy: '王会计',
-  },
-];
-
-interface FinanceLedgerState {
-  fixedAssets: FixedAsset[];
-  closingPeriods: ClosedPeriod[];
-
-  addFixedAsset: (asset: FixedAsset) => void;
-  updateFixedAsset: (id: string, updates: Partial<FixedAsset>) => void;
-  deleteFixedAsset: (id: string) => void;
-  scrapFixedAsset: (id: string, scrapDate: string) => void;
-  // 计提全部在用资产本月折旧，返回合计折旧额（供页面写凭证）
-  deprecateAll: () => number;
-
-  // 期末结账期间状态维护
-  upsertClosing: (period: string, patch: Partial<ClosedPeriod>) => void;
-  getClosing: (period: string) => ClosedPeriod | undefined;
-
-  // ===== A6 会计期间主数据 =====
-  /** 反结账：把已结账/已损益结转的期间打回 open，并清空结账痕迹 */
-  openPeriod: (period: string, operator?: string) => { ok: boolean; message: string };
-  /** 期间是否已结账（凭证写入硬管控依据） */
-  isPeriodClosed: (period: string) => boolean;
-  /** 补齐某会计年度的 12 个期间（幂等） */
-  ensureYearPeriods: (year: number) => void;
-}
-
-export const useFinanceLedgerStore = create<FinanceLedgerState>()(
-  persist(
-    (set, get) => ({
-      fixedAssets: [...seedFixedAssets],
-      closingPeriods: [...seedClosingPeriods],
-
-      addFixedAsset: (asset) => set((s) => ({ fixedAssets: [...s.fixedAssets, asset] })),
-      updateFixedAsset: (id, updates) =>
-        set((s) => ({
-          fixedAssets: s.fixedAssets.map((a) => (a.id === id ? { ...a, ...updates } : a)),
-        })),
-      deleteFixedAsset: (id) =>
-        set((s) => ({ fixedAssets: s.fixedAssets.filter((a) => a.id !== id) })),
-      scrapFixedAsset: (id, scrapDate) =>
-        set((s) => ({
-          fixedAssets: s.fixedAssets.map((a) =>
-            a.id === id
-              ? {
-                  ...a,
-                  status: 'scrapped' as FixedAssetStatus,
-                  scrapDate,
-                  netValue: 0,
-                  updatedAt: new Date().toISOString(),
-                  updatedBy: '当前用户',
-                }
-              : a
-          ),
-        })),
-
-      deprecateAll: () => {
-        let total = 0;
-        const next = get().fixedAssets.map((a) => {
-          if (a.status !== 'in_use') return a;
-          const dep = a.monthlyDepreciation;
-          total += dep;
-          const accumulated = a.accumulatedDepreciation + dep;
-          const net = Math.max(0, a.originalValue - accumulated);
-          return { ...a, accumulatedDepreciation: accumulated, netValue: net, updatedAt: new Date().toISOString() };
-        });
-        set({ fixedAssets: next });
-        return Number(total.toFixed(2));
-      },
-
-      upsertClosing: (period, patch) =>
-        set((s) => {
-          const idx = s.closingPeriods.findIndex((c) => c.period === period);
-          if (idx >= 0) {
-            const list = [...s.closingPeriods];
-            list[idx] = { ...list[idx], ...patch };
-            return { closingPeriods: list };
-          }
-          const created: ClosedPeriod = {
-            id: `cl-${period}-${Date.now()}`,
-            period,
-            status: patch.status ?? 'open',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            createdBy: '当前用户',
-            updatedBy: '当前用户',
-            ...patch,
-          };
-          return {
-            closingPeriods: [...s.closingPeriods, created].sort((a, b) =>
-              a.period.localeCompare(b.period)
-            ),
-          };
-        }),
-      getClosing: (period) => get().closingPeriods.find((c) => c.period === period),
-
-      // ===== A6 会计期间主数据 =====
-      openPeriod: (period, operator = '当前用户') => {
-        const target = get().closingPeriods.find((c) => c.period === period);
-        if (!target) return { ok: false, message: `期间 ${period} 不存在于会计日历` };
-        if (target.status === 'open') return { ok: false, message: `期间 ${period} 当前已是未结账状态` };
-        set((s) => ({
-          closingPeriods: s.closingPeriods.map((c) =>
-            c.period === period
-              ? {
-                  ...c,
-                  status: 'open' as ClosingStatus,
-                  closedBy: undefined,
-                  closedAt: undefined,
-                  profitVoucherNo: undefined,
-                  fxVoucherNo: undefined,
-                  updatedAt: new Date().toISOString(),
-                  updatedBy: operator,
-                }
-              : c
-          ),
-        }));
-        return { ok: true, message: `期间 ${period} 已反结账，可继续记账` };
-      },
-
-      isPeriodClosed: (period) =>
-        get().closingPeriods.find((c) => c.period === period)?.status === 'closed',
-
-      ensureYearPeriods: (year) =>
-        set((s) => ({ closingPeriods: mergeYearPeriods(s.closingPeriods, year) })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-finance-ledger',
-      version: 2,
-      partialize: (state) => ({
-        fixedAssets: state.fixedAssets,
-        closingPeriods: state.closingPeriods,
-      }),
-      // v1 -> v2：旧版本 closingPeriods 为空数组（用时才创建），
-      // A6 起改为整年 12 期主数据预置，迁移时补齐缺失期间、保留已有结账状态。
-      migrate: (persisted: any, version: number) => {
-        if (!persisted) return persisted;
-        if (version < 2) {
-          const existing: ClosedPeriod[] = Array.isArray(persisted.closingPeriods)
-            ? persisted.closingPeriods
-            : [];
-          persisted.closingPeriods = mergeYearPeriods(existing, FISCAL_YEAR);
-        }
-        return persisted;
-      },
-    }
-  )
-);
+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
+bhrx+qo0Z3JXcPmV3wFH7A==

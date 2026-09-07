@@ -1,109 +1,103 @@
-// GET /api/subcontracts — 分页查询委外订单（按 org_id 隔离）
-// POST /api/subcontracts — 创建委外订单
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const url = new URL(context.request.url);
-  const page = parseInt(url.searchParams.get('page') || '1', 10);
-  const pageSize = Math.min(parseInt(url.searchParams.get('pageSize') || '20', 10), 100);
-  const keyword = (url.searchParams.get('keyword') || '').trim();
-  const status = url.searchParams.get('status') || '';
-
-  let sql = `SELECT * FROM subcontract_orders WHERE org_id = ?`;
-  const params = [user.org_id];
-  if (keyword) {
-    sql += ` AND (order_no LIKE ? OR material_name LIKE ? OR vendor_name LIKE ?)`;
-    const kw = `%${keyword}%`;
-    params.push(kw, kw, kw);
-  }
-  if (status) {
-    sql += ` AND status = ?`;
-    params.push(status);
-  }
-  sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
-  params.push(pageSize, (page - 1) * pageSize);
-
-  const result = await db.prepare(sql).bind(...params).all();
-  const rows = (result.results || []).map(r => ({
-    ...r,
-    qty: Number(r.qty),
-    process_fee: r.process_fee ? Number(r.process_fee) : 0,
-    received_qty: r.received_qty ? Number(r.received_qty) : 0,
-  }));
-
-  // 关联发料明细：一次 IN 查询按 subcontract_order_id 归组，避免 N+1；列表也展示发料明细
-  const itemsByOrder: Record<string, unknown[]> = {};
-  if (rows.length) {
-    const ids = rows.map((r) => r.id);
-    const placeholders = ids.map(() => '?').join(',');
-    const ir = await db
-      .prepare(`SELECT * FROM subcontract_issue_items WHERE subcontract_order_id IN (${placeholders})`)
-      .bind(...ids)
-      .all();
-    for (const it of ir.results || []) {
-      const oid = (it as Record<string, unknown>).subcontract_order_id as string;
-      (itemsByOrder[oid] = itemsByOrder[oid] || []).push(it);
-    }
-  }
-  const data = rows.map((r) => ({ ...r, issueItems: itemsByOrder[r.id as string] || [] }));
-
-  let countSql = `SELECT COUNT(*) as cnt FROM subcontract_orders WHERE org_id = ?`;
-  const countParams = [user.org_id];
-  if (keyword) {
-    countSql += ` AND (order_no LIKE ? OR material_name LIKE ? OR vendor_name LIKE ?)`;
-    const kw = `%${keyword}%`;
-    countParams.push(kw, kw, kw);
-  }
-  if (status) {
-    countSql += ` AND status = ?`;
-    countParams.push(status);
-  }
-  const countResult = await db.prepare(countSql).bind(...countParams).first();
-
-  return json({
-    data,
-    pagination: {
-      page,
-      pageSize,
-      total: countResult?.cnt || 0,
-      totalPages: Math.ceil((countResult?.cnt || 0) / pageSize),
-    },
-  });
-}
-
-export async function onRequestPost(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const body = await context.request.json().catch(() => ({}));
-  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
-
-  const id = 'sco-' + crypto.randomUUID();
-  await db.prepare(`INSERT INTO subcontract_orders (id, org_id, order_no, type, material_id, material_code, material_name, vendor_id, vendor_name, bom_id, source_work_order_id, status, qty, plan_date, process_fee, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
-    id, user.org_id, body.orderNo, body.type, body.materialId || null, body.materialCode || null, body.materialName || null,
-    body.vendorId || null, body.vendorName || null, body.bomId || null, body.sourceWorkOrderId || null,
-    body.status || 'draft', Number(body.qty) || 0, body.planDate || null, Number(body.processFee) || 0, now, now, user.name, user.name
-  ).run();
-
-  if (body.issueItems && Array.isArray(body.issueItems)) {
-    for (const item of body.issueItems) {
-      await db.prepare(`INSERT INTO subcontract_issue_items (id, subcontract_order_id, material_id, material_code, material_name, unit, qty) VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(
-        'sci-' + crypto.randomUUID(), id, item.materialId || null, item.materialCode || null, item.materialName || null,
-        item.unit || null, Number(item.qty) || 0
-      ).run();
-    }
-  }
-
-  const row = await db.prepare(`SELECT * FROM subcontract_orders WHERE id = ?`).bind(id).first();
-  const itemsRes = await db.prepare(`SELECT * FROM subcontract_issue_items WHERE subcontract_order_id = ?`).bind(id).all();
-  const issueItems = (itemsRes.results || []).map(r => ({
-    id: r.id, subcontract_order_id: r.subcontract_order_id, material_id: r.material_id,
-    material_code: r.material_code, material_name: r.material_name, unit: r.unit, qty: Number(r.qty),
-  }));
-  return json({ ...row, issueItems });
-}
+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

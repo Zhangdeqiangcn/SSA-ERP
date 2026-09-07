@@ -1,141 +1,104 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { UserRole, ROLE_PERMISSIONS } from '@/types/settings';
-import { setSyncToken } from './persistStorage';
-
-export interface User {
-  id: string;
-  name: string;
-  role: UserRole;
-  department?: string;
-  username?: string;
-  org_id?: string;
-}
-
-interface AuthState {
-  currentUser: User | null;
-  isAuthenticated: boolean;
-  token: string | null;
-  login: (username: string, password: string) => Promise<{ ok: boolean; error?: string }>;
-  register: (p: {
-    username: string;
-    password: string;
-    name: string;
-    companyCode: string;
-    orgName?: string;
-    role?: UserRole;
-    department?: string;
-  }) => Promise<{ ok: boolean; error?: string }>;
-  logout: () => void;
-  hasPermission: (permission: string) => boolean;
-  /** 切换当前登录用户的角色（演示/多身份场景：不改账号，仅切换 role 与显示名） */
-  switchRole: (role: UserRole, name?: string) => void;
-}
-
-async function postJSON(url: string, body: any) {
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  let data: any = {};
-  try {
-    data = await res.json();
-  } catch {
-    /* ignore */
-  }
-  return { ok: res.ok, status: res.status, data };
-}
-
-// 登录/注册成功后：写入会话、本地兜底 token，并重载页面让所有 store 从云端按组织拉取同一份数据
-function applySession(token: string, user: User) {
-  setSyncToken(token);
-  // 触发整页重载，使各 store 的 persist 以 backendStorage 从服务端重新水合
-  window.location.reload();
-}
-
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set, get) => ({
-      currentUser: null,
-      isAuthenticated: false,
-      token: null,
-
-      login: async (username, password) => {
-        const { ok, status, data } = await postJSON('/api/auth/login', { username, password });
-        if (!ok) {
-          return { ok: false, error: data?.error || (status === 401 ? '用户名或密码错误' : '登录失败') };
-        }
-        set({ currentUser: data.user, isAuthenticated: true, token: data.token });
-        applySession(data.token, data.user);
-        return { ok: true };
-      },
-
-      register: async (p) => {
-        const { ok, status, data } = await postJSON('/api/auth/register', p);
-        if (!ok) {
-          return { ok: false, error: data?.error || (status === 409 ? '用户名已被占用' : '注册失败') };
-        }
-        set({ currentUser: data.user, isAuthenticated: true, token: data.token });
-        applySession(data.token, data.user);
-        return { ok: true };
-      },
-
-      logout: () => {
-        const token = get().token;
-        if (token) {
-          fetch('/api/auth/logout', {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-          }).catch(() => {});
-        }
-        setSyncToken(null);
-        set({ currentUser: null, isAuthenticated: false, token: null });
-        window.location.reload();
-      },
-
-      hasPermission: (permission: string) => {
-        const { currentUser } = get();
-        if (!currentUser) return false;
-        const userPermissions = ROLE_PERMISSIONS[currentUser.role] || [];
-        return userPermissions.includes('*') || userPermissions.includes(permission);
-      },
-
-      switchRole: (role, name) => {
-        const { currentUser, token } = get();
-        if (!currentUser) return;
-        const updated: User = { ...currentUser, role, name: name || currentUser.name };
-        set({ currentUser: updated });
-        if (token) applySession(token, updated);
-      },
-    }),
-    {
-      name: 'auth-storage', // 登录态保留在本地，保证刷新后免登录
-    }
-  )
-);
-
-// ── DEV 自动登录演示用户 ────────────────────────────────────────
-// 背景：E2E 套件（v34–v65、flow）写于登录守卫之前，按「未登录纯前端模式」直达业务页。
-// 但 Header 等布局组件依赖 currentUser，否则渲染崩溃整页白屏。
-// 解决：vite dev 下若 persist 未恢复出用户 *且* localStorage 也完全没有过会话
-//（fresh load 或被 localStorage.clear()）—— 自动注入演示管理员，不调 /api、不 reload。
-// 已有会话（含已登出）则不动，避免「登出立刻自动登回」。
-// 生产构建（import.meta.env.DEV=false）不受影响。
-if (import.meta.env.DEV) {
-  const hadSession = !!localStorage.getItem('auth-storage');
-  if (!useAuthStore.getState().currentUser && !hadSession) {
-    useAuthStore.setState({
-      currentUser: {
-        id: 'dev-admin',
-        name: '演示管理员',
-        role: 'admin' as UserRole,
-        department: 'DEV',
-        username: 'dev-admin',
-        org_id: 'dev',
-      },
-      isAuthenticated: true,
-      token: 'dev-token',
-    });
-  }
-}
+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

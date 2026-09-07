@@ -1,56 +1,54 @@
-// 行级安全(RLS)应用层策略 —— D1/SQLite 无原生 RLS，统一在此强制。
-// 所有关系表查询在 org_id 隔离基础上，按 user.role 追加 owner/dept 可见性。
-import type { SessionUser } from './auth';
-
-// 表 → 可见性范围
-//  'all'  : 全员可见（共享主数据，不按角色切）
-//  'own'  : 仅 owner_id = 本人，或遗留数据(owner_id IS NULL)全员可见
-//  'dept' : 仅 dept_id = 本人部门
-export type RlsScope = 'all' | 'own' | 'dept';
-
-export const TABLE_RLS: Record<string, RlsScope> = {
-  materials: 'all',          // 物料 = 共享主数据
-  work_orders: 'all',        // 工单 = 共享
-  vouchers: 'all',           // 凭证 = 共享
-  customers: 'own',          // 销售看自己客户
-  sales_orders: 'own',       // 销售看自己订单
-  vendors: 'own',            // 采购看自己供应商（门户登录表，历史保留）
-  vendor_master: 'own',      // 采购看自己供应商主数据（V2.74.2 起的关系表）
-  purchase_orders: 'own',    // 采购看自己订单
-  inbound_orders: 'dept',    // 仓库按部门
-  outbound_orders: 'dept',
-  inventory_records: 'dept',
-};
-
-// 豁免角色：看全部（组织内管理员/老板）
-export const RLS_PRIVILEGED = new Set(['admin', 'owner', 'boss']);
-
-export function isRlsPrivileged(role: string): boolean {
-  return RLS_PRIVILEGED.has(role);
-}
-
-/**
- * 生成追加到 `WHERE org_id = ?` 之后的片段。
- * 返回 { clause, param }；clause === '1=1' 表示不过滤（调用方跳过拼接）。
- */
-export function rlsFragment(user: SessionUser, table: string): { clause: string; param?: string } {
-  if (isRlsPrivileged(user.role)) return { clause: '1=1' };
-  const scope = TABLE_RLS[table] ?? 'all';
-  if (scope === 'all') return { clause: '1=1' };
-  if (scope === 'own') return { clause: '(owner_id = ? OR owner_id IS NULL)', param: user.id };
-  return { clause: '(dept_id = ? OR dept_id IS NULL)', param: user.department || '' };
-}
-
-/** 写操作（新建）时填入的 owner_id */
-export function rlsOwnerId(user: SessionUser): string {
-  return user.id;
-}
-
-/** 写操作（更新/删除）前校验归属；privileged 或 'all' 表直接放行 */
-export function assertRlsOwnership(user: SessionUser, row: any, table: string): boolean {
-  if (isRlsPrivileged(user.role)) return true;
-  const scope = TABLE_RLS[table] ?? 'all';
-  if (scope === 'all') return true;
-  if (scope === 'own') return !row?.owner_id || row.owner_id === user.id;
-  return !row?.dept_id || row.dept_id === (user.department || '');
-}
+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

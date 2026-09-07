@@ -1,61 +1,42 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { BOMHeader, BOMItem } from '@/types/bom';
-import {
-  bomList as mockBomList,
-  bomTreeData as mockBomTreeData,
-} from '@/mocks/data/bom';
-
-interface BOMState {
-  bomList: BOMHeader[];
-  bomTreeData: BOMItem[];
-  selectedBOMId: string | null;
-
-  addBOM: (bom: BOMHeader) => void;
-  updateBOM: (id: string, updates: Partial<BOMHeader>) => void;
-  deleteBOM: (id: string) => void;
-
-  setBomTreeData: (data: BOMItem[]) => void;
-  setSelectedBOM: (id: string | null) => void;
-  getBOMById: (id: string) => BOMHeader | undefined;
-  getBOMByProductCode: (productCode: string) => BOMHeader | undefined;
-}
-
-export const useBOMStore = create<BOMState>()(
-  persist(
-    (set, get) => ({
-      bomList: [...mockBomList],
-      bomTreeData: [...mockBomTreeData],
-      selectedBOMId: null,
-
-      addBOM: (bom) => set((state) => ({ bomList: [...state.bomList, bom] })),
-      updateBOM: (id, updates) =>
-        set((state) => ({
-          bomList: state.bomList.map((b) => (b.id === id ? { ...b, ...updates } : b)),
-        })),
-      deleteBOM: (id) =>
-        set((state) => ({ bomList: state.bomList.filter((b) => b.id !== id) })),
-
-      setBomTreeData: (data) => set({ bomTreeData: data }),
-      setSelectedBOM: (id) => set({ selectedBOMId: id }),
-      getBOMById: (id) => get().bomList.find((b) => b.id === id),
-      getBOMByProductCode: (productCode) => {
-        const list = get().bomList;
-        return (
-          list.find((b) => b.productCode === productCode && b.status === 'released') ||
-          list.find((b) => b.productCode === productCode)
-        );
-      },
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-bom',
-      version: 1,
-      partialize: (state) => ({
-        bomList: state.bomList,
-        bomTreeData: state.bomTreeData,
-      }),
-    }
-  )
-);
+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

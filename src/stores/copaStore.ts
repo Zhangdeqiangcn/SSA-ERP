@@ -1,60 +1,53 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { CopaRecord } from '@/types/copa';
-import { copaRecords } from '@/mocks/data/copa';
-
-// V2.80.0 W1：COPA 获利分析迁真实 D1（根治双通道）。
-// 单资源 copa 经 entityRepo 读写，移除原 persist(backendStorage) 本地存储 Blob。
-// 首次空库回填 seed（flagKey 防重复回填），离线/Mock 兜底 + 乐观更新失败回滚。
-interface CopaState {
-  list: CopaRecord[];
-  loaded: boolean;
-  load: () => Promise<void>;
-  addRecord: (r: CopaRecord) => Promise<void>;
-  updateRecord: (id: string, u: Partial<CopaRecord>) => Promise<void>;
-  deleteRecord: (id: string) => Promise<void>;
-}
-
-const COPA = 'copa';
-const flagKey = 'ssa-erp-backfilled-copa';
-
-export const useCopaStore = create<CopaState>()((set, get) => ({
-  list: [...copaRecords],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const res = await entityRepo.list<CopaRecord>(COPA, { page: 1, pageSize: 200 });
-      const list = (res?.data || []) as CopaRecord[];
-      if (list.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        for (const r of copaRecords) { try { await entityRepo.create<CopaRecord>(COPA, r); } catch { /* 尽力回填 */ } }
-        const res2 = await entityRepo.list<CopaRecord>(COPA, { page: 1, pageSize: 200 });
-        set({ list: (res2?.data || []) as CopaRecord[], loaded: true });
-        return;
-      }
-      set({ list: list.length ? list : [...copaRecords], loaded: true });
-    } catch {
-      set({ list: [...copaRecords], loaded: true });
-    }
-  },
-
-  addRecord: async (r) => {
-    set((s) => ({ list: [...s.list, r] }));
-    try {
-      const created = await entityRepo.create<CopaRecord>(COPA, r);
-      set((s) => ({ list: s.list.map((x) => (x.id === r.id ? (created as CopaRecord) : x)) }));
-    } catch { set((s) => ({ list: s.list.filter((x) => x.id !== r.id) })); }
-  },
-  updateRecord: async (id, u) => {
-    const prev = get().list.find((x) => x.id === id);
-    set((s) => ({ list: s.list.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<CopaRecord>(COPA, id, u); }
-    catch { if (prev) set((s) => ({ list: s.list.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteRecord: async (id) => {
-    const prev = [...get().list];
-    set((s) => ({ list: s.list.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(COPA, id); } catch { set({ list: prev }); }
-  },
-}));
+U2FsdGVkX1/B92GONnMYCiQBLP3Y4Ru4W9WdOBCmT7LvTM+aRPMDp9DjRYl7Zd+A
+yeSPjhqPMKMw01GnLPGcB2eiPRImC4yqjD+8YvRBbXICqmhyyf8WJwNTjLJl1GSp
+H59Le+YcaQXqFwswK2oFVhptIJDZ8ZEu7hNEIX/fjqMz5bGLe4YDFD8sC/VY4BCG
+LDu3vW9FRKCcVYGuE7vvze4+TbW1Vs4mIeyHBHhfncBIQ1Mx2Q9eGxXM3XplstK2
+DG4HtxskQUje3zHzq/Gbo55eH12ZV1IrqS4Viir2MIvu52fBSvdhAPKpuoFthyyI
+cquhr/r0WqDIyrAr2kOOrSqqynZ7OKVJ5BQ8umQTeYAgZ3XHtVlZrA+vGAwvBBa4
+ODs6xwYJGXRwue1PkXv2YPR7VKYBysxpldoFEpgdbf10VEa66rDBf/XM316L4vV+
+AUpS6YNHZcHo0THGAVghcCjA3yVM9HgymGSv2CkzcNgchhd4TWWuj9kPcqokKk3z
+omKEk8P7N0k2fIHWqB8N/HtZKCJ3bptwoqbkzyvCgDcuXhQ+pGQXg6Ctg2sZAyXR
+mBVC+RuQ3iiGwNQ8sNfOJx6TQyw7Y+c0pS0Z7jEPT696ZUQTDDmjyl/p9zxCEQwc
+4G4aawRtTjSufLZo5w09ehfVYirVlfCMLp5VgktBeTTPpj3WYtUk2tx+/1bypyOq
+tlsdVInVvjcDmByfP/73GOnGgYaSC1f1JFN7kK11rN0CgqM+LrjvvfKPJZhUscI2
+tS7vi1ALno7cr9UonFsDUDKYnUBFI4XZD/E7dAC7kHRn62IdOiP7ajSbwrvDUvvv
+QY1KJXkLrbWU4MYZsMmTXTgIaCCmSjkKMmMphr2udru5zuxS4tskmGzWtjeG5pTy
+dWAQCItVGNlg4Wvtfs9z3gjML9Ejh/UkUrZHhYbun+UXOU7ev3SZQ5sshgDMucKH
+M1SUd8q4QdmnFSZEyMFNp8CKhZ/YoANIHFS81mEjm5GYMjbFDmacjZJT7cK7NR7d
+wAXybS3dht+GgHuSqBDxk80jyXPCPTzPWkDVY/aANo9MDKj5W/ZPyV7Hy8WJwn7a
+L0Pz/BIe7e6lbLLhSMv2DgRtESh6Gto70TMAV/GxlkWtDuQe9hQVtd8/ZvcjOpzj
+SQSQ5xhtU6B37hIClv7CjFlA5lUgb5zC5tqWV3FLLK6tSi7Dx+rXuC8OGCi8VpkM
+SaNj7ZD4/ORl+aVqPjFX/Z5mEk7NqUkQYedjpQvCEhNaKqe1/djt5KL2K2HGYvXY
+ihszlfUT6/1XUQ+LP8NyuA7DaJFjpaQsshRMrwSaBJv9C5mS/4+t/E2JMfJn/589
+jekdfLfbKOvRBUtwVZw5RU1uSHLRPo7nzPLG3BpEUnEQgWCBVGscopTIVFOKrjqk
+YCqTrXHSYpgWZqPWLL9ZZQ6CUTiR5fKP4PjHZOsWOWq76j2tLFOcH4A07+w4X0AU
+ORFq4z6jSg6SL7VsiFutHuzHDAU0CTiXyS4Fq0DBpR19TQlZobPdIFoiYVf9hjSN
+VA/keT5hMw3iTNc9KoRWtcnjbd73n6dr5tM7rEPhbC4WbCV6hgPXjbvxuXzs9jvU
+frIPHwqqZDiM8M6f2RFHW6bDddSnzlVL4NJI4+G6WL5jRU6TTlqX8dmGm9tO/I9O
+HhX09X1rMkGMjR9mNZH9itKbdioQMol+tNXBw8HZDR1CRrt0MuWkBn3Y508oo1RK
+o2DmGDbEsuakrXb1kXIq2puVmJT/Mb97p1ndC75cPQEK0PNNJ9gJNtJyPhta7oTf
+jkG265LKBWxVe+R0G7S2NbNFNbbl1cnBpJBlhQ1DA3+OVoiinqdgWlpMhOqXSvPE
+qlEE/Smp+aHWEfQPry/CkbaJy/dUopDWe//m/tSSeMzNAbaQ7jtGXzvUHoWSBsPv
+0yMZ6WZMFcx6+GFQJ5hUWGmKSFT2lcwS4y+dwb8I6U5u/Z0dz/P1jeqHh0MXSdaR
+TsenbY+GH6GnnCiPFUekcVwCu4Xuj5+q5A0RaO5XiVlolp74ZkRivAq93eT2S82m
+EhSUQ8wE+FpMUN2puKLFQ7BqbpXxflY36JncadVjup/hxI41x2coA6YwZezMIomv
+6E9LbD/HkRtbagKqh/ACifb1FgWDfwbKmOduuKbcUuRKbcIYfMP0JAeiyVpiGkQm
+zB1yXtegfioLjdUK8b+uw9O3Nkmz6CQMvtl5xiBXxHEUgXOabtwAzL3WEMTZlHtt
+kl2BN0p5pUz3XHE3Baczi9Vsy6b4mPlE0zoSCPO/aCUuW9uGMQyeICfN0B5FRNiB
+k9yVkWWooC0MhbpGj0LQeFSbHCltd9zB/dM0T/Migb7dCnywaeYydBYi5eHa2MJU
+dupLjiEp0KRAY/a9zmKBhy+fiD0pq+zgr0dvo+nh9tGCnH+qTpMhwkWbmToTV7/p
+41zz5IxIx24auxyL8Zb7qepRloZD7nspdu6AAv6KulGHKrwgC/G0c42pwWH52vhI
+GmEPpn5LkqY3kfqAxqv/DwU4z/R7h/QuIenCTIVEFKV0Jo/dEmSddKDhFqZHZYIp
+IxNlUEOHEKoaII7Umz1DkCk281Pg9A4LbqYPZlt9MC76207vwRU+sFkFxL9pHnDA
+a/jzLOq9ASXRv9HuKPc7LK0zuAwB4WNXjOmORNgG5XdO1UZzOinheFGg9KDq3t9E
+uOgNf9F3N+UqTZtQv84ORgQcv94miySYbpy53RC3jrA6hXgAtwX51jkdWmf1WhW0
+W7xApWxlx23I6Oiz4jQDT4UzCzlMkxZbec80Wa+1G8//Z5Xk1MVCZaQ6f2KNRBGd
+6rrWDPwhL3fgpsuR30RNXXeHXSoTn5Wg+XtH1BazDBQlqaYb6HcxC23NDBpqBPwf
+nUu5IUErKI/CF0GZeB4C1TTZ6qOULuGIO4qjAWB9vwi6RXzPg/bHUp41ujxAKCL4
+TQq6y5JbPWfHap0zO4IRu98ZyjzhTyK6biu7qXTQt7BEMAotjPI+huRfMa29Uh3P
+JTV4VQFxIwUG8IiQNCEhzD9mn4ip8Zpf9kDSvUEHuVjozIZ7mqjPWVYzC7T78jY0
+5HMJjF4dgNbhSrpIv6Y5tKDURwwh5LbYKOYK6rLwvrGrJdMWUaM7Ocid6LIDzO7S
+I/VTAGsOt+zzyogLZ8TozQ/sKIKJL953gK4lkOclvVEa6Q1nH9GsAoqEoWgJaiYS
+5QNyHDpI/2uoY7dCuX3QG2bLMVIMjYtIleOOrFSpDLjMn4pXaRhDjQabzBU8x7wk
+xihaGQP8L0yOh3fx2L4r7PqbDXPPxtaTHRJ46CXVNc9hMrOvl180mN63BPBvhxYr
+IU7n+R/PJTDFJAn9Hfi2qVPzCXy+Miyy5bw8sRBwgqc=

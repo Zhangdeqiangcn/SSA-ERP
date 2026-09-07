@@ -1,114 +1,70 @@
-// POST /api/ocr/recognize — 发票 OCR 识别（基于 Tesseract.js）
-import { getUserFromRequest, json } from '../../_shared/auth';
-import { createWorker } from 'tesseract.js';
-
-interface ParsedInvoice {
-  invoiceNo: string;
-  invoiceDate: string;
-  buyer: string;
-  seller: string;
-  amount: number;
-  taxRate: string;
-  taxAmount: number;
-  total: number;
-  rawText: string;
-  confidence: number;
-  duration: number;
-}
-
-function parseInvoiceText(text: string): Partial<ParsedInvoice> {
-  const pick = (label: string) => {
-    const m = text.match(new RegExp(`${label}[：:\\s]*([^\\n]+)`));
-    return m ? m[1].trim() : '';
-  };
-  const num = (label: string) => {
-    const v = pick(label).replace(/[, ¥￥\s]/g, '');
-    const n = parseFloat(v);
-    return isNaN(n) ? 0 : n;
-  };
-  return {
-    invoiceNo: pick('发票号码') || pick('发票代码') || pick('No') || '',
-    invoiceDate: pick('开票日期') || pick('日期') || '',
-    buyer: pick('购买方') || pick('购方') || '',
-    seller: pick('销售方') || pick('销方') || '',
-    amount: num('金额'),
-    taxRate: pick('税率') || '',
-    taxAmount: num('税额'),
-    total: num('价税合计') || num('合计') || 0,
-  };
-}
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ success: false, error: '未登录' }, 401);
-
-  let formData;
-  try {
-    formData = await request.formData();
-  } catch {
-    return json({ success: false, error: '请上传发票图片' }, 400);
-  }
-  const imageFile = formData.get('image') as File;
-
-  if (!imageFile) {
-    return json({ success: false, error: '请上传发票图片' }, 400);
-  }
-
-  const language = (formData.get('language') as string) || 'chi_sim+eng';
-  const startTime = Date.now();
-
-  try {
-    const worker = await createWorker(language, 1, {
-      logger: (m) => {
-        console.log(`OCR progress: ${m.status} ${Math.round((m.progress || 0) * 100)}%`);
-      },
-    });
-
-    const arrayBuffer = await imageFile.arrayBuffer();
-    const { data } = await worker.recognize(arrayBuffer as unknown as Blob);
-
-    const duration = Math.floor((Date.now() - startTime) / 1000);
-    const confidence = Number(data.confidence) || 0;
-    const text = data.text || '';
-    const parsed = parseInvoiceText(text);
-
-    await worker.terminate();
-
-    return json({
-      success: true,
-      data: {
-        ...parsed,
-        rawText: text,
-        confidence,
-        duration,
-      },
-    });
-  } catch (error: any) {
-    return json({
-      success: false,
-      error: error.message || 'OCR 识别失败',
-    }, 500);
-  }
-}
-
-export async function onRequestGet(context: any) {
-  return json({
-    message: 'OCR 识别接口',
-    usage: 'POST /api/ocr/recognize',
-    params: {
-      image: '图片文件 (PNG/JPEG/BMP/WebP)',
-      language: '语言包，默认 chi_sim+eng',
-    },
-    supportedLanguages: [
-      'eng', 'chi_sim', 'chi_tra', 'jpn', 'kor',
-      'fra', 'deu', 'spa', 'ara', 'rus',
-    ],
-    tips: [
-      '支持多语言组合，如 chi_sim+eng',
-      '建议图片分辨率 200-300 DPI',
-      '裁剪发票区域可提高识别准确率',
-    ],
-  });
-}
+U2FsdGVkX1/MUj8PFMNgVMVRI+HNLFyCc8mNVoNPBDDxDn5AOY6S//QWLZ1WQvI2
+n3KSRDxVkTCe7ir6QBg3cLozxTxKYFx7QWU7Hnr/oqpfK43OvRfvwZzfsB8SMBQk
+C4cTwU60vuDa3eQhfNvcnfIFX6bkF9CYgLo9AuDw6Pm2+Nn3NAWD3unhfn1Cvdmn
+5rfYgjJrk92L4prMsGJVYuWQUmZg7F7Zu7hB7EEzo1GHnoJE0glszelyZSX4IFZg
+aIYBFJqnS/Hiaa+ulJqjjSIGUFUD9W6vAZsEk80NWlM9dk/sPpSCJE8vRfSYj6Tm
+dCnjCv5/+qqKmroy9m+nwm1ObF2dY1qOabSflf/pSYS+W9dPzAE3axHGujlyEtdH
+XhGC0WMdUJ/i8zJC5hjgGxQRyISihsq38WnqHoiNptxH80VTaNcHn88/JAbLEy64
+XXVBYOlfNVFmVes/IWv/bkVE5RUsLMZsaZ8aOj3BffW7Sg2gVCwffCJkuJ4lN8r5
+RW4Sq0QVANCm6Jw/830pgn38P60ZsFgjm2K04nxmnrx0f6uSEdSrVukY8ZcaGpmP
+buYvRNRhSjz/IGDNPDbW/oPyiXZHsm+nAxsgrFWpV22xhbianQ4QF0GdeJHiimv7
+86n8ytPk0ZBezWwiozfPoLJbJiZqYxjhkC14mRRKLWszhOQJl1vVW6kzs9ikPayD
+91BbR7zLCE5fNcENcMYwQZE/Hp3nT40+R8l6E0L6LvDOJTigJANPjOyeaVbkdL9l
+cTMo34k+dS3ru+sb5Qu6+McPm2sM57mhv+9GK0SBYSJvwozV6/LqO5jtJbZZMip1
+DPISNwPSic19FXp9DCCDfrsZ39ULUGMkafK/7fhut8GrDjqliV8sukTFSmOzkq+3
+SDnsPgYHc56LcTcugqojZPYsvYmtkZjYxP7+jQvEEvTDmT+6Yj1veto/1FbB1jvc
+uOhBYq4SDFEAgrT0n7iLd3s4wdxbdX3dmcWeQTCrhmjHp9NoNc0CIZydc/qLS8tc
+sobJrL/HVDs2tGVW5ssW1Yf356JnADxfhjLTpijHiu2JJeSV8VQE3DAl7rVEV7WM
+boG4QzMRbq8hk77HhVEmt8OyluInfXezVr2ixlDs29IWgIwgpPXF1fMcQU3DW1Gi
+5v3BUG3cc/vBy7o1dMrbx54261L5HLl6eT/npD/3pnmLVMISeI85XP/xjfEvjaYN
+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

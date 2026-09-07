@@ -1,174 +1,113 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { ConditionRecord, ConditionType, CalculationRule } from '@/types';
-
-const uid = () => `cond-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
-
-const todayStr = () => new Date().toISOString().slice(0, 10);
-
-const inPeriod = (from?: string, to?: string): boolean => {
-  const t = todayStr();
-  if (from && t < from) return false;
-  if (to && t > to) return false;
-  return true;
-};
-
-// 种子数据（6 条）
-const seedConditions: ConditionRecord[] = [
-  {
-    id: 'cond-seed-1',
-    conditionType: 'price',
-    vendorId: 'v-001',
-    vendorName: '宝山钢铁股份有限公司',
-    materialId: 'mat-001',
-    materialName: '钢板 Q235B',
-    rate: 4200,
-    currency: 'CNY',
-    unit: '吨',
-    calcRule: 'fixed',
-    priority: 10,
-    active: true,
-  },
-  {
-    id: 'cond-seed-2',
-    conditionType: 'discount',
-    vendorId: 'v-001',
-    vendorName: '宝山钢铁股份有限公司',
-    materialId: 'mat-001',
-    materialName: '钢板 Q235B',
-    rate: 5,
-    calcRule: 'percentage',
-    priority: 5,
-    active: true,
-    fromDate: '2026-01-01',
-    toDate: '2026-12-31',
-  },
-  {
-    id: 'cond-seed-3',
-    conditionType: 'freight',
-    vendorId: 'v-001',
-    vendorName: '宝山钢铁股份有限公司',
-    rate: 150,
-    currency: 'CNY',
-    unit: '吨',
-    calcRule: 'fixed',
-    priority: 3,
-    active: true,
-  },
-  {
-    id: 'cond-seed-4',
-    conditionType: 'tax',
-    rate: 13,
-    calcRule: 'percentage',
-    priority: 1,
-    active: true,
-  },
-  {
-    id: 'cond-seed-5',
-    conditionType: 'surcharge',
-    vendorId: 'v-001',
-    vendorName: '宝山钢铁股份有限公司',
-    rate: 100,
-    currency: 'CNY',
-    unit: '吨',
-    calcRule: 'fixed',
-    priority: 2,
-    active: false,
-  },
-  {
-    id: 'cond-seed-6',
-    conditionType: 'price',
-    vendorId: 'v-002',
-    vendorName: '鞍钢股份有限公司',
-    materialId: 'mat-002',
-    materialName: '无缝钢管',
-    rate: 5000,
-    currency: 'CNY',
-    unit: '吨',
-    calcRule: 'fixed',
-    priority: 10,
-    active: true,
-  },
-];
-
-interface ConditionState {
-  conditions: ConditionRecord[];
-  addCondition: (item: Omit<ConditionRecord, 'id'>) => void;
-  updateCondition: (id: string, patch: Partial<ConditionRecord>) => void;
-  deleteCondition: (id: string) => void;
-  /** 根据供应商/物料/数量/基准价解析最终价格 */
-  resolvePrice: (
-    vendorId: string | undefined,
-    materialId: string,
-    qty: number,
-    basePrice: number,
-  ) => { finalPrice: number; matchedConditions: string[] };
-}
-
-export const useConditionStore = create<ConditionState>()(
-  persist(
-    (set, get) => ({
-      conditions: [...seedConditions],
-
-      addCondition: (item) => {
-        const id = uid();
-        set((s) => ({ conditions: [...s.conditions, { ...item, id }] }));
-      },
-      updateCondition: (id, patch) => {
-        set((s) => ({
-          conditions: s.conditions.map((c) => (c.id === id ? { ...c, ...patch } : c)),
-        }));
-      },
-      deleteCondition: (id) => {
-        set((s) => ({ conditions: s.conditions.filter((c) => c.id !== id) }));
-      },
-
-      resolvePrice: (vendorId, materialId, qty, basePrice) => {
-        const all = get().conditions.filter(
-          (c) => c.active && inPeriod(c.fromDate, c.toDate),
-        );
-
-        // 匹配条件：供应商/物料维度任一匹配（空值视为通用）
-        const matches = all.filter((c) => {
-          const vendorMatch = !c.vendorId || c.vendorId === vendorId;
-          const materialMatch = !c.materialId || c.materialId === materialId;
-          return vendorMatch && materialMatch;
-        });
-
-        if (matches.length === 0) {
-          return { finalPrice: basePrice, matchedConditions: [] };
-        }
-
-        // 多条匹配时按 priority 最高的生效
-        const best = matches.reduce((a, b) => (a.priority > b.priority ? a : b));
-
-        let result = basePrice;
-        switch (best.conditionType) {
-          case 'price':
-            if (best.calcRule === 'fixed') result = best.rate;
-            else if (best.calcRule === 'percentage') result = basePrice * (1 + best.rate / 100);
-            break;
-          case 'discount':
-            if (best.calcRule === 'percentage') result = basePrice * (1 - best.rate / 100);
-            else if (best.calcRule === 'fixed') result = basePrice - best.rate;
-            break;
-          case 'freight':
-          case 'surcharge':
-            if (best.calcRule === 'fixed') result = basePrice + best.rate;
-            else if (best.calcRule === 'percentage') result = basePrice * (1 + best.rate / 100);
-            else if (best.calcRule === 'quantity_based') result = basePrice + best.rate * qty;
-            break;
-          case 'tax':
-            if (best.calcRule === 'percentage') result = basePrice * (1 + best.rate / 100);
-            else result = basePrice + best.rate;
-            break;
-        }
-
-        return { finalPrice: Math.max(0, result), matchedConditions: [best.id] };
-      },
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-conditions', version: 1 },
-  ),
-);
+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
+2XcBS9AW+wcdrJCCT47yKw==

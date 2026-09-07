@@ -1,64 +1,41 @@
--- P1 Phase 2: 新建 customers 表
-CREATE TABLE IF NOT EXISTS customers (
-  -- 主键 & 组织隔离
-  org_id          TEXT NOT NULL,
-  id              TEXT NOT NULL,
-  code            TEXT NOT NULL,
-  name            TEXT NOT NULL,
-  short_name      TEXT,
-  type            TEXT CHECK (type IN ('direct','distributor','agent','end_user')),
-  status          TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive','blacklisted')),
-
-  -- 信用管控
-  credit_level    TEXT CHECK (credit_level IN ('AAA','AA','A','B','C')),
-  credit_limit    REAL DEFAULT 0,
-  used_credit     REAL DEFAULT 0,
-  settlement_term_days INTEGER DEFAULT 30,
-
-  -- 开票信息
-  tax_id          TEXT,
-  invoice_title   TEXT,
-  invoice_address TEXT,
-  invoice_phone   TEXT,
-
-  -- 银行信息
-  bank_name       TEXT,
-  bank_account    TEXT,
-  bank_account_name TEXT,
-
-  -- 联系人 / 地址
-  contact_name    TEXT,
-  contact_phone   TEXT,
-  contact_email   TEXT,
-  address         TEXT,
-
-  -- 默认交易选项
-  default_currency TEXT DEFAULT 'CNY',
-  default_tax_rate REAL,
-
-  -- 销售组织与会计（P0-10）
-  sales_org           TEXT,
-  reconciliation_account TEXT,
-  tax_code            TEXT,
-
-  remarks             TEXT,
-  custom_fields       TEXT,  -- JSON object
-
-  -- 审计
-  created_at          TEXT NOT NULL,
-  updated_at          TEXT NOT NULL,
-  created_by          TEXT NOT NULL,
-  updated_by          TEXT NOT NULL,
-
-  PRIMARY KEY (id),
-  UNIQUE(org_id, code)
-);
-
-CREATE INDEX IF NOT EXISTS idx_customers_org ON customers(org_id);
-CREATE INDEX IF NOT EXISTS idx_customers_code ON customers(org_id, code);
-CREATE INDEX IF NOT EXISTS idx_customers_status ON customers(org_id, status);
-CREATE INDEX IF NOT EXISTS idx_customers_credit ON customers(org_id, credit_level);
-
--- 记录迁移版本
-INSERT INTO schema_migrations (version, applied_at) VALUES (5, datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX18+jFsqRfkTBjkuJ3I8pmCYOhrxfqjwzuPC1vODUoHYh+hxbNuLgzCa
+anaHfmqWKZ0NuoWC8WfreffCJ9Fc+Xh8tI2a4KZiFN548O71H/jScP/nAnxDEd6n
+ZXsIFu32C0Hrm3AGlajoI9Tr6QygxakWhR3MegNW67pMCMSjWfjwFSCsZW+J12GS
+Hy8QaHwXtSfzktaHjOGcW97v5rzhS3i9lUY2229qkCMqPB/iwgn9zfz1N9wdDVRZ
+OtAusg8j1bhd47Q6o9LyYBlKvahIIx+S/3uBnYFeHDQaSQvVra1FHXXICy7C024/
+1ddhpZhm+ijIbQFNcd1itmkNEC3Z46DgTU6VAaJMClAVKkTSV1jTN0EWf7Vg/Ptn
+oUIO0A+gXcNE951qI5y8ske9Yw0SXW4arfONvGMqU4e0fcAv0MdJW2w8A3Vr+FQx
+QrvQD/IGvKnbyEQi/7TMyQwPj07vbHeyLhNObI628O2kiT78VlEho5RD/JlDCQxG
+jdmdS3Yf/5L4rCz1SekHlDHQ0VWJGTOhBp/GcBAe1uXaRElb/dAspVTlNP+/IsY6
+65jNBHt+bOgCAl0IgwEwr+T36I05iPvA1eAbbev/+JciOvw2LVAJpJuMbl9u0EEK
+7WoP8ZiWmE3Q3tFNe62DhaHZk+3SYRf7vYjm1sX2N9mNB+HQszXtA8Z9b2EzIdDK
+yIjmUyUEWU3Y16gBghmXBea5OTsJ/65dekby1imuV35i1fn+rKBYGxkrQgz8SBZA
+44Yd3n0eg0yaLR7EBRTvpGXFIKNz7u00IQzQhDypLGGWJ1gr0i0981HWaEXBsGUC
+SpQWM4MHY83G20xNemzzf/ctV53Y0BEzlCbs8Gn2sdjn7b8X8sKPrYk1gCGzaCvZ
+NC5f2iOhIBoXWmSBSGZ5kzfAsdy2BNZVeAsOv9DrCMDMWNb7lbunt93uUP2X5DLW
+DAVQwukgQeDTs+souiMiftGeaCTAcLSuxqOkohDaK7H2aYjNtJG9DL3NuaobkKPI
+F2ubBikRku2afEEgyAiR0nLghWuNAp5DYeSa4AxsKT207fvNZrD2NxH6Vc3lJo2o
+ur667CrqFUUCSByW9RGFDAzpV2/kzVKNoXzBZwmbcpPjr3qibHX3/l2KHxNqpm2G
+6dEq0BMR1COna9PP60rCpQtoVxL4LkwOxrHuxCma5GaaCeMMu0jweQsyDkiXvn7D
+Rci3gXRGQth7ea/m3le7hER+yNb5eKMNUp886W8MWoHjx4nosgEoM7KoQKw3lxJ4
+G1mQoHJxk1sM5zPnxx9xC3C33ch6+jiWK26ldGc6zHMB82/rfV7bH768K7wP9l7o
+QvCEX5jP8BnnXf+Ul1vIPE74Yp9SRQBV5/dPNX47ekmr/nom0HN9s2gYLV12y4up
+qvefsSCXusSNSt7ROo1A+QiGV43mdSY+30m70MA+MFFJhV05lciiscABJFuMBldF
+DA28AjfIZCWaBnaurMtmVZEaUpuAtsvgK1MAI9R03B1DQGkUG2GBX86kaWuCscEW
+fVT0YM54lqS9ADuxYyG9Uu+boW2vApgIsJ2WutizkAa0pIfNIgEFc21aBiGoiL2P
+N3E0bZllTY72rKvJ6XKGLXhNJyHrT537ZJF13KIduL+ScncVYxI2ZFNhwBUm6QVY
+Ux1JSnKQ/GC7MeFbvz/UIDqrDIKyeHl3vw4Q/GiYRK04sSsIXpDaKyHrL/ALzsHE
+1qGINf3vBU0eWJhmUA1DnAhkjMkr1wcgMx2h1+JzhHanidB9QLcspkofeasYoiUo
+bK9Ei1W65uUDqvHY6TLBw3OxXqyyKrgx3ejL1YYRmATvnI+WVyaHEpsBBBxWnFyM
+c+p6pdPgNLT54Y5c6bBX5dSNdGoVqPeKxy+GlN1ITeZuYh2QYUEzwlijxELqVHnm
+9KtGw7SExKbR9QMQW8q6WqDr8YqCOIeRbZMHrHMErMG8QzDCLuPdWLLP/s74jW2T
+DOlNHEn6cp7OK+bKwtbkZM/az1y2AmxIAC2V9IVizsKlj0lrxQLT1u1aazaQNjCJ
+07trtcYbqoFP4MPP90SXcc02T6BHblQ4Z1WS/OhVWIW+xGkPkPjUNlGxefPAVRwI
+S5a644cObPj5xbQZ6WX0DXmNQyewytREyRPqR8K1PiC7kkFRBSOnIeB1dFPOrskt
+Uwc4ynLaJzPo2gXidJKFymtzmb/IziX17ygnCj1gWvC8qHTq2O2kIulRUXCg4yrU
+NO4aCzX5o8LdjqU9uHwnkXeniGtW068usis8gArs/7I9jzGhLSMiKtKAZGPwvi5Y
+APKkEYisQCajjLyy/VCy8VGizMFnNHSUhqdWj73cwCF4Xd2Porz9ZemzBKCJ/e0l
+9gxX/l/+zNSLh0aikg++gcaCsQzYmI8zDJRUaba9KXXCEI+wUmYjH8zfaXSqfBi2
+R+HQpUKVrYtIYpXuL/5FQFu6aLboizHd3IlPNpF0FAGZmPljLjymas4HGdQz4y4g
+eUurIpAplUr6Mjk7yaP16/7x6V4ZExxS+8R2PwxSKO7NCdSMS114TcO/IGg51+SV
+xaZaoxtXE8iLMZyvPvxVgQ==

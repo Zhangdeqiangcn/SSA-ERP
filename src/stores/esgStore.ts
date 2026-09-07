@@ -1,62 +1,53 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { EsgReport } from '@/types/esg';
-import { esgReports } from '@/mocks/data/esg';
-
-// V2.80.0 W1：ESG 报告迁真实 D1（根治双通道）。
-// 单资源 esgReport 经 entityRepo 读写，移除原 persist(backendStorage) 本地存储 Blob。
-// 首次空库回填 seed（flagKey 防重复），离线/Mock 兜底 + 乐观更新失败回滚。
-interface EsgState {
-  list: EsgReport[];
-  loaded: boolean;
-  load: () => Promise<void>;
-  addReport: (r: EsgReport) => Promise<void>;
-  updateReport: (id: string, updates: Partial<EsgReport>) => Promise<void>;
-  deleteReport: (id: string) => Promise<void>;
-}
-
-const RES = 'esgReport';
-const flagKey = 'ssa-erp-backfilled-esg';
-
-export const useEsgStore = create<EsgState>()((set, get) => ({
-  list: [...esgReports],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const res = await entityRepo.list<EsgReport>(RES, { page: 1, pageSize: 200 });
-      const list = (res?.data || []) as EsgReport[];
-      if (list.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        for (const r of esgReports) { try { await entityRepo.create<EsgReport>(RES, r); } catch { /* 尽力回填 */ } }
-        const res2 = await entityRepo.list<EsgReport>(RES, { page: 1, pageSize: 200 });
-        set({ list: (res2?.data || []) as EsgReport[], loaded: true });
-        return;
-      }
-      set({ list: list.length ? list : [...esgReports], loaded: true });
-    } catch {
-      set({ list: [...esgReports], loaded: true });
-    }
-  },
-
-  addReport: async (r) => {
-    set((s) => ({ list: [...s.list, r] }));
-    try {
-      const created = await entityRepo.create<EsgReport>(RES, r);
-      set((s) => ({ list: s.list.map((x) => (x.id === r.id ? (created as EsgReport) : x)) }));
-    } catch { set((s) => ({ list: s.list.filter((x) => x.id !== r.id) })); }
-  },
-
-  updateReport: async (id, u) => {
-    const prev = get().list.find((x) => x.id === id);
-    set((s) => ({ list: s.list.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<EsgReport>(RES, id, u); }
-    catch { if (prev) set((s) => ({ list: s.list.map((x) => (x.id === id ? prev : x)) })); }
-  },
-
-  deleteReport: async (id) => {
-    const prev = [...get().list];
-    set((s) => ({ list: s.list.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(RES, id); } catch { set({ list: prev }); }
-  },
-}));
+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
+qgT4msXvhVabF1n7Zd1pPw==

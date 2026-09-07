@@ -1,78 +1,47 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { EngineeringChange } from '@/types/material';
-
-const STORE_KEY = 'ssa-erp-ecn';
-
-const seedECNs: EngineeringChange[] = [
-  {
-    id: 'ecn-001',
-    changeNo: 'ECN-2026-001',
-    title: '钢板厚度升级',
-    materialId: 'mat-001',
-    materialName: '热轧钢板 Q235B 3mm',
-    fromVersion: 'V1.0',
-    toVersion: 'V2.0',
-    changeType: 'material',
-    oldValue: '3mm',
-    newValue: '5mm',
-    effectiveDate: '2026-09-01',
-    status: 'draft',
-    createdAt: '2026-08-01T08:00:00Z',
-    updatedAt: '2026-08-01T08:00:00Z',
-  },
-  {
-    id: 'ecn-002',
-    changeNo: 'ECN-2026-002',
-    title: '焊接工艺变更',
-    materialId: 'mat-002',
-    materialName: 'H型钢 200×200×8×12',
-    fromVersion: 'V1.0',
-    toVersion: 'V2.0',
-    changeType: 'bom',
-    oldValue: '手工焊接',
-    newValue: '自动焊接',
-    effectiveDate: '2026-10-01',
-    status: 'approved',
-    approvedBy: '工艺主管',
-    createdAt: '2026-08-05T08:00:00Z',
-    updatedAt: '2026-08-05T08:00:00Z',
-  },
-];
-
-interface ECNState {
-  ecns: EngineeringChange[];
-  addECN: (ecn: EngineeringChange) => void;
-  updateECN: (id: string, patch: Partial<EngineeringChange>) => void;
-  deleteECN: (id: string) => void;
-  getECNById: (id: string) => EngineeringChange | undefined;
-}
-
-export const useECNStore = create<ECNState>()(
-  persist(
-    (set, get) => ({
-      ecns: seedECNs.map((e) => ({ ...e })),
-
-      addECN: (ecn) => set((state) => ({ ecns: [...state.ecns, ecn] })),
-
-      updateECN: (id, patch) =>
-        set((state) => ({
-          ecns: state.ecns.map((e) =>
-            e.id === id ? { ...e, ...patch, updatedAt: new Date().toISOString() } : e
-          ),
-        })),
-
-      deleteECN: (id) =>
-        set((state) => ({ ecns: state.ecns.filter((e) => e.id !== id) })),
-
-      getECNById: (id) => get().ecns.find((e) => e.id === id),
-    }),
-    { storage: backendStorage,
-    
-      name: STORE_KEY,
-      version: 1,
-      partialize: (state) => ({ ecns: state.ecns }),
-    }
-  )
-);
+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
+LkUpFF2N3ewkuzrmvS2Z6w==

@@ -1,96 +1,87 @@
-// 序列号 / HU 主数据专用服务（W1-B1：根治双通道）。
-// 直连真实 D1 serial_masters（与 B2 三岛同源），替代原 b2Api 双写桥。
-// 行表 serial_masters / serial_movements 为 snake_case，这里统一转 camelCase 的 SerialMaster / SerialMovement。
-import { api } from './api';
-import type { SerialMaster, SerialMovement } from '@/types/supplyChain';
-
-/** D1 snake_case 流转记录 → 前端 SerialMovement */
-function rowToMovement(r: Record<string, unknown>): SerialMovement {
-  return {
-    type: (r.type as SerialMovement['type']) || 'inbound',
-    docNo: (r.doc_no as string) || '',
-    date: (r.date as string) || '',
-    status: (r.status as SerialMovement['status']) || 'in_stock',
-    note: (r.note as string) || undefined,
-  };
-}
-
-/** D1 snake_case 行 → 前端 SerialMaster */
-function rowToSerialMaster(r: Record<string, unknown>): SerialMaster {
-  const movements = Array.isArray(r.movements)
-    ? (r.movements as Record<string, unknown>[]).map(rowToMovement)
-    : [];
-  return {
-    id: r.id as string,
-    serialNo: (r.serial_no as string) || '',
-    materialId: (r.material_id as string) || '',
-    materialCode: (r.material_code as string) || undefined,
-    materialName: (r.material_name as string) || undefined,
-    batchNo: (r.batch_no as string) || undefined,
-    warehouseId: (r.warehouse_id as string) || undefined,
-    huId: (r.hu_id as string) || undefined,
-    status: (r.status as SerialMaster['status']) || 'in_stock',
-    inboundDate: (r.inbound_date as string) || undefined,
-    outboundDate: (r.outbound_date as string) || undefined,
-    customerName: (r.customer_name as string) || undefined,
-    remarks: (r.remarks as string) || undefined,
-    movements,
-    createdAt: (r.created_at as string) || '',
-    updatedAt: (r.updated_at as string) || '',
-    createdBy: (r.created_by as string) || '',
-    updatedBy: (r.updated_by as string) || '',
-  };
-}
-
-/** 前端 SerialMaster → POST/PUT payload（snake_case，严格匹配后端）。可附带 movement 落 serial_movements。 */
-export function toSerialPayload(s: Partial<SerialMaster> & { movement?: SerialMovement }): Record<string, unknown> {
-  const p: Record<string, unknown> = {
-    serialNo: s.serialNo,
-    materialId: s.materialId,
-    materialCode: s.materialCode,
-    materialName: s.materialName,
-    batchNo: s.batchNo,
-    warehouseId: s.warehouseId,
-    huId: s.huId,
-    status: s.status,
-    inboundDate: s.inboundDate,
-    outboundDate: s.outboundDate,
-    customerName: s.customerName,
-    remarks: s.remarks,
-  };
-  if (s.movement) p.movement = s.movement;
-  return p;
-}
-
-export interface SerialListResult {
-  data: SerialMaster[];
-  pagination: { page: number; pageSize: number; total: number; totalPages: number };
-}
-
-export interface SerialApi {
-  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SerialListResult>;
-  get: (id: string) => Promise<SerialMaster>;
-  create: (data: Partial<SerialMaster> & { movement?: SerialMovement }) => Promise<SerialMaster>;
-  update: (id: string, data: Partial<SerialMaster> & { movement?: SerialMovement }) => Promise<SerialMaster>;
-  remove: (id: string) => Promise<unknown>;
-}
-
-export const serialApi: SerialApi = {
-  list: async (params) => {
-    const res = await api.get<{ data: Record<string, unknown>[]; pagination: SerialListResult['pagination'] }>(
-      '/serial-numbers',
-      params,
-    );
-    return {
-      data: (res?.data || []).map(rowToSerialMaster),
-      pagination: res?.pagination || { page: 1, pageSize: 20, total: 0, totalPages: 0 },
-    };
-  },
-  get: async (id) => rowToSerialMaster(await api.get<Record<string, unknown>>(`/serial-numbers/${encodeURIComponent(id)}`)),
-  create: async (data) => rowToSerialMaster(await api.post<Record<string, unknown>>('/serial-numbers', toSerialPayload(data))),
-  update: async (id, data) =>
-    rowToSerialMaster(await api.put<Record<string, unknown>>(`/serial-numbers/${encodeURIComponent(id)}`, toSerialPayload(data))),
-  remove: async (id) => api.delete(`/serial-numbers/${encodeURIComponent(id)}`),
-};
-
-export default serialApi;
+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

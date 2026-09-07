@@ -1,167 +1,134 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { OperationReport, WorkCenter } from '@/types/production';
-
-/**
- * 生产执行 / 工序报工 store（P2-3 核心）
- * ------------------------------------------------------------
- * 承载 V2.14 productionStore 之外的生产执行层数据，避免污染其 partialize：
- *  1. operationReports：车间工序报工（合格/报废/操作工/工时），驱动 WIP 与成本归集。
- *  2. workCenters：工作中心产能主数据（原 CapacityScheduling 的 localStorage 迁入，落实 store 化纪律）。
- *  3. laborRate / machineRate：成本归集费率参数（元/小时），供成本页与报表共享。
- * 独立 persist 键 ssa-erp-production-op。
- */
-
-export const DEFAULT_CENTER_NAMES = ['切割中心', '焊接中心', '喷涂中心', '装配中心', '质检中心'] as const;
-
-export const DEFAULT_WORK_CENTERS: WorkCenter[] = [
-  { id: 'wc-cut', name: '切割中心', capacityHours: 16, description: '下料切割类工序' },
-  { id: 'wc-weld', name: '焊接中心', capacityHours: 16, description: '组焊点焊类工序' },
-  { id: 'wc-paint', name: '喷涂中心', capacityHours: 8, description: '喷涂涂装类工序' },
-  { id: 'wc-assem', name: '装配中心', capacityHours: 16, description: '折弯成型/装配类工序' },
-  { id: 'wc-qc', name: '质检中心', capacityHours: 8, description: '检验类工序' },
-];
-
-/** 将工序中的实际工作中心名称映射到本页统一的产能中心（与 APS / 负荷页共用） */
-export const mapCenter = (wc?: string): string => {
-  if (!wc) return DEFAULT_CENTER_NAMES[0];
-  if (/切割|激光|下料|冲|锯/.test(wc)) return '切割中心';
-  if (/焊/.test(wc)) return '焊接中心';
-  if (/喷涂|涂|漆/.test(wc)) return '喷涂中心';
-  if (/折弯|打磨|组|装配|成型/.test(wc)) return '装配中心';
-  if (/检|验|质|量/.test(wc)) return '质检中心';
-  return DEFAULT_CENTER_NAMES[0];
-};
-
-export const CENTER_COLORS: Record<string, string> = {
-  切割中心: '#3B82F6',
-  焊接中心: '#F59E0B',
-  喷涂中心: '#8B5CF6',
-  装配中心: '#10B981',
-  质检中心: '#EF4444',
-};
-
-/** 默认费率（元/小时） */
-export const DEFAULT_LABOR_RATE = 50;
-export const DEFAULT_MACHINE_RATE = 120;
-
-export const DEFAULT_OPERATION_REPORTS: OperationReport[] = [
-  {
-    id: 'or-001',
-    workOrderId: 'wo-001',
-    workOrderNo: 'WO-2024-0501',
-    operationId: 'op-001',
-    operationName: '下料切割',
-    workCenter: '数控切割区',
-    operator: '李操作员',
-    startTime: '2024-05-08T08:00:00Z',
-    endTime: '2024-05-09T12:00:00Z',
-    goodQuantity: 5,
-    scrapQuantity: 0,
-    laborHours: 4.25,
-    note: '首道工序报工（种子数据）',
-    reportedAt: '2024-05-09T12:10:00Z',
-  },
-  {
-    id: 'or-002',
-    workOrderId: 'wo-001',
-    workOrderNo: 'WO-2024-0501',
-    operationId: 'op-002',
-    operationName: '折弯成型',
-    workCenter: '折弯机组',
-    operator: '王操作员',
-    startTime: '2024-05-09T14:00:00Z',
-    endTime: '2024-05-10T10:00:00Z',
-    goodQuantity: 5,
-    scrapQuantity: 0,
-    laborHours: 2.83,
-    note: '第二道工序报工（种子数据）',
-    reportedAt: '2024-05-10T10:10:00Z',
-  },
-];
-
-interface ProductionOperationState {
-  operationReports: OperationReport[];
-  workCenters: WorkCenter[];
-  laborRate: number;
-  machineRate: number;
-
-  // 报工 CRUD
-  addOperationReport: (rep: Omit<OperationReport, 'id' | 'reportedAt'> & { reportedAt?: string }) => void;
-  updateOperationReport: (id: string, patch: Partial<Omit<OperationReport, 'id'>>) => void;
-  removeOperationReport: (id: string) => void;
-
-  // 工作中心 CRUD
-  addWorkCenter: (c: Omit<WorkCenter, 'id'>) => void;
-  updateWorkCenter: (id: string, patch: Partial<Omit<WorkCenter, 'id'>>) => void;
-  removeWorkCenter: (id: string) => void;
-
-  // 费率
-  setLaborRate: (v: number) => void;
-  setMachineRate: (v: number) => void;
-
-  resetAll: () => void;
-}
-
-export const useProductionOperationStore = create<ProductionOperationState>()(
-  persist(
-    (set) => ({
-      operationReports: DEFAULT_OPERATION_REPORTS.map((r) => ({ ...r })),
-      workCenters: DEFAULT_WORK_CENTERS.map((c) => ({ ...c })),
-      laborRate: DEFAULT_LABOR_RATE,
-      machineRate: DEFAULT_MACHINE_RATE,
-
-      addOperationReport: (rep) =>
-        set((state) => ({
-          operationReports: [
-            ...state.operationReports,
-            { ...rep, id: `or-${Date.now()}`, reportedAt: rep.reportedAt || new Date().toISOString() },
-          ],
-        })),
-      updateOperationReport: (id, patch) =>
-        set((state) => ({
-          operationReports: state.operationReports.map((r) => (r.id === id ? { ...r, ...patch } : r)),
-        })),
-      removeOperationReport: (id) =>
-        set((state) => ({
-          operationReports: state.operationReports.filter((r) => r.id !== id),
-        })),
-
-      addWorkCenter: (c) =>
-        set((state) => ({
-          workCenters: [...state.workCenters, { ...c, id: `wc-${Date.now()}` }],
-        })),
-      updateWorkCenter: (id, patch) =>
-        set((state) => ({
-          workCenters: state.workCenters.map((c) => (c.id === id ? { ...c, ...patch } : c)),
-        })),
-      removeWorkCenter: (id) =>
-        set((state) => ({
-          workCenters: state.workCenters.filter((c) => c.id !== id),
-        })),
-
-      setLaborRate: (v) => set({ laborRate: Number.isFinite(v) && v >= 0 ? v : 0 }),
-      setMachineRate: (v) => set({ machineRate: Number.isFinite(v) && v >= 0 ? v : 0 }),
-
-      resetAll: () =>
-        set({
-          operationReports: DEFAULT_OPERATION_REPORTS.map((r) => ({ ...r })),
-          workCenters: DEFAULT_WORK_CENTERS.map((c) => ({ ...c })),
-          laborRate: DEFAULT_LABOR_RATE,
-          machineRate: DEFAULT_MACHINE_RATE,
-        }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-production-op',
-      version: 1,
-      partialize: (state) => ({
-        operationReports: state.operationReports,
-        workCenters: state.workCenters,
-        laborRate: state.laborRate,
-        machineRate: state.machineRate,
-      }),
-    }
-  )
-);
+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
+pKxnXJUiQhh+E3xINMQKyw==

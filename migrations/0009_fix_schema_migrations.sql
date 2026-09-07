@@ -1,21 +1,25 @@
--- P1 修复迁移：schema_migrations.version 曾被定义为 INTEGER PRIMARY KEY，
--- 而 0005+ 迁移以文本版本号（如 '0005_purchase_orders'）INSERT，
--- 在 SQLite 中向 INTEGER 主键插入文本会触发 SQLITE_MISMATCH，
--- 导致 0005+ 迁移无法幂等重放（本地/全新库直接失败，远程库靠增量执行侥幸跑过、仅版本记录缺失）。
--- 本迁移将 version 统一改为 TEXT PRIMARY KEY，兼容文本版本号，并保留存量行。
--- 在全新库（0003 已为 TEXT）上运行也安全：仅做一次结构对齐，无副作用。
-
-CREATE TABLE IF NOT EXISTS schema_migrations_new (
-  version    TEXT PRIMARY KEY,
-  applied_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-INSERT INTO schema_migrations_new (version, applied_at)
-SELECT CAST(version AS TEXT), applied_at FROM schema_migrations;
-
-DROP TABLE schema_migrations;
-ALTER TABLE schema_migrations_new RENAME TO schema_migrations;
-
--- 记录本迁移版本（此时 schema_migrations 已为 TEXT 主键）
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0009_fix_schema_migrations', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX19h/uxwrpLw+JzoC4073YcdTdzw1KgYlGDolvOu36FzgHzkyIpeEopo
+gOmk6Up4n7mp9O0JcwqAhsZz6pnhpQ4hlw631M8SNIAIPvP6Asf9MDonnW99g0RH
+2eQF2Vjdc+AeoiELfN9UaM6UlDV0hnKTE10mdZUsp9OO37kVw8waayC0qb+yV+gQ
+iSmaGl0/qmWQ9uT7ITn0zGm3e0em8qZWUDkPWZc8yuab+cqq1VcrrYEusowdJrm6
+cFa+bR6g2EpVobnoyg59ujwT916r7A2tv4nJWtfVnbBv1C8L5oH7hIvxoJq+W/qq
+dzU0Cr45IAGud0HkMRofdvM3qOOzzi5gI3Mah+9BsWAzz5kI0hQogwEtSrOe0afl
+vyPv1/6mzei9ZU/MZgF4IyTb2utNjXPNbKE9cMpUKQvwQs1lMSZwq7BMKJGYQIX3
+5AXu1xwiiUP/VAVD+91ntk/i4+B3G0+MxoAmKngXqlAKd2AYTNa+tkiPwtRGLEe8
+hCvCkEZtGISmFZALuFgCUPpGuUwevYRuMQIBnD2LUBxujYPkbKPpHsmEazL9oqpT
+IpByn+zVGZeDIW8Dvnu/DJIipE1oyWrsLn9Je8+qPVj3eaBXO+cYToFN/RXM/vHb
+7ddZdSxe2YUzDGL/VDOQ4mve5Ujg9KFeFhJUrywDSwu69yffPDKXZKt0MEBNsUyU
+8uqJ7NoKOnId8CZHSGgfcsSxeNsZirjOREL7f1O5F50hdFFX4qRFP2xvA6FpNC4e
+XRJYFo8KUKFaxMNN9ZTyrAFq79enN7JDJF+rEEppqmrfnOj5quSjms+N7qNSLV0j
+XK6CVfTGGrM707cFnPuTwBxqZrJeMrNC5bCpjippBT8camXWZIQCgypviOpLYmNd
+YntA+IYJN6+Lk2MEPPKcYZL+bWmayvhTJbahqoVsaFHwKjFkeM4QCjTCRudrfDYD
+bhDGiemsqivfnzYFUV1BRN8Zk99bTD+8w8U+ADLfsd1aX7Z8uJwIg5HNT7OAVfbC
+XIe/dHDCD2G6LpU5daBg5tV0jbZNsGIk9JyBHb66zA+Fyz2rjCo3sxMLLx2HO5LK
+S2irLM3yJXWhygw4Fd+QQ9tpqM+AT2qKEAhZ8sSzDW4hqFfs0viKlq8NIqGW/Olh
+9zn9BR2ZSChlv9cxziUCw+a7/lWLc/WATk04LDZJXrqMJNdvlZ5nJLR/rbwa/z9N
+t0QQrCcDMgHUIJF26ui7ljxRqqsj/1ZqWzVcdy+W2Kwom/5FLVOBXu5H0qQadCo7
+nCgkirpFEm3qWJes4ww1E5IRu7L9YQehVtbSAck226CbW7kSn/1eLLWwjucagdBb
+vnpsGbNNU96ca2ftR4g4vvVEkKbKCkyJ2I7wQ0YFmSg57ChzhTGldDzoUiMjbJn/
+Z9gG+rk6m8r9mtmgu1eAM2ez7QkhPkSY4sGGFbCjAlNK9ctMRSFR2achHcfWJKjh
+ArvJ/5iGU+FimhPJQOzCTNEU/D3vYGzr410dE+c6Z3ztumhW/TDKMGWsacSkpy1Q
+7rN5MM8hPHxv3DLlMOm+qrRcwci7SrFvYlD+mq2w53s=

@@ -1,30 +1,19 @@
--- V2.80.0 W1：三方销售（代销结算）迁真实 D1（根治双通道）
--- 与前端 useTripartySalesStore（entityRepo 资源 tripartySale）同源。
-CREATE TABLE IF NOT EXISTS triparty_sales (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  doc_no TEXT,
-  party_code TEXT,
-  party_name TEXT,
-  customer_name TEXT,
-  warehouse TEXT,
-  material_code TEXT,
-  material_name TEXT,
-  spec TEXT,
-  quantity REAL DEFAULT 0,
-  unit TEXT,
-  settle_price REAL DEFAULT 0,
-  amount REAL DEFAULT 0,
-  settle_status TEXT DEFAULT 'pending',
-  order_date TEXT,
-  settle_date TEXT,
-  remark TEXT,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_triparty_sales_org ON triparty_sales(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0027_triparty_sales', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX1/p9IQ/KPCd5DrJPCJbVQoSjcBZJgM1EVX/3SOFU+dGVCaP9RgpP9BX
+kLkzKWrCHGUaLLf0dALRc9/nX8CSK/x9DB8yp/ZH+BICOT96C0aGh6/gt0kqxNNd
+dVyG1S6WdnomQrK/fh63VJM2pr/UF/ZpjBWMcwFvjlrjg9bm07L5hq9BIBDMgYYA
+HXaYVBOr4lfDnz0WfxJZarU7vwPtab5RTLAtZWBKLySUeFtDLDZVvcEs2pqMw7Wn
+BqPXZzZyf8IGMV4pvVdkrd+xGUF4Te1JwFdQ7Q2EOuemEEk6pJqGcQL/qKLNqvy9
+AVCROSOMZSCZLovu/4qimrlJO1Srv9q7zFn7rTaxacyJB1vjSSkhsjVCZMWiqly2
+nK58IIc4dk0RmJX9frxKcajrklUrqU9mPituMnazMGWOHJPaI7ypXeu8dBVFB72M
+a9GShkWXBUhp2XSoQ2pR+1GPHApuWXW8mhe9VgYTqA09gSO7t6gBFgs5DlbEhN3C
+5tUEx9gZ0YnrrswFS6Hl2e19V5zl1r1GPdFzDrwgPyFSMoQwzIsgmvxp9Sq5o72c
+UIWi2nl4dgRdRmsTL2kTGQLF+/t7skNUazqTlWOfk0NhxjBhRZ9rSlcHweNSS1kc
+k6mF9m8B8wJoLXraeVGMikyrFELPyxVQ1D+S80IkiHOgkPnLoEkZkJlWaUcf8OGZ
+EZfi0/MqsHw1G83jRtFfJWqjzd9cytc9NUU7Eb0bxtInS9SuJ66bBTtePfI3455L
+YhU0C3IcDkHwe7jso7lebdorQkbQcG6byaNu2RXoHamwiWdUOJYzU84zS875So3N
+QPY4IJ/zlUNIYsrOYXzt5382wut+h3XmLgD8CtQ6aF8cphJ92s3+7PeEbK6uzOHJ
+bbWOQRHqT1kQ8ICtdw0UcsBIkNz/8aCghT68DIF+SEEV5LJM3aYL+KmHipkRboJV
+HqMuLeObCk53LRF8LO6X1Ml03xG5BieP2vuz9L+pF7ddD4W+54rKp5VTbnJG92rd
+60Il8apzhXM1GaBETL38dXG2tVsuP4FYRUZQY4G+rZy4I2lyiAk7Rt/qinKVqNs8
+nqoEzCZ6rwB/+P7hR6aYZ9Ej7LmL/QLOh6i+d6ni5SVimnk81vO5VEfnM+32Jhx5
+uz5dF547FEzF3czlH+WaFzpDUgj7Wi45zS9OXKemKnZd7iTFIHoOFcP8Ld6Ij21E

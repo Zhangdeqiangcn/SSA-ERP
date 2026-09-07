@@ -1,61 +1,54 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { TripartySale } from '@/types/tripartySales';
-import { tripartySales } from '@/mocks/data/tripartySales';
-
-// V2.80.0 W1：三方销售（代销结算）迁真实 D1（根治双通道）。
-// 单资源 tripartySale 经 entityRepo 读写，移除原 persist(backendStorage) 本地存储 Blob。
-interface TripartySalesState {
-  list: TripartySale[];
-  loaded: boolean;
-  load: () => Promise<void>;
-  addSale: (s: TripartySale) => Promise<void>;
-  updateSale: (id: string, u: Partial<TripartySale>) => Promise<void>;
-  deleteSale: (id: string) => Promise<void>;
-}
-
-const RES = 'tripartySale';
-const flagKey = 'ssa-erp-backfilled-tripartySale';
-
-export const useTripartySalesStore = create<TripartySalesState>()((set, get) => ({
-  list: [...tripartySales],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const res = await entityRepo.list<TripartySale>(RES, { page: 1, pageSize: 200 });
-      const list = (res?.data || []) as TripartySale[];
-      if (list.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        for (const item of tripartySales) { try { await entityRepo.create<TripartySale>(RES, item); } catch { /* 尽力回填 */ } }
-        const refreshed = await entityRepo.list<TripartySale>(RES, { page: 1, pageSize: 200 });
-        set({ list: (refreshed?.data || []) as TripartySale[], loaded: true });
-        return;
-      }
-      set({ list: list.length ? list : [...tripartySales], loaded: true });
-    } catch {
-      set({ list: [...tripartySales], loaded: true });
-    }
-  },
-
-  addSale: async (s) => {
-    set((st) => ({ list: [...st.list, s] }));
-    try {
-      const created = await entityRepo.create<TripartySale>(RES, s);
-      set((st) => ({ list: st.list.map((x) => (x.id === s.id ? (created as TripartySale) : x)) }));
-    } catch { set((st) => ({ list: st.list.filter((x) => x.id !== s.id) })); }
-  },
-
-  updateSale: async (id, u) => {
-    const prev = get().list.find((x) => x.id === id);
-    set((st) => ({ list: st.list.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<TripartySale>(RES, id, u); }
-    catch { if (prev) set((st) => ({ list: st.list.map((x) => (x.id === id ? prev : x)) })); }
-  },
-
-  deleteSale: async (id) => {
-    const prev = [...get().list];
-    set((st) => ({ list: st.list.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(RES, id); } catch { set({ list: prev }); }
-  },
-}));
+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
+1/72ZEvJufk/qhvFD9ca6w==

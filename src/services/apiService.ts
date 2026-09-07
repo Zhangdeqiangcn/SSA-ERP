@@ -1,1625 +1,1420 @@
-/**
- * 统一 API Facade — 模拟 RESTful 风格，桥接 Zustand Store
- * 不依赖 React，可独立 import 使用
- */
-import { ApiResponse } from '@/types/common';
-import type {
-  Material, MaterialCategory,
-} from '@/types/material';
-import type { Vendor } from '@/types/vendor';
-import type { Customer } from '@/types/customer';
-import type {
-  PurchaseRequest, PurchaseOrder, VendorQuote,
-} from '@/types/purchase';
-import type { PurchaseInfoRecord } from '@/types/purchase';
-import type { SourceListItem } from '@/types/purchase';
-import type {
-  SalesOrder, Prospect, Project,
-} from '@/types/sales';
-import type { SalesContract } from '@/types/sales';
-import type {
-  InboundOrder, OutboundOrder, CheckTask, InventoryRecord,
-} from '@/types/warehouse';
-import type {
-  InspectionTask, UnqualifiedItem, PDCARecord,
-} from '@/types/quality';
-import type { EightDRecord } from '@/types/quality';
-import type {
-  WorkOrder, ProcessRoute, MRPRecommendation,
-} from '@/types/production';
-import type { BOMHeader } from '@/types/bom';
-import type {
-  Voucher,
-} from '@/types/finance';
-import type { Receivable, Payable } from '@/types/finance';
-import type {
-  PriceInquiry, PriceListItem, PriceApproval,
-} from '@/types/price';
-
-// ── Store 导入（非 Hook 方式，使用 getState）──
-import { useMaterialStore } from '@/stores/materialStore';
-import { useVendorStore } from '@/stores/vendorStore';
-import { useCustomerStore } from '@/stores/customerStore';
-import { usePurchaseStore } from '@/stores/purchaseStore';
-import { usePurchaseInfoRecordStore } from '@/stores/purchaseInfoRecordStore';
-import { useSourceListStore } from '@/stores/sourceListStore';
-import { useSalesStore } from '@/stores/salesStore';
-import { useSalesContractStore } from '@/stores/salesContractStore';
-import { useWarehouseStore } from '@/stores/warehouseStore';
-import { useQualityStore } from '@/stores/qualityStore';
-import { useFMEAStore } from '@/stores/fmeaStore';
-import type { FMEA } from '@/stores/fmeaStore';
-import { useQualityAdvancedStore } from '@/stores/qualityAdvancedStore';
-import { useProductionStore } from '@/stores/productionStore';
-import { useBOMStore } from '@/stores/bomStore';
-import { useFinanceStore } from '@/stores/financeStore';
-import { useArapStore } from '@/stores/arapStore';
-import { usePriceStore } from '@/stores/priceStore';
-import { useSettingsStore } from '@/stores/settingsStore';
-import { useDataDictStore } from '@/stores/dataDictStore';
-import { useOrgStore } from '@/stores/orgStore';
-import { useNumberingStore } from '@/stores/numberingStore';
-import { useCustomFieldStore } from '@/stores/customFieldStore';
-import { useApprovalFlowStore } from '@/stores/approvalFlowStore';
-import { useUserStore } from '@/stores/userStore';
-import { useUnitConversionStore } from '@/stores/unitConversionStore';
-import { useOrderTemplateStore } from '@/stores/orderTemplateStore';
-import { usePrintTemplateStore } from '@/stores/printTemplateStore';
-import { useIntegrationStore } from '@/stores/integrationStore';
-import { useWorkflowStore } from '@/stores/workflowStore';
-import { useLowCodeStore } from '@/stores/lowCodeStore';
-import { useFieldPermissionStore } from '@/stores/fieldPermissionStore';
-import { useI18nStore } from '@/stores/i18nStore';
-import { useReportPermissionStore } from '@/stores/reportPermissionStore';
-import { useAnalyticsStore } from '@/stores/analyticsStore';
-import { useNotificationStore } from '@/stores/notificationStore';
-import { useWorkbenchStore } from '@/stores/workbenchStore';
-import { useListPrefsStore } from '@/stores/listPrefsStore';
-import { useDisplayStore } from '@/stores/displayStore';
-import { useConditionStore } from '@/stores/conditionStore';
-import { useECNStore } from '@/stores/ecnStore';
-import { useRebateStore } from '@/stores/rebateStore';
-import { useSessionStore } from '@/stores/sessionStore';
-import { useAuditStore } from '@/stores/auditStore';
-
-// ── 工具函数 ──
-
-/** 模拟网络延迟 100-300ms */
-const delay = () => new Promise<void>(r => setTimeout(r, 100 + Math.random() * 200));
-
-/** 成功响应 */
-function ok<T>(data: T, message?: string): ApiResponse<T> {
-  return { success: true, data, message };
-}
-
-/** 错误响应 */
-function fail(code: string, message: string) {
-  return { success: false, error: { code, message } } as unknown as ApiResponse<never>;
-}
-
-/** 安全包装 async 操作 */
-async function wrap<T>(fn: () => T, notFoundMsg: string = '资源未找到'): Promise<ApiResponse<T | null>> {
-  await delay();
-  try {
-    const result = fn();
-    if (result === null || result === undefined) {
-      return fail('NOT_FOUND', notFoundMsg);
-    }
-    return ok(result);
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return fail('INTERNAL_ERROR', msg);
-  }
-}
-
-// ── 基础类型 ──
-
-export interface PaginationParams {
-  page?: number;
-  pageSize?: number;
-  keyword?: string;
-}
-
-export interface PaginatedResult<T> {
-  data: T[];
-  total: number;
-  page: number;
-  pageSize: number;
-}
-
-/** 内部分页工具 */
-function paginate<T>(items: T[], params?: PaginationParams): T[] {
-  if (!params) return items;
-  const { page = 1, pageSize = 20 } = params;
-  const start = (page - 1) * pageSize;
-  return items.slice(start, start + pageSize);
-}
-
-// ================================================================
-//  物料 API
-// ================================================================
-
-export const materialApi = {
-  async list(params?: PaginationParams & { categoryId?: string; status?: string }): Promise<ApiResponse<Material[]>> {
-    await delay();
-    try {
-      const state = useMaterialStore.getState();
-      let items = [...state.materials];
-      if (params?.categoryId) {
-        items = items.filter(m => m.categoryId === params.categoryId);
-      }
-      if (params?.status) {
-        items = items.filter(m => m.status === params.status);
-      }
-      if (params?.keyword) {
-        const kw = params.keyword.toLowerCase();
-        items = items.filter(m =>
-          (m.code?.toLowerCase().includes(kw) || false) ||
-          (m.name?.toLowerCase().includes(kw) || false) ||
-          (m.specification?.toLowerCase().includes(kw) || false)
-        );
-      }
-      items = paginate(items, params);
-      return ok(items);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async getById(id: string): Promise<ApiResponse<Material | null>> {
-    return wrap(() => useMaterialStore.getState().materials.find(m => m.id === id) ?? null);
-  },
-
-  async create(data: Partial<Material>): Promise<ApiResponse<Material>> {
-    await delay();
-    try {
-      const id = `mat-${Date.now()}`;
-      const material: Material = {
-        code: data.code || `MAT-${Date.now()}`,
-        name: data.name || '',
-        categoryId: data.categoryId || '',
-        unit: data.unit || '',
-        safetyStock: data.safetyStock ?? 0,
-        minStock: data.minStock ?? 0,
-        maxStock: data.maxStock ?? 0,
-        currentStock: data.currentStock ?? 0,
-        price: data.price ?? 0,
-        currency: data.currency || 'CNY',
-        status: data.status || 'draft',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        createdBy: '',
-        updatedBy: '',
-        ...data,
-        id,
-      } as unknown as Material;
-      useMaterialStore.getState().addMaterial(material);
-      return ok(material);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async update(id: string, data: Partial<Material>): Promise<ApiResponse<Material>> {
-    await delay();
-    try {
-      const store = useMaterialStore.getState();
-      const existing = store.materials.find(m => m.id === id);
-      if (!existing) return fail('NOT_FOUND', '物料未找到');
-      store.updateMaterial(id, data);
-      const updated = useMaterialStore.getState().materials.find(m => m.id === id);
-      return ok(updated!);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async delete(id: string): Promise<ApiResponse<null>> {
-    await delay();
-    try {
-      useMaterialStore.getState().deleteMaterial(id);
-      return ok(null);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  // 物料分类
-  async getCategories(): Promise<ApiResponse<MaterialCategory[]>> {
-    await delay();
-    try {
-      return ok(useMaterialStore.getState().categories);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-};
-
-// ================================================================
-//  供应商 API
-// ================================================================
-
-export const vendorApi = {
-  async list(params?: PaginationParams & { type?: string; status?: string; rating?: number; keyword?: string }): Promise<ApiResponse<Vendor[]>> {
-    await delay();
-    try {
-      const state = useVendorStore.getState();
-      let items = [...state.vendors];
-      if (params?.type) items = items.filter(v => v.type === params.type);
-      if (params?.status) items = items.filter(v => v.status === params.status);
-      if (params?.rating) items = items.filter(v => (v.rating ?? 0) >= params.rating!);
-      if (params?.keyword) {
-        const kw = params.keyword.toLowerCase();
-        items = items.filter(v =>
-          (v.code?.toLowerCase().includes(kw) || false) ||
-          (v.name?.toLowerCase().includes(kw) || false)
-        );
-      }
-      items = paginate(items, params);
-      return ok(items);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async getById(id: string): Promise<ApiResponse<Vendor | null>> {
-    return wrap(() => useVendorStore.getState().vendors.find(v => v.id === id) ?? null);
-  },
-
-  async create(data: Partial<Vendor>): Promise<ApiResponse<Vendor>> {
-    await delay();
-    try {
-      const id = `ven-${Date.now()}`;
-      const vendor: Vendor = {
-        id,
-        code: data.code || `VEN-${Date.now()}`,
-        name: data.name || '',
-        type: data.type || 'manufacturer',
-        status: data.status || 'active',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as Vendor;
-      Object.assign(vendor, data, { id });
-      useVendorStore.getState().addVendor(vendor);
-      return ok(vendor);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async update(id: string, data: Partial<Vendor>): Promise<ApiResponse<Vendor>> {
-    await delay();
-    try {
-      const store = useVendorStore.getState();
-      const existing = store.vendors.find(v => v.id === id);
-      if (!existing) return fail('NOT_FOUND', '供应商未找到');
-      store.updateVendor(id, data);
-      const updated = useVendorStore.getState().vendors.find(v => v.id === id);
-      return ok(updated!);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async delete(id: string): Promise<ApiResponse<null>> {
-    await delay();
-    try {
-      useVendorStore.getState().deleteVendor(id);
-      return ok(null);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async blacklist(id: string, reason: string): Promise<ApiResponse<Vendor>> {
-    await delay();
-    try {
-      const store = useVendorStore.getState();
-      const vendor = store.vendors.find(v => v.id === id);
-      if (!vendor) return fail('NOT_FOUND', '供应商未找到');
-      store.updateVendor(id, { status: 'blacklisted' as never, remarks: reason } as Partial<Vendor>);
-      const updated = useVendorStore.getState().vendors.find(v => v.id === id);
-      return ok(updated!);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async checkRating(id: string): Promise<ApiResponse<number>> {
-    await delay();
-    try {
-      const rating = useVendorStore.getState().vendors.find(v => v.id === id)?.rating ?? 0;
-      return ok(rating);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-};
-
-// ================================================================
-//  客户 API
-// ================================================================
-
-export const customerApi = {
-  async list(params?: PaginationParams & { status?: string; keyword?: string }): Promise<ApiResponse<Customer[]>> {
-    await delay();
-    try {
-      const state = useCustomerStore.getState();
-      let items = [...state.customers];
-      if (params?.status) items = items.filter(c => c.status === params.status);
-      if (params?.keyword) {
-        const kw = params.keyword.toLowerCase();
-        items = items.filter(c =>
-          (c.code?.toLowerCase().includes(kw) || false) ||
-          (c.name?.toLowerCase().includes(kw) || false)
-        );
-      }
-      items = paginate(items, params);
-      return ok(items);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async getById(id: string): Promise<ApiResponse<Customer | null>> {
-    return wrap(() => useCustomerStore.getState().customers.find(c => c.id === id) ?? null);
-  },
-
-  async create(data: Partial<Customer>): Promise<ApiResponse<Customer>> {
-    await delay();
-    try {
-      const id = `cus-${Date.now()}`;
-      const customer: Customer = {
-        id,
-        code: data.code || `CUS-${Date.now()}`,
-        name: data.name || '',
-        status: data.status || 'active',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as Customer;
-      Object.assign(customer, data, { id });
-      useCustomerStore.getState().addCustomer(customer);
-      return ok(customer);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async update(id: string, data: Partial<Customer>): Promise<ApiResponse<Customer>> {
-    await delay();
-    try {
-      const store = useCustomerStore.getState();
-      const existing = store.customers.find(c => c.id === id);
-      if (!existing) return fail('NOT_FOUND', '客户未找到');
-      store.updateCustomer(id, data);
-      const updated = useCustomerStore.getState().customers.find(c => c.id === id);
-      return ok(updated!);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async delete(id: string): Promise<ApiResponse<null>> {
-    await delay();
-    try {
-      useCustomerStore.getState().deleteCustomer(id);
-      return ok(null);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-};
-
-// ================================================================
-//  采购 API
-// ================================================================
-
-export const purchaseApi = {
-  request: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<PurchaseRequest[]>> {
-      await delay();
-      try {
-        const state = usePurchaseStore.getState();
-        let items = [...state.purchaseRequests];
-        if (params?.status) items = items.filter(r => r.status === params.status);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(r => r.requestNo?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<PurchaseRequest | null>> {
-      return wrap(() => usePurchaseStore.getState().purchaseRequests.find(r => r.id === id) ?? null);
-    },
-    async create(data: Partial<PurchaseRequest>): Promise<ApiResponse<PurchaseRequest>> {
-      await delay();
-      try {
-        const id = `pr-${Date.now()}`;
-        const request = {
-          id,
-          requestNo: data.requestNo || `PR-${Date.now()}`,
-          title: data.title || '采购申请',
-          applicant: data.applicant || '',
-          department: data.department || '',
-          type: data.type || ('material' as const),
-          priority: data.priority || ('normal' as const),
-          reason: data.reason || '',
-          expectedDate: data.expectedDate || new Date().toISOString().split('T')[0],
-          status: data.status || 'draft' as const,
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as PurchaseRequest;
-        usePurchaseStore.getState().addPurchaseRequest(request);
-        return ok(request);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<PurchaseRequest>): Promise<ApiResponse<PurchaseRequest>> {
-      await delay();
-      try {
-        const store = usePurchaseStore.getState();
-        if (!store.purchaseRequests.find(r => r.id === id)) return fail('NOT_FOUND', '采购申请未找到');
-        store.updatePurchaseRequest(id, data);
-        return ok(usePurchaseStore.getState().purchaseRequests.find(r => r.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        usePurchaseStore.getState().deletePurchaseRequest(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  order: {
-    async list(params?: PaginationParams & { status?: string; vendorId?: string }): Promise<ApiResponse<PurchaseOrder[]>> {
-      await delay();
-      try {
-        const state = usePurchaseStore.getState();
-        let items = [...state.purchaseOrders];
-        if (params?.status) items = items.filter(o => o.status === params.status);
-        if (params?.vendorId) items = items.filter(o => o.vendorId === params.vendorId);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(o => o.orderNo?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<PurchaseOrder | null>> {
-      return wrap(() => usePurchaseStore.getState().purchaseOrders.find(o => o.id === id) ?? null);
-    },
-    async create(data: Partial<PurchaseOrder>): Promise<ApiResponse<PurchaseOrder>> {
-      await delay();
-      try {
-        const id = `po-${Date.now()}`;
-        const order: PurchaseOrder = {
-          id,
-          orderNo: data.orderNo || `PO-${Date.now()}`,
-          vendorId: data.vendorId || '',
-          vendorName: data.vendorName || '',
-          status: data.status || 'draft',
-          items: data.items || [],
-          totalAmount: data.totalAmount ?? 0,
-          currency: data.currency || 'CNY',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        } as PurchaseOrder;
-        Object.assign(order, data, { id });
-        usePurchaseStore.getState().addPurchaseOrder(order);
-        return ok(order);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<PurchaseOrder>): Promise<ApiResponse<PurchaseOrder>> {
-      await delay();
-      try {
-        const store = usePurchaseStore.getState();
-        if (!store.purchaseOrders.find(o => o.id === id)) return fail('NOT_FOUND', '采购订单未找到');
-        store.updatePurchaseOrder(id, data);
-        return ok(usePurchaseStore.getState().purchaseOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        usePurchaseStore.getState().deletePurchaseOrder(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async confirm(id: string): Promise<ApiResponse<PurchaseOrder>> {
-      await delay();
-      try {
-        const store = usePurchaseStore.getState();
-        const order = store.purchaseOrders.find(o => o.id === id);
-        if (!order) return fail('NOT_FOUND', '采购订单未找到');
-        store.updatePurchaseOrder(id, { status: 'confirmed' } as Partial<PurchaseOrder>);
-        return ok(usePurchaseStore.getState().purchaseOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  infoRecord: {
-    async list(params?: PaginationParams & { vendorId?: string; materialId?: string }): Promise<ApiResponse<PurchaseInfoRecord[]>> {
-      await delay();
-      try {
-        const state = usePurchaseInfoRecordStore.getState();
-        let items = [...state.records];
-        if (params?.vendorId) items = items.filter(r => r.vendorId === params.vendorId);
-        if (params?.materialId) items = items.filter(r => r.materialId === params.materialId);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<PurchaseInfoRecord>): Promise<ApiResponse<PurchaseInfoRecord>> {
-      await delay();
-      try {
-        const id = `pir-${Date.now()}`;
-        const record: PurchaseInfoRecord = { id, isDefault: false, ...data } as PurchaseInfoRecord;
-        usePurchaseInfoRecordStore.getState().addRecord(record);
-        return ok(record);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<PurchaseInfoRecord>): Promise<ApiResponse<PurchaseInfoRecord>> {
-      await delay();
-      try {
-        usePurchaseInfoRecordStore.getState().updateRecord(id, data);
-        const updated = usePurchaseInfoRecordStore.getState().records.find(r => r.id === id);
-        if (!updated) return fail('NOT_FOUND', '信息记录未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        usePurchaseInfoRecordStore.getState().deleteRecord(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  sourceList: {
-    async list(params?: PaginationParams & { materialId?: string }): Promise<ApiResponse<SourceListItem[]>> {
-      await delay();
-      try {
-        const state = useSourceListStore.getState();
-        let items = [...state.items];
-        if (params?.materialId) items = items.filter(s => s.materialId === params.materialId);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<SourceListItem>): Promise<ApiResponse<SourceListItem>> {
-      await delay();
-      try {
-        const id = `sl-${Date.now()}`;
-        const item: SourceListItem = { id, ...data } as SourceListItem;
-        useSourceListStore.getState().addItem(item);
-        return ok(item);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<SourceListItem>): Promise<ApiResponse<SourceListItem>> {
-      await delay();
-      try {
-        useSourceListStore.getState().updateItem(id, data);
-        const updated = useSourceListStore.getState().items.find(s => s.id === id);
-        if (!updated) return fail('NOT_FOUND', '货源清单条目未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useSourceListStore.getState().deleteItem(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  销售 API
-// ================================================================
-
-export const salesApi = {
-  order: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<SalesOrder[]>> {
-      await delay();
-      try {
-        const state = useSalesStore.getState();
-        let items = [...state.salesOrders];
-        if (params?.status) items = items.filter(o => o.status === params.status);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(o => o.orderNo?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<SalesOrder | null>> {
-      return wrap(() => useSalesStore.getState().salesOrders.find(o => o.id === id) ?? null);
-    },
-    async create(data: Partial<SalesOrder>): Promise<ApiResponse<SalesOrder>> {
-      await delay();
-      try {
-        const id = `so-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const order = {
-          id,
-          orderNo: data.orderNo || `SO-${Date.now()}`,
-          type: data.type || ('standard' as const),
-          status: data.status || 'draft' as const,
-          customerId: data.customerId || '',
-          customerName: data.customerName || '',
-          totalAmount: data.totalAmount ?? 0,
-          taxRate: data.taxRate ?? 13,
-          taxAmount: data.taxAmount ?? 0,
-          grandTotal: data.grandTotal ?? 0,
-          orderDate: data.orderDate || today,
-          expectedDeliveryDate: data.expectedDeliveryDate || today,
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as SalesOrder;
-        useSalesStore.getState().addSalesOrder(order);
-        return ok(order);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<SalesOrder>): Promise<ApiResponse<SalesOrder>> {
-      await delay();
-      try {
-        const store = useSalesStore.getState();
-        if (!store.salesOrders.find(o => o.id === id)) return fail('NOT_FOUND', '销售订单未找到');
-        store.updateSalesOrder(id, data);
-        return ok(useSalesStore.getState().salesOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useSalesStore.getState().deleteSalesOrder(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  contract: {
-    async list(params?: PaginationParams & { status?: string; customerId?: string }): Promise<ApiResponse<SalesContract[]>> {
-      await delay();
-      try {
-        const state = useSalesContractStore.getState();
-        let items = [...state.contracts];
-        if (params?.status) items = items.filter(c => c.status === params.status);
-        if (params?.customerId) items = items.filter(c => c.customerId === params.customerId);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(c => c.contractNo?.toLowerCase().includes(kw) || c.name?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<SalesContract | null>> {
-      return wrap(() => useSalesContractStore.getState().contracts.find(c => c.id === id) ?? null);
-    },
-    async create(data: Partial<SalesContract>): Promise<ApiResponse<SalesContract>> {
-      await delay();
-      try {
-        const id = `sc-${Date.now()}`;
-        const contract: SalesContract = {
-          id,
-          contractNo: data.contractNo || `SC-${Date.now()}`,
-          name: data.name || '',
-          customerId: data.customerId || '',
-          customerName: data.customerName || '',
-          salesPerson: data.salesPerson || '',
-          amount: data.amount ?? 0,
-          startDate: data.startDate || '',
-          endDate: data.endDate || '',
-          status: data.status || 'draft',
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        } as SalesContract;
-        Object.assign(contract, data, { id });
-        useSalesContractStore.getState().addContract(contract);
-        return ok(contract);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<SalesContract>): Promise<ApiResponse<SalesContract>> {
-      await delay();
-      try {
-        const store = useSalesContractStore.getState();
-        if (!store.contracts.find(c => c.id === id)) return fail('NOT_FOUND', '合同未找到');
-        store.updateContract(id, data);
-        return ok(useSalesContractStore.getState().contracts.find(c => c.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useSalesContractStore.getState().deleteContract(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  prospect: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<Prospect[]>> {
-      await delay();
-      try {
-        const state = useSalesStore.getState();
-        let items = [...state.prospects];
-        if (params?.status) items = items.filter(p => p.status === params.status);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(p => p.contactName?.toLowerCase().includes(kw) || p.companyName?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<Prospect>): Promise<ApiResponse<Prospect>> {
-      await delay();
-      try {
-        const id = `prosp-${Date.now()}`;
-        const prospect: Prospect = {
-          id,
-          prospectNo: data.prospectNo || `PROSP-${Date.now()}`,
-          companyName: data.companyName || '',
-          contactName: data.contactName || '',
-          contactPhone: data.contactPhone || '',
-          contactEmail: data.contactEmail || '',
-          source: data.source || 'referral',
-          status: data.status || 'new',
-          assignedTo: data.assignedTo || '',
-          interestProducts: data.interestProducts || [],
-          followupRecords: data.followupRecords || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        } as Prospect;
-        Object.assign(prospect, data, { id });
-        useSalesStore.getState().addProspect(prospect);
-        return ok(prospect);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<Prospect>): Promise<ApiResponse<Prospect>> {
-      await delay();
-      try {
-        const store = useSalesStore.getState();
-        if (!store.prospects.find(p => p.id === id)) return fail('NOT_FOUND', '意向客户未找到');
-        store.updateProspect(id, data);
-        return ok(useSalesStore.getState().prospects.find(p => p.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async convert(id: string, customerData?: Partial<Customer>): Promise<ApiResponse<Customer>> {
-      await delay();
-      try {
-        const salesState = useSalesStore.getState();
-        const prospect = salesState.prospects.find(p => p.id === id);
-        if (!prospect) return fail('NOT_FOUND', '意向客户未找到');
-
-        // 创建客户
-        const customerId = `cus-${Date.now()}`;
-        const customer: Customer = {
-          id: customerId,
-          code: customerData?.code || `CUS-${Date.now()}`,
-          name: customerData?.name || prospect.companyName || '',
-          shortName: customerData?.shortName || prospect.companyName?.substring(0, 10),
-          type: customerData?.type || 'enterprise',
-          status: 'active',
-          invoiceTitle: customerData?.invoiceTitle || prospect.companyName,
-          invoicePhone: customerData?.invoicePhone || prospect.contactPhone,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          ...customerData,
-        } as Customer;
-
-        useCustomerStore.getState().addCustomer(customer);
-        // 标记意向客户为已转化
-        salesState.updateProspect(id, { status: 'won' } as Partial<Prospect>);
-        return ok(customer);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  仓储 API
-// ================================================================
-
-export const warehouseApi = {
-  inbound: {
-    async list(params?: PaginationParams & { status?: string; type?: string }): Promise<ApiResponse<InboundOrder[]>> {
-      await delay();
-      try {
-        const state = useWarehouseStore.getState();
-        let items = [...state.inboundOrders];
-        if (params?.status) items = items.filter(o => o.status === params.status);
-        if (params?.type) items = items.filter(o => o.type === params.type);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(o => o.inboundNo?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<InboundOrder>): Promise<ApiResponse<InboundOrder>> {
-      await delay();
-      try {
-        const id = `ib-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const order = {
-          id,
-          inboundNo: data.inboundNo || `IN-${Date.now()}`,
-          type: data.type || 'purchase' as const,
-          status: data.status || 'pending' as const,
-          warehouseId: data.warehouseId || '',
-          operator: data.operator || '',
-          inboundDate: data.inboundDate || today,
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as InboundOrder;
-        useWarehouseStore.getState().addInboundOrder(order);
-        return ok(order);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<InboundOrder>): Promise<ApiResponse<InboundOrder>> {
-      await delay();
-      try {
-        const store = useWarehouseStore.getState();
-        if (!store.inboundOrders.find(o => o.id === id)) return fail('NOT_FOUND', '入库单未找到');
-        store.updateInboundOrder(id, data);
-        return ok(useWarehouseStore.getState().inboundOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  outbound: {
-    async list(params?: PaginationParams & { status?: string; type?: string }): Promise<ApiResponse<OutboundOrder[]>> {
-      await delay();
-      try {
-        const state = useWarehouseStore.getState();
-        let items = [...state.outboundOrders];
-        if (params?.status) items = items.filter(o => o.status === params.status);
-        if (params?.type) items = items.filter(o => o.type === params.type);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(o => o.outboundNo?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<OutboundOrder>): Promise<ApiResponse<OutboundOrder>> {
-      await delay();
-      try {
-        const id = `ob-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const order = {
-          id,
-          outboundNo: data.outboundNo || `OUT-${Date.now()}`,
-          type: data.type || 'sale' as const,
-          status: data.status || 'pending' as const,
-          warehouseId: data.warehouseId || '',
-          operator: data.operator || '',
-          outboundDate: data.outboundDate || today,
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as OutboundOrder;
-        useWarehouseStore.getState().addOutboundOrder(order);
-        return ok(order);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<OutboundOrder>): Promise<ApiResponse<OutboundOrder>> {
-      await delay();
-      try {
-        const store = useWarehouseStore.getState();
-        if (!store.outboundOrders.find(o => o.id === id)) return fail('NOT_FOUND', '出库单未找到');
-        store.updateOutboundOrder(id, data);
-        return ok(useWarehouseStore.getState().outboundOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  inventory: {
-    async list(params?: PaginationParams & { warehouseId?: string; materialId?: string }): Promise<ApiResponse<InventoryRecord[]>> {
-      await delay();
-      try {
-        const state = useWarehouseStore.getState();
-        let items = [...state.inventoryRecords];
-        if (params?.warehouseId) items = items.filter(r => r.warehouseId === params.warehouseId);
-        if (params?.materialId) items = items.filter(r => r.materialId === params.materialId);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(r => r.materialName?.toLowerCase().includes(kw) || r.materialCode?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async query(params: { warehouseId?: string; materialId?: string; keyword?: string }): Promise<ApiResponse<InventoryRecord[]>> {
-      return warehouseApi.inventory.list({ ...params, page: 1, pageSize: 1000 });
-    },
-  },
-
-  check: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<CheckTask[]>> {
-      await delay();
-      try {
-        const state = useWarehouseStore.getState();
-        let items = [...state.checkTasks];
-        if (params?.status) items = items.filter(t => t.status === params.status);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<CheckTask>): Promise<ApiResponse<CheckTask>> {
-      await delay();
-      try {
-        const id = `ck-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const task = {
-          id,
-          taskNo: (data as Record<string, unknown>).taskNo || `CK-${Date.now()}`,
-          warehouseId: (data as Record<string, unknown>).warehouseId || '',
-          type: (data as Record<string, unknown>).type || 'full',
-          status: data.status || 'pending' as const,
-          startDate: (data as Record<string, unknown>).startDate || today,
-          operator: (data as Record<string, unknown>).operator || '',
-          items: (data as Record<string, unknown>).items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as CheckTask;
-        useWarehouseStore.getState().addCheckTask(task);
-        return ok(task);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  质量 API
-// ================================================================
-
-export const qualityApi = {
-  inspection: {
-    async list(params?: PaginationParams & { type?: string; status?: string }): Promise<ApiResponse<InspectionTask[]>> {
-      await delay();
-      try {
-        const state = useQualityStore.getState();
-        let items = [...state.inspectionTasks];
-        if (params?.type) items = items.filter(t => t.type === params.type);
-        if (params?.status) items = items.filter(t => t.status === params.status);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<InspectionTask | null>> {
-      return wrap(() => useQualityStore.getState().inspectionTasks.find(t => t.id === id) ?? null);
-    },
-    async create(data: Partial<InspectionTask>): Promise<ApiResponse<InspectionTask>> {
-      await delay();
-      try {
-        const id = `insp-${Date.now()}`;
-        const task = {
-          id,
-          taskNo: data.taskNo || `INS-${Date.now()}`,
-          type: data.type || 'incoming' as const,
-          status: data.status || 'pending' as const,
-          materialId: data.materialId || '',
-          materialCode: data.materialCode || '',
-          materialName: data.materialName || '',
-          batchNo: data.batchNo || '',
-          quantity: data.quantity ?? 0,
-          sampleQuantity: data.sampleQuantity ?? 0,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as InspectionTask;
-        useQualityStore.getState().addInspectionTask(task);
-        return ok(task);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<InspectionTask>): Promise<ApiResponse<InspectionTask>> {
-      await delay();
-      try {
-        useQualityStore.getState().updateInspectionTask(id, data);
-        const updated = useQualityStore.getState().inspectionTasks.find(t => t.id === id);
-        if (!updated) return fail('NOT_FOUND', '检验任务未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useQualityStore.getState().deleteInspectionTask(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  unqualified: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<UnqualifiedItem[]>> {
-      await delay();
-      try {
-        const state = useQualityStore.getState();
-        let items = [...state.unqualifiedItems];
-        if (params?.status) items = items.filter(i => i.status === params.status);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<UnqualifiedItem>): Promise<ApiResponse<UnqualifiedItem>> {
-      await delay();
-      try {
-        const id = `uq-${Date.now()}`;
-        const d = data as Record<string, unknown>;
-        const item = {
-          id,
-          itemNo: d.itemNo || `UQ-${Date.now()}`,
-          inspectionTaskId: d.inspectionTaskId || '',
-          inspectionTaskNo: d.inspectionTaskNo || '',
-          materialCode: d.materialCode || '',
-          materialName: d.materialName || '',
-          batchNo: d.batchNo || '',
-          defectQuantity: d.defectQuantity ?? 0,
-          defectDescription: d.defectDescription || '',
-          disposition: d.disposition || 'rework',
-          dispositionStatus: d.dispositionStatus || 'pending',
-          status: data.status || 'open' as const,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as UnqualifiedItem;
-        useQualityStore.getState().addUnqualifiedItem(item);
-        return ok(item);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<UnqualifiedItem>): Promise<ApiResponse<UnqualifiedItem>> {
-      await delay();
-      try {
-        useQualityStore.getState().updateUnqualifiedItem(id, data);
-        const updated = useQualityStore.getState().unqualifiedItems.find(i => i.id === id);
-        if (!updated) return fail('NOT_FOUND', '不合格品未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  fmea: {
-    async list(params?: PaginationParams & { materialCode?: string }): Promise<ApiResponse<FMEA[]>> {
-      await delay();
-      try {
-        const state = useFMEAStore.getState();
-        let items = [...state.items];
-        if (params?.materialCode) items = items.filter(r => r.item === params.materialCode);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<FMEA>): Promise<ApiResponse<FMEA>> {
-      await delay();
-      try {
-        const id = `fmea-${Date.now()}`;
-        const record: FMEA = { id, createdBy: '', updatedBy: '', ...data } as FMEA;
-        useFMEAStore.getState().addItem(record);
-        return ok(record);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<FMEA>): Promise<ApiResponse<FMEA>> {
-      await delay();
-      try {
-        useFMEAStore.getState().updateItem(id, data);
-        const updated = useFMEAStore.getState().items.find(r => r.id === id);
-        if (!updated) return fail('NOT_FOUND', 'FMEA记录未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useFMEAStore.getState().deleteItem(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  coa: {
-    async list(params?: PaginationParams): Promise<ApiResponse<unknown[]>> {
-      await delay();
-      try {
-        const state = useQualityAdvancedStore.getState();
-        const items = paginate([...state.coqRecords], params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  生产 API
-// ================================================================
-
-export const productionApi = {
-  workOrder: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<WorkOrder[]>> {
-      await delay();
-      try {
-        const state = useProductionStore.getState();
-        let items = [...state.workOrders];
-        if (params?.status) items = items.filter(o => o.status === params.status);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(o => o.orderNo?.toLowerCase().includes(kw) || o.productName?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<WorkOrder | null>> {
-      return wrap(() => useProductionStore.getState().workOrders.find(o => o.id === id) ?? null);
-    },
-    async create(data: Partial<WorkOrder>): Promise<ApiResponse<WorkOrder>> {
-      await delay();
-      try {
-        const id = `wo-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const d = data as Record<string, unknown>;
-        const order = {
-          id,
-          orderNo: d.orderNo || `WO-${Date.now()}`,
-          productCode: d.productCode || '',
-          productName: d.productName || '',
-          bomId: d.bomId || '',
-          bomNo: d.bomNo || '',
-          routeId: d.routeId || '',
-          routeNo: d.routeNo || '',
-          plannedQuantity: d.plannedQuantity ?? 0,
-          completedQuantity: 0,
-          scrapQuantity: 0,
-          plannedStartDate: d.plannedStartDate || today,
-          plannedEndDate: d.plannedEndDate || today,
-          priority: d.priority || 'normal',
-          workshop: d.workshop || '',
-          supervisor: d.supervisor || '',
-          status: data.status || 'draft' as const,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as WorkOrder;
-        useProductionStore.getState().addWorkOrder(order);
-        return ok(order);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<WorkOrder>): Promise<ApiResponse<WorkOrder>> {
-      await delay();
-      try {
-        const store = useProductionStore.getState();
-        if (!store.workOrders.find(o => o.id === id)) return fail('NOT_FOUND', '生产工单未找到');
-        store.updateWorkOrder(id, data);
-        return ok(useProductionStore.getState().workOrders.find(o => o.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useProductionStore.getState().deleteWorkOrder(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  bom: {
-    async list(params?: PaginationParams & { productId?: string }): Promise<ApiResponse<BOMHeader[]>> {
-      await delay();
-      try {
-        const state = useBOMStore.getState();
-        let items = [...state.bomList];
-        if (params?.productId) items = items.filter(b => b.productId === params.productId);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<BOMHeader | null>> {
-      return wrap(() => useBOMStore.getState().bomList.find(b => b.id === id) ?? null);
-    },
-    async create(data: Partial<BOMHeader>): Promise<ApiResponse<BOMHeader>> {
-      await delay();
-      try {
-        const id = `bom-${Date.now()}`;
-        const today = new Date().toISOString().split('T')[0];
-        const d = data as Record<string, unknown>;
-        const bom = {
-          id,
-          bomNo: d.bomNo || `BOM-${Date.now()}`,
-          name: d.name || '',
-          type: d.type || 'MBOM',
-          productId: d.productId || '',
-          productCode: d.productCode || '',
-          productName: d.productName || '',
-          version: d.version || '1.0',
-          status: data.status || 'draft' as const,
-          effectiveDate: d.effectiveDate || today,
-          currency: d.currency || 'CNY',
-          items: d.items || undefined,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '',
-          updatedBy: '',
-          ...data,
-        } as unknown as BOMHeader;
-        useBOMStore.getState().addBOM(bom);
-        return ok(bom);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<BOMHeader>): Promise<ApiResponse<BOMHeader>> {
-      await delay();
-      try {
-        const store = useBOMStore.getState();
-        if (!store.bomList.find(b => b.id === id)) return fail('NOT_FOUND', 'BOM未找到');
-        store.updateBOM(id, data);
-        return ok(useBOMStore.getState().bomList.find(b => b.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useBOMStore.getState().deleteBOM(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  mrp: {
-    async list(params?: PaginationParams): Promise<ApiResponse<MRPRecommendation[]>> {
-      await delay();
-      try {
-        const state = useProductionStore.getState();
-        const items = paginate([...state.mrpRecommendations], params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  财务 API
-// ================================================================
-
-export const financeApi = {
-  voucher: {
-    async list(params?: PaginationParams & { period?: string; status?: string }): Promise<ApiResponse<Voucher[]>> {
-      await delay();
-      try {
-        const state = useFinanceStore.getState();
-        let items = [...state.vouchers];
-        if (params?.status) items = items.filter(v => v.status === params.status);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<Voucher | null>> {
-      return wrap(() => useFinanceStore.getState().vouchers.find(v => v.id === id) ?? null);
-    },
-    async create(data: Partial<Voucher>): Promise<ApiResponse<Voucher>> {
-      await delay();
-      try {
-        const store = useFinanceStore.getState();
-        const result = store.createVoucher({
-          date: data.date || new Date().toISOString().split('T')[0],
-          voucherType: data.voucherType || '记账',
-          items: data.items || [],
-          remark: data.remark || '',
-        });
-        if (!result.ok) return fail('VALIDATION', result.message);
-        return ok(useFinanceStore.getState().vouchers[useFinanceStore.getState().vouchers.length - 1]!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<Voucher>): Promise<ApiResponse<Voucher>> {
-      await delay();
-      try {
-        const store = useFinanceStore.getState();
-        if (!store.vouchers.find(v => v.id === id)) return fail('NOT_FOUND', '凭证未找到');
-        store.updateVoucher(id, data);
-        return ok(useFinanceStore.getState().vouchers.find(v => v.id === id)!);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        useFinanceStore.getState().deleteVoucher(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  receivable: {
-    async list(params?: PaginationParams & { status?: string; customerId?: string }): Promise<ApiResponse<Receivable[]>> {
-      await delay();
-      try {
-        const state = useArapStore.getState();
-        let items = [...state.receivables];
-        if (params?.customerId) items = items.filter(r => r.customerId === params.customerId);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(r => r.customerName?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<Receivable | null>> {
-      return wrap(() => useArapStore.getState().receivables.find(r => r.id === id) ?? null);
-    },
-  },
-
-  payable: {
-    async list(params?: PaginationParams & { status?: string; vendorId?: string }): Promise<ApiResponse<Payable[]>> {
-      await delay();
-      try {
-        const state = useArapStore.getState();
-        let items = [...state.payables];
-        if (params?.vendorId) items = items.filter(p => p.vendorId === params.vendorId);
-        if (params?.keyword) {
-          const kw = params.keyword.toLowerCase();
-          items = items.filter(p => p.vendorName?.toLowerCase().includes(kw) || false);
-        }
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<Payable | null>> {
-      return wrap(() => useArapStore.getState().payables.find(p => p.id === id) ?? null);
-    },
-  },
-
-  threeway: {
-    async list(): Promise<ApiResponse<unknown[]>> {
-      await delay();
-      try {
-        // 三单匹配从 arap 的 threeWayMatches 获取
-        const state = useArapStore.getState() as unknown as Record<string, unknown>;
-        const matches = (state.threeWayMatches ?? []) as unknown[];
-        return ok(matches);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  价格 API
-// ================================================================
-
-export const priceApi = {
-  inquiry: {
-    async list(params?: PaginationParams & { status?: string }): Promise<ApiResponse<PriceInquiry[]>> {
-      await delay();
-      try {
-        const state = usePriceStore.getState();
-        let items = [...state.priceInquiries];
-        if (params?.status) items = items.filter(i => i.status === params.status);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async getById(id: string): Promise<ApiResponse<PriceInquiry | null>> {
-      return wrap(() => usePriceStore.getState().priceInquiries.find(i => i.id === id) ?? null);
-    },
-    async create(data: Partial<PriceInquiry>): Promise<ApiResponse<PriceInquiry>> {
-      await delay();
-      try {
-        const id = `inq-${Date.now()}`;
-        const inquiry: PriceInquiry = {
-          id,
-          inquiryNo: data.inquiryNo || `INQ-${Date.now()}`,
-          status: data.status || 'draft',
-          items: data.items || [],
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        } as PriceInquiry;
-        Object.assign(inquiry, data, { id });
-        usePriceStore.getState().addPriceInquiry(inquiry);
-        return ok(inquiry);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<PriceInquiry>): Promise<ApiResponse<PriceInquiry>> {
-      await delay();
-      try {
-        usePriceStore.getState().updatePriceInquiry(id, data);
-        const updated = usePriceStore.getState().priceInquiries.find(i => i.id === id);
-        if (!updated) return fail('NOT_FOUND', '询价单未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        usePriceStore.getState().deletePriceInquiry(id);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  priceList: {
-    async list(params?: PaginationParams & { status?: string; vendorId?: string }): Promise<ApiResponse<PriceListItem[]>> {
-      await delay();
-      try {
-        const state = usePriceStore.getState();
-        let items = [...state.priceList];
-        if (params?.status) items = items.filter(p => p.status === params.status);
-        if (params?.vendorId) items = items.filter(p => p.vendorId === params.vendorId);
-        items = paginate(items, params);
-        return ok(items);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async create(data: Partial<PriceListItem>): Promise<ApiResponse<PriceListItem>> {
-      await delay();
-      try {
-        const id = `pl-${Date.now()}`;
-        const item: PriceListItem = { id, ...data } as PriceListItem;
-        usePriceStore.getState().addPriceListItem(item);
-        return ok(item);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async update(id: string, data: Partial<PriceListItem>): Promise<ApiResponse<PriceListItem>> {
-      await delay();
-      try {
-        usePriceStore.getState().updatePriceListItem(id, data);
-        const updated = usePriceStore.getState().priceList.find(p => p.id === id);
-        if (!updated) return fail('NOT_FOUND', '价格条目未找到');
-        return ok(updated);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-    async delete(id: string): Promise<ApiResponse<null>> {
-      await delay();
-      try {
-        // Price store doesn't have deletePriceListItem, use setPriceList with filter
-        const store = usePriceStore.getState();
-        const filtered = store.priceList.filter(p => p.id !== id);
-        store.setPriceList(filtered);
-        return ok(null);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-
-  condition: {
-    async list(): Promise<ApiResponse<unknown[]>> {
-      await delay();
-      try {
-        const state = useConditionStore.getState();
-        return ok([...(state.conditions ?? [])] as unknown[]);
-      } catch (e: unknown) { return fail('ERROR', e instanceof Error ? e.message : String(e)); }
-    },
-  },
-};
-
-// ================================================================
-//  系统 API
-// ================================================================
-
-export const systemApi = {
-  async getStatus(): Promise<ApiResponse<{ version: string; storeCount: number; storageKB: number }>> {
-    await delay();
-    try {
-      // 统计各 store 中的数据条数
-      const stores = [
-        useMaterialStore.getState(), useVendorStore.getState(), useCustomerStore.getState(),
-        usePurchaseStore.getState(), useSalesStore.getState(), useWarehouseStore.getState(),
-      ];
-      let storeCount = 0;
-      for (const s of stores) {
-        const vals = Object.values(s);
-        for (const v of vals) {
-          if (Array.isArray(v)) storeCount += v.length;
-        }
-      }
-      // 估算 localStorage 大小
-      let storageKB = 0;
-      try {
-        const total = Object.keys(localStorage).reduce((sum, k) => sum + (localStorage.getItem(k)?.length ?? 0), 0);
-        storageKB = Math.round(total / 1024);
-      } catch { /* ignore */ }
-      return ok({ version: '1.0.0', storeCount, storageKB });
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async exportAll(): Promise<ApiResponse<Record<string, unknown>>> {
-    await delay();
-    try {
-      const data: Record<string, unknown> = {};
-      const storeMap: Array<[string, { getState(): Record<string, unknown> }]> = [
-        ['materials', useMaterialStore as unknown as { getState(): Record<string, unknown> }],
-        ['vendors', useVendorStore as unknown as { getState(): Record<string, unknown> }],
-        ['customers', useCustomerStore as unknown as { getState(): Record<string, unknown> }],
-        ['purchase', usePurchaseStore as unknown as { getState(): Record<string, unknown> }],
-        ['sales', useSalesStore as unknown as { getState(): Record<string, unknown> }],
-        ['warehouse', useWarehouseStore as unknown as { getState(): Record<string, unknown> }],
-        ['quality', useQualityStore as unknown as { getState(): Record<string, unknown> }],
-        ['production', useProductionStore as unknown as { getState(): Record<string, unknown> }],
-        ['finance', useFinanceStore as unknown as { getState(): Record<string, unknown> }],
-        ['price', usePriceStore as unknown as { getState(): Record<string, unknown> }],
-        ['settings', useSettingsStore as unknown as { getState(): Record<string, unknown> }],
-      ];
-      for (const [key, storeHook] of storeMap) {
-        const state = storeHook.getState();
-        for (const [sk, sv] of Object.entries(state)) {
-          if (Array.isArray(sv)) {
-            data[`${key}.${sk}`] = sv;
-          }
-        }
-      }
-      return ok(data);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-
-  async importAll(data: Record<string, unknown>): Promise<ApiResponse<null>> {
-    await delay();
-    try {
-      // 导入各 Store 的 set 操作
-      const storeSetters: Record<string, (items: unknown[]) => void> = {
-        'materials.materials': (items) => useMaterialStore.setState({ materials: items as never }),
-        'vendors.vendors': (items) => useVendorStore.setState({ vendors: items as never }),
-        'customers.customers': (items) => useCustomerStore.setState({ customers: items as never }),
-      };
-      for (const [key, value] of Object.entries(data)) {
-        if (storeSetters[key] && Array.isArray(value)) {
-          storeSetters[key](value);
-        }
-      }
-      return ok(null);
-    } catch (e: unknown) {
-      return fail('ERROR', e instanceof Error ? e.message : String(e));
-    }
-  },
-};
-
-// ── 默认导出 ──
-
-const api = {
-  material: materialApi,
-  vendor: vendorApi,
-  customer: customerApi,
-  purchase: purchaseApi,
-  sales: salesApi,
-  warehouse: warehouseApi,
-  quality: qualityApi,
-  production: productionApi,
-  finance: financeApi,
-  price: priceApi,
-  system: systemApi,
-};
-
-export default api;
+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

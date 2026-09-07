@@ -1,22 +1,16 @@
--- V2.75.0 W0: S&OP 计划表（根治双通道参考实现，落真实 D1 关系表）
--- 与前端 createEntityStore({ resource: 'sop' }) + 注册 ENTITY_RESOURCES.sop 同源。
-CREATE TABLE IF NOT EXISTS sop_plans (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  plan_no TEXT NOT NULL,
-  period TEXT,
-  demand_forecast REAL DEFAULT 0,
-  supply_plan REAL DEFAULT 0,
-  balance_qty REAL DEFAULT 0,
-  status TEXT DEFAULT 'draft',
-  owner TEXT,
-  remark TEXT,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_sop_plans_org ON sop_plans(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0018_sop', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX19bkisxwUN5augPRChxyJylmF3zY9qlTcbtD6a3DgF+B51uL/HUBph6
++zlhB2yC32MRjbLw2VmUj1kiHX9YGVTRe/eEK5IyiYaWo8VJ8P/m6DSchX31984g
+vuWwFFt4rIP5WoYRWNCuVS30Hc47v1B7UcPUJp/hDO7Bk7CwuIaiOL3TJOnQUEQs
+4q1kMEED1DhkuB0tvkOOUKuesnY0hMynZAXiWc4HUtW1dssEaRX9MAze/GV3oxf7
+jzg20pQTEj0uSRss63TfQySJdaL22t5j+4Muy4xIpHx7a6wAYVTKyMw1b2RWFhvH
+4UmP+h7hDRC8rc0E0lUAOtGtnxG8kkxNIe7csgDUmJ7BhQZhdUNB3j3lkjAN3E3m
+D8skVAuVmSDouGWisV8UqIvynQc+G/hgW/6i4JIPrY+TToXs4SRtFPHw/0Kiyb14
+lA09WHFiwlKxh+6FjIkS/xgAq47BPJPM5ib9iniI7yAeL9JcubouZmn1oL3Fprzl
+9C0eUgrHnV4Pd8SkQLX7mgjy4HXy/iyZ30sSgmZiaXrHsKVw22W6MrnW7HZD1IrW
+Osem7xyhVvr6m7BplhajQmWAnEuYU/7TD9HnU69TI2WjgfG/oWAPZAl5muMCXpWx
+3CUODH48opjO8ZumETWfz9C47Cl3Vob+JeuBt/eWLOW4EVaXG1S2f6ijU2jSpEwS
+Cc+CsC+orlvyz939rs0aNBy3ttAHYF6hqlCax32w+C8IXUgYMWc9R7300EioxisH
+Z8Hw7KOxUx30RlnstsBny0sOhQend3YJFmLfCndePBzhyrWnLi+sfUm2/Fug0/SA
+3uY3Q9zoNTt8/6hpIdI9jtQa5/QxWbHB9bRZJ6S9uu7HSuvLPyx010Duj2WWLoc4
+xKfKV8WYN2/Bfon3j9XQjY6yf/rkHNXhWrHpC7vBnbsqhzjzrKprdewCRKIuYD8K
+3MEXl8zFjQTjc4oKrbFV4nQKswdI0Hd0jTZeO+tkhzE=

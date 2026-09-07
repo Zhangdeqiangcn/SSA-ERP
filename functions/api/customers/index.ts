@@ -1,148 +1,144 @@
-// GET /api/customers — 分页查询客户列表（按 org_id 隔离）
-import { getUserFromRequest, json, uid } from '../../_shared/auth';
-import { rlsFragment } from '../../_shared/rls';
-
-export async function onRequestGet(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const url = new URL(request.url);
-  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
-  const pageSize = Math.min(100, Math.max(1, parseInt(url.searchParams.get('pageSize') || '20', 10)));
-  const offset = (page - 1) * pageSize;
-
-  const keyword = (url.searchParams.get('keyword') || '').trim();
-  const status = url.searchParams.get('status');
-  const type = url.searchParams.get('type');
-
-  let sql = 'SELECT * FROM customers WHERE org_id = ?';
-  const params: any[] = [user.org_id];
-  const rls = rlsFragment(user, 'customers');
-  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(rls.param!); }
-
-  if (keyword) {
-    sql += ' AND (code LIKE ? OR name LIKE ? OR short_name LIKE ?)';
-    const kw = `%${keyword}%`;
-    params.push(kw, kw, kw);
-  }
-  if (status) { sql += ' AND status = ?'; params.push(status); }
-  if (type) { sql += ' AND type = ?'; params.push(type); }
-
-  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-  params.push(pageSize, offset);
-
-  const rows = await env.DB.prepare(sql).bind(...params).all();
-  const data = (rows.results || []).map((r: any) => formatCustomer(r));
-
-  let countSql = 'SELECT COUNT(*) as cnt FROM customers WHERE org_id = ?';
-  const countParams: any[] = [user.org_id];
-  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(rls.param!); }
-  if (keyword) {
-    countSql += ' AND (code LIKE ? OR name LIKE ? OR short_name LIKE ?)';
-    const kw = `%${keyword}%`;
-    countParams.push(kw, kw, kw);
-  }
-  if (status) { countSql += ' AND status = ?'; countParams.push(status); }
-  if (type) { countSql += ' AND type = ?'; countParams.push(type); }
-  const countRow = await env.DB.prepare(countSql).bind(...countParams).first();
-  const total = (countRow as any)?.cnt || 0;
-
-  return json({ data, total, page, pageSize, totalPages: Math.ceil(total / pageSize) });
-}
-
-// POST /api/customers — 创建客户（D1 customers，会话鉴权）
-// V2.74.5 起客户主数据直连 D1 customers（与开放网关 /api/open/customers 同源），消除 app_state Blob 双源。
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  let body: any;
-  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
-  if (!body.code || !body.name) return json({ error: '客户编码与名称必填' }, 400);
-
-  const dup = await env.DB.prepare(
-    'SELECT id FROM customers WHERE org_id = ? AND code = ?'
-  ).bind(user.org_id, body.code).first();
-  if (dup) return json({ error: '客户编码已存在' }, 409);
-
-  const id = uid('cus');
-  const now = new Date().toISOString();
-  const {
-    code, name, shortName, type, status,
-    creditLevel, creditLimit, usedCredit, settlementTermDays,
-    taxId, invoiceTitle, invoiceAddress, invoicePhone,
-    bankName, bankAccount, bankAccountName,
-    contactName, contactPhone, contactEmail, address,
-    defaultCurrency, defaultTaxRate,
-    salesOrg, reconciliationAccount, taxCode,
-    remarks, customFields,
-  } = body || {};
-
-  try {
-    await env.DB.prepare(`
-      INSERT INTO customers (
-        org_id, id, code, name, short_name, type, status,
-        credit_level, credit_limit, used_credit, settlement_term_days,
-        tax_id, invoice_title, invoice_address, invoice_phone,
-        bank_name, bank_account, bank_account_name,
-        contact_name, contact_phone, contact_email, address,
-        default_currency, default_tax_rate,
-        sales_org, reconciliation_account, tax_code,
-        remarks, custom_fields,
-        owner_id, dept_id, created_at, updated_at, created_by, updated_by
-      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-    `).bind(
-      user.org_id, id, code, name, shortName ?? null, type ?? null, status ?? 'active',
-      creditLevel ?? null, creditLimit ?? 0, usedCredit ?? 0, settlementTermDays ?? 30,
-      taxId ?? null, invoiceTitle ?? null, invoiceAddress ?? null, invoicePhone ?? null,
-      bankName ?? null, bankAccount ?? null, bankAccountName ?? null,
-      contactName ?? null, contactPhone ?? null, contactEmail ?? null, address ?? null,
-      defaultCurrency ?? 'CNY', defaultTaxRate ?? null,
-      salesOrg ?? null, reconciliationAccount ?? null, taxCode ?? null,
-      remarks ?? null, customFields ? JSON.stringify(customFields) : null,
-      user.id, user.department || null, now, now, user.id, user.id
-    ).run();
-  } catch (e: any) {
-    return json({ error: '创建失败: ' + (e?.message || String(e)) }, 500);
-  }
-
-  await audit(env.DB, user.org_id, user, 'customers', 'create', `创建客户 ${code} ${name}`);
-  const created = await env.DB.prepare('SELECT * FROM customers WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
-  return json(formatCustomer(created as any), 201);
-}
-
-async function audit(DB: any, org_id: string, user: any, entity: string, action: string, summary: string) {
-  try {
-    await DB.prepare(
-      `INSERT INTO audit_logs (id, org_id, user_id, user_name, entity, action, summary, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-    ).bind(uid('al'), org_id, user.id, user.name || user.username, entity, action, summary, new Date().toISOString()).run();
-  } catch { /* 审计失败不阻断主流程 */ }
-}
-
-function formatCustomer(r: any) {
-  return {
-    id: r.id, org_id: r.org_id,
-    code: r.code, name: r.name, shortName: r.short_name,
-    type: r.type, status: r.status,
-    creditLevel: r.credit_level, creditLimit: r.credit_limit, usedCredit: r.used_credit,
-    settlementTermDays: r.settlement_term_days,
-    taxId: r.tax_id, invoiceTitle: r.invoice_title,
-    invoiceAddress: r.invoice_address, invoicePhone: r.invoice_phone,
-    bankName: r.bank_name, bankAccount: r.bank_account, bankAccountName: r.bank_account_name,
-    contactName: r.contact_name, contactPhone: r.contact_phone, contactEmail: r.contact_email,
-    address: r.address,
-    defaultCurrency: r.default_currency, defaultTaxRate: r.default_tax_rate,
-    salesOrg: r.sales_org, reconciliationAccount: r.reconciliation_account, taxCode: r.tax_code,
-    remarks: r.remarks,
-    customFields: safeParse(r.custom_fields),
-    createdAt: r.created_at, updatedAt: r.updated_at,
-  };
-}
-
-function safeParse(s: string | null): any {
-  if (!s) return undefined;
-  try { return JSON.parse(s); } catch { return undefined; }
-}
+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
+lYzCW1x+BFR/YEV8D74l4A==

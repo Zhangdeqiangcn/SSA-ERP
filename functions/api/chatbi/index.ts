@@ -1,252 +1,203 @@
-// POST /api/chatbi/analyze — 自然语言查询分析
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-// 关键词 → 查询类型映射
-const QUERY_PATTERNS = [
-  { keywords: ['销售', '订单', '营业额', '营收'], type: 'sales_trend' },
-  { keywords: ['库存', '物料', '仓'], type: 'inventory_level' },
-  { keywords: ['供应商', '供货', '采购'], type: 'supplier_quality' },
-  { keywords: ['采购单', '订单状态', '待处理'], type: 'purchase_status' },
-  { keywords: ['凭证', '记账', '财务', '金额'], type: 'finance_summary' },
-  { keywords: ['工单', '生产', '加工'], type: 'work_order_status' },
-  { keywords: ['客户', '销售客户'], type: 'customer_list' },
-];
-
-// 查询分类处理器
-async function handleQuery(user, db, query: string, type: string) {
-  const q = query.toLowerCase();
-
-  switch (type) {
-    case 'sales_trend': {
-      // 获取最近销售订单趋势
-      const now = new Date();
-      const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
-      const sql = `SELECT 
-        strftime('%m-%d', order_date) as day,
-        COUNT(*) as order_count,
-        COALESCE(SUM(total_amount), 0) as total_amount
-        FROM sales_orders 
-        WHERE org_id = ? AND order_date >= ?
-        GROUP BY strftime('%m-%d', order_date)
-        ORDER BY day ASC`;
-      const rows = await db.prepare(sql).bind(user.org_id, monthStart).all();
-      const data = (rows.results || []).map((r: any) => ({
-        label: r.day,
-        value: Number(r.total_amount) || 0,
-        orders: Number(r.order_count) || 0,
-      }));
-      return {
-        title: '本月销售趋势',
-        description: `2026年${now.getMonth()+1}月销售数据，共 ${data.reduce((acc:number,item:any)=>acc+item.orders,0)} 笔订单`,
-        chartType: 'bar' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, orders: 0 }],
-        summary: `本月订单总额: ${data.reduce((acc:number,item:any)=>acc+item.value,0).toFixed(2)} 元`,
-      };
-    }
-
-    case 'inventory_level': {
-      // 获取库存水平按类别
-      const sql = `SELECT 
-        COALESCE(category_name, '未分类') as category,
-        COUNT(*) as count,
-        COALESCE(SUM(quantity_on_hand), 0) as total_qty,
-        COALESCE(SUM(quantity_on_hand * standard_price), 0) as total_value
-        FROM materials 
-        WHERE org_id = ? AND status = 'active'
-        GROUP BY category_name
-        ORDER BY total_value DESC`;
-      const rows = await db.prepare(sql).bind(user.org_id).all();
-      const colors = ['#1976d2', '#388e3c', '#f57c00', '#d32f2f', '#7b1fa2', '#0097a7'];
-      const data = (rows.results || []).map((r: any, i: number) => ({
-        label: r.category,
-        value: Number(r.count) || 0,
-        color: colors[i % colors.length],
-      }));
-      return {
-        title: '库存物料分类统计',
-        description: '各物料类别的数量与货值分布',
-        chartType: 'donut' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, color: '#ccc' }],
-        summary: `共有 ${data.reduce((acc:number,item:any)=>acc+item.value,0)} 种物料`,
-      };
-    }
-
-    case 'supplier_quality': {
-      // 获取供应商质量排名
-      const sql = `SELECT 
-        company_name as name,
-        rating,
-        credit_level,
-        (SELECT COUNT(*) FROM purchase_orders po 
-         WHERE po.vendor_id = vendors.id AND po.org_id = ?) as order_count,
-        (SELECT COUNT(*) FROM inbound_orders io 
-         WHERE io.vendor_id = vendors.id AND io.org_id = ? AND io.status = 'completed') as delivered_count
-        FROM vendors 
-        WHERE org_id = ? AND status = 'approved'
-        ORDER BY rating DESC LIMIT 10`;
-      const rows = await db.prepare(sql).bind(user.org_id, user.org_id, user.org_id).all();
-      const data = (rows.results || []).map((r: any) => ({
-        label: r.name,
-        value: Number(r.rating) || 0,
-        secondary: Number(r.delivered_count) || 0,
-      }));
-      return {
-        title: '供应商质量排名',
-        description: '供应商综合评分与交货次数',
-        chartType: 'horizontalBar' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, secondary: 0 }],
-        summary: `共有 ${data.length} 家合格供应商`,
-      };
-    }
-
-    case 'purchase_status': {
-      // 获取采购订单状态分布
-      const sql = `SELECT 
-        status,
-        COUNT(*) as count
-        FROM purchase_orders 
-        WHERE org_id = ?
-        GROUP BY status
-        ORDER BY count DESC`;
-      const rows = await db.prepare(sql).bind(user.org_id).all();
-      const colors = { draft: '#9e9e9e', pending: '#ff9800', approved: '#4caf50', 'in_progress': '#2196f3', completed: '#1976d2', cancelled: '#f44336' };
-      const data = (rows.results || []).map((r: any) => ({
-        label: r.status,
-        value: Number(r.count) || 0,
-        color: colors[r.status] || '#757575',
-      }));
-      return {
-        title: '采购订单状态分布',
-        description: '各类状态采购订单数量统计',
-        chartType: 'donut' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, color: '#ccc' }],
-        summary: `共有 ${data.reduce((s:any)=>s+s.value,0)} 张采购订单`,
-      };
-    }
-
-    case 'finance_summary': {
-      // 获取财务摘要
-      const sql = `SELECT 
-        COUNT(*) as total_vouchers,
-        COALESCE(SUM(total_debit), 0) as total_debit,
-        COALESCE(SUM(total_credit), 0) as total_credit
-        FROM vouchers 
-        WHERE org_id = ? AND status = 'posted'`;
-      const row = await db.prepare(sql).bind(user.org_id).first();
-      const totalDebit = Number(row?.total_debit) || 0;
-      const totalCredit = Number(row?.total_credit) || 0;
-      return {
-        title: '财务凭证摘要',
-        description: `已记账凭证汇总：借方总额 ${totalDebit.toFixed(2)} 元，贷方总额 ${totalCredit.toFixed(2)} 元`,
-        chartType: 'bar' as const,
-        data: [
-          { label: '借方', value: totalDebit, secondary: 0 },
-          { label: '贷方', value: totalCredit, secondary: 0 },
-        ],
-        summary: `共 ${row?.total_vouchers || 0} 张凭证，借贷平衡差: ${(totalDebit - totalCredit).toFixed(2)} 元`,
-      };
-    }
-
-    case 'work_order_status': {
-      // 获取工单状态分布
-      const sql = `SELECT 
-        status,
-        COUNT(*) as count
-        FROM work_orders 
-        WHERE org_id = ?
-        GROUP BY status
-        ORDER BY count DESC`;
-      const rows = await db.prepare(sql).bind(user.org_id).all();
-      const colors = { draft: '#9e9e9e', in_progress: '#2196f3', completed: '#4caf50', cancelled: '#f44336' };
-      const data = (rows.results || []).map((r: any) => ({
-        label: r.status,
-        value: Number(r.count) || 0,
-        color: colors[r.status] || '#757575',
-      }));
-      return {
-        title: '生产工单状态分布',
-        description: '各类状态工单数量统计',
-        chartType: 'donut' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, color: '#ccc' }],
-        summary: `共有 ${data.reduce((s:any)=>s+s.value,0)} 张工单`,
-      };
-    }
-
-    case 'customer_list': {
-      // 获取客户列表
-      const sql = `SELECT 
-        name,
-        credit_level,
-        credit_limit,
-        used_credit,
-        (SELECT COUNT(*) FROM sales_orders so WHERE so.customer_id = customers.id AND so.org_id = ?) as order_count
-        FROM customers 
-        WHERE org_id = ? AND status = 'active'
-        ORDER BY used_credit DESC LIMIT 10`;
-      const rows = await db.prepare(sql).bind(user.org_id, user.org_id).all();
-      const data = (rows.results || []).map((r: any) => ({
-        label: r.name,
-        value: Number(r.used_credit) || 0,
-        secondary: Number(r.order_count) || 0,
-      }));
-      return {
-        title: '客户信用使用排名',
-        description: '活跃客户的信用额度使用情况',
-        chartType: 'horizontalBar' as const,
-        data: data.length > 0 ? data : [{ label: '无数据', value: 0, secondary: 0 }],
-        summary: `共有 ${data.length} 家活跃客户`,
-      };
-    }
-
-    default:
-      return { title: '未知查询', description: '无法识别的分析请求', chartType: 'bar' as const, data: [] };
-  }
-}
-
-export async function onRequest(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = env.DB;
-
-  // 解析请求体
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: '请求格式错误' }, 400);
-  }
-
-  const { query } = body || {};
-  if (!query || typeof query !== 'string') {
-    return json({ error: '请提供 query 字段' }, 400);
-  }
-
-  // 匹配查询类型
-  let matchedType = null;
-  for (const pattern of QUERY_PATTERNS) {
-    if (pattern.keywords.some(kw => query.includes(kw))) {
-      matchedType = pattern.type;
-      break;
-    }
-  }
-
-  if (!matchedType) {
-    return json({
-      title: '无法识别的查询',
-      description: `请尝试以下查询：销售趋势、库存水平、供应商质量、采购状态、财务摘要、工单状态、客户列表`,
-      chartType: 'bar' as const,
-      data: [],
-      suggestions: QUERY_PATTERNS.map(p => p.keywords[0]),
-    });
-  }
-
-  // 执行查询
-  try {
-    const result = await handleQuery(user, db, query, matchedType);
-    return json(result);
-  } catch (e: any) {
-    return json({ error: `查询失败: ${e.message}` }, 500);
-  }
-}
+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

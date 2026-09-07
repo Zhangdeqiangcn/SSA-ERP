@@ -1,111 +1,94 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { WaveRfid, RfidEvent } from '@/types/waveRfid';
-import { waveRfids, rfidEvents } from '@/mocks/data/waveRfid';
-
-// V2.80.0 W2：波次/RFID 迁真实 D1（根治双通道）。
-// 双资源 waveRfid/waveRfidTag 经 entityRepo 读写，移除原 persist(backendStorage) 本地存储 Blob。
-// 波次明细 lines（WaveLine[]）以 JSON 字符串存 D1，读写时序列化/反序列化（参考 repetitiveMfgStore）。
-interface WaveRfidState {
-  waves: WaveRfid[];
-  rfidEvents: RfidEvent[];
-  loaded: boolean;
-  load: () => Promise<void>;
-
-  addWave: (w: WaveRfid) => Promise<void>;
-  updateWave: (id: string, updates: Partial<WaveRfid>) => Promise<void>;
-  deleteWave: (id: string) => Promise<void>;
-
-  addRfidEvent: (e: RfidEvent) => Promise<void>;
-  deleteRfidEvent: (id: string) => Promise<void>;
-}
-
-const WAVE = 'waveRfid';
-const TAG = 'waveRfidTag';
-const flagKey = 'ssa-erp-backfilled-waveRfid';
-
-// lines（WaveLine[]）嵌套对象 → JSON 列
-const parseWave = (w: any): WaveRfid => ({
-  ...w,
-  lines:
-    typeof w.lines === 'string'
-      ? (() => { try { return JSON.parse(w.lines); } catch { return []; } })()
-      : (w.lines || []),
-});
-
-const toWaveRow = (w: Partial<WaveRfid>): any => {
-  const out: any = { ...w };
-  if (Array.isArray((w as any).lines)) out.lines = JSON.stringify((w as any).lines);
-  return out;
-};
-
-export const useWaveRfidStore = create<WaveRfidState>()((set, get) => ({
-  waves: [...waveRfids],
-  rfidEvents: [...rfidEvents],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const [rw, rt] = await Promise.all([
-        entityRepo.list<WaveRfid>(WAVE, { page: 1, pageSize: 200 }),
-        entityRepo.list<RfidEvent>(TAG, { page: 1, pageSize: 500 }),
-      ]);
-      const waves = ((rw?.data || []) as any[]).map(parseWave);
-      const rfidEvents = (rt?.data || []) as RfidEvent[];
-      if (waves.length === 0 && rfidEvents.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        for (const w of waveRfids) { try { await entityRepo.create<WaveRfid>(WAVE, toWaveRow(w)); } catch { /* 尽力回填 */ } }
-        for (const e of rfidEvents) { try { await entityRepo.create<RfidEvent>(TAG, e); } catch { /* 尽力回填 */ } }
-        const [rw2, rt2] = await Promise.all([
-          entityRepo.list<WaveRfid>(WAVE, { page: 1, pageSize: 200 }),
-          entityRepo.list<RfidEvent>(TAG, { page: 1, pageSize: 500 }),
-        ]);
-        set({
-          waves: ((rw2?.data || []) as any[]).map(parseWave),
-          rfidEvents: (rt2?.data || []) as RfidEvent[],
-          loaded: true,
-        });
-        return;
-      }
-      set({
-        waves: waves.length ? waves : [...waveRfids],
-        rfidEvents: rfidEvents.length ? rfidEvents : [...rfidEvents],
-        loaded: true,
-      });
-    } catch {
-      set({ waves: [...waveRfids], rfidEvents: [...rfidEvents], loaded: true });
-    }
-  },
-
-  addWave: async (w) => {
-    set((s) => ({ waves: [...s.waves, w] }));
-    try {
-      const created = await entityRepo.create<WaveRfid>(WAVE, toWaveRow(w));
-      set((s) => ({ waves: s.waves.map((x) => (x.id === w.id ? (created as WaveRfid) : x)) }));
-    } catch { set((s) => ({ waves: s.waves.filter((x) => x.id !== w.id) })); }
-  },
-  updateWave: async (id, u) => {
-    const prev = get().waves.find((x) => x.id === id);
-    set((s) => ({ waves: s.waves.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<WaveRfid>(WAVE, id, toWaveRow(u)); }
-    catch { if (prev) set((s) => ({ waves: s.waves.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteWave: async (id) => {
-    const prev = [...get().waves];
-    set((s) => ({ waves: s.waves.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(WAVE, id); } catch { set({ waves: prev }); }
-  },
-
-  addRfidEvent: async (e) => {
-    set((s) => ({ rfidEvents: [e, ...s.rfidEvents] }));
-    try {
-      const created = await entityRepo.create<RfidEvent>(TAG, e);
-      set((s) => ({ rfidEvents: s.rfidEvents.map((x) => (x.id === e.id ? (created as RfidEvent) : x)) }));
-    } catch { set((s) => ({ rfidEvents: s.rfidEvents.filter((x) => x.id !== e.id) })); }
-  },
-  deleteRfidEvent: async (id) => {
-    const prev = [...get().rfidEvents];
-    set((s) => ({ rfidEvents: s.rfidEvents.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(TAG, id); } catch { set({ rfidEvents: prev }); }
-  },
-}));
+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

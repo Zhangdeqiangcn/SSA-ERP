@@ -1,55 +1,46 @@
-import { api } from './api';
-import { PurchaseRequest, PurchaseOrder, VendorQuote, PaginatedResponse } from '@/types';
-
-export const purchaseApi = {
-  // Purchase Request CRUD
-  getPurchaseRequests: (params?: { page?: number; pageSize?: number; status?: string; priority?: string }) =>
-    api.get<PaginatedResponse<PurchaseRequest>>('/purchase-requests', params),
-
-  getPurchaseRequest: (id: string) =>
-    api.get<PurchaseRequest>(`/purchase-requests/${id}`),
-
-  createPurchaseRequest: (data: Partial<PurchaseRequest>) =>
-    api.post<PurchaseRequest>('/purchase-requests', data),
-
-  updatePurchaseRequest: (id: string, data: Partial<PurchaseRequest>) =>
-    api.put<PurchaseRequest>(`/purchase-requests/${id}`, data),
-
-  deletePurchaseRequest: (id: string) =>
-    api.delete(`/purchase-requests/${id}`),
-
-  // Approval
-  approvePurchaseRequest: (id: string, comments?: string) =>
-    api.post<PurchaseRequest>(`/purchase-requests/${id}/approve`, { comments }),
-
-  rejectPurchaseRequest: (id: string, reason: string) =>
-    api.post<PurchaseRequest>(`/purchase-requests/${id}/reject`, { reason }),
-
-  // Purchase Order CRUD
-  getPurchaseOrders: (params?: { page?: number; pageSize?: number; status?: string }) =>
-    api.get<PaginatedResponse<PurchaseOrder>>('/purchase-orders', params),
-
-  getPurchaseOrder: (id: string) =>
-    api.get<PurchaseOrder>(`/purchase-orders/${id}`),
-
-  createPurchaseOrder: (data: Partial<PurchaseOrder>) =>
-    api.post<PurchaseOrder>('/purchase-orders', data),
-
-  updatePurchaseOrder: (id: string, data: Partial<PurchaseOrder>) =>
-    api.put<PurchaseOrder>(`/purchase-orders/${id}`, data),
-
-  deletePurchaseOrder: (id: string) =>
-    api.delete(`/purchase-orders/${id}`),
-
-  // Price Compare
-  getQuotes: (requestId: string) =>
-    api.get<VendorQuote[]>(`/purchase-requests/${requestId}/quotes`),
-
-  submitQuote: (requestId: string, data: Partial<VendorQuote>) =>
-    api.post<VendorQuote>(`/purchase-requests/${requestId}/quotes`, data),
-
-  compareQuotes: (requestId: string) =>
-    api.get<{ request: PurchaseRequest; quotes: VendorQuote[] }>(`/purchase-requests/${requestId}/compare`),
-};
-
-export default purchaseApi;
+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
+Lubkrv/hX6ncoIASkZB8mw==

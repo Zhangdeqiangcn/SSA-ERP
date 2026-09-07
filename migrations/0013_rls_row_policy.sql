@@ -1,40 +1,52 @@
--- 迁移 0013：行级安全(RLS)物理列
--- 给 10 张业务关系表加 owner_id / dept_id，支撑「应用层行级策略」（D1/SQLite 无原生 RLS）。
--- 默认 NULL = 遗留数据全员可见（向前兼容）。
--- 说明：本文件为规范迁移；生产部署时若 schema_migrations 登记漂移，
---       改用 `wrangler d1 execute --remote --command "$(cat 0013_*.sql)"` 内联补列（同 V2.70 经验）。
-
--- ── 业务单据表（按 owner 隔离：销售看自己客户/订单、采购看自己供应商/订单）──
-ALTER TABLE customers      ADD COLUMN owner_id TEXT;
-ALTER TABLE customers      ADD COLUMN dept_id  TEXT;
-ALTER TABLE sales_orders   ADD COLUMN owner_id TEXT;
-ALTER TABLE sales_orders   ADD COLUMN dept_id  TEXT;
-ALTER TABLE vendors        ADD COLUMN owner_id TEXT;
-ALTER TABLE vendors        ADD COLUMN dept_id  TEXT;
-ALTER TABLE purchase_orders ADD COLUMN owner_id TEXT;
-ALTER TABLE purchase_orders ADD COLUMN dept_id  TEXT;
-
--- ── 库存/出入库表（按 dept 隔离：仓库只看本部门）──
-ALTER TABLE inbound_orders  ADD COLUMN owner_id TEXT;
-ALTER TABLE inbound_orders  ADD COLUMN dept_id  TEXT;
-ALTER TABLE outbound_orders ADD COLUMN owner_id TEXT;
-ALTER TABLE outbound_orders ADD COLUMN dept_id  TEXT;
-ALTER TABLE inventory_records ADD COLUMN owner_id TEXT;
-ALTER TABLE inventory_records ADD COLUMN dept_id  TEXT;
-
--- ── 共享主数据表（materials/work_orders/vouchers 全员可见，仍加列备扩展）──
-ALTER TABLE materials       ADD COLUMN owner_id TEXT;
-ALTER TABLE materials       ADD COLUMN dept_id  TEXT;
-ALTER TABLE work_orders     ADD COLUMN owner_id TEXT;
-ALTER TABLE work_orders     ADD COLUMN dept_id  TEXT;
-ALTER TABLE vouchers        ADD COLUMN owner_id TEXT;
-ALTER TABLE vouchers        ADD COLUMN dept_id  TEXT;
-
--- 索引（加速行级过滤）
-CREATE INDEX IF NOT EXISTS idx_customers_owner      ON customers(org_id, owner_id);
-CREATE INDEX IF NOT EXISTS idx_sales_orders_owner   ON sales_orders(org_id, owner_id);
-CREATE INDEX IF NOT EXISTS idx_vendors_owner        ON vendors(org_id, owner_id);
-CREATE INDEX IF NOT EXISTS idx_purchase_orders_owner ON purchase_orders(org_id, owner_id);
-CREATE INDEX IF NOT EXISTS idx_inbound_dept         ON inbound_orders(org_id, dept_id);
-CREATE INDEX IF NOT EXISTS idx_outbound_dept        ON outbound_orders(org_id, dept_id);
-CREATE INDEX IF NOT EXISTS idx_inventory_dept       ON inventory_records(org_id, dept_id);
+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

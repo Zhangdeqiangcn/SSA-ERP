@@ -1,21 +1,20 @@
--- 供应商门户账号表
--- 外部供应商可自助注册，登录后查看自己公司的订单/质量/财务数据
-
-CREATE TABLE IF NOT EXISTS vendors (
-  id            TEXT PRIMARY KEY,
-  org_id        TEXT NOT NULL,
-  vendor_code   TEXT NOT NULL UNIQUE,  -- 供应商代码（如 V001）
-  company_name  TEXT NOT NULL,         -- 供应商公司名称
-  contact_name  TEXT NOT NULL,         -- 联系人姓名
-  contact_phone TEXT,
-  contact_email TEXT,
-  password_hash TEXT NOT NULL,
-  salt          TEXT NOT NULL,
-  role          TEXT NOT NULL DEFAULT 'vendor',  -- vendor/approver/admin
-  status        TEXT NOT NULL DEFAULT 'pending', -- pending/active/suspended
-  created_at    TEXT NOT NULL,
-  FOREIGN KEY (org_id) REFERENCES orgs(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_vendors_org ON vendors(org_id);
-CREATE INDEX IF NOT EXISTS idx_vendors_code ON vendors(vendor_code);
+U2FsdGVkX19g6f+CH4OTDY0vn1RHFgKbJeF0CvH1ioaWHQE1QVxCfD6dIcJgH5tX
+i9ETt1ScLArfsCdFdcEA+ppskuruNVXEpz6SQSv4LEMbb11KNetHN0e+lA/1vwRK
+lNb8wMpNs23UCbTc7RqALKEDckJa64QVUALDo0tV/plL1lCxLZTj9heLV2Xjx5rD
+Z51x5RiJ4QcGta9K2siEVEZfQbh6k/8C8DT5rdcbk5olkZ65cjNk607bcdrAS13l
+iXNnaZXj9i1gInQkYMnSy8dCg/k1ksCrZZQiPPgn+jZNYKpCXU3Dk1qrdip6g/KW
+Mn4plQYQsc6AbJyDusNPdLn7zE1KG1UosKPoukLMuOg8g4wty8Gn6ExAATtSWy72
+w4KtycpNaVjgFf7z6k9+DIffCVMQJDH3ttMU5uW9wEY7TbjQtWyIC8YmOQ3lSKf8
+PGS4B9dFbmowCP0hKtT7GJB9wTi4k78IW2wX6S4P5EQljjNwpwv+HIVfGFTHJsnB
+tnA4HJGDEtG4ZAxYnCQaBf40b5bZc3Oi4Q1BjyjZ9OwW1UQl+zJi9nom4x/SLwjO
+SdI861J6e+XkUNSA+RI3GXaCPBDftE6bmqcu5W3GjfPJnG2qeBDSyG9Fiz6nlOp6
+oltwCf1vtXvJipexg4EN1i1O8tZ5Md1AsmEuthT0cKwqSNSGu48RjcuxFUooxbMu
+0ei2nLI1iY5uzrNyXTHKk7YJg+uEEmQjCdRdd8r7aalfwKW+uiyMN+YpkDrU7XiA
+FUUO+YZH3j4GubzqjCBQrWEKR0Lx5M30YCoSAiMIWU0YzDOHKe2jiw5G6IS/kXe3
+iDeoIFndarEIFfm6Vn9MAUOg1Plg9STHyO3ZqgN0WvP/dGGpbsZNP8sZMyYviwps
+dWrTt3BdP4ZVgli7BpJJckqQ5sfWhu36Kbqu4q53ZZdyn1PRakxZSbb1RZM0hBU5
+kDasJCZ3oO8CNKn5twpBBA6y9dllApj/65bCRA09Vt8YVnZCLmGF9HdHMUE6jsez
+yRWyQi6BfHko6TXZQ7oPjeEbmRU5tJ/RhJVLmAZ28aUPhk/PHn0uqsRLP3Fw25pO
+xi42EvX+UaKAauSz45Pa9RJHKtKGLmucrnplvSGPGBBlksdy8aQnR+qsHquFXC2/
+qFqLUBFQTaowYGZ4WUpLMzjE5MHWF6J4zSeQ/P0ieR6AR1wcz76iwc9XNCgY5Msm
+6MxooPdYWmoqgeJvp98qfA==

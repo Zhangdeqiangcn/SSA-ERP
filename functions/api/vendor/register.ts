@@ -1,63 +1,49 @@
-// POST /api/vendor/register — 供应商注册
-import { hashPasswordPbkdf2, makeSalt, json, uid } from '../../_shared/auth';
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: '请求格式错误' }, 400);
-  }
-
-  const vendorCode = (body.vendorCode || '').trim().toUpperCase();
-  const companyName = (body.companyName || '').trim();
-  const contactName = (body.contactName || '').trim();
-  const contactPhone = (body.contactPhone || '').trim();
-  const contactEmail = (body.contactEmail || '').trim();
-  const password = (body.password || '').toString();
-
-  if (!vendorCode || !companyName || !contactName || !password) {
-    return json({ error: '请填写完整信息' }, 400);
-  }
-  if (password.length < 6) {
-    return json({ error: '密码至少6位' }, 400);
-  }
-
-  try {
-    // 查找组织（供应商代码前3位匹配公司码）
-    const org = await env.DB.prepare(
-      'SELECT id FROM orgs WHERE company_code LIKE ? LIMIT 1'
-    ).bind(vendorCode.slice(0, 3) + '%').first();
-
-    if (!org) {
-      return json({ error: '未找到对应组织，请联系企业管理员邀请加入' }, 404);
-    }
-
-    // 检查是否已注册
-    const existing = await env.DB.prepare(
-      'SELECT id FROM vendors WHERE vendor_code = ?'
-    ).bind(vendorCode).first();
-    if (existing) {
-      return json({ error: '该供应商代码已被注册' }, 409);
-    }
-
-    const salt = makeSalt();
-    const passwordHash = await hashPasswordPbkdf2(password, salt);
-    const vendorId = uid('vendor');
-    const now = new Date().toISOString();
-
-    await env.DB.prepare(`
-      INSERT INTO vendors (id, org_id, vendor_code, company_name, contact_name, contact_phone, contact_email, password_hash, salt, role, status, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
-      vendorId, (org as any).id, vendorCode, companyName, contactName,
-      contactPhone || null, contactEmail || null, passwordHash, salt, 'vendor', 'pending', now
-    ).run();
-
-    return json({ message: '注册成功，等待管理员审核' });
-  } catch (e: any) {
-    console.error('Register error:', e);
-    return json({ error: '注册失败: ' + e.message }, 500);
-  }
-}
+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

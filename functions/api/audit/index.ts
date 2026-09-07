@@ -1,48 +1,39 @@
-// GET /api/audit/logs — 分页查询审计日志（按 org_id 隔离）
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const url = new URL(context.request.url);
-  const page = parseInt(url.searchParams.get('page') || '1', 10);
-  const pageSize = parseInt(url.searchParams.get('pageSize') || '50', 10);
-  const keyword = url.searchParams.get('keyword') || '';
-  const action = url.searchParams.get('action') || '';
-  const entity = url.searchParams.get('entity') || '';
-  const offset = (page - 1) * pageSize;
-
-  let sql = `SELECT * FROM audit_logs WHERE org_id = ?`;
-  const params = [user.org_id];
-
-  if (keyword) {
-    sql += ` AND (summary LIKE ? OR user_name LIKE ?)`;
-    params.push(`%${keyword}%`, `%${keyword}%`);
-  }
-  if (action) {
-    sql += ` AND action = ?`;
-    params.push(action);
-  }
-  if (entity) {
-    sql += ` AND entity = ?`;
-    params.push(entity);
-  }
-  sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
-  params.push(pageSize, offset);
-
-  const results = await db.prepare(sql).bind(...params).all();
-  const count = await db.prepare(
-    `SELECT COUNT(*) as cnt FROM audit_logs WHERE org_id = ?${action ? ' AND action = ?' : ''}${entity ? ' AND entity = ?' : ''}`
-  ).bind(user.org_id, ...(action ? [action] : []), ...(entity ? [entity] : [])).first();
-
-  return json({
-    data: (results.results || []).map(r => ({
-      id: r.id, entity: r.entity, entityId: r.entity_id, action: r.action,
-      summary: r.summary, userId: r.user_id, userName: r.user_name,
-      createdAt: r.created_at,
-    })),
-    pagination: { page, pageSize, total: count?.cnt || 0 },
-  });
-}
+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
+8iI7InYoiPjEYbZBSdBNww==

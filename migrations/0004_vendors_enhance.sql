@@ -1,31 +1,37 @@
--- P1 Phase 2: 增强 vendors 表字段（补齐短名、类型、资质、评级、信用、黑名单等）
--- 不删除已有字段，仅新增缺失列
-ALTER TABLE vendors ADD COLUMN short_name TEXT;
-ALTER TABLE vendors ADD COLUMN type TEXT CHECK (type IN ('manufacturer','trader','agent'));
-ALTER TABLE vendors ADD COLUMN address TEXT;
-ALTER TABLE vendors ADD COLUMN qualification_expiry TEXT;
-ALTER TABLE vendors ADD COLUMN rating REAL;
-ALTER TABLE vendors ADD COLUMN credit_level TEXT CHECK (credit_level IN ('AAA','AA','A','B','C'));
-ALTER TABLE vendors ADD COLUMN credit_limit REAL DEFAULT 0;
-ALTER TABLE vendors ADD COLUMN used_credit REAL DEFAULT 0;
-ALTER TABLE vendors ADD COLUMN blacklist_reason TEXT;
-ALTER TABLE vendors ADD COLUMN blacklisted_at TEXT;
-ALTER TABLE vendors ADD COLUMN blacklist_reason_history TEXT;  -- JSON array
-ALTER TABLE vendors ADD COLUMN sales_org TEXT;
-ALTER TABLE vendors ADD COLUMN reconciliation_account TEXT;
-ALTER TABLE vendors ADD COLUMN tax_code TEXT;
-ALTER TABLE vendors ADD COLUMN bank_account TEXT;
-ALTER TABLE vendors ADD COLUMN profile_pending TEXT;           -- JSON
-ALTER TABLE vendors ADD COLUMN profile_pending_at TEXT;
-ALTER TABLE vendors ADD COLUMN profile_pending_by TEXT;
-ALTER TABLE vendors ADD COLUMN profile_reviewed_by TEXT;
-ALTER TABLE vendors ADD COLUMN custom_fields TEXT;             -- JSON object
-
--- 创建索引
-CREATE INDEX IF NOT EXISTS idx_vendors_status ON vendors(org_id, status);
-CREATE INDEX IF NOT EXISTS idx_vendors_credit ON vendors(org_id, credit_level);
-CREATE INDEX IF NOT EXISTS idx_vendors_type ON vendors(org_id, type);
-
--- 记录迁移版本
-INSERT INTO schema_migrations (version, applied_at) VALUES (4, datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+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

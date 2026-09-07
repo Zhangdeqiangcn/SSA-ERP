@@ -1,188 +1,168 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 数据权限（行级 / 组织级）开关（C3 核心之二）
- * ------------------------------------------------------------
- * 把 P2-2 已有的 orgStore（currentOrgId）落地为真正的「业务数据过滤」：
- *   - enabled=false：关闭数据权限，全部数据可见（默认，兼容老逻辑）。
- *   - mode='all'：开启但仍显示全部组织数据（组织级「全部可见」）。
- *   - mode='current-org'：仅显示归属 currentOrgId 的数据；无 orgId 的遗留数据仍可见。
- *   - modules：按模块控制哪些业务域纳入过滤（如 production / purchase / sales）。
- *
- * 业务模块通过 passDataPermission(orgId, currentOrgId, ...) 判断是否展示某行。
- */
-
-export type PermissionMode = 'all' | 'current-org';
-
-// ── 行级可见性范围（镜像后端 functions/_shared/rls.ts TABLE_RLS）──
-//  D1/SQLite 无原生 RLS，后端在 org_id 隔离基础上按角色追加 owner/dept 过滤。
-//  前端此处仅做「展示一致性」对齐（非强制，真强制在后端），避免界面出现后端会拦截的数据。
-export type RlsScope = 'all' | 'own' | 'dept';
-
-/** 前端业务模块 → 行级可见性范围（与后端表范围语义对齐） */
-export const MODULE_RLS_SCOPE: Record<string, RlsScope> = {
-  materials: 'all',      // 物料=共享主数据
-  production: 'all',     // 工单=共享
-  finance: 'all',        // 凭证=共享
-  warehouse: 'dept',     // 出入库/库存按部门
-  quality: 'dept',
-  purchase: 'own',       // 采购单/供应商按负责人
-  vendor: 'own',
-  sales: 'own',          // 销售单/客户按负责人
-  customer: 'own',
-};
-
-/** 豁免角色：组织内管理员/老板看全部（与后端 RLS_PRIVILEGED 一致） */
-export const RLS_PRIVILEGED = new Set(['admin', 'owner', 'boss']);
-
-/** 敏感字段屏蔽配置：按角色 + 模块隐藏特定字段 */
-export interface SensitiveFieldConfig {
-  role: string;
-  module: string;
-  fields: string[];
-}
-
-export interface DataPermissionState {
-  enabled: boolean;
-  mode: PermissionMode;
-  /** 纳入数据权限过滤的业务模块开关 */
-  modules: Record<string, boolean>;
-  /** 敏感字段屏蔽配置 */
-  sensitiveFields: SensitiveFieldConfig[];
-  setEnabled: (v: boolean) => void;
-  setMode: (m: PermissionMode) => void;
-  toggleModule: (key: string) => void;
-  setSensitiveFields: (configs: SensitiveFieldConfig[]) => void;
-  addSensitiveFieldConfig: (config: SensitiveFieldConfig) => void;
-  removeSensitiveFieldConfig: (role: string, module: string) => void;
-  /** 检查当前用户是否有权查看指定模块的指定字段 */
-  isFieldVisible: (userRole: string, module: string, fieldName: string) => boolean;
-  reset: () => void;
-}
-
-const seedModules: Record<string, boolean> = {
-  production: true,
-  purchase: true,
-  sales: true,
-  warehouse: false,
-  quality: false,
-};
-
-const defaultSensitiveFields: SensitiveFieldConfig[] = [
-  // 采购：仓库/质检看不到单价与订单金额
-  { role: 'warehouse_keeper', module: 'purchase', fields: ['unitPrice', 'orderAmount'] },
-  { role: 'qa_inspector', module: 'purchase', fields: ['unitPrice', 'orderAmount'] },
-  // 销售：采购/仓库/质检看不到单价与订单金额
-  { role: 'buyer', module: 'sales', fields: ['unitPrice', 'orderAmount'] },
-  { role: 'warehouse_keeper', module: 'sales', fields: ['orderAmount'] },
-  { role: 'qa_inspector', module: 'sales', fields: ['orderAmount'] },
-  // 客户：仓库/采购/质检看不到授信额度
-  { role: 'warehouse_keeper', module: 'customer', fields: ['creditLimit'] },
-  { role: 'buyer', module: 'customer', fields: ['creditLimit'] },
-  { role: 'qa_inspector', module: 'customer', fields: ['creditLimit'] },
-  // 供应商：仓库/质检看不到授信额度
-  { role: 'warehouse_keeper', module: 'vendor', fields: ['creditLimit'] },
-  { role: 'qa_inspector', module: 'vendor', fields: ['creditLimit'] },
-];
-
-export const useDataPermissionStore = create<DataPermissionState>()(
-  persist(
-    (set, get) => ({
-      enabled: false,
-      mode: 'all',
-      modules: { ...seedModules },
-      sensitiveFields: [...defaultSensitiveFields],
-
-      setEnabled: (v) => set({ enabled: v }),
-      setMode: (m) => set({ mode: m }),
-      toggleModule: (key) =>
-        set((s) => ({ modules: { ...s.modules, [key]: !s.modules[key] } })),
-      setSensitiveFields: (configs) => set({ sensitiveFields: configs }),
-      addSensitiveFieldConfig: (config) =>
-        set((s) => {
-          const idx = s.sensitiveFields.findIndex(
-            (c) => c.role === config.role && c.module === config.module
-          );
-          if (idx >= 0) {
-            const next = [...s.sensitiveFields];
-            next[idx] = config;
-            return { sensitiveFields: next };
-          }
-          return { sensitiveFields: [...s.sensitiveFields, config] };
-        }),
-      removeSensitiveFieldConfig: (role, module) =>
-        set((s) => ({
-          sensitiveFields: s.sensitiveFields.filter(
-            (c) => !(c.role === role && c.module === module)
-          ),
-        })),
-      isFieldVisible: (userRole, module, fieldName) => {
-        const config = get().sensitiveFields.find(
-          (c) => c.role === userRole && c.module === module
-        );
-        if (!config) return true;
-        return !config.fields.includes(fieldName);
-      },
-      reset: () =>
-        set({
-          enabled: false,
-          mode: 'all',
-          modules: { ...seedModules },
-          sensitiveFields: [...defaultSensitiveFields],
-        }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-data-permission',
-      version: 2,
-      partialize: (state) => ({
-        enabled: state.enabled,
-        mode: state.mode,
-        modules: state.modules,
-        sensitiveFields: state.sensitiveFields,
-      }),
-    }
-  )
-);
-
-/**
- * 行级可见性判定：供业务列表过滤使用。
- * @param orgId        该行数据的归属组织（无则为遗留数据）
- * @param currentOrgId 当前登录/切换到的组织
- * @param enabled      数据权限总开关
- * @param mode         组织级模式
- * @param moduleKey    业务模块键
- * @param modules      各模块纳入过滤的开关
- * @param opts         对接后端 D1 行级策略（角色可见性）的可选项，仅影响前端展示一致性，非强制
- *                       - role:    当前用户角色（admin/owner/boss 豁免）
- *                       - userId:  当前用户 id（'own' 范围比对 ownerId）
- *                       - userDept:当前用户部门（'dept' 范围比对 deptId）
- *                       - ownerId: 该行负责人 id
- *                       - deptId:  该行部门
- */
-export const passDataPermission = (
-  orgId: string | undefined,
-  currentOrgId: string,
-  enabled: boolean,
-  mode: PermissionMode,
-  moduleKey: string,
-  modules: Record<string, boolean>,
-  opts?: { role?: string; userId?: string; userDept?: string; ownerId?: string; deptId?: string }
-): boolean => {
-  if (!enabled) return true;                 // 总开关关闭：全部可见
-  if (mode === 'all') return true;           // 组织级「全部可见」
-  if (!modules[moduleKey]) return true;      // 该模块未纳入过滤
-  if (!orgId) return true;                   // 遗留数据默认可见
-  if (orgId !== currentOrgId) return false;  // 仅当前组织
-
-  // ── 后端 D1 行级策略（角色可见性）前端展示一致性对齐 ──
-  // 豁免角色看全部；'all' 范围不过滤；'own' 比负责人；'dept' 比部门。
-  if (opts?.role && RLS_PRIVILEGED.has(opts.role)) return true;
-  const scope = MODULE_RLS_SCOPE[moduleKey] ?? 'all';
-  if (scope === 'all') return true;
-  if (scope === 'own') return !opts?.ownerId || opts.ownerId === opts.userId;
-  if (scope === 'dept') return !opts?.deptId || opts.deptId === opts.userDept;
-  return true;
-};
+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

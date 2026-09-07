@@ -1,107 +1,95 @@
-// B2 三岛「落 D1」双写桥接层。
-//
-// 设计原则（与现有前端零冲突）：
-//   1. 所有请求都从 localStorage('ssa-erp-auth-token') 取 token，注入 Authorization: Bearer <token>。
-//   2. 未登录 / token 缺失 / fetch 抛错 / 响应非 2xx → 一律静默 return null，绝不抛异常、不阻塞前端。
-//   3. 前端永远以本地 zustand store 为准；本层只负责「尽力把变更同步到 D1」，失败即放弃。
-//   4. 调用方（各 store）应当 fire-and-forget：在本地 set 完成之后异步调用，使用 .catch(() => {}) 兜底。
-//
-// 注意：本文件不依赖 axios，也不用 src/services/api.ts（那个 client 用的是 'token' key 且 401 会跳登录），
-// 以免双写失败影响既有登录态与导航。
-
-const TOKEN_KEY = 'ssa-erp-auth-token';
-const BASE = '/api';
-
-function getToken(): string | null {
-  try {
-    return typeof window !== 'undefined' ? window.localStorage.getItem(TOKEN_KEY) : null;
-  } catch {
-    return null;
-  }
-}
-
-/** 是否已登录（有 token 即视为可尝试双写） */
-export function isAuthed(): boolean {
-  return !!getToken();
-}
-
-/** 通用安全请求：任何异常都返回 null，不向上抛。 */
-async function request<T = unknown>(method: string, path: string, body?: unknown): Promise<T | null> {
-  const token = getToken();
-  if (!token) return null;
-  try {
-    const res = await fetch(`${BASE}${path}`, {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
-    if (!res.ok) return null;
-    if (res.status === 204) return null;
-    const text = await res.text();
-    if (!text) return null;
-    try {
-      return JSON.parse(text) as T;
-    } catch {
-      // 响应体非 JSON（例如纯文本 200）——视为成功但无结构化数据
-      return null;
-    }
-  } catch {
-    return null;
-  }
-}
-
-type IdResult = { id?: string } | null;
-
-export const b2Api = {
-  // ── 序列号 / HU ──
-  postSerial: (p: Record<string, unknown>) =>
-    request<IdResult>('POST', '/serial-numbers', p),
-  putSerial: (id: string, p: Record<string, unknown>) =>
-    request('PUT', `/serial-numbers/${encodeURIComponent(id)}`, p),
-  deleteSerial: (id: string) =>
-    request('DELETE', `/serial-numbers/${encodeURIComponent(id)}`),
-  // 核销端点（备选；本改造优先用「逐条 PUT 同步」以完全对齐前端取号结果）
-  consumeSerials: (p: Record<string, unknown>) =>
-    request<{ consumed?: string[] } | null>('POST', '/serial-numbers/consume', p),
-
-  // ── 委外 ──
-  postSubcontract: (p: Record<string, unknown>) =>
-    request<IdResult>('POST', '/subcontracts', p),
-  putSubcontract: (id: string, p: Record<string, unknown>) =>
-    request('PUT', `/subcontracts/${encodeURIComponent(id)}`, p),
-  deleteSubcontract: (id: string) =>
-    request('DELETE', `/subcontracts/${encodeURIComponent(id)}`),
-
-  // ── 工单领料 ──
-  postPicking: (p: Record<string, unknown>) =>
-    request('POST', '/work-orders/picking', p),
-  putPicking: (id: string, p: Record<string, unknown>) =>
-    request('PUT', `/work-orders/picking/${encodeURIComponent(id)}`, p),
-  deletePicking: (id: string) =>
-    request('DELETE', `/work-orders/picking/${encodeURIComponent(id)}`),
-
-  // ── 出库单 / 入库单 ──
-  postOutbound: (p: Record<string, unknown>) =>
-    request<IdResult>('POST', '/outbound-orders', p),
-  postInbound: (p: Record<string, unknown>) =>
-    request<IdResult>('POST', '/inbound-orders', p),
-
-  // 仓库战役：读 / 改 / 删（直连真实 D1，根治 app_state Blob 双通道）
-  getInbounds: () => request('GET', '/inbound-orders?pageSize=200'),
-  getInbound: (id: string) => request('GET', `/inbound-orders/${encodeURIComponent(id)}`),
-  getOutbounds: () => request('GET', '/outbound-orders?pageSize=200'),
-  getOutbound: (id: string) => request('GET', `/outbound-orders/${encodeURIComponent(id)}`),
-  putInbound: (id: string, p: Record<string, unknown>) =>
-    request('PUT', `/inbound-orders/${encodeURIComponent(id)}`, p),
-  deleteInbound: (id: string) =>
-    request('DELETE', `/inbound-orders/${encodeURIComponent(id)}`),
-  putOutbound: (id: string, p: Record<string, unknown>) =>
-    request('PUT', `/outbound-orders/${encodeURIComponent(id)}`, p),
-  deleteOutbound: (id: string) =>
-    request('DELETE', `/outbound-orders/${encodeURIComponent(id)}`),
-};
-
-export default b2Api;
+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

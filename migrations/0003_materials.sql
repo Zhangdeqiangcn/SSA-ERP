@@ -1,112 +1,77 @@
--- P1 Phase 1 · 物料主数据关系化
--- 将 src/stores/materialStore 中散存于 app_state 的物料 JSON blob 迁至真实关系表。
--- 表结构覆盖 Material 接口全部字段，parameters/plantParams/customFields 等对象数组
--- 以 TEXT 形式序列化后落库，便于后续查询。
--- 幂等：ON CONFLICT(org_id, code) DO UPDATE 避免重复写入。
-
-CREATE TABLE IF NOT EXISTS materials (
-  -- 主键 & 组织隔离
-  org_id          TEXT NOT NULL,
-  id              TEXT NOT NULL,
-  code            TEXT NOT NULL,
-  name            TEXT NOT NULL,
-
-  -- 基本属性
-  category_id     TEXT,
-  category_name   TEXT,
-  specification   TEXT,
-  model           TEXT,
-  unit            TEXT NOT NULL DEFAULT '个',
-
-  -- 分类视图
-  material_type   TEXT CHECK (material_type IN ('raw','semi','finished','purchased','service')),
-  make_or_buy     TEXT CHECK (make_or_buy IN ('make','buy')),
-
-  -- 库存水位
-  safety_stock    REAL NOT NULL DEFAULT 0,
-  min_stock       REAL NOT NULL DEFAULT 0,
-  max_stock       REAL NOT NULL DEFAULT 0,
-  current_stock   REAL NOT NULL DEFAULT 0,
-
-  -- 价格视图
-  price           REAL NOT NULL DEFAULT 0,
-  currency        TEXT NOT NULL DEFAULT 'CNY',
-  standard_price  REAL,
-  moving_avg_price REAL,
-  stock_value     REAL,
-
-  -- 采购视图
-  lead_time       INTEGER,
-  moq             REAL,
-  mpq             REAL,
-  default_vendor_id TEXT,
-  default_vendor_name TEXT,
-  purchase_unit   TEXT,
-  unit_conversion REAL,
-  purchasing_group TEXT,
-  order_unit      TEXT,
-  purchasing_value_key TEXT,
-  gr_processing_days INTEGER,
-
-  -- MRP 视图
-  mrp_type        TEXT,
-  mrp_controller  TEXT,
-  lot_size        REAL,
-  reorder_point   REAL,
-  planned_delivery_days INTEGER,
-
-  -- 销售视图
-  tax_classification TEXT,
-  delivery_unit   TEXT,
-  min_order_qty   REAL,
-  min_delivery_qty REAL,
-  account_assignment_group TEXT,
-
-  -- 评估视图
-  valuation_class TEXT CHECK (valuation_class IN ('RAW','SEMI','FG','TRADING','PACKAGING','CONSUMABLE')),
-  price_control   TEXT CHECK (price_control IN ('S','V')),
-
-  -- 工艺属性（自制件）
-  routing         TEXT,
-  work_center     TEXT,
-  cycle_time      REAL,
-  scrap_rate      REAL,
-  inspection_point TEXT,
-
-  -- 生命周期
-  status          TEXT NOT NULL DEFAULT 'draft',
-  lifecycle_status TEXT CHECK (lifecycle_status IN ('draft','active','phasing_out','obsolete')),
-  shelf_life_days INTEGER DEFAULT 0,
-  shelf_life_warning_days INTEGER DEFAULT 0,
-  batch_managed   INTEGER DEFAULT 0,
-  serialized      INTEGER DEFAULT 0,
-  gtin            TEXT,
-
-  -- 扩展
-  remarks         TEXT,
-  parameters      TEXT,   -- JSON array of {key, value, unit?}
-  plant_params    TEXT,   -- JSON array of PlantParam
-  custom_fields   TEXT,   -- JSON object
-
-  -- 审计
-  created_at      TEXT NOT NULL,
-  updated_at      TEXT NOT NULL,
-  created_by      TEXT NOT NULL,
-  updated_by      TEXT NOT NULL,
-
-  PRIMARY KEY (id),
-  UNIQUE(org_id, code)
-);
-
-CREATE INDEX IF NOT EXISTS idx_materials_org ON materials(org_id);
-CREATE INDEX IF NOT EXISTS idx_materials_code ON materials(code);
-CREATE INDEX IF NOT EXISTS idx_materials_status ON materials(status);
-CREATE INDEX IF NOT EXISTS idx_materials_type ON materials(material_type);
-
--- 记录迁移状态（幂等守卫）
--- 注意：version 必须是 TEXT 主键——0005+ 迁移以文本版本号（如 '0005_purchase_orders'）INSERT，
--- 若定义为 INTEGER PRIMARY KEY，向 INTEGER 主键插入文本会触发 SQLITE_MISMATCH，导致迁移无法幂等重放。
-CREATE TABLE IF NOT EXISTS schema_migrations (
-  version     TEXT PRIMARY KEY,
-  applied_at  TEXT NOT NULL DEFAULT (datetime('now'))
-);
+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

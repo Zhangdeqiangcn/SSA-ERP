@@ -1,78 +1,53 @@
-import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
-
-export const apiClient: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// Request interceptor
-// 注意：登录态 token 由 authStore.applySession → persistStorage.setSyncToken 写入
-// localStorage['ssa-erp-auth-token']（见 persistStorage.ts）。旧代码误读 'token'（该 key 从未被写入），
-// 导致所有经 api 的已迁域(materials/customers/vendors) 与 W0 S&OP 在生产环境请求不带 Bearer，
-// 后端 getUserFromRequest 一律 401、D1 收不到写。此处优先读 ssa-erp-auth-token，
-// 保留 'token' 作为防御性 fallback（以防将来确有写入点）。
-const AUTH_TOKEN_KEY = 'ssa-erp-auth-token';
-function getAuthToken(): string | null {
-  try {
-    return localStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem('token');
-  } catch {
-    return null;
-  }
-}
-apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
-    const token = getAuthToken();
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error: AxiosError) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor
-apiClient.interceptors.response.use(
-  (response: AxiosResponse) => {
-    return response;
-  },
-  (error: AxiosError) => {
-    if (error.response?.status === 401) {
-      // 清除所有已知 token key，避免 stale token 导致反复 401
-      try {
-        localStorage.removeItem('ssa-erp-auth-token');
-        localStorage.removeItem('token');
-      } catch {
-        /* ignore */
-      }
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
-
-// Generic CRUD operations
-export const api = {
-  get: <T>(url: string, params?: Record<string, unknown>): Promise<T> =>
-    apiClient.get(url, { params }).then((res) => res.data),
-
-  post: <T>(url: string, data?: unknown): Promise<T> =>
-    apiClient.post(url, data).then((res) => res.data),
-
-  put: <T>(url: string, data?: unknown): Promise<T> =>
-    apiClient.put(url, data).then((res) => res.data),
-
-  patch: <T>(url: string, data?: unknown): Promise<T> =>
-    apiClient.patch(url, data).then((res) => res.data),
-
-  delete: <T>(url: string): Promise<T> =>
-    apiClient.delete(url).then((res) => res.data),
-};
-
-export default api;
+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

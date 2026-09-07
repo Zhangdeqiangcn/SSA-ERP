@@ -1,130 +1,122 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 统一编号规则中心（C3 核心之一）
- * ------------------------------------------------------------
- * 替代此前散落在各业务模块里的硬编码编号（PO${Date.now()} / WO${ymd}${rand} 等），
- * 集中维护所有单据类型的「前缀 + 日期格式 + 序号位数 + 当前序号」，并提供统一的
- * nextNo / previewNext / updateRule / resetSeq。
- *
- * 业务接入约定：
- *   - 标准工单（WorkOrderList 新建）与采购订单（OrderForm）接入 nextNo；
- *   - MTO / MRP 工单保留特殊前缀（WO-MTO- / WO-MRP-），不纳入统一规则，避免破坏既有联动。
- */
-
-export type DocType =
-  | 'PO' | 'SO' | 'WO' | 'PR' | 'IN' | 'OUT' | 'FG' | 'QC' | 'MRP'
-  | 'TPS' | 'ACC'
-  | 'SOP' | 'BI' | 'ESG';
-
-export type DatePattern = 'none' | 'YYYY' | 'YYYYMM' | 'YYYYMMDD';
-
-export interface NumberingRule {
-  docType: DocType;
-  prefix: string;       // 业务前缀，如 WO / PO
-  separator: string;    // 各段之间的分隔符，如 '-'
-  datePattern: DatePattern;
-  seqLength: number;    // 序号位数（不足前补 0）
-  currentSeq: number;   // 当前序号（nextNo 时 +1）
-  label: string;        // 中文名，展示用
-}
-
-const datePart = (pattern: DatePattern): string => {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = (d.getMonth() + 1).toString().padStart(2, '0');
-  const day = d.getDate().toString().padStart(2, '0');
-  switch (pattern) {
-    case 'YYYY': return String(y);
-    case 'YYYYMM': return `${y}${m}`;
-    case 'YYYYMMDD': return `${y}${m}${day}`;
-    default: return '';
-  }
-};
-
-const formatNo = (rule: NumberingRule, seq: number): string => {
-  const seqStr = seq.toString().padStart(rule.seqLength, '0');
-  const dp = datePart(rule.datePattern);
-  // 段间统一用 separator：prefix + sep + date + sep + seq
-  // 例：WO + - + 2026 + - + 0001 => WO-2026-0001
-  if (!dp) return `${rule.prefix}${rule.separator}${seqStr}`;
-  return `${rule.prefix}${rule.separator}${dp}${rule.separator}${seqStr}`;
-};
-
-const seedRules: Record<DocType, NumberingRule> = {
-  PO:  { docType: 'PO',  prefix: 'PO',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '采购订单' },
-  SO:  { docType: 'SO',  prefix: 'SO',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '销售订单' },
-  WO:  { docType: 'WO',  prefix: 'WO',  separator: '-', datePattern: 'YYYY',     seqLength: 4, currentSeq: 0,  label: '生产工单' },
-  PR:  { docType: 'PR',  prefix: 'PR',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '采购申请' },
-  IN:  { docType: 'IN',  prefix: 'IN',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '入库单' },
-  OUT: { docType: 'OUT', prefix: 'OUT', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '出库单' },
-  FG:  { docType: 'FG',  prefix: 'FG',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '成品入库' },
-  QC:  { docType: 'QC',  prefix: 'QC',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '质检单' },
-  MRP: { docType: 'MRP', prefix: 'MRP', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: 'MRP计划' },
-  TPS: { docType: 'TPS', prefix: 'TPS', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '三方销售单' },
-  ACC: { docType: 'ACC', prefix: 'ACC', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0,  label: '资金账户' },
-  SOP: { docType: 'SOP', prefix: 'SOP', separator: '-', datePattern: 'YYYYMM', seqLength: 4, currentSeq: 0, label: 'S&OP计划' },
-  BI:  { docType: 'BI',  prefix: 'BI',  separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0, label: 'BI连接' },
-  ESG: { docType: 'ESG', prefix: 'ESG', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, currentSeq: 0, label: 'ESG报告' },
-};
-
-export const DOC_TYPES = Object.keys(seedRules) as DocType[];
-
-interface NumberingState {
-  rules: Record<DocType, NumberingRule>;
-  /** 生成下一个编号并自增序号（会持久化） */
-  nextNo: (docType: DocType) => string;
-  /** 预览下一个编号（不改变序号） */
-  previewNext: (docType: DocType) => string;
-  /** 修改某单据规则（prefix / separator / datePattern / seqLength） */
-  updateRule: (docType: DocType, partial: Partial<NumberingRule>) => void;
-  /** 重置某单据当前序号为 0 */
-  resetSeq: (docType: DocType) => void;
-  resetAll: () => void;
-}
-
-export const useNumberingStore = create<NumberingState>()(
-  persist(
-    (set, get) => ({
-      rules: { ...seedRules },
-
-      nextNo: (docType) => {
-        const rule = get().rules[docType];
-        const seq = rule.currentSeq + 1;
-        const no = formatNo(rule, seq);
-        set((s) => ({
-          rules: { ...s.rules, [docType]: { ...rule, currentSeq: seq } },
-        }));
-        return no;
-      },
-
-      previewNext: (docType) => {
-        const rule = get().rules[docType];
-        return formatNo(rule, rule.currentSeq + 1);
-      },
-
-      updateRule: (docType, partial) =>
-        set((s) => ({
-          rules: {
-            ...s.rules,
-            [docType]: { ...s.rules[docType], ...partial, docType },
-          },
-        })),
-
-      resetSeq: (docType) =>
-        set((s) => ({
-          rules: { ...s.rules, [docType]: { ...s.rules[docType], currentSeq: 0 } },
-        })),
-
-      resetAll: () => set({ rules: { ...seedRules } }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-numbering',
-      version: 1,
-      partialize: (state) => ({ rules: state.rules }),
-    }
-  )
-);
+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

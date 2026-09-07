@@ -1,133 +1,127 @@
-// GET/PUT/DELETE /api/customers/:id
-import { getUserFromRequest, json } from '../../_shared/auth';
-import { assertRlsOwnership } from '../../_shared/rls';
-
-export async function onRequestGet(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const row = await env.DB.prepare(
-    'SELECT * FROM customers WHERE id = ? AND org_id = ?'
-  ).bind(params.id, user.org_id).first();
-  if (!row) return json({ error: '客户不存在' }, 404);
-  return json(formatCustomer(row as any));
-}
-
-export async function onRequestPut(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  let body: any;
-  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
-
-  const existing = await env.DB.prepare(
-    'SELECT id, code, owner_id FROM customers WHERE id = ? AND org_id = ?'
-  ).bind(params.id, user.org_id).first();
-  if (!existing) return json({ error: '客户不存在' }, 404);
-  if (!assertRlsOwnership(user, existing, 'customers')) return json({ error: '无权限修改他人客户' }, 403);
-
-  if (body.code && body.code !== (existing as any).code) {
-    const dup = await env.DB.prepare(
-      'SELECT id FROM customers WHERE org_id = ? AND code = ? AND id != ?'
-    ).bind(user.org_id, body.code, params.id).first();
-    if (dup) return json({ error: '客户编码已存在' }, 409);
-  }
-
-  const now = new Date().toISOString();
-  try {
-  await env.DB.prepare(`
-    UPDATE customers SET
-      code = COALESCE(?, code),
-      name = COALESCE(?, name),
-      short_name = COALESCE(?, short_name),
-      type = COALESCE(?, type),
-      status = COALESCE(?, status),
-      credit_level = COALESCE(?, credit_level),
-      credit_limit = COALESCE(?, credit_limit),
-      used_credit = COALESCE(?, used_credit),
-      settlement_term_days = COALESCE(?, settlement_term_days),
-      tax_id = COALESCE(?, tax_id),
-      invoice_title = COALESCE(?, invoice_title),
-      invoice_address = COALESCE(?, invoice_address),
-      invoice_phone = COALESCE(?, invoice_phone),
-      bank_name = COALESCE(?, bank_name),
-      bank_account = COALESCE(?, bank_account),
-      bank_account_name = COALESCE(?, bank_account_name),
-      contact_name = COALESCE(?, contact_name),
-      contact_phone = COALESCE(?, contact_phone),
-      contact_email = COALESCE(?, contact_email),
-      address = COALESCE(?, address),
-      default_currency = COALESCE(?, default_currency),
-      default_tax_rate = COALESCE(?, default_tax_rate),
-      sales_org = COALESCE(?, sales_org),
-      reconciliation_account = COALESCE(?, reconciliation_account),
-      tax_code = COALESCE(?, tax_code),
-      remarks = COALESCE(?, remarks),
-      custom_fields = COALESCE(?, custom_fields),
-      updated_at = ?
-    WHERE id = ? AND org_id = ?
-  `  ).bind(
-    body.code ?? null, body.name ?? null, body.shortName ?? null, body.type ?? null, body.status ?? null,
-    body.creditLevel ?? null, body.creditLimit ?? null, body.usedCredit ?? null,
-    body.settlementTermDays ?? null,
-    body.taxId ?? null, body.invoiceTitle ?? null, body.invoiceAddress ?? null, body.invoicePhone ?? null,
-    body.bankName ?? null, body.bankAccount ?? null, body.bankAccountName ?? null,
-    body.contactName ?? null, body.contactPhone ?? null, body.contactEmail ?? null, body.address ?? null,
-    body.defaultCurrency ?? null, body.defaultTaxRate ?? null,
-    body.salesOrg ?? null, body.reconciliationAccount ?? null, body.taxCode ?? null,
-    body.remarks ?? null,
-    body.customFields ? JSON.stringify(body.customFields) : null,
-    now, params.id, user.org_id
-  ).run();
-  } catch (e: any) {
-    return json({ error: '更新失败: ' + (e?.message || String(e)) }, 500);
-  }
-
-  const updated = await env.DB.prepare('SELECT * FROM customers WHERE id = ? AND org_id = ?').bind(params.id, user.org_id).first();
-  if (!updated) return json({ error: '客户不存在' }, 404);
-  return json(formatCustomer(updated as any));
-}
-
-export async function onRequestDelete(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const target = await env.DB.prepare(
-    'SELECT id, owner_id FROM customers WHERE id = ? AND org_id = ?'
-  ).bind(params.id, user.org_id).first();
-  if (!target) return json({ error: '客户不存在' }, 404);
-  if (!assertRlsOwnership(user, target, 'customers')) return json({ error: '无权限删除他人客户' }, 403);
-  const result = await env.DB.prepare(
-    'DELETE FROM customers WHERE id = ? AND org_id = ?'
-  ).bind(params.id, user.org_id).run();
-  if ((result.meta?.changes ?? result.changes) === 0) return json({ error: '客户不存在' }, 404);
-  return json({ ok: true });
-}
-
-function formatCustomer(r: any) {
-  return {
-    id: r.id, org_id: r.org_id,
-    code: r.code, name: r.name, shortName: r.short_name,
-    type: r.type, status: r.status,
-    creditLevel: r.credit_level, creditLimit: r.credit_limit, usedCredit: r.used_credit,
-    settlementTermDays: r.settlement_term_days,
-    taxId: r.tax_id, invoiceTitle: r.invoice_title,
-    invoiceAddress: r.invoice_address, invoicePhone: r.invoice_phone,
-    bankName: r.bank_name, bankAccount: r.bank_account, bankAccountName: r.bank_account_name,
-    contactName: r.contact_name, contactPhone: r.contact_phone, contactEmail: r.contact_email,
-    address: r.address,
-    defaultCurrency: r.default_currency, defaultTaxRate: r.default_tax_rate,
-    salesOrg: r.sales_org, reconciliationAccount: r.reconciliation_account, taxCode: r.tax_code,
-    remarks: r.remarks,
-    customFields: safeParse(r.custom_fields),
-    createdAt: r.created_at, updatedAt: r.updated_at,
-  };
-}
-
-function safeParse(s: string | null): any {
-  if (!s) return undefined;
-  try { return JSON.parse(s); } catch { return undefined; }
-}
+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
+uvQwgDYbYQufxV6Y1wHTAw==

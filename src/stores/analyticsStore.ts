@@ -1,30 +1,26 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { ForecastSuggestion, OcrHistoryItem } from '@/types/analytics';
-
-interface AnalyticsState {
-  forecastSuggestions: ForecastSuggestion[];
-  ocrHistory: OcrHistoryItem[];
-  addForecastSuggestion: (s: ForecastSuggestion) => void;
-  addOcrHistory: (item: OcrHistoryItem) => void;
-  clearForecastSuggestions: () => void;
-  clearOcrHistory: () => void;
-}
-
-export const useAnalyticsStore = create<AnalyticsState>()(
-  persist(
-    (set) => ({
-      forecastSuggestions: [],
-      ocrHistory: [],
-      // 注意：必须用 set(updater) 返回新数组，绝不能 setter([...list, item])（partial 合并会静默失效）
-      addForecastSuggestion: (s) =>
-        set((st) => ({ forecastSuggestions: [...st.forecastSuggestions, s] })),
-      addOcrHistory: (item) => set((st) => ({ ocrHistory: [...st.ocrHistory, item] })),
-      clearForecastSuggestions: () => set({ forecastSuggestions: [] }),
-      clearOcrHistory: () => set({ ocrHistory: [] }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-analytics' }
-  )
-);
+U2FsdGVkX1/y59kXoO5ZqSZv7VQZhyjSpbKSNPHqEMFn/jA3Cnedk2/+smDXEfek
+YaVOwug3r8UMhwFcHfbpt/Ohez83IIxIMf1rywp35zVY0LUztm6IqMuVo6SC4yHg
+zywMM5Ityo+wuU0rFm/HaFaSIsczA0kmIhgZWmU8XnTd3dXYAeoL2jTMoXFy/kJu
+/JEgnzavTg5HlRzb/NfnAnKLfiiHZuEP/TPmDOkWmjNzEuTw47Wy1EfocDD7gsnN
+H+51y3EUEz3mHd5NvWnkDrZK3rZHyHHArqBNZT5Am16v33N49YOp2yR982GIp9/S
+PcFNhHY5Np1ZdVFpVq9ooVfrOWZjQkJ4dPZxCzil7D74IKUDWSNtfnsDBOe/m09u
+c7qQb07DFKPv6BEIwdihgV8zefxHqsCltpFKjVgaycCcTfteY0TtGL/A33uEj++O
+7u0MdLeI5QjA5Sc+EVpKdO3PFrJ9LLhZhQEJfdhQBGOGRbCgOay5KrPGVXW9o9Vi
+MSOqmgKQkkxifo4mOZ7HMhns+JADTDG9K4ubqyQJtMt3XNc6xuevJjoeESl7Aj5m
+m0j6c/33LMYZM6dtkEWQYlCqXASW83VK59VISGdWDVMgI27mljrspgTjUeu66Ufh
+QBohsdPhZOWHxNStsGQgqn97G/KFimor/8cOwo6dcPP10fux/GxW1kQ332vXFWsF
+Iq1/EB1nmoCWr00xUTssOIOlE0m/7YQRVZSOX2VYkwn7OWtPkxRdyqddS302zhyi
+3YEDqU8L9D+VRVpmtCKY1sbu18QbKbagX3hvhp5/SJf6nfbpLygtdEKlcjYOaFtm
+2qmoW3fdkRZfFoqAIJqb9IQlP/7n76qY9h4tl+PAEqcgOC1cmbeMFv77zO0AcSRN
+2KZgI/iZ4GiUlowzRO1mH6yGVnGO17RZ6gUmSpn6fDbcgWfVnrjK4QSvS5AECtkd
++ns0IBe/fRGIK0cGBe4W90fiAFUHDMVSC8N5pa9B/a2iWItozOZg0s/l7Yz32H5H
+4OL1pNBwMlHqOLAdAUjRaOsVY9/9CqlNPHAteaiV5DemQLvS3vJjoYSGSLwMMUGD
+fZfHwupXJs9saoIAgA1JPeU5/IKT69rQ9tRpMWeqJ2ILTuTsinwi++U/dnRr8WHE
+Z4ZDzVkHk7uJP1i8aGaWu5Yj7fdasq/+4KkA+XabX5CocKVoGbZSR8nl/tKP3o2k
+WM03VpvRteodtYyEvxt3P4aQL2eae9XkORRCFT/8mDldfQ3G9QIs1Vrhm7uSh/Js
+J0NnFkBUwwhshJDwMtBCp19QYN8lqXsJLiRx0Hbh9qSQkObFlcdiOJEcWksRj/Pe
+sRBoludC7UtlS59RvJjIQ26DrqWKEEl30TReawXW5iR0iF23hVVUgqej1hKd7yrv
+ODlK8goDVB4i8eTbJnw0T4VAWEBnlmB93UrixhjnLMOdke+C2NyTMlo7XOWm1Lcm
+8lKLb+wqrj/zdvugVhmvS2xGYs2k+L3qMR8QwvKpY12JbOt2NQdDUY4FG1YiGxxf
+8Gv933jGE6K6jxcr2qH/XbhOYAMZaFgw4Ea4UDNXiu/h76ewh2IpusLGln2AcLW/
+wsOUzLd2nQ6Z74WPjSI/Ew==

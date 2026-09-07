@@ -1,93 +1,95 @@
-// GET/PUT/DELETE /api/vouchers/:id
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const row = await db.prepare(`SELECT * FROM vouchers WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!row) return json({ error: '凭证不存在' }, 404);
-
-  const items = await db.prepare(`SELECT * FROM voucher_items WHERE voucher_id = ? ORDER BY line_no`).bind(id).all();
-
-  return json({
-    ...row,
-    items: (items.results || []).map(r => ({
-      id: r.id, voucher_id: r.voucher_id, line_no: Number(r.line_no), summary: r.summary,
-      account_code: r.account_code, account_name: r.account_name,
-      debit: Number(r.debit), credit: Number(r.credit),
-      currency: r.currency || 'CNY', exchange_rate: r.exchange_rate ? Number(r.exchange_rate) : 1,
-    })),
-  });
-}
-
-export async function onRequestPut(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const existing = await db.prepare(`SELECT id FROM vouchers WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!existing) return json({ error: '凭证不存在' }, 404);
-
-  const body = await context.request.json().catch(() => ({}));
-  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
-
-  const fields = ['voucherNo', 'voucherType', 'date', 'period', 'description', 'source', 'status', 'totalDebit', 'totalCredit', 'currency', 'attachmentCount', 'sourceNo', 'createdBy', 'reviewedBy', 'reviewedAt', 'postedBy', 'postedAt', 'reversed', 'reversedBy', 'reversedAt', 'reversalVoucherNo', 'remark', 'remarks'];
-  const setClauses = [];
-  const values = [];
-
-  for (const f of fields) {
-    if (body[f] !== undefined) {
-      const col = f === 'voucherNo' ? 'voucher_no' : f === 'voucherType' ? 'voucher_type' : f === 'date' ? 'date' :
-        f === 'period' ? 'period' : f === 'description' ? 'description' : f === 'source' ? 'source' : f === 'status' ? 'status' :
-        f === 'totalDebit' ? 'totalDebit' : f === 'totalCredit' ? 'totalCredit' : f === 'currency' ? 'currency' :
-        f === 'attachmentCount' ? 'attachment_count' : f === 'sourceNo' ? 'source_no' : f === 'createdBy' ? 'createdBy' :
-        f === 'reviewedBy' ? 'reviewedBy' : f === 'reviewedAt' ? 'reviewed_at' : f === 'postedBy' ? 'postedBy' :
-        f === 'postedAt' ? 'posted_at' : f === 'reversed' ? 'reversed' : f === 'reversedBy' ? 'reversedBy' :
-        f === 'reversedAt' ? 'reversed_at' : f === 'reversalVoucherNo' ? 'reversal_voucher_no' :
-        f === 'remark' ? 'remarks' : f === 'remarks' ? 'remarks' :
-        f.toLowerCase();
-      setClauses.push(`${col} = ?`);
-      values.push(body[f]);
-    }
-  }
-  setClauses.push('updated_at = ?', 'updated_by = ?');
-  values.push(now, user.name);
-
-  await db.prepare(`UPDATE vouchers SET ${setClauses.join(', ')} WHERE id = ?`).bind(...values, id).run();
-
-  // 同步更新分录行
-  if (body.items && Array.isArray(body.items)) {
-    await db.prepare(`DELETE FROM voucher_items WHERE voucher_id = ?`).bind(id).run();
-    for (const item of body.items) {
-      await db.prepare(`INSERT INTO voucher_items (id, voucher_id, line_no, summary, account_code, account_name, debit, credit, currency, exchange_rate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
-        item.id || `vi-${id}-${Math.random().toString(36).slice(2, 6)}`,
-        id, item.lineNo || 0, item.summary || null, item.accountCode || null, item.accountName || null,
-        item.debit || 0, item.credit || 0, item.currency || 'CNY', item.exchangeRate || 1
-      ).run();
-    }
-  }
-
-  return json({ success: true });
-}
-
-export async function onRequestDelete(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const id = context.params.id;
-
-  const row = await db.prepare(`SELECT id FROM vouchers WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
-  if (!row) return json({ error: '凭证不存在' }, 404);
-
-  await db.prepare(`DELETE FROM vouchers WHERE id = ?`).bind(id).run();
-  await db.prepare(`DELETE FROM voucher_items WHERE voucher_id = ?`).bind(id).run();
-
-  return json({ success: true });
-}
+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

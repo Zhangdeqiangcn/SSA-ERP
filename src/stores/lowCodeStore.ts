@@ -1,83 +1,62 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { LowCodeForm, LowCodeRecord, LowCodeField } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const today = () => new Date().toISOString().slice(0, 10);
-
-interface LowCodeState {
-  formDefinitions: LowCodeForm[];
-  formRecords: LowCodeRecord[];
-  addFormDefinition: (form: Omit<LowCodeForm, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateFormDefinition: (id: string, patch: Partial<Omit<LowCodeForm, 'id' | 'createdAt'>>) => void;
-  deleteFormDefinition: (id: string) => void;
-  submitForm: (formId: string, data: Record<string, unknown>) => void;
-  deleteRecord: (id: string) => void;
-}
-
-const seedForm: LowCodeForm = {
-  id: 'lc-seed-1',
-  name: '客户回访单',
-  description: '低代码示例：客户回访信息登记',
-  fields: [
-    { key: 'customer', label: '客户名称', type: 'text', required: true },
-    { key: 'score', label: '满意度评分', type: 'select', options: ['1', '2', '3', '4', '5'] },
-    { key: 'visitDate', label: '回访日期', type: 'date' },
-    { key: 'note', label: '备注', type: 'textarea' },
-  ],
-  createdAt: today(),
-  updatedAt: today(),
-};
-
-export const useLowCodeStore = create<LowCodeState>()(
-  persist(
-    (set) => ({
-      formDefinitions: [seedForm],
-      formRecords: [
-        {
-          id: 'lcr-seed-1',
-          formId: 'lc-seed-1',
-          formName: '客户回访单',
-          data: { customer: '示例客户A', score: '5', visitDate: today(), note: '满意' },
-          createdAt: today(),
-        },
-      ],
-      addFormDefinition: (form) =>
-        set((s) => ({
-          formDefinitions: [
-            ...s.formDefinitions,
-            { ...form, id: uid('lc'), createdAt: today(), updatedAt: today() },
-          ],
-        })),
-      updateFormDefinition: (id, patch) =>
-        set((s) => ({
-          formDefinitions: s.formDefinitions.map((f) =>
-            f.id === id ? { ...f, ...patch, updatedAt: today() } : f,
-          ),
-        })),
-      deleteFormDefinition: (id) =>
-        set((s) => ({ formDefinitions: s.formDefinitions.filter((f) => f.id !== id) })),
-      submitForm: (formId, data) =>
-        set((s) => {
-          const form = s.formDefinitions.find((f) => f.id === formId);
-          return {
-            formRecords: [
-              ...s.formRecords,
-              {
-                id: uid('lcr'),
-                formId,
-                formName: form?.name,
-                data,
-                createdAt: today(),
-              },
-            ],
-          };
-        }),
-      deleteRecord: (id) =>
-        set((s) => ({ formRecords: s.formRecords.filter((r) => r.id !== id) })),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-lowcode' },
-  ),
-);
+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

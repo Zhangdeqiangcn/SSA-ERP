@@ -1,136 +1,91 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 自定义字段（P2-1 剩余）
- * ------------------------------------------------------------
- * 允许管理员为指定业务实体（物料/采购订单/采购申请）动态配置扩展字段，
- * 无需改代码即可在对应表单上渲染并随主数据一起持久化。
- * 字段定义存于唯一 store（ssa-erp-customfield），各表单通过 useCustomFields
- * 读取当前实体的字段定义，用 <CustomFieldsSection> 统一渲染与收集值。
- */
-
-export type CustomFieldEntity = 'material' | 'purchaseOrder' | 'purchaseRequest';
-
-export type CustomFieldType = 'text' | 'number' | 'date' | 'select' | 'textarea' | 'checkbox';
-
-export interface CustomFieldDef {
-  /** 字段唯一标识（同一实体内唯一） */
-  key: string;
-  /** 显示名称 */
-  label: string;
-  /** 字段类型 */
-  type: CustomFieldType;
-  /** select 类型的可选项 */
-  options?: string[];
-  /** 是否必填 */
-  required?: boolean;
-  /** 输入占位提示 */
-  placeholder?: string;
-}
-
-export const CUSTOM_FIELD_ENTITY_LABELS: Record<CustomFieldEntity, string> = {
-  material: '物料',
-  purchaseOrder: '采购订单',
-  purchaseRequest: '采购申请',
-};
-
-export const CUSTOM_FIELD_TYPE_LABELS: Record<CustomFieldType, string> = {
-  text: '文本',
-  number: '数字',
-  date: '日期',
-  select: '下拉选择',
-  textarea: '多行文本',
-  checkbox: '勾选框',
-};
-
-type EntityFields = Record<CustomFieldEntity, CustomFieldDef[]>;
-
-export interface CustomFieldState {
-  fields: EntityFields;
-  addField: (entity: CustomFieldEntity, def: CustomFieldDef) => void;
-  updateField: (entity: CustomFieldEntity, key: string, patch: Partial<CustomFieldDef>) => void;
-  removeField: (entity: CustomFieldEntity, key: string) => void;
-  moveField: (entity: CustomFieldEntity, key: string, dir: -1 | 1) => void;
-  resetEntity: (entity: CustomFieldEntity) => void;
-  resetAll: () => void;
-}
-
-const EMPTY: EntityFields = {
-  material: [],
-  purchaseOrder: [],
-  purchaseRequest: [],
-};
-
-/** 工厂：生成唯一字段 key */
-export const makeFieldKey = (label: string): string => {
-  const slug = label
-    .trim()
-    .replace(/[^\w一-龥]/g, '')
-    .slice(0, 12);
-  const rand = Math.random().toString(36).slice(2, 6);
-  return `cf_${slug || 'field'}_${rand}`;
-};
-
-export const useCustomFieldStore = create<CustomFieldState>()(
-  persist(
-    (set) => ({
-      fields: { ...EMPTY },
-
-      addField: (entity, def) =>
-        set((state) => ({
-          fields: {
-            ...state.fields,
-            [entity]: [...state.fields[entity], def],
-          },
-        })),
-
-      updateField: (entity, key, patch) =>
-        set((state) => ({
-          fields: {
-            ...state.fields,
-            [entity]: state.fields[entity].map((f) =>
-              f.key === key ? { ...f, ...patch } : f
-            ),
-          },
-        })),
-
-      removeField: (entity, key) =>
-        set((state) => ({
-          fields: {
-            ...state.fields,
-            [entity]: state.fields[entity].filter((f) => f.key !== key),
-          },
-        })),
-
-      moveField: (entity, key, dir) =>
-        set((state) => {
-          const list = [...state.fields[entity]];
-          const idx = list.findIndex((f) => f.key === key);
-          if (idx < 0) return state;
-          const next = idx + dir;
-          if (next < 0 || next >= list.length) return state;
-          [list[idx], list[next]] = [list[next], list[idx]];
-          return { fields: { ...state.fields, [entity]: list } };
-        }),
-
-      resetEntity: (entity) =>
-        set((state) => ({
-          fields: { ...state.fields, [entity]: [] },
-        })),
-
-      resetAll: () => set({ fields: { ...EMPTY } }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-customfield',
-      version: 1,
-      partialize: (state) => ({ fields: state.fields }),
-    }
-  )
-);
-
-/** 便捷 hook：读取某实体的字段定义 */
-export const useCustomFields = (entity: CustomFieldEntity): CustomFieldDef[] =>
-  useCustomFieldStore((s) => s.fields[entity] || []);
+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
+QXjE0nvLyDnX7zgYnpl7Tg==

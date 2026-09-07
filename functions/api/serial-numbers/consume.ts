@@ -1,36 +1,37 @@
-// POST /api/serial-numbers/consume — FIFO 核销序列号
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestPost(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const body = await context.request.json().catch(() => ({}));
-  const materialId = body.materialId;
-  const qty = parseInt(body.qty, 10);
-  const newStatus = body.newStatus || 'shipped';
-  const date = body.date || new Date().toISOString().replace(/\.\d{3}Z$/, '');
-  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
-
-  if (!materialId || !qty || qty <= 0) {
-    return json({ error: 'materialId 与 qty 必填且 qty 为正整数' }, 400);
-  }
-
-  const avail = await db.prepare(`SELECT * FROM serial_masters WHERE org_id = ? AND material_id = ? AND status = 'in_stock' ORDER BY inbound_date ASC, serial_no ASC LIMIT ?`).bind(user.org_id, materialId, qty).all();
-  const rows = avail.results || [];
-  if (rows.length < qty) {
-    return json({ error: '在库序列号不足', available: rows.length, required: qty }, 409);
-  }
-
-  const consumed: string[] = [];
-  for (const r of rows) {
-    await db.prepare(`UPDATE serial_masters SET status = ?, outbound_date = ?, updated_at = ?, updated_by = ? WHERE id = ?`).bind(newStatus, date, now, user.name, r.id).run();
-    await db.prepare(`INSERT INTO serial_movements (id, serial_master_id, type, doc_no, date, status, note) VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(
-      'smv-' + crypto.randomUUID(), r.id, body.type || null, body.docNo || null, date, newStatus, null
-    ).run();
-    consumed.push(r.serial_no);
-  }
-
-  return json({ consumed });
-}
+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

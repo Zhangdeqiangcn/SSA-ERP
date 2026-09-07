@@ -1,69 +1,67 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import { BiConnection, BiStatus } from '@/types/bi';
-import { biConnections } from '@/mocks/data/bi';
-
-// V2.80.0 W1：BI 集成迁真实 D1（根治双通道）。
-// 单资源 biIntegration 经 entityRepo 读写，移除原 persist(backendStorage) 本地存储 Blob。
-// 乐观更新 + 失败回滚 + 首次空库回填 seed（离线/Mock 兜底，不阻断 UI）。
-interface BiState {
-  list: BiConnection[];
-  loaded: boolean;
-  load: () => Promise<void>;
-  addConn: (c: BiConnection) => Promise<void>;
-  updateConn: (id: string, updates: Partial<BiConnection>) => Promise<void>;
-  deleteConn: (id: string) => Promise<void>;
-  /** 触发一次同步：置为 connected 并记录 lastSyncAt（模拟 BI 平台拉取成功） */
-  syncConnection: (id: string) => Promise<void>;
-}
-
-const BI = 'biIntegration';
-const flagKey = 'ssa-erp-backfilled-bi';
-
-export const useBiStore = create<BiState>()((set, get) => ({
-  list: [...biConnections],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const r = await entityRepo.list<BiConnection>(BI, { page: 1, pageSize: 200 });
-      const list = (r?.data || []) as BiConnection[];
-      if (list.length === 0 && !localStorage.getItem(flagKey)) {
-        localStorage.setItem(flagKey, '1');
-        for (const c of biConnections) { try { await entityRepo.create<BiConnection>(BI, c); } catch { /* 尽力回填 */ } }
-        const r2 = await entityRepo.list<BiConnection>(BI, { page: 1, pageSize: 200 });
-        set({ list: ((r2?.data || []) as BiConnection[]).length ? (r2?.data as BiConnection[]) : [...biConnections], loaded: true });
-        return;
-      }
-      set({ list: list.length ? list : [...biConnections], loaded: true });
-    } catch {
-      set({ list: [...biConnections], loaded: true });
-    }
-  },
-
-  addConn: async (c) => {
-    set((s) => ({ list: [...s.list, c] }));
-    try {
-      const created = await entityRepo.create<BiConnection>(BI, c);
-      set((s) => ({ list: s.list.map((x) => (x.id === c.id ? (created as BiConnection) : x)) }));
-    } catch { set((s) => ({ list: s.list.filter((x) => x.id !== c.id) })); }
-  },
-  updateConn: async (id, u) => {
-    const prev = get().list.find((x) => x.id === id);
-    set((s) => ({ list: s.list.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<BiConnection>(BI, id, u); }
-    catch { if (prev) set((s) => ({ list: s.list.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteConn: async (id) => {
-    const prev = [...get().list];
-    set((s) => ({ list: s.list.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(BI, id); } catch { set({ list: prev }); }
-  },
-  syncConnection: async (id) => {
-    const prev = get().list.find((x) => x.id === id);
-    const patch = { status: 'connected' as BiStatus, lastSyncAt: new Date().toISOString() };
-    set((s) => ({ list: s.list.map((x) => (x.id === id ? { ...x, ...patch } : x)) }));
-    try { await entityRepo.update<BiConnection>(BI, id, patch); }
-    catch { if (prev) set((s) => ({ list: s.list.map((x) => (x.id === id ? prev : x)) })); }
-  },
-}));
+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
+4ouqeMBW7rQYKW8jSRccbw==

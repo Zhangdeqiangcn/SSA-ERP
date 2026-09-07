@@ -1,120 +1,121 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { EightDRecord, SpcChart, LabEquipment } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const today = () => new Date().toISOString().slice(0, 10);
-const addDays = (base: string, days: number) => {
-  const d = new Date(base);
-  d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
-};
-
-interface QualityExtensionState {
-  eightDRecords: EightDRecord[];
-  spcCharts: SpcChart[];
-  labEquipments: LabEquipment[];
-
-  // 8D
-  addEightD: (r: EightDRecord) => void;
-  updateEightD: (id: string, u: Partial<EightDRecord>) => void;
-  deleteEightD: (id: string) => void;
-  closeEightD: (id: string, d8?: string) => void;
-
-  // SPC
-  addSpcChart: (c: SpcChart) => void;
-  updateSpcChart: (id: string, u: Partial<SpcChart>) => void;
-  deleteSpcChart: (id: string) => void;
-
-  // 实验室 / 检验设备
-  addLabEquipment: (e: LabEquipment) => void;
-  updateLabEquipment: (id: string, u: Partial<LabEquipment>) => void;
-  deleteLabEquipment: (id: string) => void;
-  calibrateEquipment: (id: string, date: string) => void;
-}
-
-const seedLab: LabEquipment[] = [
-  {
-    id: 'lab-seed-1', equipmentNo: 'LAB-CAL-001', name: '数显千分尺', type: 'gauge', model: '293-240',
-    manufacturer: 'Mitutoyo', location: '计量室', custodian: '李计量', calibrationCycleDays: 180,
-    lastCalibrationDate: addDays(today(), -185), nextCalibrationDate: addDays(today(), -5), status: 'in_use',
-    accuracy: '±0.001mm', createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
-  },
-  {
-    id: 'lab-seed-2', equipmentNo: 'LAB-CMM-002', name: '三坐标测量机', type: 'cmm', model: 'EXPLORER',
-    manufacturer: 'HEXAGON', location: '精测间', custodian: '王精测', calibrationCycleDays: 365,
-    lastCalibrationDate: addDays(today(), -30), nextCalibrationDate: addDays(today(), 335), status: 'in_use',
-    accuracy: '±1.5μm', createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
-  },
-];
-
-const seedSpc: SpcChart[] = [
-  {
-    id: 'spc-seed-1', name: '缸体孔径 SPC', characteristic: '缸体孔径', unit: 'mm', subgroupSize: 5,
-    usl: 80.05, lsl: 79.95,
-    subgroups: [
-      { id: 'g1', label: 'G1', values: [80.01, 80.00, 79.99, 80.02, 80.00] },
-      { id: 'g2', label: 'G2', values: [79.98, 80.01, 80.00, 79.99, 80.02] },
-      { id: 'g3', label: 'G3', values: [80.03, 80.02, 80.01, 80.04, 80.00] },
-      { id: 'g4', label: 'G4', values: [80.20, 80.18, 80.19, 80.21, 80.17] }, // 失控子组
-      { id: 'g5', label: 'G5', values: [79.99, 80.00, 80.01, 79.98, 80.00] },
-    ],
-    createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
-  },
-];
-
-const seed8D: EightDRecord[] = [
-  {
-    id: 'd8-seed-1', code: '8D-2026-001', title: '钢板表面划伤客诉', sourceType: 'customer_complaint',
-    sourceNo: 'CUST-2026-0312', priority: 'high', status: 'in_progress', owner: '张质量',
-    team: ['张质量', '李工艺', '王生产'], d0: '客户现场隔离在制品 200 件', d1: '成立专项小组',
-    d2: '批次 STEEL-001 表面划伤率 3.2%', d3: '暂停发货并全检',
-    dueDate: addDays(today(), 15), createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
-  },
-];
-
-export const useQualityExtensionStore = create<QualityExtensionState>()(
-  persist(
-    (set) => ({
-      eightDRecords: [...seed8D],
-      spcCharts: [...seedSpc],
-      labEquipments: [...seedLab],
-
-      addEightD: (r) => set((s) => ({ eightDRecords: [...s.eightDRecords, r] })),
-      updateEightD: (id, u) =>
-        set((s) => ({ eightDRecords: s.eightDRecords.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteEightD: (id) => set((s) => ({ eightDRecords: s.eightDRecords.filter((x) => x.id !== id) })),
-      closeEightD: (id, d8) =>
-        set((s) => ({ eightDRecords: s.eightDRecords.map((x) => (x.id === id ? { ...x, status: 'closed', d8: d8 || x.d8, closedDate: today(), updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-
-      addSpcChart: (c) => set((s) => ({ spcCharts: [...s.spcCharts, c] })),
-      updateSpcChart: (id, u) =>
-        set((s) => ({ spcCharts: s.spcCharts.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteSpcChart: (id) => set((s) => ({ spcCharts: s.spcCharts.filter((x) => x.id !== id) })),
-
-      addLabEquipment: (e) => set((s) => ({ labEquipments: [...s.labEquipments, e] })),
-      updateLabEquipment: (id, u) =>
-        set((s) => ({ labEquipments: s.labEquipments.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteLabEquipment: (id) => set((s) => ({ labEquipments: s.labEquipments.filter((x) => x.id !== id) })),
-      calibrateEquipment: (id, date) =>
-        set((s) => ({
-          labEquipments: s.labEquipments.map((x) => {
-            if (x.id !== id) return x;
-            const next = addDays(date, x.calibrationCycleDays);
-            return { ...x, lastCalibrationDate: date, nextCalibrationDate: next, status: 'in_use', updatedAt: today(), updatedBy: '当前用户' };
-          }),
-        })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-quality-ext',
-      version: 1,
-      partialize: (state) => ({
-        eightDRecords: state.eightDRecords,
-        spcCharts: state.spcCharts,
-        labEquipments: state.labEquipments,
-      }),
-    }
-  )
-);
+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
+IAk5uCn/Plp1JowWGlPiFg==

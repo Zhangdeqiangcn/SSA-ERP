@@ -1,62 +1,52 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { MaterialChangeDoc, MaterialChangeField } from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const today = () => new Date().toISOString().slice(0, 10);
-
-interface MaterialExtensionState {
-  changeDocs: MaterialChangeDoc[];
-
-  addChangeDoc: (doc: MaterialChangeDoc) => void;
-  updateChangeDoc: (id: string, u: Partial<MaterialChangeDoc>) => void;
-  deleteChangeDoc: (id: string) => void;
-  // 便捷：记录一次物料变更（评估类/价控/工厂维度等）
-  logMaterialChange: (params: {
-    materialId: string; materialCode: string; materialName: string;
-    changeType: MaterialChangeDoc['changeType']; fields: MaterialChangeField[];
-    reason: string; operator?: string;
-  }) => void;
-}
-
-export const useMaterialExtensionStore = create<MaterialExtensionState>()(
-  persist(
-    (set) => ({
-      changeDocs: [],
-
-      addChangeDoc: (doc) => set((s) => ({ changeDocs: [...s.changeDocs, doc] })),
-      updateChangeDoc: (id, u) =>
-        set((s) => ({ changeDocs: s.changeDocs.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) })),
-      deleteChangeDoc: (id) => set((s) => ({ changeDocs: s.changeDocs.filter((x) => x.id !== id) })),
-
-      logMaterialChange: (params) =>
-        set((s) => ({
-          changeDocs: [
-            ...s.changeDocs,
-            {
-              id: uid('mcd'),
-              changeNo: `MCD-${today().replace(/-/g, '')}-${s.changeDocs.length + 1}`,
-              materialId: params.materialId,
-              materialCode: params.materialCode,
-              materialName: params.materialName,
-              changeType: params.changeType,
-              fields: params.fields,
-              reason: params.reason,
-              operator: params.operator || '当前用户',
-              createdAt: new Date().toISOString(),
-              updatedAt: new Date().toISOString(),
-              createdBy: params.operator || '当前用户',
-              updatedBy: params.operator || '当前用户',
-            },
-          ],
-        })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-material-ext',
-      version: 1,
-      partialize: (state) => ({ changeDocs: state.changeDocs }),
-    }
-  )
-);
+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
+Wl/kq5ZarryQ7h1s3+OcPA==

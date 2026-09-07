@@ -1,28 +1,25 @@
-// POST /api/audit/logs — 写入审计日志
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestPost(context) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const db = context.env.DB;
-  const body = await context.request.json().catch(() => ({}));
-
-  const { entity, entityId, action, summary } = body;
-  if (!action || !entity) return json({ error: '缺少 action 或 entity' }, 400);
-
-  const id = `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-  const now = new Date().toISOString();
-
-  await db.prepare(
-    `INSERT INTO audit_logs (id, org_id, user_id, user_name, action, entity, entity_id, summary, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
-  ).bind(id, user.org_id, user.id, user.name, action, entity, entityId || null, summary || '', now).run();
-
-  // 只保留最近 10000 条
-  await db.prepare(
-    `DELETE FROM audit_logs WHERE rowid NOT IN (SELECT rowid FROM audit_logs WHERE org_id = ? ORDER BY created_at DESC LIMIT 10000)`
-  ).bind(user.org_id).run();
-
-  return json({ success: true, id });
-}
+U2FsdGVkX1+seHQCyrQ4yEJVG0hsufraus+nCFVH3qnw3i4x0nF6MAlyVE4oCTmK
+eFqn44JgFrAz8TOvLSz6RFOrAYasiGpn8lz2sQxR+8DX0XImaJTpFxXKH6vAwXAU
+pB8lxyK6MHnWTwbw85nP6BbyfUSWZWXHwvRMZ8jnna1QI3q+Fo9mUeHdfpbPY3//
+SVrhBc2JuprzqBO4no3nGnwOy6q94CwSrHW3LFhJRK4rTULZBL52XY9S+Ik6WCsZ
+br+LnTrqIwbs9BT0+vWUBaGBp9CQzEf1j2OZXl0bBzrRLCH34iiPxYOz2Xcovr30
++jqyiIxMNpiWdXaol4xUum3dT3NCcaxBPOyV8qjb8va0XHFWL3eBL5hoUO8urdEv
+nuuad8EyZThtSCpyrbEg1KXQM9CL4A7R8vEY3CM/bNC08GBGoeOaiX7vAPKyfJCY
+psByFHgqKb5Z6VluBazIr9lYM3W2hFLsyYh+jMjb0WApKF3Dcqze1m4JAR+1NWHj
+LbQQ9MSXoevzE8/Hmw02TXkFRVnavQL1yt6DwLuywb5tg4zYXDOjem/pEEmsOf7Q
+6a0BJWZtCkxQeAf+SeomRdLUMJ1L+DD8voV4m5XmCwQ7IeEEODdF5beIqbxc08K2
+YO2QLTovnMpdPLx62dpWhgOho82sedfCMrQLy3+T+qSeTndfR2b9FYcba9ltMxA7
+2CyLqi1WczPni2/gMDR/Zl/FI5+QnQv0phltnLTJ6VG10KXAqbGTcVD9urbmJmM+
+KkFd1/YIE9FpCNuaNhW8Z4qoMvbjTsQ+ToG5qLhRhLb4zOUe6LPyQ7yo5K3IbkpL
+Z5VFoh142Yr3xaMrv3GiO+49innJJcp0TPoclea05BtkcfMhEWheTasGBKzDdKPC
+boZw/fQCFYD8vJZ93HcmYchqTxtmFy5WNZ2LIBY7K5fhpc9NHyA9u1+R7JXgo8O0
+x6NcX2bF+cl1TaUc9WotQWjZB3FdZcuM/76Xtl1xDPo8E9yjjvHH57fzQvSUys4t
+YV2WWI4ZZI2EaMmlfimKmHch/V9mxf4Xzh8BQNYRW/R15fF3F0tyQwfYXGNPnq/y
+u1At2AbArWnIMiWB9syecuS86p8EhQe0UJoRI5IZbTGALlEZBRy5Q28b/kNU9Mwy
+dyCb0r+az07kUSftplwBu5tFjCOEsamZYuxcE4ACf1ahpIelX9wKZL+j5hBB8J8Y
+gWGiIMtD7n21vhu3mXzkxoqECCimB4z58hmlRavgBWYz4IK9R3Jk3m6gN0Kx0F/f
+4YQvCD+6J0KI/WGh/u98h0IF363i8hbtlvUpd9wHLVjajkmCPQGS230ikn+7mLPT
+u80AWgox+3xWapK/DZqZJn42loZkAnJDMHJZROygQmHdxJtuLmpBQKpXzA8mn5nD
+4QVeQL0xKSABsUnbFAR9LC2j1TcP5fHf/2Ny6FwifjOren7keNRr5kQHvIwrPfmc
+wfnlxiiz2zfMP1EjeqNEVQTSyeNDMdfVQvifNVPJHkvAbSNCJ+NPc8bh1tUHEm3k
+JL2SSP0hvgqvsd/RBFG5yet8+WAswWZVGuf+BETpvY3qsxVviJ6QRr/8gTAht4LK

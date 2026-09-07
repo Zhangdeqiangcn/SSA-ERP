@@ -1,141 +1,86 @@
-// 共享鉴权逻辑（被各 /api 路由复用）
-// 在 Cloudflare Pages Functions 运行时中执行
-
-export interface SessionUser {
-  id: string;
-  org_id: string;
-  username: string;
-  name: string;
-  role: string;
-  department?: string;
-}
-
-// 从请求头取出当前登录用户（校验 Bearer token + 会话有效期）
-export async function getUserFromRequest(
-  request: Request,
-  DB: any
-): Promise<SessionUser | null> {
-  const auth = request.headers.get('Authorization');
-  if (!auth || !auth.startsWith('Bearer ')) return null;
-  const token = auth.slice(7).trim();
-  if (!token) return null;
-
-  const sess = await DB.prepare(
-    'SELECT user_id, expires_at FROM sessions WHERE token = ?'
-  )
-    .bind(token)
-    .first();
-  if (!sess) return null;
-
-  const expires = new Date((sess as any).expires_at);
-  if (expires.getTime() < Date.now()) return null;
-
-  const user = await DB.prepare(
-    'SELECT id, org_id, username, name, role, department FROM users WHERE id = ?'
-  )
-    .bind((sess as any).user_id)
-    .first();
-  if (!user) return null;
-
-  return user as unknown as SessionUser;
-}
-
-// SHA-256 + 盐 密码哈希（旧格式，仅用于兼容存量账号的登录校验）
-export async function hashPassword(password: string, salt: string): Promise<string> {
-  const data = new TextEncoder().encode(salt + ':' + password);
-  const digest = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-// 新格式：PBKDF2-HMAC-SHA-256（带随机盐 + 10 万次迭代），抗彩虹表/暴力破解
-// 存储格式：pbkdf2$<iterations>$<saltHex>$<hashHex>
-export const PBKDF2_ITERATIONS = 100000;
-
-export async function hashPasswordPbkdf2(password: string, salt: string): Promise<string> {
-  const enc = new TextEncoder();
-  const keyMaterial = await crypto.subtle.importKey(
-    'raw',
-    enc.encode(password),
-    { name: 'PBKDF2' },
-    false,
-    ['deriveBits']
-  );
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: 'PBKDF2',
-      salt: enc.encode(salt),
-      iterations: PBKDF2_ITERATIONS,
-      hash: 'SHA-256',
-    },
-    keyMaterial,
-    256
-  );
-  const hashHex = Array.from(new Uint8Array(bits))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-  return `pbkdf2$${PBKDF2_ITERATIONS}$${salt}$${hashHex}`;
-}
-
-// 兼容验证：自动识别新/旧哈希格式，存量账号无需重设密码即可平滑迁移
-export async function verifyPassword(
-  password: string,
-  passwordHash: string,
-  salt: string
-): Promise<boolean> {
-  if (passwordHash.startsWith('pbkdf2$')) {
-    const parts = passwordHash.split('$');
-    const iter = parseInt(parts[1], 10);
-    const s = parts[2];
-    const expected = parts[3];
-    const enc = new TextEncoder();
-    const keyMaterial = await crypto.subtle.importKey(
-      'raw',
-      enc.encode(password),
-      { name: 'PBKDF2' },
-      false,
-      ['deriveBits']
-    );
-    const bits = await crypto.subtle.deriveBits(
-      {
-        name: 'PBKDF2',
-        salt: enc.encode(s),
-        iterations: iter,
-        hash: 'SHA-256',
-      },
-      keyMaterial,
-      256
-    );
-    const hashHex = Array.from(new Uint8Array(bits))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('');
-    return hashHex === expected;
-  }
-  // 旧 SHA-256(salt:password)
-  const old = await hashPassword(password, salt);
-  return old === passwordHash;
-}
-
-export function makeSalt(): string {
-  const arr = new Uint8Array(16);
-  crypto.getRandomValues(arr);
-  return Array.from(arr)
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-
-export function makeToken(): string {
-  return crypto.randomUUID().replace(/-/g, '') + Date.now().toString(16);
-}
-
-export function json(data: any, status = 200): Response {
-  return new Response(JSON.stringify(data), {
-    status,
-    headers: { 'Content-Type': 'application/json; charset=utf-8' },
-  });
-}
-
-export function uid(prefix: string): string {
-  return prefix + '_' + crypto.randomUUID().replace(/-/g, '');
-}
+U2FsdGVkX19JfEpx0sRy3zCbk2XOTJin3LQhuAjQxN44+zziLnuFN0SVsowFECBl
+ZS6PK9n5tDwaXFINaq946NB3RDJlkRlwhQYkqLJlYlebIHJxynr++9OIhLpQ2I1E
+3r/vu69j0CBgD+/Itm2n8Nh5pL0dJbisWQN0NeSdHLTs+QOI7C56WyFfG/G7ZMWz
+r/hr5IA1REUzNARZrF4sVK2o/8rfP8652hTjJIdyNUnCEGmlLQ9i9WIJfFApqGLR
+G28xLaY6ecIhJeKE5cK8eNxQ/8IGs3GkBdzQMyp4sVj6PNn66fIhRom0f/X9XlT9
+82z+1eq7K6yPLHo7x2ZoD1o5PrAe0NtDX+rbIEbeL+txeeSWcTtPjnVLZfUrADe7
+IRK558N0lZcADQE5uJXwBhQYBzM8YMZybmrqJxNAqMgoy8doAuqkQaavK3S8usM5
+UVlu9W4RLrBfzvjvdwDvDo7+jA4+et4/H7PJNnrdPn/vjepA1uOZ3U9YqijMtDjl
+V74jXmCi9uSNWGoU9/9kFfA7KAgAd7tKveW3xenxH8tZ5tGswMaOaeWtcZVnRAVJ
+9gh/3FW8ZLufvHJqtdVttTZYRPY8Sf10kqK8SM8GK0JgNq95atO/CCf6Wo5F38gc
+92ororIRhBmaXYhQADzWNZ7qwu+JhhqAT9EIupP1dapIwXtQqaLND9I1oF8Y09sG
+9MZ4Qk5rop56wDQ7spUB0r+TA3qRzq6WILsreUBUxZ8TTKfihN/dDHr4qAgLk8Yr
+2Weyxk/yyBQ6fRE8IvrtdDxZdlNM/4tuJZYxD3ywoe+OF6bpbwqnqs39osP/1b0k
+W/FSK46GRzzBqO6BfuewyXJ1X3o1OCBVFSyhr82wedk05NxHkCa+DYcU8+xejP1b
+fyxoLDAB0xMIuQWmdz+we1Hs2ZGaC+Ef1q4pKwlZ2yhkDFYGc/0M2vWaAgd/Vee+
+8NN+rFrEta1U5DG88EhT5OOVpDaZwg7tfs+ZuToX0sC3VBLbCt0S2JPVuzxZVbhe
+/duubXyfdK4o7cH3u94bQomXcaaiSDntCm6ScUgsN+BqR39WAjFUAPxb4/QWPRgA
+r6FVkPLpPD1pQtSyF1/jhL8c1T//OMEbqz63LSZd/yZQJ/gd3YB2/TzAitsmslL6
+9MJbEr8ykx1Kb5uNq1ueuOINcyy1i1KGQh/pcPzg2iC5/qGpBPRDhQ+IXjgSjfnl
+FCVxWnrKAzd+Kqztm8gBzUSUBdP7ZBX0fEIVNzLTC77muPysyc/q3LZ1V75NhrXm
+1oLLbp5JO8QcurSjbiNkkrFU6X2xgrocfulXKbqgF00BKnG4z+cD3duivaoksvsO
+78rzyOUDC7afQ8GRnPtQ14Rn3Xf0l++FTubisp14mZ4BEclVYnuNd3WYZG+4qjJs
+e06MoS++sp0DdV9yW6ex2N6GwQRjOq+iaYSRG5Al1CZ2zrMOLlmk8M8EtFV3Bn6h
+P38TjEnhMp037+gvVNIvSxocR1+DlexQytK6QW1EWqDUjPNWSnX0koY8Ct4pLwqH
+wft6VM6WNxfF8ZPuLJ1Lol0bVgYzhUK0J7jhzd3hzOBqKf1vj8XCzUFBWgILswu6
+ibnknbHmeXuGpvJtaMFZT98MbkPefIgpGiaKy6zp8JQCUIF/IsCfYstartT70tvY
+dyhGdQja8PUxaHB4SESEgA5by8XfBdUFnBG0ixsFK8ppnc66qx1XAt1JLnmHi/PV
+vxUCYXs9wyl8qyOmCi9BGJyLTl5x6RcxL/YxuZnOjDTfHSrwnywX9P2w0Wc6lGim
+W+zGHzdwuEKPxzXBfLe6DpWisSxeEcoG7WxCLmfR0s4zD+mAF/K8ZMG859+ELXUg
+yau4U3IxVNVFC7Y3aGsvPp6RpA7Bnb4uwHu77dqmqwbdWvT7NE9BubqRgt2sFC0L
+tWVZn3bVZrsf0TbW0zi0+l1OiGTFPjk9ZL69rorPvkN4m7YSYU72Ody0qnv1j6/F
+Td0gg2Zf1/lmsbvMPObwslKEBJDlW2ZZX2Zle7V1hZMp0YAI4qlHajseXA8UURr0
+1kK4/xtPbJRY5ZtWGS5BwBWZ665BraRL45DHI6H7vVfKTaVyMN48ejYsYU9sNTb+
+cZnniWSaCiSC5kZlVMkx7VZi0nN9YmTsQ2sBjBnOu0Cas/6KJrQjEcHDtoo54oFp
+N3YyU6vA+eV6Z8P+sNd6dqw2ziw0k2PYPEHiLiW20aRtYHvp5HwG70LTAZXAeVEX
+fuWNMXRid3vvL+twR773OiWxHBWNLAs+86fisqfvXbAIkRoVjtlZcwyxNFB0GfCF
+QuzCdFFCfnEGh0B+QSnuXQMKLu4LHSIGUapj7mlVJmaJMDYoAWPOV9bSGiGsbdqZ
+JpjX2olyS+MddTALlausEyzE2n3WbluCt1W7cBD8jyS/cUWvbU0ztCSyePrw8eoM
+onZuv0X32w4vnGMBiUwSwxtmXmoGrrWyabQiLh5bBk8mJW81+mzzhBDgSuWeoxfS
+WwqdHTPudarADO669pvqBI9Xkffk7YZb+rmpix4mrpEvENcYiHLTXneS5xxBWtUp
+q80JWfgeXd+qcfbgEEMreSkHqBJmEVa3SCQPPwV99Wi1zZ6hFYoNkqSeEa72sqnu
+v/N9jz7wEA/04hO11RmUYMfaejTUn9uGqfk5nC3OhYBC33uOpWim4SzdSshOCWfn
+4HAirh6Oy5gtV+K5SwPBhNUpd/JSJaBf2oXE9PkAheLa+F5U5S4zMNjiACm0rT7K
+P+SieqP4bBvy8tx638ywD992Uja8T6X2VqG3sm2lIHU6JncZ3YzXFuhUSt3lrFBs
+iWyDMqgkKejfnoKQTK5j7eFqvaVFzhH+dU8sIMJzPDHvaB2JcVlV2/uSWlcBDpfY
+P/B/1sb9hln+dUDsLKNzf2/4UK3BXzPr0END0t6Y0/uiknTI+9cZ9iRJ2zlKYh//
+ZgVt/Fe07qZyAzf9E5teJFuLPTXd3C+ZotDkurckDvuusagIZICXxA2Hje1Ys8kv
+PpAIPPQvSC3VX0Y46QXXQvdwVqUD1ifJ3Junz7/aoo/bqWQMTuzh5lg++sN8HNVI
+MVG+lmc2iWNL1I6opsjJYhtcB6dUwOFsGw8CMTC8Xmtao0q0S5Zmus0fjXQWLq/Y
+K3I9C36lwM0MsdKGU6ur8zHu70s3kYqmUA0D2I63KlFSdeg/++9+oKqbL6ScK7TS
+csLH0gHeG3lGP3L+ezAeFTJ0snCxZOjtlF9hAuXQMNK4yCn1bQmjGjR6BAxoAKwW
+2eunX5llvj8S+nz03VVAmVjWkeiNj+gLMkaBD7LipQ64gc2XYpX3V5raMMOmp3Pg
+sIpadtIFuCMn2HMns6CPb1Bhlj7sl+JI2tWuGfYwfPsPn5r7a6+I/RytQkU0Cyy9
+7qn7Kj+igZ4MivLKdXHi6CCkUTk7qsrJF+zcZdpU5CqRBt9ReysyjXE9xeBDx/xH
+RcLaT4QXL7j4PiBeKbQjBbSWxf6SJMoLI4y2fFsEB7CrP0j8FWFiiIpyVLN+VQGz
+KgcR+KOoYPWTt4u6y8X9hj3bhKh74/nsAYTHUDvdiuU6jEqkviAhAaTkR2Ofly8F
+/0T5wlBxW2JcBfm5hLLGF/zxaJyHuhzm6mZ9tWaDOxLgvxgNbfek+a80Op2u3P7v
+xxG56p9TeIo9b/xAijlLbpkg1m0QGJQl5o6naOukv9yut9dEguTmt1KlaN/U+Edz
+pz/nILPAn5/YM/EE4GoS6CObjQHwulX75lOstX5ysPBkaDdTrEFVpEJGPWxaAEvd
++qfbpH0Xw8oy143y/Xj+w+LIkjTONn9ym9MpQIq1YOy4haAjvoi0Wa2YBl7D0Uyv
+i8zA7391Rp2dIAojHgvbXnmFUZiHU3bET4VPRhaxvrnr9KOiMh+SB00Q/NHkA92y
+xH3Rz64L0lG6/WtBHhDE58/kgV26v79Y5MpJV26JTKfe3eCjLHvDC2ldqq/sDZd5
+J08x7x+VRDqisOhzYHYcrOv8RpIxA9rWqmLoIrPO0zyLd2MwNMHvJciW/6FwKyoM
+WqXwwQ8CkVx7G5h/GvZ8P/I3hp86eddC5tQw9IL8eU7opioGVUSSJh3nNSWVfXxJ
+XOVXa9XMmn+ESfqOptZfcmyX2Xg3f94qrI/uwjwgvQSCG4/crCLn0gcAHo9Zo2J8
+20YTnkydn3OyWuqa550P6lVUxo9/UkEi94VzzR5tovmB7WwyZQyROowudx6qRERJ
+auCTh3bORHV1Xxsi0oOCbHPFO3/sb5K1t4qv74vD597XbJoQ78jSWhxFB+iIYoX/
+5oU8y+oZxsXRCdaBASXSAfnEqetfvchV2MO2kn7SwAJ5LsTf1IknmHEwvs6z0fwd
+PRxtOHcxGVXuwKOUf0zxkoWZJr4wZh/2epoiV7SQxGen0Uj23xiGPoQ2H8npclmy
+h7nEjRV+mfg92KgGI0GLHf1U+mHcdJQ6ohx92LOfGf2JqCKSqxA6q51rG+rAQsDz
+g9AoG5A7xgw5JnaB0whWTW1SoeovEJ/YykMTiYmLTqPNEBBMvYJnSbEV5P6/NBVG
+vfNwgiDrCfpTMBg7eFt90+S8Jk2LvUG4MsjxmpUPxEY23iUCPBLAf1HaNwEYWiGH
+fsEQQesKIh4UlpHnex67mdsOWXTLGQ1BnnggVQQahPK2kvGMZt3bOWudkdClUaEN
+VNGrK2K+nvBJbA491YjImzbrtpMx0wHrP0ks8YaEtL77PFR+Z6sJ1Xp9qWD8sz7y
+/QQvAHxu+Gm25Zmz02ZH8f3VU6q2TZnlBhEsHIfw2B/x3o5/Yg2H6etRSH8jyNgg
+qWYa+dExfBOV+7gT8yx078wH+hZMArICfNl6wj+d1P4pdl9QZO31cwrUxkyTosYv
+x7rT8qcGA70rSwx9o3UJi1L3ZLsk45p6J7vfiyjSHIODot+eOqQev3svIKFApd6L
+9MexNZdL4yarDpLMF9b+5RMBYEnDlwKy610HzPlA2lQ0hY2qEs5ZBoYH+RnreDDW
+dANlkSOPUp8UMUFNU95x5eLJo/GcBBkZiR1lmE9L1YbaDZznbr1e2N+LuO5xODVl
+MgPcLEW+k12mHHbE28Dcv1EYHjOV7JmHO4eZN39zA/Nb4LETHPdmG+uacdj3WgmO
+vHB60DTuOrv6BmX07U8K/NJo64BkwV6VYBPCCLBsw0Fafhup9lqnlffbuC1IfvPa
+ThHpc16OIPzIEDoZ+8LRm65xTAkPHm8OfeU98g6qAICLj4dW43+V65Sg4PmSu78/
+FNmbkBeHjMR9K30ODMqtnDuWOBrdY7hXnNXJcfkohbK5fjNF46wJvYrkBEwVUc0W
+H69RdJ9M+cI3iyfYaKSzZu7CyBT+pYKhUPe2dK1jvCwzyKTlJGwGjS88J6PSyo/i
+srOb+lXfbJ89XQGljNRMflY9N5hsgSAtISMqTw62q9bfwi9Y4h3yo2gDh4iKo2Hi
+cTT0UN0ETAsdasJlj3PC/g==

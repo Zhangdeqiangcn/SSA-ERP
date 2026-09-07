@@ -1,106 +1,72 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 数电票核验台账 — V2.73
- * ------------------------------------------------------------
- * 核验结果原先只存在于页面 state：刷新即丢、无法追溯、无法复查历史。
- * 本 store 把每次核验沉淀为一个「批次」，支持：
- * - 历史批次回溯（张数/通过/不通过/异常 + 明细）
- * - 与发票 OCR 联动（OCR 识别结果可一键送入核验队列）
- * - 导出（CSV/Excel）
- *
- * 注意：后端 /api/tax-gateway/verify 当前为演示实现（etoplive 第三方待接密钥），
- * 因此核验结果为演示口径，正式环境接入第三方后本台账结构不变。
- *
- * persist key = ssa-erp-invoice-verify。
- */
-
-export type VerifyStatus = 'valid' | 'invalid' | 'not_found' | 'error';
-
-export interface VerifyRow {
-  invoiceNo: string;
-  type: string;
-  isValid: boolean;
-  status: VerifyStatus;
-  message?: string;
-  invoiceDate?: string;
-  amount?: number;
-  taxAmount?: number;
-  totalAmount?: number;
-  sellerName?: string;
-  buyerName?: string;
-  checkedAt: string;
-}
-
-export interface VerifyBatch {
-  id: string;
-  createdAt: string;
-  /** 来源：手工/CSV/剪贴板录入 = manual；OCR 识别送入 = ocr */
-  source: 'manual' | 'ocr';
-  count: number;
-  valid: number;
-  invalid: number;
-  error: number;
-  rows: VerifyRow[];
-}
-
-/** OCR 页送入核验队列的发票条目（与核验页录入表单同构） */
-export interface OcrQueueItem {
-  type: string;
-  code?: string;
-  number: string;
-  date: string;
-  amount: string;
-  checkCode?: string;
-  totalAmount?: string;
-}
-
-const MAX_BATCHES = 50;
-
-interface InvoiceVerificationState {
-  batches: VerifyBatch[];
-  /** OCR → 核验 的待载入队列 */
-  ocrQueue: OcrQueueItem[];
-  addBatch: (rows: VerifyRow[], source?: 'manual' | 'ocr') => VerifyBatch;
-  removeBatch: (id: string) => void;
-  clearBatches: () => void;
-  pushOcrQueue: (items: OcrQueueItem[]) => void;
-  takeOcrQueue: () => OcrQueueItem[];
-  clearOcrQueue: () => void;
-}
-
-export const useInvoiceVerificationStore = create<InvoiceVerificationState>()(
-  persist(
-    (set, get) => ({
-      batches: [],
-      ocrQueue: [],
-      addBatch: (rows, source = 'manual') => {
-        const batch: VerifyBatch = {
-          id: `VB-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-          createdAt: new Date().toISOString(),
-          source,
-          count: rows.length,
-          valid: rows.filter((r) => r.isValid).length,
-          invalid: rows.filter((r) => r.status === 'invalid' || r.status === 'not_found').length,
-          error: rows.filter((r) => r.status === 'error').length,
-          rows,
-        };
-        set((s) => ({ batches: [batch, ...s.batches].slice(0, MAX_BATCHES) }));
-        return batch;
-      },
-      removeBatch: (id) => set((s) => ({ batches: s.batches.filter((b) => b.id !== id) })),
-      clearBatches: () => set({ batches: [] }),
-      pushOcrQueue: (items) =>
-        set((s) => ({ ocrQueue: [...s.ocrQueue, ...items].slice(-100) })),
-      takeOcrQueue: () => {
-        const q = get().ocrQueue;
-        if (q.length > 0) set({ ocrQueue: [] });
-        return q;
-      },
-      clearOcrQueue: () => set({ ocrQueue: [] }),
-    }),
-    { storage: backendStorage, name: 'ssa-erp-invoice-verify', version: 1 }
-  )
-);
+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

@@ -1,37 +1,36 @@
-// GET/POST /api/fx — 汇率查询与手动维护（内部 session 鉴权）
-import { getUserFromRequest, json, uid } from '../../_shared/auth';
-
-export async function onRequestGet(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  const url = new URL(context.request.url);
-  const base = url.searchParams.get('base') || 'CNY';
-  const rows = await context.env.DB.prepare(
-    'SELECT * FROM fx_rates WHERE org_id = ? AND base_currency = ? ORDER BY quote_currency'
-  ).bind(user.org_id, base).all();
-  return json({
-    data: (rows.results || []).map((r: any) => ({
-      id: r.id, base: r.base_currency, quote: r.quote_currency,
-      rate: r.rate, source: r.source, updatedAt: r.updated_at,
-    })),
-  });
-}
-
-export async function onRequestPost(context: any) {
-  const user = await getUserFromRequest(context.request, context.env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  const body = await context.request.json().catch(() => ({}));
-  const base = body.base || 'CNY';
-  const quote = body.quote;
-  const rate = Number(body.rate);
-  if (!quote || !rate) return json({ error: 'quote 与 rate 必填' }, 400);
-
-  const now = new Date().toISOString();
-  await context.env.DB.prepare(`
-    INSERT INTO fx_rates (id, org_id, base_currency, quote_currency, rate, source, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(org_id, base_currency, quote_currency)
-    DO UPDATE SET rate = excluded.rate, source = excluded.source, updated_at = excluded.updated_at
-  `).bind(uid('fx'), user.org_id, base, quote, rate, 'manual', now).run();
-  return json({ ok: true });
-}
+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

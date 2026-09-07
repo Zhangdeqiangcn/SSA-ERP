@@ -1,608 +1,585 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import {
-  StockTransfer, InventoryAdjustment, SerialMaster, QualityHold,
-  InboundOrder, OutboundOrder,
-} from '@/types';
-import { serialApi } from '@/services/serial';
-import { warehouseAdv } from '@/services/warehouseAdv';
-
-// W2 收尾：仓库高级三切片（stockTransfers / inventoryAdjustments / qualityHolds）去 Blob 直连真实 D1，
-// 与已迁域同源——D1 为唯一真源，根治双通道。
-// 在线时：loadWarehouseAdvanced 从 D1 拉取（含 items 明细）；add/update/delete 乐观更新内存 + 写回 D1；
-// 离线/未登录/异常回退内存（含遗留 Blob 一次性回填）。serialMasters 早已直连 D1（W1-B1）。
-// 注：partialize 返回 {} —— 三切片与序列号均 D1 托管，不再落 app_state Blob（旧 Blob 仅用于首次启动一次性回填）。
-
-const SERIAL_BACKFILL_FLAG = 'ssa-erp-serial-backfilled';
-const ST_BACKFILL_FLAG = 'ssa-erp-st-backfilled';
-const ADJ_BACKFILL_FLAG = 'ssa-erp-adj-backfilled';
-const QH_BACKFILL_FLAG = 'ssa-erp-qh-backfilled';
-
-import { useWarehouseStore } from '@/stores/warehouseStore';
-import { useFinanceStore } from '@/stores/financeStore';
-import { useMaterialStore } from '@/stores/materialStore';
-import { useOrgStore } from '@/stores/orgStore';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const today = () => new Date().toISOString().slice(0, 10);
-
-// ── C1 追溯链路种子：序列号 SN-2024-0001（交流接触器 / 批次 HQ20240508）──
-const seedSerialMasters: SerialMaster[] = [
-  {
-    id: 'sn-001',
-    serialNo: 'SN-2024-0001',
-    materialId: 'mat-009',
-    materialCode: 'MAT202405010009',
-    materialName: '交流接触器 CJX2',
-    batchNo: 'HQ20240508',
-    warehouseId: 'wh-001',
-    status: 'shipped',
-    inboundDate: '2024-05-08',
-    outboundDate: '2024-06-10',
-    customerName: '宁波钢结构有限公司',
-    remarks: 'C1 序列号追溯种子：交流接触器单件 SN-2024-0001（批次 HQ20240508）',
-    movements: [
-      { type: 'inbound', docNo: 'IN20240508001', date: '2024-05-08', status: 'in_stock', note: '深圳华强电气有限公司 入库' },
-      { type: 'delivery', docNo: 'OUT20240610001', date: '2024-06-10', status: 'shipped', note: '销售发货至 宁波钢结构有限公司' },
-    ],
-    createdAt: "2024-05-08T08:00:00.000Z",
-    updatedAt: "2024-06-10T08:00:00.000Z",
-    createdBy: "system",
-    updatedBy: "system",
-  },
-];
-
-/** 遗留 Blob 一次性回填到 D1（防数据丢失）：仅当 D1 为空且本机遗留有数据且未回填过 */
-const backfillOnce = async (
-  flag: string,
-  records: { id: string }[],
-  create: (r: Record<string, unknown>) => Promise<unknown>,
-) => {
-  if (!records || records.length === 0) return;
-  if (typeof window !== 'undefined' && window.localStorage.getItem(flag)) return;
-  if (typeof window !== 'undefined') window.localStorage.setItem(flag, '1');
-  for (const r of records) {
-    try { await create(r as Record<string, unknown>); } catch { /* 编码冲突等忽略，回填尽力而为 */ }
-  }
-};
-
-interface WarehouseAdvancedState {
-  stockTransfers: StockTransfer[];
-  inventoryAdjustments: InventoryAdjustment[];
-  serialMasters: SerialMaster[];
-  qualityHolds: QualityHold[];
-
-  // 启动加载（D1 为唯一真源，含遗留 Blob 一次性回填）
-  loadWarehouseAdvanced: () => Promise<void>;
-
-  // 跨组织转储
-  addStockTransfer: (t: StockTransfer) => void;
-  updateStockTransfer: (id: string, u: Partial<StockTransfer>) => void;
-  deleteStockTransfer: (id: string) => void;
-  // 确认转储 → 调出方出库 + 调入方入库（双边过账）
-  confirmTransfer: (transferId: string) => void;
-
-  // 库存调整单
-  addInventoryAdjustment: (a: InventoryAdjustment) => void;
-  updateInventoryAdjustment: (id: string, u: Partial<InventoryAdjustment>) => void;
-  deleteInventoryAdjustment: (id: string) => void;
-  // 过账 → 调整库存 + 生成存货凭证
-  postAdjustment: (adjustmentId: string) => void;
-
-  // 序列号 / HU 主数据（W1-B1：直连 D1 serial_masters）
-  loadSerialMasters: () => Promise<void>;
-  addSerialMaster: (s: SerialMaster) => Promise<void>;
-  updateSerialMaster: (id: string, u: Partial<SerialMaster>) => void;
-  deleteSerialMaster: (id: string) => Promise<void>;
-
-  // 质检扣留（质检库存状态）
-  addQualityHold: (h: QualityHold) => void;
-  releaseQualityHold: (id: string, status: 'passed' | 'rejected', inspector?: string) => void;
-  deleteQualityHold: (id: string) => void;
-}
-
-export const useWarehouseAdvancedStore = create<WarehouseAdvancedState>()(
-  persist(
-    (set, get) => ({
-      stockTransfers: [],
-      inventoryAdjustments: [],
-      serialMasters: seedSerialMasters,
-      qualityHolds: [],
-
-      // ── 启动加载：D1 拉取 + 遗留 Blob 一次性回填 ──
-      loadWarehouseAdvanced: async () => {
-        const store = useWarehouseAdvancedStore;
-        // 等待 persist 水合完成（遗留 Blob 数据需先载入内存才能回填）
-        if (!store.persist.hasHydrated()) {
-          await new Promise<void>((resolve) => {
-            const unsub = store.persist.onFinishHydration(() => { unsub(); resolve(); });
-            store.persist.rehydrate();
-          });
-        }
-        try {
-          const local = get();
-          await backfillOnce(ST_BACKFILL_FLAG, local.stockTransfers as { id: string }[], (r) => warehouseAdv.stockTransfers.create(r as Partial<StockTransfer>));
-          await backfillOnce(ADJ_BACKFILL_FLAG, local.inventoryAdjustments as { id: string }[], (r) => warehouseAdv.inventoryAdjustments.create(r as Partial<InventoryAdjustment>));
-          await backfillOnce(QH_BACKFILL_FLAG, local.qualityHolds as { id: string }[], (r) => warehouseAdv.qualityHolds.create(r as Partial<QualityHold>));
-          const [st, adj, qh] = await Promise.all([
-            warehouseAdv.stockTransfers.list({ page: 1, pageSize: 500 }),
-            warehouseAdv.inventoryAdjustments.list({ page: 1, pageSize: 500 }),
-            warehouseAdv.qualityHolds.list({ page: 1, pageSize: 500 }),
-          ]);
-          set({ stockTransfers: st.data, inventoryAdjustments: adj.data, qualityHolds: qh.data });
-        } catch {
-          // 离线/未登录/接口异常：保留内存（含遗留 Blob 回填）态，不阻断 UI
-        }
-      },
-
-      // ── 跨组织转储（D1 直连）──
-      addStockTransfer: (t) => {
-        set((s) => ({ stockTransfers: [...s.stockTransfers, t] }));
-        warehouseAdv.stockTransfers.create(t).then((created) => {
-          if (created?.id && created.id !== t.id) {
-            set((s) => ({ stockTransfers: s.stockTransfers.map((x) => (x.id === t.id ? { ...x, id: created.id } : x)) }));
-          }
-        }).catch(() => {});
-      },
-      updateStockTransfer: (id, u) => {
-        set((s) => ({ stockTransfers: s.stockTransfers.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
-        const merged = get().stockTransfers.find((x) => x.id === id);
-        if (merged) warehouseAdv.stockTransfers.update(id, merged as Partial<StockTransfer>).catch(() => {});
-      },
-      deleteStockTransfer: (id) => {
-        set((s) => ({ stockTransfers: s.stockTransfers.filter((x) => x.id !== id) }));
-        warehouseAdv.stockTransfers.remove(id).catch(() => {});
-      },
-      // 确认转储：调出方出库 + 调入方入库
-      confirmTransfer: (transferId) => {
-        const t = get().stockTransfers.find((x) => x.id === transferId);
-        if (!t || t.status !== 'draft') return;
-        const stamp = Date.now();
-        const orgState = useOrgStore.getState();
-        useWarehouseStore.getState().addOutboundOrder({
-          id: `ob-trf-${stamp}`,
-          outboundNo: `OB-TRF-${stamp}`,
-          type: 'transfer',
-          sourceNo: t.transferNo,
-          status: 'completed',
-          warehouseId: t.fromWarehouseId,
-          warehouseName: t.fromWarehouseName,
-          orgId: t.fromOrgId,
-          operator: '当前用户',
-          outboundDate: t.transferDate,
-          items: t.items.map((it) => ({
-            id: `obti-${it.id}`,
-            materialId: it.materialId,
-            materialCode: it.materialCode,
-            materialName: it.materialName,
-            unit: it.unit,
-            quantity: it.quantity,
-            batchNo: it.batchNo,
-            locationId: it.locationId,
-          })),
-          remarks: `跨组织转储调出 ${t.transferNo}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '当前用户',
-          updatedBy: '当前用户',
-        });
-        useWarehouseStore.getState().addInboundOrder({
-          id: `ib-trf-${stamp}`,
-          inboundNo: `IB-TRF-${stamp}`,
-          type: 'transfer',
-          sourceNo: t.transferNo,
-          status: 'completed',
-          warehouseId: t.toWarehouseId,
-          warehouseName: t.toWarehouseName,
-          orgId: t.toOrgId,
-          operator: '当前用户',
-          inboundDate: t.transferDate,
-          items: t.items.map((it) => ({
-            id: `ibti-${it.id}`,
-            materialId: it.materialId,
-            materialCode: it.materialCode,
-            materialName: it.materialName,
-            unit: it.unit,
-            expectedQuantity: it.quantity,
-            actualQuantity: it.quantity,
-            batchNo: it.batchNo,
-            locationId: it.locationId,
-            qualityStatus: 'qualified' as const,
-          })),
-          remarks: `跨组织转储调入 ${t.transferNo}`,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: '当前用户',
-          updatedBy: '当前用户',
-        });
-        set((s) => ({
-          stockTransfers: s.stockTransfers.map((x) =>
-            x.id === transferId ? { ...x, status: 'completed', fromOrgId: x.fromOrgId || orgState.organizations.find((o) => o.id !== x.toOrgId)?.id } : x
-          ),
-        }));
-        // W2：转储状态写回 D1（与仓库入/出库过账同源）
-        const st2 = get().stockTransfers.find((x) => x.id === transferId);
-        if (st2) warehouseAdv.stockTransfers.update(transferId, { status: st2.status, fromOrgId: st2.fromOrgId, toOrgId: st2.toOrgId }).catch(() => {});
-      },
-
-      // ── 库存调整单（D1 直连）──
-      addInventoryAdjustment: (a) => {
-        set((s) => ({ inventoryAdjustments: [...s.inventoryAdjustments, a] }));
-        warehouseAdv.inventoryAdjustments.create(a).then((created) => {
-          if (created?.id && created.id !== a.id) {
-            set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === a.id ? { ...x, id: created.id } : x)) }));
-          }
-        }).catch(() => {});
-      },
-      updateInventoryAdjustment: (id, u) => {
-        set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
-        const merged = get().inventoryAdjustments.find((x) => x.id === id);
-        if (merged) warehouseAdv.inventoryAdjustments.update(id, merged as Partial<InventoryAdjustment>).catch(() => {});
-      },
-      deleteInventoryAdjustment: (id) => {
-        set((s) => ({ inventoryAdjustments: s.inventoryAdjustments.filter((x) => x.id !== id) }));
-        warehouseAdv.inventoryAdjustments.remove(id).catch(() => {});
-      },
-      // 过账：调整库存 + 存货凭证
-      postAdjustment: (adjustmentId) => {
-        const adj = get().inventoryAdjustments.find((x) => x.id === adjustmentId);
-        if (!adj || adj.status === 'posted') return;
-        const wh = useWarehouseStore.getState();
-        const materials = useMaterialStore.getState().materials;
-        let records = [...wh.inventoryRecords];
-        let totalValue = 0;
-        for (const it of adj.items) {
-          const price = materials.find((m) => m.id === it.materialId)?.price || 0;
-          totalValue += it.deltaQty * price;
-          const idx = records.findIndex(
-            (r) => r.materialId === it.materialId && (it.locationId ? r.locationId === it.locationId : r.warehouseId === adj.warehouseId)
-          );
-          if (idx >= 0) {
-            const nextQty = Math.max(0, records[idx].quantity + it.deltaQty);
-            records = records.map((r, i) =>
-              i === idx
-                ? {
-                    ...r,
-                    quantity: nextQty,
-                    availableQuantity: Math.max(0, r.availableQuantity + it.deltaQty),
-                    lastInboundDate: it.deltaQty > 0 ? today() : r.lastInboundDate,
-                    lastOutboundDate: it.deltaQty < 0 ? today() : r.lastOutboundDate,
-                  }
-                : r
-            );
-          } else if (it.deltaQty > 0) {
-            records = [
-              ...records,
-              {
-                id: `inv-${it.materialId}-${adj.warehouseId}-${it.locationId || 'default'}-${Date.now()}`,
-                materialId: it.materialId,
-                materialCode: it.materialCode || '',
-                materialName: it.materialName || '',
-                specification: '',
-                warehouseId: adj.warehouseId,
-                warehouseName: adj.warehouseName,
-                orgId: wh.inventoryRecords.find((r) => r.warehouseId === adj.warehouseId)?.orgId,
-                locationId: it.locationId,
-                locationName: '',
-                quantity: it.deltaQty,
-                availableQuantity: it.deltaQty,
-                frozenQuantity: 0,
-                unit: it.unit || '',
-                lastInboundDate: today(),
-              },
-            ];
-          }
-        }
-        wh.setInventoryRecords(records);
-        // 存货凭证：盘盈 借库存商品 贷待处理；盘亏相反
-        if (totalValue !== 0) {
-          const stamp = Date.now();
-          const voucherNo = `V-ADJ-${adj.adjustmentNo}-${stamp}`;
-          const entries = [
-            {
-              id: `aea-${stamp}-1`, entryNo: `JEADJ${stamp}1`, date: adj.date,
-              description: `库存调整 ${adj.adjustmentNo}`,
-              debitAccount: totalValue > 0 ? '库存商品' : '待处理财产损溢',
-              creditAccount: totalValue > 0 ? '待处理财产损溢' : '库存商品',
-              amount: Math.abs(totalValue), currency: 'CNY', voucherNo, createdBy: '当前用户',
-              createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), updatedBy: '当前用户',
-            },
-          ];
-          entries.forEach((e) => useFinanceStore.getState().addAccountEntry(e));
-          set((s) => ({
-            inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === adjustmentId ? { ...x, status: 'posted', voucherNo } : x)),
-          }));
-        } else {
-          set((s) => ({
-            inventoryAdjustments: s.inventoryAdjustments.map((x) => (x.id === adjustmentId ? { ...x, status: 'posted' } : x)),
-          }));
-        }
-        // W2：调整单状态写回 D1
-        const adj2 = get().inventoryAdjustments.find((x) => x.id === adjustmentId);
-        if (adj2) warehouseAdv.inventoryAdjustments.update(adjustmentId, { status: adj2.status, voucherNo: adj2.voucherNo }).catch(() => {});
-      },
-
-      // ── 序列号 / HU（W1-B1：直连 D1 serial_masters）──
-      // 启动期从 D1 拉取；空库（且本机未回填过）回填种子一次，消除双源过渡缺口。
-      loadSerialMasters: async () => {
-        try {
-          const res = await serialApi.list({ page: 1, pageSize: 200 });
-          const list = (res?.data || []) as SerialMaster[];
-          set({ serialMasters: list });
-          if (list.length === 0 && !window.localStorage.getItem(SERIAL_BACKFILL_FLAG)) {
-            window.localStorage.setItem(SERIAL_BACKFILL_FLAG, '1');
-            for (const s of seedSerialMasters) {
-              try {
-                const created = await serialApi.create(s);
-                // 回填流转轨迹（入库 + 发货）
-                for (const mv of s.movements || []) {
-                  if (created?.id) {
-                    try {
-                      await serialApi.update(created.id, { movement: mv } as Partial<SerialMaster> & { movement: SerialMaster['movements'] extends Array<infer M> ? M : never });
-                    } catch {
-                      /* 轨迹回填尽力而为 */
-                    }
-                  }
-                }
-              } catch {
-                /* 编码冲突等忽略，回填尽力而为 */
-              }
-            }
-            const refreshed = await serialApi.list({ page: 1, pageSize: 200 });
-            set({ serialMasters: (refreshed?.data || []) as SerialMaster[] });
-          }
-        } catch {
-          // 离线/未登录/接口异常：保留内存 seedSerialMasters，不阻断 UI
-        }
-      },
-      // 乐观更新先行；写 D1 后把本地 id 对齐为 D1 id（sm-...），保证后续 PUT/DELETE 精准。
-      addSerialMaster: async (s) => {
-        set((state) => ({ serialMasters: [...state.serialMasters, s] }));
-        try {
-          const created = await serialApi.create(s);
-          if (created?.id && created.id !== s.id) {
-            set((state) => ({
-              serialMasters: state.serialMasters.map((x) =>
-                x.id === s.id ? { ...x, id: created.id, movements: created.movements || x.movements } : x
-              ),
-            }));
-          }
-        } catch {
-          /* 写失败：保留内存态（离线容忍） */
-        }
-      },
-      updateSerialMaster: async (id, u) => {
-        set((state) => ({ serialMasters: state.serialMasters.map((x) => (x.id === id ? { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' } : x)) }));
-        const merged = useWarehouseAdvancedStore.getState().serialMasters.find((x) => x.id === id);
-        if (merged) {
-          try {
-            await serialApi.update(id, merged);
-          } catch {
-            /* 写失败：保留内存态 */
-          }
-        }
-      },
-      deleteSerialMaster: async (id) => {
-        set((state) => ({ serialMasters: state.serialMasters.filter((x) => x.id !== id) }));
-        try {
-          await serialApi.remove(id);
-        } catch {
-          /* 写失败：保留内存态 */
-        }
-      },
-
-      // ── 质检扣留（D1 直连）──
-      addQualityHold: (h) => {
-        set((state) => ({ qualityHolds: [...state.qualityHolds, h] }));
-        warehouseAdv.qualityHolds.create(h).then((created) => {
-          if (created?.id && created.id !== h.id) {
-            set((state) => ({ qualityHolds: state.qualityHolds.map((x) => (x.id === h.id ? { ...x, id: created.id } : x)) }));
-          }
-        }).catch(() => {});
-      },
-      releaseQualityHold: (id, status, inspector) => {
-        set((state) => ({
-          qualityHolds: state.qualityHolds.map((x) =>
-            x.id === id ? { ...x, status, releaseDate: today(), inspector: inspector || x.inspector } : x
-          ),
-        }));
-        const merged = get().qualityHolds.find((x) => x.id === id);
-        if (merged) warehouseAdv.qualityHolds.update(id, merged as Partial<QualityHold>).catch(() => {});
-      },
-      deleteQualityHold: (id) => {
-        set((state) => ({ qualityHolds: state.qualityHolds.filter((x) => x.id !== id) }));
-        warehouseAdv.qualityHolds.remove(id).catch(() => {});
-      },
-    }),
-    {
-      storage: backendStorage,
-      name: 'ssa-erp-wh-adv',
-      version: 1,
-      // W2：三切片 + 序列号均 D1 托管，partialize 不再落 Blob（旧 Blob 仅用于首次启动一次性回填，见 loadWarehouseAdvanced）
-      partialize: () => ({}),
-    }
-  )
-);
-
-// ═══════════════════════════════════════════════════════════════
-// B2 事件驱动：序列号自动登记 / 核销（打通「序列号孤岛」）
-// ---------------------------------------------------------------
-// 规则：
-//   1. 入库单完成过账 → 对 serialized 物料按数量自动生成序列号并登记为 in_stock；
-//      单据行若已显填 serialNos 则以显填为准（预留逐件扫码界面的接入口）。
-//   2. 出库单完成过账 → 按 FIFO 取在库序列号自动核销：
-//      sale=shipped / pick=scrapped(领用消耗) / subcontract=in_transit(在供应商处) / transfer=in_transit。
-//   3. 每次流转在 serial_masters 状态 + serial_movements 追加一条轨迹，形成一物一码全生命周期。
-//   4. 幂等：种子单据 rehydration 前后一律标记已见，只处理「本次变更真正新增」的单据。
-//   5. W1-B1：登记/核销经 serialApi 直写 D1（本地 id 在 create 后对齐 D1 id），不再走 b2Api 双写桥。
-// ═══════════════════════════════════════════════════════════════
-
-/** 出库类型 → 序列号流转后状态 */
-const OUTBOUND_SN_STATUS: Record<string, SerialMaster['status']> = {
-  sale: 'shipped',
-  pick: 'scrapped',
-  subcontract: 'in_transit',
-  transfer: 'in_transit',
-  return: 'shipped',
-};
-
-/** 出库类型 → 轨迹事件类型 */
-const OUTBOUND_SN_MOVE: Record<string, NonNullable<SerialMaster['movements']>[number]['type']> = {
-  sale: 'delivery',
-  pick: 'issue',
-  subcontract: 'subcontract',
-  transfer: 'transfer',
-  return: 'delivery',
-};
-
-const __snSeenIn = new Set<string>();
-const __snSeenOut = new Set<string>();
-const __snMarkSeen = () => {
-  const wh = useWarehouseStore.getState();
-  wh.inboundOrders.forEach((o) => __snSeenIn.add(o.id));
-  wh.outboundOrders.forEach((o) => __snSeenOut.add(o.id));
-};
-// 延迟到模块初始化完成后执行：避免 warehouseStore 静态 import 本模块时，
-// 顶层直接访问 useWarehouseStore 触发循环依赖 TDZ（Cannot access ... before initialization）
-setTimeout(() => {
-  __snMarkSeen();
-  if (useWarehouseStore.persist?.onFinishHydration) {
-    useWarehouseStore.persist.onFinishHydration(__snMarkSeen);
-  }
-}, 0);
-
-/** 判断物料是否受序列号管控 */
-const isSerialized = (materialId: string): boolean =>
-  !!useMaterialStore.getState().materials.find((m) => m.id === materialId)?.serialized;
-
-/** 入库：登记序列号为在库 */
-const registerSerialsOnInbound = (o: InboundOrder) => {
-  const store = useWarehouseAdvancedStore.getState();
-  const existing = new Set(store.serialMasters.map((s) => s.serialNo));
-  const created: SerialMaster[] = [];
-
-  for (const item of o.items || []) {
-    if (!isSerialized(item.materialId)) continue;
-    const qty = Math.floor(item.actualQuantity || item.expectedQuantity || 0);
-    if (qty <= 0) continue;
-    // 显填优先；未填则按「单号-行号-序号」自动编码
-    const nos =
-      item.serialNos && item.serialNos.length > 0
-        ? item.serialNos
-        : Array.from({ length: qty }, (_, i) => `SN-${o.inboundNo}-${String(i + 1).padStart(3, '0')}`);
-    nos.forEach((sn) => {
-      if (existing.has(sn)) return;
-      existing.add(sn);
-      created.push({
-        id: uid('sn'),
-        serialNo: sn,
-        materialId: item.materialId,
-        materialCode: item.materialCode,
-        materialName: item.materialName,
-        batchNo: item.batchNo,
-        warehouseId: o.warehouseId,
-        huId: item.huId,
-        status: 'in_stock',
-        inboundDate: o.inboundDate,
-        remarks: `${o.type === 'subcontract' ? '委外收货' : o.type === 'purchase' ? '采购收货' : '入库'}自动登记 ${o.inboundNo}`,
-        movements: [
-          { type: 'inbound', docNo: o.inboundNo, date: o.inboundDate, status: 'in_stock', note: o.warehouseName || o.vendorName },
-        ],
-        createdAt: today(),
-        updatedAt: today(),
-        createdBy: '系统',
-        updatedBy: '系统',
-      } as SerialMaster);
-    });
-  }
-  if (created.length > 0) {
-    useWarehouseAdvancedStore.setState((s) => ({ serialMasters: [...s.serialMasters, ...created] }));
-    // W1-B1：入库自动登记的序列号直写 D1；create 返回 D1 id（sm-...），本地对齐，
-    // 这样后续 FIFO 核销（consumeSerialsOnOutbound）用同一 id 精准 PUT。
-    for (const sn of created) {
-      serialApi.create(sn).then((data) => {
-        if (data?.id && data.id !== sn.id) {
-          useWarehouseAdvancedStore.setState((s) => ({
-            serialMasters: s.serialMasters.map((x) => (x.id === sn.id ? { ...x, id: data.id, movements: data.movements || x.movements } : x)),
-          }));
-        }
-      }).catch(() => {});
-    }
-  }
-};
-
-/** 出库：核销序列号状态 + 追加轨迹 */
-const consumeSerialsOnOutbound = (o: OutboundOrder) => {
-  const nextStatus = OUTBOUND_SN_STATUS[o.type] || 'shipped';
-  const moveType = OUTBOUND_SN_MOVE[o.type] || 'delivery';
-  const store = useWarehouseAdvancedStore.getState();
-  const picked = new Map<string, SerialMaster['status']>(); // serialNo → 新状态
-
-  for (const item of o.items || []) {
-    if (!isSerialized(item.materialId)) continue;
-    const qty = Math.floor(item.quantity || 0);
-    if (qty <= 0) continue;
-    if (item.serialNos && item.serialNos.length > 0) {
-      item.serialNos.forEach((sn) => picked.set(sn, nextStatus));
-      continue;
-    }
-    // 未显填 → FIFO 取在库序列号（按入库日期 + 编号排序）
-    const candidates = store.serialMasters
-      .filter((s) => s.materialId === item.materialId && s.status === 'in_stock' && !picked.has(s.serialNo))
-      .sort((a, b) => (a.inboundDate || '').localeCompare(b.inboundDate || '') || a.serialNo.localeCompare(b.serialNo))
-      .slice(0, qty);
-    candidates.forEach((s) => picked.set(s.serialNo, nextStatus));
-  }
-  if (picked.size === 0) return;
-
-  useWarehouseAdvancedStore.setState((s) => ({
-    serialMasters: s.serialMasters.map((sm) => {
-      const st = picked.get(sm.serialNo);
-      if (!st) return sm;
-      return {
-        ...sm,
-        status: st,
-        outboundDate: o.outboundDate,
-        customerName: o.customerName || sm.customerName,
-        movements: [
-          ...(sm.movements || []),
-          { type: moveType, docNo: o.outboundNo, date: o.outboundDate, status: st, note: o.customerName || o.remarks },
-        ],
-        updatedAt: today(),
-        updatedBy: '系统',
-      };
-    }),
-  }));
-
-  // W1-B1：核销结果直写 D1。本地 id 已对齐 D1 id，PUT 精准；附带 movement 落 serial_movements。
-  const masters = useWarehouseAdvancedStore.getState().serialMasters;
-  for (const serialNo of picked.keys()) {
-    const sm = masters.find((m) => m.serialNo === serialNo);
-    if (!sm) continue;
-    serialApi.update(sm.id, {
-      status: sm.status,
-      outboundDate: sm.outboundDate,
-      customerName: sm.customerName,
-      movement: { type: moveType, docNo: o.outboundNo, date: o.outboundDate, status: sm.status, note: o.customerName || o.remarks },
-    } as Partial<SerialMaster> & { movement: SerialMaster['movements'] extends Array<infer M> ? M : never }).catch(() => {});
-  }
-};
-
-// 延迟注册订阅：避免 warehouseStore 静态 import 本模块时顶层访问 useWarehouseStore 触发循环依赖 TDZ
-setTimeout(() => {
-  useWarehouseStore.subscribe((state, prev) => {
-    const prevIn = new Set((prev?.inboundOrders || []).map((o) => o.id));
-    for (const o of state.inboundOrders) {
-      if (prevIn.has(o.id) || __snSeenIn.has(o.id)) continue;
-      __snSeenIn.add(o.id);
-      if (o.status === 'completed') registerSerialsOnInbound(o);
-    }
-    const prevOut = new Set((prev?.outboundOrders || []).map((o) => o.id));
-    for (const o of state.outboundOrders) {
-      if (prevOut.has(o.id) || __snSeenOut.has(o.id)) continue;
-      __snSeenOut.add(o.id);
-      if (o.status === 'completed') consumeSerialsOnOutbound(o);
-    }
-  });
-}, 0);
+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

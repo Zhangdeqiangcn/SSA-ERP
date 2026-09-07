@@ -1,67 +1,48 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-
-export interface FxRate {
-  id: string;
-  base: string;
-  quote: string;
-  rate: number;
-  source: string;
-  updatedAt: string;
-}
-
-interface FxState {
-  baseCurrency: string;
-  rates: FxRate[];
-  setBaseCurrency: (c: string) => void;
-  upsertRate: (r: { base: string; quote: string; rate: number; source?: string }) => void;
-  removeRate: (id: string) => void;
-  setRates: (r: FxRate[]) => void;
-  /** 经直接汇率或基准币种换算，无法换算返回 null */
-  convert: (amount: number, from: string, to: string) => number | null;
-}
-
-export const useFxStore = create<FxState>()(
-  persist(
-    (set, get) => ({
-      baseCurrency: 'CNY',
-      rates: [],
-      setBaseCurrency: (c) => set({ baseCurrency: c }),
-      upsertRate: (r) =>
-        set((s) => {
-          const id = `${r.base}-${r.quote}`;
-          const rec: FxRate = {
-            id, base: r.base, quote: r.quote, rate: r.rate,
-            source: r.source || 'manual', updatedAt: new Date().toISOString(),
-          };
-          const idx = s.rates.findIndex((x) => x.id === id);
-          if (idx >= 0) {
-            const next = [...s.rates]; next[idx] = rec; return { rates: next };
-          }
-          return { rates: [...s.rates, rec] };
-        }),
-      removeRate: (id) => set((s) => ({ rates: s.rates.filter((x) => x.id !== id) })),
-      setRates: (r) => set({ rates: r }),
-      convert: (amount, from, to) => {
-        const { baseCurrency, rates } = get();
-        if (from === to) return amount;
-        // 统一以基准币种折算：rate(base→quote) = 1 quote 合多少 base
-        // 1) from → base
-        let amountInBase: number;
-        if (from === baseCurrency) {
-          amountInBase = amount;
-        } else {
-          const bf = rates.find((x) => x.base === baseCurrency && x.quote === from);
-          if (!bf) return null;
-          amountInBase = amount * bf.rate;
-        }
-        // 2) base → to
-        if (to === baseCurrency) return amountInBase;
-        const bt = rates.find((x) => x.base === baseCurrency && x.quote === to);
-        if (!bt) return null;
-        return amountInBase / bt.rate;
-      },
-    }),
-    { name: 'ssa-erp-fx', version: 1 }
-  )
-);
+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

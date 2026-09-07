@@ -1,81 +1,64 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 单位换算规则单一数据源（全面 store 化 · V2.14）
- * ------------------------------------------------------------
- * 将多单位换算规则从 UnitConversionTab 的 localStorage `ssa-erp-unit-conversions`
- * 收敛到唯一 zustand persist store。首次启动从旧键迁移（若有用户自定义），
- * 否则播种默认 6 条规则。
- */
-
-export interface UnitRule {
-  id: string;
-  fromUnit: string;
-  toUnit: string;
-  factor: number; // 1 fromUnit = factor toUnit
-}
-
-export const DEFAULT_UNIT_RULES: UnitRule[] = [
-  { id: 'u1', fromUnit: '箱', toUnit: '个', factor: 12 },
-  { id: 'u2', fromUnit: '吨', toUnit: '公斤', factor: 1000 },
-  { id: 'u3', fromUnit: '米', toUnit: '厘米', factor: 100 },
-  { id: 'u4', fromUnit: '千只', toUnit: '只', factor: 1000 },
-  { id: 'u5', fromUnit: '卷', toUnit: '米', factor: 50 },
-  { id: 'u6', fromUnit: '捆', toUnit: '根', factor: 20 },
-];
-
-const seedRules = (): UnitRule[] => {
-  try {
-    const raw = localStorage.getItem('ssa-erp-unit-conversions');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        localStorage.removeItem('ssa-erp-unit-conversions');
-        return parsed as UnitRule[];
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_UNIT_RULES.map((r) => ({ ...r }));
-};
-
-/** 纯函数：按规则换算（支持正/反向），无路径返回 null */
-export function convertUnit(value: number, from: string, to: string, rules: UnitRule[]): number | null {
-  if (from === to) return value;
-  const direct = rules.find((r) => r.fromUnit === from && r.toUnit === to);
-  if (direct) return value * direct.factor;
-  const rev = rules.find((r) => r.fromUnit === to && r.toUnit === from);
-  if (rev) return value / rev.factor;
-  return null;
-}
-
-interface UnitConversionState {
-  rules: UnitRule[];
-  setRules: (rules: UnitRule[]) => void;
-  addRule: (rule: Omit<UnitRule, 'id'>) => void;
-  updateRule: (id: string, patch: Partial<Omit<UnitRule, 'id'>>) => void;
-  removeRule: (id: string) => void;
-  resetRules: () => void;
-}
-
-export const useUnitConversionStore = create<UnitConversionState>()(
-  persist(
-    (set) => ({
-      rules: seedRules(),
-      setRules: (rules) => set({ rules }),
-      addRule: (rule) =>
-        set((state) => ({ rules: [...state.rules, { ...rule, id: `u-${Date.now()}` }] })),
-      updateRule: (id, patch) =>
-        set((state) => ({
-          rules: state.rules.map((r) => (r.id === id ? { ...r, ...patch } : r)),
-        })),
-      removeRule: (id) => set((state) => ({ rules: state.rules.filter((r) => r.id !== id) })),
-      resetRules: () => set({ rules: DEFAULT_UNIT_RULES.map((r) => ({ ...r })) }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-unit-conversions', version: 1 }
-  )
-);
+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
+ukFcbYg8iYouU4pcRjjFFQ==

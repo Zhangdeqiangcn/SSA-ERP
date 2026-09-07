@@ -1,43 +1,32 @@
--- P1 Phase 7: 三单匹配服务端闭环
--- three_way_match 表：记录 PO/入库单/发票的匹配状态
-
-PRAGMA foreign_keys = ON;
-
-CREATE TABLE IF NOT EXISTS three_way_match (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  po_id TEXT NOT NULL,
-  po_no TEXT NOT NULL,
-  inbound_id TEXT,
-  inbound_no TEXT,
-  invoice_id TEXT,
-  invoice_no TEXT,
-  match_status TEXT NOT NULL DEFAULT 'pending',
-  -- 数量匹配
-  po_quantity REAL NOT NULL DEFAULT 0,
-  inbound_quantity REAL NOT NULL DEFAULT 0,
-  qty_variance REAL NOT NULL DEFAULT 0,
-  qty_match BOOLEAN NOT NULL DEFAULT 0,
-  -- 单价匹配
-  po_unit_price REAL NOT NULL DEFAULT 0,
-  invoice_unit_price REAL NOT NULL DEFAULT 0,
-  price_variance REAL NOT NULL DEFAULT 0,
-  price_match BOOLEAN NOT NULL DEFAULT 0,
-  -- 金额匹配
-  po_amount REAL NOT NULL DEFAULT 0,
-  inbound_amount REAL NOT NULL DEFAULT 0,
-  invoice_amount REAL NOT NULL DEFAULT 0,
-  amount_variance REAL NOT NULL DEFAULT 0,
-  amount_match BOOLEAN NOT NULL DEFAULT 0,
-  matched_by TEXT,
-  matched_at TEXT,
-  discrepancy TEXT,
-  remarks TEXT,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_twm_po ON three_way_match(org_id, po_id);
-CREATE INDEX IF NOT EXISTS idx_twm_status ON three_way_match(org_id, match_status);
-CREATE INDEX IF NOT EXISTS idx_twm_inbound ON three_way_match(org_id, inbound_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0008_p1_phase7', datetime('now')) ON CONFLICT(version) DO NOTHING;
+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

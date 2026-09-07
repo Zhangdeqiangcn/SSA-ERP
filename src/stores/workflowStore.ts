@@ -1,132 +1,114 @@
-/**
- * 通用工作流引擎（BPMN-lite，实验性）
- * ------------------------------------------------------------
- * ⚠️ 定位澄清（B7-4）：本 store / WorkflowEngine 是一个「通用流程设计器」，
- * 提供起止节点 + 任意 transition 的可视化编排（开始→审批→执行→结束），
- * 用于自定义非标流程（如 OA 流转、特殊项目审批）的沙盒演练。
- *
- * 它与业务审批引擎 `approvalFlowStore` 是**两套独立机制**，请勿混淆：
- *   - approvalFlowStore：采购申请 / 供应商准入 / 价格审批 / 物料新增等
- *     业务审批的「单一数据源」，由各业务审批队列（Vendor/ApprovalQueue、
- *     Purchase/PurchaseApproval、Price/PriceApproval、Material/MaterialApprovalQueue）
- *     与 FlowTracker 按配置驱动多步审批，并支持结构化条件 + 跳过规则运行时执行。
- *   - workflowStore（本文件）：通用工作流设计器，示例/实验用途，不参与上述
- *     业务审批的真实推进链路。
- * 两者不强制合并，避免破坏已上线的业务审批闭环。
- */
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type {
-  WorkflowDefinition,
-  WorkflowInstance,
-  WorkflowNode,
-} from '@/types';
-
-const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-const now = () => new Date().toISOString();
-
-interface WorkflowState {
-  definitions: WorkflowDefinition[];
-  instances: WorkflowInstance[];
-  addDefinition: (def: Omit<WorkflowDefinition, 'id' | 'createdAt'>) => void;
-  deleteDefinition: (id: string) => void;
-  startInstance: (defId: string, initiator?: string) => string;
-  advanceInstance: (instanceId: string, operator?: string) => void;
-  rejectInstance: (instanceId: string, operator?: string) => void;
-}
-
-const seedDef: WorkflowDefinition = {
-  id: 'wf-seed-1',
-  name: '采购申请审批流',
-  createdAt: now(),
-  nodes: [
-    { id: 'n1', name: '发起申请', type: 'start' },
-    { id: 'n2', name: '主管审批', type: 'approval' },
-    { id: 'n3', name: '采购执行', type: 'task' },
-    { id: 'n4', name: '结束', type: 'end' },
-  ],
-  transitions: [
-    { from: 'n1', to: 'n2', label: '提交' },
-    { from: 'n2', to: 'n3', label: '通过' },
-    { from: 'n3', to: 'n4', label: '完成' },
-  ],
-};
-
-export const useWorkflowStore = create<WorkflowState>()(
-  persist(
-    (set, get) => ({
-      definitions: [seedDef],
-      instances: [],
-      addDefinition: (def) =>
-        set((s) => ({
-          definitions: [...s.definitions, { ...def, id: uid('wf'), createdAt: now() }],
-        })),
-      deleteDefinition: (id) =>
-        set((s) => ({ definitions: s.definitions.filter((d) => d.id !== id) })),
-      startInstance: (defId, initiator) => {
-        const def = get().definitions.find((d) => d.id === defId);
-        if (!def) return '';
-        const startNode = def.nodes.find((n) => n.type === 'start') ?? def.nodes[0];
-        const id = uid('wfi');
-        const instance: WorkflowInstance = {
-          id,
-          defId,
-          defName: def.name,
-          currentNodeId: startNode.id,
-          status: 'running',
-          startedAt: now(),
-          initiator,
-          history: [
-            { nodeId: startNode.id, nodeName: startNode.name, action: 'start', at: now() },
-          ],
-        };
-        set((s) => ({ instances: [...s.instances, instance] }));
-        return id;
-      },
-      advanceInstance: (instanceId, operator) =>
-        set((s) => ({
-          instances: s.instances.map((inst) => {
-            if (inst.id !== instanceId || inst.status !== 'running') return inst;
-            const def = get().definitions.find((d) => d.id === inst.defId);
-            if (!def) return inst;
-            const current = def.nodes.find((n) => n.id === inst.currentNodeId);
-            if (!current || current.type === 'end') return inst;
-            const trans = def.transitions.find((t) => t.from === current.id);
-            if (!trans) return inst;
-            const target: WorkflowNode = def.nodes.find((n) => n.id === trans.to)!;
-            const action = current.type === 'approval' ? 'approve' : 'advance';
-            return {
-              ...inst,
-              currentNodeId: target.id,
-              status: target.type === 'end' ? 'done' : 'running',
-              history: [
-                ...inst.history,
-                { nodeId: target.id, nodeName: target.name, action, at: now(), operator },
-              ],
-            };
-          }),
-        })),
-      rejectInstance: (instanceId, operator) =>
-        set((s) => ({
-          instances: s.instances.map((inst) => {
-            if (inst.id !== instanceId || inst.status !== 'running') return inst;
-            const def = get().definitions.find((d) => d.id === inst.defId);
-            if (!def) return inst;
-            const current = def.nodes.find((n) => n.id === inst.currentNodeId);
-            if (!current || current.type !== 'approval') return inst;
-            return {
-              ...inst,
-              status: 'rejected',
-              history: [
-                ...inst.history,
-                { nodeId: current.id, nodeName: current.name, action: 'reject', at: now(), operator },
-              ],
-            };
-          }),
-        })),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-workflow' },
-  ),
-);
+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

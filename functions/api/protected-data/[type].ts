@@ -1,123 +1,109 @@
-// GET /api/protected-data/{type} — 根据角色返回脱敏数据
-// 支持: vendors, customers, materials, sales-orders, purchase-orders
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-// 敏感字段配置（根据角色屏蔽）
-const SENSITIVE_FIELDS = {
-  vendors: {
-    admin: [], // 管理员可见全部
-    manager: ['bank_account', 'tax_code', 'reconciliation_account'], // 经理屏蔽财务字段
-    staff: ['bank_account', 'tax_code', 'reconciliation_account', 'credit_limit', 'used_credit', 'blacklist_reason'], // 员工屏蔽信用和黑名单
-    vendor: ['credit_level', 'credit_limit', 'used_credit', 'rating', 'blacklist_reason', 'blacklisted_at'], // 供应商屏蔽自身敏感信息
-  },
-  customers: {
-    admin: [],
-    manager: ['bank_account', 'tax_code', 'reconciliation_account'],
-    staff: ['bank_account', 'tax_code', 'reconciliation_account', 'credit_limit', 'used_credit'],
-    vendor: ['credit_level', 'credit_limit', 'used_credit'],
-  },
-  'sales-orders': {
-    admin: [],
-    manager: ['customer_tax_id', 'customer_bank_account'],
-    staff: ['customer_tax_id', 'customer_bank_account', 'total_amount'],
-  },
-  'purchase-orders': {
-    admin: [],
-    manager: ['vendor_tax_code', 'vendor_bank_account'],
-    staff: ['vendor_tax_code', 'vendor_bank_account', 'total_amount'],
-  },
-};
-
-// 脱敏函数
-function maskValue(value: string, pattern: string = '****'): string {
-  if (!value) return '';
-  if (value.length <= 4) return pattern;
-  return value.slice(0, 2) + pattern + value.slice(-2);
-}
-
-function applyMasking(data: any, sensitiveFields: string[], role: string): any {
-  if (role === 'admin') return data; // 管理员不脱敏
-  
-  const masked = { ...data };
-  for (const field of sensitiveFields) {
-    if (masked[field] !== undefined) {
-      if (typeof masked[field] === 'string') {
-        masked[field] = maskValue(masked[field]);
-      } else if (typeof masked[field] === 'number') {
-        masked[field] = 0; // 金额字段清零
-      }
-    }
-  }
-  return masked;
-}
-
-export async function onRequestGet(context: any) {
-  const { request, env, params } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-
-  const dataType = params.type;
-  if (!dataType || !SENSITIVE_FIELDS[dataType]) {
-    return json({ error: '不支持的数据类型' }, 400);
-  }
-
-  const role = user.role || 'staff';
-  const sensitiveFields = SENSITIVE_FIELDS[dataType][role] || [];
-
-  try {
-    let sql = '';
-    let results: any[] = [];
-
-    switch (dataType) {
-      case 'vendors':
-        sql = `SELECT id, vendor_code, company_name, short_name, type, status, 
-                    contact_name, contact_phone, contact_email, address,
-                    qualification_expiry, rating, credit_level, credit_limit, used_credit,
-                    blacklist_reason, blacklisted_at, bank_account, tax_code, reconciliation_account
-                FROM vendors WHERE org_id = ? ORDER BY created_at DESC LIMIT 50`;
-        const vendorRows = await env.DB.prepare(sql).bind(user.org_id).all();
-        results = (vendorRows.results || []).map((r: any) => applyMasking(r, sensitiveFields, role));
-        break;
-
-      case 'customers':
-        sql = `SELECT id, code, name, short_name, type, status,
-                    contact_name, contact_phone, contact_email, address,
-                    credit_level, credit_limit, used_credit, settlement_term_days,
-                    bank_account, tax_code, reconciliation_account, sales_org
-                FROM customers WHERE org_id = ? ORDER BY created_at DESC LIMIT 50`;
-        const customerRows = await env.DB.prepare(sql).bind(user.org_id).all();
-        results = (customerRows.results || []).map((r: any) => applyMasking(r, sensitiveFields, role));
-        break;
-
-      case 'sales-orders':
-        sql = `SELECT id, order_no, customer_name, customer_code, status,
-                    total_amount, grand_total, order_date, expected_delivery_date,
-                    customer_id, sales_person, trade_terms, remarks
-                FROM sales_orders WHERE org_id = ? ORDER BY created_at DESC LIMIT 50`;
-        const soRows = await env.DB.prepare(sql).bind(user.org_id).all();
-        results = (soRows.results || []).map((r: any) => applyMasking(r, sensitiveFields, role));
-        break;
-
-      case 'purchase-orders':
-        sql = `SELECT id, order_no, vendor_name, vendor_id, status,
-                    total_amount, grand_total, order_date, expected_delivery_date,
-                    trade_terms, remarks
-                FROM purchase_orders WHERE org_id = ? ORDER BY created_at DESC LIMIT 50`;
-        const poRows = await env.DB.prepare(sql).bind(user.org_id).all();
-        results = (poRows.results || []).map((r: any) => applyMasking(r, sensitiveFields, role));
-        break;
-
-      default:
-        return json({ error: '不支持的数据类型' }, 400);
-    }
-
-    return json({
-      data: results,
-      role: role,
-      maskedFields: sensitiveFields,
-      count: results.length,
-    });
-  } catch (e: any) {
-    return json({ error: `查询失败: ${e.message}` }, 500);
-  }
-}
+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
+xQKs1M37XWSzL+48zIwhlw==

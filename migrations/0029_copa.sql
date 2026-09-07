@@ -1,20 +1,13 @@
--- V2.80.0 W1：COPA 获利分析迁真实 D1（根治双通道）
--- 与前端 useCopaStore（entityRepo 资源 copa）同源。
-CREATE TABLE IF NOT EXISTS copa_analysis (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  dimension TEXT,
-  key TEXT,
-  label TEXT,
-  period TEXT,
-  revenue REAL DEFAULT 0,
-  cogs REAL DEFAULT 0,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_copa_analysis_org ON copa_analysis(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0029_copa', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX1+I5eUc6ZwpQygAYI84ICZZGGc2qv6F8LT5/KqnwW/awtnNDThzwbXA
+7xiaOTHHTeheofrrWHOmXKsz8sI0VTCE5GP5Oy/j8OILEK8QObVifBKzrxRloMoW
+PDU966lBhyLL7HRU2Z7zZ+f3LyE4QZunnB3RibWrRtA67mF0APfFeXt0fdtdiKeZ
+uIWOZ0vgKXK4Qkl1oVuoR3t0V8MbqO3Gq1p9KtUiVvcP/mzgQMajmXcGtB2cs/ex
+osd9ujLOOvPK/AEvx3GvR8smTFzvlohrT15VyZGN3m7yInKs3SlzSzHf2I9jmx6e
+bs0LjoPHTk0+sUQ/DbJkJifaYy0XzN6bgNzFLxXkYFWR2tb2Do5Ja7ZonWwHSmGn
+xYWoejf3F9ot4h1ciMYPhZWSQWtkKamjFMaolgAQtGr6rGJvHvFuakCPUYHo4+f2
+mHJukJFxUPhpWUHWhDAmeYF46YXH0Ao9GdVoSrvcmSWKHcvnoucnRSP+TkqVZB7g
+O2WvtgPDYaYAnIcuBi+5g0Bh+jow4NoJjCQcLbyLf+Eb34wxnSpb7+VHeKou/gfs
+qvspslbvUveosHkfbIVgYr33+9NWjo+UCbBXIn2WprRFqb+EKllPrBO/VJADO9j5
+eqF3ucgCvwD4/R8/5yQE0Dxryl1FqhKb3FHIylug6igz/57HJz01abd047ByOpJc
+aZouQddwrM0Lpe9pS6kXpYX4ELBZLwUHKO8mZC76t5RfWydK8bc3F6euxBEUUKOK
+/ZJJHIKL9/5+NbI4hpVD8bN2CGXbLasjMigfZHMAp/F2nHIGEOaebbYJ/pt8RVKJ

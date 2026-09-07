@@ -1,125 +1,78 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { VendorPerformance } from '@/types';
-
-interface VendorPerformanceState {
-  records: VendorPerformance[];
-  addRecord: (record: VendorPerformance) => void;
-  updateRecord: (id: string, patch: Partial<VendorPerformance>) => void;
-  deleteRecord: (id: string) => void;
-  /** 按权重重新计算所有记录的总分和排名，默认权重 30/30/25/15 */
-  calculateScore: (
-    qualityWeight?: number,
-    deliveryWeight?: number,
-    priceWeight?: number,
-    serviceWeight?: number
-  ) => void;
-}
-
-const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-/** 计算排名：totalScore>=90→A, >=75→B, >=60→C, <60→D */
-function computeRanking(totalScore: number): string {
-  if (totalScore >= 90) return 'A';
-  if (totalScore >= 75) return 'B';
-  if (totalScore >= 60) return 'C';
-  return 'D';
-}
-
-const seedRecords: VendorPerformance[] = [
-  {
-    id: 'perf-001',
-    vendorId: 'cus-001',
-    vendorName: '华润建筑',
-    period: '2026-Q3',
-    qualityScore: 88,
-    deliveryScore: 92,
-    priceScore: 80,
-    serviceScore: 85,
-    totalScore: 88 * 0.3 + 92 * 0.3 + 80 * 0.25 + 85 * 0.15, // 26.4+27.6+20+12.75 = 86.75
-    ranking: 'B',
-    remarks: '',
-    evaluatedBy: '采购部主管',
-    evaluatedAt: now,
-    createdAt: now,
-  },
-  {
-    id: 'perf-002',
-    vendorId: 'cus-002',
-    vendorName: '长江船舶',
-    period: '2026-Q3',
-    qualityScore: 75,
-    deliveryScore: 70,
-    priceScore: 65,
-    serviceScore: 72,
-    totalScore: 75 * 0.3 + 70 * 0.3 + 65 * 0.25 + 72 * 0.15, // 22.5+21+16.25+10.8 = 70.55
-    ranking: 'C',
-    remarks: '',
-    evaluatedBy: '采购部主管',
-    evaluatedAt: now,
-    createdAt: now,
-  },
-  {
-    id: 'perf-003',
-    vendorId: 'cus-003',
-    vendorName: '新源机械',
-    period: '2026-Q3',
-    qualityScore: 92,
-    deliveryScore: 95,
-    priceScore: 88,
-    serviceScore: 90,
-    totalScore: 92 * 0.3 + 95 * 0.3 + 88 * 0.25 + 90 * 0.15, // 27.6+28.5+22+13.5 = 91.6
-    ranking: 'A',
-    remarks: '',
-    evaluatedBy: '采购部主管',
-    evaluatedAt: now,
-    createdAt: now,
-  },
-];
-
-export const useVendorPerformanceStore = create<VendorPerformanceState>()(
-  persist(
-    (set) => ({
-      records: [...seedRecords],
-
-      addRecord: (record) => set((state) => ({ records: [record, ...state.records] })),
-
-      updateRecord: (id, patch) =>
-        set((state) => ({
-          records: state.records.map((r) =>
-            r.id === id ? { ...r, ...patch } : r
-          ),
-        })),
-
-      deleteRecord: (id) =>
-        set((state) => ({ records: state.records.filter((r) => r.id !== id) })),
-
-      calculateScore: (
-        qualityWeight = 30,
-        deliveryWeight = 30,
-        priceWeight = 25,
-        serviceWeight = 15
-      ) =>
-        set((state) => {
-          const qw = qualityWeight / 100;
-          const dw = deliveryWeight / 100;
-          const pw = priceWeight / 100;
-          const sw = serviceWeight / 100;
-          const records = state.records.map((r) => {
-            const totalScore = Math.round(
-              (r.qualityScore * qw + r.deliveryScore * dw + r.priceScore * pw + r.serviceScore * sw) * 100
-            ) / 100;
-            return { ...r, totalScore, ranking: computeRanking(totalScore) };
-          });
-          return { records };
-        }),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-vendor-performance',
-      version: 1,
-      partialize: (state) => ({ records: state.records }),
-    }
-  )
-);
+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

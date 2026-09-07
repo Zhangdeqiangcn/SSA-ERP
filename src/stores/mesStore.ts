@@ -1,194 +1,189 @@
-import { create } from 'zustand';
-import { entityRepo } from '@/services/entityRepo';
-import {
-  MesConnection,
-  MesDeviceStatus,
-  WipTrack,
-  MesOperationReport,
-} from '@/types/mes';
-import { mesConnections, mesDevices, mesWips, mesOperationReports } from '@/mocks/data/mes';
-
-// V2.80.0 W1：MES 集成迁真实 D1（根治双通道）。
-// 四资源 mesConnections/mesDevices/mesWips/mesOperationReports 经 entityRepo 读写；
-// 移除原 persist(backendStorage) 本地存储 Blob。
-// 本模块全部字段为扁平标量，无嵌套对象，故无需 JSON 列序列化。
-interface MesState {
-  connections: MesConnection[];
-  devices: MesDeviceStatus[];
-  wips: WipTrack[];
-  operationReports: MesOperationReport[];
-  loaded: boolean;
-  load: () => Promise<void>;
-
-  addConnection: (c: MesConnection) => Promise<void>;
-  updateConnection: (id: string, updates: Partial<MesConnection>) => Promise<void>;
-  deleteConnection: (id: string) => Promise<void>;
-  /** 触发一次同步：置为 connected 并记录 lastSyncAt（模拟 MES 拉取成功），并写回 D1 */
-  syncConnection: (id: string) => Promise<void>;
-
-  addDevice: (d: MesDeviceStatus) => Promise<void>;
-  updateDevice: (id: string, updates: Partial<MesDeviceStatus>) => Promise<void>;
-  deleteDevice: (id: string) => Promise<void>;
-
-  addWip: (w: WipTrack) => Promise<void>;
-  updateWip: (id: string, updates: Partial<WipTrack>) => Promise<void>;
-  deleteWip: (id: string) => Promise<void>;
-
-  addOperationReport: (r: MesOperationReport) => Promise<void>;
-  updateOperationReport: (id: string, updates: Partial<MesOperationReport>) => Promise<void>;
-  deleteOperationReport: (id: string) => Promise<void>;
-}
-
-const CONN = 'mesConnections';
-const DEV = 'mesDevices';
-const WIP = 'mesWips';
-const OP = 'mesOperationReports';
-const flagKey = 'ssa-erp-backfilled-mes';
-
-export const useMesStore = create<MesState>()((set, get) => ({
-  connections: [...mesConnections],
-  devices: [...mesDevices],
-  wips: [...mesWips],
-  operationReports: [...mesOperationReports],
-  loaded: false,
-
-  load: async () => {
-    try {
-      const [rc, rd, rw, ro] = await Promise.all([
-        entityRepo.list<MesConnection>(CONN, { page: 1, pageSize: 200 }),
-        entityRepo.list<MesDeviceStatus>(DEV, { page: 1, pageSize: 200 }),
-        entityRepo.list<WipTrack>(WIP, { page: 1, pageSize: 200 }),
-        entityRepo.list<MesOperationReport>(OP, { page: 1, pageSize: 200 }),
-      ]);
-      const connections = (rc?.data || []) as MesConnection[];
-      const devices = (rd?.data || []) as MesDeviceStatus[];
-      const wips = (rw?.data || []) as WipTrack[];
-      const operationReports = (ro?.data || []) as MesOperationReport[];
-      if (
-        connections.length === 0 &&
-        devices.length === 0 &&
-        wips.length === 0 &&
-        operationReports.length === 0 &&
-        !localStorage.getItem(flagKey)
-      ) {
-        localStorage.setItem(flagKey, '1');
-        for (const c of mesConnections) { try { await entityRepo.create<MesConnection>(CONN, c); } catch { /* 尽力回填 */ } }
-        for (const d of mesDevices) { try { await entityRepo.create<MesDeviceStatus>(DEV, d); } catch { /* 尽力回填 */ } }
-        for (const w of mesWips) { try { await entityRepo.create<WipTrack>(WIP, w); } catch { /* 尽力回填 */ } }
-        for (const r of mesOperationReports) { try { await entityRepo.create<MesOperationReport>(OP, r); } catch { /* 尽力回填 */ } }
-        const [rc2, rd2, rw2, ro2] = await Promise.all([
-          entityRepo.list<MesConnection>(CONN, { page: 1, pageSize: 200 }),
-          entityRepo.list<MesDeviceStatus>(DEV, { page: 1, pageSize: 200 }),
-          entityRepo.list<WipTrack>(WIP, { page: 1, pageSize: 200 }),
-          entityRepo.list<MesOperationReport>(OP, { page: 1, pageSize: 200 }),
-        ]);
-        set({
-          connections: (rc2?.data || []) as MesConnection[],
-          devices: (rd2?.data || []) as MesDeviceStatus[],
-          wips: (rw2?.data || []) as WipTrack[],
-          operationReports: (ro2?.data || []) as MesOperationReport[],
-          loaded: true,
-        });
-        return;
-      }
-      set({
-        connections: connections.length ? connections : [...mesConnections],
-        devices: devices.length ? devices : [...mesDevices],
-        wips: wips.length ? wips : [...mesWips],
-        operationReports: operationReports.length ? operationReports : [...mesOperationReports],
-        loaded: true,
-      });
-    } catch {
-      set({
-        connections: [...mesConnections],
-        devices: [...mesDevices],
-        wips: [...mesWips],
-        operationReports: [...mesOperationReports],
-        loaded: true,
-      });
-    }
-  },
-
-  addConnection: async (c) => {
-    set((s) => ({ connections: [...s.connections, c] }));
-    try {
-      const created = await entityRepo.create<MesConnection>(CONN, c);
-      set((s) => ({ connections: s.connections.map((x) => (x.id === c.id ? (created as MesConnection) : x)) }));
-    } catch { set((s) => ({ connections: s.connections.filter((x) => x.id !== c.id) })); }
-  },
-  updateConnection: async (id, u) => {
-    const prev = get().connections.find((x) => x.id === id);
-    set((s) => ({ connections: s.connections.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<MesConnection>(CONN, id, u); }
-    catch { if (prev) set((s) => ({ connections: s.connections.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteConnection: async (id) => {
-    const prev = [...get().connections];
-    set((s) => ({ connections: s.connections.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(CONN, id); } catch { set({ connections: prev }); }
-  },
-  syncConnection: async (id) => {
-    const prev = get().connections.find((x) => x.id === id);
-    const u = { status: 'connected' as const, lastSyncAt: new Date().toISOString() };
-    set((s) => ({ connections: s.connections.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<MesConnection>(CONN, id, u); }
-    catch { if (prev) set((s) => ({ connections: s.connections.map((x) => (x.id === id ? prev : x)) })); }
-  },
-
-  addDevice: async (d) => {
-    set((s) => ({ devices: [...s.devices, d] }));
-    try {
-      const created = await entityRepo.create<MesDeviceStatus>(DEV, d);
-      set((s) => ({ devices: s.devices.map((x) => (x.id === d.id ? (created as MesDeviceStatus) : x)) }));
-    } catch { set((s) => ({ devices: s.devices.filter((x) => x.id !== d.id) })); }
-  },
-  updateDevice: async (id, u) => {
-    const prev = get().devices.find((x) => x.id === id);
-    set((s) => ({ devices: s.devices.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<MesDeviceStatus>(DEV, id, u); }
-    catch { if (prev) set((s) => ({ devices: s.devices.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteDevice: async (id) => {
-    const prev = [...get().devices];
-    set((s) => ({ devices: s.devices.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(DEV, id); } catch { set({ devices: prev }); }
-  },
-
-  addWip: async (w) => {
-    set((s) => ({ wips: [...s.wips, w] }));
-    try {
-      const created = await entityRepo.create<WipTrack>(WIP, w);
-      set((s) => ({ wips: s.wips.map((x) => (x.id === w.id ? (created as WipTrack) : x)) }));
-    } catch { set((s) => ({ wips: s.wips.filter((x) => x.id !== w.id) })); }
-  },
-  updateWip: async (id, u) => {
-    const prev = get().wips.find((x) => x.id === id);
-    set((s) => ({ wips: s.wips.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<WipTrack>(WIP, id, u); }
-    catch { if (prev) set((s) => ({ wips: s.wips.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteWip: async (id) => {
-    const prev = [...get().wips];
-    set((s) => ({ wips: s.wips.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(WIP, id); } catch { set({ wips: prev }); }
-  },
-
-  addOperationReport: async (r) => {
-    set((s) => ({ operationReports: [...s.operationReports, r] }));
-    try {
-      const created = await entityRepo.create<MesOperationReport>(OP, r);
-      set((s) => ({ operationReports: s.operationReports.map((x) => (x.id === r.id ? (created as MesOperationReport) : x)) }));
-    } catch { set((s) => ({ operationReports: s.operationReports.filter((x) => x.id !== r.id) })); }
-  },
-  updateOperationReport: async (id, u) => {
-    const prev = get().operationReports.find((x) => x.id === id);
-    set((s) => ({ operationReports: s.operationReports.map((x) => (x.id === id ? { ...x, ...u } : x)) }));
-    try { await entityRepo.update<MesOperationReport>(OP, id, u); }
-    catch { if (prev) set((s) => ({ operationReports: s.operationReports.map((x) => (x.id === id ? prev : x)) })); }
-  },
-  deleteOperationReport: async (id) => {
-    const prev = [...get().operationReports];
-    set((s) => ({ operationReports: s.operationReports.filter((x) => x.id !== id) }));
-    try { await entityRepo.remove(OP, id); } catch { set({ operationReports: prev }); }
-  },
-}));
+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

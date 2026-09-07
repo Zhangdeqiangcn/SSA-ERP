@@ -1,46 +1,29 @@
-export { api, apiClient } from './api';
-export { materialApi } from './material';
-export { vendorApi } from './vendor';
-export { purchaseApi } from './purchase';
-export { warehouseApi } from './warehouse';
-// 统一 API Facade（桥接 Zustand Store 的 RESTful 风格接口）
-import apiServiceDefault, {
-  materialApi as _materialApi,
-  vendorApi as _vendorApi,
-  customerApi as _customerApi,
-  purchaseApi as _purchaseApi,
-  salesApi as _salesApi,
-  warehouseApi as _warehouseApi,
-  qualityApi as _qualityApi,
-  productionApi as _productionApi,
-  financeApi as _financeApi,
-  priceApi as _priceApi,
-  systemApi as _systemApi,
-} from './apiService';
-
-export {
-  apiServiceDefault as apiService,
-  _materialApi as materialApiService,
-  _vendorApi as vendorApiService,
-  _customerApi as customerApiService,
-  _purchaseApi as purchaseApiService,
-  _salesApi as salesApiService,
-  _warehouseApi as warehouseApiService,
-  _qualityApi as qualityApiService,
-  _productionApi as productionApiService,
-  _financeApi as financeApiService,
-  _priceApi as priceApiService,
-  _systemApi as systemApiService,
-};
-// C7 服务端化雏形：持久化抽象层 + 审计包装
-export {
-  getDriver,
-  setDriver,
-  listCollections,
-  estimateStorageKB,
-  readCollection,
-  withAudit,
-  getServerStatus,
-  type StorageDriver,
-  type ServerStatus,
-} from './serverService';
+U2FsdGVkX19x5ve3e1Q/BcSvqfa/CVe0Nm4DIeJ8cqZ5rZyvz3Umafb0W23Yo3QP
+P/7fCBCfOUOStOJduNUF03YIszLM5jVhWibzvlUoN4A+TUJ4oeVDp2jZHN4dJay8
+qUbW5hBf6/C7VIsC0qsUE1Tv2lY8YoA0IoqwodWIyN939MbHnWM8wUZlrODTE4UO
+9QXAxR0itLFtphUrXjCMoz2cJwlfyG+8KoPS1XNMV++hn2PfZrhsk2ggZU1uqlJG
+d7JlNuhuyug8M7Tm7Z66OFIXLMjoUDy+54XZGe/9HryYKZluPlb9pwbb9q5pBG5N
+ccegC5H1vH4vPgP20dmoAAcwHBcRRVWkcFghx1TrHqhq31w74P+PLD4dhjYBGgnU
+Bcl8w+6ifoVFYPAzI5m3UBSQfXLovFHXaNulGUvAZW72RUv0mD6x5pXcyGVRsmUw
+IQYzrw2H6HTvhwryGevECb1hCliADDD2Y8tL2eEgULbcnE1r1AyJ9E5GT62bM0mj
+lOxAHW5N9GU3S8KO/uuIZaTgzfAvlTkqeUcEc2Q2i5cVvvRMbOCLVACNmHxroS3Y
+dwoxSQJLn8IVzZHe6rQmcXPhnTeWxUsOdGwOqPrVddomVE2DBfg0Sn84ZAb3IO7W
+fAHETcR7fSFLi09+QC7vFwWw2Qp6prADGJgQ/xmxISrq3spPOGeCkbJ5BdNWhl8J
+0svJtqbZDgVXEUSJp2zWwB+oFUaIbRroiPaLom0atJKLCen1RS+qJBMpomZdGexr
+I+30jzQ+p4ygskX/RMo3r81L6DfWAXrm3e5EOjwuooIH4HuKE5nm8TEJ4nGs0Usd
+H5cvy3gKUl/G7JZ+NPBYrMOgc7dW1DgWTAxZeWFtZHSesv85erCf2iFyIqpkieC4
+L4ZFHSIPljPcxniEdg6JhRAJBVvUtY5FTtfi3usOO7iQjwwV8tII8QFe4tV7U6pJ
+Oeg/UMebw7hVONjk0+Un8xSz5U8IFUCyOjKiNOdHx9LXr9RtVKu1OjB5M8UWwP5H
+povocknvu7uHEFUJMunpUF8x5INl201LIEf168vxzCLQHX+/O7eo0FK5/gI71D/6
+3Hp9Oy8ipbSd8PCMYsTMacEZFYRDcYLi7rSO01zK2vhOCjzsWLfHtKuLcNtNL4Zq
+NGnEZ1AZHUccGBL2Wo7qK5WDCvtN5E4lhn4QseP90sC0wQVKMyZKQ183L3SMbPdD
+nMjEuN7d1QqvS/YZm5h96S/xXFG8WH0xEzxfjKqouy4uwws+WPgQZaUPF5ipO0un
+VrWVDFuIeP1N4q1PBUCLsfCHngWMG3/KGg+OMY5soI+9/8OrGSkmRHznfECC3j36
+FXOlyO0NoDBpfpjnBx6BjomAoP0hdz+mokU7RQZ8VfFW0q2CW6OkH+F9aLrpdhCN
+5QMs4Ni88WzNjY4rDgBotFW1NGvGQPC+wqsiO+6mutcjlziKUDIN0sH5ZFkl0J4D
+XudAtt769cAd0+sScqV8/9ew+PaytrXdReBqEtH5ar6eHAKiJXNpPuCn/ateD3M5
++ZB0BrKu5aCR6eJzZi33j9KPimaMx8Ie7yDwFxegYxG0wXgeYhMEdMSqe8WBmkvK
+J+gMFVvQLLMbIL0MdPr6oI+PVPVQYLA7JXH/FLEyCm03N3/GAQ8zD++QCKP7fthb
+z88o7IYDIp4Xe/uFmJllMBK2erzIfT846t7Yb1944NUAW7D9HKB65YHDfSgA8JWV
+irMyaK1qJRv3UtucIVTjPgyvDlmoE0+NDsJZU4/2DiHLdfH/zUOSFQG3ofXytelw
+4zhuai3dXrK0DhA0OSzgoIAw9jA7bgj3NAJcj10MsR0=

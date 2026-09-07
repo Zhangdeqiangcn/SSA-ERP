@@ -1,129 +1,96 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 订单模板单一数据源（全面 store 化 · V2.14）
- * ------------------------------------------------------------
- * 将采购订单模板从 OrderTemplateTab 的 localStorage `ssa-order-templates`
- * 收敛到唯一 zustand persist store。新建采购订单时由 OrderForm 直接消费本 store，
- * 消除「设置页写一份、OrderForm 又读 localStorage」的双点直读。首次启动从旧键迁移
- * （若有用户自定义），否则播种 2 条默认模板。
- */
-
-export interface TemplateItem {
-  materialId: string;
-  materialCode: string;
-  materialName: string;
-  specification: string;
-  unit: string;
-  quantity: number;
-  unitPrice: number;
-}
-
-export interface OrderTemplate {
-  id: string;
-  name: string;
-  vendorId: string;
-  vendorName: string;
-  paymentTerms: string;
-  tradeTerms: string;
-  deliveryTerms: string;
-  remarks: string;
-  expectedDeliveryDate: string;
-  items: TemplateItem[];
-  createdAt: string;
-}
-
-export const DEFAULT_ORDER_TEMPLATES: OrderTemplate[] = [
-  {
-    id: 'tpl-001',
-    name: '钢板标准采购模板',
-    vendorId: 'ven-001',
-    vendorName: '上海宝钢钢铁贸易有限公司',
-    paymentTerms: '货到付款',
-    tradeTerms: 'CIF（到岸价）',
-    deliveryTerms: '含运费到厂',
-    remarks: '钢板类物料标准采购模板',
-    expectedDeliveryDate: '',
-    items: [
-      { materialId: 'mat-001', materialCode: 'MAT202405010001', materialName: '钢板 Q235B', specification: '10mm*1500mm*6000mm', unit: '吨', quantity: 30, unitPrice: 4150 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: 'tpl-002',
-    name: '紧固件批量采购模板',
-    vendorId: 'ven-002',
-    vendorName: '浙江温州紧固件有限公司',
-    paymentTerms: '月结30天',
-    tradeTerms: 'FOB（离岸价）',
-    deliveryTerms: '自提',
-    remarks: '螺栓螺母类物料批量采购',
-    expectedDeliveryDate: '',
-    items: [
-      { materialId: 'mat-004', materialCode: 'MAT202405010004', materialName: '螺栓 M10', specification: 'M10*40 10.9级', unit: '套', quantity: 500, unitPrice: 2.3 },
-      { materialId: 'mat-005', materialCode: 'MAT202405010005', materialName: '螺栓 M12', specification: 'M12*50 8.8级', unit: '套', quantity: 300, unitPrice: 3.0 },
-    ],
-    createdAt: new Date().toISOString(),
-  },
-];
-
-const seedTemplates = (): OrderTemplate[] => {
-  try {
-    const raw = localStorage.getItem('ssa-order-templates');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        localStorage.removeItem('ssa-order-templates');
-        return parsed as OrderTemplate[];
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_ORDER_TEMPLATES.map((t) => ({ ...t, items: t.items.map((i) => ({ ...i })) }));
-};
-
-interface OrderTemplateState {
-  templates: OrderTemplate[];
-  setTemplates: (templates: OrderTemplate[]) => void;
-  upsertTemplate: (template: OrderTemplate) => void;
-  removeTemplate: (id: string) => void;
-  duplicateTemplate: (id: string) => void;
-}
-
-export const useOrderTemplateStore = create<OrderTemplateState>()(
-  persist(
-    (set) => ({
-      templates: seedTemplates(),
-      setTemplates: (templates) => set({ templates }),
-      upsertTemplate: (template) =>
-        set((state) => {
-          const idx = state.templates.findIndex((t) => t.id === template.id);
-          if (idx >= 0) {
-            const next = [...state.templates];
-            next[idx] = template;
-            return { templates: next };
-          }
-          return { templates: [...state.templates, template] };
-        }),
-      removeTemplate: (id) => set((state) => ({ templates: state.templates.filter((t) => t.id !== id) })),
-      duplicateTemplate: (id) =>
-        set((state) => {
-          const src = state.templates.find((t) => t.id === id);
-          if (!src) return state;
-          const clone: OrderTemplate = {
-            ...src,
-            id: `tpl-${Date.now()}`,
-            name: `${src.name} (副本)`,
-            items: src.items.map((i) => ({ ...i })),
-            createdAt: new Date().toISOString(),
-          };
-          return { templates: [...state.templates, clone] };
-        }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-order-templates', version: 1 }
-  )
-);
+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
+SmBBoxQBGhhp7IasgMT+VA==

@@ -1,194 +1,124 @@
--- P1 Phase 3: 采购订单关系化
--- 新建 purchase_orders / purchase_order_items / inbound_orders / inbound_order_items
--- / outbound_orders / outbound_order_items 六张表
--- D1 无 ALTER TABLE ADD COLUMN（SQLite），需单独执行
-
-PRAGMA foreign_keys = ON;
-
--- 1. 采购订单主表
-CREATE TABLE IF NOT EXISTS purchase_orders (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  order_no TEXT NOT NULL,
-  vendor_id TEXT NOT NULL,
-  vendor_name TEXT,
-  contact TEXT,
-  phone TEXT,
-  status TEXT NOT NULL DEFAULT 'draft',
-  purchase_type TEXT DEFAULT 'material',
-  order_date TEXT NOT NULL,
-  expected_delivery_date TEXT,
-  actual_delivery_date TEXT,
-  total_amount REAL NOT NULL DEFAULT 0,
-  currency TEXT DEFAULT 'CNY',
-  exchange_rate REAL DEFAULT 1,
-  tax_included BOOLEAN DEFAULT 0,
-  total_tax_amount REAL DEFAULT 0,
-  grand_total REAL DEFAULT 0,
-  payment_terms TEXT,
-  trade_terms TEXT,
-  delivery_address TEXT,
-  remarks TEXT,
-  project_no TEXT,
-  project_name TEXT,
-  delivered_quantity REAL DEFAULT 0,
-  credit_occupied BOOLEAN DEFAULT 0,
-  credit_amount REAL DEFAULT 0,
-  credit_released_amount REAL DEFAULT 0,
-  confirmed_by TEXT,
-  confirmed_at TEXT,
-  confirmed_note TEXT,
-  order_mode TEXT DEFAULT 'standard',
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT,
-  UNIQUE(org_id, order_no)
-);
-
-CREATE INDEX IF NOT EXISTS idx_purchase_orders_vendor ON purchase_orders(org_id, vendor_id);
-CREATE INDEX IF NOT EXISTS idx_purchase_orders_status ON purchase_orders(org_id, status);
-CREATE INDEX IF NOT EXISTS idx_purchase_orders_order_date ON purchase_orders(org_id, order_date DESC);
-
--- 2. 采购订单行表
-CREATE TABLE IF NOT EXISTS purchase_order_items (
-  id TEXT PRIMARY KEY,
-  purchase_order_id TEXT NOT NULL,
-  material_id TEXT,
-  material_code TEXT,
-  material_name TEXT,
-  specification TEXT,
-  unit TEXT,
-  ordered_quantity REAL NOT NULL DEFAULT 0,
-  delivered_quantity REAL NOT NULL DEFAULT 0,
-  unit_price REAL NOT NULL DEFAULT 0,
-  amount REAL NOT NULL DEFAULT 0,
-  tax_rate REAL DEFAULT 0,
-  tax_amount REAL DEFAULT 0,
-  price_with_tax REAL DEFAULT 0,
-  amount_with_tax REAL DEFAULT 0,
-  remarks TEXT,
-  FOREIGN KEY (purchase_order_id) REFERENCES purchase_orders(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_poi_po ON purchase_order_items(purchase_order_id);
-
--- 3. 入库单主表
-CREATE TABLE IF NOT EXISTS inbound_orders (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  inbound_no TEXT NOT NULL,
-  type TEXT NOT NULL DEFAULT 'purchase',
-  source_no TEXT,
-  vendor_id TEXT,
-  vendor_name TEXT,
-  status TEXT NOT NULL DEFAULT 'pending',
-  warehouse_id TEXT NOT NULL,
-  warehouse_name TEXT,
-  operator TEXT NOT NULL,
-  inbound_date TEXT NOT NULL,
-  total_cost REAL DEFAULT 0,
-  subcontract_material_cost REAL DEFAULT 0,
-  asn_shipment_no TEXT,
-  remarks TEXT,
-  inventory_posted BOOLEAN DEFAULT 0,
-  cost_posted BOOLEAN DEFAULT 0,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT,
-  UNIQUE(org_id, inbound_no)
-);
-
-CREATE INDEX IF NOT EXISTS idx_inbound_vendor ON inbound_orders(org_id, vendor_id);
-CREATE INDEX IF NOT EXISTS idx_inbound_status ON inbound_orders(org_id, status);
-CREATE INDEX IF NOT EXISTS idx_inbound_date ON inbound_orders(org_id, inbound_date DESC);
-
--- 4. 入库单行表
-CREATE TABLE IF NOT EXISTS inbound_order_items (
-  id TEXT PRIMARY KEY,
-  inbound_order_id TEXT NOT NULL,
-  material_id TEXT,
-  material_code TEXT,
-  material_name TEXT,
-  specification TEXT,
-  unit TEXT,
-  expected_quantity REAL NOT NULL DEFAULT 0,
-  actual_quantity REAL NOT NULL DEFAULT 0,
-  batch_no TEXT,
-  location_id TEXT,
-  location_name TEXT,
-  quality_status TEXT NOT NULL DEFAULT 'qualified',
-  unit_price REAL DEFAULT 0,
-  amount REAL DEFAULT 0,
-  serial_nos TEXT,
-  hu_id TEXT,
-  production_date TEXT,
-  expiry_date TEXT,
-  FOREIGN KEY (inbound_order_id) REFERENCES inbound_orders(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_inoi_order ON inbound_order_items(inbound_order_id);
-
--- 5. 出库单主表
-CREATE TABLE IF NOT EXISTS outbound_orders (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  outbound_no TEXT NOT NULL,
-  type TEXT NOT NULL DEFAULT 'sale',
-  source_no TEXT,
-  customer_id TEXT,
-  customer_name TEXT,
-  vendor_id TEXT,
-  vendor_name TEXT,
-  status TEXT NOT NULL DEFAULT 'pending',
-  warehouse_id TEXT NOT NULL,
-  warehouse_name TEXT,
-  operator TEXT NOT NULL,
-  outbound_date TEXT NOT NULL,
-  remarks TEXT,
-  inventory_posted BOOLEAN DEFAULT 0,
-  cogs_posted BOOLEAN DEFAULT 0,
-  picker TEXT,
-  packaging_method TEXT,
-  package_count INTEGER,
-  weight REAL,
-  volume REAL,
-  shipping_company TEXT,
-  tracking_no TEXT,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT,
-  UNIQUE(org_id, outbound_no)
-);
-
-CREATE INDEX IF NOT EXISTS idx_outbound_customer ON outbound_orders(org_id, customer_id);
-CREATE INDEX IF NOT EXISTS idx_outbound_vendor ON outbound_orders(org_id, vendor_id);
-CREATE INDEX IF NOT EXISTS idx_outbound_status ON outbound_orders(org_id, status);
-CREATE INDEX IF NOT EXISTS idx_outbound_date ON outbound_orders(org_id, outbound_date DESC);
-
--- 6. 出库单行表
-CREATE TABLE IF NOT EXISTS outbound_order_items (
-  id TEXT PRIMARY KEY,
-  outbound_order_id TEXT NOT NULL,
-  material_id TEXT,
-  material_code TEXT,
-  material_name TEXT,
-  specification TEXT,
-  unit TEXT,
-  quantity REAL NOT NULL DEFAULT 0,
-  batch_no TEXT,
-  location_id TEXT,
-  location_name TEXT,
-  unit_cost REAL DEFAULT 0,
-  cost_amount REAL DEFAULT 0,
-  serial_nos TEXT,
-  hu_id TEXT,
-  FOREIGN KEY (outbound_order_id) REFERENCES outbound_orders(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_ooi_order ON outbound_order_items(outbound_order_id);
-
--- 7. 版本控制
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0005_purchase_orders', datetime('now')) ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX18qJmoshfVeKv2y+v3YjayqGs7uAkYVxJuqWDQNEjQSlnQws/kmjEuN
+mQPsMW2fU8BRruFBHYdnPwthlIFl6GGyrJjo1DZa6RRhBbHYAXVW6dCS5CbNT42G
+ODSO6Ex5+2PNbU4E5yoEi9lKLMdtbtnLpT1CMn8+SGEDFjyZ9alniFklied+Vn9t
+DF6m+i8PQRYGPg5hhr4cuYkuW9iSX8YINUb72bKfosDW0kQdp7u//SXxvYSVIO7L
+bXEBkXGqyZdt7Io6EGxmHbtAnCoIZtLAyR+yOsRSfCDDPV5SOH3nl3CKUxfll+u0
+YDpWGpesPvlYs6GUN1QXr2ODObnfOAMjMJT3LF/xcRE5Pvz/I6zXaF3bmd1C3J1q
+3hqHOBRZ31yxmhHyRlrmPA68X+DvNmwfpNSxwUoemc1xUXWrRI4lzg9KfMb/s9yl
+olPFkVCc1whD2aYM7q1QYXrmz6tC1JTILvPabPARHLe+pwp0Yu0dTL7X4vfoxla8
+LTTt8DdfbCwLApSV8SvJjFzwii9d4AONPLROhQ/UqX+14JlI1jiyzNdEXPHnS8fl
+YZscNRpuowzUODhPm98DiIZwkRc1Yi5b9ZK0c7R4lAn6QhUg9fF/RJi9N/dSh/4L
+6lrDnmHuBuqL/xcVs7g6g1XyENCagdQOVWRaKi8Pbk0+pGj9NuecZZCavJiUa5FT
+JBBQjyYT8Rh795AZ2xaJvsnQsinSLVSHLn1nsFHXZm8gtT/aORG5xsFAWKNiYAPv
+qavlcp6e/knoWzYisq72lmFTBPT7cmPgk7xQ5IgkdT8ib9diizWC8WnIA46zME+d
+oZ1OH9jfk8vWQduwlxIFAEzHz/IcJIIhSp02E4K6+7UXAcVBpOvqiZixXNJ1gFEU
+6b080Mf8HuDjvuiYfKQ8S0gWCGxoJj0RcfAm0oEpf0b1dVOwFoIC2opzMEhjpwqe
+dqgNr8GlSLbGB6bzyQjwtIXEimiWRoc+Q9A2bCV9i5Q8EQzl3g8hyvHKP89lLkDN
+2B5XlHq5keqkZfbhosaU0Npa4gOnfIzJzK1DwKiqlF1WVzo0a6jae6pR6YwhYhee
+sS9P/aZ4ElcgFjdMRi2PGNbkDvIKATVfaM3OF4qCGPhosP0QJ1oq++xSzN/0jZKI
+/Bzn8EYKsKq2qiciddRw1T3KSDr3LLtXtWpxFxobMRgd+bN/7+3Q1x8xEMP40Yn5
+md5FTASn9fHAtLyjk99ktBdTACtlEwvNefyqCgWEFWz1UchQX/eFE9NI9c5/p94Y
+LOADSSSzDb9C7PVinlojAYF0y58wlWk79cj3ayPfa2rzQiMrddl/Kq3/Bl/ezMYY
+fehQctBhPUIasd7bjJkLMrSSvCTU/V78PePL4/JI8mRa+/hKRyBdkh3E9XsVZJHf
+5B9Pv+BMbrlkgt8gKHLBYT+n5A2NsWp3y0qnA6FTd8Gv29bFlagZs/1005WkI78g
+V9C9CmCt+TnrXJDI8BqxePRTmlUmUgAwISlU0H7ypGAO2PvVbRxagkCGmlgbzV1C
+LCr47t0bQQMw/3a8SUaEN1Kea8uO+ak+oe4fmNXY3LbcE67ZqDqUE+RATq0WDEe1
+HHGasNmfYQtHNTYjiH9MEdITu6v0Jw3v7uUObMOIproRQnM+lhHAW7SZeKiJ4hkW
+t8Umn0ZxeFO43tYebfQuRo+HiXw/Ezd5U+/3tX0hf9hFdGgztqn9MNQ7AXP+fhwT
+kU9rgJxkiQYQqzmpt86BZLvvOGsNclQFW37l9LT8nuSyE1M3VbM534FIq1KYi7UK
+ejaxSU/veCJOFs2AnkM8zOCTEuSD6wNawUtl6x69uN+CoeQ8cMark94X+OAjBPDl
+JVVAf7ABsbVooKjzvElMuCYrJimsq692J5c0MAM2aDJHbg1QLd1f0we07GZhhiCq
+CaWYp7VJWwxyvHE52GAXt4dGpPZKNlmjVPvq2SdggP0n4jqRvtEo1J6jzbRCK2O7
+xQ13TruZNDz2jsOg/OZJSRlhZRqIacOTTBUPq/QF33mTXWqVG1BNF4KoOA+TCph/
+hdMouD8zUd9+uAJb35bNbLCwtIHOZoyb6ajRKh9Y9IOP/BPRVDMWMoQIHYVRTj/o
+gKPS6zfrmaSCQcxo3xXrvX9fGcWuOsjP31ceibfFyv7z2UcwLWJlBk297YedqBOu
+YnxQRRpcf/WtVhY+pOpj0qzoXEVJR0AiubS1WrnYGd1L81Krt7cuPnh2f/ViHHqC
+vIcRtSutT57m38062TeLKfMZmVEJfBrgVYx6D/Lzcu5TSqPDQ/Hjilb8qjDByhF5
+YmS9eJKKCDhbyqZtV+P2fjcTqgRPx5JwFwsY0/NFA10BwdarE3nupA2/GyTw9wWs
+5DzZCsm98jRjXDJgvLs/aBFS2j+EPoW0BAak9or2NA8emTmbcfPtMHh7gMizAUva
+uQdIPYuaA2kZ4jQlm6kiy/43Y4BqFO7MX+FRluaTXDj0N7t884ejOT2syAPELyUr
+y/Qan02tUyeNyYnHMsnMp/QfBTzG8uVg8GwOKI5gSW6Yu7LzMDX5Gsewbq+hn9Hg
+oSwNoaMcyeARRE/RITRmstn5Gg87KFysEuTsZDfq211YudK4UIpLOAIcf2X1w6HG
+LNBiATxNYcKGM8bad5EA7y/VGKBIPaY+kSiKTBwSHfpQgSp7iJ8el6hMpp2mABdp
+IdItwKOxwexkR4mwrBTYuD4qQBLL+9S2KrVIb6H2oRUpPYI1ksQqvdcSvsehJsPK
+DorhZQEBqQoFqExPqYBkIo/5CxGrou0sMKx3SD1IrqLRfRYpL2nHJrXdrqiSf31F
+mKPtwx3nm7Ecs52+cP1KD2Vk60tGKQDu4XN9CmKdB50TzQAaHVTxyapgL9Zo3wk1
+AUFigOEMd+O0ePAxc0qUCMXf7lOdmzmfCJBrsrl1wbUbD/XjGy+p2QvUklwOEpLN
+emk88MmngQUPncqAHx/qYN4Ytq8xWhkd+SdjO9l6AnyYhLUFiMemho4MTy+NVh4h
+Rsgge53QQYlZcLiI/WYKoDSOrTFAkqSKOxziYLRTl162KCitslj176s3K8nmwY5M
+7MYfhqYm/5LUg3dtMMj9NC0OH56Aal35PdLvA5FOgs9BfFLc5n/KrQzWLBmzQPDp
+EnDp/P5bX1r16CyI4s0IAk9hjtNxjnCNqdB5oNPSAbrVveKoVLIFBOxBnxBXvKWb
+6l7Vmg1PqDcFkqiej7HT6bxfbqFLJ8d6IiPu1RC3v1dTP9phbC4gnpsEopoVyy52
+/Idah8et9JSPsZhnvlO31+iXz/r+12dNXGR/8ZouPnSum3s3TJWnYUwGwemjMxUj
+8irBXe945bDKF4tvgr2zs/dZMQErAGK8UQPx44VxuH2/r/pvL+7naxXNnOh5R0Mr
+SuIR3+eBpWbUS7DjvSWfySHIGcpHAL7QPXO2gyiDhcC7FPoRKmMDplpMvsLRjPyK
+JdjB1gmKVAOLdHRzIyXYGtXevC1Vyc2V2CRGgYyfyIbbI/2rxOhHYuIzN67Pehkb
+dGxCUiUYML1Z6pPUzVztaYU6zVh3eDU57ZR5xGRjoduH3mdaB97stF8/Hu1tS3QO
++WWyXazXFBfDLpOZ0fEUl528kGFcKrn/0SR3+LPIXD7jld8sP0R8SfnGK+pzVLYe
+SS5WH7Gf6PYjBSuITLnLv/NY0IlOLCurV1RtzhJZ0JpfM6f+HKHdcvdqyLIxLeZK
+gDzQQFKcz1SfwVYGoSiuzKODKLVgPBj9QaZGthUGvMD3eXHlWOlzBLjVWw9OHSsG
+rRv33bxj2zk6q17bAKhoWxrr0Ow1PyQATCQFo/w2Sy8ezN9h8usNAdM+f/9ch91V
+LosHEvq6LABU65RTr7KyCj4pK8iUFyWXlXl0cmFS2GF8VW2nJl0uhg57zJoutH8Q
+2zKiR0hscwtqCZAntCLA+b3yVQ4xBUxAqBIIxrUQV0MPJHuqA84iaGJxJn5iYssB
+2KJNUnqhORogepmKIr8lDpbji/7NYfuMTmObuvYMGJl9uQ0csae9Nw0rGV/uCLcb
+edwy1gZHEGaWByNRyLCGcVSCpXZiP55CqP/0l7b+kjK2APZ1OKkz9e1vb+Dqv0GS
+EERmtpBRXRzOJODSq8VbcVww1ALlGbiUfjQBX7tIUlYuXi3QGPOLvIMLNRYL9XcQ
++aFp50XuctPbUyLGhGXyRBj1eNZ8fuTCSpbQznvliAwslm+s65h0mEu7KvxTTlgp
+E24PNpmQKiFfzqFWvcIHOLo7Ogc6103wfr4Ot42hFMF/i6o+H5H7gA1ZvfiBv2wb
+Z3hVrftVpzkIgvmH+tSb8Qi0OtSB9c1bmY5Pyk/e5NKmSvvhAYU4M7Rub9ptqs0i
+4GoT01jDrGbhXep1+0lLnXaHJxiIWN0f2K4M4M62PE6KwffdqTnDdRPIn9Gr1A04
+GQCKKoIadDj9A4w8tM8mnz/iKOJqgILGx+/OuUbxul4/+BaS0QTKLyiOxtDxw+SY
+7CnAkO9hfniwthrKT/SwFuSWPyM2TmriFF0Vo/KndYgRqopgqnf78UDaqFBFdCrx
+hiUjzLwSmTZwvH0JL8v5R9zsU0j5HIhOiy6bPpGI0vMqLU+pipIo2AQ7ZDnv9zhq
+SP839NxO/c2o08SsR0bJsClJfZxwDImYAsK51UaW3KQ9wlaKo0dIdNLsGHymUOiw
+JhCUE10oxJdMobAazDlU3tX8zPB4JUziWIpusY8sXQGgGBKY+LmFopSY/BL6LISe
+zLI0B0uRnEpW18Vadyr5T3pAGFYFU6jStKtHEoY9esLn+nRK3tXbVxlR6+nDQC4u
+YCl+kowkGybEo1ocis1BPaboODJl0ED8CsFqzuF7vLQtWv33vc9r7oJtwk03eJo3
+LdWndektzZNgJOskWq1UO5YRP7MskWKSV2jBsBSv7KhOcVt6Awezz0HnXzgVtpL2
+zGoo82we8Ml1xrLmjrqKRdxpE4LRCk/B9CrWVWa43ifghR31Z9ACfTFhurqsAUru
++yKZEp3Fsyv9sPDuIzE2YR/4qEwe0jIrs9nfgRgdH4cvqm2PQl1tSe9u6uxTJH3R
+drRf5DafEUVbdbxq60d2k1tu47GCjzJN0okcYqeKDZD2yPNCV9sSVLcPg70u5Scg
+TR4kIA8R7vsG6P6XFJC1ZtQ0MOL8zzxfq9wUw5s4UUmEoHLof2n8bdb68XY379yp
+QvBviZF1G/cNx/zu8HTdB0xemRlf3tICdugra+p/FSjXK7QPYM+n8kcL1Fe+ZspT
+23G2f0lPX+7ddOq1t9w8qgumDcgAMC8EBYVK/HWUiYKLAMd8Wm4T1KpMdJGXUYEQ
+Ya8UxgdyQhWopvL17zRKsRlrUYyCDVJqyp1FEzGM2gQBHnVrlk1Uq8NBqA2nsNuI
+uoioQqmOfFx9Sed7+WHjAtsl+DDv5HYAotuZps044JW1+3OyBEkp7luthl0N5s3n
+4jfU6iiV9V5KYWhzqevABE6CoCM4LEHVQSSgExLTuVwrt2MkBkolygxOOk4+n/FJ
+XatfnyP59oou6N0OoxzBs3wQxAEBXaro5yEMlr7tYOy8pOgmIDRkvwf54h9RhEGw
+usJGWquQ16O7PQ4SwjTFLP/hRaRAzOsKgbsBc5m0FxNwnmrXM4/PBWHkVghLRQwW
+y/zxmhkw8jKAw41ogD2Po7xHhQsknGlTvFjP6vlLh2uRlkXNIXiHfDYoMdeGrgqt
+k5yRF4uOILUctBUi14224WtxblhxXoKcR7eXaB3XsBor3K3/jROGHCu8ZqO0dy/N
+h0OGGhvIgNq7FlKLE41MRMFOqgEZAgBRk0iCq58EPp1/OPtYI0Eq73f+jjILiFV7
+6DvVyEpe9odzNN6ElBGmW5DZUsfENb1S8AUA+MnJGtgb+GlcO11ZK/gOBs3cpaQD
+jXwEn2QzwiEmkagyTIc0Du4MVeZ18zDSEncKYTs7nPzvO5L2Yr8kbu7x0eLaayZX
+AYAjbkz6UrGM6D65l3x3BTznZUw5JwXuw2CrV139bo1pjD4btF/qgJ2YYQOOIa+j
+glZ/HLVNM8oq5agkzoxwvJhRwe9ghsZNQF6Xk/H+EYCTdyxs9W2IqXCjL8z3ZoQu
+aFLFU5q8RNPXb/dsEnLHlhqv1TghtPPHfoQ16JnggU73FvW5F/6ueD5k86JtRc8C
+aZP5Gif/h/M97Tl2wMbqnV5AI2VEu57kg4qheF4PjiJCdw2fntQq/QbmKHFCbNN1
+N4HnXUTXKRL+ezPGCAK/v9D+IfSRGZslXlDYxPXvOgSXLJ5XM6K247WhTsRxtDhN
+tLbnhfHAfa2ISPbBbxWLFOI1uM+p8u9xbIe9DNhTYwo5zRYlAhQMJkZRKdiuFINg
+au/tk7KJ6IU7LvPMfXgfWci2ZbHN9YeCLonLdR9Ed4FFiQdCh8PpVvsQ8OTKONGe
+SXuMfHhaCWYvZwImpqPOK+RVQ86ml23lKHYR11OEVmHN6xC6YzmN3Twq5OQahSFf
+fGFjvCsiLJYXhMgGtIeJ7dYFqVG2oYYxdgHldQP8FpKY4FZ8swFdIjgZ8IJmEf9T
+6aPV+8RtKsF2TyEXAqj7bsvDTaLceGdw4Sw052aESKGOu2kWEkfez/pifwOrGhhU
+k30+jCBqB124lp7iPwXb3bw9YBB/s8sx3Pr3WB12Z8/PbVA4Yr0TduLBZy7wxeGj
+mz3q5HNmkI0PConbJobs7frBS5Ky2/2xBzECf9MMPrh8U5bjvk9ou5f5Y2v7Uc1z
+Get+XUE4wof8gyv22mQuL1LBsu2AAItGRNVolHwtCodals7SnPG+eTRnIIcwWHok
+mOc+kD4RKBRJ0WsGC+qfCmo96keXRWQtXX90wcYQzmQc05iBHCoYULWc4wL+rvtU
+XECVjeD7wFe1AWrBuQvF4+IcwJFcivoceEYc+1CflDlmyZpXD82uZN86x5R+2TZL
+Byfd6TwVi+cSX+k0+oOSeECMrQx51dxcdPzM1fJzbn86YJxmRANWNKfMKgOXYhGV
+vtN4dhtSxj32RKTBRmNO3sHcSKcHEf4hvzkb11pWSq5RWHdWBiPdTHFEIFfIfsXv
+Yo7rXyq0wsJE2h2XDbdlSIgjHNnPi9XvqpAeG2mP13/qUL841Kokea8NlyfMN3C5
+uYXSICtH3djDnfANXywwilT96p6HgInmdrye5IEkP4dY+WIJvoY3mdk4DiwlMOkC
+zaHmP5Ux/q7yRJdv2BbMd9T2gB4l/xMbg7vAxyocIntw5cW/Q6w34e6VSPZcMBw4
+5RmNTHU2jlrtDtd3UeArfxEUqm2tvmyv9Y5pc+ZLLLCsG0C/hTi2bRsPEWcM9+rm
+qNVMo8bDQ3kxfsCbpRzPu9eEC/qQjOw2dFnvUUoka5m8+rjEJYiO/4N1KeJwWaG1
+gyK2S0CPaRWyX0UKAarEcuQfwwDevzJDLYooX/9880Jfe8MTNDQ6zjjKMOyza4pF
+2vL3ITSo6S2u/8fUFajuMZsJRMzkorDdhjspNp/BQfn7JwKa4kPOhkjHCb/JaYZz
+qPVlfGXjoyttZzVb00Bi23udqy8C9WLtM4IW9112tqs33FEj9sz3kP8ES/XdRRQn
+J6sHEjxwcbTp4wlyJxcgw/mKWxzE3AuNMuJ5Rj9UuukKvAz9p9YmJEfnKSvjJ3qL
+3KsJTdu9V7BgNVn+OUoFKDX8byq4zegI60+WI/XOjh52jp2UgjTflAUnvfcSR3Hk
+Yc+IrUi9atrmeIqKgJT4DpLkvQTnG3KFoX9K1VXK8V/SEjhZSYXDX2RRAdkH4tzw
++IQmRr3BSoOVDhyvruoT7vkq8ffq2SxOYfKGwWjPb/qK1EeJAaCevZjH9kXg7VTG
+oz7By6Ztugf832cFKR2CDn0Y0BExWK4hnh+i8o9uX9thmI0HprgZlWFufs8ygQDQ
+q/l2QOlMYVUaXT0wmz6VFz7gEJzqNmmZeOffV97gwt4=

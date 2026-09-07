@@ -1,52 +1,45 @@
-// 开放 API 网关鉴权（API Key，非 session）
-import { json } from './auth';
-
-export interface ApiKeyAuth {
-  keyId: string;
-  org_id: string;
-  scopes: string[]; // ['read'] | ['read','write'] | ['*']
-}
-
-async function sha256(s: string): Promise<string> {
-  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-  return Array.from(new Uint8Array(d)).map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-export { sha256 };
-
-/** 从请求取 API Key（Authorization: Bearer sk_xxx 或 ?api_key=）并校验有效性+未吊销 */
-export async function getApiKeyFromRequest(request: Request, DB: any): Promise<ApiKeyAuth | null> {
-  const auth = request.headers.get('Authorization') || '';
-  let key = '';
-  if (auth.startsWith('Bearer ')) key = auth.slice(7).trim();
-  if (!key) {
-    const u = new URL(request.url);
-    key = u.searchParams.get('api_key') || '';
-  }
-  if (!key || !key.startsWith('sk_')) return null;
-
-  const hash = await sha256(key);
-  const row = await DB.prepare(
-    'SELECT id, org_id, scopes, revoked FROM api_keys WHERE key_hash = ?'
-  ).bind(hash).first();
-  if (!row || row.revoked) return null;
-  return {
-    keyId: row.id,
-    org_id: row.org_id,
-    scopes: (row.scopes || 'read').split(',').map((s: string) => s.trim()),
-  };
-}
-
-export function hasScope(auth: ApiKeyAuth, need: 'read' | 'write'): boolean {
-  if (auth.scopes.includes('*')) return true;
-  if (need === 'write') return auth.scopes.includes('write');
-  // read 是 write 的子集：拥有 write 权限的 Key 天然可读（程序化集成通常需要先读后写）
-  return auth.scopes.includes('read') || auth.scopes.includes('write');
-}
-
-/** 统一鉴权：失败返回 Response，成功返回 ApiKeyAuth（null 表示需继续） */
-export async function requireApiKey(request: Request, DB: any, need: 'read' | 'write'): Promise<ApiKeyAuth | Response> {
-  const auth = await getApiKeyFromRequest(request, DB);
-  if (!auth) return json({ error: '无效或已吊销的 API Key' }, 401);
-  if (!hasScope(auth, need)) return json({ error: `API Key 缺 ${need} 权限` }, 403);
-  return auth;
-}
+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

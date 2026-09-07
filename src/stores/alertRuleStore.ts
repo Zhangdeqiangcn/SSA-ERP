@@ -1,126 +1,84 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-/**
- * 异常预警规则配置 — V2.73
- * ------------------------------------------------------------
- * 后端 /api/alerts 已真实计算 6 类异常（低库存/逾期采购/逾期销售/临期/信用超额/待审批），
- * 但阈值原先硬编码在后端 SQL 里，业务无法调整。本 store 把「哪些规则生效 + 阈值多少」
- * 前移到前端：规则对服务端数据与本地同源重算结果一视同仁地二次过滤，
- * 因此在 DEV/离线（走本地重算）与生产（走 D1）下行为一致。
- *
- * persist key = ssa-erp-alert-rules。
- */
-
-export type AlertRuleKey =
-  | 'lowStock'
-  | 'overduePO'
-  | 'overdueSO'
-  | 'expiring'
-  | 'credit'
-  | 'pendingApproval';
-
-export interface AlertRuleParams {
-  /** 低库存：可用量 / 安全库存 低于该百分比才报警（默认 100 = 只要低于安全库存就报） */
-  ratioPct?: number;
-  /** 逾期采购/销售：逾期天数 ≥ 该值才报警（默认 0 = 只要逾期就报） */
-  minDays?: number;
-  /** 临期：是否包含已过期物料（默认 true） */
-  includeExpired?: boolean;
-  /** 信用超额：超出授信额度的比例 ≥ 该百分比才报警（默认 0 = 只要超额就报） */
-  overRatePct?: number;
-}
-
-export interface AlertRule {
-  key: AlertRuleKey;
-  name: string;
-  /** 规则说明（配置面板展示） */
-  description: string;
-  enabled: boolean;
-  /** 命中后的严重度基线，实际仍按命中条数升级（见 AlertMonitor） */
-  severity: 'high' | 'medium' | 'low';
-  params: AlertRuleParams;
-}
-
-export const DEFAULT_ALERT_RULES: AlertRule[] = [
-  {
-    key: 'lowStock',
-    name: '库存低于安全库存',
-    description: '物料可用量低于安全库存阈值，需及时补货',
-    enabled: true,
-    severity: 'high',
-    params: { ratioPct: 100 },
-  },
-  {
-    key: 'overduePO',
-    name: '采购订单逾期',
-    description: '已超过期望交货日期但未完成的采购订单',
-    enabled: true,
-    severity: 'high',
-    params: { minDays: 0 },
-  },
-  {
-    key: 'overdueSO',
-    name: '销售订单逾期',
-    description: '已超过期望交货日期但未完成的销售订单',
-    enabled: true,
-    severity: 'high',
-    params: { minDays: 0 },
-  },
-  {
-    key: 'expiring',
-    name: '临期/过期物料',
-    description: '保质期临期或已过期的在库物料',
-    enabled: true,
-    severity: 'medium',
-    params: { includeExpired: true },
-  },
-  {
-    key: 'credit',
-    name: '客户信用超额',
-    description: '客户已用信用额度超过授信额度',
-    enabled: true,
-    severity: 'high',
-    params: { overRatePct: 0 },
-  },
-  {
-    key: 'pendingApproval',
-    name: '待审批单据',
-    description: '尚未审批的采购/销售订单与生产工单',
-    enabled: true,
-    severity: 'low',
-    params: {},
-  },
-];
-
-interface AlertRuleState {
-  rules: AlertRule[];
-  setRuleEnabled: (key: AlertRuleKey, enabled: boolean) => void;
-  updateRuleParams: (key: AlertRuleKey, params: AlertRuleParams) => void;
-  resetRules: () => void;
-}
-
-export const useAlertRuleStore = create<AlertRuleState>()(
-  persist(
-    (set) => ({
-      rules: DEFAULT_ALERT_RULES,
-      setRuleEnabled: (key, enabled) =>
-        set((s) => ({ rules: s.rules.map((r) => (r.key === key ? { ...r, enabled } : r)) })),
-      updateRuleParams: (key, params) =>
-        set((s) => ({
-          rules: s.rules.map((r) => (r.key === key ? { ...r, params: { ...r.params, ...params } } : r)),
-        })),
-      resetRules: () => set({ rules: DEFAULT_ALERT_RULES }),
-    }),
-    { storage: backendStorage, name: 'ssa-erp-alert-rules', version: 1 }
-  )
-);
-
-/** 按 key 取规则（未配置时回退默认） */
-export function getRule(rules: AlertRule[], key: AlertRuleKey): AlertRule {
-  return (
-    rules.find((r) => r.key === key) ||
-    DEFAULT_ALERT_RULES.find((r) => r.key === key)!
-  );
-}
+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

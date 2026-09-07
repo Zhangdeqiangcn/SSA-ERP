@@ -1,172 +1,128 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-export interface MaterialRatingWeights {
-  bomUsage: number;     // 更多 BOM 使用
-  purchaseFreq: number; // 采购频次高
-  shortLead: number;    // 交货期短
-  lowMoq: number;       // 起订量低
-  goodQuality: number;  // 质量好
-}
-
-export interface MaterialRatingConfig {
-  enabled: boolean;
-  weights: MaterialRatingWeights;
-  thresholds: { A: number; B: number; C: number };
-}
-
-export interface VendorRatingWeights {
-  quality: number;  // 质量合格率（来料检验通过率 / NCR）
-  delivery: number; // 交期达成率（按约交付）
-  price: number;    // 价格竞争力（对比价目表基准）
-}
-
-export interface VendorRatingConfig {
-  enabled: boolean;
-  weights: VendorRatingWeights;
-  thresholds: { A: number; B: number; C: number };
-}
-
-/** 对接通道（原 IntegrationTab 的 localStorage `ssa-erp-integrations`） */
-export type IntType = 'WMS' | 'TMS' | 'MES' | 'PLM' | 'SRM' | 'FINANCE';
-export type IntStatus = 'connected' | 'disconnected' | 'testing';
-
-export interface Integration {
-  id: string;
-  name: string;
-  type: IntType;
-  url: string;
-  enabled: boolean;
-  frequency: string;
-  status: IntStatus;
-}
-
-/** 移动端 / PDA 配置（原 MobileTab 的 localStorage `ssa-erp-mobile-config`） */
-export interface MobileConfig {
-  enabled: boolean;
-  accessUrl: string;
-}
-
-/** 菜单配置（原 MenuConfigTab 的 localStorage `ssa-menu-config`）——仅存顺序 + 可见性（按路由 path） */
-export interface MenuConfigShape {
-  order: Record<string, number>;
-  visible: Record<string, boolean>;
-}
-
-/** 供应商门户配置（系统设置 → 供应商门户配置 Tab） */
-export type InquiryAttachmentPolicy = 'always' | 'timed' | 'viewOnly';
-export interface VendorPortalConfig {
-  /** 订单确认默认时限（小时）：超过后系统自动确认，默认 24 */
-  vendorOrderAutoConfirmHours: number;
-  /** 询价附件下载策略：一直允许 / 限时允许 / 仅在线查看 */
-  inquiryAttachmentPolicy: InquiryAttachmentPolicy;
-  /** 限时允许下载的小时数（inquiryAttachmentPolicy==='timed' 时生效） */
-  inquiryAttachmentDownloadHours: number;
-}
-
-export const DEFAULT_INTEGRATIONS: Integration[] = [
-  { id: 'i1', name: '立体库 WMS', type: 'WMS', url: 'https://wms.ssa.com/api/v1', enabled: true, frequency: '实时', status: 'connected' },
-  { id: 'i2', name: '干线运输 TMS', type: 'TMS', url: 'https://tms.ssa.com/api/v1', enabled: true, frequency: '每 15 分钟', status: 'connected' },
-  { id: 'i3', name: '车间 MES', type: 'MES', url: 'https://mes.ssa.com/api/v2', enabled: false, frequency: '每 5 分钟', status: 'disconnected' },
-  { id: 'i4', name: '用友 U9 财务', type: 'FINANCE', url: 'https://u9.ssa.com/integration', enabled: true, frequency: '每日', status: 'connected' },
-];
-
-export const DEFAULT_MOBILE_CONFIG: MobileConfig = {
-  enabled: true,
-  accessUrl: 'http://erp.ssa.com/m',
-};
-
-const seedIntegrations = (): Integration[] => {
-  try {
-    const raw = localStorage.getItem('ssa-erp-integrations');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        localStorage.removeItem('ssa-erp-integrations');
-        return parsed as Integration[];
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_INTEGRATIONS.map((i) => ({ ...i }));
-};
-
-const seedMobileConfig = (): MobileConfig => {
-  try {
-    const raw = localStorage.getItem('ssa-erp-mobile-config');
-    if (raw) {
-      const parsed = JSON.parse(raw) as MobileConfig;
-      localStorage.removeItem('ssa-erp-mobile-config');
-      return parsed;
-    }
-  } catch {
-    /* ignore */
-  }
-  return { ...DEFAULT_MOBILE_CONFIG };
-};
-
-const seedMenuConfig = (): MenuConfigShape => {
-  try {
-    const raw = localStorage.getItem('ssa-menu-config');
-    if (raw) {
-      const parsed = JSON.parse(raw) as { order?: Record<string, number>; visible?: Record<string, boolean> };
-      if (parsed && (parsed.order || parsed.visible)) {
-        localStorage.removeItem('ssa-menu-config');
-        return { order: parsed.order || {}, visible: parsed.visible || {} };
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return { order: {}, visible: {} };
-};
-
-interface SettingsState {
-  materialRatingConfig: MaterialRatingConfig;
-  vendorRatingConfig: VendorRatingConfig;
-  integrations: Integration[];
-  mobileConfig: MobileConfig;
-  menuConfig: MenuConfigShape;
-  vendorPortalConfig: VendorPortalConfig;
-  setMaterialRatingConfig: (c: MaterialRatingConfig) => void;
-  setVendorRatingConfig: (c: VendorRatingConfig) => void;
-  setIntegrations: (items: Integration[]) => void;
-  setMobileConfig: (c: MobileConfig) => void;
-  setMenuConfig: (c: MenuConfigShape) => void;
-  setVendorPortalConfig: (c: VendorPortalConfig) => void;
-}
-
-export const useSettingsStore = create<SettingsState>()(
-  persist(
-    (set) => ({
-      materialRatingConfig: {
-        enabled: true,
-        weights: { bomUsage: 25, purchaseFreq: 25, shortLead: 20, lowMoq: 15, goodQuality: 15 },
-        thresholds: { A: 80, B: 60, C: 40 },
-      },
-      vendorRatingConfig: {
-        enabled: true,
-        weights: { quality: 40, delivery: 35, price: 25 },
-        thresholds: { A: 80, B: 60, C: 40 },
-      },
-      integrations: seedIntegrations(),
-      mobileConfig: seedMobileConfig(),
-      menuConfig: seedMenuConfig(),
-      vendorPortalConfig: {
-        vendorOrderAutoConfirmHours: 24,
-        inquiryAttachmentPolicy: 'viewOnly',
-        inquiryAttachmentDownloadHours: 24,
-      },
-      setMaterialRatingConfig: (c) => set({ materialRatingConfig: c }),
-      setVendorRatingConfig: (c) => set({ vendorRatingConfig: c }),
-      setIntegrations: (items) => set({ integrations: items }),
-      setMobileConfig: (c) => set({ mobileConfig: c }),
-      setMenuConfig: (c) => set({ menuConfig: c }),
-      setVendorPortalConfig: (c) => set({ vendorPortalConfig: c }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-settings', version: 1 }
-  )
-);
+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

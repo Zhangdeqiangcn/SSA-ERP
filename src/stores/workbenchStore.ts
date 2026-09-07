@@ -1,89 +1,71 @@
-// P4-1 个人工作台：可个性化布局（卡片显隐 / 顺序 / 常用功能）持久化
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-export type WidgetId = 'todo' | 'alert' | 'metrics' | 'quicklinks';
-
-export interface QuickLink {
-  id: string;
-  label: string;
-  path: string;
-  icon: string; // 图标 key，由页面解析为图标组件
-}
-
-export interface WidgetDef {
-  id: WidgetId;
-  title: string;
-  desc: string;
-}
-
-// 可选卡片库（用于「添加卡片」）
-export const WIDGET_LIBRARY: WidgetDef[] = [
-  { id: 'todo', title: '我的待办', desc: '按业务分类聚合的待处理事项' },
-  { id: 'alert', title: '预警与通知', desc: '实时业务预警与系统公告' },
-  { id: 'metrics', title: '业务监控', desc: '关键经营指标快照' },
-  { id: 'quicklinks', title: '常用功能', desc: '一键直达常用页面' },
-];
-
-const DEFAULT_QUICK_LINKS: QuickLink[] = [
-  { id: 'ql-material', label: '物料列表', path: '/material/list', icon: 'inventory' },
-  { id: 'ql-po', label: '采购订单', path: '/purchase/orders', icon: 'assignment' },
-  { id: 'ql-qc', label: '检验任务', path: '/quality/inspection', icon: 'factcheck' },
-  { id: 'ql-inv', label: '发票管理', path: '/finance/invoices', icon: 'account' },
-  { id: 'ql-wo', label: '工单管理', path: '/production/orders', icon: 'assignment' },
-  { id: 'ql-report', label: '报表中心', path: '/reports', icon: 'report' },
-];
-
-const DEFAULT_WIDGETS: WidgetId[] = ['todo', 'alert', 'metrics', 'quicklinks'];
-
-interface WorkbenchState {
-  visibleWidgets: WidgetId[];
-  quickLinks: QuickLink[];
-  editMode: boolean;
-  toggleWidget: (id: WidgetId) => void;
-  addQuickLink: (link: QuickLink) => void;
-  removeQuickLink: (id: string) => void;
-  reorderWidgets: (from: number, to: number) => void;
-  setEditMode: (v: boolean) => void;
-  resetLayout: () => void;
-}
-
-export const useWorkbenchStore = create<WorkbenchState>()(
-  persist(
-    (set) => ({
-      visibleWidgets: [...DEFAULT_WIDGETS],
-      quickLinks: [...DEFAULT_QUICK_LINKS],
-      editMode: false,
-      toggleWidget: (id) =>
-        set((s) =>
-          s.visibleWidgets.includes(id)
-            ? { visibleWidgets: s.visibleWidgets.filter((w) => w !== id) }
-            : { visibleWidgets: [...s.visibleWidgets, id] }
-        ),
-      addQuickLink: (link) =>
-        set((s) =>
-          s.quickLinks.some((l) => l.id === link.id) ? s : { quickLinks: [...s.quickLinks, link] }
-        ),
-      removeQuickLink: (id) =>
-        set((s) => ({ quickLinks: s.quickLinks.filter((l) => l.id !== id) })),
-      reorderWidgets: (from, to) =>
-        set((s) => {
-          const arr = [...s.visibleWidgets];
-          if (from < 0 || from >= arr.length || to < 0 || to >= arr.length) return s;
-          const [m] = arr.splice(from, 1);
-          arr.splice(to, 0, m);
-          return { visibleWidgets: arr };
-        }),
-      setEditMode: (v) => set({ editMode: v }),
-      resetLayout: () =>
-        set({
-          visibleWidgets: [...DEFAULT_WIDGETS],
-          quickLinks: [...DEFAULT_QUICK_LINKS],
-          editMode: false,
-        }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-workbench' }
-  )
-);
+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

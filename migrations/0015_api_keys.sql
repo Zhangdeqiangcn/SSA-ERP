@@ -1,15 +1,14 @@
--- 迁移 0015：开放 API 网关密钥表
--- 对外端点用 API Key 鉴权（非 session），支持 scope 与限流。
-CREATE TABLE IF NOT EXISTS api_keys (
-  id         TEXT PRIMARY KEY,
-  org_id     TEXT NOT NULL,
-  key_hash   TEXT NOT NULL UNIQUE,        -- 明文 key 仅展示一次，存 SHA-256
-  label      TEXT,
-  scopes     TEXT NOT NULL DEFAULT 'read', -- 'read' | 'read,write'
-  created_by TEXT,
-  revoked    INTEGER NOT NULL DEFAULT 0,
-  rate_limit INTEGER NOT NULL DEFAULT 60,  -- 每窗口(60s)最大请求数
-  created_at TEXT NOT NULL,
-  revoked_at TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_api_keys_org ON api_keys(org_id);
+U2FsdGVkX1/beFfNWLHZqcyghIB6Mkb4gO32b/75vWI7Z6bTwxmcwRjbg2vLRK+9
+hphFfig37HIoLzauvqbKEB6WpxqaWy+PNTCqSp25uQ9eeY5urdC/LsZXHBjlAktW
+4kpH2pa0ZBo3YJBwqReYGhYeBRLltBKFdVt02qFEYlUv/tf9n9cdoUpmwGPm86dY
+rFPogpOwNyEsRsr8FqJY1dgXLVSiz9fksIrF4NSMJBl7Qsc5ukQ0RjaR3+dcyAai
+BqK/G2zq6fwfYY1nDId+o4oiK+enUv609MmgKnxaXo5CXapPkARRD7p4PxY4hOJ5
+qDN57oXqE0l5bAmwM7f/UjjsCmxLs4pNak27NFSDdrSlPsjQVphyNXL+fEOpUn+q
+NM2F76vzdVdiwQueabyJsAdbpLxMgP73ukaRFczwxOmT4VTJvz0rpHPL25ZGYA7h
+c8jJkfoCwIy+OBuiSiFa/6XUIDgJrjEhwvVju39sXQ6U6GC8HbArfNWPxKeUNQiw
+G+Mhl7Il4VsqOxJfdSJ6bBd7H9MuMVao5D/MfXZnqTGsQwEKYwesNPf90gQFGitS
+UZ2kuay8duEzc1BdDq72a31MlfAJvLTypN+3taImWU9fzUY1fLP6ZyOc0QYBH44G
+oFlVKkhEj2OTbSRu93i8ZEXeJzv2fu5jfGUgX8z3rvwjys8R/RCIaBnIWeXA25pe
+1OQJfzUoC0V6J5L/9tv8iGFpA2so0YfbHFBC0iwpod6DrFJjiNjgROabVwf75DRp
+AXT/o+WHP3lSOtOdcF6kHMareXjS+XB35xZRZzTef+MZ0OJghO9agLkNiWHp7DJy
+EZg7ZmPYY0KRDvgdQRMg3oAfFjD2A2VEGybRWYoq68gljB2MdjuAH+PyUS0ov4Ia

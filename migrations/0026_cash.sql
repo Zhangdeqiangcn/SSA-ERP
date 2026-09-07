@@ -1,39 +1,24 @@
--- V2.80.0 W1：资金账户 + 资金流水迁真实 D1（根治双通道：多端实时共享，替代原本地存储 Blob）
--- 与前端 useCashMgmtStore（entityRepo 双资源 cashAccount/cashFlow）同源。
-CREATE TABLE IF NOT EXISTS cash_accounts (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  account_no TEXT,
-  account_name TEXT,
-  bank TEXT,
-  currency TEXT DEFAULT 'CNY',
-  opening_balance REAL DEFAULT 0,
-  current_balance REAL DEFAULT 0,
-  remark TEXT,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_cash_accounts_org ON cash_accounts(org_id);
-
-CREATE TABLE IF NOT EXISTS cash_flows (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  account_id TEXT,
-  direction TEXT,
-  category TEXT,
-  counterparty TEXT,
-  amount REAL DEFAULT 0,
-  flow_date TEXT,
-  related_doc TEXT,
-  remark TEXT,
-  created_at TEXT,
-  updated_at TEXT,
-  created_by TEXT,
-  updated_by TEXT
-);
-CREATE INDEX IF NOT EXISTS idx_cash_flows_org ON cash_flows(org_id);
-
-INSERT INTO schema_migrations (version, applied_at) VALUES ('0026_cash', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX1+04tlC9ct8uIY9usGfBuI1KZIfTOJX8rMZEmsYEWnfGgQpqArMFISi
+9Y0Wmebr4r2VEytO/8lYc3R0tX16krkV0bTVTIh8lyCvShfjhiLlsgYUgwA1frXl
+i6YfCCnK30QKmePQJmtw/NqY9WHqszTdReQJM2AyRZo7SBMxWgssKYlZ7cQg/v2w
+yUDPriyVKz6GmwlI8GVJ6bUyiAi+eSPTiZwjzyAp8P7dXNZZOLs6dcl6Sa5vOCfg
+HiQPEQu8KyqwrQwjA63lkqqCcTGtm4cna5mCAEUDBq+icwK7LBFoKXZ701VMa0pa
+Iqswrci+ORkSt3M+K2kI+dbNdHSxlLAha/3Pq3/BLuugE4E339Ix9ASqqiawVWdd
+f1QQpK8397rtsI4qo3frUBfRlPs/W/lPq30W4EWu99q60zH0JPp+Qv57dMXgZ/Jz
+Gxu5z5J6biU2C5jR4GOZU6JcFgrssdtrYao21nCDQNgMBmN0PandnjNd8wFinmmM
+HmOL/zt7x17bD5xNNeHMOve7gpl62a+RLJ3bOnA6FzdS2ojKhVjHdmVJsyDllgj9
+VJeomYCZ437cSew1FdsYmCSrVVYZtQ3LphHFQcUc5mvttNoQvUlxYHHU4DQXbfU/
+2WM0n2DZ5DnP0Ofq5FGFlXWvWyeocc1FoxWchOMwGCIMIwZA0sw/BKAuq+n4gO4g
+dt6bnI7SJ2v68AZC2qG2HffIlVJQFgYz8V0dcLhuiiZgVMK/50XcpS0E7jX+9k0M
+BOKV0ClgUwWo8rPeOplyUaRlInvCW0HrlfcxBYuZyZjsseKlCGWwdCTIiM24A2g3
+AKQJ3kA+xv0MPoLR4FhzyzkcukgjotLqu06PdJNliIZQlQgb4u2o1cb0rmWbxHt2
+aojPhLonXVIYoavlCCWK5iLcth57TUv/vkS0qFfTJDgakZqeHXjAJv5SWrql1OLY
+gEWa/QYnByWu+hSQTro6h4oQZ+uHdeu4KXUtQHMqXgjNt2+ZqVmtna62ngN+QH3+
+syo58tLlO3cu17yxRKEzyD1A6WFm9ZiwN16YeqN+k9Iilj3RLg6oiDQ0qR12xWWq
+Ien09nW1RtssGaHTN/1sejDjOo2BDOuqw2esm8loL8/QDM2Yq77YFg+UkFEsrGpd
+CWL+ezsh94R+v27QkM/7pBtX6Jol+uuaiHPyH/29ODaqmMU4j+g5j7m22pWT+yaD
+k68nwxzNNlW/CAqBjJKguUWHelbxEMPwsvj1qVH3F8X/8qqZlWljd2xqwAuxYXKl
+hSmS8x4f+kNbATsR0chX7PJp5OosAqJ1JRJ1SPgS4YIWtp7B5tdW3tAe+z+R/zyc
+vfOleN/hB11toq/9EKeh+Xm2zAgoi3YCsesUrAgnfYn3acMxByfXzhWxk8thsuuu
+iQ4wxI1VbYobasLyJ8OHwQ6fgDa+BXxEqBQTA776LxKhuq9O9g8P5EOqqT8CW3HO
+8C4xNAXDPo9ur0m8G+izy/1hK26loTs3Q91TyuPxDo/c/wqyZRAomUdOa4IZD+Zc

@@ -1,14 +1,10 @@
-// 登出：作废当前会话 token
-import { json } from '../../_shared/auth';
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  const auth = request.headers.get('Authorization');
-  if (auth && auth.startsWith('Bearer ')) {
-    const token = auth.slice(7).trim();
-    if (token) {
-      await env.DB.prepare('DELETE FROM sessions WHERE token = ?').bind(token).run();
-    }
-  }
-  return json({ ok: true });
-}
+U2FsdGVkX19Tg/cPITBI3EM+S4TRPZkjXMyGoKUbviocG5ig2omPHkRho38NGv4x
+F9odOizFE7wPQFLxbOoLp6kaicGKE/UeQsN0SroCDEEGaj9zwhn6XwBOZGCFN38z
+3e6TkYt5zTw5eQMwRQaqQBUcmGqFHlCSQpsafXhe+6JQ435Il4UWDJ6Hspbk5J2U
+Ysp0xFh8vU1KDm4dvt1AhesMmthkKtQS4sqnXGu6aYMYj72CxhMpjihzx//zldS1
+TylPRSV5RJ+Dl4lUJvyiKicL/w9lafsf88H+xgS0r6tnw6X7PKfOiiHQ77cHL9eO
+DAm5zw/wMSbo29ig3luHSSR04NGVjGmkGOpS7stGCbg1AqoW0nIFHeCky3KzUNYs
+GjvY5FewHIoC0KKiuL1nLNfw0wJ1AIYDp8WKHZZ9NvWdMLzvvX8WZBmAacWWd98p
+3LQXEnPT24/IKZ4OaZOtxWOj68EjBACzFq89uaCwc1y0bkvEhpxaxPAwRXtbU0nE
+XlkKo/vxYqDyMtFdfU6zPTl/cCsm5h+lBMU5z3T3AwUhLP7lY7WgWd0MjOpnDRIx
+K2BLJ4MYsTJBBmZwudrboUcLlk/hIJtcNdVmYi0J0p/MFi07jn3MYWl+XiNgsVjb

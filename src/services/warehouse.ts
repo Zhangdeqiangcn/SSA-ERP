@@ -1,61 +1,52 @@
-import { api } from './api';
-import { InboundOrder, OutboundOrder, CheckTask, InventoryRecord, InventoryAlert, PaginatedResponse } from '@/types';
-
-export const warehouseApi = {
-  // Inbound Orders
-  getInboundOrders: (params?: { page?: number; pageSize?: number; status?: string }) =>
-    api.get<PaginatedResponse<InboundOrder>>('/inbound-orders', params),
-
-  getInboundOrder: (id: string) =>
-    api.get<InboundOrder>(`/inbound-orders/${id}`),
-
-  createInboundOrder: (data: Partial<InboundOrder>) =>
-    api.post<InboundOrder>('/inbound-orders', data),
-
-  updateInboundOrder: (id: string, data: Partial<InboundOrder>) =>
-    api.put<InboundOrder>(`/inbound-orders/${id}`, data),
-
-  completeInbound: (id: string, data: { items: { itemId: string; actualQuantity: number; qualityStatus: string }[] }) =>
-    api.post<InboundOrder>(`/inbound-orders/${id}/complete`, data),
-
-  // Outbound Orders
-  getOutboundOrders: (params?: { page?: number; pageSize?: number; status?: string }) =>
-    api.get<PaginatedResponse<OutboundOrder>>('/outbound-orders', params),
-
-  getOutboundOrder: (id: string) =>
-    api.get<OutboundOrder>(`/outbound-orders/${id}`),
-
-  createOutboundOrder: (data: Partial<OutboundOrder>) =>
-    api.post<OutboundOrder>('/outbound-orders', data),
-
-  updateOutboundOrder: (id: string, data: Partial<OutboundOrder>) =>
-    api.put<OutboundOrder>(`/outbound-orders/${id}`, data),
-
-  completeOutbound: (id: string) =>
-    api.post<OutboundOrder>(`/outbound-orders/${id}/complete`),
-
-  // Check Tasks
-  getCheckTasks: (params?: { page?: number; pageSize?: number; status?: string }) =>
-    api.get<PaginatedResponse<CheckTask>>('/check-tasks', params),
-
-  getCheckTask: (id: string) =>
-    api.get<CheckTask>(`/check-tasks/${id}`),
-
-  createCheckTask: (data: Partial<CheckTask>) =>
-    api.post<CheckTask>('/check-tasks', data),
-
-  updateCheckTaskItem: (taskId: string, itemId: string, data: { countQuantity: number; remarks?: string }) =>
-    api.patch<CheckTask>(`/check-tasks/${taskId}/items/${itemId}`, data),
-
-  completeCheckTask: (taskId: string) =>
-    api.post<CheckTask>(`/check-tasks/${taskId}/complete`),
-
-  // Inventory
-  getInventory: (params?: { page?: number; pageSize?: number; materialId?: string; warehouseId?: string }) =>
-    api.get<PaginatedResponse<InventoryRecord>>('/inventory', params),
-
-  getInventoryAlerts: () =>
-    api.get<InventoryAlert[]>('/inventory/alerts'),
-};
-
-export default warehouseApi;
+U2FsdGVkX1/FG0oIjAXFPUIL3ouPCkZqTlphR9aqoWowkYV9c23dwDJWEb0LxcBq
+7gNgS6dxLn2vVLhI6Md5XsuQKAefJmGDODVpEfPng/hy5iTI+Q8GQrX1prvQ7Dv9
+dB3N/Ts2hjg8fv2XScA+NdoxYUl0PNcKHoazgFH5iH2MXa2Vc1mK7KdizfV/lajQ
+8769gnuYLjV2ZPkMXJtM0rugBl1nDI9RZ8laF+h0DUbe9udLaMV/HZgLLXv8SuWb
+LgrRMVAkW0ADBOzn7vFR7yD7kTv7U37vlvMBOb2uw2eJYE9vkNeazMXa8UFgaUUX
+zguNHud8lKxQd6m1tfBWaENcyeCyxxk7pUOP9NkLhxBPGXBZbOmFC/0Mb7Qu9t88
+mVWRYLTmyfX2mSnMkIR/3oJJqzGSxaqACTA7XLXiIIJ4tWTFhhT3SqnMV5gD8Tp3
+IXE4b0jXF+oVSxRgHB4fnpYeHqUSA61q9NW7e4Yhy8hmHajuY1aooZsQvAjuiL+Z
+/OAwzPvBE0yeXi7KrCM2LqAzML/QVl9SWDgquur6pcuzKqM4c9xWh6kIRa/VxkqX
+6q8MQqxV2SfNbQ+4suKWz/+j/eSCn/Qry9EZ5paK5blFSovjXsi7ZXgbZh8z9snb
+D1HIWbU+kmGTzSNxaDiArlEFv5vphS9xhosJWURmQZYUPwD5m4xOapAOsXoS3we5
+Uvhcr0aGHGx0xv4LatDZax1x8ctmtiZNsRAj5yXVAra0owVzWIJ8m+OwbEnStj+X
+cjF4P8nJR2BJzZyfKJkAdA94PyaABjqs8lIDJN4zDJqvj951h4YxpehjquOpJIGN
+WGRyDvPIyWd8cJDZ5MJNXXM/sBAvYQpLULagYDgpz9wukTvhvr9ygjnfezA/uKbY
+MRc+DPUeNT5ZAAVyJRRd+fz9Bn2YA5LSnbPJ2d6PoyhRze95O4e5Qog1OIiM+Svs
+Ya5v+CgnHtf/VED2czSIkDD7toPkE4FZd7A+TKZvjJk9/iHPdx3wkw6ZfKGWY8cP
+9uifiEAxEJ3nvhntMya1MEIbL53yZBcSnYNCJu8TMHO55BqGZScOa2Sw5gK3x8sF
+Q0uMfaJT//XrGDoaWUxH/BhmOIIwL8iaqSQNafnyr02Yr9XrRWw/j56PODO3UxuX
+TyRrz2dpyhYxMmHW/yk+KzHmNMMvQOl/4RV77Zjx79I2o8AxkUZnsNf9eH5IiGZ7
+9qISpqcUMCHPUzjaugGqbNe7qCVwlWgkUgab5iRXOBQ90tgXyWoECxZK2XI3C2zL
+tRAwjLQ3rpXxlx7wRmhTTejB4iSZ5Uzde7Bfh+hi42GqXcsQZIkm/MAmqMkvVM6K
+O455h5bIpeHOA2QuJ964RAtx5C8+CJXU4GZE2MKGkmpQznxBN8VDf9t+UUqWOH0d
+mSQ8OTIJchQI92g7wOe4X82E70yjeIiSoiahwKMfwtSCvFpLguEFjared72xfyPR
+bML+ZHb7mshox3aIRA9DN8sD5ImqIC4slItsC36TvH0Lu6ToWFNrlkswhhpn3IAD
+HwRkUY+rvxhkrz3lfKr5CbT8NQHbwqh+tzu7qeTTtpPufUXHr6JxKMe3Qe0T5beO
+R8fc6h/pqxN8Qbjko7fEXyrM92+nqCG7vym8zkUH5wpfMlYXVgbTWaNs5MxAt8Td
+lX7Pr6GFi0lAs744btZJLanP+REwe7lgYEGKg9df6XzkNbv6og8rE2SNrby1CsBk
+DOlir+lrwMObGs00NxQE3eOLjNJEl+wIEKAiVRrL5fsWNCxoI7QVEcL+M5NDPXn7
+xWyR4Eq+SUNv7TW8PwVmdRBroFOh+DST9fhErYwA1Sdmd0OPrqQ7IqwMgKrImlDy
+f6SVriwGvRgxz81DA1JAcqXC+SSq3vcjTiYPBSxRUB7XSgDXwBj8iATjepJE1Syu
+b9uJ+vjqoT7HYv4COkOcg1A//PjURsQ3xq+fUe58+w0NmC/8aFXatWvSHogMx7lH
+y00BQ6s/r4+ItPm40qHz7yOUOQIV03Sne6FmAzZbn8z2osUryYEEo3A/8ykpbv/W
+dN188goV7L3Ipt8OkYst7kxvI3AlAz4Ac2OiourFcWhEEDW1CEMsa3dCTv+pZdm/
+dpoo2RuyUtWhagDb4OUA4kNbXXtThr2+EE4e3i0c7A1KZHo2j5hveR58nJ1T8G3t
++EhcG1FfeLSPaHL6iAOem4238GTPXmvQ8+7jKWzAA3X4yLt920kNj5d0Uhwefv/I
+/xxWKPar34rYXjEYKnCOsEvfis6MrR34NLz7JzLQEnoRP5sp0UMhHdUAEjBwKAgk
+qGeS2bo0zsa4dxH77DRHp9MWskvuEWbyuDJLI3hu6D7jWQJa3aMkXTvgprQKjoya
+DqfYfZI7abgMzHZZm1QBnHfB2AAsIxK100gY1TzIZVUK/NfTahuL/cTdZsuj9veu
+2zX//f/WVxgpcR1L417w8UCDs4pCiXRfvnegpAw4tTkJEbroZXZJd24PPcqN+BIw
+I8qvujIyet01pSe1WexPEzkNo33637Nyj15GHCj7xpwrZxw4FW7bOI31WHWVXsAh
+EVgP+Jkse2UzLv4x4vDQ2+DTDyXtHOxhpMKsAzhpaCN+/zERvjc04BnJgo07/Qv8
+DuP2I9wIeZ0pdMf2aRRoV1c/zbZaPsDgn9bWUCFDdeJY05rW+gGk9Pe+80d+YsSM
+Y6ahsz4agynZJGJAXBhS+TNStRSbEuYCofirqvhBXWvE6sw86h/4HgXAhuOitwB1
+HlOndp/JXLjJSLunC5he2BLYCGbPtGApBVuBkT4gYuNp/JydprxbutdNhh/Go9FG
+z/15FMNvkXEuPlEUX9lJApHkMvPfHSXUH66W58B5LrmghkVFi31IGA9Gra+ggxTS
+GES54kElTBII+m8JJF6IiLSNm2xbMEyYoisTC0BmrEthbeLIXds4TdOGW/V/ClV+
+wnmg6etC1Cb9PK1gqxfw+6qvJ1ySfHIQIWBs/XQLUEW+WtOS3W8soCdPOfszpS5f
+IyA/92H8BSCsyByHMuJG9tKmsXGmTQ+qnWZ1bg89xUCu4kZBXK7Ib5h8s1YxyK8e
+KFenvU4rZOuAZdOC1ZVtUTvQOxwWsnMqhF2LhkQMtI4TXOjK/zoPwPp/sPSNWB4k
+r+f9X96X6hV56KEqMIk3h3zNWR2pqxKv1kEz632HHyZ8LCdUKkgDxc0ZkGmAxMy0
+Lc6TX9SbwYQULwZsFO/HPJoBB0uES8Q8DsCyWZLImUO22tYWc2juL6QyLkeJuOOX
+wabmARymG2ccU3Qkf2/sUA==

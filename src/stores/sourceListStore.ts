@@ -1,131 +1,84 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { SourceListItem } from '@/types';
-
-const seedItems: SourceListItem[] = [
-  {
-    id: 'sl-001',
-    materialId: 'mat-001',
-    materialCode: 'MAT-001',
-    materialName: '钢板',
-    vendorId: 'cus-001',
-    vendorName: '华润建筑',
-    priority: 1,
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    fixedVendor: false,
-    quotaPercentage: 60,
-    status: 'active',
-    remarks: '主供应商',
-  },
-  {
-    id: 'sl-002',
-    materialId: 'mat-002',
-    materialCode: 'MAT-002',
-    materialName: '不锈钢管',
-    vendorId: 'cus-002',
-    vendorName: '长江船舶',
-    priority: 2,
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    fixedVendor: true,
-    quotaPercentage: 100,
-    status: 'active',
-    remarks: '固定货源',
-  },
-  {
-    id: 'sl-003',
-    materialId: 'mat-003',
-    materialCode: 'MAT-003',
-    materialName: '角钢',
-    vendorId: 'cus-003',
-    vendorName: '新源机械',
-    priority: 1,
-    validFrom: '2026-01-01',
-    validTo: '2026-12-31',
-    fixedVendor: false,
-    quotaPercentage: 40,
-    status: 'active',
-    remarks: '备选供应商',
-  },
-];
-
-interface SourceListState {
-  items: SourceListItem[];
-  addItem: (item: SourceListItem) => void;
-  updateItem: (id: string, patch: Partial<SourceListItem>) => void;
-  deleteItem: (id: string) => void;
-}
-
-/**
- * 货源清单联动派生 selector（集中维护联动规则，供 OrderForm / 详情页统一消费）
- * ——避免各页面散落裸 getState().items 过滤逻辑，保证联动口径一致。
- */
-
-/** 是否在有效期内：status=active 且 当前日期落在 [validFrom, validTo] 区间 */
-export function isSourceInValidity(
-  item: SourceListItem,
-  today: string = new Date().toISOString().split('T')[0]
-): boolean {
-  if (item.status !== 'active') return false;
-  if (item.validFrom && item.validFrom > today) return false;
-  if (item.validTo && item.validTo < today) return false;
-  return true;
-}
-
-/** 按物料查全部货源 */
-export function getSourcesByMaterial(materialId: string): SourceListItem[] {
-  return useSourceListStore.getState().items.filter((s) => s.materialId === materialId);
-}
-
-/** 按供应商查全部货源 */
-export function getSourcesByVendor(vendorId: string): SourceListItem[] {
-  return useSourceListStore.getState().items.filter((s) => s.vendorId === vendorId);
-}
-
-/** 取某供应商当前生效且在有效期内的货源，按优先级升序 */
-export function getActiveSourcesByVendor(
-  vendorId: string,
-  today: string = new Date().toISOString().split('T')[0]
-): SourceListItem[] {
-  return getSourcesByVendor(vendorId)
-    .filter((s) => isSourceInValidity(s, today))
-    .sort((a, b) => a.priority - b.priority);
-}
-
-/** 取某物料当前生效且在有效期内的货源，按优先级升序 */
-export function getActiveSourcesFor(
-  materialId: string,
-  today: string = new Date().toISOString().split('T')[0]
-): SourceListItem[] {
-  return getSourcesByMaterial(materialId)
-    .filter((s) => isSourceInValidity(s, today))
-    .sort((a, b) => a.priority - b.priority);
-}
-
-export const useSourceListStore = create<SourceListState>()(
-  persist(
-    (set) => ({
-      items: [...seedItems],
-      addItem: (item) =>
-        set((state) => ({ items: [item, ...state.items] })),
-      updateItem: (id, patch) =>
-        set((state) => ({
-          items: state.items.map((r) =>
-            r.id === id ? { ...r, ...patch } : r
-          ),
-        })),
-      deleteItem: (id) =>
-        set((state) => ({
-          items: state.items.filter((r) => r.id !== id),
-        })),
-    }),
-    { storage: backendStorage,
-    
-      name: 'ssa-erp-source-list',
-      version: 1,
-      partialize: (state) => ({ items: state.items }),
-    }
-  )
-);
+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
+9JOa1rsLXJIsBG+NVdxrqQ==

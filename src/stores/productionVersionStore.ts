@@ -1,100 +1,70 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { ProductionVersion, ECN } from '@/types/production';
-import { useBOMStore } from './bomStore';
-
-const STORE_KEY = 'ssa-erp-prod-versions';
-
-const seedVersions: ProductionVersion[] = [
-  {
-    id: 'pv-001',
-    version: 'V1.0',
-    materialId: 'mat-001',
-    materialCode: 'PRD-FRAME-001',
-    materialName: '重型钢结构焊接架 H1200',
-    bomId: 'bom-001',
-    bomNo: 'BOM-2024-001',
-    routeId: 'route-001',
-    routeNo: 'R-2024-001',
-    status: 'active',
-    effectiveDate: '2026-01-01',
-    createdAt: '2026-01-01T08:00:00.000Z',
-    updatedAt: '2026-01-01T08:00:00.000Z',
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-];
-
-const seedECNs: ECN[] = [
-  {
-    id: 'ecn-001',
-    changeNo: 'ECN-2026-001',
-    title: '焊接架结构加强',
-    reason: '客户反馈承重不足，增加加强筋工序',
-    materialId: 'mat-001',
-    materialCode: 'PRD-FRAME-001',
-    materialName: '重型钢结构焊接架 H1200',
-    bomId: 'bom-001',
-    bomNo: 'BOM-2024-001',
-    oldVersion: 'V2.0',
-    newVersion: 'V2.1',
-    effectiveDate: '2026-08-01',
-    status: 'draft',
-    createdAt: '2026-07-10T08:00:00.000Z',
-    updatedAt: '2026-07-10T08:00:00.000Z',
-    createdBy: 'system',
-    updatedBy: 'system',
-  },
-];
-
-interface ProductionVersionState {
-  versions: ProductionVersion[];
-  ecns: ECN[];
-  addVersion: (v: ProductionVersion) => void;
-  updateVersion: (id: string, patch: Partial<ProductionVersion>) => void;
-  deleteVersion: (id: string) => void;
-  addECN: (e: ECN) => void;
-  updateECN: (id: string, patch: Partial<ECN>) => void;
-  deleteECN: (id: string) => void;
-  /** 发布 ECN：切换关联 BOM 至新版本并生效 */
-  releaseECN: (id: string) => void;
-}
-
-export const useProductionVersionStore = create<ProductionVersionState>()(
-  persist(
-    (set, get) => ({
-      versions: seedVersions.map((v) => ({ ...v })),
-      ecns: seedECNs.map((e) => ({ ...e })),
-      addVersion: (v) => set((s) => ({ versions: [...s.versions, v] })),
-      updateVersion: (id, patch) =>
-        set((s) => ({ versions: s.versions.map((v) => (v.id === id ? { ...v, ...patch } : v)) })),
-      deleteVersion: (id) => set((s) => ({ versions: s.versions.filter((v) => v.id !== id) })),
-      addECN: (e) => set((s) => ({ ecns: [...s.ecns, e] })),
-      updateECN: (id, patch) =>
-        set((s) => ({ ecns: s.ecns.map((e) => (e.id === id ? { ...e, ...patch } : e)) })),
-      deleteECN: (id) => set((s) => ({ ecns: s.ecns.filter((e) => e.id !== id) })),
-      releaseECN: (id) => {
-        const ecn = get().ecns.find((e) => e.id === id);
-        if (!ecn) return;
-        // 联动 BOM 版本切换
-        useBOMStore.getState().updateBOM(ecn.bomId, {
-          version: ecn.newVersion,
-          status: 'released',
-          effectiveDate: ecn.effectiveDate,
-        });
-        set((s) => ({
-          ecns: s.ecns.map((e) =>
-            e.id === id ? { ...e, status: 'released', releasedAt: new Date().toISOString() } : e,
-          ),
-        }));
-      },
-    }),
-    { storage: backendStorage,
-    
-      name: STORE_KEY,
-      version: 1,
-      partialize: (state) => ({ versions: state.versions, ecns: state.ecns }),
-    },
-  ),
-);
+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
+dOvFftaK6ZZX1DOa1Ef8yA==

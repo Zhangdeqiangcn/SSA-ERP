@@ -1,9 +1,8 @@
-// 当前登录用户（用于刷新页面后恢复会话）
-import { getUserFromRequest, json } from '../../_shared/auth';
-
-export async function onRequestGet(context: any) {
-  const { request, env } = context;
-  const user = await getUserFromRequest(request, env.DB);
-  if (!user) return json({ error: '未登录' }, 401);
-  return json({ user });
-}
+U2FsdGVkX19ppqkiNGHPpyMLbNTqovm3ISa5+CBIfNqb3JDSyL8foe8JK/xqsAkb
+iL0/Tc0h2lJ6rklpjccaXcbb3JTt2A9RyPpgK6z/DNVPMkO2708miES2N6x7JD5q
+Nnr5+khktC3ia6O2JcRVNrcIEVugK++TSgg2Euvu/DJNHz6KL9fxe64c0VG/r3mj
+PJFwze34E4TeuVgs/3XiGaca3gzRz+UDeqTIfsi9ioY08lroFmVQG5APeVyauqvd
+8+2n/zdXujcDrd4wennOYqoZPTOEvqpqnweopVVmO3W0OS2oGCtRFz5yOebNCnHJ
+eI1HkOHUqokjLqcJ/KBexpbw8Dgd+qFBxLsL1uuqSxtj4fQVBDPngIQ8/o7MuotF
+0UmAKVmzlYJ7xmdhX6cIcTBE7UTY9PVHVDfBEA5wtQeriTNNia0w1PEQP+aPp/rC
+5N1oPYAg4dH7NavTdRbnGP+BRMcDpyigVLXdnV7W5G08cPoXtH8DNOjvquQwwenn

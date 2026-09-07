@@ -1,84 +1,50 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import { currentUser } from './sessionStore';
-
-/**
- * C7 服务端化雏形 · 审计日志落库
- * ------------------------------------------------------------
- * 所有经 serverService 写入的数据变更都会落一条审计记录：
- * 谁（会话用户） / 什么时候 / 对哪个实体 / 做了什么 / 摘要。
- *
- * persist key = ssa-erp-audit，最多保留 500 条（超出丢弃最旧的）。
- */
-
-export type AuditAction = 'create' | 'update' | 'delete' | 'login' | 'export' | 'approve';
-
-export interface AuditRecord {
-  id: string;
-  /** 实体名，如 salesPrice / purchaseOrder */
-  entity: string;
-  entityId?: string;
-  action: AuditAction;
-  /** 人类可读摘要 */
-  summary: string;
-  userId: string;
-  userName: string;
-  createdAt: string;
-}
-
-export const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {
-  create: '新增',
-  update: '修改',
-  delete: '删除',
-  login: '登录',
-  export: '导出',
-  approve: '审批',
-};
-
-const MAX_RECORDS = 500;
-
-interface AuditState {
-  records: AuditRecord[];
-  recordAudit: (input: {
-    entity: string;
-    entityId?: string;
-    action: AuditAction;
-    summary: string;
-  }) => AuditRecord;
-  clearAudit: () => void;
-}
-
-export const useAuditStore = create<AuditState>()(
-  persist(
-    (set) => ({
-      records: [],
-      recordAudit: ({ entity, entityId, action, summary }) => {
-        const u = currentUser();
-        const rec: AuditRecord = {
-          id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-          entity,
-          entityId,
-          action,
-          summary,
-          userId: u.userId,
-          userName: u.userName,
-          createdAt: new Date().toISOString(),
-        };
-        set((state) => ({ records: [rec, ...state.records].slice(0, MAX_RECORDS) }));
-        return rec;
-      },
-      clearAudit: () => set({ records: [] }),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-audit', version: 1 }
-  )
-);
-
-/** 非 React 环境调用入口 */
-export const recordAudit = (input: {
-  entity: string;
-  entityId?: string;
-  action: AuditAction;
-  summary: string;
-}) => useAuditStore.getState().recordAudit(input);
+U2FsdGVkX19F2/u4J2yuLnXRop+FyAdqvw6qYD9jksQTZhxdNOMlLzKfKicbMxBg
+uCMjqXjSKUzhIY/hDNQnWsVJq3c3KmFUJ+xs8fBR1Hi+S1ACYJP5k3qyGr5INIUh
+GbPnVhENaH1f16F0zIuPa7f+WxNGS3UBQ0bmoaah5vz3+v+/t5h8R/rSZznwYCFS
+5gvymgh5ANkt1JjwU4Rsn2tZ+lprCqlMkrgZZa8M+NF6GoZBj+Fx390oyMhcUOC1
+SXvFrhnowHc5djZTHVIB6uQY4OltBuCTBwUl78EhhG9qGELoebnJQ0DJnHGzuHKz
++MIFU20c6JEY4S+NDvC9GgJnFyaVY11N6GRjfjBZqDoAPG6zK3Z8GYhW2PKC7Sos
+uasdRzHCiEIG8Zrsd+wv5GUz2iqmwF4pn+zWyH9QB/olvUEpwt89rgLdzpkC/5aw
+FWFPM9wzgKxhNrEYGHd3A34AIkEOXitZiVxOr9K4mgrsA93Ren4T8Rg/lrM/o+VD
+9KWoIqe7dZCPq5877DRM3uwHDvOOfHUMC8V0gRpybcLWmiJVWHc2+G3lwt2GSb9p
+XeIY8hs3qDY4iPV+rzBpU94ethdJNQY1fSg+BTAWO0g4GCPxarEoas0ZKLYfkUrY
+tPEosMg3DLOeuoV+ly94fG4yI4StOGwZsclLcpW5yhHbC9oKKtvVj6KvOtjQ8JE0
+x7abRErr5jN/DO7dp96T/k5RqC2xeZZqmfBHTBbI1bT/Bbnpp2E4edAH0LqXZpmH
+RD7icxwSF78IsTi6bCed+7c8skGfR2WAJRzlRrV9e0+lmcbQEFSi8y3h8UnbW2OY
+yMwbSESh/OgSPZq1TtoipUCGtoCPJvdETFLThArrDC7JhGysYTVWNLEldU2rnWDZ
+M0m8AjSkFjWYOCR57ALZa22Sv5aXO+/Ehth8Tq572D3mn0heYW+nJQV4fHdq75mQ
+tWMojRHI8wmFTxJ/yTRtBKgEADyfVovCV/7fzDyZlnqVQ38AZKX4fDn8LzslOfTs
+n+P3QAW6lNNKaVW7/MZGJLGFW1s7/infwVpyFPzfB+Smmu+tgH1vj41WDvo8WMiZ
+Awj8hR20VbPOkuHYSif8294IaNXjZhb0aHbz2xsEV1lDA32Cv73PN4fE4whEMEnu
+Um0v1QFJNKj9PIf1Ol+xd/ScSowd2kXOvl/K/9/0rX7qIUDTyT2Zbj3LpNTZBQGX
+Q0hxEIj6x0TLscaOaeagGxIOn1CGg3C974TKThUl9u8a1wrRZ/BocRvyZwaLXs/b
+sdkg7f4UTlliR3WQAnbXZg5RWGltn+wrlFtBWrGauJO3IN2m2AOn2dY1qVebetze
+4m3qjsX8tew1/03HIFOL+pzx3Mzf6cWMCqSvMqMW+8uZxNIWp7V0RJyidWRdg8Zq
+MjWnxqs7Z578jzzu2SPOI8RPREy9074JEQLnfzcjcgj5MhzNtliZIiS6ATv2YPDc
+1TFT7AulN9q+zuCSpz3ah8WrI6kYXzv4dtjH6nc4sM6Kdu4k2BF7iflIpIpCOjmU
+mN2GJIO5jO5X7w5pyZt/5k0GuLrHyiGfbs86Aohl4scV4D5/g0eqm3uWtwIwOW1r
+MVubK0b3V1lCYx0feIuMegokLPocj2VVGftsWKOAwEzeyUzb0jjZdu1zA9J5ViiL
+0YtcrsREQiKrxh2mbmFkhjchweNPMLHzuxW7dsgPONNuIGjmL9ZgTlvoIohHcDb5
+kAPGYLclEeXIegZIu8/4A8eS8esR2uOMLLKe20UF2/p2O8kqhLRpcg7OLNQuvEcY
+FbpX9dWh9tdi4yGy649jrpRYSy5Mtp3kw47tmZtWv3hWg+fnvexogb8HNUmQiuaJ
+K3oB2YNiVS3uTy3mUiNwVREPxhKiojz0duyu16nkignr90w79I+22iJAGa8Uhvw7
+HhOS3tDdDrnnJRPrn1Vv7gC61fm7rf1WGK+RQZCsS6CYhARw/LXm6uk7yAK1VxP0
+GeHihGeTTb0mBBzt6s9OT4kiFv7MPL4T1NaGxGpnGt3gjccqSEnNGc5BOWlDVDGl
+zV5wmpvH7Oi5XzXyw8vyAW7jopmbEKIpsbnYCD4jFnAdS1x0A5n33r91Lz6Q5nGy
+eQ38VQb5zLF7cNYC6Vj+4MU8PTywyO2v6eRrlU6vXUZ2i4Sy8DtX9kCX5pxNY/HF
+vfUIK2MMc3vPP45wPcRJomSoMlM/6/bLnIOlDplIFV38PPfuXNsC44klvxO3grVv
+cVUTn9+EoT/bKeuDVVGnZ4ovZbYkI2iG9r/Vcuv5MImRNTwGh3BrdOSgvBSkBHje
+XQ6LjQFIr3eg18LkC2enchFDqGnSmYO8K93FN7f6aomVQeAqyg6o09YhGXiL9+Za
+znlgWQRYLlJu39W6gCEWgkqDHBmX2vRuNQV0tQV4MfC3aJ3UDYvf17dUiKeiegV6
+Lx12jYhU7hlQTtN9MKGbwvObMus9bZpkFFRBG3ruwhWSZ+uzViSOOYL2BnK3Ys6G
+jHdCfc5/nz8LSDdZhBOEYCDFkz8DBWmC1YcQ9ABR5JKYNEmTOeWSHQOtCVgaG1lB
+cMjC6ZHk0e4tgZyDbYOJoEtK26NEhPbgLU+jmC31HJ8eYv+a4HvKqvnAKnJydNeU
+RcM2cg+4QVH/wmyA14EsCVSgSnoYEPlqtsf6BFGoJhUxDd15waXIxYnI3VjO007v
+Utf4kOhONP16Y4mToQTH7VVDVEM78H9KK0QESoM0mg971aCyRTUmUQJxSjlgRPTX
+Awk7un3zyGa0SFhWTyQQPwYgLMJT8iCw7aEUkxnpB29A/dB+ZzcOKsRqvBRuS+OL
+LGuqG/HMj2GtY5z0wsNqYestTNznbsVWvRci58W20Gw51nns7mEqe7BL3Oy2mLwU
+purhND5wSji9djj/4v5POMsHXCB9SWWxKlTApiAiJ1073aPK3i/f6Z+5UrpqRgFw
+TKrnLtbpsSRNIz7NeXZhfyHATmiCUGzX2Fn36nh8Zl4zwI8PiQsWCsQAgAxOmhqJ
+OclRFV1Gxr7RR+7nik/fQuGhi0IuRU61fgeJjasTPxYzn89yQPJe/g2QUFx7Kdxo
+pcihiwzH8yUwsFTC3ZhsyMtgliGHhTwGG3oMHbTFaBegUGpfHh/LhEVZXkRrqqSx
+lTlhfT9iJ5LJtBoC/FDEcglgbHW/DUA0wsemhxglgPiQ6/L9AQ2bR2x14zZv4mOZ

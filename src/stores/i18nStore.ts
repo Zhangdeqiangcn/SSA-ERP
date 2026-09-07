@@ -1,49 +1,46 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-import type { Locale } from '@/types';
-
-// 基础字典（演示用，覆盖 OA 流程定制 / 平台能力关键文案）
-export const I18N_DICT: Record<string, Record<Locale, string>> = {
-  'app.title': { 'zh-CN': 'SSA ERP 企业资源管理平台', 'en-US': 'SSA ERP Enterprise Resource Platform' },
-  'nav.platform': { 'zh-CN': 'OA流程定制', 'en-US': 'OA Process Studio' },
-  'page.lowcode': { 'zh-CN': '低代码设计器', 'en-US': 'Low-code Designer' },
-  'page.workflow': { 'zh-CN': '工作流引擎', 'en-US': 'Workflow Engine' },
-  'page.integration': { 'zh-CN': '集成中心', 'en-US': 'Integration Hub' },
-  'page.fieldPerm': { 'zh-CN': '字段级权限', 'en-US': 'Field Permissions' },
-  'page.i18n': { 'zh-CN': '多语言', 'en-US': 'Localization' },
-  'page.reportPerm': { 'zh-CN': '报表权限与订阅', 'en-US': 'Report Access & Subscription' },
-  'common.save': { 'zh-CN': '保存', 'en-US': 'Save' },
-  'common.add': { 'zh-CN': '新增', 'en-US': 'Add' },
-  'common.delete': { 'zh-CN': '删除', 'en-US': 'Delete' },
-  'common.submit': { 'zh-CN': '提交', 'en-US': 'Submit' },
-};
-
-interface I18nState {
-  locale: Locale;
-  customTranslations: Record<string, string>;
-  setLocale: (locale: Locale) => void;
-  setCustom: (key: string, value: string) => void;
-}
-
-export const useI18nStore = create<I18nState>()(
-  persist(
-    (set) => ({
-      locale: 'zh-CN',
-      customTranslations: {},
-      setLocale: (locale) => set({ locale }),
-      setCustom: (key, value) =>
-        set((s) => ({ customTranslations: { ...s.customTranslations, [key]: value } })),
-    }),
-    { storage: backendStorage,
-     name: 'ssa-erp-i18n' },
-  ),
-);
-
-// 翻译函数：自定义覆盖 > 字典 > key 本身
-export function translate(key: string, locale?: Locale): string {
-  const state = useI18nStore.getState();
-  const loc = locale ?? state.locale;
-  if (state.customTranslations[key]) return state.customTranslations[key];
-  return I18N_DICT[key]?.[loc] ?? key;
-}
+U2FsdGVkX1+Jodx3ZTew1g5CuTtXEuQuCZXyiOE0pYUaB6Hb4JnTAbWFUuyRjE7m
+L3ez3TdVV/iuZmzRrZmlShsloKiN+WpOPOYxFXWElaxLb8Z+D00Fcm/Vw6uxoN9B
+ts9GEPnKp8qETSzzDgJaxgFrM1YXgPt9CPqvhahJ1JR7+2rv6u5vYZVK7cHskBk/
+aCQ6W/NTbQ+TCZfHwoR6UoFjn705rMm9ebaLudPbEM3cROZgJPOjBVJA7YXpcmOv
+T/ZLtMNQVd+wFVYYf98yFvs6N1n2CoE8JgNRcTSeO20FiDLQSkZFGWTouQMb1prY
+VuZatCG7bawR15dh0zmQ8/WjHwucalV+4Tm6/jKA1tvPnjTsENzX6pQ4Y3zv7zUe
+k5+Lijht6J/JFjh8PI7clGOUqV2Rp0q8EWwoosr7m/8m/odwLRk1TcT2htDIRtIX
+NKu8fMH9EI0Jw2ivbekB0CR4Rmg2ra7iYeChzEQFnn4XrnADszurBs9BZaP+JuGm
+0B+YrT9USq20sJ+qgSgbUgd5QusErhjEBp7E9I9r1wda2wB4laUodFXFmkuQOt1H
+1yNnyzkjFM5zaIdlMF+F/d0NG5ODzPa5Wor9KVxMQ1S89eSjL25+1gIdrVaVvHpr
+N/yFFme/2uA3dc89npSamwU7WvFlTSIUGFayNKp6Rr4UWn2TmiX+4OLtxY0q2Ga7
+KMFNwt03k8dnTwImrHM4BoEQBBhNObuuF7C+bpRbkegS7SiYBM5qFsk7BRsLYzqM
+SM/r2S0mvHLo9VGz7HmRcFNZXY1Fu7/uk1rvuX8KCCXRFrBWnAhcd0XclZpbxLnW
+gFIrhpanZBSlSM/CKBMZ/dcivPRKHjNtuPSn356r9SdNAs2vLlGLUZBzc1wHvZZ5
+hf7q/OJzMLHogQmEJG2yAkw2La1QrrDnFBhL5Gl1I64pUvTP7qsuZ7ModNWy8t5o
+lROSpybKA8ak742uRC+MhOSEw1pEv2O5qiGB8dOY+snINQlZfv/nQSM7T4XGHjxq
+HjhternbqfLRdryVy0Rop0tSRCo/nW1LY+ct0Be1xpI15Y8m2unRdZggeLXB/b+u
+S8Ev1uWhQ9VVtLHjS9VVnSsTscvLOGOaPMKG7MpBUEvGbo+LepQKbn4EAxin/ptp
+B1hZk945ZKKSbIyRHhZsGpZ/gfDWbiq5kPAAXBY8ZzKkmSjGWvFvr8JDDOmkvX4r
+zu5wUMBqUKgizrKHuLspaJR2HuPTJiPK8DSAaCmuZk0JUc/eZRRYx7WXuiq+Qf/Q
+yAi8eitwfhndQ9uXr0NSRd+qBKTJmYGIrEZ8K8HPlzGwzP5gSYknLtml/MUFV/Jm
+NH4Tiu2fBF2mmjz1/EccT2+GtpfRRhWVoywxepGKyWi80g/1xEi58LXyWwGmKWWs
+4YMYUFHbd73mXKZaJdYzTpANyXWSqSFfab0BAqs/GyyJKzSUqBQHPlYQOUIjqsTh
+t9jVKTGjlRl7EyJ5BbVoXF4S+Vcj0NFM2GfoH1dC+erlwKtOaSSzaVfJE/uOv0Hm
+kmB5ZfNophIkGw4cmV9zEeA1Ac7G1slBMHgV+zteZ0J63MMZkAR4OyXt16seOznH
+wn7DjwznzxDKFMfNvJUx2BgvqvS52AKBumC60T7sfCrKkY4G4t3I4QSYn6NREYeS
+vPrh7UUOYme/n9HtPBfwnWkreEzP9CXmeOOEeOB1X/8yT6FgTgHt7rCEuSTE3pGL
+U7L3kb/OhMQndrDkBnepRZM0jec0IewoTqHhAxXvDeyRcbieUBdbNRi19KM+6Chx
+vmRNcPGm2Qxd2cbw9YbbGdDOpo+IK/eZ+bjEkJnunph9Wq4+gClPwsYTxf/GQV4p
+SvkxwwZ3+CaDsGAiCdEP/jjFW6AIyvDG1d0btI8I6yFa4MBeeZvZYguxJGoCZbhi
+FpatCVTgoNwZltm3nALEOx9TdWW1Wubk1uhPyEC0l+BScr/XSdYY8OuwUIaU/JNX
+kuUGXGWQztNmzWu+0EYUrU381unOnYy3pskVTabSQMiQUFe5Ci4SCJ96sLiapGVh
+Ts9lotiSexd7lWpG7kt/6ivV150Em/cDjXxx37ewHfyRVAQG42VpVm9KgXwD8oBU
+EoDNaBmP4A28eynxU919NHOS4Lh2+RU6Gz7avMcl5XKKxtvbkP5TJO6zqWacP/Yq
+6+7qeUu/bFgV3B22fq18mSdhb0TyqnDX0fTvMj+K7+6sxhgDJKRrR3V00j3Gesyp
+GkGUQIm4Dlcdx74kiqiQw7pVgao4t2dAM/KvqMqtOwDRIinWctrE+Gku6rC9gwCv
+CvylA2jRDG3Um3PZVyUmzbHe/ZIJFaMJwlZCJKsj1S7bPOaIw4o34af1RwScIfys
+3bbsysTFJ+FeoLwgrxoodKUXafv7uiLTWnakMHm1GuEK1phWyJZeQrNuRCbj9NL7
+XpYvWPmFdjLAAtdHy94CIzrkAlsGI6eXvwX48jeRb09x41/iaHKuyZO50LXySCI5
+8hgrTB9k/4zHgybw/X6uLXKUICrykUf9LfafIbfhiOZDx462YSBW5RX6fYnE2tDQ
+CzWHA5Y1UsY/XqOBrsWhAyDDeHYKq1DC64co9gAy4y28SSteRWYuAMU8aXWCElBr
+11UgPLUpWVr5U+n4a3ulmpt6IxjMAiJhwqzKSge5eSQUm0vtKNVCctjmKqhQOpLV
+bqTN+o52Pq1vRy/2+2RXo/hpxKHG4WX1rLQBv4DmfLbOPnRG0DlRlowAWAsvHP0N
+uyqQH2alNCeV2CGSMxhmdIK33Wh6/uDB02avjHBpiRIKv5IZDibkbT5c7ysGlBTG
+OH8FyDVnzr8uBa/k6R2E+IIl/rn0x/+bW17+rdnajFwAYhrnLWZAYzgQog5QX3Wg
+nPXpAK2nS50TDiDrh+Sjkg==

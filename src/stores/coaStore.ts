@@ -1,48 +1,26 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { backendStorage } from './persistStorage';
-
-export interface COAItem {
-  inspectionItem: string;
-  standard: string;
-  result: string;
-  unit: string;
-  conclusion: 'pass' | 'fail';
-}
-
-export interface COARecord {
-  id: string;
-  taskId: string;
-  taskNo: string;
-  productName: string;
-  batchNo: string;
-  standardName: string;
-  items: COAItem[];
-  overallConclusion: string;
-  generatedDate: string;
-  inspector: string;
-  /** 自定义抬头信息（模板可配置） */
-  companyName?: string;
-  disclaimer?: string;
-}
-
-interface COAState {
-  records: COARecord[];
-  saveCoa: (coa: COARecord) => void;
-  removeCoa: (id: string) => void;
-}
-
-export const useCOAStore = create<COAState>()(
-  persist(
-    (set) => ({
-      records: [],
-      saveCoa: (coa) =>
-        set((s) => {
-          const others = s.records.filter((r) => r.taskId !== coa.taskId);
-          return { records: [{ ...coa, id: coa.id || `COA-${Date.now()}` }, ...others] };
-        }),
-      removeCoa: (id) => set((s) => ({ records: s.records.filter((r) => r.id !== id) })),
-    }),
-    { storage: backendStorage, name: 'ssa-erp-coa', version: 1 }
-  )
-);
+U2FsdGVkX18XMBOdYHJwEBG5KQv7PXSxmt2CKmp8hIXmdcVohvfY25r6KFzxNSiA
+Xv+AhQu35GCDRT+L5Gi1gTv0F012QYgQIpNNTIIHfqj/qvPgHGrz/EmM0m7pKsmO
+otS7VhqCpwMgQ1N5EWaK5mfr0olhtsK0PjWeJvFfNmekYktopFp3+tnWTvddpcO1
+F3MX/TiTd0WfRkP4Yi9AT1Gso8bEnyNHm9iM7brAMtKsZWI29NOS4KtVod4hm2Ik
+WYxptfSaLqdkxY5/hKB4QgX0fgBSkCHytqWR8dUnJca92M+a010zlrbSTGkagopI
+lWDob9r8Yribvd3TF1RCgUwLLLoq9jmyTByihZwN4cs9gdgTZ4kcPQHU4NLY0IPG
+z+8+2HLLbz1Y5IPCFFmZLEbCwnyhWeuw0nLigR0aoxybVMkpPr/eXg3zxaotMzFy
+zUHtZyfcbq1p+kiXapJKereeqLKk9GI4RxxLO13ORPLIjUtdvjS55hbPRWB1yeG5
+mt0lA27Q9byPzR76oaubh1CjYuJceoNJu9A+tl7oAqLwPQsjAcKNsuwcMkPNByCC
+pdTLzRuflM/s3HPGmk1uw54ciRZ2a0keQct6Fp/8mGyrWSG5ly7zOHPeu2VGXRah
+B7xWLwXolXtNb5mj5odTWVYzdkYtHhhfg0kh9PGS4Xkc6zWRAF7X7JdMFt+sH4uG
++whRdqbgM9juMerA/yhz7kKq5tY7Nr/xWnUXBTO+UBkPd2D80mt6LHEv3nDtYaYI
+w7YxIQblO0s4o4+8p1AadEJtCMsoalpzQJETmGIGL1WMjPEBQzm6AjX3Vys0qZ6w
+bD3rtnbgc7SEaS+OB+h6qwLkoj59J21Usg3au/It0aO1BH15XWMhAekeOm828jBp
+rbvyoThRLoqPKZ1uUhaX3v3DyqN+tcdp9LPXLm8csPiwnh89ETh1uWmj1n1IgAJL
+fFvV1tCcUComRJARbt0iggNZBH8npDw/HzrMbK5yetQUVugCp2gQClwAJiSv8RRx
+BMP5ZZuRPgqrFDfP4hB/5x4yREzSxtIyfJEs+VDH93GwTMWzVNjBSI/XdVJLRq4l
+APYZojt9irb0P0tPiwlqsEdASUMJl2GgsfG3J4JVn69GxfNy+Q1cAcI+Us60/ePk
+RE0Sqj9+AJ9FQ10daEDUh/3Zv42ZljOxLU76wlLGeM5AjpwqqedEjOcnR8uXj4Dl
+5tHTCUf3oAKD9ebd0cUS6Ef4WdI335uDVNwuaOd+6PacgtyUMAeoRZIcoy+wNEOV
+bc2zQYrsHO+TVIi8esls7RSta676rs23uDufBpshJbuhT39iZH5bSKjXK/zANl+2
+a+UFuPpV/O75BpDQCsLyrLCRP1EA3kHxPWMZFRy6pNwrNVGEnV4qE1sHrwq58e/g
+sxQgKcCg2ej2OM75BVdNGPF48aqVZspfqcAP5Etd4krkAjYXm85k5Btkor1HwXzy
+VLoNLMr+W5xyhEcR5g3fbr+7JSOTY1oUTQ6jQ69J6Bgg7/Al7CEjrZl+3FB2hZ5F
+urmYC4JBPFNqU3c8MOMhSaC87bbxS6sbCLX54u7N0R0WWYAl4JzEmlzsoHvwGYyJ
+2aIbM4Qjt8ytGCUYQOhByldReBpFKv1G+JlhKVxygjZAeQpu+6U/Q7paCBxQ8POD

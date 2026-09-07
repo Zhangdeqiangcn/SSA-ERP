@@ -1,45 +1,30 @@
--- W2 收尾：跨组织转储 stock_transfers + stock_transfer_items
--- 根治双通道：warehouseAdvancedStore.stockTransfers 切片由 app_state Blob 迁真实 D1。
-PRAGMA foreign_keys = ON;
-
-CREATE TABLE IF NOT EXISTS stock_transfers (
-  id TEXT PRIMARY KEY,
-  org_id TEXT NOT NULL,
-  transfer_no TEXT NOT NULL,
-  from_warehouse_id TEXT,
-  from_warehouse_name TEXT,
-  to_warehouse_id TEXT,
-  to_warehouse_name TEXT,
-  from_org_id TEXT,
-  to_org_id TEXT,
-  status TEXT NOT NULL DEFAULT 'draft',
-  transfer_date TEXT,
-  remarks TEXT,
-  created_at TEXT NOT NULL,
-  updated_at TEXT NOT NULL,
-  created_by TEXT,
-  updated_by TEXT,
-  UNIQUE(org_id, transfer_no)
-);
-
-CREATE INDEX IF NOT EXISTS idx_stock_transfer_org ON stock_transfers(org_id);
-CREATE INDEX IF NOT EXISTS idx_stock_transfer_status ON stock_transfers(org_id, status);
-
-CREATE TABLE IF NOT EXISTS stock_transfer_items (
-  id TEXT PRIMARY KEY,
-  stock_transfer_id TEXT NOT NULL,
-  material_id TEXT,
-  material_code TEXT,
-  material_name TEXT,
-  unit TEXT,
-  quantity REAL DEFAULT 0,
-  batch_no TEXT,
-  location_id TEXT,
-  FOREIGN KEY (stock_transfer_id) REFERENCES stock_transfers(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_stock_transfer_item_order ON stock_transfer_items(stock_transfer_id);
-
-INSERT INTO schema_migrations (version, applied_at)
-VALUES ('0023_stock_transfers', datetime('now'))
-ON CONFLICT(version) DO NOTHING;
+U2FsdGVkX1+Z7Je2LF3UceKtRiELkoTpcZg1WIfvt3zH3x9CM4l1v5l1Da/LjQLb
+RxhZjffxQEpVeDB73dtVWtwh8EjeVUaD8j5E1FzqVkxbNz0720pQYw4ko9EwiCEQ
+FhA1aMfcdh8rs50JV2z5I3i7CkC4f2AXTTmZUciKC6wFEZnKGkju6rKhxF5D4CnE
+kDItyoApif8zDX6uj5KybLGSk42ryucB/pxHl6G2JhETyOXcSgooS9rzT3K02LTw
+W1KzGnT7v7GMvDgnYILxiaD2fZ2VrSLy37Q3/NDIr8ZF4Y859s8FSZwdjxS/1iss
+FJhZ6rrvvLLyY6tHkw5vUjRfm2T1Nc5EnksZs8v6vRsd9SdviELbXiKDKfPqapgw
+Ff8YPRfihY1HhbgcsWtGyF8RP0S2l7LBDdDtyiq6DjH5D+WW7yLEBE5Z78Fk3koI
+J1fkLMrYFDQHN9dHpZ79DGm5C9Z0zl4l4L5bd9iwoEoFANugcmiXxczTlVYfYVCc
+yv05ytE7K2XcEMgRF29MjvL+eWvh/MPdy3/nJnhPzViQt40DyiJsZcC7+vVZ+s4N
+CEX6fesC3hGNpbIIObTQrxWdlmNORTOuDgRHELB6uInkZkEJChdFduoIsLlt/h/p
+V5A/y8Pg3ZreoYa7gRmuhHbNIspgvSTT5komHwWs24O5mqkDr9SBpF4rwqxvZGNR
+CmNKim84FD0O9iL/PUOouRDEGrhVmcxoVTo5oP4s4ziZDxmRo5gRQRiDDplutyk3
+ftrcv8w03ahUshFVS4XOoLUQwcli8Az7dyQMrPPjFg6mAmE0gdPhnjNk65A8OATG
+lVdsl5YbNSt8PfE5Z7NhVDSXUW4sad9PKGCcoKA/+dy7Zx8A4Y62MHk/y72K/wo4
+QZuiYIav1SlsjQviWzDS3kp7qxDaUd612J2DIbdYI6Ix1ylsKbf+a/Blt+JvnhdD
+qOr0t58GOsfuvDZmoo2rm7SIVrXhdrJ9yh1aBkFJkr8oW6cOLrdGDeTXYUWh/M0g
+kcPtc9Qe17HLdbQGpWzVAK+6swtintJuiJ4XltOWfUmIw7jG//SyRdz3aOn/OUfz
+rmjKTNRRPZCuwe5GRZkeeSlQ9cJARC0d745QVo8MRvzYCR/q8fY3fzSmtwh5eJrm
+hpy9euqktt36V8jnLJ2bS19GghuI3hnk0RNVVLAMIUNkZ2eAuT5lj+LCVMOnnXvL
+qsy0UPviFFP4wGztcMSUErYclvB1xxwTA9wU/yC/Tq8C5L968hwFI6EKG56M68vg
+l/fwIG3JMk1D92AbCcPg8SspMxc+Qczjdz6p3040l7PbHEd5tbseehDs4aStNz5c
+Y5qPxEE8U0ImoUkyoGLzaMfnLH6AUd8YSHb9WWvikCi0Gcx674ZZ94IYiDg5zhz3
+UnQPkOitMDls4PtuTIS742huCNuxhowOq6LwV1483V/wjobMuCIwNzuCh/ml+mjs
+7OP0Fyu3hWyiS76S5fZPp6KGoWfYjsrIizR1TbHaAVeEsqkOvKYxHYIHWQLzxNNI
+G0z+bV+pRt9lCPQImssQ4mg9sdS8kyl+oPQTwYnZdo+pn5jVrJpwnEBTxKHuiIPi
+Y9WefBEv3IuRgzyX5kQdD5bimVzSu8Yjuh8nWpZ6Irq1iUgf8ildUS91OwQlfrjg
+x3WLgT1S9908qDItQx19WbWMZ4EVUYeYR+MXO+p8fyWtoqNp1KqW36nzO92ymNK0
+wWWAsnIjFXmaHzommKW/aFNd/xdfQlLItH879Wb4ugpxtujFT716WIXw7Pl0sci0
+d4soo23JgXlDaeXSadwse+c32jpH5IugatBO6X33U2oQyD/6P16gxYiBtmU86usv
+ITRz8c9eGJD0g3TneBPMIKmv+9Rv8ztXlR+ceL6hTzw=

@@ -1,20 +1,19 @@
-import { api } from './api';
-import type { PaginatedResponse } from '@/types';
-
-// 通用实体 CRUD 客户端（根治双通道：所有业务域经此访问真实 D1 关系表）
-// 后端：functions/api/entities/[resource]（会话鉴权 + org 隔离 + RLS + 审计）
-export const entityRepo = {
-  list: <T>(resource: string, params?: Record<string, unknown>) =>
-    api.get<PaginatedResponse<T>>(`/entities/${resource}`, params),
-
-  get: <T>(resource: string, id: string) => api.get<T>(`/entities/${resource}/${id}`),
-
-  create: <T>(resource: string, data: Partial<T>) => api.post<T>(`/entities/${resource}`, data),
-
-  update: <T>(resource: string, id: string, data: Partial<T>) =>
-    api.put<T>(`/entities/${resource}/${id}`, data),
-
-  remove: (resource: string, id: string) => api.delete(`/entities/${resource}/${id}`),
-};
-
-export default entityRepo;
+U2FsdGVkX19cRRZtvbqwY23YPo9rz900cYEF5xPgd4Cocm/BjvrixytfzOPMpilh
+vASWKuLeDhdYxtEoW9gINq9Zmq22PmtsPBrBjwC/vv3E94GkHxffgl5Kb+e0tcc0
+17RqS38lJbxxhWV3i/r2c797wavvA9KcXeV7AVzM/dQmor+81DwEh27sHxH4ioRs
+nLqmKuguV69LABqd8AA0CoyQy8nuNxK4Z71SigOwBDaVTZTzXftzwp3pen2iu8A6
+NOpIFBTLsfH8yqTCHHsULxAt5RSr4JDdKzIXDD5YeCOAQWsnLezjkVsSDWhH5SFq
+iq4uespjXQQ1fasQTYLXPaxMYl+i8Nxiv1XNw5LO6ifOCQbyLHYGVzNBi8/LWsCb
+cJVO8+B1kva3tLa7s2NMmqQsdr4CPvJh+HECPNXWqYf4taB8EXpy47f96A91r8/m
+B5fULNUQW2frjf0z0UWBsQJpp16Xd9K0jZGvsu8vgZ0idy+DK8vw9RzL9Hkzf7aB
+K29Psh+D9EYuBE4SVWf1N0K9iL07ejSSTfu8I7xqs0/gPogrK9MyN3nbcTtcI/ue
+w3iwj8dR5ISsYI6SyFtFMmhYjw5fv7CIEaXpIiUddvrMzO8InFF/PGnsSkElx7TX
+rFuL8dyVRhdOxFNVwBgbYmv0TLg3Gfw/F2GwCW5Q4Y7+/3q3AsT+1C6BOzGFFt3B
+SxxTZgflPk31+tim1HNC5e1trg9OX9RHvfmnkzmCBzOhRpLFgWI9HIVQNDPANHvT
+pP7fy8W4lKoQ0hg4x/fkSCqcIL6bBzxn7rmgZS3i4IZjDLR0BvgmEpKG6KYcjen6
+qBHHUdPKSwiMbAy2dyL+qUTk/edcY3d2fMdC0FrKr6/XW8EXqHpV7gLoJ/5FtUD5
+JZynjoo8hEP92hcrBxB2b4si81g8d0qS8KPwO2FqtR/+BoZJfpqfIB76/8bRxs6q
+yLiNdCK+Bvf7XSZtCme/g/z28LHRteWHx8L4JU/ZuCshFCfM7sPn3M1BKmapP8Fq
+eon7NTut/1X+dTGkcUOoJTrMoYOHIrGClTLMkNE74H68k37C/nInTTDkeYSEfwe4
+P7f4MiKLGvgHkGjAEc41aOeefT7MaXw/SS19K49NgjvtHqpLQuff7UEXQqJnk287
+jjqyJbO1YhJpmC43FK1zQA==

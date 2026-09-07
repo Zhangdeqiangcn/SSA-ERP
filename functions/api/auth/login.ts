@@ -1,36 +1,28 @@
-// 登录：用户名 + 密码 → 返回会话 token
-import { verifyPassword, makeToken, json } from '../../_shared/auth';
-
-export async function onRequestPost(context: any) {
-  const { request, env } = context;
-  let body: any;
-  try {
-    body = await request.json();
-  } catch {
-    return json({ error: '请求格式错误' }, 400);
-  }
-
-  const username = (body.username || '').trim();
-  const password = (body.password || '').toString();
-  if (!username || !password) return json({ error: '请输入用户名和密码' }, 400);
-
-  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ?')
-    .bind(username)
-    .first();
-  if (!user) return json({ error: '用户名或密码错误' }, 401);
-
-  const u = user as any;
-  const ok = await verifyPassword(password, u.password_hash, u.salt);
-  if (!ok) return json({ error: '用户名或密码错误' }, 401);
-
-  const token = makeToken();
-  const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
-  await env.DB.prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)')
-    .bind(token, u.id, expires)
-    .run();
-
-  return json({
-    token,
-    user: { id: u.id, org_id: u.org_id, username: u.username, name: u.name, role: u.role, department: u.department },
-  });
-}
+U2FsdGVkX1+zmAYLVzME9QxVyXriutA2hzsG+3A5cectJhN52HaKM4rrDzqgC9dd
+5qfVLvRaFY1JNnHH2WfRhR/04pb+M7UqJhzXUl1tN0QdBodKLkBlsFqn2mr1ClXh
+u/j4MTZMhi5xuLHZna98AgZZqmzQRxo5TCg8/tmKNsuZBSr4KmQ8eeP1h7e+aNVn
+yqRfAtbGzZnxufIE5/xkPxSEzH+h+IuN9ycrpKcRTaRVm+hvVq+9+OgaeTAwWqAh
+wNJ49RV6khftKVGIaNiI0fz8iEHkG3DBdI7+lFv0tdTPR8eF+rcpCEW6rEPxZqmE
+YjFwVyvOJ//MaaWmW/m9+hzayGN/M+PCTgPymu1GmPF7hypbP1K4qWqJxuMwPDik
+lRBIpw/V5gPwGZlFmNPQekDCh0T67kZGreHaLkIfBenkM1xdgXxyvpQFi26DdnNi
+GtI+gw3VpSRL4/SPDykCAXa0w/0SepyM4ttBhc/vldujq8d6EVZLKhlAcnjcALec
+kakHQskl6kVWuLHRpqB+1UoEbYS/0XtPkW9u0DcHlnJQZmIb0XF6htf+HIBFOUrR
+y8xAFlMXu0hOkbXsykn3Fmriu70C960RyWZEVgjwxpXESEQJrAeEmFbqszM9lJbJ
+IcJwM9vQ5z67ztpdVq+PAYbNU4athwdW/1lvkawk6tgeWI6M9Qs1mqWdGS54UZG5
+vPWeP3EVgoUjPYevgmjZzJT+fcdKhBLY7yLuPiuKlzQp5qEKwjj5/udMUUtq/JBk
+SISUXc0r+UevpMU5kU7kvYhcbnrY+09MKm1UBvkXkz/v3Q6cKMYEbNYtAYbOsxlR
+3L1zvOnbsvoAuaeJbtoUDyXGKD+uFWpwmdNAUNRmq9owCUrAjgZHoA10Be9OEatH
+pndlWh729KcGnN15DIcu2ssOupHwl9a5fwe/VH20ysQ1MxXgiy04Sls+dcfYmWY6
+VjDqyXVFGg69J0p+F2XkPysKAFvxWkO75BZ7i8MGuuxibY/Srpj7t5stvnOF2INO
+SLr04cgQ0yLEfRJaXhtSmmq0IBBxHOoi+BDss7d1tH2Y6Sjdcb73FowRBtm9tRk2
+SmyVpbtlZ+RgR16eAQTCdAXBzENagqo1pRlOpcJ7pZtWjLYbLSlDTfyk2ssbe+sV
++nzl00XkEdr+/TYBpgep8IQ28D/mEB4T37RxcXIaav/7j+5LSA0VyvCC+dIq24G8
++7710Yp00PuUeN1B93R98bqmlnAWRDjHQAFmJvQLUdkmTuFrrd1dattrw+RFVuzt
+CzOM7N9Vmmdd77ibqRTN4u9hujPzv6WCo5K1gFnL2srSUT8F3kppcsEczfH+wVbJ
+k/4sT8RYXy4l4g46MD91JZ2kTvFxxWXwEufQTu1frwzrM90Ib0CwAq+HiHXpOG/6
+xPsqs0mYHVSZ3dLPXtIRknYFA4Eyg+B7kMb0lPVpPuIPTXVMoKRk0lQJb9Ui4ZGG
+vzMZH5ZX5jTqbO5EyvaZ1EGXVRMEvr+GAfa+IV8nrv46ZkJwjoC3Uw/s4mRxoXHH
+Vz/KS7/zzNahcDY2oZC7oHn3pUX0wDEm2xWyFzmb2HnSZFHgYK9eJ8H97IOEDYtz
+Lwr3q673d73CIBd8kbMvkw8Yn7cJ+5CK6Fxf1lyqsSQsE5Gzegtn3N04DDH8YIwk
+x+IumTG4MHCVooNRUKh40uuEHC4DsAQE7p3dq6tPZCfLK70avaEcNUInNIoPpt7o
+xLJ5gCMh/GXQ5Utem+GCqw==
