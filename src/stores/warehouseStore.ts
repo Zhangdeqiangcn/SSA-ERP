@@ -22,6 +22,7 @@ import { useFinanceStore } from '@/stores/financeStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { rollInMovingAverage, getUnitCost, getStockValue, roundAmount } from '@/utils/cost';
 import { b2Api, isAuthed } from '@/services/b2Api';
+import { entityRepo } from '@/services/entityRepo';
 
 // ── B2 双写：出库单 / 入库单 落 D1 的字段映射（严格照后端字段调用）────────
 // 用显式映射而非整体展开，避免把本地私有字段（inventoryPosted/cogsPosted 等）误传后端。
@@ -597,6 +598,7 @@ const postOutboundCost = (order: OutboundOrder): OutboundOrderItem[] => {
 
 // ── W1 仓库战役：inbound/outbound 直连真实 D1 的工具函数（根治 Blob 双通道）────────
 const WAREHOUSE_BACKFILL_FLAG = 'ssa-erp-warehouse-backfilled';
+const CHECKTASK_BACKFILL_FLAG = 'ssa-erp-checktasks-backfilled';
 
 /** D1 snake_case 行 → 前端 InboundOrder（含 items 明细） */
 const rowToInboundOrder = (row: any): InboundOrder => {
@@ -711,12 +713,33 @@ interface WarehouseState {
   setSelectedCheckTask: (task: CheckTask | null) => void;
   /** W1 仓库战役：入库单/出库单从真实 D1 拉取（含 items 明细），并以 D1 单据重算派生库存/批次 */
   loadWarehouseOrders: () => Promise<void>;
+  /** V2.81.0 盘点任务从真实 D1 拉取（根治 Blob 双通道），首次空库回填 mock */
+  loadCheckTasks: () => Promise<void>;
 }
 
 /** 新建/更新单据时自动打上当前组织 id（多组织上下文） */
 const withOrg = <T extends { orgId?: string }>(entity: T): T => {
   const orgId = useOrgStore.getState().currentOrgId;
   return entity.orgId ? entity : { ...entity, orgId };
+};
+
+// V2.81.0 盘点任务迁 D1（根治 Blob 双通道）：嵌套 items 以 JSON 文本落库，blindMode 布尔→INTEGER；
+// 仅当字段存在时才纳入写回（update 部分字段时不误清空 items 等）。
+const toCheckTaskPayload = (t: Partial<CheckTask>): Record<string, unknown> => {
+  const p: Record<string, unknown> = { ...t };
+  if (t.items !== undefined) p.items = JSON.stringify(t.items);
+  if (t.blindMode !== undefined) p.blindMode = t.blindMode ? 1 : 0;
+  return p;
+};
+const parseCheckTask = (r: any): CheckTask => {
+  let items: CheckTaskItem[] = [];
+  try {
+    if (typeof r.items === 'string') items = JSON.parse(r.items) || [];
+    else if (Array.isArray(r.items)) items = r.items;
+  } catch {
+    items = [];
+  }
+  return { ...r, items, blindMode: !!r.blindMode };
 };
 
 export const useWarehouseStore = create<WarehouseState>()(
@@ -913,73 +936,90 @@ export const useWarehouseStore = create<WarehouseState>()(
         if (isAuthed()) b2Api.deleteOutbound(id).catch(() => {});
       },
 
-      // CheckTask CRUD
-      addCheckTask: (task) =>
-        set((state) => ({ checkTasks: [...state.checkTasks, withOrg(task)] })),
-      updateCheckTask: (id, updates) =>
+      // CheckTask CRUD（V2.81.0 迁真实 D1：乐观更新 + 写回 /api/entities/checkTask）
+      addCheckTask: (task) => {
+        const withOrgTask = withOrg(task);
+        set((state) => ({ checkTasks: [...state.checkTasks, withOrgTask] }));
+        if (isAuthed()) {
+          entityRepo.create('checkTask', toCheckTaskPayload(withOrgTask) as Partial<CheckTask>).catch(() => {});
+        }
+      },
+      updateCheckTask: (id, updates) => {
         set((state) => ({
           checkTasks: state.checkTasks.map((t) => (t.id === id ? { ...t, ...updates } : t)),
-        })),
-      deleteCheckTask: (id) =>
-        set((state) => ({ checkTasks: state.checkTasks.filter((t) => t.id !== id) })),
+        }));
+        if (isAuthed()) {
+          entityRepo.update('checkTask', id, toCheckTaskPayload(updates) as Partial<CheckTask>).catch(() => {});
+        }
+      },
+      deleteCheckTask: (id) => {
+        set((state) => ({ checkTasks: state.checkTasks.filter((t) => t.id !== id) }));
+        if (isAuthed()) entityRepo.remove('checkTask', id).catch(() => {});
+      },
 
       // 盘点过账：根据盘点差异（countQuantity - bookQuantity）调整库存，并标记任务完成
-      postCheckAdjustment: (taskId, items) =>
-        set((state) => {
-          const task = state.checkTasks.find((t) => t.id === taskId);
-          const whId = task?.warehouseId || '';
-          const whName = task?.warehouseName || '';
-          const today = new Date().toISOString().slice(0, 10);
-          let records = state.inventoryRecords;
-          for (const it of items) {
-            const diff = (it.countQuantity ?? it.bookQuantity) - it.bookQuantity;
-            if (diff === 0) continue;
-            const idx = records.findIndex(
-              (r) => r.materialId === it.materialId && (it.locationId ? r.locationId === it.locationId : true)
+      // V2.81.0：任务完成态写回真实 D1（根治 Blob 双通道）
+      postCheckAdjustment: (taskId, items) => {
+        const state = get();
+        const task = state.checkTasks.find((t) => t.id === taskId);
+        const whId = task?.warehouseId || '';
+        const whName = task?.warehouseName || '';
+        const today = new Date().toISOString().slice(0, 10);
+        let records = state.inventoryRecords;
+        for (const it of items) {
+          const diff = (it.countQuantity ?? it.bookQuantity) - it.bookQuantity;
+          if (diff === 0) continue;
+          const idx = records.findIndex(
+            (r) => r.materialId === it.materialId && (it.locationId ? r.locationId === it.locationId : true)
+          );
+          if (idx >= 0) {
+            const nextQty = Math.max(0, records[idx].quantity + diff);
+            records = records.map((r, i) =>
+              i === idx
+                ? {
+                    ...r,
+                    quantity: nextQty,
+                    availableQuantity: Math.max(0, r.availableQuantity + diff),
+                    lastInboundDate: diff > 0 ? today : r.lastInboundDate,
+                    lastOutboundDate: diff < 0 ? today : r.lastOutboundDate,
+                  }
+                : r
             );
-            if (idx >= 0) {
-              const nextQty = Math.max(0, records[idx].quantity + diff);
-              records = records.map((r, i) =>
-                i === idx
-                  ? {
-                      ...r,
-                      quantity: nextQty,
-                      availableQuantity: Math.max(0, r.availableQuantity + diff),
-                      lastInboundDate: diff > 0 ? today : r.lastInboundDate,
-                      lastOutboundDate: diff < 0 ? today : r.lastOutboundDate,
-                    }
-                  : r
-              );
-            } else if (diff > 0) {
-              records = [
-                ...records,
-                {
-                  id: `inv-${it.materialId}-${it.locationId || 'default'}-${Date.now()}`,
-                  materialId: it.materialId,
-                  materialCode: it.materialCode || '',
-                  materialName: it.materialName || '',
-                  specification: '',
-                  warehouseId: whId,
-                  warehouseName: whName,
-                  orgId: task?.orgId,
-                  locationId: it.locationId,
-                  locationName: it.locationName,
-                  quantity: diff,
-                  availableQuantity: diff,
-                  frozenQuantity: 0,
-                  unit: '',
-                  lastInboundDate: today,
-                },
-              ];
-            }
+          } else if (diff > 0) {
+            records = [
+              ...records,
+              {
+                id: `inv-${it.materialId}-${it.locationId || 'default'}-${Date.now()}`,
+                materialId: it.materialId,
+                materialCode: it.materialCode || '',
+                materialName: it.materialName || '',
+                specification: '',
+                warehouseId: whId,
+                warehouseName: whName,
+                orgId: task?.orgId,
+                locationId: it.locationId,
+                locationName: it.locationName,
+                quantity: diff,
+                availableQuantity: diff,
+                frozenQuantity: 0,
+                unit: '',
+                lastInboundDate: today,
+              },
+            ];
           }
-          return {
-            inventoryRecords: records,
-            checkTasks: state.checkTasks.map((t) =>
-              t.id === taskId ? { ...t, status: 'completed', items, endDate: today } : t
-            ),
-          };
-        }),
+        }
+        set({
+          inventoryRecords: records,
+          checkTasks: state.checkTasks.map((t) =>
+            t.id === taskId ? { ...t, status: 'completed', items, endDate: today } : t
+          ),
+        });
+        if (task && isAuthed()) {
+          entityRepo
+            .update('checkTask', taskId, toCheckTaskPayload({ status: 'completed', endDate: today, items }) as Partial<CheckTask>)
+            .catch(() => {});
+        }
+      },
 
       // Batch CRUD
       addBatchRecord: (batch) =>
@@ -1056,6 +1096,36 @@ export const useWarehouseStore = create<WarehouseState>()(
           /* 离线/未登录/接口异常：保持内存 mock，不阻断 UI */
         }
       },
+
+      // V2.81.0 盘点任务迁真实 D1（根治 Blob 双通道）
+      // 在线：从 /api/entities/checkTask 拉取（org 隔离、RLS）；首次空库回填 mock 演示态（flag 防重复）。
+      // 离线/未登录/异常：保持内存 mock，不阻断 UI。
+      loadCheckTasks: async () => {
+        if (!isAuthed()) return;
+        try {
+          const res = await entityRepo.list<CheckTask>('checkTask', { page: 1, pageSize: 200 });
+          const list = (res?.data || []) as CheckTask[];
+          const parsed = list.map(parseCheckTask);
+          if (parsed.length === 0 && !localStorage.getItem(CHECKTASK_BACKFILL_FLAG)) {
+            // D1 空库：仅首次把 mock 演示种子回填一次（避免污染/重复），迁移后成为多人共享真源
+            localStorage.setItem(CHECKTASK_BACKFILL_FLAG, '1');
+            for (const task of mockCheckTasks) {
+              try {
+                await entityRepo.create('checkTask', toCheckTaskPayload(task) as Partial<CheckTask>);
+              } catch {
+                /* 编码冲突等忽略，回填尽力而为 */
+              }
+            }
+            const refreshed = await entityRepo.list<CheckTask>('checkTask', { page: 1, pageSize: 200 });
+            const r2 = (refreshed?.data || []).map(parseCheckTask);
+            set({ checkTasks: r2.length ? r2 : [...mockCheckTasks] });
+            return;
+          }
+          set({ checkTasks: parsed.length ? parsed : [...mockCheckTasks] });
+        } catch {
+          /* 离线/未登录/接口异常：保持内存 mock，不阻断 UI */
+        }
+      },
     }),
     { storage: backendStorage,
     
@@ -1064,9 +1134,9 @@ export const useWarehouseStore = create<WarehouseState>()(
       // 只持久化业务数据，UI 选中态不落盘
       // 根治双通道：inboundOrders/outboundOrders 已迁真实 D1（loadWarehouseOrders 拉取 + 各动作写回），
       // inventoryRecords/batchRecords 为 D1 单据派生的库存缓存（load 时重算），三者均不再落 Blob。
-      // 仅 checkTasks/inventoryAlerts/finishedGoodsInbounds 无 D1 后端，仍走 Blob（非双通道）。
+      // checkTasks（V2.81.0）亦已迁真实 D1（loadCheckTasks 拉取 + 各动作写回 /api/entities/checkTask）。
+      // 仅 inventoryAlerts/finishedGoodsInbounds 仍无 D1 后端，走 Blob（非双通道）。
       partialize: (state) => ({
-        checkTasks: state.checkTasks,
         inventoryAlerts: state.inventoryAlerts,
         finishedGoodsInbounds: state.finishedGoodsInbounds,
       }),
