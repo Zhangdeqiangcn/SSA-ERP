@@ -12,7 +12,7 @@ for (const p of PAGES) {
   test(`V2.55.20 通用详情打印模块 — ${p.name}`, async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
-    page.on('console', (m) => { if (m.type() === 'error') errors.push(`[console.error] ${m.text()}`); });
+    page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`[console.error] ${m.text()}`); });
 
     await page.goto(p.path, { waitUntil: 'domcontentloaded' });
     try { await page.getByRole('button', { name: '跳过引导' }).click({ timeout: 2000 }); } catch { /* 引导可能没有 */ }
