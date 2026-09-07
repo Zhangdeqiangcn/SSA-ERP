@@ -11,6 +11,7 @@ import {
   Verified as VerifiedIcon,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { preprocessInvoiceImage, extractInvoiceFields } from '@/services/invoiceOcr';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useAnalyticsStore } from '@/stores/analyticsStore';
 import { useInvoiceVerificationStore } from '@/stores/invoiceVerificationStore';
@@ -35,6 +36,11 @@ interface ParsedInvoice {
   taxRate: string;
   taxAmount: number;
   total: number;
+  // V2.80：大模型抽取扩展字段（正则兜底时可能为空）
+  invoiceCode?: string;
+  buyerTaxNo?: string;
+  sellerTaxNo?: string;
+  items?: string;
   rawText?: string;
   confidence?: number;
   duration?: number;
@@ -94,9 +100,26 @@ export default function InvoiceOcr() {
   // P2-B OCR 浏览器端化：默认走云端后端，可选浏览器本地识别（绕开后端 Worker 风险，离线可用）
   const [ocrMode, setOcrMode] = useState<'cloud' | 'local'>('cloud');
 
-  // 文本模式识别
-  const handleRecognize = () => {
-    const result = parseInvoice(text);
+  // 文本模式识别（V2.80：大模型抽取优先，正则兜底）
+  const handleRecognize = async () => {
+    const extracted = await extractInvoiceFields(text);
+    const result: ParsedInvoice = extracted
+      ? {
+          invoiceNo: extracted.invoiceNo || '',
+          invoiceDate: extracted.invoiceDate || '',
+          buyer: extracted.buyerName || '',
+          seller: extracted.sellerName || '',
+          amount: extracted.amount || 0,
+          taxRate: extracted.taxRate || '',
+          taxAmount: extracted.taxAmount || 0,
+          total: extracted.totalAmount || 0,
+          invoiceCode: extracted.invoiceCode || '',
+          buyerTaxNo: extracted.buyerTaxNo || '',
+          sellerTaxNo: extracted.sellerTaxNo || '',
+          items: extracted.items || '',
+          rawText: text,
+        }
+      : parseInvoice(text);
     setParsed(result);
   };
 
@@ -163,12 +186,35 @@ export default function InvoiceOcr() {
           if (m.status === 'recognizing text') setProgress(Math.round((m.progress || 0) * 100));
         },
       });
-      const { data } = await worker.recognize(file);
+      // V2.80：识别前图像预处理（灰度+二值化+降噪）提升中文识别率
+      const blob = await preprocessInvoiceImage(file);
+      const { data } = await worker.recognize(blob);
       await worker.terminate();
-      const result = parseInvoice(data.text);
-      result.rawText = data.text;
-      result.confidence = data.confidence;
-      result.duration = undefined;
+      const extracted = await extractInvoiceFields(data.text);
+      const result: ParsedInvoice = extracted
+        ? {
+            invoiceNo: extracted.invoiceNo || '',
+            invoiceDate: extracted.invoiceDate || '',
+            buyer: extracted.buyerName || '',
+            seller: extracted.sellerName || '',
+            amount: extracted.amount || 0,
+            taxRate: extracted.taxRate || '',
+            taxAmount: extracted.taxAmount || 0,
+            total: extracted.totalAmount || 0,
+            invoiceCode: extracted.invoiceCode || '',
+            buyerTaxNo: extracted.buyerTaxNo || '',
+            sellerTaxNo: extracted.sellerTaxNo || '',
+            items: extracted.items || '',
+            rawText: data.text,
+            confidence: data.confidence,
+            duration: undefined,
+          }
+        : (() => {
+            const r = parseInvoice(data.text);
+            r.rawText = data.text;
+            r.confidence = data.confidence;
+            return r;
+          })();
       setParsed(result);
       setSnack(`浏览器本地识别完成（离线可用）！置信度 ${Math.round(data.confidence || 0)}%`);
     } catch (err: any) {
@@ -403,6 +449,30 @@ export default function InvoiceOcr() {
                     value={parsed.seller}
                     onChange={(e) => setField('seller', e.target.value)}
                     data-testid="ocr-seller"
+                  />
+                  <TextField
+                    label="发票代码"
+                    value={parsed.invoiceCode || ''}
+                    onChange={(e) => setField('invoiceCode', e.target.value)}
+                    data-testid="ocr-invoice-code"
+                  />
+                  <TextField
+                    label="购买方税号"
+                    value={parsed.buyerTaxNo || ''}
+                    onChange={(e) => setField('buyerTaxNo', e.target.value)}
+                    data-testid="ocr-buyer-tax"
+                  />
+                  <TextField
+                    label="销售方税号"
+                    value={parsed.sellerTaxNo || ''}
+                    onChange={(e) => setField('sellerTaxNo', e.target.value)}
+                    data-testid="ocr-seller-tax"
+                  />
+                  <TextField
+                    label="主要货物/劳务"
+                    value={parsed.items || ''}
+                    onChange={(e) => setField('items', e.target.value)}
+                    data-testid="ocr-items"
                   />
                   <TextField
                     label="金额(不含税)"

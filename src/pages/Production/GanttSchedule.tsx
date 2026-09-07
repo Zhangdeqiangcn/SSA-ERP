@@ -151,9 +151,27 @@ export default function GanttSchedule() {
     return res;
   }, [centers, days, ordersByCenter]);
 
+  // 工单级锁/锚聚合：把「工序级锁 wo.id:op.id」(详细排产页写入) 与「工单级锁 wo.id」(甘特页锁钮写入)
+  // 聚合为工单级 { locked, anchorDate }，供排产引擎统一消费。
+  // 这是 P2-04 从「壳」变真功能的关键：原甘特只认 wo.id 级锁、且从不读 anchorDate，
+  // 导致详细排产页的锁/锚对真实排产完全无效。
+  const woLockState = useMemo(() => {
+    const m: Record<string, { locked: boolean; anchorDate?: string }> = {};
+    Object.values(locks).forEach((l) => {
+      const woId = l.key.split(':')[0];
+      if (!woId) return;
+      const prev = m[woId];
+      m[woId] = {
+        locked: prev?.locked || l.locked,
+        anchorDate: l.anchorDate ?? prev?.anchorDate,
+      };
+    });
+    return m;
+  }, [locks]);
+
   // 拖拽：按像素位移换算天数并改期
   const onBarPointerDown = (e: React.PointerEvent, wo: WorkOrder) => {
-    if (locks[wo.id]?.locked) return; // 锁定的工单不可拖拽
+    if (woLockState[wo.id]?.locked) return; // 锁定的工单不可拖拽
     e.preventDefault();
     const startX = e.clientX;
     const track = (e.currentTarget as HTMLElement).parentElement;
@@ -183,7 +201,7 @@ export default function GanttSchedule() {
   };
 
   const shift = (wo: WorkOrder, delta: number) => {
-    if (locks[wo.id]?.locked) return; // 锁定的工单不可手动改期
+    if (woLockState[wo.id]?.locked) return; // 锁定的工单不可手动改期
     updateWorkOrder(wo.id, {
       plannedStartDate: addDays(wo.plannedStartDate, delta),
       plannedEndDate: addDays(wo.plannedEndDate, delta),
@@ -202,10 +220,11 @@ export default function GanttSchedule() {
       );
       let cursor = cursorBase;
       wos.forEach((wo) => {
-        if (locks[wo.id]?.locked) return; // 锁定的工单保持原位，不参与顺排
+        if (woLockState[wo.id]?.locked) return; // 锁定的工单保持原位，不参与顺排
         const h = woHours(wo);
         const dur = Math.max(1, Math.ceil(h / cap));
-        const start = cursor;
+        // 锚定日钉住开始日：详细排产页指定的计划开始日优先于顺排游标
+        const start = woLockState[wo.id]?.anchorDate ?? cursor;
         const end = addDays(start, dur - 1);
         updateWorkOrder(wo.id, { plannedStartDate: start, plannedEndDate: end });
         cursor = addDays(end, 1);
@@ -258,11 +277,13 @@ export default function GanttSchedule() {
       if (schedulingMode === 'forward') {
         let cursor = windowStart;
         wos.forEach((wo) => {
-          if (locks[wo.id]?.locked) return; // 锁定的工单不参与自动重排
+          if (woLockState[wo.id]?.locked) return; // 锁定的工单不参与自动重排
           const h = woHours(wo);
           const dur = Math.max(1, Math.ceil(h / cap));
-          updateWorkOrder(wo.id, { plannedStartDate: cursor, plannedEndDate: addDays(cursor, dur - 1) });
-          cursor = addDays(cursor, dur);
+          // 锚定日钉住开始日（正排）
+          const start = woLockState[wo.id]?.anchorDate ?? cursor;
+          updateWorkOrder(wo.id, { plannedStartDate: start, plannedEndDate: addDays(start, dur - 1) });
+          cursor = addDays(start, dur);
           resolvedCount++;
         });
       } else {
@@ -270,11 +291,12 @@ export default function GanttSchedule() {
         let cursor = windowEnd;
         const reversed = [...wos].reverse();
         reversed.forEach((wo) => {
-          if (locks[wo.id]?.locked) return; // 锁定的工单不参与自动重排
+          if (woLockState[wo.id]?.locked) return; // 锁定的工单不参与自动重排
           const h = woHours(wo);
           const dur = Math.max(1, Math.ceil(h / cap));
-          const endDate = cursor;
-          const startDate = addDays(cursor, -(dur - 1));
+          // 锚定日钉住结束日（倒排）
+          const endDate = woLockState[wo.id]?.anchorDate ?? cursor;
+          const startDate = addDays(endDate, -(dur - 1));
           updateWorkOrder(wo.id, { plannedStartDate: startDate, plannedEndDate: endDate });
           cursor = addDays(startDate, -1);
           resolvedCount++;
@@ -439,15 +461,15 @@ export default function GanttSchedule() {
                             <Typography variant="caption" fontWeight={700} sx={{ fontSize: '0.66rem', lineHeight: 1.1, display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, minWidth: 0 }}>
                               {wo.orderNo}
                             </Typography>
-                            <Tooltip title={locks[wo.id]?.locked ? '已锁单（拖拽/改期/自动重排均跳过）' : '点击锁单，防止被排程调整移动'}>
+                            <Tooltip title={woLockState[wo.id]?.locked ? '已锁单（拖拽/改期/自动重排均跳过）' : '点击锁单，防止被排程调整移动'}>
                               <IconButton
                                 size="small"
                                 data-testid={`wo-lock-${wo.id}`}
-                                aria-label={locks[wo.id]?.locked ? '解锁工单' : '锁单'}
+                                aria-label={woLockState[wo.id]?.locked ? '解锁工单' : '锁单'}
                                 onClick={(e) => { e.stopPropagation(); toggleLock(wo.id); }}
-                                sx={{ color: locks[wo.id]?.locked ? '#FBBF24' : 'rgba(255,255,255,0.75)', p: 0.1, flexShrink: 0 }}
+                                sx={{ color: woLockState[wo.id]?.locked ? '#FBBF24' : 'rgba(255,255,255,0.75)', p: 0.1, flexShrink: 0 }}
                               >
-                                {locks[wo.id]?.locked ? <LockIcon sx={{ fontSize: 14 }} /> : <LockOpenIcon sx={{ fontSize: 14 }} />}
+                                {woLockState[wo.id]?.locked ? <LockIcon sx={{ fontSize: 14 }} /> : <LockOpenIcon sx={{ fontSize: 14 }} />}
                               </IconButton>
                             </Tooltip>
                           </Stack>

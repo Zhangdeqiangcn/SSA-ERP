@@ -18,6 +18,16 @@ const DEV_EXPECTED_API = [
   /localhost:3000\/api\/tax-gateway\/verify/,
   // ChatBI 走 /api/chatbi/analyze（后端 252 行关键词→SQL，未做本地复刻），DEV 下同样缺失
   /localhost:3000\/api\/chatbi\/analyze/,
+  // V2.77 起以下 8 域改为直连真实 D1（去 Blob），未登录 DEV 下 fire-and-forget（即发即弃）双写
+  // 这些端点会返回 500，前端据此回退 Blob、界面零回归——属「在线同步失败」预期内噪声，不计错误。
+  /localhost:3000\/api\/serial-numbers/,
+  /localhost:3000\/api\/subcontracts/,
+  /localhost:3000\/api\/sales-orders/,
+  /localhost:3000\/api\/work-orders/,
+  /localhost:3000\/api\/vouchers/,
+  /localhost:3000\/api\/stock-transfers/,
+  /localhost:3000\/api\/inventory-adjustments/,
+  /localhost:3000\/api\/quality-holds/,
 ];
 
 function collectErrors(page: any) {

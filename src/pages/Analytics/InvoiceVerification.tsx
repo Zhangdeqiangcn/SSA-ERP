@@ -105,6 +105,8 @@ const InvoiceVerification: React.FC = () => {
   const [ocrHint, setOcrHint] = useState<string | null>(null);
   /** 核验数据来源：server=生产网关 / local=本地演示核验 */
   const [source, setSource] = useState<'server' | 'local'>('server');
+  /** 本次批次核验通道：real=真实第三方 / mock=模拟兜底（仅 server 时有意义） */
+  const [verifiedBy, setVerifiedBy] = useState<'real' | 'mock' | null>(null);
   /** 本次结果是否来自 OCR 队列（用于台账标注来源） */
   const ocrLoadedRef = useRef(false);
 
@@ -291,10 +293,12 @@ const InvoiceVerification: React.FC = () => {
 
       finalResults = data.data.results as VerifyResult[];
       setSource('server');
+      setVerifiedBy((data.data?.verifiedBy as 'real' | 'mock') || 'mock');
     } catch {
       // 无服务端网关 → 本地同口径演示核验，保证流程可用（结果口径与服务端一致）
       finalResults = localVerify(invoices);
       setSource('local');
+      setVerifiedBy(null);
     } finally {
       setResults(finalResults);
       setLoading(false);
@@ -403,18 +407,26 @@ const InvoiceVerification: React.FC = () => {
           <Typography variant="h5">数电票批量核验</Typography>
           <Chip label="P2-06" size="small" color="info" />
           {results.length > 0 && (
-            <Tooltip
+              <Tooltip
               title={
-                source === 'server'
-                  ? '结果来自服务端金税网关 /api/tax-gateway/verify'
-                  : '当前环境无服务端核验接口（DEV/离线），已按与服务端完全一致的演示口径在本地核验'
+                source === 'local'
+                  ? '当前环境无服务端核验接口（DEV/离线），已按演示口径在本地核验'
+                  : verifiedBy === 'real'
+                    ? '结果来自服务端真实第三方查验通道（已配置服务商凭证），可采信'
+                    : '服务端已启用但未配置真实通道凭证，结果为模拟兜底，不可作为验真依据'
               }
             >
               <Chip
                 size="small"
                 data-testid="verify-source"
-                label={source === 'server' ? '服务端核验' : '本地演示核验'}
-                color={source === 'server' ? 'primary' : 'default'}
+                label={
+                  source === 'local'
+                    ? '本地演示核验'
+                    : verifiedBy === 'real'
+                      ? '服务端核验（真实通道）'
+                      : '服务端核验（模拟兜底）'
+                }
+                color={source === 'local' ? 'default' : verifiedBy === 'real' ? 'primary' : 'warning'}
                 variant="outlined"
               />
             </Tooltip>
@@ -988,10 +1000,11 @@ const InvoiceVerification: React.FC = () => {
           <li>每次核验自动生成批次并写入审计日志（设置 → 审计日志可查）</li>
           <li>历史台账最多保留最近 50 批，可随时复查、载入或导出</li>
           <li>
-            {source === 'server'
-              ? '当前走服务端金税网关；'
-              : '当前环境为本地演示核验（口径与服务端一致）；'}
-            正式环境需配置第三方查验服务 API（etoplive 等）后由服务端接管
+            {source === 'local'
+              ? '当前环境无服务端核验接口，已按演示口径在本地核验；'
+              : verifiedBy === 'real'
+                ? '当前走服务端真实第三方通道（已配置服务商凭证），结果可采信；'
+                : '服务端已启用但未配置真实通道凭证，结果为模拟兜底，不可作为验真依据；正式验真需在 Cloudflare KV（TAX_GATEWAY）配置企业税号+服务商账号+密钥'}
           </li>
         </ul>
       </Alert>

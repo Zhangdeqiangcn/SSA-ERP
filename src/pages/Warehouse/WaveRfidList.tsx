@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
@@ -28,7 +28,13 @@ const OP_COLORS: Record<RfidOpType, string> = {
 
 const WaveRfidList: React.FC = () => {
   const { waves, rfidEvents, addWave, updateWave, deleteWave, addRfidEvent, deleteRfidEvent } = useWaveRfidStore();
+  const load = useWaveRfidStore((s) => s.load);
   const [tab, setTab] = useState<'wave' | 'rfid'>('wave');
+
+  // V2.80.0 W2：挂载即从 D1 拉取波次/RFID 数据（离线/Mock 兜底，不阻断 UI）
+  useEffect(() => {
+    load();
+  }, [load]);
 
   // 波次 新建/编辑
   const [open, setOpen] = useState(false);

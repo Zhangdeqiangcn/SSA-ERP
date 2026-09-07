@@ -12,7 +12,19 @@ import { test, expect } from './ssa-fixtures';
  * 存在，DEV 下必然失败——前端正是靠这个失败信号回退到本地同源重算，因此不计入错误。
  * 白名单之外的一切 4xx/5xx 与 JS 异常仍然必须为零。
  */
-const DEV_EXPECTED_API = [/localhost:3000\/api\/alerts/];
+const DEV_EXPECTED_API = [
+  /localhost:3000\/api\/alerts/,
+  // V2.77 起以下 8 域改为直连真实 D1（去 Blob），未登录 DEV 下 fire-and-forget 双写返回 500，
+  // 前端回退 Blob、界面零回归——属「在线同步失败」预期内噪声，不计错误。
+  /localhost:3000\/api\/serial-numbers/,
+  /localhost:3000\/api\/subcontracts/,
+  /localhost:3000\/api\/sales-orders/,
+  /localhost:3000\/api\/work-orders/,
+  /localhost:3000\/api\/vouchers/,
+  /localhost:3000\/api\/stock-transfers/,
+  /localhost:3000\/api\/inventory-adjustments/,
+  /localhost:3000\/api\/quality-holds/,
+];
 
 test('预警规则配置：开合对话框 + 规则启停联动 + 阈值写入 + 恢复默认', { timeout: 120000 }, async ({ page }) => {
   const errors: string[] = [];

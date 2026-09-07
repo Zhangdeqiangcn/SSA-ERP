@@ -4,7 +4,7 @@ import { test, expect } from './ssa-fixtures';
 test('B9 AQL 抽样方案计算 + 动态检验规则', { timeout: 60000 }, async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
+  page.on('console', m => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`console: ${m.text()}`); });
 
   await page.goto('http://localhost:3000/quality/aql');
   await page.waitForLoadState('networkidle');

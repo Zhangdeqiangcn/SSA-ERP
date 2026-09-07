@@ -93,7 +93,7 @@ export default async function run(ctx, s) {
   s.info('发票 OCR 识别精度未做断言',
     '当前实现为文本正则解析（未接 OCR/大模型），精度类断言待模型对接后补充');
 
-  // ==================== 数电票核验（已知为桩实现） ====================
+  // ==================== 数电票核验（真实通道已就位，默认模拟兜底） ====================
   const taxInfo = await req('GET', '/api/tax-gateway/verify', { token });
   s.expectTrue('GET /api/tax-gateway/verify 端点说明可用', isRealEndpoint(taxInfo), `status=${taxInfo.status}`);
   const taxEmpty = await req('POST', '/api/tax-gateway/verify', { token, body: { invoices: [] } });
@@ -106,8 +106,8 @@ export default async function run(ctx, s) {
   s.expectTrue('核验返回统计结构（data.total/valid/invalid/error）',
     taxOne.data?.data && typeof taxOne.data.data.total === 'number' && Array.isArray(taxOne.data.data.results),
     `total=${taxOne.data?.data?.total} results=${Array.isArray(taxOne.data?.data?.results) ? taxOne.data.data.results.length : 'N/A'}`);
-  s.info('数电票核验为桩实现（唯一确认桩）',
-    'functions/api/tax-gateway/verify.ts 为 mock + TODO，未对接真实税局接口；本断言仅护栏契约不回归');
+  s.info('数电票核验真实通道已就位（默认模拟兜底）',
+    'functions/api/tax-gateway/verify.ts 已写真实 etoplive 通道 + 多服务商路由，响应标 verifiedBy（real/mock）；未配置服务商密钥时走 mock 兜底，本断言仅护栏契约不回归');
 
   const taxOver = await req('POST', '/api/tax-gateway/verify', {
     token, body: { invoices: new Array(101).fill({ invoiceNo: 'X', amount: 1 }) },

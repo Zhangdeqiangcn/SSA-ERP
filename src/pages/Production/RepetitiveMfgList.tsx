@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
@@ -23,8 +23,9 @@ const LINE_COLORS: Record<RepLineStatus, string> = { running: '#10B981', idle: '
 const PERIOD_COLORS: Record<RepPeriodStatus, string> = { active: '#3B82F6', closed: '#6366F1' };
 
 const RepetitiveMfgList: React.FC = () => {
-  const { lines, periods, addLine, updateLine, deleteLine, addPeriod, updatePeriod, deletePeriod, reportProduction } = useRepetitiveMfgStore();
+  const { lines, periods, addLine, updateLine, deleteLine, addPeriod, updatePeriod, deletePeriod, reportProduction, load } = useRepetitiveMfgStore();
   const [tab, setTab] = useState<'line' | 'period'>('line');
+  useEffect(() => { load(); }, [load]);
 
   // 生产线 新建/编辑
   const [openLine, setOpenLine] = useState(false);

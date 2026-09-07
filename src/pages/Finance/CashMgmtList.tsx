@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Tabs, Tab, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -22,6 +22,8 @@ export default function CashMgmtList() {
   const updateFlow = useCashMgmtStore((s) => s.updateFlow);
   const deleteFlow = useCashMgmtStore((s) => s.deleteFlow);
   const nextNo = useNumberingStore((s) => s.nextNo);
+  const load = useCashMgmtStore((s) => s.load);
+  useEffect(() => { load(); }, [load]);
 
   const [tab, setTab] = useState<'acc' | 'flow'>('acc');
   const [accOpen, setAccOpen] = useState(false);

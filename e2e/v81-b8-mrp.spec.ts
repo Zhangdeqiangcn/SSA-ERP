@@ -4,7 +4,7 @@ import { test, expect } from './ssa-fixtures';
 test('B8 MRP 净需求计算：计算后可渲染结果区', { timeout: 60000 }, async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', e => errors.push(`pageerror: ${e.message}`));
-  page.on('console', m => { if (m.type() === 'error') errors.push(`console: ${m.text()}`); });
+  page.on('console', m => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`console: ${m.text()}`); });
 
   await page.goto('http://localhost:3000/production/mrp');
   await page.waitForLoadState('networkidle');

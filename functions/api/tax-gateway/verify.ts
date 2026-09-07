@@ -27,6 +27,8 @@ interface VerifyResult {
   message?: string;
   parsed?: InvoiceDetail;
   checkedAt: string;
+  /** 本张发票核验走的是真实第三方通道还是本地模拟（V2.80 新增，用于前端明确标注真/假） */
+  channel?: 'real' | 'mock';
 }
 
 interface InvoiceDetail {
@@ -58,7 +60,7 @@ async function mockVerifyInvoice(item: InvoiceItem): Promise<VerifyResult> {
         type: item.type,
         isValid: isMockValid,
         status: isMockValid ? 'valid' : 'error',
-        message: isMockValid ? '查验通过' : '查验失败：发票号格式错误',
+        message: isMockValid ? '模拟查验通过（未配置真实通道）' : '查验失败：发票号格式错误',
         parsed: isMockValid ? {
           invoiceNumber: invoiceNo,
           invoiceType: item.type,
@@ -67,33 +69,113 @@ async function mockVerifyInvoice(item: InvoiceItem): Promise<VerifyResult> {
           taxAmount: item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13,
           totalAmount: item.totalAmount || item.amount * 1.13,
         } : undefined,
+        channel: 'mock',
         checkedAt: new Date().toISOString(),
       });
     }, Math.random() * 500 + 200);
   });
 }
 
-// 实际对接示例：etoplive API
-async function etopliveVerifyInvoice(item: InvoiceItem, apiKey: string, apiSecret: string): Promise<VerifyResult> {
-  // TODO: 替换为真实的etoplive API调用
-  // const res = await fetch('https://www.etoplive.com/api/invchk.srvc', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-  //   body: new URLSearchParams({
-  //     key: apiKey,
-  //     secret: apiSecret,
-  //     FPLX: item.type,
-  //     FPDM: item.code || '',
-  //     FPHM: item.number,
-  //     KPRQ: item.date.replace(/-/g, ''),
-  //     FPJE: item.amount.toString(),
-  //     JYM: item.checkCode || '',
-  //     JSHJ: (item.totalAmount || item.amount).toString(),
-  //   }),
-  // });
-  // const data = await res.json();
-  // return { ... };
-  return mockVerifyInvoice(item);
+// ── 真实查验通道骨架（V2.80） ──────────────────────────────────
+// 税务局官平台对企业不开放公开 API，须经持牌第三方（etoplive / 航信 / 百望 / 票联云等）。
+// 凭证来自 KV 命名空间 TAX_GATEWAY 的 config：{ provider, apiKey, apiSecret, ... }
+// 未配置 apiKey 时绝不调用真实接口（本函数与上层路由默认走 mock）。
+interface GatewayConfig {
+  provider?: string;
+  apiKey?: string;
+  apiSecret?: string;
+  [k: string]: any;
+}
+
+/** 统一映射第三方返回为 VerifyResult */
+function toResult(
+  item: InvoiceItem,
+  ok: boolean,
+  detail: Partial<InvoiceDetail>,
+  msg: string,
+  channel: 'real' | 'mock'
+): VerifyResult {
+  return {
+    invoiceNo: item.number,
+    type: item.type,
+    isValid: ok,
+    status: ok ? 'valid' : 'invalid',
+    message: msg,
+    parsed: ok
+      ? {
+          invoiceNumber: item.number,
+          invoiceType: item.type,
+          invoiceDate: item.date,
+          amount: item.amount,
+          taxAmount: detail.taxAmount ?? (item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13),
+          totalAmount: detail.totalAmount ?? item.totalAmount ?? item.amount * 1.13,
+          ...detail,
+        }
+      : undefined,
+    channel,
+    checkedAt: new Date().toISOString(),
+  };
+}
+
+// etoplive 真实查验（按官方发票查验接口参数构造，application/x-www-form-urlencoded）
+async function etopliveVerifyInvoice(item: InvoiceItem, cfg: GatewayConfig): Promise<VerifyResult> {
+  const body = new URLSearchParams({
+    key: cfg.apiKey || '',
+    secret: cfg.apiSecret || '',
+    FPLX: item.type,
+    FPDM: item.code || '',
+    FPHM: item.number,
+    KPRQ: item.date.replace(/-/g, ''),
+    FPJE: item.amount.toString(),
+    JYM: item.checkCode || '',
+    JSHJ: (item.totalAmount || item.amount).toString(),
+  });
+  const res = await fetch('https://www.etoplive.com/api/invchk.srvc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!res.ok) {
+    return toResult(item, false, {}, `真实查验失败：HTTP ${res.status}`, 'real');
+  }
+  const data: any = await res.json().catch(() => null);
+  // 各服务商返回结构需按实际文档微调；此处按常见“成功/一致”字段判定
+  const success =
+    !!data && (data.code === '0' || data.success === true || data.status === 'SUCCESS' || data.fpzt === '正常' || data.valid === true);
+  if (!success) {
+    return toResult(
+      item,
+      false,
+      {},
+      `真实查验不一致：${data?.message || data?.msg || JSON.stringify(data || {}).slice(0, 80)}`,
+      'real'
+    );
+  }
+  return toResult(
+    item,
+    true,
+    {
+      invoiceCode: item.code,
+      buyerName: data.gmfmc || data.buyerName,
+      sellerName: data.xsfmc || data.sellerName,
+      sellerTaxNo: data.xsfsh || data.sellerTaxNo,
+      taxAmount: Number(data.se || data.taxAmount || (item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13)),
+      totalAmount: Number(data.jshj || data.totalAmount || item.totalAmount),
+    },
+    '真实查验通过（第三方通道）',
+    'real'
+  );
+}
+
+// 通用路由：按 config.provider 选择真实服务商；未实现则抛错（上层转 error 状态，绝不静默回退 mock 误判为通过）
+async function realVerifyInvoice(item: InvoiceItem, cfg: GatewayConfig): Promise<VerifyResult> {
+  switch (cfg.provider) {
+    case 'etoplive':
+      return etopliveVerifyInvoice(item, cfg);
+    // 航信 / 百望 / 票联云等同理，按各自文档实现后加入 case；当前未接通
+    default:
+      throw new Error(`服务商 ${cfg.provider || '未指定'} 真实通道研发中，请改用 etoplive 或配置 manual 走模拟`);
+  }
 }
 
 export async function onRequestPost(context: any) {
@@ -127,13 +209,28 @@ export async function onRequestPost(context: any) {
   const results: VerifyResult[] = [];
   const concurrency = 5; // 并发限制
 
+  // 真实通道判定：KV 配置了 apiKey 且 provider 非 manual 才走真实第三方；否则一律模拟兜底
+  const useReal = !!(config?.apiKey && config?.provider && config.provider !== 'manual');
+
   for (let i = 0; i < invoices.length; i += concurrency) {
     const batch = invoices.slice(i, i + concurrency);
     await Promise.all(batch.map(async (item: InvoiceItem) => {
       try {
         let result: VerifyResult;
-        if (provider === 'etoplive' && config?.apiKey) {
-          result = await etopliveVerifyInvoice(item, config.apiKey, config.apiSecret || '');
+        if (useReal) {
+          try {
+            result = await realVerifyInvoice(item, config);
+          } catch (e: any) {
+            result = {
+              invoiceNo: item.number,
+              type: item.type,
+              isValid: false,
+              status: 'error',
+              message: e.message || '真实通道异常',
+              channel: 'real',
+              checkedAt: new Date().toISOString(),
+            };
+          }
         } else {
           result = await mockVerifyInvoice(item);
         }
@@ -145,6 +242,7 @@ export async function onRequestPost(context: any) {
           isValid: false,
           status: 'error',
           message: e.message || '查验异常',
+          channel: useReal ? 'real' : 'mock',
           checkedAt: new Date().toISOString(),
         });
       }
@@ -179,8 +277,10 @@ export async function onRequestPost(context: any) {
       invalid: invalidCount,
       error: errorCount,
       results,
+      // V2.80：明确告知前端本次批次走的是真实第三方通道还是本地模拟兜底
+      verifiedBy: useReal ? 'real' : 'mock',
     },
-    message: `核验完成：通过 ${validCount} 张，不通过 ${invalidCount} 张，异常 ${errorCount} 张`,
+    message: `核验完成：通过 ${validCount} 张，不通过 ${invalidCount} 张，异常 ${errorCount} 张${useReal ? '（真实通道）' : '（模拟兜底）'}`,
   });
 }
 

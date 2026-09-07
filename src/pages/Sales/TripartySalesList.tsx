@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -19,6 +19,8 @@ export default function TripartySalesList() {
   const updateSale = useTripartySalesStore((s) => s.updateSale);
   const deleteSale = useTripartySalesStore((s) => s.deleteSale);
   const nextNo = useNumberingStore((s) => s.nextNo);
+  const load = useTripartySalesStore((s) => s.load);
+  useEffect(() => { load(); }, [load]);
 
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);

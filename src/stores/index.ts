@@ -86,6 +86,7 @@ export { useReportPermissionStore } from './reportPermissionStore';
 export { useAnalyticsStore } from './analyticsStore';
 // P4-4 角色工作区与通知中心：实时通知聚合 + 待办汇总
 export { useNotificationStore, useNotificationData } from './notificationStore';
+export { useMessageStore, isMine } from './messageStore';
 // P1-12 应收应付独立管理
 export { useArapStore, computeAging } from './arapStore';
 // P4-1 个人工作台：个性化布局持久化

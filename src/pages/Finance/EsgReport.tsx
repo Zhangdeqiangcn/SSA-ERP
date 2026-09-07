@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Tabs, Tab, Paper, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem,
@@ -16,7 +16,10 @@ const nowStr = () => new Date().toISOString();
 export default function EsgReport() {
   const list = useEsgStore((s) => s.list);
   const addReport = useEsgStore((s) => s.addReport);
+  const load = useEsgStore((s) => s.load);
   const [cat, setCat] = useState<EsgCategory>('E');
+
+  useEffect(() => { load(); }, [load]);
 
   const [open, setOpen] = useState(false);
   const [reportNo, setReportNo] = useState('');

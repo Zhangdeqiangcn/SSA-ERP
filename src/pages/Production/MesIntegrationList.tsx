@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
@@ -24,9 +24,14 @@ const WIP_COLORS: Record<WipStatus, string> = { waiting: '#94A3B8', processing: 
 const OP_COLORS: Record<OpReportStatus, string> = { pending: '#94A3B8', in_progress: '#F59E0B', completed: '#10B981' };
 
 const MesIntegrationList: React.FC = () => {
-  const { connections, devices, wips, operationReports, addConnection, updateConnection, deleteConnection, syncConnection, addDevice, updateDevice, deleteDevice, addWip, updateWip, deleteWip, addOperationReport, updateOperationReport, deleteOperationReport } = useMesStore();
+  const { connections, devices, wips, operationReports, addConnection, updateConnection, deleteConnection, syncConnection, addDevice, updateDevice, deleteDevice, addWip, updateWip, deleteWip, addOperationReport, updateOperationReport, deleteOperationReport, load } = useMesStore();
   const nextNo = useNumberingStore((s) => s.nextNo);
   const [tab, setTab] = useState<'conn' | 'dev' | 'wip' | 'op'>('conn');
+
+  // V2.80.0 W1：挂载即从 D1 拉取 MES 集成数据（离线/Mock 兜底，不阻断 UI）
+  useEffect(() => {
+    load();
+  }, [load]);
 
   // 连接配置
   const [connOpen, setConnOpen] = useState(false);

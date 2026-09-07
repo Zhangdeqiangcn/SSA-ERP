@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -16,11 +16,17 @@ const nowStr = () => new Date().toISOString();
 
 export default function BiIntegration() {
   const list = useBiStore((s) => s.list);
+  const load = useBiStore((s) => s.load);
   const addConn = useBiStore((s) => s.addConn);
   const updateConn = useBiStore((s) => s.updateConn);
   const deleteConn = useBiStore((s) => s.deleteConn);
   const syncConnection = useBiStore((s) => s.syncConnection);
   const nextNo = useNumberingStore((s) => s.nextNo);
+
+  // V2.80.0 W1：挂载即从 D1 拉取 BI 连接（离线/Mock 兜底，不阻断 UI）
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const [open, setOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);

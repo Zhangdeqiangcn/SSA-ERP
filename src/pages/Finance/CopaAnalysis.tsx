@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Tabs, Tab, Paper, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem,
@@ -16,6 +16,13 @@ interface Row extends CopaRecord { grossProfit: number; margin: number; }
 export default function CopaAnalysis() {
   const list = useCopaStore((s) => s.list);
   const addRecord = useCopaStore((s) => s.addRecord);
+  const load = useCopaStore((s) => s.load);
+
+  // V2.80.0 W1：挂载即从 D1 拉取 COPA 分析行（离线/Mock 兜底，不阻断 UI）
+  useEffect(() => {
+    load();
+  }, [load]);
+
   const [dim, setDim] = useState<CopaDimension>('product');
 
   const [open, setOpen] = useState(false);
