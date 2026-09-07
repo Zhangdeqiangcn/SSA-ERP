@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "2.75.5",
+  "version": "2.81.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "build:fast": "node node_modules/vite/bin/vite.js build",
     "typecheck": "tsc --noEmit",
-    "test:prod-e2e": "node scripts/prod-e2e/run.mjs"
+    "test:prod-e2e": "node scripts/prod-e2e/run.mjs",
+    "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -24,10 +25,12 @@
     "@mui/x-charts": "^6.19.5",
     "@mui/x-date-pickers": "^6.19.9",
     "@tanstack/react-table": "^8.15.3",
+    "@zxing/library": "^0.21.3",
     "axios": "^1.20.0",
     "dayjs": "^1.11.10",
     "file-saver": "^2.0.5",
     "msw": "^2.2.13",
+    "qrcode": "^1.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.3",
@@ -41,6 +44,7 @@
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/file-saver": "^2.0.7",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^18.2.79",
     "@types/react-dom": "^18.2.25",
     "@typescript-eslint/eslint-plugin": "^7.7.0",

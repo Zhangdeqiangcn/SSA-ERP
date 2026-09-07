@@ -35,4 +35,14 @@ enableMocking().then(() => {
       </DynamicThemeProvider>
     </React.StrictMode>
   );
+
+  // PWA：仅生产环境注册 Service Worker（public/ssa-sw.js）。
+  // DEV 不注册——避免与 MSW 的 mockServiceWorker 冲突（同源只能有一个 SW）。
+  if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/ssa-sw.js').catch(() => {
+        /* SW 注册失败不影响应用本身（如非 HTTPS 环境自动跳过） */
+      });
+    });
+  }
 });

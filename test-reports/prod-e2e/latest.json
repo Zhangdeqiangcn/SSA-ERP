@@ -3,9 +3,9 @@
   "kind": "production-e2e",
   "verdict": "PASS",
   "base": "https://ssa-erp.pages.dev",
-  "runId": "260901094735",
-  "startedAt": "2026-09-01T09:47:35.750Z",
-  "durationMs": 62522,
+  "runId": "260904092858",
+  "startedAt": "2026-09-04T09:28:58.549Z",
+  "durationMs": 73833,
   "totals": {
     "pass": 239,
     "fail": 0,
@@ -15,15 +15,15 @@
   },
   "httpStats": {
     "calls": 203,
-    "totalMs": 62431,
+    "totalMs": 73756,
     "failures": 0,
-    "avgMs": 308
+    "avgMs": 363
   },
   "cleanup": {
     "attempted": 13,
     "removed": 12,
     "failed": [
-      "openres:materials/mate_3f5a70cca4944592b2db739ed2425550=404",
+      "openres:materials/mate_8c378c972f6a4f9fa89f578ffc7c9d2c=404",
       "customer(未知类型)",
       "material(未知类型)"
     ]
@@ -38,7 +38,7 @@
       "warn": 0,
       "info": 0,
       "total": 17,
-      "ms": 4276,
+      "ms": 4471,
       "results": [
         {
           "status": "PASS",
@@ -48,7 +48,7 @@
         {
           "status": "PASS",
           "name": "me 返回当前用户且组织一致",
-          "detail": "org_id=org_0f5a9d639e504801895f2ff456005e8c 期望=org_0f5a9d639e504801895f2ff456005e8c"
+          "detail": "org_id=org_7ff3322488604b3da75540b327d73db9 期望=org_7ff3322488604b3da75540b327d73db9"
         },
         {
           "status": "PASS",
@@ -68,12 +68,12 @@
         {
           "status": "PASS",
           "name": "同公司码注册普通用户（manager）",
-          "detail": "username=e2e_buyer1_260901094735"
+          "detail": "username=e2e_buyer1_260904092858"
         },
         {
           "status": "PASS",
           "name": "同公司码归并至同一组织 org_id",
-          "detail": "组织归并: 实际=\"org_0f5a9d639e504801895f2ff456005e8c\" 期望=\"org_0f5a9d639e504801895f2ff456005e8c\""
+          "detail": "组织归并: 实际=\"org_7ff3322488604b3da75540b327d73db9\" 期望=\"org_7ff3322488604b3da75540b327d73db9\""
         },
         {
           "status": "PASS",
@@ -135,7 +135,7 @@
       "warn": 0,
       "info": 0,
       "total": 11,
-      "ms": 2976,
+      "ms": 3547,
       "results": [
         {
           "status": "PASS",
@@ -155,7 +155,7 @@
         {
           "status": "PASS",
           "name": "写入返回 updated_at",
-          "detail": "updated_at=2026-09-01T09:47:41.969Z"
+          "detail": "updated_at=2026-09-04T09:29:05.075Z"
         },
         {
           "status": "PASS",
@@ -165,12 +165,12 @@
         {
           "status": "PASS",
           "name": "Blob 写→读 往返内容完全一致",
-          "detail": "读回={\"runId\":\"260901094735\",\"nested\":{\"a\":1,\"b\":[1,2,3]},\"ts\":1788256061528}"
+          "detail": "读回={\"runId\":\"260904092858\",\"nested\":{\"a\":1,\"b\":[1,2,3]},\"ts\":1788514144618}"
         },
         {
           "status": "PASS",
           "name": "同键覆盖更新生效（非追加）",
-          "detail": "读回={\"runId\":\"260901094735\",\"overwritten\":true}"
+          "detail": "读回={\"runId\":\"260904092858\",\"overwritten\":true}"
         },
         {
           "status": "PASS",
@@ -180,7 +180,7 @@
         {
           "status": "PASS",
           "name": "隔离校验组织 org_id 与主组织不同",
-          "detail": "other=org_17a2dead4fb145fdad7bc57b61b21cbe"
+          "detail": "other=org_fcdb31aff02d4537bf0573bd04d937a3"
         },
         {
           "status": "PASS",
@@ -202,7 +202,7 @@
       "warn": 0,
       "info": 0,
       "total": 25,
-      "ms": 5477,
+      "ms": 6103,
       "results": [
         {
           "status": "PASS",
@@ -339,7 +339,7 @@
       "warn": 0,
       "info": 0,
       "total": 20,
-      "ms": 4529,
+      "ms": 4437,
       "results": [
         {
           "status": "PASS",
@@ -349,12 +349,12 @@
         {
           "status": "PASS",
           "name": "创建回显 code 一致",
-          "detail": "实际=\"E2EV260901094735\" 期望=\"E2EV260901094735\""
+          "detail": "实际=\"E2EV260904092858\" 期望=\"E2EV260904092858\""
         },
         {
           "status": "PASS",
           "name": "创建返回 createdBy 审计字段",
-          "detail": "createdBy=user_c6abaca05856468490c9cd27f02fbb67"
+          "detail": "createdBy=user_42eb626a171e4cafba96d59b93d38a98"
         },
         {
           "status": "PASS",
@@ -409,7 +409,7 @@
         {
           "status": "PASS",
           "name": "【同源】前端 POST 创建的供应商在网关可见",
-          "detail": "网关 code=E2EV260901094735"
+          "detail": "网关 code=E2EV260904092858"
         },
         {
           "status": "PASS",
@@ -451,7 +451,7 @@
       "warn": 0,
       "info": 0,
       "total": 25,
-      "ms": 5072,
+      "ms": 5472,
       "results": [
         {
           "status": "PASS",
@@ -461,7 +461,7 @@
         {
           "status": "PASS",
           "name": "物料创建回显 code 一致",
-          "detail": "实际=\"E2EM260901094735\" 期望=\"E2EM260901094735\""
+          "detail": "实际=\"E2EM260904092858\" 期望=\"E2EM260904092858\""
         },
         {
           "status": "PASS",
@@ -501,7 +501,7 @@
         {
           "status": "PASS",
           "name": "【同源】前端创建的物料在网关可见",
-          "detail": "网关 code=E2EM260901094735"
+          "detail": "网关 code=E2EM260904092858"
         },
         {
           "status": "PASS",
@@ -526,7 +526,7 @@
         {
           "status": "PASS",
           "name": "客户创建回显 code 一致",
-          "detail": "实际=\"E2EC260901094735\" 期望=\"E2EC260901094735\""
+          "detail": "实际=\"E2EC260904092858\" 期望=\"E2EC260904092858\""
         },
         {
           "status": "PASS",
@@ -561,7 +561,7 @@
         {
           "status": "PASS",
           "name": "【同源】前端创建的客户在网关可见",
-          "detail": "网关 code=E2EC260901094735"
+          "detail": "网关 code=E2EC260904092858"
         },
         {
           "status": "PASS",
@@ -588,7 +588,7 @@
       "warn": 0,
       "info": 0,
       "total": 26,
-      "ms": 5361,
+      "ms": 8117,
       "results": [
         {
           "status": "PASS",
@@ -618,7 +618,7 @@
         {
           "status": "PASS",
           "name": "【FIFO 正确性】核销命中最早入库的 A(01-01)+B(02-02)",
-          "detail": "实际核销=[\"SN-260901094735-A\",\"SN-260901094735-B\"] 期望含=[\"SN-260901094735-A\",\"SN-260901094735-B\"]"
+          "detail": "实际核销=[\"SN-260904092858-A\",\"SN-260904092858-B\"] 期望含=[\"SN-260904092858-A\",\"SN-260904092858-B\"]"
         },
         {
           "status": "PASS",
@@ -628,7 +628,7 @@
         {
           "status": "PASS",
           "name": "剩余在库者为入库最晚的 C(03-03)",
-          "detail": "剩余=SN-260901094735-C"
+          "detail": "剩余=SN-260904092858-C"
         },
         {
           "status": "PASS",
@@ -658,7 +658,7 @@
         {
           "status": "PASS",
           "name": "委外单回显 order_no",
-          "detail": "实际=\"E2E-SUB-260901094735\" 期望=\"E2E-SUB-260901094735\""
+          "detail": "实际=\"E2E-SUB-260904092858\" 期望=\"E2E-SUB-260904092858\""
         },
         {
           "status": "PASS",
@@ -708,7 +708,7 @@
         {
           "status": "PASS",
           "name": "同工单同物料重复领料返回 409（幂等护栏）",
-          "detail": "status=409 既有 id=wop-40363091-dc30-49f0-a16c-449740be5e26"
+          "detail": "status=409 既有 id=wop-25c52ce6-fc1d-416c-bfdf-16d0cd8f0ab6"
         },
         {
           "status": "PASS",
@@ -730,7 +730,7 @@
       "warn": 0,
       "info": 0,
       "total": 41,
-      "ms": 9492,
+      "ms": 9440,
       "results": [
         {
           "status": "PASS",
@@ -740,7 +740,7 @@
         {
           "status": "PASS",
           "name": "read Key 返回明文 plainKey（仅此一次）",
-          "detail": "前缀=sk_9be…"
+          "detail": "前缀=sk_9dd…"
         },
         {
           "status": "PASS",
@@ -770,7 +770,7 @@
         {
           "status": "PASS",
           "name": "创建响应的 id 可在 Key 列表中查到（否则调用方无法吊销）",
-          "detail": "响应 id=ak_5e469421f0014e479f897cedf2157833 库内 id=ak_5e469421f0014e479f897cedf2157833"
+          "detail": "响应 id=ak_839c949b24b64765bbbff5b86d62a483 库内 id=ak_839c949b24b64765bbbff5b86d62a483"
         },
         {
           "status": "PASS",
@@ -885,7 +885,7 @@
         {
           "status": "PASS",
           "name": "网关创建内容落库正确（code）",
-          "detail": "实际=\"E2E-GW-260901094735\" 期望=\"E2E-GW-260901094735\""
+          "detail": "实际=\"E2E-GW-260904092858\" 期望=\"E2E-GW-260904092858\""
         },
         {
           "status": "PASS",
@@ -947,17 +947,17 @@
       "warn": 0,
       "info": 1,
       "total": 21,
-      "ms": 6925,
+      "ms": 8700,
       "results": [
         {
           "status": "PASS",
           "name": "准备两个同组织非特权用户",
-          "detail": "e2e_buyer1_260901094735(QA-采购部) / e2e_buyer2_260901094735(QA-采购二部)"
+          "detail": "e2e_buyer1_260904092858(QA-采购部) / e2e_buyer2_260904092858(QA-采购二部)"
         },
         {
           "status": "PASS",
           "name": "两用户属同一组织",
-          "detail": "b1=org_0f5a9d639e504801895f2ff456005e8c b2=org_0f5a9d639e504801895f2ff456005e8c"
+          "detail": "b1=org_7ff3322488604b3da75540b327d73db9 b2=org_7ff3322488604b3da75540b327d73db9"
         },
         {
           "status": "PASS",
@@ -972,7 +972,7 @@
         {
           "status": "PASS",
           "name": "创建时自动填入 owner_id（归属本人）",
-          "detail": "ownerId=user_13c8b342d7b44136a546a7638799225d 期望=user_13c8b342d7b44136a546a7638799225d"
+          "detail": "ownerId=user_4f0b274477144d57af04be4c187d7f5c 期望=user_4f0b274477144d57af04be4c187d7f5c"
         },
         {
           "status": "PASS",
@@ -1064,7 +1064,7 @@
       "warn": 1,
       "info": 1,
       "total": 19,
-      "ms": 5095,
+      "ms": 4700,
       "results": [
         {
           "status": "PASS",
@@ -1114,7 +1114,7 @@
         {
           "status": "PASS",
           "name": "返回 updatedAt 时间戳",
-          "detail": "updatedAt=2026-09-01T09:48:22.682Z"
+          "detail": "updatedAt=2026-09-04T09:29:51.302Z"
         },
         {
           "status": "PASS",
@@ -1171,7 +1171,7 @@
       "warn": 0,
       "info": 2,
       "total": 16,
-      "ms": 2453,
+      "ms": 2253,
       "results": [
         {
           "status": "PASS",
@@ -1191,7 +1191,7 @@
         {
           "status": "PASS",
           "name": "审计写入返回 success + id",
-          "detail": "id=audit-1788256106895-6ahl9q"
+          "detail": "id=audit-1788514195565-i34vwl"
         },
         {
           "status": "PASS",
@@ -1221,7 +1221,7 @@
         {
           "status": "PASS",
           "name": "一致场景返回 success",
-          "detail": "{\"success\":true,\"id\":\"twm-1788256107745-crcx\"}"
+          "detail": "{\"success\":true,\"id\":\"twm-1788514196426-qn4s\"}"
         },
         {
           "status": "PASS",
@@ -1231,7 +1231,7 @@
         {
           "status": "PASS",
           "name": "超差场景返回 success（差异由后端判定入库）",
-          "detail": "{\"success\":true,\"id\":\"twm-1788256108049-f7w6\"}"
+          "detail": "{\"success\":true,\"id\":\"twm-1788514196693-dtg3\"}"
         },
         {
           "status": "INFO",
@@ -1251,7 +1251,7 @@
         {
           "status": "INFO",
           "name": "三单匹配与审计记录未清理",
-          "detail": "两者均无删除端点；数据仅存于本轮隔离组织（E2E-260901094735），不影响真实业务组织"
+          "detail": "两者均无删除端点；数据仅存于本轮隔离组织（E2E-260904092858），不影响真实业务组织"
         }
       ]
     },
@@ -1263,7 +1263,7 @@
       "warn": 1,
       "info": 2,
       "total": 26,
-      "ms": 5278,
+      "ms": 10078,
       "results": [
         {
           "status": "PASS",
@@ -1387,8 +1387,8 @@
         },
         {
           "status": "INFO",
-          "name": "数电票核验为桩实现（唯一确认桩）",
-          "detail": "functions/api/tax-gateway/verify.ts 为 mock + TODO，未对接真实税局接口；本断言仅护栏契约不回归"
+          "name": "数电票核验真实通道已就位（默认模拟兜底）",
+          "detail": "functions/api/tax-gateway/verify.ts 已写真实 etoplive 通道 + 多服务商路由，响应标 verifiedBy（real/mock）；未配置服务商密钥时走 mock 兜底，本断言仅护栏契约不回归"
         },
         {
           "status": "PASS",

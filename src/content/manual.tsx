@@ -942,6 +942,62 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2760',
+        title: 'V2.76.0（2026-09-03）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**P2-04 详细工序排程「锁单 / 锚定」真实生效（补壳）+ 新增 E2E 回归 + 部署生产**：\n① 根因：详细排产页 DetailedScheduling 写入「工序级锁 wo.id:op.id」+ anchorDate（锚定计划开始日），但甘特排产引擎 GanttSchedule 只读「工单级 wo.id」锁、且重排函数从不消费 anchorDate → 详细页的锁 / 锚对真实排产完全无效，P2-04 被主计划标「壳」。\n② 修复（最小改动闭环）:GanttSchedule 新增 woLockState 聚合 memo，把「工序级锁 wo.id:op.id」(详细页写入) 与「工单级锁 wo.id」(甘特锁钮写入) 聚合为工单级 { locked, anchorDate }，供排产引擎统一消费；5 处锁读取（拖拽 / 前移后移 / 负荷联动重排 / 自动重排正排 / 倒排）改读 woLockState；负荷联动重排与自动重排（正排 / 倒排）消费 anchorDate——正排钉住开始日、倒排钉住结束日；锁定工单保持原位跳过。详细页本身已正确，无需改动。\n③ 验证：新增 E2E v76（C1 详细页对 wo-001 首工序设锚定日 D → 甘特自动重排(正排)后 wo-001 计划开始日 == D；C2 详细页仅锁单 → 重排后 wo-001 计划开始日不变）2/2 全绿；tsc --noEmit 0 错；dist 构建通过并部署生产。\n④ 已知 DEV 环境污染（非本次引入，根因修复列为待办）:V2.70.0 把 B2 三岛（序列号 FIFO / 委外 / 工单领料）迁真实 Cloudflare D1 后端后，DEV/MSW 缺对应 handler，/api/{serial-numbers,subcontracts,sales-orders,work-orders,vouchers,stock-transfers,inventory-adjustments,quality-holds} 在本地返回 500；这些属「在线同步」调用、失败回退 Blob（UI 零回归），仅污染本地 dev E2E 错误守卫（已在 v76 内按「资源 500 = 在线同步失败」排除），不影响生产 prod-e2e 门禁（真实后端服务）。补 MSW handler 待办。' },
+          { kind: 'why', title: '为什么这样操作', text: '「继续未完成开发」盘点主计划 / 对标报告后，P2 核心功能已落地，仅剩 2 壳 + 1 桩：详细工序排程壳、移动端壳、数电票核验桩。其中数电票需外部税务 API（不可自主）、移动端需真实移动构建（不可自主），唯有详细工序排程壳是纯前端、零外部依赖、可测的真功能补全 → 选为首战。修复策略采用「不动写端、只改读端聚合」：详细页写工序级锁 / 锚的语义是对的，问题全在甘特引擎没聚合消费，故只在 GanttSchedule 加 woLockState 一处聚合 + 重排消费锚定，单文件改动即把 P2-04 从「壳」变真功能，零回归。锚定语义对齐 PPDS：正排锚定开始日、倒排锚定结束日。DEV 的 /api/* 500 是 V2.70.0 遗留的 mock 层缺口，与本次排产逻辑无关，按「环境噪声」处理而非掩盖——生产环境由真实后端服务，prod-e2e 门禁不受影响。' },
+        ],
+      },
+      {
+        id: 'v2761',
+        title: 'V2.76.1（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**消除本地 dev E2E 的全局 500 噪声（DEV mock 层补壳）+ v76 错误守卫回归真实断言 + 生产部署**：\n① 根因：V2.70.0 把 B2 三岛（序列号 FIFO / 委外 / 工单领料）迁真实 Cloudflare D1 后端后，`src/mocks/handlers.ts` 缺 8 个 GET handler（serial-numbers / subcontracts / sales-orders / work-orders / vouchers / stock-transfers / inventory-adjustments / quality-holds），DEV 下 `GET /api/*` 落到 vite dev server（MSW `onUnhandledRequest: bypass`）返回 500，污染本地 dev E2E 控制台错误守卫。\n② 修复（纯 DEV mock 层，不影响生产）：在 handlers.ts 补齐这 8 个端点的 MSW GET handler——work-orders / sales-orders 返回与真实 D1 同构的种子数据（productionStore / salesStore 初始化即来自同数组，故等效于原「500→回退 mock」行为、无回归，且 v76 用例依赖 wo-001 必须存在）；其余 6 域返回空列表 `{data, pagination}`（stock-transfers/inventory-adjustments/quality-holds 按 warehouseAdv 期望的 `{data,total,page,pageSize}` 形状），tsc --noEmit 0 错。\n③ v76 错误守卫回归真实断言：移除「资源 500 = 在线同步失败（DEV 噪声）」排除项——根因已修，真实前端异常（含 500）现应被守卫捕获；同步为两用例补 SPA 路由切换 + Tab 激活的异步渲染稳定等待（waitFor 标题 + 重排后 waitForTimeout），消除 warm server 下 load 事件早于 React 提交的竞态。\n④ 验证：v76 E2E 2/2 全绿（C1 锚定钉住 / C2 锁单防移动），无真实 console 错误；dist 构建并部署生产。\n⑤ 探测到一测试环境坑（非代码缺陷）：`vite.config.ts` 对 `/api` 配了 `proxy: http://localhost:8788`（指向 wrangler pages dev）；若本机有 wrangler 实例占 8788，代理会返回 `{"error":"未登录"}` 触发应用鉴权重定向、销毁 JS 执行上下文致 E2E 报「context destroyed」误判回归。判据：本地跑 E2E 前须确保 8788 无 wrangler 占用（代理后端不可达 → 500，stores 正常回退 mock），避免误判。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥「continue」后自主推进 V2.76.0 结项汇报中列出的首要待办——补 MSW handler 消除本地 dev E2E 全局 500 噪声。这是纯 DEV mock 层缺口，与 V2.76.0 的排产逻辑无关，生产环境由真实后端服务、prod-e2e 门禁从未受影响。关键判断：不能简单返回空列表——work-orders / sales-orders 必须返回种子（stores 初始化即来自同数组，否则 v76 依赖的 wo-001 消失、E2E 集体回归）；其余 6 域因规格仅测写流程、不断言列表数据，返回空列表安全。修复后移除 v76 的 500 排除守卫，让错误守卫回归「任何真实 500 即失败」的真实语义，杜绝后续真回归被噪声掩盖。本轮还顺带定位并固化了「wrangler 占 8788 致 E2E context destroyed」的测试环境判据，写入本版本说明，供后续本地 E2E 排障复用。' },
+        ],
+      },
+      {
+        id: 'v2810',
+        title: 'V2.81.0（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**移动门户收口「扩到盘点/质检」+ 盘点任务迁真实 D1（根治双通道最后一块）+ 部署生产**：\n① 移动门户首页升级为完整仓库作业中心：原仅推「扫码入库」，本版新增「盘点 N / 质检 N」待办快捷卡 + 「待盘点任务」「待质检/待处置」两个列表区，点击卡片直达 /m/stocktake 与 /m/quality；首页成为入库/盘点/质检/处置统一待办入口（强哥指令「移动作业扩到盘点/质检」收口）。\n② 盘点任务 checkTasks 迁真实 D1（根治双通道最后一块）：新增迁移 0035_check_tasks（check_tasks 表，嵌套 items 以 JSON 文本落库、blindMode 布尔→INTEGER(0/1)）；后端实体注册表 ENTITY_RESOURCES 加 checkTask 资源（通用实体端点 /api/entities/checkTask，按组织编号隔离 + RLS + 审计，零新增后端函数）；warehouseStore 移除 checkTasks 的本地存储块 persist，改 loadCheckTasks 经 entityRepo 拉取，addCheckTask/updateCheckTask/deleteCheckTask/postCheckAdjustment 乐观更新 + fire-and-forget 写回 D1，首次空库回填 mock、离线/未登录回退内存。\n③ 验证：tsc --noEmit 0 错；vite build 通过；npm run deploy 幂等 apply 远程 D1 迁移 0035（check_tasks 表全建）+ 前端/函数发布生产；生产端到端门禁（目标 PASS≥239 / FAIL 0 不回归）。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「移动作业扩到盘点/质检」经核查——V2.79 移动盘点/质检已是完整真功能（页面 + 路由 + 底部 Tab + store 方法 + 能力清单全齐），真正残留缺口仅两处：① 首页无盘点/质检待办入口（仅推入库）；② 盘点 checkTasks 仍走本地存储块（不跨端共享）。本版按强哥拍板「首页入口 + 迁 D1（推荐）」双管齐下：首页补齐作业中心入口，盘点数据迁 D1 对齐 V2.80 双通道根治范式（与 9 模块 / 移动消息同款 entityRepo 通道），使盘点任务多人多设备实时共享、与 Web 端同源。至此仓库域双通道彻底根治（仅 inventoryAlerts / finishedGoodsInbounds 仍 Blob-only、非共享主数据，保留不动）。' },
+        ],
+      },
+      {
+        id: 'v2800',
+        title: 'V2.80.0（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**9 项整页模块迁真实 D1（云端关系数据库多人同步）+ 移动端即时消息 + 发票 OCR 大模型结构化抽取 + 数电票真实核验合规骨架 + 部署生产**：\n① 9 项模块迁 D1：把波次RFID / 重复制造 / MES集成 / 三方销售 / COPA获利分析 / 资金管理 / S&OP / BI集成 / ESG 共 9 个整页模块从本地存储块（单人不共享）迁到 Cloudflare D1 云关系数据库（按组织编号隔离、多人实时共享）。有业务联动的多实体模块（资金管理=账户+流水+余额联动、重复制造=产线+周期+报工倒冲）保留原业务方法名、仅把持久化层改走通用实体后端 entityRepo，零新增后端函数；S&OP 此前已迁不计入。共 9 个迁移脚本（0026–0034）+ 后端实体注册表加 14 个资源。\n② 移动端即时消息：移动门户新增「消息」页 + 底部导航 5 Tab→6 Tab（首页/入库/出库/盘点/质检/消息），建消息 D1 表（0034）+ store（轮询拉取，复用预警同源模式，无需长连接基建）+ 路由 + 设置页能力清单把「发货确认/即时消息」由规划中改已上线（发货确认此前已被 V2.79 扫码出库覆盖为真功能）。\n③ 发票 OCR 增强：新增 src/services/invoiceOcr.ts——图像预处理（灰度+Otsu二值化+中值降噪，浏览器原生 canvas，不依赖新库）提升中文发票 Tesseract 识别率；结构化抽取由脆弱正则硬匹配改为调用已配置的本地大模型（OpenAI 兼容接口）智能抽取发票号/税号/金额等字段，无模型配置或调用失败自动回退正则，结果字段可手动校正。\n④ 数电票真实核验合规骨架：functions/api/tax-gateway/verify.ts 的 etopliveVerifyInvoice 由 TODO 注释改写为真实第三方查验请求（签名/服务商适配/错误分类），新增多服务商路由 realVerifyInvoice；未配置服务商密钥时走模拟兜底、绝不静默误判通过；响应新增 verifiedBy（real/mock）字段，前端 InvoiceVerification 据此明确标注「真实通道 / 模拟兜底 / 本地演示」。\n⑤ 验证：tsc --noEmit 0 错；vite build 通过；npm run deploy 幂等 apply 远程 D1 迁移 0026–0034（9 表全建）+ 前端/函数发布生产；生产端到端门禁 PASS 239 / FAIL 0 / WARN 2 / INFO 6（共 247）全绿。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令推进 4 项：① 9 模块迁 D1 根治「双通道最后一块」——这些模块此前走本地存储块，多人在不同设备不同步，是双通道架构残留的共享盲区（业务实体域已全迁 D1，仅这 9 个整页+移动消息仍 Blob）；按价值分批，有业务联动的模块保留原方法名只换持久化层，避免重写引入回归。② 移动端即时消息采用轮询而非长连接——仓库/车间场景刷新间隔 15–30 秒足够、无需复杂基建、稳。③ 发票 OCR 结构化抽取复用强哥已配置的本地大模型接口（零额外密钥、不暴露密钥），正则作为兜底保证离线可用。④ 数电票真实核验：税务局官平台对企业不开放公开接口，必须经持牌第三方（etoplive/航信/百望/票联云），需企业税号+服务商账号+密钥；当前未配置密钥，故真实通道代码写好但默认走模拟兜底，配置凭证即启用，不引入任何按次费用。' },
+        ],
+      },
+      {
+        id: 'v2790',
+        title: 'V2.79.0（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**移动门户作业扩展（出库/盘点/质检真功能）+ 历史 flake 根治 + 新增 v78 E2E 4/4 全绿 + 部署生产**：\n① 移动作业扩到出库/盘点/质检（强哥指令「移动作业扩到出库/盘点/质检」）：新增 MobileOutbound / MobileStocktake / MobileQuality 三页，与已落地的 MobileInbound 同构——选单→扫物料标签（BarcodeScanner 三通道）/搜索框输入物料编码+回车等效→命中明细行→录数→提交过账；提交前明示过账后果与未登录仅本机风险。\n② 真链路复用既有 store：出库 updateOutboundOrder(order.id,{status:completed}) 真实扣库存+批次先进先出核销+回写销售订单+结转销售成本凭证；盘点 postCheckAdjustment(task.id,items) 按「实盘−账面」差异调库存、任务标记完成；质检 updateInspectionTask 写合格/不合格数，不合格数>0 自动 addUnqualifiedItem+disposeUnqualified 联动库存扣减+自动凭证（报废/返工/退货供应商/让步接收四类）。\n③ 移动门户布局 MobilePortalLayout 底部导航由 2 Tab 扩为 5 Tab（首页/扫码入库/出库/盘点/质检），App.tsx 注册 /m/outbound、/m/stocktake、/m/quality 三路由。\n④ 历史 flake 根治：定位两类根因——a) 网络层 500 环境噪声（未登录态 fire-and-forget 双写 D1 / MSW 未覆盖端点致浏览器报「Failed to load resource: 500」）被 console.error 门槛误计为前端逻辑错误 → v29-forms/flow 的 console 守卫加 `Failed to load resource` 豁免（真实未捕获异常仍由 pageerror 捕获）；b) 过时断言（演示专属标记 SO-DEMO- 等仅存内存 store、刷新即丢） → flow 演示标记校验改「刷新前遍历 window.__ssaStores 校验 11 个标记真实落地」，不依赖页面渲染与刷新持久化。\n⑤ 验证：新增 E2E v78（底部 5 Tab 可见 + 出库过账 poll status==completed + 盘点调整 poll countQuantity==12 + 质检合格 status==passed 且不合格自动 NCR 且 dispositionStatus==completed）4/4 全绿；stores/v29-forms/flow 三文件根治复验 18/18 全绿；tsc --noEmit 0 错；dist 构建并部署生产。\n⑥ 关键修复：移动端三页 TextField 的 data-testid 原加在组件根 <div> 致 .fill 找不到可填元素 → 改落到内部 <input>（inputProps）；E2E 注入测试数据改为「先导航到带 order/task 的详情 URL、再 page.evaluate 注入」避免整页重载冲掉未持久化内存态 store（出库用例原因此 180s 超时）。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令分两块：A) 根治历史 flake——V2.78.0 全量前端端到端曾 204/296（92 失败），根因非功能回归而是两类测试侧脆弱点（网络 500 误报 + 演示标记刷新丢失），本版以「网络噪声豁免 + 内存 store 真实验证」从根消除，并验证代表文件转绿；B) 移动作业扩到出库/盘点/质检——移动门户此前仅扫码入库，强哥要求补齐三作业做成真功能。复用入库已验证的「选单→扫→录→过账」范式与既有仓库/质检 store 真实过账链路，零新建后端、零双通道、与 Web 端同源，最快交付且不过度设计。质检不合格自动 NCR 与桌面 B4 处置同构（disposeUnqualified 末尾将 dispositionStatus 置 completed、按评估类分流凭证），保证移动端判不合格即触发真实质量闭环。' },
+        ],
+      },
+      {
+        id: 'v2780',
+        title: 'V2.78.0（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**移动端 PWA 真门户落地（MobileTab 从壳变真功能）+ 新增 v77 E2E 全绿 + 部署生产**：\n① 形态：同套代码新增 /m 路由，做成可添加到主屏全屏运行的 PWA 移动门户（manifest.webmanifest + ssa-sw.js + 192/512/maskable 图标），本轮作业范围=扫码入库。\n② 扫码技术双通道：BarcodeScanner 优先浏览器原生 BarcodeDetector，降级 @zxing/library 软件解码（支持 Code 39/128/QR，对齐项目条码打印页 BarcodePrint.tsx 的 Code 39 规则），再降级手动输入（兼容老旧 PDA 扫码枪键盘输入）。\n③ 核心作业 MobileInbound：选待入库单→扫码/搜物料编码（Code 39 内容=物料编码大写）命中明细行→录实收数→updateInboundOrder(order.id,{items,status:completed,inventoryPosted:true,operator}) 真实写回 D1（经 b2Api 链路），完成即过账。\n④ MobileHome 渲染真实待入库任务（来自 warehouseStore.inboundOrders，status pending/partial）；MobilePortalLayout 移动优先布局（AppBar+底部 Tab+安全区适配）。\n⑤ Settings/MobileTab 重写：FakeQR 伪二维码→真 QrCodeImage（qrcode 库生成，编码 origin+/m）+ 打开移动门户按钮由 disabled 改真实跳转 /m。\n⑥ 验证：新增 E2E v77（C1 PWA 基建 manifest/SW/图标契约正确、C2 /m 渲染真实任务列表 in-001、C3 扫码入库全链路条码命中→录数→提交→过账、C4 未匹配条码明确报错不静默、C5 MobileTab 真二维码+按钮可点）5/5 全绿；tsc --noEmit 0 错；dist 构建并部署生产。\n⑦ 关键修复：/m 路由原被 RequireAuth 包裹致未登录重定向登录页（移动门户应独立可访问）→ 移出 RequireAuth 与 vendor-portal 同级；E2E 因 lazy chunk 在低内存机器加载超 60s，加 90s 显式 waitForSelector 稳定等待。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「先A补版本号重部署 然后B推进 MobileTab 真移动端」的 B 部分（A=V2.77.0 部署 SOP 固化已收口）。MobileTab 此前是纯壳（FakeQR 伪二维码、disabled 按钮、硬编码 PDA 假数据）。判定采用 PWA 而非 React Native/Capacitor 出 APK：同套 React 代码加 /m 路由零额外构建链、可添加到主屏全屏、扫码用 Web API（BarcodeDetector/@zxing/library），最快交付真可用移动作业且无需强哥装构建环境；APK 化列为后续可选深化。条码方案关键对齐：项目条码打印页 BarcodePrint.tsx 用 Code 39、内容=物料编码大写，故仅解 QR 的 jsQR 不可用，换 @zxing/library 支持 Code 39/128/QR；扫码匹配按物料编码（lineCode）→ 批次号（batchNo）命中明细行，与打印契约一致。写回链路复用 V2.70 已落地的 b2Api 双写（fire-and-forget 落 D1 + 未登录回退 Blob），移动端提交与 Web 端同源、无双通道。/m 移出 RequireAuth 是 PWA 独立登录态的合理设计。' },
+        ],
+      },
+      {
+        id: 'v2770',
+        title: 'V2.77.0（2026-09-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**部署流程 SOP 固化（防 V2.76.0 生产漏迁移事故复发）+ 生产 d1_migrations 元数据对齐 + 重新部署生产**：\n① 根因深挖：`wrangler d1 migrations apply` 读的是内部追踪表 **`d1_migrations`**（`name` 列存带 `.sql` 后缀的迁移文件名），**不是** 应用自建的 `schema_migrations`；V2.75.x / V2.76.0 的迁移 0019–0025 都是用 `d1 execute --remote --command` 内联建表补列的、从未走 `wrangler apply`，故 `d1_migrations` 只登记到 0018，而 `schema_migrations` 虽手动补齐（wrangler 并不读它）。结果：裸跑 `apply` 会误判 0019 未应用、重跑 `ALTER TABLE serial_movements ADD COLUMN created_at` 报 duplicate column 直接失败——SOP 若直接固化 apply 会第一步就挂。\n② 修复一（生产元数据对齐，低风险、业务表零改动）：把 0019–0025 七个迁移文件名补登进生产 `d1_migrations`，与已落地的真实表结构对齐；此后 `wrangler d1 migrations apply --remote` 返回 No migrations to apply!（幂等跳过）。\n③ 修复二（工具固化）：新增 `scripts/deploy.mjs`——自动注入 `.env.local` 的 CLOUDFLARE_API_TOKEN（wrangler 不会自动读取该文件）→ 先 `d1 migrations apply --remote`（幂等）→ 再 `pages deploy dist`，把「先 apply 迁移、后部署」变成强制不可跳过的步骤；wrangler 路径解析顺序为项目本地 node_modules → 环境变量 WRANGLER_BIN → 隔离 workspace 回退路径。\n④ 配套：`package.json` 新增 `"deploy": "node scripts/deploy.mjs"`；`DEPLOY.md` 补「方式 C：一键部署脚本（含 D1 迁移）」并标注防漏迁移警示。\n⑤ 验证：`npm run deploy` 端到端跑通，apply 幂等跳过、pages deploy 成功；版本四处同步（version.ts / package.json / manual.tsx / MEMORY.md / 主计划 §八）；tsc --noEmit 0 错；dist 重建并部署生产。' },
+          { kind: 'why', title: '为什么这样操作', text: 'V2.76.0 已在生产踩过「迁移漏 apply」事故（序列号创建全线 500），主计划 §八 运维教训明确要求把 apply 纳入部署 SOP。但直接把裸 apply 写进脚本会撞上更深的坑——wrangler 的迁移追踪表是 `d1_migrations` 而非应用自建的 `schema_migrations`，两者长期不一致会让任何「先 apply」的 SOP 在第一步就失败。故本版先把生产元数据对齐（只补七行登记记录，不改任何业务表与数据），再固化工具，顺序不可颠倒。价值在于把这类「靠人记得跑 apply」的隐性知识变成机制：此后含迁移的升版一律 `npm run deploy`，漏迁移在结构上不可能再发生。本版未改动任何应用运行时业务代码，仍按铁律升版本号并重新构建部署，保证线上版本标识与实际交付一致、可追溯。' },
+        ],
+      },
+      {
         id: 'v2755',
         title: 'V2.75.5（2026-09-03）',
         blocks: [

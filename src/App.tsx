@@ -235,6 +235,14 @@ const CustomerABC = lazy(() => import('./pages/Sales/CustomerABC'));
 const ConsignmentStock = lazy(() => import('./pages/Warehouse/ConsignmentStock'));
 // P2-06 发票批量核验
 const InvoiceVerification = lazy(() => import('./pages/Analytics/InvoiceVerification'));
+// V2.78.0 移动门户（PWA /m，独立于 MainLayout；真扫码入库）
+const MobilePortalLayout = lazy(() => import('./mobile/MobilePortalLayout'));
+const MobileHome = lazy(() => import('./mobile/MobileHome'));
+const MobileInbound = lazy(() => import('./mobile/MobileInbound'));
+const MobileOutbound = lazy(() => import('./mobile/MobileOutbound'));
+const MobileStocktake = lazy(() => import('./mobile/MobileStocktake'));
+const MobileQuality = lazy(() => import('./mobile/MobileQuality'));
+const MobileMessages = lazy(() => import('./mobile/MobileMessages'));
 
 // 登录门禁：未登录则跳转登录页（authStore 本地持久化，刷新后免登录）。
 // DEV 下不强制：vite dev 供 E2E 回归与离线演示以「未登录纯前端模式」直达业务页（老用例均按此假设编写，
@@ -262,6 +270,8 @@ function App() {
     useFinanceStore.getState().loadVouchers();
     // W1 仓库战役：入库单/出库单直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseStore.getState().loadWarehouseOrders();
+    // V2.81.0 盘点任务直连真实 D1（根治 Blob 双通道），启动期拉取
+    useWarehouseStore.getState().loadCheckTasks();
     // W2 收尾：仓库高级三切片（转储/调整/质检扣留）直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseAdvancedStore.getState().loadWarehouseAdvanced();
   }, []);
@@ -292,6 +302,16 @@ function App() {
         <Route path="permissions" element={<VendorPermissionsPage />} />
         {/* 询价报价 */}
         <Route path="quotation" element={<VendorQuotation />} />
+      </Route>
+
+      {/* ── 移动门户（PWA，独立路由；V2.78.0 真扫码入库）──── */}
+      <Route path="/m" element={<MobilePortalLayout />}>
+        <Route index element={<MobileHome />} />
+        <Route path="inbound" element={<MobileInbound />} />
+        <Route path="outbound" element={<MobileOutbound />} />
+        <Route path="stocktake" element={<MobileStocktake />} />
+        <Route path="quality" element={<MobileQuality />} />
+        <Route path="messages" element={<MobileMessages />} />
       </Route>
 
       {/* ── 主 ERP 系统（MainLayout，需登录）──────────────── */}
