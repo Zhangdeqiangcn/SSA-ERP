@@ -4,7 +4,7 @@ test('reproduce settings page error by clicking every item', async ({ page }) =>
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}\n${e.stack || ''}`));
   page.on('console', (m) => {
-    if (m.type() === 'error') errors.push(`[console.error] ${m.text()}`);
+    if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`[console.error] ${m.text()}`);
   });
 
   await page.goto('/settings', { waitUntil: 'domcontentloaded' });

@@ -3,7 +3,7 @@ import { test, expect } from './ssa-fixtures';
 test('V2.55.20 通用详情打印模块 — 供应商详情页接入验证', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
-  page.on('console', (m) => { if (m.type() === 'error') errors.push(`[console.error] ${m.text()}`); });
+  page.on('console', (m) => { if (m.type() === 'error' && !m.text().includes('Failed to load resource')) errors.push(`[console.error] ${m.text()}`); });
 
   // 直达供应商详情页（与用户反馈页面同源）
   await page.goto('/vendor/ven-001', { waitUntil: 'domcontentloaded' });

@@ -4,6 +4,8 @@ import { customers } from './data/customer';
 import { vendors } from './data/vendor';
 import { purchaseRequests, purchaseOrders, vendorQuotes } from './data/purchase';
 import { inboundOrders, outboundOrders, checkTasks, inventoryRecords, inventoryAlerts } from './data/warehouse';
+import { salesOrders } from './data/sales';
+import { workOrders } from './data/production';
 
 const handlers = [
   // Materials
@@ -534,6 +536,111 @@ const handlers = [
       },
     });
   }),
+
+  // ── B2/W1/W2 关系表端点 MSW GET handler（V2.76.1）──
+  // 背景：V2.70.0 B2 三岛迁真实 D1 后，MSW 缺这 8 个 GET handler，
+  // 本地 dev / E2E 中这些 GET 落到 vite dev server 返 500，污染控制台（"Failed to load resource: 500"）。
+  // 补回与真实 D1 函数同构的响应，消除 500 噪声。
+  // work-orders / sales-orders 返回 seed mock（store 初始态本就来自这两份 seed，
+  // 返回 seed 与「500→回退 mock」行为完全一致，保 E2E 不回归）；其余 6 域暂无 seed，返回空列表。
+
+  // sales-orders（与真实 /api/sales-orders 同构：{ data, pagination }）
+  http.get('/api/sales-orders', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    const start = (page - 1) * pageSize;
+    const slice = salesOrders.slice(start, start + pageSize);
+    return HttpResponse.json({
+      data: slice,
+      pagination: { page, pageSize, total: salesOrders.length, totalPages: Math.ceil(salesOrders.length / pageSize) },
+    });
+  }),
+  http.get('/api/sales-orders/:id', async ({ params }) => {
+    await delay(150);
+    const so = salesOrders.find((x: any) => x.id === params.id);
+    if (!so) return HttpResponse.json({ error: '销售订单不存在' }, { status: 404 });
+    return HttpResponse.json(so);
+  }),
+
+  // work-orders（与真实 /api/work-orders 同构：{ data, pagination }）
+  http.get('/api/work-orders', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    const start = (page - 1) * pageSize;
+    const slice = workOrders.slice(start, start + pageSize);
+    return HttpResponse.json({
+      data: slice,
+      pagination: { page, pageSize, total: workOrders.length, totalPages: Math.ceil(workOrders.length / pageSize) },
+    });
+  }),
+  http.get('/api/work-orders/:id', async ({ params }) => {
+    await delay(150);
+    const wo = workOrders.find((x: any) => x.id === params.id);
+    if (!wo) return HttpResponse.json({ error: '工单不存在' }, { status: 404 });
+    return HttpResponse.json(wo);
+  }),
+
+  // vouchers（W1 真实 D1；无 seed，返回空列表）
+  http.get('/api/vouchers', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], pagination: { page, pageSize, total: 0, totalPages: 0 } });
+  }),
+  http.get('/api/vouchers/:id', async () => HttpResponse.json({ error: '凭证不存在' }, { status: 404 })),
+
+  // subcontracts（B2 真实 D1；无 seed，返回空列表）
+  http.get('/api/subcontracts', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], pagination: { page, pageSize, total: 0, totalPages: 0 } });
+  }),
+  http.get('/api/subcontracts/:id', async () => HttpResponse.json({ error: '委外单不存在' }, { status: 404 })),
+
+  // serial-numbers（B2 真实 D1；无 seed，返回空列表）
+  http.get('/api/serial-numbers', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], pagination: { page, pageSize, total: 0, totalPages: 0 } });
+  }),
+  http.get('/api/serial-numbers/:id', async () => HttpResponse.json({ error: '序列号不存在' }, { status: 404 })),
+
+  // stock-transfers / inventory-adjustments / quality-holds（warehouseAdv 期望 { data, total, page, pageSize }）
+  http.get('/api/stock-transfers', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], total: 0, page, pageSize });
+  }),
+  http.get('/api/stock-transfers/:id', async () => HttpResponse.json({ error: '调拨单不存在' }, { status: 404 })),
+
+  http.get('/api/inventory-adjustments', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], total: 0, page, pageSize });
+  }),
+  http.get('/api/inventory-adjustments/:id', async () => HttpResponse.json({ error: '库存调整单不存在' }, { status: 404 })),
+
+  http.get('/api/quality-holds', async ({ request }) => {
+    await delay(200);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get('page')) || 1;
+    const pageSize = Number(url.searchParams.get('pageSize')) || 20;
+    return HttpResponse.json({ data: [], total: 0, page, pageSize });
+  }),
+  http.get('/api/quality-holds/:id', async () => HttpResponse.json({ error: '质量扣留单不存在' }, { status: 404 })),
 ];
 
 export default handlers;

@@ -24,6 +24,16 @@
 2. Cloudflare 控制台 → **Pages → 创建项目 → 直接上传** → 把 `dist` 文件夹拖进去即可。
 3. 适合不打算用 Git 的小范围试用。
 
+### 方式 C：一键部署脚本（推荐，含 D1 迁移）⚠️ 防生产漏迁移
+> V2.76.0 踩坑：`wrangler pages deploy` 只传前端 + 函数，**不会 apply D1 迁移**，曾导致迁移 0019 漏推到生产、序列号创建全断。
+> 本脚本把「deploy 前先 apply 远程迁移」变成强制步骤，杜绝遗漏。
+
+1. 确保根目录 `.env.local` 含 `CLOUDFLARE_API_TOKEN`（wrangler 不自动读，非交互环境必填）。
+2. 构建：`npm run build`（先 tsc 门禁 + 生成 dist/）。
+3. 一键部署：`npm run deploy`
+   - 脚本依次执行：`d1 migrations apply ssa-erp-db --remote`（**幂等**，已应用跳过、只补未应用）→ `pages deploy dist`。
+   - 每次含迁移的升版务必走此脚本，不要再裸跑 `wrangler pages deploy`。
+
 ---
 
 ## 二、自定义域名（可选）
