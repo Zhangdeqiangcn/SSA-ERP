@@ -5,7 +5,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { DataTable } from '@/components/common';
+import { DataTable, SecureField } from '@/components/common';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useFinanceStore } from '@/stores/financeStore';
 import type { Voucher, VoucherStatus, VoucherItem } from '@/types/finance';
@@ -158,7 +158,9 @@ export default function VoucherList() {
       accessorFn: (r) => r.totalDebit,
       cell: ({ row }) => (
         <Typography variant="body2" fontWeight={700}>
-          借 ¥{row.original.totalDebit.toLocaleString()} / 贷 ¥{row.original.totalCredit.toLocaleString()}
+          <SecureField module="finance" fieldName="voucherAmount">
+            借 ¥{row.original.totalDebit.toLocaleString()} / 贷 ¥{row.original.totalCredit.toLocaleString()}
+          </SecureField>
         </Typography>
       ),
     },

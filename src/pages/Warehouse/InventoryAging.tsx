@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import { Warning, Schedule, PieChart, AssignmentTurnedIn, Delete, Undo } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
+import { SecureField } from '@/components/common';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useSlowMovingStore, DISPOSITION_LABEL, type DispositionAction } from '@/stores/slowMovingStore';
@@ -356,7 +357,7 @@ const InventoryAging: React.FC = () => {
                       <TableCell align="right">{item.price.toLocaleString()}</TableCell>
                       <TableCell align="right">
                         <Typography fontWeight={500} color={ABC_LABEL[item.cls].color}>
-                          {item.value.toLocaleString()}
+                          <SecureField module="warehouse" fieldName="stockValue">{item.value.toLocaleString()}</SecureField>
                         </Typography>
                       </TableCell>
                       <TableCell align="right">
@@ -440,7 +441,7 @@ const InventoryAging: React.FC = () => {
                       </TableCell>
                       <TableCell align="right">
                         <Typography fontWeight={600} color="#EF4444">
-                          {r.value.toLocaleString()} 元
+                          <SecureField module="warehouse" fieldName="stockValue">{r.value.toLocaleString()} 元</SecureField>
                         </Typography>
                       </TableCell>
                       <TableCell>{r.lastInboundDate || '-'}</TableCell>

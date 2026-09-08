@@ -7,10 +7,9 @@ import { Add, Visibility, Search, LocalShipping, TrendingUp } from '@mui/icons-m
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
-import { useFieldPermissionStore, maskValue } from '@/stores';
 import { SalesOrder, SalesOrderStatus, SalesOrderType } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FlowTracker } from '@/components/common';
+import { DataTable, FlowTracker, SecureField } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 
 const STATUS_LABELS: Record<SalesOrderStatus, string> = {
@@ -27,13 +26,6 @@ const SalesOrderList: React.FC = () => {
   const [search, setSearch] = useState('');
   const salesOrders = useSalesStore(s => s.salesOrders);
   const addSalesOrder = useSalesStore(s => s.addSalesOrder);
-
-  // C4：字段级权限（脱敏）在销售订单列表的落地
-  const salesFields = useFieldPermissionStore(s => s.moduleFields.sales ?? []);
-  const modeOf = (field: string): string =>
-    salesFields.find(f => f.field === field)?.mode ?? 'visible';
-  const customerNameMode = modeOf('customerName');
-  const amountMode = modeOf('amount');
 
   const filtered = salesOrders.filter(o => {
     if (search && !o.orderNo.includes(search) && !o.customerName.includes(search) && !o.salesPerson.includes(search) && !(o.contractNo || '').includes(search)) return false;
@@ -99,33 +91,31 @@ const SalesOrderList: React.FC = () => {
       accessorFn: (o) => o.customerName,
       cell: ({ row }) => {
         const o = row.original;
-        return o.customerId ? (
-          <Box>
-            {customerNameMode === 'mask' ? (
-              <Typography variant="body2" fontWeight={500} data-testid={`so-cust-${o.id}`}>
-                {maskValue(o.customerName)}
-              </Typography>
+        return (
+          <SecureField module="sales" fieldName="customerName">
+            {o.customerId ? (
+              <Box>
+                <Typography
+                  component="button"
+                  variant="body2"
+                  fontWeight={500}
+                  onClick={() => navigate(`/sales/customers/${o.customerId}`)}
+                  sx={{ background: 'none', border: 'none', color: '#3B82F6', cursor: 'pointer', p: 0, textAlign: 'left' }}
+                  data-testid={`so-cust-${o.id}`}
+                >
+                  {o.customerName}
+                </Typography>
+                <Typography variant="caption" color="text.secondary" display="block">{o.contactName || o.customerCode || ''}</Typography>
+              </Box>
             ) : (
-              <Typography
-                component="button"
-                variant="body2"
-                fontWeight={500}
-                onClick={() => navigate(`/sales/customers/${o.customerId}`)}
-                sx={{ background: 'none', border: 'none', color: '#3B82F6', cursor: 'pointer', p: 0, textAlign: 'left' }}
-                data-testid={`so-cust-${o.id}`}
-              >
-                {o.customerName}
-              </Typography>
+              <Box>
+                <Typography variant="body2" fontWeight={500} data-testid={`so-cust-${o.id}`}>
+                  {o.customerName}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">{o.contactName}</Typography>
+              </Box>
             )}
-            <Typography variant="caption" color="text.secondary" display="block">{o.contactName || o.customerCode || ''}</Typography>
-          </Box>
-        ) : (
-          <Box>
-            <Typography variant="body2" fontWeight={500} data-testid={`so-cust-${o.id}`}>
-              {customerNameMode === 'mask' ? maskValue(o.customerName) : o.customerName}
-            </Typography>
-            <Typography variant="caption" color="text.secondary">{o.contactName}</Typography>
-          </Box>
+          </SecureField>
         );
       },
     },
@@ -173,9 +163,11 @@ const SalesOrderList: React.FC = () => {
       accessorFn: (o) => o.totalAmount,
       cell: ({ row }) => (
         <Box sx={{ textAlign: 'right' }}>
-          <Typography variant="body2" fontWeight={500} data-testid={`so-amount-${row.original.id}`}>
-            {amountMode === 'mask' ? maskValue(formatCurrency(row.original.totalAmount)) : formatCurrency(row.original.totalAmount)}
-          </Typography>
+          <SecureField module="sales" fieldName="orderAmount">
+            <Typography variant="body2" fontWeight={500} data-testid={`so-amount-${row.original.id}`}>
+              {formatCurrency(row.original.totalAmount)}
+            </Typography>
+          </SecureField>
         </Box>
       ),
     },
@@ -185,9 +177,11 @@ const SalesOrderList: React.FC = () => {
       accessorFn: (o) => o.grandTotal,
       cell: ({ row }) => (
         <Box sx={{ textAlign: 'right' }}>
-          <Typography variant="body2" data-testid={`so-grand-${row.original.id}`}>
-            {amountMode === 'mask' ? maskValue(formatCurrency(row.original.grandTotal)) : formatCurrency(row.original.grandTotal)}
-          </Typography>
+          <SecureField module="sales" fieldName="orderAmount">
+            <Typography variant="body2" data-testid={`so-grand-${row.original.id}`}>
+              {formatCurrency(row.original.grandTotal)}
+            </Typography>
+          </SecureField>
         </Box>
       ),
     },

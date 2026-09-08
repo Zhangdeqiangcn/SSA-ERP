@@ -11,6 +11,7 @@ import BalanceIcon from '@mui/icons-material/Balance';
 import { useFinanceStore } from '@/stores/financeStore';
 import type { Voucher, VoucherItem } from '@/types/finance';
 import { calcVoucherTotals, emptyVoucherItem, nextVoucherNo, round2, validateVoucher } from '@/utils/voucher';
+import { SecureField } from '@/components/common';
 
 interface Props {
   open: boolean;
@@ -213,10 +214,10 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
               <TableRow sx={{ bgcolor: 'action.hover' }}>
                 <TableCell colSpan={3} sx={{ fontWeight: 700 }}>合计</TableCell>
                 <TableCell align="right" sx={{ fontWeight: 700 }} data-testid="voucher-total-debit">
-                  ¥{totals.totalDebit.toLocaleString('zh-CN', { minimumFractionDigits: 2 })}
+                  <SecureField module="finance" fieldName="voucherAmount">¥{totals.totalDebit.toLocaleString('zh-CN', { minimumFractionDigits: 2 })}</SecureField>
                 </TableCell>
                 <TableCell align="right" sx={{ fontWeight: 700 }} data-testid="voucher-total-credit">
-                  ¥{totals.totalCredit.toLocaleString('zh-CN', { minimumFractionDigits: 2 })}
+                  <SecureField module="finance" fieldName="voucherAmount">¥{totals.totalCredit.toLocaleString('zh-CN', { minimumFractionDigits: 2 })}</SecureField>
                 </TableCell>
                 <TableCell colSpan={2} />
               </TableRow>
@@ -239,15 +240,15 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
           <Box flex={1} />
           <Typography variant="body2" data-testid="voucher-diff"
             color={balanced ? 'success.main' : 'error.main'} fontWeight={700}>
-            {balanced ? '借贷平衡 ✓' : `差额 ¥${totals.difference.toFixed(2)}`}
+            {balanced ? '借贷平衡 ✓' : <SecureField module="finance" fieldName="voucherAmount">{`差额 ¥${totals.difference.toFixed(2)}`}</SecureField>}
           </Typography>
         </Box>
 
         {!balanced && (
-          <Alert severity="warning" sx={{ mt: 1.5 }} data-testid="voucher-balance-tip">
-            借贷不平衡，无法保存：借方合计 ¥{totals.totalDebit.toFixed(2)}，贷方合计 ¥{totals.totalCredit.toFixed(2)}，
-            差额 ¥{totals.difference.toFixed(2)}
-          </Alert>
+        <Alert severity="warning" sx={{ mt: 1.5 }} data-testid="voucher-balance-tip">
+          借贷不平衡，无法保存：借方合计 <SecureField module="finance" fieldName="voucherAmount">¥{totals.totalDebit.toFixed(2)}</SecureField>，贷方合计 <SecureField module="finance" fieldName="voucherAmount">¥{totals.totalCredit.toFixed(2)}</SecureField>，
+          差额 <SecureField module="finance" fieldName="voucherAmount">¥{totals.difference.toFixed(2)}</SecureField>
+        </Alert>
         )}
         {submitted && !validation.valid && (
           <Alert severity="error" sx={{ mt: 1.5 }} data-testid="voucher-form-errors">

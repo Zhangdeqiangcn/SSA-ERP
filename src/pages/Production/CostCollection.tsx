@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import {
   Box, Typography, Paper, Grid, Chip, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Stack, Alert,
@@ -10,12 +10,18 @@ import { PageWrapper } from '@/components/layout';
 import { useProductionStore } from '@/stores/productionStore';
 import { useProductionOperationStore, DEFAULT_LABOR_RATE, DEFAULT_MACHINE_RATE } from '@/stores/productionOperationStore';
 import { useBOMStore } from '@/stores/bomStore';
+import { SecureField } from '@/components/common';
 
 const WO_STATUS_LABEL: Record<string, string> = {
   draft: '草稿', released: '已下达', in_progress: '生产中', completed: '已完成', closed: '已关闭',
 };
 
 const fmt = (n: number) => `¥${Number(n).toLocaleString('zh-CN', { maximumFractionDigits: 0 })}`;
+
+/** 生产成本敏感字段包装：对无权限角色（质检/采购/库管/物流/供应商）屏蔽金额 */
+function CostField({ children }: { children: ReactNode }) {
+  return <SecureField module="production" fieldName="cost">{children}</SecureField>;
+}
 
 export default function CostCollection() {
   const { workOrders, processRoutes, updateWorkOrder } = useProductionStore();
@@ -125,16 +131,16 @@ export default function CostCollection() {
           <Stack direction="row" spacing={2}>
             <Box>
               <Typography variant="caption" color="text.secondary">标准总成本</Typography>
-              <Typography variant="h6" fontWeight={700}>{fmt(grandStd)}</Typography>
+              <Typography variant="h6" fontWeight={700}><CostField>{fmt(grandStd)}</CostField></Typography>
             </Box>
             <Box>
               <Typography variant="caption" color="text.secondary">实际总成本</Typography>
-              <Typography variant="h6" fontWeight={700} color="#3B82F6">{fmt(grandAct)}</Typography>
+              <Typography variant="h6" fontWeight={700} color="#3B82F6"><CostField>{fmt(grandAct)}</CostField></Typography>
             </Box>
             <Box>
               <Typography variant="caption" color="text.secondary">总差异</Typography>
               <Typography variant="h6" fontWeight={700} color={grandVar > 0 ? '#EF4444' : '#10B981'}>
-                {grandVar >= 0 ? '+' : ''}{fmt(grandVar)}
+                <CostField>{grandVar >= 0 ? '+' : ''}{fmt(grandVar)}</CostField>
               </Typography>
             </Box>
           </Stack>
@@ -156,11 +162,11 @@ export default function CostCollection() {
                   </Typography>
                 </Box>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <Chip
-                    label={`差异 ${c.variance >= 0 ? '+' : ''}${fmt(c.variance)} (${c.variancePct.toFixed(0)}%)`}
-                    size="small"
-                    color={c.variance > 0 ? 'error' : 'success'}
-                  />
+                    <Chip
+                      label={<><SecureField module="production" fieldName="cost">{`差异 ${c.variance >= 0 ? '+' : ''}${fmt(c.variance)}`}</SecureField> ({c.variancePct.toFixed(0)}%)</>}
+                      size="small"
+                      color={c.variance > 0 ? 'error' : 'success'}
+                    />
                   <Tooltip title="归集并保存至工单">
                     <IconButton size="small" color="primary" onClick={() => saveWoCost(c)}>
                       <SaveIcon fontSize="small" />
@@ -187,25 +193,25 @@ export default function CostCollection() {
                     ].map((row) => (
                       <TableRow key={row.name} hover>
                         <TableCell>{row.name}</TableCell>
-                        <TableCell align="right">{fmt(row.s)}</TableCell>
-                        <TableCell align="right">{fmt(row.a)}</TableCell>
+                        <TableCell align="right"><CostField>{fmt(row.s)}</CostField></TableCell>
+                        <TableCell align="right"><CostField>{fmt(row.a)}</CostField></TableCell>
                         <TableCell
                           align="right"
                           sx={{ color: row.a - row.s > 0 ? '#EF4444' : '#10B981', fontWeight: 600 }}
                         >
-                          {row.a - row.s >= 0 ? '+' : ''}{fmt(row.a - row.s)}
+                          <CostField>{row.a - row.s >= 0 ? '+' : ''}{fmt(row.a - row.s)}</CostField>
                         </TableCell>
                       </TableRow>
                     ))}
                     <TableRow sx={{ bgcolor: '#F8FAFC' }}>
                       <TableCell sx={{ fontWeight: 700 }}>合计</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(c.stdTotal)}</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(c.actTotal)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 700 }}><CostField>{fmt(c.stdTotal)}</CostField></TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 700 }}><CostField>{fmt(c.actTotal)}</CostField></TableCell>
                       <TableCell
                         align="right"
                         sx={{ fontWeight: 700, color: c.variance > 0 ? '#EF4444' : '#10B981' }}
                       >
-                        {c.variance >= 0 ? '+' : ''}{fmt(c.variance)}
+                        <CostField>{c.variance >= 0 ? '+' : ''}{fmt(c.variance)}</CostField>
                       </TableCell>
                     </TableRow>
                   </TableBody>

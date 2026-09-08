@@ -10,6 +10,6 @@
 // 任何改动若跳过版本号同步，都视为未完成。
 // ============================================================
 export const APP_NAME = 'SSA ERP 企业资源管理平台';
-export const APP_VERSION = '2.85.0';
-export const APP_VERSION_LABEL = 'V2.85.0';
+export const APP_VERSION = '2.86.0';
+export const APP_VERSION_LABEL = 'V2.86.0';
 export const APP_BUILD_DATE = '2026-08-27';

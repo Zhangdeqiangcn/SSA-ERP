@@ -7,6 +7,7 @@ import { useQualityAdvancedStore } from '@/stores/qualityAdvancedStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useQualityStore } from '@/stores/qualityStore';
 import { useVendorStore } from '@/stores/vendorStore';
+import { SecureField } from '@/components/common';
 import { COQRecord, InspectionLot } from '@/types';
 
 const LOT_STATUS_LABEL: Record<InspectionLot['status'], string> = {
@@ -111,7 +112,7 @@ export default function InspectionLotPage() {
                     <TableCell>{r.period}</TableCell>
                     <TableCell>{COQ_LABEL[r.category]}</TableCell>
                     <TableCell>{r.costCenter}</TableCell>
-                    <TableCell>{r.amount.toLocaleString()}</TableCell>
+                    <TableCell><SecureField module="quality" fieldName="inspectionCost">{r.amount.toLocaleString()}</SecureField></TableCell>
                     <TableCell>{r.note}</TableCell>
                   </TableRow>
                 ))}

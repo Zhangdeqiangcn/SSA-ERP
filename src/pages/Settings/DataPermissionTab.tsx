@@ -10,33 +10,49 @@ import { useCurrentOrg } from '@/stores/orgStore';
 import { ROLE_DEFINITIONS } from '@/types/settings';
 
 const MODULE_LABELS: Record<string, string> = {
-  production: '生产',
+  material: '物料',
+  vendor: '供应商',
+  customer: '客户',
   purchase: '采购',
   sales: '销售',
   warehouse: '仓储',
   quality: '质量',
+  production: '生产',
+  finance: '财务',
 };
 
+// V2.86.0 字段键与 SecureField 包裹处、默认矩阵严格一致（避免配了不生效）
 const MODULE_FIELD_OPTIONS: Record<string, { value: string; label: string }[]> = {
+  material: [
+    { value: 'standardPrice', label: '标准价' },
+    { value: 'movingAvgPrice', label: '移动平均价' },
+  ],
+  vendor: [
+    { value: 'creditLimit', label: '授信额度' },
+  ],
+  customer: [
+    { value: 'creditLimit', label: '授信额度' },
+  ],
   purchase: [
     { value: 'unitPrice', label: '采购单价' },
-    { value: 'amount', label: '采购金额' },
-    { value: 'vendorName', label: '供应商名称' },
+    { value: 'orderAmount', label: '采购金额' },
   ],
   sales: [
     { value: 'unitPrice', label: '销售单价' },
-    { value: 'costPrice', label: '成本价' },
-    { value: 'customerCredit', label: '客户信用额度' },
-  ],
-  production: [
-    { value: 'cost', label: '生产成本' },
-    { value: 'wages', label: '工时工资' },
+    { value: 'orderAmount', label: '销售金额' },
+    { value: 'customerName', label: '客户名称' },
   ],
   warehouse: [
-    { value: 'inventoryValue', label: '库存价值' },
+    { value: 'stockValue', label: '库存价值' },
   ],
   quality: [
     { value: 'inspectionCost', label: '检验费用' },
+  ],
+  production: [
+    { value: 'cost', label: '生产成本' },
+  ],
+  finance: [
+    { value: 'voucherAmount', label: '凭证金额' },
   ],
 };
 

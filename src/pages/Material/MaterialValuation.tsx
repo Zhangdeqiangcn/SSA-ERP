@@ -7,6 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useMaterialExtensionStore } from '@/stores/materialExtensionStore';
 import { Material, ValuationClass, PriceControl, PlantParam, MaterialChangeField } from '@/types';
+import { SecureField } from '@/components/common';
 
 const VC_LABEL: Record<ValuationClass, string> = {
   RAW: '原材料', SEMI: '半成品', FG: '产成品', TRADING: '贸易商品', PACKAGING: '包装物', CONSUMABLE: '消耗品',
@@ -93,8 +94,8 @@ export default function MaterialValuationPage() {
                 <TableCell>{m.code} {m.name}</TableCell>
                 <TableCell>{m.valuationClass ? VC_LABEL[m.valuationClass] : '—'}</TableCell>
                 <TableCell>{m.priceControl || '—'}</TableCell>
-                <TableCell>{m.standardPrice ?? '—'}</TableCell>
-                <TableCell>{m.movingAvgPrice ?? '—'}</TableCell>
+                <TableCell><SecureField module="material" fieldName="standardPrice">{m.standardPrice ?? '—'}</SecureField></TableCell>
+                <TableCell><SecureField module="material" fieldName="movingAvgPrice">{m.movingAvgPrice ?? '—'}</SecureField></TableCell>
                 <TableCell>{typeof m.stockValue === 'number' ? m.stockValue.toFixed(2) : '—'}</TableCell>
                 <TableCell>{m.batchManaged ? '批次 ' : ''}{m.serialized ? '序列号' : ''}{!m.batchManaged && !m.serialized ? '—' : ''}</TableCell>
                 <TableCell>{m.plantParams?.length || 0} 个</TableCell>
