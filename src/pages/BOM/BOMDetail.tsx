@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, Stack, Snackbar, Alert,
+  Box, Typography, Paper, Chip, Button, Stack, Snackbar, Alert, Tooltip,
 } from '@mui/material';
 import {
   ArrowBack, Edit, AccountTree,
@@ -52,7 +52,9 @@ const BOMDetail: React.FC = () => {
 
   const { bomList, deleteBOM, bomTreeData, setSelectedBOM } = useBOMStore();
   const { setMrpRecommendations } = useProductionStore();
-  const { materials } = useMaterialStore();
+  const { materials, substitutes } = useMaterialStore();
+  // V2.84.0 C9：有替代料组的物料编码集合（只读提示，低风险）
+  const subCodes = useMemo(() => new Set(substitutes.map((s) => s.materialCode)), [substitutes]);
 
   const bom = bomList.find((b) => b.id === id) || bomList[0];
   // 优先使用真实 BOM 物料清单；老 mock BOM 无 items 时回退到树形演示数据
@@ -183,7 +185,16 @@ const BOMDetail: React.FC = () => {
           },
           {
             id: 'materialName', header: '物料名称', accessorKey: 'materialName',
-            cell: ({ row }) => <Typography variant="body2" sx={{ fontWeight: row.original.isCritical ? 600 : 400 }}>{row.original.materialName}</Typography>,
+            cell: ({ row }) => (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <Typography variant="body2" sx={{ fontWeight: row.original.isCritical ? 600 : 400 }}>{row.original.materialName}</Typography>
+                {subCodes.has(row.original.materialCode) && (
+                  <Tooltip title="该物料已配置替代料组，可在物料详情查看优先级">
+                    <Chip label="可替代" size="small" sx={{ height: 18, fontSize: '0.65rem', bgcolor: '#ECFDF5', color: '#059669' }} />
+                  </Tooltip>
+                )}
+              </Box>
+            ),
           },
           {
             id: 'materialSpec', header: '规格', accessorKey: 'materialSpec',

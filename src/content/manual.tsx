@@ -958,6 +958,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2840',
+        title: 'V2.84.0（2026-08-27）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**C9 物料替代料组 + 优先级（BOM/生产灵活可配硬缺口闭合）**：\n① 新增迁移 0038_material_substitutes（material_substitutes 表，全标量字段：主物料编码 + 替代料编码 + 优先级 priority + 替代类型 substituteType(完全/部分) + 替换比例 conversionRatio + 生效起/止 + 原因 + 备注 + 审计列），索引 org/主物料编码。\n② 后端零新增函数——通用实体注册表 ENTITY_RESOURCES 加 materialSubstitute 资源（通用实体端点 /api/entities/materialSubstitute，按组织编号隔离 + RLS 共享主数据 + 写审计），前端经 entityRepo 增删改查。\n③ 前端类型 src/types/material.ts 加 MaterialSubstitute 接口（含 SubstituteType 完全/部分）；materialStore 加 substitutes 状态 + loadSubstitutes(启动期随物料加载拉取、首次空库回填 mock、离线回退内存) + addSubstitute/updateSubstitute/removeSubstitute(乐观更新 + 即发即弃写回 D1)。\n④ UI：物料详情页新增「替代料组」区块（按优先级升序展示、弹窗增删改，替代料从物料主数据下拉选），BOM 详情物料行带「可替代」徽标提示(只读、低风险)。\n⑤ 验证：tsc --noEmit 0 错；vite build 通过；npm run deploy 幂等 apply 远程 D1 迁移 0038 + 发布生产；新增生产探针验证替代料「建/查/改/删 + 字段往返 + 组织隔离」全绿。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「继续」自动进入下一个对标净缺口 C9（主计划第 361 行列为 🔴 零实现硬缺口）。强哥拍板范围=核心主数据 + UI 提示、建模=主物料→替代料优先级列表。采用与 V2.81/82 双通道根治完全一致的成熟范式（实体注册表 + 通用实体路由 + 乐观更新 fire-and-forget），零新增后端函数、与 Web 端同源、跨端多人共享。建模上「以主物料编码为锚、一组替代料按优先级排序」最贴合现有实体范式；互替(A↔B)由用户双向各录一行，简单且可扩展。替代类型区分完全替代(1:1)与部分替代(按 conversionRatio 折算)，满足缺料/成本/交期等多场景，为后续「库存/领料联动、MRP 替代展开」预留清晰数据底座（列为后续深化项，非本版范围）。' },
+        ],
+      },
+      {
         id: 'v2830',
         title: 'V2.83.0（2026-09-08）',
         blocks: [

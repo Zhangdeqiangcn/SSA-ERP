@@ -10,8 +10,22 @@ import {
   Chip,
   LinearProgress,
   Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  MenuItem,
+  Tooltip,
 } from '@mui/material';
-import { Share } from '@mui/icons-material';
+import { Share, Add as AddIcon, Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, OperationTimeline, StatusBadge, FileUpload, ConfirmDialog, DataTable, DetailActions } from '@/components/common';
 import ResponsiblePersons from '@/components/common/ResponsiblePersons';
@@ -21,7 +35,7 @@ import { useBOMStore } from '@/stores/bomStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useQualityStore } from '@/stores/qualityStore';
 import { MaterialRatingConfig, MaterialRatingWeights } from '@/stores/settingsStore';
-import { Material } from '@/types/material';
+import { Material, MaterialSubstitute } from '@/types/material';
 import { formatDate, formatCurrency } from '@/utils/format';
 
 const WEIGHT_LABELS: Record<keyof MaterialRatingWeights, string> = {
@@ -129,7 +143,7 @@ const MaterialDetail: React.FC = () => {
   const navigate = useNavigate();
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
-  const { materials, deleteMaterial, categories } = useMaterialStore();
+  const { materials, deleteMaterial, categories, substitutes, addSubstitute, updateSubstitute, removeSubstitute } = useMaterialStore();
   const materialRatingConfig = useSettingsStore((s) => s.materialRatingConfig);
   const material = materials.find(m => m.id === id);
 
@@ -312,6 +326,119 @@ const MaterialDetail: React.FC = () => {
     </Paper>
   );
 
+  // V2.84.0 C9 物料替代料组 + 优先级：该物料的替代料按优先级升序展示，支持增删改（乐观更新 + 即发即弃写回 D1）
+  const mySubs = substitutes
+    .filter((s) => s.materialCode === material.code)
+    .sort((a, b) => (a.priority || 0) - (b.priority || 0));
+  const [subDialog, setSubDialog] = useState<{ open: boolean; editing?: MaterialSubstitute }>({ open: false });
+  const [subForm, setSubForm] = useState<Partial<MaterialSubstitute>>({});
+
+  const openAddSub = () => {
+    setSubForm({
+      materialCode: material.code, materialName: material.name,
+      priority: mySubs.length + 1, substituteType: 'full', conversionRatio: 1,
+    });
+    setSubDialog({ open: true });
+  };
+  const openEditSub = (s: MaterialSubstitute) => {
+    setSubForm(s);
+    setSubDialog({ open: true, editing: s });
+  };
+  const saveSub = () => {
+    if (!subForm.substituteCode) return;
+    const payload = { ...subForm, materialCode: material.code, materialName: material.name };
+    if (subDialog.editing && subDialog.editing.id) updateSubstitute(subDialog.editing.id, payload);
+    else addSubstitute(payload as Omit<MaterialSubstitute, 'id'>);
+    setSubDialog({ open: false });
+  };
+
+  const substituteBlock = (
+    <Paper variant="outlined" sx={{ p: 2 }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
+        <Typography variant="subtitle1" fontWeight={600}>替代料组（按优先级推荐）</Typography>
+        <Button size="small" variant="contained" startIcon={<AddIcon />} onClick={openAddSub}>新增替代料</Button>
+      </Stack>
+      {mySubs.length === 0 ? (
+        <Alert severity="info">该物料暂无替代料。可新增完全/部分替代料并按优先级排序，缺料时按序推荐。</Alert>
+      ) : (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>优先级</TableCell>
+                <TableCell>替代料编码</TableCell>
+                <TableCell>替代料名称</TableCell>
+                <TableCell>类型</TableCell>
+                <TableCell>替换比例</TableCell>
+                <TableCell>生效期</TableCell>
+                <TableCell>原因</TableCell>
+                <TableCell align="right">操作</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {mySubs.map((s) => (
+                <TableRow key={s.id}>
+                  <TableCell>{s.priority}</TableCell>
+                  <TableCell>{s.substituteCode}</TableCell>
+                  <TableCell>{s.substituteName}</TableCell>
+                  <TableCell>
+                    <Chip size="small" label={s.substituteType === 'full' ? '完全替代' : '部分替代'}
+                      color={s.substituteType === 'full' ? 'success' : 'warning'} />
+                  </TableCell>
+                  <TableCell>{s.substituteType === 'partial' ? (s.conversionRatio ?? 1) : '—'}</TableCell>
+                  <TableCell>{[s.effectiveFrom, s.effectiveTo].filter(Boolean).join(' ~ ') || '—'}</TableCell>
+                  <TableCell>{s.reason || '—'}</TableCell>
+                  <TableCell align="right">
+                    <Tooltip title="编辑">
+                      <IconButton size="small" onClick={() => openEditSub(s)}><EditIcon fontSize="small" /></IconButton>
+                    </Tooltip>
+                    <Tooltip title="删除">
+                      <IconButton size="small" color="error" onClick={() => removeSubstitute(s.id)}><DeleteIcon fontSize="small" /></IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+      <Dialog open={subDialog.open} onClose={() => setSubDialog({ open: false })} maxWidth="xs" fullWidth>
+        <DialogTitle>{subDialog.editing ? '编辑替代料' : '新增替代料'}</DialogTitle>
+        <DialogContent>
+          <TextField select fullWidth margin="dense" label="替代料" value={subForm.substituteCode || ''}
+            onChange={(e) => { const m = materials.find((x) => x.code === e.target.value); setSubForm({ ...subForm, substituteCode: e.target.value, substituteName: m?.name }); }}>
+            {materials.filter((m) => m.code !== material.code).map((m) => (
+              <MenuItem key={m.id} value={m.code}>{m.code} - {m.name}</MenuItem>
+            ))}
+          </TextField>
+          <TextField fullWidth margin="dense" type="number" label="优先级" value={subForm.priority ?? 1}
+            onChange={(e) => setSubForm({ ...subForm, priority: Number(e.target.value) })} />
+          <TextField select fullWidth margin="dense" label="替代类型" value={subForm.substituteType || 'full'}
+            onChange={(e) => setSubForm({ ...subForm, substituteType: e.target.value as MaterialSubstitute['substituteType'] })}>
+            <MenuItem value="full">完全替代</MenuItem>
+            <MenuItem value="partial">部分替代</MenuItem>
+          </TextField>
+          {subForm.substituteType === 'partial' && (
+            <TextField fullWidth margin="dense" type="number" label="替换比例（1 主 = ? 替代）" value={subForm.conversionRatio ?? 1}
+              onChange={(e) => setSubForm({ ...subForm, conversionRatio: Number(e.target.value) })} />
+          )}
+          <TextField fullWidth margin="dense" type="date" label="生效起始" value={subForm.effectiveFrom || ''}
+            onChange={(e) => setSubForm({ ...subForm, effectiveFrom: e.target.value })} InputLabelProps={{ shrink: true }} />
+          <TextField fullWidth margin="dense" type="date" label="生效截止" value={subForm.effectiveTo || ''}
+            onChange={(e) => setSubForm({ ...subForm, effectiveTo: e.target.value })} InputLabelProps={{ shrink: true }} />
+          <TextField fullWidth margin="dense" label="替代原因" value={subForm.reason || ''}
+            onChange={(e) => setSubForm({ ...subForm, reason: e.target.value })} />
+          <TextField fullWidth margin="dense" label="备注" value={subForm.remarks || ''}
+            onChange={(e) => setSubForm({ ...subForm, remarks: e.target.value })} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setSubDialog({ open: false })}>取消</Button>
+          <Button variant="contained" onClick={saveSub}>保存</Button>
+        </DialogActions>
+      </Dialog>
+    </Paper>
+  );
+
   const sections = [
     { id: 'rating', title: '物料评级', content: ratingPaper },
     { id: 'basic', title: '基本信息', content: <DetailSection fields={basicFields} columns={2} /> },
@@ -326,6 +453,7 @@ const MaterialDetail: React.FC = () => {
       ? [{ id: 'params', title: '技术参数', content: parametersBlock }]
       : []),
     { id: 'attachments', title: '附件', content: <FileUpload multiple /> },
+    { id: 'substitutes', title: '替代料组', content: substituteBlock },
     { id: 'logs', title: '操作日志', content: <OperationTimeline title="操作日志" events={operationLogs} /> },
   ];
 

@@ -205,3 +205,32 @@ export interface EngineeringChange {
   createdAt: string;
   updatedAt: string;
 }
+
+// ── V2.84.0 C9 物料替代料组 + 优先级 ──
+// 建模：以主物料编码(materialCode)为锚，一组替代料按 priority(1 最高)排序；
+// 互替(A↔B)由用户双向各录一行。替代类型 full=完全替代 / partial=部分替代(按 conversionRatio 折算)。
+export type SubstituteType = 'full' | 'partial';
+
+export interface MaterialSubstitute {
+  id: string;
+  materialCode: string;
+  materialName?: string;
+  substituteCode: string;
+  substituteName?: string;
+  /** 优先级，1 最高；同主物料组内升序即为推荐替代顺序 */
+  priority: number;
+  substituteType: SubstituteType;
+  /** 替换比例（部分替代用，默认 1）：1 单位主物料 = conversionRatio 单位替代料 */
+  conversionRatio: number;
+  /** 生效起始(yyyy-MM-dd)，可选 */
+  effectiveFrom?: string;
+  /** 生效截止(yyyy-MM-dd)，可选 */
+  effectiveTo?: string;
+  /** 替代原因（如缺料、成本、交期） */
+  reason?: string;
+  remarks?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  createdBy?: string;
+  updatedBy?: string;
+}
