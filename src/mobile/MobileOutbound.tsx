@@ -9,6 +9,7 @@ import { QrCodeScanner, Search, CheckCircle, RemoveCircleOutline } from '@mui/ic
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useAuthStore } from '@/stores/authStore';
 import BarcodeScanner from './components/BarcodeScanner';
+import SubstituteAdvisor from '@/components/material/SubstituteAdvisor';
 import type { OutboundOrderItem } from '@/types/warehouse';
 
 /** 编码归一化：条码打印（Code 39）内容为大写物料编码，扫码值一律 trim + 大写后匹配 */
@@ -220,6 +221,8 @@ const MobileOutbound: React.FC = () => {
                     <br />
                     <span data-testid={`m-line-actual-${i}`}>实发 {l.quantity || 0}</span>
                     {` ${l.unit || ''}`}
+                    <br />
+                    <SubstituteAdvisor materialCode={lineCode(l)} neededQty={l.quantity} dense />
                   </>
                 )}
                 secondaryTypographyProps={{ component: 'div' }}

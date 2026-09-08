@@ -958,6 +958,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2850',
+        title: 'V2.85.0（2026-08-27）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**C9 深化：库存不足时按优先级推荐可用替代料（领料联动 + 采购建议 + 移动出库提示）**：\n① 复用 V2.84.0 已建的 material_substitutes 数据底座，零新增后端函数、零新增迁移——替代料可用量取物料主数据 currentStock（与 MRP onHand 同源，随出入库回写）。\n② materialStore 新增纯函数 evaluateSubstitutes + getSubstituteRecommendations(materialCode, neededQty) + getBestSubstitute：按优先级返回各替代料的可用量、满足需求所需量（需求×conversionRatio）、覆盖度（可完全替代 full / 部分可替代 partial / 库存不足 none / 已过期 expired）与生效期判定。\n③ 新建可复用组件 SubstituteAdvisor（dense 单行 Chip + 完整表格两模式）：工单详情新增「缺料预警与替代料建议」（按 BOM 多级展开算各组件需求/现有库存/缺料，缺料行展开替代料表格，可完全替代优先高亮）；MRP 净需求结果表新增「替代料建议」列（净需求>0 行渲染可替代 Chip，hover 看明细）；移动出库每行物料下显示「可替代」Chip（只读提示，对齐强哥「移动作业扩到出库」指令）。\n④ 验证——tsc --noEmit 0 错；vite build 通过；npm run deploy 发布生产；生产端到端门禁零回归（无新后端，沿用既有实体路由）。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「继续」后拍板 C9 深化方向=核心主数据+UI提示的延伸（库存不足按优先级推荐可用替代料 + 领料/采购建议），不自动改单、不自动替换，保持低风险与可解释。设计上严格复用 V2.84.0 替代料组数据底座与既有实体范式，替代料可用量取 material.currentStock（仓库域出入库已回写该字段，且与 MRP 净需求 onHand 同源，避免引入 warehouse 库存记录查询的跨 store 耦合）。覆盖度四态枚举让「已过期替代料」明确区别于「库存不足」，避免误推不可用替代；conversionRatio 让部分替代（如 1 单位主料需 1.2 单位替代料）的满足量精确。三处接入面均只读、无写操作，零回归风险；MRP 替代料仅作「建议」展示，真正的运算期自动替代展开（net 需求直接改用替代料）列为后续可选深化，不在本版范围。' },
+        ],
+      },
+      {
         id: 'v2840',
         title: 'V2.84.0（2026-08-27）',
         blocks: [

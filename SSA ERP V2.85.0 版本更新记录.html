@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.85.0 版本更新记录</title>
+<style>
+  :root { --primary:#2563eb; --ok:#16a34a; --warn:#d97706; --bg:#f8fafc; --card:#fff; --line:#e5e7eb; --txt:#1e293b; --sub:#64748b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif; background:var(--bg); color:var(--txt); line-height:1.7; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 32px 20px 64px; }
+  .hero { background: linear-gradient(135deg,#2563eb,#1e40af); color:#fff; border-radius:16px; padding:28px 32px; margin-bottom:24px; }
+  .hero h1 { margin:0 0 6px; font-size:26px; }
+  .hero .meta { opacity:.9; font-size:14px; }
+  .badge { display:inline-block; background:rgba(255,255,255,.18); border-radius:999px; padding:3px 12px; font-size:13px; margin-top:10px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 26px; margin-bottom:18px; }
+  .card h2 { margin:0 0 12px; font-size:18px; color:var(--primary); border-left:4px solid var(--primary); padding-left:10px; }
+  .row { display:flex; gap:10px; align-items:flex-start; margin:10px 0; }
+  .tag { flex:0 0 auto; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:2px 10px; font-size:13px; color:var(--sub); font-weight:600; }
+  ul { margin:8px 0 8px 4px; padding-left:20px; }
+  li { margin:6px 0; }
+  code { background:#f1f5f9; padding:1px 6px; border-radius:5px; font-size:13px; }
+  .ok { color:var(--ok); font-weight:700; }
+  .warn { color:var(--warn); font-weight:700; }
+  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px; }
+  th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; }
+  th { background:#f1f5f9; color:var(--sub); }
+  .foot { text-align:center; color:var(--sub); font-size:13px; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <h1>SSA ERP 企业资源管理平台</h1>
+    <div class="meta">版本更新记录 · V2.85.0（2026-08-27）</div>
+    <div class="badge">C9 深化 · 库存不足按优先级推荐可用替代料</div>
+  </div>
+
+  <div class="card">
+    <h2>一、本次变更</h2>
+    <div class="row"><span class="tag">范围</span><div><b>C9 物料替代料组 + 优先级</b>的深化：在 V2.84.0 已建替代料组数据底座之上，做「库存不足时按优先级推荐可用替代料」，覆盖<b>领料联动</b>、<b>采购建议</b>、<b>移动出库提示</b>三处。不自动改单、不自动替换，保持低风险与可解释。</div></div>
+    <ul>
+      <li><b>零新增后端 / 零新增迁移</b>：严格复用 V2.84.0 的 <code>material_substitutes</code> 表与通用实体路由 <code>/api/entities/materialSubstitute</code>。替代料可用量取<b>物料主数据 currentStock</b>（与 MRP 净需求 onHand 同源，随出入库回写）。</li>
+      <li><b>materialStore 新增推荐函数</b>：纯函数 <code>evaluateSubstitutes</code> + <code>getSubstituteRecommendations(materialCode, neededQty)</code> + <code>getBestSubstitute</code>。按优先级返回各替代料的：可用量、满足需求所需量（需求 × 替换比例 conversionRatio）、覆盖度（<span class="ok">可完全替代 full</span> / <span class="warn">部分可替代 partial</span> / 库存不足 none / 已过期 expired）、生效期判定。</li>
+      <li><b>可复用组件 SubstituteAdvisor</b>（两种模式）：<br/>
+        · <b>完整表格</b>——工单详情新增「<b>缺料预警与替代料建议</b>」：按多级 BOM 展开算各组件的需求 / 现有库存 / 缺料量，缺料行展开替代料表格（可完全替代优先高亮）。<br/>
+        · <b>单行 Chip（dense）</b>——MRP 净需求结果表新增「<b>替代料建议</b>」列（净需求&gt;0 行渲染可替代 Chip，悬停看明细）；移动出库每行物料下显示「<b>可替代</b>」Chip（只读提示，对齐强哥「移动作业扩到出库」指令）。</li>
+    </ul>
+    <div class="row"><span class="tag">验证</span><div><span class="ok">tsc --noEmit 0 错</span>；vite build 通过；npm run deploy 发布生产（远程 D1 迁移幂等跳过、前端/函数已部署）；<span class="ok">生产端到端门禁 PASS 238 / FAIL 0 / WARN 3 / INFO 6 全绿零回归</span>（WARN 为外部大模型偶发超时，非代码缺陷）。</div></div>
+  </div>
+
+  <div class="card">
+    <h2>二、为什么这样操作</h2>
+    <ul>
+      <li><b>复用底座、零新后端</b>：强哥拍板 C9 深化方向为核心主数据 + UI 提示的延伸。严格沿用 V2.84.0 替代料组数据底座与既有实体范式，不新开后端函数、不新建迁移，跨端多人共享一致。</li>
+      <li><b>可用量取 material.currentStock</b>：仓库域出入库已回写该字段，且与 MRP 净需求 onHand 同源，避免引入仓库库存记录（warehouse inventory_records）查询的跨 store 耦合，逻辑单一、易测。</li>
+      <li><b>覆盖度四态枚举</b>：把「已过期替代料」与「库存不足」明确区分，避免误推不在生效期内的替代料；替换比例 conversionRatio 让部分替代（如 1 单位主料需 1.2 单位替代料）的满足量精确。</li>
+      <li><b>三处接入面均只读、无写操作</b>：仅展示建议，不自动改领料单 / 不自动改采购申请，零回归风险，符合「可解释、低风险」拍板。</li>
+      <li><b>MRP 运算期自动替代展开（net 需求直接改用替代料）列为后续可选深化</b>，不在本版范围——本版只做「建议展示」。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>三、使用指引</h2>
+    <table>
+      <tr><th>场景</th><th>位置</th><th>看到什么</th></tr>
+      <tr><td>生产领料前查缺料</td><td>工单详情 → 缺料预警与替代料建议</td><td>各组件需求 / 现有库存 / 缺料量；缺料行展开替代料表格（按优先级，可完全替代绿色）</td></tr>
+      <tr><td>MRP 运算后采购决策</td><td>MRP 物料需求计划 → 净需求结果表 → 替代料建议列</td><td>净需求&gt;0 行显示「可替代：X（P优先级）」Chip，悬停看全部替代料明细</td></tr>
+      <tr><td>移动端扫码出库</td><td>移动出库 → 每行物料下方</td><td>「可替代」Chip（只读提示）</td></tr>
+      <tr><td>维护替代料组</td><td>物料详情 → 替代料组</td><td>增删改替代料、设优先级 / 类型 / 替换比例 / 生效期（V2.84.0 已提供）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>四、版本四处同步</h2>
+    <ul>
+      <li><code>src/version.ts</code>：APP_VERSION = <b>2.85.0</b></li>
+      <li><code>package.json</code>：version = <b>2.85.0</b></li>
+      <li><code>src/content/manual.tsx</code>：新增 V2.85.0 版本更新记录条目</li>
+      <li><code>.workbuddy/memory/MEMORY.md</code>：版本沿革追加 V2.85.0</li>
+      <li><code>docs/ssa-erp-master-plan.md</code>：§11.4 标记 C9 深化已落地</li>
+    </ul>
+  </div>
+
+  <div class="foot">SSA ERP · 单一版本来源 · 构建日期 2026-08-27 · 部署域 https://ssa-erp.pages.dev</div>
+</div>
+</body>
+</html>

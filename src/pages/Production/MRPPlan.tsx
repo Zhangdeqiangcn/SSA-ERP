@@ -12,6 +12,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import { FlowTracker } from '@/components/common';
+import SubstituteAdvisor from '@/components/material/SubstituteAdvisor';
 import { useProductionStore } from '@/stores/productionStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useBOMStore } from '@/stores/bomStore';
@@ -470,6 +471,7 @@ export default function MRPPlan() {
                   <TableCell align="right" sx={{ fontWeight: 600 }}>提前期(天)</TableCell>
                   <TableCell align="right" sx={{ fontWeight: 600 }}>需求日期</TableCell>
                   <TableCell align="right" sx={{ fontWeight: 600 }}>建议下单日期</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>替代料建议</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -528,6 +530,9 @@ export default function MRPPlan() {
                       <Typography variant="body2" fontFamily="monospace" fontWeight={600} color="secondary.main">
                         {row.releaseDate}
                       </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <SubstituteAdvisor materialCode={row.materialCode} neededQty={row.net} dense />
                     </TableCell>
                   </TableRow>
                 ))}

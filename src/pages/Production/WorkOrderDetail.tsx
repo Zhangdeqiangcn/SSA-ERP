@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, Chip, Button, Divider, Stack,
@@ -19,6 +19,8 @@ import { FlowTracker, ConfirmDialog, PrintPreviewButton } from '@/components/com
 import { useProductionStore } from '@/stores/productionStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
+import { useMaterialStore } from '@/stores/materialStore';
+import SubstituteAdvisor from '@/components/material/SubstituteAdvisor';
 import { BOMItem } from '@/types/bom';
 
 const STATUS_CONFIG: Record<string, { label: string; color: 'default' | 'info' | 'warning' | 'success' | 'error' }> = {
@@ -82,6 +84,29 @@ export default function WorkOrderDetail() {
   const sourceItems = bom?.items && bom.items.length > 0
     ? bom.items
     : bomTreeData.filter(t => t.bomId === (bom?.id || ''));
+
+  // V2.85.0 C9 深化：物料主数据（取替代料可用量 currentStock）
+  const materials = useMaterialStore((s) => s.materials);
+  const materialByCode = useMemo(() => new Map(materials.map((m) => [m.code, m])), [materials]);
+
+  // 多级展开 + 按物料编码聚合（含废品率），得到领料明细与现有库存/缺料量，供缺料预警与替代料建议
+  const pickingList = useMemo(() => {
+    if (!sourceItems || sourceItems.length === 0) return [];
+    const acc = new Map<string, { item: BOMItem; quantity: number }>();
+    explodeBOM(sourceItems, wo?.plannedQuantity || 0, acc);
+    return Array.from(acc.values()).map(({ item, quantity }) => {
+      const qty = Math.max(1, Math.ceil(quantity));
+      const stock = materialByCode.get(item.materialCode)?.currentStock || 0;
+      return {
+        materialCode: item.materialCode,
+        materialName: item.materialName,
+        unit: item.unit,
+        quantity: qty,
+        stock,
+        short: Math.max(0, qty - stock),
+      };
+    });
+  }, [sourceItems, wo?.plannedQuantity, materialByCode]);
 
   if (!wo) {
     return (
@@ -313,6 +338,67 @@ export default function WorkOrderDetail() {
           )}
         </Grid>
       </Grid>
+
+      {/* 缺料预警与替代料建议（V2.85.0 C9 深化）：库存不足时按优先级推荐可用替代料 */}
+      {pickingList.length > 0 && (
+        <Paper sx={{ p: 2.5, mt: 3 }}>
+          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+            缺料预警与替代料建议（按 BOM 展开）
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+          {pickingList.some((p) => p.short > 0) ? (
+            <Alert severity="warning" sx={{ mb: 2 }}>
+              共 {pickingList.filter((p) => p.short > 0).length} 种物料库存不足，可考虑下方替代料（按优先级推荐，可完全替代优先）。
+            </Alert>
+          ) : (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              所有领料物料库存充足，无需替代。
+            </Alert>
+          )}
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow sx={{ bgcolor: 'grey.50' }}>
+                  <TableCell sx={{ fontWeight: 600 }}>物料</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>需求</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>现有库存</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>缺料</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>替代料建议（按优先级）</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {pickingList.map((p) => (
+                  <TableRow key={p.materialCode} hover>
+                    <TableCell>
+                      <Typography variant="body2" fontFamily="monospace">{p.materialCode}</Typography>
+                      <Typography variant="caption" color="text.secondary">{p.materialName}</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2">{p.quantity} {p.unit}</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2">{p.stock} {p.unit}</Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight={600} color={p.short > 0 ? 'error.main' : 'success.main'}>
+                        {p.short > 0 ? `${p.short} ${p.unit}` : '0'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      {p.short > 0 ? (
+                        <SubstituteAdvisor materialCode={p.materialCode} neededQty={p.short} />
+                      ) : (
+                        <Typography variant="caption" color="text.secondary">库存充足</Typography>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      )}
+
       <ConfirmDialog
         open={deleteDialog}
         title="确认删除"
