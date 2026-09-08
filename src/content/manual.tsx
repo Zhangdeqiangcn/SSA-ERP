@@ -958,6 +958,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2830',
+        title: 'V2.83.0（2026-09-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**C6 大模型助手接通（Agnes 2.5 Flash 默认模型）**：\n① 接通依据：强哥在 WorkBuddy 已配置的「Agnes 2.5 Flash」（国产大模型服务 Agnes AI，OpenAI 兼容端点 api.agnes-ai.cn/v1）作为 SSA ERP 的 C6 大模型助手默认模型。\n② 配置落地：把 Agnes 2.5 Flash 写入生产键值存储 AI_MODELS 的默认键 ai_model_default（baseUrl=https://api.agnes-ai.cn/v1、modelId=agnes-2.5-flash、provider=agnes），密钥存 Cloudflare 侧、不进源码库；后端 functions/api/ai/chat.ts 原生按 OpenAI 兼容格式（向该 baseUrl 的 /chat/completions 路径 + Bearer 密钥调用）调用，无需改调用逻辑即接通。\n③ 源码规范化：src/types/ai.ts 的 AIProvider 类型加 agnes、AI_PROVIDER_TEMPLATES 加 Agnes（baseUrl + 示例 agnes-2.5-flash）、RECOMMENDED_MODELS 加 Agnes 2.5 Flash；functions/api/ai/chat.ts 的 GET /api/ai/models 厂商列表加 agnes，使「设置 → AI 模型」页面可直接选 Agnes 厂商。\n④ 验证：tsc --noEmit 0 错；新增探针 probe_ai_chat.mjs 直击真实生产域——注册隔离组织拿 token → GET /api/ai/models 确认默认模型为 Agnes 2.5 Flash → POST /api/ai/chat 真实返回 85 字 ERP 解释（success=true），坐实 C6 助手链路全绿。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「按照 WorkBuddy 配置的 Agnes 2.5 Flash 接通 C6 大模型助手」。经核查，项目 C6 大模型助手前后端脚手架早已存在（AIAssistant.tsx 聊天界面 + aiStore + AIConfigPage 设置页 + functions/api/ai 后端 + AI_MODELS 键值存储），此前主计划列为「净缺口」是指未接通具体模型；Agnes 与后端 OpenAI 兼容格式天然契合，故只需把默认模型写入键值存储即可接通，零新增后端函数。密钥走 Cloudflare 键值存储（不入库源码、不进 GitHub），复用强哥既有 Agnes 密钥。注意红线：C6 助手对话内容（用户提问）会发往 Agnes 服务（国产公网服务），建议不要在对话中粘贴新光客户/供应商/价格等商业机密原文——助手只转发当前对话消息、不上传全量数据库，风险可控。' },
+        ],
+      },
+      {
         id: 'v2820',
         title: 'V2.82.0（2026-09-07）',
         blocks: [

@@ -9,7 +9,7 @@ export interface AIModelConfig {
   default?: boolean;
 }
 
-export type AIProvider = 'openai' | 'azure' | 'anthropic' | 'deepseek' | 'zhipu' | 'moonshot' | 'siliconflow' | 'custom';
+export type AIProvider = 'openai' | 'azure' | 'anthropic' | 'deepseek' | 'zhipu' | 'moonshot' | 'siliconflow' | 'agnes' | 'custom';
 
 export interface AIChatMessage {
   role: 'system' | 'user' | 'assistant';
@@ -60,6 +60,11 @@ export const AI_PROVIDER_TEMPLATES: Record<AIProvider, { name: string; baseUrl: 
     baseUrl: 'https://api.siliconflow.cn/v1',
     examples: ['deepseek-ai/DeepSeek-V3', 'Qwen/Qwen2.5-72B-Instruct'],
   },
+  agnes: {
+    name: 'Agnes AI',
+    baseUrl: 'https://api.agnes-ai.cn/v1',
+    examples: ['agnes-2.5-flash'],
+  },
   custom: {
     name: '自定义 OpenAI 兼容',
     baseUrl: '',
@@ -77,6 +82,7 @@ export const RECOMMENDED_MODELS = [
   { provider: 'zhipu', model: 'glm-4', name: 'GLM-4', desc: '智谱最新模型' },
   { provider: 'moonshot', model: 'kimi-k2-turbo-preview', name: 'Kimi K2 Turbo', desc: '长文本理解强' },
   { provider: 'siliconflow', model: 'deepseek-ai/DeepSeek-V3', name: 'DeepSeek V3', desc: '硅基聚合，选择丰富' },
+  { provider: 'agnes', model: 'agnes-2.5-flash', name: 'Agnes 2.5 Flash', desc: '国产 OpenAI 兼容，已接通 C6 助手' },
 ];
 
 // 系统提示词模板（ERP场景）
