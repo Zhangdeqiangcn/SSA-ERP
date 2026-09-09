@@ -24,11 +24,14 @@ import {
   type SkipRule,
   type EscalationRule,
   type ApprovalProfile,
+  type FlowStatus,
 } from '@/stores/approvalFlowStore';
 import {
   CONDITION_FIELDS,
   OPERATOR_LABELS,
   getEffectiveSteps,
+  getCustomFlows,
+  getPendingApprovalFlows,
   type ApprovalContext,
 } from '@/data/approvalFlowConfig';
 
@@ -202,6 +205,10 @@ const ApprovalFlowTab: React.FC = () => {
   const [editFlow, setEditFlow] = useState<ApprovalFlow | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | false>(false);
+  /* —— V2.87.0 自定义流程状态 —— */
+  const [createOpen, setCreateOpen] = useState(false);
+  const [newFlow, setNewFlow] = useState<Partial<ApprovalFlow> | null>(null);
+  const [tab, setTab] = useState<'system' | 'custom'>('system');
 
   /* —— 主页面操作 —— */
   const handleToggleFlow = (flowId: string) => {
@@ -228,6 +235,55 @@ const ApprovalFlowTab: React.FC = () => {
   const handleReset = () => {
     resetFlows();
     setEditFlow(null);
+  };
+
+  /* —— V2.87.0 自定义流程操作 —— */
+  const handleCreateOpen = () => {
+    setNewFlow({
+      module: '',
+      moduleLabel: '',
+      description: '',
+      nodes: [],
+      profile: 'standard',
+      visibleRoles: [],
+    });
+    setCreateOpen(true);
+  };
+
+  const handleCreateSave = () => {
+    if (!newFlow?.module || !newFlow?.moduleLabel) return;
+    const { addCustomFlow } = useApprovalFlowStore.getState();
+    const id = addCustomFlow({
+      module: newFlow.module,
+      moduleLabel: newFlow.moduleLabel,
+      nodes: newFlow.nodes ?? [],
+      profile: newFlow.profile,
+      description: newFlow.description,
+      visibleRoles: newFlow.visibleRoles,
+    } as Omit<ApprovalFlowConfig, 'status' | 'enabled'>);
+    setCreateOpen(false);
+    setNewFlow(null);
+    // 自动打开编辑器让用户配置节点
+    const created = useApprovalFlowStore.getState().flows.find((f) => f.id === id);
+    if (created) handleEditFlow(created);
+  };
+
+  const handleSubmitApproval = (id: string) => {
+    useApprovalFlowStore.getState().submitForApproval(id);
+  };
+
+  const handleApprove = (id: string) => {
+    // 取当前登录用户 ID 作为审批人
+    const currentUser = users.find((u) => u.id)?.id ?? 'admin';
+    useApprovalFlowStore.getState().approveFlow(id, currentUser);
+  };
+
+  const handleReject = (id: string) => {
+    useApprovalFlowStore.getState().rejectFlow(id);
+  };
+
+  const handleDeleteCustom = (id: string) => {
+    useApprovalFlowStore.getState().deleteCustomFlow(id);
   };
 
   /* —— 节点编辑 —— */
@@ -378,7 +434,22 @@ const ApprovalFlowTab: React.FC = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexWrap: 'wrap', gap: 1 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, color: '#1E293B' }}>审批流程设置</Typography>
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <ToggleButtonGroup
+            size="small"
+            exclusive
+            value={tab}
+            onChange={(_, v) => v && setTab(v)}
+            sx={{ mr: 1 }}
+          >
+            <ToggleButton value="system">系统预置 ({flows.filter((f) => f.status === 'system' || !f.status).length})</ToggleButton>
+            <ToggleButton value="custom">自定义 ({getCustomFlows().length})</ToggleButton>
+          </ToggleButtonGroup>
+          {tab === 'custom' && (
+            <Button size="small" variant="contained" startIcon={<Add />} onClick={handleCreateOpen}>
+              新建自定义审批流
+            </Button>
+          )}
           <Button size="small" variant="outlined" onClick={handleReset}>恢复默认</Button>
         </Stack>
       </Box>
@@ -386,10 +457,13 @@ const ApprovalFlowTab: React.FC = () => {
       <Alert severity="info" sx={{ mb: 2, borderRadius: 2, fontSize: '0.8125rem' }}>
         深度定制各业务模块审批流：审批人类型（角色/职位/上级/部门负责人/指定用户）、会签模式（串/并/或签）、
         结构化条件、跳过规则、超时升级，以及模块级「标准 / 简化」开关。点击「编辑」进入流程编辑器。
+        {tab === 'custom' && ' · 自定义流程需提交审核发布后才生效，仅对指定组织/角色可见。'}
       </Alert>
 
+      {/* ===== 系统预置流程列表 ===== */}
+      {tab === 'system' && (
       <Stack spacing={1.5}>
-        {flows.map((flow) => {
+        {flows.filter((f) => f.status === 'system' || !f.status).map((flow) => {
           const effective = getEffectiveSteps(flow.module);
           const isSimplified = (flow.profile ?? 'standard') === 'simplified';
           return (
@@ -471,6 +545,116 @@ const ApprovalFlowTab: React.FC = () => {
           );
         })}
       </Stack>
+      )}
+
+      {/* ===== 自定义流程列表 ===== */}
+      {tab === 'custom' && (
+      <Box>
+        {/* 待审批流程 */}
+        {(() => {
+          const pending = getPendingApprovalFlows();
+          if (pending.length > 0) {
+            return (
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" fontWeight={600} color="warning.main" sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PlayArrow sx={{ fontSize: 16 }} /> 待审核发布 ({pending.length})
+                </Typography>
+                <Stack spacing={1}>
+                  {pending.map((flow) => (
+                    <Paper key={flow.id} variant="outlined" sx={{ borderRadius: 2, p: 2, borderLeft: '4px solid #F59E0B' }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Box>
+                          <Typography variant="subtitle2" fontWeight={600}>{flow.moduleLabel}</Typography>
+                          <Typography variant="caption" color="text.secondary">{flow.module} · 创建于 {flow.createdAt?.slice(0, 10) ?? '—'}</Typography>
+                        </Box>
+                        <Stack direction="row" spacing={1}>
+                          <Button size="small" variant="contained" color="success" onClick={() => handleApprove(flow.id)}>批准发布</Button>
+                          <Button size="small" variant="outlined" color="warning" onClick={() => handleReject(flow.id)}>驳回</Button>
+                          <IconButton size="small" color="error" onClick={() => handleDeleteCustom(flow.id)}><Delete fontSize="small" /></IconButton>
+                        </Stack>
+                      </Box>
+                      {flow.description && <Typography variant="body2" sx={{ mt: 1, fontSize: '0.8125rem' }}>{flow.description}</Typography>}
+                      {/* 节点预览 */}
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', mt: 1 }}>
+                        {flow.nodes.sort((a, b) => a.order - b.order).map((node, i) => (
+                          <React.Fragment key={node.id}>
+                            {i > 0 && <ArrowForward sx={{ fontSize: 16, color: '#94A3B8' }} />}
+                            <Chip label={node.name} size="small" variant="outlined" sx={{ fontSize: '0.7rem' }} />
+                          </React.Fragment>
+                        ))}
+                        {flow.nodes.length === 0 && <Typography variant="caption" color="text.secondary">暂无节点（需编辑添加）</Typography>}
+                      </Box>
+                    </Paper>
+                  ))}
+                </Stack>
+              </Box>
+            );
+          }
+          return null;
+        })()}
+
+        {/* 草稿 + 已发布自定义流程 */}
+        <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>全部自定义流程</Typography>
+        {getCustomFlows().length === 0 ? (
+          <Paper variant="outlined" sx={{ borderRadius: 2, p: 4, textAlign: 'center' }}>
+            <Typography color="text.secondary" sx={{ mb: 1 }}>暂无自定义审批流程</Typography>
+            <Button size="small" variant="contained" startIcon={<Add />} onClick={handleCreateOpen}>创建第一个自定义审批流</Button>
+          </Paper>
+        ) : (
+          <Stack spacing={1.5}>
+            {getCustomFlows().map((flow) => {
+              const statusLabel: Record<string, { label: string; color: 'default' | 'primary' | 'success' | 'warning' | 'error' }> = {
+                draft: { label: '草稿', color: 'default' },
+                pending: { label: '待审', color: 'warning' },
+                published: { label: '已发布', color: 'success' },
+              };
+              const st = statusLabel[flow.status ?? 'draft'];
+              return (
+                <Paper key={flow.id} variant="outlined" sx={{ borderRadius: 2, p: 2, opacity: flow.status === 'published' ? 1 : 0.8 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 1 }}>
+                    <Box>
+                      <Typography variant="subtitle1" fontWeight={600}>{flow.moduleLabel}</Typography>
+                      <Typography variant="caption" color="text.secondary">{flow.module}</Typography>
+                    </Box>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Chip label={st.label} size="small" color={st.color} sx={{ fontSize: '0.7rem' }} />
+                      {flow.status === 'draft' && (
+                        <Button size="small" variant="outlined" color="primary" onClick={() => handleSubmitApproval(flow.id)}>提交审核</Button>
+                      )}
+                      {flow.status === 'draft' && (
+                        <IconButton size="small" onClick={() => handleEditFlow(flow)} data-testid={`edit-custom-flow-${flow.id}`}>
+                          <Edit fontSize="small" />
+                        </IconButton>
+                      )}
+                      {(flow.status === 'draft' || flow.status === 'pending') && (
+                        <IconButton size="small" color="error" onClick={() => handleDeleteCustom(flow.id)}>
+                          <Delete fontSize="small" />
+                        </IconButton>
+                      )}
+                    </Stack>
+                  </Box>
+                  {flow.description && <Typography variant="body2" sx={{ mt: 0.5, fontSize: '0.8125rem' }}>{flow.description}</Typography>}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flexWrap: 'wrap', mt: 1 }}>
+                    {flow.nodes.sort((a, b) => a.order - b.order).map((node, i) => (
+                      <React.Fragment key={node.id}>
+                        {i > 0 && <ArrowForward sx={{ fontSize: 16, color: '#94A3B8' }} />}
+                        <Chip label={node.name} size="small" variant={flow.status === 'published' ? 'filled' : 'outlined'} sx={{ fontSize: '0.7rem' }} />
+                      </React.Fragment>
+                    ))}
+                    {flow.nodes.length === 0 && <Typography variant="caption" color="text.secondary">暂无节点</Typography>}
+                  </Box>
+                  {flow.visibleRoles && flow.visibleRoles.length > 0 && (
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                      可见角色：{flow.visibleRoles.map((r) => ROLE_DEFINITIONS.find((d) => d.id === r)?.name ?? r).join('、')}
+                    </Typography>
+                  )}
+                </Paper>
+              );
+            })}
+          </Stack>
+        )}
+      </Box>
+      )}
 
       {/* 流程编辑对话框 */}
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="md" fullWidth>
@@ -729,6 +913,79 @@ const ApprovalFlowTab: React.FC = () => {
         <DialogActions sx={{ px: 3, py: 2 }}>
           <Button onClick={() => setDialogOpen(false)}>取消</Button>
           <Button variant="contained" startIcon={<Save />} onClick={handleSaveFlow}>保存流程</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ===== 新建自定义审批流对话框 ===== */}
+      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontWeight: 600 }}>新建自定义审批流程</DialogTitle>
+        <DialogContent dividers sx={{ pt: 2 }}>
+          {newFlow && (
+            <Stack spacing={2}>
+              <Alert severity="info" sx={{ fontSize: '0.8125rem' }}>
+                创建自定义审批流程后，需提交审核并批准发布才生效。草稿状态下可自由编辑节点。
+              </Alert>
+              <TextField
+                size="small"
+                label="流程名称 *"
+                value={newFlow.moduleLabel ?? ''}
+                onChange={(e) => setNewFlow({ ...newFlow, moduleLabel: e.target.value })}
+                fullWidth
+                placeholder="如：差旅费报销审批"
+              />
+              <TextField
+                size="small"
+                label="模块标识 *"
+                value={newFlow.module ?? ''}
+                onChange={(e) => setNewFlow({ ...newFlow, module: e.target.value.replace(/[^a-z0-9_]/g, '') })}
+                fullWidth
+                placeholder="英文标识，如：expense_reimbursement"
+                helperText="仅允许小写字母、数字、下划线"
+              />
+              <TextField
+                size="small"
+                label="流程描述"
+                value={newFlow.description ?? ''}
+                onChange={(e) => setNewFlow({ ...newFlow, description: e.target.value })}
+                fullWidth
+                multiline
+                rows={2}
+                placeholder="简要说明该审批流程的用途和适用范围"
+              />
+              <FormControl size="small" fullWidth>
+                <InputLabel>可见角色（留空=全部角色可见）</InputLabel>
+                <Select
+                  multiple
+                  label="可见角色（留空=全部角色可见）"
+                  value={newFlow.visibleRoles ?? []}
+                  onChange={(e) => setNewFlow({ ...newFlow, visibleRoles: e.target.value as string[] })}
+                  renderValue={(sel) =>
+                    (sel as string[]).map((id) => ROLE_DEFINITIONS.find((r) => r.id === id)?.name ?? id).join('、') || '全部可见'
+                  }
+                >
+                  {ROLE_DEFINITIONS.map((r) => (
+                    <MenuItem key={r.id} value={r.id}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: r.color }} />
+                        {r.name}
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Stack>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, py: 2 }}>
+          <Button onClick={() => setCreateOpen(false)}>取消</Button>
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={handleCreateSave}
+            disabled={!newFlow?.module || !newFlow?.moduleLabel}
+          >
+            创建流程
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

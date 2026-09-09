@@ -57,6 +57,7 @@ const menuGroups: MenuGroup[] = [
       { label: '供应商注册审批', icon: <Approval />, path: '/vendor/approvals' },
       { label: '采购审批', icon: <Approval />, path: '/purchase/approvals' },
       { label: '价格审批', icon: <Approval />, path: '/price/approvals' },
+      { label: '自定义审批流程', icon: <Rule />, path: '/settings' },
     ],
   },
   {

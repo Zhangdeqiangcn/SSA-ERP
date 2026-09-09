@@ -1,4 +1,8 @@
 import type { FlowDefinition } from './flowDefinitions';
+import type { FlowStatus } from '@/stores/approvalFlowStore';
+
+/** 可被业务层消费的有效流程状态 */
+const ACTIVE_STATUSES: FlowStatus[] = ['system', 'published'];
 import {
   useApprovalFlowStore,
   type ApprovalFlowConfig,
@@ -126,7 +130,9 @@ export function loadApprovalFlows(): ApprovalFlowConfig[] {
 
 export function getApprovalFlow(module: string): ApprovalFlowConfig | undefined {
   const target = normalizeModule(module);
-  return useApprovalFlowStore.getState().flows.find((f) => normalizeModule(f.module) === target);
+  return useApprovalFlowStore.getState().flows.find(
+    (f) => normalizeModule(f.module) === target && ACTIVE_STATUSES.includes(f.status ?? 'system')
+  );
 }
 
 /** 取某模块的审批步骤（按 order 排序），禁用或无配置时返回空数组。
@@ -272,4 +278,36 @@ export function buildEffectiveApprovalFlowDefinition(
     description: nodes.map((n) => n.label).join(' → '),
     nodes,
   };
+}
+
+/* ==========================================================================
+ * 5. 自定义流程读取器（V2.87.0）
+ * ========================================================================== */
+
+/** 获取全部自定义流程（非 system 状态的） */
+export function getCustomFlows(filter?: { status?: FlowStatus }): ApprovalFlowConfig[] {
+  const all = useApprovalFlowStore.getState().flows;
+  return all.filter((f) => f.status !== 'system' && (!filter?.status || f.status === filter.status));
+}
+
+/** 按组织+角色过滤可见的自定义流程（已发布）
+ *  - visibleRoles 为空或不含当前角色时：仅管理员(admin)全可见
+ *  - orgId 隔离：不传或为空时不按组织过滤
+ */
+export function getVisibleCustomFlows(currentRole?: string, orgId?: string): ApprovalFlowConfig[] {
+  const published = getCustomFlows({ status: 'published' });
+  return published.filter((f) => {
+    // 组织隔离
+    if (orgId && f.orgId && f.orgId !== orgId) return false;
+    // 角色可见性：visibleRoles 为空=全部可见；否则当前角色必须在列表中
+    if (f.visibleRoles && f.visibleRoles.length > 0 && currentRole && !f.visibleRoles.includes(currentRole)) {
+      if (currentRole !== 'admin') return false;
+    }
+    return true;
+  });
+}
+
+/** 获取待审批的自定义流程列表（供管理员审批用） */
+export function getPendingApprovalFlows(): ApprovalFlowConfig[] {
+  return getCustomFlows({ status: 'pending' });
 }

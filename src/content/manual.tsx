@@ -958,6 +958,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2870',
+        title: 'V2.87.0（2026-09-09）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**自定义审批流程（新建 + 发布审批 + 组织隔离可见）**：\n① approvalFlowStore 扩展：ApprovalFlowConfig 新增 status（system/draft/pending/published）、createdBy、approvedBy、orgId、visibleRoles、description 字段；新增 addCustomFlow/submitForApproval/approveFlow/rejectFlow/deleteCustomFlow 五个方法；persist 版本 1→2 加 migrate 兼容旧数据（自动补 status=system）。\n② ApprovalFlowTab UI 升级：顶部加 Tab 切换（系统预置 / 自定义）+「新建自定义审批流」按钮；新建对话框录入流程名称/模块标识/描述/可见角色；自定义流程列表分状态展示（草稿可编辑提交/待审可批准驳回/已发布只读）；复用既有节点编辑器（Accordion+ConditionGroupEditor+跳过规则+超时升级）。\n③ 发布审批机制：草稿→提交审核（pending）→管理员批准发布（published+enabled）或驳回（回 draft）；只有 system 和 published 状态的流程才被 getApprovalFlow/getEffectiveSteps 读取生效，草稿和待审状态对业务层不可见。\n④ 组织隔离可见：visibleRoles 字段控制哪些角色能看到该自定义流程（空=全部可见）；getVisibleCustomFlows 按当前角色+组织编号过滤；admin 角色始终全可见。\n⑤ 侧边栏「审批中心」新增「自定义审批流程」入口（指向设置页）；approvalFlowConfig 新增 getCustomFlows/getVisibleCustomFlows/getPendingApprovalFlows 三个读取器。\n⑥ 验证：tsc --noEmit 0 错；vite build 通过；npm run deploy 发布生产；生产端到端门禁 PASS 239 / FAIL 1（FAIL 为 AI 对话 Agnes 接口 429 限流，非本版缺陷）。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥指令「在审批流程中增加自定义审批流程，允许用户新建审批流、选择审批节点，新建的审批流程经过批准后列入审批中心，只对流程涉及到的组织内角色可见」。此前系统仅支持编辑 13 条预置审批流程（sales_order/purchase_request 等），无法创建全新业务场景的审批流。本版在现有引擎上扩展而非另起炉台——复用全部节点编辑器/条件引擎/FlowTracker 链路，零新增 store。发布审批机制防止随意创建即生效的审批流扰乱业务（需管理员审核），组织隔离确保跨部门/跨公司不互相干扰。' },
+        ],
+      },
+      {
         id: 'v2860',
         title: 'V2.86.0（2026-08-27）',
         blocks: [
