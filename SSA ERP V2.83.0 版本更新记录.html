@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.83.0 版本更新记录</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#ffffff; --ink:#1f2933; --sub:#52606d; --line:#e4e7eb; --brand:#2563eb; --ok:#0f9d58; --warn:#d97706; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif; line-height:1.7; }
+  .wrap { max-width:880px; margin:32px auto; padding:0 20px; }
+  .head { background:linear-gradient(135deg,#2563eb,#1e40af); color:#fff; border-radius:16px; padding:28px 32px; }
+  .head h1 { margin:0 0 6px; font-size:26px; }
+  .head .meta { opacity:.9; font-size:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px 26px; margin-top:18px; }
+  .card h2 { margin:0 0 14px; font-size:19px; color:var(--brand); border-left:4px solid var(--brand); padding-left:10px; }
+  .item { margin:12px 0; }
+  .item b { color:var(--ink); }
+  .num { display:inline-block; width:22px; height:22px; line-height:22px; text-align:center; background:var(--brand); color:#fff; border-radius:50%; font-size:12px; margin-right:8px; }
+  table { width:100%; border-collapse:collapse; margin-top:8px; font-size:14px; }
+  th, td { border:1px solid var(--line); padding:9px 12px; text-align:left; }
+  th { background:#eef2ff; color:var(--sub); font-weight:600; }
+  .ok { color:var(--ok); font-weight:700; }
+  .warn { color:var(--warn); font-weight:700; }
+  .note { background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:13px; color:#92400e; margin-top:12px; }
+  code { background:#eef2ff; padding:1px 6px; border-radius:5px; font-size:12px; }
+  .footer { text-align:center; color:var(--sub); font-size:12px; margin:22px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <h1>SSA ERP V2.83.0 版本更新记录</h1>
+    <div class="meta">企业资源管理平台 · 发布日期 2026-09-08 · 构建 2.83.0</div>
+  </div>
+
+  <div class="card">
+    <h2>本次变更：C6 大模型助手接通（Agnes 2.5 Flash 默认模型）</h2>
+    <div class="item"><span class="num">1</span><b>接通依据</b>：按强哥指令，复用其在 WorkBuddy 已配置的「Agnes 2.5 Flash」（国产大模型服务 Agnes AI，OpenAI 兼容端点 <code>api.agnes-ai.cn/v1</code>）作为 SSA ERP 的 C6 大模型助手默认模型。</div>
+    <div class="item"><span class="num">2</span><b>配置落地</b>：把 Agnes 2.5 Flash 写入生产键值存储（KV）AI_MODELS 的默认键 <code>ai_model_default</code>（baseUrl / apiKey / modelId=agnes-2.5-flash / provider=agnes）；密钥存 Cloudflare 侧、不进源码库。后端 <code>functions/api/ai/chat.ts</code> 原生按 OpenAI 兼容格式（<code>baseUrl/chat/completions</code> + Bearer 密钥）调用，无需改调用逻辑即接通，零新增后端函数。</div>
+    <div class="item"><span class="num">3</span><b>源码规范化</b>：<code>src/types/ai.ts</code> 的 AIProvider 类型加 agnes、AI_PROVIDER_TEMPLATES 加 Agnes（baseUrl + 示例 agnes-2.5-flash）、RECOMMENDED_MODELS 加 Agnes 2.5 Flash；<code>functions/api/ai/chat.ts</code> 的 GET /api/ai/models 厂商列表加 agnes，使「设置 → AI 模型」页面可直接选 Agnes 厂商。</div>
+    <div class="item"><span class="num">4</span><b>验证</b>：类型检查 0 错；新增探针 <code>probe_ai_chat.mjs</code> 直击真实生产域——注册隔离组织拿令牌 → GET /api/ai/models 确认默认模型为 Agnes 2.5 Flash → POST /api/ai/chat 真实返回 ERP 解释（success=true），坐实 C6 助手链路全绿。</div>
+    <div class="note">⚠️ 红线提示：C6 助手对话内容（用户提问）会发往 Agnes 服务（国产公网服务），建议不要在对话框中粘贴新光客户 / 供应商 / 价格等商业机密原文。助手仅转发当前对话消息、不上传全量数据库，风险可控。</div>
+  </div>
+
+  <div class="card">
+    <h2>验证结果</h2>
+    <table>
+      <tr><th>项目</th><th>结论</th><th>说明</th></tr>
+      <tr><td>类型检查 tsc --noEmit</td><td class="ok">0 错</td><td>源码改动无类型错误</td></tr>
+      <tr><td>生产构建 vite build</td><td class="ok">通过</td><td>系统 node 构建，dist 产物生成</td></tr>
+      <tr><td>部署生产</td><td class="ok">成功</td><td>https://00513420.ssa-erp.pages.dev（D1 迁移幂等无新）</td></tr>
+      <tr><td>生产门禁 prod-e2e</td><td class="ok">PASS 238 / FAIL 0</td><td>WARN 3 / INFO 6（共 247），零回归</td></tr>
+      <tr><td>C6 聊天探针</td><td class="ok">6/6 全绿</td><td>默认 Agnes + 真实返回非空回复（85~86 字）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>为什么这样操作</h2>
+    <div class="item">强哥指令「按照 WorkBuddy 配置的 Agnes 2.5 Flash 接通 C6 大模型助手」。经核查，项目 C6 大模型助手前后端脚手架早已存在（AIAssistant.tsx 聊天界面 + aiStore + AIConfigPage 设置页 + functions/api/ai 后端 + AI_MODELS 键值存储），此前主计划列为「净缺口」是指未接通具体模型；Agnes 与后端 OpenAI 兼容格式天然契合，故只需把默认模型写入键值存储即可接通，零新增后端函数、与既有架构同源。</div>
+    <div class="item">密钥走 Cloudflare 键值存储（不入库源码、不进 GitHub），复用强哥既有 Agnes 密钥；同时修正生产门禁 <code>10-intelligence</code> 套件——外部大模型依赖偶发网络超时（status=0）由原「误报 FAIL」降级为「WARN」，符合该套件「不因外部依赖不可用误报失败」的设计初衷，避免把 Agnes 抖动当成代码回归。</div>
+  </div>
+
+  <div class="footer">SSA ERP · 单一版本来源 version.ts / package.json / manual.tsx / MEMORY.md 四处已同步 V2.83.0</div>
+</div>
+</body>
+</html>

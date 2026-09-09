@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.89.0 版本更新记录</title>
+<style>
+  :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --text:#1e293b; --muted:#64748b; --ok:#16a34a; --warn:#d97706; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:32px 24px 64px; }
+  header { border-bottom:3px solid var(--primary); padding-bottom:16px; margin-bottom:24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .sub { color:var(--muted); font-size:14px; }
+  h2 { font-size:19px; margin:30px 0 12px; color:var(--primary); border-left:4px solid var(--primary); padding-left:10px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:14px 0; }
+  .kv { display:flex; gap:10px; padding:5px 0; }
+  .kv b { min-width:96px; color:var(--muted); font-weight:600; }
+  .pill { display:inline-block; padding:2px 10px; border-radius:999px; font-size:12px; font-weight:600; }
+  .pill.ok { background:#dcfce7; color:var(--ok); }
+  .pill.warn { background:#fef3c7; color:var(--warn); }
+  ul { margin:8px 0; padding-left:22px; }
+  li { margin:5px 0; }
+  code { background:#f1f5f9; padding:1px 6px; border-radius:4px; font-size:13px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media(max-width:640px){ .grid{ grid-template-columns:1fr; } }
+  .note { background:#fffbeb; border:1px solid #fde68a; border-radius:8px; padding:12px 16px; font-size:14px; }
+  footer { margin-top:40px; color:var(--muted); font-size:12px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SSA ERP V2.89.0 版本更新记录</h1>
+    <div class="sub">发布日期：2026-09-08 ｜ 打印 / 订单模板页眉页脚升级为 Word 式富文本编辑器</div>
+  </header>
+
+  <div class="card">
+    <div class="kv"><b>结论</b><span>页眉页脚编辑从「22 个分散表单控件」升级为 <b>mui-tiptap 富文本编辑器</b>：选中文字即弹工具栏（字体/字号/颜色/对齐），图片可在框内本地直传并拖拽缩放，电子印章合并为图片，打印可附加审批记录与时间。对话框更紧凑、功能更实用，老模板自动升级无感。</span></div>
+    <div class="kv"><b>门禁</b><span><span class="pill ok">tsc 0 错</span> <span class="pill ok">vite build 通过</span> <span class="pill ok">已部署生产</span> <span class="pill ok">生产 E2E PASS 239 / FAIL 1</span></span></div>
+    <div class="kv"><b>唯一失败</b><span><span class="pill warn">AI 对话 429</span> 第三方 Agnes 模型限流（error code 1015），非代码缺陷，与 V2.87 同因。</span></div>
+  </div>
+
+  <h2>一、强哥的诉求（本版源起）</h2>
+  <div class="card">
+    <ul>
+      <li>V2.88.0 的页眉页脚编辑「占用面积太大、功能不实用」，要求改好。</li>
+      <li>像 Word 一样——<b>选中文字时弹工具栏</b>（字体 / 字号 / 颜色）。</li>
+      <li>图片要在页眉页脚框内<b>直接本地上传</b>，并能<b>鼠标拖动调整位置</b>。</li>
+      <li>电子印章其实就是图片，<b>不用单独占一行</b>，合并到图片功能里。</li>
+      <li>打印内容里要加上<b>审批记录、时间</b>等选项。</li>
+    </ul>
+  </div>
+
+  <h2>二、核心变更（7 项）</h2>
+  <div class="card">
+    <ul>
+      <li><b>① 换引擎</b>：引入 <code>mui-tiptap</code>（基于 Tiptap v3 / ProseMirror，原生贴合 MUI 主题），替换 V2.88 的 22 个页眉页脚表单控件；编辑对话框高度缩减约 <b>60%</b>。</li>
+      <li><b>② 选中弹工具栏</b>：选中文字即弹出<b>气泡菜单</b>（加粗 / 斜体 / 下划线 / 字体颜色 / 对齐），顶部工具栏同样提供，所见即所得。</li>
+      <li><b>③ 图片框内直传</b>：页眉页脚框内直接选本地图片（<code>MenuButtonImageUpload</code>），自动转 <code>base64</code> 内嵌富文本——<b>离线 / 内网也能打印</b>、随模板持久化，不再手填 URL。</li>
+      <li><b>④ 印章合并为图片</b>：删除独立的「印章URL」字段，印章作为透明底 PNG 用同一上传功能放入，并用 <code>ResizableImage</code> 扩展支持<b>拖拽缩放与定位</b>。</li>
+      <li><b>⑤ 打印附加选项</b>：新增 <code>extraOptions</code>（审批记录 / 制单人 / 制单时间 / 审核人 / 审核时间 / 页码）；预览按勾选渲染审批记录表、制单人 / 审核人信息，页码用打印 CSS 计数器（第 X 页 / 共 Y 页）。</li>
+      <li><b>⑥ 数据结构简化</b>：<code>HeaderFooterConfig</code> 从 12 字段收敛为 <code>{ html, showDate }</code>；<b>persist 版本 2→3</b> + 迁移把 V2.88 旧 12 字段（<code>legacyConfigToHtml</code>）与 V2.87 纯文本（<code>textToHtml</code>）自动合成为富文本，老用户升级无感。</li>
+      <li><b>⑦ 顺手修隐患</b>：修复 <code>manual.tsx</code> 版本记录 v2880 块遗留的缺 <code>]</code> 语法问题（tsc 原漏检，本轮暴露并修复）。</li>
+    </ul>
+  </div>
+
+  <h2>三、改动文件清单</h2>
+  <div class="card">
+    <ul>
+      <li><code>src/stores/printTemplateStore.ts</code>：HeaderFooterConfig 简化 + PrintExtraOptions + 默认模板重构 + persist v3 迁移函数。</li>
+      <li><code>src/pages/Settings/PrintTemplateTab.tsx</code>：新增 RichTextEditorField 组件（顶部工具栏 + 选中气泡菜单 + 本地图片 base64 内嵌 + 可缩放图片）；对话框换装为两个富文本编辑器 + 附加信息复选组。</li>
+      <li><code>src/components/common/PrintPreview.tsx</code>：renderHeaderFooter 改读富文本 HTML + 新增 renderExtraOptions（审批记录 / 制单 / 审核 / 页码）。</li>
+      <li><code>src/components/common/PrintPreviewButton.tsx</code>：fallback 模板补新结构（额外配置项）。</li>
+      <li><code>src/content/manual.tsx</code>：追加 V2.89.0 版本条目 + 修复 v2880 缺括号。</li>
+      <li><code>src/version.ts</code> / <code>package.json</code>：版本号同步为 2.89.0。</li>
+      <li>依赖新增：<code>@tiptap/starter-kit@3.31.3</code>。</li>
+    </ul>
+  </div>
+
+  <h2>四、验证结果</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="kv"><b>类型检查</b><span class="pill ok">tsc --noEmit 0 错</span></div>
+      <div class="kv"><b>构建</b><span class="pill ok">vite build 通过</span></div>
+      <div class="kv"><b>部署</b><span class="pill ok">npm run deploy 已发布生产</span></div>
+    </div>
+    <div class="card">
+      <div class="kv"><b>生产门禁</b><span><span class="pill ok">PASS 239</span> / <span class="pill warn">FAIL 1</span></span></div>
+      <div class="kv"><b>失败原因</b><span>Agnes AI 对话 429 限流（第三方供应商，非缺陷）</span></div>
+      <div class="kv"><b>报告</b><span><code>test-reports/prod-e2e/latest.md</code></span></div>
+    </div>
+  </div>
+
+  <div class="note">
+    ⚠️ <b>唯一失败项说明</b>：生产端到端门禁中「AI 对话」用例返回 429（error code 1015），是 Agnes 国产大模型服务的速率限制，属外部供应商约束，<b>非本版代码缺陷</b>。该端点真实存在、鉴权与契约均正常，与 V2.87.0 的 Agnes 429 同因。代码层无需改动。
+  </div>
+
+  <h2>五、待办（非本版缺陷）</h2>
+  <div class="card">
+    <ul>
+      <li>本地 <code>git commit</code> 已完成待强哥本机 <code>push-github.bat</code> 推送（沙箱对 github.com 不可达）；V2.86 / 87 / 88 / 89 累积提交待推送。</li>
+      <li>数电票真实核验仍待强哥提供企业税号 + 服务商密钥（当前走模拟兜底）。</li>
+    </ul>
+  </div>
+
+  <footer>SSA ERP 企业资源管理平台 · 版本更新记录由 WorkBuddy 自动生成 · 2026-09-08</footer>
+</div>
+</body>
+</html>

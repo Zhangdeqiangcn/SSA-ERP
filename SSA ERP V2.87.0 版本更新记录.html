@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="HBKKy3VGYSrb12f2MKbE35">
+<head data-page-node-id="GG0m9nbp5xzVhSdjVcWaz7">
+<meta charset="UTF-8" data-page-node-id="Rm9PmwcBf0ZOMA8X99I47o">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="fFbBYb1Alix5yj23utC2sB">
+<title>SSA ERP V2.87.0 版本更新记录 — 自定义审批流程</title>
+<style>
+  :root { --bg: #f8fafc; --card: #fff; --text: #1e293b; --muted: #64748b; --border: #e2e8f0; --primary: #2563eb; --success: #16a34a; --warning: #d97706; --radius: 12px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 24px; max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; }
+  .card h2 { font-size: 1.15rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-orange { background: #fef3c7; color: #b45309; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  th { background: #f1f5f9; font-weight: 600; font-size: 0.85rem; }
+  .flow-status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: 500; }
+  .st-draft { background: #f1f5f9; color: #475569; }
+  .st-pending { background: #fef3c7; color: #b45309; }
+  .st-published { background: #dcfce7; color: #15803d; }
+  .st-system { background: #e0e7ff; color: #4338ca; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  .footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body data-page-node-id="LxoLoAYLhRjWqlF8HWUKks">
+
+<h1 data-page-node-id="Y7w7nBmDDsMbpIkkfQIp5L">SSA ERP V2.87.0</h1>
+<p class="subtitle" data-page-node-id="VETFmPdFpbXSzFFPMMZDCl">2026-09-09 &mdash; 自定义审批流程（新建 + 发布审批 + 组织隔离可见）</p>
+
+<div class="card" data-page-node-id="sbCI8evOuH6kCt4ybrMWCh">
+  <h2 data-page-node-id="7iZXnwwajtLh1VVCveBZnL">📋 结论先行</h2>
+  <p data-page-node-id="gByzaa3UM7AOdGq4UOxfNN">本版实现<strong data-page-node-id="FeZkd6zpqR4wZE6IIlHuVG">自定义审批流程</strong>全功能闭环：用户可从零创建全新业务场景的审批流（选节点/配条件/设可见角色），草稿提交后经管理员批准才生效，已发布流程按组织+角色隔离可见。扩展现有 <code data-page-node-id="aATA62ce29M4c9oEYMK5fd">approvalFlowStore</code> 引擎而非另起炉台，复用全部既有节点编辑器/条件引擎/FlowTracker 链路。</p>
+</div>
+
+<div class="grid" data-page-node-id="EHm8TgJtceY6GKT7oaq62Q">
+  <div class="card" data-page-node-id="5Las4682AmWDmm2AGAMDVf">
+    <h2 data-page-node-id="XSy4mTO22jbI2o6fDsDuIH">🏗️ Store 层变更</h2>
+    <ul data-page-node-id="56BjLBAPAUIUdiHwRCXDxu">
+      <li data-page-node-id="5t0eJIKZUT83E9OxFeVhyE"><code data-page-node-id="GpxUNrrfwyS6qkvtrVblQa">ApprovalFlowConfig</code> 新增 7 个字段：status / createdBy / approvedBy / orgId / visibleRoles / description / createdAt / approvedAt</li>
+      <li data-page-node-id="aTegd80owUV2DEO38meFsH">新增 5 个方法：addCustomFlow / submitForApproval / approveFlow / rejectFlow / deleteCustomFlow</li>
+      <li data-page-node-id="ILBSzccyQtfASUzX8zgKzT">persist 版本 1→2，migrate 自动给旧流程补 <code data-page-node-id="2RBccAhbZmtKJcTHTzieUO">status='system'</code></li>
+      <li data-page-node-id="YkuFjeOxC61EPs9qyxF0m4"><code data-page-node-id="YzgChVLKBJ810Zd0sGnXMh">getApprovalFlow</code> / <code data-page-node-id="sV7nF1DzkUA60QBUkMkCH3">getEffectiveSteps</code> 仅返回 system + published 流程</li>
+    </ul>
+  </div>
+  <div class="card" data-page-node-id="94avbY1Mc3Zcc35RWj8FO3">
+    <h2 data-page-node-id="0ryTUueyxo55gV1Cch3sCz">🎨 UI 层变更</h2>
+    <ul data-page-node-id="4uMH06WBEgKErMgNk3uMWw">
+      <li data-page-node-id="ghLKPpma5FOgEGTizIO7sz">ApprovalFlowTab 顶部加 Tab 切换（系统预置 / 自定义）</li>
+      <li data-page-node-id="BrXhHsitcKn1oiKnHXIiiU">「新建自定义审批流」按钮 + 创建对话框（名称/模块标识/描述/可见角色）</li>
+      <li data-page-node-id="McQaVgXFatCQ4agHSgi0cx">自定义流程列表分状态展示（草稿/待审/已发布）</li>
+      <li data-page-node-id="ErtEkDRQlMhBXAwruaLClw">待审区域独立高亮，支持一键批准/驳回</li>
+      <li data-page-node-id="paLJ0rWFmiD6lDZcqADvFv">侧边栏「审批中心」新增「自定义审批流程」入口</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card" data-page-node-id="sztfD138VfGarx1TjIFssl">
+  <h2 data-page-node-id="GC0mPgmBNtE6cewzNSiAjA">🔄 流程状态机</h2>
+  <table data-page-node-id="cUSFKesro1dQRabUre4yTP">
+    <thead data-page-node-id="VZVk2kNV8geHYs2PY0CvNG"><tr data-page-node-id="27q68o5DUSwPxzJo8htuCD"><th data-page-node-id="wF1oWdCuIFNFYxKLfdmqkA">状态</th><th data-page-node-id="QlTDlyBDCVhaSArBsHLJoT">说明</th><th data-page-node-id="XiynGDk8JLUnbECKchwjIS">可执行操作</th><th data-page-node-id="vRqkARH7bCXgP09y7fo7lh">业务层可见</th></tr></thead>
+    <tbody data-page-node-id="MW1ZESTxzCcATFVJibohZa">
+      <tr data-page-node-id="0JEFd2Sofye7xQcjbR5RBj">
+        <td data-page-node-id="FwXggfYVugYs5Drriep91q"><span class="flow-status st-system" data-page-node-id="aHCVsBBjGuQSXvW1MAId3U">system</span></td>
+        <td data-page-node-id="qd76P5MeGo7TkzxHbbz5Et">系统预置（13 条原始流程）</td>
+        <td data-page-node-id="4zoSnnMYhiVLFjeJlz9zmE">编辑、启停、重置</td>
+        <td data-page-node-id="Px76IAdGaNGHJV0wTy1LeS">✅ 可见</td>
+      </tr>
+      <tr data-page-node-id="DXWbHVatkYY8ZGmWa3N6Ob">
+        <td data-page-node-id="8zBkCNvCcGk5EuNgGbLCwn"><span class="flow-status st-draft" data-page-node-id="kolWuRQUz1UfEDhgcw8Biw">draft</span></td>
+        <td data-page-node-id="6Cw504Z4EyQmolbY8KlGgz">草稿（新建或被驳回）</td>
+        <td data-page-node-id="dJAzGawukN1L7aAaa4hW4F">编辑节点、提交审核、删除</td>
+        <td data-page-node-id="mLc3LcAd5CUWBFkvv8wEok">❌ 不可见</td>
+      </tr>
+      <tr data-page-node-id="HQAGD1tZdNPmDq3bse1bpF">
+        <td data-page-node-id="h02RHi3LuRBbrfbKUzysZI"><span class="flow-status st-pending" data-page-node-id="69fCZ3mPBw3GFKS27duhX5">pending</span></td>
+        <td data-page-node-id="lCZNf1gibltLQ4bVA7Ep9v">待管理员审核发布</td>
+        <td data-page-node-id="xqcADF9ry8AXfkXHErnhIq">批准、驳回、删除</td>
+        <td data-page-node-id="9lCTvCU6XJ6sa9kTODHTUV">❌ 不可见</td>
+      </tr>
+      <tr data-page-node-id="G8ZQtMr9hpUAngumm7IgfT">
+        <td data-page-node-id="c3V66jpe13I5fAbC1hc2U9"><span class="flow-status st-published" data-page-node-id="yshnWR33A8mlcqlstTxYAl">published</span></td>
+        <td data-page-node-id="8RNFxQarUsLSNPnvPHACTy">已发布生效</td>
+        <td data-page-node-id="H9qmiNfIYRZdLpPHRMGLv6">查看（不可编辑/删除）</td>
+        <td data-page-node-id="X0Mf8iBuHH2GPCPpEu3Ff9">✅ 可见（受 visibleRoles 过滤）</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card" data-page-node-id="Atz5mseFmDaaAAHAONobUm">
+  <h2 data-page-node-id="tgPc9n4zo38xS3NMqk3df6">🔒 组织隔离与角色可见性</h2>
+  <ul data-page-node-id="paAQa02GNZhlSlcwy2kE3I">
+    <li data-page-node-id="1wy0Hz0HG0OSI3E1JmxBUt"><strong data-page-node-id="UsxBN1DglFSm9ixcSB2ToK">visibleRoles</strong> 为空 → 全部角色可见该流程</li>
+    <li data-page-node-id="FaVKw8ArYArpTaptyE810Q"><strong data-page-node-id="DSwdysHwuUlqcQjPahRPCn">visibleRoles</strong> 非空 → 仅列表中角色 + admin 可见</li>
+    <li data-page-node-id="MxHv5Crb3hp9Kohea07dN7"><strong data-page-node-id="awjlvdRkPEn719eQHAQGFo">orgId</strong> 隔离 → 不同组织的用户互不可见对方自定义流程</li>
+    <li data-page-node-id="GVRB9AGENzuEvoNyYeL2D0">读取器 <code data-page-node-id="0UrEFZcU9TFZfMnpymFX4F">getVisibleCustomFlows(currentRole, orgId)</code> 封装全部过滤逻辑</li>
+  </ul>
+</div>
+
+<div class="card" data-page-node-id="856oRRZC0nhaW37bBnmc0O">
+  <h2 data-page-node-id="5W0Q6CRFgC1dAqBRCVYEBU">✅ 验证结果</h2>
+  <table data-page-node-id="ZYNE53joMYMExRfGswqnAo">
+    <thead data-page-node-id="lp7OcKSKtLjRw1B9GVyt29"><tr data-page-node-id="ljL0ndgue0eFi4KRZPZiMW"><th data-page-node-id="mKfI7qE8pnZDcGwIc98UFH">检查项</th><th data-page-node-id="qjnTPIZhkhjl27yqiVF4mk">结果</th></tr></thead>
+    <tbody data-page-node-id="WwYVC7cWMEAxtZpVR38aMb">
+      <tr data-page-node-id="9RGM1E99gFDFHeXz1AHQII"><td data-page-node-id="djCjnkHemItNCb2pGUhbLi">TypeScript 类型检查 (tsc --noEmit)</td><td data-page-node-id="DLGFqrO7H3hT8FGdAdsXPD"><span class="badge badge-green" data-page-node-id="yWm0VdnbzcPDXAu9GuMrP7">0 错误</span></td></tr>
+      <tr data-page-node-id="2sB62VnvmbGHre7EjxCynv"><td data-page-node-id="KHyUFjvLzBI8Xs0ymWhupc">Vite 生产构建</td><td data-page-node-id="FzkvIqrutFy9fkNPSDS0C9"><span class="badge badge-green" data-page-node-id="CBjCCIVaH8qulKhRARR1ie">通过 (36.8s)</span></td></tr>
+      <tr data-page-node-id="V92X0hEJtQryCbhkRpXpl3"><td data-page-node-id="u94EpYFlc3a8sE77U6Mjce">Cloudflare Pages 部署</td><td data-page-node-id="WRNCL4hw0AaVkeGuuIu7Vn"><span class="badge badge-green" data-page-node-id="IBWVFTfrSuY3MqEXqJAXxR">成功 (265 文件)</span></td></tr>
+      <tr data-page-node-id="564z66EFIbolggc2X5KOTi"><td data-page-node-id="aw18y8bPEESHqWVGoVjXe6">生产端到端门禁</td><td data-page-node-id="7uSW2kaYVZnbgcGBHZ5eVs"><span class="badge badge-green" data-page-node-id="jW2dbBhKLEUiw6tsfUgHIB">PASS 239 / FAIL 1</span></td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 8px; font-size: 0.85rem; color: var(--muted);" data-page-node-id="q4r2JfFIEd1o7PA8a6mPz3">注：FAIL 1 为 AI 对话探针返回 Agnes 接口 429 限流，属外部依赖问题，非本版缺陷。</p>
+</div>
+
+<div class="card" data-page-node-id="skFTSkj2fd35nQbHdP2bb4">
+  <h2 data-page-node-id="HDWfYAPTn1FJ5ovuoCTNZ0">📝 改动文件清单</h2>
+  <ul data-page-node-id="2tYOgdvJSkffaY8DFhAeEt">
+    <li data-page-node-id="8H5xaGgDd2oWVwjlquTzf1"><code data-page-node-id="2q9tfVo1h0lAp6ngSe5jP4">src/stores/approvalFlowStore.ts</code> — 接口扩展 + 5 方法 + persist v2 migrate</li>
+    <li data-page-node-id="hHoQZBqLrss7WxFEMa9nZU"><code data-page-node-id="iNE8UUYzE6a8PEREHQRoBf">src/data/approvalFlowConfig.ts</code> — 读取过滤 + 3 个新读取器</li>
+    <li data-page-node-id="fhkGaGDGm9AJklScw9GFCs"><code data-page-node-id="QTZboKF78XD03sfysurYGA">src/pages/Settings/ApprovalFlowTab.tsx</code> — Tab 切换 + 新建/待审/自定义列表 + 创建对话框</li>
+    <li data-page-node-id="Hv3JlAyAkcDySgbGupujkj"><code data-page-node-id="czZYI8qFZeBjVYr3Qnd3Oa">src/components/layout/Sidebar.tsx</code> — 审批中心加「自定义审批流程」入口</li>
+    <li data-page-node-id="t84fQvVTPC26YBEMihfubd"><code data-page-node-id="dkXGWVCMywQCCKRgyzYXO8">src/version.ts</code> / <code data-page-node-id="QbGvz0wmIWHOf0AIotEr88">package.json</code> — V2.87.0</li>
+    <li data-page-node-id="Y9oji7AgANwKKmQTd4kMFp"><code data-page-node-id="6wqacu4iV3PcBECuZnmNDl">src/content/manual.tsx</code> — 说明书 V2.87.0 条目</li>
+    <li data-page-node-id="8mJcazQwJ3YWwCCzXGyEEc"><code data-page-node-id="sslzDQkmQyNulexjlUDgNl">docs/ssa-erp-master-plan.md</code> — §11.4 标记闭合</li>
+  </ul>
+</div>
+
+<div class="footer" data-page-node-id="t3ZGUmPqUM38STvUvTT9co">
+  SSA ERP V2.87.0 &mdash; 2026-09-09 &mdash; 强哥拍板「扩展现有引擎」方案
+</div>
+
+</body>
+</html>

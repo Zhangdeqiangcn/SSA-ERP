@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="6WbyagC5cMAtAHJaToFEeK">
+<head data-page-node-id="zRG6IhW0dUl8zojWmZQhkt">
+<meta charset="UTF-8" data-page-node-id="oh8kvG1shQrbcRApxueX1R" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="tUEZXh8wPFAhWlROzvRsBe" />
+<title>SSA ERP 系统测试步骤清单（V2.86.0）</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2933; --muted:#647084;
+    --line:#e3e8ef; --brand:#2563eb; --brandbg:#eaf1ff;
+    --ok:#0f9d58; --okbg:#e7f6ec; --warn:#d97706; --warnbg:#fef3e2;
+    --stage:#7c3aed; --stagebg:#f3ebfe;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"Microsoft YaHei","PingFang SC",Segoe UI,sans-serif;
+    line-height:1.7;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+  header{background:linear-gradient(135deg,#2563eb,#1e40af);color:#fff;border-radius:16px;
+    padding:26px 30px;box-shadow:0 6px 20px rgba(37,99,235,.25)}
+  header h1{margin:0 0 6px;font-size:24px}
+  header p{margin:0;opacity:.92;font-size:14px}
+  .note{background:var(--warnbg);border:1px solid #f6d9a8;color:#8a5a00;
+    padding:14px 18px;border-radius:12px;margin:22px 0;font-size:14px}
+  .note b{color:#7a4e00}
+  h2{margin:30px 0 12px;padding-left:12px;border-left:5px solid var(--brand);font-size:19px}
+  h2 .tag{font-size:12px;background:var(--brandbg);color:var(--brand);
+    padding:2px 10px;border-radius:20px;margin-left:10px;vertical-align:middle}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:6px 0;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,.04)}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:#f0f4f9;color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.02em}
+  tr:last-child td{border-bottom:none}
+  td.idx{color:var(--brand);font-weight:700;white-space:nowrap;width:46px}
+  td.path{font-family:"Consolas",monospace;font-size:13px;background:#f8fafc;
+    border-radius:6px;padding:8px 10px;color:#334155}
+  td.check{color:var(--ok);font-size:13.5px}
+  .ok{color:var(--ok);background:var(--okbg);padding:1px 8px;border-radius:6px;font-size:12.5px;white-space:nowrap}
+  .key{background:#fff4d6;color:#8a5a00;padding:1px 7px;border-radius:6px;font-size:12.5px;font-weight:600}
+  .pill{display:inline-block;background:var(--stagebg);color:var(--stage);
+    font-size:12px;padding:2px 9px;border-radius:20px;margin-right:6px}
+  footer{margin-top:34px;color:var(--muted);font-size:13px;text-align:center}
+  .big{font-size:16px;background:#eef2ff;border:1px dashed #c7d2fe;
+    padding:14px 18px;border-radius:12px;margin:18px 0}
+  .big b{color:var(--brand)}
+  code{background:#eef2f7;padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body data-page-node-id="dxmnD8kot9yxwtQ3yjmV8G">
+<div class="wrap" data-page-node-id="CApwLJVT12ufdQcDGKnStY">
+
+<header data-page-node-id="THhXb0GOkkgy7jpajA9rva">
+  <h1 data-page-node-id="JOFUiUElgQWUlinvQOcJaf">SSA ERP 系统测试步骤清单</h1>
+  <p data-page-node-id="UEhq7fpJaXN9QefHvCfgx5">版本 V2.86.0（钢材供应链版）· 从基础配置到业务全链路 · 含字段权限（V2.86 核心）回归</p>
+</header>
+
+<div class="note" data-page-node-id="eN85ZNVBGv3cOnLlb6dZ8Q">
+  <b data-page-node-id="QntiEUxDFB0Ps5ZJqHWYVX">关于「公司配置」：</b>系统侧边栏没有单独叫"公司配置"的菜单。初始化公司的真实入口在
+  <b data-page-node-id="CIntkl1wilX8JyIfK7B5Ut">「系统设置」</b>页里的 <b data-page-node-id="ztuN9Tb9P6EZ5SOhs2GWsy">组织配置</b> 和 <b data-page-node-id="caulHoJ9aXsO45bTXQ9Bbf">基础配置</b> 两个页签。本清单第一步就从这里开始。
+  另外，系统自带一键回归工具 <b data-page-node-id="GQK4guEPF5NlUnTgNOEmuQ">「测试与诊断 → 全流程自检」</b>（路径 <code data-page-node-id="OA2OCNRWOa6pAW8d1YAFLs">/test/flow</code>），建议放在最后一步整体验收。
+</div>
+
+<div class="big" data-page-node-id="lJJqm4Rmm5lCuZyoGoTXJa">
+  🧭 <b data-page-node-id="TixCerfhJd6A4ujaWffI8J">测试顺序总览（11 个阶段）：</b>
+  ① 基础配置 → ② 主数据 → ③ 采购到付款 → ④ 仓储物流 → ⑤ 质量 → ⑥ 生产 → ⑦ 销售到收款 →
+  ⑧ 财务 → ⑨ 移动端（渐进式网页应用）→ ⑩ 字段权限验证（V2.86 核心回归）→ ⑪ 全流程自检
+</div>
+
+<!-- ============ 第一阶段 ============ -->
+<h2 data-page-node-id="dCUuC1jMPaSE6VdFqGzxtC">第一阶段：基础配置（系统设置）<span class="tag" data-page-node-id="imSuWggz38z3MMq5ROEa4E">初始化起点</span></h2>
+<div class="card" data-page-node-id="vzqUazPXhHEK6xlZDscrj0"><table data-page-node-id="xL09DkhHlpqDBJ9Z1RZ0OP">
+  <thead data-page-node-id="EgK8cCMxXLBNMwOvSSJuaw"><tr data-page-node-id="EMlnbcSqhdcBYTqhawIWKR"><th style="width:46px" data-page-node-id="WNimiKD2ZjqlZe9N6aBCYL">#</th><th data-page-node-id="1v2G6is0HlX5sLDOB8qxvx">操作路径（侧边栏点击）</th><th data-page-node-id="VwsUOuWf9kwQiXkIAhVtoe">验证点</th></tr></thead>
+  <tbody data-page-node-id="vuqkVVy9krPyLU3oArOTwx">
+    <tr data-page-node-id="ZcEzFFzc3VDDFAEEkOSXC3"><td class="idx" data-page-node-id="oVmCRHDJPFXq0SxxvYdBLo">1.1</td><td class="path" data-page-node-id="ihCJOG6RdFvVo98L6Z9jVy">系统设置 → 组织配置（OrgTab）</td>
+    <td class="check" data-page-node-id="W75bgCfSUT49qOQQC1GFbz">新建/确认：公司、工厂、库存地点、采购组织、销售组织。组织结构树能正常显示与展开。<span class="ok" data-page-node-id="jQ9SYDSnbbUgHIBbX0KWuF">组织是后续所有单据的归属主体</span></td></tr>
+    <tr data-page-node-id="SHmEwtR91e1gL4hb43UhuC"><td class="idx" data-page-node-id="Xo5M6eCYtng29skN1umd8Z">1.2</td><td class="path" data-page-node-id="CDJp8PUgk2E57nZIiRtF8a">系统设置 → 基础配置（BasicConfigTab）</td>
+    <td class="check" data-page-node-id="wbXnCZC9LA38RVoygdHJsq">填写公司名称、本位币（如人民币）、默认税率、会计期间、界面语言。保存后刷新页面，配置仍在。</td></tr>
+    <tr data-page-node-id="0EqXn2zW1vFe5GPReV008U"><td class="idx" data-page-node-id="Di2bNoASjbmvhVAWv3dLLS">1.3</td><td class="path" data-page-node-id="KSsJg6C7tFIvtwmMlZy5SE">系统设置 → 编号规则（NumberingTab）</td>
+    <td class="check" data-page-node-id="c3FE8WOnGOb3Ykab3uEEBP">设采购订单 / 销售订单 / 物料编码前缀与流水号规则。新建单据时自动带出编号。</td></tr>
+    <tr data-page-node-id="1PLfVC65lU708ttdeQVpTz"><td class="idx" data-page-node-id="wfx5g7OBY9mZXzAhztBKSL">1.4</td><td class="path" data-page-node-id="aJlA0y8tppLtvlpCnlCwLF">系统设置 → 数据权限（DataPermissionTab）</td>
+    <td class="check" data-page-node-id="f6G9cGxHpX3rjW2l2Bwu5g">切换角色，勾选要隐藏的敏感字段（如库管员隐藏"物料标准价"）。<span class="key" data-page-node-id="08CuWPLzwapRk9H4XbbCmL">见第十阶段</span>联动验证。</td></tr>
+    <tr data-page-node-id="BMKKh56MYsrcHuccYh9af2"><td class="idx" data-page-node-id="qvtyzhJwTx3LoHAj1G1xBi">1.5</td><td class="path" data-page-node-id="8RjW1lpWk2vhWHY7z6qcWB">系统设置 → AI 模型（AIConfigPage）</td>
+    <td class="check" data-page-node-id="HoO70eMEHTNJgdKMSVCYTS">确认默认模型为 <b data-page-node-id="OTxFDh13PwynQF4Qu3hpzx">Agnes 2.5 Flash</b>（国产大模型服务）。进入任意 C6 助手对话能正常返回解答。</td></tr>
+    <tr data-page-node-id="C3Z3Ck4HPIGW3Js8tan2Zr"><td class="idx" data-page-node-id="oFExvKJ8LD5ftXbyXHCKGU">1.6</td><td class="path" data-page-node-id="dO4eGQYwMipqbTP5l0qzt5">系统设置 → 税务配置（TaxConfigPage）</td>
+    <td class="check" data-page-node-id="L6x4XHkfC5LLfEZgTcKzK5">填入企业税号。数电票真实核验通道需另配服务商密钥（未配则走模拟兜底）。</td></tr>
+    <tr data-page-node-id="OCedMnbZF8sZKFeckVDAz2"><td class="idx" data-page-node-id="oX3Rfqh35FQPWjrvf5p4h9">1.7</td><td class="path" data-page-node-id="sqvrtv0i3qJQE8WyikvAqx">系统设置 → 移动门户（MobileTab）</td>
+    <td class="check" data-page-node-id="S7TLBaI5E75QxAnfkAIOk7">显示真实二维码（编码地址+/m），"打开移动门户"按钮可跳转渐进式网页应用。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第二阶段 ============ -->
+<h2 data-page-node-id="WZFC56gXTSJGPWBSYcQ6BJ">第二阶段：主数据<span class="tag" data-page-node-id="mrD6MuzTWI7vtxUjFZDGLx">业务地基</span></h2>
+<div class="card" data-page-node-id="mGDz2swqcY10A8I3JSt031"><table data-page-node-id="eLfDFEurovI9nEHzOpToHu">
+  <thead data-page-node-id="VupYTb13CEPLVJSf4c0t0X"><tr data-page-node-id="uQereyPFUIoumsBczEBB7m"><th style="width:46px" data-page-node-id="RZ2FHCu20ZwwK0BNdyvMkz">#</th><th data-page-node-id="qaukBhm8aMlOzAyNcvZiWm">操作路径</th><th data-page-node-id="35s5e5uUqHyR8AfSWgiH6p">验证点</th></tr></thead>
+  <tbody data-page-node-id="RI0I0NC8YOTXodYoeqXOgE">
+    <tr data-page-node-id="s96VWYZenFG77ecEtvuhep"><td class="idx" data-page-node-id="0fEWs0A3aXl8DnVLIFJp62">2.1</td><td class="path" data-page-node-id="MhufnGM5bQ9ZVU4ar4cLxq">主数据 → 物料管理 → 物料分类</td>
+    <td class="check" data-page-node-id="mdwOoHT2CmfepPVTXNj4Ya">建立物料分类层级（如原材料/半成品/产成品）。</td></tr>
+    <tr data-page-node-id="DFvb80YqagNdSN3Pj3uOI7"><td class="idx" data-page-node-id="jXqiiPGYPW7RQKgH75U21z">2.2</td><td class="path" data-page-node-id="uT7NulY9eTeWzA96dFvjCZ">主数据 → 物料管理 → 物料列表</td>
+    <td class="check" data-page-node-id="GotE83wma3fAckz34nZ3Wf">新建物料，填写评估类、价格控制、标准价/移动平均价、当前库存。列表可增删改查、可搜索。</td></tr>
+    <tr data-page-node-id="rJXNjMHK2zAZBgDmQkgq9k"><td class="idx" data-page-node-id="DTOMbqSMDwguCFwVx6IBtS">2.3</td><td class="path" data-page-node-id="EvtiGI8A03jc6FeEB09fMA">主数据 → 物料管理 → 评估类与价控</td>
+    <td class="check" data-page-node-id="SA2o23sOlYG8T7ddu28rdT">确认评估类与计价方式映射正确（标准价/移动平均价）。</td></tr>
+    <tr data-page-node-id="gLX9PniYQoLD4azIweRczT"><td class="idx" data-page-node-id="egIuKND29ewqW0C9UMsTcv">2.4</td><td class="path" data-page-node-id="a7xrHO4v4FYnuPAOmfZ7hR">物料详情 → 替代料组（V2.84/85）</td>
+    <td class="check" data-page-node-id="8xBrKRbuDuERieSgcBLYxT">为物料添加替代料，设优先级、替代类型、替换比例。列表按优先级升序显示。</td></tr>
+    <tr data-page-node-id="yWnH1FWvfRjnbYJDmDep6p"><td class="idx" data-page-node-id="cGaZRllSMNLNitzEoAYxmU">2.5</td><td class="path" data-page-node-id="qu3YzdyzzOMe09kziuFR63">主数据 → 供应商管理 → 供应商列表</td>
+    <td class="check" data-page-node-id="hHaYS8vRXJldJq6P5kbLBq">新建供应商，填评级、风险评分、黑名单标记。供应商门户配置可访问。</td></tr>
+    <tr data-page-node-id="AwDouRDwCp98avtm4SVSfv"><td class="idx" data-page-node-id="UbQDYVNJK7zchLBLGB0Yvv">2.6</td><td class="path" data-page-node-id="2q2VhRu2izxxYGKorCWTSN">销售管理 → 销售管理 → 客户主数据</td>
+    <td class="check" data-page-node-id="2Jy8GGltzAFdBTnxIJzGL7">新建客户，填授信额度（creditLimit）。<span class="key" data-page-node-id="SWNTyZnKZyqo88eGrcpGOn">V2.86 字段权限</span>：非特权角色此处应显示屏蔽。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第三阶段 ============ -->
+<h2 data-page-node-id="XueOtjaPcUGKQzx71VRpzi">第三阶段：采购到付款<span class="tag" data-page-node-id="y5hjlgRYAuQiRihsSijjHs">供应链起点</span></h2>
+<div class="card" data-page-node-id="ebH0XldwhxRLMk2joT9iQS"><table data-page-node-id="VzCH3tTbEBYNGuTIBP0ubE">
+  <thead data-page-node-id="FZKuRXoZRqYdMb2osPVCke"><tr data-page-node-id="2IS2IaTCgdYeJ70dUlywb4"><th style="width:46px" data-page-node-id="RIXDevAYRjyKFH8rHiRvVt">#</th><th data-page-node-id="rq5EHC9Q3eK3ytGz85K1XY">操作路径</th><th data-page-node-id="zHD0NCg66V8X4JInwb9IxO">验证点</th></tr></thead>
+  <tbody data-page-node-id="A7B0FKtGsoi3Dr8sLP3EWY">
+    <tr data-page-node-id="7yq3nQ2YneelvkOGojfn8a"><td class="idx" data-page-node-id="Qq9kF9eFnQksBZR0frMU38">3.1</td><td class="path" data-page-node-id="S1ZNjvJpCQg4ivbDpBuiAn">供应链 → 采购管理 → 采购申请</td>
+    <td class="check" data-page-node-id="ykrvFBThqOHlLOuOJhPgZx">新建申请，选物料/数量，提交进入审批流。</td></tr>
+    <tr data-page-node-id="jC5lRdz7Cx9S03OjGW1M4h"><td class="idx" data-page-node-id="rfDTlimnBIMc0kxrki2TzD">3.2</td><td class="path" data-page-node-id="ZMRzohbKFGzpMqCjjX2SmJ">供应链 → 采购管理 → 采购订单</td>
+    <td class="check" data-page-node-id="RzKcDkPQHnNZDCvtrxvEew">由申请转订单或新建，关联供应商+物料，自动带出编号（见 1.3）。</td></tr>
+    <tr data-page-node-id="68F8ptAPJAe0hXHJWB43rS"><td class="idx" data-page-node-id="xGWfmjJw7WBHPf5bC2luks">3.3</td><td class="path" data-page-node-id="0BFvBrdNfcn7CogC252C60">审批中心 → 采购审批</td>
+    <td class="check" data-page-node-id="akAgDdYuR64IZMniHrQ4RQ">审批人登录可看到待办，审批通过/驳回，状态回写订单。</td></tr>
+    <tr data-page-node-id="GvUzmw1pUkOKyXcNOwOh1Q"><td class="idx" data-page-node-id="s6x4ea3uEvlqE8N3bkWDlz">3.4</td><td class="path" data-page-node-id="i3THvWmH2qymCtOFivyIZV">供应链 → 采购管理 → 交期跟踪</td>
+    <td class="check" data-page-node-id="ISWdlKiVluBJ5K2tzU26eD">订单交期、催货进度可跟踪。</td></tr>
+    <tr data-page-node-id="vuxl89TxvvjPRqxdYcGEct"><td class="idx" data-page-node-id="3UkCleNlbkLaVPSToENT8H">3.5</td><td class="path" data-page-node-id="RQT7TDx1AvQPU23b0yE6dY">采购管理 → 框架协议 / 信息记录 / 货源清单</td>
+    <td class="check" data-page-node-id="Z2rGjg2LllwGjUPHuWtb6k">三种采购主数据可建立，货源清单影响后续货源建议。</td></tr>
+    <tr data-page-node-id="3evbQAFB6FsMLkBjZjcRoR"><td class="idx" data-page-node-id="LpCwQRGIENpkS9p28wWwGl">3.6</td><td class="path" data-page-node-id="sd8O9rivfgICmUYrFoTpxh">财务与报表 → 财务管理 → 三单匹配</td>
+    <td class="check" data-page-node-id="qGgNi7zdDb1hF2KEmblttB">采购订单 / 收货 / 发票三方匹配，差异可标红。</td></tr>
+    <tr data-page-node-id="h3a0nwA0VbxsZLmyQLfEZt"><td class="idx" data-page-node-id="se71GPBkwqaKmceH1bAfiI">3.7</td><td class="path" data-page-node-id="V0Bog2ihw036936vzjZELi">财务管理 → 付款计划</td>
+    <td class="check" data-page-node-id="i5lyRYb8wBFZkcXjBufARo">基于发票生成付款计划，到期提醒。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第四阶段 ============ -->
+<h2 data-page-node-id="OsioZrFgshWxcYge3rbW9d">第四阶段：仓储物流<span class="tag" data-page-node-id="gvWz0wWxDAgNn0rnXUTCUf">实物流动</span></h2>
+<div class="card" data-page-node-id="oCKVfagF5G5hVZuUTTBHI5"><table data-page-node-id="J7qKlPtipKh0Rk2dhLeMs3">
+  <thead data-page-node-id="9el2BrBVUNcNTIP3o7oCb1"><tr data-page-node-id="aJMyMUUpEAB9bWaDWGhqov"><th style="width:46px" data-page-node-id="oxz3LpDDGFsjBJCcSBgRYT">#</th><th data-page-node-id="JIP2Gyxz4T4K0fTRoevr1m">操作路径</th><th data-page-node-id="Fe3wIF5n2dm0dmxF4eDH47">验证点</th></tr></thead>
+  <tbody data-page-node-id="VEMCEyxTVNzahYYBBt5ApM">
+    <tr data-page-node-id="gvtxThfhikoajZe0nUQsHV"><td class="idx" data-page-node-id="v71zthwR7FKSTSpAC9mblx">4.1</td><td class="path" data-page-node-id="7AOAuzIpGGbidZGNrQrbGl">供应链 → 仓储物流 → 报检单</td>
+    <td class="check" data-page-node-id="inRvuAlj1lzbvrxL3oBiVQ">来料报检，关联后续检验单。</td></tr>
+    <tr data-page-node-id="Afjo4lZB5sYqDIVvatqBPm"><td class="idx" data-page-node-id="BuL8m0vUlQmGRsvkivTEF1">4.2</td><td class="path" data-page-node-id="YhDoEwatwoCTeZy5HVoe5J">仓储物流 → 采购入库</td>
+    <td class="check" data-page-node-id="WvXrraOyua3NubI6gUQOEb">选待入库单，录实收数，过账后<b data-page-node-id="Vx4qvHRXGevsagYmwzHrTE">真实扣减/增加库存</b>（联动 2.2 当前库存、4.3 查询）。</td></tr>
+    <tr data-page-node-id="P44h3Mj8de7u66V6DgnX1a"><td class="idx" data-page-node-id="iBPBuzoMkltUZ83a5hfKdD">4.3</td><td class="path" data-page-node-id="pCGFWTI4KRXvaECatXNCV7">仓储物流 → 库存查询</td>
+    <td class="check" data-page-node-id="bJP3RXUZfowXvTugfEYxyf">入库后数量实时更新；可按物料/批次筛选。</td></tr>
+    <tr data-page-node-id="Gs60D3UI8EAVUyADG5YbQV"><td class="idx" data-page-node-id="Wd0H5ojkE36fIHqewISLNt">4.4</td><td class="path" data-page-node-id="VXMC1quXSsFvBJ7ozPmC8G">仓储物流 → 库存盘点</td>
+    <td class="check" data-page-node-id="YQ4TXTQFv2Mf3lOFlh906Z">建盘点任务，录实盘，差异自动调库存（实盘−账面）。</td></tr>
+    <tr data-page-node-id="3gPigxg21BRcPYuiHI6jSl"><td class="idx" data-page-node-id="mwP0k7DyDAlMoQFlJceEU9">4.5</td><td class="path" data-page-node-id="AMhpvYLpJMOFE9Y8w3N5UR">仓储物流 → 库龄分析</td>
+    <td class="check" data-page-node-id="KsHKQSK2c2hURvJDDzcjHo">库存金额（stockValue）按 ABC 分类与呆滞料展示。<span class="key" data-page-node-id="6oWrBBqpPHqtNiL1jtJ3yG">V2.86 字段权限</span>：非特权角色此处金额显示屏蔽。</td></tr>
+    <tr data-page-node-id="mdvuuxmBYkF1vA2qTZXKns"><td class="idx" data-page-node-id="8fo3jEVBSx4ZrW7XbCLqnC">4.6</td><td class="path" data-page-node-id="lEriLckmi9xUCoGNAp5Agq">仓储物流 → 条码打印</td>
+    <td class="check" data-page-node-id="kpEZPHjDGomZ6EocV2iIas">打印物料/库存条码（一维码 Code 39 规则，与移动端扫码一致）。</td></tr>
+    <tr data-page-node-id="n4pfXQW8etAZUAFbLpzRV3"><td class="idx" data-page-node-id="6hLEXXS2scv05O6RFZv3EZ">4.7</td><td class="path" data-page-node-id="7YpWBeVKbVYBSoz0i7Nk8k">仓储物流 → 成品入库 / 出库管理</td>
+    <td class="check" data-page-node-id="821Y4ZeaCfTWAU0onWlLSV">成品入库关联工单；出库发料扣库存、批次先进先出。</td></tr>
+    <tr data-page-node-id="8PBDPqAvMezsGQS8UjPSfT"><td class="idx" data-page-node-id="TtPkkRMr2EtstAk5oYkoyl">4.8</td><td class="path" data-page-node-id="XCdVaWS36wKZNdzB5Q5xUg">仓储物流 → 跨组织转储 / 库存调整 / 批次追溯穿透</td>
+    <td class="check" data-page-node-id="01yGrhP6gUo8YlSN5NQSNX">三种库存操作可完成，批次追溯能穿透来源。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第五阶段 ============ -->
+<h2 data-page-node-id="pXXJwonZJMyegBSZnlCk8S">第五阶段：质量<span class="tag" data-page-node-id="zlBME25QZX6WxbjNBWtGTA">来料/成品把关</span></h2>
+<div class="card" data-page-node-id="q0ZE1kYZMyKoTxh1gwChb3"><table data-page-node-id="Yt2koZ3YP4Q22PeHRGGFYi">
+  <thead data-page-node-id="LyqJxpS4LfH6AW69hNr03z"><tr data-page-node-id="aJReszlZhYYvh5kOfMdOTO"><th style="width:46px" data-page-node-id="TZ4bMk47zg1y3GTjXoUoVC">#</th><th data-page-node-id="O97vADDZscvioWIe6QPkht">操作路径</th><th data-page-node-id="fvAAHW4HW6X8fmRC5LR81I">验证点</th></tr></thead>
+  <tbody data-page-node-id="wk5NyERfG33zXoNA8D293J">
+    <tr data-page-node-id="vxD7fJ6QLaLdv1fR21agLF"><td class="idx" data-page-node-id="u3j587ppOQFF8Fc1P4onEn">5.1</td><td class="path" data-page-node-id="5MYJYN5etmxViMFHHLfezh">生产与质量 → 质量管理 → 检验任务</td>
+    <td class="check" data-page-node-id="H2FYBhLU40KwdborjBYgeJ">来料/成品检验任务可领取、录入结果、判定合格/不合格。</td></tr>
+    <tr data-page-node-id="J6AeigLb5soq7xRqpwWM53"><td class="idx" data-page-node-id="dqCbGdELAqITtpsrmaZEvR">5.2</td><td class="path" data-page-node-id="RRmk3ZCLGihWCAjy70jIpm">质量管理 → 检验标准 / AQL抽样</td>
+    <td class="check" data-page-node-id="9hyrUP5uWehXLprQhUE4La">标准与抽样方案可被检验任务引用。</td></tr>
+    <tr data-page-node-id="RBcFz2MZ0ozzkCpfG6lrPX"><td class="idx" data-page-node-id="5dIW4EgOP8uvbHOsNqMabf">5.3</td><td class="path" data-page-node-id="J7rSfwZYw2gnqLT2hB6gcq">质量管理 → 检验批/COQ（质量成本）</td>
+    <td class="check" data-page-node-id="edPvsw5IAGMFqBUnZEXO9M">鉴定成本（inspectionCost）展示。<span class="key" data-page-node-id="7hFp9Pr9MZTtqPQGbTwy9G">V2.86 字段权限</span>：非特权角色此处金额显示屏蔽。</td></tr>
+    <tr data-page-node-id="1H1h0QJlageFywYNbtLFq8"><td class="idx" data-page-node-id="DG6n03kTFGXL6aZ4ClmnJb">5.4</td><td class="path" data-page-node-id="kS0XvD7tvM9HRIUXxbFxzZ">质量管理 → 不合格品</td>
+    <td class="check" data-page-node-id="T9HkqnryxDHtlCPJbCuybH">不合格自动隔离，处置方式（让步/退货/报废）联动库存扣减 + 自动生成会计凭证。</td></tr>
+    <tr data-page-node-id="NLwULtY6AjSPHogxPCJFZO"><td class="idx" data-page-node-id="WICH1Pm1icDi9al7SuNzA4">5.5</td><td class="path" data-page-node-id="1lelv3gJJ9NgU71wO9xrUt">质量管理 → 8D / PDCA / SPC / COA合格证</td>
+    <td class="check" data-page-node-id="46HrOTmx79SdZpVIOHBXbV">改善工具与合格证可生成，SPC 控制图能绘制。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第六阶段 ============ -->
+<h2 data-page-node-id="oOJAHDUzudL2Zf1BgCj14Z">第六阶段：生产<span class="tag" data-page-node-id="rVlFUABXkem2gP1zOGdqMu">制造执行</span></h2>
+<div class="card" data-page-node-id="iPdeYDlykdOD1Xq1S3OCtT"><table data-page-node-id="k3WgAs8tN8GPCoENdfjTe7">
+  <thead data-page-node-id="IkkflKqZFg559dD7oc5QjA"><tr data-page-node-id="2ei3pkx7b0kdatJd0CSLR1"><th style="width:46px" data-page-node-id="YaGM7E2DKzdoJWoPumTNk3">#</th><th data-page-node-id="iDvAMBZq6W9JROvc3CkucJ">操作路径</th><th data-page-node-id="osDKwYTgiiXCzFeFvipmdt">验证点</th></tr></thead>
+  <tbody data-page-node-id="fdBQqenMkNQ0iF7GVTqP3c">
+    <tr data-page-node-id="EVHp5hrHZ4RkEr4SZ63rSH"><td class="idx" data-page-node-id="jXEPMhKJHP2Sl1eovbfR0C">6.1</td><td class="path" data-page-node-id="ta1nPsq1J5HMhejGrGTsBZ">生产与质量 → BOM管理 → BOM列表</td>
+    <td class="check" data-page-node-id="cYBIiCT14CFK7HbPUgzjQP">多层物料清单（BOM）可建、可展开（实例+扁平清单视图）。</td></tr>
+    <tr data-page-node-id="5bBuYGt87VNZiQWr0n2Cp0"><td class="idx" data-page-node-id="AY0qCTUd1IWGnIQvBrn5jA">6.2</td><td class="path" data-page-node-id="JJutXKGWSrmJU2Ft1euuh2">生产管理 → 工艺路线</td>
+    <td class="check" data-page-node-id="DscLLnryvTkruXEx8S4G43">工序、工时、设备参数可定义。</td></tr>
+    <tr data-page-node-id="3OTE4g2c4MQ59Nm4Op2gwQ"><td class="idx" data-page-node-id="KHQ1Uv6Bz0U0CSGiPdq6A5">6.3</td><td class="path" data-page-node-id="g83DfWVby5owBwaZt3Qd7b">生产管理 → 工单管理</td>
+    <td class="check" data-page-node-id="3o47CPIAZoL9rZa5XHgzB8">工单创建、发料、完工报告。BOM 带替代料徽标提示。</td></tr>
+    <tr data-page-node-id="OfgCNDDL3RH1Yse27UDZ8C"><td class="idx" data-page-node-id="hG3XiBD0iDqOZsXJR84ok3">6.4</td><td class="path" data-page-node-id="8tekZV4blcuus5xFRQzy7X">生产管理 → MRP计划</td>
+    <td class="check" data-page-node-id="crmmjnNpT5k2E4rySRAmEH">运算净需求，<b data-page-node-id="imYHUy3F1yrRBqp9X0K442">替代料自动展开</b>（V2.85）；缺料时给出替代料建议。</td></tr>
+    <tr data-page-node-id="dMy1bRqQqzoskXiqv8qEzw"><td class="idx" data-page-node-id="tZFZaSE0yfUK4TxGRQ5mJC">6.5</td><td class="path" data-page-node-id="uM7z8MIAQTrgTMzEKZYqHK">生产管理 → 工序报工</td>
+    <td class="check" data-page-node-id="1iOUuMjcl0OkJqOF0yuUJH">工序完工汇报，倒冲扣料。</td></tr>
+    <tr data-page-node-id="JT0RuvsmZYY8EHUXUPVaZx"><td class="idx" data-page-node-id="j2tFPJhUSb2lHVZlMbfAZK">6.6</td><td class="path" data-page-node-id="ubibauYPIcW4MULJqagBXe">生产管理 → 成本归集</td>
+    <td class="check" data-page-node-id="Mm5M3v2ES6AsZ8Pk2YEbuA">标准/实际/差异/合计（cost）展示。<span class="key" data-page-node-id="0NSWt6UWNybbe2kwL6Z7CY">V2.86 字段权限</span>：非特权角色此处成本显示屏蔽。</td></tr>
+    <tr data-page-node-id="LizhzoijIdDCKqqyLrvVHR"><td class="idx" data-page-node-id="H1Mpp1yhk9zMNFOes3ZizN">6.7</td><td class="path" data-page-node-id="1BdhA8mzUG7yTo51Q3MQde">生产管理 → 详细排程 / 甘特排产</td>
+    <td class="check" data-page-node-id="eXYgI2MOSvKAymmqX64x2S">锁单/锚定生效，甘特图可拖拽重排。</td></tr>
+    <tr data-page-node-id="GKfW17O1E71UEh3hj24B3c"><td class="idx" data-page-node-id="2wQbDGnFqxvEM79oAzsdJl">6.8</td><td class="path" data-page-node-id="lXXGdgXl0NcrJCwEQcXY0Q">生产管理 → 委外加工 / 重复制造 / MES集成</td>
+    <td class="check" data-page-node-id="COtCebqowZdx9qVNkvJJ3P">三类生产模式可跑通（产线+周期+报工倒冲）。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第七阶段 ============ -->
+<h2 data-page-node-id="Hh1PM9bcfGACyfinn3BF77">第七阶段：销售到收款<span class="tag" data-page-node-id="DwgWI25lE8a7uTisEMQ26h">面向客户</span></h2>
+<div class="card" data-page-node-id="CVIEgMjtDqti3rvuy23D9b"><table data-page-node-id="yRH2itSbAnkm1j3pyRpjWU">
+  <thead data-page-node-id="tU5AwlJdEln0Gn1BuBy02A"><tr data-page-node-id="vvARjBs2951tYe3TwPPhAV"><th style="width:46px" data-page-node-id="KEpK4OZpwkoYJ1nheFmqbD">#</th><th data-page-node-id="1YVvQWdTYS3OGppp6amBOQ">操作路径</th><th data-page-node-id="dRwuloSVAFt1OHIbnRsepY">验证点</th></tr></thead>
+  <tbody data-page-node-id="aA2qQuS962BQreUgWAkOkr">
+    <tr data-page-node-id="4uoiPD5DsvtvVC7LRWUyHr"><td class="idx" data-page-node-id="xBFQwZcmRXC4QV0pGqytMB">7.1</td><td class="path" data-page-node-id="3o1ra8kphlzbTx2cmwqSlC">销售管理 → 意向客户</td>
+    <td class="check" data-page-node-id="x89C4ERW39DS6PqcMvccHT">线索录入、跟进、转化。</td></tr>
+    <tr data-page-node-id="qy2c6bfoydKbugK6nDaYwQ"><td class="idx" data-page-node-id="alFjXnMVgW2iQ54smOWlvu">7.2</td><td class="path" data-page-node-id="0F6sEuR9YMpnMWzUHRnDC6">销售管理 → 客户主数据</td>
+    <td class="check" data-page-node-id="VMPON2t4SJDjLQAXKAWWTm">授信额度管理（见 2.6）。<span class="key" data-page-node-id="0f3h0wwwXnHJ5RyCvkEK1l">V2.86</span>：非特权角色看不到授信。</td></tr>
+    <tr data-page-node-id="y8CLWrEEwae9TmKzXleW3x"><td class="idx" data-page-node-id="Di8pCl1y2gfXaThWTyHZVI">7.3</td><td class="path" data-page-node-id="VkYmjR2sGjBhbxkujir46M">销售管理 → 销售订单</td>
+    <td class="check" data-page-node-id="cYLVLjjAzKerRAVOcFzItJ">订单含客户名、单价、订单金额。<span class="key" data-page-node-id="fgr7vWXbUEaEBCFACY3PBg">V2.86</span>：库管/采购/物流等角色客户名与金额显示 <code data-page-node-id="QJVcRJth9l6yX7pEwmxhc4">***</code>。</td></tr>
+    <tr data-page-node-id="dFWYzRbcpMxjgxsuCO0zFW"><td class="idx" data-page-node-id="mylrYiK9EtyBwfGB5nr3Qm">7.4</td><td class="path" data-page-node-id="A6F50BKBWVe9e6CTDLyQJx">销售管理 → 可用量承诺（ATP）</td>
+    <td class="check" data-page-node-id="KFEiV4qxxNwf4Bx8sVe18r">基于库存+在途给出可承诺量。</td></tr>
+    <tr data-page-node-id="TKHf6xxlIfIniEEtBuwLG0"><td class="idx" data-page-node-id="tJrlGje2CB6JDJ1x6EZGXM">7.5</td><td class="path" data-page-node-id="CIOAwcaVRoLhSa695nNaQG">销售管理 → 销售合同 / 报价 / 开票</td>
+    <td class="check" data-page-node-id="yCOPZ3bEmBHZAaVJbMDXor">合同、报价单、销售发票可生成并关联订单。</td></tr>
+    <tr data-page-node-id="lJ6ho62UzYsqBENBuXVyEt"><td class="idx" data-page-node-id="iWH6aNDdkyBMH5ekjkwlE2">7.6</td><td class="path" data-page-node-id="DpGZ9k8D8oISSSngvBMkJN">销售管理 → 物流发货</td>
+    <td class="check" data-page-node-id="HJVhnmAfIjqjBI96xlnLj0">发货计划、物流跟踪；发货确认联动库存。</td></tr>
+    <tr data-page-node-id="pcuVAWqLrbJnh3EpvtZbex"><td class="idx" data-page-node-id="HHJMsFfSKS7E91dL90gt8G">7.7</td><td class="path" data-page-node-id="kQgpr98Gj0acrXdiBeyff7">销售管理 → 三方销售 / 返利管理</td>
+    <td class="check" data-page-node-id="AKor7Zj6pfIunJfChCL4F0">三方业务与返利计算可跑通。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第八阶段 ============ -->
+<h2 data-page-node-id="fbJq3HOQIOQJzCiwWyTHM8">第八阶段：财务<span class="tag" data-page-node-id="LCSQUY7agPwD6BYDPYzjYT">业财一体</span></h2>
+<div class="card" data-page-node-id="0VLI9CQqHmFVgNitIwYrTm"><table data-page-node-id="M97FaIimwxY279vZI9IqCn">
+  <thead data-page-node-id="OO0hBHSiVBIvVKKtHw1KNM"><tr data-page-node-id="5iWp0ZaoouNoOMIthpKtr9"><th style="width:46px" data-page-node-id="JGhg18IsVxhRzvEUNBSGEV">#</th><th data-page-node-id="E1SpEvOdUtcm8A84MC5M8o">操作路径</th><th data-page-node-id="bQVfSW9xdxW1FmRioCagO9">验证点</th></tr></thead>
+  <tbody data-page-node-id="iRi2LZEVIyE1aDAA1cFXOy">
+    <tr data-page-node-id="HEBuxmwFNmbQPNsEmpDWW3"><td class="idx" data-page-node-id="ZPzxJTOrLKyWWoqFQoDPo4">8.1</td><td class="path" data-page-node-id="DtMfNIgHOg9EpCzsJzrHQS">财务管理 → 发票管理</td>
+    <td class="check" data-page-node-id="Ep6c4tx4FNBrmkGjrlQIGy">上传发票图片，<b data-page-node-id="9hK13my6hRXNspYUJieBWx">光学字符识别</b>抽取结构化字段（V2.80）；无配置回退正则。</td></tr>
+    <tr data-page-node-id="5gaQGXMDjKiyYvGl2nO9Ml"><td class="idx" data-page-node-id="u53MvFJKKUo79EaOXF13cr">8.2</td><td class="path" data-page-node-id="7jAV1kux7Lq85DMnqukiaC">财务管理 → 凭证列表</td>
+    <td class="check" data-page-node-id="3aq0FC6uXW7wM9ysEggR2R">借/贷金额（voucherAmount）展示。<span class="key" data-page-node-id="dEqgkTBYdWR05H9U7W0A5q">V2.86</span>：非财务角色此处金额显示屏蔽。</td></tr>
+    <tr data-page-node-id="ahTn2eUO2AEvuIMyXVlKNT"><td class="idx" data-page-node-id="3MVetAvBp5E6VDYIhNfzKZ">8.3</td><td class="path" data-page-node-id="rxglK5PAIvCxeofJ7c5QFT">财务管理 → 会计分录 / 科目余额表 / 科目表</td>
+    <td class="check" data-page-node-id="7ecmwqoJzQ81yjwMofWYmn">凭证生成分录，科目余额正确累算。</td></tr>
+    <tr data-page-node-id="BbkkChDnVLXgbBcJkiv6eQ"><td class="idx" data-page-node-id="nXjHUB9Cd6zXUFdVYoCRpY">8.4</td><td class="path" data-page-node-id="SkIixbDPD2dFDroFVWHbd0">财务管理 → 三单匹配</td>
+    <td class="check" data-page-node-id="jmh32gCZMBfs0PNB7U32SE">见 3.6，差异可追踪到具体订单/收货/发票。</td></tr>
+    <tr data-page-node-id="N5s9L1HKFLSndyeUFAgjpv"><td class="idx" data-page-node-id="TXOhG1ieCDNTR02EbsDcih">8.5</td><td class="path" data-page-node-id="dYG6vkTqoAA7oPwa0uvV3Z">财务管理 → 税务核算 / 数电票核验</td>
+    <td class="check" data-page-node-id="P9jhArz7REErguoAjVZ4DB">数电票查验走真实通道（配密钥）或模拟兜底，界面标注真/假通道。</td></tr>
+    <tr data-page-node-id="MeN4kFXAK8HnACybSw7smj"><td class="idx" data-page-node-id="KNehXX4bdETB2rMwJGvnYe">8.6</td><td class="path" data-page-node-id="dCFUjbUmUxBlYVpjA5XrVU">财务管理 → 财务报表 / 三大报表 / 期末结账</td>
+    <td class="check" data-page-node-id="dhUhRTzXWkl4bnH13S6tnF">报表可取数；期末结账锁定期间。</td></tr>
+    <tr data-page-node-id="d5KmCTBbHX8tEk9gIGOgeq"><td class="idx" data-page-node-id="2Fhisq6rHxlzABxD4DwbBE">8.7</td><td class="path" data-page-node-id="laVKCDGRClogJmBXK4uPIT">财务管理 → 应收 / 应付 / 资金 / 预算 / ESG报告</td>
+    <td class="check" data-page-node-id="UFAmuyhsDuUiwjK8NCJwGg">各子模块可打开并取数。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第九阶段 ============ -->
+<h2 data-page-node-id="M08F7o5KYAqX3N8s8MlSrd">第九阶段：移动端（渐进式网页应用）<span class="tag" data-page-node-id="GeMJ1ZitAqPbL70eV8t6RY">强哥重点</span></h2>
+<div class="card" data-page-node-id="f9s2iNfsI9ph7HSkpB728r"><table data-page-node-id="BBAeUCjhIWKDCEVLx053TX">
+  <thead data-page-node-id="OrIGSF17fG1cgvks70MskH"><tr data-page-node-id="vpBpdMS7ViaCJVLofnDxiv"><th style="width:46px" data-page-node-id="lPup6mLvSqOTCTHHh8UaiK">#</th><th data-page-node-id="TPVoetKT6t8xTKEGq26gve">操作路径</th><th data-page-node-id="FHhF54lv4VEH91PPEOaUzz">验证点</th></tr></thead>
+  <tbody data-page-node-id="uSiKAu0VsZBsBX2fuBiyrH">
+    <tr data-page-node-id="LzY21TxvuazOmBzgoQXzLn"><td class="idx" data-page-node-id="7MN8PBfmhBRZSCkKhILAjr">9.1</td><td class="path" data-page-node-id="CYnfzx7hbkGlC5wNtDhTex">移动门户 /m → 扫码入库</td>
+    <td class="check" data-page-node-id="PqQFWCaH9XAmdR0nKfjSGG">选待入库单 → 扫物料条码（一维码 Code 39，内容为物料编码大写）→ 录实收 → 提交过账，<b data-page-node-id="LXHHdmk6ivxzIUzp6SxtfB">真实写入库存</b>（与桌面 4.2 同源）。</td></tr>
+    <tr data-page-node-id="YDPAsNPDb8fKMa3Ffo9Udf"><td class="idx" data-page-node-id="KfqKNaHkCYZnE0j0fDZoG5">9.2</td><td class="path" data-page-node-id="TjCUDMC5kJyBBM4hy1bs5M">移动门户 → 出库 / 盘点 / 质检</td>
+    <td class="check" data-page-node-id="sQbF4iHrwtd7XM0SqjDmlo">三个作业 Tab 均可用，逻辑与桌面端一致（V2.78+ 真功能）。</td></tr>
+    <tr data-page-node-id="bRuxTe3zG5CjNt6PhQGnjn"><td class="idx" data-page-node-id="g3JZxHd3AivwxjWs8skhUT">9.3</td><td class="path" data-page-node-id="R5uGgOjiwbeShcACLed15q">移动门户 → 消息</td>
+    <td class="check" data-page-node-id="yLVf7W9LJitXs6a4c87245">即时消息可收发（V2.80）。</td></tr>
+    <tr data-page-node-id="DPAwBtoDJvugaQeImsH9pu"><td class="idx" data-page-node-id="y1t94MbtSmdHBZBL9QEm1m">9.4</td><td class="path" data-page-node-id="PHQg0XYqfnlcESHCZ5LvgB">手机"添加到主屏幕"</td>
+    <td class="check" data-page-node-id="uFJBlbq76UPT6xlZC5wAv5">可安装为全屏应用，离线壳可启动。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第十阶段 ============ -->
+<h2 data-page-node-id="KYCDaGX3SMepmjUIPcibtS">第十阶段：字段权限验证（V2.86 核心回归）<span class="tag" data-page-node-id="2NTSWloBQwKFZH5eBzeUhI">本版重点</span></h2>
+<div class="big" data-page-node-id="aiF88V8xuEa6G7e4YonZOh">
+  本阶段验证 V2.86.0 的<b data-page-node-id="rt3DULD38W42Yxa0jafAwr">字段级权限覆盖全部模块</b>。统一引擎：<code data-page-node-id="9YJhHoH0CF2cHJaRv3B9l7">dataPermissionStore</code>；
+  对不应看到金额/成本/授信的角色（库管、质检、班长、物流、供应商、采购、研发工程等）自动隐藏敏感字段，显示为 <code data-page-node-id="bO6HHSqH59JXsITFAw713v">***</code>；
+  系统管理员、财务主管、会计等特权角色全部可见。
+</div>
+<div class="card" data-page-node-id="y9C0aaijcPJmlRfhQXndX8"><table data-page-node-id="L8yRhP5PnDfgo0KIFOrBy2">
+  <thead data-page-node-id="DlQWPHSEFrsqiWlQfXFqmm"><tr data-page-node-id="Rnb6tkHH17Vs09X8B2cyun"><th style="width:46px" data-page-node-id="dglXYaEpxvuatjDjrYg3eY">#</th><th data-page-node-id="TthDstFJiQN4WuPu5uWGi9">操作路径 / 操作</th><th data-page-node-id="YjP80802IuzCXwrLNw7hO1">验证点</th></tr></thead>
+  <tbody data-page-node-id="4WsuwDhPmM7n5cXJyaJnAX">
+    <tr data-page-node-id="5dWjuzInA6rAfhRLk9CMrd"><td class="idx" data-page-node-id="ZCj6vLZfoqCdmZOtf1Fc2O">10.1</td><td class="path" data-page-node-id="SWy6pPLmYZl2LRnflzR97w">用 系统管理员 登录，浏览各模块</td>
+    <td class="check" data-page-node-id="HQfDLu5nKUNwVw2YoWmg6H">物料标准价/移动平均价、库存金额、鉴定成本、生产成本、凭证金额、客户授信、销售客户名与金额 —— <b data-page-node-id="Wmb1opkfAYcdSvGB9CYVue">全部可见</b>。</td></tr>
+    <tr data-page-node-id="3mPrDH8Pv0A6wjKPiO5aw6"><td class="idx" data-page-node-id="35qvSSKLgHWwKclpiDGdRx">10.2</td><td class="path" data-page-node-id="pcF9VgmilizjaC6lsCzIXj">切换 库管员 角色 → 物料列表 / 库龄分析</td>
+    <td class="check" data-page-node-id="usskyoOtAuE5vGZZwSpHQl">物料标准价、移动平均价、库存金额 显示 <code data-page-node-id="IpR2QE5lsfZUR2VT5I6tkG">***</code>。</td></tr>
+    <tr data-page-node-id="sW9epaBdhrkDhVJiq3bd18"><td class="idx" data-page-node-id="m1PML6ljW2Yq1AHMQTwBN8">10.3</td><td class="path" data-page-node-id="9bmq9nuySEGLcxKSREBFgP">切换 质检员 角色 → 物料 / 检验批COQ / 销售订单</td>
+    <td class="check" data-page-node-id="ynuJe4qJGymoP55wv1TtuJ">物料价格、鉴定成本、销售客户名与金额 显示 <code data-page-node-id="npH5mKYZxnR1C13C4ZRqja">***</code>。</td></tr>
+    <tr data-page-node-id="YD8hQhtDPVTgijO4Q54V9J"><td class="idx" data-page-node-id="gWVZDooZfyrneqk8EgpIsF">10.4</td><td class="path" data-page-node-id="k7wj6KL65c95XK6enDqjQ7">切换 采购员 角色 → 销售订单 / 质量 / 财务</td>
+    <td class="check" data-page-node-id="sYKTEALGAziF4aCggBOQ2l">销售单价与金额、客户名、鉴定成本、凭证金额 显示 <code data-page-node-id="YKQDTAnbEb7xIUTvEYLXND">***</code>；但采购价对其可见。</td></tr>
+    <tr data-page-node-id="IQf5BhkAyl2EiI5bfCAYyT"><td class="idx" data-page-node-id="gUBcPI4ipXSdTAaoGxSQwc">10.5</td><td class="path" data-page-node-id="cE8wkomKEC4g2SxAOpftid">切换 供应商 角色（供应商门户）→ 物料 / 质量 / 生产 / 财务</td>
+    <td class="check" data-page-node-id="3kO9l6er1n8icGbFJQUmpk">物料价格、库存金额、生产成本、鉴定成本、凭证金额 均显示 <code data-page-node-id="Gp7LA6ViLveWXZnAjgE3Mq">***</code>（供应商不应看到买方成本）。</td></tr>
+    <tr data-page-node-id="SDnWgECDzsw8S2R0nCN94x"><td class="idx" data-page-node-id="CufP8zAhl4I5s0fGmqrDVt">10.6</td><td class="path" data-page-node-id="Hplnn60sJcwzvDT4qrNc2h">平台 → 字段级权限（FieldPermissions 页）</td>
+    <td class="check" data-page-node-id="100doEFoqFMIuAOI3hZNpu">页面改指统一引擎，列出全部已配置规则（角色×字段矩阵）。</td></tr>
+    <tr data-page-node-id="FuSubW0Nxzt9UkYSuwmlax"><td class="idx" data-page-node-id="mt8WDucvJrQ5B37Io5pY0x">10.7</td><td class="path" data-page-node-id="2jBZdQNHjr28DRV5RJjoJX">系统设置 → 数据权限 总开关</td>
+    <td class="check" data-page-node-id="fd9us9GODaPLz8OstL6fYw">字段级屏蔽<b data-page-node-id="SCPkasitjHMW2gNDK6cpp7">独立于</b>总开关、常开生效（关闭总开关不影响字段屏蔽）。</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ 第十一阶段 ============ -->
+<h2 data-page-node-id="bs8Mop1XIbD8mlPcJHSXmY">第十一阶段：全流程自检（系统自带回归）<span class="tag" data-page-node-id="Wyij144hIqB7lnMd09ycG3">整体验收</span></h2>
+<div class="card" data-page-node-id="FrOrELGuiccC8efn4EvqEE"><table data-page-node-id="VulxHxWnINiuK5bYOzNAHF">
+  <thead data-page-node-id="9widXKBnv0CbU6dVH2XGWA"><tr data-page-node-id="47B4BcNURoK3hLcamzPqgo"><th style="width:46px" data-page-node-id="Kx0MW97om3pJii8Vqqj9JX">#</th><th data-page-node-id="JA2m83M86xGQXzwxFWVKXh">操作路径</th><th data-page-node-id="Qgf29WY0q8Hy6oBNW2xQHB">验证点</th></tr></thead>
+  <tbody data-page-node-id="WsUKu73LhXNU2C1LZ5G211">
+    <tr data-page-node-id="HywhSdiZUIkMeQEODCYNqT"><td class="idx" data-page-node-id="QT4C5xjRb5Q27NU64ozOaa">11.1</td><td class="path" data-page-node-id="cuHZbIxJ9SohQZweGYdzRJ">测试与诊断 → 全流程自检（/test/flow）</td>
+    <td class="check" data-page-node-id="0vw29R3LJmPx000ekviA1q">一键运行系统自检，关注 PASS / FAIL 数量。本版生产门禁基线：<b data-page-node-id="zTEeWjCGmjtOPXBLyKMHWa">PASS 240 / FAIL 0</b>。</td></tr>
+    <tr data-page-node-id="Cn2MFnHaDgCqxdBpepnwML"><td class="idx" data-page-node-id="2ICNLWgDkh0uTY46mo9dQe">11.2</td><td class="path" data-page-node-id="G2TTlq6vsZVWU7KSH539T6">测试与诊断 → 使用说明书</td>
+    <td class="check" data-page-node-id="vV7G516qIVbOG0wzcC2AnS">说明书已登记 V2.86.0 条目，可查阅版本变更。</td></tr>
+  </tbody>
+</table></div>
+
+<h2 data-page-node-id="678lBMMBs9KBFS9k4pcKH7">验收判据（全部满足即测试通过）</h2>
+<div class="card" data-page-node-id="M4SegDd3eDHUQPHytolQXe"><table data-page-node-id="ko9e5QynWGMyHZVnHPXv1S">
+  <thead data-page-node-id="XznlK1KxXpUxo46zgZ0QdD"><tr data-page-node-id="ag86MYnpZk6CsZQJ0aCAhq"><th style="width:46px" data-page-node-id="OBLZ7EqRBfWL7hxwcRcCSb">项</th><th data-page-node-id="AOygAbUTl4zGzkBtLHC5uz">判据</th></tr></thead>
+  <tbody data-page-node-id="6UOIT4cXgX3CmqeDXIJART">
+    <tr data-page-node-id="EKxEPrW0ymDEVAPhqjROHF"><td class="idx" data-page-node-id="sw2vqiqFn9pd4NO84fRk53">✓</td><td class="check" data-page-node-id="rhMnMFntUsz1OIif7nP4jF">①~⑨ 各阶段关键页面能打开，主数据能增删改查，跨模块联动生效（入库扣库存、质检不合格生成凭证、MRP 替代料展开）。</td></tr>
+    <tr data-page-node-id="9hwEm0wOnhPJtTiJSA9g8z"><td class="idx" data-page-node-id="eMeXjHCwAckClf4XvL0X11">✓</td><td class="check" data-page-node-id="BkxvzDLappyKFopylYontE">⑩ 字段权限：各受限角色对应敏感字段正确显示 <code data-page-node-id="d2NcVzV0GkPwnKCb6Q25qN">***</code>，特权角色全部可见；配置页与平台页规则一致。</td></tr>
+    <tr data-page-node-id="hAx556mCKjtsDcSFG4XKcU"><td class="idx" data-page-node-id="4HxadEn51cASeTUg4iFuyq">✓</td><td class="check" data-page-node-id="bgzEARsWZcTHC5FGbNeRJE">⑪ 全流程自检 PASS 数达标、FAIL 为 0（外部依赖偶发抖动记为警告，不阻断）。</td></tr>
+  </tbody>
+</table></div>
+
+<footer data-page-node-id="PmCCedaswnCsgDswFbJXE0">
+  SSA ERP · 钢材供应链版 · V2.86.0 测试步骤清单 · 生成于 2026-09-09<br data-page-node-id="eqoNDIYLqlMXEbDjVI2eDs"/>
+  注：带 <span class="key" data-page-node-id="LhFppxK1g9Y6jOTW0F2HhV">V2.86</span> 标记的步骤为本版字段权限重点回归项。
+</footer>
+
+</div>
+</body>
+</html>

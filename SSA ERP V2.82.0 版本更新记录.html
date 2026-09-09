@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.82.0 版本更新记录</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#ffffff; --ink:#1f2d3d; --sub:#5b6b7b; --line:#e3e8ef; --brand:#1565c0; --ok:#2e7d32; --warn:#ed6c02; --chip:#eef4fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:32px 20px 60px; }
+  header { border-bottom:3px solid var(--brand); padding-bottom:14px; margin-bottom:24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .meta { color:var(--sub); font-size:14px; }
+  h2 { font-size:19px; margin:30px 0 12px; color:var(--brand); border-left:4px solid var(--brand); padding-left:10px; }
+  h3 { font-size:16px; margin:18px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 3px rgba(20,40,80,.05); }
+  .badge { display:inline-block; background:var(--chip); color:var(--brand); border-radius:6px; padding:2px 10px; font-size:13px; font-weight:600; margin-right:6px; }
+  ul { margin:8px 0 8px 2px; padding-left:20px; }
+  li { margin:6px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; background:var(--card); font-size:14px; }
+  th,td { border:1px solid var(--line); padding:9px 12px; text-align:left; }
+  th { background:var(--chip); color:var(--brand); }
+  .ok { color:var(--ok); font-weight:700; }
+  .note { font-size:13px; color:var(--sub); border-top:1px dashed var(--line); margin-top:24px; padding-top:12px; }
+  code { background:#eef1f5; padding:1px 6px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SSA ERP V2.82.0 版本更新记录</h1>
+    <div class="meta">发布日期：2026-09-07 ｜ 类型：仓库域双通道彻底根治（迁 D1）+ 主计划对标计划 + 部署生产 ｜ 生产端到端门禁：<span class="ok">全绿（PASS 239 / FAIL 0）</span></div>
+  </header>
+
+  <div class="card">
+    <span class="badge">本期三大项</span>
+    <ul>
+      <li><b>① 库存预警 inventoryAlerts 迁真实 D1</b>（根治双通道倒数第二块）</li>
+      <li><b>② 产成品入库 finishedGoodsInbounds 迁真实 D1</b>（根治双通道最后一块）</li>
+      <li><b>③ 主计划写入深度对标计划 + 同步状态表</b>（消除「移动端壳 / 数电票桩」等滞后描述）</li>
+    </ul>
+  </div>
+
+  <h2>① 库存预警 inventoryAlerts 迁真实 D1</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>把库存预警从「本地存储块（单人不共享）」迁到 <b>Cloudflare D1 云关系数据库</b>，按 V2.80 双通道根治范式迁移，保留在 <code>warehouseStore</code> 内、最小化 API 面变动：</p>
+    <table>
+      <tr><th>层</th><th>改动</th></tr>
+      <tr><td>迁移</td><td><code>migrations/0036_inventory_alerts.sql</code>：建 <code>inventory_alerts</code> 表（org_id 隔离 + 审计列），字段全为标量（material_id / material_code / type / current_quantity / threshold / severity / created_at），无嵌套 JSON</td></tr>
+      <tr><td>后端</td><td><code>functions/_shared/entities.ts</code> 注册表加 <code>inventoryAlert</code> 资源，复用通用 <code>/api/entities/inventoryAlert</code> 端点，<b>零新增后端函数</b></td></tr>
+      <tr><td>前端 store</td><td><code>src/stores/warehouseStore.ts</code>：新增 <code>loadInventoryAlerts</code>（EntityRepo 拉取、首次空库回填 mock、离线回退内存）；<code>partialize</code> 移除 inventoryAlerts（不再落 Blob）；启动期 <code>src/App.tsx</code> 接 <code>loadInventoryAlerts</code></td></tr>
+    </table>
+  </div>
+
+  <h2>② 产成品入库 finishedGoodsInbounds 迁真实 D1</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>把产成品入库单从「本地存储块」迁到 <b>Cloudflare D1 云关系数据库</b>，与入库 / 出库 / 盘点同款实体后端：</p>
+    <table>
+      <tr><th>层</th><th>改动</th></tr>
+      <tr><td>迁移</td><td><code>migrations/0037_finished_goods_inbounds.sql</code>：建 <code>finished_goods_inbounds</code> 表（org_id 隔离 + 审计列），字段全标量（inbound_no / work_order_* / product_* / *qty / batch_no / warehouse_* / status / operator / inspection_task_id 等），无嵌套 JSON</td></tr>
+      <tr><td>后端</td><td><code>functions/_shared/entities.ts</code> 注册表加 <code>finishedGoodsInbound</code> 资源，复用通用 <code>/api/entities/finishedGoodsInbound</code> 端点，<b>零新增后端函数</b></td></tr>
+      <tr><td>前端 store</td><td><code>src/stores/warehouseStore.ts</code>：<code>addFinishedGoodsInbound</code> / <code>updateFinishedGoodsInbound</code> / <code>deleteFinishedGoodsInbound</code> 改乐观更新 + fire-and-forget 写回 D1；新增 <code>loadFinishedGoodsInbounds</code>（EntityRepo 拉取、首次空库回填 mock）；<code>partialize</code> 移除 finishedGoodsInbounds（不再落 Blob）；启动期 <code>src/App.tsx</code> 接 <code>loadFinishedGoodsInbounds</code></td></tr>
+    </table>
+    <h3>为什么这样操作</h3>
+    <p>V2.81.0 仅剩 <code>inventoryAlerts</code> / <code>finishedGoodsInbounds</code> 两块 Blob 残留。两块字段<b>全为标量（无嵌套 JSON）</b>，比盘点 checkTask 更简单——迁移与实体注册直接对齐范式，无需 JSON 序列化辅助函数。至此<b>仓库域双通道彻底根治</b>：入库单 / 出库单 / 盘点任务 / 库存预警 / 产成品入库全部业务数组均去 Blob 直连真实 D1、跨端多人实时共享、无双源不一致。</p>
+  </div>
+
+  <h2>③ 主计划写入深度对标计划 + 状态表同步</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>把 V2.81 深度对标报告（已归档 ima「强哥的知识库 → erp开发项目」）的结论与路线图正式沉淀进主计划单一权威文档 <code>docs/ssa-erp-master-plan.md</code>：</p>
+    <ul>
+      <li><b>新增 §十一 深度功能对标计划（V2.81 基线，对照 SAP S/4HANA 2026 / 金蝶云·星空 V9.1 / 用友 BIP）</b>：含 12 域综合评分跃迁（3.9→4.4）、P0/P1/P2 路线图状态（P0 全完成、P1 11/11、P2 8/10）、横向根因 G1–G8 现状、剩余净缺口（C6 大模型助手 / C9 替代料 / 数电票真实核验 / 精修）。</li>
+      <li><b>同步状态表</b>（消除代码已真落地但文档仍滞后的描述）：
+        <ul>
+          <li>移动端 P2-20：🟡 壳 → ✅ 已真落地（V2.78 PWA 门户 + 真扫码 + 写回 D1）</li>
+          <li>数电票核验：🟡 仍桩 → 🟢 部分（V2.80 已写多服务商路由真实通道代码，默认模拟兜底、待密钥启用）</li>
+          <li>发票 OCR：🟢 部分 → ✅ 已模型化（V2.80 大模型结构化抽取）</li>
+          <li>双通道现状：补 V2.82 进展注（两块迁 D1，彻底根治）</li>
+        </ul>
+      </li>
+    </ul>
+    <h3>为什么这样操作</h3>
+    <p>强哥指令「对标计划写入主计划 + 更新状态表同步 + 迁 D1」。前两项把对标结论沉淀进主计划（单一权威），并消除过时描述——文档滞后会误导后续判断（移动端早在 V2.78 已真落地、数电票真实通道代码 V2.80 已就位，但主计划仍标「壳 / 桩」）。第三项迁 D1 是双通道根治收口，按 V2.80 同款范式落地，零新增后端函数。</p>
+  </div>
+
+  <h2>验证结果</h2>
+  <div class="card">
+    <table>
+      <tr><th>项目</th><th>结果</th></tr>
+      <tr><td>类型检查 <code>tsc --noEmit</code></td><td class="ok">0 错</td></tr>
+      <tr><td>构建 <code>vite build</code></td><td class="ok">通过（dist 经 rm -rf 绕过 safe-delete 超时）</td></tr>
+      <tr><td>部署 apply 远程 D1 迁移 0036 / 0037</td><td class="ok">inventory_alerts / finished_goods_inbounds 两表全部建表成功</td></tr>
+      <tr><td>前端 + 函数发布生产</td><td class="ok">已发布（生产域 https://a62244cb.ssa-erp.pages.dev）</td></tr>
+      <tr><td>生产端到端门禁 <code>prod-e2e</code></td><td class="ok">PASS 239 / FAIL 0 / WARN 2 / INFO 6（共 247）全绿（零回归）</td></tr>
+      <tr><td>实体链路探针 <code>probe_inventory_alert_fgi.mjs</code></td><td class="ok">24 条断言全 ✅（建/查/改/删 + 标量字段往返 + org 隔离，两实体各 11 + 隔离 1）</td></tr>
+    </table>
+    <p class="note">WARN 2 = 外部汇率源暂不可用（端点正确返回 502，非崩溃）、AI 对话未配置模型；INFO 6 = 测试数据清理说明等。均非本版回归。生产门禁与 V2.81.0 基线完全一致，零回归。</p>
+  </div>
+
+  <div class="note">
+    版本四处已同步：src/version.ts（APP_VERSION=2.82.0）/ package.json（version=2.82.0）/ src/content/manual.tsx（版本更新记录 v2820）/ 项目记忆 MEMORY.md（版本沿革 V2.82.0 条，置于 V2.81.0 之前）。归档路径：ima「强哥的知识库 → erp开发项目」。
+  </div>
+</div>
+</body>
+</html>

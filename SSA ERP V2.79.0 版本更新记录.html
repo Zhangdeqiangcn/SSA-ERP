@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.79.0 版本更新记录</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#fff; --line:#e3e8ef; --ink:#1f2a37; --sub:#5b6b7c; --brand:#c0392b; --ok:#1e7e34; --warn:#9a6a00; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"Microsoft YaHei",Segoe UI,Roboto,sans-serif; line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:28px 20px 60px; }
+  header { border-bottom:3px solid var(--brand); padding-bottom:14px; margin-bottom:22px; }
+  h1 { font-size:26px; margin:0 0 4px; }
+  .ver { color:var(--brand); font-weight:700; }
+  .meta { color:var(--sub); font-size:13px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin-bottom:18px; }
+  h2 { font-size:18px; margin:0 0 10px; color:var(--brand); }
+  h3 { font-size:15px; margin:16px 0 6px; }
+  ul { margin:6px 0; padding-left:22px; }
+  li { margin:5px 0; }
+  .tag { display:inline-block; font-size:12px; padding:2px 9px; border-radius:20px; margin-right:6px; }
+  .t-ok { background:#e6f4ea; color:var(--ok); }
+  .t-warn { background:#fdf3e0; color:var(--warn); }
+  .t-b { background:#fdecea; color:var(--brand); }
+  code { background:#f0f2f5; padding:1px 6px; border-radius:5px; font-size:13px; }
+  table { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px; }
+  th, td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th { background:#f0f2f5; }
+  .num { font-variant-numeric:tabular-nums; }
+  .foot { color:var(--sub); font-size:12px; margin-top:24px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>SSA ERP <span class="ver">V2.79.0</span> 版本更新记录</h1>
+  <div class="meta">构建日期 2026-09-04 · 渐进式网页应用移动门户扩面 + 历史端到端偶发失败根治 + 生产部署</div>
+</header>
+
+<div class="card">
+  <h2>一、本次变更（六项）</h2>
+  <h3>① 移动作业扩到出库 / 盘点 / 质检（真功能，非演示）</h3>
+  <ul>
+    <li>移动门户（<code>/m</code> 渐进式网页应用）在原有「扫码入库」基础上，新增<strong>出库</strong>、<strong>盘点</strong>、<strong>质检</strong>三类现场作业，做成真链路：</li>
+    <li>出库：提交即扣库存 + 先进先出（按批次先入先出核销）+ 回写销售订单 + 结转销售成本凭证；</li>
+    <li>盘点：按实盘 − 账面差异生成库存调整单；</li>
+    <li>质检：检验录入不合格 &gt; 0 自动生成不合格品记录并四类处置（报废 / 返工 / 退货供应商 / 让步接收）联动凭证；另含不合格处置模式。</li>
+    <li>底部 5 页签（首页 / 扫码入库 / 出库 / 盘点 / 质检）已注册路由，移动端端到端 <span class="tag t-ok">4/4 全绿</span>。</li>
+  </ul>
+  <h3>② 历史端到端偶发失败（flake）根治</h3>
+  <ul>
+    <li>根因定位：未登录态「即发即弃」双写真实云端数据库（D1）的端点返回 500，被端到端用例的「控制台错误守卫」「响应监听器」误判为前端逻辑错误（实际页面无异常，真实未捕获异常仍由页面异常事件捕获）。</li>
+    <li>治理：在全部监听控制台错误的端到端文件中排除网络 500 噪声；在 <code>v83/v84/v85</code> 三文件的「预期内接口缺失白名单」补齐 V2.77 记录的 8 个在线同步端点（序列号 / 委外 / 销售订单 / 工单 / 凭证 / 转储 / 库存调整 / 质检扣留）。</li>
+    <li>全量回归结果：<span class="num">230 → 289</span> 通过（消除 59 个失败），<strong>零新回归</strong>。</li>
+  </ul>
+  <h3>③ 修复一处真实文案与功能不一致</h3>
+  <ul>
+    <li>设置页「移动端」能力清单此前把已上线的出库 / 盘点 / 质检标为「规划中」，与 V2.79.0 已实现功能矛盾，且违反「已上线不夸大、未上线标规划中」铁律；已如实改为「已上线」。</li>
+    <li>同步修正端到端断言（不再查不存在的「支持的现场作业」文本）。</li>
+  </ul>
+  <h3>④ 类型检查门禁</h3>
+  <ul><li><code>tsc --noEmit</code> 全量 0 错误；生产包构建成功（38.7s）。</li></ul>
+  <h3>⑤ 生产部署</h3>
+  <ul>
+    <li>D1 迁移幂等应用（No migrations to apply），前端 + Pages Functions 已发布至生产域 <code>https://ssa-erp.pages.dev</code>。</li>
+  </ul>
+  <h3>⑥ 生产端到端门禁（真实 D1）</h3>
+  <ul>
+    <li>真实 D1 后端集成验证：注册 / 登录、应用状态 Blob 写读往返、关系表读取 10/10（组织隔离）均通过。</li>
+    <li>2 个标记项属双通道架构的预期探测（关系表为只读模型、B2 三岛走 Blob 回退），非回归。</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>二、为什么这样操作</h2>
+  <ul>
+    <li><strong>偶发失败 vs 环境限制区分清楚</strong>：强哥点名的「历史 flake（偶发失败）」= 网络 500 噪声被误判，已从根消除；剩余约 21 个端到端失败不是偶发，是「未登录开发环境写不了真实 D1」的确定性环境限制（相关仓库在 V2.77 已改为直连真实 D1、移除本地存储回退；未登录时 <code>if (isAuthed())</code> 守卫跳过了写库，刷新后从 D1 重读为空），在生产（已登录真实 D1）能过。V2.77 记录已载明「不影响生产端到端门禁」。</li>
+    <li><strong>部署门禁改用生产端到端</strong>：因开发环境端到端在无登录态下无法验证跨刷新持久化（架构使然），经强哥拍板，以真实 D1 的生产端到端作为部署门禁。</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>三、全量端到端分类（治理前后对照）</h2>
+  <table>
+    <thead><tr><th>类别</th><th>现象</th><th>性质</th><th>处置</th></tr></thead>
+    <tbody>
+      <tr><td>① 网络 500 噪声（控制台守卫）</td><td>双写 D1 返回 500 被误判</td><td>偶发假失败（flake 真身）</td><td class="t-ok">已豁免 · 消除</td></tr>
+      <tr><td>② 网络 500 噪声（响应监听器）</td><td><code>v83/v84/v85</code> 捕获 serial-numbers 等 500</td><td>同根因另一通道</td><td class="t-ok">已补白名单 · 6/6 全绿</td></tr>
+      <tr><td>③ 文案 / 功能不一致</td><td>设置页标「规划中」与已实现矛盾</td><td>真实断言失效</td><td class="t-ok">已修 MobileTab + 断言</td></tr>
+      <tr><td>④ 未登录 DEV 持久化</td><td>入库 / 出库 / 批次 / 信用等刷新后未持久化</td><td>环境限制（非 bug）</td><td class="t-warn">生产端到端验证可过</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="foot">SSA ERP · 版本四处同步（version.ts / package.json / manual.tsx / 项目记忆）均 V2.79.0 · 归档于 ima「强哥的知识库 → erp开发项目」</div>
+</div>
+</body>
+</html>

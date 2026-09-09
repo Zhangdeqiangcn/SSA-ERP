@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.81.0 版本更新记录</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#ffffff; --ink:#1f2d3d; --sub:#5b6b7b; --line:#e3e8ef; --brand:#1565c0; --ok:#2e7d32; --warn:#ed6c02; --chip:#eef4fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:32px 20px 60px; }
+  header { border-bottom:3px solid var(--brand); padding-bottom:14px; margin-bottom:24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .meta { color:var(--sub); font-size:14px; }
+  h2 { font-size:19px; margin:30px 0 12px; color:var(--brand); border-left:4px solid var(--brand); padding-left:10px; }
+  h3 { font-size:16px; margin:18px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 3px rgba(20,40,80,.05); }
+  .badge { display:inline-block; background:var(--chip); color:var(--brand); border-radius:6px; padding:2px 10px; font-size:13px; font-weight:600; margin-right:6px; }
+  ul { margin:8px 0 8px 2px; padding-left:20px; }
+  li { margin:6px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; background:var(--card); font-size:14px; }
+  th,td { border:1px solid var(--line); padding:9px 12px; text-align:left; }
+  th { background:var(--chip); color:var(--brand); }
+  .ok { color:var(--ok); font-weight:700; }
+  .note { font-size:13px; color:var(--sub); border-top:1px dashed var(--line); margin-top:24px; padding-top:12px; }
+  code { background:#eef1f5; padding:1px 6px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SSA ERP V2.81.0 版本更新记录</h1>
+    <div class="meta">发布日期：2026-09-04 ｜ 类型：移动门户收口 + 架构根治（盘点迁 D1）+ 部署生产 ｜ 生产端到端门禁：<span class="ok">全绿（PASS 239 / FAIL 0）</span></div>
+  </header>
+
+  <div class="card">
+    <span class="badge">本期两大项</span>
+    <ul>
+      <li><b>① 移动门户首页收口成完整仓库作业中心</b>（首页补齐盘点 / 质检待办入口）</li>
+      <li><b>② 盘点任务 checkTasks 迁真实 D1</b>（根治双通道最后一块，与 V2.80 同款实体后端）</li>
+    </ul>
+  </div>
+
+  <h2>① 移动门户首页收口成完整仓库作业中心</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>重写移动门户首页 <code>src/mobile/MobileHome.tsx</code>，从「仅推扫码入库」升级为<b>入库 / 盘点 / 质检 / 处置统一的待办作业中心</b>：</p>
+    <ul>
+      <li>引入 <code>useQualityStore</code> 与 <code>InspectionTask</code> / <code>UnqualifiedItem</code> 类型，实时计算待办数：<code>openCheckTasks</code>（盘点任务 status≠completed）、<code>openInspects</code>（质检任务 pending / in_progress）、<code>openUnqualified</code>（不合格项 dispositionStatus≠completed）。</li>
+      <li>「扫码入库」大卡下方新增<b>「盘点 N」</b> 与 <b>「质检 N」</b> 两个待办快捷卡，点击分别直达 <code>/m/stocktake</code> 与 <code>/m/quality</code>。</li>
+      <li>「待入库列表」下方追加<b>「待盘点任务」</b>列表（点击 <code>nav('/m/stocktake?task='+t.id)</code>）与<b>「待质检 / 待处置」</b>列表（点击 <code>nav('/m/quality')</code>）。</li>
+    </ul>
+    <h3>为什么这样操作</h3>
+    <p>经核查，V2.79 移动盘点 / 质检已是完整真功能（页面 + 路由 + 底部 5 Tab + store 方法 + 能力清单全齐），唯一缺口是<b>首页没有盘点 / 质检的待办入口</b>，用户需手动切 Tab 才能发现任务。本版按强哥拍板「首页入口 + 迁 D1（推荐）」，把首页补成统一作业入口，让移动端一开屏即见全量待办——这是「移动作业扩到盘点 / 质检」指令的真正收口点。</p>
+  </div>
+
+  <h2>② 盘点任务 checkTasks 迁真实 D1（根治双通道最后一块）</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>把盘点任务从「本地存储块（单人不共享、多人不同步）」迁到 <b>Cloudflare D1 云关系数据库</b>（按组织编号隔离、多人实时共享），保留在 <code>warehouseStore</code> 内、按 <code>loadWarehouseOrders</code> 同款范式迁移，最小化 API 面变动与风险：</p>
+    <table>
+      <tr><th>层</th><th>改动</th></tr>
+      <tr><td>迁移</td><td><code>migrations/0035_check_tasks.sql</code>：建 <code>check_tasks</code> 表（org_id 隔离 + 审计列），嵌套 items 以 <b>TEXT 存 JSON 串</b>、blindMode 布尔→<b>INTEGER(0/1)</b></td></tr>
+      <tr><td>后端</td><td><code>functions/_shared/entities.ts</code> 注册表加 <code>checkTask</code> 资源（table + camel↔snake 列含 items / blindMode），复用通用 <code>/api/entities/checkTask</code> 端点，<b>零新增后端函数</b></td></tr>
+      <tr><td>前端 store</td><td><code>src/stores/warehouseStore.ts</code>：加 <code>toCheckTaskPayload</code> / <code>parseCheckTask</code>（items JSON 双向转换、blindMode↔0/1）；<code>addCheckTask</code> / <code>updateCheckTask</code> / <code>deleteCheckTask</code> 改乐观更新 + fire-and-forget 写回 D1；<code>postCheckAdjustment</code> 末尾写回完成态；新增 <code>loadCheckTasks</code>（EntityRepo 拉取、首次空库回填 mock、离线回退内存）；<code>partialize</code> 移除 checkTasks（不再落 Blob）</td></tr>
+      <tr><td>启动 / 移动页</td><td><code>src/App.tsx</code> 启动期接 <code>loadCheckTasks</code>；<code>src/mobile/MobileStocktake.tsx</code> 挂载即拉取 D1</td></tr>
+    </table>
+    <h3>为什么这样操作</h3>
+    <p>盘点任务此前是仓库域最后一个走本地存储块的残块（<code>warehouseStore.ts</code> 第 1067 行注释明说仍走 Blob），导致盘点结果换设备 / 换人不共享。<b>嵌套 items 用 JSON 文本列而非独立子表</b>：盘点明细由任务自身持有、无独立查询场景，JSON 列最省后端（通用实体端点仅落注册列、含 items）；后端 <code>POST/PUT</code> 经 <code>pickSnake</code> 仅写注册过的列，故 <code>update({status:'completed'})</code> 不会清空 items。至此仓库域双通道彻底根治——仅 <code>inventoryAlerts</code> / <code>finishedGoodsInbounds</code> 仍 Blob-only（非共享主数据，保留不动）。</p>
+  </div>
+
+  <h2>验证结果</h2>
+  <div class="card">
+    <table>
+      <tr><th>项目</th><th>结果</th></tr>
+      <tr><td>类型检查 <code>tsc --noEmit</code></td><td class="ok">0 错</td></tr>
+      <tr><td>构建 <code>vite build</code></td><td class="ok">通过（33.9s，dist 已生成）</td></tr>
+      <tr><td>部署 apply 远程 D1 迁移 0035</td><td class="ok">check_tasks 表全部建表成功</td></tr>
+      <tr><td>前端 + 函数发布生产</td><td class="ok">已发布（生产域 https://e2294a45.ssa-erp.pages.dev）</td></tr>
+      <tr><td>生产端到端门禁 <code>prod-e2e</code></td><td class="ok">PASS 239 / FAIL 0 / WARN 2 / INFO 6（共 247）全绿</td></tr>
+      <tr><td>实体链路探针 <code>probe_checktask.mjs</code></td><td class="ok">14 条断言全 ✅（建/查/改/删 + items JSON 往返 + org 隔离）</td></tr>
+    </table>
+    <p class="note">WARN 2 = 外部汇率源暂不可用（端点正确返回 502，非崩溃）、AI 对话未配置模型；INFO 6 = 测试数据清理说明等。均非本版回归。生产门禁与 V2.80.0 基线完全一致，零回归。</p>
+  </div>
+
+  <div class="note">
+    版本四处已同步：src/version.ts（APP_VERSION=2.81.0）/ package.json（version=2.81.0）/ src/content/manual.tsx（版本更新记录 v2810）/ 项目记忆 MEMORY.md（版本沿革 V2.81.0 条，置于 V2.80.0 之前）。归档路径：ima「强哥的知识库 → erp开发项目」。
+  </div>
+</div>
+</body>
+</html>

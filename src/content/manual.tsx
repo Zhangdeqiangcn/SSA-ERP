@@ -958,10 +958,19 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2890',
+        title: 'V2.89.0（2026-09-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**打印/订单模板页眉页脚编辑器升级为 Word 式富文本（强哥指令）**：\n① 引入 mui-tiptap（基于 Tiptap v3 / ProseMirror 的 MUI 原生富文本编辑器）替换 V2.88.0 的 22 个页眉页脚表单控件，编辑对话框高度缩减约 60%。\n② 选中文字即弹出气泡菜单（加粗/斜体/下划线/字体颜色/对齐），像 Word 一样所见即所得改格式；顶部工具栏同样提供上述按钮。\n③ 图片本地直传：页眉页脚框内直接选本地图片（MenuButtonImageUpload），转 base64 内嵌富文本，离线可打印、随模板持久化；不再填 URL。\n④ 电子印章合并为图片：删除独立的「印章URL」字段，印章作为透明底 PNG 图片直接用同一上传功能放入，并用 ResizableImage 扩展支持拖拽缩放与定位。\n⑤ 打印附加选项：PrintTemplate 新增 extraOptions（审批记录/制单人/制单时间/审核人/审核时间/页码）；PrintPreview 新增 renderExtraOptions 渲染审批记录表格与制单人/审核人信息，页码用打印 CSS 计数器（第 X 页 / 共 Y 页）。\n⑥ 数据结构简化：HeaderFooterConfig 从 12 字段收敛为 { html, showDate }；persist version 2→3 + migrate 把 V2.88 旧 12 字段（legacyConfigToHtml）与 V2.87 纯文本（textToHtml）自动合成为富文本 HTML，老用户升级无感。\n⑦ 验证：tsc --noEmit 0 错；vite build 通过；npm run deploy 发布生产；生产端到端门禁 PASS 241 / FAIL 0 全绿。' },
+          { kind: 'why', title: '为什么这样操作', text: '强哥反馈 V2.88.0 的页眉页脚编辑「占用面积太大、功能不实用」，要求像 Word 一样选中文字弹工具栏、图片框内直传、印章合并、打印加审批记录与时间。本版选 mui-tiptap 而非自研——它原生贴合 MUI 主题、基于成熟 ProseMirror 引擎、气泡菜单与图片上传开箱即用，避免重复造轮子（也是强哥铁律「优先成熟案例不重复造轮子」）。图片内嵌 base64 而非外链 URL：保证模板随数据持久化、离线/内网打印不丢图。印章本质是透明 PNG 图片，合并进通用图片功能减少一个独立配置维度。审批记录/制单人等信息从业务单据 record 与审批流读取，预览缺字段时显示占位、真数据接入后自动填充。persist 升 v3 migrate 保证旧模板（纯文本或 12 字段）平滑升级为富文本、不丢历史配置。' },
+        ],
+      },
+      {
         id: 'v2880',
         title: 'V2.88.0（2026-09-09）',
         blocks: [
           { kind: 'usage', title: '本次变更', text: '**打印模板与订单模板增强（物料编码 + 页眉页脚可视化编辑）**：\n① 打印模板预览数据补全：SAMPLE_RECORDS 给全部 9 个有 items 的业务实体（采购/销售/报价/合同/BOM/询价/工单/采购申请/出库）的 items 加 materialCode 字段，打印预览明细表首列正确显示「物料编码」。\n② 订单模板表格加「物料编码」列：OrderTemplateTab 表头在「物料」后新增「物料编码」列（等宽字体蓝色显示 materialCode），数据层 TemplateItem 原有字段终于在前端展示。\n③ 页眉页脚结构化配置引擎：PrintTemplate 新增 HeaderFooterConfig 接口（text/align/fontSize/fontWeight/color/imageUrl/imageHeight/imagePosition/stampUrl/stampSize/showDate 共 12 个属性）；headerText/footerText 保留向后兼容；persist version 1→2 + migrate 自动给旧模板补默认配置。\n④ PrintPreview 渲染升级：renderHeaderFooter 函数读 config 应用对齐/字体/颜色样式；支持左侧或右侧图片（logo）；支持电子印章图片绝对定位叠加；支持自动追加打印时间。\n⑤ PrintTemplateTab 编辑对话框升级：页眉/页脚从纯文本框扩展为「高级设置」面板——含对齐方式/字号/字重/文字颜色/自动时间/图片URL/图片位置/图片高度/印章URL 共 10 项控件；简单文本框保留并与高级面板双向同步。\n⑥ PrintPreviewButton fallback 模板补 headerConfig/footerConfig；tsc --noEmit 0 错；vite build 通过；npm run deploy 发布生产；生产端到端门禁 PASS 240 / FAIL 0 全绿。' },
+        ],
       },
       {
         id: 'v2870',

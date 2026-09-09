@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Box, Typography, Paper, Button, IconButton, Chip, Select, MenuItem, TextField, FormControl,
   InputLabel, Dialog, DialogTitle, DialogContent, DialogActions, Stack, Snackbar, Tooltip,
@@ -10,10 +10,114 @@ import {
   usePrintTemplateStore, PrintEntity, PRINT_ENTITY_LABELS, PRINT_FIELD_CATALOG,
   PrintTemplate, PaperSize, Orientation,
   HeaderFooterConfig, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG,
+  PrintExtraOptions, DEFAULT_EXTRA_OPTIONS, textToHtml,
 } from '@/stores/printTemplateStore';
 import PrintPreview from '@/components/common/PrintPreview';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import TextAlign from '@tiptap/extension-text-align';
+import { Color } from '@tiptap/extension-color';
+import {
+  RichTextEditor, ControlledBubbleMenu, MenuControlsContainer, MenuDivider,
+  MenuButtonBold, MenuButtonItalic, MenuButtonUnderline, MenuButtonTextColor,
+  MenuButtonAlignLeft, MenuButtonAlignCenter, MenuButtonAlignRight,
+  MenuButtonImageUpload, FontSize, ResizableImage,
+} from 'mui-tiptap';
+
+/** 本地图片文件 → base64 data URL（内嵌到富文本，离线可打印、随模板持久化） */
+const fileToDataUrl = (file: File): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+
+interface RichTextEditorFieldProps {
+  label: string;
+  initialHtml: string;
+  onChange: (html: string) => void;
+  minHeight?: number;
+}
+
+/**
+ * Word 式富文本编辑器（基于 mui-tiptap / Tiptap v3）
+ * - 顶部工具栏：加粗/斜体/下划线/字体颜色/对齐/插入图片
+ * - 选中文字时弹出气泡菜单（Bubble Menu）快速调格式
+ * - 插入图片：本地文件直选 → base64 内嵌（电子印章/Logo 同为图片）
+ * - 图片支持拖拽缩放（ResizableImage）
+ */
+const RichTextEditorField: React.FC<RichTextEditorFieldProps> = ({ label, initialHtml, onChange, minHeight = 90 }) => {
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+  const uploadImages = async (files: File[]) => {
+    const urls = await Promise.all(files.map(fileToDataUrl));
+    return urls.map((src) => ({ src }));
+  };
+  return (
+    <Box>
+      <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 600 }}>{label}</Typography>
+      <RichTextEditor
+        className="ssa-print-rte"
+        extensions={[
+          StarterKit,
+          Underline,
+          TextAlign.configure({ types: ['heading', 'paragraph'] }),
+          Color,
+          FontSize,
+          ResizableImage,
+        ]}
+        content={initialHtml || ''}
+        editorProps={{ attributes: { style: `min-height:${minHeight}px; padding:8px 10px;` } }}
+        onUpdate={({ editor }) => onChangeRef.current(editor.getHTML())}
+        renderControls={() => (
+          <MenuControlsContainer>
+            <MenuButtonBold />
+            <MenuButtonItalic />
+            <MenuButtonUnderline />
+            <MenuButtonTextColor />
+            <MenuButtonAlignLeft />
+            <MenuButtonAlignCenter />
+            <MenuButtonAlignRight />
+            <MenuDivider />
+            <MenuButtonImageUpload onUploadFiles={uploadImages} inputProps={{ accept: 'image/*', multiple: false }} />
+          </MenuControlsContainer>
+        )}
+      >
+        {(editor) =>
+          editor && (
+            <ControlledBubbleMenu
+              editor={editor}
+              open={editor.isFocused && !editor.state.selection.empty}
+            >
+              <MenuControlsContainer>
+                <MenuButtonBold />
+                <MenuButtonItalic />
+                <MenuButtonUnderline />
+                <MenuButtonTextColor />
+                <MenuButtonAlignLeft />
+                <MenuButtonAlignCenter />
+                <MenuButtonAlignRight />
+              </MenuControlsContainer>
+            </ControlledBubbleMenu>
+          )
+        }
+      </RichTextEditor>
+    </Box>
+  );
+};
 
 const ENTITIES = Object.keys(PRINT_ENTITY_LABELS) as PrintEntity[];
+
+/** 打印附加信息可选项（审批记录/制单人/时间/审核人/时间/页码） */
+const EXTRA_OPTION_CATALOG: { key: keyof PrintExtraOptions; label: string }[] = [
+  { key: 'approvalRecord', label: '审批记录' },
+  { key: 'createdBy', label: '制单人' },
+  { key: 'createdAt', label: '制单时间' },
+  { key: 'approvedBy', label: '审核人' },
+  { key: 'approvedAt', label: '审核时间' },
+  { key: 'pageNumber', label: '页码' },
+];
 
 // 预览用样例数据
 const SAMPLE_RECORDS: Partial<Record<PrintEntity, Record<string, any>>> = {
@@ -112,12 +216,12 @@ const PrintTemplateTab: React.FC = () => {
   const [title, setTitle] = useState('');
   const [paperSize, setPaperSize] = useState<PaperSize>('A4');
   const [orientation, setOrientation] = useState<Orientation>('portrait');
-  const [headerText, setHeaderText] = useState('');
-  const [footerText, setFooterText] = useState('');
   const [fieldKeys, setFieldKeys] = useState<string[]>([]);
   const [snackbar, setSnackbar] = useState('');
   const [headerConfig, setHeaderConfig] = useState<HeaderFooterConfig>(DEFAULT_HEADER_CONFIG);
   const [footerConfig, setFooterConfig] = useState<HeaderFooterConfig>(DEFAULT_FOOTER_CONFIG);
+  const [extraOptions, setExtraOptions] = useState<PrintExtraOptions>({ ...DEFAULT_EXTRA_OPTIONS });
+  const [openSeq, setOpenSeq] = useState(0);
 
   const openAdd = () => {
     setEditing(null);
@@ -125,11 +229,11 @@ const PrintTemplateTab: React.FC = () => {
     setTitle(PRINT_ENTITY_LABELS[entity] + '打印模板');
     setPaperSize('A4');
     setOrientation('portrait');
-    setHeaderText('');
-    setFooterText('打印时间：{now}');
     setFieldKeys(PRINT_FIELD_CATALOG[entity].map((c) => c.key));
-    setHeaderConfig({ ...DEFAULT_HEADER_CONFIG });
-    setFooterConfig({ ...DEFAULT_FOOTER_CONFIG });
+    setHeaderConfig({ html: '', showDate: false });
+    setFooterConfig({ html: '', showDate: true });
+    setExtraOptions({ ...DEFAULT_EXTRA_OPTIONS });
+    setOpenSeq((s) => s + 1);
     setDialogOpen(true);
   };
 
@@ -139,16 +243,20 @@ const PrintTemplateTab: React.FC = () => {
     setTitle(tpl.title);
     setPaperSize(tpl.paperSize);
     setOrientation(tpl.orientation);
-    setHeaderText(tpl.headerText);
-    setFooterText(tpl.footerText);
     setFieldKeys([...tpl.fieldKeys]);
-    setHeaderConfig(tpl.headerConfig ? { ...tpl.headerConfig } : { ...DEFAULT_HEADER_CONFIG, text: tpl.headerText });
-    setFooterConfig(tpl.footerConfig ? { ...tpl.footerConfig } : { ...DEFAULT_FOOTER_CONFIG, text: tpl.footerText });
+    setHeaderConfig(tpl.headerConfig ? { html: tpl.headerConfig.html || '', showDate: tpl.headerConfig.showDate ?? false } : { html: textToHtml(tpl.headerText), showDate: false });
+    setFooterConfig(tpl.footerConfig ? { html: tpl.footerConfig.html || '', showDate: tpl.footerConfig.showDate ?? true } : { html: textToHtml(tpl.footerText), showDate: true });
+    setExtraOptions({ ...DEFAULT_EXTRA_OPTIONS, ...(tpl.extraOptions || {}) });
+    setOpenSeq((s) => s + 1);
     setDialogOpen(true);
   };
 
   const toggleField = (key: string) => {
     setFieldKeys((prev) => (prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]));
+  };
+
+  const toggleExtraOption = (key: keyof PrintExtraOptions) => {
+    setExtraOptions((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const handleSave = () => {
@@ -163,11 +271,12 @@ const PrintTemplateTab: React.FC = () => {
       title: title.trim() || name.trim(),
       paperSize,
       orientation,
-      headerText: headerConfig.text || headerText,
-      footerText: footerConfig.text || footerText,
-      headerConfig: { ...headerConfig, text: headerConfig.text || headerText },
-      footerConfig: { ...footerConfig, text: footerConfig.text || footerText },
+      headerText: headerConfig.html || '',
+      footerText: footerConfig.html || '',
+      headerConfig: { html: headerConfig.html || '', showDate: headerConfig.showDate },
+      footerConfig: { html: footerConfig.html || '', showDate: footerConfig.showDate },
       fieldKeys,
+      extraOptions: { ...extraOptions },
     };
     if (editing) {
       updateTemplate(editing.id, tpl);
@@ -283,124 +392,40 @@ const PrintTemplateTab: React.FC = () => {
                 </Select>
               </FormControl>
             </Box>
-            <TextField fullWidth multiline rows={2} label="页眉" value={headerText} onChange={(e) => { setHeaderText(e.target.value); setHeaderConfig({ ...headerConfig, text: e.target.value }); }} placeholder="支持换行，留空不显示" />
-            <TextField fullWidth multiline rows={2} label="页脚" value={footerText} onChange={(e) => { setFooterText(e.target.value); setFooterConfig({ ...footerConfig, text: e.target.value }); }} placeholder="可用 {now} 表示打印时间" />
+            <RichTextEditorField
+              key={`header-rte-${openSeq}`}
+              label="页眉（富文本：选中文字改字体/字号/颜色，可插入图片或电子印章）"
+              initialHtml={headerConfig.html}
+              onChange={(html) => setHeaderConfig((c) => ({ ...c, html }))}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={headerConfig.showDate} onChange={(e) => setHeaderConfig((c) => ({ ...c, showDate: e.target.checked }))} />}
+              label="页眉自动追加打印时间"
+            />
 
-            {/* === 页眉高级编辑（V2.88.0）=== */}
-            <Paper variant="outlined" sx={{ p: 2, bgcolor: '#F8FAFC' }}>
-              <Typography variant="subtitle2" sx={{ mb: 1.5, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1 }}>
-                页眉高级设置
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>对齐方式</InputLabel>
-                    <Select value={headerConfig.align} label="对齐方式" onChange={(e) => setHeaderConfig({ ...headerConfig, align: e.target.value as any })}>
-                      <MenuItem value="left">左对齐</MenuItem>
-                      <MenuItem value="center">居中</MenuItem>
-                      <MenuItem value="right">右对齐</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField fullWidth size="small" type="number" label="字号(px)" value={headerConfig.fontSize || ''} onChange={(e) => setHeaderConfig({ ...headerConfig, fontSize: Number(e.target.value) || 0 })} placeholder="留空=默认" />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>字重</InputLabel>
-                    <Select value={headerConfig.fontWeight} label="字重" onChange={(e) => setHeaderConfig({ ...headerConfig, fontWeight: e.target.value as any })}>
-                      <MenuItem value="normal">常规</MenuItem>
-                      <MenuItem value="bold">粗体</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField fullWidth size="small" label="文字颜色" value={headerConfig.color} onChange={(e) => setHeaderConfig({ ...headerConfig, color: e.target.value })} placeholder="#475569 或 red" />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControlLabel
-                    control={<Checkbox checked={headerConfig.showDate} onChange={(e) => setHeaderConfig({ ...headerConfig, showDate: e.target.checked })} />}
-                    label="自动追加打印时间"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField fullWidth size="small" label="图片URL (logo)" value={headerConfig.imageUrl} onChange={(e) => setHeaderConfig({ ...headerConfig, imageUrl: e.target.value })} placeholder="https://... 或 data:image/..." />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>图片位置</InputLabel>
-                    <Select value={headerConfig.imagePosition} label="图片位置" onChange={(e) => setHeaderConfig({ ...headerConfig, imagePosition: e.target.value as any })}>
-                      <MenuItem value="left">左侧</MenuItem>
-                      <MenuItem value="right">右侧</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField fullWidth size="small" type="number" label="图片高度(px)" value={headerConfig.imageHeight || ''} onChange={(e) => setHeaderConfig({ ...headerConfig, imageHeight: Number(e.target.value) || 40 })} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth size="small" label="电子印章图片URL" value={headerConfig.stampUrl} onChange={(e) => setHeaderConfig({ ...headerConfig, stampUrl: e.target.value })} placeholder="印章图片地址（PNG透明底推荐）" />
-                </Grid>
-              </Grid>
-            </Paper>
+            <RichTextEditorField
+              key={`footer-rte-${openSeq}`}
+              label="页脚（富文本：选中文字改字体/字号/颜色，可插入图片或电子印章）"
+              initialHtml={footerConfig.html}
+              onChange={(html) => setFooterConfig((c) => ({ ...c, html }))}
+            />
+            <FormControlLabel
+              control={<Checkbox checked={footerConfig.showDate} onChange={(e) => setFooterConfig((c) => ({ ...c, showDate: e.target.checked }))} />}
+              label="页脚自动追加打印时间"
+            />
 
-            {/* === 页脚高级编辑（V2.88.0）=== */}
-            <Paper variant="outlined" sx={{ p: 2, bgcolor: '#F8FAFC' }}>
-              <Typography variant="subtitle2" sx={{ mb: 1.5, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1 }}>
-                页脚高级设置
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>对齐方式</InputLabel>
-                    <Select value={footerConfig.align} label="对齐方式" onChange={(e) => setFooterConfig({ ...footerConfig, align: e.target.value as any })}>
-                      <MenuItem value="left">左对齐</MenuItem>
-                      <MenuItem value="center">居中</MenuItem>
-                      <MenuItem value="right">右对齐</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField fullWidth size="small" type="number" label="字号(px)" value={footerConfig.fontSize || ''} onChange={(e) => setFooterConfig({ ...footerConfig, fontSize: Number(e.target.value) || 0 })} placeholder="留空=默认" />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>字重</InputLabel>
-                    <Select value={footerConfig.fontWeight} label="字重" onChange={(e) => setFooterConfig({ ...footerConfig, fontWeight: e.target.value as any })}>
-                      <MenuItem value="normal">常规</MenuItem>
-                      <MenuItem value="bold">粗体</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField fullWidth size="small" label="文字颜色" value={footerConfig.color} onChange={(e) => setFooterConfig({ ...footerConfig, color: e.target.value })} placeholder="#475569 或 gray" />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+            <Box>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>打印附加信息（勾选）</Typography>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                {EXTRA_OPTION_CATALOG.map((o) => (
                   <FormControlLabel
-                    control={<Checkbox checked={footerConfig.showDate} onChange={(e) => setFooterConfig({ ...footerConfig, showDate: e.target.checked })} />}
-                    label="自动追加打印时间"
+                    key={o.key}
+                    control={<Checkbox checked={extraOptions[o.key]} onChange={() => toggleExtraOption(o.key)} />}
+                    label={o.label}
                   />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField fullWidth size="small" label="图片URL (logo)" value={footerConfig.imageUrl} onChange={(e) => setFooterConfig({ ...footerConfig, imageUrl: e.target.value })} placeholder="https://..." />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <FormControl fullWidth size="small">
-                    <InputLabel>图片位置</InputLabel>
-                    <Select value={footerConfig.imagePosition} label="图片位置" onChange={(e) => setFooterConfig({ ...footerConfig, imagePosition: e.target.value as any })}>
-                      <MenuItem value="left">左侧</MenuItem>
-                      <MenuItem value="right">右侧</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <TextField fullWidth size="small" type="number" label="图片高度(px)" value={footerConfig.imageHeight || ''} onChange={(e) => setFooterConfig({ ...footerConfig, imageHeight: Number(e.target.value) || 30 })} />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField fullWidth size="small" label="电子印章图片URL" value={footerConfig.stampUrl} onChange={(e) => setFooterConfig({ ...footerConfig, stampUrl: e.target.value })} placeholder="印章图片地址（PNG透明底推荐）" />
-                </Grid>
-              </Grid>
-            </Paper>
+                ))}
+              </Box>
+            </Box>
             <Box>
               <Typography variant="subtitle2" sx={{ mb: 1 }}>打印字段（勾选）</Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="HreIzrNAsFPxltL9TMB1Q4">
+<head data-page-node-id="J8UJoeF7HXqhFojBBgxDfn">
+<meta charset="UTF-8" data-page-node-id="Yk2Tu8ggEJiEXtraA6IsOq">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="kpDjtFnKJr04dMvGm1aIzi">
+<title>SSA ERP V2.88.0 版本更新记录</title>
+<style>
+  :root { --bg: #f8fafc; --card: #fff; --text: #1e293b; --muted: #64748b; --accent: #2563eb; --border: #e2e8f0; --green: #16a34a; --red: #dc2626; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 20px; }
+  .container { max-width: 960px; margin: 0 auto; }
+  h1 { font-size: 24px; color: var(--accent); margin-bottom: 4px; }
+  .meta { color: var(--muted); font-size: 13px; margin-bottom: 24px; border-bottom: 2px solid var(--accent); padding-bottom: 12px; }
+  h2 { font-size: 18px; margin: 28px 0 12px; padding-left: 10px; border-left: 4px solid var(--accent); }
+  h3 { font-size: 15px; margin: 16px 0 8px; color: var(--text); }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+  th { background: #f1f5f9; font-weight: 600; white-space: nowrap; }
+  tr:nth-child(even) { background: #fafbfc; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .tag-blue { background: #dbeafe; color: #1d4ed8; }
+  .tag-green { background: #dcfce7; color: #16a34a; }
+  .tag-red { background: #fee2e2; color: #dc2626; }
+  code { background: #f1f5f9; padding: 1px 5px; border-radius: 3px; font-size: 12px; font-family: "Consolas", monospace; }
+  ul, ol { padding-left: 20px; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .summary-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page-node-id="plcmcuWFFHGzP65TO0pg5Y">
+<div class="container" data-page-node-id="iWCvVAaAR8p7ga0eXjwCJd">
+
+<h1 data-page-node-id="vOZnoqInjmvvLOfby4jZQs">SSA ERP V2.88.0 版本更新记录</h1>
+<p class="meta" data-page-node-id="QDcM70BoN1qX9X6Muwe5Wn">发布日期：2026-09-09 &nbsp;|&nbsp; 类型：功能增强（打印/订单模板）&nbsp;|&nbsp; 状态：<span class="tag tag-green" data-page-node-id="1yssWdkv4CTdjvRUFra0Mi">已上线</span></p>
+
+<!-- ===== 概要 ===== -->
+<div class="summary-card" data-page-node-id="yLZjTd66St9agT8Gw6qFpS">
+  <h2 data-page-node-id="B1FHmZTlUBPEiU8ItUktd0">一、版本概要</h2>
+  <table data-page-node-id="DKzPGp6KzpeUkhujLGfKlF">
+    <tr data-page-node-id="xpytddkm9J6FNNeYEtU4Qi"><th data-page-node-id="XLXjZqXO4I4P4ALedRBi7N">版本号</th><td data-page-node-id="2PmYQJek6zMtH5kHJJX1UY"><code data-page-node-id="DwaH40NDsTxMdD86rsuJEK">V2.88.0</code></td></tr>
+    <tr data-page-node-id="jHWxJKsLWBxeN4awN55nBz"><th data-page-node-id="WZacDHCXyp5e1yaFIzCPWN">发布日期</th><td data-page-node-id="XObVGHkGlTb5qElX8lnDjT">2026-09-09</td></tr>
+    <tr data-page-node-id="2NxY0ttGO0FkCvDICb8AzT"><th data-page-node-id="e67eMTk5hGKCQnxqFKi2LD">需求来源</th><td data-page-node-id="nWBL2mYFNvGQQ8zJMW6P6P">强哥指令（截图反馈 + 文字描述）</td></tr>
+    <tr data-page-node-id="ZdzfmVlevmMEEcNzC6UtyA"><th data-page-node-id="CHx2BvGTyBCOJQGajKCeLk">变更类型</th><td data-page-node-id="AAHGv9luk4HX9Q84QCnUX0">打印/订单模板增强</td></tr>
+    <tr data-page-node-id="ylY1HK0LoV1kxOk4n7Syaw"><th data-page-node-id="lqjcEprwstlL7XySrNfGPU">影响范围</th><td data-page-node-id="xuvmjExZfsg4umy9aKRlya">printTemplateStore / PrintPreview / PrintPreviewButton / PrintTemplateTab / OrderTemplateTab / orderTemplateStore</td></tr>
+    <tr data-page-node-id="zkc3dH2xhC56LFJeQhSNry"><th data-page-node-id="kHz3kJEEIfgN7SdQcAwopC">tsc</th><td data-page-node-id="QUDAwgfVi7gLUABsk0LGJE"><span class="tag tag-green" data-page-node-id="HvjYBPzom8CPYYu3N4iEAK">0 错误</span></td></tr>
+    <tr data-page-node-id="otylpWtoKIE3lCGA8PHx8B"><th data-page-node-id="cZaBBxv2ZVvMHqXHSW0FfI">vite build</th><td data-page-node-id="3Diqp4durkkgsElloHhOyg"><span class="tag tag-green" data-page-node-id="C9K5mBWXX9tKBHgHvUkKyJ">通过 (42.2s)</span></td></tr>
+    <tr data-page-node-id="lwhGIP2M9oZUmyADnDLeQN"><th data-page-node-id="Dsit4HFiFnd6JvRRJWB4PO">生产部署</th><td data-page-node-id="gPFZV2QKPon14dciskT69b"><span class="tag tag-green" data-page-node-id="XGobZe4wc1X2Yq8FnlXN2N">Cloudflare Pages 已发布</span></td></tr>
+    <tr data-page-node-id="wEtA0v7sS2MahyNVikWAeI"><th data-page-node-id="mXwSfEVcKxaDbIGb7v1YNk">生产门禁</th><td data-page-node-id="KHcBEtLprYNqUMNTeVPDsh"><span class="tag tag-green" data-page-node-id="BQdSojdekVrJpsq6Gt8zPg">PASS 240 / FAIL 0 / WARN 1 / INFO 6 全绿</span></td></tr>
+  </table>
+</div>
+
+<!-- ===== 变更详情 ===== -->
+<div class="summary-card" data-page-node-id="F4F9JK3rYQc9mE4k0t8hxs">
+  <h2 data-page-node-id="oVDwW85GCpEYFVOFmxXvGG">二、变更详情</h2>
+
+  <h3 data-page-node-id="gp9iGu1FGZVXTn6FqrCRJ5">2.1 打印模板预览数据补全物料编码</h3>
+  <p data-page-node-id="o6m1uyY1OyNRDCH2xlXACn"><strong data-page-node-id="IFcFlOedbuXaUmpU1vqv5p">问题</strong>：打印预览的明细表（items）首列「物料编码」始终为空——因为样例数据 <code data-page-node-id="HgdN0GkKFn9WPfzHv7v9rA">SAMPLE_RECORDS</code> 里只有 <code data-page-node-id="lIQX5BrBlm2WpJlyo3Ufpt">materialName</code>，没有传 <code data-page-node-id="PEdIo0esahIEAZspUHmF4h">materialCode</code>。</p>
+  <p data-page-node-id="EbgC3E9i0K71TKyVEteDtt"><strong data-page-node-id="7i9OS4jQhDqXqCIRWhZRE6">修复</strong>：给全部 9 个有 items 的业务实体的样例数据补上 <code data-page-node-id="aAQQfegPXXp9gXUwZtLT8e">materialCode</code>：</p>
+  <ul data-page-node-id="y0tF3kw6M24YditPq2HkRw">
+    <li data-page-node-id="fWfJrn8QAvb5iZxQYyUPdk"><code data-page-node-id="Yia4DJWRBh8MJKITADHg7j">purchaseOrder</code> — MAT-Q235B-1.5（冷轧钢板）</li>
+    <li data-page-node-id="ivP6DY8KwqEifkrdmgH39h"><code data-page-node-id="UgXzTPS6SpcQn111OEjfVI">salesOrder</code> — MAT-ZJ-001（精密轴芯）、MAT-ZJ-002（轴承座）</li>
+    <li data-page-node-id="xU597g1TBfYP0Esdwuc6el"><code data-page-node-id="S1EVQA6wYbqxhfxusaDJeL">salesQuotation</code> — MAT-CG-003（连接法兰）</li>
+    <li data-page-node-id="caEyTCJR3hcjVN0pN6BgoJ"><code data-page-node-id="ckCeXA1d6yDeWS64TlLum3">salesContract</code> — MAT-FRAME-01（精密零部件年度包）</li>
+    <li data-page-node-id="4swfZLMbjKqLCuEOtlyrZL"><code data-page-node-id="koCufaGPXNQJ8k3qnENcTX">bom</code> — MAT-BODY-001/MAT-GEAR-001/MAT-BEAR-001/MAT-SEAL-001（减速机全 BOM）</li>
+    <li data-page-node-id="zWLgzBD3Y4XnUJ1O2YvGh1"><code data-page-node-id="uZlNOoUHNrCJElH2e5wayL">inquiry</code> — MAT-SS-304（不锈钢板）</li>
+    <li data-page-node-id="UNWgmuSP8WjphKjQlvHUYt"><code data-page-node-id="wC5FYgQNlnecJxV7rqR0gN">workOrder</code> — MAT-BODY-001/MAT-GEAR-001（工单物料）</li>
+    <li data-page-node-id="tt9YIp7T9Twfjla8WkF6bX"><code data-page-node-id="agc31SAVi0ZJQRIQAzJE1l">purchaseRequest</code> — MAT-LUBE-001/MAT-WELD-001（生产辅料）</li>
+    <li data-page-node-id="pNgd1Wn8a3sDtA8fs9Y2jn"><code data-page-node-id="RqMDamymYeQDlZZS96tRDm">warehouseOutbound</code> — MAT-ZJ-001（出库物料）</li>
+  </ul>
+  <p data-page-node-id="NbbejRokaPb16YSLlaq0Jq"><strong data-page-node-id="51BDa00wSVosHBOp11MCTN">文件</strong>：<code data-page-node-id="7DqJGSRjpcdd1jjevV6mWm">src/pages/Settings/PrintTemplateTab.tsx</code></p>
+
+  <h3 data-page-node-id="FXtMzZDzN6N1e7QEVbxLZr">2.2 订单模板表格加「物料编码」列</h3>
+  <p data-page-node-id="O20ybTJsfliLpfW6NdYbO1"><strong data-page-node-id="jE06ZPtILmectTTSSxGQl6">问题</strong>：订单模板编辑对话框的物料列表表头只有「物料/规格/单位/数量/单价/删除」6 列，<code data-page-node-id="89UOTnML5A6ttfaVkYtVBT">TemplateItem</code> 数据结构虽有 <code data-page-node-id="GONyARjG5cnvg8rzdcYc9M">materialCode</code> 字段但 UI 未渲染。</p>
+  <p data-page-node-id="Yo052BmOIjoeVoItgp7hdV"><strong data-page-node-id="37py9Lxtb0eyXAMye9LOTJ">修复</strong>：</p>
+  <ul data-page-node-id="5qtMgRPAHvQRG0qQbPinQl">
+    <li data-page-node-id="D9tOCcmstZ24imRlP854Em">表头在「物料」后新增「物料编码」列</li>
+    <li data-page-node-id="IULkGiGGwJffcAkSDdPzcj">表格行用等宽字体（monospace）+ 蓝色显示 <code data-page-node-id="Pqx2VPcQUN2EMXTFxbyFY9">materialCode</code>，与物料名称视觉区分</li>
+    <li data-page-node-id="HGy6lA8BoC5kPS8YjYS06U">选择物料后自动从 <code data-page-node-id="U6VjBPG93XBa6IBhDeExid">materialStore</code> 填充 <code data-page-node-id="E9b9in4MZICipXWoUxJg4F">materialCode</code>（原有逻辑不变）</li>
+  </ul>
+  <p data-page-node-id="80DDXLvV8EuJ2ZHAWFca5G"><strong data-page-node-id="5yCkEgeUibbATghgOUx0Wk">文件</strong>：<code data-page-node-id="lRUDpytMhsXEWnJ0AqNQfI">src/pages/Settings/OrderTemplateTab.tsx</code></p>
+
+  <h3 data-page-node-id="vdJBEJifri4vHBzmQ4GIl2">2.3 页眉页脚结构化配置引擎（核心新功能）</h3>
+  <p data-page-node-id="M9QmKJWWO5N886YVcA1H4f"><strong data-page-node-id="UIGHqTJQ7njEga1CkZw9Sx">旧状态</strong>：<code data-page-node-id="iXwx5YKjbI1h41um98FGMk">PrintTemplate</code> 只有 <code data-page-node-id="lQb5KzcVWLu7xE1vsfHjQN">headerText: string</code> 和 <code data-page-node-id="OpgE6VyR2Z3tP5tHgYcJaf">footerText: string</code>（纯文本），<code data-page-node-id="HkAdXX7YVVOtB3UfLMEz23">PrintPreview</code> 固定居中渲染。</p>
+  <p data-page-node-id="4sNEn7uRRixmzJC1lBBbfb"><strong data-page-node-id="1G7RapJD9pfFW1mrq6vy5e">新状态</strong>：扩展为 <code data-page-node-id="VXyPnRytymgZAkGOXqMBcn">HeaderFooterConfig</code> 结构化配置对象（12 个属性）：</p>
+
+  <table data-page-node-id="QA0gHWz8jsnO28lN3P5FY9">
+    <tr data-page-node-id="762Apfv26MyynAi2kGflg1"><th data-page-node-id="eQQ5N0XKS8ypD0eyGKQ5gz">属性</th><th data-page-node-id="oru9EWoDVbHt9gfA5kkyx4">类型</th><th data-page-node-id="G2mCZaQNjsB4mYygITMW0C">说明</th></tr>
+    <tr data-page-node-id="EtXKo08vfGgSjFaLrGWCcn"><td data-page-node-id="PA18QDdXkj3H11lo9zdKeW"><code data-page-node-id="xaOZk0hRoGh9C3GhHzhXVZ">text</code></td><td data-page-node-id="r2il0RT9Ju7YHgiQTuiySV">string</td><td data-page-node-id="e9PbhvJeq5Txz4d0jas6OX">文本内容（支持 \n 换行和 {now} 时间占位符）</td></tr>
+    <tr data-page-node-id="8C2jsPJL7LQFMtJjiuEXlD"><td data-page-node-id="JXkqJk3ihR9ChR6vlCyTMv"><code data-page-node-id="o2XaFV1TmibLmv6hYjrjAM">align</code></td><td data-page-node-id="id8cZDRrGCi54L4EJ5Ww7c">'left'|'center'|'right'</td><td data-page-node-id="tm1HNDM2HXmgM7E2tdCQcm">水平对齐方式</td></tr>
+    <tr data-page-node-id="0r6XV6GpeOY7SjchBLdcXd"><td data-page-node-id="DXnxlM32IFZ0tRshnlrgPi"><code data-page-node-id="mQoxFGQNCJfOglfNUS9Zpc">fontSize</code></td><td data-page-node-id="5H34IdmNPoIFIOdPxzBkSC">number (px)</td><td data-page-node-id="SBmQ6Mk6ClBeZeo3mR6sWN">字号，0=继承默认</td></tr>
+    <tr data-page-node-id="0IhVPy8KDs69g7qUCo0XAi"><td data-page-node-id="WoM04rPh2fWTHOykT0oOPV"><code data-page-node-id="0okysGfb6aNCiwuxcd4XFJ">fontWeight</code></td><td data-page-node-id="hyEUil6XTifYzFY26k3yVq">'normal'|'bold'</td><td data-page-node-id="AeRtKgcwsw3g6S6ThaEPvn">字重</td></tr>
+    <tr data-page-node-id="0vePLEaiwVVPTIuABWT4Zj"><td data-page-node-id="UG1MesqmFLwous2zz4KhwV"><code data-page-node-id="VDimt0VV7BXLbynjumtajj">color</code></td><td data-page-node-id="yFC7DXsY0iEyZfuGhMWBAi">string (CSS)</td><td data-page-node-id="jyXvdEiLRJoHYckiLbaEnW">文字颜色</td></tr>
+    <tr data-page-node-id="uOCXK0PS1RXzbCnsnbgR83"><td data-page-node-id="O5AW0Hbuo8pL5tzwcCCHMm"><code data-page-node-id="Jq9YCPp3WBZwEy6gR2Bv7D">imageUrl</code></td><td data-page-node-id="nbfipDhcREoY3kLvAigvw2">string (URL)</td><td data-page-node-id="yGDIF525ZDiqQw2NjZAUhO">图片 URL（公司 logo 等），留空不显示</td></tr>
+    <tr data-page-node-id="BMYf4xpKFOHXpudxCzmgJt"><td data-page-node-id="HDX0UBAsOLVyEvlzI8BCEQ"><code data-page-node-id="VOpzlLU8rsSwRK4jk8TH7g">imageHeight</code></td><td data-page-node-id="mNHFOxqQrevssy74Vxw0eV">number (px)</td><td data-page-node-id="bBbHfyfu1dOha2ubbY11yB">图片高度</td></tr>
+    <tr data-page-node-id="2zSZ9qI0M40yPQStQzUfNm"><td data-page-node-id="ZZW5sFB0Y1wTXx1TbC4uAq"><code data-page-node-id="ugsDI5zjw9ilADnIdHcSy5">imagePosition</code></td><td data-page-node-id="oD9oPTZLKc5PlHyVM9nEez">'left'|'right'</td><td data-page-node-id="t9SDFaf5CiMFT2uc5c5wBw">图片位置（相对于文本行）</td></tr>
+    <tr data-page-node-id="4IZRxJzMzDfyC55oyqhxDM"><td data-page-node-id="04mtXEmABmb1L4HBi45MXc"><code data-page-node-id="npmY8yi2pcmdanF4EwtRvI">stampUrl</code></td><td data-page-node-id="NJ9zdIPiCifLzWij9Xy36y">string (URL)</td><td data-page-node-id="k6gF6HrgZcQleA6zsZ2chB">电子印章图片 URL，留空不显示</td></tr>
+    <tr data-page-node-id="VW5bCWfUl4fzDcFDozg0hP"><td data-page-node-id="0UZUyiTo7DRyU4NiF74jNO"><code data-page-node-id="ZwHJZF6VJMdPJr4PkUvRnb">stampSize</code></td><td data-page-node-id="70LqQysylRwEYhtbwy7ksc">number (px)</td><td data-page-node-id="ZLQ9NeUMFpSGtiyFDRpF0q">印章尺寸</td></tr>
+    <tr data-page-node-id="6hHJX0Z4cKf9F12TB9WwcA"><td data-page-node-id="vjSP5qa1v5tF3XDACIJD0a"><code data-page-node-id="EjQkfzrbLVRl8bP5XQetAE">showDate</code></td><td data-page-node-id="Em0GKavi7Tp3TFNBBkgwFw">boolean</td><td data-page-node-id="jI3APh9zepsInZqak1GRa2">是否自动追加打印时间</td></tr>
+  </table>
+
+  <h3 data-page-node-id="kkOBrTvreSImM1ZX9DhvVe">2.4 PrintPreview 渲染升级</h3>
+  <p data-page-node-id="49VTmr5Gf9yKaBMH9tqcFk">新增 <code data-page-node-id="NiQGuh4haZeZjUUX0cU5V6">renderHeaderFooter(config, fallbackText, isHeader)</code> 函数：</p>
+  <ul data-page-node-id="YSNf0RoQ1u0eY15cwNPLgT">
+    <li data-page-node-id="bviPEl80W4thH9C7uAWUvp">读 <code data-page-node-id="mQ0jz3TYh7zO4iQVNynD3J">config</code> 应用对齐/字体大小/字重/颜色样式</li>
+    <li data-page-node-id="85wC19i7qTsM9JkZQZlctH">支持左侧或右侧图片（logo），按 <code data-page-node-id="hbR4zGMLgjqeL9aNhP7o7W">imagePosition</code> 定位</li>
+    <li data-page-node-id="qmU2NfhRsQ02dsgfw8OL74">支持电子印章图片绝对定位叠加（页眉右下角 / 页脚右下角）</li>
+    <li data-page-node-id="E2Nd8DisdE80VXFD6BAwkp">自动处理 <code data-page-node-id="dTGF8BcPb6VqKPorPTVaxe">{now}</code> 占位符替换为当前时间</li>
+    <li data-page-node-id="KqiAUwO4FulfE0jQfwx9wq"><code data-page-node-id="vHU3jyHlyxCzsqrgfiPrOq">showDate=true</code> 时自动在文本末尾追加「打印时间：xxx」</li>
+    <li data-page-node-id="kclFkjTgNuam2AdKCLcxJz">向后兼容：无 config 时使用默认值（居中、默认字号、无图无章）</li>
+  </ul>
+
+  <h3 data-page-node-id="DaVl5LGW9LF6dSSrCDjxaS">2.5 PrintTemplateTab 编辑对话框升级</h3>
+  <p data-page-node-id="7EwFt5Z5ifDT1ojZlHpL2A">页眉/页脚从两个纯文本框升级为「高级设置」面板：</p>
+  <div class="grid" data-page-node-id="f6pw9SbhOMChkbikKXJ3wm">
+    <div data-page-node-id="FQ8cnxoWIOUeDCGvSaV2Wc">
+      <strong data-page-node-id="KHvVWzj11zy2gvW3uhN4RZ">页眉高级设置</strong>
+      <ul data-page-node-id="Y9x4p8o32DpNstEI6Crf7P">
+        <li data-page-node-id="0fRGqWqXjPDow1Wnl0kjdH">对齐方式（左/中/右）下拉选择</li>
+        <li data-page-node-id="xNvWzaAaqpqXNCDoJVqDyc">字号(px) 数字输入</li>
+        <li data-page-node-id="GK6t5cpINJR1ZODtxZFZlH">字重（常规/粗体）下拉选择</li>
+        <li data-page-node-id="XB3cJIdmj3dWtljAn1Ayhl">文字颜色（CSS 色值）</li>
+        <li data-page-node-id="JX3nMnE7upmK3iNgR0MVG1">自动追加打印时间（复选框）</li>
+        <li data-page-node-id="dWO582I9EmfGYeq8qqxGuC">图片 URL（logo 地址）</li>
+        <li data-page-node-id="WUczuD1e6N0bSkAuWHmGot">图片位置（左侧/右侧）</li>
+        <li data-page-node-id="fsqD8l7KNidBCYYUzuFfGa">图片高度(px)</li>
+        <li data-page-node-id="QdxvrpaGPEiSEH6ZgP1cWd">电子印章图片 URL</li>
+      </ul>
+    </div>
+    <div data-page-node-id="9aM30dQFDbjqk95XKoqtDA">
+      <strong data-page-node-id="RtVlDmTw3gqO5s4sL0sR8U">页脚高级设置</strong>
+      <ul data-page-node-id="Qri6V0jGnJ9fUIdbR3gB6P">
+        <li data-page-node-id="7tcrcVCicwXUVO6uSZ871R">同上 9 项控件（独立配置）</li>
+        <li data-page-node-id="xCAzEhDdmv2OYUAuMGoOFl">默认自动追加打印时间</li>
+      </ul>
+    </div>
+  </div>
+  <p data-page-node-id="MDyc6dkLgGDBsffGprTJNR"><strong data-page-node-id="nARKFzx6Puq5yoK5ANMvho">双向同步</strong>：简单文本框与高级面板的 text 字段双向绑定，改任一处另一处同步更新。</p>
+
+  <h3 data-page-node-id="RBPwlg1aa6ik4c00XBkab2">2.6 向后兼容与数据迁移</h3>
+  <ul data-page-node-id="RroPsezyRlPhUfotp6HBeS">
+    <li data-page-node-id="e9SbDuutO37pCOHAtOPQa1"><code data-page-node-id="lfC8xnXFRk4rdUNmtwDK5A">headerText</code>/<code data-page-node-id="ZDI365zhFGn1OGzRPqJlag">footerText</code> 字段保留（标记 @deprecated），旧代码仍可读写</li>
+    <li data-page-node-id="n5NSs7gEDaBGBYW6Oz4jG1">persist version 1→2 + <code data-page-node-id="pZROL2dwHfEi0pGlQeUrig">migrate</code> 函数：自动给旧模板补 <code data-page-node-id="iApUEEUWSNjRhwSno5uive">headerConfig</code>/<code data-page-node-id="yA7t6RssHAZ6B5QJki7wwM">footerConfig</code>（从原 text 字段迁移）</li>
+    <li data-page-node-id="mxKRqdpOV21ydC7EIecHfW"><code data-page-node-id="XddLxWjZDfaEoFR144gJpE">PrintPreviewButton.buildFallback()</code> 补默认 config（未配置模板时的兜底渲染）</li>
+  </ul>
+</div>
+
+<!-- ===== 验证结果 ===== -->
+<div class="summary-card" data-page-node-id="gxrhneElK0Ac0QCNL7c0ET">
+  <h2 data-page-node-id="riF5RdoUjXPQxTlBWs9IkO">三、验证结果</h2>
+  <table data-page-node-id="CT5tTBCknjHptmDEPmM5D5">
+    <tr data-page-node-id="VBOoGumInYOP52ZG8UC8Gz"><th data-page-node-id="B2Mc1TtvdxTujrijsJZftF">检查项</th><th data-page-node-id="c4r0xVLX1FaNMgR4ctxMVE">结果</th></tr>
+    <tr data-page-node-id="sNOZHSrM0cwgreCSu4mQgO"><td data-page-node-id="4mV69colAPyyEsBnt7YZ96">tsc --noEmit</td><td data-page-node-id="ef2BieVQ9MePDQyYpl6Ywq"><span class="tag tag-green" data-page-node-id="zVz890lWCBB7c3Wbn9tIXE">0 错误</span></td></tr>
+    <tr data-page-node-id="tE2lu6f6WFLO0FlXCl5V4q"><td data-page-node-id="LQAgKYWw1b5XA9CbQ05WuB">vite build</td><td data-page-node-id="1SmKCjENps2Qzp6qskjOo5"><span class="tag tag-green" data-page-node-id="9q1tL4jzDP23ZmBbBK7fpT">通过 (42.2s)</span></td></tr>
+    <tr data-page-node-id="sXakcU0eJpTownH1YJtnJq"><td data-page-node-id="RweBGZyd1wXxy5f3aVmWmI">npm run deploy</td><td data-page-node-id="wzaFq9ghEE5kIJa2FcCU6E"><span class="tag tag-green" data-page-node-id="1GMTE1k7O2XQkGfNc2KtBD">生产已上线 (265 文件)</span></td></tr>
+    <tr data-page-node-id="DIOGRzt4ygm2jXjh5fmF41"><td data-page-node-id="b1bdZlG6TUBpbmIrDxCB4F">prod-e2e 门禁</td><td data-page-node-id="TgOs6zGLwN5X0Auhsk5fVK"><span class="tag tag-green" data-page-node-id="9IcmaRGrYkoAE0O7WFRy5r">PASS 240 / FAIL 0 / WARN 1 / INFO 6</span></td></tr>
+  </table>
+</div>
+
+<!-- ===== 使用指引 ===== -->
+<div class="summary-card" data-page-node-id="gFsP8YsxS4B8mKgEhI4Zp7">
+  <h2 data-page-node-id="krBBJCdEEAdV0fX8O4i5Tw">四、使用指引</h2>
+  <h3 data-page-node-id="gKBQcxxerS0Sl8QBUBUSW0">查看物料编码</h3>
+  <ol data-page-node-id="K5cofOHfg8gURR0LOn4Z4T">
+    <li data-page-node-id="yg944xJoHOeBA0E7aVWHBX">打开任意单据（采购/销售/报价等）→ 点「打印」→ 明细表首列即显示<strong data-page-node-id="hgtPrC38mAiIktNsFRHjJN">物料编码</strong></li>
+    <li data-page-node-id="4kKEFdJSAWBn25ZFMLdazs">打开<strong data-page-node-id="RrHuBbT2VqVXXOwtbvJw51">系统设置 → 打印模板设计器</strong> → 选业务实体 → 右侧实时预览即可看到物料编码列</li>
+    <li data-page-node-id="i56KbWEbflAYYoiQcF5Se4">打开<strong data-page-node-id="cp59a1moPXkS1WTXZHSAGt">系统设置 → 订单模板管理</strong> → 编辑任意模板 → 物料列表第二列即显示<strong data-page-node-id="EVRMeSJxiEepVpCDFByn08">物料编码</strong>（蓝色等宽字体）</li>
+  </ol>
+
+  <h3 data-page-node-id="3dlK0w0RnuMJuo37oUJ7b5">编辑页眉页脚</h3>
+  <ol data-page-node-id="ghChFh1xjFCBfN3AOTwEqX">
+    <li data-page-node-id="UQdVFA42uH3dGAtSKGMitP">打开<strong data-page-node-id="I4IklE3TInYIrDedMdbWDu">系统设置 → 打印模板设计器</strong></li>
+    <li data-page-node-id="1bjCrUElaRSlE2Onvr6S5a">选业务实体 → 点「编辑」按钮进入模板编辑</li>
+    <li data-page-node-id="np53A1I0LIGsUYS3XOzS5t">上方简单文本框可直接输入页眉/页脚文字（与高级面板同步）</li>
+    <li data-page-node-id="d7QULD6LznvHjTgMDfvsrx">向下滚动到<strong data-page-node-id="Dbu9pzAc7yW5xenjuMFsef">「页眉高级设置」</strong>面板：
+      <ul data-page-node-id="zjzEMQzV7IUHVesn7VcPzq">
+        <li data-page-node-id="oBISm8OuegpPAviBL3nGON">选对齐方式（左/中/右）</li>
+        <li data-page-node-id="uuVueK9drEVzrMxTcsEaMP">填字号和字重</li>
+        <li data-page-node-id="xMig8igvt5UAQ1ASqaGivu">填文字颜色（如 <code data-page-node-id="fPVjiXwZKH9w7VOMVLeFWG">#1e40af</code> 或 <code data-page-node-id="zwmAaTTZiKtwENN26BgNn9">red</code>）</li>
+        <li data-page-node-id="s76tdTEME3EEljgaxOXsdL">填图片 URL（公司 logo 的网络地址或 Base64 data URI）</li>
+        <li data-page-node-id="WWa4RqVCPUaQCZmcanBDiZ">选图片位置（左侧/右侧）</li>
+        <li data-page-node-id="sgvNK3myIgIMlpgUnvvlUE">填电子印章图片 URL（PNG 透明底推荐）</li>
+      </ul>
+    </li>
+    <li data-page-node-id="5i2E9mxO47FDWkDs1buUaE">同样操作<strong data-page-node-id="YrA6N7lXVoU9D2FbtqGKjw">「页脚高级设置」</strong>面板</li>
+    <li data-page-node-id="jHqclFerossxANTUy2mkRO">点「保存」→ 右侧预览实时刷新 → 确认效果后点「打印」</li>
+  </ol>
+
+  <h3 data-page-node-id="dexTHeOg1lN31hBVl7YB1Z">粘贴图片/电子印章的方法</h3>
+  <ul data-page-node-id="cbT7p1CaPLXapVzq795onO">
+    <li data-page-node-id="pJC9gaj3oFNcImZT6Beytp"><strong data-page-node-id="ITfYDgNVTCSixyAis1kXbF">网络图片</strong>：直接把图片 URL（如 <code data-page-node-id="Rj0OwsBhqBLLJzOb0fPFKn">https://example.com/logo.png</code>）粘贴到「图片 URL」输入框</li>
+    <li data-page-node-id="r000VHB0ylXsP6J7oafpdh"><strong data-page-node-id="AYweRK29aAYW90G3TR86jH">本地图片</strong>：先把图片上传到可访问的服务器/OSS，再填 URL；或把图片转 Base64 后填入（格式 <code data-page-node-id="oSqIxKRJDgI0MaU5Ph06QS">data:image/png;base64,...</code>）</li>
+    <li data-page-node-id="o0m56O32ijiEhW02sJMBgu"><strong data-page-node-id="WMlYAMPlqmh6kRAHNGw1cz">电子印章</strong>：准备一张 PNG 透明底印章图片，上传到可访问地址，URL 填入「电子印章图片URL」→ 印章会以半透明方式叠加在页眉右下角或页脚右下角</li>
+  </ul>
+</div>
+
+<!-- ===== 改动文件清单 ===== -->
+<div class="summary-card" data-page-node-id="q8YPc6h8PZHRbs57KFWkb7">
+  <h2 data-page-node-id="H5xgo8A2YYaEMX5cB7QcwH">五、改动文件清单</h2>
+  <table data-page-node-id="9GE6Cxd7kVgVvDglnNAocB">
+    <tr data-page-node-id="84Ftbv4o6QnTXoAvRdZzBM"><th data-page-node-id="GAnuDWbJr70kshXfRSaTE9">文件</th><th data-page-node-id="QDtDCX9Ed33AofCnkbwuaV">变更类型</th><th data-page-node-id="GvkEIknSSHJGAt1XBNwVTD">说明</th></tr>
+    <tr data-page-node-id="cj8buPh6WUfcbgw0tFsvru"><td data-page-node-id="i7DUvBVa1iQUwDd48g3mH7"><code data-page-node-id="OnTSbaw6hINJwRQLN3ie0l">src/stores/printTemplateStore.ts</code></td><td data-page-node-id="8zcOIKzbWNGqkuyY3bVaDk">修改</td><td data-page-node-id="G4AcYEyneDnqDOKzUVcmFQ">新增 HeaderFooterConfig 接口/默认值；PrintTemplate 加 headerConfig/footerConfig；DEFAULT_TEMPLATES 全部补配置；persist v2 + migrate</td></tr>
+    <tr data-page-node-id="cXK3S1GasUipgx0CVekcRQ"><td data-page-node-id="XJb75BlUTf3RueMGBgFCKl"><code data-page-node-id="cdMB6ImIoY5ps3SqmlCvka">src/components/common/PrintPreview.tsx</code></td><td data-page-node-id="I3Y5Rz25uhbz719SD8KbgY">修改</td><td data-page-node-id="WChRZWYgujX0krzO29gsjh">新增 renderHeaderFooter 函数（样式/图片/印章）；替换原 headerText/footerText 渲染</td></tr>
+    <tr data-page-node-id="sVSTOLZNWVhKroeBqy1V1B"><td data-page-node-id="WKF7f9dkB8d2cEExc9eqOf"><code data-page-node-id="9UJdyP3Ii5y8XtxFn1dz3i">src/components/common/PrintPreviewButton.tsx</code></td><td data-page-node-id="4Y2jB4FMN9gcv0r3qKlvLG">修改</td><td data-page-node-id="eLY0IdoA5wJHAkzam3FBdN">buildFallback 补 headerConfig/footerConfig；导入 DEFAULT_HEADER_CONFIG/DEFAULT_FOOTER_CONFIG</td></tr>
+    <tr data-page-node-id="HuUJiAq6QBBiora19Cb7CL"><td data-page-node-id="o5GXQHmvJAj6A1BpPUPc2D"><code data-page-node-id="DkxNGAckcoeOBhYkcPFCh3">src/pages/Settings/PrintTemplateTab.tsx</code></td><td data-page-node-id="JtHJ1HCxYOesq1SuZ8WGbB">修改</td><td data-page-node-id="hJq3WdJa2SYA1VTpbayJB4">SAMPLE_RECORDS 全 9 实体补 materialCode；编辑对话框加 Grid 导入+页眉/页脚高级设置面板（10 项控件）；状态变量/初始化/保存逻辑扩展</td></tr>
+    <tr data-page-node-id="8Thh5f4Yns1CA2IhK6dgNv"><td data-page-node-id="FFXkDRDpvPg6w5IX7cuU25"><code data-page-node-id="PBFabelGBqBc5pRfNV5pBe">src/pages/Settings/OrderTemplateTab.tsx</code></td><td data-page-node-id="NQlqX2lKhLObEPy0YHTk4V">修改</td><td data-page-node-id="I4sUos5VQaB7euuY0OcbQB">表头加「物料编码」列；表格行加 materialCode 单元格（等宽字体蓝色）</td></tr>
+    <tr data-page-node-id="3HLVXTLn4UkKpF45zTF49n"><td data-page-node-id="BYsG985IYb0WIEw9eCECW2"><code data-page-node-id="htHv6b6t5ja2yWbWHQEQra">src/version.ts</code></td><td data-page-node-id="Ph0FrMrMfdZMYCDHP52pFe">修改</td><td data-page-node-id="iaq1OHNQjJiobIa2H2irL9">V2.88.0</td></tr>
+    <tr data-page-node-id="FHrxIN7GOR5GDLHuYyl7Di"><td data-page-node-id="w8KTcgNRTuEVF77eX6RILg"><code data-page-node-id="iVRD2K4O4E1VwlVds98wJU">package.json</code></td><td data-page-node-id="suCz7jpHwPvYAlYzQrTwRq">修改</td><td data-page-node-id="bTn1J2ABqN4VKFH7gFaNJV">version: 2.88.0</td></tr>
+    <tr data-page-node-id="OUSErakgzD47bycT5NFpIq"><td data-page-node-id="EYBKUBlihDFkb2DraBpOAC"><code data-page-node-id="wq7GKGeYCkwKPASi4WM1xd">src/content/manual.tsx</code></td><td data-page-node-id="OiI5hpOj7vpWEoR1d6UGOe">修改</td><td data-page-node-id="EH3lojcIOLVVjJjXn8jAkr">登记 V2.88.0 版本记录</td></tr>
+    <tr data-page-node-id="3DAkwlUCUTNSgxAy735CqF"><td data-page-node-id="ykliNmvAz0LkWIfkbiuFpv"><code data-page-node-id="LW0igaHCJLZ1DYuHCbEQAI">.workbuddy/memory/MEMORY.md</code></td><td data-page-node-id="5TELD1AXydPuA4OjOYCruH">修改</td><td data-page-node-id="JrqSnhKDM7NVUzY6LN7ArG">追加 V2.88.0 版本沿革</td></tr>
+  </table>
+</div>
+
+<p style="margin-top:32px;color:var(--muted);font-size:12px;text-align:center;" data-page-node-id="dLBu8g2s3XLhzBmPjQTNfU">— SSA ERP V2.88.0 版本更新记录 完 —</p>
+
+</div>
+</body>
+</html>

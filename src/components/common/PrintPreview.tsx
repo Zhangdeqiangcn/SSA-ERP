@@ -3,7 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { Print as PrintIcon, Close as CloseIcon } from '@mui/icons-material';
 import {
   PrintTemplate, PrintEntity, PRINT_FIELD_CATALOG,
-  HeaderFooterConfig, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG,
+  HeaderFooterConfig, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG, textToHtml,
 } from '@/stores/printTemplateStore';
 import { useCustomFieldStore } from '@/stores/customFieldStore';
 import { formatCurrency } from '@/utils/format';
@@ -36,6 +36,10 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
     box-shadow: none !important; margin: 0 !important; padding: 0 !important;
   }
   .no-print { display: none !important; }
+  @page { margin: 14mm; }
+  .ssa-print-page-num::after { content: counter(page); }
+  .ssa-print-page-total::after { content: counter(pages); }
+  .ssa-print-area img { max-width: 100%; height: auto; }
 }`;
     document.head.appendChild(style);
   }, []);
@@ -55,80 +59,34 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
   };
 
   /**
-   * 渲染结构化页眉/页脚（V2.88.0）
-   * 支持对齐、字体、颜色、图片（logo）、电子印章、打印时间。
+   * 渲染页眉/页脚（V2.89.0 富文本版）
+   * config.html 为 mui-tiptap 产出的富文本 HTML（含内联样式 + 图片 base64）。
+   * 兼容旧模板：无 html 时用 fallbackText 兜底。
+   * {now} 占位符替换为打印时间；showDate 勾选时追加一行打印时间。
    */
   const renderHeaderFooter = (config: HeaderFooterConfig | undefined, fallbackText: string, isHeader: boolean) => {
     const cfg = config || (isHeader ? DEFAULT_HEADER_CONFIG : DEFAULT_FOOTER_CONFIG);
-    const text = cfg.text || fallbackText;
+    const html = (cfg.html && cfg.html.trim()) || (fallbackText ? textToHtml(fallbackText) : '');
+    if (!html) return null;
     const nowStr = new Date().toLocaleString('zh-CN');
-    // 合并文本 + 可选时间
-    let displayText = text;
-    if (cfg.showDate && !text.includes('{now}')) {
-      displayText = text ? `${text}\n打印时间：${nowStr}` : `打印时间：${nowStr}`;
-    }
-    displayText = displayText.replace('{now}', nowStr);
-
-    const textStyle: React.CSSProperties = {
-      whiteSpace: 'pre-line',
-      textAlign: cfg.align,
-      color: cfg.color || '#475569',
-      fontSize: cfg.fontSize ? `${cfg.fontSize}px` : (isHeader ? 13 : 12),
-      fontWeight: cfg.fontWeight === 'bold' ? 700 : undefined,
-      ...(isHeader ? { mb: 3 } : { mt: 4, pt: 2, borderTop: '1px solid #E2E8F0' }),
-    };
-
-    const containerStyle: React.CSSProperties = {
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: cfg.align,
-      gap: 1.5,
-      ...textStyle,
-    };
+    const processed = html.replace(/\{now\}/g, nowStr);
 
     return (
-      <Box sx={containerStyle}>
-        {/* 左侧图片（logo） */}
-        {cfg.imageUrl && cfg.imagePosition === 'left' && (
-          <img
-            src={cfg.imageUrl}
-            alt="header-logo"
-            style={{ height: cfg.imageHeight || 40, objectFit: 'contain', flexShrink: 0 }}
-          />
-        )}
-        {/* 文本内容 */}
-        {displayText && (
-          <Box sx={{ flex: 1, textAlign: cfg.align }}>
-            {displayText.split('\n').map((line, i) => (
-              <div key={i}>{line}</div>
-            ))}
-          </Box>
-        )}
-        {/* 右侧图片（logo） */}
-        {cfg.imageUrl && cfg.imagePosition === 'right' && (
-          <img
-            src={cfg.imageUrl}
-            alt="header-logo"
-            style={{ height: cfg.imageHeight || 40, objectFit: 'contain', flexShrink: 0 }}
-          />
-        )}
-        {/* 电子印章 */}
-        {cfg.stampUrl && (
-          <img
-            src={cfg.stampUrl}
-            alt="stamp"
-            style={{
-              position: 'absolute',
-              right: 20,
-              bottom: isHeader ? 'auto' : 10,
-              top: isHeader ? 10 : 'auto',
-              width: cfg.stampSize || 80,
-              height: cfg.stampSize || 80,
-              opacity: 0.85,
-              pointerEvents: 'none' as any,
-            }}
-          />
+      <Box
+        sx={{
+          fontSize: isHeader ? 13 : 12,
+          color: '#475569',
+          ...(isHeader
+            ? { mb: 3 }
+            : { mt: 4, pt: 2, borderTop: '1px solid #E2E8F0' }),
+          '& img': { maxWidth: '100%', height: 'auto' },
+        }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: processed }} />
+        {cfg.showDate && (
+          <div style={{ textAlign: 'right', fontSize: isHeader ? 12 : 11, color: '#94A3B8', marginTop: 2 }}>
+            打印时间：{nowStr}
+          </div>
         )}
       </Box>
     );
@@ -175,6 +133,71 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
         </tbody>
       </table>
     );
+  };
+
+  /**
+   * 渲染打印附加信息（V2.89.0）：审批记录 / 制单人 / 制单时间 / 审核人 / 审核时间 / 页码
+   * 数据来自 record（业务单据字段），预览缺字段时显示占位。
+   */
+  const renderExtraOptions = () => {
+    const opts = template.extraOptions;
+    if (!opts) return null;
+    const nowStr = new Date().toLocaleString('zh-CN');
+    const blocks: React.ReactNode[] = [];
+
+    if (opts.createdBy || opts.createdAt) {
+      const parts: string[] = [];
+      if (opts.createdBy) parts.push(`制单人：${record.createdBy || '—'}`);
+      if (opts.createdAt) parts.push(`制单时间：${record.createdAt || nowStr}`);
+      blocks.push(<Box key="created" sx={{ fontSize: 12, color: '#475569' }}>{parts.join('　')}</Box>);
+    }
+    if (opts.approvedBy || opts.approvedAt) {
+      const parts: string[] = [];
+      if (opts.approvedBy) parts.push(`审核人：${record.approvedBy || '—'}`);
+      if (opts.approvedAt) parts.push(`审核时间：${record.approvedAt || '—'}`);
+      blocks.push(<Box key="approved" sx={{ fontSize: 12, color: '#475569', mt: 0.5 }}>{parts.join('　')}</Box>);
+    }
+    if (opts.approvalRecord) {
+      const approvals: any[] = Array.isArray(record.approvals) ? record.approvals : [];
+      blocks.push(
+        <Box key="approval" sx={{ mt: 2 }}>
+          <Box sx={{ fontWeight: 600, fontSize: 13, mb: 0.5 }}>审批记录</Box>
+          {approvals.length > 0 ? (
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
+              <thead>
+                <tr style={{ background: '#F1F5F9' }}>
+                  <th style={th}>审批节点</th>
+                  <th style={th}>审批人</th>
+                  <th style={th}>审批时间</th>
+                  <th style={th}>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                {approvals.map((a: any, i: number) => (
+                  <tr key={i}>
+                    <td style={td}>{a.node || `节点${i + 1}`}</td>
+                    <td style={td}>{a.approver || '—'}</td>
+                    <td style={td}>{a.time || '—'}</td>
+                    <td style={td}>{a.status || '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <Box sx={{ fontSize: 12, color: '#64748B' }}>暂无审批记录</Box>
+          )}
+        </Box>
+      );
+    }
+    if (opts.pageNumber) {
+      blocks.push(
+        <Box key="page" sx={{ textAlign: 'center', fontSize: 11, color: '#94A3B8', mt: 3 }}>
+          第 <span className="ssa-print-page-num" /> 页 / 共 <span className="ssa-print-page-total" /> 页
+        </Box>
+      );
+    }
+    if (blocks.length === 0) return null;
+    return <Box sx={{ mt: 3, pt: 2, borderTop: '1px dashed #E2E8F0' }}>{blocks}</Box>;
   };
 
   const th: React.CSSProperties = {
@@ -252,6 +275,8 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
             </Box>
           </Box>
         )}
+
+        {renderExtraOptions()}
 
         {renderHeaderFooter(template.footerConfig, template.footerText, false)}
       </Box>

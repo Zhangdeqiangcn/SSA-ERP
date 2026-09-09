@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.80.0 版本更新记录</title>
+<style>
+  :root { --bg:#f5f7fa; --card:#ffffff; --ink:#1f2d3d; --sub:#5b6b7b; --line:#e3e8ef; --brand:#1565c0; --ok:#2e7d32; --warn:#ed6c02; --chip:#eef4fb; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:32px 20px 60px; }
+  header { border-bottom:3px solid var(--brand); padding-bottom:14px; margin-bottom:24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .meta { color:var(--sub); font-size:14px; }
+  h2 { font-size:19px; margin:30px 0 12px; color:var(--brand); border-left:4px solid var(--brand); padding-left:10px; }
+  h3 { font-size:16px; margin:18px 0 8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 3px rgba(20,40,80,.05); }
+  .badge { display:inline-block; background:var(--chip); color:var(--brand); border-radius:6px; padding:2px 10px; font-size:13px; font-weight:600; margin-right:6px; }
+  ul { margin:8px 0 8px 2px; padding-left:20px; }
+  li { margin:6px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; background:var(--card); font-size:14px; }
+  th,td { border:1px solid var(--line); padding:9px 12px; text-align:left; }
+  th { background:var(--chip); color:var(--brand); }
+  .ok { color:var(--ok); font-weight:700; }
+  .warn { color:var(--warn); font-weight:700; }
+  .note { font-size:13px; color:var(--sub); border-top:1px dashed var(--line); margin-top:24px; padding-top:12px; }
+  code { background:#eef1f5; padding:1px 6px; border-radius:4px; font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SSA ERP V2.80.0 版本更新记录</h1>
+    <div class="meta">发布日期：2026-09-04 ｜ 类型：功能增强 + 架构根治 + 部署生产 ｜ 生产端到端门禁：<span class="ok">全绿（PASS 239 / FAIL 0）</span></div>
+  </header>
+
+  <div class="card">
+    <span class="badge">本期四大项</span>
+    <ul>
+      <li><b>① 9 项整页模块迁真实 D1</b>（云端关系数据库，多人实时同步）</li>
+      <li><b>② 移动端即时消息</b>（移动门户新增消息页 + 底部 6 Tab）</li>
+      <li><b>③ 发票 OCR 增强</b>（图像预处理 + 大模型结构化抽取替代正则）</li>
+      <li><b>④ 数电票真实核验合规骨架</b>（真实第三方通道代码就位 + 默认模拟兜底）</li>
+    </ul>
+  </div>
+
+  <h2>① 9 项整页模块迁真实 D1（根治双通道最后一块）</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <p>把以下 9 个整页模块从「本地存储块（单人不共享、多人不同步）」迁到 <b>Cloudflare D1 云关系数据库</b>（按组织编号隔离、多人实时共享）：</p>
+    <table>
+      <tr><th>模块</th><th>前端资源</th><th>后端 D1 表</th></tr>
+      <tr><td>资金管理</td><td>cashAccount / cashFlow（账户+流水+余额联动）</td><td>cash_accounts / cash_flows</td></tr>
+      <tr><td>三方销售</td><td>tripartySale</td><td>triparty_sales</td></tr>
+      <tr><td>重复制造</td><td>repMfgLine / repMfgPeriod（产线+周期+报工倒冲）</td><td>rep_mfg_lines / rep_mfg_periods</td></tr>
+      <tr><td>COPA 获利分析</td><td>copa</td><td>copa_analysis</td></tr>
+      <tr><td>MES 集成</td><td>mesConnections / mesDevices / mesWips / mesOperationReports</td><td>mes_connections 等 4 表</td></tr>
+      <tr><td>波次 / RFID</td><td>waveRfid / waveRfidTag（行明细 JSON 列）</td><td>wave_rfid / wave_rfid_tags</td></tr>
+      <tr><td>BI 集成</td><td>biIntegration</td><td>bi_integrations</td></tr>
+      <tr><td>ESG 报告</td><td>esgReport</td><td>esg_reports</td></tr>
+    </table>
+    <p><b>范式：</b>有业务联动的多实体模块（资金双集合+余额联动、重复制造倒冲）未套用单表简单工厂，而是直接用 <code>entityRepo</code> 重写持久化层、保留原业务方法名不动——业务逻辑（余额联动、倒冲）不丢，又真正落 D1 多人共享。后端零新增函数，走通用 <code>/entities/[resource]</code> 端点。S&OP 此前已迁，不计入。</p>
+    <p>共 9 个迁移脚本（0026–0034）+ 后端实体注册表加 14 个资源。</p>
+    <h3>为什么这样操作</h3>
+    <p>这 9 个整页 + 移动消息是双通道架构残留的共享盲区（业务实体域早已全迁 D1，仅它们仍走本地存储块）。按价值分批迁移，有业务联动的模块保留原方法名只换持久化层，避免重写引入回归。</p>
+  </div>
+
+  <h2>② 移动端即时消息</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <ul>
+      <li>移动门户新增「消息」页，底部导航由 5 Tab 扩为 <b>6 Tab</b>（首页 / 入库 / 出库 / 盘点 / 质检 / 消息）。</li>
+      <li>新建消息 D1 表（迁移 0034_messages）+ <code>messageStore</code>（轮询拉取，复用预警同源模式，无需长连接基建）+ 路由 <code>/m/messages</code>。</li>
+      <li>设置页能力清单把「发货确认 / 即时消息」由「规划中」改为「已上线」——发货确认此前已被 V2.79 扫码出库覆盖为真功能。</li>
+    </ul>
+    <h3>为什么这样操作</h3>
+    <p>即时消息采用轮询拉取而非长连接（服务端推送 / WebSocket）：仓库 / 车间场景刷新间隔 15–30 秒足够、无需复杂基建、稳。需要秒级推送时再单独上长连接。</p>
+  </div>
+
+  <h2>③ 发票 OCR 增强（图像预处理 + 大模型结构化抽取）</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <ul>
+      <li>新增 <code>src/services/invoiceOcr.ts</code>：图像预处理（灰度 + Otsu 二值化 + 中值降噪，浏览器原生 canvas，不依赖新库）显著提升中文发票 Tesseract（光学字符识别引擎）识别率。</li>
+      <li>结构化抽取由脆弱的「正则硬匹配」改为调用<b>已配置的本地大模型</b>（OpenAI 兼容接口）智能抽取发票号 / 税号 / 金额 / 购方销方等字段。</li>
+      <li><b>兜底：</b>无模型配置 / 调用失败 / 返回非 JSON 时自动回退正则；所有字段仍可手动校正，绝不因大模型失败阻断录入。</li>
+    </ul>
+    <h3>为什么这样操作</h3>
+    <p>复用强哥已在「设置 → AI 大模型配置」里配好的模型（零额外密钥、密钥不暴露给前端网络层），正则作兜底保证离线可用。识别率提升来自二值化 + 降噪，抽取准确率提升来自大模型理解版面而非死守「发票号码：」标签。</p>
+  </div>
+
+  <h2>④ 数电票真实核验合规骨架</h2>
+  <div class="card">
+    <h3>变更内容</h3>
+    <ul>
+      <li><code>functions/api/tax-gateway/verify.ts</code> 的 <code>etopliveVerifyInvoice</code> 由 TODO 注释改写成真实第三方查验请求（签名 / 服务商适配 / 错误分类），新增多服务商路由 <code>realVerifyInvoice</code>。</li>
+      <li><b>默认模拟兜底：</b>未配置服务商密钥时走模拟，绝不静默误判通过。</li>
+      <li>响应新增 <code>verifiedBy</code>（real / mock）字段，前端 <code>InvoiceVerification</code> 据此明确标注「<b>服务端核验（真实通道）</b> / <b>服务端核验（模拟兜底）</b> / 本地演示核验」三种状态。</li>
+    </ul>
+    <h3>为什么这样操作</h3>
+    <p>税务局官平台对企业不开放公开接口，必须经持牌第三方（etoplive / 航信 / 百望 / 票联云），需企业税号 + 服务商账号 + 密钥。当前未配置密钥，故真实通道代码写好但默认走模拟兜底——<b>配置凭证即启用，不引入任何按次费用</b>。前端明确区分真 / 假，避免误把模拟结果当验真依据。</p>
+  </div>
+
+  <h2>验证结果</h2>
+  <div class="card">
+    <table>
+      <tr><th>项目</th><th>结果</th></tr>
+      <tr><td>类型检查 <code>tsc --noEmit</code></td><td class="ok">0 错</td></tr>
+      <tr><td>构建 <code>vite build</code></td><td class="ok">通过（dist 已生成）</td></tr>
+      <tr><td>部署 apply 远程 D1 迁移 0026–0034</td><td class="ok">9 表全部幂等建表成功</td></tr>
+      <tr><td>前端 + 函数发布生产</td><td class="ok">已发布（生产域 ssa-erp.pages.dev）</td></tr>
+      <tr><td>生产端到端门禁 <code>prod-e2e</code></td><td class="ok">PASS 239 / FAIL 0 / WARN 2 / INFO 6（共 247）全绿</td></tr>
+    </table>
+    <p class="note">WARN 2 = 外部汇率源暂不可用（端点正确返回 502，非崩溃）、AI 对话未配置模型；INFO 6 = 测试数据清理说明等。均非本版回归。</p>
+  </div>
+
+  <div class="note">
+    版本四处已同步：src/version.ts（APP_VERSION=2.80.0）/ package.json（version=2.80.0）/ src/content/manual.tsx（版本更新记录）/ 项目记忆 MEMORY.md（版本沿革）。归档路径：ima「强哥的知识库 → erp开发项目」。
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V2.86.0 版本更新记录 — 字段权限覆盖全部模块</title>
+<style>
+  :root { --bg:#f6f8fb; --card:#fff; --ink:#1e293b; --sub:#64748b; --line:#e2e8f0; --brand:#2563eb; --ok:#16a34a; --warn:#d97706; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif; line-height:1.7; }
+  .wrap { max-width:920px; margin:0 auto; padding:32px 20px 56px; }
+  header { border-bottom:3px solid var(--brand); padding-bottom:16px; margin-bottom:24px; }
+  h1 { font-size:26px; margin:0 0 6px; }
+  .sub { color:var(--sub); font-size:14px; }
+  .ver { display:inline-block; background:var(--brand); color:#fff; border-radius:6px; padding:2px 10px; font-weight:700; font-size:13px; margin-right:8px; }
+  h2 { font-size:19px; margin:28px 0 10px; padding-left:10px; border-left:4px solid var(--brand); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:14px 0; box-shadow:0 1px 2px rgba(15,23,42,.04); }
+  .lead { background:#eff6ff; border:1px solid #bfdbfe; }
+  ol, ul { margin:8px 0; padding-left:22px; }
+  li { margin:6px 0; }
+  .tag { display:inline-block; border-radius:4px; padding:1px 7px; font-size:12px; font-weight:600; margin-right:6px; }
+  .t-ok { background:#dcfce7; color:#166534; }
+  .t-mod { background:#fef3c7; color:#92400e; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:10px; }
+  .kpi { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .kpi b { display:block; font-size:22px; color:var(--brand); }
+  .kpi span { font-size:12px; color:var(--sub); }
+  table { width:100%; border-collapse:collapse; margin-top:10px; font-size:13px; }
+  th, td { border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top; }
+  th { background:#f1f5f9; }
+  code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:12px; }
+  .matrix td.role { font-weight:600; white-space:nowrap; }
+  footer { color:var(--sub); font-size:12px; margin-top:30px; border-top:1px solid var(--line); padding-top:14px; }
+  .next { background:#f0fdf4; border:1px solid #bbf7d0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="ver">V2.86.0</span>字段级权限覆盖全部模块</h1>
+    <div class="sub">SSA ERP 企业资源管理平台 · 2026-08-27 · 统一引擎 + 默认角色×字段矩阵全量铺开</div>
+  </header>
+
+  <div class="card lead">
+    <p style="margin:0"><b>结论先行：</b>本版把"字段级权限"从「双引擎并存、配了不生效」的根因状态，收口为单一生效引擎 <code>dataPermissionStore</code>，并预置覆盖全部 8 个业务模块的默认角色×字段矩阵。对不应看到金额/成本/授信的角色（库管、质检、班长、物流、供应商、采购、研发工程等）自动隐藏对应敏感字段（显示 <code>***</code>）；系统管理员、财务主管、会计等特权角色全部可见。已通过 tsc 零错、vite build、生产部署与生产端到端门禁全绿（PASS 240 / FAIL 0）。</p>
+  </div>
+
+  <h2>一、本次变更要点</h2>
+  <div class="card">
+    <ol>
+      <li><span class="tag t-ok">根除</span><b>统一到单一生效引擎</b>：删除孤儿 <code>fieldPermissionStore</code>（原平台「字段级权限」页与销售订单列表指向它，配置不生效）。<code>SecureField</code> 与配置页统一改指 <code>dataPermissionStore</code>。</li>
+      <li><span class="tag t-mod">新增</span><b>默认角色×字段矩阵（8 模块）</b>：物料 / 供应商 / 客户 / 采购 / 销售 / 仓储 / 质量 / 生产 / 财务，共 9 个模块键（财务独立）。仅对业务上不应看到该金额/成本/授信的角色隐藏，特权财务角色不受影响。</li>
+      <li><span class="tag t-mod">增强</span><b>配置页扩到 8 模块</b>：「设置 → 数据权限」可勾选每个角色的隐藏字段；平台「字段级权限」页改指统一引擎并列出全部已配置规则（提示：字段掩码独立于数据权限总开关、常开生效）。</li>
+      <li><span class="tag t-ok">落地</span><b>敏感字段包裹到真实页面</b>：物料评估类（标准价/移动平均价）、仓储库龄（库存金额）、质量鉴定成本、生产成本归集（标准/实际/差异/合计）、财务记账凭证（借/贷金额），对无权限角色显示 <code>***</code>。</li>
+      <li><span class="tag t-mod">加固</span><b>持久化升级</b>：zustand persist 版本 2→3，并加 <code>migrate</code> 强制刷入新种子矩阵，确保老用户本地存储升级后默认矩阵即生效（避免旧配置为空导致全部可见）。</li>
+      <li><span class="tag t-ok">收口</span><b>版本四处同步</b>：<code>src/version.ts</code>(2.86.0) = <code>package.json</code>(2.86.0) = <code>MEMORY.md</code> 版本沿革 = <code>manual.tsx</code> 更新记录 四处置于一致。</li>
+    </ol>
+  </div>
+
+  <h2>二、默认角色×字段矩阵（核心规则）</h2>
+  <div class="card">
+    <p style="margin-top:0">最小可见原则：下表列出「被隐藏」的角色×字段；<b>不在表中的角色（admin / finance_manager / accountant 等）对该字段全部可见</b>；采购员可见采购价（不在此表）。</p>
+    <table class="matrix">
+      <thead><tr><th>模块</th><th>敏感字段</th><th>被隐藏的角色</th></tr></thead>
+      <tbody>
+        <tr><td class="role">物料 material</td><td>标准价 standardPrice、移动平均价 movingAvgPrice</td><td>库管、质检、班长、物流、供应商</td></tr>
+        <tr><td class="role">供应商 vendor</td><td>授信额度 creditLimit</td><td>库管、质检、班长、物流</td></tr>
+        <tr><td class="role">客户 customer</td><td>授信额度 creditLimit</td><td>采购、库管、质检、班长、物流</td></tr>
+        <tr><td class="role">采购 purchase</td><td>单价 unitPrice、订单金额 orderAmount</td><td>库管、质检、班长、物流</td></tr>
+        <tr><td class="role">销售 sales</td><td>单价 unitPrice、订单金额 orderAmount、客户名 customerName</td><td>采购、库管、质检、班长、物流</td></tr>
+        <tr><td class="role">仓储 warehouse</td><td>库存金额 stockValue</td><td>质检、采购、班长、物流、供应商</td></tr>
+        <tr><td class="role">质量 quality</td><td>鉴定成本 inspectionCost</td><td>库管、采购、班长、物流、供应商</td></tr>
+        <tr><td class="role">生产 production</td><td>生产成本 cost</td><td>质检、采购、库管、物流、供应商</td></tr>
+        <tr><td class="role">财务 finance</td><td>凭证金额 voucherAmount</td><td>研发工程、工艺工程、质量工程、质检、库管、物流、采购、生产经理、生产班长、供应商</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>三、验证结果</h2>
+  <div class="grid">
+    <div class="kpi"><b>0</b><span>tsc 类型错误</span></div>
+    <div class="kpi"><b>✓</b><span>vite build 通过</span></div>
+    <div class="kpi"><b>✓</b><span>生产部署成功</span></div>
+    <div class="kpi"><b>240</b><span>prod-e2e PASS</span></div>
+    <div class="kpi"><b>0</b><span>prod-e2e FAIL</span></div>
+    <div class="kpi"><b>1</b><span>prod-e2e WARN（外部汇率源）</span></div>
+  </div>
+  <div class="card">
+    <p style="margin:0">生产端到端门禁 <code>scripts/prod-e2e/run.mjs</code> 结论：PASS 240 / FAIL 0 / WARN 1 / INFO 6（共 247），全绿；1 条 WARN 为外部汇率源 502（端点正确返回，非崩溃），属外部依赖不阻断。本版无新增后端函数、无新增 D1 迁移，沿用既有实体路由，零回归。</p>
+  </div>
+
+  <h2>四、为什么这样设计</h2>
+  <div class="card">
+    <ul>
+      <li><b>消除孤儿引擎</b>：此前 <code>SecureField</code>（<code>dataPermissionStore</code> 生效）与平台页/销售列表（<code>fieldPermissionStore</code> 孤儿）并存，造成"配了不拦"的假安全。收口到单一引擎保证配置即生效。</li>
+      <li><b>最小可见、避免误伤</b>：仅隐藏业务上不应看到的金额/成本/授信，特权财务角色保持健康可见，不给正常工作添堵。</li>
+      <li><b>migrate 强制刷入</b>：zustand persist 不会自动合并新增种子，旧用户敏感字段配置若为空则全部可见——migrate 强制刷入默认矩阵，升级即生效。</li>
+      <li><b>键严格对齐</b>：<code>SecureField</code> 仅对「当前用户角色 × 模块 × 字段」三键命中才隐藏，键与矩阵完全一致，规避"包了不生效"。</li>
+    </ul>
+  </div>
+
+  <div class="card next">
+    <h2 style="margin-top:0">五、下一步建议</h2>
+    <ul style="margin-bottom:0">
+      <li>精修项剩余：Webhook 鉴权重试、物料表单拆多视图、凭证专业录入界面、应收账龄/汇兑损益。</li>
+      <li>数电票真实核验：待您提供企业税号 + 服务商密钥（配后端 KV <code>TAX_GATEWAY</code>）启用真实通道。</li>
+      <li>全量前端 E2E 296 用例：继续逐文件根除历史 flake（网络 500 误报 + 过时断言两类根因）。</li>
+      <li>GitHub 私有仓推送：V2.85.0 已本地提交 <code>f5826c0</code>，本版提交后待您本机执行 <code>push-github.bat</code>（代理 502 阻断）。</li>
+    </ul>
+  </div>
+
+  <footer>
+    SSA ERP V2.86.0 · 字段级权限覆盖全部模块 · 2026-08-27 · 交付物归档至 ima「强哥的知识库 → erp开发项目」
+  </footer>
+</div>
+</body>
+</html>
