@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="zh-CN" data-page-node-id="vPhiO3URBw2vhiCXsDz7u3">
+<head data-page-node-id="CVHm4QnMfXbiY7EovO5pCv">
+<meta charset="UTF-8" data-page-node-id="wy3VI4tAA0SnjlIthaQD3x" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="yOV4jppxIKzKgkD6QZGVHA" />
 <title>SSA ERP V2.89.0 版本更新记录</title>
 <style>
   :root { --primary:#2563eb; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --text:#1e293b; --muted:#64748b; --ok:#16a34a; --warn:#d97706; }
@@ -28,83 +28,83 @@
   footer { margin-top:40px; color:var(--muted); font-size:12px; text-align:center; }
 </style>
 </head>
-<body>
-<div class="wrap">
-  <header>
-    <h1>SSA ERP V2.89.0 版本更新记录</h1>
-    <div class="sub">发布日期：2026-09-08 ｜ 打印 / 订单模板页眉页脚升级为 Word 式富文本编辑器</div>
+<body data-page-node-id="WGvU9jNCr0XM8krtNk2sJ2">
+<div class="wrap" data-page-node-id="t4QSS4xETeUQD2eofAtyVC">
+  <header data-page-node-id="wDKTQGo8Xk1rpV7OTai7fX">
+    <h1 data-page-node-id="6QSHSJiMTuZjxF27VStQmY">SSA ERP V2.89.0 版本更新记录</h1>
+    <div class="sub" data-page-node-id="y7YgCipTRieArNtx4s40bh">发布日期：2026-09-08 ｜ 打印 / 订单模板页眉页脚升级为 Word 式富文本编辑器</div>
   </header>
 
-  <div class="card">
-    <div class="kv"><b>结论</b><span>页眉页脚编辑从「22 个分散表单控件」升级为 <b>mui-tiptap 富文本编辑器</b>：选中文字即弹工具栏（字体/字号/颜色/对齐），图片可在框内本地直传并拖拽缩放，电子印章合并为图片，打印可附加审批记录与时间。对话框更紧凑、功能更实用，老模板自动升级无感。</span></div>
-    <div class="kv"><b>门禁</b><span><span class="pill ok">tsc 0 错</span> <span class="pill ok">vite build 通过</span> <span class="pill ok">已部署生产</span> <span class="pill ok">生产 E2E PASS 239 / FAIL 1</span></span></div>
-    <div class="kv"><b>唯一失败</b><span><span class="pill warn">AI 对话 429</span> 第三方 Agnes 模型限流（error code 1015），非代码缺陷，与 V2.87 同因。</span></div>
+  <div class="card" data-page-node-id="LuPi92IXbcRfvZTOEf3IW3">
+    <div class="kv" data-page-node-id="jpSJAxNNQ8ZCHkM1vVVnni"><b data-page-node-id="f3lCbmfmSTNonkKKigCmOD">结论</b><span data-page-node-id="xleDSX6B0q9kx3K6nMx2iz">页眉页脚编辑从「22 个分散表单控件」升级为 <b data-page-node-id="6RcVqq5kpj2dbYIfWM85QN">mui-tiptap 富文本编辑器</b>：选中文字即弹工具栏（字体/字号/颜色/对齐），图片可在框内本地直传并拖拽缩放，电子印章合并为图片，打印可附加审批记录与时间。对话框更紧凑、功能更实用，老模板自动升级无感。</span></div>
+    <div class="kv" data-page-node-id="dOyw9lwPbs3yQqhAjmsngi"><b data-page-node-id="KohqFQr14tI4NFszPEs3Ug">门禁</b><span data-page-node-id="fcD9dMqRJ2zZyq9jiUm7kD"><span class="pill ok" data-page-node-id="BelKCdXUiutI3NPIE6bcxH">tsc 0 错</span> <span class="pill ok" data-page-node-id="vvI8yERBOW49lTPFtknLY8">vite build 通过</span> <span class="pill ok" data-page-node-id="KjsnJq3AZNTnGfXXTeicpL">已部署生产</span> <span class="pill ok" data-page-node-id="PdXPOnLTjII1edquH9y1e4">生产 E2E PASS 239 / FAIL 1</span></span></div>
+    <div class="kv" data-page-node-id="F1KJXknNhpcSLoQjrLH8cB"><b data-page-node-id="ScYQvjH7nzmroLMeQOSABS">唯一失败</b><span data-page-node-id="cms6wtYuoQICd017hFFQne"><span class="pill warn" data-page-node-id="bFqXuDGNgAb0KsZ4BgiNeP">AI 对话 429</span> 第三方 Agnes 模型限流（error code 1015），非代码缺陷，与 V2.87 同因。</span></div>
   </div>
 
-  <h2>一、强哥的诉求（本版源起）</h2>
-  <div class="card">
-    <ul>
-      <li>V2.88.0 的页眉页脚编辑「占用面积太大、功能不实用」，要求改好。</li>
-      <li>像 Word 一样——<b>选中文字时弹工具栏</b>（字体 / 字号 / 颜色）。</li>
-      <li>图片要在页眉页脚框内<b>直接本地上传</b>，并能<b>鼠标拖动调整位置</b>。</li>
-      <li>电子印章其实就是图片，<b>不用单独占一行</b>，合并到图片功能里。</li>
-      <li>打印内容里要加上<b>审批记录、时间</b>等选项。</li>
+  <h2 data-page-node-id="DWH1O7MOkTGB95t7HkP4sH">一、强哥的诉求（本版源起）</h2>
+  <div class="card" data-page-node-id="xf0DbZUBo8wKsYt3PkRtF9">
+    <ul data-page-node-id="FdCB2BczXmXqMXBqYuB9HQ">
+      <li data-page-node-id="gTbUxZniELtRqot5nrYKdE">V2.88.0 的页眉页脚编辑「占用面积太大、功能不实用」，要求改好。</li>
+      <li data-page-node-id="3ljv36CoyFyyudpROwI5JI">像 Word 一样——<b data-page-node-id="l8TLJZaJ3AqQmyb6NIn4TM">选中文字时弹工具栏</b>（字体 / 字号 / 颜色）。</li>
+      <li data-page-node-id="5p6Cew3KbCPW0uV8uHzRLe">图片要在页眉页脚框内<b data-page-node-id="mX30ZveNrWzmwBp3SfnH83">直接本地上传</b>，并能<b data-page-node-id="ZCQsEy265APlyuMQdSaWOc">鼠标拖动调整位置</b>。</li>
+      <li data-page-node-id="xIa43VJN7lCDSDPb4RlVd6">电子印章其实就是图片，<b data-page-node-id="Mo1DcEqXM74mzSKwrEsMD0">不用单独占一行</b>，合并到图片功能里。</li>
+      <li data-page-node-id="wPrq2qrA5fvr0dtH6bn2gl">打印内容里要加上<b data-page-node-id="J3b6mDdcBT7u553jIv0GWK">审批记录、时间</b>等选项。</li>
     </ul>
   </div>
 
-  <h2>二、核心变更（7 项）</h2>
-  <div class="card">
-    <ul>
-      <li><b>① 换引擎</b>：引入 <code>mui-tiptap</code>（基于 Tiptap v3 / ProseMirror，原生贴合 MUI 主题），替换 V2.88 的 22 个页眉页脚表单控件；编辑对话框高度缩减约 <b>60%</b>。</li>
-      <li><b>② 选中弹工具栏</b>：选中文字即弹出<b>气泡菜单</b>（加粗 / 斜体 / 下划线 / 字体颜色 / 对齐），顶部工具栏同样提供，所见即所得。</li>
-      <li><b>③ 图片框内直传</b>：页眉页脚框内直接选本地图片（<code>MenuButtonImageUpload</code>），自动转 <code>base64</code> 内嵌富文本——<b>离线 / 内网也能打印</b>、随模板持久化，不再手填 URL。</li>
-      <li><b>④ 印章合并为图片</b>：删除独立的「印章URL」字段，印章作为透明底 PNG 用同一上传功能放入，并用 <code>ResizableImage</code> 扩展支持<b>拖拽缩放与定位</b>。</li>
-      <li><b>⑤ 打印附加选项</b>：新增 <code>extraOptions</code>（审批记录 / 制单人 / 制单时间 / 审核人 / 审核时间 / 页码）；预览按勾选渲染审批记录表、制单人 / 审核人信息，页码用打印 CSS 计数器（第 X 页 / 共 Y 页）。</li>
-      <li><b>⑥ 数据结构简化</b>：<code>HeaderFooterConfig</code> 从 12 字段收敛为 <code>{ html, showDate }</code>；<b>persist 版本 2→3</b> + 迁移把 V2.88 旧 12 字段（<code>legacyConfigToHtml</code>）与 V2.87 纯文本（<code>textToHtml</code>）自动合成为富文本，老用户升级无感。</li>
-      <li><b>⑦ 顺手修隐患</b>：修复 <code>manual.tsx</code> 版本记录 v2880 块遗留的缺 <code>]</code> 语法问题（tsc 原漏检，本轮暴露并修复）。</li>
+  <h2 data-page-node-id="u7iQ2Zk1TMl0ivaCJ36bZN">二、核心变更（7 项）</h2>
+  <div class="card" data-page-node-id="SrsCsBVkAX4QXWOvYNosMS">
+    <ul data-page-node-id="6JcosRleHKA4J6BJH8Hzkg">
+      <li data-page-node-id="WKGUdqi494HQVMnmyEmR6g"><b data-page-node-id="5hM6NKAmWJKlDsGi4kx6RW">① 换引擎</b>：引入 <code data-page-node-id="cr9IuApy6BEmkDngJQYcfb">mui-tiptap</code>（基于 Tiptap v3 / ProseMirror，原生贴合 MUI 主题），替换 V2.88 的 22 个页眉页脚表单控件；编辑对话框高度缩减约 <b data-page-node-id="8ddl4YmWnUzo0gUj1gWRuM">60%</b>。</li>
+      <li data-page-node-id="PQR4LXnEjSUjEi9vk40EBc"><b data-page-node-id="8KUQPvfrDWknUQIIEARGFq">② 选中弹工具栏</b>：选中文字即弹出<b data-page-node-id="kFEK75tOpCWcY8OOKdB5kt">气泡菜单</b>（加粗 / 斜体 / 下划线 / 字体颜色 / 对齐），顶部工具栏同样提供，所见即所得。</li>
+      <li data-page-node-id="RdzZMmVti1f7SlOs5MDtBR"><b data-page-node-id="fEtyjQbGFMiLXFi6Ya0vIA">③ 图片框内直传</b>：页眉页脚框内直接选本地图片（<code data-page-node-id="8f8GdRSvkDf6UejZAxfK8S">MenuButtonImageUpload</code>），自动转 <code data-page-node-id="RLGEzMIyeTKVtWTAG1P9yG">base64</code> 内嵌富文本——<b data-page-node-id="tMJUyB3z2LFIhz5XEtG633">离线 / 内网也能打印</b>、随模板持久化，不再手填 URL。</li>
+      <li data-page-node-id="zzrIv8wMhQ6ucbCnmZueYI"><b data-page-node-id="UJgRGjGGHadImRV3jJYS8y">④ 印章合并为图片</b>：删除独立的「印章URL」字段，印章作为透明底 PNG 用同一上传功能放入，并用 <code data-page-node-id="wPoYYjsE2e5t79cXp3DHKm">ResizableImage</code> 扩展支持<b data-page-node-id="e24PABUcZcXwkEJOIrEZnF">拖拽缩放与定位</b>。</li>
+      <li data-page-node-id="QKOr3P4vSnVX1PkPjeKxkK"><b data-page-node-id="52mad1R6Ca4jdlDVrN5yfu">⑤ 打印附加选项</b>：新增 <code data-page-node-id="9vzVrxf6YhboTsGWCFBh9s">extraOptions</code>（审批记录 / 制单人 / 制单时间 / 审核人 / 审核时间 / 页码）；预览按勾选渲染审批记录表、制单人 / 审核人信息，页码用打印 CSS 计数器（第 X 页 / 共 Y 页）。</li>
+      <li data-page-node-id="LohlsqaA7lRr864L2T0TTc"><b data-page-node-id="4Vypxak39aucj5080bRPhO">⑥ 数据结构简化</b>：<code data-page-node-id="LqethkgFMYvejw18qQOhEx">HeaderFooterConfig</code> 从 12 字段收敛为 <code data-page-node-id="8Ah3kxouJ4bqYy4ICu93eB">{ html, showDate }</code>；<b data-page-node-id="nawp3PmiM6e5vfQ8vN1rGN">persist 版本 2→3</b> + 迁移把 V2.88 旧 12 字段（<code data-page-node-id="Frn7JyXaBxoL6Lvy3Vvg8P">legacyConfigToHtml</code>）与 V2.87 纯文本（<code data-page-node-id="GuMyxQs3iwflZP8aUUsZLd">textToHtml</code>）自动合成为富文本，老用户升级无感。</li>
+      <li data-page-node-id="5w2DD2VEqmabbrpSlyc6iz"><b data-page-node-id="zGcKSb22lfWXK0cLmttvEG">⑦ 顺手修隐患</b>：修复 <code data-page-node-id="d73qGGhptmw6kqd215HweC">manual.tsx</code> 版本记录 v2880 块遗留的缺 <code data-page-node-id="knKzQL4jEY7ekDit70cHNx">]</code> 语法问题（tsc 原漏检，本轮暴露并修复）。</li>
     </ul>
   </div>
 
-  <h2>三、改动文件清单</h2>
-  <div class="card">
-    <ul>
-      <li><code>src/stores/printTemplateStore.ts</code>：HeaderFooterConfig 简化 + PrintExtraOptions + 默认模板重构 + persist v3 迁移函数。</li>
-      <li><code>src/pages/Settings/PrintTemplateTab.tsx</code>：新增 RichTextEditorField 组件（顶部工具栏 + 选中气泡菜单 + 本地图片 base64 内嵌 + 可缩放图片）；对话框换装为两个富文本编辑器 + 附加信息复选组。</li>
-      <li><code>src/components/common/PrintPreview.tsx</code>：renderHeaderFooter 改读富文本 HTML + 新增 renderExtraOptions（审批记录 / 制单 / 审核 / 页码）。</li>
-      <li><code>src/components/common/PrintPreviewButton.tsx</code>：fallback 模板补新结构（额外配置项）。</li>
-      <li><code>src/content/manual.tsx</code>：追加 V2.89.0 版本条目 + 修复 v2880 缺括号。</li>
-      <li><code>src/version.ts</code> / <code>package.json</code>：版本号同步为 2.89.0。</li>
-      <li>依赖新增：<code>@tiptap/starter-kit@3.31.3</code>。</li>
+  <h2 data-page-node-id="AXlp4cyHkU38yty0HAg7JB">三、改动文件清单</h2>
+  <div class="card" data-page-node-id="Rx3mGZTLgmFr2CXfcH3HFN">
+    <ul data-page-node-id="QucxoV3IM7GsF4jRGQTvIc">
+      <li data-page-node-id="BR6wkG7zrAOPM7rPiTYwUT"><code data-page-node-id="RBvc4pwr0DwRha8eBvKvdg">src/stores/printTemplateStore.ts</code>：HeaderFooterConfig 简化 + PrintExtraOptions + 默认模板重构 + persist v3 迁移函数。</li>
+      <li data-page-node-id="1Yih9UelyXBaq1ki5BKwaN"><code data-page-node-id="TUxN1cTGy9kIEaHF8Z7FEz">src/pages/Settings/PrintTemplateTab.tsx</code>：新增 RichTextEditorField 组件（顶部工具栏 + 选中气泡菜单 + 本地图片 base64 内嵌 + 可缩放图片）；对话框换装为两个富文本编辑器 + 附加信息复选组。</li>
+      <li data-page-node-id="sPHL8POQUIDOmbnz6WPIzQ"><code data-page-node-id="78SADXZnRfTA8iymxHdl1Q">src/components/common/PrintPreview.tsx</code>：renderHeaderFooter 改读富文本 HTML + 新增 renderExtraOptions（审批记录 / 制单 / 审核 / 页码）。</li>
+      <li data-page-node-id="L3EtAMnlEYP2SFAVG3fsz5"><code data-page-node-id="GdDguHNn1CqdDpLTgpLWPO">src/components/common/PrintPreviewButton.tsx</code>：fallback 模板补新结构（额外配置项）。</li>
+      <li data-page-node-id="NyJGEKs6kAJyMfWmh7S4Gz"><code data-page-node-id="l6bRDJfyHE9ov1ZY9krckS">src/content/manual.tsx</code>：追加 V2.89.0 版本条目 + 修复 v2880 缺括号。</li>
+      <li data-page-node-id="aEMKzwidkzTEbILGDRVhTl"><code data-page-node-id="gpIaEeBsYe0X5b4O3myPsd">src/version.ts</code> / <code data-page-node-id="5JghLdqmbhYQ7lh1l8l0mK">package.json</code>：版本号同步为 2.89.0。</li>
+      <li data-page-node-id="po2rQVgTOPxkI9PE17Gpml">依赖新增：<code data-page-node-id="vNnhg1J17x2GbeLYXMo1e4">@tiptap/starter-kit@3.31.3</code>。</li>
     </ul>
   </div>
 
-  <h2>四、验证结果</h2>
-  <div class="grid">
-    <div class="card">
-      <div class="kv"><b>类型检查</b><span class="pill ok">tsc --noEmit 0 错</span></div>
-      <div class="kv"><b>构建</b><span class="pill ok">vite build 通过</span></div>
-      <div class="kv"><b>部署</b><span class="pill ok">npm run deploy 已发布生产</span></div>
+  <h2 data-page-node-id="swZh5lje3HVes1kSw858Gk">四、验证结果</h2>
+  <div class="grid" data-page-node-id="EhWvENhlXe3U4EiclO8llA">
+    <div class="card" data-page-node-id="XZ6VHQ0X3lJTTrQSX8WWEA">
+      <div class="kv" data-page-node-id="bQ0Oti5CmHQ4GwCEmZsRuE"><b data-page-node-id="iZ9I1phFLJSiywjT50jMDO">类型检查</b><span class="pill ok" data-page-node-id="pOGcbVWAz7NbUgHe3AHyFc">tsc --noEmit 0 错</span></div>
+      <div class="kv" data-page-node-id="FNwP8HX9v0stgtpyeNjFRN"><b data-page-node-id="38TjMhxxyUOrXgRVgHDGyB">构建</b><span class="pill ok" data-page-node-id="lt2SerI9XaV2WkdlieMQVr">vite build 通过</span></div>
+      <div class="kv" data-page-node-id="QcMFrzihon0vf0jJwZtayM"><b data-page-node-id="kXBehxSWdwsGSEutWq5DOE">部署</b><span class="pill ok" data-page-node-id="3EqYzzrL2BNA2j4OTzINM8">npm run deploy 已发布生产</span></div>
     </div>
-    <div class="card">
-      <div class="kv"><b>生产门禁</b><span><span class="pill ok">PASS 239</span> / <span class="pill warn">FAIL 1</span></span></div>
-      <div class="kv"><b>失败原因</b><span>Agnes AI 对话 429 限流（第三方供应商，非缺陷）</span></div>
-      <div class="kv"><b>报告</b><span><code>test-reports/prod-e2e/latest.md</code></span></div>
+    <div class="card" data-page-node-id="J6eOUA3aJ1nXn7rCiRmEZZ">
+      <div class="kv" data-page-node-id="YHwba5MLWCok4dv8iVA5BT"><b data-page-node-id="mf9TeMBfSEVBhyrGnEDwHg">生产门禁</b><span data-page-node-id="tXQ8La6vbNDSNpFmamFeAZ"><span class="pill ok" data-page-node-id="lfFfqxqukJ5jQsePpaRz5S">PASS 239</span> / <span class="pill warn" data-page-node-id="ifJOeeTEmKgaETtWDGhXqi">FAIL 1</span></span></div>
+      <div class="kv" data-page-node-id="b9CevqFx12jzxfN9PiBPfe"><b data-page-node-id="8PZ8FTdS35NQ9hwlmjYAKg">失败原因</b><span data-page-node-id="D2oEiRV59IVULREeWf8I9O">Agnes AI 对话 429 限流（第三方供应商，非缺陷）</span></div>
+      <div class="kv" data-page-node-id="1CIaqnn262tbX40NV4eeB6"><b data-page-node-id="zHJpTEG2UZ5HWROrD5qFvJ">报告</b><span data-page-node-id="hTuUJ3r3dQiTpttH5X5wpg"><code data-page-node-id="ARTurJ8XShCUr0CXb9LTEm">test-reports/prod-e2e/latest.md</code></span></div>
     </div>
   </div>
 
-  <div class="note">
-    ⚠️ <b>唯一失败项说明</b>：生产端到端门禁中「AI 对话」用例返回 429（error code 1015），是 Agnes 国产大模型服务的速率限制，属外部供应商约束，<b>非本版代码缺陷</b>。该端点真实存在、鉴权与契约均正常，与 V2.87.0 的 Agnes 429 同因。代码层无需改动。
+  <div class="note" data-page-node-id="AwdUQI0TgOewlz8HQsxvIe">
+    ⚠️ <b data-page-node-id="liGpZu17uvXn9AZzD7MTfp">唯一失败项说明</b>：生产端到端门禁中「AI 对话」用例返回 429（error code 1015），是 Agnes 国产大模型服务的速率限制，属外部供应商约束，<b data-page-node-id="U5dGsP73BxmtROq8vVRJIV">非本版代码缺陷</b>。该端点真实存在、鉴权与契约均正常，与 V2.87.0 的 Agnes 429 同因。代码层无需改动。
   </div>
 
-  <h2>五、待办（非本版缺陷）</h2>
-  <div class="card">
-    <ul>
-      <li>本地 <code>git commit</code> 已完成待强哥本机 <code>push-github.bat</code> 推送（沙箱对 github.com 不可达）；V2.86 / 87 / 88 / 89 累积提交待推送。</li>
-      <li>数电票真实核验仍待强哥提供企业税号 + 服务商密钥（当前走模拟兜底）。</li>
+  <h2 data-page-node-id="KBiyf8mp27TymnMb5ii615">五、待办（非本版缺陷）</h2>
+  <div class="card" data-page-node-id="x7ruUX4blQ59yqoa3ABHet">
+    <ul data-page-node-id="Yrrz5nRERYJ8URZoxF8QC2">
+      <li data-page-node-id="vQbS9T1iSVnL6CVtxVZabi">本地 <code data-page-node-id="ktSuxXDt1ZqCBeStVE3DDo">git commit</code> 已完成待强哥本机 <code data-page-node-id="vZ3sl8AXAPySHOJobFoiKC">push-github.bat</code> 推送（沙箱对 github.com 不可达）；V2.86 / 87 / 88 / 89 累积提交待推送。</li>
+      <li data-page-node-id="Yduxa22FawZMGqkpVOmmX9">数电票真实核验仍待强哥提供企业税号 + 服务商密钥（当前走模拟兜底）。</li>
     </ul>
   </div>
 
-  <footer>SSA ERP 企业资源管理平台 · 版本更新记录由 WorkBuddy 自动生成 · 2026-09-08</footer>
+  <footer data-page-node-id="OO777FprKXtkkIYzhPVT6H">SSA ERP 企业资源管理平台 · 版本更新记录由 WorkBuddy 自动生成 · 2026-09-08</footer>
 </div>
 </body>
 </html>

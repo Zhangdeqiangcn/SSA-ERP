@@ -16,6 +16,7 @@ import PrintPreview from '@/components/common/PrintPreview';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
+import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
 import {
   RichTextEditor, ControlledBubbleMenu, MenuControlsContainer, MenuDivider,
@@ -63,6 +64,7 @@ const RichTextEditorField: React.FC<RichTextEditorFieldProps> = ({ label, initia
           StarterKit,
           Underline,
           TextAlign.configure({ types: ['heading', 'paragraph'] }),
+          TextStyle,       // FontSize 的前置依赖（Tiptap 官方要求）
           Color,
           FontSize,
           ResizableImage,
