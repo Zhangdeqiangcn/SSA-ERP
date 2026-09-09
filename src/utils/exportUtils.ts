@@ -7,7 +7,7 @@
  * - AlertMonitor（预警明细）
  * - InvoiceVerification（数电票核验结果/核验历史）
  *
- * xlsx / file-saver 均为动态 import，不进首屏主包。
+ * xlsx 为动态 import，不进首屏主包；下载统一用原生 a[download]（triggerDownload）。
  */
 
 export interface ExportColumn<T = any> {
@@ -104,7 +104,7 @@ export async function exportExcel<T>(
 ): Promise<void> {
   const valid = sheets.filter((s) => s.rows.length > 0);
   if (valid.length === 0) return;
-  const [XLSX, { saveAs }] = await Promise.all([import('xlsx'), import('file-saver')]);
+  const [XLSX] = await Promise.all([import('xlsx')]);
   const wb = XLSX.utils.book_new();
   valid.forEach((s) => {
     // sheet 名需 ≤31 字符且不含 []:*?/\
@@ -137,7 +137,8 @@ export async function exportExcel<T>(
   );
 }
 
-function triggerDownload(blob: Blob, filename: string): void {
+/** 触发浏览器下载（原生 a[download]，兼容所有环境；供各模块复用） */
+export function triggerDownload(blob: Blob, filename: string): void {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

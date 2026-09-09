@@ -13,6 +13,7 @@ import {
   ContentCopy as CopyIcon,
 } from '@mui/icons-material';
 import { statusConfig } from './StatusBadge';
+import { triggerDownload } from '@/utils/exportUtils';
 import {
   useReactTable, getCoreRowModel, getSortedRowModel, getPaginationRowModel,
   getFilteredRowModel, flexRender, ColumnDef, SortingState,
@@ -469,17 +470,14 @@ export function DataTable<T>({
 
   // 下载导入模板（以当前列表表头为列，仅含表头行，便于用户按格式填写）
   const handleDownloadTemplate = async () => {
-    const [XLSX, { saveAs }] = await Promise.all([
-      import('xlsx'),
-      import('file-saver'),
-    ]);
+    const XLSX = await import('xlsx');
     const headers = columns.map((c) => String(c.header ?? c.id));
     const ws = XLSX.utils.aoa_to_sheet([headers]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '模板');
     const buf = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const stamp = new Date().toLocaleDateString('zh-CN').replace(/\//g, '-');
-    saveAs(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `导入模板_${stamp}.xlsx`);
+    triggerDownload(new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), `导入模板_${stamp}.xlsx`);
   };
 
   // ────────────────────────────────────────────────────────────
@@ -517,16 +515,13 @@ export function DataTable<T>({
       URL.revokeObjectURL(url);
       return;
     }
-    const [XLSX, { saveAs }] = await Promise.all([
-      import('xlsx'),
-      import('file-saver'),
-    ]);
+    const XLSX = await import('xlsx');
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    saveAs(file, `export_${stamp}.xlsx`);
+    triggerDownload(file, `export_${stamp}.xlsx`);
   };
 
   const handleBatchExport = async () => {
@@ -554,16 +549,13 @@ export function DataTable<T>({
       URL.revokeObjectURL(url);
       return;
     }
-    const [XLSX, { saveAs }] = await Promise.all([
-      import('xlsx'),
-      import('file-saver'),
-    ]);
+    const XLSX = await import('xlsx');
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected');
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    saveAs(file, 'selected_export.xlsx');
+    triggerDownload(file, 'selected_export.xlsx');
   };
 
   const selectedRows = table.getSelectedRowModel().rows.map(r => r.original) as T[];
