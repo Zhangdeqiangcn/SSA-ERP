@@ -958,6 +958,12 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v2880',
+        title: 'V2.88.0（2026-09-09）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**打印模板与订单模板增强（物料编码 + 页眉页脚可视化编辑）**：\n① 打印模板预览数据补全：SAMPLE_RECORDS 给全部 9 个有 items 的业务实体（采购/销售/报价/合同/BOM/询价/工单/采购申请/出库）的 items 加 materialCode 字段，打印预览明细表首列正确显示「物料编码」。\n② 订单模板表格加「物料编码」列：OrderTemplateTab 表头在「物料」后新增「物料编码」列（等宽字体蓝色显示 materialCode），数据层 TemplateItem 原有字段终于在前端展示。\n③ 页眉页脚结构化配置引擎：PrintTemplate 新增 HeaderFooterConfig 接口（text/align/fontSize/fontWeight/color/imageUrl/imageHeight/imagePosition/stampUrl/stampSize/showDate 共 12 个属性）；headerText/footerText 保留向后兼容；persist version 1→2 + migrate 自动给旧模板补默认配置。\n④ PrintPreview 渲染升级：renderHeaderFooter 函数读 config 应用对齐/字体/颜色样式；支持左侧或右侧图片（logo）；支持电子印章图片绝对定位叠加；支持自动追加打印时间。\n⑤ PrintTemplateTab 编辑对话框升级：页眉/页脚从纯文本框扩展为「高级设置」面板——含对齐方式/字号/字重/文字颜色/自动时间/图片URL/图片位置/图片高度/印章URL 共 10 项控件；简单文本框保留并与高级面板双向同步。\n⑥ PrintPreviewButton fallback 模板补 headerConfig/footerConfig；tsc --noEmit 0 错；vite build 通过；npm run deploy 发布生产；生产端到端门禁 PASS 240 / FAIL 0 全绿。' },
+      },
+      {
         id: 'v2870',
         title: 'V2.87.0（2026-09-09）',
         blocks: [

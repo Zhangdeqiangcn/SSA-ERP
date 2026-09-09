@@ -278,6 +278,7 @@ const OrderTemplateTab: React.FC = () => {
                       <TableHead>
                         <TableRow sx={{ bgcolor: '#F8FAFC' }}>
                           <TableCell sx={{ fontSize: '0.75rem', fontWeight: 600 }}>物料</TableCell>
+                          <TableCell sx={{ fontSize: '0.75rem', fontWeight: 600 }}>物料编码</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', fontWeight: 600 }}>规格</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', fontWeight: 600 }}>单位</TableCell>
                           <TableCell sx={{ fontSize: '0.75rem', fontWeight: 600 }} align="right">数量</TableCell>
@@ -300,6 +301,9 @@ const OrderTemplateTab: React.FC = () => {
                                 renderInput={(params) => <TextField {...params} placeholder="搜索物料" />}
                                 isOptionEqualToValue={(o, v) => o.id === v.id}
                               />
+                            </TableCell>
+                            <TableCell>
+                              <Typography variant="caption" sx={{ fontFamily: 'monospace', color: '#0345A1' }}>{item.materialCode || '—'}</Typography>
                             </TableCell>
                             <TableCell>
                               <Typography variant="caption">{item.specification || '-'}</Typography>

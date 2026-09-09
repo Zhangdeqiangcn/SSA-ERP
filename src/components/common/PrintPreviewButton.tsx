@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { usePrintTemplateStore, PrintEntity, PrintTemplate } from '@/stores/printTemplateStore';
+import { usePrintTemplateStore, PrintEntity, PrintTemplate, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG } from '@/stores/printTemplateStore';
 import PrintPreview from './PrintPreview';
 
 interface PrintPreviewButtonProps {
@@ -81,6 +81,8 @@ const buildFallback = (entity: PrintEntity, record: Record<string, any>): PrintT
     orientation: 'portrait',
     headerText: '',
     footerText: '打印时间：{now}',
+    headerConfig: { ...DEFAULT_HEADER_CONFIG },
+    footerConfig: { ...DEFAULT_FOOTER_CONFIG, text: '', showDate: true },
     fieldKeys: [...rawKeys, 'items'].filter((k) => k !== 'items' || (record.items && record.items.length)),
   };
 };

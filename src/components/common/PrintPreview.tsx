@@ -3,6 +3,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { Print as PrintIcon, Close as CloseIcon } from '@mui/icons-material';
 import {
   PrintTemplate, PrintEntity, PRINT_FIELD_CATALOG,
+  HeaderFooterConfig, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG,
 } from '@/stores/printTemplateStore';
 import { useCustomFieldStore } from '@/stores/customFieldStore';
 import { formatCurrency } from '@/utils/format';
@@ -51,6 +52,86 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
       return map[value] || value;
     }
     return String(value);
+  };
+
+  /**
+   * 渲染结构化页眉/页脚（V2.88.0）
+   * 支持对齐、字体、颜色、图片（logo）、电子印章、打印时间。
+   */
+  const renderHeaderFooter = (config: HeaderFooterConfig | undefined, fallbackText: string, isHeader: boolean) => {
+    const cfg = config || (isHeader ? DEFAULT_HEADER_CONFIG : DEFAULT_FOOTER_CONFIG);
+    const text = cfg.text || fallbackText;
+    const nowStr = new Date().toLocaleString('zh-CN');
+    // 合并文本 + 可选时间
+    let displayText = text;
+    if (cfg.showDate && !text.includes('{now}')) {
+      displayText = text ? `${text}\n打印时间：${nowStr}` : `打印时间：${nowStr}`;
+    }
+    displayText = displayText.replace('{now}', nowStr);
+
+    const textStyle: React.CSSProperties = {
+      whiteSpace: 'pre-line',
+      textAlign: cfg.align,
+      color: cfg.color || '#475569',
+      fontSize: cfg.fontSize ? `${cfg.fontSize}px` : (isHeader ? 13 : 12),
+      fontWeight: cfg.fontWeight === 'bold' ? 700 : undefined,
+      ...(isHeader ? { mb: 3 } : { mt: 4, pt: 2, borderTop: '1px solid #E2E8F0' }),
+    };
+
+    const containerStyle: React.CSSProperties = {
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: cfg.align,
+      gap: 1.5,
+      ...textStyle,
+    };
+
+    return (
+      <Box sx={containerStyle}>
+        {/* 左侧图片（logo） */}
+        {cfg.imageUrl && cfg.imagePosition === 'left' && (
+          <img
+            src={cfg.imageUrl}
+            alt="header-logo"
+            style={{ height: cfg.imageHeight || 40, objectFit: 'contain', flexShrink: 0 }}
+          />
+        )}
+        {/* 文本内容 */}
+        {displayText && (
+          <Box sx={{ flex: 1, textAlign: cfg.align }}>
+            {displayText.split('\n').map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+          </Box>
+        )}
+        {/* 右侧图片（logo） */}
+        {cfg.imageUrl && cfg.imagePosition === 'right' && (
+          <img
+            src={cfg.imageUrl}
+            alt="header-logo"
+            style={{ height: cfg.imageHeight || 40, objectFit: 'contain', flexShrink: 0 }}
+          />
+        )}
+        {/* 电子印章 */}
+        {cfg.stampUrl && (
+          <img
+            src={cfg.stampUrl}
+            alt="stamp"
+            style={{
+              position: 'absolute',
+              right: 20,
+              bottom: isHeader ? 'auto' : 10,
+              top: isHeader ? 10 : 'auto',
+              width: cfg.stampSize || 80,
+              height: cfg.stampSize || 80,
+              opacity: 0.85,
+              pointerEvents: 'none' as any,
+            }}
+          />
+        )}
+      </Box>
+    );
   };
 
   const renderItems = () => {
@@ -131,11 +212,7 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
           {template.title}
         </Typography>
 
-        {template.headerText && (
-          <Box sx={{ whiteSpace: 'pre-line', textAlign: 'center', color: '#475569', mb: 3, fontSize: 13 }}>
-            {template.headerText}
-          </Box>
-        )}
+        {renderHeaderFooter(template.headerConfig, template.headerText, true)}
 
         <Box
           sx={{
@@ -176,11 +253,7 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
           </Box>
         )}
 
-        {template.footerText && (
-          <Box sx={{ whiteSpace: 'pre-line', textAlign: 'center', color: '#475569', mt: 4, pt: 2, borderTop: '1px solid #E2E8F0', fontSize: 12 }}>
-            {template.footerText.replace('{now}', now)}
-          </Box>
-        )}
+        {renderHeaderFooter(template.footerConfig, template.footerText, false)}
       </Box>
     </Box>
   );
