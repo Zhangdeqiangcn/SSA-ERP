@@ -18,6 +18,7 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
 import { Color } from '@tiptap/extension-color';
+import { NodeSelection } from '@tiptap/pm/state';
 import {
   RichTextEditor, ControlledBubbleMenu, MenuControlsContainer, MenuDivider,
   MenuButtonBold, MenuButtonItalic, MenuButtonUnderline, MenuButtonTextColor,
@@ -63,11 +64,13 @@ const RichTextEditorField: React.FC<RichTextEditorFieldProps> = ({ label, initia
         extensions={[
           StarterKit,
           Underline,
-          TextAlign.configure({ types: ['heading', 'paragraph'] }),
+          // 'image' 加入 types：让对齐命令可作用于图片块（选中图片后可左/中/右定位）
+          TextAlign.configure({ types: ['heading', 'paragraph', 'image'] }),
           TextStyle,       // FontSize 的前置依赖（Tiptap 官方要求）
           Color,
           FontSize,
-          ResizableImage,
+          // allowBase64：允许 base64 图片被解析（否则保存后重新打开会被丢弃）
+          ResizableImage.configure({ allowBase64: true }),
         ]}
         content={initialHtml || ''}
         editorProps={{ attributes: { style: `min-height:${minHeight}px; padding:8px 10px;` } }}
@@ -86,8 +89,24 @@ const RichTextEditorField: React.FC<RichTextEditorFieldProps> = ({ label, initia
           </MenuControlsContainer>
         )}
       >
-        {(editor) =>
-          editor && (
+        {(editor) => {
+          if (!editor) return null;
+          // 选中图片时弹出图片专属菜单（左/中/右对齐定位），否则弹文字格式菜单
+          const sel = editor.state.selection;
+          const isImageSelected =
+            sel instanceof NodeSelection && sel.node.type.name === 'image';
+          if (isImageSelected) {
+            return (
+              <ControlledBubbleMenu editor={editor} open={editor.isFocused}>
+                <MenuControlsContainer>
+                  <MenuButtonAlignLeft />
+                  <MenuButtonAlignCenter />
+                  <MenuButtonAlignRight />
+                </MenuControlsContainer>
+              </ControlledBubbleMenu>
+            );
+          }
+          return (
             <ControlledBubbleMenu
               editor={editor}
               open={editor.isFocused && !editor.state.selection.empty}
@@ -102,8 +121,8 @@ const RichTextEditorField: React.FC<RichTextEditorFieldProps> = ({ label, initia
                 <MenuButtonAlignRight />
               </MenuControlsContainer>
             </ControlledBubbleMenu>
-          )
-        }
+          );
+        }}
       </RichTextEditor>
     </Box>
   );
@@ -396,7 +415,7 @@ const PrintTemplateTab: React.FC = () => {
             </Box>
             <RichTextEditorField
               key={`header-rte-${openSeq}`}
-              label="页眉（富文本：选中文字改字体/字号/颜色，可插入图片或电子印章）"
+              label="页眉（选中文字改格式；插入图片/印章后：按住图片拖动可移动，选中图片弹出按钮可左/中/右定位）"
               initialHtml={headerConfig.html}
               onChange={(html) => setHeaderConfig((c) => ({ ...c, html }))}
             />
@@ -407,7 +426,7 @@ const PrintTemplateTab: React.FC = () => {
 
             <RichTextEditorField
               key={`footer-rte-${openSeq}`}
-              label="页脚（富文本：选中文字改字体/字号/颜色，可插入图片或电子印章）"
+              label="页脚（选中文字改格式；插入图片/印章后：按住图片拖动可移动，选中图片弹出按钮可左/中/右定位）"
               initialHtml={footerConfig.html}
               onChange={(html) => setFooterConfig((c) => ({ ...c, html }))}
             />
