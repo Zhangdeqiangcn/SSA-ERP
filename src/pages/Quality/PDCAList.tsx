@@ -359,6 +359,7 @@ const PDCAList: React.FC = () => {
         enableImport
         columnConfigKey="quality-pdca-list"
         onImport={handleImport}
+        codeColumnId="pdcaNo"
         onRowClick={(row) => setExpandedId(expandedId === row.id ? null : row.id)}
       />
 

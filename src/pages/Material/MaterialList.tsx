@@ -1,10 +1,13 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { Box, TextField, InputAdornment, Button, Dialog, DialogTitle, DialogContent, DialogActions, Select, MenuItem, FormControl, InputLabel, Stack, Typography, Chip, Paper, Alert } from '@mui/material';
+import { Box, TextField, InputAdornment, Button, Dialog, DialogTitle, DialogContent, DialogActions, Stack, Typography, Chip, Paper, Alert, Snackbar } from '@mui/material';
 import { Search, CheckCircle, Block, Edit } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, StatusBadge, BatchAction } from '@/components/common';
+import {
+  DataTable, FilterBar, ActionBar, StatusBadge, BatchAction,
+  ConfirmDialog, BatchEditDialog, type BatchEditField,
+} from '@/components/common';
 import { useMaterialStore } from '@/stores';
 import { Material, MaterialType, MakeOrBuy, MaterialFilter, MaterialCategory, LifecycleStatus } from '@/types';
 import { formatCurrency } from '@/utils/format';
@@ -47,6 +50,48 @@ const flattenCategories = (
   });
   return acc;
 };
+
+// ── 批量导入：表头 → 字段 别名映射（中英文均可） ──
+const MATERIAL_IMPORT_ALIASES: Record<string, string> = {
+  物料编码: 'code', 编码: 'code', 编号: 'code', code: 'code',
+  物料名称: 'name', 名称: 'name', name: 'name',
+  分类: 'categoryName',
+  规格型号: 'specification', specification: 'specification',
+  型号: 'model', model: 'model',
+  单位: 'unit', unit: 'unit',
+  物料类型: 'materialType', 类型: 'materialType', type: 'materialType',
+  自制外购: 'makeOrBuy',
+  当前库存: 'currentStock',
+  单价: 'price', 价格: 'price', price: 'price',
+  状态: 'status', status: 'status',
+  备注: 'remarks', remarks: 'remarks',
+  默认供应商: 'defaultVendorName',
+};
+const MATERIAL_TYPE_MAP: Record<string, MaterialType> = {
+  原材料: 'raw', 半成品: 'semi', 成品: 'finished', 外购: 'purchased', 服务: 'service',
+  raw: 'raw', semi: 'semi', finished: 'finished', purchased: 'purchased', service: 'service',
+};
+const MAKE_OR_BUY_MAP: Record<string, MakeOrBuy> = {
+  自制: 'make', 外购: 'buy', make: 'make', buy: 'buy',
+};
+const MATERIAL_STATUS_MAP: Record<string, 'active' | 'inactive'> = {
+  启用: 'active', 停用: 'inactive', active: 'active', inactive: 'inactive',
+};
+
+/** 批量修改可改字段（对应详情页可编辑项，均为 Material 真实字段） */
+const MATERIAL_BATCH_FIELDS: BatchEditField[] = [
+  {
+    key: 'status', label: '状态', type: 'select',
+    options: [
+      { value: 'active', label: '启用' },
+      { value: 'inactive', label: '停用' },
+    ],
+  },
+  { key: 'name', label: '名称', type: 'text' },
+  { key: 'specification', label: '规格型号', type: 'text' },
+  { key: 'defaultVendorName', label: '默认供应商', type: 'text' },
+  { key: 'remarks', label: '备注', type: 'text' },
+];
 
 const MaterialList: React.FC = () => {
   const navigate = useNavigate();
@@ -228,10 +273,34 @@ const MaterialList: React.FC = () => {
     rows.forEach((m) => updateMaterial(m.id, { status: 'inactive' }));
   };
 
-  const handleBatchDelete = (rows: Material[]) => {
-    if (window.confirm(`确定删除选中的 ${rows.length} 条物料吗？此操作不可撤销。`)) {
-      rows.forEach((m) => deleteMaterial(m.id));
+  // ── 删除（单行 / 批量共用同一确认框）──
+  const [deleteTargets, setDeleteTargets] = useState<Material[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  // ── 批量修改 ──
+  const [batchEditOpen, setBatchEditOpen] = useState(false);
+  const [pendingBatchEdit, setPendingBatchEdit] = useState<Material[]>([]);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
+
+  const confirmDelete = async () => {
+    const targets = [...deleteTargets];
+    setDeleteOpen(false);
+    setDeleteTargets([]);
+    for (const m of targets) {
+      await deleteMaterial(m.id);
     }
+    setSnackbar({ open: true, message: `已删除 ${targets.length} 条物料`, severity: 'success' });
+  };
+
+  const confirmBatchEdit = async (updates: Record<string, unknown>) => {
+    const targets = [...pendingBatchEdit];
+    setBatchEditOpen(false);
+    setPendingBatchEdit([]);
+    for (const m of targets) {
+      await updateMaterial(m.id, updates as Partial<Material>);
+    }
+    setSnackbar({ open: true, message: `已批量修改 ${targets.length} 条物料`, severity: 'success' });
   };
 
   const batchActions: BatchAction<Material>[] = [
@@ -254,10 +323,14 @@ const MaterialList: React.FC = () => {
       testId: 'batch-edit',
       color: 'primary',
       icon: <Edit fontSize="small" />,
-      onClick: (rows) => {
-        selectedRowsRef.current = rows;
-        handleBatchEditOpen(rows);
-      },
+      onClick: (rows) => { selectedRowsRef.current = rows; setPendingBatchEdit(rows); setBatchEditOpen(true); },
+    },
+    {
+      label: '批量删除',
+      testId: 'batch-delete',
+      color: 'error',
+      icon: <Block fontSize="small" />,
+      onClick: (rows) => { setDeleteTargets(rows); setDeleteOpen(true); },
     },
   ];
 
@@ -318,112 +391,82 @@ const MaterialList: React.FC = () => {
     setTemplateOpen(false);
   };
 
-  // ── P1-05 批量修改 ──
-  const [batchEditOpen, setBatchEditOpen] = useState(false);
-  const [batchEditField, setBatchEditField] = useState<string>('status');
-  const [batchEditValue, setBatchEditValue] = useState<string>('');
-  const [batchEditSelected, setBatchEditSelected] = useState<Material[]>([]);
-
-  const batchEditFieldOptions = [
-    { value: 'categoryId', label: '分类', type: 'select' },
-    { value: 'status', label: '状态', type: 'select' },
-    { value: 'materialType', label: '物料类型', type: 'select' },
-    { value: 'makeOrBuy', label: '自制外购', type: 'select' },
-    { value: 'defaultVendorId', label: '默认供应商', type: 'text' },
-  ];
-
-  const getBatchEditValueOptions = () => {
-    switch (batchEditField) {
-      case 'status':
-        return [{ value: 'active', label: '启用' }, { value: 'inactive', label: '停用' }];
-      case 'materialType':
-        return [
-          { value: 'raw', label: '原材料' },
-          { value: 'semi', label: '半成品' },
-          { value: 'finished', label: '成品' },
-          { value: 'purchased', label: '外购' },
-          { value: 'service', label: '服务' },
-        ];
-      case 'makeOrBuy':
-        return [{ value: 'make', label: '自制' }, { value: 'buy', label: '外购' }];
-      case 'categoryId':
-        return flattenCategories(categories).map(c => ({ value: c.value, label: c.label }));
-      default:
-        return [];
-    }
-  };
-
-  const handleBatchEditOpen = (rows: Material[]) => {
-    if (rows.length === 0) return;
-    setBatchEditSelected(rows);
-    setBatchEditField('status');
-    setBatchEditValue('');
-    setBatchEditOpen(true);
-  };
-
-  const handleBatchEditConfirm = () => {
-    if (!batchEditValue) return;
-    const selectedField = batchEditFieldOptions.find(f => f.value === batchEditField);
-    const isSelectField = selectedField?.type === 'select';
-    const finalValue = isSelectField ? batchEditValue : batchEditValue;
-    if (batchEditField === 'categoryId') {
-      const catName = flattenCategories(categories).find(c => c.value === batchEditValue)?.label;
-      batchEditSelected.forEach(m => updateMaterial(m.id, { categoryId: batchEditValue, categoryName: catName }));
-    } else {
-      batchEditSelected.forEach(m => updateMaterial(m.id, { [batchEditField]: finalValue } as Partial<Material>));
-    }
-    setBatchEditOpen(false);
-  };
-
-  // ── 数据表格行选取态（用于批量修改） ──
+  // ── 数据表格行选取态（用于「批量修改」独立按钮） ──
   const selectedRowsRef = React.useRef<Material[]>([]);
 
-  // ── 列表内批量导入（替代原独立「导入导出」页）──
-  const [importResult, setImportResult] = useState<{ success: number; failed: number } | null>(null);
+  // ── 列表内批量导入（按表头映射字段，有编码则更新、无编码则新建）──
+  const handleImport = async (rows: Record<string, string>[], _headers: string[]) => {
+    const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    let created = 0;
+    let updated = 0;
+    let seq = materials.length;
+    for (const raw of rows) {
+      const mapped: Record<string, string> = {};
+      Object.entries(raw).forEach(([h, v]) => {
+        const key = MATERIAL_IMPORT_ALIASES[String(h).trim()];
+        if (key && v != null && String(v).trim() !== '') mapped[key] = String(v).trim();
+      });
+      if (!mapped.name && !mapped.code) continue;
 
-  const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
-    let success = 0;
-    let failed = 0;
-    const now = new Date().toISOString();
-    rows.forEach((row, i) => {
-      const name = (row['物料名称'] ?? '').trim();
-      const unit = (row['单位'] ?? '').trim();
-      if (!name || !unit) {
-        failed += 1;
-        return;
-      }
-      const catName = (row['分类'] ?? '').trim();
-      const cat = catName ? categories.find((c) => c.name === catName) : undefined;
-      const code = (row['物料编码'] ?? '').trim() || `M${Date.now()}${i}`;
-      try {
-        addMaterial({
-          id: `mat-${Date.now()}-${i}`,
+      const materialType = MATERIAL_TYPE_MAP[mapped.materialType] || undefined;
+      const makeOrBuy = MAKE_OR_BUY_MAP[mapped.makeOrBuy] || undefined;
+      const status = MATERIAL_STATUS_MAP[mapped.status] || 'active';
+      const existing = mapped.code ? materials.find((m) => m.code === mapped.code) : undefined;
+
+      if (existing) {
+        await updateMaterial(existing.id, {
+          ...(mapped.name ? { name: mapped.name } : {}),
+          ...(mapped.categoryName ? { categoryName: mapped.categoryName } : {}),
+          ...(mapped.specification ? { specification: mapped.specification } : {}),
+          ...(mapped.model ? { model: mapped.model } : {}),
+          ...(mapped.unit ? { unit: mapped.unit } : {}),
+          ...(materialType ? { materialType } : {}),
+          ...(makeOrBuy ? { makeOrBuy } : {}),
+          ...(mapped.currentStock ? { currentStock: Number(mapped.currentStock) } : {}),
+          ...(mapped.price ? { price: Number(mapped.price) } : {}),
+          ...(mapped.status ? { status } : {}),
+          ...(mapped.remarks ? { remarks: mapped.remarks } : {}),
+          ...(mapped.defaultVendorName ? { defaultVendorName: mapped.defaultVendorName } : {}),
+        });
+        updated += 1;
+      } else {
+        seq += 1;
+        const ymd = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const code = mapped.code || `MAT${ymd}${String(seq).padStart(4, '0')}`;
+        // 依分类名称解析分类（无则留空，避免构造不完整对象）
+        const cat = mapped.categoryName ? categories.find((c) => c.name === mapped.categoryName) : undefined;
+        await addMaterial({
+          id: `mat-${Date.now()}-${seq}`,
           code,
-          name,
+          name: mapped.name || code,
           categoryId: cat?.id ?? '',
           categoryName: cat?.name,
-          specification: (row['规格型号'] ?? '').trim() || undefined,
-          unit,
-          materialType: (row['物料类型'] as Material['materialType']) || undefined,
-          makeOrBuy: (row['自制外购'] as Material['makeOrBuy']) || undefined,
+          specification: mapped.specification,
+          model: mapped.model,
+          unit: mapped.unit || '',
+          materialType,
+          makeOrBuy,
           safetyStock: 0,
           minStock: 0,
           maxStock: 0,
-          currentStock: Number(row['当前库存']) || 0,
-          price: Number(row['单价']) || 0,
+          currentStock: Number(mapped.currentStock) || 0,
+          price: Number(mapped.price) || 0,
           currency: 'CNY',
-          status: ((row['状态'] || 'active') as Material['status']),
+          status,
+          remarks: mapped.remarks,
           createdAt: now,
           updatedAt: now,
-          createdBy: '',
-          updatedBy: '',
+          createdBy: '批量导入',
+          updatedBy: '批量导入',
         });
-        success += 1;
-      } catch {
-        failed += 1;
+        created += 1;
       }
+    }
+    setSnackbar({
+      open: true,
+      message: `导入完成：新增 ${created} 条，更新 ${updated} 条`,
+      severity: created + updated > 0 ? 'success' : 'info',
     });
-    setImportResult({ success, failed });
   };
 
   return (
@@ -462,7 +505,7 @@ const MaterialList: React.FC = () => {
           variant="outlined"
           startIcon={<Edit />}
           data-testid="mat-batch-edit"
-          onClick={() => handleBatchEditOpen(selectedRowsRef.current)}
+          onClick={() => { setPendingBatchEdit(selectedRowsRef.current); setBatchEditOpen(true); }}
           disabled={selectedRowsRef.current.length === 0}
         >
           批量修改 ({selectedRowsRef.current.length})
@@ -476,15 +519,6 @@ const MaterialList: React.FC = () => {
         </Button>
       </Stack>
 
-      {importResult && (
-        <Alert
-          severity={importResult.failed > 0 ? 'warning' : 'success'}
-          sx={{ mb: 2 }}
-          onClose={() => setImportResult(null)}
-        >
-          导入完成：成功 {importResult.success} 条，失败 {importResult.failed} 条
-        </Alert>
-      )}
       <DataTable
         data={filteredData}
         columns={columns}
@@ -492,10 +526,11 @@ const MaterialList: React.FC = () => {
         enablePagination
         enableExport
         enableImport
+        importLabel="物料"
         onImport={handleImport}
         columnConfigKey="material-list"
+        codeColumnId="code"
         batchActions={batchActions}
-        onBatchDelete={handleBatchDelete}
         onRowClick={(row) => navigate(`/material/${row.id}`)}
         onView={(row) => navigate(`/material/${row.id}`)}
         onEdit={(row) => navigate(`/material/${row.id}/edit`)}
@@ -531,57 +566,45 @@ const MaterialList: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {/* P1-05 批量修改对话框 */}
-      <Dialog open={batchEditOpen} onClose={() => setBatchEditOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>批量修改物料</DialogTitle>
-        <DialogContent>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            已选择 {batchEditSelected.length} 条物料，选择要批量修改的字段并输入新值。
-          </Typography>
-          <Stack spacing={2}>
-            <FormControl fullWidth size="small">
-              <InputLabel>选择字段</InputLabel>
-              <Select
-                value={batchEditField}
-                label="选择字段"
-                onChange={(e) => { setBatchEditField(e.target.value); setBatchEditValue(''); }}
-              >
-                {batchEditFieldOptions.map(o => (
-                  <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            {batchEditFieldOptions.find(f => f.value === batchEditField)?.type === 'select' ? (
-              <FormControl fullWidth size="small">
-                <InputLabel>新值</InputLabel>
-                <Select
-                  value={batchEditValue}
-                  label="新值"
-                  onChange={(e) => setBatchEditValue(e.target.value)}
-                >
-                  {getBatchEditValueOptions().map(o => (
-                    <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            ) : (
-              <TextField
-                fullWidth
-                size="small"
-                label="新值"
-                value={batchEditValue}
-                onChange={(e) => setBatchEditValue(e.target.value)}
-              />
-            )}
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setBatchEditOpen(false)}>取消</Button>
-          <Button variant="contained" onClick={handleBatchEditConfirm} disabled={!batchEditValue}>
-            确认修改
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* 批量删除确认（单行 / 批量） */}
+      <ConfirmDialog
+        open={deleteOpen}
+        type="danger"
+        title="确认删除"
+        content={
+          deleteTargets.length === 1
+            ? `确定删除物料「${deleteTargets[0]?.name}」吗？此操作不可撤销。`
+            : `确定要删除选中的 ${deleteTargets.length} 条物料吗？此操作不可撤销。`
+        }
+        onConfirm={confirmDelete}
+        onCancel={() => { setDeleteOpen(false); setDeleteTargets([]); }}
+        confirmText="确认删除"
+      />
+
+      {/* 批量修改 */}
+      <BatchEditDialog
+        open={batchEditOpen}
+        title="批量修改物料"
+        count={pendingBatchEdit.length}
+        fields={MATERIAL_BATCH_FIELDS}
+        onConfirm={confirmBatchEdit}
+        onCancel={() => { setBatchEditOpen(false); setPendingBatchEdit([]); }}
+      />
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </PageWrapper>
   );
 };

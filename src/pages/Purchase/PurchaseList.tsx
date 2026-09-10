@@ -345,6 +345,7 @@ const PurchaseList: React.FC = () => {
         onEdit={(row) => navigate(`/purchase/${row.id}`)}
         onDelete={handleSingleDelete}
         batchActions={batchActions}
+        codeColumnId="requestNo"
       />
 
       {/* 单条删除确认 */}

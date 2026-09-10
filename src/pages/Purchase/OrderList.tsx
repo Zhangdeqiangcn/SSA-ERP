@@ -3,24 +3,85 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Box, Button, Stack, Dialog, DialogTitle, DialogContent, MenuItem, FormControl, InputLabel, Select,
-  Typography, Paper, Grid,
+  Typography, Paper, Grid, Snackbar, Alert,
 } from '@mui/material';
-import { Add, Print as PrintIcon, TrendingUp } from '@mui/icons-material';
+import { Add, Print as PrintIcon, TrendingUp, EditNote, DeleteOutline } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, StatusBadge, FlowTracker, PrintPreview } from '@/components/common';
+import {
+  DataTable, FilterBar, StatusBadge, FlowTracker, PrintPreview,
+  ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
+} from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { usePrintTemplateStore } from '@/stores/printTemplateStore';
-import { PurchaseOrder } from '@/types';
+import { PurchaseOrder, PurchaseOrderStatus } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
+
+/** 批量导入：表头 → 字段 别名映射（中英文均可） */
+const ORDER_IMPORT_ALIASES: Record<string, string> = {
+  订单号: 'orderNo', 单号: 'orderNo', 采购订单号: 'orderNo', orderNo: 'orderNo',
+  供应商: 'vendorName', vendorName: 'vendorName',
+  状态: 'status', status: 'status',
+  币种: 'currency', currency: 'currency',
+  未税金额: 'totalAmount', 金额: 'totalAmount', totalAmount: 'totalAmount',
+  预计交货: 'expectedDeliveryDate', expectedDeliveryDate: 'expectedDeliveryDate',
+  实际交货: 'actualDeliveryDate', actualDeliveryDate: 'actualDeliveryDate',
+  交货地址: 'deliveryAddress', deliveryAddress: 'deliveryAddress',
+  付款条件: 'paymentTerms', paymentTerms: 'paymentTerms',
+  贸易条件: 'tradeTerms', tradeTerms: 'tradeTerms',
+  备注: 'remarks', remarks: 'remarks',
+};
+const ORDER_STATUS_MAP: Record<string, PurchaseOrderStatus> = {
+  已创建: 'created', created: 'created',
+  已发送: 'sent', sent: 'sent',
+  供应商已确认: 'vendorConfirmed', vendorConfirmed: 'vendorConfirmed',
+  已确认: 'confirmed', confirmed: 'confirmed',
+  部分收货: 'partial', partial: 'partial',
+  已收货: 'received', received: 'received',
+  已关闭: 'closed', closed: 'closed',
+  已取消: 'cancelled', cancelled: 'cancelled',
+};
+
+/** 批量修改可改字段（对应详情页可编辑项，均为 PurchaseOrder 真实字段） */
+const ORDER_BATCH_FIELDS: BatchEditField[] = [
+  {
+    key: 'status', label: '状态', type: 'select',
+    options: [
+      { value: 'created', label: '已创建' },
+      { value: 'sent', label: '已发送' },
+      { value: 'vendorConfirmed', label: '供应商已确认' },
+      { value: 'confirmed', label: '已确认' },
+      { value: 'partial', label: '部分收货' },
+      { value: 'received', label: '已收货' },
+      { value: 'closed', label: '已关闭' },
+      { value: 'cancelled', label: '已取消' },
+    ],
+  },
+  { key: 'vendorName', label: '供应商', type: 'text' },
+  { key: 'deliveryAddress', label: '交货地址', type: 'text' },
+  { key: 'paymentTerms', label: '付款条件', type: 'text' },
+  { key: 'remarks', label: '备注', type: 'text' },
+];
 
 const OrderList: React.FC = () => {
   const navigate = useNavigate();
   const purchaseOrders = usePurchaseStore(s => s.purchaseOrders);
+  const updatePurchaseOrder = usePurchaseStore(s => s.updatePurchaseOrder);
+  const deletePurchaseOrder = usePurchaseStore(s => s.deletePurchaseOrder);
   const printTemplate = usePrintTemplateStore(s => s.getTemplateByEntity('purchaseOrder'));
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [printOpen, setPrintOpen] = useState(false);
   const [printOrderId, setPrintOrderId] = useState('');
+
+  // ── 删除（单行 / 批量共用同一确认框）──
+  const [deleteTargets, setDeleteTargets] = useState<PurchaseOrder[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  // ── 批量修改 ──
+  const [batchEditOpen, setBatchEditOpen] = useState(false);
+  const [pendingBatchEdit, setPendingBatchEdit] = useState<PurchaseOrder[]>([]);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
 
   const columns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(() => [
     { accessorKey: 'orderNo', header: '订单号' },
@@ -94,6 +155,76 @@ const OrderList: React.FC = () => {
     }
     return data;
   }, [filterData, purchaseOrders]);
+
+  // ── 删除确认 ──
+  const confirmDelete = () => {
+    const targets = [...deleteTargets];
+    setDeleteOpen(false);
+    setDeleteTargets([]);
+    targets.forEach(o => deletePurchaseOrder(o.id));
+    setSnackbar({ open: true, message: `已删除 ${targets.length} 条采购订单`, severity: 'success' });
+  };
+
+  // ── 批量修改确认 ──
+  const confirmBatchEdit = (updates: Record<string, unknown>) => {
+    const targets = [...pendingBatchEdit];
+    setBatchEditOpen(false);
+    setPendingBatchEdit([]);
+    targets.forEach(o => updatePurchaseOrder(o.id, updates as Partial<PurchaseOrder>));
+    setSnackbar({ open: true, message: `已批量修改 ${targets.length} 条采购订单`, severity: 'success' });
+  };
+
+  // ── 批量导入（按表头映射字段，仅更新匹配到的现有订单，未匹配则跳过）──
+  const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
+    let updated = 0;
+    let skipped = 0;
+    for (const raw of rows) {
+      const mapped: Record<string, string> = {};
+      Object.entries(raw).forEach(([h, v]) => {
+        const key = ORDER_IMPORT_ALIASES[String(h).trim()];
+        if (key && v != null && String(v).trim() !== '') mapped[key] = String(v).trim();
+      });
+      const orderNo = mapped.orderNo;
+      if (!orderNo) { skipped += 1; continue; }
+      const existing = purchaseOrders.find(o => o.orderNo === orderNo);
+      if (!existing) { skipped += 1; continue; }
+      const status = ORDER_STATUS_MAP[mapped.status] || undefined;
+      updatePurchaseOrder(existing.id, {
+        ...(mapped.vendorName ? { vendorName: mapped.vendorName } : {}),
+        ...(status ? { status } : {}),
+        ...(mapped.currency ? { currency: mapped.currency } : {}),
+        ...(mapped.totalAmount ? { totalAmount: Number(mapped.totalAmount) } : {}),
+        ...(mapped.expectedDeliveryDate ? { expectedDeliveryDate: mapped.expectedDeliveryDate } : {}),
+        ...(mapped.actualDeliveryDate ? { actualDeliveryDate: mapped.actualDeliveryDate } : {}),
+        ...(mapped.deliveryAddress ? { deliveryAddress: mapped.deliveryAddress } : {}),
+        ...(mapped.paymentTerms ? { paymentTerms: mapped.paymentTerms } : {}),
+        ...(mapped.tradeTerms ? { tradeTerms: mapped.tradeTerms } : {}),
+        ...(mapped.remarks ? { remarks: mapped.remarks } : {}),
+      });
+      updated += 1;
+    }
+    setSnackbar({
+      open: true,
+      message: `更新 ${updated} 条，跳过 ${skipped} 条（未匹配到现有单号）`,
+      severity: updated > 0 ? 'success' : 'info',
+    });
+  };
+
+  const batchActions: BatchAction<PurchaseOrder>[] = [
+    {
+      label: '批量修改',
+      icon: <EditNote sx={{ fontSize: 14 }} />,
+      testId: 'batch-edit',
+      onClick: (rows) => { setPendingBatchEdit(rows); setBatchEditOpen(true); },
+    },
+    {
+      label: '批量删除',
+      icon: <DeleteOutline sx={{ fontSize: 14 }} />,
+      color: 'error',
+      testId: 'batch-delete',
+      onClick: (rows) => { setDeleteTargets(rows); setDeleteOpen(true); },
+    },
+  ];
 
   // ── 嵌入式分析 ──
   const analytics = useMemo(() => {
@@ -235,8 +366,14 @@ const OrderList: React.FC = () => {
         enablePagination
         enableExport
         columnConfigKey="purchase-order-list"
+        codeColumnId="orderNo"
         onRowClick={(row) => navigate(`/purchase/orders/${row.id}`)}
         onView={(row) => navigate(`/purchase/orders/${row.id}`)}
+        onDelete={(row) => { setDeleteTargets([row]); setDeleteOpen(true); }}
+        batchActions={batchActions}
+        enableImport
+        importLabel="采购订单"
+        onImport={handleImport}
       />
 
       <Dialog open={printOpen} onClose={() => setPrintOpen(false)} maxWidth="md" fullWidth>
@@ -266,6 +403,46 @@ const OrderList: React.FC = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* 删除确认（单行 / 批量） */}
+      <ConfirmDialog
+        open={deleteOpen}
+        type="danger"
+        title="确认删除"
+        content={
+          deleteTargets.length === 1
+            ? `确定删除采购订单「${deleteTargets[0]?.orderNo}」吗？此操作不可撤销。`
+            : `确定要删除选中的 ${deleteTargets.length} 条采购订单吗？此操作不可撤销。`
+        }
+        onConfirm={confirmDelete}
+        onCancel={() => { setDeleteOpen(false); setDeleteTargets([]); }}
+        confirmText="确认删除"
+      />
+
+      {/* 批量修改 */}
+      <BatchEditDialog
+        open={batchEditOpen}
+        title="批量修改采购订单"
+        count={pendingBatchEdit.length}
+        fields={ORDER_BATCH_FIELDS}
+        onConfirm={confirmBatchEdit}
+        onCancel={() => { setBatchEditOpen(false); setPendingBatchEdit([]); }}
+      />
+
+      {/* 提示消息 */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </PageWrapper>
   );
 };

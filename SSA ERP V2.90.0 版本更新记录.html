@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V2.90.0 版本更新记录</title>
+<style>
+  :root { --primary:#1976d2; --bg:#f5f7fa; --card:#fff; --border:#e2e8f0; --text:#1e293b; --muted:#64748b; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:32px 16px; background:var(--bg); color:var(--text);
+         font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif; line-height:1.75; }
+  .wrap { max-width:960px; margin:0 auto; }
+  header { background:linear-gradient(135deg,#1976d2,#42a5f5); color:#fff; border-radius:12px;
+           padding:28px 32px; margin-bottom:24px; }
+  header h1 { margin:0 0 8px; font-size:26px; }
+  header .meta { font-size:14px; opacity:.92; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px;
+          padding:22px 26px; margin-bottom:20px; }
+  h2 { font-size:19px; margin:0 0 14px; padding-left:11px; border-left:4px solid var(--primary); }
+  h3 { font-size:16px; margin:20px 0 8px; color:#0f172a; }
+  p { margin:9px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:14px; }
+  th, td { border:1px solid var(--border); padding:9px 12px; text-align:left; vertical-align:top; }
+  th { background:#f1f5f9; font-weight:600; }
+  .ok { color:#16a34a; font-weight:600; }
+  .warn { color:#d97706; font-weight:600; }
+  .tag { display:inline-block; background:#e3f2fd; color:#1565c0; border-radius:4px;
+         padding:1px 8px; font-size:12px; margin:2px 3px 2px 0; }
+  ul, ol { margin:8px 0 8px 22px; padding:0; }
+  li { margin:5px 0; }
+  .box { background:#f8fafc; border-left:3px solid var(--primary); padding:12px 16px;
+         border-radius:0 6px 6px 0; margin:12px 0; font-size:14px; }
+  code { background:#f1f5f9; padding:1px 6px; border-radius:4px; font-size:13px; }
+  footer { text-align:center; color:var(--muted); font-size:13px; padding:18px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP V2.90.0 版本更新记录</h1>
+  <div class="meta">发布日期：2026-09-10　|　需求来源：强哥　|　性质：列表交互统一升级（点击编号开详情 + 批量修改/删除 + 批量导入）</div>
+</header>
+
+<div class="card">
+  <h2>一、结论（先说结果）</h2>
+  <p>您提的三条诉求全部落地并已发布生产，覆盖<strong>全系统 14 个列表页</strong>：</p>
+  <ol>
+    <li><strong>点击编号才打开详情</strong>：行内其他位置不再跳转，避免误触；编号以<strong>蓝色链接</strong>样式呈现，鼠标移上去有下划线，一眼看出哪里能点。</li>
+    <li><strong>勾选后可批量修改、批量删除</strong>：勾选任意行即弹出操作条，显示「已选 N 条」，提供「批量修改 / 批量删除 / 导出所选 / 取消选择」。修改弹窗里留空的字段不改，删除有二次确认。</li>
+    <li><strong>批量导入</strong>：列表工具栏出现「导入」按钮，支持<strong>直接粘贴</strong>或<strong>上传 Excel/CSV</strong>，并自带「下载导入模板」——模板按当前列表的表头自动生成，中英文表头都能识别。</li>
+  </ol>
+  <p class="ok">✅ 生产端到端回归：PASS 240 / FAIL 0 全绿（类型检查 0 错，构建通过，已部署上线）。</p>
+</div>
+
+<div class="card">
+  <h2>二、逐条需求对照</h2>
+
+  <h3>1. 点击编号打开详情（原来点整行都会跳）</h3>
+  <table>
+    <tr><th style="width:22%">项目</th><th>说明</th></tr>
+    <tr><td>改动前</td><td>鼠标点行内任意位置都会跳转到详情页，容易误触（尤其想勾选或复制内容时）。</td></tr>
+    <tr><td>改动后</td><td>整行<strong>不再响应点击</strong>；只有「编号列」单元格变成蓝色链接，点它才打开详情页。</td></tr>
+    <tr><td>编号列示例</td><td>供应商编码、物料编码、客户编码、申请单号、订单号、询价单号、比价单号、审批单号、入库单号、出库单号、盘点单号、合同编号、项目编号。</td></tr>
+  </table>
+
+  <h3>2. 勾选行后：批量修改 + 批量删除</h3>
+  <table>
+    <tr><th style="width:22%">功能</th><th>说明</th></tr>
+    <tr><td>批量修改</td><td>弹窗列出该列表可改字段（如状态、类型、联系人、电话、邮箱、地址、信用额度等）。<strong>留空的字段不修改</strong>，只把填写了内容的字段统一应用到所选全部记录。</td></tr>
+    <tr><td>批量删除</td><td>红色按钮，二次确认后删除所选记录（提示「已删除 N 条」）。</td></tr>
+    <tr><td>兼容性</td><td>原有的「导出所选」「取消选择」保持不变；采购申请页原有的批量修改/删除能力保留不动。</td></tr>
+    <tr><td>字段真实性</td><td>每个列表可改的字段都取自该实体详情页真实存在的字段，没有凭空造字段。</td></tr>
+  </table>
+
+  <h3>3. 批量导入（含模板下载）</h3>
+  <table>
+    <tr><th style="width:22%">项目</th><th>说明</th></tr>
+    <tr><td>入口</td><td>列表工具栏「导入」按钮 → 弹窗内可<strong>粘贴表格内容</strong>或<strong>上传 .xlsx/.xls/.csv 文件</strong>。</td></tr>
+    <tr><td>导入模板</td><td>弹窗内「下载导入模板」按钮，按当前列表表头生成 Excel，照着填即可。</td></tr>
+    <tr><td>表头识别</td><td>中文表头和英文表头都能认（如「供应商编码」和 <code>code</code> 都映射到编码字段）；中文状态会自动转成系统内部值（如「已批准」→ approved）。</td></tr>
+    <tr><td>主数据策略</td><td>供应商 / 物料 / 客户：<strong>按编码匹配</strong>——已有则更新，没有则<strong>自动新建并生成编码</strong>。</td></tr>
+    <tr><td>单据类策略</td><td>订单 / 询价 / 比价 / 审批 / 出入库 / 盘点：<strong>按单号匹配更新</strong>；匹配不到的行<strong>安全跳过</strong>（不新建），结束后提示「更新 N 条，跳过 M 条」，避免产生不完整的脏单据。</td></tr>
+  </table>
+  <div class="box">
+    <strong>为什么单据类不自动新建？</strong>单据（如入库单）含明细行、关联单号等大量必填信息，Excel 里很难一次填全。强行新建会产生残缺单据，后续流程出错更难查。所以采取「只更新、不匹配就跳过并明确提示」的安全策略。
+  </div>
+</div>
+
+<div class="card">
+  <h2>三、本次覆盖的列表（14 个）</h2>
+  <p>
+    <span class="tag">供应商</span><span class="tag">物料</span><span class="tag">客户</span>
+    <span class="tag">采购申请</span><span class="tag">采购订单</span><span class="tag">询价单</span>
+    <span class="tag">比价单</span><span class="tag">审批单</span><span class="tag">入库单</span>
+    <span class="tag">出库单</span><span class="tag">盘点单</span><span class="tag">销售合同</span>
+    <span class="tag">项目</span><span class="tag">PDCA</span>
+  </p>
+  <p style="font-size:14px;color:var(--muted)">
+    说明：BOM、财务（发票/凭证/应收应付）、销售（订单/物流/商机）、质量（检验/不合格）、生产（工单/变更单）等列表原本就没有「点行进详情」的跳转，故不涉及第 1 条改造；其中已具备导入能力的维持原状。
+  </p>
+</div>
+
+<div class="card">
+  <h2>四、验证与发布</h2>
+  <table>
+    <tr><th style="width:30%">检查项</th><th>结果</th></tr>
+    <tr><td>TypeScript 类型检查</td><td class="ok">0 错误</td></tr>
+    <tr><td>生产构建（Vite）</td><td class="ok">通过</td></tr>
+    <tr><td>部署 Cloudflare Pages</td><td class="ok">成功（含远程数据库迁移幂等执行）</td></tr>
+    <tr><td>生产端到端回归</td><td class="ok">PASS 240 / FAIL 0 全绿</td></tr>
+    <tr><td>版本同步（4 处）</td><td class="ok">version.ts / package.json / 使用说明书 / 项目笔记 均已同步 2.90.0</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>五、操作小贴士</h2>
+  <ul>
+    <li><strong>想打开详情</strong>：点蓝色编号（如 <code>V202405001</code>）；点其他单元格不会再跳转。</li>
+    <li><strong>想批量改</strong>：先勾选行 → 点「批量修改」→ 只填要改的字段 → 确认。</li>
+    <li><strong>想批量导入</strong>：点「导入」→ 先「下载导入模板」→ 按模板填好 → 粘贴或上传 → 看结果提示。</li>
+    <li><strong>导入前建议</strong>：先小批量试 2~3 条，确认映射无误再整批导入。</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>六、遗留事项</h2>
+  <ul>
+    <li class="warn">GitHub 推送：沙箱无法访问 github.com，V2.86~V2.90 的本地提交仍需您在本机执行 <code>push-github.bat</code>。</li>
+    <li>数电票真实核验：仍需您提供企业税号 + 服务商密钥，当前为模拟兜底。</li>
+  </ul>
+</div>
+
+<footer>SSA ERP V2.90.0 · 2026-09-10 · 本文档已归档至 ima「强哥的知识库 → erp开发项目」</footer>
+
+</div>
+</body>
+</html>

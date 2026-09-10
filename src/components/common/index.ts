@@ -13,6 +13,8 @@ export { TreeSelector } from './TreeSelector';
 export type { TreeNode } from './TreeSelector';
 export { StatusBadge } from './StatusBadge';
 export { ConfirmDialog } from './ConfirmDialog';
+export { BatchEditDialog } from './BatchEditDialog';
+export type { BatchEditField } from './BatchEditDialog';
 export { default as ApprovalFlow } from './ApprovalFlow';
 export type { ApprovalNode, ApprovalNodeStatus } from './ApprovalFlow';
 export { default as FlowTracker } from './FlowTracker';

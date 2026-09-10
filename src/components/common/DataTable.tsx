@@ -52,6 +52,8 @@ interface DataTableProps<T> {
   hiddenColumns?: string[];
   pageSize?: number;
   onRowClick?: (row: T) => void;
+  /** 编号列字段 id：设置后整行不再响应点击，仅点击该列单元格（链接样式）触发 onRowClick 打开详情 */
+  codeColumnId?: string;
   onView?: (row: T) => void;
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
@@ -167,6 +169,7 @@ export function DataTable<T>({
   hiddenColumns,
   pageSize = 10,
   onRowClick,
+  codeColumnId,
   onView,
   onEdit,
   onDelete,
@@ -794,9 +797,9 @@ export function DataTable<T>({
                   key={row.id}
                   hover
                   selected={row.getIsSelected()}
-                  onClick={() => onRowClick?.(row.original as T)}
+                  onClick={() => { if (!codeColumnId) onRowClick?.(row.original as T); }}
                   sx={{
-                    cursor: onRowClick ? 'pointer' : 'default',
+                    cursor: onRowClick && !codeColumnId ? 'pointer' : 'default',
                     '&.Mui-selected': { bgcolor: alpha(p, 0.06) },
                     '&.Mui-selected:hover': { bgcolor: alpha(p, 0.1) },
                     // SAP 斑马纹 + 米黄悬停
@@ -846,7 +849,28 @@ export function DataTable<T>({
                         }}
                       >
                         <Box sx={{ position: 'relative' }}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          {cell.column.id === codeColumnId && onRowClick ? (
+                            <Box
+                              data-testid="row-code-link"
+                              onClick={(e) => {
+                                if (blockMode) return; // 块选择模式下让位于区域复制
+                                e.stopPropagation();
+                                onRowClick?.(row.original as T);
+                              }}
+                              sx={{
+                                display: 'inline-block',
+                                color: 'primary.main',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                minWidth: 40,
+                                '&:hover': { textDecoration: 'underline' },
+                              }}
+                            >
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </Box>
+                          ) : (
+                            flexRender(cell.column.columnDef.cell, cell.getContext())
+                          )}
                           {blockMode && (
                             <Box
                               sx={{

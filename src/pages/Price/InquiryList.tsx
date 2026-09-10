@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   Typography, Chip, Paper, Checkbox, Alert, Stack, Divider,
-  FormControlLabel,
+  FormControlLabel, Snackbar,
 } from '@mui/material';
-import { Add, ContentCopy } from '@mui/icons-material';
+import { Add, ContentCopy, EditNote, DeleteOutline } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker } from '@/components/common';
+import {
+  DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker,
+  ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
+} from '@/components/common';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PriceInquiry, PriceInquiryItem } from '@/types';
@@ -25,12 +28,21 @@ const STATUS_MAP: Record<string, { label: string; color: string }> = {
 const InquiryList: React.FC = () => {
   const navigate = useNavigate();
   const priceInquiries = usePriceStore(s => s.priceInquiries);
-  const addPriceInquiry = usePriceStore(s => s.addPriceInquiry);
+  const updatePriceInquiry = usePriceStore(s => s.updatePriceInquiry);
+  const deletePriceInquiry = usePriceStore(s => s.deletePriceInquiry);
   const purchaseRequests = usePurchaseStore(s => s.purchaseRequests);
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [selectDialogOpen, setSelectDialogOpen] = useState(false);
   const [selectedRequestIds, setSelectedRequestIds] = useState<string[]>([]);
   const [selectedItemsMap, setSelectedItemsMap] = useState<Record<string, string[]>>({});
+  // ── 删除 / 批量修改 / 提示 ──
+  const [deleteTargets, setDeleteTargets] = useState<PriceInquiry[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [batchEditOpen, setBatchEditOpen] = useState(false);
+  const [pendingBatchEdit, setPendingBatchEdit] = useState<PriceInquiry[]>([]);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
 
   const columns: ColumnDef<PriceInquiry, unknown>[] = useMemo(() => [
     { accessorKey: 'inquiryNo', header: '询价单号', size: 160 },
@@ -201,49 +213,110 @@ const InquiryList: React.FC = () => {
     navigate('/price/inquiry/create', { state: { fromRequests: selectedItems } });
   };
 
-  // ── 导入：表头 → store 字段映射，调用 addPriceInquiry ──
-  const genInquiryNo = () =>
-    `IQ${new Date().toISOString().slice(0, 10).replace(/-/g, '')}${Math.floor(Math.random() * 9000 + 1000)}`;
-  const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
-    const key = headers.find(h =>
-      h === zh || h.toLowerCase() === en.toLowerCase() || h.toLowerCase().replace(/\s/g, '') === en.toLowerCase());
-    return key ? (r[key] ?? '') : '';
+  // ── 批量修改可改字段（对应详情页可编辑项）──
+  const INQUIRY_BATCH_FIELDS: BatchEditField[] = [
+    {
+      key: 'status', label: '状态', type: 'select',
+      options: [
+        { value: 'draft', label: '草稿' },
+        { value: 'published', label: '已发布' },
+        { value: 'closed', label: '已截止' },
+        { value: 'quotation_received', label: '已收到报价' },
+        { value: 'compared', label: '已比价' },
+      ],
+    },
+    { key: 'title', label: '标题', type: 'text' },
+    { key: 'inquirer', label: '询价人', type: 'text' },
+    { key: 'department', label: '部门', type: 'text' },
+    { key: 'currency', label: '币种', type: 'text' },
+  ];
+
+  // ── 批量导入：表头 → 字段 别名映射（中英文均可），按单号匹配，命中则更新、未命中跳过 ──
+  const INQUIRY_IMPORT_ALIASES: Record<string, string> = {
+    询价单号: 'inquiryNo', inquiryNo: 'inquiryNo',
+    标题: 'title', title: 'title',
+    询价人: 'inquirer', inquirer: 'inquirer',
+    部门: 'department', department: 'department',
+    截止日期: 'deadline', deadline: 'deadline',
+    币种: 'currency', currency: 'currency',
+    预估总金额: 'totalEstimatedAmount', totalEstimatedAmount: 'totalEstimatedAmount',
+    状态: 'status', status: 'status',
   };
-  const toNum = (v: string): number => {
+  const INQUIRY_STATUS_MAP: Record<string, PriceInquiry['status']> = {
+    草稿: 'draft', 已发布: 'published', 已截止: 'closed', 已收到报价: 'quotation_received', 已比价: 'compared',
+    draft: 'draft', published: 'published', closed: 'closed', quotation_received: 'quotation_received', compared: 'compared',
+  };
+  const toImportNum = (v: string): number => {
     const n = Number(String(v).replace(/[^0-9.-]/g, ''));
     return Number.isFinite(n) ? n : 0;
   };
-  const STATUS_ZH: Record<string, string> = {
-    草稿: 'draft', 已发布: 'published', 已截止: 'closed',
-    已收到报价: 'quotation_received', 已比价: 'compared',
+  const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
+    let updated = 0;
+    let skipped = 0;
+    for (const raw of rows) {
+      const mapped: Record<string, string> = {};
+      Object.entries(raw).forEach(([h, v]) => {
+        const key = INQUIRY_IMPORT_ALIASES[String(h).trim()];
+        if (key && v != null && String(v).trim() !== '') mapped[key] = String(v).trim();
+      });
+      const no = mapped.inquiryNo;
+      if (!no) { skipped += 1; continue; }
+      const existing = priceInquiries.find((r) => r.inquiryNo === no);
+      if (!existing) { skipped += 1; continue; }
+      const updates: Partial<PriceInquiry> = {};
+      if (mapped.title) updates.title = mapped.title;
+      if (mapped.inquirer) updates.inquirer = mapped.inquirer;
+      if (mapped.department) updates.department = mapped.department;
+      if (mapped.deadline) updates.deadline = mapped.deadline;
+      if (mapped.currency) updates.currency = mapped.currency;
+      if (mapped.totalEstimatedAmount) updates.totalEstimatedAmount = toImportNum(mapped.totalEstimatedAmount);
+      if (mapped.status) {
+        const s = INQUIRY_STATUS_MAP[mapped.status];
+        if (s) updates.status = s;
+      }
+      // 单据类安全策略：仅按单号匹配更新，未匹配到的跳过不新建（避免构造不完整单据）
+      updatePriceInquiry(existing.id, updates);
+      updated += 1;
+    }
+    setSnackbar({
+      open: true,
+      message: `更新 ${updated} 条，跳过 ${skipped} 条（未匹配到现有单号）`,
+      severity: updated + skipped > 0 ? 'success' : 'info',
+    });
   };
-  const mapInquiryRow = (r: Record<string, string>, headers: string[]): PriceInquiry => {
-    const now = new Date().toISOString();
-    const statusRaw = pickField(r, headers, '状态', 'status');
-    const vendors = pickField(r, headers, '目标供应商', 'targetVendorNames');
-    return {
-      id: `pi-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      inquiryNo: pickField(r, headers, '询价单号', 'inquiryNo') || genInquiryNo(),
-      title: pickField(r, headers, '标题', 'title'),
-      inquiryDate: pickField(r, headers, '询价日期', 'inquiryDate') || now.slice(0, 10),
-      inquirer: pickField(r, headers, '询价人', 'inquirer'),
-      department: pickField(r, headers, '部门', 'department'),
-      items: [],
-      targetVendorIds: [],
-      targetVendorNames: vendors ? vendors.split(/[,，]/).map(s => s.trim()).filter(Boolean) : [],
-      deadline: pickField(r, headers, '截止日期', 'deadline'),
-      currency: pickField(r, headers, '币种', 'currency') || 'CNY',
-      status: (STATUS_ZH[statusRaw] || statusRaw || 'draft') as PriceInquiry['status'],
-      totalEstimatedAmount: toNum(pickField(r, headers, '预估总金额', 'totalEstimatedAmount')),
-      createdAt: now,
-      updatedAt: now,
-      createdBy: '导入',
-      updatedBy: '导入',
-    };
+
+  // ── 删除（单行 / 批量共用同一确认框）──
+  const confirmDelete = () => {
+    const targets = [...deleteTargets];
+    setDeleteOpen(false);
+    setDeleteTargets([]);
+    for (const v of targets) deletePriceInquiry(v.id);
+    setSnackbar({ open: true, message: `已删除 ${targets.length} 张询价单`, severity: 'success' });
   };
-  const handleImport = (rows: Record<string, string>[], headers: string[]) => {
-    rows.forEach(r => addPriceInquiry(mapInquiryRow(r, headers)));
+
+  const confirmBatchEdit = (updates: Record<string, unknown>) => {
+    const targets = [...pendingBatchEdit];
+    setBatchEditOpen(false);
+    setPendingBatchEdit([]);
+    for (const v of targets) updatePriceInquiry(v.id, updates as Partial<PriceInquiry>);
+    setSnackbar({ open: true, message: `已批量修改 ${targets.length} 张询价单`, severity: 'success' });
   };
+
+  const batchActions: BatchAction<PriceInquiry>[] = [
+    {
+      label: '批量修改',
+      icon: <EditNote sx={{ fontSize: 14 }} />,
+      testId: 'batch-edit',
+      onClick: (rows) => { setPendingBatchEdit(rows); setBatchEditOpen(true); },
+    },
+    {
+      label: '批量删除',
+      icon: <DeleteOutline sx={{ fontSize: 14 }} />,
+      color: 'error',
+      testId: 'batch-delete',
+      onClick: (rows) => { setDeleteTargets(rows); setDeleteOpen(true); },
+    },
+  ];
 
   return (
     <PageWrapper
@@ -262,14 +335,19 @@ const InquiryList: React.FC = () => {
       <DataTable<PriceInquiry>
         data={filteredData}
         columns={columns}
+        enableRowSelection
         enablePagination
         enableExport
         enableImport
+        importLabel="询价单"
         columnConfigKey="price-inquiry-list"
+        codeColumnId="inquiryNo"
         onImport={handleImport}
         onRowClick={(row) => navigate(`/price/inquiry/${row.id}`)}
         onView={(row) => navigate(`/price/inquiry/${row.id}`)}
         onEdit={(row) => navigate(`/price/inquiry/${row.id}`)}
+        onDelete={(row) => { setDeleteTargets([row]); setDeleteOpen(true); }}
+        batchActions={batchActions}
       />
 
       {/* 从采购申请生成询价单对话框 */}
@@ -336,6 +414,46 @@ const InquiryList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* 删除确认（单行 / 批量） */}
+      <ConfirmDialog
+        open={deleteOpen}
+        type="danger"
+        title="确认删除"
+        content={
+          deleteTargets.length === 1
+            ? `确定删除询价单「${deleteTargets[0]?.inquiryNo}」吗？此操作不可撤销。`
+            : `确定要删除选中的 ${deleteTargets.length} 张询价单吗？此操作不可撤销。`
+        }
+        onConfirm={confirmDelete}
+        onCancel={() => { setDeleteOpen(false); setDeleteTargets([]); }}
+        confirmText="确认删除"
+      />
+
+      {/* 批量修改 */}
+      <BatchEditDialog
+        open={batchEditOpen}
+        title="批量修改询价单"
+        count={pendingBatchEdit.length}
+        fields={INQUIRY_BATCH_FIELDS}
+        onConfirm={confirmBatchEdit}
+        onCancel={() => { setBatchEditOpen(false); setPendingBatchEdit([]); }}
+      />
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </PageWrapper>
   );
 };

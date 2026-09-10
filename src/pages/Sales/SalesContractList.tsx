@@ -187,6 +187,8 @@ const SalesContractList: React.FC = () => {
           enableExport
           enableImport
           columnConfigKey="sales-contract-list"
+          codeColumnId="contractNo"
+          onRowClick={(c) => navigate(`/sales/contracts/${c.id}`)}
           onView={(c) => navigate(`/sales/contracts/${c.id}`)}
           onEdit={(c) => navigate(`/sales/contracts/${c.id}/edit`)}
           onDelete={(c) => setDeleteId(c.id)}

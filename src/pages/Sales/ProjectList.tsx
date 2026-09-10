@@ -213,6 +213,8 @@ const ProjectList: React.FC = () => {
           enableExport
           enableImport
           columnConfigKey="sales-project-list"
+          codeColumnId="projectNo"
+          onRowClick={(p) => navigate(`/sales/projects/${p.id}`)}
           onView={(p) => navigate(`/sales/projects/${p.id}`)}
           onImport={handleImport}
         />

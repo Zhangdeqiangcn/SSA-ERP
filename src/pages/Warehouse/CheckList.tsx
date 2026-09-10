@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Box, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Button,
-  Switch, FormControlLabel, Typography, Chip, Divider,
+  Switch, FormControlLabel, Typography, Chip, Divider, Snackbar, Alert,
 } from '@mui/material';
+import { EditNote, DeleteOutline } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, StatusBadge } from '@/components/common';
+import {
+  DataTable, FilterBar, ActionBar, StatusBadge,
+  ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
+} from '@/components/common';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { CheckTask, CheckTaskItem, CyclePlanItem, AbcClass, CycleFrequency } from '@/types';
 import { formatDate } from '@/utils/format';
@@ -55,7 +59,17 @@ const CheckList: React.FC = () => {
   const checkTasks = useWarehouseStore(s => s.checkTasks);
   const inventoryRecords = useWarehouseStore(s => s.inventoryRecords);
   const addCheckTask = useWarehouseStore(s => s.addCheckTask);
+  const updateCheckTask = useWarehouseStore(s => s.updateCheckTask);
+  const deleteCheckTask = useWarehouseStore(s => s.deleteCheckTask);
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+  // ── 删除 / 批量修改 / 提示 ──
+  const [deleteTargets, setDeleteTargets] = useState<CheckTask[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [batchEditOpen, setBatchEditOpen] = useState(false);
+  const [pendingBatchEdit, setPendingBatchEdit] = useState<CheckTask[]>([]);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
   const [open, setOpen] = useState(false);
   const [whId, setWhId] = useState('');
   const [type, setType] = useState<'full' | 'partial'>('full');
@@ -185,44 +199,114 @@ const CheckList: React.FC = () => {
     return data;
   }, [filterData]);
 
-  // ── 导入：表头 → store 字段映射，调用 addCheckTask ──
-  const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
-    const key = headers.find(h =>
-      h === zh || h.toLowerCase() === en.toLowerCase() || h.toLowerCase().replace(/\s/g, '') === en.toLowerCase());
-    return key ? (r[key] ?? '') : '';
+  // ── 批量修改可改字段（对应详情页可编辑项）──
+  const CHECK_BATCH_FIELDS: BatchEditField[] = [
+    {
+      key: 'status', label: '状态', type: 'select',
+      options: [
+        { value: 'pending', label: '待盘点' },
+        { value: 'processing', label: '盘点中' },
+        { value: 'completed', label: '已完成' },
+        { value: 'cancelled', label: '已取消' },
+      ],
+    },
+    { key: 'warehouseName', label: '仓库', type: 'text' },
+    { key: 'operator', label: '操作员', type: 'text' },
+    { key: 'startDate', label: '开始日期', type: 'text' },
+    { key: 'remarks', label: '备注', type: 'text' },
+  ];
+
+  // ── 批量导入：表头 → 字段 别名映射（中英文均可），按单号匹配，命中则更新、未命中跳过 ──
+  const CHECK_IMPORT_ALIASES: Record<string, string> = {
+    盘点单号: 'taskNo', taskNo: 'taskNo',
+    仓库: 'warehouseName', warehouseName: 'warehouseName', warehouse: 'warehouseName',
+    盘点类型: 'type', type: 'type',
+    状态: 'status', status: 'status',
+    盲盘: 'blindMode', blindMode: 'blindMode',
+    操作员: 'operator', operator: 'operator',
+    开始日期: 'startDate', startDate: 'startDate',
+    结束日期: 'endDate', endDate: 'endDate',
+    备注: 'remarks', remarks: 'remarks',
   };
-  const STATUS_ZH: Record<string, CheckTask['status']> = {
+  const CHECK_STATUS_MAP: Record<string, CheckTask['status']> = {
     待盘点: 'pending', 盘点中: 'processing', 已完成: 'completed', 已取消: 'cancelled',
+    pending: 'pending', processing: 'processing', completed: 'completed', cancelled: 'cancelled',
   };
-  const mapCheckRow = (r: Record<string, string>, headers: string[]): CheckTask => {
-    const now = nowStr();
-    const typeRaw = pickField(r, headers, '盘点类型', 'type');
-    const whName = pickField(r, headers, '仓库', 'warehouse');
-    const wh = warehouses.find(w => w.name === whName);
-    const blindRaw = pickField(r, headers, '盲盘', 'blindMode');
-    const blindMode = blindRaw === '是' || blindRaw.toLowerCase() === 'y' || blindRaw.toLowerCase() === 'true';
-    const statusRaw = pickField(r, headers, '状态', 'status');
-    return {
-      id: `ck-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      taskNo: pickField(r, headers, '盘点单号', 'taskNo') || genCheckNo(),
-      warehouseId: wh?.id || whName || `wh-${Date.now()}`,
-      warehouseName: whName,
-      type: typeRaw === '抽盘' ? 'partial' : 'full',
-      status: STATUS_ZH[statusRaw] || 'pending',
-      startDate: pickField(r, headers, '开始日期', 'startDate') || now.slice(0, 10),
-      endDate: pickField(r, headers, '结束日期', 'endDate') || undefined,
-      operator: pickField(r, headers, '操作员', 'operator') || '系统管理员',
-      items: [],
-      blindMode,
-      createdAt: now,
-      updatedAt: now,
-      createdBy: '导入',
-      updatedBy: '导入',
-    };
+  const CHECK_TYPE_MAP: Record<string, CheckTask['type']> = {
+    全盘: 'full', 抽盘: 'partial', full: 'full', partial: 'partial',
   };
-  const handleImport = (rows: Record<string, string>[], headers: string[]) => {
-    rows.forEach(r => addCheckTask(mapCheckRow(r, headers)));
+  const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
+    let updated = 0;
+    let skipped = 0;
+    for (const raw of rows) {
+      const mapped: Record<string, string> = {};
+      Object.entries(raw).forEach(([h, v]) => {
+        const key = CHECK_IMPORT_ALIASES[String(h).trim()];
+        if (key && v != null && String(v).trim() !== '') mapped[key] = String(v).trim();
+      });
+      const no = mapped.taskNo;
+      if (!no) { skipped += 1; continue; }
+      const existing = checkTasks.find((t) => t.taskNo === no);
+      if (!existing) { skipped += 1; continue; }
+      const updates: Partial<CheckTask> = {};
+      if (mapped.warehouseName) updates.warehouseName = mapped.warehouseName;
+      if (mapped.operator) updates.operator = mapped.operator;
+      if (mapped.startDate) updates.startDate = mapped.startDate;
+      if (mapped.endDate) updates.endDate = mapped.endDate;
+      if (mapped.remarks) updates.remarks = mapped.remarks;
+      if (mapped.type) {
+        const t = CHECK_TYPE_MAP[mapped.type];
+        if (t) updates.type = t;
+      }
+      if (mapped.blindMode) {
+        updates.blindMode = mapped.blindMode === '是' || mapped.blindMode.toLowerCase() === 'y' || mapped.blindMode.toLowerCase() === 'true';
+      }
+      if (mapped.status) {
+        const s = CHECK_STATUS_MAP[mapped.status];
+        if (s) updates.status = s;
+      }
+      // 单据类安全策略：仅按单号匹配更新，未匹配到的跳过不新建
+      updateCheckTask(existing.id, updates);
+      updated += 1;
+    }
+    setSnackbar({
+      open: true,
+      message: `更新 ${updated} 条，跳过 ${skipped} 条（未匹配到现有单号）`,
+      severity: updated + skipped > 0 ? 'success' : 'info',
+    });
   };
+
+  const confirmDelete = () => {
+    const targets = [...deleteTargets];
+    setDeleteOpen(false);
+    setDeleteTargets([]);
+    for (const t of targets) deleteCheckTask(t.id);
+    setSnackbar({ open: true, message: `已删除 ${targets.length} 个盘点单`, severity: 'success' });
+  };
+
+  const confirmBatchEdit = (updates: Record<string, unknown>) => {
+    const targets = [...pendingBatchEdit];
+    setBatchEditOpen(false);
+    setPendingBatchEdit([]);
+    for (const t of targets) updateCheckTask(t.id, updates as Partial<CheckTask>);
+    setSnackbar({ open: true, message: `已批量修改 ${targets.length} 个盘点单`, severity: 'success' });
+  };
+
+  const batchActions: BatchAction<CheckTask>[] = [
+    {
+      label: '批量修改',
+      icon: <EditNote sx={{ fontSize: 14 }} />,
+      testId: 'batch-edit',
+      onClick: (rows) => { setPendingBatchEdit(rows); setBatchEditOpen(true); },
+    },
+    {
+      label: '批量删除',
+      icon: <DeleteOutline sx={{ fontSize: 14 }} />,
+      color: 'error',
+      testId: 'batch-delete',
+      onClick: (rows) => { setDeleteTargets(rows); setDeleteOpen(true); },
+    },
+  ];
 
   return (
     <PageWrapper
@@ -301,10 +385,14 @@ const CheckList: React.FC = () => {
         enablePagination
         enableExport
         enableImport
+        importLabel="盘点单"
         columnConfigKey="warehouse-check-list"
+        codeColumnId="taskNo"
         onImport={handleImport}
         onRowClick={(row) => navigate(`/warehouse/check/${row.id}`)}
         onView={(row) => navigate(`/warehouse/check/${row.id}`)}
+        onDelete={(row) => { setDeleteTargets([row]); setDeleteOpen(true); }}
+        batchActions={batchActions}
       />
 
       {/* P1-21 循环盘点计划 */}
@@ -320,6 +408,46 @@ const CheckList: React.FC = () => {
           enablePagination={false}
         />
       </Box>
+
+      {/* 删除确认（单行 / 批量） */}
+      <ConfirmDialog
+        open={deleteOpen}
+        type="danger"
+        title="确认删除"
+        content={
+          deleteTargets.length === 1
+            ? `确定删除盘点单「${deleteTargets[0]?.taskNo}」吗？此操作不可撤销。`
+            : `确定要删除选中的 ${deleteTargets.length} 个盘点单吗？此操作不可撤销。`
+        }
+        onConfirm={confirmDelete}
+        onCancel={() => { setDeleteOpen(false); setDeleteTargets([]); }}
+        confirmText="确认删除"
+      />
+
+      {/* 批量修改 */}
+      <BatchEditDialog
+        open={batchEditOpen}
+        title="批量修改盘点单"
+        count={pendingBatchEdit.length}
+        fields={CHECK_BATCH_FIELDS}
+        onConfirm={confirmBatchEdit}
+        onCancel={() => { setBatchEditOpen(false); setPendingBatchEdit([]); }}
+      />
+
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={3000}
+        onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setSnackbar((s) => ({ ...s, open: false }))}
+          severity={snackbar.severity}
+          sx={{ width: '100%' }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </PageWrapper>
   );
 };
