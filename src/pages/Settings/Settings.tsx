@@ -6,6 +6,7 @@ import {
   Chip, Avatar, IconButton, Dialog, DialogTitle, DialogContent,
   DialogActions, MenuItem, Select, FormControl, InputLabel, Alert, Snackbar,
   Switch, Tooltip, Collapse, Stack,
+  Accordion, AccordionSummary, AccordionDetails,
 } from '@mui/material';
 import {
   Save, PersonAdd, Edit, Lock, CheckCircle, RadioButtonUnchecked,
@@ -28,7 +29,7 @@ import DataDictTab from './DataDictTab';
 import OrgTab from './OrgTab';
 import CustomFieldTab from './CustomFieldTab';
 import PrintTemplateTab from './PrintTemplateTab';
-import MaterialApprovalTab from '@/pages/Material/MaterialApprovalTab';
+// 物料审批已合并到审批流程，不再单独展示
 import MaterialRatingTab from '@/pages/Material/MaterialRatingTab';
 import DisplaySettingsTab from './DisplaySettingsTab';
 import VendorRatingTab from '@/pages/Vendor/VendorRatingTab';
@@ -271,6 +272,9 @@ const Settings: React.FC = () => {
   // 左侧导航状态
   const [query, setQuery] = useState('');
   const [activeId, setActiveId] = useState('basic');
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
+    enterprise: true, user: false, oa: false, ux: false, supply: false, integration: false, dataops: false, help: false,
+  });
 
   const handleSave = () => setSnackbar({ open: true, msg: '设置已保存' });
 
@@ -581,7 +585,6 @@ const Settings: React.FC = () => {
         { id: 'approval', label: '审批流程', icon: <AccountTree fontSize="small" />, render: () => <ApprovalFlowTab /> },
         { id: 'workflowEngine', label: '工作流引擎', icon: <Route fontSize="small" />, render: () => <WorkflowEngine /> },
         { id: 'lowcode', label: '表单设计器', icon: <Description fontSize="small" />, render: () => <LowCodeDesigner /> },
-        { id: 'material_approval', label: '物料审批', icon: <FactCheck fontSize="small" />, render: () => <MaterialApprovalTab /> },
         { id: 'material_rating', label: '物料评级', icon: <StarRate fontSize="small" />, render: () => <MaterialRatingTab /> },
         { id: 'vendor_rating', label: '供应商评级', icon: <StarRate fontSize="small" />, render: () => <VendorRatingTab /> },
         { id: 'condition', label: '条件技术', icon: <Tune fontSize="small" />, render: () => <ConditionTab /> },
@@ -649,6 +652,10 @@ const Settings: React.FC = () => {
     },
   ];
 
+  const toggleGroup = (groupId: string) => {
+    setExpandedGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
+  };
+
   const q = query.trim().toLowerCase();
   const filteredGroups = q
     ? groups
@@ -670,10 +677,10 @@ const Settings: React.FC = () => {
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, minHeight: 620 }}>
           {/* 左侧分组导航 */}
           <Box sx={{
-            width: { xs: '100%', md: 264 },
+            width: { xs: '100%', md: 280 },
             borderRight: { md: '1px solid rgba(226,232,240,0.8)' },
             borderBottom: { xs: '1px solid rgba(226,232,240,0.8)', md: 'none' },
-            p: 1.5, overflowY: 'auto',
+            p: 1.5, overflowY: 'auto', maxHeight: { xs: 300, md: 'calc(100vh - 200px)' },
           }}>
             <TextField
               fullWidth size="small" placeholder="搜索设置项"
@@ -682,38 +689,43 @@ const Settings: React.FC = () => {
               sx={{ mb: 1.5 }}
             />
             {filteredGroups.map(g => (
-              <Box key={g.id} sx={{ mb: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1, py: 0.75, color: '#64748B' }}>
-                  <Box sx={{ display: 'flex', color: '#94A3B8' }}>{g.icon}</Box>
-                  <Typography variant="overline" sx={{ fontWeight: 700, letterSpacing: '0.06em', fontSize: '0.72rem' }}>
-                    {g.label}
-                  </Typography>
-                </Box>
-                {g.items.map(it => {
-                  const active = it.id === activeId;
-                  return (
-                    <Button
-                      key={it.id}
-                      fullWidth
-                      startIcon={it.icon}
-                      onClick={() => {
-                        if (it.id === 'manual') { navigate('/help/manual'); return; }
-                        setActiveId(it.id);
-                      }}
-                      sx={{
-                        justifyContent: 'flex-start', textTransform: 'none', fontSize: '0.875rem',
-                        py: 0.9, px: 1.5, mb: 0.25, borderRadius: 1.5,
-                        color: active ? 'primary.main' : '#475569',
-                        bgcolor: active ? 'primary.main' + '10' : 'transparent',
-                        fontWeight: active ? 600 : 400,
-                        '&:hover': { bgcolor: active ? 'primary.main' + '18' : 'rgba(148,163,184,0.12)' },
-                      }}
-                    >
-                      {it.label}
-                    </Button>
-                  );
-                })}
-              </Box>
+              <Accordion key={g.id} expanded={expandedGroups[g.id] !== false} onChange={() => toggleGroup(g.id)} sx={{ mb: 0.5, boxShadow: 'none', border: '1px solid rgba(226,232,240,0.6)' }}>
+                <AccordionSummary expandIcon={<ExpandMore sx={{ fontSize: 18 }} />} sx={{ bgcolor: '#F8FAFC', py: 0.5 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
+                    <Box sx={{ color: '#94A3B8' }}>{g.icon}</Box>
+                    <Typography variant="overline" sx={{ fontWeight: 700, letterSpacing: '0.06em', fontSize: '0.72rem', flex: 1 }}>
+                      {g.label}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">{g.items.length}项</Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails sx={{ p: 0.5, py: 0.5 }}>
+                  {g.items.map(it => {
+                    const active = it.id === activeId;
+                    return (
+                      <Button
+                        key={it.id}
+                        fullWidth
+                        startIcon={it.icon}
+                        onClick={() => {
+                          if (it.id === 'manual') { navigate('/help/manual'); return; }
+                          setActiveId(it.id);
+                        }}
+                        sx={{
+                          justifyContent: 'flex-start', textTransform: 'none', fontSize: '0.875rem',
+                          py: 0.9, px: 1.5, mb: 0.25, borderRadius: 1,
+                          color: active ? 'primary.main' : '#475569',
+                          bgcolor: active ? 'primary.main' + '10' : 'transparent',
+                          fontWeight: active ? 600 : 400,
+                          '&:hover': { bgcolor: active ? 'primary.main' + '18' : 'rgba(148,163,184,0.12)' },
+                        }}
+                      >
+                        {it.label}
+                      </Button>
+                    );
+                  })}
+                </AccordionDetails>
+              </Accordion>
             ))}
             {filteredGroups.length === 0 && (
               <Typography variant="body2" color="text.secondary" sx={{ px: 1.5, py: 2 }}>

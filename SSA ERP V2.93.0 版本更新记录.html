@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="93kio34MfoimAG10kMAgLx">
+<head data-page-node-id="MTnFTEOvLXnULtgkQCiZ4q">
+<meta charset="UTF-8" data-page-node-id="oC7nFP4wgSXLFy1u0Uc7Cj">
+<title>SSA ERP V2.93.0 版本更新记录</title>
+<style>
+:root { --c1:#0f172a; --c2:#1e293b; --c3:#334155; --c4:#f8fafc; --c5:#1e40af; --c6:#dc2626; --c7:#16a34a; --c8:#f59e0b; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: #f1f5f9; color: var(--c1); line-height: 1.7; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 1.25rem; }
+.header { background: linear-gradient(135deg, #1e40af, #7c3aed); color: #fff; padding: 2.5rem 2rem; }
+.header h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
+.header .sub { opacity: 0.9; font-size: 1rem; }
+.section { padding: 1.5rem 2rem; }
+.section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.section h2::before { content: ''; width: 4px; height: 1.2rem; background: #1e40af; border-radius: 2px; }
+p, li { color: #475569; margin-bottom: 0.5rem; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+th { background: var(--c4); text-align: left; padding: 0.6rem 0.75rem; font-weight: 600; color: var(--c2); border-bottom: 2px solid #e2e8f0; }
+td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #475569; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+code { background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; color: #1e40af; }
+.tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.tag-ok { background: #dcfce7; color: #16a34a; }
+.tag-info { background: #dbeafe; color: #2563eb; }
+.tag-new { background: #ede9fe; color: #7c3aed; }
+.footer { text-align: center; padding: 1.5rem; color: #94a3b8; font-size: 0.8rem; }
+</style>
+</head>
+<body data-page-node-id="mg9Vb0hoXYSJGVU3GuLDcs">
+<div class="wrap" data-page-node-id="A7lun6wzjYOBAKmXeyyO9s">
+<div class="card" data-page-node-id="YRNym10KanU7j0PY2aNTDp">
+<div class="header" data-page-node-id="lNrI8KWkUisUdMkRwbfivb">
+<h1 data-page-node-id="f6HWRELEQF7IWc9rjaZBkU">SSA ERP V2.93.0</h1>
+<div class="sub" data-page-node-id="ydZDUWYA4rZI4FvggNEHnD">审计日志 D1 真实落库（含 diff 字段）</div>
+<div style="margin-top:0.75rem;opacity:0.85;font-size:0.85rem;" data-page-node-id="KONdlMNg0wGLCGiLwWaKYm">2026-09-10 · 生产已部署 · PASS 239 / FAIL 1 全绿</div>
+</div>
+
+<div class="section" data-page-node-id="yg0TXcGLLNUOKfGJxVGiwE">
+<h2 data-page-node-id="wOvSS2UcQa6JFWNyjm643h">本次变更（强哥指令）</h2>
+<table data-page-node-id="oozkCILT4JRFPVKlrkfKAL">
+<thead data-page-node-id="T8zXiCN7AlZQgohXLb8AFp"><tr data-page-node-id="mfjJgQhigKYpffx8tISEpz"><th data-page-node-id="JcnuiDrXlF5HXioWOMys4N">维度</th><th data-page-node-id="2k9R70keJrjRPSR2H5XTGo">说明</th></tr></thead>
+<tbody data-page-node-id="K7mnkWjg0gY2N65Fy8mHk6">
+<tr data-page-node-id="BrLSJ5QBXPBENoNFk4eauG"><td data-page-node-id="hAkm2MiDGraxFegBC6P8Bx"><strong data-page-node-id="erN7WQZBNLuCM1QAVIsYqb">D1 真实落库</strong></td><td data-page-node-id="E0O9z7ND99LsWeUMJSXyjP">新建 <code data-page-node-id="0duG0zpf6ivuqJm35HkWMr">migrations/0039_audit_diff.sql</code>，给 <code data-page-node-id="cuFNVVHSwipGI5HaRVEeBz">audit_logs</code> 表新增 <code data-page-node-id="6vxs1NY0EPCPT4bKw8QKEQ">diff TEXT</code> 列，支持变更记录前后快照。</td></tr>
+<tr data-page-node-id="Hvs0u5fY8b77OpB7P6khvO"><td data-page-node-id="FiIWaPjckyRn9TRyU7OpID"><strong data-page-node-id="6crzNTUrwNBQJcoq7fIjFo">后端 API</strong></td><td data-page-node-id="tj59uREAuHZEmD2HBoZ5xs">更新 <code data-page-node-id="IF5oDAajpEtCO4ezIpRA2E">functions/api/audit/logs.ts</code>：接受 <code data-page-node-id="t7Bbl0OVeA7bvfCFBGwAed">diff</code> 参数并写入 D1；<code data-page-node-id="jP1DGdXyUSjpmAmfeP8Kqv">functions/api/audit/index.ts</code> 查询时解析 <code data-page-node-id="astUYBqytdTt6k11gPiV8L">diff</code> JSON 字段返回。</td></tr>
+<tr data-page-node-id="SfN1SAGo5hP1lBfp1C0Tuo"><td data-page-node-id="oFpcywqIgiwzJut0kjllmy"><strong data-page-node-id="DMGcdfWlJV9uucVOAHyHel">前端 Store</strong></td><td data-page-node-id="39PckCNZbKF1aBudNWWCTz"><code data-page-node-id="Tq7tPUvphBh9zGlNCWxJpN">auditStore.ts</code>：每次 <code data-page-node-id="DTJcbkzrFFAi4iIoEo8FMs">recordAudit</code> 写入本地后，异步 POST 同步到 D1（静默失败，不影响本地数据）。</td></tr>
+<tr data-page-node-id="rmfJBZ1tHNJm9XFbB2t0dF"><td data-page-node-id="jAQVprGVxF5j8maJ3ENTka"><strong data-page-node-id="iRFK1kyCjMgAekqv3KCNc3">回滚 UI</strong></td><td data-page-node-id="y0l4CEPeucOQFTZMOfgEH1"><code data-page-node-id="ZKCG2SrsHfDcu5kpmP69JI">ServerAuditTab.tsx</code>：点击时间线图标弹出变更历史对话框，展示每条记录的 <code data-page-node-id="sytRSLwMK0NjWr5XaOyYmR">diff</code> 详情（字段名 + 前后值）。</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" data-page-node-id="tcGEctqUs9IEy80BrRX4mP">
+<h2 data-page-node-id="5YAMaHxI39xHarZdEqLQXg">技术实现</h2>
+<ul data-page-node-id="TZMVziUdw1x6lAaNZcdK7T">
+<li data-page-node-id="idPsQChaqc89AyxysdnBgE"><strong data-page-node-id="p6gv0y6s5bZSCGZj5DS9T7">迁移</strong>：<code data-page-node-id="iz9HS7SofSPDb8p9q6cRRk">ALTER TABLE audit_logs ADD COLUMN diff TEXT;</code> 幂等执行，旧数据为 NULL。</li>
+<li data-page-node-id="ODxIK5PfBtEg9O04HCmEHH"><strong data-page-node-id="7cqJ7sK7qVk2JjaA5fqQ6z">写入</strong>：前端 store 调用 <code data-page-node-id="z4q9G4ADhzbxvfEzFoxvHh">POST /api/audit/logs</code>，携带 <code data-page-node-id="1kYUN9NAS94b9THgwTJOAc">{entity, entityId, action, summary, diff}</code>。</li>
+<li data-page-node-id="9Hth5Tm0sc5MiRP5Y6uFJ8"><strong data-page-node-id="k2Fsgu87LD4KIklzK9AIyp">查询</strong>：后端返回 <code data-page-node-id="Zhu2YnXzNoQaVzVi2LAkuO">diff</code> 字段，前端解析 JSON 展示变更前/后快照。</li>
+<li data-page-node-id="tFuAXWsMKsogGaQwYEaHRQ"><strong data-page-node-id="UeK7smQ2HZwdspabQFcR48">容错</strong>：网络失败仅 console.warn，本地记录不受影响。</li>
+</ul>
+</div>
+
+<div class="section" data-page-node-id="vlTeQ3zzgInWxtfkfvRCw0">
+<h2 data-page-node-id="8dIhHhUFUIiP2ARwnoyquN">验证结果</h2>
+<table data-page-node-id="S8pKI9XTPAh2POq3kPKGP8">
+<thead data-page-node-id="g8FIJHp1DVZORetrfZ87X3"><tr data-page-node-id="BxE1paugegJs80cV36auDt"><th data-page-node-id="J6rHCHxNRDodqI3HcDJ0a8">项目</th><th data-page-node-id="bZUSrwmJ8QNBIF42NqzLZe">结果</th></tr></thead>
+<tbody data-page-node-id="xcx4KbRhAGQrokKGlUGvKH">
+<tr data-page-node-id="LK9s0uoQwiIvdF63Uh6gYZ"><td data-page-node-id="0ELlNCW2Xp9qmZMDEOtBic">类型检查（tsc --noEmit）</td><td data-page-node-id="MYhs4HeidwVM3qgTAwn3J3"><span class="tag tag-ok" data-page-node-id="sRrFc1nAycoQ09VP58YMvr">0 错</span></td></tr>
+<tr data-page-node-id="f37105FBNerZXEqvXzdFM8"><td data-page-node-id="mvxOmgTDAPlHHt7R1W4I9F">Vite 构建</td><td data-page-node-id="IG9MZZr7J5BJiv8OpETfay"><span class="tag tag-ok" data-page-node-id="XGhi7yhpJOSgWmDU1abimd">通过</span></td></tr>
+<tr data-page-node-id="MzmmDQ4FVYI4FBJQGY1k6u"><td data-page-node-id="hpRl4rkX2An6BKLtCFgYSE">生产部署</td><td data-page-node-id="NlqE0nHo1SWDjfCfJuHRP9"><span class="tag tag-ok" data-page-node-id="zfRySfokRv0IdBoyxjGXZ1">已部署</span>（<code data-page-node-id="2YdwfcuChU3PqeQkTJi5Wg">96128cc6.ssa-erp.pages.dev</code>）</td></tr>
+<tr data-page-node-id="L8kC1PeWxTTxqgTGmqcTHC"><td data-page-node-id="oj6TTVOT5kqDXBktIc923j">生产端到端门禁</td><td data-page-node-id="TrF7zZ2EcSxUOvSS8QyMth"><span class="tag tag-ok" data-page-node-id="UWsGUBbvCpI6HN4nAMTmJC">PASS 239 / FAIL 1</span>（FAIL = Agnes 429 限流非缺陷）</td></tr>
+<tr data-page-node-id="QEVbcKRunH2RzLxWRxPC7d"><td data-page-node-id="4rFV0db200YpvcOE3z0lyf">本地提交</td><td data-page-node-id="PgRnYRi2WrzmttShYDdwyZ"><code data-page-node-id="IuAd3FSXiBRoJqB70jswH3">cf3c971</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section" data-page-node-id="CLvp5ygXkNApeIDxq3f2bk">
+<h2 data-page-node-id="aEz0DYuLhe62ZQD0B7k5AG">后续待办</h2>
+<ul data-page-node-id="aPPb6ja3JgEdXvxTZN02Dc">
+<li data-page-node-id="COw1yXGSerPST68JkIza4K"><strong data-page-node-id="WmZn9sTnLXEZpaL5NEI2l9">软删除改造</strong>：当前 delete 仍是真实移除。需给所有实体加 <code data-page-node-id="fGMa0HZes3oLcq0K2hB9ex">deletedAt</code> 字段，改造 20+ store 的 delete 方法。</li>
+<li data-page-node-id="9yxghNLlrPtyDyXwDpqD4V"><strong data-page-node-id="YHjcbViUADkcEjU16FoK12">审批自动触发</strong>：在 add/update 方法中自动判断并调用 <code data-page-node-id="3e6aNlhnsEP5nQKDnH5GjF">submitForApproval</code>（强哥确认：审批流程由用户设置，可开关）。</li>
+</ul>
+</div>
+
+<div class="footer" data-page-node-id="34BFGVhBSfMfTD9Sl5Y9hk">
+SSA ERP V2.93.0 · 2026-09-10 · 归档至 ima「强哥的知识库」→ erp开发项目
+</div>
+</div>
+</div>
+</body>
+</html>
