@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="1mkYSz1Cz3x33468GZ5miG">
+<head data-page-node-id="GzSREvAiv48ROehMMPXZGt">
+<meta charset="UTF-8" data-page-node-id="QCUkoB8UvQDVJJyEuqsv06">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="jezdByg4dXboqNqcNAAFgZ">
+<title>SSA ERP V2.91.0 版本更新记录</title>
+<style>
+:root { --c1:#0f172a; --c2:#1e293b; --c3:#334155; --c4:#f8fafc; --c5:#1e40af; --c6:#dc2626; --c7:#16a34a; --c8:#f59e0b; --c9:#8b5cf6; --c10:#0ea5e9; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: #f1f5f9; color: var(--c1); line-height: 1.7; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04); overflow: hidden; margin-bottom: 1.25rem; }
+.header { background: linear-gradient(135deg, var(--c5), var(--c9)); color: #fff; padding: 2.5rem 2rem; }
+.header h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.25rem; }
+.header .sub { opacity: 0.85; font-size: 0.95rem; }
+.badge { display: inline-block; background: rgba(255,255,255,0.2); border-radius: 20px; padding: 0.2rem 0.75rem; font-size: 0.8rem; margin-top: 0.75rem; }
+.section { padding: 1.5rem 2rem; }
+.section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.section h2::before { content: ''; width: 4px; height: 1.2rem; background: var(--c5); border-radius: 2px; }
+p { color: #475569; margin-bottom: 0.75rem; }
+ul { padding-left: 1.25rem; color: #475569; margin-bottom: 0.75rem; }
+li { margin-bottom: 0.35rem; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+th { background: var(--c4); text-align: left; padding: 0.6rem 0.75rem; font-weight: 600; color: var(--c2); border-bottom: 2px solid #e2e8f0; }
+td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #475569; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+code { background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; color: var(--c5); }
+.tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.tag-ok { background: #dcfce7; color: #16a34a; }
+.tag-warn { background: #fef3c7; color: #d97706; }
+.tag-info { background: #dbeafe; color: #2563eb; }
+.tag-new { background: #ede9fe; color: #7c3aed; }
+.tag-hotfix { background: #fee2e2; color: #dc2626; }
+.footer { text-align: center; padding: 1.5rem; color: #94a3b8; font-size: 0.8rem; }
+</style>
+</head>
+<body data-page-node-id="1f4YC84ZEPN2V6adPEc6fr">
+<div class="wrap" data-page-node-id="KnpfvZB0A86nXf4Boj2lEy">
+<div class="card" data-page-node-id="K17RQJWSNW5qcxbX7QiLXe">
+<div class="header" data-page-node-id="Op5lKjGsqwKbE8RFRmdcHL">
+<h1 data-page-node-id="8DW32fg7CDNED8GaRb6Qbu">SSA ERP V2.91.0</h1>
+<div class="sub" data-page-node-id="4brzAZHjM4fqZVaQ9C98ey">审计日志升级 + 角色操作权限（CRUD 级别）</div>
+<span class="badge" data-page-node-id="0p1zkUesgIwfkpec0UTJda">2026-09-10 · 生产已部署</span>
+</div>
+<div class="section" data-page-node-id="16QDYsxZ11nidTPyhI6cZp">
+<h2 data-page-node-id="2Ts4dK8rrwZK6cibs764FJ">结论</h2>
+<p data-page-node-id="vo7fItIkYXosdkW4Xhiwf7"><strong data-page-node-id="t5MMe1oBcx60QgbFK8ibiI">审计日志升级为 diff 格式 + 回滚能力</strong>，<strong data-page-node-id="rNJ5HhFdK4dxmhx4AiRZ3V">角色权限从字段级扩展到操作级（CRUD）</strong>。生产回归 <strong data-page-node-id="TZJJgIhwCcWWEiKh9fyPOi">PASS 239 / FAIL 1</strong>（FAIL = Agnes 429 限流非缺陷）。</p>
+</div>
+</div>
+
+<div class="card" data-page-node-id="iLlH2aL5SQwH8XGXCsF56L">
+<div class="section" data-page-node-id="YW6IaRl4SzOyozuo1YUUQm">
+<h2 data-page-node-id="vX0mBPUyFx0LmBGZ81mx8U">本次变更（强哥指令）</h2>
+<table data-page-node-id="9zMJpthMQyjZAD2fZVolWI">
+<thead data-page-node-id="IjskxvyTlFvQbUvXNbR2ex"><tr data-page-node-id="JcttN3vw81m52vKxN9gKas"><th data-page-node-id="CSq38aWdf094EKeRQ5P2rD">维度</th><th data-page-node-id="FyWc5Yx8h4jHyLXr0ITw5E">说明</th><th data-page-node-id="jYSAltMJn1lfGLXYSPE8EO">标签</th></tr></thead>
+<tbody data-page-node-id="TBPArVoiKBENYBJqbBxv4v">
+<tr data-page-node-id="U1s5ygTpCoXR82IMCOBuv0"><td data-page-node-id="4OFcS6C88pXZGCGIm4Thqq"><strong data-page-node-id="KoHUB0rC55ROJSDsrYF9oU">审计日志</strong></td><td data-page-node-id="uJEIIhG06LyVRHDgqe1Zr0">auditStore v2：新增 <code data-page-node-id="HL5Ez5wtcHXFv0vWKfRvWC">diff</code> 字段（oldValue/newValue/changedFields），每次变更记录前后快照；MAX_RECORDS 从 500 提升至 10000；新增 <code data-page-node-id="7B9GduqpdylGNBoGd5R8WO">getVersionHistory</code> / <code data-page-node-id="MpjsccSXTuQubZRYGJdAAB">rollbackTo</code> 方法。</td><td data-page-node-id="J7foRx56sKmizB6h2JeRpY"><span class="tag tag-new" data-page-node-id="nC7h1SxxPoMo2k34srlZUU">升级</span></td></tr>
+<tr data-page-node-id="RcMDGCCBuIHsZMqYwTOsId"><td data-page-node-id="iJe99GO1oENCB6sGuAWlhN"><strong data-page-node-id="0Z8GyjK7oWPsJI99hKypjq">回滚 UI</strong></td><td data-page-node-id="5shbBBVoLyCudv3VVFKAy9">ServerAuditTab 新增「回滚」操作列（时间线图标），点击弹出变更历史对话框，展示每个版本的摘要 + 字段变更数，支持一键回滚到指定版本。</td><td data-page-node-id="6xAzXyzpJL1ZS3SAOZQK1s"><span class="tag tag-new" data-page-node-id="k1mucRhrbeCWn1wKMqha6E">新增</span></td></tr>
+<tr data-page-node-id="uuQxuWyzX0Y2ZiH0bNIlv9"><td data-page-node-id="XDsTpAtU4QMSE8Co98aKl1"><strong data-page-node-id="IX9BICQAHN6MlI5eUkE4TX">角色操作权限</strong></td><td data-page-node-id="302xK16H46YCZOM5mlTrvB">dataPermissionStore v4 新增 <code data-page-node-id="TiPzjiBRbwSezxw8Rd0R9C">roleModuleOps</code> 字段，每个角色 × 模块可配置增/删/改/查开关。默认矩阵：admin/owner/boss 全权限、buyer 采购写权限、warehouse_keeper 仓储写权限、logistics/rd_engineer 只读。</td><td data-page-node-id="XIxlaCbGrPRfrlKaOPj477"><span class="tag tag-new" data-page-node-id="L2DmyfB93RShrdFIpqTbuo">新增</span></td></tr>
+<tr data-page-node-id="x0NlGEgI1Mgky59YAZIaxR"><td data-page-node-id="f4gygYX4BvulTjsEKvCJkU"><strong data-page-node-id="63CCBHAqh96vivKAzK0W2Y">权限 UI</strong></td><td data-page-node-id="F2zKAEKsrJleTxblfDQAyk">新增「角色操作权限」设置 Tab（RolePermissionTab），表格化展示角色×模块×CRUD 权限，绿色勾=有权限，红色叉=无权限，管理员/老板不可修改。</td><td data-page-node-id="TmWgM5kNJGUYIlB4x3agdK"><span class="tag tag-new" data-page-node-id="eWE8u0aWbb17VSpj20CHL2">新增</span></td></tr>
+<tr data-page-node-id="CxmGeTVu9OdV2MAQqbbjm6"><td data-page-node-id="DnxEyPMHuJG2tOPAfvLipk"><strong data-page-node-id="yMo7S8ae5lTdU7rpXRlkJJ">向后兼容</strong></td><td data-page-node-id="QPhiBs2Vy1ub7bdc0MeG5m">persist v2/v4 migrate：旧审计记录补全 <code data-page-node-id="qrou9rNqlyXmPxVznxfyCT">version/entityId/diff</code> 默认值；旧权限配置补全 <code data-page-node-id="khDli7BGvF6tplaFcgSloo">roleModuleOps</code> 默认矩阵。</td><td data-page-node-id="hTmX3YsDPnId7PxoaQXmSX"><span class="tag tag-ok" data-page-node-id="ZABp4AIiXSrKleGrdjxvMt">兼容</span></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card" data-page-node-id="0Gp6PPL3bdYp4iECJkmIkf">
+<div class="section" data-page-node-id="qiGFIcTyWaFNYtP7D6i6Xy">
+<h2 data-page-node-id="L27aulKwWMJWYe4WFbH9aS">技术实现</h2>
+<ul data-page-node-id="WBBjCmHUHM9SpEwwuJaay8">
+<li data-page-node-id="O6bo9JECjE3jAkmyYrRcfC"><strong data-page-node-id="YBiJ7WRW3so15IBnSd5Y5J">auditStore.ts</strong>：v1 → v2，新增 <code data-page-node-id="i5kmAXtmS3kEv5kokdEHmx">AuditDiff</code> 接口（oldValue/newValue/changedFields）；<code data-page-node-id="xWfNjiD0t4WSLEKFYoEM8I">recordAudit</code> 接受 diff 参数；<code data-page-node-id="OvuoRApwqgzoiETAqxq206">getVersionHistory</code> 返回某实体的完整变更历史（按时间倒序）；<code data-page-node-id="JQF15DZyIL2DqCRujNPbHa">rollbackTo</code> 恢复指定版本并记录 restore 操作。</li>
+<li data-page-node-id="6IWojMyh98YHWnfBCf8prF"><strong data-page-node-id="Fe2A9YMFOKYb1WnKtbGVf2">dataPermissionStore.ts</strong>：v3 → v4，新增 <code data-page-node-id="UXM7LMlgAN8210jsSGnhUa">RoleModuleOperation</code> 接口和 <code data-page-node-id="aO1imHDnGaXWtc2wfACJhY">roleModuleOps</code> 状态；新增 <code data-page-node-id="h9v7klVMbXeHuTV4xEwBnA">hasOperation</code> / <code data-page-node-id="AFIe3MDGET7UUVfVBNMDgr">setRoleModuleOp</code> 方法；默认矩阵覆盖 9 个业务模块 × 10+ 个角色。</li>
+<li data-page-node-id="6crq2A2gIa2HNB2KHM3UoF"><strong data-page-node-id="rVtdBxCD08A147CIDQ2EnZ">ServerAuditTab.tsx</strong>：新增回滚操作列（Timeline 图标），点击后调用 <code data-page-node-id="myuRHmlDFhvM2y3Z7L2MGM">getVersionHistory</code> 加载历史，弹窗展示变更列表。</li>
+<li data-page-node-id="QcrV7OAHr2rYxxFLOYCj8c"><strong data-page-node-id="IPPFkSIOObPwArovhxlbOO">RolePermissionTab.tsx</strong>（新建）：表格展示所有角色对各模块的 CRUD 权限，管理员行只读，其他行可点击切换。</li>
+<li data-page-node-id="si9N7VBfM4iueJGl9Q6TDF"><strong data-page-node-id="DaqL6tDn4aDXQ3Qs2ceJ22">Settings.tsx</strong>：在「数据权限」「字段级权限」旁新增「角色操作权限」Tab。</li>
+</ul>
+</div>
+</div>
+
+<div class="card" data-page-node-id="khXIYg16Of1LxrIIXI0kwL">
+<div class="section" data-page-node-id="5iXNsgMhHBgOKyI2PxkNxH">
+<h2 data-page-node-id="7OWRUeJS1rM7NHsfPveh1x">验证结果</h2>
+<table data-page-node-id="6kDqBpydw8mDQGfYCFL8zS">
+<thead data-page-node-id="BmbFgqHj3xFf1etZoOhBql"><tr data-page-node-id="QeqFK3oGbQSxM4t0daoEMi"><th data-page-node-id="Hy15GPuW3vaDjPz6LiPwEU">项目</th><th data-page-node-id="8DEc6LHhzojDowR9Gi3gVU">结果</th></tr></thead>
+<tbody data-page-node-id="S92KyWD6QPP9BPbwpSP4kl">
+<tr data-page-node-id="KoAkK6rluNxFId2XhnkCN3"><td data-page-node-id="F2DyzAs3CLJYCw6mmcsm3H">类型检查（tsc --noEmit）</td><td data-page-node-id="AVkMoGRg5lQmjNlYe97gCw"><span class="tag tag-ok" data-page-node-id="qMsc6Qy8eHAE64yl7BBQAU">0 错</span></td></tr>
+<tr data-page-node-id="eXWWNzDhZWvzmoMiAb6ZgA"><td data-page-node-id="XWuwEqoKCgMu5vFS1lDFja">Vite 构建</td><td data-page-node-id="6mhiyKFgsxHbV0nSd864bp"><span class="tag tag-ok" data-page-node-id="if76vVdwyVOYQDPOHHXK2s">通过</span></td></tr>
+<tr data-page-node-id="nCFSF47mWSfov41RMN1S5l"><td data-page-node-id="jv6nToN7eIQjivvCLNg5dx">生产部署</td><td data-page-node-id="dyBOCDO6gopsBBILswdAYw"><span class="tag tag-ok" data-page-node-id="UxL2N1MRO24sq5OwGmZhj2">已部署</span>（<code data-page-node-id="IH1Nmdagtq2PgWtgGU5heZ">9ea1a843.ssa-erp.pages.dev</code>）</td></tr>
+<tr data-page-node-id="m1HWCABrNQWvZeJMZZDTKL"><td data-page-node-id="OWHo2RtOE39oGACNqgdHi7">生产端到端门禁</td><td data-page-node-id="3OPQHqkDyXKoYgCFDoYFYt"><span class="tag tag-ok" data-page-node-id="rpIM0XVXXFOQFpMQFX3WcI">PASS 239 / FAIL 1</span>（FAIL = Agnes 429 限流非缺陷）</td></tr>
+<tr data-page-node-id="vkx06pPy0JW4O15OtMvD7H"><td data-page-node-id="FBKa9yEu0QkoELQH3Ehxst">本地提交</td><td data-page-node-id="FVfmuFGhl79Vgv85brqNfl"><code data-page-node-id="wMl7AkK26iO96YlWT8iP7J">20cdbec</code></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="card" data-page-node-id="8ACrugnrPOqTrQOW5hlheZ">
+<div class="section" data-page-node-id="7ZRh67mSTeiQgpR9SL8wLG">
+<h2 data-page-node-id="PwVhrEZvrpH7e4G1jlz9tp">后续待办（强哥确认需求延伸）</h2>
+<ul data-page-node-id="AIs6KHNjTyxCGqG5BeeIXG">
+<li data-page-node-id="N1nLpuEFg2miDR9RjAvOBe"><strong data-page-node-id="d0MBKm9FujnbcEoUTURFnT">软删除</strong>（deletedAt 标记）：当前 delete 仍是真实移除。若需软删除，需给所有实体加 <code data-page-node-id="SQEGTJmYjy3zUzL8ikrzKi">deletedAt</code> 字段，改造 20+ store 的 delete 方法，改造 14+ 列表页过滤逻辑。建议下一批次实施。</li>
+<li data-page-node-id="OT5ieujq1HIEA2cdj1yoCR"><strong data-page-node-id="JPoH7yUTBf1sJSTSwqnY7S">审批流全覆盖</strong>：当前 approvalFlowStore 仅有 3 套预置流程（销售订单/采购申请/供应商准入）。需扩至全部单据类型，并在 add/update 中自动触发。</li>
+<li data-page-node-id="ZaTbCHVAfv10L4DRTMyqTx"><strong data-page-node-id="Uc3SHHEW66ZN4YLpikokbh">后端 API 同步</strong>：审计日志当前仅前端持久化（localStorage/D1 app_state），建议后续接 D1 真实落库。</li>
+</ul>
+</div>
+</div>
+
+<div class="footer" data-page-node-id="2LYD5e9tLLRq4RDLByD0Ng">
+SSA ERP V2.91.0 · 2026-09-10 · 归档至 ima「强哥的知识库」→ erp开发项目
+</div>
+</div>
+</body>
+</html>
