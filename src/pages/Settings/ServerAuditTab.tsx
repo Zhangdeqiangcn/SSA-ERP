@@ -2,10 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Grid, Chip, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Button, Alert, Stack, TextField, MenuItem, Divider,
+  Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText,
+  ListItemSecondaryAction, IconButton, Tooltip,
 } from '@mui/material';
-import { Storage, History, DeleteSweep, Person } from '@mui/icons-material';
+import { Storage, History, DeleteSweep, Person, Restore, Timeline } from '@mui/icons-material';
 import { useSessionStore } from '@/stores/sessionStore';
-import { useAuditStore, AUDIT_ACTION_LABELS, type AuditAction } from '@/stores/auditStore';
+import { useAuditStore, AUDIT_ACTION_LABELS, type AuditRecord, type AuditAction } from '@/stores/auditStore';
 import { useUserStore } from '@/stores/userStore';
 import { getServerStatus, listCollections } from '@/services/serverService';
 
@@ -13,6 +15,7 @@ const ACTION_COLORS: Record<AuditAction, 'success' | 'info' | 'error' | 'warning
   create: 'success',
   update: 'info',
   delete: 'error',
+  restore: 'warning',
   login: 'default',
   export: 'warning',
   approve: 'success',
@@ -22,6 +25,7 @@ const ACTION_COLORS: Record<AuditAction, 'success' | 'info' | 'error' | 'warning
 interface ServerAuditRow {
   id: string;
   entity: string;
+  entityId: string;
   action: AuditAction | string;
   summary: string;
   userId: string;
@@ -36,6 +40,13 @@ const ServerAuditTab: React.FC = () => {
   const users = useUserStore((s) => s.users);
   const records = useAuditStore((s) => s.records);
   const clearAudit = useAuditStore((s) => s.clearAudit);
+  const getVersionHistory = useAuditStore((s) => s.getVersionHistory);
+  const rollbackTo = useAuditStore((s) => s.rollbackTo);
+
+  // 回滚对话框状态
+  const [rollbackOpen, setRollbackOpen] = useState(false);
+  const [rollbackTarget, setRollbackTarget] = useState<{ entity: string; entityId: string } | null>(null);
+  const [versionHistory, setVersionHistory] = useState<AuditRecord[]>([]);
 
   // P2-B 审计日志真接通：生产态拉取服务端 D1 审计（org 隔离），DEV/离线回退本地
   const [serverLogs, setServerLogs] = useState<ServerAuditRow[] | null>(null);
@@ -51,8 +62,14 @@ const ServerAuditTab: React.FC = () => {
         const json = await resp.json();
         if (cancelled) return;
         const rows: ServerAuditRow[] = (json.data || []).map((r: any) => ({
-          id: r.id, entity: r.entity, action: r.action,
-          summary: r.summary, userId: r.userId, userName: r.userName, createdAt: r.createdAt,
+          id: r.id,
+          entity: r.entity,
+          entityId: r.entityId || '',
+          action: r.action,
+          summary: r.summary,
+          userId: r.userId,
+          userName: r.userName,
+          createdAt: r.createdAt,
         }));
         if (rows.length > 0) {
           setServerLogs(rows);
@@ -185,6 +202,7 @@ const ServerAuditTab: React.FC = () => {
               <TableCell sx={{ fontWeight: 600 }}>实体</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>动作</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>摘要</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>回滚</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -197,18 +215,84 @@ const ServerAuditTab: React.FC = () => {
                 <TableCell><Typography variant="caption" color="text.secondary">{r.entity}</Typography></TableCell>
                 <TableCell><Chip size="small" label={AUDIT_ACTION_LABELS[r.action]} color={ACTION_COLORS[r.action]} /></TableCell>
                 <TableCell>{r.summary}</TableCell>
+                <TableCell>
+                  {'entityId' in r && r.entityId && r.action !== 'create' && (
+                    <Tooltip title="查看变更历史">
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setRollbackTarget({ entity: r.entity, entityId: r.entityId! });
+                          setVersionHistory(getVersionHistory(r.entity, r.entityId));
+                          setRollbackOpen(true);
+                        }}
+                      >
+                        <Timeline fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </TableCell>
               </TableRow>
             ))}
             {filtered.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} align="center" sx={{ py: 3, color: 'text.secondary' }}>
-                  暂无审计记录（新增/修改/删除销售价目表等操作后会自动记录）
+                <TableCell colSpan={6} align="center" sx={{ py: 3, color: 'text.secondary' }}>
+                  暂无审计记录（新增/修改/删除等操作后会自动记录）
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* 回滚对话框 */}
+      <Dialog open={rollbackOpen} onClose={() => setRollbackOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Restore />
+            变更历史
+          </Stack>
+        </DialogTitle>
+        <DialogContent dividers>
+          {rollbackTarget && (
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+              实体：{rollbackTarget.entity} / ID：{rollbackTarget.entityId}
+            </Typography>
+          )}
+          <List dense>
+            {versionHistory.map((rec) => (
+              <ListItem key={rec.id} sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
+                <ListItemText
+                  primary={
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <Chip size="small" label={AUDIT_ACTION_LABELS[rec.action]} color={ACTION_COLORS[rec.action]} />
+                      <Typography variant="body2">{rec.summary}</Typography>
+                      <Typography variant="caption" color="text.secondary">{rec.userName}</Typography>
+                    </Stack>
+                  }
+                  secondary={new Date(rec.createdAt).toLocaleString('zh-CN')}
+                />
+                {rec.action === 'update' && rec.diff?.changedFields && (
+                  <ListItemSecondaryAction>
+                    <Chip
+                      size="small"
+                      label={`${rec.diff.changedFields.length} 字段变更`}
+                      variant="outlined"
+                    />
+                  </ListItemSecondaryAction>
+                )}
+              </ListItem>
+            ))}
+            {versionHistory.length === 0 && (
+              <ListItem>
+                <ListItemText primary="暂无变更记录" primaryTypographyProps={{ color: 'text.secondary' }} />
+              </ListItem>
+            )}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setRollbackOpen(false)}>关闭</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

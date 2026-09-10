@@ -35,6 +35,7 @@ import VendorRatingTab from '@/pages/Vendor/VendorRatingTab';
 import VendorPortalConfigTab from './VendorPortalConfigTab';
 import NumberingTab from './NumberingTab';
 import DataPermissionTab from './DataPermissionTab';
+import RolePermissionTab from './RolePermissionTab';
 import SalesPriceTab from './SalesPriceTab';
 import ServerAuditTab from './ServerAuditTab';
 import DataManagement from './DataManagement';
@@ -570,6 +571,7 @@ const Settings: React.FC = () => {
         { id: 'roles', label: '角色权限', icon: <Security fontSize="small" />, render: renderRolePermissions },
         { id: 'forms', label: '表单权限', icon: <Assignment fontSize="small" />, render: () => <FormPermissionPanel /> },
         { id: 'dataperm', label: '数据权限', icon: <Security fontSize="small" />, render: () => <DataPermissionTab /> },
+        { id: 'roleperm', label: '角色操作权限', icon: <VerifiedUser fontSize="small" />, render: () => <RolePermissionTab /> },
         { id: 'fieldperm', label: '字段级权限', icon: <VerifiedUser fontSize="small" />, render: () => <FieldPermissions /> },
       ],
     },

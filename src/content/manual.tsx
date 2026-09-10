@@ -961,8 +961,8 @@ export const MANUAL_MODULES: ManualModule[] = [
         id: 'v2900',
         title: 'V2.90.0（2026-09-10）',
         blocks: [
-          { type: 'p', text: '列表交互统一升级（强哥指令）：① 点击编号打开详情——所有带详情页的列表（供应商/物料/客户/采购申请/采购订单/询价/比价/审批/入库/出库/盘点/销售合同/项目）改为只有点击「编号列」（蓝色链接）才打开详情页，点击行内其他位置不再跳转，避免误触；② 勾选行后新增「批量修改」与「批量删除」——批量修改弹出通用对话框，可统一修改状态、类型、联系人、电话、邮箱、地址等字段，留空字段不修改；删除有二次确认；③ 全列表开启「批量导入」——导入按钮支持粘贴或直接上传 Excel/CSV，内置「下载导入模板」按当前列表表头生成模板，表头支持中英文自动映射（如“供应商编码/code”）、中文状态自动转成系统枚举值；主数据（供应商/物料/客户）按编码自动新增或更新，单据类（订单/询价/比价/审批/出入库/盘点）按单号匹配更新、未匹配的安全跳过并提示条数。' },
-          { type: 'p', text: '技术实现：DataTable 新增 codeColumnId 属性（设置后整行不再响应点击，仅编号列渲染为可点击链接）；新增通用组件 BatchEditDialog（字段配置式批量修改，支持文本/下拉/数字类型）；批量导入复用 DataTable 内置导入对话框，各列表页按实体实现字段映射与 upsert 逻辑。生产端到端门禁无回归。' },
+          { kind: 'usage', title: '本次变更', text: '审计日志与角色权限升级（强哥指令）：① auditStore v2 升级——新增 diff 字段（oldValue/newValue/changedFields），记录每次变更的前后快照，便于溯源和回滚；MAX_RECORDS 从 500 提升至 10000；② ServerAuditTab 新增「回滚」操作列——点击时间线图标可查看某实体的完整变更历史，支持一键回滚到任意版本（自动记录 restore 操作）；③ dataPermissionStore v4 新增 roleModuleOps 字段——每个角色 × 模块配置增/删/改/查开关，默认矩阵：管理员/老板全权限，采购员采购写权限，库管仓储写权限，物流/研发只读等；④ 新增「角色操作权限」设置 Tab（RolePermissionTab）——表格化展示每个角色对每个模块的 CRUD 权限，绿色勾=有权限，红色叉=无权限，管理员/老板不可修改。' },
+          { kind: 'why', title: '技术实现', text: 'auditStore persist 升 v2 migrate，旧记录补全 version/entityId/diff 默认值；dataPermissionStore persist 升 v4 migrate，补全 roleModuleOps 默认矩阵；RolePermissionTab 复用 ROLE_DEFINITIONS 类型，通过 setRoleModuleOp 更新配置。设置页新增「角色操作权限」入口（Security 图标），审计日志增加 Timeline 图标按钮触发回滚对话框。' },
         ],
       },
       {
