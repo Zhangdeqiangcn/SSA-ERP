@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>SSA ERP V2.91.0-V2.92.0 版本更新记录</title>
+<style>
+:root { --c1:#0f172a; --c2:#1e293b; --c3:#334155; --c4:#f8fafc; --c5:#1e40af; --c6:#dc2626; --c7:#16a34a; --c8:#f59e0b; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Microsoft YaHei", sans-serif; background: #f1f5f9; color: var(--c1); line-height: 1.7; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem; }
+.card { background: #fff; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 1.25rem; }
+.header { background: linear-gradient(135deg, #1e40af, #7c3aed); color: #fff; padding: 2.5rem 2rem; }
+.header h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
+.header .sub { opacity: 0.9; font-size: 1rem; }
+.section { padding: 1.5rem 2rem; }
+.section h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.section h2::before { content: ''; width: 4px; height: 1.2rem; background: #1e40af; border-radius: 2px; }
+p, li { color: #475569; margin-bottom: 0.5rem; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
+th { background: var(--c4); text-align: left; padding: 0.6rem 0.75rem; font-weight: 600; color: var(--c2); border-bottom: 2px solid #e2e8f0; }
+td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #f1f5f9; color: #475569; vertical-align: top; }
+code { background: #f1f5f9; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; color: #1e40af; }
+.tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.tag-ok { background: #dcfce7; color: #16a34a; }
+.tag-info { background: #dbeafe; color: #2563eb; }
+.tag-new { background: #ede9fe; color: #7c3aed; }
+.footer { text-align: center; padding: 1.5rem; color: #94a3b8; font-size: 0.8rem; }
+ul { padding-left: 1.25rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+<div class="header">
+<h1>SSA ERP V2.91.0 → V2.92.0</h1>
+<div class="sub">审计日志升级 · 角色权限扩展 · 审批流全覆盖</div>
+<div style="margin-top:0.75rem;opacity:0.85;font-size:0.85rem;">2026-09-10 · 生产已部署 · PASS 240/FAIL 0 全绿</div>
+</div>
+
+<div class="section">
+<h2>V2.91.0 变更</h2>
+<table>
+<thead><tr><th>维度</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>审计日志升级</strong></td><td>auditStore v2：新增 <code>diff</code> 字段（oldValue/newValue/changedFields）记录变更前后快照；MAX_RECORDS 500→10000；新增 <code>getVersionHistory</code> / <code>rollbackTo</code> 方法。</td></tr>
+<tr><td><strong>回滚 UI</strong></td><td>ServerAuditTab 新增「回滚」操作列（时间线图标），点击弹出变更历史对话框，支持一键回滚到指定版本。</td></tr>
+<tr><td><strong>角色操作权限</strong></td><td>dataPermissionStore v4 新增 <code>roleModuleOps</code>，每个角色×模块配置增/删/改/查开关。默认矩阵：admin/owner/boss 全权限，buyer 采购写权限，warehouse_keeper 仓储写权限，logistics/rd_engineer 只读。</td></tr>
+<tr><td><strong>权限 UI</strong></td><td>新增「角色操作权限」设置 Tab（RolePermissionTab），表格化展示角色×模块×CRUD 权限。</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section">
+<h2>V2.92.0 变更</h2>
+<table>
+<thead><tr><th>维度</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td><strong>审批流全覆盖</strong></td><td>approvalFlowStore 新增 7 个默认审批流：<code>customer</code>（客户新增）、<code>inquiry</code>（询价单）、<code>comparison</code>（比价单）、<code>check_task</code>（盘点单）、<code>inbound_order</code>（入库单）、<code>outbound_order</code>（出库单）、<code>quality_inspeCTION</code>（质检报告）。原有 <code>work_order</code>/<code>invoice</code> 保留原配置。</td></tr>
+<tr><td><strong>审批流配置</strong></td><td>总计 20 个审批流模块覆盖全部单据类型。新增模块默认 disabled（管理员可在「审批流程」设置中按需开启）。条件触发基于金额阈值、可选节点按需审批。</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section">
+<h2>验证结果</h2>
+<table>
+<thead><tr><th>项目</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td>类型检查（tsc --noEmit）</td><td><span class="tag tag-ok">0 错</span></td></tr>
+<tr><td>Vite 构建</td><td><span class="tag tag-ok">通过</span></td></tr>
+<tr><td>生产部署</td><td><span class="tag tag-ok">已部署</span>（<code>f1b0d2fd.ssa-erp.pages.dev</code>）</td></tr>
+<tr><td>生产端到端门禁</td><td><span class="tag tag-ok">PASS 240 / FAIL 0 全绿</span></td></tr>
+<tr><td>本地提交</td><td><code>1516cc5</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="section">
+<h2>后续待办</h2>
+<ul>
+<li><strong>软删除改造</strong>：当前 delete 仍是真实移除。若需软删除，需给所有实体加 <code>deletedAt</code> 字段，改造 20+ store 的 delete 方法，改造 14+ 列表页过滤逻辑。</li>
+<li><strong>审批自动触发</strong>：需在 add/update 方法中自动判断并调用 <code>submitForApproval</code>（强哥确认：审批流程由用户设置，可开关）。</li>
+<li><strong>后端 D1 同步</strong>：审计日志当前仅前端持久化，建议后续接 D1 真实落库。</li>
+</ul>
+</div>
+
+<div class="footer">
+SSA ERP V2.92.0 · 2026-09-10 · 归档至 ima「强哥的知识库」→ erp开发项目
+</div>
+</div>
+</div>
+</body>
+</html>
