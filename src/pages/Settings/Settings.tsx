@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, TextField, Button,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Chip, Avatar, IconButton, Dialog, DialogTitle, DialogContent,
+  Chip, Avatar, Dialog, DialogTitle, DialogContent,
   DialogActions, MenuItem, Select, FormControl, InputLabel, Alert, Snackbar,
-  Switch, Tooltip, Collapse, Stack,
+  Switch, Collapse,
   Accordion, AccordionSummary, AccordionDetails,
 } from '@mui/material';
 import {
-  Save, PersonAdd, Edit, Lock, CheckCircle, RadioButtonUnchecked,
+  Save, Lock,
   Tune, Notifications, Security, People, Assignment, ExpandMore, ExpandLess,
   ShoppingCart, Menu as MenuIcon, AccountTree, Description,
   SwapHoriz, Hub, PhoneAndroid, FactCheck, StarRate, Storage, DarkMode, Storefront,
@@ -49,7 +49,7 @@ import FieldPermissions from '@/pages/Platform/FieldPermissions';
 import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
 import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
-import { useUserStore, type SystemUser } from '@/stores/userStore';
+import UserManagementTab from './UserManagementTab';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
 const FORM_PERMISSIONS = [
@@ -264,11 +264,6 @@ const Settings: React.FC = () => {
   const { currentUser, switchRole } = useAuthStore();
   const navigate = useNavigate();
 
-  const users = useUserStore((s) => s.users);
-  const addUser = useUserStore((s) => s.addUser);
-  const updateUser = useUserStore((s) => s.updateUser);
-  const [editUser, setEditUser] = useState<SystemUser | null>(null);
-
   // 左侧导航状态
   const [query, setQuery] = useState('');
   const [activeId, setActiveId] = useState('basic');
@@ -418,98 +413,24 @@ const Settings: React.FC = () => {
     </Grid>
   );
 
+  // 「用户管理」Tab：接入真实账号管理（UserManagementTab，数据来自 /api/users）。
+  // 「切换当前角色」是演示工具，仅开发环境或超管可见——系统已有真实审批与角色，普通员工不应能自行切换身份视角。
   const renderUserManagement = () => (
-    <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h6" sx={{ fontWeight: 600, color: '#1E293B' }}>用户列表</Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+    <Box>
+      {(import.meta.env.DEV || currentUser?.role === 'super_admin') && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', px: 3, pt: 2 }}>
           <Button
             variant="outlined"
             startIcon={<Lock />}
             onClick={() => setSwitchDialog(true)}
             size="small"
+            data-testid="user-switch-role"
           >
-            切换当前角色
+            切换当前角色（测试用）
           </Button>
-          <Button
-            variant="contained"
-            startIcon={<PersonAdd />}
-            size="small"
-            onClick={() => {
-              const id = `u-${Date.now()}`;
-              setEditUser({
-                id,
-                name: '',
-                username: '',
-                role: 'buyer',
-                department: '',
-                status: 'active',
-                email: '',
-              });
-            }}
-          >新增用户</Button>
         </Box>
-      </Box>
-      <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }}>
-        当前登录身份：<strong>{currentUser?.name}</strong> — {ROLE_NAMES[currentUser?.role as UserRole] || ''}。可通过「切换当前角色」来测试不同角色视角。
-      </Alert>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>用户</TableCell>
-              <TableCell>账号</TableCell>
-              <TableCell>角色</TableCell>
-              <TableCell>部门</TableCell>
-              <TableCell>状态</TableCell>
-              <TableCell align="right">操作</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => {
-              const roleDef = ROLE_DEFINITIONS.find(r => r.id === user.role);
-              return (
-                <TableRow key={user.id} hover>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                      <Avatar sx={{ width: 32, height: 32, bgcolor: roleDef?.color + '20', color: roleDef?.color, fontSize: '0.875rem', fontWeight: 600 }}>
-                        {user.name.charAt(0)}
-                      </Avatar>
-                      <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>{user.name}</Typography>
-                        <Typography variant="caption" sx={{ color: '#94A3B8' }}>{user.email}</Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell><Typography variant="body2">{user.username}</Typography></TableCell>
-                  <TableCell>
-                    <Chip
-                      label={ROLE_NAMES[user.role]}
-                      size="small"
-                      sx={{ bgcolor: roleDef?.color + '15', color: roleDef?.color, fontWeight: 500, border: 'none' }}
-                    />
-                  </TableCell>
-                  <TableCell><Typography variant="body2">{user.department}</Typography></TableCell>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      {user.status === 'active'
-                        ? <CheckCircle sx={{ fontSize: 14, color: '#10B981' }} />
-                        : <RadioButtonUnchecked sx={{ fontSize: 14, color: '#94A3B8' }} />
-                      }
-                      <Typography variant="caption" sx={{ color: user.status === 'active' ? '#10B981' : '#94A3B8' }}>
-                        {user.status === 'active' ? '启用' : '停用'}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell align="right">
-                    <IconButton size="small" onClick={() => setEditUser({ ...user })}><Edit fontSize="small" /></IconButton>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      )}
+      <UserManagementTab />
     </Box>
   );
 
@@ -761,7 +682,7 @@ const Settings: React.FC = () => {
                 onChange={(e) => {
                   setSelectedRole(e.target.value as UserRole);
                   const def = ROLE_DEFINITIONS.find(r => r.id === e.target.value);
-                  if (def) setSelectedName(users.find(u => u.role === e.target.value)?.name || def.name);
+                  if (def) setSelectedName(def.name);
                 }}
               >
                 {ROLE_DEFINITIONS.map(r => (
@@ -794,79 +715,6 @@ const Settings: React.FC = () => {
         onClose={() => setSnackbar({ open: false, msg: '' })}
         message={snackbar.msg}
       />
-
-      {/* 用户编辑对话框 */}
-      <Dialog open={!!editUser} onClose={() => setEditUser(null)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 600 }}>{editUser?.id ? '编辑用户' : '新增用户'}</DialogTitle>
-        <DialogContent sx={{ pt: 2 }}>
-          {editUser && (
-            <Stack spacing={2} sx={{ mt: 0.5 }}>
-              <TextField
-                label="姓名"
-                value={editUser.name}
-                onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
-                fullWidth
-              />
-              <TextField
-                label="账号"
-                value={editUser.username}
-                onChange={(e) => setEditUser({ ...editUser, username: e.target.value })}
-                fullWidth
-              />
-              <FormControl fullWidth>
-                <InputLabel>角色</InputLabel>
-                <Select
-                  value={editUser.role}
-                  label="角色"
-                  onChange={(e) => setEditUser({ ...editUser, role: e.target.value as UserRole })}
-                >
-                  {ROLE_DEFINITIONS.map((r) => (
-                    <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <TextField
-                label="部门"
-                value={editUser.department}
-                onChange={(e) => setEditUser({ ...editUser, department: e.target.value })}
-                fullWidth
-              />
-              <TextField
-                label="邮箱"
-                value={editUser.email}
-                onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
-                fullWidth
-              />
-              <FormControl fullWidth>
-                <InputLabel>状态</InputLabel>
-                <Select
-                  value={editUser.status}
-                  label="状态"
-                  onChange={(e) => setEditUser({ ...editUser, status: e.target.value as SystemUser['status'] })}
-                >
-                  <MenuItem value="active">启用</MenuItem>
-                  <MenuItem value="inactive">停用</MenuItem>
-                </Select>
-              </FormControl>
-            </Stack>
-          )}
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={() => setEditUser(null)}>取消</Button>
-          <Button
-            variant="contained"
-            disabled={!editUser?.name.trim() || !editUser?.username.trim()}
-            onClick={() => {
-              if (!editUser) return;
-              const exists = users.some((u) => u.id === editUser.id);
-              if (exists) updateUser(editUser.id, editUser);
-              else addUser(editUser);
-              setEditUser(null);
-              setSnackbar({ open: true, msg: '用户已保存' });
-            }}
-          >保存</Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };

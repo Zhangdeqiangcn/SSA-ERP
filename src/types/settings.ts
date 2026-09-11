@@ -13,6 +13,7 @@ export interface User extends BaseEntity {
 }
 
 export type UserRole =
+  | 'super_admin'     // 超级管理员（平台级，跨组织）
   | 'admin'           // 系统管理员
   | 'rd_engineer'     // 研发工程师
   | 'process_engineer'// 工艺工程师
@@ -25,7 +26,8 @@ export type UserRole =
   | 'buyer'           // 采购员
   | 'prod_manager'    // 生产主管
   | 'prod_leader'     // 班长
-  | 'vendor';         // 供应商
+  | 'vendor'          // 供应商
+  | 'user';           // 普通用户（新注册未分配角色的兜底身份）
 
 export interface RoleDefinition {
   id: UserRole;
@@ -36,6 +38,13 @@ export interface RoleDefinition {
 }
 
 export const ROLE_DEFINITIONS: RoleDefinition[] = [
+  {
+    id: 'super_admin',
+    name: '超级管理员',
+    description: '系统最高权限，可管理全部组织与用户，不可被降级或删除',
+    permissions: ['*'],
+    color: '#BE185D',
+  },
   {
     id: 'admin',
     name: '系统管理员',

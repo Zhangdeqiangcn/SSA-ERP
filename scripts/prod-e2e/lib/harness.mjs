@@ -8,6 +8,14 @@
 //  2) 不中断 —— 单条断言失败不影响后续，最大化一轮暴露的信息量。
 //  3) 可追溯 —— 每条断言带 detail（真实 status/字段值），失败可直接定位。
 
+// 后端用户管理接口允许设置的角色（与 functions/api/users/[id].ts 的 VALID_ROLES 一致）。
+// 注意：super_admin 不在此列 —— 该值任何情况下都不可经接口授予，只能由数据库运维直接设置。
+const VALID_ROLES = new Set([
+  'admin', 'rd_engineer', 'process_engineer', 'qa_engineer', 'qa_inspector',
+  'warehouse_keeper', 'logistics', 'finance_manager', 'accountant', 'buyer',
+  'prod_manager', 'prod_leader', 'vendor', 'user',
+]);
+
 /** 一个测试套件的断言记录器 */
 export class Suite {
   constructor(id, title) {
@@ -127,17 +135,63 @@ export async function createContext({ req, runId }) {
       return id;
     },
 
-    /** 在同一组织内注册一个指定角色的用户（用于 RLS 多主体验证） */
+    /**
+     * 在同一组织内注册一个用户，并走完整审批链路（新契约，用于 RLS 多主体验证等）。
+     * 新契约流程：注册 → 待审批(202) → 管理员批准 → 才能登录。
+     *   - 注册请求体**不再传 role**（服务端已忽略请求体 role，传了只会误导读者）。
+     *   - 仅当调用方请求的 role 合法、且不属于 admin 时，才在批准时带上 role 字段；
+     *     授予 admin 需 super_admin 权限，而本组织 admin 由「首次注册新公司码」bootstrap 产生，
+     *     并非 super_admin，故会被跳过并标记 roleSkipped。
+     * 遗留说明：orgs/users/sessions 无删除端点，本函数创建的测试账号会残留（不影响业务数据）。
+     */
     async registerUser(key, role, department) {
       const username = `e2e_${key}_${runId}`;
-      const r = await req('POST', '/api/auth/register', {
-        body: {
-          username, password, name: `E2E ${key}`,
-          companyCode, role, department,
-        },
+
+      // 1) 同公司码注册 → 期望 202 待审批（且不得返回登录凭证）
+      const reg = await req('POST', '/api/auth/register', {
+        body: { username, password, name: `E2E ${key}`, companyCode, department },
       });
-      if (r.status !== 200 || !r.data?.token) return null;
-      ctx.users[key] = { token: r.data.token, user: r.data.user, username, role, department };
+      if (reg.status !== 202 || reg.data?.pending !== true || reg.data?.token) return null;
+
+      // 2) 待审批账号立即登录 → 期望 403（闸门生效），记录状态供套件断言
+      const pendingLogin = await req('POST', '/api/auth/login', {
+        body: { username, password },
+      });
+      const pendingLoginStatus = pendingLogin.status;
+
+      // 3) 用 admin 令牌按 username 查出待审批用户的真实 id
+      const found = await req('GET', `/api/users?status=pending&keyword=${encodeURIComponent(username)}`, {
+        token: ctx.admin.token,
+      });
+      const id = found.data?.data?.[0]?.id;
+      if (!id) return null;
+
+      // 4) 批准的 role：合法且非 admin 才带上（admin 需 super_admin 授权）
+      const putBody = { action: 'approve' };
+      let roleSkipped = false;
+      if (role && VALID_ROLES.has(role) && role !== 'admin') {
+        putBody.role = role;
+      } else if (role) {
+        roleSkipped = true;
+      }
+      const approve = await req('PUT', `/api/users/${id}`, { token: ctx.admin.token, body: putBody });
+      if (approve.status !== 200) return null;
+
+      // 5) 批准后再次登录 → 期望 200 且有 token
+      const login = await req('POST', '/api/auth/login', { body: { username, password } });
+      if (login.status !== 200 || !login.data?.token) return null;
+
+      const actualRole = approve.data?.data?.role || login.data?.user?.role || 'user';
+      ctx.users[key] = {
+        id,
+        token: login.data.token,
+        user: login.data.user,
+        username,
+        role: actualRole,       // 批准后的实际角色（服务端决定）
+        department,
+        pendingLoginStatus,     // 待审批时登录的状态码（期望 403）
+        roleSkipped,
+      };
       return ctx.users[key];
     },
 

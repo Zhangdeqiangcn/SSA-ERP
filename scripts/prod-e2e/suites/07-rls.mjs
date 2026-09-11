@@ -8,9 +8,9 @@ export default async function run(ctx, s) {
   const { req, runId } = ctx;
   const adminToken = ctx.admin.token;
 
-  // 准备两个同组织、非特权（manager）用户
-  const b1 = ctx.users.buyer1 || await ctx.registerUser('buyer1', 'manager', 'QA-采购一部');
-  const b2 = ctx.users.buyer2 || await ctx.registerUser('buyer2', 'manager', 'QA-采购二部');
+  // 准备两个同组织、非特权（buyer）用户
+  const b1 = ctx.users.buyer1 || await ctx.registerUser('buyer1', 'buyer', 'QA-采购一部');
+  const b2 = ctx.users.buyer2 || await ctx.registerUser('buyer2', 'buyer', 'QA-采购二部');
   if (!b1 || !b2) {
     s.fail('RLS 多主体准备失败', `buyer1=${!!b1} buyer2=${!!b2}，本套件无法执行`);
     return;

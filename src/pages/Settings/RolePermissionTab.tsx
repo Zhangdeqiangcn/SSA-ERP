@@ -52,7 +52,7 @@ const RolePermissionTab: React.FC = () => {
     return {
       role: roleDef.id,
       roleName: roleDef.name,
-      isPrivileged: ['admin', 'owner', 'boss'].includes(roleDef.id),
+      isPrivileged: ['super_admin', 'admin'].includes(roleDef.id),
       modules: Object.entries(MODULE_LABELS).map(([key, label]) => {
         const op = roleOps.find((o) => o.module === key) || (hasWildcard ? roleOps.find((o) => o.module === '*') : null);
         return {

@@ -67,7 +67,7 @@ export default async function run(ctx, s) {
   }
 
   // 非 admin 不能管理 Key
-  const buyer = ctx.users.buyer1 || await ctx.registerUser('buyer1', 'manager', 'QA-采购部');
+  const buyer = ctx.users.buyer1 || await ctx.registerUser('buyer1', 'buyer', 'QA-采购部');
   if (buyer) {
     const nonAdminCreate = await req('POST', '/api/open/keys', {
       token: buyer.token, body: { label: `e2e-${runId}-nonadmin`, scopes: 'write' },

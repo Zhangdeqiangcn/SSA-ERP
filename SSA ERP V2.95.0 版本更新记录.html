@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP V2.95.0 版本更新记录</title>
+<style>
+  :root{--ink:#0f172a;--sub:#64748b;--line:#e2e8f0;--bg:#f8fafc;--card:#fff;--ok:#059669;--warn:#b45309;--bad:#dc2626;--brand:#0284c7;}
+  *{box-sizing:border-box}
+  body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;margin:0;padding:40px 20px;background:var(--bg);color:var(--ink);line-height:1.75}
+  .wrap{max-width:960px;margin:0 auto}
+  header{background:linear-gradient(135deg,#0f766e,#0369a1);color:#fff;border-radius:14px;padding:28px 32px;box-shadow:0 6px 24px rgba(2,132,199,.25)}
+  header h1{margin:0 0 8px;font-size:26px;letter-spacing:.5px}
+  header .meta{opacity:.93;font-size:14px}
+  .concl{background:#ecfdf5;border-left:5px solid var(--ok);border-radius:10px;padding:16px 20px;margin:24px 0;font-size:15px}
+  h2{color:#0369a1;font-size:19px;margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:16px;margin:20px 0 8px;color:#0f172a}
+  .qa{background:#eff6ff;border-left:5px solid #3b82f6;border-radius:10px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .qa b{color:#1d4ed8}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .tag{display:inline-block;background:#e0f2fe;color:#0369a1;padding:2px 9px;border-radius:20px;font-size:12px;margin-right:5px;vertical-align:2px}
+  .tag.fix{background:#fee2e2;color:var(--bad)}
+  .tag.new{background:#dcfce7;color:var(--ok)}
+  .tag.sec{background:#ede9fe;color:#6d28d9}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  th{background:#f1f5f9;text-align:left;padding:11px 14px;font-weight:600;color:#334155;border-bottom:1px solid var(--line)}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-family:Consolas,Monaco,monospace;font-size:13px;color:#be123c}
+  .ok{color:var(--ok);font-weight:600}
+  .no{color:var(--bad);font-weight:600}
+  .action{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:16px 20px;margin:20px 0}
+  .action h3{margin-top:0;color:var(--warn)}
+  footer{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP V2.95.0 版本更新记录</h1>
+  <div class="meta">发布日期：2026-09-11 ｜ 版本号：2.95.0 ｜ 构建：0392c8bc ｜ 部署：https://0392c8bc.ssa-erp.pages.dev</div>
+</header>
+
+<div class="concl">
+  <b>一句话结论：</b>系统已从「注册即可用」改为「<b>首个注册者自动成为该公司管理员；此后同事需管理员审批才能使用</b>」；新增<b>超级管理员</b>角色并已将您的账号设为该系统唯一超管；注册界面全面完善。<br>
+  同时修复了两个真实缺陷：<b class="no">任何人构造请求即可自封管理员</b>、<b class="no">新注册账号角色无效导致登录后什么都看不到</b>。<br>
+  类型检查 0 错、构建通过、迁移已应用生产、生产回归门禁 <b class="ok">全绿 PASS 273 / FAIL 0</b>，另用 18 项真实请求实测注册审批全链路 <b class="ok">18/18 通过</b>。
+</div>
+
+<h2>一、您三个问题的答复</h2>
+
+<div class="qa">
+  <b>问题 1：现在是注册了就能用，还是需要审批？</b><br>
+  <b>改造前</b>：注册即可用，填对公司码就能进，没有任何审批。<br>
+  <b>改造后（本次已上线）</b>：分两种情况 ——
+  <ul style="margin:8px 0 0 0">
+    <li><b>首次使用某个公司码注册</b>的人 = 创建这家公司，<b>自动成为该公司的管理员</b>，注册完直接可用（不需要任何审批，不会把自己挡在门外）；</li>
+    <li><b>之后同事用同一个公司码注册</b> = 申请加入该公司，进入<b>「待审批」状态</b>，此时<b>拿不到登录凭证、无法登录</b>；必须由该公司的管理员在「设置 → 用户管理」里批准，批准后才能登录使用。</li>
+  </ul>
+</div>
+
+<div class="qa">
+  <b>问题 2：给我超级管理员权限</b><br>
+  已完成。您的账号 <code>zhangdeqiang</code>（张德强）角色已由无效值 <code>user</code> 提升为 <code>super_admin</code>，是系统当前的唯一超级管理员。<br>
+  超级管理员的特殊性：可跨公司查看与管理人员、可批准他人成为管理员，<b>且不能被任何人降级或修改</b>（包括超管自己，防止误操作把整个系统锁死）；该角色<b>只能由系统运维在数据库层设置</b>，界面上任何人都拿不到这个权限。<br>
+  <b>您需要做一步：退出登录后重新登录一次</b>（角色是登录时从服务器读取的，浏览器里还缓存着旧登录态）。重登后「设置 → 用户管理」即可看到全部账号与待审批提醒。
+</div>
+
+<div class="qa">
+  <b>问题 3：用户注册界面完善</b><br>
+  已按「完整版」重做，详见下方第三节。
+</div>
+
+<h2>二、本次变更明细</h2>
+
+<div class="card">
+  <h3>① <span class="tag new">新机制</span>注册审批制</h3>
+  <p>公司码现在同时承担「组织归属」和「准入门槛」两个作用：首次填写即创建公司并成为管理员；同事填写相同公司码即申请加入，需管理员批准。</p>
+</div>
+
+<div class="card">
+  <h3>② <span class="tag new">新角色</span>超级管理员（super_admin）</h3>
+  <p>系统最高权限层级，凌驾于原「系统管理员」之上。可跨公司管理用户与数据、可授予他人管理员身份；不可被降级、不可被接口修改、不可被授予（只能数据库层设置）。</p>
+</div>
+
+<div class="card">
+  <h3>③ <span class="tag new">新角色</span>普通用户（user）</h3>
+  <p>仅有基础查看权限，供刚被批准、尚未分配具体岗位的新同事使用。<b>这个角色的存在本身修掉了一个真实缺陷</b>：此前所有新注册账号都被写成 <code>user</code>，而系统里根本没有这个角色，导致账号权限恒为空、登录后几乎看不到任何东西。</p>
+</div>
+
+<div class="card">
+  <h3>④ <span class="tag new">新功能</span>用户管理正式接通真实账号</h3>
+  <p>「设置 → 用户管理」原先是 8 条<b>演示数据</b>，与真实注册账号完全脱节。现已改为读取真实账号，支持：状态筛选（全部 / 待审批 / 已启用 / 已驳回）、关键字搜索、待审批数量醒目提醒，以及<b>批准 / 驳回 / 恢复 / 调整角色 / 调整部门</b>。超级管理员账号与您自己的账号不显示操作按钮，避免误操作。</p>
+</div>
+
+<div class="card">
+  <h3>⑤ <span class="tag sec">安全修复</span>注册接口越权漏洞</h3>
+  <p><b>原缺陷：</b>注册接口把「角色」字段直接采信前端传值，任何人只要构造一个请求就能把自己注册成系统管理员。<br>
+  <b>已修复：</b>角色与账号状态<b>全部由服务器决定</b>，前端传什么都不采信（实测已用伪造 <code>super_admin</code> 的请求验证被忽略）。</p>
+</div>
+
+<div class="card">
+  <h3>⑥ <span class="tag sec">护栏</span>四道权限护栏</h3>
+  <p>① 不能把任何人设为超级管理员；② 不能修改超级管理员账号；③ 普通管理员不能把别人也提升为管理员（只有超管可以）；④ 普通管理员只能管理本公司用户，看不到也动不了别家公司的账号。</p>
+</div>
+
+<h2>三、注册界面完善清单（完整版）</h2>
+<table>
+  <thead><tr><th>项目</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>用户名</td><td>必填，至少 3 个字符，重名会明确提示「用户名已被占用」</td></tr>
+    <tr><td>密码 + 确认密码</td><td>至少 6 位，两次必须一致；带显示/隐藏切换与强度提示（弱 / 中 / 强）</td></tr>
+    <tr><td>姓名</td><td>必填</td></tr>
+    <tr><td>邮箱</td><td>选填，填写时校验格式</td></tr>
+    <tr><td>手机号</td><td>选填，填写时校验位数</td></tr>
+    <tr><td>部门</td><td>下拉选择（信息技术部 / 采购部 / 仓储部 / 生产部 / 质量部 / 财务部 / 研发部 / 工艺部 / 销售部 / 行政部 / 其他）</td></tr>
+    <tr><td>公司码</td><td>旁边新增「?」按钮，点开有专门说明：首次填写＝创建公司并成为管理员；同事填相同码＝申请加入需审批</td></tr>
+    <tr><td>公司名称</td><td>选填，首次注册时用于创建公司</td></tr>
+    <tr><td>服务条款</td><td>勾选后「注册」按钮才可用</td></tr>
+    <tr><td>结果反馈</td><td>首次注册 → 直接进入系统；申请加入 → 明确提示「注册申请已提交，等待「某公司」的管理员审批通过后即可登录」并自动切回登录页</td></tr>
+    <tr><td>登录反馈</td><td>待审批 / 被驳回的账号登录时给出明确中文原因，而不是笼统的「登录失败」</td></tr>
+  </tbody>
+</table>
+
+<h2>四、验证结果</h2>
+<table>
+  <thead><tr><th>验证项</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>类型检查（tsc）</td><td class="ok">0 错误</td></tr>
+    <tr><td>生产构建</td><td class="ok">通过（40.43 秒）</td></tr>
+    <tr><td>数据库迁移 0040 应用生产</td><td class="ok">成功（新增状态/创建者/邮箱/手机号四列 + 历史无效角色归一化 + 索引）</td></tr>
+    <tr><td>生产部署</td><td class="ok">https://0392c8bc.ssa-erp.pages.dev</td></tr>
+    <tr><td>生产回归门禁</td><td class="ok">全绿 PASS 273 / FAIL 0（断言数由 240 提升至 273，新增的正是审批与用户管理覆盖）</td></tr>
+    <tr><td>生产真实链路实测（HTTP 打线上）</td><td class="ok">18 项断言 18 项通过，含越权探测、批准/驳回/恢复、权限护栏</td></tr>
+    <tr><td>实测临时数据清理</td><td class="ok">4 个临时账号 + 1 个隔离组织已删除，残留核查为 0</td></tr>
+  </tbody>
+</table>
+
+<h2>五、生产库现状</h2>
+<table>
+  <thead><tr><th>角色</th><th>人数</th></tr></thead>
+  <tbody>
+    <tr><td>系统管理员（admin）</td><td>145</td></tr>
+    <tr><td>普通用户（user）</td><td>64</td></tr>
+    <tr><td>供应商（vendor）</td><td>2</td></tr>
+    <tr><td><b>超级管理员（super_admin）</b></td><td><b>1 —— 您的账号 zhangdeqiang</b></td></tr>
+  </tbody>
+</table>
+<p style="font-size:14px;color:#475569">说明：原有 212 个历史账号中，凡是角色值不在系统有效角色内的（如 <code>manager</code>、<code>boss</code>）已统一归一化为普通用户；账号状态全部为「已启用」，<b>不会被新增的审批闸门影响，老账号照常登录</b>。</p>
+
+<div class="action">
+  <h3>需要您做的两步</h3>
+  <ol style="margin:0">
+    <li><b>退出登录后重新登录一次</b> —— 让超级管理员权限生效；</li>
+    <li>登录后进入「设置 → 用户管理」核对一下账号列表，若您希望某些同事从现在起就必须走审批，把他们的角色调整好即可。</li>
+  </ol>
+</div>
+
+<h2>六、待您定夺的一件事</h2>
+<p>排查中发现一个<b>与本次改动无关的历史问题</b>：项目的数据库迁移脚本从零重建时会失败（某条早期脚本重复添加同一个字段）。生产库和您本机的库早就越过了那一步，所以<b>不影响现在的使用</b>；但如果将来要搭一套全新环境，会踩到这个坑。是否需要我顺手修掉，请告知。</p>
+
+<footer>本报告由 WorkBuddy 生成 ｜ 归档位置：ima「强哥的知识库」→ ⑥通用-交付物 → erp开发项目</footer>
+
+</div>
+</body>
+</html>
