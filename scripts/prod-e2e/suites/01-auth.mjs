@@ -6,6 +6,15 @@ export const meta = { id: '01-auth', title: '认证与会话（注册/登录/会
 export default async function run(ctx, s) {
   const { req, runId, password } = ctx;
 
+  // 0) 引导阶段的新公司注册审批链路（V2.96.0 新契约，强哥的安全策略）
+  //    新公司码首注册者不再直接可用：注册返回 202 待审批 → 登录被 403 拦下
+  //    → 超级管理员批准 → 该公司被同步启用 → 才能登录。
+  const bs = ctx.bootstrap || {};
+  s.expectEq('新公司码首次注册返回 202 待审批', bs.registerStatus, 202);
+  s.expectTrue('注册响应标记为新公司（newCompany）', bs.newCompany === true, `newCompany=${bs.newCompany}`);
+  s.expectEq('待审批账号登录被闸门拦下', bs.blockedLoginStatus, 403);
+  s.expectTrue('超管批准后该公司被同步启用', !!bs.approvedOrgName, `orgActivated=${bs.approvedOrgName}`);
+
   // 1) bootstrap 注册已成功（上下文建立即证明），此处校验会话有效性
   const me = await req('GET', '/api/auth/me', { token: ctx.admin.token });
   s.expectStatus('GET /api/auth/me 会话有效', me, 200);

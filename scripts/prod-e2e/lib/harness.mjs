@@ -8,6 +8,35 @@
 //  2) 不中断 —— 单条断言失败不影响后续，最大化一轮暴露的信息量。
 //  3) 可追溯 —— 每条断言带 detail（真实 status/字段值），失败可直接定位。
 
+import { readFileSync, existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+// ── 专用测试超管凭据（不进版本库）────────────────────────────────
+// V2.96.0 起，新公司码注册必须经超级管理员批准才能启用（强哥的安全策略）。
+// 自动化套件不持有、也不应持有真实超管凭据，因此改用一个「专用测试超管」账号：
+//   由运维在部署阶段创建，凭据写入本机 scripts/prod-e2e/.e2e-credentials.json（已加入 .gitignore）。
+// 该账号只用于给本轮隔离测试组织放行，不触碰任何真实业务组织的数据。
+const CREDENTIALS_PATH = join(
+  dirname(fileURLToPath(import.meta.url)),
+  '..',
+  '.e2e-credentials.json'
+);
+
+function loadSupervisorCredentials() {
+  if (!existsSync(CREDENTIALS_PATH)) {
+    throw new Error(
+      `缺少测试超管凭据文件：${CREDENTIALS_PATH}\n` +
+        '请先创建专用测试超管账号，并把 {"username":"...","password":"..."} 写入该文件（该文件已被 .gitignore 忽略）。'
+    );
+  }
+  const raw = JSON.parse(readFileSync(CREDENTIALS_PATH, 'utf8'));
+  if (!raw.username || !raw.password) {
+    throw new Error('测试超管凭据文件缺少 username 或 password 字段');
+  }
+  return raw;
+}
+
 // 后端用户管理接口允许设置的角色（与 functions/api/users/[id].ts 的 VALID_ROLES 一致）。
 // 注意：super_admin 不在此列 —— 该值任何情况下都不可经接口授予，只能由数据库运维直接设置。
 const VALID_ROLES = new Set([
@@ -106,15 +135,67 @@ export async function createContext({ req, runId }) {
   const adminUsername = `e2e_admin_${runId}`;
   const password = 'E2eProd!2026';
 
+  // 1) 专用测试超管登录（仅用于批准本轮新建的隔离组织）
+  const cred = loadSupervisorCredentials();
+  const supLogin = await req('POST', '/api/auth/login', {
+    body: { username: cred.username, password: cred.password },
+  });
+  if (supLogin.status !== 200 || !supLogin.data?.token) {
+    throw new Error(
+      `引导失败：测试超管登录未通过 status=${supLogin.status} body=${JSON.stringify(supLogin.data)?.slice(0, 200)}`
+    );
+  }
+  const supervisorToken = supLogin.data.token;
+
+  // 2) 首次注册新公司码 → 期望 202 待审批，且绝不返回登录凭证
   const reg = await req('POST', '/api/auth/register', {
     body: {
       username: adminUsername, password, name: 'E2E 管理员',
-      companyCode, role: 'admin', department: 'QA',
+      companyCode, department: 'QA',
       orgName: `E2E 常驻套件 ${runId}`,
     },
   });
-  if (reg.status !== 200 || !reg.data?.token) {
-    throw new Error(`bootstrap 注册失败 status=${reg.status} body=${JSON.stringify(reg.data)?.slice(0, 300)}`);
+  if (reg.status !== 202 || reg.data?.pending !== true || reg.data?.token) {
+    throw new Error(
+      `引导失败：新公司注册未按契约返回 202 待审批 status=${reg.status} body=${JSON.stringify(reg.data)?.slice(0, 300)}`
+    );
+  }
+
+  // 3) 待审批状态下登录应被闸门拦下（403）
+  const blockedLogin = await req('POST', '/api/auth/login', {
+    body: { username: adminUsername, password },
+  });
+
+  // 4) 超管批准该账号（后端会同步把该公司从 pending 置为启用）
+  const found = await req(
+    'GET',
+    `/api/users?status=pending&keyword=${encodeURIComponent(adminUsername)}`,
+    { token: supervisorToken }
+  );
+  const pendingId = found.data?.data?.[0]?.id;
+  if (!pendingId) {
+    throw new Error(
+      `引导失败：未查到待审批账号 username=${adminUsername} body=${JSON.stringify(found.data)?.slice(0, 200)}`
+    );
+  }
+  const approve = await req('PUT', `/api/users/${pendingId}`, {
+    token: supervisorToken,
+    body: { action: 'approve' },
+  });
+  if (approve.status !== 200) {
+    throw new Error(
+      `引导失败：超管批准未成功 status=${approve.status} body=${JSON.stringify(approve.data)?.slice(0, 200)}`
+    );
+  }
+
+  // 5) 批准后重新登录 → 取得本组织的管理员令牌
+  const login = await req('POST', '/api/auth/login', {
+    body: { username: adminUsername, password },
+  });
+  if (login.status !== 200 || !login.data?.token) {
+    throw new Error(
+      `引导失败：批准后仍无法登录 status=${login.status} body=${JSON.stringify(login.data)?.slice(0, 200)}`
+    );
   }
 
   /** 待清理资源，形如 { kind, id } —— 清理按注册逆序执行 */
@@ -124,8 +205,19 @@ export async function createContext({ req, runId }) {
     req,
     runId,
     password,
-    org: { companyCode, orgId: reg.data.user.org_id },
-    admin: { token: reg.data.token, user: reg.data.user, username: adminUsername },
+    org: { companyCode, orgId: login.data.user.org_id },
+    admin: { token: login.data.token, user: login.data.user, username: adminUsername },
+    /** 专用测试超管（跨组织权限，仅用于审批新公司注册）。
+     *  password 一并带上，供 12-security 套件验证「密码错误不得触发发码」等拒绝路径。 */
+    supervisor: { token: supervisorToken, username: cred.username, password: cred.password },
+    /** 引导阶段的观测值，供 01-auth 套件直接断言新契约行为 */
+    bootstrap: {
+      registerStatus: reg.status,
+      newCompany: !!reg.data?.newCompany,
+      orgNameHint: reg.data?.orgName ?? null,
+      blockedLoginStatus: blockedLogin.status,
+      approvedOrgName: approve.data?.orgActivated ?? null,
+    },
     /** 本轮额外注册的普通角色用户（供 RLS suite 使用） */
     users: {},
 

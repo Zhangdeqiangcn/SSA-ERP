@@ -22,6 +22,8 @@ _d1test*
 
 # 测试 / 报告
 test-results
+# 生产端到端套件使用的专用测试超管凭据（含明文密码，绝不进版本库）
+scripts/prod-e2e/.e2e-credentials.json
 test-results*
 playwright-report
 blob-report

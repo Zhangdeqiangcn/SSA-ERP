@@ -28,9 +28,17 @@ interface ApiUser {
   department?: string;
   status: string;
   email?: string;
+  /** 绑定的备用（抄送）邮箱：超管双邮箱验证用 */
+  altEmail?: string;
   phone?: string;
   isOwner?: boolean;
   orgId?: string;
+  /** 所属公司名称（V2.96.0 起由后端关联 orgs 返回） */
+  orgName?: string;
+  /** 所属公司状态：pending 表示新公司尚未获批 */
+  orgStatus?: string;
+  /** 公司码 */
+  orgCode?: string;
   createdAt?: string;
 }
 
@@ -63,6 +71,8 @@ const UserManagementTab: React.FC = () => {
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [total, setTotal] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
+  // 尚未批准启用的新公司数量（组织状态为 pending），供超管角标提醒
+  const [newCompanyCount, setNewCompanyCount] = useState(0);
   const [statusFilter, setStatusFilter] = useState('');
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -118,6 +128,7 @@ const UserManagementTab: React.FC = () => {
       setUsers(Array.isArray(data?.data) ? data.data : []);
       setTotal(typeof data?.total === 'number' ? data.total : (data?.data?.length ?? 0));
       setPendingCount(typeof data?.pendingCount === 'number' ? data.pendingCount : 0);
+      setNewCompanyCount(typeof data?.newCompanyCount === 'number' ? data.newCompanyCount : 0);
     } catch {
       setError('未登录或无法连接服务器，用户管理需要登录后使用');
       setUsers([]);
@@ -174,6 +185,15 @@ const UserManagementTab: React.FC = () => {
           data-testid="um-pending"
           sx={{ fontWeight: 600 }}
         />
+        {newCompanyCount > 0 && (
+          <Chip
+            size="small"
+            color="error"
+            label={`新公司待批 ${newCompanyCount}`}
+            data-testid="um-new-company"
+            sx={{ fontWeight: 600 }}
+          />
+        )}
         <Box sx={{ flex: 1 }} />
         <TextField
           size="small"
@@ -234,6 +254,7 @@ const UserManagementTab: React.FC = () => {
             <TableRow sx={{ bgcolor: '#F8FAFC' }}>
               <TableCell sx={{ fontWeight: 600 }}>用户</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>角色</TableCell>
+              <TableCell sx={{ fontWeight: 600 }}>所属公司</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>部门</TableCell>
               <TableCell sx={{ fontWeight: 600 }}>状态</TableCell>
               <TableCell align="right" sx={{ fontWeight: 600 }}>操作</TableCell>
@@ -283,6 +304,19 @@ const UserManagementTab: React.FC = () => {
                       size="small"
                       sx={{ bgcolor: ri.color + '15', color: ri.color, fontWeight: 500, border: 'none' }}
                     />
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
+                      <Typography variant="body2">{u.orgName || '—'}</Typography>
+                      {u.orgStatus === 'pending' && (
+                        <Chip
+                          size="small"
+                          label="新公司待批"
+                          data-testid={`um-org-pending-${u.id}`}
+                          sx={{ height: 20, bgcolor: '#F59E0B18', color: '#B45309', fontWeight: 600 }}
+                        />
+                      )}
+                    </Box>
                   </TableCell>
                   <TableCell><Typography variant="body2">{u.department || '—'}</Typography></TableCell>
                   <TableCell>

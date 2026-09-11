@@ -26,7 +26,8 @@ import {
   AccountCircle, Lock, Business, Person, Badge, Visibility, VisibilityOff,
   Email, Phone, HelpOutline, Apartment,
 } from '@mui/icons-material';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuthStore, type ActivationInfo } from '@/stores/authStore';
+import ActivationPanel from './ActivationPanel';
 
 // 部门下拉选项（与系统内组织架构常用部门保持一致）
 const DEPARTMENT_OPTIONS = [
@@ -419,7 +420,7 @@ export default function Login() {
         <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 3, textAlign: 'center' }}>
           多人多设备：登录后业务数据按公司码（组织）实时共享；未登录时使用本地数据，离线可用。
           <br />
-          加入他人公司时需先提交申请，由该公司管理员审批通过后方可登录。
+          新建公司需经系统超级管理员批准；加入已有公司需由该公司管理员审批，批准后方可登录。
         </Typography>
       </Paper>
 

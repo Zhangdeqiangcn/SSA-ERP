@@ -50,6 +50,7 @@ import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
 import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import UserManagementTab from './UserManagementTab';
+import SecurityCenterTab from './SecurityCenterTab';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
 const FORM_PERMISSIONS = [
@@ -434,6 +435,23 @@ const Settings: React.FC = () => {
     </Box>
   );
 
+  // 「安全中心」Tab：超级管理员的账号安全设置（双邮箱验证改密、邮件通道配置、版本通知）。
+  // 仅超管可用——其它角色看到明确的说明，避免误以为功能缺失。
+  const renderSecurityCenter = () => {
+    if (currentUser?.role !== 'super_admin' && !import.meta.env.DEV) {
+      return (
+        <Box sx={{ p: 3 }}>
+          <Alert severity="info" sx={{ borderRadius: 2 }}>
+            安全中心仅对<strong>超级管理员</strong>开放。当前账号角色为
+            「{ROLE_NAMES[currentUser?.role as UserRole] || currentUser?.role || '未知'}」，
+            如需调整账号安全设置，请联系系统超级管理员。
+          </Alert>
+        </Box>
+      );
+    }
+    return <SecurityCenterTab />;
+  };
+
   const renderRolePermissions = () => (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#1E293B' }}>角色权限矩阵</Typography>
@@ -493,6 +511,7 @@ const Settings: React.FC = () => {
       id: 'user', label: '用户与权限', icon: <People fontSize="small" />,
       items: [
         { id: 'users', label: '用户管理', icon: <People fontSize="small" />, render: renderUserManagement },
+        { id: 'security', label: '安全中心', icon: <VerifiedUser fontSize="small" />, render: renderSecurityCenter },
         { id: 'roles', label: '角色权限', icon: <Security fontSize="small" />, render: renderRolePermissions },
         { id: 'forms', label: '表单权限', icon: <Assignment fontSize="small" />, render: () => <FormPermissionPanel /> },
         { id: 'dataperm', label: '数据权限', icon: <Security fontSize="small" />, render: () => <DataPermissionTab /> },
