@@ -45,6 +45,9 @@ Thumbs.db
 
 # ===== 安全红线：绝不推送（含新光商业机密/个人记忆） =====
 .workbuddy/memory/
+
+# Windows 保留设备名误建文件（`> nul` 重定向产物）
+/nul
 # 交付物/报告（已归档 ima，不进 git）
 overview.md
 test-reports/

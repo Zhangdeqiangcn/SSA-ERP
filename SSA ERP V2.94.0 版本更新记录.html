@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP V2.94.0 版本更新记录</title>
+<style>
+  :root{--ink:#0f172a;--sub:#64748b;--line:#e2e8f0;--brand:#0284c7;--brand2:#0ea5e9;--bg:#f8fafc;--card:#fff;--ok:#059669;--warn:#b45309;--del:#dc2626;}
+  *{box-sizing:border-box}
+  body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;margin:0;padding:40px 20px;background:var(--bg);color:var(--ink);line-height:1.75}
+  .wrap{max-width:920px;margin:0 auto}
+  header{background:linear-gradient(135deg,#0ea5e9,#0369a1);color:#fff;border-radius:14px;padding:28px 32px;box-shadow:0 6px 24px rgba(2,132,199,.25)}
+  header h1{margin:0 0 8px;font-size:26px;letter-spacing:.5px}
+  header .meta{opacity:.92;font-size:14px}
+  .concl{background:#ecfdf5;border-left:5px solid var(--ok);border-radius:10px;padding:16px 20px;margin:24px 0;font-size:15px}
+  .concl b{color:var(--ok)}
+  h2{color:#0369a1;font-size:19px;margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  .feature{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .feature h3{margin:0 0 10px;font-size:16px;color:#0f172a}
+  .tag{display:inline-block;background:#e0f2fe;color:#0369a1;padding:2px 9px;border-radius:20px;font-size:12px;margin-right:5px;vertical-align:2px}
+  .tag.del{background:#fee2e2;color:var(--del)}
+  .tag.re{background:#fef3c7;color:var(--warn)}
+  .tag.new{background:#dcfce7;color:var(--ok)}
+  .feature p{margin:6px 0;font-size:14.5px}
+  .lbl{display:inline-block;min-width:66px;font-weight:600;color:var(--sub)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  th{background:#f1f5f9;text-align:left;padding:11px 14px;font-weight:600;color:#334155;border-bottom:1px solid var(--line)}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-family:Consolas,Monaco,monospace;font-size:13px;color:#be123c}
+  .ok{color:var(--ok);font-weight:600}
+  footer{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center}
+  .note{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;font-size:14px;margin:16px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP V2.94.0 版本更新记录</h1>
+  <div class="meta">发布日期：2026-09-10 ｜ 版本号：2.94.0 ｜ 构建：47f9e972 ｜ 部署：https://47f9e972.ssa-erp.pages.dev</div>
+</header>
+
+<div class="concl">
+  <b>一句话结论：</b>本次按强哥 5 项指令完成「设置页去重 + 重新归类 + 折叠交互 + 数据权限 + 说明书同步」。其中第 2 点除了把销售价目表移入销售管理，还<b>补齐了「不同销售仅能看到自己负责客户」的数据权限</b>；第 5 点<b>补登了此前缺失的 V2.91.0～V2.94.0 四版说明书记录</b>。类型检查 0 错、构建通过、生产发布、生产端到端回归 <b>全绿（PASS 240 / FAIL 0）</b>。
+</div>
+
+<h2>一、本次迭代目标</h2>
+<p>强哥反馈：系统设置页面分组过多、入口重复、查找不便，且说明书版本记录滞后。本次针对「设置页」做一次结构性优化，并同步补齐数据权限与说明书。</p>
+
+<h2>二、变更内容（5 项）</h2>
+
+<div class="feature">
+  <h3>① 移除「物料审批」设置项 —— 消除重复</h3>
+  <p><span class="tag del">删除</span><span class="tag">去重</span></p>
+  <p><span class="lbl">问题</span>设置页的「物料审批」与「审批流程」内容重叠。</p>
+  <p><span class="lbl">处理</span>审批流程已完整覆盖物料模块（<code>material</code> / <code>material_make</code> 两条流程），故移除设置页中的「物料审批」入口；<b>物料审批功能页本身保留不动</b>，仍可正常使用。</p>
+</div>
+
+<div class="feature">
+  <h3>② 销售价目表移入「销售管理」+ 补齐数据权限</h3>
+  <p><span class="tag re">重新归类</span><span class="tag new">数据权限</span></p>
+  <p><span class="lbl">问题</span>销售价目表原先挂在「供应链策略」下，与销售报价 / 订单业务割裂；且<b>未做人员级数据隔离</b>——任何销售都能看到全部客户的价目与促销。</p>
+  <p><span class="lbl">处理</span>新建「销售管理」设置分组，价目表移入其中；并在价目表组件内接入行级数据权限：<b>非管理员 / 老板（admin、owner、boss）角色仅能看到自己负责客户的价目表项与促销活动</b>，「通用物料价」（未绑定客户）对全体可见。</p>
+  <p><span class="lbl">实现</span>与后端既有行级策略（RLS）对齐：客户集合本身已由后端按负责人 <code>owner_id</code> 过滤，前端按「价目表项的客户 ∈ 可见客户集合」求交即可；管理员 / 老板走豁免分支看全部。</p>
+</div>
+
+<div class="feature">
+  <h3>③ 「单位换算」移入「企业基础」</h3>
+  <p><span class="tag re">重新归类</span></p>
+  <p><span class="lbl">问题</span>单位换算本质是企业级基础数据配置，放在供应链策略下定位不清。</p>
+  <p><span class="lbl">处理</span>移入「企业基础」分组，与基本设置 / 组织账套 / 数据字典 / 编号规则并列。</p>
+</div>
+
+<div class="feature">
+  <h3>④ 设置页分组支持折叠</h3>
+  <p><span class="tag new">交互升级</span></p>
+  <p><span class="lbl">问题</span>8 个分组全部展开时左侧导航过长，需要不断滚动才能找到目标项。</p>
+  <p><span class="lbl">处理</span>左侧分组改为折叠面板：<b>默认展开使用最频繁的「企业基础」，其余分组默认收起</b>，点击标题即可展开 / 收起；导航区增加高度上限并支持组内滚动，无论多少分组都能一屏内浏览。</p>
+</div>
+
+<div class="feature">
+  <h3>⑤ 使用说明书随版本同步更新</h3>
+  <p><span class="tag new">补登</span></p>
+  <p><span class="lbl">问题</span>说明书内「版本更新记录」章节最新只到 V2.90.0，<b>V2.91.0～V2.94.0 四版未登记</b>，与系统实际版本脱节。</p>
+  <p><span class="lbl">处理</span>补登 V2.91.0（审计日志 + 角色操作权限）、V2.92.0（审批流全覆盖）、V2.93.0（审计日志落 D1）、V2.94.0（本次设置优化）四条记录，每条含「本次变更」与「为什么这样操作」，保证说明书与系统版本一致。入口不变：设置 → 帮助中心 → 使用说明书。</p>
+</div>
+
+<h2>三、设置分组调整对照</h2>
+<table>
+  <thead><tr><th>设置项</th><th>调整前</th><th>调整后</th></tr></thead>
+  <tbody>
+    <tr><td>物料审批</td><td>OA 流程定制</td><td class="ok">已移除（与审批流程重复）</td></tr>
+    <tr><td>销售价目表</td><td>供应链策略</td><td class="ok">销售管理（新分组）</td></tr>
+    <tr><td>单位换算</td><td>供应链策略</td><td class="ok">企业基础</td></tr>
+    <tr><td>分组导航</td><td>全部展开的平铺列表</td><td class="ok">可折叠面板（默认展开企业基础）</td></tr>
+    <tr><td>说明书版本记录</td><td>止于 V2.90.0</td><td class="ok">补至 V2.94.0</td></tr>
+  </tbody>
+</table>
+
+<h2>四、技术实现</h2>
+<table>
+  <thead><tr><th>文件</th><th>改动</th></tr></thead>
+  <tbody>
+    <tr><td><code>src/pages/Settings/Settings.tsx</code></td><td>移除物料审批 Tab 与其引用；新增「销售管理」分组；单位换算改挂「企业基础」；分组列表改用折叠面板组件 + 导航限高</td></tr>
+    <tr><td><code>src/pages/Settings/SalesPriceTab.tsx</code></td><td>新增按当前登录角色过滤的可见价目表 / 促销集合（管理员与老板豁免），表头计数与表格数据同步改用可见集合；补充权限说明</td></tr>
+    <tr><td><code>src/config/searchIndex.ts</code></td><td>移除「物料审批」检索条目</td></tr>
+    <tr><td><code>src/content/manual.tsx</code></td><td>版本更新记录章节补登 V2.91.0～V2.94.0 四条</td></tr>
+    <tr><td><code>src/version.ts</code> / <code>package.json</code></td><td>版本号同步至 2.94.0</td></tr>
+  </tbody>
+</table>
+
+<h2>五、验证结果</h2>
+<table>
+  <thead><tr><th>验证项</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>类型检查（tsc --noEmit）</td><td class="ok">0 错误</td></tr>
+    <tr><td>生产构建（vite build）</td><td class="ok">通过（39.25 秒）</td></tr>
+    <tr><td>生产部署</td><td class="ok">成功 → https://47f9e972.ssa-erp.pages.dev</td></tr>
+    <tr><td>生产端到端回归门禁</td><td class="ok">全绿 PASS 240 / FAIL 0（另 WARN 1 / INFO 6，共 247 项，耗时 118.4 秒）</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <b>说明：</b>回归中的 1 条 WARN 与 6 条 INFO 均为「未做断言的观察项」（如：三单匹配判定值落库但不回显、OCR 精度待接入模型后断言、数电票默认走模拟兜底通道），<b>不是缺陷</b>，与本次改动无关。
+</div>
+
+<footer>本报告由 WorkBuddy 生成 ｜ 归档位置：ima「强哥的知识库」→ ⑥通用-交付物 → erp开发项目</footer>
+
+</div>
+</body>
+</html>

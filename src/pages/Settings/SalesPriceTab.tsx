@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Button, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Chip, IconButton, Dialog, DialogTitle, DialogContent,
@@ -8,6 +8,8 @@ import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon, Calculate } fro
 import { useSalesPriceStore } from '@/stores/salesPriceStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useMaterialStore } from '@/stores/materialStore';
+import { useAuthStore } from '@/stores/authStore';
+import { RLS_PRIVILEGED } from '@/stores/dataPermissionStore';
 import { formatCurrency } from '@/utils/format';
 import type { SalesPriceListItem, SalesPromotion, SalesPromotionType } from '@/types';
 
@@ -24,6 +26,21 @@ const SalesPriceTab: React.FC = () => {
     useSalesPriceStore();
   const customers = useCustomerStore((s) => s.customers);
   const materials = useMaterialStore((s) => s.materials);
+
+  // ── 数据权限（镜像后端 RLS customers:'own'）──
+  // 非管理员/老板（admin/owner/boss）仅能看到自己负责客户的价目表与促销：
+  // 客户列表本身已由后端按 owner_id 过滤，故与「可见客户」求交即可；通用价（无客户）对全体可见。
+  const currentUser = useAuthStore((s) => s.currentUser);
+  const canSeeAllCustomers = !currentUser || RLS_PRIVILEGED.has(currentUser.role);
+  const visibleCustomerIds = useMemo(() => new Set(customers.map((c) => c.id)), [customers]);
+  const visiblePriceList = useMemo(
+    () => (canSeeAllCustomers ? priceList : priceList.filter((p) => !p.customerId || visibleCustomerIds.has(p.customerId))),
+    [canSeeAllCustomers, priceList, visibleCustomerIds]
+  );
+  const visiblePromotions = useMemo(
+    () => (canSeeAllCustomers ? promotions : promotions.filter((p) => !p.customerId || visibleCustomerIds.has(p.customerId))),
+    [canSeeAllCustomers, promotions, visibleCustomerIds]
+  );
 
   const [open, setOpen] = useState(false);
   const [item, setItem] = useState<Omit<SalesPriceListItem, 'id'>>(emptyItem);
@@ -94,6 +111,7 @@ const SalesPriceTab: React.FC = () => {
       <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }}>
         C5 销售价目表 / 折扣 / 促销：支持「客户级 / 通用物料级」单价 + 折扣率 + 阶梯量价（tier）+ 限时促销（百分比 / 立减 / 特价）。
         销售订单选择物料时自动调用 <code>resolvePrice</code> 取价。
+        数据权限：销售人员仅能看到自己负责客户的价目表与促销（管理员 / 老板可查看全部）。
       </Alert>
 
       {/* 取价试算 */}
@@ -168,7 +186,7 @@ const SalesPriceTab: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {promotions.map((p) => (
+            {visiblePromotions.map((p) => (
               <TableRow key={p.id} data-testid={`sp-promo-row-${p.id}`}>
                 <TableCell>{p.name}</TableCell>
                 <TableCell>
