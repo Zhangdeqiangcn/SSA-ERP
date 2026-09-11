@@ -83,6 +83,35 @@ export default function ActivationPanel({ info, password, onCancel }: Props) {
   const [pwd2, setPwd2] = useState('');
   const [showPwd, setShowPwd] = useState(false);
 
+  // 安全邮箱备用通道（收不到验证码时的异地取码后路；验证码不在本页显示）
+  const securityMailbox = useAuthStore((s) => s.securityMailbox);
+  const [smLoading, setSmLoading] = useState(false);
+  const [smMsg, setSmMsg] = useState<string | null>(null);
+  const [smOk, setSmOk] = useState(false);
+
+  /** 申请启用安全邮箱备用通道：把新验证码延时投递到独立安全邮箱 */
+  async function handleSecMailEnqueue() {
+    setSmMsg(null);
+    setSmLoading(true);
+    const r = await securityMailbox({
+      username: info.username,
+      password,
+      purpose: 'activate',
+      action: 'enqueue',
+    });
+    setSmLoading(false);
+    if (!r.ok) {
+      setSmOk(false);
+      setSmMsg(r.error || '申请失败，请稍后重试');
+      return;
+    }
+    setSmOk(true);
+    setSmMsg(
+      r.data?.message ||
+        `已登记：验证码将在 ${r.data?.delayHours ?? 8} 小时后投递到安全邮箱，并在 ${r.data?.intervalMin ?? 10} 分钟后再投递一次`
+    );
+  }
+
   // 重发倒计时（与后端 60 秒冷却对齐）
   useEffect(() => {
     if (seconds <= 0) return;
@@ -109,7 +138,7 @@ export default function ActivationPanel({ info, password, onCancel }: Props) {
     const failed = list.filter((x) => !x.ok);
     if (list.length && failed.length === list.length) {
       setError(
-        '两个邮箱的邮件都未能发出，请稍后重试；如持续失败，请联系系统运维用兜底通道取码'
+        '两个邮箱的邮件都未能发出，请稍后重试；也可以启用下方「安全邮箱备用通道」，系统会把新验证码延时投递到独立的安全邮箱'
       );
     } else if (failed.length) {
       setNotice(
@@ -352,10 +381,35 @@ export default function ActivationPanel({ info, password, onCancel }: Props) {
         <Stack direction="row" alignItems="flex-start" spacing={1}>
           <Business fontSize="small" sx={{ color: 'text.disabled', mt: 0.25 }} />
           <Typography variant="caption" color="text.secondary">
-            收不到验证码？请先检查垃圾邮件箱；若仍未收到，可在登录后在「设置 → 安全中心」用兜底通道查看，
+            收不到验证码？请先检查垃圾邮件箱。若两个邮箱都收不到，可启用下方的「安全邮箱备用通道」——
+            系统会把新的一批验证码延时投递到独立的安全邮箱（验证码不会在本页或系统任何界面显示），
             或联系系统运维协助。
           </Typography>
         </Stack>
+
+        {step < 2 && (
+          <Box sx={{ mt: 1.5 }} data-testid="activation-security-mailbox">
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={smLoading ? <CircularProgress size={16} /> : null}
+              disabled={smLoading}
+              onClick={() => void handleSecMailEnqueue()}
+              data-testid="activation-security-mailbox-btn"
+            >
+              启用安全邮箱备用通道
+            </Button>
+            {smMsg && (
+              <Alert
+                severity={smOk ? 'success' : 'error'}
+                sx={{ mt: 1 }}
+                data-testid="activation-security-mailbox-msg"
+              >
+                {smMsg}
+              </Alert>
+            )}
+          </Box>
+        )}
 
         <Button
           variant="text"

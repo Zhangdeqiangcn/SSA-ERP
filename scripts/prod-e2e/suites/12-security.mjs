@@ -2,7 +2,7 @@
 // 覆盖：
 //   1) 用户列表的新契约 —— 新增所属公司（orgName/orgStatus）与待批公司计数（newCompanyCount）
 //   2) 超级管理员专属接口的权限护栏（无凭据 401 / 普通管理员 403）
-//   3) 兜底通道（查看近期验证码）的身份 + 密码双重校验
+//   3) 安全邮箱备用通道（不要求登录态）：身份校验 + 验证码绝不回传的护栏
 //   4) 双邮箱验证码接口对「非超管账号」「未绑定邮箱的超管」的拒绝路径
 //
 // 说明：真实的「双邮箱发码 → 双码校验 → 激活/改密」完整成功链路需要超级管理员账号
@@ -54,32 +54,120 @@ export default async function run(ctx, s) {
     s.expectStatus(`${method} ${path} 普通管理员拒绝 403`, asAdmin, 403);
   }
 
-  // ── 3) 兜底通道：身份 + 密码双重校验 ───────────────────────────
-  const anonCodes = await req('POST', '/api/security/codes', { body: { password } });
-  s.expectStatus('POST /api/security/codes 无凭据拒绝 401', anonCodes, 401);
+  // ── 3) 安全邮箱备用通道：身份校验与「验证码不回传」护栏 ────────────
+  // 说明：本通道不要求登录态（它就是「进不去系统时」的后路）。
+  //   关键约束：enqueue 的成功路径会在生产库登记一条真实投递任务，
+  //   8 小时后真的向管理员的安全邮箱发信（对外副作用），生产门禁绝不可触发；
+  //   因此下方只测「拒绝路径」+ 「status 查询（只读、不创建任务）」。
+  //   超管凭据相关断言在 ctx.supervisor 缺失时退化为 s.warn，避免套件失败。
 
-  const adminCodes = await req('POST', '/api/security/codes', {
-    token: ctx.admin.token,
-    body: { password },
+  // 3a) 缺参数（不带任何凭据 + body 为空）→ 400
+  const noParam = await req('POST', '/api/auth/security-mailbox', { body: {} });
+  s.expectStatus('安全邮箱通道：缺参数被拒', noParam, 400);
+
+  // 3b) 防账号探测：「不存在的用户名」与「真实超管错误密码」同为 401，且提示文字完全一致
+  // 注意：必须带上合法的 purpose/action，否则请求会先被「参数校验」拦成 400，
+  //   走不到身份校验那一步，断言就会测错对象（此处曾踩过这个坑）。
+  const notExist = await req('POST', '/api/auth/security-mailbox', {
+    body: {
+      username: `definitely_not_a_user_${runId}`,
+      password: 'whatever',
+      purpose: 'change_password',
+      action: 'status',
+    },
   });
-  s.expectStatus('POST /api/security/codes 普通管理员拒绝 403', adminCodes, 403);
-
-  if (supervisor?.token) {
-    const noPwd = await req('POST', '/api/security/codes', { token: supervisor.token, body: {} });
-    s.expectStatus('兜底通道缺少密码拒绝 400', noPwd, 400);
-
-    const wrongPwd = await req('POST', '/api/security/codes', {
-      token: supervisor.token,
-      body: { password: `wrong-${runId}-pwd` },
+  s.expectStatus('安全邮箱通道：不存在用户被拒 401', notExist, 401);
+  if (supervisor?.username) {
+    const wrongSuper = await req('POST', '/api/auth/security-mailbox', {
+      body: {
+        username: supervisor.username,
+        password: `wrong-${runId}-pwd`,
+        purpose: 'change_password',
+        action: 'status',
+      },
     });
-    s.expectStatus('兜底通道密码错误拒绝 401', wrongPwd, 401);
-    s.expectTrue(
-      '兜底通道错误文案不泄露账号信息',
-      /密码/.test(wrongPwd.data?.error || ''),
-      `error=${wrongPwd.data?.error}`
+    s.expectStatus('安全邮箱通道：超管错误密码被拒 401', wrongSuper, 401);
+    s.expectEq(
+      '安全邮箱通道：防账号探测（同提示）',
+      notExist.data?.error,
+      wrongSuper.data?.error,
+      `不存在用户提示=${notExist.data?.error} / 超管错误密码提示=${wrongSuper.data?.error}`
     );
   } else {
-    s.warn('兜底通道超管路径未覆盖', '缺少测试超管令牌，跳过');
+    s.warn('安全邮箱通道：防账号探测后半段未覆盖', '缺少测试超管用户名，跳过超管错误密码对比');
+  }
+
+  // 3c) 非超管被拒（普通管理员 + 合法 purpose/action）→ 400 且提示含「无需」
+  const normalAdmin = await req('POST', '/api/auth/security-mailbox', {
+    body: { username: ctx.admin.username, password, purpose: 'change_password', action: 'status' },
+  });
+  s.expectStatus('安全邮箱通道：非超管被拒', normalAdmin, 400);
+  s.expectTrue(
+    '安全邮箱通道：非超管提示含「无需」',
+    /无需/.test(normalAdmin.data?.error || ''),
+    `error=${normalAdmin.data?.error}`
+  );
+
+  // 3c2) 拒绝路径：非超管 + action=enqueue → 400（不会创建投递任务，安全可测）
+  const normalEnqueue = await req('POST', '/api/auth/security-mailbox', {
+    body: { username: ctx.admin.username, password, purpose: 'change_password', action: 'enqueue' },
+  });
+  s.expectStatus('安全邮箱通道：非超管 enqueue 拒绝 400', normalEnqueue, 400);
+
+  // 3d) 非法 purpose / action 被拒（需超管凭据）
+  if (supervisor?.username) {
+    const badPurpose = await req('POST', '/api/auth/security-mailbox', {
+      body: { username: supervisor.username, password: supervisor.password, purpose: 'unknown', action: 'status' },
+    });
+    s.expectStatus('安全邮箱通道：非法场景被拒', badPurpose, 400);
+
+    const badAction = await req('POST', '/api/auth/security-mailbox', {
+      body: { username: supervisor.username, password: supervisor.password, purpose: 'change_password', action: 'drop-table' },
+    });
+    s.expectStatus('安全邮箱通道：非法操作被拒', badAction, 400);
+
+    // 3e) 超管可查询状态（只读 status，不触发投递）
+    const status = await req('POST', '/api/auth/security-mailbox', {
+      body: { username: supervisor.username, password: supervisor.password, purpose: 'change_password', action: 'status' },
+    });
+    s.expectStatus('安全邮箱通道：超管可查询状态', status, 200);
+    s.expectTrue(
+      '安全邮箱通道：状态含 configured（布尔）',
+      typeof status.data?.configured === 'boolean',
+      `configured=${status.data?.configured}`
+    );
+    s.expectTrue(
+      '安全邮箱通道：delayHours 为数字且 > 0',
+      typeof status.data?.delayHours === 'number' && status.data.delayHours > 0,
+      `delayHours=${status.data?.delayHours}`
+    );
+    s.expectTrue(
+      '安全邮箱通道：intervalMin 为数字且 > 0',
+      typeof status.data?.intervalMin === 'number' && status.data.intervalMin > 0,
+      `intervalMin=${status.data?.intervalMin}`
+    );
+    s.expectTrue(
+      '安全邮箱通道：maxAttempts 为数字且 > 0',
+      typeof status.data?.maxAttempts === 'number' && status.data.maxAttempts > 0,
+      `maxAttempts=${status.data?.maxAttempts}`
+    );
+
+    // 3f) 核心安全断言：响应体绝不含明文验证码，也不回传任何 code 字段
+    const dumped = JSON.stringify(status.data);
+    s.expectTrue(
+      '安全邮箱通道：响应不含验证码',
+      !/\b\d{6}\b/.test(dumped),
+      `响应片段=${dumped.slice(0, 200)}`
+    );
+    s.expectTrue(
+      '安全邮箱通道：不回传 code/codes/job.code',
+      status.data?.job?.code === undefined &&
+        status.data?.code === undefined &&
+        status.data?.codes === undefined,
+      `job?.code=${status.data?.job?.code} code=${status.data?.code} codes=${status.data?.codes}`
+    );
+  } else {
+    s.warn('安全邮箱通道：缺少测试超管凭据，跳过', '超管状态查询 / 验证码不回传等需超管凭据的断言已跳过');
   }
 
   // ── 4) 双邮箱验证码接口的拒绝路径 ─────────────────────────────

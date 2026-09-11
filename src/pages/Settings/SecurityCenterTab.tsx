@@ -13,7 +13,9 @@ import { useAuthStore } from '@/stores/authStore';
  * --------------------------------------------------------------------------
  * 设计目标：把超级管理员账号的安全等级提到最高。
  *  - 改密必须「双邮箱验证码」同时通过（两个邮箱各收一个验证码）；
- *  - 邮件通道、版本更新通知、双邮箱绑定状态集中在此管理，便于审计与排查。
+ *  - 邮件通道、版本更新通知、双邮箱绑定状态集中在此管理，便于审计与排查；
+ *  - 收不到邮件时，改用「安全邮箱备用通道」——把新验证码延时投递到独立安全邮箱，
+ *    验证码不在本页面或系统任何界面显示（旧的「登录后查码」方案因缺乏隔离已被废弃）。
  * 无 token / 接口不可达时给出友好提示，绝不白屏。
  */
 
@@ -45,6 +47,35 @@ function parseRecipients(text: string): string[] {
     .filter((s) => s.length > 0);
 }
 
+/** ISO 时间字符串 → 本地可读时间；无效值原样返回，避免界面出现 Invalid Date */
+function formatTime(iso: string): string {
+  if (!iso) return '—';
+  const t = new Date(iso).getTime();
+  if (!Number.isFinite(t)) return iso;
+  return new Date(t).toLocaleString('zh-CN', { hour12: false });
+}
+
+/** 把安全邮箱投递任务的状态翻译成一句人话 */
+function secMailJobText(job: {
+  status: string;
+  attempt: number;
+  maxAttempts: number;
+  deliverAt: string;
+}): string {
+  switch (job.status) {
+    case 'pending':
+      return `排队中：第 ${Math.min(job.attempt + 1, job.maxAttempts)} / ${job.maxAttempts} 次投递将于 ${formatTime(job.deliverAt)} 发出`;
+    case 'done':
+      return `已完成全部 ${job.attempt} 次投递，请到安全邮箱（含垃圾箱）查收`;
+    case 'failed':
+      return `投递失败（已尝试 ${job.attempt} 次），请联系系统运维检查邮件通道`;
+    case 'cancelled':
+      return '任务已取消';
+    default:
+      return `当前状态：${job.status}`;
+  }
+}
+
 // ── 类型定义（与后端契约同构）───────────────────────────────────
 interface SendCodeEmail {
   email: string; // 脱敏后的邮箱，如 m***@163.com
@@ -61,14 +92,24 @@ interface SendCodeResult {
   message?: string;
 }
 
-interface RecentCode {
-  email: string;
-  masked: string;
-  code: string;
-  purpose: string;
-  createdAt: string;
-  expiresAt: string;
-  consumed: boolean;
+/**
+ * 安全邮箱备用通道的状态数据（与后端 /api/auth/security-mailbox 同构）。
+ * 注意：这里**没有**任何验证码字段——该通道的设计前提就是「验证码永不出现在系统界面」。
+ */
+interface SecurityMailStatusData {
+  configured: boolean;
+  mailbox: string;
+  delayHours: number;
+  intervalMin: number;
+  maxAttempts: number;
+  job?: {
+    status: string;
+    attempt: number;
+    maxAttempts: number;
+    deliverAt: string;
+    createdAt: string;
+    lastError?: string;
+  } | null;
 }
 
 interface MailConfig {
@@ -130,12 +171,13 @@ const SecurityCenterTab: React.FC = () => {
   const [verifying, setVerifying] = useState(false);
   const [changing, setChanging] = useState(false);
 
-  // 兜底通道（收不到邮件时查看最近生成的验证码）
-  const [fallbackOpen, setFallbackOpen] = useState(false);
-  const [fallbackPassword, setFallbackPassword] = useState('');
-  const [fallbackList, setFallbackList] = useState<RecentCode[]>([]);
-  const [fallbackError, setFallbackError] = useState<string | null>(null);
-  const [fallbackLoading, setFallbackLoading] = useState(false);
+  // 安全邮箱备用通道（收不到邮件时的异地取码后路；验证码永不在此显示）
+  const [secMailOpen, setSecMailOpen] = useState(false);
+  const [secMailPassword, setSecMailPassword] = useState('');
+  const [secMailData, setSecMailData] = useState<SecurityMailStatusData | null>(null);
+  const [secMailError, setSecMailError] = useState<string | null>(null);
+  const [secMailNotice, setSecMailNotice] = useState<string | null>(null);
+  const [secMailLoading, setSecMailLoading] = useState(false);
 
   /** 第 1 步：发送双邮箱验证码 */
   const handleSendCode = useCallback(async () => {
@@ -254,36 +296,48 @@ const SecurityCenterTab: React.FC = () => {
     setPwdError(null);
   }, []);
 
-  /** 兜底通道：用当前密码查看最近生成的验证码 */
-  const handleFallbackQuery = useCallback(async () => {
-    if (!fallbackPassword) {
-      setFallbackError('请输入当前登录密码以查看兜底验证码');
-      return;
-    }
-    if (!token) {
-      setFallbackError('登录状态已失效，请重新登录后再查看');
-      return;
-    }
-    setFallbackLoading(true);
-    setFallbackError(null);
-    setFallbackList([]);
-    try {
-      const { ok, data } = await apiFetch('/api/security/codes', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ password: fallbackPassword }),
-      });
-      if (!ok) {
-        setFallbackError(data?.error || '查询失败');
+  /**
+   * 安全邮箱备用通道：申请延时投递（enqueue）或查询投递状态（status）。
+   *
+   * 用当前登录密码做身份确认——这一点与旧「查码」方案的根本区别在于：
+   * 身份确认的作用是「允许你把新验证码投递到安全邮箱」，而不是「把验证码显示给你」。
+   * 因此即使有人拿到了登录密码，他也只能触发投递，仍然要等满延时并进入安全邮箱才能取到码。
+   */
+  const handleSecMail = useCallback(
+    async (action: 'enqueue' | 'status') => {
+      if (!secMailPassword) {
+        setSecMailError('请输入当前登录密码以申请或查询安全邮箱通道');
         return;
       }
-      setFallbackList(Array.isArray(data?.data) ? data.data : []);
-    } catch {
-      setFallbackError('网络异常，查询失败，请检查网络后重试');
-    } finally {
-      setFallbackLoading(false);
-    }
-  }, [fallbackPassword, token]);
+      setSecMailLoading(true);
+      setSecMailError(null);
+      setSecMailNotice(null);
+      try {
+        const { ok, data } = await apiFetch('/api/auth/security-mailbox', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: currentUser?.username || '',
+            password: secMailPassword,
+            purpose: 'change_password',
+            action,
+          }),
+        });
+        if (!ok) {
+          setSecMailError(data?.error || (action === 'enqueue' ? '申请失败' : '查询失败'));
+          return;
+        }
+        setSecMailData(data as SecurityMailStatusData);
+        if (action === 'enqueue') {
+          setSecMailNotice(data?.message || '已登记安全邮箱投递任务');
+        }
+      } catch {
+        setSecMailError('网络异常，操作失败，请检查网络后重试');
+      } finally {
+        setSecMailLoading(false);
+      }
+    },
+    [secMailPassword, currentUser?.username]
+  );
 
   // ====================================================================
   // 区块二 & 四：邮件服务配置 / 安全状态（共用 GET /api/system/mail-config）
@@ -618,74 +672,104 @@ const SecurityCenterTab: React.FC = () => {
             </Stack>
           )}
 
-          {/* 兜底通道：收不到邮件时查看最近生成的验证码 */}
+          {/* 安全邮箱备用通道：收不到邮件时的异地取码后路（验证码永不在系统内显示） */}
           <Divider sx={{ my: 2 }} />
           <Accordion
             disableGutters
             elevation={0}
             sx={{ bgcolor: 'transparent' }}
-            expanded={fallbackOpen}
-            onChange={(_, e) => setFallbackOpen(e)}
-            data-testid="security-fallback-accordion"
+            expanded={secMailOpen}
+            onChange={(_, e) => setSecMailOpen(e)}
+            data-testid="security-mailbox-accordion"
           >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />} data-testid="security-fallback-toggle">
-              <Typography variant="body2" sx={{ fontWeight: 500 }}>收不到邮件？用兜底通道查看</Typography>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />} data-testid="security-mailbox-toggle">
+              <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                收不到验证码？启用「安全邮箱备用通道」
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {fallbackError && (
-                <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }} data-testid="security-fallback-error">{fallbackError}</Alert>
+              <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 2 }}>
+                当主邮箱与备用邮箱都收不到验证码时，可申请把新的一批验证码投递到一个独立的安全邮箱。
+                为形成真正的异地隔离，投递会<strong>延后 {secMailData?.delayHours ?? 8} 小时</strong>，
+                并在间隔 {secMailData?.intervalMin ?? 10} 分钟后<strong>再投递一次</strong>。
+                验证码<strong>不会在系统任何界面出现</strong>——因此即使账号密码泄露，也无法在系统内直接拿到码。
+              </Typography>
+
+              {secMailError && (
+                <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }} data-testid="security-mailbox-error">
+                  {secMailError}
+                </Alert>
               )}
+              {secMailNotice && (
+                <Alert severity="success" sx={{ mb: 2, borderRadius: 2 }} data-testid="security-mailbox-notice">
+                  {secMailNotice}
+                </Alert>
+              )}
+
               <Stack spacing={2}>
+                <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+                  <Typography variant="body2">
+                    安全邮箱：{secMailData ? secMailData.mailbox || '未配置' : '——'}
+                  </Typography>
+                  {secMailData && (
+                    <Chip
+                      size="small"
+                      variant="outlined"
+                      color={secMailData.configured ? 'success' : 'default'}
+                      label={secMailData.configured ? '已配置' : '未配置'}
+                      data-testid="security-mailbox-configured"
+                    />
+                  )}
+                </Stack>
+
                 <TextField
                   type="password"
                   label="当前登录密码"
-                  value={fallbackPassword}
-                  onChange={(e) => setFallbackPassword(e.target.value)}
+                  value={secMailPassword}
+                  onChange={(e) => setSecMailPassword(e.target.value)}
                   fullWidth
-                  data-testid="security-fallback-password"
+                  helperText="仅用于确认身份；系统不会因身份确认而显示任何验证码"
+                  data-testid="security-mailbox-password"
                 />
-                <Box>
+
+                <Stack direction="row" spacing={1}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    startIcon={secMailLoading ? <CircularProgress size={16} /> : null}
+                    disabled={secMailLoading}
+                    onClick={() => void handleSecMail('enqueue')}
+                    data-testid="security-mailbox-enqueue-btn"
+                  >
+                    启用备用通道
+                  </Button>
                   <Button
                     variant="outlined"
                     size="small"
-                    startIcon={fallbackLoading ? <CircularProgress size={16} /> : null}
-                    disabled={fallbackLoading}
-                    onClick={() => void handleFallbackQuery()}
-                    data-testid="security-fallback-confirm-btn"
+                    disabled={secMailLoading}
+                    onClick={() => void handleSecMail('status')}
+                    data-testid="security-mailbox-status-btn"
                   >
-                    查看最近验证码
+                    查询投递状态
                   </Button>
-                </Box>
-                {fallbackList.length > 0 && (
-                  <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2 }} data-testid="security-fallback-table">
-                    <Table size="small">
-                      <TableHead>
-                        <TableRow sx={{ bgcolor: '#F8FAFC' }}>
-                          <TableCell sx={{ fontWeight: 600 }}>邮箱</TableCell>
-                          <TableCell sx={{ fontWeight: 600 }}>验证码</TableCell>
-                          <TableCell sx={{ fontWeight: 600 }}>用途</TableCell>
-                          <TableCell sx={{ fontWeight: 600 }}>生成时间</TableCell>
-                          <TableCell sx={{ fontWeight: 600 }}>状态</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {fallbackList.map((c, i) => (
-                          <TableRow key={i}>
-                            <TableCell>{c.email || c.masked}</TableCell>
-                            <TableCell>{c.code}</TableCell>
-                            <TableCell>{c.purpose}</TableCell>
-                            <TableCell>{c.createdAt}</TableCell>
-                            <TableCell>
-                              <Chip size="small" label={c.consumed ? '已用' : '未用'} color={c.consumed ? 'default' : 'success'} />
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                )}
-                {!fallbackLoading && fallbackList.length === 0 && (
-                  <Typography variant="caption" color="text.secondary">暂无记录，请先点击「查看最近验证码」。</Typography>
+                </Stack>
+
+                {secMailData?.job ? (
+                  <Box
+                    sx={{ p: 1.5, bgcolor: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 1.5 }}
+                    data-testid="security-mailbox-job"
+                  >
+                    <Typography variant="body2">{secMailJobText(secMailData.job)}</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5 }}>
+                      申请时间：{formatTime(secMailData.job.createdAt)}｜已投递 {secMailData.job.attempt} /{' '}
+                      {secMailData.job.maxAttempts} 次
+                      {secMailData.job.lastError ? `｜最近一次异常：${secMailData.job.lastError}` : ''}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography variant="caption" color="text.secondary">
+                    尚未申请过安全邮箱通道。点击「启用备用通道」后，将按上方规则延时投递。
+                  </Typography>
                 )}
               </Stack>
             </AccordionDetails>

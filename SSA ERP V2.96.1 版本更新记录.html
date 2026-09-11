@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP V2.96.1 版本更新记录</title>
+<style>
+  :root{--ink:#0f172a;--sub:#64748b;--line:#e2e8f0;--bg:#f8fafc;--card:#fff;--ok:#059669;--warn:#b45309;--bad:#dc2626;--brand:#0284c7;}
+  *{box-sizing:border-box}
+  body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;margin:0;padding:40px 20px;background:var(--bg);color:var(--ink);line-height:1.75}
+  .wrap{max-width:960px;margin:0 auto}
+  header{background:linear-gradient(135deg,#0f766e,#0369a1);color:#fff;border-radius:14px;padding:28px 32px;box-shadow:0 6px 24px rgba(2,132,199,.25)}
+  header h1{margin:0 0 8px;font-size:26px;letter-spacing:.5px}
+  header .meta{opacity:.93;font-size:14px}
+  .concl{background:#ecfdf5;border-left:5px solid var(--ok);border-radius:10px;padding:16px 20px;margin:24px 0;font-size:15px}
+  h2{color:#0369a1;font-size:19px;margin:34px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:16px;margin:20px 0 8px;color:#0f172a}
+  .qa{background:#eff6ff;border-left:5px solid #3b82f6;border-radius:10px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .qa b{color:#1d4ed8}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  .tag{display:inline-block;background:#e0f2fe;color:#0369a1;padding:2px 9px;border-radius:20px;font-size:12px;margin-right:5px;vertical-align:2px}
+  .tag.fix{background:#fee2e2;color:var(--bad)}
+  .tag.new{background:#dcfce7;color:var(--ok)}
+  .tag.sec{background:#ede9fe;color:#6d28d9}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(15,23,42,.05)}
+  th{background:#f1f5f9;text-align:left;padding:11px 14px;font-weight:600;color:#334155;border-bottom:1px solid var(--line)}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:5px;font-family:Consolas,Monaco,monospace;font-size:13px;color:#be123c}
+  .ok{color:var(--ok);font-weight:600}
+  .no{color:var(--bad);font-weight:600}
+  .action{background:#fffbeb;border:2px solid #f59e0b;border-radius:12px;padding:16px 20px;margin:20px 0}
+  .action h3{margin-top:0;color:var(--warn)}
+  .flow{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:14px 18px;margin:12px 0;font-size:14px;line-height:2}
+  footer{margin-top:38px;padding-top:16px;border-top:1px solid var(--line);color:var(--sub);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP V2.96.1 版本更新记录</h1>
+  <div class="meta">发布日期：2026-09-11 ｜ 版本号：2.96.1 ｜ 部署：https://23d39b72.ssa-erp.pages.dev ｜ 生产域：https://ssa-erp.pages.dev</div>
+</header>
+
+<div class="concl">
+  <b>一句话结论：</b>您否决的「登录后用密码查看验证码」这条后路<b>已彻底拆除</b>，并按您的建议改为<b>不依赖登录态的「安全邮箱延时投递」通道</b>——验证码在系统的任何界面、任何接口都不再出现；申请后 <b>8 小时</b>才投递到独立安全邮箱，间隔 <b>10 分钟</b>再投递一次。<br>
+  双邮箱验证所需的邮件通道已实打实打通：<b class="ok">已实测送达您的 163 收件箱</b>（用邮件协议直连收件箱核对，不是"显示发送成功"就算数），连续 4 次发信 <b class="ok">100% 成功</b>。<br>
+  本次还额外修掉一个<b class="no">审批闸可被绕过的越权缺陷</b>（在独立安全审查阶段发现，已于本轮一并修复并部署）。<br>
+  类型检查 0 错、构建通过、数据库迁移已应用生产、生产回归门禁 <b class="ok">PASS 314 / FAIL 0</b>。
+</div>
+
+<h2>一、先回答您最关心的三件事</h2>
+
+<div class="qa">
+  <b>① 「用登录密码查看验证码」这条后路，已按您的意见废弃。</b><br>
+  您的判断完全正确：能登录系统就能看到验证码，这条后路等于没有隔离——只要密码泄露，攻击者登录后即可自助取码并改密，双邮箱验证形同虚设。<br>
+  现已<b>整体删除</b>这个功能（后端接口文件已移除、安全中心对应入口已移除），替换为下面这条新通道。
+</div>
+
+<div class="qa">
+  <b>② 新后路已按您的方案实现：安全邮箱 + 8 小时延时 + 间隔 10 分钟重投。</b><br>
+  安全邮箱已设为 <code>zhang.deqiang@foxmail.com</code>。三个参数（8 小时 / 10 分钟 / 投递 2 次）<b>存在数据库里，随时可改，改完立即生效，不需要重新部署</b>——您哪天觉得 8 小时太长或太短，说一声即可调整。
+</div>
+
+<div class="qa">
+  <b>③ 一个重要纠正：安全邮箱不需要它的授权码。</b><br>
+  我原本准备向您索取 foxmail 的授权码，后来想明白了——<b>发信永远是"用 163 的账号 + 163 的授权码"发出去，收件人可以是任何邮箱</b>；foxmail 在这里只是"收信人"，不参与发信，所以不需要它的授权码。您提供的 163 授权码已经足够，已写入生产配置（授权码属敏感凭据，本文档不记录明文）。
+</div>
+
+<h2>二、本次交付明细</h2>
+
+<div class="card">
+  <h3>① <span class="tag new">新通道</span>安全邮箱备用通道（延时 + 异地）</h3>
+  <p><b>解决什么问题：</b>当主邮箱和备用邮箱都收不到验证码时（邮件延迟、进了垃圾箱、被服务商拦截），管理员不至于被锁在系统外。</p>
+  <p><b>为什么这样设计：</b>把取码能力从「系统内」挪到「系统外（独立邮箱）」，再叠加 8 小时时延。这样一来，攻击者即便拿到了登录密码，也必须在 8 小时后仍能进入那个安全邮箱才可能得手；而正常用户遇到邮件故障时，依然有路可走。</p>
+  <div class="flow">
+    <b>使用流程：</b><br>
+    登录页「首次激活」面板（或 设置 → 安全中心）→ 输入用户名与密码 → 点「启用备用通道」<br>
+    ↓ 系统登记排队（<b>此时看不到任何验证码</b>）<br>
+    ↓ 8 小时后：两枚验证码投递到安全邮箱 → 再等 10 分钟，<b>同两枚码再投一次</b>（防首次丢信）<br>
+    ↓ 您打开 foxmail 收信，把两枚码一并填入系统 → 通过
+  </div>
+</div>
+
+<div class="card">
+  <h3>② <span class="tag sec">安全性质</span>验证码在任何界面、任何接口都不会出现</h3>
+  <p>这是新通道区别于旧方案的核心。安全中心里只显示三样东西：<b>脱敏后的安全邮箱地址</b>、<b>预计投递时间</b>、<b>投递进度（第几次/共几次）</b>。后端接口的返回值里也<b>不含</b>验证码字段。<br>
+  另外三条护栏：申请时必须提供正确的登录密码；「用户名不存在」与「密码错误」返回完全相同的提示（防止被用来探测账号存在与否）；同一账号 24 小时内只能申请一次，防止安全邮箱被反复骚扰。</p>
+</div>
+
+<div class="card">
+  <h3>③ <span class="tag fix">缺陷修复</span>审批闸可被绕过的越权漏洞</h3>
+  <p><b>问题：</b>在独立安全审查中发现——虽然「申请验证码」这一步会拦截未审批账号，但「校验验证码」和「激活」两步<b>没有</b>这道拦截，而激活那一步会无条件把账号状态写成「已启用」。理论上一个已处于「未审批/已驳回」状态的超级管理员账号，可以在拿到验证码后自己完成激活、把自己变成可登录状态，从而绕开审批。<br>
+  <b>已修复：</b>在这两处补上与「申请验证码」一致的审批状态拦截，形成三道锁。正常路径下未审批账号本来就走不到这里（登录已被拦），这是防止闸门被绕过的纵深防御。</p>
+</div>
+
+<div class="card">
+  <h3>④ <span class="tag new">健壮性</span>邮件偶发被拒时自动重试一次</h3>
+  <p>实测时发现一个真实现象：系统发出的<b>第一封</b>邮件被 163 拒绝（返回 535 认证失败），但紧接着重试就成功了，之后再怎么发都是 100% 成功——这是 163 对云端共享出口 IP 的<b>一次性风控</b>。为此给发信模块加了「失败自动重试一次」机制，避免一次偶发风控就让您收不到验证码。<br>
+  同时刻意把重试限制为<b>只重试 1 次</b>：如果是授权码真的填错了这类永久错误，反复重试反而会触发邮箱服务商的失败登录计数、把发信账号锁住，弊大于利。</p>
+</div>
+
+<div class="card">
+  <h3>⑤ <span class="tag new">健壮性</span>任务不会卡死、接口不会被拖垮</h3>
+  <p>安全邮箱的"8 小时后投递"没有依赖任何定时服务（云端本身不提供），而是采用<b>「请求顺带触发」</b>的方式：任何一个接口请求进来时都会顺手检查有没有到期任务。为此做了两处加固——把投递放到后台执行（不让"查询状态"这种轻量操作被邮件超时拖住）、给任务加了"中间状态自动结清"逻辑（避免个别写入失败导致某次申请静默失效）。</p>
+</div>
+
+<h2>三、实测证据（不是"显示成功"，是真去收件箱核对过）</h2>
+
+<table>
+  <thead><tr><th>验证动作</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>授权码有效性（本机直连 163 邮件服务器认证）</td><td class="ok">认证成功 → 证明授权码本身有效，问题不在您给的码</td></tr>
+    <tr><td>从生产环境向您的两个邮箱发送测试邮件</td><td class="ok">第 1 次被拒（535 风控）→ 重试成功</td></tr>
+    <tr><td>连续发信 4 次（统计稳定性）</td><td class="ok">4 / 4 成功，成功率 100%</td></tr>
+    <tr><td><b>登录 163 收件箱逐封核对</b></td><td class="ok">已收到，发件人显示「SSA ERP 系统通知」，<b>落在收件箱（未进垃圾箱）</b></td></tr>
+    <tr><td>其他 SMTP 端口（587 / 994）探测</td><td>587 被对端关闭；994 可用（当前使用 465，均为隐式加密）</td></tr>
+  </tbody>
+</table>
+
+<h2>四、验证结果</h2>
+<table>
+  <thead><tr><th>验证项</th><th>结果</th></tr></thead>
+  <tbody>
+    <tr><td>类型检查（TypeScript 严格模式）</td><td class="ok">0 错误</td></tr>
+    <tr><td>后端函数语法检查（77 个文件全量）</td><td class="ok">0 错误</td></tr>
+    <tr><td>生产构建</td><td class="ok">通过（33.65 秒）</td></tr>
+    <tr><td>数据库迁移 0042（安全邮箱队列表 + 配置项）</td><td class="ok">已应用生产，幂等可重复执行</td></tr>
+    <tr><td>生产回归门禁（全量自动化测试）</td><td class="ok">PASS 314 / FAIL 0，全绿</td></tr>
+    <tr><td>独立安全审查（7 个维度逐条推演）</td><td class="ok">发现 1 个越权缺陷 + 3 项健壮性风险，已全部修复</td></tr>
+  </tbody>
+</table>
+
+<h2>五、关于 V2.96.0（上一版）的说明</h2>
+<div class="card">
+  <p>V2.96.0 交付的是本次功能的主体：<b>超级管理员双邮箱验证</b>（首次激活与修改密码都要两个邮箱的验证码同时通过）、<b>新公司注册须超管批准</b>（批准后只能管理本公司事务）、<b>系统邮件通知</b>（版本更新等重大事件发到您的两个邮箱）。<br>
+  V2.96.1（本版）是在主体之上，按您的新指示<b>替换了后路方案</b>，并补齐了审查发现的缺陷。两版合起来，本功能才算完整可交付。</p>
+</div>
+
+<h2>六、需要您拍板的一件事</h2>
+<div class="action">
+  <h3>是否现在把您的账号切换为「待首次激活」状态？</h3>
+  <p>目前您的账号 <code>zhangdeqiang</code> 已经绑定好两个邮箱，但<b>仍处于「已激活」状态</b>，所以登录时不会触发双邮箱验证。<br>
+  要让「首次登录必须两个邮箱验证码同时通过才能设置密码」这个规则真正对您生效，需要把账号置为「待激活」——之后您下次登录就会自动进入激活流程：系统向两个邮箱各发一枚不同的验证码，两枚都填对后才能设置新密码。</p>
+  <p><b>为什么我没有直接改：</b>这会让您的下一次登录多出一道必经流程。虽然邮件通道已经实测可用，但"锁不锁人"这种事应当由您自己决定时机。<b>您回复一句"切换"我就执行</b>（随时可再改回来）。</p>
+</div>
+
+<h2>七、已知取舍与遗留</h2>
+<table>
+  <thead><tr><th>事项</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>验证码在数据库中为明文</td><td>要在 8 小时后把码发出去，就必须能读出明文。这是"能发信"与"更严格加密"之间的取舍，对内部自用系统可接受；有效期到期即失效。</td></tr>
+    <tr><td>8 小时延时期间无法取码</td><td>这是刻意设计——时延本身就是这道防线的一部分。若某次真的急用，可临时把延时参数调小（数据库改一个值即可）。</td></tr>
+    <tr><td>版本通知邮件需人工触发</td><td>按先前的约定，「发送版本更新通知」由运维在安全中心点击发送，不会自动群发。</td></tr>
+    <tr><td>代码尚未推送 GitHub</td><td>本地已提交，沙箱环境访问不到 GitHub，需要您在电脑上执行推送脚本备份。</td></tr>
+  </tbody>
+</table>
+
+<footer>
+  SSA ERP · V2.96.1 · 2026-09-11 ｜ 本文档由系统开发过程自动汇总生成
+</footer>
+
+</div>
+</body>
+</html>
