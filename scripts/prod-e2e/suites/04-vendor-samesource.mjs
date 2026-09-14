@@ -71,14 +71,33 @@ export default async function run(ctx, s) {
     s.warn('同源验证跳过', `无法创建网关 Key status=${keyRes.status}`);
   } else {
     ctx.writeKey = ctx.writeKey || writeKey; // 供 cleanup 删除网关创建的行
+    // V2.97.0（安全审计 B4）：网关读接口现已剔除主数据敏感字段（授信额度、税号、银行账号等），
+    //   原先用 credit_limit 当「同源」探针已不再成立（取不到值是修复后的正确行为，不是同源被破坏）。
+    //   故同源探针改用非敏感字段 creditLevel / credit_level，并补两条「敏感字段必须被剔除」的护栏断言。
+    const putProbe = await req('PUT', `/api/vendors/${vid}`, { token, body: { creditLevel: 'B' } });
+    s.expectStatus('PUT /api/vendors/:id 设置同源探针字段 creditLevel', putProbe, 200);
+
     const gw = await req('GET', '/api/open/vendors', { apiKey: writeKey });
     s.expectStatus('GET /api/open/vendors 网关读取', gw, 200);
     const found = (gw.data?.data || []).find((v) => v.id === vid || v.vendor_code === code);
     s.expectTrue('【同源】前端 POST 创建的供应商在网关可见', !!found,
       found ? `网关 code=${found.vendor_code}` : `网关 total=${gw.data?.total}（未找到 ${code}）`);
-    s.expectTrue('【同源】网关读到的 credit_limit 反映前端 PUT 结果',
-      Number(found?.credit_limit) === 88888,
-      `网关 credit_limit=${found?.credit_limit} 期望=88888`);
+    s.expectEq('【同源】网关读到的 credit_level 反映前端 PUT 结果',
+      found?.credit_level, 'B', 'credit_level');
+    // B4 护栏：敏感字段不得出现在网关读取结果里，且响应须以 _hiddenFields 明确告知调用方
+    s.expectTrue('【B4 护栏】网关读取已剔除 credit_limit',
+      found !== undefined && found.credit_limit === undefined,
+      `credit_limit=${found?.credit_limit}（应为 undefined）`);
+    s.expectTrue('【B4 护栏】网关读取已剔除 tax_id / bank_account / used_credit',
+      found !== undefined && found.tax_id === undefined && found.bank_account === undefined && found.used_credit === undefined,
+      `tax_id=${found?.tax_id} bank_account=${found?.bank_account} used_credit=${found?.used_credit}`);
+    s.expectTrue('【B4 护栏】响应以 _hiddenFields 告知被剔除字段',
+      Array.isArray(found?._hiddenFields) && found._hiddenFields.includes('credit_limit') && found._hiddenFields.includes('tax_id'),
+      `_hiddenFields=${JSON.stringify(found?._hiddenFields)}`);
+    // B4 护栏：非敏感字段不得被误伤（防止收敛范围过大把正常字段也砍了）
+    s.expectTrue('【B4 护栏】非敏感字段未被误剔除（code/name/credit_level 均在）',
+      found !== undefined && !!found.vendor_code && !!found.company_name && !!found.credit_level,
+      `vendor_code=${found?.vendor_code} company_name=${found?.company_name} credit_level=${found?.credit_level}`);
 
     // 网关侧写入 → 前端侧应立即可见（反向同源）
     const gwPut = await req('PUT', `/api/open/vendors/${vid}`, {

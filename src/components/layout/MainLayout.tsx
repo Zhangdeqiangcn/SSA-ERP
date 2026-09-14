@@ -11,6 +11,7 @@ import { useUIStore } from '@/stores/uiStore';
 import AIAssistant from '@/components/AI/AIAssistant';
 import HelpButton from '@/components/Help/HelpButton';
 import GuidedTour from '@/components/Help/GuidedTour';
+import SyncStatusBanner from '@/components/common/SyncStatusBanner';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -31,6 +32,7 @@ const MainLayout: React.FC = () => {
       <AIAssistant />
       <HelpButton />
       <GuidedTour />
+      <SyncStatusBanner />
       <Box
         component="main"
         aria-label="主内容区"

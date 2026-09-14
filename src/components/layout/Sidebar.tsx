@@ -26,6 +26,7 @@ import {
 import { NavLink, useLocation } from 'react-router-dom';
 import { useUIStore } from '@/stores/uiStore';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useAuthStore } from '@/stores/authStore';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -36,6 +37,8 @@ interface MenuItem {
   path?: string;
   children?: MenuItem[];
   badge?: number;
+  /** 仅管理员（super_admin / admin）可见，对应后端已收口的特权配置入口 */
+  adminOnly?: boolean;
 }
 
 interface MenuGroup {
@@ -259,7 +262,7 @@ const menuGroups: MenuGroup[] = [
           { label: 'BI自助分析', icon: <Analytics />, path: '/reports/bi' },
         ],
       },
-      { label: '报表权限与订阅', icon: <Assessment />, path: '/reports/permissions' },
+      { label: '报表权限与订阅', icon: <Assessment />, path: '/reports/permissions', adminOnly: true },
       { label: '经营驾驶舱', icon: <Insights />, path: '/analytics/cockpit' },
       { label: '需求预测与补货', icon: <Analytics />, path: '/analytics/forecast' },
       { label: '发票OCR与凭证', icon: <Receipt />, path: '/analytics/ocr' },
@@ -317,6 +320,9 @@ const Sidebar: React.FC = () => {
   const menuConfig = useSettingsStore((state) => state.menuConfig);
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const { currentUser } = useAuthStore();
+  // 管理员判定：与后端收口一致。非管理员剔除侧边栏中 adminOnly 的特权配置入口
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
 
   // P4-6 响应式断点：移动端(<600)用临时抽屉，平板(600~899)强制折叠为图标栏
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -439,6 +445,25 @@ const Sidebar: React.FC = () => {
         ? DRAWER_COLLAPSED_WIDTH
         : DRAWER_WIDTH;
 
+  // 非管理员：剔除 adminOnly 的特权入口（含其可能带 adminOnly 的子项），再交给菜单自定义逻辑
+  const visibleMenuGroups = isAdmin
+    ? menuGroups
+    : menuGroups
+        .map((g) => ({
+          ...g,
+          items: g.items
+            .map((item) => {
+              if (item.adminOnly) return null;
+              if (item.children) {
+                const children = item.children.filter((c) => !c.adminOnly);
+                return children.length ? { ...item, children } : null;
+              }
+              return item;
+            })
+            .filter((x): x is MenuItem => x !== null),
+        }))
+        .filter((g) => g.items.length > 0);
+
   return (
     <Drawer
       variant={isMobile ? 'temporary' : 'permanent'}
@@ -462,7 +487,7 @@ const Sidebar: React.FC = () => {
       }}
     >
       <Box sx={{ overflow: 'auto', py: 1 }}>
-        {applyMenuConfig(menuGroups, menuConfig).map((group, gIdx) => (
+        {applyMenuConfig(visibleMenuGroups, menuConfig).map((group, gIdx) => (
           <Box key={gIdx}>
             {/* 分组标题 */}
             {group.groupLabel && !sidebarCollapsed && (

@@ -18,7 +18,9 @@ dist-ssr
 # 本地后端状态 / 临时验证目录
 .wrangler
 .d1test*
+.d1*/
 _d1test*
+_d1*/
 
 # 测试 / 报告
 test-results
@@ -53,6 +55,13 @@ Thumbs.db
 # 交付物/报告（已归档 ima，不进 git）
 overview.md
 test-reports/
+强哥的知识库/
+*深度评测报告.html
+
+# 运行期令牌/临时凭证（含明文密钥，绝不进版本库）
+job-tick.conf
+scripts/job-tick.conf
+_ima_cred.json
 # 临时/构建残留
 .git-rewrite/
 tsc_out*.txt

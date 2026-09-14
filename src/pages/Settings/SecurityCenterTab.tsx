@@ -6,6 +6,7 @@ import {
   Alert, Snackbar, CircularProgress, Divider, Chip, Paper,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useAuthStore } from '@/stores/authStore';
 
 /**
@@ -148,6 +149,12 @@ function normalizeSecure(v: any): MailConfig['secure'] {
 const SecurityCenterTab: React.FC = () => {
   const token = useAuthStore((s) => s.token);
   const currentUser = useAuthStore((s) => s.currentUser);
+  const logoutAll = useAuthStore((s) => s.logoutAll);
+  const logout = useAuthStore((s) => s.logout);
+  const jobsOverview = useAuthStore((s) => s.jobsOverview);
+  const jobsRun = useAuthStore((s) => s.jobsRun);
+  const jobsReplay = useAuthStore((s) => s.jobsReplay);
+  const jobsRotateToken = useAuthStore((s) => s.jobsRotateToken);
   // authStore 的 User 接口未声明 email，但登录态对象实际带 email 字段，
   // 用安全 cast 读取，无 token / 无 email 时退化为空串，组件不会崩溃。
   const userEmail = (currentUser as { email?: string } | null)?.email || currentUser?.username || '';
@@ -178,6 +185,20 @@ const SecurityCenterTab: React.FC = () => {
   const [secMailError, setSecMailError] = useState<string | null>(null);
   const [secMailNotice, setSecMailNotice] = useState<string | null>(null);
   const [secMailLoading, setSecMailLoading] = useState(false);
+  // 区块五：下线全部设备的执行中状态（V2.98.0）
+  const [sessionBusy, setSessionBusy] = useState(false);
+
+  // 后台任务调度（V3.1.0 · 评测 H-04 整改）：让任务执行「可观测、可手动推进、可重放」
+  const [jobsData, setJobsData] = useState<any>(null);
+  const [jobsBusy, setJobsBusy] = useState(false);
+  const [jobsError, setJobsError] = useState<string | null>(null);
+  const [showJobToken, setShowJobToken] = useState(false);
+
+  // 审计与行级策略健康度（V3.3.0 · 评测 L-04 / L-05 整改）
+  const auditHealth = useAuthStore((s) => s.auditHealth);
+  const [healthData, setHealthData] = useState<any>(null);
+  const [healthLoading, setHealthLoading] = useState(false);
+  const [healthError, setHealthError] = useState<string | null>(null);
 
   /** 第 1 步：发送双邮箱验证码 */
   const handleSendCode = useCallback(async () => {
@@ -529,6 +550,38 @@ const SecurityCenterTab: React.FC = () => {
   }, [notifyVersion, notifySubject, notifyHighlights, notifySupplement, token, loadNotifyRecords]);
 
   // 进入页面：读取邮件配置（区块二/四）与通知记录（区块三）
+  /** 读取后台任务队列概览与最近执行留痕 */
+  const loadJobs = useCallback(async () => {
+    const r = await jobsOverview();
+    if (!r.ok) {
+      setJobsError(r.error || '读取任务状态失败');
+      return;
+    }
+    setJobsError(null);
+    setJobsData(r.data);
+  }, [jobsOverview]);
+
+  useEffect(() => {
+    if (token) void loadJobs();
+  }, [token, loadJobs]);
+
+  /** 读取审计写入降级情况与行级策略登记情况（V3.3.0） */
+  const loadAuditHealth = useCallback(async () => {
+    setHealthLoading(true);
+    const r = await auditHealth();
+    setHealthLoading(false);
+    if (!r.ok) {
+      setHealthError(r.error || '读取审计健康度失败');
+      return;
+    }
+    setHealthError(null);
+    setHealthData(r.data);
+  }, [auditHealth]);
+
+  useEffect(() => {
+    if (token) void loadAuditHealth();
+  }, [token, loadAuditHealth]);
+
   useEffect(() => {
     void loadMailConfig();
     void loadNotifyRecords();
@@ -1017,6 +1070,421 @@ const SecurityCenterTab: React.FC = () => {
               <div>邮件通道：{statusInfo.mailEnabledFlag ? '已启用' : '未启用'}</div>
             </Box>
           </Alert>
+        </CardContent>
+      </Card>
+
+      {/* ==================== 区块五：登录会话与设备（V2.98.0 · 评测 M-09） ==================== */}
+      <Card variant="outlined" sx={{ borderRadius: 2 }} data-testid="security-session-card">
+        <CardHeader
+          title="登录会话与设备"
+          titleTypographyProps={{ variant: 'subtitle1', fontWeight: 600 }}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            同一账号可以在多台设备同时登录，原先「退出登录」只作废当前这一台，
+            其它设备的会话仍然有效。若怀疑设备丢失或会话泄露，可一键作废本账号的
+            <Box component="span" sx={{ fontWeight: 600 }}>全部</Box>
+            登录会话（执行后本机也会被登出，需要用密码重新登录）。
+            要对成员执行同样操作，请到「用户管理」页使用「强制下线」。
+          </Typography>
+          <Button
+            variant="outlined"
+            color="warning"
+            startIcon={sessionBusy ? <CircularProgress size={16} /> : <PowerSettingsNewIcon />}
+            disabled={sessionBusy || !token}
+            onClick={async () => {
+              setSessionBusy(true);
+              const r = await logoutAll();
+              setSessionBusy(false);
+              if (!r.ok) {
+                setSnack({ open: true, msg: r.error || '下线失败', severity: 'error' });
+                return;
+              }
+              setSnack({
+                open: true,
+                msg: `已作废 ${r.revoked ?? 0} 个设备会话，正在退出登录…`,
+                severity: 'success',
+              });
+              // 当前设备的会话也已被删，延迟一点让用户看到提示再登出
+              setTimeout(() => logout(), 1200);
+            }}
+            data-testid="security-logout-all"
+          >
+            下线我的全部设备
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* ==================== 区块六：后台任务调度（V3.1.0 · 评测 H-04） ==================== */}
+      <Card variant="outlined" sx={{ borderRadius: 2 }} data-testid="security-jobs-card">
+        <CardHeader
+          title="后台任务调度"
+          titleTypographyProps={{ variant: 'subtitle1', fontWeight: 600 }}
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            系统运行在 Cloudflare 平台上，而该平台没有「定时任务」能力。此前安全邮箱的延时投递
+            只能靠「正好有人访问系统」时顺带触发——没人访问就一直拖着，8 小时可能变成好几天，
+            且过程不留痕、失败无法察觉。现在改为：由一台常开的电脑按固定周期调用一次
+            「推进接口」，投递时间因此可预期；即便外部调度没配置，系统仍保留
+            「请求顺带触发」作为兜底，登录或查询通道状态时也会自动补一次。
+          </Typography>
+
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 2 }}>
+            <Chip size="small" label={`待投递 ${jobsData?.queue?.pending ?? '-'}`} />
+            <Chip size="small" color="info" label={`已到期 ${jobsData?.queue?.due ?? '-'}`} />
+            <Chip size="small" color="success" label={`已完成 ${jobsData?.queue?.done ?? '-'}`} />
+            <Chip
+              size="small"
+              color={(jobsData?.queue?.failed ?? 0) > 0 ? 'error' : 'default'}
+              label={`失败 ${jobsData?.queue?.failed ?? '-'}`}
+            />
+            <Chip
+              size="small"
+              variant="outlined"
+              color={jobsData?.config?.enabled === false ? 'default' : 'success'}
+              label={jobsData?.config?.enabled === false ? '外部调度已停用' : '外部调度已启用'}
+            />
+          </Stack>
+
+          {jobsError && (
+            <Alert severity="warning" sx={{ mb: 2 }} data-testid="jobs-error">
+              {jobsError}
+            </Alert>
+          )}
+
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 2 }}>
+            <Button
+              variant="contained"
+              startIcon={jobsBusy ? <CircularProgress size={16} /> : undefined}
+              disabled={jobsBusy || !token}
+              onClick={async () => {
+                setJobsBusy(true);
+                const r = await jobsRun();
+                if (!r.ok) setSnack({ open: true, msg: r.error || '推进失败', severity: 'error' });
+                else setSnack({ open: true, msg: r.data?.message || '已推进一次', severity: 'success' });
+                await loadJobs();
+                setJobsBusy(false);
+              }}
+              data-testid="jobs-run"
+            >
+              立即推进一次
+            </Button>
+            <Button
+              variant="outlined"
+              disabled={jobsBusy || !token || !jobsData?.queue?.failed}
+              onClick={async () => {
+                setJobsBusy(true);
+                const r = await jobsReplay();
+                if (!r.ok) setSnack({ open: true, msg: r.error || '重放失败', severity: 'error' });
+                else setSnack({ open: true, msg: r.data?.message || '已重新排队', severity: 'success' });
+                await loadJobs();
+                setJobsBusy(false);
+              }}
+              data-testid="jobs-replay"
+            >
+              重放失败任务
+            </Button>
+            <Button
+              variant="outlined"
+              color="warning"
+              disabled={jobsBusy || !token}
+              onClick={async () => {
+                setJobsBusy(true);
+                const r = await jobsRotateToken();
+                if (!r.ok) setSnack({ open: true, msg: r.error || '生成失败', severity: 'error' });
+                else setSnack({ open: true, msg: '调度令牌已重新生成，请同步更新定时任务', severity: 'success' });
+                await loadJobs();
+                setJobsBusy(false);
+              }}
+              data-testid="jobs-rotate-token"
+            >
+              重新生成调度令牌
+            </Button>
+            <Button variant="text" disabled={!token} onClick={() => setShowJobToken((v) => !v)} data-testid="jobs-toggle-token">
+              {showJobToken ? '隐藏令牌' : '查看调度令牌'}
+            </Button>
+          </Stack>
+
+          {showJobToken && (
+            <Alert severity="info" sx={{ mb: 2 }} data-testid="jobs-token-box">
+              <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                外部调度令牌（只有「触发任务」这一个权限，看不到任何业务数据）
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontFamily: 'monospace', wordBreak: 'break-all' }}
+                data-testid="jobs-token-value"
+              >
+                {jobsData?.config?.token || '（尚未生成，可点「重新生成调度令牌」）'}
+              </Typography>
+              <Typography variant="caption" component="div" sx={{ mt: 1 }}>
+                在本机项目目录双击运行 <b>scripts/register-job-tick-task.bat</b>，
+                按提示填入上面的令牌，即可注册一个每 {jobsData?.config?.intervalMin || 10} 分钟
+                自动调用推进接口的 Windows 计划任务。
+              </Typography>
+            </Alert>
+          )}
+
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+            最近执行留痕
+          </Typography>
+          {!jobsData?.ticks || jobsData.ticks.length === 0 ? (
+            <Typography variant="body2" color="text.secondary">
+              暂无执行记录。
+            </Typography>
+          ) : (
+            <TableContainer component={Paper} variant="outlined">
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>时间</TableCell>
+                    <TableCell>触发来源</TableCell>
+                    <TableCell>结果</TableCell>
+                    <TableCell>处理 / 成功 / 失败</TableCell>
+                    <TableCell>耗时</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {jobsData.ticks.slice(0, 5).map((t: any) => (
+                    <TableRow key={t.id}>
+                      <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                        {String(t.startedAt || '').replace('T', ' ').slice(0, 19)}
+                      </TableCell>
+                      <TableCell>{jobsData.sourceText?.[t.source] || t.source}</TableCell>
+                      <TableCell>
+                        <Chip
+                          size="small"
+                          color={t.status === 'ok' ? 'success' : 'error'}
+                          label={t.status === 'ok' ? '成功' : '失败'}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {t.processed} / {t.sent} / {t.failed}
+                        {t.error ? `（${t.error}）` : ''}
+                      </TableCell>
+                      <TableCell>{t.durationMs} ms</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* ============ 区块七：审计与行级策略健康度（V3.3.0 · 评测 L-04 / L-05） ============ */}
+      <Card variant="outlined" sx={{ borderRadius: 2, mt: 2 }} data-testid="security-audit-health-card">
+        <CardHeader
+          title="审计与行级策略健康度"
+          titleTypographyProps={{ variant: 'subtitle1', fontWeight: 600 }}
+          action={
+            <Button
+              size="small"
+              variant="text"
+              disabled={healthLoading || !token}
+              onClick={() => void loadAuditHealth()}
+              data-testid="audit-health-refresh"
+            >
+              刷新
+            </Button>
+          }
+        />
+        <CardContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            这里回答两个「平时看不见、出事才发现」的问题：<b>审计到底有没有写进库</b>，
+            以及<b>行级策略有没有漏登记的表</b>。前者此前失败是静默丢弃——日志看上去完整，
+            因为丢掉的那条根本不存在；后者此前未登记的表默认按「组织内全员可见」处理，
+            漏登记不会报错。现在两者都会在这里显形。
+          </Typography>
+
+          {healthError && (
+            <Alert severity="warning" sx={{ mb: 2 }} data-testid="audit-health-error">
+              {healthError}
+            </Alert>
+          )}
+
+          {healthLoading && !healthData && (
+            <Alert severity="info" sx={{ mb: 2 }}>正在读取健康度…</Alert>
+          )}
+
+          {healthData && (
+            <>
+              {/* ── 审计写入降级 ── */}
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                审计写入（范围：{healthData?.scopeText || '本组织'}）
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 1.5 }}>
+                <Chip
+                  size="small"
+                  color={healthData?.audit?.total > 0 ? 'error' : 'success'}
+                  label={
+                    healthData?.audit?.unavailable
+                      ? '降级表不可读'
+                      : `累计降级 ${healthData?.audit?.total ?? 0} 条`
+                  }
+                  data-testid="audit-health-total"
+                />
+                <Chip
+                  size="small"
+                  color={(healthData?.audit?.last24h ?? 0) > 0 ? 'warning' : 'default'}
+                  label={`近 24 小时 ${healthData?.audit?.last24h ?? 0} 条`}
+                  data-testid="audit-health-24h"
+                />
+              </Stack>
+
+              {healthData?.audit?.unavailable ? (
+                <Alert severity="warning" sx={{ mb: 2 }} data-testid="audit-health-unavailable">
+                  降级记录表暂时读不出来（{healthData?.audit?.error || '未知原因'}）。
+                  常见原因：该数据库尚未执行迁移 0048。这不代表审计链路有问题，
+                  只代表「降级记录」这一层暂时不可用——审计失败仍会打到平台日志（关键词 AUDIT_DEGRADED）。
+                </Alert>
+              ) : (healthData?.audit?.total ?? 0) === 0 ? (
+                <Alert severity="success" sx={{ mb: 2 }} data-testid="audit-health-ok">
+                  暂无降级记录，即：至今没有任何一次审计写入失败。
+                </Alert>
+              ) : (
+                <TableContainer component={Paper} variant="outlined" sx={{ mb: 2 }} data-testid="audit-health-table">
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>时间</TableCell>
+                        <TableCell>执行者</TableCell>
+                        <TableCell>实体</TableCell>
+                        <TableCell>动作</TableCell>
+                        <TableCell>摘要</TableCell>
+                        <TableCell>失败原因</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {(healthData?.audit?.recent || []).slice(0, 8).map((d: any) => (
+                        <TableRow key={d.id}>
+                          <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                            {String(d.created_at || '').replace('T', ' ').slice(0, 19)}
+                          </TableCell>
+                          <TableCell>{d.user_name || d.user_id || '-'}</TableCell>
+                          <TableCell>{d.entity || '-'}</TableCell>
+                          <TableCell>{d.action || '-'}</TableCell>
+                          <TableCell>{d.summary || '-'}</TableCell>
+                          <TableCell sx={{ color: '#DC2626' }}>{d.error || '-'}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
+
+              <Divider sx={{ my: 2 }} />
+
+              {/* ── 行级策略登记 ── */}
+              <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                行级可见性策略登记
+              </Typography>
+              <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 1.5 }}>
+                <Chip
+                  size="small"
+                  color="success"
+                  label={`已登记业务表 ${healthData?.rls?.registeredCount ?? '-'} 张`}
+                  data-testid="rls-registered-count"
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  label={`全员可见 ${healthData?.rls?.scopes?.all ?? '-'}`}
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  label={`仅本人 ${healthData?.rls?.scopes?.own ?? '-'}`}
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  label={`仅本部门 ${healthData?.rls?.scopes?.dept ?? '-'}`}
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  color="default"
+                  label={`平台表豁免 ${healthData?.rls?.exemptCount ?? '-'} 张`}
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  color="default"
+                  label={`数据库实有表 ${healthData?.rls?.tableCount ?? '-'} 张`}
+                  data-testid="rls-db-table-count"
+                />
+                <Chip
+                  size="small"
+                  variant="outlined"
+                  color="default"
+                  label={`平台内部表 ${(healthData?.rls?.platformTables || []).length} 张（已排除）`}
+                  data-testid="rls-platform-count"
+                />
+              </Stack>
+
+              {healthData?.rls?.unclassifiedUnavailable ? (
+                <Alert severity="warning" sx={{ mb: 1.5 }} data-testid="rls-unclassified-unavailable">
+                  无法读取数据库真实表清单（{healthData?.rls?.unclassifiedUnavailable}），
+                  因此本次无法核对「是否全量登记」。
+                </Alert>
+              ) : (healthData?.rls?.unclassified || []).length > 0 ? (
+                <Alert severity="error" sx={{ mb: 1.5 }} data-testid="rls-unclassified">
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                    发现 {(healthData?.rls?.unclassified || []).length} 张表既未登记也未豁免
+                    （属于策略登记缺口，需补齐）：
+                  </Typography>
+                  {(healthData?.rls?.unclassified || []).map((t: string) => (
+                    <Typography key={t} variant="body2">· {t}</Typography>
+                  ))}
+                </Alert>
+              ) : (
+                <Alert severity="success" sx={{ mb: 1.5 }} data-testid="rls-registry-complete">
+                  登记完整：数据库实有 {healthData?.rls?.tableCount ?? '-'} 张表，
+                  全部已在策略表中登记或显式豁免，无缺口。
+                </Alert>
+              )}
+
+              {(healthData?.rls?.staleEntries || []).length > 0 ? (
+                <Alert severity="warning" sx={{ mb: 1.5 }} data-testid="rls-stale-entries">
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                    发现 {(healthData?.rls?.staleEntries || []).length} 条「僵尸登记」——
+                    策略表中登记了、但数据库里并不存在的表：
+                  </Typography>
+                  {(healthData?.rls?.staleEntries || []).map((t: string) => (
+                    <Typography key={t} variant="body2">· {t}</Typography>
+                  ))}
+                  <Typography variant="caption" component="div" sx={{ mt: 1 }}>
+                    僵尸条目不影响数据可见性（因为它不存在），但会让这份权限清单失去可信度——
+                    一份包含不存在条目的清单无法作为权限审计依据，应当移除或更正。
+                  </Typography>
+                </Alert>
+              ) : null}
+
+              {(healthData?.rls?.unregisteredHits || []).length === 0 ? (
+                <Alert severity="success" data-testid="rls-no-unregistered">
+                  未发现「未登记的表」被访问。所有被查询的业务表都在策略表中显式登记。
+                </Alert>
+              ) : (
+                <Alert severity="error" data-testid="rls-unregistered-hits">
+                  <Typography variant="body2" sx={{ fontWeight: 600, mb: 0.5 }}>
+                    发现未登记的表被访问，已按「默认拒绝」处理（该表查不到任何数据）：
+                  </Typography>
+                  {(healthData?.rls?.unregisteredHits || []).map((h: any) => (
+                    <Typography key={h.table} variant="body2">
+                      · {h.table}（命中 {h.count} 次）
+                    </Typography>
+                  ))}
+                  <Typography variant="caption" component="div" sx={{ mt: 1 }}>
+                    处理方式：在 functions/_shared/rls.ts 的 RLS_SCOPE 中显式登记该表，
+                    或在 RLS_EXEMPT 中说明其为何不适用行级策略。
+                  </Typography>
+                </Alert>
+              )}
+            </>
+          )}
         </CardContent>
       </Card>
 

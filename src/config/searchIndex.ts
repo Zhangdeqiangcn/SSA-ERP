@@ -17,6 +17,8 @@ export interface SearchEntry {
   keywords: string[];
   /** 一句话用途描述，结果列表的次要文案 */
   desc: string;
+  /** 仅管理员（super_admin / admin）可见，对应后端已收口的特权配置入口 */
+  adminOnly?: boolean;
 }
 
 export const searchIndex: SearchEntry[] = [
@@ -163,7 +165,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '报表中心', path: '/reports', module: '分析与报表', group: '报表中心', keywords: ['report center', '报表'], desc: '报表查询中心' },
   { label: '报表设计器', path: '/reports/designer', module: '分析与报表', group: '报表中心', keywords: ['designer', '报表设计', '自定义'], desc: '自定义报表' },
   { label: 'BI自助分析', path: '/reports/bi', module: '分析与报表', group: '报表中心', keywords: ['bi', '自助分析', 'olap'], desc: '自助式 BI 分析' },
-  { label: '报表权限与订阅', path: '/reports/permissions', module: '分析与报表', group: '报表中心', keywords: ['permission', '订阅', '报表权限'], desc: '报表权限订阅' },
+  { label: '报表权限与订阅', path: '/reports/permissions', module: '分析与报表', group: '报表中心', keywords: ['permission', '订阅', '报表权限'], desc: '报表权限订阅', adminOnly: true },
   { label: '经营驾驶舱', path: '/analytics/cockpit', module: '分析与报表', group: '分析与报表', keywords: ['cockpit', '驾驶舱', '大屏'], desc: '经营指标驾驶舱' },
   { label: '需求预测与补货', path: '/analytics/forecast', module: '分析与报表', group: '分析与报表', keywords: ['forecast', '预测', '补货'], desc: '需求预测补货' },
   { label: '发票OCR与凭证', path: '/analytics/ocr', module: '分析与报表', group: '分析与报表', keywords: ['ocr', '发票识别', '识别'], desc: '发票 OCR 识别' },

@@ -9,6 +9,7 @@ import {
   DEFAULT_APPROVAL_FLOWS,
   type ApprovalFlowNode,
 } from '@/stores/approvalFlowStore';
+import { useAuthStore } from '@/stores/authStore';
 import { ROLE_NAMES, UserRole } from '@/types/settings';
 
 /**
@@ -85,6 +86,9 @@ interface LocalConfig {
 const MaterialApprovalTab: React.FC = () => {
   const flows = useApprovalFlowStore(s => s.flows);
   const setFlows = useApprovalFlowStore(s => s.setFlows);
+  const { currentUser } = useAuthStore();
+  // 管理员（super_admin / admin）才可配置物料审批流；非管理员仅只读查看，避免被后端 403 拦截却无提示
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
 
   const buyFlow = flows.find(f => f.module === 'material');
   const makeFlow = flows.find(f => f.module === 'material_make');
@@ -178,67 +182,114 @@ const MaterialApprovalTab: React.FC = () => {
         自制件 → 发起申请 → <strong>工艺审核</strong> → 批准生效。
       </Typography>
 
-      <Paper sx={{ p: 2, mb: 2 }}>
-        <FormControlLabel
-          control={
-            <Switch
-              data-testid="approval-enabled"
-              checked={local.enabled}
-              onChange={e => handleEnabledChange(e.target.checked)}
+      {!isAdmin ? (
+        <>
+          <Alert severity="info" sx={{ mb: 2, maxWidth: 720 }}>
+            物料审批流程仅对<strong>系统管理员</strong>开放配置。当前账号角色为
+            「{ROLE_NAMES[currentUser?.role as UserRole] || currentUser?.role || '未知'}」，
+            如需调整审批节点，请联系系统管理员。
+          </Alert>
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+              审批启用状态：{buyFlow?.enabled ? '已启用' : '已关闭'}
+            </Typography>
+          </Paper>
+          <Stack spacing={3}>
+            <Box>
+              <Typography variant="subtitle2" color="primary" sx={{ mb: 1, fontWeight: 600 }}>
+                📦 外购件路径（makeOrBuy = 外购）
+              </Typography>
+              {(buyFlow?.nodes ?? []).map((step, idx) => (
+                <Paper key={`ro-buy-${idx}`} sx={{ p: 2, mb: 1 }}>
+                  <Typography variant="body2" fontWeight={600}>步骤 {idx + 1}：{step.name}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    处理角色：{ROLE_NAMES[step.role as UserRole] ?? step.role}
+                    {step.fields?.length ? ` · 可编辑字段：${step.fields.join('、')}` : ' ·（批准步骤，无可编辑字段）'}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+            <Box>
+              <Typography variant="subtitle2" color="secondary" sx={{ mb: 1, fontWeight: 600 }}>
+                🔧 自制件路径（makeOrBuy = 自制）
+              </Typography>
+              {(makeFlow?.nodes ?? []).map((step, idx) => (
+                <Paper key={`ro-make-${idx}`} sx={{ p: 2, mb: 1 }}>
+                  <Typography variant="body2" fontWeight={600}>步骤 {idx + 1}：{step.name}</Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    处理角色：{ROLE_NAMES[step.role as UserRole] ?? step.role}
+                    {step.fields?.length ? ` · 可编辑字段：${step.fields.join('、')}` : ' ·（批准步骤，无可编辑字段）'}
+                  </Typography>
+                </Paper>
+              ))}
+            </Box>
+          </Stack>
+        </>
+      ) : (
+        <>
+          <Paper sx={{ p: 2, mb: 2 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  data-testid="approval-enabled"
+                  checked={local.enabled}
+                  onChange={e => handleEnabledChange(e.target.checked)}
+                />
+              }
+              label={local.enabled ? '审批已启用' : '审批已关闭（新增物料直接保存）'}
             />
-          }
-          label={local.enabled ? '审批已启用' : '审批已关闭（新增物料直接保存）'}
-        />
-      </Paper>
+          </Paper>
 
-      <Stack spacing={3}>
-        {/* 外购件审批路径 */}
-        <Box>
-          <Typography variant="subtitle2" color="primary" sx={{ mb: 1, fontWeight: 600 }}>
-            📦 外购件路径（makeOrBuy = 外购）
-          </Typography>
-          {local.steps.map((step, idx) => {
-            const defaultFields = DEFAULT_APPROVAL_FLOWS.find(f => f.module === 'material')?.nodes[idx]?.fields ?? [];
-            return (
-              <Paper key={`buy-${idx}`} sx={{ p: 2, mb: 1 }}>
-                <StepConfigRow
-                  step={step} idx={idx} defaultFields={defaultFields}
-                  onRoleChange={handleRoleChange} onToggleField={handleToggleField}
-                />
-              </Paper>
-            );
-          })}
-        </Box>
+          <Stack spacing={3}>
+            {/* 外购件审批路径 */}
+            <Box>
+              <Typography variant="subtitle2" color="primary" sx={{ mb: 1, fontWeight: 600 }}>
+                📦 外购件路径（makeOrBuy = 外购）
+              </Typography>
+              {local.steps.map((step, idx) => {
+                const defaultFields = DEFAULT_APPROVAL_FLOWS.find(f => f.module === 'material')?.nodes[idx]?.fields ?? [];
+                return (
+                  <Paper key={`buy-${idx}`} sx={{ p: 2, mb: 1 }}>
+                    <StepConfigRow
+                      step={step} idx={idx} defaultFields={defaultFields}
+                      onRoleChange={handleRoleChange} onToggleField={handleToggleField}
+                    />
+                  </Paper>
+                );
+              })}
+            </Box>
 
-        {/* 自制件审批路径 */}
-        <Box>
-          <Typography variant="subtitle2" color="secondary" sx={{ mb: 1, fontWeight: 600 }}>
-            🔧 自制件路径（makeOrBuy = 自制）
-          </Typography>
-          {(local.makeSteps || []).map((step, idx) => {
-            const defaultFields = DEFAULT_APPROVAL_FLOWS.find(f => f.module === 'material_make')?.nodes[idx]?.fields ?? [];
-            return (
-              <Paper key={`make-${idx}`} sx={{ p: 2, mb: 1 }}>
-                <StepConfigRow
-                  step={step} idx={idx} defaultFields={defaultFields}
-                  isMakePath
-                  onRoleChange={(i, role) => handleMakeRoleChange(i, role)}
-                  onToggleField={(i, field) => handleMakeToggleField(i, field)}
-                />
-              </Paper>
-            );
-          })}
-        </Box>
-      </Stack>
+            {/* 自制件审批路径 */}
+            <Box>
+              <Typography variant="subtitle2" color="secondary" sx={{ mb: 1, fontWeight: 600 }}>
+                🔧 自制件路径（makeOrBuy = 自制）
+              </Typography>
+              {(local.makeSteps || []).map((step, idx) => {
+                const defaultFields = DEFAULT_APPROVAL_FLOWS.find(f => f.module === 'material_make')?.nodes[idx]?.fields ?? [];
+                return (
+                  <Paper key={`make-${idx}`} sx={{ p: 2, mb: 1 }}>
+                    <StepConfigRow
+                      step={step} idx={idx} defaultFields={defaultFields}
+                      isMakePath
+                      onRoleChange={(i, role) => handleMakeRoleChange(i, role)}
+                      onToggleField={(i, field) => handleMakeToggleField(i, field)}
+                    />
+                  </Paper>
+                );
+              })}
+            </Box>
+          </Stack>
 
-      <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-        <Button variant="contained" startIcon={<Save />} onClick={handleSave}>
-          保存
-        </Button>
-        <Button variant="outlined" startIcon={<RestartAlt />} onClick={handleRestore}>
-          恢复默认
-        </Button>
-      </Stack>
+          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+            <Button variant="contained" startIcon={<Save />} onClick={handleSave}>
+              保存
+            </Button>
+            <Button variant="outlined" startIcon={<RestartAlt />} onClick={handleRestore}>
+              恢复默认
+            </Button>
+          </Stack>
+        </>
+      )}
     </Box>
   );
 };

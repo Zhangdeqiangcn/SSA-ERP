@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, TextField, Button,
@@ -249,6 +249,8 @@ interface SettingItem {
   label: string;
   icon: React.ReactNode;
   render: () => React.ReactNode;
+  /** 仅管理员（super_admin / admin）可见，对应后端已收口的特权配置键 */
+  adminOnly?: boolean;
 }
 interface SettingGroup {
   id: string;
@@ -264,6 +266,9 @@ const Settings: React.FC = () => {
   const [selectedName, setSelectedName] = useState('');
   const { currentUser, switchRole } = useAuthStore();
   const navigate = useNavigate();
+
+  // 管理员判定：与后端收口一致（super_admin / admin）。非管理员不展示特权配置入口。
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
 
   // 左侧导航状态
   const [query, setQuery] = useState('');
@@ -510,19 +515,19 @@ const Settings: React.FC = () => {
     {
       id: 'user', label: '用户与权限', icon: <People fontSize="small" />,
       items: [
-        { id: 'users', label: '用户管理', icon: <People fontSize="small" />, render: renderUserManagement },
+        { id: 'users', label: '用户管理', icon: <People fontSize="small" />, adminOnly: true, render: renderUserManagement },
         { id: 'security', label: '安全中心', icon: <VerifiedUser fontSize="small" />, render: renderSecurityCenter },
-        { id: 'roles', label: '角色权限', icon: <Security fontSize="small" />, render: renderRolePermissions },
-        { id: 'forms', label: '表单权限', icon: <Assignment fontSize="small" />, render: () => <FormPermissionPanel /> },
-        { id: 'dataperm', label: '数据权限', icon: <Security fontSize="small" />, render: () => <DataPermissionTab /> },
-        { id: 'roleperm', label: '角色操作权限', icon: <VerifiedUser fontSize="small" />, render: () => <RolePermissionTab /> },
-        { id: 'fieldperm', label: '字段级权限', icon: <VerifiedUser fontSize="small" />, render: () => <FieldPermissions /> },
+        { id: 'roles', label: '角色权限', icon: <Security fontSize="small" />, adminOnly: true, render: renderRolePermissions },
+        { id: 'forms', label: '表单权限', icon: <Assignment fontSize="small" />, adminOnly: true, render: () => <FormPermissionPanel /> },
+        { id: 'dataperm', label: '数据权限', icon: <Security fontSize="small" />, adminOnly: true, render: () => <DataPermissionTab /> },
+        { id: 'roleperm', label: '角色操作权限', icon: <VerifiedUser fontSize="small" />, adminOnly: true, render: () => <RolePermissionTab /> },
+        { id: 'fieldperm', label: '字段级权限', icon: <VerifiedUser fontSize="small" />, adminOnly: true, render: () => <FieldPermissions /> },
       ],
     },
     {
       id: 'oa', label: 'OA流程定制', icon: <AccountTree fontSize="small" />,
       items: [
-        { id: 'approval', label: '审批流程', icon: <AccountTree fontSize="small" />, render: () => <ApprovalFlowTab /> },
+        { id: 'approval', label: '审批流程', icon: <AccountTree fontSize="small" />, adminOnly: true, render: () => <ApprovalFlowTab /> },
         { id: 'workflowEngine', label: '工作流引擎', icon: <Route fontSize="small" />, render: () => <WorkflowEngine /> },
         { id: 'lowcode', label: '表单设计器', icon: <Description fontSize="small" />, render: () => <LowCodeDesigner /> },
         { id: 'material_rating', label: '物料评级', icon: <StarRate fontSize="small" />, render: () => <MaterialRatingTab /> },
@@ -560,7 +565,7 @@ const Settings: React.FC = () => {
         { id: 'api', label: 'API接口文档', icon: <Code fontSize="small" />, render: () => <APIDocTab /> },
         { id: 'ai', label: 'AI大模型配置', icon: <SmartToy fontSize="small" />, render: () => <AIConfigPage /> },
         { id: 'tax', label: '金税系统配置', icon: <FactCheck fontSize="small" />, render: () => <TaxConfigPage /> },
-        { id: 'server', label: '服务端与审计', icon: <Security fontSize="small" />, render: () => <ServerAuditTab /> },
+        { id: 'server', label: '服务端与审计', icon: <Security fontSize="small" />, adminOnly: true, render: () => <ServerAuditTab /> },
       ],
     },
     {
@@ -596,14 +601,33 @@ const Settings: React.FC = () => {
     setExpandedGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
   };
 
+  // 角色门控：非管理员剔除 adminOnly 配置项（与后端 403 收口保持一致），搜索过滤叠加生效
+  const roleFilteredGroups = useMemo(
+    () => (isAdmin
+      ? groups
+      : groups.map(g => ({ ...g, items: g.items.filter(it => !it.adminOnly) }))),
+    [isAdmin] // groups 为组件内常量，仅角色变化时重算
+  );
+
   const q = query.trim().toLowerCase();
   const filteredGroups = q
-    ? groups
+    ? roleFilteredGroups
         .map(g => ({ ...g, items: g.items.filter(it => it.label.toLowerCase().includes(q)) }))
         .filter(g => g.items.length > 0)
-    : groups;
+    : roleFilteredGroups;
 
-  const activeGroup = filteredGroups.find(g => g.items.some(it => it.id === activeId)) || groups.find(g => g.items.some(it => it.id === activeId));
+  // 若当前选中的 Tab 因角色过滤变得不可见，自动回退到第一个可见项，避免内容区空白
+  const roleVisibleIds = useMemo(
+    () => roleFilteredGroups.flatMap(g => g.items.map(it => it.id)),
+    [roleFilteredGroups]
+  );
+  useEffect(() => {
+    if (!roleVisibleIds.includes(activeId)) {
+      setActiveId(roleVisibleIds[0] ?? '');
+    }
+  }, [roleVisibleIds, activeId]);
+
+  const activeGroup = filteredGroups.find(g => g.items.some(it => it.id === activeId)) || roleFilteredGroups.find(g => g.items.some(it => it.id === activeId));
   const activeItem = activeGroup?.items.find(it => it.id === activeId);
 
   return (

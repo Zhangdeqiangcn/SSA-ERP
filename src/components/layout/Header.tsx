@@ -174,14 +174,18 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
     return () => document.removeEventListener('mousedown', handler);
   }, [searchOpen]);
 
+  // 管理员判定：与后端收口一致。非管理员剔除搜索索引中 adminOnly 的特权配置入口
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+  const searchableIndex = isAdmin ? searchIndex : searchIndex.filter((e) => !e.adminOnly);
+
   const filteredSearch = searchText.trim().length > 0
-    ? searchIndex
+    ? searchableIndex
         .map((e) => ({ e, s: scoreEntry(e, searchText) }))
         .filter((x) => x.s > 0)
         .sort((a, b) => b.s - a.s)
         .slice(0, 12)
         .map((x) => x.e)
-    : searchIndex.slice(0, 8);
+    : searchableIndex.slice(0, 8);
 
   const handleSearchSelect = (path: string) => {
     setSearchOpen(false);

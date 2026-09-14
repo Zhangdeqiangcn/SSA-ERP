@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import {
   Box, Typography, Table, TableHead, TableRow, TableCell, TableBody,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField, Tabs, Tab,
-  FormControl, InputLabel, Select, MenuItem, Chip, IconButton, Button, FormGroup, FormControlLabel, Checkbox,
+  FormControl, InputLabel, Select, MenuItem, Chip, IconButton, Button, FormGroup, FormControlLabel, Checkbox, Alert,
 } from '@mui/material';
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useReportPermissionStore } from '@/stores';
+import { useAuthStore } from '@/stores/authStore';
 import type { ReportRole, SubscriptionFrequency } from '@/types';
+import { ROLE_NAMES, UserRole } from '@/types/settings';
 
 const ROLES: ReportRole[] = ['admin', 'manager', 'user', 'finance', 'warehouse'];
 const FREQS: SubscriptionFrequency[] = ['daily', 'weekly', 'monthly'];
@@ -14,6 +16,21 @@ const FREQS: SubscriptionFrequency[] = ['daily', 'weekly', 'monthly'];
 const ReportPermissions: React.FC = () => {
   const { reportPermissions, subscriptions, setReportRoles, addSubscription, deleteSubscription } =
     useReportPermissionStore();
+  const { currentUser } = useAuthStore();
+  // 报表权限写入 ssa-erp-report-perm，已收口到管理员；非管理员仅展示无权限提示，避免被后端 403 静默拦截
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+  if (!isAdmin) {
+    return (
+      <Box sx={{ p: 3 }} data-testid="report-permissions">
+        <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>报表权限与订阅</Typography>
+        <Alert severity="info" sx={{ borderRadius: 2, maxWidth: 720 }}>
+          报表权限与订阅仅对<strong>系统管理员</strong>开放配置。当前账号角色为
+          「{ROLE_NAMES[currentUser?.role as UserRole] || currentUser?.role || '未知'}」，
+          如需调整报表权限或订阅，请联系系统管理员。
+        </Alert>
+      </Box>
+    );
+  }
   const [tab, setTab] = useState(0);
   const [open, setOpen] = useState(false);
   const [reportId, setReportId] = useState(reportPermissions[0]?.reportId ?? '');

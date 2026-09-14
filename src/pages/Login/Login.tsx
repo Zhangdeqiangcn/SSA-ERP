@@ -61,6 +61,18 @@ export default function Login() {
   const [showConfirmPwd, setShowConfirmPwd] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
 
+  // V3.1.0（评测 H-03）：账号停用 / 会话失效被踢回登录页时，明确告知原因，
+  // 避免用户以为「系统把我登出了」而反复重试。提示只显示一次。
+  const [expiredNotice, setExpiredNotice] = useState<string | null>(() => {
+    try {
+      const v = sessionStorage.getItem('ssa-erp-session-expired');
+      if (v) sessionStorage.removeItem('ssa-erp-session-expired');
+      return v ? '登录状态已失效（账号可能已被停用），本机缓存的临时数据已清空，请重新登录。' : null;
+    } catch {
+      return null;
+    }
+  });
+
   // 登录 Tab 独立字段，避免与注册表单互相污染
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -195,6 +207,16 @@ export default function Login() {
         {error && (
           <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError(null)} data-testid="auth-error">
             {error}
+          </Alert>
+        )}
+        {expiredNotice && (
+          <Alert
+            severity="warning"
+            sx={{ mb: 2 }}
+            onClose={() => setExpiredNotice(null)}
+            data-testid="auth-expired-notice"
+          >
+            {expiredNotice}
           </Alert>
         )}
 

@@ -4,7 +4,8 @@ import {
   Chip, Alert, Divider, Checkbox, FormControlLabel,
 } from '@mui/material';
 import { useDataPermissionStore } from '@/stores/dataPermissionStore';
-import { ROLE_DEFINITIONS } from '@/types/settings';
+import { useAuthStore } from '@/stores/authStore';
+import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import type { SensitiveFieldConfig } from '@/stores/dataPermissionStore';
 
 // V2.86.0 统一到 dataPermissionStore 引擎（消除原 fieldPermissionStore 孤儿配置）
@@ -40,6 +41,21 @@ const MODULES = Object.keys(MODULE_LABELS);
 
 const FieldPermissions: React.FC = () => {
   const { sensitiveFields, addSensitiveFieldConfig, removeSensitiveFieldConfig } = useDataPermissionStore();
+  const { currentUser } = useAuthStore();
+  // 字段级权限写入 ssa-erp-data-permission，已收口到管理员；非管理员仅展示无权限提示，避免被后端 403 静默拦截
+  const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+  if (!isAdmin) {
+    return (
+      <Box sx={{ p: 3 }} data-testid="field-permissions">
+        <Typography variant="h5" sx={{ mb: 1, fontWeight: 700 }}>字段级权限</Typography>
+        <Alert severity="info" sx={{ borderRadius: 2, maxWidth: 720 }}>
+          字段级权限仅对<strong>系统管理员</strong>开放配置。当前账号角色为
+          「{ROLE_NAMES[currentUser?.role as UserRole] || currentUser?.role || '未知'}」，
+          如需调整敏感字段掩码规则，请联系系统管理员。
+        </Alert>
+      </Box>
+    );
+  }
   const [role, setRole] = useState<string>(ROLE_DEFINITIONS[0]?.id ?? '');
   const [module, setModule] = useState<string>('purchase');
 

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import {
   Refresh, CheckCircle, Cancel, Edit, Search, AdminPanelSettings,
-  Person as PersonIcon, Undo,
+  Person as PersonIcon, Undo, PowerSettingsNew,
 } from '@mui/icons-material';
 import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import { useAuthStore } from '@/stores/authStore';
@@ -67,6 +67,7 @@ function roleInfo(role: string) {
 const UserManagementTab: React.FC = () => {
   const token = useAuthStore((s) => s.token);
   const currentUser = useAuthStore((s) => s.currentUser);
+  const logoutAll = useAuthStore((s) => s.logoutAll);
 
   const [users, setUsers] = useState<ApiUser[]>([]);
   const [total, setTotal] = useState(0);
@@ -172,6 +173,33 @@ const UserManagementTab: React.FC = () => {
   );
 
   const isProtectedRow = (u: ApiUser) => u.role === 'super_admin' || u.id === currentUser?.id;
+
+  /**
+   * 强制下线（V2.98.0 · 评测 M-09）
+   * 原实现里登出只作废当前这一枚令牌，员工离职后他在别处的会话仍然有效。
+   * 这里一次性清空该账号的全部会话，返回被作废的条数。
+   */
+  const forceLogout = useCallback(
+    async (u: ApiUser) => {
+      if (!token) return;
+      setActingId(u.id);
+      try {
+        const r = await logoutAll(u.id);
+        if (!r.ok) {
+          setSnack({ open: true, msg: r.error || '强制下线失败', severity: 'error' });
+          return;
+        }
+        setSnack({
+          open: true,
+          msg: `已强制下线 ${u.name || u.username}：作废 ${r.revoked ?? 0} 个设备会话`,
+          severity: 'success',
+        });
+      } finally {
+        setActingId(null);
+      }
+    },
+    [token, logoutAll]
+  );
 
   return (
     <Box sx={{ p: 3 }} data-testid="user-management">
@@ -361,6 +389,19 @@ const UserManagementTab: React.FC = () => {
                               data-testid={`um-role-${u.id}`}
                             >
                               改角色
+                            </Button>
+                          </Tooltip>
+                        )}
+                        {u.status === 'active' && (
+                          <Tooltip title="作废该账号的全部登录会话（含手机等其它设备），用于离职或设备丢失">
+                            <Button
+                              size="small" variant="outlined" color="warning"
+                              startIcon={busy ? <CircularProgress size={14} /> : <PowerSettingsNew />}
+                              disabled={busy}
+                              onClick={() => void forceLogout(u)}
+                              data-testid={`um-logout-${u.id}`}
+                            >
+                              强制下线
                             </Button>
                           </Tooltip>
                         )}
