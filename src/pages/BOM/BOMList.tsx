@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, TextField, Tooltip,
+  Box, Typography, Paper, Chip, Button, IconButton, TextField, Tooltip, Alert,
 } from '@mui/material';
 import { Add, Visibility, Edit, ContentCopy, Search } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -51,6 +51,18 @@ const BOMList: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState<BOMType | ''>('');
   const bomList = useBOMStore(s => s.bomList);
   const addBOM = useBOMStore(s => s.addBOM);
+  const load = useBOMStore(s => s.load);
+  const loaded = useBOMStore(s => s.loaded);
+  const syncError = useBOMStore(s => s.syncError);
+
+  // V3.6.0 C1：BOM 的数据主源已改为 D1 关系表（bom_headers + bom_items）。
+  // 进页面拉一次。为什么放在列表页而不是全局启动时拉：
+  //   BOM 只在用到的页面才需要，全局启动拉会让首屏多一次网络等待；
+  //   而列表页是最自然的入口（用户要看 BOM 必然先到这里）。
+  // 失败时不影响渲染 —— store 会保留本地缓存并给出 syncError，界面照常可用。
+  useEffect(() => {
+    void load();
+  }, [load]);
 
   const grouped = useMemo(() => groupBOMsByProduct(bomList), [bomList]);
 
@@ -230,6 +242,16 @@ const BOMList: React.FC = () => {
         </Button>
       </Box>
 
+      {/* 同步异常提示（V3.6.0 C1）：BOM 主源已迁 D1，读不到时必须如实说明，
+          而不是让用户对着「本地缓存的旧数据」以为看到的是最新——这正是
+          「看起来还在、其实已经不同步」的危险状态。 */}
+      {syncError && (
+        <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }} data-testid="bom-sync-error">
+          {syncError}
+          <Button size="small" sx={{ ml: 1 }} onClick={() => void load()}>重试</Button>
+        </Alert>
+      )}
+
       {/* 统计 */}
       <Box sx={{ display: 'flex', gap: 2.5, mb: 3 }}>
         {[
@@ -278,6 +300,8 @@ const BOMList: React.FC = () => {
         <DataTable<BOMHeader>
           data={flatRows}
           columns={columns}
+          loading={!loaded}
+          emptyText="暂无 BOM。点右上角「新建 BOM」开始，或从销售订单一键生成。"
           enableRowSelection={false}
           enablePagination={true}
           enableSorting={true}

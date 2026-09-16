@@ -11,6 +11,7 @@ import { SalesOrder, SalesOrderStatus, SalesOrderType } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FlowTracker, SecureField } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
+import { useCloudHydrating } from '@/stores/syncStatusStore';
 
 const STATUS_LABELS: Record<SalesOrderStatus, string> = {
   draft: '草稿', confirmed: '已确认', in_production: '生产中',
@@ -22,6 +23,7 @@ const STATUS_COLORS: Record<SalesOrderStatus, string> = {
 };
 
 const SalesOrderList: React.FC = () => {
+  const hydrating = useCloudHydrating();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const salesOrders = useSalesStore(s => s.salesOrders);
@@ -391,6 +393,8 @@ const SalesOrderList: React.FC = () => {
         <DataTable<SalesOrder>
           data={filtered}
           columns={columns}
+          loading={hydrating && filtered.length === 0}
+          emptyText="暂无销售订单，可点击「新增」创建第一张订单"
           enableExport
           enableImport
           columnConfigKey="sales-order-list"

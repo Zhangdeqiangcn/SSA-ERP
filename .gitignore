@@ -19,8 +19,10 @@ dist-ssr
 .wrangler
 .d1test*
 .d1*/
+.d1v*/
 _d1test*
 _d1*/
+_d1v*/
 
 # 测试 / 报告
 test-results

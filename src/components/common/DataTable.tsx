@@ -30,6 +30,40 @@ export interface BatchAction<T> {
   testId?: string;
 }
 
+// ── B7：长列表窗口化渲染（虚拟滚动的「只渲染可见区」部分）──────────────────
+//
+// 为什么需要它：项目里多数列表页没有强制分页，一个「物料 / 库存流水 / 审计日志」
+//   页面的行数可以轻松上千。全量渲染 1000 行 × 10 列 = 一万个单元格的 DOM 节点，
+//   每一次排序、筛选、选中都会触发这一万个节点的协调（reconciliation），
+//   在办公笔记本上表现为「点一下卡半秒」。
+//
+// 为什么不用成熟的虚拟滚动库（react-window / react-virtual）：
+//   1) 本项目的表格是 <table> 语义结构（表头用 colSpan 多级分组、单元格支持
+//      拖拽框选 + Ctrl+C 复制 TSV、行内链接跳详情）。这些能力都依赖「真实的
+//      DOM 顺序与连续的行号」，而虚拟滚动库用绝对定位 + transform 接管布局，
+//      会把行高、行序、粘贴顺序全部改写 —— 等于为了滚动性能拆掉已有的功能。
+//   2) 引入一个库要改动 DataTable 的核心布局（1054 行、被全站复用），
+//      风险远大于收益。
+//   因此采用「零依赖的窗口化」：仍然渲染真实的 <tr>（保留全部语义与交互），
+//   只是在上下各放一个高度可变的占位行，把不在视口内的行**替换成占位**。
+//   视觉效果与真实滚动完全一致（占位行撑起了同样的高度），
+//   而 DOM 里的行数从「全部」降到「视口内 + 上下缓冲」。
+//
+// 启用阈值：只在行数超过 200 时启用。小列表本来就不卡，
+//   强行窗口化只会引入「滚动时行高跳动」的新风险 —— 不做无收益的改动。
+const WINDOW_THRESHOLD = 200;   // 超过这个行数才启用窗口化
+const WINDOW_BUFFER = 20;       // 视口上下各多渲染多少行（快速滚动时不留白）
+const DEFAULT_ROW_HEIGHT = 37;  // 单行估算高度（px），用于把「第 N 行」换算成「第 N 行在哪」
+
+/** 取一个元素的真实行高（拿不到时用估算值，宁可略大也不留白） */
+function measureRowHeight(el: HTMLElement | null, fallback: number): number {
+  if (!el) return fallback;
+  const tr = el.querySelector('tbody tr') as HTMLElement | null;
+  const h = tr?.getBoundingClientRect().height;
+  return h && h > 10 ? h : fallback;
+}
+
+
 interface DataTableProps<T> {
   data: T[];
   columns: ColumnDef<T, unknown>[];
@@ -63,6 +97,18 @@ interface DataTableProps<T> {
   /** SAP/ERP 经典表格视觉（蓝灰表头 + 可见网格线 + 斑马纹 + 米黄悬停），默认开启 */
   sapStyle?: boolean;
   importLabel?: string;
+  /** V3.4.0（对标 D4 可用性）：数据加载中时显示骨架行，避免「白屏→突然出表」的跳变。
+   *  骨架行数按当前页大小取，视觉位置与真实数据一致，翻页时不会抖动。 */
+  loading?: boolean;
+  /** 空态文案：默认「暂无符合条件的数据」。列表页可给出更具体的引导（如「尚未创建采购订单」）。 */
+  emptyText?: string;
+  /** loading 时渲染的骨架行数（默认 5） */
+  skeletonRows?: number;
+  /** V3.5.0（B7）：长列表窗口化渲染。默认 true；行数低于阈值时自动不生效。
+   *  仅当某页面确有特殊需求（例如需要一次性把全部行导出到 DOM 做截图）时才需关闭。 */
+  virtualize?: boolean;
+  /** 窗口化时容器的最大高度（px）。默认 640，约等于 17 行可见。 */
+  virtualHeight?: number;
 }
 
 // 通用模糊包含过滤器：把任意类型值转字符串后包含匹配；
@@ -178,10 +224,21 @@ export function DataTable<T>({
   batchActions,
   sapStyle = true,
   importLabel = '导入',
+  loading = false,
+  emptyText = '暂无符合条件的数据',
+  skeletonRows = 5,
+  virtualize = true,
+  virtualHeight = 640,
 }: DataTableProps<T>) {
   const theme = useTheme();
   const p = theme.palette.primary.main;
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  // ── B7：窗口化渲染的滚动位置 ─────────────────────────────────────
+  // containerRef：拿滚动容器（TableContainer 的 DOM）；scrollTop：当前滚动位置。
+  // 只有这两个状态变了才重新计算「渲染哪一段」，其余交互（排序/筛选/选中）不触发重算。
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollTop, setScrollTop] = useState(0);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [colsAnchor, setColsAnchor] = useState<HTMLElement | null>(null);
@@ -293,6 +350,34 @@ export function DataTable<T>({
     defaultColumn: { filterFn: fuzzyIncludes },
     initialState: { pagination: { pageSize } },
   });
+
+  // ── B7：窗口化渲染的区间计算 ──────────────────────────────────────
+  //
+  // 关键取舍：**只有行数超阈值时才启用**。小列表（最常用的场景）完全不受影响，
+  //   行为与引入本机制之前逐字节一致 —— 不做无收益的改动是这条实现的第一原则。
+  //
+  // 行高的取法：优先量真实 DOM（首行渲染后用 getBoundingClientRect），
+  //   因为行高会被「是否有多行文本 / 是否有 Chip 标签」等因素影响，估算值会偏。
+  //   拿不到时退回 37px（MUI size="small" 表格的典型值）。
+  //   行高偏差的后果只是「缓冲区算多或算少几行」，视觉上由 WINDOW_BUFFER 吸收。
+  const renderedRows = table.getRowModel().rows;
+  const totalRows = renderedRows.length;
+  const windowActive = virtualize && totalRows > WINDOW_THRESHOLD && !enablePagination;
+  const rowHeight = measureRowHeight(containerRef.current, DEFAULT_ROW_HEIGHT);
+
+  // 第一个和最后一个要渲染的行下标（含缓冲）
+  const startIndex = windowActive
+    ? Math.max(0, Math.floor(scrollTop / rowHeight) - WINDOW_BUFFER)
+    : 0;
+  const endIndex = windowActive
+    ? Math.min(totalRows, Math.ceil((scrollTop + virtualHeight) / rowHeight) + WINDOW_BUFFER)
+    : totalRows;
+
+  // 上下占位区高度：把没渲染的行「用等高的空白补回来」，
+  // 使滚动条长度与真实内容一致 —— 这是「看起来和没虚拟化一样」的全部秘密。
+  const topPadHeight = startIndex * rowHeight;
+  const bottomPadHeight = (totalRows - endIndex) * rowHeight;
+  const visibleRows = windowActive ? renderedRows.slice(startIndex, endIndex) : renderedRows;
 
   // ────────────────────────────────────────────────────────────
   // Ctrl+Y 块选复制
@@ -719,13 +804,21 @@ export function DataTable<T>({
 
       {/* ── 表格 ── */}
       <TableContainer
-        component={Paper}
-        elevation={0}
+        onScroll={(e) => {
+          // 窗口化只在启用时响应滚动；未启用时不 setState，避免无意义的渲染
+          if (!windowActive) return;
+          const next = (e.target as HTMLDivElement).scrollTop;
+          // 滚动步长小于半行时忽略：滚动事件比帧还密，逐像素 setState 会让
+          // 一次滚动产生几十次渲染，反而比不虚拟化更卡。半行为最小有效步长。
+          if (Math.abs(next - scrollTop) >= rowHeight / 2) setScrollTop(next);
+        }}
         sx={{
           mb: 0,
           border: '1px solid', borderColor: 'divider',
           borderRadius: sapStyle ? 0.5 : 2,
           overflow: 'hidden',
+          // 窗口化时必须让容器自身可滚动（否则占位行撑开的高度会把整页拉长）
+          ...(windowActive ? { maxHeight: virtualHeight, overflowY: 'auto' } : {}),
           // 块选模式下禁止浏览器文本选中，避免误选
           ...(blockMode ? { userSelect: 'none', WebkitUserSelect: 'none' } : {}),
         }}
@@ -783,16 +876,52 @@ export function DataTable<T>({
               </TableRow>
             ))}
           </TableHead>
-          <TableBody>
-            {table.getRowModel().rows.length === 0 ? (
+          <TableBody data-testid="dt-body" data-loading={loading ? '1' : '0'}>
+            {loading ? (
+              // ── 加载骨架屏：列数与真实表一致，行高与数据行一致，避免布局抖动 ──
+              Array.from({ length: skeletonRows }).map((_, rIdx) => (
+                <TableRow key={`skeleton-${rIdx}`} data-testid="dt-skeleton-row">
+                  {Array.from({ length: Math.max(1, columns.length + 2) }).map((__, cIdx) => (
+                    <TableCell key={`skeleton-${rIdx}-${cIdx}`}>
+                      <Box
+                        sx={{
+                          height: 14,
+                          borderRadius: 1,
+                          width: cIdx === 0 ? '70%' : `${55 + ((rIdx * 7 + cIdx * 11) % 35)}%`,
+                          bgcolor: 'action.hover',
+                          // 逐行错开的呼吸动画，比整体闪烁更接近真实加载感，且不会引人焦虑
+                          animation: 'ssa-skeleton-pulse 1.4s ease-in-out infinite',
+                          animationDelay: `${rIdx * 0.08}s`,
+                          '@keyframes ssa-skeleton-pulse': {
+                            '0%, 100%': { opacity: 0.45 },
+                            '50%': { opacity: 0.9 },
+                          },
+                        }}
+                      />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + 2} sx={{ textAlign: 'center', py: 6 }}>
+                <TableCell colSpan={columns.length + 2} sx={{ textAlign: 'center', py: 6 }} data-testid="dt-empty">
                   <FilterList sx={{ fontSize: 32, color: 'text.disabled', display: 'block', mx: 'auto', mb: 1 }} />
-                  <Typography variant="body2" color="text.secondary">暂无符合条件的数据</Typography>
+                  <Typography variant="body2" color="text.secondary">{emptyText}</Typography>
                 </TableCell>
               </TableRow>
             ) : (
-              table.getRowModel().rows.map((row, rowIndex) => (
+              <>
+                {/* B7：上方占位行 —— 撑起未渲染区域的高度 */}
+                {windowActive && topPadHeight > 0 && (
+                  <TableRow aria-hidden data-testid="dt-vpad-top" sx={{ height: topPadHeight }}>
+                    <TableCell colSpan={columns.length + 2} sx={{ p: 0, border: 0 }} />
+                  </TableRow>
+                )}
+                {visibleRows.map((row, localIndex) => {
+                  // 全局行下标：块选/区域复制依赖它，必须还原成「在整张表里的第几行」，
+                  // 否则窗口化之后框选会选错行（这是本机制最容易出错的地方）。
+                  const rowIndex = startIndex + localIndex;
+                  return (
                 <TableRow
                   key={row.id}
                   hover
@@ -885,7 +1014,15 @@ export function DataTable<T>({
                     );
                   })}
                 </TableRow>
-              ))
+                  );
+                })}
+                {/* B7：下方占位行 —— 补齐剩余未渲染区域的高度，使滚动条长度与真实内容一致 */}
+                {windowActive && bottomPadHeight > 0 && (
+                  <TableRow aria-hidden data-testid="dt-vpad-bottom" sx={{ height: bottomPadHeight }}>
+                    <TableCell colSpan={columns.length + 2} sx={{ p: 0, border: 0 }} />
+                  </TableRow>
+                )}
+              </>
             )}
           </TableBody>
         </Table>

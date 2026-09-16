@@ -9,6 +9,7 @@ import {
   ConfirmDialog, BatchEditDialog, type BatchEditField,
 } from '@/components/common';
 import { useMaterialStore } from '@/stores';
+import { useCloudHydrating } from '@/stores/syncStatusStore';
 import { Material, MaterialType, MakeOrBuy, MaterialFilter, MaterialCategory, LifecycleStatus } from '@/types';
 import { formatCurrency } from '@/utils/format';
 
@@ -94,6 +95,7 @@ const MATERIAL_BATCH_FIELDS: BatchEditField[] = [
 ];
 
 const MaterialList: React.FC = () => {
+  const hydrating = useCloudHydrating();
   const navigate = useNavigate();
 
   const materials = useMaterialStore((s) => s.materials);
@@ -522,6 +524,8 @@ const MaterialList: React.FC = () => {
       <DataTable
         data={filteredData}
         columns={columns}
+        loading={hydrating && filteredData.length === 0}
+        emptyText="暂无物料，可点击「新增」或「从模板创建」开始"
         enableRowSelection
         enablePagination
         enableExport

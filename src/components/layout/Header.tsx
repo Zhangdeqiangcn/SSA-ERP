@@ -13,7 +13,7 @@ import {
   NavigateNext, Search, Close, CheckCircleOutline,
   WarningAmberOutlined, InfoOutlined, ErrorOutline,
   Assignment, FactCheck, AccountBalance, Inventory2,
-  DoneAll, Settings, HelpOutline,
+  DoneAll, Settings, HelpOutline, Translate as TranslateIcon,
   Dashboard, Warehouse, Storefront, PrecisionManufacturing, Assessment,
 } from '@mui/icons-material';
 import { useLocation, Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -24,6 +24,8 @@ import { useSessionStore } from '@/stores/sessionStore';
 import { useUserStore } from '@/stores/userStore';
 import { useNotificationStore, useNotificationData, type NotifyLevel } from '@/stores/notificationStore';
 import { searchIndex, type SearchEntry } from '@/config/searchIndex';
+import { useTranslation } from '@/i18n/useTranslation';
+import { LOCALES } from '@/i18n';
 
 // ────────────────────────────────────────────────
 // 路径名映射（含 V2 新路由）
@@ -136,6 +138,9 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [langAnchor, setLangAnchor] = useState<null | HTMLElement>(null);
+  // A4 多语言：t 取通用词条、nav 取导航词条（与侧栏共用同一套 key）
+  const { locale, setLocale, t, nav } = useTranslation();
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -231,7 +236,9 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
     let currentPath = '';
     paths.forEach((path) => {
       currentPath += `/${path}`;
-      const label = pathNameMap[currentPath] || path;
+      const zh = pathNameMap[currentPath] || path;
+      // A4：面包屑与侧栏共用同一套词条，语言切换时一起变，不会出现半边中文半边英文
+      const label = nav(currentPath, zh);
       breadcrumbs.push({ label, path: currentPath });
     });
     return breadcrumbs;
@@ -341,7 +348,7 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
               value={searchText}
               onChange={e => { setSearchText(e.target.value); setActiveIndex(0); setSearchOpen(true); }}
               onKeyDown={handleSearchKeyDown}
-              placeholder="搜索功能、页面… (Ctrl+K，↑↓选择，Enter打开)"
+              placeholder={`${t('app.searchPlaceholder', '搜索菜单、页面、功能…')} (Ctrl+K)`}
               sx={{ fontSize: '0.875rem', flex: 1, color: 'text.primary' }}
             />
             {searchText && (
@@ -368,7 +375,7 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             >
               {filteredSearch.length === 0 ? (
                 <Box sx={{ p: 2, textAlign: 'center', color: 'text.secondary', fontSize: '0.875rem' }}>
-                  未找到匹配结果
+                  {t('common.noResult', '未找到匹配结果')}
                 </Box>
               ) : (
                 <List dense disablePadding>
@@ -425,6 +432,42 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             ))}
           </Breadcrumbs>
         )}
+
+        {/* ── A4 语言快切：一键在中英之间来回，不必进设置页 ── */}
+        <Tooltip title={t('field.language', '界面语言')}>
+          <IconButton
+            data-testid="header-locale"
+            sx={{ color: 'text.secondary' }}
+            onClick={(e) => setLangAnchor(e.currentTarget)}
+            aria-label={t('field.language', '界面语言')}
+          >
+            <Badge
+              badgeContent={locale === 'en-US' ? 'EN' : '中'}
+              color="primary"
+              sx={{ '& .MuiBadge-badge': { fontSize: '0.55rem', minWidth: 18, height: 16, px: '3px' } }}
+            >
+              <TranslateIcon />
+            </Badge>
+          </IconButton>
+        </Tooltip>
+        <Menu
+          anchorEl={langAnchor}
+          open={Boolean(langAnchor)}
+          onClose={() => setLangAnchor(null)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+          {LOCALES.map((l) => (
+            <MenuItem
+              key={l.value}
+              data-testid={`header-locale-${l.value}`}
+              selected={locale === l.value}
+              onClick={() => { setLocale(l.value); setLangAnchor(null); }}
+            >
+              {l.nativeLabel}
+            </MenuItem>
+          ))}
+        </Menu>
 
         {/* ── 通知铃 ── */}
         <Tooltip title="消息通知">

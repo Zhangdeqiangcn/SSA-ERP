@@ -27,6 +27,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useUIStore } from '@/stores/uiStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useAuthStore } from '@/stores/authStore';
+import { useTranslation } from '@/i18n/useTranslation';
+import { GROUP_LABEL_KEY } from '@/i18n/catalog';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -239,6 +241,7 @@ const menuGroups: MenuGroup[] = [
           { label: '辅助核算', icon: <AccountTree />, path: '/finance/auxiliary' },
           { label: '预算控制', icon: <Savings />, path: '/finance/budget' },
           { label: '三大财务报表', icon: <BarChart />, path: '/finance/statements' },
+          { label: '合并报表', icon: <AccountBalance />, path: '/finance/consolidated' },
           { label: '固定资产', icon: <AccountBalanceWallet />, path: '/finance/fixed-assets' },
           { label: '期末结账', icon: <Lock />, path: '/finance/closing' },
           { label: '应收管理', icon: <CallReceived />, path: '/finance/receivables' },
@@ -321,8 +324,17 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { currentUser } = useAuthStore();
+  const { t, nav } = useTranslation();
   // 管理员判定：与后端收口一致。非管理员剔除侧边栏中 adminOnly 的特权配置入口
   const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+
+  // A4 多语言：菜单项本质是「声明式中文字典」，渲染时按路径/分组名查词条。
+  // 词条缺失时回退中文原文（见 i18n/translate），因此不会出现裸 key。
+  const L = React.useCallback(
+    (zh: string, path?: string) => (path ? nav(path, zh) : zh),
+    [nav],
+  );
+  void t;
 
   // P4-6 响应式断点：移动端(<600)用临时抽屉，平板(600~899)强制折叠为图标栏
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -347,12 +359,12 @@ const Sidebar: React.FC = () => {
 
     if (sidebarCollapsed) {
       return (
-        <Tooltip key={item.label} title={item.label} placement="right">
+        <Tooltip key={item.label} title={L(item.label, item.path)} placement="right">
           <ListItem disablePadding>
             <ListItemButton
               component={item.path ? NavLink : 'button'}
               to={item.path || undefined}
-              aria-label={item.label}
+              aria-label={L(item.label, item.path)}
               onClick={hasChildren ? () => handleToggle(item.label) : (isMobile ? () => setMobileOpen(false) : undefined)}
               selected={active}
               sx={{
@@ -382,7 +394,7 @@ const Sidebar: React.FC = () => {
           <ListItemButton
             component={item.path ? NavLink : 'button'}
             to={item.path || undefined}
-            aria-label={item.label}
+            aria-label={L(item.label, item.path)}
             onClick={hasChildren ? () => handleToggle(item.label) : (isMobile ? () => setMobileOpen(false) : undefined)}
             selected={active}
             sx={{
@@ -411,7 +423,7 @@ const Sidebar: React.FC = () => {
               ) : item.icon}
             </ListItemIcon>
             <ListItemText
-              primary={item.label}
+              primary={L(item.label, item.path)}
               primaryTypographyProps={{
                 fontSize: level === 0 ? '0.875rem' : '0.8125rem',
                 fontWeight: active ? 600 : level === 0 ? 500 : 400,
@@ -499,7 +511,7 @@ const Sidebar: React.FC = () => {
                   color: 'text.disabled', letterSpacing: '0.06em', textTransform: 'uppercase',
                 }}
               >
-                {group.groupLabel}
+                {t(GROUP_LABEL_KEY[group.groupLabel] ?? group.groupLabel, group.groupLabel)}
               </Typography>
             )}
             {group.groupLabel && sidebarCollapsed && gIdx > 0 && (

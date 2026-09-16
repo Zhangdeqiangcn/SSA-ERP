@@ -16,6 +16,7 @@ import { usePurchaseStore } from './stores/purchaseStore';
 import { useSalesStore } from './stores/salesStore';
 import { useProductionStore } from './stores/productionStore';
 import { useFinanceStore } from './stores/financeStore';
+import { useApprovalFlowStore } from './stores/approvalFlowStore';
 import { useWarehouseStore } from './stores/warehouseStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
@@ -207,6 +208,8 @@ const BudgetControl = lazy(() => import('./pages/Finance/BudgetControl'));
 const FinancialStatements = lazy(() => import('./pages/Finance/FinancialStatements'));
 const FixedAssets = lazy(() => import('./pages/Finance/FixedAssets'));
 const PeriodClosing = lazy(() => import('./pages/Finance/PeriodClosing'));
+// C2 合并报表 / 多账簿（V3.13.0）
+const ConsolidatedReport = lazy(() => import('./pages/Finance/ConsolidatedReport'));
 // 报表
 const ReportCenter = lazy(() => import('./pages/Reports/ReportCenter'));
 const ReportDesigner = lazy(() => import('./pages/Reports/ReportDesigner'));
@@ -217,6 +220,7 @@ const WorkflowEngine = lazy(() => import('./pages/Platform/WorkflowEngine'));
 const IntegrationHub = lazy(() => import('./pages/Platform/IntegrationHub'));
 const FieldPermissions = lazy(() => import('./pages/Platform/FieldPermissions'));
 const I18nSettings = lazy(() => import('./pages/Platform/I18nSettings'));
+const DataCapacity = lazy(() => import('./pages/Platform/DataCapacity'));
 const ReportPermissions = lazy(() => import('./pages/Reports/ReportPermissions'));
 // 智能分析（P3-6）：经营驾驶舱 / 需求预测与智能补货 / 发票 OCR 与智能凭证
 const AnalyticsCockpit = lazy(() => import('./pages/Analytics/Cockpit'));
@@ -254,9 +258,28 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
-  // V2.74.3/V2.74.5：启动即拉取主数据（直连 D1，与开放网关同源）；离线/未登录回退内存 mock。
-  // 物料/客户/供应商三张主数据表全收口到 D1，根治 app_state Blob 双通道。
+  // ★★ V3.10.1 修复「登录页频繁刷新、无法登录」（严重缺陷，根因见下）
+  //
+  // 缺陷链（三层叠加，缺一不可）：
+  //   ① 本 useEffect 挂在 <App> 顶层，**位于所有路由之外** → 打开 /login 也会执行；
+  //   ② 启动期这批 load() 全部直连业务端点，**未登录时必然 401**；
+  //      且它们走的是各自的服务层（apiService / xxxApi），**不经过 persistStorage**，
+  //      所以拿不到 persistStorage 里那层「无 token 直接回退本地」的保护；
+  //   ③ persistStorage 收到 401 → handleUnauthorized() → authStore 执行
+  //      `window.location.href = '/login'`（**整页跳转**）。整页加载会把模块级
+  //      变量 `expiredHandled` 重置为 false，于是 /login 上的这批请求再次 401、
+  //      再次整页跳转 → **无限刷新循环，用户根本没机会输入密码**。
+  //
+  // 修法：启动拉取本身是「登录后才有意义」的动作，**必须由登录态驱动**。
+  //   未登录（含停在 /login 时）一律不拉，登录成功后的整页重载会自然带上 token 再拉。
+  //   这也是各 store 内部 `load()` 的语义前提（它们都按「有会话」编写）。
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
   useEffect(() => {
+    // 未登录：不发起任何业务拉取（避免 401 → 会话失效 → 整页跳转的循环）
+    if (!isAuthenticated) return;
+    // V2.74.3/V2.74.5：启动即拉取主数据（直连 D1，与开放网关同源）；离线/未登录回退内存 mock。
+    // 物料/客户/供应商三张主数据表全收口到 D1，根治 app_state Blob 双通道。
     useVendorStore.getState().loadVendors();
     useMaterialStore.getState().loadMaterials();
     useCustomerStore.getState().loadCustomers();
@@ -265,19 +288,39 @@ function App() {
     useSubcontractStore.getState().loadOrders();
     // W1 根治双通道：采购订单 / 销售订单 / 工单 / 凭证 直连真实 D1 关系表
     usePurchaseStore.getState().loadPurchaseOrders();
-    useSalesStore.getState().loadSalesOrders();
-    useProductionStore.getState().loadWorkOrders();
-    useFinanceStore.getState().loadVouchers();
+    // C1 采购域关系化（V3.11.0）：采购申请 / 供应商报价 两个切片从 app_state
+    // 大对象迁入 D1 关系表（申请含 items 明细、报价含 quoteItems 明细）。
+    // 与 loadPurchaseOrders 分开调用、互不覆盖 —— 三个切片三条独立回填标记，
+    // 合并会让「订单拉取失败」误伤另两个切片的状态。
+    usePurchaseStore.getState().load();
+    // C1 销售域关系化（V3.9.0）：意向客户/发货单/项目 三个切片从 app_state
+    // 大对象迁入 D1 关系表；load() 内含 loadSalesOrders()，取代单独调用（避免重复拉取）。
+    useSalesStore.getState().load();
+    // C1 生产域关系化（V3.12.0）：工艺路线（带 operations 嵌套）+ MRP 建议（平表）
+    // 两个切片从 app_state 大对象迁入 D1 关系表；load() 内含 loadWorkOrders()，
+    // 取代单独调用（避免重复拉取）。
+    // ★ 注意：工单（workOrders）早在 V2.75.x 就已直连 D1，本轮**不重复处理** ——
+    //   「生产域」这个说法容易误导，真正还在 Blob 里的只有上面两个切片。
+    useProductionStore.getState().load();
+    // C1 财务域关系化（V3.8.0）：发票/付款计划/分录/税务/项目核算/科目 六个切片
+    // 从 app_state 大对象迁入 D1 关系表；load() 内含凭证拉取，取代原 loadVouchers()。
+    useFinanceStore.getState().load();
+    // C1 审批流域关系化（V3.10.0）：20 个流程定义 + 全部节点从 app_state
+    // 大对象迁入 D1 关系表。这是**公司级公共配置**，必须在启动期同步，
+    // 否则「张三关掉的审批、李四那边照走」这类配置不一致会长期潜伏。
+    useApprovalFlowStore.getState().load();
     // W1 仓库战役：入库单/出库单直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseStore.getState().loadWarehouseOrders();
-  // V2.81.0 盘点任务直连真实 D1（根治 Blob 双通道），启动期拉取
-  useWarehouseStore.getState().loadCheckTasks();
-  // V2.82.0 库存预警/产成品入库直连真实 D1（根治 Blob 双通道最后两块），启动期拉取
-  useWarehouseStore.getState().loadInventoryAlerts();
-  useWarehouseStore.getState().loadFinishedGoodsInbounds();
+    // V2.81.0 盘点任务直连真实 D1（根治 Blob 双通道），启动期拉取
+    useWarehouseStore.getState().loadCheckTasks();
+    // V2.82.0 库存预警/产成品入库直连真实 D1（根治 Blob 双通道最后两块），启动期拉取
+    useWarehouseStore.getState().loadInventoryAlerts();
+    useWarehouseStore.getState().loadFinishedGoodsInbounds();
     // W2 收尾：仓库高级三切片（转储/调整/质检扣留）直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseAdvancedStore.getState().loadWarehouseAdvanced();
-  }, []);
+    // 依赖 isAuthenticated：登录成功后的整页重载会以 true 重新进入，
+    // 从而在「已建立会话」的前提下完成这批拉取。
+  }, [isAuthenticated]);
   return (
     <Routes>
       {/* ── 登录页 ───────────────────────────────────── */}
@@ -513,6 +556,8 @@ function App() {
         <Route path="finance/statements" element={<FinancialStatements />} />
         <Route path="finance/fixed-assets" element={<FixedAssets />} />
         <Route path="finance/closing" element={<PeriodClosing />} />
+        {/* C2 合并报表 / 多账簿（V3.13.0） */}
+        <Route path="finance/consolidated" element={<ConsolidatedReport />} />
         {/* 报表中心 */}
         <Route path="reports" element={<ReportCenter />} />
         <Route path="reports/designer" element={<ReportDesigner />} />
@@ -525,6 +570,8 @@ function App() {
         <Route path="platform/integrations" element={<IntegrationHub />} />
         <Route path="platform/field-permissions" element={<FieldPermissions />} />
         <Route path="platform/i18n" element={<I18nSettings />} />
+        {/* A5 数据容量守护：60 个业务域的大对象体积监控 */}
+        <Route path="platform/data-capacity" element={<DataCapacity />} />
         {/* 智能分析（P3-6）：经营驾驶舱 / 需求预测补货 / 发票 OCR 凭证 */}
         <Route path="analytics" element={<Navigate to="/analytics/cockpit" replace />} />
         <Route path="analytics/cockpit" element={<AnalyticsCockpit />} />

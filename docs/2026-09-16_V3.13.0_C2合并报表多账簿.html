@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V3.13.0 交付报告 · C2 合并报表/多账簿</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#ffffff; --ink:#1f2d3d; --sub:#5a6b7b; --line:#e3e8ef; --brand:#2f6fed; --ok:#1f9d55; --warn:#d97706; --red:#dc2626; }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.7;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 22px 60px;}
+  header{border-bottom:3px solid var(--brand);padding-bottom:16px;margin-bottom:24px;}
+  h1{font-size:26px;margin:0 0 6px;}
+  .meta{color:var(--sub);font-size:14px;}
+  h2{font-size:19px;margin:34px 0 12px;padding-left:10px;border-left:4px solid var(--brand);}
+  h3{font-size:16px;margin:20px 0 8px;color:var(--ink);}
+  .lead{background:linear-gradient(90deg,#eef4ff,#f5f7fa);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:15.5px;}
+  .lead b{color:var(--brand);}
+  .ver{display:inline-block;background:var(--brand);color:#fff;border-radius:6px;padding:2px 10px;font-size:13px;font-weight:600;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;background:var(--card);}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top;}
+  th{background:#eef2f8;font-weight:600;}
+  tr:nth-child(even) td{background:#fafbfc;}
+  .ok{color:var(--ok);font-weight:700;}
+  .warn{color:var(--warn);font-weight:700;}
+  .red{color:var(--red);font-weight:700;}
+  code{background:#eef1f5;padding:1px 6px;border-radius:4px;font-size:13px;color:#234;}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:12px 0;}
+  .steps{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0;}
+  .pill{background:#eef4ff;border:1px solid #cfe0ff;border-radius:20px;padding:6px 14px;font-size:13.5px;color:#1d4ed8;}
+  .note{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:12px 14px;font-size:14px;color:#7c2d12;}
+  .flag{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:8px;padding:12px 14px;font-size:14px;color:#065f46;}
+  footer{margin-top:40px;color:var(--sub);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px;}
+  ul{margin:8px 0 8px 4px;padding-left:20px;}
+  li{margin:5px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="meta"><span class="ver">V3.13.0</span> &nbsp;SSA ERP 企业资源管理平台 · 交付报告</div>
+  <h1>C2 合并报表 / 多账簿 · 地基落地</h1>
+  <div class="meta">交付日期：2026-09-16 &nbsp;|&nbsp; 部署实例：<code>23fed727.ssa-erp.pages.dev</code> &nbsp;|&nbsp; 迁移：0065（已应用到远端 D1）</div>
+</header>
+
+<div class="lead">
+  <b>结论先行：</b>这一版把系统从「单组织、一套账」升级到「一个公司可以有多套账 + 可以出合并报表」的地基。合并报表的<b>发动机装好了</b>，并且用一套端到端能跑通的数据验证了它<b>确实会算</b>——内部往来抵消后余额归零、跨账簿科目被汇总。集团跨组织的合并能力（母公司 + 子公司）基础设施已一并建好，待真实母子公司数据联调即可启用。全量生产门禁 <b class="ok">PASS 961 / FAIL 0</b>（24 套件 / 共 977 项）。
+</div>
+
+<h2>一、这一版改了什么（地基层，看不见但缺一不可）</h2>
+<table>
+  <tr><th style="width:42%">改动</th><th>作用</th></tr>
+  <tr><td><code>orgs</code> 表加 5 个集团化字段：<code>parent_id</code>（上级公司）/ <code>org_type</code>（公司类型）/ <code>ledger_code</code>（账套编码）/ <code>currency</code>（本位币）/ <code>group_id</code>（所属集团）</td><td>让「总公司和子公司」「一家公司的不同账套」在数据结构上能被表达。既有组织回退：<code>group_id='GRP-'+id</code>、<code>ledger_code=company_code</code>，不破坏现状。</td></tr>
+  <tr><td><code>vouchers</code> / <code>voucher_items</code> 加 <code>ledger_book</code> 账套维度（默认 <code>0000</code>=法定账套）</td><td>一张凭证从此能标明属于哪套账；老凭证不填也按法定账套算，<b>行为完全不变</b>。</td></tr>
+  <tr><td>新建 4 张合并表：<code>ledger_books</code>（账簿）/ <code>consolidation_groups</code>（合并范围）/ <code>elimination_rules</code>（抵消规则）/ <code>consolidation_runs</code>（合并结果）</td><td>合并报表的「配置」和「跑出来的结果」都有地方存。</td></tr>
+  <tr><td>通用资源路由零新增端点：<code>ledgerBook</code> / <code>consolidationGroup</code> / <code>eliminationRule</code> 登记进 ENTITY_RESOURCES</td><td>三个配置直接拥有完整增删改查，不写专属接口，不扩大维护面（沿用前七域模板）。</td></tr>
+  <tr><td><code>rls.ts</code> 登记 4 张合并表为 <code>'all'</code></td><td>本公司内全员可见配置表；跨组织合并另有独立闸门（见第四节）。</td></tr>
+  <tr><td>前端：合并报表页 <code>/finance/consolidated</code> 直连 <code>/api/consolidation</code> + 侧栏/搜索/i18n 登记</td><td>用户可在界面选 scope（books/group）、选期间、执行合并、看试算平衡表与抵消明细。</td></tr>
+</table>
+
+<h2>二、合并发动机怎么算（核心逻辑）</h2>
+<div class="box">
+合并报表的本质只有两步：
+<ol>
+  <li><b>汇总</b>：把参与合并的各个会计主体（各账套 / 各公司）的凭证，<b>按科目汇总借贷</b>；</li>
+  <li><b>抵消</b>：把母子公司之间的<b>内部往来互相抵消</b>——母公司应收 = 子公司应付，合并后应压成 0，否则收入利润凭空翻倍。</li>
+</ol>
+本版做了<b>两个口径（scope）</b>：
+<table>
+  <tr><th style="width:18%">scope</th><th style="width:30%">含义</th><th>本版处理</th></tr>
+  <tr><td><code>books</code></td><td>同组织内的多套账合并</td><td><b>门禁主验证路径</b>（见第三节）</td></tr>
+  <tr><td><code>group</code></td><td>集团跨组织合并（母公司 + 子公司）</td><td>基础设施已建好：orgs 集团化字段 + group scope + 跨组织权限闸门（非成员 403），待联调</td></tr>
+</table>
+</div>
+
+<h2>三、门禁怎么证明它真会算</h2>
+<p>新增第 <b>24</b> 套件（<b>22 条断言</b>）。在同一个组织里建「法定账套 0000」和「管理账套 1000」两套账，录两笔互为镜像的内部往来凭证：</p>
+<div class="steps">
+  <span class="pill">法定账套：借 内部应收 C2ARB 100 / 贷 银行 C2BANK 100</span>
+  <span class="pill">管理账套：借 银行 C2BANK 100 / 贷 内部应付 C2APB 100</span>
+</div>
+<table>
+  <tr><th>断言</th><th>期望</th><th>结果</th></tr>
+  <tr><td>跨账簿科目「银行 C2BANK」被两账套汇总到一起</td><td>出现于合并试算平衡表</td><td class="ok">命中</td></tr>
+  <tr><td>内部应收「C2ARB」抵消后余额</td><td>= 0</td><td class="ok">0</td></tr>
+  <tr><td>内部应付「C2APB」抵消后余额</td><td>= 0</td><td class="ok">0</td></tr>
+  <tr><td>抵消明细里这一笔的金额</td><td>= 100</td><td class="ok">100</td></tr>
+  <tr><td>未登录访问 /api/consolidation</td><td>401</td><td class="ok">401</td></tr>
+  <tr><td>group scope 无配置范围时</td><td>404</td><td class="ok">404</td></tr>
+</table>
+
+<h2>四、版本与门禁总览</h2>
+<table>
+  <tr><th style="width:40%">指标</th><th>数值</th></tr>
+  <tr><td>全量生产门禁</td><td class="ok">PASS 961 / FAIL 0</td></tr>
+  <tr><td>套件数 / 断言总数</td><td>24 套件 / 共 977 项（较 V3.12.0 的 939 增加 22 条）</td></tr>
+  <tr><td>本轮新增套件</td><td><code>24-consolidation</code>（22 条）</td></tr>
+  <tr><td>门禁运行批次</td><td><code>260916033152</code>（隔离组织 <code>E2E-260916033152</code>）</td></tr>
+  <tr><td>后端类型检查 tsc-functions</td><td>基线 56、新增 0</td></tr>
+  <tr><td>语法 + 打包审计 _audit_syntax</td><td>124 文件 0 错</td></tr>
+  <tr><td><code>npm run build</code></td><td>34.87s 通过</td></tr>
+  <tr><td><code>npm run deploy</code></td><td>迁移 0065 幂等跳过（No migrations to apply）+ 推送 237 文件 → <code>23fed727.ssa-erp.pages.dev</code></td></tr>
+  <tr><td>前端类型检查 <code>tsc --noEmit</code></td><td>0 错</td></tr>
+</table>
+
+<div class="flag">
+  <b>★ 诚实说明（避免误读「已完成集团合并」）：</b>集团跨组织合并的<b>基础设施已建好</b>（orgs 集团化字段 + group scope 分支 + 跨组织权限闸门）；但门禁<b>主验证路径走的是「同组织多账簿合并」</b>——这正是合并引擎的同构子集（同一套「按科目汇总 + 内部往来抵消」逻辑，只是数据来源范围不同）。原因：生产门禁每轮只在隔离组织注册<b>一个</b>公司，没有「建子公司、用子公司账号登录、再合并」的链路，硬做跨组织验证要么改门禁框架（风险大）、要么往生产库塞假子公司（污染共享库）。选同组织多账簿既真实验证了最易算错的两件事（聚合 / 抵消），又不必付跨组织登录代价，且全量门禁保持 FAIL 0。
+</div>
+
+<div class="note">
+  <b>跨组织权限的两道门（新增后端规矩 ㉕）：</b><code>rls.ts</code> 把合并表登记成 <code>'all'</code>，只保证「<b>本公司内</b>全员可见这张配置表」；它<b>不等于</b>「可以跨公司把别家的账拉来合并」。合并的 group scope 必须再校验「当前用户所在组织是不是合并范围的成员、或是否特权角色」，不是成员即 403。只登记 RLS 会漏掉第二道门——后果是「随便一个组织都能合并别家的账」。
+</div>
+
+<h2>五、版本五处同步清单</h2>
+<table>
+  <tr><th style="width:38%">同步点</th><th>状态</th></tr>
+  <tr><td><code>src/version.ts</code>（APP_VERSION / LABEL / BUILD_DATE）</td><td class="ok">3.13.0 / V3.13.0 / 2026-09-16</td></tr>
+  <tr><td><code>package.json</code>.version</td><td class="ok">3.13.0</td></tr>
+  <tr><td>项目记忆 <code>MEMORY.md</code> 版本沿革</td><td class="ok">已追加 V3.13.0 + 门禁演进 961 + 后端规矩 ㉕</td></tr>
+  <tr><td>主计划 <code>docs/ssa-erp-master-plan.md</code></td><td class="ok">顶部基线 + §八 沿革已补 V3.12.0 / V3.13.0</td></tr>
+  <tr><td><code>src/content/manual.tsx</code> 版本记录</td><td class="ok">已追加 V3.13.0 条目（含「为什么这样设计」）</td></tr>
+</table>
+
+<h2>六、下一步建议</h2>
+<ul>
+  <li><b>联调集团跨组织合并</b>：待有真实母子公司数据时，在 <code>consolidation_groups</code> 配成员组织、在 <code>elimination_rules</code> 配抵消科目，跑 group scope 端到端验证。</li>
+  <li><b>合并报表展示增强</b>：当前试算平衡表 + 抵消明细已可用；后续可加「合并资产负债表 / 利润表」结构化输出与导出。</li>
+  <li><b>多账簿日常应用</b>：法定账套 0000 外，可让用户在 <code>ledger_books</code> 建管理账套 / 税务账套，跑 books scope 对比分析。</li>
+  <li><b>进入 C3</b>：工作流与单据状态机深绑定（C 级第三块）。</li>
+</ul>
+
+<footer>
+  本报告由自动化任务续跑生成，所有数字均来自生产门禁实测（批次 260916033152）与构建/部署日志，可溯源核对。交付物归档：ima「强哥的知识库 → ⑥通用-交付物 → erp开发项目（folder_7487365102714930）」。
+</footer>
+
+</div>
+</body>
+</html>

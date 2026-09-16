@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP V3.3.0 全维度竞品对标报告与开发计划</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1a2332; --muted:#64748b; --line:#e2e8f0;
+    --ssa:#1976d2; --sap:#0f6fff; --kd:#e8a33d; --yy:#d9433f;
+    --ok:#2e7d32; --warn:#ed6c02; --bad:#c62828;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Segoe UI",Roboto,sans-serif;
+    font-size:14px;line-height:1.75;}
+  .wrap{max-width:1240px;margin:0 auto;padding:24px 20px 80px}
+  header.cover{background:linear-gradient(135deg,#0f2f5c 0%,#1976d2 100%);color:#fff;
+    border-radius:14px;padding:34px 32px;margin-bottom:22px}
+  header.cover h1{margin:0 0 8px;font-size:27px;letter-spacing:.5px}
+  header.cover .sub{opacity:.9;font-size:14px}
+  .meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .meta span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+    border-radius:20px;padding:4px 13px;font-size:12.5px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:24px 26px;margin-bottom:20px}
+  h2{font-size:20px;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid var(--ssa)}
+  h3{font-size:16.5px;margin:24px 0 10px;color:#0f2f5c}
+  h4{font-size:14.5px;margin:16px 0 8px;color:#334}
+  table{width:100%;border-collapse:collapse;margin:10px 0 14px;font-size:13px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#eef3f9;font-weight:600;color:#0f2f5c}
+  td.c,th.c{text-align:center}
+  tr:nth-child(even) td{background:#fafbfd}
+  code{background:#eef2f7;border:1px solid #dbe3ec;border-radius:4px;
+    padding:1px 5px;font-family:Consolas,Monaco,monospace;font-size:12.5px;color:#0b3d91}
+  .src{color:var(--muted);font-size:12px}
+  .score{display:inline-block;min-width:26px;text-align:center;border-radius:4px;
+    padding:1px 6px;font-weight:600;color:#fff;font-size:12.5px}
+  .s5{background:#1b7f3b}.s4{background:#4c9a2a}.s3{background:#c98a00}
+  .s2{background:#e0671a}.s1{background:#c62828}.s0{background:#7a7a7a}
+  .box{border-left:4px solid var(--ssa);background:#f4f8fd;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0}
+  .box.warn{border-color:var(--warn);background:#fff8ef}
+  .box.bad{border-color:var(--bad);background:#fdf0f0}
+  .box.ok{border-color:var(--ok);background:#f0f8f1}
+  ul{margin:6px 0 6px 20px;padding:0}
+  li{margin:3px 0}
+  .tag{display:inline-block;border-radius:4px;padding:1px 8px;font-size:12px;font-weight:600;color:#fff}
+  .tA{background:#c62828}.tB{background:#ed6c02}.tC{background:#1976d2}.tD{background:#2e7d32}
+  .kv{display:grid;grid-template-columns:140px 1fr;gap:4px 12px;font-size:13px}
+  .kv b{color:#0f2f5c}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .numrow{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0}
+  .card{flex:1 1 170px;background:#fafbfd;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .card .n{font-size:24px;font-weight:700;color:var(--ssa)}
+  .card .l{font-size:12.5px;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:12.5px;padding:20px 0}
+  @media print{section{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="cover">
+  <h1>SSA ERP 全维度竞品对标报告与开发计划</h1>
+  <div class="sub">版本基线 V3.3.0 · 对标 SAP S/4HANA Cloud Public Edition 2608 / 金蝶云·星空（金蝶AI星空）V9.1 / 用友 BIP 6 · U9 cloud 2026 · YonSuite</div>
+  <div class="meta">
+    <span>报告日期：2026-09-14</span>
+    <span>SSA ERP 基线：V3.3.0</span>
+    <span>维度：8（D1–D8）</span>
+    <span>模块：12 + 横向系统性差距</span>
+    <span>生产门禁基线：PASS 433 / FAIL 0</span>
+    <span>上轮对标：V2.64（7 维度）</span>
+  </div>
+</header>
+
+<!-- ══════════ 结论先行 ══════════ -->
+<section id="conclusion">
+<h2>结论先行</h2>
+
+<div class="numrow">
+  <div class="card"><div class="n">209</div><div class="l">前端页面（19 个模块目录）</div></div>
+  <div class="card"><div class="n">85</div><div class="l">zustand 业务状态库</div></div>
+  <div class="card"><div class="n">66</div><div class="l">D1 真实关系表（49 条迁移）</div></div>
+  <div class="card"><div class="n">60</div><div class="l">仍以 JSON 大对象存在的状态键</div></div>
+  <div class="card"><div class="n">89</div><div class="l">Cloudflare 后端端点文件</div></div>
+  <div class="card"><div class="n">131</div><div class="l">全局搜索/菜单索引条目</div></div>
+</div>
+
+<h3>本轮发现的最薄弱三项</h3>
+<table>
+  <tr><th style="width:34%">薄弱环节</th><th>硬证据（文件路径 : 行号 / 实测）</th><th style="width:130px">影响</th></tr>
+  <tr>
+    <td><b>① 数据底座：60 个业务域仍是「JSON 大对象」而非关系表</b><br><span class="tag tA">A 级</span></td>
+    <td>迁移中共 66 张表（<code>grep "CREATE TABLE" migrations/*.sql</code>），其中 <code>app_state</code> 单表承载 60 个业务状态键（<code>src/stores/*.ts</code> 中 <code>name: 'ssa-erp-*'</code> 共 60 个：bom / price / quality / production / finance / sales / warehouse …；各 store 以 <code>persist(..., { storage: backendStorage })</code> 整块序列化写入）。<b>已有真实表的只有约 20 类实体</b>（materials / purchase_orders / sales_orders / inbound_orders / work_orders / vouchers …）。</td>
+    <td>不可 SQL 查询、无跨表关联、无字段级索引、行级隔离只能整块；报表与 BI 只能绕开数据库在前端算</td>
+  </tr>
+  <tr>
+    <td><b>② 写接口审计覆盖不全（33 / 48 个写端点无审计）</b><br><span class="tag tA">A 级</span></td>
+    <td>整改前：<code>functions/api/</code> 下含 <code>onRequestPost/Put/Delete</code> 的端点共 48 个文件，其中 33 个 <code>grep -c "await audit(\|writeAudit("</code> = 0 —— 含<b>入库 / 出库 / 调拨 / 库存调整 / 质量扣留 / 外协 / 三单匹配 / 工单领料 / API 密钥创建与吊销 / 用户变更 / 各类单据的更新与删除</b>。审计集中写工具本身是好的（<code>functions/_shared/auditLog.ts</code> 三层降级），但没接进去。</td>
+    <td>最需留痕的库存变动与权限动作无法追溯；<b>本轮已修复 14 个文件 21 处</b>（见 §5）</td>
+  </tr>
+  <tr>
+    <td><b>③ 多语言近乎为零 / 无加载态 / 无虚拟滚动</b><br><span class="tag tB">A-B 级</span></td>
+    <td>多语言字典仅 14 条且全项目实际调用 <b>1 处</b>（<code>src/stores/i18nStore.ts:6</code> 定义；<code>src/pages/Platform/I18nSettings.tsx:29</code> 使用），硬编码中文 345+ 处；<code>Skeleton</code> / <code>virtualiz</code> / <code>React.memo</code> 全仓命中 <b>0</b> 次。而三家 2026 版全部押「多语言 + 全球合规」（金蝶出海、U9 cloud 新增西班牙语包、YonSuite 40+ 国家本地化）。</td>
+    <td>无法出海、无法多语言交付；大数据量列表首屏空白跳变</td>
+  </tr>
+</table>
+
+<h3>八维度总分（0–5，四位评委口径）</h3>
+<table>
+  <tr><th>维度</th><th>SSA ERP V3.3.0</th><th class="c">SSA</th><th class="c">SAP 2608</th><th class="c">金蝶 V9.1</th><th class="c">用友 BIP6 / U9c 2026</th></tr>
+  <tr><td><b>D1 功能</b>（覆盖广度与业务深度）</td><td>12 模块全覆盖、页面广度接近中型 ERP；深度参差（部分页面 57–135 行壳），「报表中心」实为导航卡片</td><td class="c"><span class="score s4">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td></tr>
+  <tr><td><b>D2 界面友好性</b></td><td>MUI v5 统一、SAP 风格表格（蓝灰表头+斑马纹）、关键指标卡；无骨架屏、信息密度中等</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td></tr>
+  <tr><td><b>D3 人机工程</b></td><td>通用表格含块选复制 TSV（Ctrl+Y/C）、列配置记忆、批量操作、导入导出、 <code>codeColumnId</code> 编号列跳转；缺撤销/重做（<code>redo</code> 命中 0）、全局快捷键少</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td></tr>
+  <tr><td><b>D4 可用性</b>（稳定性/容错/弱网离线）</td><td>PWA + Service Worker、离线回落 localStorage、错误边界、409 冲突处理、备份/恢复/预演、后台任务 tick；无骨架屏、无虚拟滚动、60 个大对象键有体积风险</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td></tr>
+  <tr><td><b>D5 适配性</b>（多组织/多币/多语言/行业/多端）</td><td>多组织 + 字段级/数据级/行级权限齐备、多币种字段与汇率模块在；<b>多语言近乎为零</b>、无行业套件、无多会计准则并行、移动端仅 7 个页</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td></tr>
+  <tr><td><b>D6 安全</b>（认证授权/隔离/审计/合规）</td><td>V3.3.0 已收口 24 项评测发现：行级策略「默认拒绝 + 48 表登记」、审计三层降级、组织准入双层闸门、密钥全生命周期；<b>但写端点审计覆盖率仅 31%</b>（本轮修复后提升至约 60%）</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td></tr>
+  <tr><td><b>D7 结构</b>（架构分层/数据模型/可维护性）</td><td>前端分层清晰、组件复用度高（65 个页面共用 DataTable）；后端 <code>_shared</code> 共享层成熟（errors/validate/rls/optimisticLock/auditLog/jobs）；<b>数据模型被 60 个大对象键稀释</b></td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td></tr>
+  <tr><td><b>D8 算法</b></td><td>真实现了 MRP 净需求、CRP 负荷、ATP 承诺量、AQL（ISO 2859-1 真表）、SPC、BOM 成本卷积、移动平均成本、再订货点、有限能力排程；<b>缺时间分段（期间桶/低层码）、缺指数平滑与季节性、缺 APS 高级排程与 MPS</b></td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td></tr>
+  <tr style="background:#eef3f9"><td><b>合计 / 40</b></td><td class="src">SSA 与三家的差距主要在 D5 适配性、D7 结构、D4 可用性 —— 三者同源：数据底座是大对象</td><td class="c"><b>25.0</b></td><td class="c"><b>38.0</b></td><td class="c"><b>34.5</b></td><td class="c"><b>34.5</b></td></tr>
+</table>
+
+<div class="box">
+<b>一句话结论：</b>SSA ERP 在<b>功能广度（D1）与安全工程（D6）上已经接近商用中型 ERP 的水位</b>，个别点（AQL 采用真实 ISO 2859-1 抽样表、SPC 控制图、移动平均成本滚动）甚至优于同价位国产产品；真正的短板不在「有没有这个功能」，而在<b>「数据放在哪儿、能不能被 SQL 查询、能不能被第二种语言使用」</b>。因此本轮路线图的重心不是继续堆页面，而是<b>补数据底座与可观测性</b>。
+</div>
+</section>
+
+<!-- ══════════ 第一步 竞品基线 ══════════ -->
+<section id="baseline">
+<h2>第一步 · 竞品基线核查（每个关键事实 ≥2 源交叉验证）</h2>
+<div class="box warn">
+<b>核查纪律：</b>查询日期均为 <b>2026-09-14</b>。凡未能交叉验证或查无实据的，一律标注「未验证」，不编造版本号与能力。
+</div>
+
+<table>
+  <tr><th style="width:16%">厂商 / 产品线</th><th style="width:15%">截至 2026-09-14 的最新版本</th><th>关键能力与发布事实</th><th>来源（≥2，交叉验证）</th></tr>
+
+  <tr>
+    <td><b>SAP</b><br>S/4HANA Cloud Public Edition<br>（现称 SAP Cloud ERP）</td>
+    <td><b>2608</b><br><span class="src">2026-08 中旬发布；生产租户 2026-08-15～16 完成升级。前序大版 2602（2026-02）。官方称这是 SAP 做 SaaS ERP 35 年来的第 35 个主要版本。</span></td>
+    <td>
+      · <b>AI 从「辅助」走向「任务执行」</b>：专业 Agent 在既定规则/权限/审批下分析数据、生成建议，经业务用户批准后执行后续任务；Joule Work 把对话、业务洞察与 Agent 协同整合到统一工作空间。<br>
+      · <b>Fiori 元素 Easy Fill</b>：用自然语言整段粘贴（如邮件原文）自动识别并填充表单与表格字段，人工确认后落库。<br>
+      · 财务：订单重估（Revaluation of Orders）；销售：审批与物流联动，避免无效库存触发；<br>
+      · 资产管理「可见即可管」、质量管理合规可追溯、制造变更有迹可查、MDA 迁移路径贯通；<br>
+      · 可扩展性：API 持续开放、关键用户自定义能力扩围。本次版本带来 130+ 创新点。
+    </td>
+    <td>
+      ① SAP Community《SAP Cloud ERP (S/4HANA Cloud Public Edition) 2608：大中华区亮点解读》<br>
+      <span class="src">groups.community.sap.com/t5/…/ba-p/14466914</span><br>
+      ② SAP Community《SAP UX Q3/2026 Update – Part 2: …2608》<br>
+      <span class="src">community.sap.com/t5/technology-blog-posts-by-sap/…/ba-p/14454961</span><br>
+      ③ 软服之家《2608 版本发布：AI 迈向任务执行，130+ 创新功能上线》<br>
+      <span class="src">ruanfujia.com/post/11706498</span>
+    </td>
+  </tr>
+
+  <tr>
+    <td><b>金蝶</b><br>云·星空（对外亦称「金蝶 AI 星空」）<br><span class="src">底座：金蝶云·苍穹 PaaS</span></td>
+    <td><b>V9.1</b><br><span class="src">2026-02-26 首发；最新周期综合补丁 PT-163022（企业版 9.1.0.20260625，构建号 9.1.861.11）/ PT-163023（标准版 9.1.0.20260626，构建号 9.1.861.12）。V8.0 已于 2026-06-30 官方公告进入生命周期退出。</span></td>
+    <td>
+      · AI 原生能力升级：BOSS 助理智能预警、金钥财报智能分析；<br>
+      · 固定资产租入管理（入账到终止全过程）；销售云/采购云/车间云巡检（异常主动发现）；<br>
+      · 数据智能云：门店销量预测、智能要货、智能销售预测、销售订单风险预警；智慧车间 MES 云移动工序报工与工序任务超市；<br>
+      · PLM 融合 IPD 体系：超级 BOM、设计工艺、TR 管理、PDM 对象扩展；<br>
+      · 云边端部署兼容达梦、人大金仓等国产数据库（信创）。累计服务客户 46,000+ 家。
+    </td>
+    <td>
+      ① 金蝶官网《金蝶云·星空产品版本 V8.0 生命周期停售、停服公告》（2026-06-30）<br>
+      <span class="src">m.kingdee.com/zxqycp/62400（官方，明确 V8.0 → V9.1 的版本替代对应关系）</span><br>
+      ② 金蝶 V9.1 周期综合补丁发布说明（构建号 9.1.861.11 / 9.1.861.12）<br>
+      <span class="src">laoliang.net/cwrj/kingdee/30576.html</span><br>
+      ③ 软服之家产品发布页《V9.1 发布：AI 原生能力全面升级》<span class="src">ruanfujia.com/software/201582/release</span><br>
+      ④ 百度百科「金蝶云·星空」词条（软件版本 V9.1）
+    </td>
+  </tr>
+
+  <tr>
+    <td><b>用友</b><br>BIP / YonSuite / U9 cloud</td>
+    <td><b>用友 BIP 6</b>（2026-08-06～08 GBIC·2026 发布）<br><b>U9 cloud 2026</b>（2026-05-20 线上首发，05-28 广州线下首场）<br><b>YonSuite</b>（2026-04-23 印尼伙伴大会发布全球化人力与财税本地化）<br><span class="src">三者同属用友企业 AI 产品矩阵，底座 iuap + YonGPT</span></td>
+    <td>
+      · <b>BIP 6 完成「X+AI → AI+X」战略升维</b>：智能体软件 + 流程执行型软件双模；63 个垂直领域智能体、623 个 Skill、2.6 万+ 应用与服务接口；已服务 6.8 万家大中型企业，海外客户 2,300+，40+ 国家交付经验。<br>
+      · <b>U9 cloud 2026</b>：接入 YonClaw 企业智能体（自然语言下单/流转/查询/月结）；<b>智能裁切</b>（一维余料最少化 + 二维异型裁切）；智能对账、智能巡检；需求计划偏差率降低 30%（宣称）、并行计算效率提升 50%（宣称）；多组织成本还原、工序成本核算（区分上序转入与本序投入）；新增西班牙语包、马来西亚税票系统直连、全球合并报表。<br>
+      · <b>YonSuite</b>：统一计税引擎 + 多账簿平行记账；内置印尼 THR 开斋节津贴、越南居民/非居民个税、马来西亚四套社保等国别规则。<br>
+      · 同步发布「企业 AI 盒子」（软硬一体，模型数据不出域）与 AI BaaS。
+    </td>
+    <td>
+      ① 用友官网《用友焕新，从企业软件到企业 AI，并重磅发布"AI+X"的 BIP 6》<span class="src">yonyou.com/news/6319</span><br>
+      ② 经济参考报（新华网）《用友 BIP 6 重磅发布，开启企业软件 AI 原生新范式》<span class="src">jjckb.xinhuanet.com/20260810/…</span><br>
+      ③ 光明网《用友王文京：驾驭 AI 驱动增长》（含 63 智能体 / 623 Skill / 2.6 万接口口径）<span class="src">it.gmw.cn/2026-08/10/content_38935771.htm</span><br>
+      ④ U9 cloud 2026 新品发布报道（2026-05-20 北京线上首发、05-28 广州线下首场）<br>
+      ⑤ 中国日报网财经《用友印尼伙伴大会…YonSuite 全球本地化能力全面升级》<span class="src">caijing.chinadaily.com.cn/a/202604/27/…</span>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="4">
+      <b>未能交叉验证、本报告明确标注「未验证」的项：</b>
+      <ul>
+        <li>SAP 2608 各功能点的<b>具体交付形态（GA / Beta / 早期采用计划）</b>：不同来源表述不完全一致，本报告只写「已发布/可用」，不写可用性等级 —— <b>未验证</b>。</li>
+        <li>U9 cloud 2026 的「偏差率降低 30%」「运算效率提升 50%」等数字：<b>来自厂商发布会口径，无第三方验证 —— 未验证</b>（本报告仅作引用，不作为对标基准）。</li>
+        <li>金蝶 V9.1 之后是否另有 9.2 或补丁版：截至查询日未见可靠公开信息 —— <b>未验证</b>。</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<div class="box">
+<b>三家 2026 版的共同主线（也是给 SSA ERP 的方向提示）：</b>全部押注「<b>智能体执行 + 全球化多语言多税制的国别规则内嵌</b>」。SAP 2608 做 Joule Work + Agent 任务执行；用友 BIP 6 做 AI+X 双模；金蝶 V9.1 做 AI 原生 + 出海。<br>
+而 SSA ERP 本轮的方向应当是反过来的：<b>先把「数据可被查询、多语言底座、加载可观测」这三件地基补齐，再谈 Agent</b> —— 没有结构化数据与多语言底座的 Agent，只能做聊天机器人。
+</div>
+</section>
+
+<!-- ══════════ 模块对标 ══════════ -->
+<section id="modules">
+<h2>第二步 · 12 模块 × 8 维度对标</h2>
+<div class="box">
+<b>证据口径：</b>所有「现状事实」均来自本轮实际读取源码（命令已注明），并给出文件路径；评分为 0–5 的判断分，判断依据写在「差距小结」里。<br>
+<b>四列含义：</b>SSA = SSA ERP V3.3.0；SAP = S/4HANA Cloud Public Edition 2608；金蝶 = 云·星空 V9.1；用友 = BIP 6 / U9 cloud 2026 / YonSuite 组合。
+</div>
+
+<!-- M1 -->
+<h3>M1 物料主数据 <span class="src">src/pages/Material/ · 8 个页面 / 3,960 行 · src/stores/materialStore.ts（346 行，已直连 D1）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 物料主数据字段密度高：<code>src/types/material.ts:46-…</code> <code>Material</code> 接口覆盖评估类 <code>ValuationClass</code>（RAW/SEMI/FG/TRADING/PACKAGING/CONSUMABLE，第 29 行）、价控程序 <code>PriceControl</code>（S 标准价 / V 移动平均价，第 31 行）、工厂级参数 <code>PlantParam</code>（第 34-44 行，含 evaluationClass / priceControl / standardPrice / movingAvgPrice / safetyStock / leadTime / lotSize）—— 这是明确对标 SAP 的建模口径。<br>
+    · MRP 相关字段齐全：<code>mrpType / mrpController / lotSize / reorderPoint / plannedDeliveryDays / grProcessingDays</code>；采购相关：<code>moq / mpq / purchaseUnit / unitConversion（1 采购单位 = N 基本单位的约定）/ orderUnit / purchasingValueKey</code>。<br>
+    · 批量/序列号/GTIN/保质期：<code>batchManaged / serialized / gtin / shelfLifeDays / shelfLifeWarningDays</code>。<br>
+    · 页面：列表（含模板创建、批量修改）、详情、表单、类别树（<code>CategoryList.tsx</code>，分类即编码规则，第 6-9 行注释写「分类编码段同时作为物料编码前缀」）、审批队列、资质评级、计价（<code>MaterialValuation.tsx</code>）。<br>
+    · 后端：<code>functions/api/materials/index.ts</code> 直连 D1 <code>materials</code> 表，含 RLS 行级过滤。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>字段建模级别接近 SAP；缺 SAP 的多视图（基本数据/采购/销售/MRP/会计/成本分开维护的组织视图）与分类特征（characteristic）体系</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>DataTable SAP 风格 + 筛选栏 + 类别树；缺 SAP Fiori 的对象页/Tab 化信息架构</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>模板创建 + 批量修改很实用；缺变更记录的版本对比视图</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>已直连真实表是其可用性最好的模块之一；仍无加载态</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>有 PlantParam 多工厂雏形，但无行业模板、无多语言物料描述（金蝶/用友支持多语言物料名称）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>RLS 登记、审批队列、<b>本轮补了审计</b>（materials/[id].ts 的更新与删除）</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>类型定义规范；factory level 参数以 JSON 存 <code>plantParams</code>，不可查询</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>移动平均价/标准价切换已在 <code>src/utils/cost.ts</code> 实现；缺存货跌价、缺 ABC 自动分级的批次重算</td></tr>
+</table>
+<div class="box"><b>差距小结：</b>物料主数据是 SSA ERP 完成度最高的模块之一，字段密度甚至超过部分国产中型 ERP 的默认配置。<b>真正的差距在「多视图组织」与「多语言描述」</b>——SAP/金蝶/用友都按「工厂/销售组织」分视图维护同一物料，且支持多语言物料描述；SSA ERP 把工厂参数压成 JSON 字段，理论上数据有了，但不可被 SQL 查询、不可被翻译。</div>
+
+<!-- M2 -->
+<h3>M2 供应商与门户 <span class="src">src/pages/Vendor/ · 21 个页面 / 8,181 行（全项目最重模块）· src/utils/vendorRating.ts（112 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 门户自成体系：注册（<code>VendorRegister.tsx</code> / <code>VendorPortalRegister.tsx</code>）、登录（<code>VendorLogin.tsx</code>）、工作台、订单确认（<code>VendorOrderConfirm.tsx</code>）、发货（<code>DeliveryShipment.tsx</code>）、报价（<code>VendorQuotation.tsx</code>）、质量（<code>VendorQualityPage.tsx</code>）、财务（<code>VendorFinancePage.tsx</code>）、付款计划、权限（<code>VendorPermissionsPage.tsx</code>）、概况。<br>
+    · 身份体系独立：<code>src/utils/vendorPortalIdentity.ts</code>（48 行）做门户身份隔离。<br>
+    · 评级算法真实：<code>src/utils/vendorRating.ts:38 computeVendorRating</code>，三指标（来料检验通过率 / 按约交付率 / 价格竞争力）加权，第 66 行 <code>buildVendorRatingInput</code> 从各业务 store 实时聚合；<code>:4-8</code> 明确写了「无数据时为 null」的空值口径——这点比很多只给 0 分的实现严谨。<br>
+    · 另有黑名单、风险、提前期/绩效等独立页。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td>SAP 有 Business Network / Taulia；用友采购云有全球寻源与招标；SSA 有完整门户但缺寻源/招标</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>门户与内部两套界面并存，视觉一致性待统一</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>供应商自助确认/发货体验完整；缺门户侧批量确认</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>门户属外网访问路径，容错要求更高，但尚无门户专属降级/限流</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td>门户无多语言（海外供应商无法使用）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>vendors/[id] 已有 2 处审计，是整改前覆盖较好的少数端点</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>门户 store 仍走 app_state 大对象</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s4">4</span></td><td>评级三指标合理但权重硬编码、无趋势与风险预测</td></tr>
+</table>
+<div class="box"><b>差距小结：</b>广度上 SSA 的供应商门户不输国产同类（21 个页面是本项目最厚模块）。短板是<b>「外网门户却没有多语言、没有专属降级」</b>——门户是给外部供应商用的，恰恰是最需要多语言和最强容错的地方。</div>
+
+<!-- M3 -->
+<h3>M3 BOM 与配方 <span class="src">src/pages/BOM/ · 4 个页面 / 1,548 行 · src/utils/bomCost.ts（125 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 多层结构：<code>src/types/bom.ts:59-82</code> <code>BOMItem</code> 含 <code>level / children</code> 嵌套 + <code>scrapRate</code> 废品率 + <code>source: 'purchase'|'manufacture'|'phantom'</code>（含虚拟件）+ 成本卷积扩展（<code>childProductCode / laborCost / processCost</code>）。<br>
+    · 替代 BOM：<code>bom.ts:44-48</code> <code>isAlternate / usageProbability / priority</code>；联副产品：<code>:52-53</code> <code>coProducts</code>。<br>
+    · 成本卷积：<code>src/utils/bomCost.ts:98 computeBOMCost(bomId, depth)</code> 递归展开 <code>childProductCode</code>。<br>
+    · <b>本轮实测到的真缺陷</b>：<code>src/pages/Production/MRPPlan.tsx</code> 的 BOM 展开 <code>grep -n "scrapRate"</code> <b>命中 0 次</b> —— 即「废品率」这个字段在 MRP 净需求计算里<b>完全没被使用</b>。类型里有、界面上有、算法上没用。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td><td>缺工程 BOM ↔ 制造 BOM 的转换视图；金蝶 PLM 有「超级 BOM」</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>多级树 + 扁平清单已具备；缺「BOM 差异对比」视图</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>缺「从已有 BOM 复制」、缺行拖拽调序</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>BOM store 走大对象，深层 BOM 整块读写</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>无多工厂 BOM 有效性、无行业配方（流程行业）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>BOM 走 app_state，RLS 无法到行</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>同上</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>成本卷积是真实现；<b>MRP 未使用 scrapRate（实测 0 命中）</b></td></tr>
+</table>
+<div class="box bad"><b>差距小结（本轮最具体的算法缺陷）：</b>BOM 里维护了 <code>scrapRate</code>（废品率），MRP 净需求计算却一次都没用过它 —— 意味着<b>「按废品率放大需求量」这件 MRP 最基本的事没有做</b>，计划用量会系统性偏少。这是 B 级必改项，改动量很小（MRPPlan.tsx 的 explode 函数第 110-111 行附近），收益很大。</div>
+
+<!-- M4 -->
+<h3>M4 采购管理 <span class="src">src/pages/Purchase/ · 13 个页面 / 5,401 行 · 后端 purchase_orders / purchase_order_items 真实表</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 链路完整：采购申请 → 询价 → 比价（<code>PriceCompare.tsx</code>）→ 订单 → 审批（<code>PurchaseApproval.tsx</code>）→ 跟踪（<code>OrderTrack.tsx</code>）→ 收货 → 退货（<code>PurchaseReturn.tsx</code>）；另有框架协议（<code>FrameworkAgreement.tsx</code>）、货源清单（<code>SourceListPage.tsx</code>）、信息记录（<code>InfoRecordList.tsx</code>，对标 SAP 的 Purchasing Info Record）。<br>
+    · 订单已直连真实 D1：<code>functions/api/purchase-orders/index.ts</code>（125 行）含分页/关键字/供应商/状态过滤、<code>purchase_order_items</code> 明细随单返回、单号唯一性 409、行明细归一化兜底（第 110-111 行注释写明「避免 undefined 直接进 bind 导致 500」）。<br>
+    · 乐观锁 + 版本历史：<code>purchase-orders/[id].ts:107</code> 走 <code>withVersionGuard</code>。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td>缺寻源/招标/合同管理（用友采购云五模块：招标/合同/执行/分析/供应商）</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>本轮已补骨架屏与空态（<code>loading / emptyText</code>）</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>订单触控达 · 缺「一键转采购订单」的批量生成</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>已直连表 + 乐观锁 +409，是可用性最好的模块；仍无加载态统一治理</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>跨组织转储有（stock_transfers 表），但无多币种结算的采购流程闭环</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5→4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>整改前仅 POST 有审计，<b>本轮补了 PUT / DELETE</b></td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>主表+明细表建模正确（可做样板推广到其他模块）</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s4">4</span></td><td>比价为静态对比；无 SAP 的「自动货源确定 + 配额协议」</td></tr>
+</table>
+
+<!-- M5 -->
+<h3>M5 价格与审批 <span class="src">src/pages/Price/ · 8 个页面 / 2,853 行 · src/stores/conditionStore.ts（174 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 条件技术（对标 SAP Condition Technique）已具雏形：<code>src/stores/conditionStore.ts</code> 有 <code>ConditionRecord</code>（含 <code>conditionType / vendorId / materialId</code>）与 <code>CalculationRule</code>，第 11-16 行 <code>inPeriod(from,to)</code> 做有效期判定。<br>
+    · 页面：价目表、询价单（列表/表单/详情）、比价、价格审批（<code>PriceApproval.tsx</code> / <code>ApprovalList.tsx</code>）+ 返利（<code>rebateStore</code>）。<br>
+    · 销售价另有独立体系：<code>src/stores/salesPriceStore.ts</code> + 设置里的 <code>SalesPriceTab.tsx</code>。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>缺 SAP 核心的<b>存取顺序（Access Sequence）+ 条件排除组 + 定价过程</b>，也无阶梯价/数量折扣引擎</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>询价/比价界面可用</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>价格审批有流程；缺价格模拟/试算</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>无多币种价目表、无税码组合</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>价格走大对象；价格篡改缺乏不可否认证据</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>conditionStore 结构合理，可作为「条件技术」向其他模块推广的模板</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s4">4</span></td><td>条件 + 有效期 + 计算规则；缺收益分摊、缺边际贡献算价</td></tr>
+</table>
+
+<!-- M6 -->
+<h3>M6 仓储与库存 <span class="src">src/pages/Warehouse/ · 20 个页面 / 5,845 行 · src/stores/warehouseStore.ts（1,214 行，全项目最大）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 覆盖：入库/出库/调拨/盘点（CheckList+CheckTask）/库存调整/库龄（<code>InventoryAging.tsx</code>）/批次追溯（<code>TraceBatch.tsx</code>）/序列号与 HU（<code>SerialHU.tsx</code>）/条码打印/寄售（<code>ConsignmentStock.tsx`）/成品入库/波次 RFID（<code>WaveRfidList.tsx</code>）/主数据（<code>WarehouseMaster.tsx</code>）。<br>
+    · 真实表：inbound_orders / outbound_orders / stock_transfers / inventory_records / inventory_adjustments + 各自 items 明细表。<br>
+    · 计价真实现：<code>src/utils/cost.ts</code>（148 行）实现移动平均价的入库滚动 / 出库结转，含金额 2 位、单价 4 位精度（第 25-28 行）与 COGS 取数口径（第 63-67 行）。<br>
+    · ATP：<code>src/utils/atp.ts</code>（85 行）按「在手 − 在检扣留 − 已承诺 + 在途入库」并按日期分层给出可用量曲线。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>缺波次拣配/上架策略/TMS；已有 RFID 波次页</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>20 个页面视觉统一度尚可</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>移动端 7 页含入库/出库/盘点，现场作业可用</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>库存交易有 <code>inventory_posted / cost_posted</code> 幂等标志位，这块做得扎实</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>库位主数据有；缺多仓多组织的库存全局可视（U9 cloud 2026 有「全球库存可视与统一调拨」）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s2">3→4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><b>整改前入库/出库/调拨/库存调整四类写端点全部无审计</b> —— 库存调整是最容易舞弊的动作；本轮已补</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>warehouseStore 1,214 行里仍有 40 处 mock 引用 + 大对象持久化</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s4">4</span></td><td>移动平均成本 + ATP + 库龄是真实现；缺 ABC 循环盘点自动排程、缺安全库存动态优化</td></tr>
+</table>
+
+<!-- M7 -->
+<h3>M7 质量管理 <span class="src">src/pages/Quality/ · 14 个页面 / 4,573 行 · src/utils/aql.ts（119 行）+ src/utils/spc.ts（137 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · <b>AQL 抽样是真实标准实现</b>：<code>src/utils/aql.ts</code> 内建批量大小区间（第 7 行）、检验水平 S-1..S-4 与 I/II/III（第 15 行）、样本量字码序列（第 21 行）、<b>完整 ISO 2859-1 字码表（第 30 行）</b>与一次抽样主表（第 41 行），<code>src/utils/aql.ts:79 resolvePlan</code> 还处理了「↓/↑」换档特例。<br>
+    · <b>SPC 是真算法</b>：<code>src/utils/spc.ts:50 computeSPC</code>（137 行）。<br>
+    · 体系齐全：来料检/制程检/出货检、检验标准/任务/批次、不合格品、8D、FMEA、PDCA、COA 生成、实验室设备。<br>
+    · <b>缺 → 本轮实测</b>：<code>src/pages/Quality/EightD.tsx</code> 仅 92 行、是全模块最薄页面之一，8D 更像记录表单而非闭环流程。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>与 SAP 2608「质量管理强化合规可追溯」方向一致；缺量具 R&R、缺校准体系闭环</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>SPC 图表自制，视觉精细度低于专业 BI</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>检验录入无移动端适配（移动端 7 页里有 quality，但覆盖有限）</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>无行业检验模板（汽车 IATF16949 / 医药 GMP）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s2">3→3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>整改前 <code>quality-holds/index.ts</code> 无审计；<b>本轮已补</b></td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>utils 层算法封装干净（可测试性好）</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4</span></td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s3">3.5</span></td><td><b>本模块是 SSA 相对最强的算法点</b>：ISO 2859-1 真表 + SPC，部分口径优于国产同价位产品</td></tr>
+</table>
+
+<!-- M8 -->
+<h3>M8 生产制造 <span class="src">src/pages/Production/ · 22 个页面 / 6,003 行 · src/utils/crp.ts（67 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · MRP 真实现：<code>src/pages/Production/MRPPlan.tsx:86 computeNetRequirements</code> —— 从销售订单取毛需求 → 多层 BOM 展开（<code>explode</code>，第 106 行，<code>MAX_BOM_DEPTH = 10</code>，第 56 行）→ 扣在手/在途 → 加安全库存 → 按批量/MOQ 取整 → 按提前期倒推下达日期 → 区分自制/外购。<br>
+    · CRP：<code>src/utils/crp.ts:26 computeCRP</code> 按工艺路线工序累加各工作中心需求工时 vs 日产能。<br>
+    · 有限能力排程：<code>src/pages/Production/GanttSchedule.tsx</code>（617 行）——CSS 甘特 + 原生 pointer 拖拽 + 负荷联动重排（注释第 13-23 行写明「演示级，对标 PPDS 排产体验」）。<br>
+    · 其他：工艺路线、工序报表、外协、MES 集成、ECN、SOP、重复制造、生产版本、WIP 看板、成本核算、产能负荷。<br>
+    · <b>本轮实测发现的算法缺口</b>：MRP 计划结果<b>不落库</b>（全仓 <code>grep "plannedOrder|计划订单"</code> 仅命中 MRPPlan.tsx 自身的 3 处注释/字段），即每次打开页面重算一遍，没有「计划订单」这个可下达、可追踪的对象；且 Netting 按单一需求日期做，<b>没有时间分段（周/月桶）</b>、没有低层码（LLC）逐层净需求。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">5</span></td><td>U9 cloud 2026 有 MES/PLM 一体化 + 智能裁切 + 工序成本；SSA 缺 APS 高级排程与 JIT/JIS 供给</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>甘特/看板/WIP 可视化丰富</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><code>DetailedScheduling.tsx</code> 仅 98 行（薄壳）</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td>缺离散/流程双模式、缺行业套件（汽摩/装备/电子）</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>work_orders/[id] 的更新/删除整改前无审计；<b>本轮已补</b></td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><b>MRP 结果不落库</b>导致无法追溯「当时为什么下这个量」</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">4.5</span></td><td>MRP/CRP/有限排程均有真实现；<b>缺期间桶、缺低层码、未使用废品率</b></td></tr>
+</table>
+
+<!-- M9 -->
+<h3>M9 财务与成本 <span class="src">src/pages/Finance/ · 25 个页面 / 5,368 行 · src/utils/financialStatements.ts（279 行）+ src/utils/voucher.ts（364 行）</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 三大报表真生成：<code>financialStatements.ts:126 buildBalanceSheet / :175 buildIncomeStatement / :197 buildCashFlowStatement</code>，另有应收明细账（:234）/应收明细账（:260）+ <code>finance.ts:25 computeTrialBalance</code>。<br>
+    · 凭证引擎：<code>src/utils/voucher.ts</code> 364 行 + 真实表 <code>vouchers / voucher_items</code>。<br>
+    · 其他：科目表、总账、辅助核算、应收应付、账龄、预算控制、固定资产、项目核算、税务、发票、ESG、COPA 分析、BI 集成、三单匹配、期间结账（含 12 期会计日历幂等初始化）。<br>
+    · 多币种：21 个类型文件含 currency 字段、21 个文件涉及汇率/兑换；<code>ExchangeRate.tsx</code> + <code>fx</code> 后端 + <code>fx_rates</code> 表。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td><td>缺合并报表（U9 cloud 2026 有全球合并+内部交易抵消）、缺多会计准则并行账簿</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><code>CopaAnalysis.tsx</code> / <code>EsgReport.tsx</code> / <code>TrialBalance.tsx</code> 均为 120 行左右（薄）</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>缺快速过账/模板凭证批生成</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>期间结账状态机完整（open / profit_closed / closed）</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td><td>有多币种但无「多账簿并行记账」；金蝶支持多会计准则</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5→4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><b>凭证的更新与删除整改前无审计</b>（vouchers/[id].ts）—— 这是财务合规最忌讳的；本轮已补</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>financeStore / ledger / arap / coa 分散且多为大对象</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>移动平均/标准成本、现金流量表间接法；缺作业成本法（ABC）、缺实际成本差异分析</td></tr>
+</table>
+
+<!-- M10 -->
+<h3>M10 销售管理 <span class="src">src/pages/Sales/ · 19 个页面 / 5,555 行 · src/utils/atp.ts 复用 + src/stores/salesAdvancedStore.ts</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · CRM 侧：客户 ABC、商机线索（<code>ProspectList.tsx</code>）、销售漏斗（<code>SalesFunnel.tsx</code>）、市场分析（<code>MarketAnalysis.tsx</code>）、客户主数据（<code>src/pages/Customer/</code> 3 页）。<br>
+    · 交易侧：报价 → 合同（表单/列表/详情）→ 订单（表单/列表/详情）→ 发货/物流 → 发票 → 退货；另有三方销售、返利、信用占用与释放。<br>
+    · ATP 校验：ATP.tsx（74 行）复用 <code>computeATP</code>。<br>
+    · 后端真实表：<code>sales_orders / sales_order_items / customers</code>，后端实现较为完整（<code>sales-orders/index.ts</code>、<code>customers/index.ts</code> 均已有审计——整改前覆盖较好的端点）。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td>在 CRM 广度上甚至强于金蝶（金蝶 CRM 是模块里的「配角」）</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>漏斗/ABC 可视化尚可</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>ATP.tsx 74 行偏薄，直接复用 <code>src/utils/atp.ts</code> 的 <code>computeATP</code> 结果</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>本轮已接入骨架屏与空态</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>缺多币种报价汇率锁定</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5→4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>客户/订单的 PUT/DELETE 整改前无审计；<b>本轮已补</b></td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s4">4</span></td><td>ABC 分类、漏斗转化；缺销售预测、缺信用风险自动评估</td></tr>
+</table>
+
+<!-- M11 -->
+<h3>M11 报表、BI 与平台生态 <span class="src">src/pages/Reports/ 4 页 1,015 行 · src/pages/Platform/ 5 页 758 行 · src/pages/Analytics/ 7 页 3,405 行</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · <b>本报告中最需要坦白的发现</b>：<code>src/pages/Reports/ReportCenter.tsx</code> 的「报表」不是报表，而是<b>导航卡片</b>——第 14-30 行 <code>reportGroups</code> 里每项都是 <code>{ name, desc, path: '/purchase/orders' }</code> 这种「点进去跳到现有列表页」的结构。也就是说「报表中心」是<b>页面索引</b>，不是查询引擎。<br>
+    · 真正的自助分析在：BISelfService.tsx、ReportDesigner.tsx、ReportPermissions.tsx（订阅与权限），以及后端 <code>functions/api/chatbi/</code>（ChatBI 接口）。<br>
+    · 平台能力：低代码设计器、工作流引擎（workflowStore + flowStore 驱动）、集成中心、字段级权限（SecureField）、多语言设置、 数据字典、编号规则、打印模板。<br>
+    · 生态：<code>functions/api/open/</code> 开放网关 + API 密钥全生命周期 + <code>APIDocTab.tsx</code>。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td><td><b>报表中心实为导航壳</b>；SAP 有嵌入式分析 + CDS View + MDA，金蝶有数据智能云</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>报表设计器上手成本高</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>查询大对象数据需在前端 JSON 上算，数据量大时性能不可控</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s1">1.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><b>多语言设置页 57 行、字典 14 条、实际调用 1 处</b>——是全项目最薄弱的一环</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>开放网关 + 密钥 + 字段级权限齐全</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>低代码/工作流已具备雏形但未与业务单据深度绑定</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>ChatBI 有接口缺算法内核；无多维分析（OLAP）引擎</td></tr>
+</table>
+
+<!-- M12 -->
+<h3>M12 系统设置与管控台 <span class="src">src/pages/Settings/ · 28 个页面 / 10,201 行（全项目最厚）· 含 AIConfig / TaxConfig 子目录</span></h3>
+<div class="kv">
+  <b>现状事实</b><div>
+    · 权限四层：用户/角色（RolePermissionTab）、组织架构（OrgTab）、数据权限（DataPermissionTab）、字段级权限（<code>Platform/FieldPermissions.tsx</code> + <code>SecureField</code> 组件）。<br>
+    · 主数据治理：编号规则、数据字典、自定义字段、单位换算、菜单配置、打印模板、订单模板、显示偏好、列表偏好。<br>
+    · 运维管控：数据管理（备份/恢复/预演）、序列号与服务端审计（ServerAuditTab）、安全中心、API 密钥管理、审计与健康度卡片、后台任务调度（V3.1.0）。<br>
+    · 财务扩展：汇率（FxConfig）、税配置（TaxConfig/）、销售价（SalesPriceTab）、条件（ConditionTab）。
+  </div>
+</div>
+<table>
+  <tr><th style="width:22%">维度</th><th class="c">SSA</th><th class="c">SAP</th><th class="c">金蝶</th><th class="c">用友</th><th>SSA 依据</th></tr>
+  <tr><td>D1 功能</td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s5">4.5</span></td><td>管控能力齐全（10,201 行是硬投入）</td></tr>
+  <tr><td>D2 界面</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>Tab 化的设置中心，信息架构清晰</td></tr>
+  <tr><td>D3 人机工程</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">4.5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>Settings.tsx 打包后 268 KB，是最大 chunk 之一</td></tr>
+  <tr><td>D4 可用性</td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>备份/恢复/预演 + 后台任务 + 审计降级健康度，运维闭环较好</td></tr>
+  <tr><td>D5 适配性</td><td class="c"><span class="score s2">2.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>有 i18n 设置页但无实效</td></tr>
+  <tr><td>D6 安全</td><td class="c"><span class="score s4">4.5</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td><b>本项目最强维度</b>：V3.3.0 已收口全部 24 项评测发现；本轮又补了密钥/用户审计</td></tr>
+  <tr><td>D7 结构</td><td class="c"><span class="score s3">3</span></td><td class="c"><span class="score s5">5</span></td><td class="c"><span class="score s4">4</span></td><td class="c"><span class="score s4">4</span></td><td>—</td></tr>
+  <tr><td>D8 算法</td><td class="c"><span class="score s2">2</span></td><td class="c"><span class="score s5">4</span></td><td class="c"><span class="score s3">3.5</span></td><td class="c"><span class="score s3">3.5</span></td><td>设置类本就少算法，非关键差距</td></tr>
+</table>
+
+<!-- 横向 -->
+<h3>横向系统性差距（跨模块根因）</h3>
+<table>
+  <tr><th style="width:20%">根因</th><th>影响的模块</th><th>为什么这是「系统性」的</th><th style="width:12%">严重度</th></tr>
+  <tr>
+    <td><b>R1 数据底座：60 个业务域仍是 JSON 大对象</b></td>
+    <td>全部 12 个模块</td>
+    <td>它不是某个模块的问题，而是决定了：报表只能前端算（M11 D4=2.5）、行级权限到不了子记录（M3/M5 D6）、无法做跨模块关联分析、无法被 BI/Agent 直接消费。<b>D5 / D7 / D4 三项的低分几乎全部溯源到这里。</b></td>
+    <td><span class="tag tA">A</span></td>
+  </tr>
+  <tr>
+    <td><b>R2 写审计覆盖率仅 31%</b></td>
+    <td>M1 M4 M6 M7 M8 M10 M12</td>
+    <td>V3.3.0 把审计的「写入可靠性」做到了三层降级，但 48 个写端点里 33 个根本没调用它 —— 最好的留痕机制没有接到最需要留痕的动作上。</td>
+    <td><span class="tag tA">A（本轮已修 14 文件 21 处）</span></td>
+  </tr>
+  <tr>
+    <td><b>R3 多语言 = 空壳</b></td>
+    <td>全部（尤其 M2 门户、M11 平台）</td>
+    <td>字典 14 条、实际调用 1 处、硬编码中文 345+。三家 2026 版全部在做全球化（U9 cloud 新增西班牙语包、YonSuite 40+ 国家规则、金蝶出海），这条差距在 2026 年会被放大。</td>
+    <td><span class="tag tA">A</span></td>
+  </tr>
+  <tr>
+    <td><b>R4 无加载态 / 无虚拟滚动</b></td>
+    <td>全部列表</td>
+    <td><code>Skeleton / virtualiz / React.memo</code> 全仓 0 命中。业务 store 由 persist 异步回填，回填前渲染本地数据、回填后整表跳变 —— 用户看到的是「先假后真」。</td>
+    <td><span class="tag tB">B（本轮已落地骨架屏底座）</span></td>
+  </tr>
+  <tr>
+    <td><b>R5 算法缺时间维度</b></td>
+    <td>M3 M6 M8</td>
+    <td>MRP 无期间桶/低层码、未使用废品率；CRP 只算总负荷不做日负荷曲线；预测只有移动平均。<b>共同点：都算出了「量」，但没算「什么时候」。</b></td>
+    <td><span class="tag tB">B</span></td>
+  </tr>
+  <tr>
+    <td><b>R6 AI 能力空白</b></td>
+    <td>全部</td>
+    <td>仅 <code>aiStore</code> + <code>functions/api/ai/</code> + <code>chatbi</code> + <code>ocr</code>。三家 2026 版主线全是 AI Agent（SAP Joule Work / 用友 YonClaw / 金蝶 BOSS 助理）。<br><b>但本报告不建议现在追</b> —— 理由见 §6。</td>
+    <td><span class="tag tC">C（暂不建议）</span></td>
+  </tr>
+</table>
+</section>
+
+<!-- ══════════ 第三步 路线图 ══════════ -->
+<section id="roadmap">
+<h2>第三步 · 分级开发路线图（业务价值 × 实现成本 × 风险）</h2>
+
+<h3>A 级 · 必做（阻断缺陷与地基）</h3>
+<table>
+  <tr><th style="width:5%">#</th><th style="width:19%">项</th><th>现状证据</th><th style="width:20%">改造目标与具体改造点</th><th style="width:15%">验证方式</th><th style="width:8%">工作量</th></tr>
+  <tr>
+    <td>A1</td><td><b>写接口审计补全</b></td>
+    <td><code>functions/api/</code> 48 个写端点中 33 个 <code>await audit(</code> 命中 0（含出入库/调拨/库存调整/质量扣留/外协/三单匹配/密钥/用户/单据增删改）</td>
+    <td>逐端点补 <code>await audit(db, org, user, entity, action, summary)</code>，重点是<b>库存交易 + 权限类 + 单据删除</b>三类</td>
+    <td>生产门禁 + 本地 HTTP 实测每条路径触发后 <code>audit_logs +1</code></td>
+    <td><b>已完成</b>（本轮）</td>
+  </tr>
+  <tr>
+    <td>A2</td><td><b>列表加载态底座</b></td>
+    <td><code>Skeleton</code> 0 命中；60 个键并发从云端回填，回填前渲染本地数据</td>
+    <td>① <code>DataTable</code> 增 <code>loading / emptyText / skeletonRows</code>；② persistStorage 的 getItem 打点 → <code>syncStatusStore.hydrating</code>；③ 高频列表接入</td>
+    <td>E2E 断言 <code>data-testid="dt-skeleton-row"</code> 与 <code>dt-body[data-loading]</code></td>
+    <td><b>已完成</b>（本轮）</td>
+  </tr>
+  <tr>
+    <td>A3</td><td><b>MRP 使用废品率</b></td>
+    <td><code>MRPPlan.tsx</code> 中 <code>scrapRate</code> 命中 0（类型 <code>bom.ts:70</code> 有此字段）</td>
+    <td>explode() 展开时对需求做 <code>qty / (1 - scrapRate/100)</code> 放大，并在结果表暴露「含废品需求量」列</td>
+    <td>单元用例：scrapRate=10 → 需求放大 1.111 倍</td>
+    <td>0.5 天</td>
+  </tr>
+  <tr>
+    <td>A4</td><td><b>多语言底座（框架 + 导航 + 通用词条）</b></td>
+    <td><code>i18nStore.ts:6</code> 字典 14 条；全项目 <code>translate(</code> 实际调用 1 处；<code>I18nSettings.tsx</code> 仅 57 行</td>
+    <td>① 字典扩到约 400 条（131 个导航/菜单条目 + 通用操作 + 状态 + 错误码）；② 侧边栏/顶栏/全局搜索/通用按钮走字典；③ 语言切换全站生效</td>
+    <td>E2E：切到 en-US 后侧边栏与按钮文案变英文</td>
+    <td>3–4 天</td>
+  </tr>
+  <tr>
+    <td>A5</td><td><b>大对象键容量守护</b></td>
+    <td><code>app_state</code> 单表承载 60 个键，无大小上限、无告警</td>
+    <td>① 写入前估算体积，超阈值（建议 512 KB）拒绝并提示；② 安全中心增加「大对象键 Top 10」健康卡片</td>
+    <td>构造 600 KB 键值 → 返回明确错误且业务不静默失败</td>
+    <td>1 天</td>
+  </tr>
+</table>
+
+<h3>B 级 · 流程闭环与体验短板</h3>
+<table>
+  <tr><th style="width:5%">#</th><th style="width:19%">项</th><th>现状证据</th><th style="width:22%">改造点</th><th style="width:8%">工作量</th></tr>
+  <tr><td>B1</td><td>MRP 时间分段（期间桶）+ 低层码净需求</td><td>MRPPlan.tsx 按单一需求日期计算，无周/月桶、无 LLC</td><td>增加期间分桶表；按低层码自底向上逐层净需求</td><td>3 天</td></tr>
+  <tr><td>B2</td><td>计划订单落库</td><td><code>plannedOrder</code> 全仓仅命中 MRPPlan 自身 3 处</td><td>新增 <code>mrp_planned_orders</code> 表，支持「转采购申请 / 转工单」与追溯</td><td>2 天</td></tr>
+  <tr><td>B3</td><td>CRP 日负荷曲线 + 班次日历</td><td><code>crp.ts</code> 只算总负荷率</td><td>按日期维度展开负荷，支持工作日历与班次产能</td><td>2 天</td></tr>
+  <tr><td>B4</td><td>需求预测增强</td><td><code>forecast.ts</code> 仅移动平均 + 服务水平 95% 安全库存</td><td>增加一次/二次指数平滑 + 季节因子（Winters），保留原法作对照</td><td>2 天</td></tr>
+  <tr><td>B5</td><td>报表中心升级为真查询</td><td><code>ReportCenter.tsx</code> 第 14-30 行为导航卡片</td><td>改为可选数据源 + 维度/度量 + 筛选的查询构建器（依赖 A1 数据底座推进）</td><td>5 天</td></tr>
+  <tr><td>B6</td><td>剩余 ~19 个写端点审计</td><td>本轮已修 14 个文件 21 处</td><td>继续串行号核销、工单领料、三单匹配、汇率、用户管理、序列号消费等</td><td>1 天</td></tr>
+  <tr><td>B7</td><td>列表虚拟滚动 / 行 memo</td><td><code>virtualiz</code> 与 <code>React.memo</code> 均 0 命中</td><td>DataTable 增加 <code>virtual</code> 开关，单页 ≥100 行时启用</td><td>2 天</td></tr>
+</table>
+
+<h3>C 级 · 增强与差异化</h3>
+<table>
+  <tr><th style="width:5%">#</th><th style="width:19%">项</th><th>说明</th><th style="width:8%">工作量</th></tr>
+  <tr><td>C1</td><td>Top N 高频大对象迁关系表</td><td>建议顺序：bom → price/condition → quality → production → finance ledger → sales → purchase-adv。每迁一个，立刻获得 SQL 查询、行级隔离与报表能力</td><td>每域 1–2 天</td></tr>
+  <tr><td>C2</td><td>合并报表 / 多账簿</td><td>对标 U9 cloud 2026 全球合并与金蝶多会计准则</td><td>8 天+</td></tr>
+  <tr><td>C3</td><td>审批/工作流的单据级深绑定</td><td>低代码与工作流已有雏形，但未与 12 个模块的单据状态机打通</td><td>6 天</td></tr>
+  <tr><td>C4</td><td>AI 助手（自然语言查数 / 智能录单）</td><td><b>依赖 C1 完成后才有意义</b>，见下方诚实说明</td><td>不建议现在启动</td></tr>
+</table>
+</section>
+
+<!-- ══════════ 第四步 本轮完成 ══════════ -->
+<section id="done">
+<h2>第四步 · 本轮已完成开发（V3.4.0）</h2>
+
+<h3>A1 写接口审计补全 —— 14 个文件 21 处</h3>
+<table>
+  <tr><th style="width:26%">端点文件</th><th style="width:14%">补的动作</th><th>审计摘要示例</th></tr>
+  <tr><td><code>functions/api/inbound-orders/index.ts</code></td><td>create</td><td>创建入库单 IBN-2026-0001</td></tr>
+  <tr><td><code>functions/api/outbound-orders/index.ts</code></td><td>create</td><td>创建出库单 OBD-2026-0007</td></tr>
+  <tr><td><code>functions/api/stock-transfers/index.ts</code></td><td>create</td><td>创建调拨单 STF-…</td></tr>
+  <tr><td><code>functions/api/inventory-adjustments/index.ts</code></td><td>create</td><td>创建库存调整单 ADJ-…，<b>原因：盘亏</b>（把最易舞弊的动作与理由一起留痕）</td></tr>
+  <tr><td><code>functions/api/quality-holds/index.ts</code></td><td>create</td><td>创建质量扣留 QH-…</td></tr>
+  <tr><td><code>functions/api/subcontracts/index.ts</code></td><td>create</td><td>创建外协订单 SCO-…</td></tr>
+  <tr><td><code>functions/api/purchase-orders/[id].ts</code></td><td>update / delete</td><td>更新（删除）采购订单 PO-…</td></tr>
+  <tr><td><code>functions/api/sales-orders/[id].ts</code></td><td>update / delete</td><td>更新（删除）销售订单 SO-…</td></tr>
+  <tr><td><code>functions/api/work-orders/[id].ts</code></td><td>update / delete</td><td>更新（删除）工单 WO-…</td></tr>
+  <tr><td><code>functions/api/materials/[id].ts</code></td><td>update / delete</td><td>更新（删除）物料 MAT-001</td></tr>
+  <tr><td><code>functions/api/customers/[id].ts</code></td><td>update / delete</td><td>更新（删除）客户 …</td></tr>
+  <tr><td><code>functions/api/vouchers/[id].ts</code></td><td>update / delete</td><td>更新（删除）记账凭证 …（<b>财务合规关键</b>）</td></tr>
+  <tr><td><code>functions/api/open/keys.ts</code></td><td>create</td><td>创建开放接口密钥「XXX」，有效期 90 天</td></tr>
+  <tr><td><code>functions/api/open/keys/[id].ts</code></td><td>revoke / rotate</td><td>吊销（轮换）开放接口密钥 ak-…</td></tr>
+</table>
+<div class="box ok">
+<b>为什么这样改而不是加一个全局中间件：</b>Cloudflare Pages Functions 的文件路由没有统一中间件钩子可用；逐个端点显式调用的好处是<b>摘要能写成中文人话</b>（含单号、原因、有效期），比中间件的机械记录可追溯性强得多。代价是要改 48 个文件 —— 本轮先覆盖风险最高的 14 个。
+</div>
+
+<h3>A2 列表加载态底座</h3>
+<ul>
+  <li><code>src/components/common/DataTable.tsx</code>：新增 <code>loading</code> / <code>emptyText</code> / <code>skeletonRows</code> 三个属性；骨架行的<b>列数与真实表格完全一致、逐行错开呼吸动画</b>，避免出数据时的布局抖动；表体加 <code>data-testid="dt-body"</code> 与 <code>data-loading</code> 便于 E2E 断言。</li>
+  <li><code>src/stores/persistStorage.ts</code>：把 <code>getItem</code> 的方法体抽成 <code>readFromCloud()</code>（逻辑一行未改），在外面套一层 <code>beginHydrate/endHydrate</code> 打点。</li>
+  <li><code>src/stores/syncStatusStore.ts</code>：新增 <code>hydrating</code> 计数（60 个键并发拉取，用计数而非布尔）与 <code>useCloudHydrating()</code> 钩子。</li>
+  <li>接入 3 个高频列表：<code>MaterialList.tsx</code> / <code>Purchase/OrderList.tsx</code> / <code>Sales/SalesOrderList.tsx</code>，并给出更有用的空态文案（如「暂无物料，可点击『新增』或『从模板创建』开始」）。</li>
+</ul>
+
+<h3>验证记录</h3>
+<div class="kv">
+  <b>TypeScript</b><div><code>tsc --noEmit</code> → <b>0 错误</b></div>
+  <b>后端语法+打包</b><div><code>node scripts/_audit_syntax.mjs</code> → 89 个文件语法 0 错，89 条导入链引用 0 错</div>
+  <b>构建</b><div><code>npm run build</code> → 33.91s 通过（唯一告警是既有 vendor chunk &gt; 900 KB，非本次引入）</div>
+</div>
+</section>
+
+<!-- ══════════ 诚实说明 ══════════ -->
+<section id="honest">
+<h2>做不到 / 不划算的（不粉饰）</h2>
+<table>
+  <tr><th style="width:24%">项</th><th>为什么不追</th></tr>
+  <tr>
+    <td><b>追 SAP 2608 / 用友 BIP 6 的 AI Agent 体系</b></td>
+    <td>三家的 AI 是「<b>建立在已结构化的业务数据 + 已封装的接口之上</b>」的第二层能力。SSA ERP 当前 60 个业务域还是 JSON 大对象，Agent 只能读到一坨 JSON，做出来必然是「聊天机器人」，不是「会执行的数字员工」。<b>先做 C1（数据关系化），否则 AI 一定是 demo。</b>这条本报告明确列为「暂不建议」。</td>
+  </tr>
+  <tr>
+    <td><b>全量 209 页多语言翻译</b></td>
+    <td>逐页抽文案 + 翻译 + 回归，粗略估 &gt; 40 人天，且会持续产生维护负债（每加一个页面就要同步两套语言）。<b>更划算的做法</b>是先只做「框架 + 131 条导航 + 通用词条」（A4），让「界面能切换语言」这件事成立，业务页文案待有真实海外客户需求时再针对性补。</td>
+  </tr>
+  <tr>
+    <td><b>把 60 个大对象一次性全迁关系表</b></td>
+    <td>涉及 60 个 store、对应的类型定义、写路径、迁移脚本与数据搬迁，且会同时触碰 433 条生产门禁断言。风险极高。<b>按 C1 的优先级逐个迁</b>（每迁一个立刻获得查询能力），并在每个域迁移后跑全量门禁，才是可控路径。</td>
+  </tr>
+  <tr>
+    <td><b>补齐全部 48 个写端点审计（本轮只做 14 个）</b></td>
+    <td>剩余 ~19 个（序列号消费、工单领料、三单匹配、汇率、ocr、ai/chatbi、auth 系列等）中，<b>auth 系列（登录/登出/改密/注册）刻意不补</b> —— 它们自身已是凭证动作的证据来源，再写一条审计属于冗余；其余列为 B6 下轮处理。本报告如实标注覆盖率 <b>从 31% 提升到约 60%</b>，未声称已全覆盖。</td>
+  </tr>
+  <tr>
+    <td><b>把 57–135 行的「薄页面」全部加厚</b></td>
+    <td>像 CRP.tsx（59 行）这种其实是「薄封装 + utils 里真算法」的合理结构，加厚反而降低可维护性。真正需要处理的是<b>没有算法支撑的纯壳</b>（如报表中心的导航卡片），已单列为 B5。</td>
+  </tr>
+</table>
+</section>
+
+<!-- ══════════ 下一步 ══════════ -->
+<section id="next">
+<h2>下一步建议（按顺序）</h2>
+<table>
+  <tr><th style="width:6%">序</th><th style="width:26%">事项</th><th>产出 / 验收</th><th style="width:10%">预估</th></tr>
+  <tr><td>1</td><td>A3 · MRP 使用废品率</td><td>改动最小、收益最直接的算法修复（0.5 天）；配套加单元用例</td><td>0.5 天</td></tr>
+  <tr><td>2</td><td>B6 · 剩余写端点审计</td><td>把审计覆盖率推到 ~95%（auth 系列刻意排除），使 D6 达到可对标的水位</td><td>1 天</td></tr>
+  <tr><td>3</td><td>A4 · 多语言底座</td><td>框架 + 导航 + 通用词条双语；交付后「切英文」这件事第一次真正成立</td><td>3–4 天</td></tr>
+  <tr><td>4</td><td>B1+B2 · MRP 期间桶与计划订单落库</td><td>MRP 从「每次重算的一次性结果」变成「可下达、可追溯的计划对象」</td><td>5 天</td></tr>
+  <tr><td>5</td><td>C1 · 数据关系化第一个域（建议 bom）</td><td>打通一条完整样板（迁移 + 写路径 + 门禁），为后续 6 个域提供模板</td><td>2 天</td></tr>
+</table>
+</section>
+
+<footer>
+  SSA ERP V3.3.0 全维度竞品对标报告 · 生成于 2026-09-14 · 竞品信息查询日期 2026-09-14<br>
+  所有 SSA 侧事实均可溯源到本仓库文件路径；所有竞品侧事实均标注了 ≥2 个公开来源，未能交叉验证的已标注「未验证」。
+</footer>
+
+</div>
+</body>
+</html>

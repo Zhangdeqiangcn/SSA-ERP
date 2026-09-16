@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "3.3.0",
+  "version": "3.13.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,6 +11,8 @@
     "build:fast": "node node_modules/vite/bin/vite.js build",
     "typecheck": "tsc --noEmit",
     "test:prod-e2e": "node scripts/prod-e2e/run.mjs",
+    "check": "node scripts/check-consistency.mjs",
+    "check:smoke": "node scripts/_probe_route_exist.mjs",
     "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
@@ -52,6 +54,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260702.1",
     "@playwright/test": "^1.61.1",
     "@types/file-saver": "^2.0.7",
     "@types/qrcode": "^1.5.6",

@@ -58,20 +58,32 @@ export default function Forecast() {
   const [selectedId, setSelectedId] = useState<string>(materials[0]?.id || '');
   const [snack, setSnack] = useState<string>('');
 
+  // ── B4：平滑系数与预测期数（可调，因为「这个物料该跟得多快」是业务判断）──
+  // 默认 α=0.3 是工业常用值：既不是「只看最近一期」（α=1，噪声全收），
+  // 也不是「几乎不动」（α=0.05，等于移动平均）。
+  const [alpha, setAlpha] = useState(0.3);
+  const [horizon, setHorizon] = useState(6);
+
   const activeMat = materials.find((m) => m.id === selectedId) || materials[0];
 
   const result = useMemo(() => {
     if (!activeMat) return null;
-    const monthly = buildMonthlySales(salesOrders, activeMat.id, 12).map((p) => p.qty);
+    // B4：把月份标签一并传下去 —— 季节因子要对到「几月」才有意义，
+    // 只传数字序列的话 1~12 月的季节规律无从对位。
+    const points = buildMonthlySales(salesOrders, activeMat.id, 36);
     return computeDemandForecast({
-      monthlySales: monthly,
+      monthlySales: points.map((p) => p.qty),
+      monthLabels: points.map((p) => p.month),
       currentStock: activeMat.currentStock || 0,
       leadTimeDays: activeMat.leadTime || 7,
       safetyStockBase: activeMat.safetyStock || 0,
       moq: activeMat.moq || 0,
       mpq: activeMat.mpq || 0,
+      alpha,
+      horizon,
     });
-  }, [materials, salesOrders, activeMat]);
+  }, [materials, salesOrders, activeMat, alpha, horizon]);
+
 
   const chartData = useMemo(() => {
     if (!result) return { labels: [], values: [] };

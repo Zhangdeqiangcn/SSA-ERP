@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+// ============================================================
+// SSA ERP · 一致性检查编排（常规检查）
+// ------------------------------------------------------------
+// 把 3 个核对程序串成一键检查，纳入"常规检查"流程：
+//   ① _verify_registries_vs_db.mjs  登记表 ↔ 生产库        （阻断项，需远端 D1）
+//   ② _verify_routes.mjs            前端调用 ↔ 后端路由    （阻断项，本地静态）
+//   ③ _probe_route_exist.mjs        生产端点存在性探针      （默认非阻断，需线上部署；--strict 升级为阻断）
+//
+// 设计取舍（第一性原理）：
+//   · ①②③ 都失败会"静默"让能力失效，但三者依赖不同：
+//     ①② 在提交/构建期即可判定（本地静态或远端库结构），应该阻断；
+//     ③ 必须打真实线上部署才有意义，构建期往往还没部署，故默认非阻断，
+//        由发布流程在 deploy 之后跑 `npm run check:smoke` 或 `npm run check -- --strict`。
+//   · 退出码：任一阻断项失败 → 1；全部通过（含探针非阻断） → 0。
+//
+// 用法：
+//   npm run check                  # 跑 ①②③（探针非阻断）
+//   npm run check -- --no-probe    # 只跑 ①②（构建门槛里用这个，确定性最强）
+//   npm run check -- --strict      # ①②③ 全阻断（发布后全量门禁用）
+//   npm run check:smoke            # 只跑 ③ 端点探针
+// ============================================================
+import { spawnSync } from 'node:child_process';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, '..');
+const NODE = process.execPath;
+
+const cliArgs = process.argv.slice(2);
+const noProbe = cliArgs.includes('--no-probe');
+const strict = cliArgs.includes('--strict');
+
+const steps = [
+  { name: '① 登记表 ↔ 生产库', file: '_verify_registries_vs_db.mjs', blocking: true },
+  { name: '② 前端调用 ↔ 后端路由', file: '_verify_routes.mjs', blocking: true },
+  { name: '③ 生产端点存在性探针', file: '_probe_route_exist.mjs', blocking: strict },
+];
+
+const W = 26;
+console.log('═'.repeat(64));
+console.log('  SSA ERP · 一致性检查（常规检查）');
+console.log('═'.repeat(64));
+
+let failed = 0;
+for (const step of steps) {
+  if (step.file === '_probe_route_exist.mjs' && noProbe) {
+    console.log(`\n── ${step.name.padEnd(W)} ⏭️  跳过（--no-probe）`);
+    continue;
+  }
+  console.log(`\n── ${step.name.padEnd(W)} ▶ ${step.file}`);
+  const r = spawnSync(NODE, [resolve(root, 'scripts', step.file)], {
+    stdio: 'inherit', cwd: root, env: process.env,
+  });
+  const code = r.status ?? (r.error ? -1 : 0);
+  if (code === 0) {
+    console.log(`   ✅ ${step.name} 通过`);
+  } else if (step.blocking) {
+    console.log(`   ❌ ${step.name} 失败（exit=${code}）— 阻断`);
+    failed++;
+  } else {
+    console.log(`   ⚠️  ${step.name} 未通过（exit=${code}）— 非阻断（需线上部署；--strict 可升级为阻断）`);
+  }
+}
+
+console.log('\n' + '═'.repeat(64));
+if (failed === 0) {
+  console.log('✅ 一致性检查全部通过（阻断项 0 失败）');
+  process.exit(0);
+} else {
+  console.log(`❌ 有 ${failed} 个阻断项未通过，请逐项处理后再继续`);
+  process.exit(1);
+}

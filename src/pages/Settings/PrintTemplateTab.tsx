@@ -292,8 +292,15 @@ const PrintTemplateTab: React.FC = () => {
       title: title.trim() || name.trim(),
       paperSize,
       orientation,
-      headerText: headerConfig.html || '',
-      footerText: footerConfig.html || '',
+      // ★ V3.7.0 修复「图片存两遍」：这两个字段是 V2.89 之前的旧结构，
+      // 标注 @deprecated，已无任何读取方（PrintPreview 的兜底分支永远走不到，
+      // 因为 headerConfig 在下面一定被赋成非空字符串）。
+      // 此前保存时把 headerConfig.html 原样复制一份进来，导致页眉里那张
+      // 203 KB 的 Logo **在库里存了两份**（实测两份字节完全相同），
+      // 整个打印模板域 404 KB 里有 199 KB 是这份纯冗余。
+      // 这里置空：结构保留（老数据/老代码兼容），但不再写内容。
+      headerText: '',
+      footerText: '',
       headerConfig: { html: headerConfig.html || '', showDate: headerConfig.showDate },
       footerConfig: { html: footerConfig.html || '', showDate: footerConfig.showDate },
       fieldKeys,

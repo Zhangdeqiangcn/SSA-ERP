@@ -20,6 +20,7 @@
 // 可靠性说明：即使本钩子从未触发，用户在登录或查询通道状态时也会触发同一段逻辑，
 // 功能不会失效。任何异常都被吞掉，绝不影响主请求。
 import { runJobTick } from './_shared/jobs';
+import { errorResponse } from './_shared/errors';
 
 const TICK_INTERVAL_MS = 60 * 1000;
 
@@ -28,9 +29,38 @@ let lastTick = 0;
 
 export async function onRequest(context: any) {
   const { next, env, request } = context;
+
+  // ── ★ V3.12.0 新增：全站异常兜底（一处修改覆盖全部端点）──────────────
+  // 为什么要有这一层（实测发现的系统性缺陷）：
+  //   机器扫描 `scripts/_audit_trycatch.mjs` 显示，100 个端点文件里有 **60 个**
+  //   写操作端点（POST/PUT/PATCH/DELETE）的 `.run()` **没有包 try/catch**。
+  //   平时它们 100% 正常——但只要数据库抛一次错（CHECK 约束 / NOT NULL /
+  //   唯一冲突 / 列不存在），异常就会一路冒到 Cloudflare 平台，
+  //   返回的是平台的 **500 HTML 错误页**，而不是 JSON。
+  //   前端 `res.json()` 解析 HTML → 抛 SyntaxError → **白屏**，
+  //   用户只看到「服务器开了个小差」，真实原因（比如「供应商状态不能填 active」）
+  //   被埋在三层之下，几乎不可能排查。
+  //
+  //   逐个给 60 个文件补 try/catch 既慢又危险（60 次改动 = 60 次出错机会），
+  //   而根中间件站在**所有请求的必经之路**上，一次 `await next()` 就能全部兜住。
+  //   **这是「修机制」而不是「修 60 个症状」。**
+  //
+  // 与「端点内显式校验」的关系：两者都要，不可替代。
+  //   - 这一层保证「绝不返回 HTML、绝不白屏」（安全网）；
+  //   - 端点内的枚举/业务校验保证「错误文案说人话」（可读性）。
+  //   只留安全网，用户拿到的是通用的「操作失败」；只留端点校验，漏网的照样白屏。
+  //
+  // 只兜 /api/ 路径：静态资源（HTML/JS/CSS）走平台默认行为，不该被改成 JSON。
+  //
+  // ★ 顺序上的一个坑（我自己踩到并已修正）：不能「API 就提前 return」。
+  //   第一次写成 `if (isApi) { ... return await next(); }`，结果 tick 那段
+  //   **永远不会执行** —— 后台任务钩子被静默废掉，而这种错误没有任何报错。
+  //   所以正确顺序是：先跑 tick（两个分支都需要），再分流。
+  let isApi = false;
+  try { isApi = new URL(request.url).pathname.startsWith('/api/'); } catch { isApi = false; }
+
   try {
-    const url = new URL(request.url);
-    if (url.pathname.startsWith('/api/') && Date.now() - lastTick > TICK_INTERVAL_MS) {
+    if (isApi && Date.now() - lastTick > TICK_INTERVAL_MS) {
       lastTick = Date.now();
       const task = runJobTick(env, 'middleware').catch(() => {});
       if (typeof context.waitUntil === 'function') {
@@ -40,5 +70,15 @@ export async function onRequest(context: any) {
   } catch {
     /* 钩子异常不得影响主请求 */
   }
+
+  if (isApi) {
+    try {
+      return await next();
+    } catch (e: any) {
+      // 本工程不设 CORS 头（前端与 Functions 同域部署），故无需补响应头。
+      return errorResponse(e, '请求处理');
+    }
+  }
+
   return next();
 }

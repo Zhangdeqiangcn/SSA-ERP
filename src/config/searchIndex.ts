@@ -152,6 +152,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '辅助核算', path: '/finance/auxiliary', module: '财务与报表', group: '财务管理', keywords: ['auxiliary', '辅助核算', '核算项'], desc: '辅助核算项' },
   { label: '预算控制', path: '/finance/budget', module: '财务与报表', group: '财务管理', keywords: ['budget', '预算'], desc: '预算编制控制' },
   { label: '三大财务报表', path: '/finance/statements', module: '财务与报表', group: '财务管理', keywords: ['statements', '三大报表', '资产负债表'], desc: '三大报表' },
+  { label: '合并报表', path: '/finance/consolidated', module: '财务与报表', group: '财务管理', keywords: ['consolidation', '合并', '多账簿', '集团报表', '抵消'], desc: '多账簿与集团合并报表（C2）' },
   { label: '固定资产', path: '/finance/fixed-assets', module: '财务与报表', group: '财务管理', keywords: ['fixed asset', '固定资产', '折旧'], desc: '固定资产管理' },
   { label: '期末结账', path: '/finance/closing', module: '财务与报表', group: '财务管理', keywords: ['closing', '结账', '月结'], desc: '期末结账' },
   { label: '应收管理', path: '/finance/receivables', module: '财务与报表', group: '财务管理', keywords: ['ar', 'receivable', '应收', '应收账款'], desc: '应收账款' },
@@ -174,6 +175,10 @@ export const searchIndex: SearchEntry[] = [
   { label: '价格趋势分析', path: '/analytics/price', module: '分析与报表', group: '分析与报表', keywords: ['price trend', '价格趋势'], desc: '价格趋势分析' },
   { label: '数电票核验台账', path: '/analytics/invoice-verify', module: '分析与报表', group: '分析与报表', keywords: ['invoice', '核验', '发票核验', '数电票', '台账'], desc: '数电票批量核验与历史记录台账' },
   { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数'], desc: '系统参数配置' },
+  // A4/A5（V3.4.0）：多语言底座与数据容量守护 —— 均为管理员运维入口
+  { label: '多语言', path: '/platform/i18n', module: '系统', group: '系统设置', keywords: ['i18n', 'locale', '语言', '翻译', 'english', '本地化'], desc: '界面语言切换、词条覆盖与缺失词条补录', adminOnly: true },
+  { label: '数据容量守护', path: '/platform/data-capacity', module: '系统', group: '系统设置', keywords: ['capacity', '容量', '体积', '大对象', 'app_state', '存储上限', '运维'], desc: '各数据域体积监控与超限预警', adminOnly: true },
+  { label: '字段级权限', path: '/platform/field-permissions', module: '系统', group: '系统设置', keywords: ['field permission', '字段权限', '遮蔽', '脱敏'], desc: '字段级可见性与遮蔽规则', adminOnly: true },
   { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档'], desc: 'ERP 使用说明书' },
   { label: '账号登录', path: '/login', module: '系统', group: '账号', keywords: ['login', '登录', '注册', '账号', '密码', '登出', 'logout', '公司码'], desc: '账号注册/登录与多人协同' },
   { label: '全流程自检', path: '/test/flow', module: '系统', group: '测试与诊断', keywords: ['selftest', '自检', '测试', '流程'], desc: '业务流程自检' },

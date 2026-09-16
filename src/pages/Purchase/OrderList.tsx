@@ -16,6 +16,7 @@ import { usePrintTemplateStore } from '@/stores/printTemplateStore';
 import { PurchaseOrder, PurchaseOrderStatus } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
+import { useCloudHydrating } from '@/stores/syncStatusStore';
 
 /** 批量导入：表头 → 字段 别名映射（中英文均可） */
 const ORDER_IMPORT_ALIASES: Record<string, string> = {
@@ -64,6 +65,7 @@ const ORDER_BATCH_FIELDS: BatchEditField[] = [
 ];
 
 const OrderList: React.FC = () => {
+  const hydrating = useCloudHydrating();
   const navigate = useNavigate();
   const purchaseOrders = usePurchaseStore(s => s.purchaseOrders);
   const updatePurchaseOrder = usePurchaseStore(s => s.updatePurchaseOrder);
@@ -362,6 +364,8 @@ const OrderList: React.FC = () => {
       <DataTable
         data={filteredData}
         columns={columns}
+        loading={hydrating && filteredData.length === 0}
+        emptyText="暂无采购订单，可点击「新增」创建第一张订单"
         enableRowSelection
         enablePagination
         enableExport

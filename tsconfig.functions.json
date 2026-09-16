@@ -1,0 +1,20 @@
+{
+  "// 用途": "后端 Functions 类型检查（此前 functions/ 完全不在任何 tsc 覆盖内，导致 rlsCondition 取 .clause、env.DB 传参、writeAudit 字段名等错误一路逃到运行期才 500）",
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "types": ["@cloudflare/workers-types"]
+  },
+  "include": ["functions/**/*.ts"]
+}

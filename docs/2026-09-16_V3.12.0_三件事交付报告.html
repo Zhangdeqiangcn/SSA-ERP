@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP V3.12.0 — 三件事交付报告（2026-09-16）</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#fff; --ink:#1f2328; --muted:#5b6570;
+    --line:#e3e6ea; --ok:#1a7f37; --okbg:#e8f5ec; --bad:#c0392b; --badbg:#fdecea;
+    --warn:#9a6700; --warnbg:#fff8e5; --acc:#0969da; --accbg:#eaf2ff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:28px 18px 60px;background:var(--bg);color:var(--ink);
+    font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:960px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 6px;letter-spacing:.3px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:22px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:18px}
+  h2{font-size:19px;margin:0 0 12px;padding-left:11px;border-left:4px solid var(--acc)}
+  h3{font-size:16px;margin:20px 0 8px;color:#24292f}
+  p{margin:9px 0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f0f2f5;font-weight:600}
+  td.num{text-align:right;white-space:nowrap}
+  .ok{color:var(--ok);font-weight:600}
+  .bad{color:var(--bad);font-weight:600}
+  .tag{display:inline-block;padding:1px 8px;border-radius:11px;font-size:12px;font-weight:600}
+  .t-ok{background:var(--okbg);color:var(--ok)}
+  .t-bad{background:var(--badbg);color:var(--bad)}
+  .t-warn{background:var(--warnbg);color:var(--warn)}
+  .t-acc{background:var(--accbg);color:var(--acc)}
+  .kv{background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin:12px 0}
+  .kv b{display:inline-block;min-width:120px;color:var(--muted);font-weight:600}
+  code{background:#f0f2f5;padding:1px 6px;border-radius:4px;font-size:13px;
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  ul{margin:8px 0;padding-left:22px}
+  li{margin:5px 0}
+  .big{font-size:17px;font-weight:600}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:26px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
+  .stat{background:#fafbfc;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+  .stat .n{font-size:22px;font-weight:700;color:var(--acc)}
+  .stat .l{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>SSA ERP V3.12.0 — 三件事交付报告</h1>
+  <div class="sub">2026-09-16 · 版本 3.12.0 · 部署号 <code>e33998df</code> · 生产全量自动检查 <b class="ok">PASS 939 / FAIL 0</b></div>
+
+  <div class="card">
+    <h2>结论（先看这里）</h2>
+    <p class="big">三件事全部完成并上线，自动检查 939 项全绿。</p>
+    <div class="grid">
+      <div class="stat"><div class="n">3</div><div class="l">个「界面在调、后端没有」的功能被修复</div></div>
+      <div class="stat"><div class="n">94</div><div class="l">张表与 5 份登记表逐条核对，零漂移</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">个凭证表重复列被清除</div></div>
+      <div class="stat"><div class="n">1</div><div class="l">个「回填落错公司」的历史缺陷被修正</div></div>
+    </div>
+    <p>其中有两件事值得单独说：<b>一是差点因为「删 9 个重复列」酿成线上事故</b>（详见第三节）；
+    <b>二是发现「生产域」这个说法本身是误导</b>——它让人以为整个模块都没迁，实际工单早就迁完了（详见第二节）。</p>
+  </div>
+
+  <div class="card">
+    <h2>第一件：回扫「清单型」产物</h2>
+
+    <h3>1.1 先分清对象</h3>
+    <p>项目里真正「由程序生成、又喂给程序吃」的只有一条链（字段类型表，上一版已修）。
+    但风险面更大的，是 <b>5 份手工维护的登记表</b>——它们和字段类型表是同一类东西：
+    <b>两边各写一份，靠人记住对齐</b>，时间一长必然漂移。</p>
+
+    <h3>1.2 核对结果</h3>
+    <p>新建了核对程序，以<b>数据库里真实存在的表</b>为唯一标准，双向核对。结果：</p>
+    <table>
+      <tr><th>登记表</th><th>核对方式</th><th class="num">结果</th></tr>
+      <tr><td>权限表（两张合起来）</td><td>双向：漏登记 + 僵尸</td><td class="num ok">0 / 0</td></tr>
+      <tr><td>资源登记表</td><td>只查僵尸（覆盖式）</td><td class="num ok">0</td></tr>
+      <tr><td>父子表关系表</td><td>只查僵尸</td><td class="num ok">0</td></tr>
+      <tr><td>备份范围表</td><td>只查僵尸</td><td class="num ok">0</td></tr>
+      <tr><td>备份排除表</td><td>只查僵尸</td><td class="num ok">0</td></tr>
+    </table>
+    <p><span class="tag t-ok">结论</span> 94 张表，两边完全一致，<b>零漂移</b>。</p>
+
+    <h3>1.3 ★ 核对程序自己有 4 个毛病</h3>
+    <p>这是本节最有价值的部分——<b>用一类可能出错的方法去检查同类方法，出错的方式是一样的</b>。</p>
+    <table>
+      <tr><th>毛病</th><th>造成的假象</th></tr>
+      <tr><td>权限表其实由两张表共同覆盖，我第一版只查了其中一张</td><td class="bad">19 张表被误报成「漏登记」</td></tr>
+      <tr><td>找括号时命中了类型声明里的方括号</td><td class="bad">一份清单被判成「0 项」</td></tr>
+      <tr><td>有一份是对象结构，却按数组去找</td><td class="bad">又一份被判成「0 项」</td></tr>
+      <tr><td><b>★ 把「0 项」当成了通过</b></td><td class="bad">解析失败时错漏自然是 0 → 一片<b>假绿灯</b></td></tr>
+    </table>
+    <p><span class="tag t-acc">已加固</span> 加了闸门：<b>任何一份清单解析出 0 项，直接判失败</b>，逼人去看，而不是给个漂亮的通过。</p>
+
+    <h3>1.4 ★ 顺带挖出 3 个「界面在调、后端根本没有」的功能</h3>
+    <table>
+      <tr><th>功能</th><th>修复前实测</th><th>用户实际遇到什么</th><th>修复后</th></tr>
+      <tr><td>金税网关配置</td><td>返回的是<b>网页</b>而不是数据</td><td>「加载 / 保存 / 清除」三个操作全部失败</td><td class="ok">正常返回数据</td></tr>
+      <tr><td>智能问数（ChatBI）</td><td>返回「方法不允许」</td><td>无论问什么都失败</td><td class="ok">正常返回数据</td></tr>
+      <tr><td>配额查询</td><td>返回的是<b>网页</b></td><td>功能从写好那天起就没被接上过</td><td class="ok">已接上（前端暂未调用）</td></tr>
+    </table>
+    <p><b>根因是同一条规则</b>：这类后端服务里，<code>index</code> 文件只负责<b>根路径</b>，子路径必须有自己的文件。
+    旁边一个能正常用的功能就是这么写的，所以它能用。
+    第三个更特别：它的导出名写成了 <code>onRequestQuota</code>，而 <code>Quota</code> 不是任何一种 HTTP 方法名——
+    <b>所以它从来没有被调用过，却看起来像个正常功能。</b></p>
+
+    <div class="kv">
+      <b>★ 踩到的坑</b>在这个架构下，<b>用「返回码」判断接口存不存在是不可靠的</b>。
+      实测连一个瞎编的地址，返回码也是「200 成功」——系统会把认不出的地址统统送回首页。
+      <b>可靠的判据是「返回的是数据还是网页」</b>，而且每次探测都要带<b>对照组</b>：
+      瞎编的地址必须判「不存在」、登录接口必须判「存在」，否则整批结论作废。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>第二件：生产域关系化</h2>
+
+    <h3>2.1 ★ 先纠正一个会害人的说法</h3>
+    <p>动手前按惯例数了三件事，结果和旧结论不一样：</p>
+    <table>
+      <tr><th>数什么</th><th>数出来</th></tr>
+      <tr><td>谁在用它</td><td>工单模块 25 个页面、执行层 9 个页面</td></tr>
+      <tr><td>打包文件体积</td><td>3.7 KB</td></tr>
+      <tr><td><b>里面还剩什么</b></td><td><b>只剩 2 类</b>：工艺路线 2 条（含 10 道工序）、生产建议 4 条</td></tr>
+    </table>
+    <p><b>工单本身早就迁进数据库了。</b>如果照着「生产域 3.7 KB / 25 个页面」这个旧结论直接去建工单表，
+    会做出一张<b>和已有表重复、而且根本没人往里写</b>的空表。</p>
+    <div class="kv">
+      <b>教训</b>体积和用量说明的是「这个模块有多大」，<b>不是「这个模块里还剩下什么没迁」</b>。
+      后者要看「现在还在往打包文件里写什么」——那才是事实。
+    </div>
+
+    <h3>2.2 迁的时候做了两处区分</h3>
+    <table>
+      <tr><th>数据</th><th>结构</th><th>处理方式</th></tr>
+      <tr><td>工艺路线</td><td><b>两层嵌套</b>：路线 → 工序 → 技能要求</td><td>父子两张表，技能走文本列</td></tr>
+      <tr><td>生产建议</td><td>13 个字段全是单值，无嵌套</td><td>用现成通用通道，<b>不新增接口</b></td></tr>
+    </table>
+
+    <h3>2.3 ★ 顺带修掉一个历史缺陷（很重要）</h3>
+    <p>以前的两次数据回填，把数据存到了<b>错误的公司名下</b>。原因是旧做法按「用户数最多的公司」来定归属，
+    而实际上那份打包文件<b>自带公司编号</b>，两者不是同一个。</p>
+    <div class="kv">
+      <b>为什么难发现</b>迁移执行成功、数据条数正好对得上、自动检查全绿
+      ——<b>唯一不对的是「用户看到的」</b>：真正的使用者打开页面，看到的是空列表。
+      这类故障只能靠一个动作抓到：<b>去量数据到底落在了谁名下</b>，而不是查「有没有数据」。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>第三件：清掉凭证表 9 个重复列</h2>
+
+    <h3>3.1 这 9 个列是什么</h3>
+    <p>凭证表里躺着 9 个旧式命名的列（如 <code>totalDebit</code>），和对应的新式命名列（<code>total_debit</code>）
+    <b>意思完全重复</b>。成因是早期建表时直接照搬了界面上的字段名，后来统一了命名规范，旧列没清。</p>
+
+    <h3>3.2 ★ 差点出事故</h3>
+    <p>清查时发现，代码里<b>确实把这 9 个旧名字当数据库列名在用</b>——而同一个映射表里，别的字段用的又是新命名。
+    <b>一个表里混着两套写法。</b></p>
+    <p class="bad">如果只删列不改代码，这些字段的读写会指向已经不存在的列，上线就是 500 错误——
+    而且类型检查和打包都发现不了（因为那是运行时才拼出来的字符串）。</p>
+    <p><span class="tag t-ok">正确顺序</span> <b>先改代码映射 → 再删列</b>。
+    同时顺手修掉一个潜伏问题：创建人字段被写了两遍，会产生「重复列名」错误
+    （因为凭证表一直是空的，所以从未暴露）。</p>
+
+    <h3>3.3 删前三核对（三条都过才动手）</h3>
+    <table>
+      <tr><th>核对项</th><th>实测结果</th></tr>
+      <tr><td>表里有没有数据</td><td class="ok">0 行 —— 不会丢数据</td></tr>
+      <tr><td>有没有索引引用这 9 列</td><td class="ok">无（索引只涉及公司、状态、日期）</td></tr>
+      <tr><td>数据库是否支持删列</td><td class="ok">支持（用临时表实测通过）</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>验证链（每个数字都可追溯）</h2>
+    <table>
+      <tr><th>环节</th><th>结果</th></tr>
+      <tr><td>前端类型检查</td><td class="ok">0 错</td></tr>
+      <tr><td>后端语法 + 导入链</td><td class="ok">123 个文件 0 错 / 123 条导入链 0 错</td></tr>
+      <tr><td>后端类型检查</td><td class="ok">新增 0 条（存量基线 56 条不变）</td></tr>
+      <tr><td>构建</td><td class="ok">35.7 秒</td></tr>
+      <tr><td>部署</td><td class="ok"><code>e33998df</code>（迁移 0061–0064 已应用）</td></tr>
+      <tr><td><b>生产全量自动检查</b></td><td class="ok"><b>PASS 939 / FAIL 0</b>（23 套 / 共 955 项，比上一版多 59 项）</td></tr>
+      <tr><td>版本五处同步</td><td class="ok">版本文件 / 包配置 / 主计划 / 说明书 / 项目记忆 —— 全部 ✓</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>本轮最薄弱的 3 项</h2>
+    <ol>
+      <li><b>有一个并发会话在改同一个项目。</b>本轮开工后发现，定时任务延迟到今早才真正执行，
+      在 08:49–09:28 期间持续写文件。我避开了它正在写的文件，等其停摆后才接管。
+      <b>风险：如果它再次活跃并部署，可能覆盖本轮成果</b>，建议留意。</li>
+      <li><b>「生产域」的旧结论（3.7 KB / 25 个消费方）是错的</b>，而且错得很隐蔽——
+      它会让人去建一张重复且无用的表。说明「体积」这类指标被当成了「还剩什么」的替代指标，
+      而这两者根本不是一回事。</li>
+      <li><b>凭证表一直是空的（0 行），所以一批潜伏缺陷从未暴露</b>：
+      创建人字段写两遍会导致「重复列名」错误、9 个旧列被当列名使用。
+      <b>一旦有真实凭证写入，这些会集中爆发。</b>本轮已全部修掉，但说明「空表」会掩盖问题。</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>下一步建议（按优先级）</h2>
+    <table>
+      <tr><th>优先级</th><th>建议</th><th>理由</th></tr>
+      <tr><td><span class="tag t-bad">高</span></td><td>确认并发会话是否已结束，必要时把今晚的定时任务暂停或改期</td><td>避免两个会话互相覆盖，这是当前最大不确定性</td></tr>
+      <tr><td><span class="tag t-warn">中</span></td><td>把新写的 3 个核对程序（登记表 / 路由 / 端点探针）纳入常规检查</td><td>它们本轮各抓到了不同类问题，可复跑，长期收益高</td></tr>
+      <tr><td><span class="tag t-acc">中</span></td><td>继续 C2（合并报表 / 多账簿）</td><td>C1 七域已全部完成，可以进入下一阶段</td></tr>
+      <tr><td><span class="tag t-acc">低</span></td><td>凭证表写入真实数据后复测一次</td><td>本轮修复的几处缺陷在空表下无法被真正验证</td></tr>
+    </table>
+  </div>
+
+  <div class="foot">SSA ERP V3.12.0 · 2026-09-16 生成 · 所有数字来自实际命令与脚本输出</div>
+</div>
+</body>
+</html>

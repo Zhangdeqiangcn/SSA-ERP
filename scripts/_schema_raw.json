@@ -1,0 +1,6748 @@
+{
+ "api_keys": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "key_hash": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "label": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "scopes": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "revoked": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "rate_limit": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "revoked_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "expires_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "rotated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "app_state": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "value": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "app_state_metrics": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bytes": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "peak_bytes": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "writes": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "approval_flow_nodes": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "flow_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "role": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "role_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "condition": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "timeout": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "node_order": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "approver_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approver_roles": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approver_user_ids": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "mode": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "conditions": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "skip_rule": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "escalation": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "optional": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "fields": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "approval_flows": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "module": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "module_label": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "enabled": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "profile": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approved_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "approved_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "visible_roles": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "audit_degraded": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "entity": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "action": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "summary": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "error": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "audit_logs": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "action": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "entity": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "entity_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "summary": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "diff": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "bi_integrations": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "conn_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "conn_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "platform": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "endpoint": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dataset": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "last_sync_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "bom_headers": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bom_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "effective_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "expiry_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "total_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approved_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approved_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "is_alternate": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "usage_probability": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "priority": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "co_products": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "by_products": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "cost_split_method": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "bom_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bom_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "level": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "sequence": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "parent_item_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_spec": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "scrap_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "lead_time": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "source": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "is_critical": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "child_product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "labor_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "process_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "cash_accounts": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "opening_balance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "current_balance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "cash_flows": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "direction": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "category": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "counterparty": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "flow_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "related_doc": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "check_tasks": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "task_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "start_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "end_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "operator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "items": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "difference_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "blind_mode": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "copa_analysis": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dimension": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "label": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "revenue": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "cogs": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "customers": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "short_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_level": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_limit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "used_credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "settlement_term_days": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "tax_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_title": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_account_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "default_currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "default_tax_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "sales_org": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reconciliation_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tax_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "custom_fields": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "email_verifications": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "username": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purpose": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "batch_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "attempts": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "verified": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "consumed": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "expires_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "esg_reports": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "report_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "category": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "indicator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "value": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "target": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_account_entries": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "entry_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "debit_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "cost_center_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "cost_center_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "aux_note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_chart_of_accounts": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "parent_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "is_leaf": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "balance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "normal_side": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "statement": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "section": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_invoices": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_tax_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchase_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "received_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "exchange_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "verified_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "verified_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_generated": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_payment_plan_installments": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "plan_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "label": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "due_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "paid_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_payment_plans": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "plan_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchase_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "paid_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "due_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "paid_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "payment_method": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_generated": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "advance_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "advance_occupied": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "exchange_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_project_accounts": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_budget": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_actual": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_variance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "revenue": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "gross_profit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "gross_margin": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "prepared_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approved_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fin_project_cost_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "category": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "budget_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "variance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "variance_percent": {
+   "t": "number",
+   "sql": "REAL"
+  }
+ },
+ "fin_tax_records": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "record_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "category": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "taxable_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "deducted_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_payable": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "paid_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "payment_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "finished_goods_inbounds": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "planned_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "qualified_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "rejected_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inspection_task_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "fx_rates": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "base_currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quote_currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "source": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "inbound_order_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "expected_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quality_status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "serial_nos": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "hu_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "production_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "expiry_date": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "inbound_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "total_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "subcontract_material_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "asn_shipment_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inventory_posted": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "cost_posted": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "inventory_adjustment_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inventory_adjustment_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "book_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "delta_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "inventory_adjustments": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "adjustment_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "total_delta_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "voucher_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "inventory_alerts": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "current_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "threshold": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "severity": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "inventory_records": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "available_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "frozen_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "last_inbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "last_outbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "shelf_life_status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "job_runs": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "job_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "ref_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "attempt": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "target": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "error": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "started_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "finished_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "job_ticks": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "processed": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "sent": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "failed": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "duration_ms": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "error": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "started_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "finished_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "login_attempts": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "subject_key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "username": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "fail_count": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "first_fail_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "last_fail_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "locked_until": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mail_logs": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "topic": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "to_addr": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "subject": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "error": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "batch_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "material_substitutes": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "substitute_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "substitute_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "priority": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "substitute_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "conversion_ratio": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "effective_from": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "effective_to": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "materials": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "category_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "category_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "model": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "make_or_buy": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "safety_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "min_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "max_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "current_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "standard_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "moving_avg_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "stock_value": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "lead_time": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "moq": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "mpq": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "default_vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "default_vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchase_unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit_conversion": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "purchasing_group": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchasing_value_key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "gr_processing_days": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "mrp_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "mrp_controller": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "lot_size": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "reorder_point": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "planned_delivery_days": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "tax_classification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivery_unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "min_order_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "min_delivery_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "account_assignment_group": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "valuation_class": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "price_control": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "routing": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "cycle_time": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "scrap_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "inspection_point": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "lifecycle_status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "shelf_life_days": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "shelf_life_warning_days": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "batch_managed": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "serialized": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "gtin": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "parameters": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "plant_params": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "custom_fields": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mes_connections": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "endpoint": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "protocol": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "api_key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "last_sync_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mes_devices": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "device_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "device_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "oee": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "reported_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mes_operation_reports": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operation_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "good_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "scrap_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "reported_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mes_wips": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "station": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "messages": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sender_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sender_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "recipient_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "recipient_role": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "title": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "body": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "ref_module": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "ref_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "read": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "read_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "mrp_recommendations": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "current_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "safety_stock": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "required_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "on_order_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "suggested_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "suggested_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "priority": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "org_settings": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "base_currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "company_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "orgs": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "company_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "outbound_order_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "outbound_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "cost_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "serial_nos": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "hu_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "outbound_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "outbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "outbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inventory_posted": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "cogs_posted": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "picker": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "packaging_method": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "package_count": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "weight": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "volume": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "shipping_company": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tracking_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "planned_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "run_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "run_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "gross_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "on_hand_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "on_order_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "net_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "planned_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "due_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "bucket_start": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "low_level_code": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "converted_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "converted_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "converted_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "priority": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "print_template_asset_chunks": {
+  "asset_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "chunk_index": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "chunk": {
+   "t": "text",
+   "sql": "BLOB"
+  }
+ },
+ "print_template_assets": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "template_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "kind": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "mime": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "file_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "byte_size": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "content_hash": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "placeholder": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "print_templates": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "entity": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "title": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "paper_size": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "orientation": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "header_html": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "header_show_date": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "footer_html": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "footer_show_date": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "header_text": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "footer_text": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "field_keys": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "extra_options": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "is_default": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "sort_order": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "process_route_operations": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "route_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "sequence": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "operation_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operation_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "setup_time": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "run_time": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "wait_time": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "skills": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "process_routes": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "route_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_lead_time": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "project_exceptions": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "exception_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "severity": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "title": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reported_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reported_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "resolution": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "resolved_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "resolved_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "impact_description": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "project_milestones": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "planned_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "deliverable": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "projects": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "start_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "end_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "contract_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "received_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "budget": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "progress": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "manager": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "team": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "linked_orders": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "notes": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "purchase_order_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchase_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "ordered_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "delivered_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "price_with_tax": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount_with_tax": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "purchase_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purchase_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "expected_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "exchange_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_included": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "total_tax_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "grand_total": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "payment_terms": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "trade_terms": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivery_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivered_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "credit_occupied": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "credit_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "credit_released_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "confirmed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "confirmed_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "confirmed_note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_mode": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "history": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "purchase_request_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "request_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "estimated_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "estimated_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "purchase_requests": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "request_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "title": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "applicant": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "department": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "priority": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "expected_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "current_step": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "custom_fields": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "approval_records": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "quality_holds": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_inbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "hold_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "release_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "inspector": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "rep_mfg_lines": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "line_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_center_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "daily_capacity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "rep_mfg_periods": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "line_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "line_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "line_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "start_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "end_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "planned_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "produced_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "scrap_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "backflush_items": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "sales_order_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sales_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivered_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  }
+ },
+ "sales_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "grand_total": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "order_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "expected_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "payment_terms": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivery_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sales_person": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "trade_terms": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "ship_to_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delivered_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "received_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "ar_due_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "credit_occupied": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "credit_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "shipping_mode": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "direct_ship_vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "direct_ship_vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "third_party_company_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contract_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contract_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "version": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "sales_prospect_followups": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "prospect_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "method": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "content": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "result": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "next_action": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "followed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "sales_prospects": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "prospect_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "company_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "industry": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "region": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "interest_products": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "estimated_value": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "probability": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "next_followup_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "assigned_to": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "converted_to_customer": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "credit_limit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "used_credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "notes": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "security_mail_queue": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "username": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purpose": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "mailbox": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "codes": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "batch_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "delay_hours": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "interval_min": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "max_attempts": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "attempt": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "deliver_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "last_error": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "security_tickets": {
+  "ticket": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "purpose": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "used": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "expires_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "serial_masters": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "serial_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "hu_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "outbound_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "serial_movements": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "serial_master_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "doc_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "sessions": {
+  "token": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "user_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "expires_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "shipment_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "shipment_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "specification": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "ship_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  }
+ },
+ "shipments": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "shipment_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sales_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "transport_mode": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "carrier": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tracking_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "estimated_pickup_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "estimated_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_pickup_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_delivery_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "origin_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "destination_address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "driver_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "driver_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vehicle_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_weight": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_volume": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "package_count": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "freight": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "insurance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "notes": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "sop_plans": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "plan_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "demand_forecast": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "supply_plan": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "balance_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "stock_transfer_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "stock_transfer_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "batch_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "stock_transfers": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "transfer_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "from_warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "from_warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "to_warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "to_warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "from_org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "to_org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "transfer_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "subcontract_issue_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "subcontract_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "qty": {
+   "t": "number",
+   "sql": "REAL"
+  }
+ },
+ "subcontract_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bom_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source_work_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "plan_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "process_fee": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "received_qty": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "issue_outbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "receipt_inbound_nos": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "system_config": {
+  "key": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "value": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "three_way_match": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "po_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "po_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "inbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "invoice_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "match_status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "po_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "inbound_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "qty_variance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "qty_match": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "po_unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "invoice_unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "price_variance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "price_match": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "po_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "inbound_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "invoice_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount_variance": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount_match": {
+   "t": "number",
+   "sql": "BOOLEAN"
+  },
+  "matched_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "matched_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "discrepancy": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  }
+ },
+ "triparty_sales": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "doc_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "party_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "party_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "customer_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "spec": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "settle_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "settle_status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "settle_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remark": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "users": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "username": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "password_hash": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "salt": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "role": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "department": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "is_owner": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "alt_email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "security_initialized": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "vendor_master": {
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "company_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "short_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_level": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_limit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "used_credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "tax_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sales_org": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reconciliation_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tax_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "rating": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "blacklist_reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "blacklisted_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "qualification_expiry": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "blacklist_reason_history": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_pending": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_pending_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "profile_pending_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_reviewed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "custom_fields": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "vendor_quote_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quote_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "unit_price": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "seq": {
+   "t": "number",
+   "sql": "INTEGER"
+  }
+ },
+ "vendor_quotes": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "request_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_amount": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "valid_until": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "submitted_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "vendors": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "vendor_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "company_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_phone": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "contact_email": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "password_hash": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "salt": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "role": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "short_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "address": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "qualification_expiry": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "rating": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "credit_level": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "credit_limit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "used_credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "blacklist_reason": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "blacklisted_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "blacklist_reason_history": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "sales_org": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reconciliation_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tax_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bank_account": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_pending": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_pending_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "profile_pending_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "profile_reviewed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "custom_fields": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "voucher_items": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "line_no": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "summary": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "account_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "debit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "exchange_rate": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "cost_center_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "vouchers": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "description": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "source": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "total_debit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "total_credit": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reviewed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reviewed_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "posted_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "posted_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "reversed_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reversed_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "remarks": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "voucher_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "period": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "attachment_count": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "source_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "currency": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "reversed": {
+   "t": "number",
+   "sql": "INTEGER"
+  },
+  "reversal_voucher_no": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "wave_rfid": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "wave_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "strategy": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "warehouse_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_count": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "line_count": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "planned_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "released_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "lines": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "wave_rfid_tags": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "tag_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "epc": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "op_type": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "biz_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "location": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "operator": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "scanned_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "result": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "message": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "work_order_pickings": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "work_order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "material_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "unit": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "outbound_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "issued_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ },
+ "work_orders": {
+  "id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "org_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "order_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "status": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_code": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "product_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bom_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "bom_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "route_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "route_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "planned_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "completed_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "scrap_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "qualified_quantity": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "planned_start_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "planned_end_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_start_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "actual_end_date": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "priority": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "workshop": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "supervisor": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_no": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "project_name": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "note": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "cost_center_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "actual_labor_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_material_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_machine_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "actual_total_cost": {
+   "t": "number",
+   "sql": "REAL"
+  },
+  "created_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "updated_at": {
+   "t": "date",
+   "sql": "TEXT"
+  },
+  "created_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "updated_by": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "owner_id": {
+   "t": "text",
+   "sql": "TEXT"
+  },
+  "dept_id": {
+   "t": "text",
+   "sql": "TEXT"
+  }
+ }
+}
