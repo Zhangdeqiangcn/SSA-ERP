@@ -60,6 +60,8 @@ export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirmPwd, setShowConfirmPwd] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  // V3.14.1：超管未设置密码时，登录返回 needActivation，展示激活面板
+  const [activationInfo, setActivationInfo] = useState<ActivationInfo | null>(null);
 
   // V3.1.0（评测 H-03）：账号停用 / 会话失效被踢回登录页时，明确告知原因，
   // 避免用户以为「系统把我登出了」而反复重试。提示只显示一次。
@@ -90,6 +92,14 @@ export default function Login() {
   const [agreed, setAgreed] = useState(false);
 
   const strength = pwdStrength(password);
+
+  // V3.14.1：super_admin 未设置密码时，登录返回 needActivation，展示激活面板
+  const [activationInfo, setActivationInfo] = useState<ActivationInfo | null>(null);
+
+  // 超管激活流程已启动 → 全屏显示激活面板，不再显示登录表单
+  if (activationInfo) {
+    return <ActivationPanel info={activationInfo} password={loginPassword} onCancel={() => setActivationInfo(null)} />;
+  }
 
   // 已登录（含刷新/重载后从本地会话恢复）则直接进入主系统，避免停留在登录页。
   // 必须放在所有 hook 之后，遵守 Hooks 规则（提前 return 不能跳过后面的 useState）。
@@ -135,7 +145,15 @@ export default function Login() {
     setLoading(true);
     const r = await login(loginUsername.trim(), loginPassword);
     setLoading(false);
-    if (!r.ok) setError(r.error || '登录失败');
+    if (!r.ok) {
+      setError(r.error || '登录失败');
+      return;
+    }
+    // V3.14.1：super_admin 未设置密码时，需要走激活流程
+    if (r.needActivation && r.activation) {
+      setActivationInfo(r.activation);
+      return;
+    }
     // 成功时 authStore 内部会触发整页重载
   }
 
