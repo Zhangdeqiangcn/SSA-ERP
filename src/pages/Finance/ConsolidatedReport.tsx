@@ -1,34 +1,75 @@
-// 合并报表 / 多账簿（C2 · V3.13.0）
+// 合并报表 / 多账簿（C2 · V3.13.0+V3.14.0）
 // ─────────────────────────────────────────────────────────────
-// 说明（结论先行）：合并报表 = 把若干会计主体（同组织的多套账簿 / 集团内多组织）
-// 的凭证按科目汇总，并抵消它们之间的内部往来。本页直接调用后端 /api/consolidation
-// 引擎，支持两种范围：
-//   · 多账簿合并（books）：同一组织内法定账套 + 管理账套 → 一套合并账（端到端可验证路径）
-//   · 集团合并（group）：按合并范围的成员组织聚合（需当前组织在成员列表内）
+// 合并报表 = 把若干会计主体（同组织多账簿 / 集团多组织）的凭证按科目汇总，
+// 再抵消内部往来。核心流程：
+//   1. 选择合并范围（多账簿 books / 集团 group）+ 期间 + 抵消规则
+//   2. 调用 /api/consolidation 引擎 → 返回试算平衡表 + 抵消明细
+//   3. 三种视图：
+//      · 试算平衡表：所有科目的借贷汇总（原始数据）
+//      · 合并资产负债表：按科目编码分类（1xxx=资产 2xxx=负债 3xxx=权益），
+//        含「本年利润（本期净利）」自动追加到权益，保证资产 = 负债 + 权益
+//      · 合并利润表：收入科目（4xxx）- 费用科目（5xxx）= 净利润
+//   4. 每种视图均支持 CSV / Excel 导出
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  Alert, Box, Button, CircularProgress, MenuItem, Paper, Select, Stack, Table,
-  TableBody, TableCell, TableHead, TableRow, TextField, Typography,
+  Alert, Box, Button, CircularProgress, Paper, MenuItem, Select, Stack,
+  Table, TableBody, TableCell, TableHead, TableRow, Tab, Tabs,
+  TextField, Typography, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
 import { useAuthStore } from '@/stores/authStore';
+import ExportMenu from '@/components/common/ExportMenu';
+import { exportCsv, type ExportSheet } from '@/utils/exportUtils';
 
-interface TrialRow { code: string; name: string; debit: number; credit: number; ending: number; }
-interface Elimination { ruleCode: string; ruleName: string; receivableAccount: string; payableAccount: string; amount: number; }
+interface TrialRow {
+  code: string; name: string; debit: number; credit: number; ending: number;
+}
+interface Elimination {
+  ruleCode: string; ruleName: string; receivableAccount: string;
+  payableAccount: string; amount: number;
+}
 interface ConsolidationResult {
   runId?: string; scope: string; period: string | null; baseCurrency: string;
-  trialBalance: TrialRow[]; eliminations: Elimination[]; totals: { debit: number; credit: number };
+  trialBalance: TrialRow[]; eliminations: Elimination[];
+  totals: { debit: number; credit: number }; generatedAt: string;
 }
 interface NamedItem { id: string; name: string; [k: string]: any; }
 
 async function api<T>(path: string, token: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
     ...init,
-    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...(init?.headers || {}) },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(init?.headers || {}),
+    },
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data?.error || `请求失败(${res.status})`);
   return data as T;
 }
+
+const fmt = (n: number) =>
+  n.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+// 科目分类：按一级编码前缀判断资产/负债/权益/收入/费用
+function classifyAccount(code: string): 'asset' | 'liability' | 'equity' | 'revenue' | 'expense' {
+  const p = code.slice(0, 1);
+  if (p === '1') return 'asset';
+  if (p === '2') return 'liability';
+  if (p === '3') return 'equity';
+  if (p === '4') return 'revenue';
+  if (p === '5') return 'expense';
+  return 'expense'; // 未识别默认归入费用（保守）
+}
+
+const CLASSIFICATION_LABELS: Record<string, string> = {
+  asset: '资产',
+  liability: '负债',
+  equity: '权益',
+  revenue: '收入',
+  expense: '费用',
+};
 
 export default function ConsolidatedReport() {
   const token = useAuthStore((s) => s.token) || '';
@@ -38,11 +79,13 @@ export default function ConsolidatedReport() {
   const [result, setResult] = useState<ConsolidationResult | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tab, setTab] = useState(0);
 
   const [books, setBooks] = useState<NamedItem[]>([]);
   const [groups, setGroups] = useState<NamedItem[]>([]);
   const [rules, setRules] = useState<NamedItem[]>([]);
 
+  // 加载配置（账簿/合并范围/抵消规则）
   const loadConfig = useCallback(async () => {
     try {
       const [b, g, r] = await Promise.all([
@@ -69,6 +112,7 @@ export default function ConsolidatedReport() {
         method: 'POST', body: JSON.stringify(body),
       });
       setResult(r);
+      setTab(0); // 重置到试算平衡
     } catch (e: any) {
       setError('合并失败：' + (e?.message || e));
     } finally {
@@ -80,17 +124,117 @@ export default function ConsolidatedReport() {
   const totalCredit = useMemo(() => result ? result.totals.credit : 0, [result]);
   const balanced = Math.abs(totalDebit - totalCredit) < 0.01;
 
+  // 资产负债表结构
+  const bs = useMemo(() => {
+    if (!result) return null;
+    const byClass: Record<string, TrialRow[]> = {
+      asset: [], liability: [], equity: [], revenue: [], expense: [],
+    };
+    for (const r of result.trialBalance) {
+      const cls = classifyAccount(r.code);
+      byClass[cls].push(r);
+    }
+    // 资产列：借方余额为正，贷方余额为负（备抵）
+    const assets = byClass.asset.map((r) => ({
+      code: r.code, name: r.name, section: '资产', amount: r.ending,
+    }));
+    const totalAssets = assets.reduce((s, r) => s + r.amount, 0);
+    // 负债
+    const liabilities = byClass.liability.map((r) => ({
+      code: r.code, name: r.name, section: '负债', amount: r.ending,
+    }));
+    const totalLiabilities = liabilities.reduce((s, r) => s + r.amount, 0);
+    // 权益（不含收入/费用，待加净利润）
+    const equityBase = byClass.equity.map((r) => ({
+      code: r.code, name: r.name, section: '所有者权益', amount: r.ending,
+    }));
+    const totalEquityBase = equityBase.reduce((s, r) => s + r.amount, 0);
+    // 净利润（收入-费用）
+    const totalRevenue = byClass.revenue.reduce((s, r) => s + r.ending, 0);
+    const totalExpense = byClass.expense.reduce((s, r) => s + r.ending, 0);
+    const netProfit = totalRevenue - totalExpense;
+    const totalEquity = totalEquityBase + netProfit;
+    return {
+      assets, totalAssets,
+      liabilities, totalLiabilities,
+      equity: [...equityBase, { code: '3103', name: '本年利润（本期净利）', section: '所有者权益', amount: netProfit }],
+      totalEquity,
+      netProfit,
+      balanced: Math.abs(totalAssets - (totalLiabilities + totalEquity)) < 0.01,
+    };
+  }, [result]);
+
+  // 利润表结构
+  const is = useMemo(() => {
+    if (!result) return null;
+    const revenueRows = result.trialBalance
+      .filter((r) => classifyAccount(r.code) === 'revenue')
+      .map((r) => ({ code: r.code, name: r.name, section: '营业收入', amount: r.ending }));
+    const expenseRows = result.trialBalance
+      .filter((r) => classifyAccount(r.code) === 'expense')
+      .map((r) => ({ code: r.code, name: r.name, section: '费用', amount: r.ending }));
+    const totalRevenue = revenueRows.reduce((s, r) => s + r.amount, 0);
+    const totalExpense = expenseRows.reduce((s, r) => s + r.amount, 0);
+    return { revenue: revenueRows, totalRevenue, expense: expenseRows, totalExpense, netProfit: totalRevenue - totalExpense };
+  }, [result]);
+
+  // 试算平衡表 → CSV 导出数据
+  const trialExport = useMemo<ExportSheet>(() => {
+    if (!result) return { name: '合并试算平衡表', rows: [], headers: [] };
+    return {
+      name: '合并试算平衡表',
+      headers: ['科目编码', '科目名称', '借方', '贷方', '余额'],
+      rows: result.trialBalance.map((r) => [r.code, r.name, fmt(r.debit), fmt(r.credit), fmt(r.ending)]),
+    };
+  }, [result]);
+
+  // 资产负债表 → 导出数据
+  const bsExport = useMemo<ExportSheet>(() => {
+    if (!bs) return { name: '合并资产负债表', rows: [], headers: [] };
+    const rows: string[][] = [];
+    rows.push(['项目', '金额']);
+    rows.push(['一、资产', '']);
+    for (const a of bs.assets) rows.push([`  ${a.code} ${a.name}`, fmt(a.amount)]);
+    rows.push(['资产合计', fmt(bs.totalAssets)]);
+    rows.push(['', '']);
+    rows.push(['二、负债', '']);
+    for (const l of bs.liabilities) rows.push([`  ${l.code} ${l.name}`, fmt(l.amount)]);
+    rows.push(['负债合计', fmt(bs.totalLiabilities)]);
+    rows.push(['', '']);
+    rows.push(['三、所有者权益', '']);
+    for (const e of bs.equity) rows.push([`  ${e.code} ${e.name}`, fmt(e.amount)]);
+    rows.push(['所有者权益合计', fmt(bs.totalEquity)]);
+    return { name: '合并资产负债表', headers: ['项目', '金额'], rows };
+  }, [bs]);
+
+  // 利润表 → 导出数据
+  const isExport = useMemo<ExportSheet>(() => {
+    if (!is) return { name: '合并利润表', rows: [], headers: [] };
+    const rows: string[][] = [];
+    rows.push(['项目', '金额']);
+    rows.push(['一、营业收入', '']);
+    for (const r of is.revenue) rows.push([`  ${r.code} ${r.name}`, fmt(r.amount)]);
+    rows.push(['营业收入合计', fmt(is.totalRevenue)]);
+    rows.push(['', '']);
+    rows.push(['减：营业费用', '']);
+    for (const e of is.expense) rows.push([`  ${e.code} ${e.name}`, fmt(e.amount)]);
+    rows.push(['费用合计', fmt(is.totalExpense)]);
+    rows.push(['二、净利润', fmt(is.netProfit)]);
+    return { name: '合并利润表', headers: ['项目', '金额'], rows };
+  }, [is]);
+
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight={700} gutterBottom>合并报表 / 多账簿</Typography>
+      <Typography variant="h5" fontWeight={700} gutterBottom>合并报表</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        把多个会计主体（同组织多账簿 / 集团多组织）的凭证按科目汇总，并抵消内部往来。
-        V3.13.0 先支持同组织多账簿合并（端到端已验证），集团跨组织合并需先在「合并范围」登记成员组织。
+        将多个会计主体（同组织多账套 / 集团多组织）的凭证按科目汇总，并抵消内部往来。
+        V3.13.0 先支持同组织多账套合并（端到端已验证），集团跨组织合并需先在「合并范围」登记成员组织。
       </Typography>
 
+      {/* ── 参数栏 ─────────────────────────────────────────────── */}
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ mb: 2 }} alignItems="center">
         <Select size="small" value={scope} onChange={(e) => setScope(e.target.value as any)} sx={{ minWidth: 180 }}>
-          <MenuItem value="books">多账簿合并（同组织）</MenuItem>
+          <MenuItem value="books">多账套合并（同组织）</MenuItem>
           <MenuItem value="group">集团合并（跨组织）</MenuItem>
         </Select>
         {scope === 'group' && (
@@ -115,67 +259,269 @@ export default function ConsolidatedReport() {
         <Paper sx={{ p: 1.5, minWidth: 160 }}><Typography variant="caption" color="text.secondary">抵消规则数</Typography><Typography fontWeight={700}>{rules.length}</Typography></Paper>
       </Stack>
 
+      {/* ── 结果区：三种视图 ────────────────────────────────────── */}
       {result && (
-        <Paper sx={{ p: 2, mb: 2 }}>
-          <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1 }}>
-            <Typography variant="h6">合并试算平衡表</Typography>
-            <Typography variant="body2" color="text.secondary">
-              范围={result.scope} · 本位币={result.baseCurrency} · 期间={result.period || '全部'}
-            </Typography>
-            <Box sx={{ flexGrow: 1 }} />
-            <Alert severity={balanced ? 'success' : 'warning'} sx={{ py: 0 }}>
-              借 {totalDebit.toFixed(2)} / 贷 {totalCredit.toFixed(2)} {balanced ? '（平衡）' : '（需检查）'}
-            </Alert>
-          </Stack>
+        <>
+          <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+            <Tab label="试算平衡表" />
+            <Tab label="合并资产负债表" />
+            <Tab label="合并利润表" />
+          </Tabs>
 
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>科目编码</TableCell><TableCell>科目名称</TableCell>
-                <TableCell align="right">借方</TableCell><TableCell align="right">贷方</TableCell>
-                <TableCell align="right">余额</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {result.trialBalance.map((r) => (
-                <TableRow key={r.code}>
-                  <TableCell>{r.code}</TableCell><TableCell>{r.name}</TableCell>
-                  <TableCell align="right">{r.debit.toFixed(2)}</TableCell>
-                  <TableCell align="right">{r.credit.toFixed(2)}</TableCell>
-                  <TableCell align="right">{r.ending.toFixed(2)}</TableCell>
-                </TableRow>
-              ))}
-              {result.trialBalance.length === 0 && (
-                <TableRow><TableCell colSpan={5} align="center" sx={{ py: 3, color: 'text.secondary' }}>
-                  暂无凭证数据，请先录入凭证并指定账簿
-                </TableCell></TableRow>
-              )}
-            </TableBody>
-          </Table>
-
-          {result.eliminations.length > 0 && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle2" gutterBottom>内部交易抵消明细</Typography>
+          {/* Tab 0: 试算平衡表 */}
+          {tab === 0 && (
+            <Paper sx={{ p: 2 }}>
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
+                <Typography variant="h6">合并试算平衡表</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  范围={result.scope} · 本位币={result.baseCurrency} · 期间={result.period || '全部'}
+                </Typography>
+                <Box sx={{ flexGrow: 1 }} />
+                <Alert severity={balanced ? 'success' : 'warning'} sx={{ py: 0 }}>
+                  借 {fmt(totalDebit)} / 贷 {fmt(totalCredit)} {balanced ? '（平衡）' : '（需检查）'}
+                </Alert>
+                {trialExport.rows.length > 0 && (
+                  <ExportMenu
+                    sheets={[trialExport]}
+                    label="导出试算平衡表"
+                    testid="export-trial-balance"
+                  />
+                )}
+              </Stack>
               <Table size="small">
-                <TableHead><TableRow><TableCell>规则</TableCell><TableCell>应收科目</TableCell><TableCell>应付科目</TableCell><TableCell align="right">抵消金额</TableCell></TableRow></TableHead>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>科目编码</TableCell><TableCell>科目名称</TableCell>
+                    <TableCell align="right">借方</TableCell><TableCell align="right">贷方</TableCell>
+                    <TableCell align="right">余额</TableCell>
+                  </TableRow>
+                </TableHead>
                 <TableBody>
-                  {result.eliminations.map((e, i) => (
-                    <TableRow key={i}>
-                      <TableCell>{e.ruleName}（{e.ruleCode}）</TableCell>
-                      <TableCell>{e.receivableAccount}</TableCell>
-                      <TableCell>{e.payableAccount}</TableCell>
-                      <TableCell align="right">{e.amount.toFixed(2)}</TableCell>
+                  {result.trialBalance.map((r) => (
+                    <TableRow key={r.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{r.code}</Typography></TableCell>
+                      <TableCell>{r.name}</TableCell>
+                      <TableCell align="right">{fmt(r.debit)}</TableCell>
+                      <TableCell align="right">{fmt(r.credit)}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(r.ending)}</TableCell>
                     </TableRow>
                   ))}
+                  {result.trialBalance.length === 0 && (
+                    <TableRow><TableCell colSpan={5} align="center" sx={{ py: 3, color: 'text.secondary' }}>
+                      暂无凭证数据，请先录入凭证并指定账套
+                    </TableCell></TableRow>
+                  )}
                 </TableBody>
               </Table>
-            </Box>
+              {result.eliminations.length > 0 && (
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="subtitle2" gutterBottom>内部交易抵消明细</Typography>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>规则</TableCell><TableCell>应收科目</TableCell><TableCell>应付科目</TableCell>
+                        <TableCell align="right">抵消金额</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {result.eliminations.map((e, i) => (
+                        <TableRow key={i}>
+                          <TableCell>{e.ruleName}（{e.ruleCode}）</TableCell>
+                          <TableCell>{e.receivableAccount}</TableCell>
+                          <TableCell>{e.payableAccount}</TableCell>
+                          <TableCell align="right">{fmt(e.amount)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+              )}
+            </Paper>
           )}
-        </Paper>
+
+          {/* Tab 1: 合并资产负债表 */}
+          {tab === 1 && bs && (
+            <Paper sx={{ p: 2 }}>
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
+                <Typography variant="h6">合并资产负债表</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  范围={result.scope} · 期间={result.period || '全部'}
+                </Typography>
+                <Box sx={{ flexGrow: 1 }} />
+                <Alert severity={bs.balanced ? 'success' : 'warning'} sx={{ py: 0 }}>
+                  资产合计 {fmt(bs.totalAssets)} = 负债 {fmt(bs.totalLiabilities)} + 权益 {fmt(bs.totalEquity)}
+                  {bs.balanced ? '（平衡）' : '（不平衡！）'}
+                </Alert>
+                {bsExport.rows.length > 0 && (
+                  <ExportMenu
+                    sheets={[bsExport]}
+                    label="导出资产负债表"
+                    testid="export-balance-sheet"
+                  />
+                )}
+              </Stack>
+              {/* 资产 */}
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mt: 1, mb: 0.5 }}>资产</Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>科目编码</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>科目名称</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600 }}>金额</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bs.assets.map((a) => (
+                    <TableRow key={a.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{a.code}</Typography></TableCell>
+                      <TableCell>{a.name}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(a.amount)}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow sx={{ bgcolor: 'grey.100' }}>
+                    <TableCell colSpan={2} sx={{ fontWeight: 700 }}>资产合计</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalAssets)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              {/* 负债 */}
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mt: 3, mb: 0.5 }}>负债</Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>科目编码</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>科目名称</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600 }}>金额</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bs.liabilities.map((l) => (
+                    <TableRow key={l.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{l.code}</Typography></TableCell>
+                      <TableCell>{l.name}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(l.amount)}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow sx={{ bgcolor: 'grey.100' }}>
+                    <TableCell colSpan={2} sx={{ fontWeight: 700 }}>负债合计</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalLiabilities)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              {/* 所有者权益 */}
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mt: 3, mb: 0.5 }}>所有者权益</Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>科目编码</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>科目名称</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600 }}>金额</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {bs.equity.map((e) => (
+                    <TableRow key={e.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
+                      <TableCell>{e.name}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(e.amount)}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow sx={{ bgcolor: 'grey.100' }}>
+                    <TableCell colSpan={2} sx={{ fontWeight: 700 }}>所有者权益合计</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalEquity)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Paper>
+          )}
+
+          {/* Tab 2: 合并利润表 */}
+          {tab === 2 && is && (
+            <Paper sx={{ p: 2 }}>
+              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
+                <Typography variant="h6">合并利润表</Typography>
+                <Typography variant="body2" color="text.secondary">
+                  范围={result.scope} · 期间={result.period || '全部'}
+                </Typography>
+                <Box sx={{ flexGrow: 1 }} />
+                <Alert severity="info" sx={{ py: 0 }}>
+                  净利润：{is.netProfit >= 0 ? '+' : ''}{fmt(is.netProfit)}
+                </Alert>
+                {isExport.rows.length > 0 && (
+                  <ExportMenu
+                    sheets={[isExport]}
+                    label="导出利润表"
+                    testid="export-income-statement"
+                  />
+                )}
+              </Stack>
+              {/* 营业收入 */}
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mt: 1, mb: 0.5 }}>一、营业收入</Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>科目编码</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>科目名称</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600 }}>金额</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {is.revenue.map((r) => (
+                    <TableRow key={r.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{r.code}</Typography></TableCell>
+                      <TableCell>{r.name}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(r.amount)}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow sx={{ bgcolor: 'grey.100' }}>
+                    <TableCell colSpan={2} sx={{ fontWeight: 700 }}>营业收入合计</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(is.totalRevenue)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              {/* 营业费用 */}
+              <Typography variant="subtitle1" fontWeight={700} sx={{ mt: 3, mb: 0.5 }}>减：营业费用</Typography>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>科目编码</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>科目名称</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 600 }}>金额</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {is.expense.map((e) => (
+                    <TableRow key={e.code}>
+                      <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
+                      <TableCell>{e.name}</TableCell>
+                      <TableCell align="right" fontWeight={500}>{fmt(e.amount)}</TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow sx={{ bgcolor: 'grey.100' }}>
+                    <TableCell colSpan={2} sx={{ fontWeight: 700 }}>费用合计</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(is.totalExpense)}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              {/* 净利润汇总 */}
+              <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Typography variant="subtitle1" fontWeight={700}>净利润（收入 - 费用）</Typography>
+                  <Typography variant="h6" fontWeight={700} color={is.netProfit >= 0 ? 'success.main' : 'error.main'}>
+                    {is.netProfit >= 0 ? '+' : ''}{fmt(is.netProfit)}
+                  </Typography>
+                </Stack>
+              </Box>
+            </Paper>
+          )}
+        </>
       )}
 
       {!result && !loading && (
-        <Alert severity="info">点击「执行合并」生成合并试算平衡表。多账簿合并会汇总当前组织全部账簿的凭证；若已配置内部往来抵消规则，将自动抵消母子公司间应收应付。</Alert>
+        <Alert severity="info">
+          点击「执行合并」生成合并报表。多账套合并会汇总当前组织全部账套的凭证；若已配置内部往来抵消规则，
+          将自动抵消母子公司间应收应付。
+        </Alert>
       )}
     </Box>
   );
