@@ -28,6 +28,7 @@ import {
 } from '@mui/icons-material';
 import { useAuthStore, type ActivationInfo } from '@/stores/authStore';
 import ActivationPanel from './ActivationPanel';
+import ForgotPasswordDialog from './ForgotPasswordDialog';
 
 // 部门下拉选项（与系统内组织架构常用部门保持一致）
 const DEPARTMENT_OPTIONS = [
@@ -60,6 +61,8 @@ export default function Login() {
   const [showPwd, setShowPwd] = useState(false);
   const [showConfirmPwd, setShowConfirmPwd] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  // 找回密码对话框
+  const [forgotOpen, setForgotOpen] = useState(false);
   // V3.14.1：超管未设置密码时，登录返回 needActivation，展示激活面板
   const [activationInfo, setActivationInfo] = useState<ActivationInfo | null>(null);
 
@@ -92,9 +95,6 @@ export default function Login() {
   const [agreed, setAgreed] = useState(false);
 
   const strength = pwdStrength(password);
-
-  // V3.14.1：super_admin 未设置密码时，登录返回 needActivation，展示激活面板
-  const [activationInfo, setActivationInfo] = useState<ActivationInfo | null>(null);
 
   // 超管激活流程已启动 → 全屏显示激活面板，不再显示登录表单
   if (activationInfo) {
@@ -281,6 +281,17 @@ export default function Login() {
             <Button variant="contained" size="large" onClick={handleLogin} disabled={loading} data-testid="login-submit">
               {loading ? <CircularProgress size={22} color="inherit" /> : '登 录'}
             </Button>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => setForgotOpen(true)}
+                sx={{ textTransform: 'none', color: 'rgba(255,255,255,0.85)' }}
+                data-testid="forgot-password-link"
+              >
+                忘记密码？点击找回
+              </Button>
+            </Box>
           </Box>
         ) : (
           <Box display="flex" flexDirection="column" gap={2}>
@@ -486,6 +497,15 @@ export default function Login() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <ForgotPasswordDialog
+        open={forgotOpen}
+        onClose={() => setForgotOpen(false)}
+        onSuccess={() => {
+          setForgotOpen(false);
+          setLoginPassword('');
+        }}
+      />
     </Box>
   );
 }

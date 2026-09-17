@@ -9,7 +9,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 import {
-  Menu as MenuIcon, Notifications, Person, Logout,
+  Menu as MenuIcon, Notifications, Person, Logout, AccountCircle,
   NavigateNext, Search, Close, CheckCircleOutline,
   WarningAmberOutlined, InfoOutlined, ErrorOutline,
   Assignment, FactCheck, AccountBalance, Inventory2,
@@ -704,6 +704,10 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             </Typography>
           </Box>
           <Divider sx={{ borderColor: 'divider' }} />
+          <MenuItem onClick={() => { navigate('/profile'); setAnchorEl(null); }} sx={{ py: 1.5, '&:hover': { bgcolor: 'action.hover' } }}>
+            <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><AccountCircle fontSize="small" /></ListItemIcon>
+            <Typography variant="body2" sx={{ color: 'text.primary' }}>个人中心</Typography>
+          </MenuItem>
           <MenuItem onClick={() => { navigate('/workbench'); setAnchorEl(null); }} sx={{ py: 1.5, '&:hover': { bgcolor: 'action.hover' } }}>
             <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><Person fontSize="small" /></ListItemIcon>
             <Typography variant="body2" sx={{ color: 'text.primary' }}>个人工作台</Typography>

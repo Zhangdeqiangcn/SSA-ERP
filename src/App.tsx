@@ -55,6 +55,8 @@ const VendorPaymentPlan = lazy(() => import('./pages/Vendor/VendorPaymentPlan'))
 const VendorProfilePage = lazy(() => import('./pages/Vendor/VendorProfilePage'));
 const VendorPermissionsPage = lazy(() => import('./pages/Vendor/VendorPermissionsPage'));
 const VendorQuotation = lazy(() => import('./pages/Vendor/VendorQuotation'));
+// 个人中心（账号资料 + 修改密码）
+const PersonalCenter = lazy(() => import('./pages/Profile/PersonalCenter'));
 // 采购
 const PurchaseList = lazy(() => import('./pages/Purchase/PurchaseList'));
 const PurchaseForm = lazy(() => import('./pages/Purchase/PurchaseForm'));
@@ -365,6 +367,8 @@ function App() {
         <Route index element={<Dashboard />} />
         {/* P4-1 个人工作台 */}
         <Route path="workbench" element={<Workbench />} />
+        {/* 个人中心（账号资料 + 修改密码） */}
+        <Route path="profile" element={<PersonalCenter />} />
         {/* 物料管理 */}
         <Route path="material" element={<Navigate to="/material/list" replace />} />
         <Route path="material/categories" element={<CategoryList />} />
