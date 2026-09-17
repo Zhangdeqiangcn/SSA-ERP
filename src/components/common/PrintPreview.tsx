@@ -8,6 +8,50 @@ import {
 import { useCustomFieldStore } from '@/stores/customFieldStore';
 import { formatCurrency } from '@/utils/format';
 
+/**
+ * P0 修复：浏览器端净化（利用真实 DOM，零依赖）。
+ * 即便后端净化被绕过，前端在 dangerouslySetInnerHTML 之前再净化一次，
+ * 从渲染侧彻底断掉存储型 XSS 的执行链。
+ * 规则：删除 script/iframe/object/embed/link/meta/style/base/form/svg 等危险标签；
+ * 删除所有 on* 事件属性；href/src 仅放行安全协议（http/https/mailto，
+ * 图片 src 额外放行 data:image 非 svg），并净化 style 中的危险表达式。
+ */
+function sanitizeBrowserHtml(dirty: string): string {
+  const el = document.createElement('div');
+  el.innerHTML = dirty;
+  const walk = (node: Node) => {
+    Array.from(node.childNodes).forEach((child) => {
+      if (child.nodeType !== 1) return; // 只处理元素节点
+      const e = child as Element;
+      const tag = e.tagName.toLowerCase();
+      if (['script', 'iframe', 'object', 'embed', 'link', 'meta', 'style', 'base', 'form', 'svg'].includes(tag)) {
+        e.remove();
+        return;
+      }
+      Array.from(e.attributes).forEach((attr) => {
+        const n = attr.name.toLowerCase();
+        const v = attr.value.toLowerCase();
+        if (n.startsWith('on')) {
+          e.removeAttribute(attr.name);
+        } else if (n === 'href' || n === 'src') {
+          // 放行：http/https/mailto；图片 src 额外放行 data:image（且禁止可含脚本的 svg）
+          const safe =
+            v.startsWith('http:') ||
+            v.startsWith('https:') ||
+            v.startsWith('mailto:') ||
+            (tag === 'img' && /^data:image\/(?!svg)/i.test(attr.value));
+          if (!safe) e.removeAttribute(attr.name);
+        } else if (n === 'style' && /expression\(|javascript:|@import/i.test(attr.value)) {
+          e.removeAttribute(attr.name);
+        }
+      });
+      walk(child);
+    });
+  };
+  walk(el);
+  return el.innerHTML;
+}
+
 interface PrintPreviewProps {
   template: PrintTemplate;
   /** 业务数据对象（订单/物料/供应商） */
@@ -69,7 +113,8 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
     const html = (cfg.html && cfg.html.trim()) || (fallbackText ? textToHtml(fallbackText) : '');
     if (!html) return null;
     const nowStr = new Date().toLocaleString('zh-CN');
-    const processed = html.replace(/\{now\}/g, nowStr);
+    // P0 修复：渲染前再净化一次，断掉存储型 XSS 执行链（即便后端被绕过也不会执行脚本）
+    const processed = sanitizeBrowserHtml(html.replace(/\{now\}/g, nowStr));
 
     return (
       <Box

