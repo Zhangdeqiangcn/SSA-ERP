@@ -14,12 +14,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Alert, Box, Button, CircularProgress, Paper, MenuItem, Select, Stack,
   Table, TableBody, TableCell, TableHead, TableRow, Tab, Tabs,
-  TextField, Typography, Dialog, DialogActions, DialogContent, DialogTitle,
+  TextField, Typography,
 } from '@mui/material';
-import DownloadIcon from '@mui/icons-material/Download';
 import { useAuthStore } from '@/stores/authStore';
 import ExportMenu from '@/components/common/ExportMenu';
-import { exportCsv, type ExportSheet } from '@/utils/exportUtils';
+import { type ExportSheet } from '@/utils/exportUtils';
 
 interface TrialRow {
   code: string; name: string; debit: number; credit: number; ending: number;
@@ -178,49 +177,58 @@ export default function ConsolidatedReport() {
     return { revenue: revenueRows, totalRevenue, expense: expenseRows, totalExpense, netProfit: totalRevenue - totalExpense };
   }, [result]);
 
-  // 试算平衡表 → CSV 导出数据
+  // 试算平衡表 → 导出数据（V3.14.4 修正：改为 ExportSheet 标准契约 columns+rows）
   const trialExport = useMemo<ExportSheet>(() => {
-    if (!result) return { name: '合并试算平衡表', rows: [], headers: [] };
-    return {
-      name: '合并试算平衡表',
-      headers: ['科目编码', '科目名称', '借方', '贷方', '余额'],
-      rows: result.trialBalance.map((r) => [r.code, r.name, fmt(r.debit), fmt(r.credit), fmt(r.ending)]),
-    };
+    const columns = [
+      { key: 'code', label: '科目编码' },
+      { key: 'name', label: '科目名称' },
+      { key: 'debit', label: '借方', format: (r: TrialRow) => fmt(r.debit) },
+      { key: 'credit', label: '贷方', format: (r: TrialRow) => fmt(r.credit) },
+      { key: 'ending', label: '余额', format: (r: TrialRow) => fmt(r.ending) },
+    ];
+    if (!result) return { name: '合并试算平衡表', columns, rows: [] };
+    return { name: '合并试算平衡表', columns, rows: result.trialBalance };
   }, [result]);
 
-  // 资产负债表 → 导出数据
+  // 资产负债表 → 导出数据（三栏结构改用 item/amount 两列对象行）
   const bsExport = useMemo<ExportSheet>(() => {
-    if (!bs) return { name: '合并资产负债表', rows: [], headers: [] };
-    const rows: string[][] = [];
-    rows.push(['项目', '金额']);
-    rows.push(['一、资产', '']);
-    for (const a of bs.assets) rows.push([`  ${a.code} ${a.name}`, fmt(a.amount)]);
-    rows.push(['资产合计', fmt(bs.totalAssets)]);
-    rows.push(['', '']);
-    rows.push(['二、负债', '']);
-    for (const l of bs.liabilities) rows.push([`  ${l.code} ${l.name}`, fmt(l.amount)]);
-    rows.push(['负债合计', fmt(bs.totalLiabilities)]);
-    rows.push(['', '']);
-    rows.push(['三、所有者权益', '']);
-    for (const e of bs.equity) rows.push([`  ${e.code} ${e.name}`, fmt(e.amount)]);
-    rows.push(['所有者权益合计', fmt(bs.totalEquity)]);
-    return { name: '合并资产负债表', headers: ['项目', '金额'], rows };
+    const columns = [
+      { key: 'item', label: '项目' },
+      { key: 'amount', label: '金额' },
+    ];
+    if (!bs) return { name: '合并资产负债表', columns, rows: [] };
+    const rows: { item: string; amount: string }[] = [];
+    rows.push({ item: '一、资产', amount: '' });
+    for (const a of bs.assets) rows.push({ item: `  ${a.code} ${a.name}`, amount: fmt(a.amount) });
+    rows.push({ item: '资产合计', amount: fmt(bs.totalAssets) });
+    rows.push({ item: '', amount: '' });
+    rows.push({ item: '二、负债', amount: '' });
+    for (const l of bs.liabilities) rows.push({ item: `  ${l.code} ${l.name}`, amount: fmt(l.amount) });
+    rows.push({ item: '负债合计', amount: fmt(bs.totalLiabilities) });
+    rows.push({ item: '', amount: '' });
+    rows.push({ item: '三、所有者权益', amount: '' });
+    for (const e of bs.equity) rows.push({ item: `  ${e.code} ${e.name}`, amount: fmt(e.amount) });
+    rows.push({ item: '所有者权益合计', amount: fmt(bs.totalEquity) });
+    return { name: '合并资产负债表', columns, rows };
   }, [bs]);
 
   // 利润表 → 导出数据
   const isExport = useMemo<ExportSheet>(() => {
-    if (!is) return { name: '合并利润表', rows: [], headers: [] };
-    const rows: string[][] = [];
-    rows.push(['项目', '金额']);
-    rows.push(['一、营业收入', '']);
-    for (const r of is.revenue) rows.push([`  ${r.code} ${r.name}`, fmt(r.amount)]);
-    rows.push(['营业收入合计', fmt(is.totalRevenue)]);
-    rows.push(['', '']);
-    rows.push(['减：营业费用', '']);
-    for (const e of is.expense) rows.push([`  ${e.code} ${e.name}`, fmt(e.amount)]);
-    rows.push(['费用合计', fmt(is.totalExpense)]);
-    rows.push(['二、净利润', fmt(is.netProfit)]);
-    return { name: '合并利润表', headers: ['项目', '金额'], rows };
+    const columns = [
+      { key: 'item', label: '项目' },
+      { key: 'amount', label: '金额' },
+    ];
+    if (!is) return { name: '合并利润表', columns, rows: [] };
+    const rows: { item: string; amount: string }[] = [];
+    rows.push({ item: '一、营业收入', amount: '' });
+    for (const r of is.revenue) rows.push({ item: `  ${r.code} ${r.name}`, amount: fmt(r.amount) });
+    rows.push({ item: '营业收入合计', amount: fmt(is.totalRevenue) });
+    rows.push({ item: '', amount: '' });
+    rows.push({ item: '减：营业费用', amount: '' });
+    for (const e of is.expense) rows.push({ item: `  ${e.code} ${e.name}`, amount: fmt(e.amount) });
+    rows.push({ item: '费用合计', amount: fmt(is.totalExpense) });
+    rows.push({ item: '二、净利润', amount: fmt(is.netProfit) });
+    return { name: '合并利润表', columns, rows };
   }, [is]);
 
   return (
@@ -283,6 +291,7 @@ export default function ConsolidatedReport() {
                 {trialExport.rows.length > 0 && (
                   <ExportMenu
                     sheets={[trialExport]}
+                    filename={`合并试算平衡表_${result.period || '全部期间'}`}
                     label="导出试算平衡表"
                     testid="export-trial-balance"
                   />
@@ -303,7 +312,7 @@ export default function ConsolidatedReport() {
                       <TableCell>{r.name}</TableCell>
                       <TableCell align="right">{fmt(r.debit)}</TableCell>
                       <TableCell align="right">{fmt(r.credit)}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(r.ending)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(r.ending)}</TableCell>
                     </TableRow>
                   ))}
                   {result.trialBalance.length === 0 && (
@@ -355,6 +364,7 @@ export default function ConsolidatedReport() {
                 {bsExport.rows.length > 0 && (
                   <ExportMenu
                     sheets={[bsExport]}
+                    filename={`合并资产负债表_${result.period || '全部期间'}`}
                     label="导出资产负债表"
                     testid="export-balance-sheet"
                   />
@@ -375,7 +385,7 @@ export default function ConsolidatedReport() {
                     <TableRow key={a.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{a.code}</Typography></TableCell>
                       <TableCell>{a.name}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(a.amount)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(a.amount)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
@@ -399,7 +409,7 @@ export default function ConsolidatedReport() {
                     <TableRow key={l.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{l.code}</Typography></TableCell>
                       <TableCell>{l.name}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(l.amount)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(l.amount)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
@@ -423,7 +433,7 @@ export default function ConsolidatedReport() {
                     <TableRow key={e.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
                       <TableCell>{e.name}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(e.amount)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(e.amount)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
@@ -450,6 +460,7 @@ export default function ConsolidatedReport() {
                 {isExport.rows.length > 0 && (
                   <ExportMenu
                     sheets={[isExport]}
+                    filename={`合并利润表_${result.period || '全部期间'}`}
                     label="导出利润表"
                     testid="export-income-statement"
                   />
@@ -470,7 +481,7 @@ export default function ConsolidatedReport() {
                     <TableRow key={r.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{r.code}</Typography></TableCell>
                       <TableCell>{r.name}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(r.amount)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(r.amount)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
@@ -494,7 +505,7 @@ export default function ConsolidatedReport() {
                     <TableRow key={e.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
                       <TableCell>{e.name}</TableCell>
-                      <TableCell align="right" fontWeight={500}>{fmt(e.amount)}</TableCell>
+                      <TableCell align="right" sx={{ fontWeight: 500 }}>{fmt(e.amount)}</TableCell>
                     </TableRow>
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
