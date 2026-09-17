@@ -32,7 +32,7 @@ import { LOCALES } from '@/i18n';
 // ────────────────────────────────────────────────
 const pathNameMap: Record<string, string> = {
   '/': '首页',
-  '/workbench': '个人工作台',
+  '/profile': '个人中心',
   '/material/categories': '物料分类',
   '/material/list': '物料列表',
   '/material/create': '新增物料',
@@ -653,9 +653,9 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             <Typography
               variant="caption"
               sx={{ color: p, cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
-              onClick={() => { setTodoAnchor(null); navigate('/workbench'); }}
+              onClick={() => { setTodoAnchor(null); navigate('/profile'); }}
             >
-              前往个人工作台
+              前往个人中心
             </Typography>
           </Box>
         </Popover>
@@ -707,10 +707,6 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
           <MenuItem onClick={() => { navigate('/profile'); setAnchorEl(null); }} sx={{ py: 1.5, '&:hover': { bgcolor: 'action.hover' } }}>
             <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><AccountCircle fontSize="small" /></ListItemIcon>
             <Typography variant="body2" sx={{ color: 'text.primary' }}>个人中心</Typography>
-          </MenuItem>
-          <MenuItem onClick={() => { navigate('/workbench'); setAnchorEl(null); }} sx={{ py: 1.5, '&:hover': { bgcolor: 'action.hover' } }}>
-            <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><Person fontSize="small" /></ListItemIcon>
-            <Typography variant="body2" sx={{ color: 'text.primary' }}>个人工作台</Typography>
           </MenuItem>
           <MenuItem onClick={() => { navigate('/settings'); setAnchorEl(null); }} sx={{ py: 1.5, '&:hover': { bgcolor: 'action.hover' } }}>
             <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}><Settings fontSize="small" /></ListItemIcon>

@@ -19,7 +19,7 @@ const G_NAV: Record<string, { path: string; label: string; icon: React.ReactNode
   m: { path: '/material/list', label: '物料列表', icon: <Inventory2 fontSize="small" /> },
   o: { path: '/purchase/orders', label: '采购订单', icon: <Assignment fontSize="small" /> },
   s: { path: '/sales/orders', label: '销售订单', icon: <Storefront fontSize="small" /> },
-  w: { path: '/workbench', label: '个人工作台', icon: <Workspaces fontSize="small" /> },
+  w: { path: '/profile', label: '个人中心', icon: <Workspaces fontSize="small" /> },
   b: { path: '/bom/list', label: 'BOM 列表', icon: <AccountTree fontSize="small" /> },
   q: { path: '/quality/inspection', label: '检验任务', icon: <FactCheck fontSize="small" /> },
   f: { path: '/finance/invoices', label: '发票管理', icon: <Receipt fontSize="small" /> },

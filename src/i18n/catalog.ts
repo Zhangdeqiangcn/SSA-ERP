@@ -142,7 +142,7 @@ regBi({
 // ── 导航叶子（key 用路由路径，新增页面时只需在页面里加一条词条） ──
 const navZh: Record<string, string> = {
   '/': '仪表盘',
-  '/workbench': '个人工作台',
+  '/profile': '个人中心',
   // 审批中心
   '/material/approvals': '物料审批',
   '/vendor/approvals': '供应商注册审批',
@@ -288,7 +288,7 @@ for (const [path, zh] of Object.entries(navZh)) {
 // ── 导航英文（只覆盖高管/外籍同事最常看的入口，其余回退中文，见文件头说明）──
 const navEn: Record<string, string> = {
   '/': 'Dashboard',
-  '/workbench': 'My Workspace',
+  '/profile': 'Personal Center',
   '/material/approvals': 'Material Approvals',
   '/vendor/approvals': 'Supplier Registration',
   '/purchase/approvals': 'Purchase Approvals',

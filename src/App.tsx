@@ -20,9 +20,8 @@ import { useApprovalFlowStore } from './stores/approvalFlowStore';
 import { useWarehouseStore } from './stores/warehouseStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
-// P4-1 个人工作台
-const Workbench = lazy(() => import('./pages/Workbench/Workbench'));
 
+// P4-1 个人工作台：已并入个人中心（PersonalCenter 内嵌 Workbench），此处不再单独懒加载
 // 主布局与门户登录保持急加载（路由外壳/入口），其余页面按需懒加载，减小首屏包体、提升运行效率
 const FlowSelfTest = lazy(() => import('./pages/Test/FlowSelfTest'));
 // 使用说明书（P4 帮助中心）
@@ -280,6 +279,10 @@ function App() {
   useEffect(() => {
     // 未登录：不发起任何业务拉取（避免 401 → 会话失效 → 整页跳转的循环）
     if (!isAuthenticated) return;
+    // V3.15.0：登录态启动时先从 /api/auth/me 刷新当前用户资料，
+    //   补齐「部门/邮箱/备用邮箱/手机号」等登录接口历史未返回的字段，
+    //   否则已登录的旧会话会一直显示「未设置/未绑定」。
+    useAuthStore.getState().refreshUser();
     // V2.74.3/V2.74.5：启动即拉取主数据（直连 D1，与开放网关同源）；离线/未登录回退内存 mock。
     // 物料/客户/供应商三张主数据表全收口到 D1，根治 app_state Blob 双通道。
     useVendorStore.getState().loadVendors();
@@ -365,9 +368,9 @@ function App() {
       {/* ── 主 ERP 系统（MainLayout，需登录）──────────────── */}
       <Route path="/" element={<RequireAuth><MainLayout /></RequireAuth>}>
         <Route index element={<Dashboard />} />
-        {/* P4-1 个人工作台 */}
-        <Route path="workbench" element={<Workbench />} />
-        {/* 个人中心（账号资料 + 修改密码） */}
+        {/* P4-1 个人工作台：已并入个人中心，保留 /workbench 路径重定向以兼容旧书签 */}
+        <Route path="workbench" element={<Navigate to="/profile" replace />} />
+        {/* 个人中心（个人工作台 + 个人资料 + 账号安全 合并页） */}
         <Route path="profile" element={<PersonalCenter />} />
         {/* 物料管理 */}
         <Route path="material" element={<Navigate to="/material/list" replace />} />

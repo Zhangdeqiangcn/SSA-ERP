@@ -24,7 +24,7 @@ export interface SearchEntry {
 export const searchIndex: SearchEntry[] = [
   // ── 首页 / 工作台 ──
   { label: '仪表盘', path: '/', module: '首页', group: '首页', keywords: ['dashboard', 'home', '首页', '总览'], desc: '经营指标总览与待办' },
-  { label: '个人工作台', path: '/workbench', module: '首页', group: '首页', keywords: ['workbench', 'my', '待办', '工作台'], desc: '我的待办与常用入口' },
+  { label: '个人中心', path: '/profile', module: '首页', group: '首页', keywords: ['profile', 'my', '待办', '工作台', '个人资料', '改密码'], desc: '我的工作台、个人资料与账号安全' },
 
   // ── 审批中心 ──
   { label: '物料审批', path: '/material/approvals', module: '审批中心', group: '审批中心', keywords: ['material approve', '物料', '审批'], desc: '物料主数据新增/变更审批' },

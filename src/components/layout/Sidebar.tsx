@@ -52,7 +52,7 @@ const menuGroups: MenuGroup[] = [
   {
     items: [
       { label: '仪表盘', icon: <Dashboard />, path: '/' },
-      { label: '个人工作台', icon: <Workspaces />, path: '/workbench' },
+      { label: '个人中心', icon: <Workspaces />, path: '/profile' },
     ],
   },
   {
