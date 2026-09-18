@@ -966,6 +966,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31540',
+        title: 'V3.15.4（2026-09-18）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版修复登录页「找回密码」入口看不见的问题（纯界面可见性 bug，非功能缺失）。**\n\n「找回密码」功能本身自 V3.14.3 就已存在：登录页有触发按钮、挂了 `ForgotPasswordDialog` 对话框、`authStore` 有 `resetPasswordRequest` / `resetPasswordConfirm`、`functions/api/auth/reset-password-send` 与 `reset-password-confirm` 两个端点也都就绪——整条链路是通的。\n\n但 `Login.tsx` 里那个「忘记密码？点击找回」按钮的文字色被写成了 `rgba(255,255,255,0.85)`（近白色），而它所在的登录卡片是白底，于是「白字印白底」——按钮在网页结构里存在、点得到，但肉眼完全看不见，用户以为没有这个功能。\n\n修复：把按钮文字色改成主题主色 `primary.main`（蓝），在白底上一目了然。仅改样式，不动任何逻辑与链路。' },
+          { kind: 'why', title: '为什么这样操作', text: '**为什么是「白字印白底」而不是「功能没了」**：先核查了 `authStore` 的两个方法、后端两个端点、以及 `Login.tsx` 的按钮与对话框挂载——全部存在且接线正确，所以排除了「功能没写」。问题只在那一行文字颜色，改色即可、不需要新增任何代码。\n\n**为什么顺带升到 V3.15.4 而不是静默改**：按版本管理铁律，任何可见性/行为变更都要五处同步版本号；登录页找不到入口属于会影响用户感知的可见性缺陷，应如实登记进变更记录，便于日后追溯。' },
+        ],
+      },
+      {
         id: 'v31530',
         title: 'V3.15.3（2026-09-18）',
         blocks: [

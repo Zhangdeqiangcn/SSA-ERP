@@ -286,7 +286,7 @@ export default function Login() {
                 variant="text"
                 size="small"
                 onClick={() => setForgotOpen(true)}
-                sx={{ textTransform: 'none', color: 'rgba(255,255,255,0.85)' }}
+                sx={{ textTransform: 'none', color: 'primary.main', fontWeight: 600 }}
                 data-testid="forgot-password-link"
               >
                 忘记密码？点击找回
