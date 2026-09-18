@@ -6,7 +6,6 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
-import { APP_VERSION_LABEL } from '@/version';
 import {
   Dashboard, Inventory2, People, Person, ShoppingCart, Warehouse, Settings,
   ExpandLess, ExpandMore, Category, ListAlt, Rule,
@@ -526,8 +525,10 @@ const Sidebar: React.FC = () => {
 
       <Divider sx={{ borderColor: 'divider', mx: 2, mt: 'auto' }} />
       <Box sx={{ p: 2, textAlign: 'center' }}>
+        {/* 版本号不再在界面上展示（历次改版易忘记同步，反而误导用户）；
+            版本信息统一收敛到「系统设置 → 帮助中心 → 系统信息」。 */}
         <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.6875rem', letterSpacing: '0.05em' }}>
-          {sidebarCollapsed ? '' : `SSA ERP ${APP_VERSION_LABEL} · 钢材供应链版`}
+          {sidebarCollapsed ? '' : 'SSA ERP · 钢材供应链管理平台'}
         </Typography>
       </Box>
     </Drawer>

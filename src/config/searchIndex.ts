@@ -174,7 +174,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '异常检测预警', path: '/analytics/alerts', module: '分析与报表', group: '分析与报表', keywords: ['alert', '预警', '异常'], desc: '异常预警' },
   { label: '价格趋势分析', path: '/analytics/price', module: '分析与报表', group: '分析与报表', keywords: ['price trend', '价格趋势'], desc: '价格趋势分析' },
   { label: '数电票核验台账', path: '/analytics/invoice-verify', module: '分析与报表', group: '分析与报表', keywords: ['invoice', '核验', '发票核验', '数电票', '台账'], desc: '数电票批量核验与历史记录台账' },
-  { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数'], desc: '系统参数配置' },
+  { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数', '版本号'], desc: '系统参数配置' },
   { label: '公司与邀请码', path: '/settings', module: '系统', group: '系统设置', keywords: ['invite', '邀请码', '公司码', 'company code', '加入公司', '有效期', '轮换', '更换', '停用'], desc: '公司邀请码的查看/生成/有效期/停用管理', adminOnly: true },
   // A4/A5（V3.4.0）：多语言底座与数据容量守护 —— 均为管理员运维入口
   { label: '多语言', path: '/platform/i18n', module: '系统', group: '系统设置', keywords: ['i18n', 'locale', '语言', '翻译', 'english', '本地化'], desc: '界面语言切换、词条覆盖与缺失词条补录', adminOnly: true },

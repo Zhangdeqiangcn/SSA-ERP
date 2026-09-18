@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Box, Typography, TextField, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Alert,
 } from '@mui/material';
-import { APP_VERSION, APP_VERSION_LABEL } from '@/version';
 import { useDataDictStore } from '@/stores/dataDictStore';
 
 /**
@@ -26,10 +25,12 @@ const BasicConfigTab: React.FC = () => {
             <Typography variant="subtitle1" fontWeight={600} mb={1}>系统信息</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <TextField label="系统名称" defaultValue="SSA ERP 企业资源管理平台" fullWidth size="small" />
-              <TextField label="系统版本" value={`${APP_VERSION_LABEL}（${APP_VERSION}）`} fullWidth size="small" disabled />
               <TextField label="企业名称" defaultValue="SSA Corporation" fullWidth size="small" />
               <TextField label="统一社会信用代码" defaultValue="91110000XXXXXXXX10" fullWidth size="small" />
             </Box>
+            <Alert severity="info" sx={{ mt: 2, borderRadius: 2 }}>
+              版本信息统一在「帮助中心 → 系统信息」查询（界面其他地方不再展示版本号，避免显示过期版本号造成误导）。
+            </Alert>
           </Paper>
         </Grid>
 

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, TextField, Button,
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -14,7 +14,7 @@ import {
   ShoppingCart, Menu as MenuIcon, AccountTree, Description,
   SwapHoriz, Hub, PhoneAndroid, FactCheck, StarRate, Storage, DarkMode, Storefront,
   Api, Business, Palette, Inventory2, Code, Backup, Search, ChevronRight, VerifiedUser, Translate, Assessment,
-  Route, HelpOutline, MenuBook, SmartToy,
+  Route, HelpOutline, MenuBook, SmartToy, InfoOutlined,
 } from '@mui/icons-material';
 import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import { useAuthStore } from '@/stores/authStore';
@@ -52,6 +52,7 @@ import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import UserManagementTab from './UserManagementTab';
 import OrgInviteCodeTab from './OrgInviteCodeTab';
 import SecurityCenterTab from './SecurityCenterTab';
+import SystemInfoTab from './SystemInfoTab';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
 const FORM_PERMISSIONS = [
@@ -272,11 +273,25 @@ const Settings: React.FC = () => {
   const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
 
   // 左侧导航状态
+  // 支持 ?tab=xxx 直达某个设置项（供全局搜索 / 帮助中心指引使用，例：/settings?tab=sysinfo）
+  const [searchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'basic';
   const [query, setQuery] = useState('');
-  const [activeId, setActiveId] = useState('basic');
+  const [activeId, setActiveId] = useState(initialTab);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({
-    enterprise: true, user: false, oa: false, ux: false, supply: false, integration: false, dataops: false, help: false,
+    enterprise: true, user: false, oa: false, ux: false, supply: false, integration: false, dataops: false,
+    help: initialTab === 'sysinfo' || initialTab === 'manual',
   });
+
+  // 组件已挂载时再次通过 ?tab= 跳入（如从全局搜索点「系统信息」）也要生效
+  useEffect(() => {
+    const t = searchParams.get('tab');
+    if (!t) return;
+    setActiveId(t);
+    if (t === 'sysinfo' || t === 'manual') {
+      setExpandedGroups(prev => ({ ...prev, help: true }));
+    }
+  }, [searchParams]);
 
   const handleSave = () => setSnackbar({ open: true, msg: '设置已保存' });
 
@@ -579,6 +594,12 @@ const Settings: React.FC = () => {
     {
       id: 'help', label: '帮助中心', icon: <HelpOutline fontSize="small" />,
       items: [
+        {
+          id: 'sysinfo',
+          label: '系统信息',
+          icon: <InfoOutlined fontSize="small" />,
+          render: () => <SystemInfoTab />,
+        },
         {
           id: 'manual',
           label: '使用说明书',

@@ -248,7 +248,7 @@ const VendorLogin: React.FC = () => {
           </Button>
         </Stack>
         <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#334155', mt: 2 }}>
-          SSA ERP v2.56 · 钢材供应链管理平台 · © 2026
+          SSA ERP · 钢材供应链管理平台 · © 2026
         </Typography>
       </Box>
     </Box>

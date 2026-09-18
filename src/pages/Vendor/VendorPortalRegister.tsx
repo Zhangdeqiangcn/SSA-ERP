@@ -488,7 +488,7 @@ const VendorPortalRegister: React.FC = () => {
 
         {/* 底部版权 */}
         <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#334155', mt: 2 }}>
-          SSA ERP V2.27 · 钢材供应链管理平台 · &copy; 2026
+          SSA ERP · 钢材供应链管理平台 · &copy; 2026
         </Typography>
       </Box>
     </Box>

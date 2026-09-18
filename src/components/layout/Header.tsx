@@ -268,16 +268,11 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
           <MenuIcon />
         </IconButton>
 
-        {/* Logo */}
+        {/* Logo —— 不再展示版本号，版本信息统一收敛到「系统设置 → 帮助中心 → 系统信息」 */}
         <Box sx={{ display: 'flex', alignItems: 'center', minWidth: 120 }}>
           <Typography variant="h6" noWrap sx={{ fontWeight: 700, color: 'text.primary', letterSpacing: '-0.025em' }}>
             SSA ERP
           </Typography>
-          <Chip
-            label="v2.0"
-            size="small"
-            sx={{ ml: 1, bgcolor: alpha(p, 0.12), color: p, fontSize: '0.6rem', height: 18 }}
-          />
         </Box>
 
         {/* ── 组织切换器（P2-2 多组织）+ P1-01 类型徽标 ── */}

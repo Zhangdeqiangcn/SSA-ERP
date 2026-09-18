@@ -171,6 +171,8 @@ const Dashboard: React.FC = () => {
     { label: '库存查询', icon: <Inventory sx={{ fontSize: 18 }} />, color: '#F59E0B', path: '/warehouse/inventory' },
     { label: '质量报表', icon: <QueryStats sx={{ fontSize: 18 }} />, color: '#9C27B0', path: '/quality/report' },
     { label: '生产报表', icon: <QueryStats sx={{ fontSize: 18 }} />, color: '#607D8B', path: '/production/report' },
+    { label: '合并报表', icon: <AccountBalance sx={{ fontSize: 18 }} />, color: '#6366F1', path: '/finance/consolidated' },
+    { label: 'ChatBI 分析', icon: <Assessment sx={{ fontSize: 18 }} />, color: '#8B5CF6', path: '/analytics/chatbi' },
   ];
 
   // ── 图表数据 ──
@@ -201,7 +203,6 @@ const Dashboard: React.FC = () => {
             2026年6月23日 星期二 · 数据更新于 17:07
           </Typography>
         </Box>
-        <Chip label="SSA ERP v2.0" size="small" sx={{ mr: 1, bgcolor: '#EFF6FF', color: '#3B82F6' }} />
         <Tooltip title="刷新数据">
           <IconButton size="small" onClick={handleRefresh} sx={{ color: '#94A3B8' }}>
             <RefreshOutlined fontSize="small" />
