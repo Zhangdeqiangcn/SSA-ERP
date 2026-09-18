@@ -87,6 +87,10 @@ const UserManagementTab: React.FC = () => {
   const [roleDialogUser, setRoleDialogUser] = useState<ApiUser | null>(null);
   const [roleDraft, setRoleDraft] = useState<UserRole>('user');
 
+  // 审批对话框（V3.15.5）：批准的同时指定角色——建公司者不再自动成为管理员
+  const [approveTarget, setApproveTarget] = useState<ApiUser | null>(null);
+  const [approveRole, setApproveRole] = useState<UserRole>('user');
+
   const canManage = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
   // 角色下拉禁止出现 super_admin（后端同样会拒绝）
   const assignableRoles = useMemo(
@@ -363,7 +367,7 @@ const UserManagementTab: React.FC = () => {
                               size="small" color="success" variant="outlined"
                               startIcon={busy ? <CircularProgress size={14} /> : <CheckCircle />}
                               disabled={busy}
-                              onClick={() => void patchUser(u.id, { action: 'approve' })}
+                              onClick={() => { setApproveTarget(u); setApproveRole('user'); }}
                               data-testid={`um-approve-${u.id}`}
                             >
                               批准
@@ -410,7 +414,7 @@ const UserManagementTab: React.FC = () => {
                             size="small" color="primary" variant="outlined"
                             startIcon={busy ? <CircularProgress size={14} /> : <Undo />}
                             disabled={busy}
-                            onClick={() => void patchUser(u.id, { action: 'approve' })}
+                            onClick={() => { setApproveTarget(u); setApproveRole((u.role as UserRole) || 'user'); }}
                             data-testid={`um-restore-${u.id}`}
                           >
                             恢复
@@ -473,6 +477,53 @@ const UserManagementTab: React.FC = () => {
             }}
           >
             保存
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* 审批对话框：批准的同时指定角色（V3.15.5，建公司者不再自动成为管理员） */}
+      <Dialog open={!!approveTarget} onClose={() => setApproveTarget(null)} maxWidth="xs" fullWidth data-testid="um-approve-dialog">
+        <DialogTitle sx={{ fontWeight: 600 }}>批准并分配角色</DialogTitle>
+        <DialogContent>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            批准 <strong>{approveTarget?.name || approveTarget?.username}</strong>
+            {approveTarget?.orgName ? <> 加入「<strong>{approveTarget.orgName}</strong>」</> : null}
+            ，并为其分配角色：
+          </Typography>
+          {(approveTarget?.orgStatus === 'pending' || approveTarget?.isOwner) && (
+            <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }}>
+              {approveTarget?.orgStatus === 'pending'
+                ? '这是新公司的创建人，批准后该公司即生效。若此处不选「管理员」，该公司将暂无管理员负责审批成员与维护邀请码。'
+                : '该用户是公司创建人。'}
+            </Alert>
+          )}
+          <TextField
+            select
+            fullWidth
+            label="角色"
+            value={approveRole}
+            onChange={(e) => setApproveRole(e.target.value as UserRole)}
+            data-testid="um-approve-role-select"
+          >
+            {assignableRoles.map((r) => (
+              <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>
+            ))}
+          </TextField>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setApproveTarget(null)}>取消</Button>
+          <Button
+            variant="contained"
+            color="success"
+            disabled={!approveTarget || actingId === approveTarget?.id}
+            data-testid="um-approve-confirm"
+            onClick={async () => {
+              if (!approveTarget) return;
+              const okDone = await patchUser(approveTarget.id, { action: 'approve', role: approveRole });
+              if (okDone) setApproveTarget(null);
+            }}
+          >
+            批准
           </Button>
         </DialogActions>
       </Dialog>

@@ -50,6 +50,7 @@ import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
 import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import UserManagementTab from './UserManagementTab';
+import OrgInviteCodeTab from './OrgInviteCodeTab';
 import SecurityCenterTab from './SecurityCenterTab';
 
 // ── 表单权限配置 ──────────────────────────────────────────────
@@ -516,6 +517,7 @@ const Settings: React.FC = () => {
       id: 'user', label: '用户与权限', icon: <People fontSize="small" />,
       items: [
         { id: 'users', label: '用户管理', icon: <People fontSize="small" />, adminOnly: true, render: renderUserManagement },
+        { id: 'invitecode', label: '公司与邀请码', icon: <Business fontSize="small" />, adminOnly: true, render: () => <OrgInviteCodeTab /> },
         { id: 'security', label: '安全中心', icon: <VerifiedUser fontSize="small" />, render: renderSecurityCenter },
         { id: 'roles', label: '角色权限', icon: <Security fontSize="small" />, adminOnly: true, render: renderRolePermissions },
         { id: 'forms', label: '表单权限', icon: <Assignment fontSize="small" />, adminOnly: true, render: () => <FormPermissionPanel /> },

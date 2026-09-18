@@ -408,8 +408,8 @@ export default function Login() {
             </TextField>
 
             <TextField
-              label="公司码（请与同事约定统一）"
-              placeholder="例如：ssa2026（英文小写 + 数字）"
+              label="公司邀请码（由公司管理员提供）"
+              placeholder="例如：k7m2p9qx（小写字母 + 数字）"
               value={companyCode}
               onChange={(e) => setCompanyCode(e.target.value)}
               fullWidth
@@ -469,9 +469,9 @@ export default function Login() {
         )}
 
         <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 3, textAlign: 'center' }}>
-          多人多设备：登录后业务数据按公司码（组织）实时共享；未登录时使用本地数据，离线可用。
+          多人多设备：登录后业务数据按公司邀请码（组织）实时共享；未登录时使用本地数据，离线可用。
           <br />
-          新建公司需经系统超级管理员批准；加入已有公司需由该公司管理员审批，批准后方可登录。
+          邀请码由公司管理员发放，有有效期、可定期更换；新建公司需经系统超级管理员批准并分配角色，加入已有公司需由该公司管理员审批。
         </Typography>
       </Paper>
 
@@ -479,15 +479,15 @@ export default function Login() {
       <Dialog open={helpOpen} onClose={() => setHelpOpen(false)} maxWidth="xs" fullWidth>
         <DialogTitle sx={{ fontWeight: 700, display: 'flex', alignItems: 'center', gap: 1 }}>
           <Business fontSize="small" color="primary" />
-          什么是公司码？
+          什么是公司邀请码？
         </DialogTitle>
         <DialogContent>
           <DialogContentText component="div" variant="body2" color="text.secondary">
             <Stack spacing={1.25}>
-              <span>· <strong>首次填写</strong>某个公司码：系统会以该码创建一家新公司，你将<strong>自动成为该公司的管理员</strong>，注册后直接进入系统。</span>
-              <span>· 同事填写<strong>同一个</strong>公司码：视为「申请加入同一家公司」，需要该公司的管理员<strong>审批通过</strong>后才能登录，届时你填写申请时会立即收到待审批提示。</span>
-              <span>· 请与同事<strong>约定统一</strong>的公司码，建议使用「英文小写 + 数字」的组合（例如 ssa2026），避免使用空格或中文。</span>
-              <span>· 公司码只用于识别企业（组织），同一个公司的人共享同一份业务数据。</span>
+              <span>· <strong>新建公司</strong>：第一个填写某个「尚未被使用」的邀请码的人，会创建一家新公司；但<strong>不会自动成为管理员</strong>，须经系统超级管理员<strong>批准并分配角色</strong>后才能登录。</span>
+              <span>· <strong>加入已有公司</strong>：填写该公司管理员发给你的邀请码，提交后需该公司管理员<strong>审批通过</strong>才能登录。</span>
+              <span>· 邀请码<strong>有有效期</strong>，并可由公司管理员<strong>定期更换</strong>；若提示「已失效」或「已过期」，请向公司管理员索取新的邀请码。</span>
+              <span>· 邀请码由「英文小写 + 数字」组成（例如 k7m2p9qx），只用于加入公司，不含空格或中文。</span>
             </Stack>
           </DialogContentText>
         </DialogContent>
