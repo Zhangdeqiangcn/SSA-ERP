@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Chip, Button, TextField, MenuItem, Alert, Snackbar, Avatar,
+  Chip, Button, TextField, MenuItem, Alert, AlertTitle, Snackbar, Avatar,
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, CircularProgress, Tooltip,
 } from '@mui/material';
 import {
   Refresh, CheckCircle, Cancel, Edit, Search, AdminPanelSettings,
-  Person as PersonIcon, Undo, PowerSettingsNew,
+  Person as PersonIcon, Undo, PowerSettingsNew, SupervisorAccount, ReportProblemOutlined,
 } from '@mui/icons-material';
 import { ROLE_DEFINITIONS, ROLE_NAMES, UserRole } from '@/types/settings';
 import { useAuthStore } from '@/stores/authStore';
@@ -39,7 +39,19 @@ interface ApiUser {
   orgStatus?: string;
   /** 公司码 */
   orgCode?: string;
+  /** 所属公司是否存在启用中的管理员（V3.15.8）；
+   *  false 表示该公司暂时没人能审批成员、也没人能管理邀请码，申请会由超级管理员代管 */
+  orgHasAdmin?: boolean;
   createdAt?: string;
+}
+
+/** 需超管代管的公司（GET /api/users 的 orphanOrgs，V3.15.8） */
+interface OrphanOrg {
+  orgId: string;
+  orgName: string | null;
+  orgStatus: string;
+  memberCount: number;
+  pendingCount: number;
 }
 
 /** 状态 → 展示文案与配色（与 PUT 契约的 pending/active/rejected 对齐） */
@@ -74,6 +86,12 @@ const UserManagementTab: React.FC = () => {
   const [pendingCount, setPendingCount] = useState(0);
   // 尚未批准启用的新公司数量（组织状态为 pending），供超管角标提醒
   const [newCompanyCount, setNewCompanyCount] = useState(0);
+  // 「需超管代管」的公司清单（V3.15.8）：已生效、内部无管理员、且有真实成员
+  const [orphanOrgs, setOrphanOrgs] = useState<OrphanOrg[]>([]);
+  const [orphanCompanyCount, setOrphanCompanyCount] = useState(0);
+  const [orphanPendingCount, setOrphanPendingCount] = useState(0);
+  /** 只看「所在公司暂无管理员」的账号 */
+  const [orphanOnly, setOrphanOnly] = useState(false);
   const [statusFilter, setStatusFilter] = useState('');
   const [keyword, setKeyword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -92,6 +110,10 @@ const UserManagementTab: React.FC = () => {
   const [approveRole, setApproveRole] = useState<UserRole>('user');
 
   const canManage = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+  /** 仅超级管理员可授予「管理员」角色（与后端提权护栏一致，前端不给出会被拒绝的按钮） */
+  const canGrantAdmin = currentUser?.role === 'super_admin';
+  /** 需代管清单只对超管有意义：管理员无权处置其它公司，展示给他们只会造成误解 */
+  const showOrphanPanel = canGrantAdmin && orphanCompanyCount > 0;
   // 角色下拉禁止出现 super_admin（后端同样会拒绝）
   const assignableRoles = useMemo(
     () => ROLE_DEFINITIONS.filter((r) => r.id !== 'super_admin'),
@@ -111,6 +133,7 @@ const UserManagementTab: React.FC = () => {
       const qs = new URLSearchParams();
       if (statusFilter) qs.set('status', statusFilter);
       if (keyword.trim()) qs.set('keyword', keyword.trim());
+      if (orphanOnly) qs.set('orphan', '1');
       qs.set('page', '1');
       qs.set('pageSize', '200');
       const res = await fetch(`/api/users?${qs.toString()}`, {
@@ -134,6 +157,9 @@ const UserManagementTab: React.FC = () => {
       setTotal(typeof data?.total === 'number' ? data.total : (data?.data?.length ?? 0));
       setPendingCount(typeof data?.pendingCount === 'number' ? data.pendingCount : 0);
       setNewCompanyCount(typeof data?.newCompanyCount === 'number' ? data.newCompanyCount : 0);
+      setOrphanOrgs(Array.isArray(data?.orphanOrgs) ? data.orphanOrgs : []);
+      setOrphanCompanyCount(typeof data?.orphanCompanyCount === 'number' ? data.orphanCompanyCount : 0);
+      setOrphanPendingCount(typeof data?.orphanPendingCount === 'number' ? data.orphanPendingCount : 0);
     } catch {
       setError('未登录或无法连接服务器，用户管理需要登录后使用');
       setUsers([]);
@@ -141,7 +167,7 @@ const UserManagementTab: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, statusFilter, keyword]);
+  }, [token, statusFilter, keyword, orphanOnly]);
 
   useEffect(() => {
     void load();
@@ -163,7 +189,17 @@ const UserManagementTab: React.FC = () => {
           setSnack({ open: true, msg: data?.error || `操作失败（HTTP ${res.status}）`, severity: 'error' });
           return false;
         }
-        setSnack({ open: true, msg: '操作成功', severity: 'success' });
+        // V3.15.8：把「这家公司现在有没有管理员」如实反馈给操作人。
+        // 批准新公司创建人却没选「管理员」时，必须当场说清后果，而不是只回一句「操作成功」。
+        let msg = '操作成功';
+        if (body.role === 'admin') {
+          msg = '已设为管理员：该公司的成员审批与邀请码管理已交还本公司';
+        } else if (data?.caretakerMode) {
+          msg = '已处理（该公司暂无管理员，本次由您代管）';
+        } else if (data?.orgHasAdmin === false) {
+          msg = '操作成功；该公司当前仍无管理员，已列入「需代管」清单';
+        }
+        setSnack({ open: true, msg, severity: 'success' });
         await load();
         return true;
       } catch {
@@ -262,6 +298,59 @@ const UserManagementTab: React.FC = () => {
         </Button>
       </Box>
 
+      {/* 需超管代管（V3.15.8）：公司无管理员时，其成员审批与邀请码管理无人可做 → 自动上收到超管 */}
+      {showOrphanPanel && (
+        <Alert
+          severity="warning"
+          icon={<ReportProblemOutlined />}
+          sx={{ mb: 2, borderRadius: 2, alignItems: 'flex-start', '& .MuiAlert-message': { width: '100%' } }}
+          data-testid="um-orphan-alert"
+          action={
+            <Button
+              size="small"
+              color="inherit"
+              variant={orphanOnly ? 'contained' : 'outlined'}
+              onClick={() => setOrphanOnly((v) => !v)}
+              data-testid="um-orphan-toggle"
+              sx={{ whiteSpace: 'nowrap' }}
+            >
+              {orphanOnly ? '显示全部账号' : '只看需代管'}
+            </Button>
+          }
+        >
+          <AlertTitle sx={{ fontWeight: 600 }} data-testid="um-orphan-title">
+            有 {orphanCompanyCount} 家公司暂无管理员，需要您代管
+          </AlertTitle>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            这些公司已生效，但公司内没有任何「管理员」——本公司没人能审批新成员，也没人能管理邀请码。
+            它们的加入申请会自动送到本页由您处理；若某位成员适合负责公司事务，可在其行内一键「设为管理员」交还权限。
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: orphanPendingCount > 0 ? 1 : 0 }}>
+            {orphanOrgs.map((o) => (
+              <Chip
+                key={o.orgId}
+                size="small"
+                label={`${o.orgName || o.orgId} · ${o.memberCount} 人${o.pendingCount > 0 ? ` · 待批 ${o.pendingCount}` : ''}`}
+                data-testid={`um-orphan-org-${o.orgId}`}
+                sx={{ bgcolor: '#FEF3C7', color: '#92400E', fontWeight: 500 }}
+              />
+            ))}
+            {orphanCompanyCount > orphanOrgs.length && (
+              <Chip
+                size="small"
+                label={`…另有 ${orphanCompanyCount - orphanOrgs.length} 家`}
+                sx={{ bgcolor: '#F1F5F9', color: '#475569', fontWeight: 500 }}
+              />
+            )}
+          </Box>
+          {orphanPendingCount > 0 && (
+            <Typography variant="body2" sx={{ fontWeight: 600 }} data-testid="um-orphan-pending">
+              其中 {orphanPendingCount} 条加入申请正等待代管审批。
+            </Typography>
+          )}
+        </Alert>
+      )}
+
       {!canManage && (
         <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }} data-testid="um-readonly-alert">
           当前账号无权操作用户，页面为只读状态。审批与角色调整仅超级管理员 / 系统管理员可用。
@@ -276,7 +365,9 @@ const UserManagementTab: React.FC = () => {
 
       {!error && users.length === 0 && !loading && (
         <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }} data-testid="um-empty">
-          暂无用户数据。
+          {orphanOnly
+            ? '当前没有「所在公司暂无管理员」的账号——所有公司都有管理员在管。点击上方按钮可显示全部账号。'
+            : '暂无用户数据。'}
         </Alert>
       )}
 
@@ -348,6 +439,16 @@ const UserManagementTab: React.FC = () => {
                           sx={{ height: 20, bgcolor: '#F59E0B18', color: '#B45309', fontWeight: 600 }}
                         />
                       )}
+                      {u.orgHasAdmin === false && u.role !== 'super_admin' && (
+                        <Tooltip title="该公司目前没有任何管理员：没人能审批新成员，也没人能管理邀请码，需由超级管理员代管">
+                          <Chip
+                            size="small"
+                            label="暂无管理员"
+                            data-testid={`um-org-orphan-${u.id}`}
+                            sx={{ height: 20, bgcolor: '#FEE2E2', color: '#B91C1C', fontWeight: 600 }}
+                          />
+                        </Tooltip>
+                      )}
                     </Box>
                   </TableCell>
                   <TableCell><Typography variant="body2">{u.department || '—'}</Typography></TableCell>
@@ -406,6 +507,19 @@ const UserManagementTab: React.FC = () => {
                               data-testid={`um-logout-${u.id}`}
                             >
                               强制下线
+                            </Button>
+                          </Tooltip>
+                        )}
+                        {canGrantAdmin && u.status === 'active' && u.orgHasAdmin === false && u.role !== 'admin' && (
+                          <Tooltip title="该公司目前没有管理员，成员审批与邀请码管理无人可做。若此人负责公司事务，可设为管理员把权限交还本公司">
+                            <Button
+                              size="small" color="success" variant="contained"
+                              startIcon={busy ? <CircularProgress size={14} /> : <SupervisorAccount />}
+                              disabled={busy}
+                              onClick={() => void patchUser(u.id, { role: 'admin' })}
+                              data-testid={`um-make-admin-${u.id}`}
+                            >
+                              设为管理员
                             </Button>
                           </Tooltip>
                         )}
@@ -493,8 +607,14 @@ const UserManagementTab: React.FC = () => {
           {(approveTarget?.orgStatus === 'pending' || approveTarget?.isOwner) && (
             <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }}>
               {approveTarget?.orgStatus === 'pending'
-                ? '这是新公司的创建人，批准后该公司即生效。若此处不选「管理员」，该公司将暂无管理员负责审批成员与维护邀请码。'
+                ? '这是新公司的创建人，批准后该公司即生效。若此处不选「管理员」，该公司将暂无管理员负责审批成员与维护邀请码；此后该公司的成员申请会自动上收到超级管理员代管。'
                 : '该用户是公司创建人。'}
+            </Alert>
+          )}
+          {canGrantAdmin && approveTarget?.orgStatus !== 'pending' && approveTarget?.orgHasAdmin === false && (
+            <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }} data-testid="um-approve-caretaker">
+              「{approveTarget?.orgName || '该公司'}」目前没有管理员，本次审批由您代管。
+              若此人负责公司事务，建议角色选「管理员」，把成员审批与邀请码管理交还本公司。
             </Alert>
           )}
           <TextField

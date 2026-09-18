@@ -1,21 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Button, Stack, Chip, Alert, Snackbar, CircularProgress,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Divider, Tooltip,
+  Autocomplete,
 } from '@mui/material';
 import {
-  ContentCopy, Refresh, EventAvailable, Block, CheckCircle, VpnKey, Warning,
+  ContentCopy, Refresh, EventAvailable, Block, CheckCircle, VpnKey, Warning, Business,
 } from '@mui/icons-material';
 import { useAuthStore } from '@/stores/authStore';
 
 /**
- * 公司与邀请码（V3.15.5）
+ * 公司与邀请码（V3.15.5 新增；V3.15.8 增加超管跨公司代管）
  * ------------------------------------------------------------
  * 把「公司码」升级为可轮换、带有效期的「公司邀请码」：
  *   · 由公司管理员（或超级管理员）在此查看、生成新码、设置有效期、暂停/恢复加入；
  *   · 邀请码只是「加入凭证」，公司身份由公司名称承载，因此可定期更换而不影响公司本身；
  *   · 生成新码后旧码「立即失效」——旧码会写入服务端历史表，注册时被明确拒绝。
  * 仅管理员 / 超级管理员可见（服务端同样会做角色校验，越权一律 403）。
+ *
+ * V3.15.8 为什么加公司选择器：
+ *   自 V3.15.5 起建公司者不再自动成为管理员，于是会出现「公司已生效但内部无管理员」的状态。
+ *   此时本公司没有任何人能进到这个页面改邀请码；后端虽早已允许超管用 ?orgId= 代管，
+ *   前端却没有公司可选——**能力在、入口缺**。补上选择器后，代管链路才真正闭环。
  */
 
 interface CodeState {
@@ -30,6 +36,19 @@ interface CodeState {
 
 /** 有效期预设（天）；'forever' = 永久；'custom' = 自定义 */
 type ExpiryMode = '30' | '90' | '180' | '365' | 'forever' | 'custom';
+
+/** 公司列表项（GET /api/orgs，V3.15.8）——仅供超管选择要代管的公司 */
+interface OrgOption {
+  id: string;
+  name: string | null;
+  status: string;
+  memberCount: number;
+  adminCount: number;
+  pendingCount: number;
+  hasAdmin: boolean;
+  /** 需超管代管：已生效 + 无管理员 + 有真实成员 */
+  needsCare: boolean;
+}
 
 function daysLeft(expiresAt: string | null): number | null {
   if (!expiresAt) return null;
@@ -66,7 +85,38 @@ const OrgInviteCodeTab: React.FC = () => {
   const [expiryMode, setExpiryMode] = useState<ExpiryMode>('30');
   const [customDays, setCustomDays] = useState('60');
 
+  // ── V3.15.8：超管跨公司代管 ──────────────────────────────
+  const isSuper = currentUser?.role === 'super_admin';
+  const [orgs, setOrgs] = useState<OrgOption[]>([]);
+  /** 当前正在查看/管理的公司；超管可切换，管理员恒为本公司（后端强制锁定） */
+  const [viewOrgId, setViewOrgId] = useState<string>('');
+
   const canManage = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
+
+  // 超管才有必要拉公司清单（管理员被后端锁定为只能管本公司）
+  const loadOrgs = useCallback(async () => {
+    if (!token || !isSuper) return;
+    try {
+      const res = await fetch('/api/orgs?limit=1000', {
+        headers: { Authorization: `Bearer ${token}` },
+        cache: 'no-store',
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) return;
+      const list: OrgOption[] = Array.isArray(data?.data) ? data.data : [];
+      setOrgs(list);
+      // 首次进入优先定位到「自己的公司」；若它不在列表中（异常数据）则退回第一家
+      setViewOrgId((prev) => prev || (currentUser?.org_id && list.some((o) => o.id === currentUser.org_id)
+        ? currentUser.org_id
+        : (list[0]?.id || '')));
+    } catch {
+      // 公司清单拉取失败不阻断页面：仍可按本公司（后端默认）查看邀请码
+    }
+  }, [token, isSuper, currentUser?.org_id]);
+
+  useEffect(() => {
+    void loadOrgs();
+  }, [loadOrgs]);
 
   const load = useCallback(async () => {
     if (!token) {
@@ -74,10 +124,13 @@ const OrgInviteCodeTab: React.FC = () => {
       setState(null);
       return;
     }
+    // 超管等公司清单就绪后再拉（否则会先按自己公司拉一次，造成闪烁与误判）
+    if (isSuper && !viewOrgId) return;
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/orgs/company-code', {
+      const qs = isSuper && viewOrgId ? `?orgId=${encodeURIComponent(viewOrgId)}` : '';
+      const res = await fetch(`/api/orgs/company-code${qs}`, {
         headers: { Authorization: `Bearer ${token}` },
         cache: 'no-store',
       });
@@ -94,11 +147,16 @@ const OrgInviteCodeTab: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [token]);
+  }, [token, isSuper, viewOrgId]);
 
   useEffect(() => {
     void load();
   }, [load]);
+
+  const selectedOrg = useMemo(
+    () => orgs.find((o) => o.id === viewOrgId) || null,
+    [orgs, viewOrgId]
+  );
 
   /** 统一的 PUT 调用 */
   const patch = useCallback(
@@ -106,7 +164,8 @@ const OrgInviteCodeTab: React.FC = () => {
       if (!token) return false;
       setActing(true);
       try {
-        const res = await fetch('/api/orgs/company-code', {
+        const qs = isSuper && viewOrgId ? `?orgId=${encodeURIComponent(viewOrgId)}` : '';
+        const res = await fetch(`/api/orgs/company-code${qs}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
           body: JSON.stringify(body),
@@ -118,6 +177,8 @@ const OrgInviteCodeTab: React.FC = () => {
         }
         if (data?.data) setState(data.data);
         setSnack({ open: true, msg: okMsg, severity: 'success' });
+        // 超管改的是别人公司的码时，刷新清单让「需代管」标记与最近更换时间保持准确
+        if (isSuper) void loadOrgs();
         return true;
       } catch {
         setSnack({ open: true, msg: '操作失败，请检查网络后重试', severity: 'error' });
@@ -126,7 +187,7 @@ const OrgInviteCodeTab: React.FC = () => {
         setActing(false);
       }
     },
-    [token]
+    [token, isSuper, viewOrgId, loadOrgs]
   );
 
   const copyCode = async () => {
@@ -179,7 +240,53 @@ const OrgInviteCodeTab: React.FC = () => {
       <Alert severity="info" sx={{ mb: 2, borderRadius: 2 }}>
         公司邀请码用于<strong>新同事注册时填写</strong>，等同于「加入本公司的凭证」。它由管理员统一发放、可设有效期、
         也可定期更换；<strong>更换后旧码立即失效</strong>，请及时把新码发给待加入的同事。
+        {isSuper && '作为超级管理员，您还可以在下方切换到任意公司代为管理邀请码。'}
       </Alert>
+
+      {/* V3.15.8：超管跨公司代管入口（补上「能力在后端、入口在前端缺失」的缺口） */}
+      {isSuper && (
+        <Paper sx={{ p: 2, borderRadius: 3, mb: 2 }} data-testid="invite-org-picker">
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5} alignItems={{ sm: 'center' }}>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ minWidth: 152 }}>
+              <Business fontSize="small" color="action" />
+              <Typography variant="subtitle2" fontWeight={600}>要管理的公司</Typography>
+            </Stack>
+            <Autocomplete
+              sx={{ flex: 1, minWidth: 260 }}
+              size="small"
+              options={orgs}
+              value={selectedOrg}
+              onChange={(_e, v) => setViewOrgId(v?.id || '')}
+              getOptionLabel={(o) => o.name || o.id}
+              isOptionEqualToValue={(a, b) => a.id === b.id}
+              groupBy={(o) => (o.needsCare ? '需代管（公司内无管理员）' : '其它公司')}
+              renderOption={({ key, ...props }, o) => (
+                <Box component="li" key={key} {...props} sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Box component="span" sx={{ flex: 1 }}>{o.name || o.id}</Box>
+                  <Chip size="small" label={`${o.memberCount} 人`} sx={{ height: 18, fontSize: '0.65rem' }} />
+                  {o.needsCare && (
+                    <Chip size="small" label="需代管" sx={{ height: 18, fontSize: '0.65rem', bgcolor: '#FEE2E2', color: '#B91C1C', fontWeight: 600 }} />
+                  )}
+                  {!o.hasAdmin && !o.needsCare && (
+                    <Chip size="small" label="无管理员" sx={{ height: 18, fontSize: '0.65rem', bgcolor: '#F1F5F9', color: '#64748B' }} />
+                  )}
+                </Box>
+              )}
+              renderInput={(p) => (
+                <TextField {...p} placeholder="输入公司名称可搜索…" data-testid="invite-org-select" />
+              )}
+            />
+          </Stack>
+        </Paper>
+      )}
+
+      {selectedOrg?.needsCare && (
+        <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }} data-testid="invite-caretaker-alert">
+          「{selectedOrg.name || selectedOrg.id}」目前<strong>没有管理员</strong>（{selectedOrg.memberCount} 名成员），
+          本公司没人能修改邀请码，正由您代为管理。
+          建议到「用户与权限 → 用户管理」指定一位成员为管理员，把权限交还本公司。
+        </Alert>
+      )}
 
       {error && (
         <Alert
@@ -201,6 +308,14 @@ const OrgInviteCodeTab: React.FC = () => {
               <Chip size="small" label={state.orgName} sx={{ bgcolor: '#EFF6FF', color: '#3B82F6' }} />
               {state.orgStatus === 'pending' && (
                 <Chip size="small" label="新公司待超级管理员批准" sx={{ bgcolor: '#F59E0B18', color: '#B45309', fontWeight: 600 }} />
+              )}
+              {isSuper && !!state.orgId && currentUser?.org_id !== state.orgId && (
+                <Chip
+                  size="small"
+                  label="代管其它公司"
+                  data-testid="invite-caretaker-chip"
+                  sx={{ bgcolor: '#EDE9FE', color: '#6D28D9', fontWeight: 600 }}
+                />
               )}
             </Stack>
 
