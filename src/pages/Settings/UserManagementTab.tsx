@@ -439,7 +439,10 @@ const UserManagementTab: React.FC = () => {
                           sx={{ height: 20, bgcolor: '#F59E0B18', color: '#B45309', fontWeight: 600 }}
                         />
                       )}
-                      {u.orgHasAdmin === false && u.role !== 'super_admin' && (
+                      {/* V3.15.8 补：待批新公司由紧邻的「新公司待批」角标负责，这里再标「暂无管理员」会让一屏出现两套口径
+                          （顶部横幅说 3 家、表格却标 130+ 行，与「只看需代管」的 10 条也对不上）→ 用户会认为功能不准。
+                          故此处只标「已生效」公司的行，与 loadOrphanOrgs() 的三条件口径保持一致。 */}
+                      {u.orgHasAdmin === false && u.role !== 'super_admin' && !!u.orgName && u.orgStatus !== 'pending' && (
                         <Tooltip title="该公司目前没有任何管理员：没人能审批新成员，也没人能管理邀请码，需由超级管理员代管">
                           <Chip
                             size="small"
@@ -510,7 +513,8 @@ const UserManagementTab: React.FC = () => {
                             </Button>
                           </Tooltip>
                         )}
-                        {canGrantAdmin && u.status === 'active' && u.orgHasAdmin === false && u.role !== 'admin' && (
+                        {/* 同上：只对「已生效」公司提供一键交还权限，待批新公司应先走批准流程 */}
+                        {canGrantAdmin && u.status === 'active' && u.orgHasAdmin === false && u.role !== 'admin' && !!u.orgName && u.orgStatus !== 'pending' && (
                           <Tooltip title="该公司目前没有管理员，成员审批与邀请码管理无人可做。若此人负责公司事务，可设为管理员把权限交还本公司">
                             <Button
                               size="small" color="success" variant="contained"
