@@ -130,7 +130,7 @@ export default function Login() {
     if (!name.trim()) return '请填写姓名';
     if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return '邮箱格式不正确';
     if (phone.trim() && !/^\d{6,20}$/.test(phone.trim())) return '手机号需为 6–20 位数字';
-    if (!companyCode.trim()) return '请填写公司码';
+    if (!companyCode.trim()) return '请填写公司邀请码';
     if (!agreed) return '请先阅读并同意《服务条款》与《隐私政策》';
     return null;
   }
