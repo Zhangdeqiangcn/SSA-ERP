@@ -180,7 +180,8 @@ export const searchIndex: SearchEntry[] = [
   { label: '多语言', path: '/platform/i18n', module: '系统', group: '系统设置', keywords: ['i18n', 'locale', '语言', '翻译', 'english', '本地化'], desc: '界面语言切换、词条覆盖与缺失词条补录', adminOnly: true },
   { label: '数据容量守护', path: '/platform/data-capacity', module: '系统', group: '系统设置', keywords: ['capacity', '容量', '体积', '大对象', 'app_state', '存储上限', '运维'], desc: '各数据域体积监控与超限预警', adminOnly: true },
   { label: '字段级权限', path: '/platform/field-permissions', module: '系统', group: '系统设置', keywords: ['field permission', '字段权限', '遮蔽', '脱敏'], desc: '字段级可见性与遮蔽规则', adminOnly: true },
-  { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档'], desc: 'ERP 使用说明书' },
+  { label: '系统信息（版本查询）', path: '/settings?tab=sysinfo', module: '系统', group: '帮助中心', keywords: ['version', '版本', '版本号', '系统信息', 'about', '关于', '构建', '发布日期', '运行环境', '升级'], desc: '查看当前系统版本、发布日期与运行环境（界面唯一版本号查询入口）' },
+  { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档', '版本更新记录', '变更记录'], desc: 'ERP 使用说明书（含版本更新记录）' },
   { label: '账号登录', path: '/login', module: '系统', group: '账号', keywords: ['login', '登录', '注册', '账号', '密码', '登出', 'logout', '公司码', '邀请码'], desc: '账号注册/登录与多人协同' },
   { label: '全流程自检', path: '/test/flow', module: '系统', group: '测试与诊断', keywords: ['selftest', '自检', '测试', '流程'], desc: '业务流程自检' },
 ];
