@@ -12,6 +12,7 @@ import AIAssistant from '@/components/AI/AIAssistant';
 import HelpButton from '@/components/Help/HelpButton';
 import GuidedTour from '@/components/Help/GuidedTour';
 import SyncStatusBanner from '@/components/common/SyncStatusBanner';
+import B2SyncStatus from '@/components/B2SyncStatus';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -33,6 +34,7 @@ const MainLayout: React.FC = () => {
       <HelpButton />
       <GuidedTour />
       <SyncStatusBanner />
+      <B2SyncStatus />
       <Box
         component="main"
         aria-label="主内容区"
