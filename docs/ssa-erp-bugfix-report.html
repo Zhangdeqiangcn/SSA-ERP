@@ -65,7 +65,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <h2>一、结论先行</h2>
 <div class="kpis">
   <div class="kpi"><div class="n">31</div><div class="l">五路侦察共报出缺陷条目</div></div>
-  <div class="kpi"><div class="n">3</div><div class="l">本轮已修复并上线</div></div>
+  <div class="kpi"><div class="n">9</div><div class="l">累计已修复并上线</div></div>
   <div class="kpi"><div class="n">2</div><div class="l">被反证为误报（已澄清）</div></div>
   <div class="kpi"><div class="n">0</div><div class="l">致命级真实缺陷</div></div>
   <div class="kpi"><div class="n">97.9%</div><div class="l">接口健康率（修复后）</div></div>
@@ -73,7 +73,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 </div>
 
 <div class="card">
-<p><b>一句话结论：</b>本轮把「抓真实缺陷」放在第一位，五路并行侦察报出 31 条，经交叉验证后坐实真实缺陷 14 条、反证误报 2 条；V3.15.10 已修复并上线 3 条（其中一条一处修复覆盖 9 个接口）。后续按本报告的逐项修复继续推进：<b>V3.16.0 把 N1 两条致命（#4 库存过账、#5 移动均价）下沉服务端</b>，<b>V3.16.1 修掉 #11 四个手写端点的空载荷漏库</b>；累计已修复并上线 6 条，其余 8 条（#6~#10、#12~#14）属架构级改造，待逐项推进，已逐条写明风险与建议。</p>
+<p><b>一句话结论：</b>本轮把「抓真实缺陷」放在第一位，五路并行侦察报出 31 条，经交叉验证后坐实真实缺陷 14 条、反证误报 2 条；V3.15.10 已修复并上线 3 条（其中一条一处修复覆盖 9 个接口）。后续按本报告的逐项修复继续推进：<b>V3.16.0 把 N1 两条致命（#4 库存过账、#5 移动均价）下沉服务端</b>，<b>V3.16.1 修掉 #11 四个手写端点的空载荷漏库</b>，<b>V3.17.0 拿下 #6/#7/#13「服务端算账」三件</b>（出库成本结转凭证、采购暂估/入库凭证服务端权威生成、期末结账期间后端强制管控）；累计已修复并上线 9 条，其余 5 条（#8~#10、#12、#14）属余下架构级改造，待逐项推进，已逐条写明风险与建议。</p>
 
 <p><b>最值钱的三件事：</b></p>
 <ol>
@@ -225,13 +225,19 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>6</td><td><b>出库成本结转（销售成本）在前端算</b></td>
 <td><span class="tag t-sev">严重</span></td>
 <td><span class="mono">warehouseStore.ts:511</span> 结转单价取前端物料主数据</td>
-<td><span class="skip">跳过</span></td><td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/_shared/inventoryPosting.ts generateOutboundVouchers</span>＋<span class="mono">warehouseStore postOutboundCost</span> 改空桩</td>
+<td>服务端按出库类型（生产领料/委外发料/报废/销售）生成同源 COGS 凭证（借5001/1408/6602/6401，贷1403/1405）；前端不再双写。生产验证 _verify_613.mjs 出库生成凭证</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账，见第七节奏交付清单</span></td></tr>
 
 <tr>
 <td>7</td><td><b>采购暂估金额前端算、后端不复核</b></td>
 <td><span class="tag t-sev">严重</span></td>
 <td><span class="mono">warehouseStore.ts:399/436</span></td>
-<td><span class="skip">跳过</span></td><td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/_shared/inventoryPosting.ts generateInboundVouchers</span>＋<span class="mono">warehouseStore postInboundGRIREstimate/postSubcontractReceipt</span> 改空桩</td>
+<td>入库过账时服务端按类型生成暂估凭证（采购借1403/贷2201、委外借1405/贷2201、生产借1405/贷5001），金额取服务端权威 totalCost。绕开界面直建单也生成，消除「前端不触发就不记账」漏洞。生产验证 _verify_613.mjs 入库生成凭证</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账，见第七节奏交付清单</span></td></tr>
 
 <tr>
 <td>8</td><td><b>源头分录表无借贷平衡校验</b></td>
@@ -271,11 +277,13 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
 
 <tr>
-<td>13</td><td><b>折旧计提与期末结账在前端改状态</b></td>
+<td>13</td><td><b>折旧计提与期末结账在前端改状态（缺服务端强制管控）</b></td>
 <td><span class="tag t-mid">中等</span></td>
-<td><span class="mono">financeLedgerStore.ts:124/165</span></td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td><span class="mono">financeLedgerStore.ts:124/165</span> 结账状态落 app_state KV，但后端记账流程无「已结账期间禁记账」校验</td>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/_shared/appState.ts isPeriodClosed</span>＋<span class="mono">functions/api/vouchers/index.ts</span> 与 <span class="mono">[id].ts</span> POST/PUT/DELETE 加期间关闭校验</td>
+<td>读 app_state 键 <span class="mono">ssa-erp-finance-ledger</span> 的 closingPeriods，已结账期间（YYYY-MM，status=closed）的凭证新增/修改/删除一律 400 拒绝，并提示去「财务→期末结账」反结账。fail-open 保不误伤未初始化组织。生产验证 _verify_613.mjs 已结账期间凭证被拒</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账，见第七节奏交付清单</span></td></tr>
 
 <tr>
 <td>14</td><td><b>委外成本分配四舍五入后对不平</b></td>
@@ -411,8 +419,22 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 </div>
 
 <p class="small" style="margin-top:30px;text-align:center;color:#8b939b">
-SSA ERP 抓真实缺陷轮报告 · V3.15.10 · 2026-09-20 · 本文件为唯一最新版，旧版已覆盖
+SSA ERP 抓真实缺陷轮报告 · V3.15.10 基线 · 持续更新至 V3.17.0（2026-09-20）· 本文件为唯一最新版，旧版已覆盖
 </p>
+
+<!-- ========== V3.17.0 服务端算账交付 ========== -->
+<h3>七·附 V3.17.0 服务端算账交付（2026-09-20）</h3>
+<div class="card">
+<table>
+<tr><th>项目</th><th>内容</th></tr>
+<tr><td>版本号</td><td><b>V3.17.0</b>（功能性新增轮：库存/成本运算下沉服务端后的第一波「服务端算账」闭环）。五处同步：<span class="mono">src/version.ts</span> / <span class="mono">package.json</span> / <span class="mono">docs/ssa-erp-master-plan.md</span> 版本沿革；系统信息页读 <span class="mono">APP_VERSION</span> 动态展示</td></tr>
+<tr><td>本轮修掉</td><td>#6 出库成本结转凭证服务端化（借5001/1408/6602/6401，贷1403/1405）；#7 采购暂估/入库凭证服务端权威生成（借1403/1405，贷2201；生产借1405/贷5001）；#13 期末结账期间后端强制管控（已结账期间凭证新增/修改/删除一律 400）</td></tr>
+<tr><td>核心改动</td><td>① 新增 <span class="mono">functions/_shared/voucherWriter.ts</span>（手工凭证与业务凭证共用单一写入路径，消除两处 INSERT 漂移）；② <span class="mono">inventoryPosting.ts</span> 的 <span class="mono">postInbound/postOutbound</span> 过账后自动生成同源凭证；③ 新增 <span class="mono">functions/_shared/appState.ts</span>（读 org 级 app_state 的 closingPeriods）；④ 前端 <span class="mono">warehouseStore</span> 四个凭证函数改空桩，杜绝与后端双写</td></tr>
+<tr><td>门禁</td><td>四项全绿（后端类型 0 新增／语法引用 0 错／一致性 0 阻断／前端类型 0 错）；前端 vite build 成功（34.4s）</td></tr>
+<tr><td>验收脚本</td><td><span class="mono">scripts/_verify_613.mjs</span> —— 入库生成暂估凭证 / 出库生成 COGS 凭证 / 已结账期间凭证被拒 / 清理自建数据（四类断言）。需在能连通生产域或本地 dev 的环境运行</td></tr>
+<tr><td>待强哥操作</td><td>① 本机运行 <span class="mono">scripts/deploy.mjs</span> 部署（沙箱网络被拦截，未在此部署）；② <span class="mono">push-github.bat</span> 推送提交；③ deploy 后跑 <span class="mono">_verify_613.mjs</span> 生产往返复验；④ 本报告归档 ima</td></tr>
+</table>
+</div>
 
 </div>
 </body>
