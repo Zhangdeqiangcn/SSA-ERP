@@ -974,6 +974,13 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31720',
+        title: 'V3.17.2（2026-09-19）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版修掉缺陷台账 #12：服务端 6 个文件各自写了一份金额／单价四舍五入函数（round2 / roundAmount / roundPrice），口径碰巧一致但无单一来源，后续改动极易漂移。**\n\n---\n\n**一、根因**\n\n金额精度函数散落在 `voucherGuard.ts`、`voucherWriter.ts`、`fixed-assets/index.ts`、`fixed-assets/deprecate.ts`、`inventoryPosting.ts`、`consolidation/index.ts` 共 6 个文件，每份各写一份 `round2`／`roundAmount`。同源两处实现一旦对不齐，账就会悄悄错（硬规矩㉝：同源两处实现必须对得上）。\n\n**二、改了什么**\n\n新增 `functions/_shared/money.ts` 作为唯一来源，导出 `roundAmount`（金额 2 位）与 `roundPrice`（单价 4 位，规避移动均价滚动误差）；6 个文件删掉本地副本、统一 `import` 共享。纯后端重构，接口与计算口径不变（`+EPSILON` 技巧对两位精度无实质影响，统一后行为一致）。\n\n**三、验证**\n\n后端类型检查 0 新增、语法＋打包 0 错误、对照 6 文件确认无残留本地副本。\n\n**四、版本与发布**\n\n五处版本号同步至 V3.17.2（src/version.ts / package.json / 项目记忆 / 本主计划 / 本手册）。注：V3.17.0（服务端算账闭环）、V3.17.1（折旧彻底服务端化）的说明书版本记录此前漏登，详见主计划 §八。' },
+        ],
+      },
+      {
         id: 'v31610',
         title: 'V3.16.1（2026-09-20）',
         blocks: [

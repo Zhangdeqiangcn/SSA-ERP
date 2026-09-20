@@ -65,7 +65,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <h2>一、结论先行</h2>
 <div class="kpis">
   <div class="kpi"><div class="n">31</div><div class="l">五路侦察共报出缺陷条目</div></div>
-  <div class="kpi"><div class="n">9</div><div class="l">累计已修复并上线</div></div>
+  <div class="kpi"><div class="n">10</div><div class="l">累计已修复并上线</div></div>
   <div class="kpi"><div class="n">2</div><div class="l">被反证为误报（已澄清）</div></div>
   <div class="kpi"><div class="n">0</div><div class="l">致命级真实缺陷</div></div>
   <div class="kpi"><div class="n">97.9%</div><div class="l">接口健康率（修复后）</div></div>
@@ -272,9 +272,11 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <tr>
 <td>12</td><td><b>金额四舍五入口径不统一</b></td>
 <td><span class="tag t-mid">中等</span></td>
-<td>散落 7 处以上：<span class="mono">utils/cost.ts:26/29</span>、<span class="mono">cashMgmtStore.ts:86</span>、<span class="mono">subcontractStore.ts:202-205</span>、<span class="mono">financeLedgerStore.ts:135</span> 等</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td>散落 6 个后端文件各写一份 round2／roundAmount／roundPrice（voucherGuard.ts、voucherWriter.ts、fixed-assets/index.ts、fixed-assets/deprecate.ts、inventoryPosting.ts、consolidation/index.ts），同源两处实现一旦对不齐账会悄悄错（硬规矩㉝）</td>
+<td><span class="done">已修</span></td>
+<td>新增 <span class="mono">functions/_shared/money.ts</span> 单一来源，导出 roundAmount（金额 2 位）与 roundPrice（单价 4 位）；6 个文件删本地副本、统一 import 共享。纯后端重构，计算口径不变（EPSILON 技巧对两位精度无实质影响）</td>
+<td>后端类型检查 0 新增、语法＋打包 0 错误、对照 6 文件确认无残留本地副本</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.2 金额精度统一，见第七节奏交付清单</span></td></tr>
 
 <tr>
 <td>13</td><td><b>折旧计提与期末结账在前端改状态</b></td>
