@@ -106,8 +106,10 @@ export const rollInMovingAverage = (
  * @param outQty    本次出库数量
  * @param unitCost  结转单价（缺省时由 原库存金额/原库存数量 推算）
  *
- * 注：不做负库存 clamp —— 超发时数量/金额转负，属需人工冲正的异常，
- *     强行归零会静默吞掉成本，导致利润虚高（比负库存更危险）。
+ * 注：超发（出库量大于库存）时数量与金额一律取 MAX(0, ...) 卡 0 —— 这是强哥 2026-09-20
+ *     拍板的「两账本都卡 0」策略（inventory 维度原本就卡 0，material 维度此前允许负，
+ *     本次统一）。卡 0 后 costAmount 仍按真实出库量×单价计提，成本不丢；超发属于异常
+ *     业务（需人工冲正），由业务侧告警兜住，而非在算法里悄悄生成负库存。
  */
 export const rollOutMovingAverage = (
   prevQty: number,
@@ -126,8 +128,8 @@ export const rollOutMovingAverage = (
   const costAmount = roundAmount(qo * price);
 
   return {
-    quantity: q0 - qo,
-    stockValue: roundAmount(v0 - costAmount),
+    quantity: Math.max(0, q0 - qo),
+    stockValue: Math.max(0, roundAmount(v0 - costAmount)),
     movingAvgPrice: price,
     costAmount,
     unitCost: price,
