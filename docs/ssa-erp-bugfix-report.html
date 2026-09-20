@@ -277,13 +277,13 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
 
 <tr>
-<td>13</td><td><b>折旧计提与期末结账在前端改状态（缺服务端强制管控）</b></td>
+<td>13</td><td><b>折旧计提与期末结账在前端改状态</b></td>
 <td><span class="tag t-mid">中等</span></td>
-<td><span class="mono">financeLedgerStore.ts:124/165</span> 结账状态落 app_state KV，但后端记账流程无「已结账期间禁记账」校验</td>
+<td><span class="mono">financeLedgerStore.ts:124/165</span> 结账状态与固定资产落 app_state KV，后端记账无「已结账期间禁记账」校验、折旧计提不产凭证</td>
 <td><span class="done">已修</span></td>
-<td><span class="mono">functions/_shared/appState.ts isPeriodClosed</span>＋<span class="mono">functions/api/vouchers/index.ts</span> 与 <span class="mono">[id].ts</span> POST/PUT/DELETE 加期间关闭校验</td>
-<td>读 app_state 键 <span class="mono">ssa-erp-finance-ledger</span> 的 closingPeriods，已结账期间（YYYY-MM，status=closed）的凭证新增/修改/删除一律 400 拒绝，并提示去「财务→期末结账」反结账。fail-open 保不误伤未初始化组织。生产验证 _verify_613.mjs 已结账期间凭证被拒</td>
-<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账，见第七节奏交付清单</span></td></tr>
+<td><span class="mono">functions/_shared/appState.ts isPeriodClosed</span>＋<span class="mono">functions/api/vouchers/index.ts</span> 与 <span class="mono">[id].ts</span> POST/PUT/DELETE 加期间关闭校验；<b>V3.17.1 再把固定资产从 KV 迁入关系表 <span class="mono">fixed_assets</span>（迁移0070＋RLS 登记 fixed_assets:'all'），新增 <span class="mono">/api/fixed-assets</span> 的 GET/POST/PUT/DELETE 与 <span class="mono">/api/fixed-assets/depreciate</span> 计提端点</b>：计提由服务端更新在用资产累计折旧/净值并生成折旧凭证（借6602 管理费用-折旧/贷1602 累计折旧）进 vouchers，受已结账期间硬管控，同期间幂等；存量经 GET 首次访问惰性回填 KV；前端 <span class="mono">financeLedgerStore</span> 的 fixedAssets 改服务端镜像（loadFixedAssets/add/update/delete/scrap/deprecateAll 全异步调接口），closingPeriods 仍留 KV</td>
+<td>读 app_state 键 <span class="mono">ssa-erp-finance-ledger</span> 的 closingPeriods，已结账期间（YYYY-MM，status=closed）的凭证新增/修改/删除一律 400 拒绝，并提示去「财务→期末结账」反结账。fail-open 保不误伤未初始化组织。生产验证 _verify_613.mjs 已结账期间凭证被拒；<b>V3.17.1 折旧计提彻底服务端化</b>，_verify_depreciation.mjs 覆盖计提生成凭证/同期间幂等/已结账期间被拒/清理还原</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账（结账管控）＋V3.17.1 折旧彻底服务端化，见第七节奏交付清单</span></td></tr>
 
 <tr>
 <td>14</td><td><b>委外成本分配四舍五入后对不平</b></td>

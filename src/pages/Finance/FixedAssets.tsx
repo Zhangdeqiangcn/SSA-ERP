@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Grid, Alert, Snackbar
@@ -28,7 +28,7 @@ export default function FixedAssets() {
 
   const totalMonthly = fixedAssets.filter((a) => a.status === 'in_use').reduce((s, a) => s + a.monthlyDepreciation, 0);
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const originalValue = Number(form.originalValue);
     const residualRate = Number(form.residualRate);
     const usefulLifeMonths = Number(form.usefulLifeMonths);
@@ -55,42 +55,30 @@ export default function FixedAssets() {
       createdBy: '当前用户',
       updatedBy: '当前用户',
     };
-    addFixedAsset(asset);
+    await addFixedAsset(asset);
     setOpen(false);
     setForm({ assetCode: '', assetName: '', category: '生产设备', originalValue: '', residualRate: '0.05', usefulLifeMonths: '120', startDate: '2026-01-01' });
     setError('');
     setSnack('固定资产已新增');
   };
 
-  const handleDeprecate = () => {
-    const total = deprecateAll();
+  const handleDeprecate = async () => {
+    // ★ V3.17.1 服务端权威计提：服务端更新累计折旧并生成折旧凭证（借6602/贷1602）
+    const r = await deprecateAll();
+    const total = r.total;
     if (total <= 0) {
       setSnack('当前无在用资产可计提折旧');
       return;
     }
-    const stamp = Date.now();
-    const voucherNo = `V-DEPR-AUTO-${stamp}`;
-    const entries = [
-      {
-        id: `ae-fa-${stamp}-1`, entryNo: `JEF${stamp}1`, date: new Date().toISOString().slice(0, 10),
-        description: `计提固定资产折旧 ${voucherNo}`, debitAccount: '管理费用', creditAccount: '',
-        amount: total, currency: 'CNY', voucherNo, createdBy: '当前用户', createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(), updatedBy: '当前用户',
-      },
-      {
-        id: `ae-fa-${stamp}-2`, entryNo: `JEF${stamp}2`, date: new Date().toISOString().slice(0, 10),
-        description: `累计折旧 ${voucherNo}`, debitAccount: '', creditAccount: '累计折旧',
-        amount: total, currency: 'CNY', voucherNo, createdBy: '当前用户', createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(), updatedBy: '当前用户',
-      },
-    ];
-    useFinanceStore.getState().addAccountEntry(entries[0]);
-    useFinanceStore.getState().addAccountEntry(entries[1]);
-    setSnack(`已计提折旧 ${fmt(total)} 并生成凭证 ${voucherNo}`);
+    setSnack(
+      r.duplicated
+        ? `本期折旧已计提（凭证 ${r.voucherNo}），合计 ${fmt(total)}`
+        : `已计提折旧 ${fmt(total)} 并生成凭证 ${r.voucherNo}`
+    );
   };
 
-  const handleScrap = (id: string) => {
-    scrapFixedAsset(id, new Date().toISOString().slice(0, 10));
+  const handleScrap = async (id: string) => {
+    await scrapFixedAsset(id, new Date().toISOString().slice(0, 10));
     setSnack('资产已报废');
   };
 
