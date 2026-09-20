@@ -65,7 +65,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <h2>一、结论先行</h2>
 <div class="kpis">
   <div class="kpi"><div class="n">31</div><div class="l">五路侦察共报出缺陷条目</div></div>
-  <div class="kpi"><div class="n">11</div><div class="l">累计已修复并上线</div></div>
+  <div class="kpi"><div class="n">12</div><div class="l">累计已修复并上线</div></div>
   <div class="kpi"><div class="n">2</div><div class="l">被反证为误报（已澄清）</div></div>
   <div class="kpi"><div class="n">0</div><div class="l">致命级真实缺陷</div></div>
   <div class="kpi"><div class="n">97.9%</div><div class="l">接口健康率（修复后）</div></div>
@@ -294,9 +294,11 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <tr>
 <td>14</td><td><b>委外成本分配四舍五入后对不平</b></td>
 <td><span class="tag t-mid">中等</span></td>
-<td><span class="mono">subcontractStore.ts:202-205</span> 混用 ×100／÷100／×10000</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td><span class="mono">subcontractStore.ts:202-205</span> 混用 ×100／÷100／×10000；另有<b>两处更深根因</b>：新建入库单漏存 <span class="mono">subcontract_material_cost</span> 列（静默丢数据）、服务端委外入库凭证未拆账（全额挂 GR/IR，1408 永不结转）</td>
+<td><span class="done">已修</span></td>
+<td><b>V3.17.6</b>：① <span class="mono">functions/api/inbound-orders/index.ts</span> 的 POST <span class="mono">INSERT</span> 补 <span class="mono">subcontract_material_cost</span> 列并落库；② <span class="mono">inventoryPosting.generateInboundVouchers</span> 的委外分支拆账为 借1405（全额）／贷1408（材料成本）／贷2201（加工费），材料成本缺失时退化为全额挂 2201 兼容旧数据，且钳制不超过总额保证平衡；③ <span class="mono">subcontractStore.receiveSubcontract</span> 分摊改「按累计量差分」，四舍五入统一到 <span class="mono">utils/cost.ts</span></td>
+<td>纯逻辑实跑对照：差分法分 3 次收货累计精确 = 1000，旧算法累计 = 999.99（差 0.01）；拆账 借1405=100／贷1408=66.67／贷2201=33.33 借贷平衡；后端 tsc 0 新增、语法+打包 0 错、前端 tsc 0 错。生产域验证脚本 <span class="mono">_verify_14_subcontract_cost.mjs</span></td>
+<td><span class="tag t-ok">成功</span></td></tr>
 
 <tr>
 <td>15</td><td>【误报·已澄清】入库单／出库单创建必失败</td>
