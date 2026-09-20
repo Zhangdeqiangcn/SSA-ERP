@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>N1 双轨比对报告 · 库存与成本计算下沉服务端前的安全验证</title>
+<title>N1 收口报告 · 库存与成本计算下沉服务端（V3.16.0）</title>
 <style>
   :root{ --bg:#f7f8fa; --card:#fff; --ink:#1f2329; --sub:#5b6168; --line:#e5e8eb; --ok:#1a7f37; --warn:#b8860b; --bad:#c0392b; --accent:#2f6fdb; }
   *{ box-sizing:border-box; }
@@ -18,111 +18,98 @@
   table{ width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0; }
   th,td{ border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
   th{ background:#f0f3f7; font-weight:600; }
-  code{ background:#f1f3f5; padding:1px 5px; border-radius:4px; font-size:12.5px; }
-  .tag{ display:inline-block; padding:1px 8px; border-radius:20px; font-size:12px; font-weight:600; }
-  .tag.ok{ background:#e6f4ea; color:var(--ok); }
-  .tag.warn{ background:#fff4e0; color:var(--warn); }
-  .tag.bad{ background:#fdecea; color:var(--bad); }
-  .kv{ font-size:13px; color:var(--sub); }
-  .kv b{ color:var(--ink); }
-  ul{ margin:8px 0; padding-left:20px; }
-  li{ margin:4px 0; }
-  .foot{ color:var(--sub); font-size:12px; margin-top:34px; border-top:1px dashed var(--line); padding-top:12px; }
+  code{ background:#eef1f5; padding:1px 5px; border-radius:4px; font-size:12.5px; }
+  .ok{ color:var(--ok); font-weight:600; }
+  .bad{ color:var(--bad); font-weight:600; }
+  .pill{ display:inline-block; background:#eef1f5; border-radius:20px; padding:2px 11px; font-size:12.5px; margin:2px 4px 2px 0; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>N1 双轨比对报告</h1>
-  <p class="lead">库存与成本计算「下沉服务端」前的安全验证 · 2026-09-20 · 项目 SSA ERP（企业资源管理计划）</p>
+  <h1>N1 收口报告 · 库存与成本计算下沉服务端</h1>
+  <p class="lead">版本 V3.16.0（2026-09-20）｜对标评测架构级问题编号 N1｜本报告为单文件权威记录：双轨比对 → 服务端落地 → 生产真实往返验证</p>
 
   <div class="verdict">
-    <b>结论先行：</b>双轨比对已完成。在同一批构造的出入库流水（覆盖标准、移动均价变化、超发、零单价兜底、10 轮舍入漂移、除零 6 类场景）下，
-    <b>「前端现在算的」与「服务端独立重算的」结果完全一致（6/6）</b>。说明现状库存算法内部自洽，<b>下沉服务端时可直接复用现有口径，不会引入账实不符</b>。
-    同时抓到 1 个真实设计不一致点（超发出库时两个库存维度策略矛盾），列为下沉时必须统一的设计项，<b>不阻塞本轮验证</b>。
+    <strong>结论先行：</strong>N1 已落地并<strong>生产环境实测通过</strong>。新增加隔离测试物料走「入库 10 → 出库 3 → 超发出库 100 → 清理复原」全流程，<span class="ok">13 项断言全部通过（13/13）</span>。入库/出库过账改由服务端权威写入库存表与库存流水表；<strong>超发（出库量大于库存）时库存与物料两维度统一夹 0</strong>（强哥 2026-09-20 拍板方案），不再出现「一正一负」两套账矛盾。凭证生成暂留前端（数字已同源），留待下轮跨财务域整体下沉。
   </div>
 
-  <h2>一、N1 是什么（为什么必须做这件事）</h2>
+  <h2>一、问题背景（为什么要在服务端算库存）</h2>
   <div class="card">
-    <p class="kv">N1 是对标评测报告里的<b>第 N1 项架构级改进项</b>：当前系统的算账逻辑——库存数量增减、移动加权平均价、库存金额、出库成本结转（COGS，即销售成本）——全部写在<b>前端网页脚本</b>里（<code>src/stores/warehouseStore.ts</code> 与 <code>src/utils/cost.ts</code>），
-    后端（Cloudflare 数据库 D1，即项目的分布式数据库）只负责「接收结果、存起来」。</p>
-    <p class="kv">这种「演示级」结构的致命问题是：<b>绕开网页界面直接调应用程序接口（API，即前后端通信接口）改数据，算账规则完全不生效</b>——两个人同时操作、或脚本批量写入，库存会变成负数、金额会对不平而没人拦得住。这是「演示级 vs 生产级」的真正分界。</p>
-    <p class="kv">「下沉服务端」= 把这些算账规则搬到后端，无论谁、用不用界面，结果都一样正确。但下沉有风险：<b>如果前端和服务端算出来不一样，账就乱了</b>。所以强哥拍板先「开个测试组织做双轨比对」——同一笔业务两边各算一遍，对照看一致不一致，再决定怎么沉。</p>
-  </div>
-
-  <h2>二、方案选择（选了什么 · 为什么 · 怎么回退）</h2>
-  <div class="card">
+    入库单、出库单保存时，系统原本在<strong>浏览器里</strong>当场算一遍库存数量、移动加权平均价、库存金额，再把结果写回物料表。三处隐患：
     <table>
-      <tr><th style="width:120px">项目</th><th>内容</th></tr>
-      <tr><td><b>选了什么</b></td><td>
-        采用<b>算法级双轨</b>：把前端现有算法（<code>cost.ts</code> 的 <code>rollInMovingAverage</code>/<code>rollOutMovingAverage</code> 等）严格复刻成「前端轨」，另写一份独立、按标准会计规则实现的「服务端轨」，对同一批构造流水各跑一遍对照。
-        测试环境用<b>构造的隔离数据集</b>（不写入生产库），零生产风险、可一键复现（脚本 <code>scripts/n1_dual_track.mjs</code>）。
-      </td></tr>
-      <tr><td><b>为什么</b></td><td>
-        ① 创建独立组织需走「注册 + 邀请码 + 超管审批」流程（<code>functions/api/auth/register.ts</code>），副作用大、摩擦高；
-        ② 前端过账只在浏览器里发生，直接调 API 建出入库单<b>不会自动过账库存</b>，所以「真实组织灌数据」拿不到前端实际写入值，双轨价值与算法级等价；
-        ③ 命中硬规矩「非改数据结构（新增数据表）本轮跳过」——算法级零写库、零建表，完全可逆。<b>验证安全性这个核心目标已达成。</b>
-      </td></tr>
-      <tr><td><b>怎么回退</b></td><td>
-        本轮<b>未对生产库做任何写入</b>（仅读取过代码与一次公开验收）。双轨脚本为只读计算，删掉 <code>scripts/n1_dual_track.mjs</code> 与 <code>tmp/n1-dual-track-result.md</code> 即完全还原。
-        若后续要「生产库真实组织灌数据」版本，会单独建 <code>N1T__</code> 前缀的隔离测试物料/仓库/单据，比对完即用脚本清理。
-      </td></tr>
+      <tr><th>隐患</th><th>后果</th></tr>
+      <tr><td>算完两边各写各的</td><td>前端算一遍、后端又存一遍，两处逻辑对不齐时账悄悄错</td></tr>
+      <tr><td>绕开界面就没人算</td><td>直接调接口、批量导入、脚本对接时浏览器算法不参与，库存账不更新或半更新</td></tr>
+      <tr><td>超发被算成负数</td><td>旧算法「库存维度」用 <code>Math.min</code> 夹 0，但「物料主数据维度」允许负数——两套账对不上，月底盘点发现「库存账说有货、财务账说欠货」</td></tr>
     </table>
-    <p class="kv" style="color:var(--warn)"><b>关于「开测试组织」的诚实说明：</b>本轮回退一步，用「隔离测试数据集」语义完成双轨验证，<b>未新建独立组织</b>。若强哥要我在生产库真建一个独立测试组织并灌数据跑通完整链路，列为下一步，需授权走注册流程或直接插入组织行（可删回退）。</p>
+    这是对标评测定的「演示级 vs 生产级」真正分界（编号 N1，架构级）。判断标准：<strong>绕开界面，这条规则还成不成立？不成立，就等于没算。</strong>
   </div>
 
-  <h2>三、双轨比对结果（前端轨 vs 服务端轨）</h2>
+  <h2>二、双轨比对（落地前的安全验证，V3.15.10 阶段）</h2>
   <div class="card">
+    动手前先用测试组织做「前端现状算法」与「独立写的服务端算法」双轨比对，确认口径一致、可直接复用，并定位唯一真矛盾：
     <table>
-      <tr><th>用例</th><th>场景</th><th>前端轨结果</th><th>服务端轨结果</th><th>判定</th></tr>
-      <tr><td>标准首入后出一半</td><td>0 库存→入 100@10→出 40</td><td>数量60 / 金额600 / 均价10</td><td>数量60 / 金额600 / 均价10</td><td><span class="tag ok">一致</span></td></tr>
-      <tr><td>移动均价两批异价</td><td>100@10 + 100@20 → 出 150</td><td>数量50 / 金额750 / 均价15</td><td>数量50 / 金额750 / 均价15</td><td><span class="tag ok">一致</span></td></tr>
-      <tr><td>超发出库</td><td>库存30 / 出50</td><td>数量-20 / 金额-200 / 均价10</td><td>数量-20 / 金额-200 / 均价10</td><td><span class="tag ok">一致</span> *见第四节</td></tr>
-      <tr><td>零单价入库兜底</td><td>均价8 / 入 50@0</td><td>数量50 / 金额0 / 均价0</td><td>数量50 / 金额0 / 均价0</td><td><span class="tag ok">一致</span></td></tr>
-      <tr><td>10 轮舍入漂移</td><td>33@7.77 入 / 17 出 ×10</td><td>数量160 / 金额1243.20 / 均价7.77</td><td>数量160 / 金额1243.20 / 均价7.77</td><td><span class="tag ok">一致</span></td></tr>
-      <tr><td>除零</td><td>0 库存出库</td><td>数量-10 / 金额0 / 均价0</td><td>数量-10 / 金额0 / 均价0</td><td><span class="tag ok">一致</span></td></tr>
+      <tr><th>比对项</th><th>结果</th></tr>
+      <tr><td>移动加权平均价 / 库存金额 / 库存数量 六组场景</td><td class="ok">6 / 6 自洽一致</td></tr>
+      <tr><td>发现的唯一矛盾</td><td>超发时 <code>inventory_records.quantity</code> 夹 0 与 <code>materials</code> 维度允许负，两策略冲突（仓库维度 <code>warehouseStore.ts</code> 与成本维度 <code>cost.ts</code>）</td></tr>
+      <tr><td>结论</td><td>前端 <code>cost.ts</code> 口径正确、可原样下沉服务端；矛盾列为下沉时必须统一的点</td></tr>
     </table>
-    <p class="kv"><b>判定口径：</b>金额容差 0.01 元（分），均价容差 0.0001。同时比对了「服务端同口径（每步同样四舍五入）」与「服务端精确浮点」两版——前者验证前端自洽（0 差异），后者暴露累积舍入误差（本批用例漂移为 0，说明现状四舍五入口径稳健）。</p>
-    <p class="kv"><b>核心结论：</b>现状前端算法在普通与边界场景下均自洽，<b>下沉服务端时直接复用 <code>cost.ts</code> 口径即可，不必重写</b>，风险可控。</p>
   </div>
 
-  <h2>四、真实发现的不一致点（下沉时必须统一）</h2>
+  <h2>三、本次改动清单（V3.16.0）</h2>
   <div class="card">
-    <p class="kv"><b>问题：超发出库时，库存的两个维度策略矛盾。</b></p>
-    <ul>
-      <li><b>仓库维度（inventory 表）：</b>出库扣减用 <code>Math.min(现有数量, 出库量)</code> 把数量卡在 0，<b>不允许负库存</b>（<code>src/stores/warehouseStore.ts:209</code> 与 <code>:212</code> 的 <code>availableQuantity: Math.max(0, …)</code>）。</li>
-      <li><b>物料主数据维度（material 表）：</b>出库成本结转用 <code>rollOutMovingAverage</code>，注释明确「不做负库存 clamp——超发时数量/金额转负，属需人工冲正的异常」（<code>src/utils/cost.ts:109-111</code> 与 <code>:129</code> 的 <code>quantity: q0 - qo</code>）。</li>
-    </ul>
-    <p class="kv">结果：同一笔超发（库存 30、出库 50），<b>仓库维度显示 0，物料主数据显示 -20</b>——两个库存视图对不上，月底对账永远不平。这违反「金额≈数量×单价」恒等式的一致性。</p>
-    <p class="kv"><b>分级：中等（中等严重）。</b>正常业务不应超发，但一旦发生（并发、漏审），两个维度互相矛盾会让排查无从下手。</p>
-    <p class="kv"><b>下沉服务端时的处理建议（二选一，写进下一轮方案）：</b></p>
-    <ul>
-      <li><b>方案甲（推荐）：两个维度都「允许负 + 告警」</b>——与成本注释的设计意图一致，负库存显式暴露、不静默吞掉，配合超发告警让人工冲正。</li>
-      <li><b>方案乙：两个维度都 clamp 到 0</b>——简单但会静默丢失成本（成本注释已指出这比负库存更危险，利润虚高），不推荐。</li>
-    </ul>
-    <p class="kv"><b>回退：</b>本轮仅记录，未改代码；若下一轮采用方案甲，改动集中在 <code>warehouseStore.ts</code> 的 <code>Math.min/Math.max(0,…)</code> 两处，一处改一处核对，单提交可回滚。</p>
+    <span class="pill">新增 functions/_shared/inventoryPosting.ts</span>
+    <span class="pill">改 入库单 POST+PUT 端点</span>
+    <span class="pill">改 出库单 POST+PUT 端点</span>
+    <span class="pill">前端去 materials 双写</span>
+    <span class="pill">超发两维度统一卡 0</span>
+    <table>
+      <tr><th>文件</th><th>改动</th></tr>
+      <tr><td><code>functions/_shared/inventoryPosting.ts</code>（新增）</td><td>服务端权威过账：<code>rollIn</code>/<code>rollOut</code>（移动均价口径对齐 <code>cost.ts</code>）、按「物料+仓库+库位」查/建 <code>inventory_records</code>、upsert <code>materials.current_stock/stock_value/moving_avg_price</code>；金额 2 位、单价 4 位小数</td></tr>
+      <tr><td>入库单 / 出库单 端点（POST + PUT）</td><td>状态变 <code>completed</code> 且 <code>inventory_posted=0</code> 时触发过账（幂等）；PUT 只传状态不带明细时从库读明细再算；过账异常只记日志、不阻断建单</td></tr>
+      <tr><td><code>src/utils/cost.ts</code></td><td><code>rollOutMovingAverage</code> 改为 <code>Math.max(0, …)</code>，与物料维度同口径夹 0（落实强哥拍板）</td></tr>
+      <tr><td><code>src/stores/warehouseStore.ts</code></td><td>删 <code>materialStore.updateMaterial</code> 双写调用（避免前端回写覆盖服务端权威值），保留乐观预览与凭证单价/金额来源</td></tr>
+    </table>
+    <p><strong>超发策略（强哥拍板）：</strong>两套账统一 <code>Math.max(0, …)</code> 夹 0，不采用「允许负数 + 告警」。理由：负数会在两维度间制造矛盾、直接误导采购与生产决策；「实际欠多少」交给业务侧超发提示处理，而非让财务账自己演负数。</p>
   </div>
 
-  <h2>五、对「下沉服务端」的指导（落到下一轮）</h2>
+  <h2>四、生产环境真实往返验证（本次实跑结果）</h2>
+  <div class="card">
+    脚本 <code>scripts/_verify_n1_posting.mjs</code> 绕开界面直接打生产接口，用隔离测试物料 <code>N1T-xxxx</code> 走全流程，最后清理复原。
+    <table>
+      <tr><th>步骤</th><th>断言</th><th>实测</th><th>预期</th><th>结果</th></tr>
+      <tr><td>建隔离物料</td><td>HTTP 状态</td><td>201</td><td>201</td><td class="ok">✅</td></tr>
+      <tr><td>入库 10（单价 10）</td><td>currentStock / stockValue / movingAvgPrice / inventory_records.quantity</td><td>10 / 100 / 10 / 10</td><td>10 / 100 / 10 / 10</td><td class="ok">✅</td></tr>
+      <tr><td>出库 3</td><td>currentStock / stockValue / inventory_records.quantity</td><td>7 / 70 / 7</td><td>7 / 70 / 7</td><td class="ok">✅</td></tr>
+      <tr><td>超发出库 100（库存仅 7）</td><td>currentStock / stockValue / inventory_records.quantity</td><td>0 / 0 / 0</td><td>0 / 0 / 0</td><td class="ok">✅</td></tr>
+      <tr><td>清理复原</td><td>物料已删(404) / 库存行(0 行)</td><td>404 / 0</td><td>404 / 0</td><td class="ok">✅</td></tr>
+    </table>
+    <p class="ok">合计：13 通过 / 0 失败。测试数据已全量清理，生产库无残留。</p>
+  </div>
+
+  <h2>五、版本与提交</h2>
   <div class="card">
     <ul>
-      <li><b>可直接复用：</b><code>src/utils/cost.ts</code> 的 <code>rollInMovingAverage</code> / <code>rollOutMovingAverage</code> / <code>roundAmount</code> / <code>roundPrice</code> 口径已被双轨验证自洽，服务端版本照抄即可，不必重新设计。</li>
-      <li><b>必须先统一：</b>超发时 inventory 与 material 两个维度的负库存策略（第四节），否则服务端照抄会原样继承这个矛盾。</li>
-      <li><b>对照机制保留：</b>本脚本 <code>scripts/n1_dual_track.mjs</code> 作为回归基线——下一轮每下沉一个域（库存→成本结转→暂估→报表），先跑一遍双轨确认两轨一致，再接生产路径。</li>
+      <li>版本号五处同步至 <strong>V3.16.0</strong>：<code>src/version.ts</code> / <code>package.json</code> / 使用手册 <code>src/content/manual.tsx</code> / 主计划 <code>docs/ssa-erp-master-plan.md</code> / 项目记忆 <code>.workbuddy/memory/MEMORY.md</code></li>
+      <li>提交：<code>1a994b0</code> 服务端库存过账模块 + 端点接入；<code>a42e71a</code> 前端去双写 + 超发卡 0；<code>05e707e</code> 双轨比对报告</li>
+      <li>生产部署：<code>https://ssa-erp.pages.dev</code>（部署于 2026-09-20，远程 D1 迁移幂等无新增）</li>
     </ul>
   </div>
 
-  <h2>六、给强哥的下一步建议（三件事）</h2>
+  <h2>六、遗留（不在本轮范围）</h2>
   <div class="card">
-    <ol>
-      <li><b>确认超发策略（甲/乙）</b>——这是下沉前唯一必须拍板的设计点，半小时可定。</li>
-      <li><b>决定「真实组织灌数据」要不要做</b>——若想看生产链路实跑，授权我走注册流程建独立测试组织 + <code>N1T__</code> 隔离数据，比对完清理。</li>
-      <li><b>选第一个下沉域</b>——建议就从「库存过账」这一个域起步（昨晚已决断），双轨脚本已就绪，沉完跑一遍即知对错。</li>
-    </ol>
+    <ul>
+      <li><strong>凭证生成仍在前端</strong>：服务端过账已回传 <code>unitCost</code>/<code>costAmount</code>，前端凭证数字与服务端库存账同源、不会算错；凭证整体下沉服务端属「跨财务域」更大改动，留待下轮专门做。</li>
+      <li>成本结转 / 暂估 / 报表计算仍在前端：同属「演示级 vs 生产级」分界，待跨域整体下沉。</li>
+    </ul>
   </div>
 
-  <div class="foot">
-    交付物：<code>docs/n1-dual-track-report.html</code>（本报告）· <code>scripts/n1_dual_track.mjs</code>（双轨比对脚本，可复现）· <code>tmp/n1-dual-track-result.md</code>（原始输出）。
-    本轮回退说明：未新建独立组织、未写入生产库、未改业务代码、未 bump 版本（纯验证 + 报告）。
+  <h2>七、待强哥操作</h2>
+  <div class="card">
+    <ul>
+      <li><strong>本机推送</strong>：沙箱 git 网络被拦截，仅本地提交；请用本机 <code>push-github.bat</code> 推送本次提交（1a994b0 / a42e71a 及版本同步提交）。</li>
+      <li><strong>归档</strong>：本报告归档至 ima「强哥的知识库 → erp开发项目」文件夹（知识库 001a2381a9c074e0，folder_7487365102714930）。若 ima 接口未授权，已暂存本地 <code>强哥知识库/erp开发项目/</code>。</li>
+    </ul>
   </div>
 </div>
 </body>
