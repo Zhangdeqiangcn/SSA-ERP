@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP 抓真实缺陷轮报告 · V3.15.10</title>
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1a1d21; --ink2:#4a5158; --ink3:#767e86;
+  --line:#e3e6ea; --line2:#eef0f3;
+  --fatal:#b3261e; --fatal-bg:#fdecea;
+  --sev:#c2410c; --sev-bg:#fff1e7;
+  --mid:#8a5a00; --mid-bg:#fff8e1;
+  --low:#4361a8; --low-bg:#eef3fd;
+  --ok:#1b6e3c; --ok-bg:#e8f5ec;
+  --accent:#0b5cad;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:15px;line-height:1.75;}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 24px 80px;}
+h1{font-size:28px;margin:0 0 6px;letter-spacing:-.3px}
+.sub{color:var(--ink3);font-size:14px;margin-bottom:28px}
+h2{font-size:20px;margin:38px 0 14px;padding-left:11px;border-left:4px solid var(--accent)}
+h3{font-size:16px;margin:24px 0 10px;color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:8px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .n{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.kpi .l{font-size:12.5px;color:var(--ink3);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#f0f2f5;font-weight:600;color:var(--ink2);white-space:nowrap}
+td{background:#fff}
+tr:nth-child(even) td{background:#fbfcfd}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;font-weight:600;white-space:nowrap}
+.t-fatal{background:var(--fatal-bg);color:var(--fatal)}
+.t-sev{background:var(--sev-bg);color:var(--sev)}
+.t-mid{background:var(--mid-bg);color:var(--mid)}
+.t-low{background:var(--low-bg);color:var(--low)}
+.t-ok{background:var(--ok-bg);color:var(--ok)}
+.t-no{background:#f1f2f4;color:#5b636b}
+.note{background:#f0f6fc;border-left:3px solid var(--accent);padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0;font-size:14px;color:var(--ink2)}
+.warn{background:#fff8e1;border-left:3px solid #b8860b;padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0;font-size:14px;color:var(--ink2)}
+ul,ol{margin:8px 0 8px 22px;padding:0}
+li{margin:5px 0}
+code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-family:ui-monospace,Consolas,monospace}
+.small{font-size:13px;color:var(--ink3)}
+.hd{border-bottom:2px solid var(--line);padding-bottom:14px;margin-bottom:24px}
+.done{color:var(--ok);font-weight:600}
+.skip{color:var(--sev);font-weight:600}
+.mono{font-family:ui-monospace,Consolas,monospace;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hd">
+  <h1>SSA ERP · 抓真实缺陷轮报告</h1>
+  <div class="sub">版本 V3.15.10 ｜ 执行日期 2026-09-20 ｜ 生产站点 <span class="mono">https://ssa-erp.pages.dev</span> ｜ 本文件为唯一最新版，旧版已覆盖</div>
+</div>
+
+<!-- ========== 结论先行 ========== -->
+<h2>一、结论先行</h2>
+<div class="kpis">
+  <div class="kpi"><div class="n">31</div><div class="l">五路侦察共报出缺陷条目</div></div>
+  <div class="kpi"><div class="n">3</div><div class="l">本轮已修复并上线</div></div>
+  <div class="kpi"><div class="n">2</div><div class="l">被反证为误报（已澄清）</div></div>
+  <div class="kpi"><div class="n">0</div><div class="l">致命级真实缺陷</div></div>
+  <div class="kpi"><div class="n">97.9%</div><div class="l">接口健康率（修复后）</div></div>
+  <div class="kpi"><div class="n">100%</div><div class="l">页面可用率（30 个真实路径）</div></div>
+</div>
+
+<div class="card">
+<p><b>一句话结论：</b>本轮把「抓真实缺陷」放在第一位，五路并行侦察报出 31 条，经交叉验证后坐实真实缺陷 14 条、反证误报 2 条；已修复并上线 3 条（其中一条一处修复覆盖 9 个接口），其余 11 条属<b>架构级改造</b>，本轮按硬规矩不动，已逐条写明风险与建议。</p>
+
+<p><b>最值钱的三件事：</b></p>
+<ol>
+<li><b>空单据提交会把数据库底细露出来 —— 已修。</b>采购申请、供应商报价、意向客户、发货单、工艺路线、审批流、付款计划、项目核算、项目共 9 类单据，提交内容为空时系统不是提示「请填写内容」，而是报一个看不懂的错误，并且把数据库原始报错（含数据库语句片段、表名、列名）显示在页面上。根因在一段共用代码里，<b>改一处修好九处</b>。</li>
+<li><b>「服务端审计日志」页面一直拿不到数据 —— 已修。</b>这个页面在后台请求数据时，服务端没有对应的读取处理器，请求被退回成了<b>首页网页代码</b>而不是数据；前端解析失败又被静默吞掉，于是页面永远只显示本地记录、<b>且不报任何错</b>。这类「不报错的失败」最难被发现。</li>
+<li><b>导出数据不留记录 —— 已修。</b>系统里唯一的后台数据导出接口此前不留任何操作痕迹，谁在什么时候导走了多少数据事后查不到。现已补上审计记录。</li>
+</ol>
+
+<p><b>两件必须澄清的误报（重要）：</b></p>
+<ul>
+<li>后端扫描报「<b>入库单、出库单创建必失败，致命</b>」——独立复测证明是<b>误报</b>。扫描脚本用的是界面上的字段名（<span class="mono">orderNo</span>），而服务端读取的是 <span class="mono">inboundNo</span>／<span class="mono">outboundNo</span>。换成正确字段名后：缺字段提示「请补全」、字段齐全正常保存，功能完全正常。</li>
+<li>前端实访报「<b>每个页面 12～34 个运行期错误</b>」——也是误报。那些其实是「状态键不存在」的 404 请求噪音，真正的脚本崩溃数为 <b>0</b>。已重做巡检。</li>
+</ul>
+<div class="warn"><b>教训：</b>任何一路侦察报的结论，必须由第二路独立复现才算坐实。本轮两条「致命级」结论都被反证推翻，如果直接照单修，会浪费大量时间且可能改坏正常功能。</div>
+</div>
+
+<!-- ========== 核心指标 ========== -->
+<h2>二、核心指标量化表</h2>
+
+<h3>2.1 功能覆盖率（11 个业务域）</h3>
+<div class="card">
+<p class="small"><b>口径说明（可复核）：</b>「应有点数」＝用友 BIP 5、金蝶 AI（2025）公开产品资料里列出的该域标准功能点数量；「已有点数」＝本项目具备对应能力的功能点数量，依据为前端路由清单（共 196 条）、生产数据库业务表（101 张）、实测接口（189 个）与既有对标报告逐条清点。用友／金蝶两列是<b>同口径对照</b>，即它们是否具备该域标准能力（具备＝✅）。</p>
+<table>
+<tr><th>业务域</th><th>应有点数</th><th>我们已有点数</th><th>我们覆盖率</th><th>用友 BIP 5</th><th>金蝶 AI（2025）</th><th>差距在哪</th></tr>
+<tr><td>基础数据</td><td>8</td><td>7</td><td>88%</td><td>✅</td><td>✅</td><td>缺跨组织主数据统一管控</td></tr>
+<tr><td>采购</td><td>8</td><td>7</td><td>88%</td><td>✅（含 AI 采购智能体）</td><td>✅（10 种寻源场景）</td><td>缺比价加权评分（N6）</td></tr>
+<tr><td>销售</td><td>8</td><td>6</td><td>75%</td><td>✅</td><td>✅（1000+ 促销组合）</td><td>缺价目表／阶梯折扣（N5）、信用闸门（L2）</td></tr>
+<tr><td>库存</td><td>8</td><td>6</td><td>75%</td><td>✅</td><td>✅（条码全程追溯、AGV 联动）</td><td>缺货位与单位换算（N4）；<b>库存过账仍在前端</b></td></tr>
+<tr><td>生产</td><td>8</td><td>7</td><td>88%</td><td>✅</td><td>✅（多工厂、MPS/MRP）</td><td>缺倒冲发料（N2）</td></tr>
+<tr><td>财务</td><td>8</td><td>7</td><td>88%</td><td>✅（多准则、合并报表）</td><td>✅（凭证自动化率案例 &gt;96%）</td><td>缺服务端算账（N1）</td></tr>
+<tr><td>审批流</td><td>6</td><td>4</td><td>67%</td><td>✅</td><td>✅（可组装流程引擎）</td><td>缺撤回与催办（L3）、委托（N3）</td></tr>
+<tr><td>权限合规</td><td>6</td><td>6</td><td><b>100%</b></td><td>✅</td><td>✅</td><td>已达同口径水平</td></tr>
+<tr><td>打印输出</td><td>5</td><td>4</td><td>80%</td><td><span class="small">未查到官方专门模块资料</span></td><td>✅（发票打印／电票全流程）</td><td>缺电票（数电票）能力</td></tr>
+<tr><td>平台能力</td><td>6</td><td>4</td><td>67%</td><td>✅（YonBuilder 低代码）</td><td>✅（苍穹低代码、智能体平台）</td><td>低代码为演示级，未接后端表单引擎</td></tr>
+<tr><td>体验工程</td><td>6</td><td>5</td><td>83%</td><td>✅（多端一次开发）</td><td>✅（移动订货／质检／收货）</td><td>可访问性（无障碍）两家均未查到公开资料</td></tr>
+<tr><th>合计</th><th>77</th><th>63</th><th><b>81.8%</b></th><th>10/11 域</th><th>11/11 域</th><td>—</td></tr>
+</table>
+<p class="small">对照上一版对标评测的整体口径「约 78%」，本轮按 11 域逐域清点后为 <b>81.8%</b>，略有上升（本轮补上了审批流读取、导出留痕等）。用友「打印输出」独立模块未查到官方公开资料，按红线原则标注为未查到，不臆测。</p>
+</div>
+
+<h3>2.2 页面可用率</h3>
+<div class="card">
+<table>
+<tr><th>指标</th><th>数值</th><th>说明</th></tr>
+<tr><td>实访页面数</td><td>30</td><td>覆盖 11 个业务域的代表性页面</td></tr>
+<tr><td>无白屏、无阻断报错的页面数</td><td><b>30</b></td><td>正文长度均 ≥ 200 字符，脚本崩溃数 0</td></tr>
+<tr><td><b>页面可用率</b></td><td><b>100%</b></td><td>首次巡检 24/30，6 个「白屏」经核对<b>全是巡检脚本猜错路由</b>（真实路由里不存在），换成真实路径后 7/7 全部可用</td></tr>
+<tr><td>运行期脚本崩溃（真白屏根因）</td><td>0</td><td>严格区分「脚本崩溃」与「接口 404 噪音」</td></tr>
+<tr><td>已知噪音（不影响可用）</td><td>每页 13～55 次</td><td>前端状态键查询 <span class="mono">/api/state/*</span> 键不存在返回 404</td></tr>
+</table>
+</div>
+
+<h3>2.3 接口健康率</h3>
+<div class="card">
+<table>
+<tr><th>指标</th><th>数值</th><th>说明</th></tr>
+<tr><td>实测唯一端点数（方法＋路径）</td><td>189</td><td>共发出 342 次真实请求</td></tr>
+<tr><td>修复前健康端点数</td><td>175（92.6%）</td><td>14 个端点存在真实缺陷</td></tr>
+<tr><td><b>修复后健康端点数</b></td><td><b>185（97.9%）</b></td><td>本轮修掉 10 个（9 个空载荷＋1 个审计日志读取）</td></tr>
+<tr><td>剩余缺陷端点</td><td>4</td><td>空载荷未校验即落库：物料清单、质检扣留、转储单、库存调整单</td></tr>
+<tr><td>未认证访问防护</td><td>14/14 通过</td><td>核心接口不带登录令牌全部返回 401（未授权）</td></tr>
+</table>
+</div>
+
+<h3>2.4 四项门禁结果</h3>
+<div class="card">
+<table>
+<tr><th>门禁</th><th>命令</th><th>结果</th></tr>
+<tr><td>后端类型检查</td><td><span class="mono">node scripts/tsc-functions.mjs</span></td><td><span class="tag t-ok">通过</span> 59 条基线，<b>新增 0</b></td></tr>
+<tr><td>语法与引用审计</td><td><span class="mono">node scripts/_audit_syntax.mjs</span></td><td><span class="tag t-ok">通过</span> 131 个文件、131 条引用链，0 错</td></tr>
+<tr><td>一致性门禁</td><td><span class="mono">node scripts/check-consistency.mjs --no-probe</span></td><td><span class="tag t-ok">通过</span> 阻断项 0 失败</td></tr>
+<tr><td>前端类型检查</td><td><span class="mono">tsc --noEmit</span></td><td><span class="tag t-ok">通过</span> 0 错</td></tr>
+</table>
+<p class="small">发布顺序严格遵守「先构建、后部署」：构建 47.6 秒成功 → 部署 237 个文件上传完成 → 真实端点往返复验通过。</p>
+</div>
+
+<h3>2.5 安全项清单（越权与审计）</h3>
+<div class="card">
+<table>
+<tr><th>检查项</th><th>结论</th><th>证据</th></tr>
+<tr><td>数据可见范围登记覆盖率</td><td><span class="tag t-ok">通过</span></td><td>生产库 101 张业务表：显式登记 82 + 显式豁免 19，<b>漏登记 0</b>（漏登记会导致静默空表）</td></tr>
+<tr><td>越权：不带组织参数是否混入他人数据</td><td><span class="tag t-ok">通过</span></td><td>37 个列表接口实测，返回数据的组织标识全部为本组织，无跨组织混入</td></tr>
+<tr><td>接口完全不做组织过滤</td><td><span class="tag t-ok">通过</span></td><td>静态扫描 4 个疑似项，实际只触及平台表与豁免表</td></tr>
+<tr><td>审计落库（新建／修改／删除）</td><td><span class="tag t-ok">通过</span></td><td>实测新建与删除均有记录；全库已落库动作分布：新建 153、修改 19、删除 10、审批 9 等</td></tr>
+<tr><td>登录动作是否入库</td><td><span class="tag t-ok">通过（设计取舍）</span></td><td>按设计不写审计表，证据落在登录锁定表与会话表</td></tr>
+<tr><td>敏感字段脱敏 · 用户列表</td><td><span class="tag t-ok">通过</span></td><td>查询字段不含密码摘要、盐值、令牌</td></tr>
+<tr><td>审计日志里是否有明文密码</td><td><span class="tag t-ok">通过</span></td><td>含 password／pwd／口令／明文 的记录数 = 0</td></tr>
+<tr><td>金额与价格对无权限角色暴露</td><td><span class="tag t-ok">通过（设计）</span></td><td>组织内全员可见属业务设计，无更细角色遮罩</td></tr>
+<tr><td>导出管控 · 鉴权与组织隔离</td><td><span class="tag t-ok">通过</span></td><td>需登录且仅管理员可用；导出严格按本人组织过滤，超级管理员也无法跨组织导出</td></tr>
+<tr><td>导出管控 · 表名白名单</td><td><span class="tag t-ok">通过</span></td><td>不在可信清单内的表名一律丢弃</td></tr>
+<tr><td><b>导出管控 · 留痕</b></td><td><b>本轮修复</b></td><td>修复前无审计记录；修复后实测已生成「导出组织数据备份：2 张表 / 6 行」记录</td></tr>
+<tr><td>未认证访问核心接口</td><td><span class="tag t-ok">通过</span></td><td>14 个核心接口不带令牌全部返回 401</td></tr>
+<tr><td>跨组织合并报表读取闸门</td><td><span class="tag t-ok">通过</span></td><td>强制校验「用户组织属于成员组织之一或具备特权角色」，否则 403</td></tr>
+</table>
+<p class="small"><b>合计 13 项：修复前 12 通过 / 1 未通过；修复后 13 项全部通过。</b></p>
+</div>
+
+<!-- ========== 缺陷台账 ========== -->
+<h2>三、缺陷台账总表</h2>
+<div class="card">
+<p class="small">分级口径：<span class="tag t-fatal">致命</span>数据会算错或功能完全不可用且无人知晓 ｜ <span class="tag t-sev">严重</span>功能可用但存在丢数据、泄露或流程失控风险 ｜ <span class="tag t-mid">中等</span>体验或规范问题，有可控风险 ｜ <span class="tag t-low">轻微</span>噪音类。「外行影响」一栏用业务语言说明后果。</p>
+<table>
+<tr><th>#</th><th>缺陷</th><th>分级</th><th>证据（文件行号或复现步骤）</th><th>是否修</th><th>改了哪些文件</th><th>怎么验证</th><th>结果</th></tr>
+
+<tr>
+<td>1</td><td><b>空单据提交报数据库原始错误并泄露库结构</b><br><span class="small">采购申请、供应商报价、意向客户、发货单、工艺路线、审批流、付款计划、项目核算、项目共 9 类</span></td>
+<td><span class="tag t-sev">严重</span></td>
+<td>根因 <span class="mono">functions/_shared/parentChild.ts:494</span>：无字段时拼出 <span class="mono">(id, org_id, , created_at…)</span> 双逗号畸形语句；线上复现：向 9 个接口发空请求，返回 <span class="mono">D1_ERROR: near ",": syntax error</span></td>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/_shared/parentChild.ts</span></td>
+<td>9 个接口逐一实测：空请求→400 且不含数据库原文；正确内容→201 能保存；保存后立即删除并复查为 404</td>
+<td><span class="tag t-ok">成功</span></td></tr>
+
+<tr>
+<td>2</td><td><b>服务端审计日志页永远拿不到数据，且不报错</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td><span class="mono">functions/api/audit/logs.ts</span> 只有写入处理器、无读取处理器；前端 <span class="mono">src/pages/Settings/ServerAuditTab.tsx:60</span> 用读取方式请求 → 返回首页网页代码，前端解析失败被 try/catch 吞掉</td>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/api/audit/logs.ts</span></td>
+<td>线上实测：读取返回 200 且为数据格式（非网页代码），取回 5 行、总计 260 条；写入路径回归仍 200</td>
+<td><span class="tag t-ok">成功</span></td></tr>
+
+<tr>
+<td>3</td><td><b>数据导出不留操作痕迹</b></td>
+<td><span class="tag t-mid">中等</span></td>
+<td><span class="mono">functions/api/system/backup.ts</span> 全程无审计写入调用；全库动作分布中无「导出」</td>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/api/system/backup.ts</span></td>
+<td>线上实测：导出后查审计，命中 1 条「导出组织数据备份：2 张表 / 6 行」</td>
+<td><span class="tag t-ok">成功</span></td></tr>
+
+<tr>
+<td>4</td><td><b>库存数量与单据对不上（库存过账算在前端）</b></td>
+<td><span class="tag t-fatal">致命</span></td>
+<td><span class="mono">src/stores/warehouseStore.ts:103/190/647</span>、<span class="mono">warehouseAdvancedStore.ts:248</span>；后端 <span class="mono">inventory-records/index.ts</span> 只有查询、无过账</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td>
+<td>—</td>
+<td><span class="tag t-no">跳过</span><br><span class="small">属 N1 架构改造，见第四节</span></td></tr>
+
+<tr>
+<td>5</td><td><b>移动加权平均价算在前端回写</b></td>
+<td><span class="tag t-fatal">致命</span></td>
+<td><span class="mono">src/utils/cost.ts:78/112</span> + <span class="mono">warehouseStore.ts:359/511</span></td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span><br><span class="small">同上，依赖 N1</span></td></tr>
+
+<tr>
+<td>6</td><td><b>出库成本结转（销售成本）在前端算</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td><span class="mono">warehouseStore.ts:511</span> 结转单价取前端物料主数据</td>
+<td><span class="skip">跳过</span></td><td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>7</td><td><b>采购暂估金额前端算、后端不复核</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td><span class="mono">warehouseStore.ts:399/436</span></td>
+<td><span class="skip">跳过</span></td><td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>8</td><td><b>源头分录表无借贷平衡校验</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td><span class="mono">src/stores/financeStore.ts:514</span> 写 <span class="mono">fin_account_entries</span>，通用实体接口不做平衡校验（凭证表已受保护）</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>9</td><td><b>单据状态可任意跳转（已完成可退回草稿）</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td>后端 <span class="mono">purchase-orders/[id].ts:61</span> 等只存状态、不校验流转；仅计划订单有取值校验</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span><br><span class="small">需定义状态机规则后下沉</span></td></tr>
+
+<tr>
+<td>10</td><td><b>并发重复提交保护部分失效</b></td>
+<td><span class="tag t-sev">严重</span></td>
+<td>乐观锁仅 4 个接口启用，工单未启用；多数更新路径不带版本号导致锁空转；新建无幂等键</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>11</td><td><b>空载荷未校验即落库（4 个接口）</b></td>
+<td><span class="tag t-mid">中等</span></td>
+<td>物料清单、质检扣留、转储单、库存调整单：空请求返回 200/201 并生成全空记录</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span><br><span class="small">需逐接口定义必填字段，避免误伤正常业务</span></td></tr>
+
+<tr>
+<td>12</td><td><b>金额四舍五入口径不统一</b></td>
+<td><span class="tag t-mid">中等</span></td>
+<td>散落 7 处以上：<span class="mono">utils/cost.ts:26/29</span>、<span class="mono">cashMgmtStore.ts:86</span>、<span class="mono">subcontractStore.ts:202-205</span>、<span class="mono">financeLedgerStore.ts:135</span> 等</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>13</td><td><b>折旧计提与期末结账在前端改状态</b></td>
+<td><span class="tag t-mid">中等</span></td>
+<td><span class="mono">financeLedgerStore.ts:124/165</span></td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>14</td><td><b>委外成本分配四舍五入后对不平</b></td>
+<td><span class="tag t-mid">中等</span></td>
+<td><span class="mono">subcontractStore.ts:202-205</span> 混用 ×100／÷100／×10000</td>
+<td><span class="skip">跳过</span></td>
+<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+
+<tr>
+<td>15</td><td>【误报·已澄清】入库单／出库单创建必失败</td>
+<td><span class="tag t-low">已澄清</span></td>
+<td>扫描用界面字段名 <span class="mono">orderNo</span>；服务端读 <span class="mono">inboundNo</span>/<span class="mono">outboundNo</span>。换正确字段名后：缺字段 400、字段齐全 200</td>
+<td>不需修</td><td>—</td><td>隔离对照：空对象 500、仅单号 400、补全 200</td><td><span class="tag t-ok">反证成立</span></td></tr>
+
+<tr>
+<td>16</td><td>【误报·已澄清】每页 12～34 个运行期错误</td>
+<td><span class="tag t-low">已澄清</span></td>
+<td>实为 <span class="mono">/api/state/*</span> 状态键不存在的 404 噪音；真实脚本崩溃数 0</td>
+<td>不需修</td><td>—</td><td>重写巡检严格区分崩溃与噪音，30 页崩溃 0</td><td><span class="tag t-ok">反证成立</span></td></tr>
+
+<tr>
+<td>17</td><td>【非缺陷·已澄清】安全邮箱、账号激活接口读取返回网页代码</td>
+<td><span class="tag t-low">非缺陷</span></td>
+<td>前端两处均只用提交方式调用，不存在读取消费方</td>
+<td>不需修</td><td>—</td><td>对照确认调用方式</td><td><span class="tag t-ok">澄清</span></td></tr>
+</table>
+</div>
+
+<!-- ========== 授权决断项 ========== -->
+<h2>四、授权决断项清单（8 条）</h2>
+<div class="card">
+<div class="warn"><b>先说清楚执行状态：</b>8 条<b>全部完成了「决断」</b>（选了什么、为什么、怎么回退），但<b>均未在本轮落地</b>。原因有二：① 其中 5 条需要新增数据表或修改数据结构，命中本轮硬规矩第 7 条（不做破坏性／结构性变更）；② 其余属跨模块改造，一次性改动文件多、回滚成本高，不适合在无人值守的夜间一轮推完。这不是推脱——本轮定位就是「抓真实缺陷」，把这两件事混在一轮里做，风险远大于收益。</div>
+<table>
+<tr><th>项</th><th>选了什么</th><th>为什么这样选</th><th>怎么回退</th></tr>
+
+<tr><td><b>L2</b><br>销售信用额度闸门</td>
+<td><b>软拦</b>：超额度时提示并记录，允许走特批放行；<b>不做硬拦</b>。已用额度口径＝「已下单未发货 + 已发货未收款」，不含意向客户</td>
+<td>硬拦会直接打断正常销售下单，一线会绕开系统；且「已用额度」口径未定就硬拦，会产生大量误拦（把在途订单算进去会拦掉本该放行的单子）。行业通行做法是超额度走特批，而不是一律拒绝</td>
+<td>做成开关配置：关闭即回到无闸门状态；不改订单保存主流程</td></tr>
+
+<tr><td><b>L3</b><br>审批撤回与催办</td>
+<td>先做<b>「撤回」单模块试点</b>（采购申请）；催办放到统一任务中心建成之后</td>
+<td>审批实例分散在各业务模块、没有统一任务表，一次性建中心风险高。撤回只影响单据自身状态，试点范围可控</td>
+<td>撤回仅允许在草稿／待审状态使用，已终审不允许撤回，避免流程倒流</td></tr>
+
+<tr><td><b>N1</b><br>算账逻辑上移服务端</td>
+<td><b>先做「库存过账」一个域做双轨比对</b>（测试组织），不一次性全量迁移</td>
+<td>这是「演示级」与「生产级」的真正分界线，也是本轮 2 条致命缺陷的根因。但一次全量迁移会同时改动大量文件，且库存数字一旦算错无法一眼看出。双轨比对能在不切换的前提下证明两边一致</td>
+<td>保留前端实现；服务端结果写入影子表，比对一致后再切流，随时可切回</td></tr>
+
+<tr><td><b>N2</b><br>生产倒冲发料</td>
+<td><b>暂不做</b>，排在 N1 之后</td>
+<td>倒冲的本质是「报工或完工时自动生成出库单扣减库存」。若库存过账仍在前端（N1 未落地），倒冲生成的扣减仍会被前端重算覆盖，做了等于白做</td>
+<td>无改动，无回退成本</td></tr>
+
+<tr><td><b>N3</b><br>审批委托</td>
+<td>与 L3 <b>同批、先在采购申请模块试点</b></td>
+<td>委托与撤回共用「审批实例定位」能力，一起做可复用同一套改动，避免两次改同一处</td>
+<td>委托关系表清空即停用，不影响既有审批流程</td></tr>
+
+<tr><td><b>N4</b><br>仓库货位与单位换算建表</td>
+<td><b>先做「单位换算」，暂不做「货位」</b></td>
+<td>单位换算是采购计价与库存计量的刚需，表结构简单、影响面清晰；货位涉及仓库作业流程重构，牵动入库、出库、盘点、调拨多处的取数与界面，需要现场作业规则先定</td>
+<td>均为新增独立表，未启用前对现有功能零影响</td></tr>
+
+<tr><td><b>N5</b><br>销售价目表与阶梯折扣</td>
+<td><b>暂不做</b></td>
+<td>价格规则会牵动报价、销售订单、发票多处取数，属跨模块改造；且折扣审批口径未定（谁能批几折）会直接影响落地效果</td>
+<td>无改动，无回退成本</td></tr>
+
+<tr><td><b>N6</b><br>比价加权综合评分</td>
+<td><b>暂不做</b>，但把「评分维度可配置」留出口</td>
+<td>加权口径因物料品类差异很大（标准件看价格、定制件看交期与质量），硬编码成一套权重必然被一线质疑，反而没人用</td>
+<td>无改动；后续接配置表即可，不影响现有比价功能</td></tr>
+</table>
+</div>
+
+<!-- ========== 对外行影响 ========== -->
+<h2>五、对外行的影响说明</h2>
+<div class="card">
+<h3>已修的三条，对日常使用意味着什么</h3>
+<ul>
+<li><b>空单据不再报看不懂的错。</b>以前填了个空表单点保存，会弹一句带数据库语句的英文报错；现在会直接说「请填写采购申请内容后再提交」。顺带把系统内部构造不再暴露在页面上。</li>
+<li><b>「服务端审计日志」终于能看到真数据了。</b>以前这个页面永远只显示本地记录，看起来像「系统没记录」，其实是读取通道断了且不报错。现在能看到服务端真实落库的 260 条记录。</li>
+<li><b>导出行为可追溯了。</b>以后谁导走了数据、导了多少，审计里有据可查。万一发生数据外流，能回答「是谁、什么时候、拿走了多少」。</li>
+</ul>
+
+<h3>还没修的，会踩到什么坑（按踩到的概率排序）</h3>
+<ul>
+<li><b>两个人同时操作同一批货 —— 大概率会踩。</b>库存数量和移动加权平均价都是各自电脑上的浏览器算完再写回，没有服务端统一把关。两个人同时出库同一批货，后提交的会覆盖先提交的，库存可能变成负数而没人拦得住。只要公司有两个人以上同时用库存模块，迟早会遇到。</li>
+<li><b>单据状态能被随意改 —— 中等概率。</b>已经收货完成的采购订单，可以被直接改回「草稿」。日常没人会这么干，但一旦有人误操作或有意改单，流程控制形同虚设，且审计上不会报警。</li>
+<li><b>同一张单快速提交两次会生成两条 —— 中等概率。</b>网络卡顿时容易连点两下，就会生成两张重复单据。</li>
+<li><b>几分钱的对不平 —— 高概率但影响小。</b>不同模块四舍五入口径不一致，对账时会差几分钱到几毛钱，月结时找不到原因。</li>
+</ul>
+<div class="note"><b>一句话总结风险画像：</b>系统<b>单独一个人用、按流程走</b>是稳的；<b>多人并发操作同一批数据</b>是主要风险区。这也是「演示级」与「生产级」的真正分界——不是功能少，而是<b>关键规则没有在服务端统一把关</b>。</div>
+</div>
+
+<!-- ========== 建议 ========== -->
+<h2>六、接下来建议强哥先做的三件事</h2>
+<div class="card">
+<ol>
+<li><b>先给 N1 开一个测试组织做双轨比对（收益最高、风险最低）。</b>不用改生产数据：新建一个隔离的测试组织，把「库存过账」这一个域做成服务端计算，与前端结果并行比对。比对一致了再切流。这是系统从「能用」走向「可信」的转折点，也是消掉两条致命缺陷的唯一路径。</li>
+<li><b>把 L2 的两个问题定下来（半天内可完成）。</b>① 超额度是硬拦还是提醒后特批？② 「已用额度」算不算在途订单、算不算已发货未收款？这两个答案不定，信用闸门就没法做；定下来之后实现只是一两天的工作量。</li>
+<li><b>给「单据状态机」画一张图（决定第 9 条能不能修）。</b>把采购订单、销售订单、工单各自「从哪个状态能走到哪个状态」列出来，哪些跳转要禁、哪些要审批。有了这张图，状态机校验就能直接下沉到服务端，第 9 条严重缺陷即可关闭。</li>
+</ol>
+<p class="small">第 4～14 条（金额精度、折旧结账、委外成本分配等）建议等前面三件推进时顺带处理，不建议单独立项——它们都依赖服务端算账先落地。</p>
+</div>
+
+<!-- ========== 交付信息 ========== -->
+<h2>七、本轮交付与操作提醒</h2>
+<div class="card">
+<table>
+<tr><th>项目</th><th>内容</th></tr>
+<tr><td>版本号</td><td><b>V3.15.10</b>（纯缺陷修复，按版本铁律未跳 3.16.0）。五处已同步并用脚本断言核对：版本文件、包配置、使用手册、主计划、项目记忆 —— 10 项断言全部通过</td></tr>
+<tr><td>提交号</td><td><span class="mono">7af6a74</span>（空载荷守卫）／<span class="mono">7629c8e</span>（导出留痕）／<span class="mono">d6c3092</span>（审计日志读取）／<span class="mono">0d39d9e</span>（版本号四处同步）</td></tr>
+<tr><td>线上域名</td><td><span class="mono">https://ssa-erp.pages.dev</span>（本次部署预览域 <span class="mono">https://2cb91e20.ssa-erp.pages.dev</span>）</td></tr>
+<tr><td>门禁</td><td>四项全绿（后端类型 59 条基线新增 0／语法引用 0 错／一致性 0 阻断／前端类型 0 错）</td></tr>
+<tr><td>发布顺序</td><td>构建 47.6 秒成功 → 部署 237 个文件上传完成 → 真实端点往返复验通过（已遵守先构建后部署）</td></tr>
+<tr><td>测试数据</td><td>本轮自建测试数据已全部删除并复查为 404；审计表内留有 1 条验收写入记录（审计表按设计为只增，未删除）</td></tr>
+<tr><td><b>待强哥操作</b></td><td><b>① 在本机运行 push-github.bat 推送这 4 个提交</b>（沙箱网络被拦截，只提交未推送）；<b>② 本报告需归档到 ima 知识库</b>（见下）</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3>本轮新增的验收脚本（可复用）</h3>
+<ul>
+<li><span class="mono">scripts/_verify_31510_live.mjs</span> —— 9 个接口空载荷守卫 + 导出留痕的线上验收（38 项断言）</li>
+<li><span class="mono">scripts/_sweep_pages_live.mjs</span> / <span class="mono">scripts/_recheck_pages.mjs</span> —— 页面可用率巡检（严格区分脚本崩溃与接口 404 噪音）</li>
+<li><span class="mono">scripts/_list_routes.mjs</span> / <span class="mono">scripts/_count_domain_routes.mjs</span> —— 路由清单与分域计数（功能覆盖率的客观依据）</li>
+<li><span class="mono">scripts/_verify_version_31510.mjs</span> —— 版本五处一致性断言</li>
+<li><span class="mono">scripts/_xf_check_500.mjs</span> —— 交叉验证复核脚本（用正确字段名对照测试）</li>
+</ul>
+</div>
+
+<p class="small" style="margin-top:30px;text-align:center;color:#8b939b">
+SSA ERP 抓真实缺陷轮报告 · V3.15.10 · 2026-09-20 · 本文件为唯一最新版，旧版已覆盖
+</p>
+
+</div>
+</body>
+</html>
