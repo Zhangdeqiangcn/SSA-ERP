@@ -73,7 +73,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 </div>
 
 <div class="card">
-<p><b>一句话结论：</b>本轮把「抓真实缺陷」放在第一位，五路并行侦察报出 31 条，经交叉验证后坐实真实缺陷 14 条、反证误报 2 条；已修复并上线 3 条（其中一条一处修复覆盖 9 个接口），其余 11 条属<b>架构级改造</b>，本轮按硬规矩不动，已逐条写明风险与建议。</p>
+<p><b>一句话结论：</b>本轮把「抓真实缺陷」放在第一位，五路并行侦察报出 31 条，经交叉验证后坐实真实缺陷 14 条、反证误报 2 条；V3.15.10 已修复并上线 3 条（其中一条一处修复覆盖 9 个接口）。后续按本报告的逐项修复继续推进：<b>V3.16.0 把 N1 两条致命（#4 库存过账、#5 移动均价）下沉服务端</b>，<b>V3.16.1 修掉 #11 四个手写端点的空载荷漏库</b>；累计已修复并上线 6 条，其余 8 条（#6~#10、#12~#14）属架构级改造，待逐项推进，已逐条写明风险与建议。</p>
 
 <p><b>最值钱的三件事：</b></p>
 <ol>
@@ -209,10 +209,10 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>4</td><td><b>库存数量与单据对不上（库存过账算在前端）</b></td>
 <td><span class="tag t-fatal">致命</span></td>
 <td><span class="mono">src/stores/warehouseStore.ts:103/190/647</span>、<span class="mono">warehouseAdvancedStore.ts:248</span>；后端 <span class="mono">inventory-records/index.ts</span> 只有查询、无过账</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td>
-<td>—</td>
-<td><span class="tag t-no">跳过</span><br><span class="small">属 N1 架构改造，见第四节</span></td></tr>
+<td><span class="done">已修</span></td>
+<td><span class="mono">functions/_shared/inventoryPosting.ts</span>＋入库/出库单端点</td>
+<td>生产验证 _verify_n1_posting.mjs 六步断言全过</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.16.0 N1 服务端过账，见第四节 N1</span></td></tr>
 
 <tr>
 <td>5</td><td><b>移动加权平均价算在前端回写</b></td>
@@ -258,8 +258,10 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>11</td><td><b>空载荷未校验即落库（4 个接口）</b></td>
 <td><span class="tag t-mid">中等</span></td>
 <td>物料清单、质检扣留、转储单、库存调整单：空请求返回 200/201 并生成全空记录</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span><br><span class="small">需逐接口定义必填字段，避免误伤正常业务</span></td></tr>
+<td><span class="done">已修</span></td>
+<td><span class="mono">_shared/validate.ts requireFields</span>＋4 端点</td>
+<td>生产验证 _verify_11_emptypayload.mjs 8/8 通过</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.16.1 必填守卫，四端点空请求→400</span></td></tr>
 
 <tr>
 <td>12</td><td><b>金额四舍五入口径不统一</b></td>
