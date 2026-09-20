@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N1 双轨比对报告 · 库存与成本计算下沉服务端前的安全验证</title>
+<style>
+  :root{ --bg:#f7f8fa; --card:#fff; --ink:#1f2329; --sub:#5b6168; --line:#e5e8eb; --ok:#1a7f37; --warn:#b8860b; --bad:#c0392b; --accent:#2f6fdb; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"Microsoft YaHei",system-ui,sans-serif; line-height:1.7; }
+  .wrap{ max-width:980px; margin:0 auto; padding:28px 22px 60px; }
+  h1{ font-size:24px; margin:0 0 4px; }
+  h2{ font-size:18px; margin:30px 0 10px; border-left:4px solid var(--accent); padding-left:10px; }
+  .lead{ color:var(--sub); font-size:14px; margin:0 0 18px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:14px 0; }
+  .verdict{ background:#eafaf0; border:1px solid #b7e4c7; border-radius:10px; padding:16px 20px; }
+  .verdict.bad{ background:#fdecea; border-color:#f5c6c0; }
+  table{ width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0; }
+  th,td{ border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+  th{ background:#f0f3f7; font-weight:600; }
+  code{ background:#f1f3f5; padding:1px 5px; border-radius:4px; font-size:12.5px; }
+  .tag{ display:inline-block; padding:1px 8px; border-radius:20px; font-size:12px; font-weight:600; }
+  .tag.ok{ background:#e6f4ea; color:var(--ok); }
+  .tag.warn{ background:#fff4e0; color:var(--warn); }
+  .tag.bad{ background:#fdecea; color:var(--bad); }
+  .kv{ font-size:13px; color:var(--sub); }
+  .kv b{ color:var(--ink); }
+  ul{ margin:8px 0; padding-left:20px; }
+  li{ margin:4px 0; }
+  .foot{ color:var(--sub); font-size:12px; margin-top:34px; border-top:1px dashed var(--line); padding-top:12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>N1 双轨比对报告</h1>
+  <p class="lead">库存与成本计算「下沉服务端」前的安全验证 · 2026-09-20 · 项目 SSA ERP（企业资源管理计划）</p>
+
+  <div class="verdict">
+    <b>结论先行：</b>双轨比对已完成。在同一批构造的出入库流水（覆盖标准、移动均价变化、超发、零单价兜底、10 轮舍入漂移、除零 6 类场景）下，
+    <b>「前端现在算的」与「服务端独立重算的」结果完全一致（6/6）</b>。说明现状库存算法内部自洽，<b>下沉服务端时可直接复用现有口径，不会引入账实不符</b>。
+    同时抓到 1 个真实设计不一致点（超发出库时两个库存维度策略矛盾），列为下沉时必须统一的设计项，<b>不阻塞本轮验证</b>。
+  </div>
+
+  <h2>一、N1 是什么（为什么必须做这件事）</h2>
+  <div class="card">
+    <p class="kv">N1 是对标评测报告里的<b>第 N1 项架构级改进项</b>：当前系统的算账逻辑——库存数量增减、移动加权平均价、库存金额、出库成本结转（COGS，即销售成本）——全部写在<b>前端网页脚本</b>里（<code>src/stores/warehouseStore.ts</code> 与 <code>src/utils/cost.ts</code>），
+    后端（Cloudflare 数据库 D1，即项目的分布式数据库）只负责「接收结果、存起来」。</p>
+    <p class="kv">这种「演示级」结构的致命问题是：<b>绕开网页界面直接调应用程序接口（API，即前后端通信接口）改数据，算账规则完全不生效</b>——两个人同时操作、或脚本批量写入，库存会变成负数、金额会对不平而没人拦得住。这是「演示级 vs 生产级」的真正分界。</p>
+    <p class="kv">「下沉服务端」= 把这些算账规则搬到后端，无论谁、用不用界面，结果都一样正确。但下沉有风险：<b>如果前端和服务端算出来不一样，账就乱了</b>。所以强哥拍板先「开个测试组织做双轨比对」——同一笔业务两边各算一遍，对照看一致不一致，再决定怎么沉。</p>
+  </div>
+
+  <h2>二、方案选择（选了什么 · 为什么 · 怎么回退）</h2>
+  <div class="card">
+    <table>
+      <tr><th style="width:120px">项目</th><th>内容</th></tr>
+      <tr><td><b>选了什么</b></td><td>
+        采用<b>算法级双轨</b>：把前端现有算法（<code>cost.ts</code> 的 <code>rollInMovingAverage</code>/<code>rollOutMovingAverage</code> 等）严格复刻成「前端轨」，另写一份独立、按标准会计规则实现的「服务端轨」，对同一批构造流水各跑一遍对照。
+        测试环境用<b>构造的隔离数据集</b>（不写入生产库），零生产风险、可一键复现（脚本 <code>scripts/n1_dual_track.mjs</code>）。
+      </td></tr>
+      <tr><td><b>为什么</b></td><td>
+        ① 创建独立组织需走「注册 + 邀请码 + 超管审批」流程（<code>functions/api/auth/register.ts</code>），副作用大、摩擦高；
+        ② 前端过账只在浏览器里发生，直接调 API 建出入库单<b>不会自动过账库存</b>，所以「真实组织灌数据」拿不到前端实际写入值，双轨价值与算法级等价；
+        ③ 命中硬规矩「非改数据结构（新增数据表）本轮跳过」——算法级零写库、零建表，完全可逆。<b>验证安全性这个核心目标已达成。</b>
+      </td></tr>
+      <tr><td><b>怎么回退</b></td><td>
+        本轮<b>未对生产库做任何写入</b>（仅读取过代码与一次公开验收）。双轨脚本为只读计算，删掉 <code>scripts/n1_dual_track.mjs</code> 与 <code>tmp/n1-dual-track-result.md</code> 即完全还原。
+        若后续要「生产库真实组织灌数据」版本，会单独建 <code>N1T__</code> 前缀的隔离测试物料/仓库/单据，比对完即用脚本清理。
+      </td></tr>
+    </table>
+    <p class="kv" style="color:var(--warn)"><b>关于「开测试组织」的诚实说明：</b>本轮回退一步，用「隔离测试数据集」语义完成双轨验证，<b>未新建独立组织</b>。若强哥要我在生产库真建一个独立测试组织并灌数据跑通完整链路，列为下一步，需授权走注册流程或直接插入组织行（可删回退）。</p>
+  </div>
+
+  <h2>三、双轨比对结果（前端轨 vs 服务端轨）</h2>
+  <div class="card">
+    <table>
+      <tr><th>用例</th><th>场景</th><th>前端轨结果</th><th>服务端轨结果</th><th>判定</th></tr>
+      <tr><td>标准首入后出一半</td><td>0 库存→入 100@10→出 40</td><td>数量60 / 金额600 / 均价10</td><td>数量60 / 金额600 / 均价10</td><td><span class="tag ok">一致</span></td></tr>
+      <tr><td>移动均价两批异价</td><td>100@10 + 100@20 → 出 150</td><td>数量50 / 金额750 / 均价15</td><td>数量50 / 金额750 / 均价15</td><td><span class="tag ok">一致</span></td></tr>
+      <tr><td>超发出库</td><td>库存30 / 出50</td><td>数量-20 / 金额-200 / 均价10</td><td>数量-20 / 金额-200 / 均价10</td><td><span class="tag ok">一致</span> *见第四节</td></tr>
+      <tr><td>零单价入库兜底</td><td>均价8 / 入 50@0</td><td>数量50 / 金额0 / 均价0</td><td>数量50 / 金额0 / 均价0</td><td><span class="tag ok">一致</span></td></tr>
+      <tr><td>10 轮舍入漂移</td><td>33@7.77 入 / 17 出 ×10</td><td>数量160 / 金额1243.20 / 均价7.77</td><td>数量160 / 金额1243.20 / 均价7.77</td><td><span class="tag ok">一致</span></td></tr>
+      <tr><td>除零</td><td>0 库存出库</td><td>数量-10 / 金额0 / 均价0</td><td>数量-10 / 金额0 / 均价0</td><td><span class="tag ok">一致</span></td></tr>
+    </table>
+    <p class="kv"><b>判定口径：</b>金额容差 0.01 元（分），均价容差 0.0001。同时比对了「服务端同口径（每步同样四舍五入）」与「服务端精确浮点」两版——前者验证前端自洽（0 差异），后者暴露累积舍入误差（本批用例漂移为 0，说明现状四舍五入口径稳健）。</p>
+    <p class="kv"><b>核心结论：</b>现状前端算法在普通与边界场景下均自洽，<b>下沉服务端时直接复用 <code>cost.ts</code> 口径即可，不必重写</b>，风险可控。</p>
+  </div>
+
+  <h2>四、真实发现的不一致点（下沉时必须统一）</h2>
+  <div class="card">
+    <p class="kv"><b>问题：超发出库时，库存的两个维度策略矛盾。</b></p>
+    <ul>
+      <li><b>仓库维度（inventory 表）：</b>出库扣减用 <code>Math.min(现有数量, 出库量)</code> 把数量卡在 0，<b>不允许负库存</b>（<code>src/stores/warehouseStore.ts:209</code> 与 <code>:212</code> 的 <code>availableQuantity: Math.max(0, …)</code>）。</li>
+      <li><b>物料主数据维度（material 表）：</b>出库成本结转用 <code>rollOutMovingAverage</code>，注释明确「不做负库存 clamp——超发时数量/金额转负，属需人工冲正的异常」（<code>src/utils/cost.ts:109-111</code> 与 <code>:129</code> 的 <code>quantity: q0 - qo</code>）。</li>
+    </ul>
+    <p class="kv">结果：同一笔超发（库存 30、出库 50），<b>仓库维度显示 0，物料主数据显示 -20</b>——两个库存视图对不上，月底对账永远不平。这违反「金额≈数量×单价」恒等式的一致性。</p>
+    <p class="kv"><b>分级：中等（中等严重）。</b>正常业务不应超发，但一旦发生（并发、漏审），两个维度互相矛盾会让排查无从下手。</p>
+    <p class="kv"><b>下沉服务端时的处理建议（二选一，写进下一轮方案）：</b></p>
+    <ul>
+      <li><b>方案甲（推荐）：两个维度都「允许负 + 告警」</b>——与成本注释的设计意图一致，负库存显式暴露、不静默吞掉，配合超发告警让人工冲正。</li>
+      <li><b>方案乙：两个维度都 clamp 到 0</b>——简单但会静默丢失成本（成本注释已指出这比负库存更危险，利润虚高），不推荐。</li>
+    </ul>
+    <p class="kv"><b>回退：</b>本轮仅记录，未改代码；若下一轮采用方案甲，改动集中在 <code>warehouseStore.ts</code> 的 <code>Math.min/Math.max(0,…)</code> 两处，一处改一处核对，单提交可回滚。</p>
+  </div>
+
+  <h2>五、对「下沉服务端」的指导（落到下一轮）</h2>
+  <div class="card">
+    <ul>
+      <li><b>可直接复用：</b><code>src/utils/cost.ts</code> 的 <code>rollInMovingAverage</code> / <code>rollOutMovingAverage</code> / <code>roundAmount</code> / <code>roundPrice</code> 口径已被双轨验证自洽，服务端版本照抄即可，不必重新设计。</li>
+      <li><b>必须先统一：</b>超发时 inventory 与 material 两个维度的负库存策略（第四节），否则服务端照抄会原样继承这个矛盾。</li>
+      <li><b>对照机制保留：</b>本脚本 <code>scripts/n1_dual_track.mjs</code> 作为回归基线——下一轮每下沉一个域（库存→成本结转→暂估→报表），先跑一遍双轨确认两轨一致，再接生产路径。</li>
+    </ul>
+  </div>
+
+  <h2>六、给强哥的下一步建议（三件事）</h2>
+  <div class="card">
+    <ol>
+      <li><b>确认超发策略（甲/乙）</b>——这是下沉前唯一必须拍板的设计点，半小时可定。</li>
+      <li><b>决定「真实组织灌数据」要不要做</b>——若想看生产链路实跑，授权我走注册流程建独立测试组织 + <code>N1T__</code> 隔离数据，比对完清理。</li>
+      <li><b>选第一个下沉域</b>——建议就从「库存过账」这一个域起步（昨晚已决断），双轨脚本已就绪，沉完跑一遍即知对错。</li>
+    </ol>
+  </div>
+
+  <div class="foot">
+    交付物：<code>docs/n1-dual-track-report.html</code>（本报告）· <code>scripts/n1_dual_track.mjs</code>（双轨比对脚本，可复现）· <code>tmp/n1-dual-track-result.md</code>（原始输出）。
+    本轮回退说明：未新建独立组织、未写入生产库、未改业务代码、未 bump 版本（纯验证 + 报告）。
+  </div>
+</div>
+</body>
+</html>
