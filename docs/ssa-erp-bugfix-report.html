@@ -65,7 +65,7 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <h2>一、结论先行</h2>
 <div class="kpis">
   <div class="kpi"><div class="n">31</div><div class="l">五路侦察共报出缺陷条目</div></div>
-  <div class="kpi"><div class="n">10</div><div class="l">累计已修复并上线</div></div>
+  <div class="kpi"><div class="n">11</div><div class="l">累计已修复并上线</div></div>
   <div class="kpi"><div class="n">2</div><div class="l">被反证为误报（已澄清）</div></div>
   <div class="kpi"><div class="n">0</div><div class="l">致命级真实缺陷</div></div>
   <div class="kpi"><div class="n">97.9%</div><div class="l">接口健康率（修复后）</div></div>
@@ -250,8 +250,10 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td>9</td><td><b>单据状态可任意跳转（已完成可退回草稿）</b></td>
 <td><span class="tag t-sev">严重</span></td>
 <td>后端 <span class="mono">purchase-orders/[id].ts:61</span> 等只存状态、不校验流转；仅计划订单有取值校验</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span><br><span class="small">需定义状态机规则后下沉</span></td></tr>
+<td><span class="done">已修</span></td>
+<td>新增 <span class="mono">functions/_shared/statusMachine.ts</span>；6 类核心单据（采购订单／销售订单／工单／入库单／出库单／记账凭证）的 PUT 接入服务端状态机——非法状态值 400，实质完结态（已收货／已全发货／已完工／已完成／已过账／已关闭／已取消／已红冲）不可回退，非完结态自由流转以零误伤前端既有行为</td>
+<td>真实代码跑 17 条断言全过（锁定态回退拒绝／非法值拒绝／合法流转放行／状态不变不误伤／凭证撤审放行）；后端类型检查 0 新增、语法＋打包 0 错</td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.4 单据状态机（核心单据先试点）</span></td></tr>
 
 <tr>
 <td>10</td><td><b>并发重复提交保护部分失效</b></td>
