@@ -19,8 +19,11 @@ export default function AccountingEntries() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
         <Typography variant="h5" fontWeight={700}>会计分录</Typography>
+        <Box sx={{ ml: 1.5 }}>
+          <Typography variant="caption" color="text.secondary">由记账凭证派生（总账）</Typography>
+        </Box>
         <Box flex={1} />
-        <Button variant="contained" startIcon={<AddIcon />} size="small" onClick={() => setCreateOpen(true)}>新建分录</Button>
+        <Button variant="contained" startIcon={<AddIcon />} size="small" onClick={() => setCreateOpen(true)}>新建手工凭证</Button>
       </Box>
 
       <Paper>
@@ -74,8 +77,11 @@ export default function AccountingEntries() {
 
       {/* 新建分录 */}
       <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>新建会计分录</DialogTitle>
+        <DialogTitle>新建手工凭证</DialogTitle>
         <DialogContent dividers>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>
+            手工录入会生成一张记账凭证（借方、贷方各一行、金额相等，天然借贷平衡），并计入总账与报表。
+          </Typography>
           <Grid container spacing={2} sx={{ pt: 1 }}>
             <Grid item xs={6}>
               <TextField fullWidth size="small" label="分录号" value={form.entryNo}

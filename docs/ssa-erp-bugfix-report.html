@@ -240,11 +240,13 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <td><span class="tag t-ok">成功</span><br><span class="small">V3.17.0 服务端算账，见第七节奏交付清单</span></td></tr>
 
 <tr>
-<td>8</td><td><b>源头分录表无借贷平衡校验</b></td>
+<td>8</td><td><b>源头分录表无借贷平衡校验（两套账并存）</b></td>
 <td><span class="tag t-sev">严重</span></td>
-<td><span class="mono">src/stores/financeStore.ts:514</span> 写 <span class="mono">fin_account_entries</span>，通用实体接口不做平衡校验（凭证表已受保护）</td>
-<td><span class="skip">跳过</span></td>
-<td>—</td><td>—</td><td><span class="tag t-no">跳过</span></td></tr>
+<td>系统并存「凭证表 <span class="mono">vouchers</span>（有借贷平衡闸门）」与「遗留表 <span class="mono">fin_account_entries</span>（无校验）」两套账，而试算平衡／资产负债／利润／现金流／预算／辅助核算／分录列表等 7 张报表读的是后者</td>
+<td><span class="done">已修</span></td>
+<td>路线 A 根治：报表真源切换为受保护的凭证表——<span class="mono">financeStore</span> 的 <span class="mono">accountEntries</span> 改为 <span class="mono">deriveEntries(vouchers)</span> 派生（复用 <span class="mono">flattenVoucherToEntries</span>，1 行分录 = 1 条记录，报表层零改动）；过账／红冲／付款／加载全部由凭证派生刷新，不再写旧表；旧表停止读写、保留历史存档；「会计分录」页手工录入正名「手工凭证」（天然借贷平衡）</td>
+<td>前端类型检查 0 错误；生产构建通过（13909 模块）；grep 确认无任何残留写旧表；另有生产域核对脚本 <span class="mono">_verify_8_ledger_source.mjs</span></td>
+<td><span class="tag t-ok">成功</span><br><span class="small">V3.17.5 报表真源切换（两套账合一）</span></td></tr>
 
 <tr>
 <td>9</td><td><b>单据状态可任意跳转（已完成可退回草稿）</b></td>
