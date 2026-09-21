@@ -260,9 +260,11 @@ code{background:#f1f3f5;padding:1px 5px;border-radius:4px;font-size:12.5px;font-
 <tr>
 <td>10</td><td><b>并发重复提交保护部分失效</b></td>
 <td><span class="tag t-sev">严重</span></td>
-<td>乐观锁仅 4 接口启用，工单未启用；多数更新路径不带版本号导致锁空转；新建无幂等键。<span style="color:#b8860b">【V3.17.3 部分已修】工单并发锁已补（迁移 0071 补 version 列 + work-orders PUT 接入 withVersionGuard）；全 30 个 PUT 端点补 version 列 + 新建单据幂等键 待强哥拍板范围后做。</span></td>
-<td><span class="done">部分已修</span></td>
-<td>迁移 0071 + functions/api/work-orders/[id].ts 接入 withVersionGuard</td><td>—</td><td><span class="tag t-mid">部分已修</span></td></tr>
+<td>乐观锁仅 4 接口启用，工单未启用；多数更新路径不带版本号导致锁空转；新建无幂等键。</td>
+<td><span class="done">已修（V3.17.7 完整范围）</span></td>
+<td>迁移 0072（18 张核心表补 version 列）+ 迁移 0073（idempotency_keys 表）+ functions/_shared/optimisticLock.ts 新增 setSql 通道 + 15 个 PUT 端点接 withVersionGuard + 通用父子框架 pcUpdate 一并覆盖 + functions/_shared/idempotency.ts 三件套（dedupeByNo + resolveIdemKey/findIdem/saveIdem）+ 6 个手写 POST 接入单号查重与幂等键 + pcCreate 框架内复用幂等键。旧表存量回填 version=1；version 是业务字段（bom_headers/process_routes）的两张表刻意排除</td>
+<td>scripts/_verify_10_lock_idem.mjs（部署后生产域往返验证：并发冲突 409 / 幂等键回放 / 单号查重 / 老客户端不传 version 放行）</td>
+<td><span class="tag t-ok">已修</span></td></tr>
 
 <tr>
 <td>11</td><td><b>空载荷未校验即落库（4 个接口）</b></td>
