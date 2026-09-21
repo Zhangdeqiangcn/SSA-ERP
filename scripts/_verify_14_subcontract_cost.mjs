@@ -69,22 +69,23 @@ const run = async () => {
     items: [{ materialId: matId, materialCode: code, materialName: 'V14委外测试物料', actualQuantity: 2, expectedQuantity: 2, unitPrice: TOTAL / 2, amount: TOTAL, unit: '个' }],
   });
   if (!assert('② 建委外入库单', inRes.status, 201)) failed++;
-  await sleep(600);
+  // 等待服务端异步过账完成（凭证生成是异步的）
+  await sleep(2000);
 
   // ① 断言 subcontract_material_cost 真的落库（这是被修掉的丢列 bug）
   const inList = await J(await GET('/api/inbound-orders?keyword=' + inNo));
   const inRow = (inList.data || []).find((r) => r.inbound_no === inNo);
   if (!assert('① 入库单落库 subcontract_material_cost', Number(inRow?.subcontract_material_cost), MAT_COST)) failed++;
 
-  // ② 断言凭证拆账正确
-  const vRes = await J(await GET('/api/vouchers?keyword=INV-' + inNo));
-  const voucher = (vRes.data || []).find((v) => v.voucherNo === 'INV-' + inNo);
+  // ② 断言凭证拆账正确（API返回snake_case字段）
+  const vRes = await J(await GET('/api/vouchers?keyword=' + inNo));
+  const voucher = (vRes.data || []).find((v) => v.source_no === inNo);
   if (!assert('② 委外入库生成凭证(存在)', voucher ? 1 : 0, 1)) failed++;
   else {
     const items = voucher.items || [];
-    const debit1405 = items.find((i) => i.accountCode === '1405' && i.debit > 0);
-    const credit1408 = items.find((i) => i.accountCode === '1408' && i.credit > 0);
-    const credit2201 = items.find((i) => i.accountCode === '2201' && i.credit > 0);
+    const debit1405 = items.find((i) => i.account_code === '1405' && i.debit > 0);
+    const credit1408 = items.find((i) => i.account_code === '1408' && i.credit > 0);
+    const credit2201 = items.find((i) => i.account_code === '2201' && i.credit > 0);
     if (!assert('② 借 1405 库存商品 = 100', debit1405?.debit, TOTAL)) failed++;
     if (!assert('② 贷 1408 委托加工物资 = 66.67（材料成本结转掉）', credit1408?.credit, MAT_COST)) failed++;
     if (!assert('② 贷 2201 GR/IR暂估 = 33.33（只挂加工费）', credit2201?.credit, roundAmount(TOTAL - MAT_COST))) failed++;
@@ -103,8 +104,8 @@ const run = async () => {
   d1q(`DELETE FROM inventory_records WHERE material_id = '${matId}'`);
   d1q(`DELETE FROM inbound_order_items WHERE inbound_order_id = '${inRowId}'`);
   await sleep(400);
-  const vFinal = await J(await GET('/api/vouchers?keyword=INV-' + inNo));
-  if (!assert('④ 凭证已清理(0)', (vFinal.data || []).length, 0)) failed++;
+  const vFinal = await J(await GET('/api/vouchers?keyword=' + inNo));
+  if (!assert('④ 凭证已清理(0)', (vFinal.data || []).filter((v) => v.source_no === inNo).length, 0)) failed++;
 
   return finish(failed, out);
 };

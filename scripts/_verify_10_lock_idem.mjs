@@ -60,7 +60,7 @@ const run = async () => {
     log(`   冲突提示：${p2j?.error || p2j?._raw || ''}`);
     // ④ 不误伤：不传 version（老客户端）必须放行
     const p3 = await PUT(`/api/stock-transfers/${cTfJ.id}`, { remarks: '不传版本号' });
-    assert('转储单 不传 version 放行(老客户端兼容)', p3.status !== 409, true);
+    assert('转储单 不传 version 放行(老客户端兼容)', p3.status === 200, true);
   }
 
   // ── ③ 单号查重：同单号重复提交（不带幂等键）→ 409 ──
@@ -82,12 +82,15 @@ const run = async () => {
   // ── ② 幂等键：同一 Idempotency-Key 重复提交只建一次 ──
   const idem = 'idem-test-' + rnd();
   const iNo = 'INB-IDEM-' + rnd();
-  const payload = { inboundNo: iNo, type: 'purchase', status: 'pending', warehouseId: 'w1', inboundDate: today, remarks: '幂等键测试' };
+  // 补充完整字段，避免 validateOrReject 拒绝
+  const payload = { inboundNo: iNo, type: 'purchase', status: 'pending', warehouseId: 'w1', warehouseName: '测试仓', inboundDate: today, vendorId: 'v1', vendorName: '测试供应商', operator: '测试员', remarks: '幂等键测试' };
+  // ① 首次提交：带幂等键，成功建单
   const i1 = await POST('/api/inbound-orders', payload, { 'Idempotency-Key': idem });
   const i1j = await J(i1);
   log(`创建入库单 ${iNo}（带幂等键）→ HTTP ${i1.status}`);
   if (i1j.id) cleanup.push(`DELETE FROM inbound_orders WHERE id = '${i1j.id}'`);
-  const i2 = await POST('/api/inbound-orders', { ...payload, inboundNo: iNo + '-B' }, { 'Idempotency-Key': idem });
+  // ② 重复提交：同一个幂等键 + 同一个 payload → 必须回放第一次结果
+  const i2 = await POST('/api/inbound-orders', payload, { 'Idempotency-Key': idem });
   const i2j = await J(i2);
   assert('入库单 同幂等键重复提交 回放(200)', i2.status, 200);
   assert('入库单 回放返回 idempotentReplay 标记', i2j?.idempotentReplay, true);
