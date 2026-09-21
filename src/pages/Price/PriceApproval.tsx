@@ -6,6 +6,7 @@ import {
   Alert, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, Divider, Stepper, Step, StepLabel,
 } from '@mui/material';
+import { Snackbar, Alert as MuiAlert } from '@mui/material';
 import { ArrowBack, Check, Close, Send } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { FlowTracker } from '@/components/common';
@@ -54,6 +55,9 @@ const PriceApproval: React.FC = () => {
 
   // 从比价单传入或从 mock 加载
   const [items, setItems] = useState<ApprovalStateItem[]>([]);
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
   const [comparisonId, setComparisonId] = useState('');
   const [comparisonNo, setComparisonNo] = useState('');
   const [inquiryId, setInquiryId] = useState('');
@@ -117,7 +121,7 @@ const PriceApproval: React.FC = () => {
   );
 
   const handleSubmitForApproval = () => {
-    alert('价格审批单已提交！（演示模式）\n将按设置中心配置的审批流依次审批');
+    setSnackbar({ open: true, message: '价格审批单已提交！（演示模式）将按设置中心配置的审批流依次审批', severity: 'info' });
     navigate('/price/approvals');
   };
 
@@ -216,7 +220,7 @@ const PriceApproval: React.FC = () => {
         approvePriceApproval(approvalId, record);
         setApprovalStatus('approved');
       }
-      alert('审批通过！价格已生效，已自动生成价目表记录。');
+      setSnackbar({ open: true, message: '审批通过！价格已生效，已自动生成价目表记录。', severity: 'success' });
     } else {
       const now = new Date().toISOString();
       const stepNode = steps[currentStep];
@@ -236,7 +240,7 @@ const PriceApproval: React.FC = () => {
         });
       }
       setApprovalStatus('rejected');
-      alert('审批驳回！请重新比价。（演示模式）');
+      setSnackbar({ open: true, message: '审批驳回！请重新比价。（演示模式）', severity: 'info' });
     }
     setShowApprovalDialog(false);
     navigate('/price/approvals');
@@ -248,6 +252,7 @@ const PriceApproval: React.FC = () => {
     : (steps[currentStep]?.id ?? 'pa-1');
 
   return (
+    <>
     <PageWrapper
       title={`价格审批单 ${approvalNo ? approvalNo : ''}`}
       actions={
@@ -411,6 +416,17 @@ const PriceApproval: React.FC = () => {
         </DialogActions>
       </Dialog>
     </PageWrapper>
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={3000}
+      onClose={() => setSnackbar(s => ({ ...s, open: false }))}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert onClose={() => setSnackbar(s => ({ ...s, open: false }))} severity={snackbar.severity} sx={{ width: '100%' }}>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+    </>
   );
 };
 

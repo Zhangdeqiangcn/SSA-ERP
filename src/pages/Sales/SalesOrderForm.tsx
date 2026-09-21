@@ -229,7 +229,7 @@ const SalesOrderForm: React.FC = () => {
     } else {
       addSalesOrder({ ...formData, id: `so-${Date.now()}`, orderNo: `SO-${Date.now()}`, status: 'draft' } as any);
     }
-    navigate('/sales/orders');
+    // D-03：保存后留在编辑页，不跳转列表
   };
 
   const [creditError, setCreditError] = useState('');

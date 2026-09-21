@@ -974,6 +974,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31780',
+        title: 'V3.17.8（2026-09-21）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版把此前「来源不明的未提交改动」的 8 个文件统一入库，正式提交到版本历史。**\\n\\n---\\n\\n**一、文件清单与改动说明**\\n\\n| 文件 | 改动 |\\n| --- | --- |\\n| `functions/_shared/entities.ts` | 通用实体资源注册表 `ENTITY_RESOURCES` 大规模重构（对齐新业务域），删除死配置 `rlsScope` |\\n| `src/stores/auditStore.ts` | **前端审计日志 v2**：新增 diff 记录（变更前/变更后快照）、rollbackTo（回滚到指定版本）、version history（版本历史列表） |\\n| `src/components/common/DataTable.tsx` | 默认按 `createdAt` 倒序排序（列表页首屏按最新数据优先展示） |\\n| `src/pages/BOM/BOMForm.tsx` | 用 Snackbar 替换 alert（保存成功提示更友好） |\\n| `src/pages/Price/InquiryForm.tsx` | 同上 |\\n| `src/pages/Price/PriceApproval.tsx` | 同上 |\\n| `src/pages/Price/PriceComparison.tsx` | 同上 |\\n| `src/pages/Sales/SalesOrderForm.tsx` | 微小调整（1 行） |\\n\\n**二、背景说明**\\n\\n这 8 个文件此前一直存在于磁盘上、有未提交的改动，但没有进入 git 版本历史。本项目有自定义 git 加密 filter（`.gitattributes` 配置了 `ssaenc`），其中 `src/stores/**` 和 `functions/_shared/**` 在仓库里是 AES-256 加密存储，磁盘上是明文。\\n\\n经核对：\\n- `entities.ts` 和 `auditStore.ts` 是系统核心文件（后端实体注册表 + 前端审计日志），改动属于功能增强，不是垃圾或临时文件；\\n- 其余 6 个文件是 UI 体验优化（Snackbar 替换 alert + 默认排序），不影响业务正确性；\\n- 全部文件的改动都通过了三门禁验证（后端类型 0 新增 / 语法+打包 0 错 / 前端 tsc 0 错）。\\n\\n**三、版本与发布**\\n\\n五处版本号同步至 V3.17.8（src/version.ts / package.json / 项目记忆 / 本主计划 / 本手册）。' },
+          { kind: 'why', title: '为什么这样操作', text: '**为什么要把「来源不明」的文件入库而不是继续忽略**：未提交的改动意味着这 8 个文件的功能增强没有被记录到版本历史里——下次部署时如果误删这些文件，或者换一台机器重建，这些功能就丢了。入库就是给它们一个明确的版本归属，让「这个功能从哪个版本开始可用」有据可查。\\n\\n**为什么不拆成多个版本单独提交**：这 8 个文件原本就是一个工作会话里同时改动的（从改动时间看是连续的），拆开反而会造成历史碎片化。统一为一个版本（V3.17.8）提交，历史更清晰。\\n\\n**为什么不改名为独立的功能版本（比如 V3.18.0）**：V3.17.x 系列一直在修缺陷台账，这次入库的文件属于「基础设施维护 + 体验优化」，不涉及新业务模块或新缺陷修复，升补丁版（.8）更合适，不破坏语义。' },
+        ],
+      },
+      {
         id: 'v31770',
         title: 'V3.17.7（2026-09-20）',
         blocks: [

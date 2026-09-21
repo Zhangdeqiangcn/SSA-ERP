@@ -348,7 +348,10 @@ export function DataTable<T>({
     getPaginationRowModel: enablePagination ? getPaginationRowModel() : undefined,
     getFilteredRowModel: getFilteredRowModel(),
     defaultColumn: { filterFn: fuzzyIncludes },
-    initialState: { pagination: { pageSize } },
+    initialState: {
+      pagination: { pageSize },
+      sorting: [{ id: 'createdAt', desc: true }],
+    },
   });
 
   // ── B7：窗口化渲染的区间计算 ──────────────────────────────────────

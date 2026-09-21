@@ -6,6 +6,7 @@ import {
   Divider, IconButton, Tooltip, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField,
 } from '@mui/material';
+import { Snackbar, Alert as MuiAlert } from '@mui/material';
 import {
   ArrowBack, LowPriority, CheckCircle, Send, Visibility,
 } from '@mui/icons-material';
@@ -31,19 +32,31 @@ const PriceComparison: React.FC = () => {
     inquiry = priceInquiries.find(i => i.id === inquiryId);
   }
 
-  if (id && id !== 'new' && !comparison) {
-    return (
-      <PageWrapper title="比价单">
-        <Alert severity="warning">比价单不存在</Alert>
-      </PageWrapper>
-    );
-  }
-
-  // 如果是新建模式，自动生成比价数据
   const [selections, setSelections] = useState<Record<string, string>>({});
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
   const [submitted, setSubmitted] = useState(false);
 
-  // 如果是新建，构建比价数据
+  if (id && id !== 'new' && !comparison) {
+    return (
+      <>
+        <PageWrapper title="比价单">
+          <Alert severity="warning">比价单不存在</Alert>
+        </PageWrapper>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={3000}
+          onClose={() => setSnackbar(s => ({ ...s, open: false }))}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        >
+          <Alert onClose={() => setSnackbar(s => ({ ...s, open: false }))} severity={snackbar.severity} sx={{ width: '100%' }}>
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
+      </>
+    );
+  }
   let displayData;
   if (comparison) {
     displayData = comparison;
@@ -126,7 +139,7 @@ const PriceComparison: React.FC = () => {
   const handleSubmitApproval = () => {
     const hasUnselected = displayData.items.some((item: any) => !selections[item.materialId]);
     if (hasUnselected) {
-      alert('请为所有物料选择供应商');
+      setSnackbar({ open: true, message: '请为所有物料选择供应商', severity: 'error' }); return;
       return;
     }
     setSubmitted(true);
@@ -163,6 +176,7 @@ const PriceComparison: React.FC = () => {
   };
 
   return (
+    <>
     <PageWrapper
       title={comparison ? `比价单 ${comparison.comparisonNo}` : '新建比价单'}
       actions={
@@ -171,7 +185,7 @@ const PriceComparison: React.FC = () => {
             documentNo={comparison?.comparisonNo || displayData.inquiryNo} />
           {!comparison && !submitted && (
             <>
-              <Button variant="outlined" onClick={() => alert('比价单已暂存！（演示模式）')}>暂存</Button>
+              <Button variant="outlined" onClick={() => { setSnackbar({ open: true, message: '比价单已暂存！（演示模式）', severity: 'info' }); }}>暂存</Button>
               <Button variant="contained" color="primary" startIcon={<Send />}
                 onClick={handleSubmitApproval}>
                 提交价格审批
@@ -336,6 +350,17 @@ const PriceComparison: React.FC = () => {
         </Stack>
       </Paper>
     </PageWrapper>
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={3000}
+      onClose={() => setSnackbar(s => ({ ...s, open: false }))}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert onClose={() => setSnackbar(s => ({ ...s, open: false }))} severity={snackbar.severity} sx={{ width: '100%' }}>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+    </>
   );
 };
 

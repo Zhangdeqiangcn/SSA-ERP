@@ -6,6 +6,7 @@ import {
   Stack, Alert, Autocomplete, Chip, Divider, MenuItem,
   Select, FormControl, InputLabel, Checkbox,
 } from '@mui/material';
+import { Snackbar, Alert as MuiAlert } from '@mui/material';
 import Grid2 from '@mui/material/Unstable_Grid2';
 import { Add, Delete, Save, Send, ArrowBack, PlaylistAdd } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
@@ -55,6 +56,9 @@ const InquiryForm: React.FC = () => {
   const addPriceInquiry = usePriceStore(s => s.addPriceInquiry);
 
   const [title, setTitle] = useState('');
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
   const [deadline, setDeadline] = useState('');
   const [currency, setCurrency] = useState('CNY');
   const [remarks, setRemarks] = useState('');
@@ -162,7 +166,7 @@ const InquiryForm: React.FC = () => {
           });
         });
       });
-      if (newItems.length === 0) alert('请先勾选需要加入的采购申请行项');
+      if (newItems.length === 0) { setSnackbar({ open: true, message: '请先勾选需要加入的采购申请行项', severity: 'error' }); return; }
       else setItems(prev => [...prev, ...newItems]);
       setSelectedPRIds(new Set());
     }
@@ -189,13 +193,13 @@ const InquiryForm: React.FC = () => {
           remarks: '',
         });
       });
-      if (newItems.length === 0) alert('请先勾选需要加入的物料');
+      if (newItems.length === 0) { setSnackbar({ open: true, message: '请先勾选需要加入的物料', severity: 'error' }); return; }
       else setItems(prev => [...prev, ...newItems]);
       setSelectedMatIds(new Set());
     }
 
     if (sourceType === 'customer_inquiry') {
-      alert('客户询价来源功能开发中，敬请期待');
+      setSnackbar({ open: true, message: '客户询价来源功能开发中，敬请期待', severity: 'info' });
     }
   };
 
@@ -281,11 +285,7 @@ const InquiryForm: React.FC = () => {
       .map(tv => ({ tv, bl: checkVendorBlacklist(tv.id) }))
       .filter(x => x.bl.blacklisted);
     if (hits.length === 0) return false;
-    alert(
-      `以下目标供应商已列入黑名单，询价单无法发布：\n` +
-        hits.map(h => `· ${h.bl.vendorName || h.tv.name}：${h.bl.reason || '未填写原因'}`).join('\n') +
-        `\n\n请移除上述供应商后重新发布。`
-    );
+    setSnackbar({ open: true, message: '以下目标供应商已列入黑名单，询价单无法发布：\n' + hits.map(h => `· ${h.bl.vendorName || h.tv.name}：${h.bl.reason || '未填写原因'}`).join('\n') + '\n\n请移除上述供应商后重新发布。', severity: 'error' });
     return true;
   };
 
@@ -297,19 +297,19 @@ const InquiryForm: React.FC = () => {
 
   const handlePublish = () => {
     if (!title.trim()) {
-      alert('请输入询价单标题');
+      setSnackbar({ open: true, message: '请输入询价单标题', severity: 'error' });
       return;
     }
     if (items.length === 0) {
-      alert('请添加至少一项物料');
+      setSnackbar({ open: true, message: '请添加至少一项物料', severity: 'error' });
       return;
     }
     if (!deadline) {
-      alert('请设置报价截止日期');
+      setSnackbar({ open: true, message: '请设置报价截止日期', severity: 'error' });
       return;
     }
     if (targetVendors.length === 0) {
-      alert('请选择至少一个目标供应商');
+      setSnackbar({ open: true, message: '请选择至少一个目标供应商', severity: 'error' });
       return;
     }
     // B6：黑名单供应商命中即阻断，询价单不落库
@@ -343,6 +343,7 @@ const InquiryForm: React.FC = () => {
   });
 
   return (
+    <>
     <PageWrapper
       title="新建询价单"
       actions={
@@ -580,6 +581,17 @@ const InquiryForm: React.FC = () => {
         />
       </Paper>
     </PageWrapper>
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={3000}
+      onClose={() => setSnackbar(s => ({ ...s, open: false }))}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert onClose={() => setSnackbar(s => ({ ...s, open: false }))} severity={snackbar.severity} sx={{ width: '100%' }}>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+    </>
   );
 };
 

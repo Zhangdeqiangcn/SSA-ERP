@@ -4,7 +4,7 @@ import {
   Box, Typography, Paper, Chip, Button, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, IconButton, Divider, Grid,
   TextField, Autocomplete, Stack, Alert, Tooltip, MenuItem,
-  Switch, Slider, FormControlLabel,
+  Switch, Slider, FormControlLabel, Snackbar,
 } from '@mui/material';
 import {
   ArrowBack, Edit, ExpandMore, ExpandLess, Add, Delete, Save,
@@ -63,6 +63,11 @@ const BOMForm: React.FC = () => {
   const [byProducts, setByProducts] = useState<ByProduct[]>(existingBOM?.byProducts ?? []);
   // ── P1-19 成本分摊方法 ──
   const [costSplitMethod, setCostSplitMethod] = useState<CostSplitMethod | ''>(existingBOM?.costSplitMethod ?? '');
+
+  // snackbar 提示
+  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
+    open: false, message: '', severity: 'info',
+  });
   
   // BOM物料清单
   const [items, setItems] = useState<BOMItemRow[]>(existingBOM?.items?.map(item => ({
@@ -201,12 +206,12 @@ const BOMForm: React.FC = () => {
   const handleSave = () => {
     // 验证
     if (!productName.trim()) {
-      alert('请输入产品名称');
+      setSnackbar({ open: true, message: '请输入产品名称', severity: 'error' });
       return;
     }
-    
+
     if (items.length === 0) {
-      alert('请添加至少一项物料');
+      setSnackbar({ open: true, message: '请添加至少一项物料', severity: 'error' });
       return;
     }
 
@@ -244,18 +249,18 @@ const BOMForm: React.FC = () => {
         ...bomData,
       });
     }
-    navigate('/bom');
+    setSnackbar({ open: true, message: isEdit ? 'BOM 已保存' : 'BOM 已创建', severity: 'success' });
   };
 
   // 发布BOM
   const handleRelease = () => {
     if (!productName.trim()) {
-      alert('请输入产品名称');
+      setSnackbar({ open: true, message: '请输入产品名称', severity: 'error' });
       return;
     }
-    
+
     if (items.length === 0) {
-      alert('请添加至少一项物料');
+      setSnackbar({ open: true, message: '请添加至少一项物料', severity: 'error' });
       return;
     }
 
@@ -293,7 +298,7 @@ const BOMForm: React.FC = () => {
         ...bomData,
       });
     }
-    navigate('/bom');
+    setSnackbar({ open: true, message: isEdit ? 'BOM 已保存' : 'BOM 已创建', severity: 'success' });
   };
 
   const buildPrintRecord = (): Record<string, any> => ({
@@ -320,6 +325,7 @@ const BOMForm: React.FC = () => {
   });
 
   return (
+    <>
     <PageWrapper
       title={isEdit ? `编辑BOM - ${bomNo}` : '新建BOM'}
       actions={
@@ -649,6 +655,17 @@ const BOMForm: React.FC = () => {
         )}
       </Paper>
     </PageWrapper>
+    <Snackbar
+      open={snackbar.open}
+      autoHideDuration={3000}
+      onClose={() => setSnackbar(s => ({ ...s, open: false }))}
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    >
+      <Alert onClose={() => setSnackbar(s => ({ ...s, open: false }))} severity={snackbar.severity} sx={{ width: '100%' }}>
+        {snackbar.message}
+      </Alert>
+    </Snackbar>
+    </>
   );
 };
 
