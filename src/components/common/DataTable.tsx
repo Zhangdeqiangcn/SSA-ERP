@@ -14,6 +14,8 @@ import {
 } from '@mui/icons-material';
 import { statusConfig } from './StatusBadge';
 import { triggerDownload } from '@/utils/exportUtils';
+import { hasPermission } from '@/utils/permission';
+import { useAuthStore } from '@/stores/authStore';
 import {
   useReactTable, getCoreRowModel, getSortedRowModel, getPaginationRowModel,
   getFilteredRowModel, flexRender, ColumnDef, SortingState,
@@ -586,37 +588,81 @@ export function DataTable<T>({
   };
 
   const handleExport = async () => {
-    const exportData = buildExportRows();
-    const stamp = new Date().toLocaleDateString('zh-CN').replace(/\//g, '-');
-    if (exportFormat === 'csv') {
-      const headers = Object.keys(exportData[0] || {});
-      const lines = [headers.join(',')];
-      exportData.forEach((r) => {
-        lines.push(headers.map((h) => {
-          const v = String(r[h] ?? '').replace(/"/g, '""');
-          return `"${v}"`;
-        }).join(','));
-      });
-      const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `export_${stamp}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
+    // 权限检查
+    if (!hasPermission('export')) {
+      alert('您没有导出权限，请联系管理员开通');
       return;
     }
-    const XLSX = await import('xlsx');
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    triggerDownload(file, `export_${stamp}.xlsx`);
+
+    const exportData = buildExportRows();
+    if (!exportData || exportData.length === 0) {
+      alert('没有可导出的数据');
+      return;
+    }
+
+    // 获取当前用户信息用于水印
+    const currentUser = useAuthStore.getState().currentUser;
+    const userName = currentUser?.name || currentUser?.username || 'unknown';
+    const userId = currentUser?.id || 'unknown';
+    const orgName = currentUser?.org_name || '';
+    const stamp = new Date().toISOString().slice(0, 16).replace(/:/g, '-');
+
+    try {
+      if (exportFormat === 'csv') {
+        const headers = Object.keys(exportData[0] || {});
+        const lines = [headers.join(',')];
+        exportData.forEach((r) => {
+          lines.push(headers.map((h) => {
+            const v = String(r[h] ?? '').replace(/"/g, '""');
+            return `"${v}"`;
+          }).join(','));
+        });
+        // 添加水印行
+        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgName}`);
+        const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `export_${userName}_${stamp}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        const XLSX = await import('xlsx');
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        triggerDownload(file, `export_${userName}_${stamp}.xlsx`);
+      }
+
+      // 记录审计日志
+      try {
+        await fetch('/api/audit/logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            entity: entity || 'datatable',
+            action: 'export',
+            summary: `导出 ${exportData.length} 条数据`,
+            entityId: entity ? `${entity}:${exportData.length}rows` : undefined,
+          }),
+        });
+      } catch (e) {
+        console.warn('[Audit] 导出审计日志写入失败', e);
+      }
+    } catch (err) {
+      console.error('[Export] 导出失败', err);
+      alert('导出失败，请重试');
+    }
   };
 
   const handleBatchExport = async () => {
     if (onBatchExport) { onBatchExport(selectedRows); return; }
+    if (!hasPermission('export')) {
+      alert('您没有导出权限，请联系管理员开通');
+      return;
+    }
     const exportData = selectedRows.map((row) => {
       const rowData: Record<string, unknown> = {};
       columns.forEach((col) => {
@@ -625,28 +671,58 @@ export function DataTable<T>({
       });
       return rowData;
     });
-    if (exportFormat === 'csv') {
-      const headers = Object.keys(exportData[0] || {});
-      const lines = [headers.join(',')];
-      exportData.forEach((r) => {
-        lines.push(headers.map((h) => `"${String(r[h] ?? '').replace(/"/g, '""')}"`).join(','));
-      });
-      const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'selected_export.csv';
-      a.click();
-      URL.revokeObjectURL(url);
-      return;
+
+    // 获取当前用户信息用于水印
+    const currentUser = useAuthStore.getState().currentUser;
+    const userName = currentUser?.name || currentUser?.username || 'unknown';
+    const userId = currentUser?.id || 'unknown';
+    const orgName = currentUser?.org_name || '';
+    const stamp = new Date().toISOString().slice(0, 16).replace(/:/g, '-');
+
+    try {
+      if (exportFormat === 'csv') {
+        const headers = Object.keys(exportData[0] || {});
+        const lines = [headers.join(',')];
+        exportData.forEach((r) => {
+          lines.push(headers.map((h) => `"${String(r[h] ?? '').replace(/"/g, '""')}"`).join(','));
+        });
+        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgName}`);
+        const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `selected_${userName}_${stamp}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+      } else {
+        const XLSX = await import('xlsx');
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected');
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        triggerDownload(file, `selected_${userName}_${stamp}.xlsx`);
+      }
+
+      // 记录审计日志
+      try {
+        await fetch('/api/audit/logs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            entity: entity || 'datatable',
+            action: 'batch_export',
+            summary: `批量导出 ${selectedRows.length} 条数据`,
+            entityId: entity ? `${entity}:batch:${selectedRows.length}rows` : undefined,
+          }),
+        });
+      } catch (e) {
+        console.warn('[Audit] 批量导出审计日志写入失败', e);
+      }
+    } catch (err) {
+      console.error('[BatchExport] 批量导出失败', err);
+      alert('批量导出失败，请重试');
     }
-    const XLSX = await import('xlsx');
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Selected');
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    const file = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    triggerDownload(file, 'selected_export.xlsx');
   };
 
   const selectedRows = table.getSelectedRowModel().rows.map(r => r.original) as T[];
