@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V3.18.0 版本更新与缺陷复核报告</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --ink2:#454545; --ink3:#6b6b6b;
+    --line:#e3e5e8; --bg:#ffffff; --bg2:#f7f8fa;
+    --blue:#1b5fbf; --blue-bg:#eef4fd;
+    --red:#c0392b; --red-bg:#fdf0ee;
+    --green:#1e7b45; --green-bg:#eef8f1;
+    --amber:#9a6400; --amber-bg:#fdf6e7;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:0; background:var(--bg2); color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",-apple-system,sans-serif;
+    line-height:1.75; font-size:15px;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:32px 22px 64px;}
+  header{
+    background:var(--bg); border:1px solid var(--line); border-radius:10px;
+    padding:30px 32px 26px; margin-bottom:22px;
+  }
+  h1{margin:0 0 6px; font-size:26px; letter-spacing:.3px;}
+  .sub{color:var(--ink3); font-size:13.5px;}
+  .badge{
+    display:inline-block; background:var(--blue); color:#fff; font-size:12.5px;
+    padding:3px 11px; border-radius:20px; margin-right:9px; vertical-align:2px;
+  }
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:12px; margin-top:22px;}
+  .kpi{background:var(--bg2); border:1px solid var(--line); border-radius:8px; padding:13px 15px;}
+  .kpi .n{font-size:21px; font-weight:700; color:var(--blue); line-height:1.3;}
+  .kpi .l{font-size:12.5px; color:var(--ink3); margin-top:2px;}
+  section{
+    background:var(--bg); border:1px solid var(--line); border-radius:10px;
+    padding:26px 32px 28px; margin-bottom:18px;
+  }
+  h2{
+    font-size:18.5px; margin:0 0 16px; padding-bottom:9px;
+    border-bottom:2px solid var(--blue); display:inline-block;
+  }
+  h3{font-size:15.5px; margin:22px 0 8px; color:var(--ink);}
+  p{margin:9px 0;}
+  ul{margin:9px 0; padding-left:22px;}
+  li{margin:6px 0;}
+  code{
+    background:var(--bg2); border:1px solid var(--line); border-radius:4px;
+    padding:1px 5px; font-family:Consolas,Monaco,monospace; font-size:13px; color:#b3372a;
+  }
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px;}
+  th,td{border:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top;}
+  th{background:var(--bg2); font-weight:600; color:var(--ink2); white-space:nowrap;}
+  td.num{text-align:right; font-variant-numeric:tabular-nums;}
+  .box{border-radius:8px; padding:15px 18px; margin:16px 0; border:1px solid;}
+  .box.warn{background:var(--red-bg); border-color:#f0c4bd; color:#7d2419;}
+  .box.tip{background:var(--green-bg); border-color:#c2e2ce; color:#145c33;}
+  .box.note{background:var(--amber-bg); border-color:#ecd9ab; color:#6d4600;}
+  .box .t{font-weight:700; display:block; margin-bottom:6px; font-size:14.5px;}
+  .tag{display:inline-block; font-size:12px; padding:1px 8px; border-radius:12px; margin-right:6px; vertical-align:1px;}
+  .tag.fix{background:var(--green-bg); color:var(--green); border:1px solid #c2e2ce;}
+  .tag.new{background:var(--blue-bg); color:var(--blue); border:1px solid #c6dcf7;}
+  .tag.rev{background:var(--red-bg); color:var(--red); border:1px solid #f0c4bd;}
+  .strike{color:var(--ink3); text-decoration:line-through;}
+  .mono{font-family:Consolas,Monaco,monospace; font-size:13px;}
+  footer{color:var(--ink3); font-size:12.5px; text-align:center; padding:18px;}
+  .lead{font-size:16px; color:var(--ink2);}
+  .lead b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1><span class="badge">V3.18.0</span>SSA ERP 版本更新与缺陷复核报告</h1>
+  <div class="sub">发布日期 2026-09-23　·　生产地址 <span class="mono">https://ssa-erp.pages.dev</span>　·　本次部署 <span class="mono">https://4df0c4d3.ssa-erp.pages.dev</span></div>
+
+  <p class="lead" style="margin-top:20px;">
+    本版做三件新事——<b>审批能撤回、能催办、出差能委托</b>，<b>导出的数据有权限和留痕了</b>，<b>单位换算进了正式数据库</b>；
+    同时收口了四处"上次说修了、其实没修好"的遗留缺陷，并<b>主动更正一项失实的"已修"结论</b>。
+  </p>
+
+  <div class="kpis">
+    <div class="kpi"><div class="n">4 条</div><div class="l">对标报告差距收口（9 / 10 / 11 / 15）</div></div>
+    <div class="kpi"><div class="n">124 处</div><div class="l">质检抽样方案原有的自相矛盾</div></div>
+    <div class="kpi"><div class="n">50 / 50</div><div class="l">生产端到端断言全绿</div></div>
+    <div class="kpi"><div class="n">1 项</div><div class="l">失实的"已修"结论被更正</div></div>
+  </div>
+</header>
+
+<section>
+  <h2>一、审批中心新增三个动作</h2>
+  <p>此前审批只有"提交"和"通过 / 拒绝"三种状态：单子填错了撤不回来，只能等对方拒绝；审批人忘了处理没有任何提醒；审批人出差，单子就卡死。本版补齐三件事：</p>
+
+  <table>
+    <thead><tr><th>动作</th><th>谁可以做</th><th>具体做了什么</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>撤回</b></td>
+        <td>提交人本人或管理员</td>
+        <td>把单据收回来，<b>同时把它退回草稿</b>——不是只改一个状态字段，业务单据真的回到未提交状态，并可重新提交</td>
+      </tr>
+      <tr>
+        <td><b>催办</b></td>
+        <td>提交人本人或管理员</td>
+        <td>提醒当前审批人，系统记录催过几次、什么时候催的；同一单据 <b>30 分钟内只能催一次</b>，避免变成刷屏骚扰</td>
+      </tr>
+      <tr>
+        <td><b>委托</b></td>
+        <td>任何审批人</td>
+        <td>出差 / 请假期间把审批权交给同事，可限定只管某一类单据、也可管全部；委托期内轮到你审批的单子<b>自动转给对方</b>，单子上标注"代某某批"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>几处刻意的设计取舍</h3>
+  <ul>
+    <li><b>审批通过 / 驳回只能由当前节点的审批人本人操作，管理员也不能代办</b>。审批是责任动作，代价是纠错要走"撤回"而不是让管理员直接批——换来的是"谁批的"永远可追溯。</li>
+    <li><b>委托关系单独建表，而不是在用户资料上加一个"代理人"字段</b>。加字段只能表达"谁代理谁"，表达不了"代理到哪天"和"只代理采购类"这两件事。</li>
+    <li><b>新增了一个只返回姓名、部门、角色的轻量名录接口</b>。委托时要选人，而唯一能列出用户的接口只有管理员能用——那结果就是"委托功能对普通主管不可用"。名录不返回邮箱和手机号：办事只需要知道找谁。</li>
+    <li><b>撤回不是只改标记</b>。如果只把审批记录标记为"已撤回"，而采购申请单本身还挂着"审核中"，采购同事看到的仍是"在审"、审批人待办里也还在——用户以为撤回了，实际没有。</li>
+  </ul>
+
+  <p>侧边栏"审批中心"新增"我提交的"分组（可催办 / 可撤回）与"审批委托"入口。另外，<b>原先把侧边栏的 ✓ / ✕ 两个按钮点下去是没有反应的</b>（代码里是待办占位），现在会真的审批，或者在单据不支持快捷审批时明确提示"请到某某页面处理"，不再假装成功。</p>
+</section>
+
+<section>
+  <h2>二、导出数据的管控（真 Bug 修复）</h2>
+  <p>任何登录用户此前都能把任意列表全量导出为表格，没有权限要求、没有记录、文件里也没有标识。本版：导出前检查权限；每次导出都写一条审计日志（谁、什么时候、在哪个页面、导出了多少条）；导出的文件名和表格末尾带上导出人与时间戳。</p>
+
+  <div class="box warn">
+    <span class="t">⚠ 这块"看起来早就做了"，实际上一条记录都没落库</span>
+    上一轮已经写了导出留痕的代码，但那段代码发请求时<b>没有携带登录令牌</b>，后端一律判定为"未登录"、直接拒绝；而这个错误又被一个空捕获吞掉了，界面上完全看不出来。
+    结果就是：<b>留痕代码写得很像样，服务端一条日志都没有</b>。本版新增了一个"带令牌请求头"的统一出口，把两处同类问题一起修掉。
+    <br><br>这类缺陷正是"合规意义上等于零"的典型——功能开关显示为开，实际上没有任何数据产生。
+  </div>
+</section>
+
+<section>
+  <h2>三、单位换算规则进入正式数据库</h2>
+  <p>换算规则（如 1 箱 = 12 个）此前只存在浏览器本地，换台电脑就不一样、也不进备份。现已迁入服务端数据库，全公司口径统一，改动有审计记录。</p>
+
+  <div class="box warn">
+    <span class="t">⚠ 上一轮只建了仓库，没人往里搬货</span>
+    上一轮确实建好了数据表和接口，但前端仍然读写浏览器本地那份——<b>新表从头到尾没被用过一次</b>。更麻烦的是，<b>建表的那条数据库迁移从来没有应用到生产库</b>，也就是说线上接口查的是一张<b>不存在的表</b>。
+    <br><br>本版把前端主源切到数据库、并补上了漏掉的那条迁移。另有"恢复默认"按钮的语义被修正：它原先会连带抹掉公司自定义的换算率，属破坏性操作，已改为"重新加载"。
+  </div>
+</section>
+
+<section>
+  <h2>四、随本轮一并收口的遗留缺陷</h2>
+  <p>这几项不是新功能，是复查时发现"上次说修了、其实没修好"的地方。共同特征是：<b>代码语法完全正确、编译门禁一个都抓不到，但用户看到的/拿到的就是错东西。</b></p>
+
+  <table>
+    <thead><tr><th>位置</th><th>原来的毛病</th><th>现在</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>质检抽样方案<br><span class="sub">（按 GB/T 2828.1 标准）</span></td>
+        <td>显示出来的"字码"与"样本量"可能对不上——<b>455 种"批量 × 检验水平 × AQL"组合里有 124 种互相矛盾</b>。例如显示"字码 B、样本量 2"，而字码 B 对应的样本量是 3。检验员照着执行会抽错数量，而质量判定直接建立在抽错的数量上。</td>
+        <td>字码与样本量始终取自同一行；实测 <b>455 种组合零矛盾</b>。</td>
+      </tr>
+      <tr>
+        <td>采购比价页的评分条</td>
+        <td>一句本该"鼠标悬停才显示"的提示，被写成了页面上的正文，于是<b>每条评分条旁边都多印出一行</b> <code>title="已计算分数"</code> 的字。</td>
+        <td>提示恢复正常，悬停才显示。</td>
+      </tr>
+      <tr>
+        <td>采购比价页的"评分权重"按钮</td>
+        <td>引用了不存在的图标名，<b>该页面直接编译失败</b>——打开就是白屏。</td>
+        <td>换成实际存在的图标，页面恢复正常。</td>
+      </tr>
+      <tr>
+        <td>财务报表页</td>
+        <td>只能打印，不能导出 PDF。</td>
+        <td>新增"导出 PDF"按钮。</td>
+      </tr>
+      <tr>
+        <td>凭证 / 报表 PDF 导出函数</td>
+        <td>自建的临时元素没设编号，而打印函数是按编号去找元素的——<b>永远找不到，然后静默返回</b>。表现是"点了没反应、也不报错"。</td>
+        <td>补上编号，导出可正常触发打印预览。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>其中第一项特别值得说明：<b>"字码与样本量矛盾"属于"界面上看着正常、其实给人错数字"的类型，任何类型检查都抓不到</b>（代码语法完全正确），只有把全部组合跑一遍、做交叉核对才会暴露。这也是本轮把"同类判定必须放在同一屏对比"列为常规检查项的原因。</p>
+</section>
+
+<section>
+  <h2>五、★ 一项失实的"已修"结论被更正</h2>
+
+  <div class="box warn">
+    <span class="t">"三单匹配"目前不能当作付款的自动闸门</span>
+    系统里有一个"采购订单 / 收货单 / 发票三者一致才能付款"的控制点。上一版把它标记为<b>已修复</b>——超差时会返回一个"应阻断"的标记，供付款流程拦截。
+    <br><br>本轮复查发现：<b>这个标记从来没有任何人读过</b>。
+    <ul style="margin-top:8px;">
+      <li>后端那个接口<b>前端从来没调用过</b>，而且它连读取接口都没有（只有"创建"没有"查询"）；</li>
+      <li>界面上的三单匹配是<b>前端自己另算的一套</b>，跟后端那个接口没有数据往来；</li>
+      <li>三个付款相关页面<b>没有一处在付款前检查这个标记</b>。</li>
+    </ul>
+    也就是说：<b>闸门造好了，但没有人接线，付款实际仍不会被拦</b>。
+    <br><br>复查中还发现更基础的一层：那个接口的<b>地址本身就是错的</b>——文档和代码注释里写的地址实测返回"方法不允许"（405），必须带后缀才能进去。也就是说，即使有人照文档去调用，也调不通。
+    <br><br>本版<b>如实记录了这一点</b>（写进使用说明书的注意事项与代码注释），避免下一个人继续按"已修"理解；正式整改列入下一轮。在此期间，<b>付款前的一致性核对仍需人工完成</b>。
+  </div>
+</section>
+
+<section>
+  <h2>六、工程与验证</h2>
+
+  <h3>门禁（全部通过）</h3>
+  <table>
+    <thead><tr><th>检查项</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>前端类型检查</td><td><span class="tag fix">通过</span>0 错</td></tr>
+      <tr><td>后端函数类型检查</td><td><span class="tag fix">通过</span>0 新增（存量基线由 60 条降至 59 条）</td></tr>
+      <tr><td>语法与打包引用检查</td><td><span class="tag fix">通过</span>147 个文件、0 错</td></tr>
+      <tr><td>一致性核对（登记表 / 生产库 / 前端调用）</td><td><span class="tag fix">通过</span>三项：僵尸登记 0、漏登记 0、前端调用 0 处 404 风险</td></tr>
+      <tr><td>数据库迁移链（全新空库重建）</td><td><span class="tag fix">通过</span>0001 → 0075 一次跑通，0 失败</td></tr>
+    </tbody>
+  </table>
+
+  <h3>生产端到端验证（在已部署的线上环境实跑）</h3>
+  <p>新增常驻套件"审批实例"，共 <b>50 条断言，全部通过</b>。关键几条已实证：</p>
+  <ul>
+    <li>撤回后<b>业务单据真的退回草稿</b>（不是只改标记），且可重新提交；</li>
+    <li>委托期内<b>待审批单据自动改派给受委托人</b>，原审批人信息被保留（用于标注"代批"）；</li>
+    <li>受委托人<b>可以代批</b>；委托期内<b>原审批人处理被拒</b>（避免两边都能批）；</li>
+    <li>单位换算接口<b>返回 200 且带真实数据</b>（坐实"表已上生产库"）；</li>
+    <li>组织成员名录<b>只返回 id / 姓名 / 部门 / 角色</b>，不含邮箱手机号；</li>
+    <li>未登录访问审批接口<b>返回 401</b>。</li>
+  </ul>
+
+  <h3>本轮抓出的两个"只有真跑才会暴露"的故障</h3>
+  <p>两个新接口的列表查询在管理员名下会返回 500——原因是查询条件的占位符数量与绑定参数数量不一致（SQL 里有 1 个占位符、却绑定了 2 个参数）。<b>这类问题本地构建、类型检查都不会暴露，只有对真实生产端点发起一次请求才会出现。</b>已修复。</p>
+</section>
+
+<section>
+  <h2>七、两条固化下来的工程教训</h2>
+
+  <div class="box note">
+    <span class="t">教训一：类型检查的"基线快照"会无差别吸收新引入的真错误</span>
+    项目为后端函数维护了一份"已知问题基线"，检查时只报新增。本轮发现那个恒为假的表达式<b>其实早就被类型检查报了出来</b>，只是在一次"刷新基线"时被当成"历史遗留噪声"一起收了进去——<b>从此门禁再也看不见它</b>。
+    <br><br>这与"把安全网上的破洞剪掉补成平的"是同一件事。新规则：<b>刷新基线前，必须先把当前问题清单与旧基线按"文件 + 错误内容（不含行号）"做一次差集审查，确认新增为 0 才允许写入。</b>
+  </div>
+
+  <div class="box note">
+    <span class="t">教训二："后端有、前端没调用"的端点不能默认当作无害预留</span>
+    一致性核对的输出里有一句"后端有但前端未调用 = 66 条（预留 / 后台端点，通常无害）"。本轮证明这个桶里<b>至少藏着一个"声称已修但实际没接线"的能力</b>（就是上面第五节那个付款闸门）。
+    <br><br>新规则：<b>凡声称"已修 / 已上线"的能力，必须回答"谁在调用它、绕过界面是否仍然成立"，不能凭"端点存在"判定功能成立。</b>
+  </div>
+</section>
+
+<section>
+  <h2>八、下一轮计划</h2>
+  <ol>
+    <li><b>把三单匹配的付款闸门真正接通</b>：补服务端查询接口、让界面改用服务端权威数据、在付款流程中真正读取阻断标记（含阻断阈值与提示方式的产品决策）。</li>
+    <li><b>生产倒冲发料</b>（对标差距 13）。</li>
+    <li><b>字段级权限：只读 / 必填</b>（对标差距 19）。</li>
+    <li>剩余对标差距 6（销售价目表服务端接口）、2（报表服务端端点）。</li>
+    <li>技术债：前端零单测、端到端仅覆盖正常路径、部分超大文件。</li>
+  </ol>
+</section>
+
+<footer>
+  SSA ERP V3.18.0 · 2026-09-23 · 本报告与《实施主计划》《使用说明书》同源，如有不一致以主计划为准
+</footer>
+
+</div>
+</body>
+</html>
