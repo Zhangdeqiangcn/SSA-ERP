@@ -69,7 +69,17 @@ async function loadSuites(only) {
 
 async function main() {
   const args = parseArgs(process.argv);
-  const runId = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(2, 14); // yymmddHHMMSS
+  // 批次号 = yymmddHHMMSS + 4 位随机后缀。
+  // ── 为什么必须带随机后缀（V3.20.0 修）────────────────────────────
+  // 隔离组织的公司码就是 `E2E-<runId>`。原实现只精确到「秒」，于是同一条命令
+  // 并行启动多个套件（如同时跑 23/27/28）时，它们在同一秒取到**完全相同**的
+  // runId → 第二个起的公司注册被 DATA_UNIQUE 拒绝，输出成
+  //   ❌ 引导失败：新公司注册未按契约返回 202 待审批 status=400
+  //      body={"error":"该编号或名称已存在，请勿重复提交"}
+  // 看起来像环境故障，实际是**该套件压根没跑**（最危险的假失败：报告里
+  // 一条断言都没有，容易被误读成「通过」）。加随机后缀后并行也安全。
+  const runId = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(2, 14)
+    + '-' + Math.random().toString(36).slice(2, 6); // yymmddHHMMSS-xxxx
   const startedAt = Date.now();
   const req = createClient(args.base);
 
