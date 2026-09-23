@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "3.20.1",
+  "version": "3.21.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,8 @@
     "check": "node scripts/check-consistency.mjs",
     "check:smoke": "node scripts/_probe_route_exist.mjs",
     "check:api": "node scripts/_sweep_api_live.mjs",
+    "check:escape": "node scripts/check-search-escape.mjs",
+    "check:field-policy": "node scripts/check-field-policy.mjs",
     "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
