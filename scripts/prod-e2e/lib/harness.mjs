@@ -178,9 +178,23 @@ export async function createContext({ req, runId }) {
       `引导失败：未查到待审批账号 username=${adminUsername} body=${JSON.stringify(found.data)?.slice(0, 200)}`
     );
   }
+  // ★ V3.17.9 修复：批准时必须显式授予 role=admin。
+  //
+  // 缺陷原状：这里只传 { action: 'approve' }，而 V3.15.5 起「建公司者不再自动成为
+  //   管理员」—— 不传 role 时服务端默认给 'user'。后果不是「少了一个字段」，
+  //   而是**整套 E2E 的权限前提塌掉了**：
+  //     · ctx.admin 实际只有 'user' 权限；
+  //     · 任何走 /api/users 的辅助逻辑（如 registerUser 查待审批用户）被 403 挡住，
+  //       返回 null —— 而调用方只看到「拿不到用户」，看不到「因为你不是管理员」；
+  //     · 01-auth 里「me 角色为 admin」的断言与事实不符。
+  //   即：套件照跑、大量 PASS，但一部分验证其实是空的（在错误的身份下跑出来）。
+  //
+  // 为什么这里能授予 admin：approve 用的是**专用测试超管**令牌（super_admin），
+  //   而 registerUser 里不能授予 admin，正是因为那边的调用方是本组织 admin、
+  //   权限不够。两者的差别值得记住：不是「能不能设 role」，而是「谁在设」。
   const approve = await req('PUT', `/api/users/${pendingId}`, {
     token: supervisorToken,
-    body: { action: 'approve' },
+    body: { action: 'approve', role: 'admin' },
   });
   if (approve.status !== 200) {
     throw new Error(
@@ -300,6 +314,9 @@ export async function createContext({ req, runId }) {
         subcontract: (id) => `/api/subcontracts/${id}`,
         picking: (id) => `/api/work-orders/picking/${id}`,
         state: (id) => `/api/state/${id}`,
+        // V3.17.9 补：审批实例套件需要建一张真实采购申请来验证「撤回→业务回退」，
+        // 因此清理表必须认识这个类型，否则会被记为「未知类型」清理失败。
+        'purchase-request': (id) => `/api/purchase-requests/${id}`,
       };
 
       for (const item of [...tracked].reverse()) {

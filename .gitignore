@@ -68,3 +68,9 @@ _ima_cred.json
 .git-rewrite/
 tsc_out*.txt
 vite.config.ts.timestamp-*.mjs
+
+# 临时工作目录（探针/验证脚本的中间产物）
+tmp/
+
+# 本地知识库暂存（ima 归档前的分类暂存，不进版本库）
+强哥知识库/
