@@ -15,6 +15,7 @@ import {
 import { statusConfig } from './StatusBadge';
 import { triggerDownload } from '@/utils/exportUtils';
 import { hasPermission } from '@/utils/permission';
+import { authHeaders } from '@/utils/authHeaders';
 import { useAuthStore } from '@/stores/authStore';
 import {
   useReactTable, getCoreRowModel, getSortedRowModel, getPaginationRowModel,
@@ -79,6 +80,10 @@ interface DataTableProps<T> {
   /** 是否启用「导出」按钮（默认导出 Excel；可用 exportFormat 切换为 CSV） */
   enableExport?: boolean;
   exportFormat?: 'xlsx' | 'csv';
+  /** 导出留痕用的实体标识（如 'purchase_orders'）。
+   *  未提供时回退到 columnConfigKey，再回退到当前页面路由路径 —— 保证每条导出审计
+   *  都能回答「谁在哪个页面导出了多少条」，不必逐个调用方改造。 */
+  exportEntity?: string;
   /** 是否启用「导入」按钮（粘贴 / 上传 TSV/CSV），通过 onImport 回调给调用方映射回 store */
   enableImport?: boolean;
   onImport?: (rows: Record<string, string>[], headers: string[]) => void;
@@ -211,6 +216,7 @@ export function DataTable<T>({
   enableBlockSelect = true,
   enableExport = false,
   exportFormat = 'xlsx',
+  exportEntity,
   enableImport = false,
   onImport,
   columnConfigKey,
@@ -576,6 +582,11 @@ export function DataTable<T>({
   // ────────────────────────────────────────────────────────────
   // 导出（Excel / CSV）
   // ────────────────────────────────────────────────────────────
+
+  /** 本次导出留痕登记在哪个「实体」名下。优先级：显式 prop → 列配置键 → 当前路由。 */
+  const auditEntity = exportEntity || columnConfigKey
+    || (typeof window !== 'undefined' ? window.location.pathname : 'datatable');
+
   const buildExportRows = () => {
     return table.getFilteredRowModel().rows.map((row) => {
       const rowData: Record<string, unknown> = {};
@@ -604,7 +615,7 @@ export function DataTable<T>({
     const currentUser = useAuthStore.getState().currentUser;
     const userName = currentUser?.name || currentUser?.username || 'unknown';
     const userId = currentUser?.id || 'unknown';
-    const orgName = currentUser?.org_name || '';
+    const orgId = currentUser?.org_id || '';
     const stamp = new Date().toISOString().slice(0, 16).replace(/:/g, '-');
 
     try {
@@ -618,7 +629,7 @@ export function DataTable<T>({
           }).join(','));
         });
         // 添加水印行
-        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgName}`);
+        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgId}`);
         const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -636,16 +647,16 @@ export function DataTable<T>({
         triggerDownload(file, `export_${userName}_${stamp}.xlsx`);
       }
 
-      // 记录审计日志
+      // 记录审计日志（必须带登录令牌，否则后端 401、请求被静默吞掉 = 留痕形同虚设）
       try {
         await fetch('/api/audit/logs', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: authHeaders({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({
-            entity: entity || 'datatable',
+            entity: auditEntity,
             action: 'export',
             summary: `导出 ${exportData.length} 条数据`,
-            entityId: entity ? `${entity}:${exportData.length}rows` : undefined,
+            entityId: `${auditEntity}:${exportData.length}rows`,
           }),
         });
       } catch (e) {
@@ -676,7 +687,7 @@ export function DataTable<T>({
     const currentUser = useAuthStore.getState().currentUser;
     const userName = currentUser?.name || currentUser?.username || 'unknown';
     const userId = currentUser?.id || 'unknown';
-    const orgName = currentUser?.org_name || '';
+    const orgId = currentUser?.org_id || '';
     const stamp = new Date().toISOString().slice(0, 16).replace(/:/g, '-');
 
     try {
@@ -686,7 +697,7 @@ export function DataTable<T>({
         exportData.forEach((r) => {
           lines.push(headers.map((h) => `"${String(r[h] ?? '').replace(/"/g, '""')}"`).join(','));
         });
-        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgName}`);
+        lines.push(`#导出人: ${userName} (${userId}) 时间: ${new Date().toLocaleString('zh-CN')} 组织: ${orgId}`);
         const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -704,16 +715,16 @@ export function DataTable<T>({
         triggerDownload(file, `selected_${userName}_${stamp}.xlsx`);
       }
 
-      // 记录审计日志
+      // 记录审计日志（同上，必须带登录令牌）
       try {
         await fetch('/api/audit/logs', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: authHeaders({ 'Content-Type': 'application/json' }),
           body: JSON.stringify({
-            entity: entity || 'datatable',
+            entity: auditEntity,
             action: 'batch_export',
             summary: `批量导出 ${selectedRows.length} 条数据`,
-            entityId: entity ? `${entity}:batch:${selectedRows.length}rows` : undefined,
+            entityId: `${auditEntity}:batch:${selectedRows.length}rows`,
           }),
         });
       } catch (e) {
