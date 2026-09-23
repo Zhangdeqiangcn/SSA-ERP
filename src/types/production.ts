@@ -60,6 +60,11 @@ export interface WorkOrder extends BaseEntity {
   actualTotalCost?: number;
   /** B2-② 领料联动：本工单已领料明细（防重复领料） */
   issuedMaterials?: IssuedMaterial[];
+  // ── V3.20.0 差距13 倒冲发料（可选，由服务端写入，前端只读展示）──
+  /** 原料是否已按物料清单自动倒冲扣账（对应 work_orders.inventory_posted） */
+  inventoryPosted?: boolean;
+  /** 倒冲生成的出库单号（对应 work_orders.backflush_outbound_no），可从工单直追到扣料单据 */
+  backflushOutboundNo?: string;
 }
 
 /** B2-② 工单领料明细 */

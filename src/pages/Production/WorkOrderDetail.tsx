@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, Chip, Button, Divider, Stack,
@@ -16,7 +16,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import OutputIcon from '@mui/icons-material/Output';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { FlowTracker, ConfirmDialog, PrintPreviewButton } from '@/components/common';
-import { useProductionStore } from '@/stores/productionStore';
+import { useProductionStore, CompleteWorkOrderResult } from '@/stores/productionStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -44,25 +44,51 @@ const OP_STATUS_ICON = {
   pending: <RadioButtonUncheckedIcon sx={{ color: 'text.disabled', fontSize: 20 }} />,
 };
 
-// 多级 BOM 展开：递归下钻子装配（children），按物料编码聚合到最底层领料明细，
+// 多级 BOM 展开：递归下钻子装配（children / childProductCode），按物料编码聚合到最底层领料明细，
 // 并计入废品率(scrapRate)，使生产领料与实际耗用更贴合。
+//
+// ★ V3.20.0：本函数与服务端「完工倒冲发料」的展开规则
+//   （functions/_shared/backflush.ts 的 expandLevel）必须**逐条一致**（坑㉛）。
+//   两处口径一旦分叉，就会出现「界面提示领 100、系统实际扣了 120」这种最难查的问题。
+//   此前这里缺两条规则，本次已补齐：
+//     ① 虚项（source='phantom'）本身不领料，只透传展开其子件
+//        —— BOM 详情页的领料清单本来就是 `.filter(item => item.source !== 'phantom')`，
+//           与那一处对齐后，三处（BOM 详情 / 工单领料建议 / 服务端倒冲）口径统一；
+//     ② childProductCode 引用的子装配要展开
+//        —— 原来直接当叶子处理，会少算子装配下的全部用料。
+//   改这里时请同步改服务端，反之亦然。
 const explodeBOM = (
   items: BOMItem[],
   qtyPer: number,
-  acc: Map<string, { item: BOMItem; quantity: number }>
+  acc: Map<string, { item: BOMItem; quantity: number }>,
+  bomByProduct: (code: string) => BOMItem[] | undefined,
+  depth = 1
 ) => {
+  // 深度上限与服务端 MAX_BOM_DEPTH 一致：防 A 用 B、B 用 A 的循环引用把递归打穿
+  if (depth > 12) return;
   for (const it of items) {
     const baseQty = (it.quantity || 0) * qtyPer;
     const withScrap = baseQty * (1 + (it.scrapRate || 0) / 100);
     if (it.children && it.children.length > 0) {
-      explodeBOM(it.children, withScrap, acc);
-    } else {
-      const existing = acc.get(it.materialCode);
-      if (existing) existing.quantity += withScrap;
-      else acc.set(it.materialCode, { item: it, quantity: withScrap });
+      explodeBOM(it.children, withScrap, acc, bomByProduct, depth + 1);
+      continue;
     }
+    if (it.childProductCode) {
+      const childItems = bomByProduct(it.childProductCode);
+      if (childItems && childItems.length > 0) {
+        explodeBOM(childItems, withScrap, acc, bomByProduct, depth + 1);
+        continue;
+      }
+    }
+    if (it.source === 'phantom') continue; // 虚项不领料（见上方说明①）
+    const existing = acc.get(it.materialCode);
+    if (existing) existing.quantity += withScrap;
+    else acc.set(it.materialCode, { item: it, quantity: withScrap });
   }
 };
+
+/** 完工倒冲结果（去掉 undefined，便于用 null 表达「本次未产生结果」） */
+type BackflushInfo = NonNullable<CompleteWorkOrderResult['backflush']>;
 
 export default function WorkOrderDetail() {
   const { id } = useParams<{ id: string }>();
@@ -70,6 +96,8 @@ export default function WorkOrderDetail() {
   const [activeStep] = useState(0);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
+  // ★ V3.20.0 差距13：完工后服务端返回的「原料倒冲发料」结果（扣了哪些料、多少、出库单号）
+  const [backflush, setBackflush] = useState<BackflushInfo | null>(null);
 
   const workOrders = useProductionStore(s => s.workOrders);
   const deleteWorkOrder = useProductionStore(s => s.deleteWorkOrder);
@@ -89,11 +117,20 @@ export default function WorkOrderDetail() {
   const materials = useMaterialStore((s) => s.materials);
   const materialByCode = useMemo(() => new Map(materials.map((m) => [m.code, m])), [materials]);
 
+  // 子装配解析器：productCode → 该产品的顶层明细行。
+  // 优先已发布版本（与服务端 resolveChildBom 的排序一致：released 优先、其余按创建时间倒序）。
+  const bomByProduct = useCallback((code: string): BOMItem[] | undefined => {
+    const hit =
+      bomList.find((b) => b.productCode === code && b.status === 'released') ||
+      bomList.find((b) => b.productCode === code);
+    return hit?.items && hit.items.length > 0 ? hit.items : undefined;
+  }, [bomList]);
+
   // 多级展开 + 按物料编码聚合（含废品率），得到领料明细与现有库存/缺料量，供缺料预警与替代料建议
   const pickingList = useMemo(() => {
     if (!sourceItems || sourceItems.length === 0) return [];
     const acc = new Map<string, { item: BOMItem; quantity: number }>();
-    explodeBOM(sourceItems, wo?.plannedQuantity || 0, acc);
+    explodeBOM(sourceItems, wo?.plannedQuantity || 0, acc, bomByProduct);
     return Array.from(acc.values()).map(({ item, quantity }) => {
       const qty = Math.max(1, Math.ceil(quantity));
       const stock = materialByCode.get(item.materialCode)?.currentStock || 0;
@@ -106,7 +143,7 @@ export default function WorkOrderDetail() {
         short: Math.max(0, qty - stock),
       };
     });
-  }, [sourceItems, wo?.plannedQuantity, materialByCode]);
+  }, [sourceItems, wo?.plannedQuantity, materialByCode, bomByProduct]);
 
   if (!wo) {
     return (
@@ -138,7 +175,7 @@ export default function WorkOrderDetail() {
 
     // 多级展开 + 按物料编码聚合（含废品率）
     const acc = new Map<string, { item: BOMItem; quantity: number }>();
-    explodeBOM(sourceItems, wo.plannedQuantity, acc);
+    explodeBOM(sourceItems, wo.plannedQuantity, acc, bomByProduct);
     const items = Array.from(acc.values()).map(({ item, quantity }, idx) => ({
       materialId: item.materialId,
       materialCode: item.materialCode,
@@ -162,18 +199,27 @@ export default function WorkOrderDetail() {
   };
 
   // ── 生成成品入库单（B3 完工回写：调用 completeWorkOrder → 自动回写工单 + 过账库存 + 生产成本凭证）──
-  const handleGenFGInbound = () => {
-    const ok = completeWorkOrder(wo.id, {
+  // ★ V3.20.0 差距13：完工同时会由**服务端**按物料清单倒冲扣减原料。
+  //   这里不再「弹个提示就走」——把服务端返回的扣料明细留在页面上（setBackflush），
+  //   否则用户看到的现象是「点完工后原料库存凭空少了一截，查不到出处」。
+  const handleGenFGInbound = async () => {
+    const result = await completeWorkOrder(wo.id, {
       completedQuantity: wo.plannedQuantity,
       scrapQuantity: 0,
       operator: wo.supervisor || '生产主管',
     });
-    if (!ok) {
-      alert('该工单无法完工（可能已完工/已关闭，或缺少对应成品主数据）');
+    if (!result.ok) {
+      alert(result.reason || '该工单无法完工（可能已完工/已关闭，或缺少对应成品主数据）');
       return;
     }
-    alert(`工单 ${wo.orderNo} 已完工回写：成品入库、库存过账、生产成本凭证已自动生成`);
-    navigate('/warehouse/inbound');
+    setBackflush(result.backflush || null);
+    const bf = result.backflush;
+    const bfText = bf
+      ? bf.posted
+        ? `\n\n原料倒冲：${bf.message}`
+        : `\n\n原料未自动倒冲：${bf.message}`
+      : '\n\n（未登录/离线，未执行服务端倒冲与过账）';
+    alert(`工单 ${wo.orderNo} 已完工回写：成品入库、库存过账、生产成本凭证已自动生成${bfText}`);
   };
 
   const statusConf = STATUS_CONFIG[wo.status];
@@ -195,6 +241,15 @@ export default function WorkOrderDetail() {
         <FlowTracker module="work-order" currentStatus={wo.status} documentNo={wo.orderNo} />
         <Chip label={statusConf.label} color={statusConf.color} size="small" />
         <Chip label={priorityConf.label} color={priorityConf.color} size="small" variant="outlined" />
+        {/* V3.20.0 差距13：原料倒冲状态在顶栏一眼可见（含出库单号，可直追扣料单据） */}
+        {wo.inventoryPosted && (
+          <Chip
+            label={`原料已倒冲${wo.backflushOutboundNo ? ` · ${wo.backflushOutboundNo}` : ''}`}
+            color="success"
+            size="small"
+            variant="outlined"
+          />
+        )}
         <Box flex={1} />
         <Button variant="outlined" size="small" startIcon={<EditIcon />} onClick={() => navigate(`/production/orders/${id}/edit`)}>编辑</Button>
         <Button variant="contained" size="small" color="success" startIcon={<OutputIcon />}
@@ -227,6 +282,93 @@ export default function WorkOrderDetail() {
         />
         <Typography variant="body2" color="text.secondary">{wo.orderNo}</Typography>
       </Box>
+
+      {/* ★ V3.20.0 差距13：已完工但原料没倒冲 —— 必须显式提示。
+          这类工单的原料账根本没动过（成品凭空入库），若界面上不提示，
+          用户永远不会知道要去补一笔领料。历史遗留的已完工工单也会命中这条，
+          那正是实情，需要人工补领料，因此不做「只对新单提示」的特殊处理。 */}
+      {wo.status === 'completed' && !wo.inventoryPosted && !backflush && (
+        <Alert severity="warning" sx={{ mb: 3 }}>
+          本工单已完工，但<strong>原料未自动倒冲扣账</strong>（可能缺少物料清单 BOM、或清单内的料号在物料主数据中不存在）。
+          这会造成「成品已入库、原料账未减」的账实不符。请到「出库单」手工生成一张领料出库单补记。
+        </Alert>
+      )}
+
+      {/* ★ V3.20.0 差距13：完工倒冲发料结果。
+          为什么要在页面上留这一块：倒冲是「服务端自动扣原料库存」的动作，
+          如果不显示，用户只会看到库存莫名减少、查不到出处。
+          这块面板把「扣了哪些料、每项扣多少、对应哪张出库单」摆出来，做到可追溯。 */}
+      {backflush && (
+        <Alert
+          severity={backflush.posted ? 'success' : 'warning'}
+          sx={{ mb: 3 }}
+          onClose={() => setBackflush(null)}
+          data-testid="wo-backflush-panel"
+        >
+          <Typography variant="subtitle2" fontWeight={700} gutterBottom>
+            原料倒冲发料（完工自动扣料）
+          </Typography>
+          <Typography variant="body2">{backflush.message}</Typography>
+          {backflush.lines && backflush.lines.length > 0 && (
+            <Box sx={{ mt: 1.5 }}>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>物料编码</TableCell>
+                      <TableCell>物料名称</TableCell>
+                      <TableCell align="right">应耗用</TableCell>
+                      <TableCell align="right">已手工领用</TableCell>
+                      <TableCell align="right">本次倒冲扣减</TableCell>
+                      <TableCell>说明</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {backflush.lines.map((l, i) => (
+                      <TableRow key={`${l.materialCode}-${i}`}>
+                        <TableCell>{l.materialCode}</TableCell>
+                        <TableCell>{l.materialName}</TableCell>
+                        <TableCell align="right">{l.requiredQty} {l.unit}</TableCell>
+                        <TableCell align="right">{l.issuedQty} {l.unit}</TableCell>
+                        <TableCell align="right">
+                          <Typography component="span" fontWeight={l.backflushQty > 0 ? 700 : 400}>
+                            {l.backflushQty} {l.unit}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          {l.outcome === 'posted' && '已倒冲扣账'}
+                          {l.outcome === 'covered' && '已被手工领料覆盖，不重复扣'}
+                          {l.outcome === 'missing_material' && '物料主数据中不存在此料号，未扣减'}
+                          {l.outcome === 'phantom_skipped' && '虚项，本身不领料'}
+                          {l.outcome === 'expanded' && '子装配，已展开为其子件（本身不领料）'}
+                          {l.outcome === 'missing_bom' && '引用的子装配清单不存在，此部分用量被跳过，请人工确认'}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {backflush.posted && (
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                  材料成本合计 {backflush.totalCost} 元
+                  {backflush.outboundNo ? `，出库单号 ${backflush.outboundNo}` : ''}
+                  （扣减同时已生成库存凭证，可在「出库单」「凭证」中查到）
+                </Typography>
+              )}
+            </Box>
+          )}
+          <Box sx={{ mt: 1.5 }}>
+            <Button size="small" variant="outlined" onClick={() => navigate('/warehouse/inbound')}>
+              查看成品入库单
+            </Button>
+            {backflush.posted && backflush.outboundNo && (
+              <Button size="small" variant="outlined" sx={{ ml: 1 }} onClick={() => navigate('/warehouse/outbound')}>
+                查看倒冲出库单
+              </Button>
+            )}
+          </Box>
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {/* 左侧：基本信息 */}

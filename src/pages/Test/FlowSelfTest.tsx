@@ -58,7 +58,7 @@ const FlowSelfTest: React.FC = () => {
   const total = nodes.length;
   const progress = Math.round((doneCount / total) * 100);
 
-  const handleSeed = () => {
+  const handleSeed = async () => {
     // 幂等守卫：已填充过演示链路则不再重复造数
     if (useSalesStore.getState().salesOrders.some((o) => o.orderNo?.startsWith('SO-DEMO-'))) {
       setSeedMsg('演示链路数据已存在（SO-DEMO-*），无需重复填充。如需重跑，请先「重置本地数据」。');
@@ -202,7 +202,9 @@ const FlowSelfTest: React.FC = () => {
     // ⑮ 生产执行（工单开工）
     // ⑯ 半成品/成品入库（完工回写 → 自动生成生产入库单 + 成品入库台账 + 生产成本凭证）
     PR.updateWorkOrder(woId, { status: 'in_progress', actualStartDate: today });
-    PR.completeWorkOrder(woId, { completedQuantity: 10, scrapQuantity: 0, actualEndDate: today, actualTotalCost: 86000, operator: '演示' });
+    // ★ V3.20.0：completeWorkOrder 改为 async（完工需先落服务端，并由服务端倒冲扣原料）。
+    //   这里必须 await，否则第 ⑰ 步会在完工落库之前执行，自测流程的顺序就失去意义。
+    await PR.completeWorkOrder(woId, { completedQuantity: 10, scrapQuantity: 0, actualEndDate: today, actualTotalCost: 86000, operator: '演示' });
 
     // ⑰ 出库（销售发货出库 → 自动扣减库存 + 结转 COGS 凭证 + 回写 SO 发货）
     WH.addOutboundOrder({
