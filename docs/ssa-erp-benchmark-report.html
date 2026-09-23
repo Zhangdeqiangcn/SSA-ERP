@@ -1,1108 +1,823 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SSA ERP 竞品对标全面分析报告（V3.15.8 · 对标 SAP／用友／金蝶最新版）</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP 基于真实系统现状的对标评测报告 · V3.22.0</title>
 <style>
   :root{
-    --ink:#1a1d23; --ink2:#3d4450; --ink3:#6b7280;
-    --line:#e3e6ec; --line2:#d0d5de;
-    --bg:#ffffff; --bg2:#f7f8fa; --bg3:#eef1f6;
-    --red:#c62828; --redbg:#fdecec;
-    --orange:#e06100; --orangebg:#fff4e8;
-    --amber:#a87800; --amberbg:#fff8e1;
-    --green:#1b7a3e; --greenbg:#e9f6ee;
-    --blue:#15558f; --bluebg:#eaf2fb;
-    --purple:#5b3a8e;
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1a1d24; --ink2:#4a5160; --ink3:#767e8d;
+    --line:#e3e6ec; --brand:#1a4d8f; --brand-soft:#eaf1fa;
+    --s:#1f7a4d; --s-bg:#e8f5ee; --w:#b06a00; --w-bg:#fdf3e3;
+    --g:#a32b2b; --g-bg:#fbecec; --o:#5b3fa8; --o-bg:#f0ecfa; --a:#0f6f8f; --a-bg:#e6f4f8;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0; background:var(--bg2); color:var(--ink);
-    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB","Source Han Sans SC",sans-serif;
-    font-size:15px; line-height:1.85;
-  }
-  .wrap{max-width:1180px; margin:0 auto; background:var(--bg); padding:0 0 60px;
-    box-shadow:0 0 0 1px var(--line);}
-  header{background:linear-gradient(135deg,#1f2a3d 0%,#2d3f5c 55%,#3a4f74 100%); color:#fff; padding:38px 46px 30px;}
-  header h1{margin:0 0 8px; font-size:27px; letter-spacing:.5px;}
-  header .sub{font-size:14px; opacity:.9;}
-  header .meta{margin-top:16px; display:flex; flex-wrap:wrap; gap:10px;}
-  header .meta span{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22);
-    padding:4px 12px; border-radius:14px; font-size:12.5px;}
-  main{padding:0 46px;}
-  h2{font-size:21px; margin:44px 0 14px; padding:10px 0 10px 14px; border-left:5px solid var(--blue);
-    background:var(--bg2); color:var(--ink);}
-  h3{font-size:17px; margin:28px 0 10px; color:var(--blue); border-bottom:1px dashed var(--line2); padding-bottom:6px;}
-  h4{font-size:15px; margin:20px 0 8px; color:var(--ink);}
-  p{margin:9px 0;}
-  ul,ol{margin:8px 0 8px 22px; padding:0;}
-  li{margin:5px 0;}
-  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:13.5px; background:#fff;}
-  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
-  th{background:var(--bg3); font-weight:700; color:var(--ink2);}
-  tbody tr:nth-child(even){background:#fbfcfd;}
-  .small{font-size:12.5px; color:var(--ink3);}
-  .tag{display:inline-block; padding:1px 8px; border-radius:10px; font-size:12px; font-weight:700; white-space:nowrap;}
-  .t-red{background:var(--redbg); color:var(--red); border:1px solid #f3c4c4;}
-  .t-org{background:var(--orangebg); color:var(--orange); border:1px solid #f6d3ab;}
-  .t-amb{background:var(--amberbg); color:var(--amber); border:1px solid #ecdc9c;}
-  .t-grn{background:var(--greenbg); color:var(--green); border:1px solid #b6e0c6;}
-  .t-blu{background:var(--bluebg); color:var(--blue); border:1px solid #b9d4ef;}
-  .t-gry{background:#eef0f3; color:#5b6270; border:1px solid #dde1e7;}
-  .box{border:1px solid var(--line); border-left:5px solid var(--blue); background:var(--bg2);
-    padding:12px 16px; margin:14px 0; border-radius:0 6px 6px 0;}
-  .box.red{border-left-color:var(--red); background:var(--redbg);}
-  .box.green{border-left-color:var(--green); background:var(--greenbg);}
-  .box.amber{border-left-color:var(--amber); background:var(--amberbg);}
-  .box.org{border-left-color:var(--orange); background:var(--orangebg);}
-  .box b.head{display:block; margin-bottom:4px; font-size:14.5px;}
-  .kpi{display:flex; flex-wrap:wrap; gap:12px; margin:16px 0;}
-  .kpi div{flex:1 1 180px; border:1px solid var(--line); border-radius:8px; padding:12px 14px; background:#fff;}
-  .kpi .n{font-size:24px; font-weight:800; color:var(--blue); line-height:1.2;}
-  .kpi .l{font-size:12.5px; color:var(--ink3);}
-  .toc{columns:2; column-gap:28px; background:var(--bg2); border:1px solid var(--line);
-    padding:16px 24px; border-radius:8px; font-size:14px;}
-  .toc a{color:var(--blue); text-decoration:none;}
-  .toc a:hover{text-decoration:underline;}
-  .mean{background:#f4f8fd; border:1px dashed #b9d4ef; padding:9px 12px; margin:10px 0 16px; font-size:13.5px; color:#1f3d5c;}
-  .mean b{color:var(--blue);}
-  code{background:#f1f3f6; padding:1px 5px; border-radius:3px; font-size:12.5px;
-    font-family:Consolas,"Courier New",monospace; color:#37414f; word-break:break-all;}
-  .foot{margin-top:40px; border-top:2px solid var(--line); padding-top:16px; font-size:12.5px; color:var(--ink3);}
-  .scroll{overflow-x:auto;}
-  @media print{ body{background:#fff} .wrap{box-shadow:none} header{background:#2d3f5c!important;-webkit-print-color-adjust:exact} }
-  @media (max-width:800px){ main,header{padding-left:18px;padding-right:18px} .toc{columns:1} }
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+    line-height:1.75;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px 90px}
+  header{background:linear-gradient(135deg,#1a4d8f,#2d6fb8);color:#fff;padding:44px 22px 38px;margin-bottom:26px}
+  header .inner{max-width:1180px;margin:0 auto}
+  header h1{margin:0 0 10px;font-size:29px;font-weight:700;letter-spacing:.5px}
+  header .sub{opacity:.93;font-size:15px;margin-bottom:18px}
+  .meta{display:flex;flex-wrap:wrap;gap:9px}
+  .meta span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
+    padding:4px 12px;border-radius:14px;font-size:13px}
+  h2{font-size:22px;margin:44px 0 16px;padding-bottom:11px;border-bottom:2px solid var(--brand);color:var(--brand)}
+  h3{font-size:17px;margin:28px 0 11px;color:var(--ink)}
+  h4{font-size:15px;margin:18px 0 8px;color:var(--ink2)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin:14px 0;
+    box-shadow:0 1px 3px rgba(20,30,50,.05)}
+  .verdict{background:var(--card);border:2px solid var(--brand);border-radius:12px;padding:24px 26px;margin:0 0 8px}
+  .verdict h2{margin-top:0;border:0;padding:0;font-size:20px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:12px;margin:18px 0}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 16px;text-align:center}
+  .kpi .n{font-size:27px;font-weight:700;color:var(--brand);line-height:1.25}
+  .kpi .n.ok{color:var(--s)} .kpi .n.bad{color:var(--g)} .kpi .n.warn{color:var(--w)}
+  .kpi .l{font-size:12.5px;color:var(--ink3);margin-top:5px}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px;background:var(--card)}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#eef2f7;color:var(--ink);font-weight:600}
+  tbody tr:nth-child(even){background:#fafbfd}
+  .tag{display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;font-weight:600;white-space:nowrap}
+  .t-s{background:var(--s-bg);color:var(--s)} .t-w{background:var(--w-bg);color:var(--w)}
+  .t-g{background:var(--g-bg);color:var(--g)} .t-o{background:var(--o-bg);color:var(--o)}
+  .t-a{background:var(--a-bg);color:var(--a)} .t-ok{background:var(--s-bg);color:var(--s)}
+  .t-no{background:var(--g-bg);color:var(--g)} .t-part{background:var(--w-bg);color:var(--w)}
+  .p0{background:#fbecec;color:#a32b2b;font-weight:700;padding:2px 9px;border-radius:4px;font-size:12px}
+  .p1{background:#fdf3e3;color:#b06a00;font-weight:700;padding:2px 9px;border-radius:4px;font-size:12px}
+  .p2{background:#e8f5ee;color:#1f7a4d;font-weight:700;padding:2px 9px;border-radius:4px;font-size:12px}
+  .p3{background:#eef2f7;color:#4a5160;font-weight:700;padding:2px 9px;border-radius:4px;font-size:12px}
+  code{background:#f0f2f6;padding:1px 6px;border-radius:4px;font-size:12.5px;
+    font-family:"Cascadia Mono",Consolas,monospace;color:#334}
+  ul{margin:9px 0 9px 20px;padding:0} li{margin:5px 0}
+  .note{border-left:4px solid var(--brand);background:var(--brand-soft);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+  .warn{border-left:4px solid var(--w);background:var(--w-bg);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+  .danger{border-left:4px solid var(--g);background:var(--g-bg);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+  .good{border-left:4px solid var(--s);background:var(--s-bg);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+  .domain{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0;margin:18px 0;overflow:hidden}
+  .domain>.hd{background:#eef2f7;padding:13px 20px;border-bottom:1px solid var(--line);
+    font-size:16.5px;font-weight:700;color:var(--brand);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .domain>.bd{padding:16px 20px}
+  .five{display:grid;grid-template-columns:1fr;gap:10px}
+  .row5{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:start}
+  .row5>.k{font-weight:700;font-size:13px;padding-top:2px}
+  footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:var(--ink3);font-size:13px;text-align:center}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 22px;margin:16px 0}
+  .toc a{color:var(--brand);text-decoration:none;margin-right:16px;display:inline-block;font-size:14px}
+  .toc a:hover{text-decoration:underline}
+  @media(max-width:760px){.row5{grid-template-columns:1fr}.row5>.k{padding-top:0}}
 </style>
 </head>
 <body>
-<div class="wrap">
-
 <header>
-  <h1>SSA ERP 系统 竞品对标全面分析报告</h1>
-  <div class="sub">我们到底哪里强、哪里弱、哪里有问题、下一步先改哪个 —— 一份写给不懂编程的人看的体检报告</div>
-  <div class="meta">
-    <span>报告版本基线：SSA ERP V3.15.8</span>
-    <span>编制日期：2026-09-18</span>
-    <span>对标对象：SAP／用友／金蝶 最新版</span>
-    <span>性质：只读分析，未改业务代码、未部署</span>
-    <span>证据口径：代码文件位置 + 线上实测</span>
+  <div class="inner">
+    <h1>SSA ERP 基于真实系统现状的对标评测报告</h1>
+    <div class="sub">对照 金蝶 · 思爱普（SAP）· 用友 三家的当前在售版本，逐域给出优势 / 劣势 / 缺失 / 机会 / 改进措施，并按优先级真正落地</div>
+    <div class="meta">
+      <span>被测版本 V3.22.0</span>
+      <span>生产站点 ssa-erp.pages.dev</span>
+      <span>评测日期 2026-09-23</span>
+      <span>方法：当场实测 + 联网检索 + 生产真实往返</span>
+    </div>
   </div>
 </header>
 
-<main>
+<div class="wrap">
 
 <div class="toc">
-<b style="color:var(--ink)">目录</b><br>
-<a href="#c1">第一章　一页看懂（老板摘要）</a><br>
-<a href="#c2">第二章　逐项细评：十一个业务域</a><br>
-<span class="small">　2.1 基础数据｜2.2 采购｜2.3 销售｜2.4 库存｜2.5 生产｜2.6 财务｜2.7 审批流｜2.8 权限合规｜2.9 打印输出｜2.10 平台能力｜2.11 体验工程</span><br>
-<a href="#c3">第三章　我们到底强在哪（优势详解）</a><br>
-<a href="#c4">第四章　我们弱在哪（劣势分级）</a><br>
-<a href="#c5">第五章　已存在的问题点（含历史缺陷追踪）</a><br>
-<a href="#c6">第六章　改进路线：先改哪个（四档＋优先级总表）</a><br>
-<a href="#c7">第七章　信息来源、方法与边界</a><br>
-<a href="#c8">第八章　改进执行台账（2026-09-19 追加）</a>
+  <a href="#c0">结论 30 秒版</a><a href="#c1">一、系统现状基线</a><a href="#c2">二、三家竞品最新版</a>
+  <a href="#c3">三、十六域五维总表</a><a href="#c4">四、逐域展开</a><a href="#c5">五、改进措施排序</a>
+  <a href="#c6">六、本轮已落地</a><a href="#c7">七、待决策项</a><a href="#c8">八、未落地项</a><a href="#c9">九、下一步</a>
 </div>
 
-<h2 id="c0">怎么读这份报告</h2>
-<p>这份报告的目的只有一个：<b>让你在没有技术背景的情况下，也能判断这套系统现在处在什么水平、钱和时间应该往哪儿投。</b></p>
-<ul>
-  <li><b>每个结论都有证据。</b>凡是说"我们有"，都给出代码文件位置或线上实测结果；凡是说"竞品有"，都给出官方资料来源和抓取日期。</li>
-  <li><b>查不到就写"未查到"。</b>竞品某项能力找不到公开证据的，一律标注"未查到公开资料，属推测"，绝不编造。</li>
-  <li><b>技术词汇都翻译成业务话。</b>每个专业判断后面都有一段"这对你意味着什么"。</li>
-  <li><b>差距分四级</b>：<span class="tag t-red">致命</span>会做错账或丢数据；<span class="tag t-org">严重</span>流程跑不通、靠人兜底；<span class="tag t-amb">中等</span>影响效率、有替代办法；<span class="tag t-grn">轻微</span>锦上添花。</li>
-</ul>
+<!-- ============ 结论 30 秒版 ============ -->
+<div class="verdict" id="c0">
+  <h2>结论 30 秒版</h2>
+  <p><strong>一句话：</strong>这套系统已经不是「玩具」——核心业务闭环（采购 → 入库 → 库存 → 生产 → 成本 → 财务凭证 → 报表）是真打通的，服务端强制管控层（借贷平衡、付款闸门、生产倒冲、单据状态机、字段级权限、乐观锁）也补齐了；但和三家竞品的差距已经<strong>不在「功能有没有」，而在「深度、智能化与工程纪律」</strong>。本轮据此真正落地了一批修补，并留出三项需要你拍板的决策。</p>
 
-<div class="box">
-<b class="head">先记住三个词（后面反复出现）</b>
-<ul style="margin-bottom:0">
-<li><b>ERP（企业资源计划系统）</b>：把企业的人、财、物、产、供、销管在一套软件里的系统，就是我们这套东西的学名。</li>
-<li><b>BOM（物料清单）</b>：做一件产品需要哪些零件、各用多少个的清单，相当于"产品的配方表"。</li>
-<li><b>RLS（行级数据权限）</b>：控制"谁能看见哪几行数据"的规则，比如成都的仓管员只能看见成都仓库的数据。</li>
-</ul>
+  <div class="kpis">
+    <div class="kpi"><div class="n ok">6 / 6</div><div class="l">六项门禁全绿</div></div>
+    <div class="kpi"><div class="n">189</div><div class="l">生产端点（唯一）</div></div>
+    <div class="kpi"><div class="n bad">8</div><div class="l">扫描检出的系统错误处</div></div>
+    <div class="kpi"><div class="n ok">8→0</div><div class="l">本轮修复后</div></div>
+    <div class="kpi"><div class="n ok">286</div><div class="l">生产断言全绿</div></div>
+    <div class="kpi"><div class="n warn">3</div><div class="l">待你拍板的项</div></div>
+  </div>
+
+  <h4>本轮真正做到了什么</h4>
+  <ul>
+    <li><strong>修掉了 8 处生产系统错误（500）</strong>：全部落在「提交内容不完整」的写入请求上。根因统一——单号等「不允许为空」的列收到空值后直接写库，数据库拒绝、接口没人接住、被兜底成一句笼统的「请求处理失败」。现在全部变成<strong>「请填写「入库单号」后再提交」</strong>这类能照着做的话。</li>
+    <li><strong>顺带挖出一个更隐蔽的问题</strong>：工单领料原先<strong>什么都不填也能建单成功</strong>（返回成功并生成单号）。一条数量为 0 的空记录会占住「该物料已领料」这个判断位，导致后面真正要领料时反而被挡住——<strong>业务被自己造出来的空记录卡死</strong>，还会让完工倒冲发料算错应补的差额。已拦下。</li>
+    <li><strong>零误伤</strong>：五个端点用完整入参实测，全部正常建成，五条测试数据全部清理干净。新增生产端到端套件 31（26 条断言），并把「完整入参仍要能建成」写成了断言——防止将来出现「为了不报错而把功能拦死」的假修复。</li>
+  </ul>
+
+  <h4>最该知道的三件事</h4>
+  <ol>
+    <li><strong>功能面已经不输中小厂商，输在深度。</strong>16 个域里「完全没有」的只有少数几项（界面多语言、真实税务通道、实施方法论），而「明显偏弱」的有 9 项，集中在成本精细度、智能体自主执行、实施与运维工具链。</li>
+    <li><strong>历史文档里有失实结论，本轮纠正了一条。</strong>旧记录曾写「入库单 / 出库单创建必 500 是误报」，实测证明<strong>只对一半</strong>：字段名填错时是正常的 400，但空载荷确实是 500。教训是侦察结论要按「入参形态」分档复现，只试一种形态就会得出片面结论。</li>
+    <li><strong>有 3 件事我不能替你拍板</strong>（字段级权限的「只读 / 必填」两个维度、操作权限开关怎么处置、要不要做必填通用化），已列在第七章，附三条路径与代价对比。</li>
+  </ol>
 </div>
 
-<h2 id="c1">第一章　一页看懂（老板摘要）</h2>
+<!-- ============ 一、系统现状基线 ============ -->
+<h2 id="c1">一、系统现状基线（当场实测，非引用旧文档）</h2>
 
-<div class="box green">
-<b class="head">一句话结论</b>
-<p style="margin-bottom:0">我们的系统<b>广度已经够看、骨架已经立住、安全底座甚至超过一般国产中型 ERP</b>；但<b>深度还差一代</b>——最要命的不是"缺功能"，而是<b>关键账目计算跑在用户浏览器里而不是服务器里</b>，以及<b>几项本该系统自动拦住的风险（信用超额、审批撤回催办）还得靠人盯</b>。下一步不要急着加新功能，先把"算账的位置"和"该拦没拦的闸门"补上。</p>
+<div class="note">
+  <strong>为什么这一节的数字要重新数一遍：</strong>历史对标文档的结论会过期。上一份对标报告写于 V3.15.0 基线，本文档所有规模数字都在 2026-09-23 当场重新统计，所有「已修」判断都回到代码与生产端点重新验证，并逐条标注「已修 / 部分修 / 未修」。
 </div>
 
-<div class="kpi">
-  <div><div class="n">3.7 / 5</div><div class="l">我方 11 大业务域平均水位</div></div>
-  <div><div class="n">4.9 / 5</div><div class="l">三家标杆同口径平均水位</div></div>
-  <div><div class="n">约 78%</div><div class="l">功能点覆盖率（对三家交集能力）</div></div>
-  <div><div class="n">1 条</div><div class="l">致命级问题（须优先处置）</div></div>
-  <div><div class="n">5 条</div><div class="l">严重级问题</div></div>
+<h3>1.1 真实规模（2026-09-23 实测）</h3>
+<div class="kpis">
+  <div class="kpi"><div class="n">21</div><div class="l">页面域（页面文件 215 个）</div></div>
+  <div class="kpi"><div class="n">50</div><div class="l">后端接口目录（接口文件 117 个）</div></div>
+  <div class="kpi"><div class="n">77</div><div class="l">数据库迁移脚本</div></div>
+  <div class="kpi"><div class="n">104</div><div class="l">数据库表（含平台表）</div></div>
+  <div class="kpi"><div class="n">86</div><div class="l">前端数据仓库（store）</div></div>
+  <div class="kpi"><div class="n">479</div><div class="l">前端源码文件</div></div>
 </div>
 
-<h3>1.1 三家竞品的最新版本号（已核实，附来源）</h3>
+<h3>1.2 六项门禁（全部通过）</h3>
 <table>
-<thead><tr><th style="width:14%">厂商</th><th style="width:20%">对标产品</th><th style="width:20%">最新版本</th><th style="width:16%">发布时间</th><th style="width:30%">来源与可靠度</th></tr></thead>
-<tbody>
-<tr>
-<td><b>SAP</b>（德国思爱普）</td>
-<td>S/4HANA Cloud Public Edition（公有云企业资源计划系统）</td>
-<td><b>2608</b> 批次（上一批 2602）</td>
-<td>2026 年 8 月（生产环境升级 8 月 15–16 日）</td>
-<td>SAP 社区官方发布博客与升级维护日历；2602 见官方帮助文档《What's New 2602》（2026-01-14）。抓取日期 2026-09-18。<span class="small">2502／2505／2511 批次为第三方日历整理，标注为推测。</span></td>
-</tr>
-<tr>
-<td><b>用友</b></td>
-<td>YonSuite（成长型企业公有云）／BIP 3（大型企业商业创新平台）</td>
-<td><b>BIP 5</b>（2025 年 8 月，新一代大版本）；BIP 3 最新 R 版本为 <b>R6</b>（2024-08-10）；YonSuite 采用"数智飞轮 3.0 + 日期迭代"，最新迭代公告 2026-01-23</td>
-<td>BIP 5：2025 年 8 月；BIP 3 R6：2024-08-10</td>
-<td>用友官网新闻 yonyou.com/news/3560、yonyou.com/global/introduce.html；YonSuite 迭代公告 success.yonyoucloud.com。抓取日期 2026-09-18。<span class="small">YonSuite 无传统大版本号，以飞轮代际＋日期迭代，属其官方发布方式。</span></td>
-</tr>
-<tr>
-<td><b>金蝶</b></td>
-<td>金蝶云·星空（对外称"金蝶 AI 星空"）／云·苍穹平台</td>
-<td>星空 <b>V9.1</b> 企业版／标准版；苍穹平台 <b>V8.0</b>；苍穹智能体平台 <b>2.0</b></td>
-<td>星空 V9.1：2025-09-15；苍穹 V8.0：2025-11-04（全球创见者大会）；苍穹智能体平台 2.0：2025-05-20</td>
-<td>金蝶开放平台 open.kingdee.com；金蝶官网 resources 文章 1446138236539031713；科技日报 2025-05-20 报道。抓取日期 2026-09-18。<span class="small">"苍穹 GPT"未查到独立官方命名，本报告以"苍穹大模型／智能体平台"表述，不作定论。</span></td>
-</tr>
-</tbody>
-</table>
-<div class="mean"><b>这对你意味着什么：</b>三家都是"半年一升级、年年有新版"的节奏，而且 2025 年之后三家不约而同把<b>人工智能助手</b>当成主战场（SAP 的 Joule、用友的 YonGPT／智友、金蝶的苍穹智能体）。这不是营销噱头——它决定了未来三年客户选系统的标准。我们在这块基本是空白，需要提前想清楚。</div>
-
-<h3>1.2 我们最强与最弱各三条</h3>
-<table>
-<thead><tr><th style="width:8%">方向</th><th style="width:26%">条目</th><th style="width:33%">凭什么这么判（证据）</th><th style="width:33%">外行翻译</th></tr></thead>
-<tbody>
-<tr><td rowspan="3"><b>最强</b><br><span class="tag t-grn">优势</span></td>
-<td><b>① 数据隔离的"默认拒绝"铁律</b></td>
-<td><code>functions/_shared/rls.ts</code>：101 张业务表逐张登记可见范围，<b>没登记的表一律返回空</b>，宁可看不见也不许越权看。漏登记＝0、僵尸登记＝0（2026-09-17 审阅报告实测）</td>
-<td>多公司共用一套系统时，你的数据不会被别人看走。这件事三家做得更隐蔽，我们做得更"死板"——而死板在安全上是优点。</td></tr>
-<tr>
-<td><b>② 采购价格"询—报—比—审—价目表"全链条闭环</b></td>
-<td>询价／报价／比价／价格审批／价目表五段式齐备；审批通过自动生成价目表行且带防重复机制。对应页面 <code>src/pages/Price/*</code></td>
-<td>从"问价"到"定价格"整条链子都在系统里留痕，谁报的价、谁批的、为什么选这家，事后都能翻出来。这是采购出身的人最在意的东西，我们做到了。</td></tr>
-<tr>
-<td><b>③ 质量闭环（检验—不合格—整改—统计—供应商评级回流）</b></td>
-<td>检验批自动生成、8D 整改报告、过程统计控制图、质量成本四类归集，且检验结果自动回流到供应商评级</td>
-<td>来料不合格能一路追到"这家供应商该扣分了"，不用人手工统计。深度上不输一般国产中型 ERP。</td></tr>
-<tr>
-<td rowspan="3"><b>最弱</b><br><span class="tag t-red">劣势</span></td>
-<td><b>① 关键账目计算跑在浏览器里，服务器只负责存</b> <span class="tag t-red">致命</span></td>
-<td>凭证生成、成本结转、暂估、移动平均价、库存扣减均在前端 <code>src/stores/*</code> 与 <code>src/utils/*</code> 实现；后端 <code>functions/api/vouchers/index.ts</code> 只校验"凭证编号和日期必填"，<b>不做借贷平衡校验</b></td>
-<td>账是"你电脑上这台浏览器算出来的"，再发给服务器存。换台电脑、清个缓存、或者有人绕过界面直接改数据，账就可能不平而系统不会拦。</td></tr>
-<tr>
-<td><b>② 该自动拦住的没拦：信用超额不阻断下单</b> <span class="tag t-org">严重</span></td>
-<td><code>customers</code> 表有信用额度和已用额度，预警接口 <code>functions/api/alerts/index.ts:108</code> 能查出超额客户，但销售下单接口<b>全程没有比较和拒绝逻辑</b></td>
-<td>客户欠的钱已经超额度了，系统只是事后提醒一句，照样能下单发货。这在生意上就是"赊出去的货可能收不回钱"。</td></tr>
-<tr>
-<td><b>③ 审批缺"撤回／催办／委托"三件事</b> <span class="tag t-org">严重</span></td>
-<td>审批流支持串行／并行／或签和超时升级（<code>migrations/0056_approval_flow_domain.sql:103-124</code>），但全代码库找不到撤回、催办、委托的实现</td>
-<td>单子提错了撤不回来；审批人出差或请假，单子就一直卡着没人接；也没法临时委托别人代批。小公司忍得住，上规模就天天堵。</td></tr>
-</tbody>
+  <thead><tr><th style="width:34%">门禁</th><th style="width:14%">结果</th><th>实测输出</th></tr></thead>
+  <tbody>
+    <tr><td>前端类型检查（<code>npx tsc --noEmit</code>）</td><td><span class="tag t-ok">通过</span></td><td>0 错误</td></tr>
+    <tr><td>后端类型检查（<code>scripts/tsc-functions.mjs</code>）</td><td><span class="tag t-ok">通过</span></td><td>存量基线 59 条，本次检出 59 条，<strong>新增 0 条</strong></td></tr>
+    <tr><td>语法与引用链审计（<code>scripts/_audit_syntax.mjs</code>）</td><td><span class="tag t-ok">通过</span></td><td>154 个文件，语法错误 0，引用错误 0</td></tr>
+    <tr><td>一致性检查（<code>scripts/check-consistency.mjs</code>）</td><td><span class="tag t-ok">通过</span></td><td>阻断项 0 失败</td></tr>
+    <tr><td>搜索转义一致性（<code>scripts/check-search-escape.mjs</code>）</td><td><span class="tag t-ok">通过</span></td><td>154 个文件 / 19775 行含查询，违规 0 处</td></tr>
+    <tr><td>字段权限矩阵一致性（<code>scripts/check-field-policy.mjs</code>）</td><td><span class="tag t-ok">通过</span></td><td>前端 67 条三元组 ↔ 后端 67 条，逐条相同</td></tr>
+  </tbody>
 </table>
 
-<h3>1.3 十一个业务域的红黄绿灯</h3>
-<div class="scroll">
+<h3>1.3 生产端点全量往返扫描</h3>
+<p>对生产正式站发 342 次真实请求，覆盖 189 个唯一端点：</p>
 <table>
-<thead><tr><th style="width:6%">#</th><th style="width:16%">业务域</th><th style="width:10%">我方</th><th style="width:10%">标杆</th><th style="width:12%">差距</th><th style="width:46%">一句话判词</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>基础数据</td><td>3.5</td><td>5.0</td><td><span class="tag t-amb">中等</span></td><td>物料与物料清单已经很扎实，但仓库货位、单位换算还是"整块状态"没进正规数据库表</td></tr>
-<tr><td>2</td><td>采购</td><td>4.0</td><td>5.0</td><td><span class="tag t-amb">中等</span></td><td>全链路通了、价税分离也有了，缺订单变更留痕和强制取价目表价</td></tr>
-<tr><td>3</td><td>销售</td><td>3.5</td><td>5.0</td><td><span class="tag t-org">严重</span></td><td>客户档案有了，但信用卡点、销售价目表与折扣仍是短板</td></tr>
-<tr><td>4</td><td>库存</td><td>4.0</td><td>5.0</td><td><span class="tag t-amb">中等</span></td><td>出入库、盘点、调拨、批次追溯都在；成本核算方法偏单薄，序列号没被出入库强制驱动</td></tr>
-<tr><td>5</td><td>生产</td><td>3.5</td><td>5.0</td><td><span class="tag t-org">严重</span></td><td>工艺路线、工单、报工、委外都有了，但没有"倒冲发料"，排产也偏粗</td></tr>
-<tr><td>6</td><td>财务</td><td>4.0</td><td>5.0</td><td><span class="tag t-red">致命</span></td><td>凭证结构、多账簿、合并报表、暂估都齐了，<b>但计算在前端、后端不校验</b></td></tr>
-<tr><td>7</td><td>审批流与工作流</td><td>3.0</td><td>5.0</td><td><span class="tag t-org">严重</span></td><td>能配流程能分支，但撤回／催办／委托三件日常必需动作缺失</td></tr>
-<tr><td>8</td><td>权限与合规</td><td>4.5</td><td>5.0</td><td><span class="tag t-grn">轻微</span></td><td><b>全场最高分</b>：默认拒绝＋全量登记＋审计留痕＋敏感字段脱敏，短板在字段级权限与导出管控</td></tr>
-<tr><td>9</td><td>打印与输出</td><td>3.5</td><td>5.0</td><td><span class="tag t-amb">中等</span></td><td>模板、套打、条码、移动端真扫码都有，独立生成可移植文档格式文件的能力偏弱</td></tr>
-<tr><td>10</td><td>平台能力</td><td>3.5</td><td>5.0</td><td><span class="tag t-org">严重</span></td><td>多组织多币种移动端开放接口都有；多语言只有中英且英文不全，低代码"能画不能跑"</td></tr>
-<tr><td>11</td><td>体验与工程</td><td>3.0</td><td>5.0</td><td><span class="tag t-org">严重</span></td><td>备份、乐观锁、监控都有，但错误提示不友好、约 30 多个模块仍走老通道</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>分数不代表"能不能用"，代表"能用到什么程度"。<b>4 分以上＝日常用没问题，只是没那么省心；3 分左右＝能用但要人盯着补漏；低于 3 分＝上规模会出问题。</b>我们没有一个领域是空白，也没有一个领域能跟三家平起平坐。</div>
-
-<h2 id="c2">第二章　逐项细评：十一个业务域</h2>
-<p>下面每节都按同一套格式：<b>一句话判定 → 功能点对照表（判据｜三家怎么做｜我们有没有｜证据｜差距）→ 根因 → 改法 → 这对你意味着什么。</b></p>
-
-<h3 id="d1">2.1 基础数据：物料／分类／单位换算／批次序列号／仓库货位／物料清单</h3>
-<p><b>一句话判定：</b>物料本身和物料清单是<b>强项</b>，仓库货位与单位换算是<b>明显短板</b>（数据在，但没进正规数据库表，享受不到权限、备份和查询能力）。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据（文件／路径）</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td><b>物料主数据</b>（编码、规格、分类、价格控制、安全库存等 50 多项）</td><td>SAP 分基本／采购／销售／计划／财务／成本多视图并按工厂维护；金蝶物料是"分配型基础资料"含 11 个属性组 7 个页签；用友覆盖分类与编码规则</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0003_materials.sql</code>；线上实测 <code>/api/materials</code> 返回 18 条</td><td><span class="tag t-grn">轻微</span></td><td>字段维度已对齐，缺"按视图分权限"。改法：物料表单拆多页签</td></tr>
-<tr><td><b>物料分类</b>（独立分类树）</td><td>三家均为独立可分配的主数据</td><td><span class="tag t-amb">有但残缺</span></td><td>页面 <code>src/pages/Material/CategoryList.tsx</code>；靠 <code>materials.category_id</code> 软引用，无独立关系表</td><td><span class="tag t-amb">中等</span></td><td>分类没有自己的表，就管不了"分类的权限、分类的编码规则"。改法：新建分类关系表</td></tr>
-<tr><td><b>单位与换算</b>（件↔箱、公斤↔吨）</td><td>三家均为服务端主数据，出入库自动换算</td><td><span class="tag t-org">有但残缺</span></td><td><code>src/stores/unitConversionStore.ts:79</code> 仍以整块状态存在，未建独立关系表</td><td><span class="tag t-org">严重</span></td><td>换算规则错了会影响全公司算料算钱，却不受权限与备份保护。<b>改法：建关系表＋服务端换算</b></td></tr>
-<tr><td><b>批次与序列号</b></td><td>SAP 支持批次特性与正反向追溯；金蝶掌上电脑扫码即可追溯；用友支持批次效期</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0010_serial_masters.sql</code>；序列号主表＋流转表双表；线上实测 <code>/api/serial-numbers</code> 有数据</td><td><span class="tag t-amb">中等</span></td><td>档案和流转记录都在，但<b>出入库过账不会自动写流转</b>，要靠单独动作。改法：过账时强制写流转</td></tr>
-<tr><td><b>仓库与货位</b></td><td>SAP 有扩展仓储管理，支持上架下架策略；金蝶即时库存支持 11 个维度查询</td><td><span class="tag t-org">有但残缺</span></td><td><code>src/stores/warehouseMasterStore.ts:209</code>，仍为整块状态</td><td><span class="tag t-org">严重</span></td><td>仓库货位是库存的"地址簿"，地址簿不在正规表里，盘点与货位追溯就做不深。改法：建仓库／库位关系表</td></tr>
-<tr><td><b>物料清单 多层结构</b></td><td>三家均支持多层</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0051_bom.sql:120-163</code>（表头＋明细，层级与父项字段）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>物料清单 替代料</b></td><td>SAP 有"备选项目组"；金蝶支持阶梯用量</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0051_bom.sql:90-93</code>（是否替代／优先级／使用概率）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>物料清单 版本与生效期</b></td><td>三家均支持版本＋工程变更单切换</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0051_bom.sql:80-82</code>（版本号／生效日／失效日）</td><td><span class="tag t-grn">轻微</span></td><td>可补"版本间差异对比"视图</td></tr>
-<tr><td><b>物料清单 损耗率</b></td><td>三家均支持并接入需求计算</td><td><span class="tag t-grn">有且可用</span></td><td><code>migrations/0051_bom.sql:135</code>（损耗率字段，已接入物料需求计划）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>"配方表"（物料清单）这块我们做得挺好，多层、替代品、版本、损耗都齐了，不丢人。真正要补的是<b>仓库货位和单位换算</b>——这两样现在像是"记在个人电脑上的便签"，而不是"公司统一的账本"。一旦有人换电脑或者两个人同时改，就容易对不上，而且出了问题查不到是谁改的。</div>
-
-<h3 id="d2">2.2 采购：从申请到付款的全链路</h3>
-<p><b>一句话判定：</b>这是我们的<b>看家本领</b>，全链路通、价税分离已有、寻源五段式闭环，差距主要在"精细管控"而非"有没有"。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>采购申请</td><td>三家标准能力</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0058_purchase_domain.sql:93</code>；状态机：草稿→待审→已批→已下单</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>询价／报价／比价</td><td>SAP 配采购网络；金蝶、用友均内置</td><td><span class="tag t-grn">有</span></td><td><code>src/pages/Price/Inquiry*.tsx</code>、<code>src/pages/Purchase/PriceCompare.tsx</code></td><td><span class="tag t-amb">中等</span></td><td>比价只标"最低价"，<b>没有加权综合评分</b>（价格＋交期＋质量）。改法：加评分卡</td></tr>
-<tr><td>采购订单</td><td>标准能力</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0005_purchase_orders.sql:9</code>；线上实测 3 条</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>订单币种与价税分离</b></td><td>三家均支持</td><td><span class="tag t-grn">已修好</span></td><td>订单头 <code>currency</code>（第 23 行）、<code>tax_included</code>（25）、<code>total_tax_amount</code>（26）；订单行 <code>tax_rate</code>（66）、<code>tax_amount</code>（67）</td><td><span class="tag t-grn">轻微</span></td><td><b>旧报告（V2.29）曾把这条列为致命缺陷，现已修复</b></td></tr>
-<tr><td>到货入库</td><td>标准能力</td><td><span class="tag t-grn">有</span></td><td><code>functions/api/inbound-orders/</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>发票与三单匹配</td><td>SAP 按容差键校验，超差冻结付款；金蝶入库暂估→财务立账</td><td><span class="tag t-amb">有但残缺</span></td><td><code>src/pages/Finance/ThreeWayMatch.tsx</code> 有页面；<b>缺少可配置的容差规则与超差阻断</b></td><td><span class="tag t-amb">中等</span></td><td>改法：容差可配＋超差不允许过账</td></tr>
-<tr><td>付款（含预付款／分期）</td><td>标准能力</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0053_finance_domain.sql:70</code> 付款计划表＋分期明细</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>供应商准入与评级</td><td>SAP 走采购网络；金蝶、用友均内置</td><td><span class="tag t-grn">有</span></td><td><code>src/pages/Vendor/Rating.tsx</code>、<code>utils/vendorRating.ts</code>；线上实测供应商 12 条</td><td><span class="tag t-amb">中等</span></td><td>评级有了，但<b>资质到期预警与黑名单下单拦截</b>未落地。改法：下单时校验并强提醒</td></tr>
-<tr><td>价格审批</td><td>标准能力</td><td><span class="tag t-grn">有</span></td><td><code>src/pages/Price/PriceApproval.tsx</code></td><td><span class="tag t-amb">中等</span></td><td>审批通过→自动生成价目表（已有），但<b>下单时不强制取价目表价</b></td></tr>
-<tr><td><b>订单变更留痕</b></td><td>三家均有变更单与版本</td><td><span class="tag t-org">残缺</span></td><td>订单行表有版本字段，但<b>无独立的"订单变更单"与变更历史视图</b></td><td><span class="tag t-amb">中等</span></td><td>改了价格数量后说不清"谁在第几版改的"。改法：变更单＋版本对比</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>采购这条链子<b>已经是能拿出手的东西</b>——从要买什么、问几家价、谁家便宜、谁批的、到入库付款，全在系统里有记录。补的三个点（比价加权评分、容差规则、变更留痕）都是"从能用变成好用"，不是救命。</div>
-
-<h3 id="d3">2.3 销售：报价到收款</h3>
-<p><b>一句话判定：</b>链路完整、客户档案已补齐，<b>但信用卡点这道闸门没装</b>，是全域里最需要立刻补的一处。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>报价／订单／发货／出库／开票／收款</td><td>三家全链路标准能力</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0055_sales_domain.sql</code>；线上实测销售订单 4 条</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>客户主数据</b></td><td>三家均为独立可分配档案</td><td><span class="tag t-grn">已修好</span></td><td><code>migrations/0004_customers.sql</code>（信用等级／额度／账期／开票资料／银行）；销售订单以客户编号关联</td><td><span class="tag t-grn">轻微</span></td><td><b>旧报告曾列为致命缺陷，现已修复</b></td></tr>
-<tr><td><b>信用额度控制</b></td><td>SAP 在订单／交货／发货三个时点检查，超限冻结、专人释放；金蝶、用友均有检查规则＋额度占用</td><td><span class="tag t-red">有字段无闸门</span></td><td>额度字段在客户表；<code>functions/api/alerts/index.ts:108</code> 只能查出超额客户做预警；<b>销售下单接口无比较与拒绝逻辑</b></td><td><span class="tag t-red">致命</span></td><td><b>改法：下单保存时服务端校验"已用额度＋本单 ≤ 额度"，超出直接拒绝并可申请特批</b></td></tr>
-<tr><td>销售价目表与折扣</td><td>SAP 用条件技术五要素定价；金蝶有价目表＋折扣表</td><td><span class="tag t-amb">有但残缺</span></td><td>采购侧有价目表页面；<b>销售侧无独立销售价目表与阶梯折扣</b></td><td><span class="tag t-amb">中等</span></td><td>销售价靠手填，容易报错价。改法：建销售价目表（按客户／物料／数量区间）</td></tr>
-<tr><td>可用量检查</td><td>SAP 有高级可用量承诺；金蝶销售订单内置</td><td><span class="tag t-grn">有</span></td><td>可用量计算逻辑已实现</td><td><span class="tag t-grn">轻微</span></td><td>可加入"已分配量"分层</td></tr>
-</tbody>
-</table>
-</div>
-<div class="box red">
-<b class="head">信用风险，用大白话说</b>
-<p style="margin-bottom:0">假设给某个客户定的赊账上限是 50 万，他已经欠了 49 万。现在他又下一张 5 万的订单——<b>我们的系统会让这张单子顺利通过</b>，只是在预警列表里多一行红字。等货发出去，钱就变成了 54 万，超出额度 4 万，而这 4 万是没有保障的。三家成熟的 ERP 在这件事上的做法是：<b>先冻住这张单，让有权限的人决定"放行还是不放行"</b>。这件事我们不是做不到，是算好了数却没装闸门。</p>
-</div>
-
-<h3 id="d4">2.4 库存：出入库、盘点、调拨、追溯、成本核算</h3>
-<p><b>一句话判定：</b>动作类功能齐全且方向正确（批次先进先出、防重复过账、单据回写），<b>成本核算方法是软肋</b>。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>出入库类型与库存台账</td><td>SAP 用"移动类型"统一抽象；三家齐全</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0005</code>、<code>0007_p1_phase5.sql:51</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>盘点</td><td>三家齐全，SAP 2602 起有专门的实物库存清单应用</td><td><span class="tag t-grn">有</span></td><td>盘点任务端点＋<code>src/pages/Warehouse/CheckTask.tsx</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>调拨</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0023_stock_transfers.sql</code></td><td><span class="tag t-grn">轻微</span></td><td>可补"在途库存"形态</td></tr>
-<tr><td>批次追溯</td><td>SAP 支持正反向追溯（原料→成品→客户）</td><td><span class="tag t-grn">有</span></td><td><code>src/pages/Warehouse/TraceBatch.tsx</code>＋序列号双表</td><td><span class="tag t-amb">中等</span></td><td>能查但缺"一图看穿"的穿透视图</td></tr>
-<tr><td>可用量与安全库存</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td><code>materials.safety_stock</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>成本核算方法</b></td><td>SAP 支持标准成本＋移动平均价＋期末实际成本卷积；用友支持移动平均／全月平均／先进先出</td><td><span class="tag t-org">有但残缺</span></td><td>物料表只有"标准价／移动平均价"两个标志位（<code>0003_materials.sql</code>）；移动平均滚动公式在前端 <code>src/utils/cost.ts:13</code></td><td><span class="tag t-org">严重</span></td><td><b>只有两种口径且算法在前端</b>，没有全月加权、先进先出、个别计价。改法：成本方法可配＋算法上服务端</td></tr>
-<tr><td>序列号被出入库驱动</td><td>三家出入库即写序列号流水</td><td><span class="tag t-amb">部分</span></td><td>序列号有专门消耗端点，但出入库过账只把序列号当一段文本存，不自动写流转</td><td><span class="tag t-amb">中等</span></td><td>改法：过账时强制写流转记录</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>仓库日常收发存盘点，我们基本够用，而且"防重复过账""批次先进先出"这些细节做对了。真正的问题是<b>成本怎么算</b>——同一批货按不同方法算出来的利润是不一样的，我们现在只有两种算法可选、且算法跑在浏览器里。财务人员如果想换算法或者复核，会很被动。</div>
-
-<h3 id="d5">2.5 生产：工艺路线、工单、领料、委外、排程</h3>
-<p><b>一句话判定：</b>计划层骨架立住了（工艺路线、工单、需求计算、产能负荷、工程变更联动），<b>但"物料怎么从仓库到车间"这一段是断的</b>。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>工艺路线与工序</td><td>SAP 配工作中心与作业类型；三家齐全</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0061_production_domain.sql:111</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>工序报工</td><td>三家齐全，金蝶有车间看板</td><td><span class="tag t-grn">有</span></td><td><code>src/pages/Production/OperationReporting.tsx</code></td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>生产订单（工单）</td><td>SAP 状态机：创建→下达→确认→技术完工→关闭</td><td><span class="tag t-grn">有</span></td><td><code>functions/api/work-orders/</code>；线上实测 2 条</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>领料单与倒冲发料</b></td><td>SAP 有倒冲自动发料；三家均支持按用量自动扣料</td><td><span class="tag t-org">部分</span></td><td>有领料端点与领料表（<code>work-orders/picking</code>），但<b>全代码库找不到"倒冲发料"实现</b></td><td><span class="tag t-org">严重</span></td><td>车间每做一件都要人去开一张领料单，量大时根本做不过来。改法：完工报工时按物料清单用量自动扣料</td></tr>
-<tr><td>委外加工</td><td>三家均支持发料回收与加工费结算</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0011_subcontract_orders.sql</code>；含加工费、发料出库单号、回收入库单号；线上实测 1 条</td><td><span class="tag t-amb">中等</span></td><td>链路已通，计算在前端</td></tr>
-<tr><td>产能与排程</td><td>SAP 有多约束高级排产；金蝶复杂排程需配第三方</td><td><span class="tag t-amb">有但偏粗</span></td><td>产能负荷率计算已实现；多套排程视图页面存在</td><td><span class="tag t-amb">中等</span></td><td>缺"甘特图拖拽排产"。<b>注意：金蝶这块同样偏弱，属行业共性问题，非致命</b></td></tr>
-</tbody>
-</table>
-</div>
-
-<h3 id="d6">2.6 财务：凭证、多账簿、报表、合并</h3>
-<p><b>一句话判定：</b>结构层面<b>进步最大</b>（凭证头＋多行分录、多账簿、合并报表、暂估都已具备），<b>但"算账的地方"错了——这是全报告最需要重视的一条</b>。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td><b>凭证结构</b>（凭证头＋多行分录）</td><td>SAP 通用日记账为单一事实源；三家均为头＋行</td><td><span class="tag t-grn">已修好</span></td><td><code>migrations/0007</code> 建双表，<code>0068:188</code> 重建为 30 列规范结构，并加"组织＋凭证号"唯一约束</td><td><span class="tag t-grn">轻微</span></td><td>旧报告曾列致命，现已修复</td></tr>
-<tr><td><b>借贷平衡校验</b></td><td>三家均为服务端强制，不平不能保存</td><td><span class="tag t-red">前端有、后端无</span></td><td>前端 <code>src/utils/voucher.ts</code> 与凭证表单（不平衡禁用保存）；后端 <code>functions/api/vouchers/index.ts:67</code> <b>只校验"编号与日期必填"</b></td><td><span class="tag t-red">致命</span></td><td><b>改法：后端保存与过账时强制校验借方合计＝贷方合计</b></td></tr>
-<tr><td>凭证状态机（制单→审核→过账→冲销）</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td>凭证表含审核人／过账人／冲销人与对应时间字段</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>科目与辅助核算</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0053:187</code> 科目表；辅助核算页面存在</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>多账簿</td><td>三家均支持平行账簿</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0065</code> 账簿表＋凭证账簿字段（法定／管理／税务）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>期末结转与会计期间</td><td>三家齐全，含开账关账</td><td><span class="tag t-grn">有</span></td><td>会计期间主数据＋已结账期间禁止改凭证，支持反结账</td><td><span class="tag t-grn">轻微</span></td><td>旧报告曾列缺陷，现已修复</td></tr>
-<tr><td>应收应付与对账</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td>应收应付页面＋三单匹配</td><td><span class="tag t-amb">中等</span></td><td>账龄分桶（30／60／90 天）不够细</td></tr>
-<tr><td>暂估（货到票未到）</td><td>SAP 用过渡科目；金蝶暂估应付→财务应付立账</td><td><span class="tag t-grn">已修好</span></td><td>收货挂暂估、发票校验冲平，端到端测试全绿</td><td><span class="tag t-grn">轻微</span></td><td>旧报告曾列缺陷，现已修复</td></tr>
-<tr><td>三大报表</td><td>三家齐全</td><td><span class="tag t-amb">有但在前端算</span></td><td><code>src/utils/financialStatements.ts</code> 前端计算生成</td><td><span class="tag t-org">严重</span></td><td>报表在浏览器算，数据量大时慢、口径难追溯。改法：服务端视图或存储过程</td></tr>
-<tr><td>合并报表与内部往来抵消</td><td>三家均为成熟能力，金蝶强调多法人动态模型</td><td><span class="tag t-amb">刚落地</span></td><td><code>migrations/0065</code> 合并范围／抵消规则／合并运行三表；线上实测该接口返回"暂无合并结果"（属正常，未执行过合并）</td><td><span class="tag t-org">严重</span></td><td>底座有、实战少。改法：至少跑通一家集团的完整月度合并</td></tr>
-</tbody>
-</table>
-</div>
-<div class="box red">
-<b class="head">全报告最重要的一条：账到底在哪儿算的？</b>
-<p>我们把两件事分开了：<b>服务器负责"存"，浏览器负责"算"。</b>凭证怎么生成、成本怎么结转、暂估怎么挂、移动平均价怎么滚、出库怎么扣库存——这些真正的"算账"动作，都写在用户电脑上跑的页面代码里。</p>
-<p><b>会出什么事：</b>① 换台电脑、清了缓存、或者页面版本不一致，算出来的结果可能不一样；② 有人绕过界面直接调接口写数据，<b>服务器不会拦</b>（它只检查编号和日期填没填）；③ 想审计"这笔数到底怎么来的"，只能去翻前端代码，而不是查数据库；④ 数据量一大，浏览器先扛不住。</p>
-<p style="margin-bottom:0"><b>三家的做法：</b>算账、校验、过账全部在服务器／数据库里完成，浏览器只负责显示和录入。这也是"演示级"和"生产级"最本质的分界线。<b>这一条不改，前面所有功能的可靠性都要打折扣。</b></p>
-</div>
-
-<h3 id="d7">2.7 审批流与工作流</h3>
-<p><b>一句话判定：</b>能定义流程、能分支、能配或签会签和超时升级；<b>但日常最常用、也最容易引发抱怨的三件事（撤回、催办、委托）没有做。</b></p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>流程定义与条件分支</td><td>SAP 用流程自动化＋灵活工作流；金蝶、用友均为可视化流程设计器</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0056_approval_flow_domain.sql</code>；线上实测 7 条流程</td><td><span class="tag t-grn">轻微</span></td><td>条件目前偏固定，可升级为可配置规则</td></tr>
-<tr><td>会签／或签</td><td>三家均为标准能力</td><td><span class="tag t-grn">有</span></td><td>审批节点配置支持"串行／并行／或签"三种模式（<code>0056:103-124</code>）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>超时升级</td><td>三家均有</td><td><span class="tag t-grn">有</span></td><td>节点配置含超时升级与跳过规则</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>撤回</b>（提交错了撤回来）</td><td>三家均为标准动作</td><td><span class="tag t-red">没有</span></td><td>全代码库搜索撤回相关实现<b>无命中</b></td><td><span class="tag t-org">严重</span></td><td>改法：流程实例增加"发起人撤回"动作与留痕</td></tr>
-<tr><td><b>催办</b>（提醒审批人）</td><td>三家均为标准动作</td><td><span class="tag t-red">没有</span></td><td>仅有"紧急"标记，无催办动作与通知触发</td><td><span class="tag t-org">严重</span></td><td>改法：催办按钮＋消息／邮件通知</td></tr>
-<tr><td><b>委托</b>（出差期间转他人代批）</td><td>三家均为标准能力</td><td><span class="tag t-red">没有</span></td><td>全代码库搜索委托相关实现<b>无命中</b></td><td><span class="tag t-org">严重</span></td><td>改法：委托关系表＋有效期＋自动转办</td></tr>
-<tr><td>单据状态机</td><td>三家齐全</td><td><span class="tag t-grn">有</span></td><td>各业务单据均有状态字段与当前步骤</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>这三件事听着小，<b>但它们是"系统好不好用"最直接的体感</b>。审批人请假一周，单子就压一周；单据填错了只能靠人工在旁边补一张说明。公司人少时不明显，一旦超过二三十人用系统，抱怨会集中爆发。</div>
-
-<h3 id="d8">2.8 权限与合规（我们的最高分项）</h3>
-<p><b>一句话判定：</b>这是全场唯一接近满分的一项。<b>"没登记就一律看不见"的默认拒绝策略，比很多国产中型 ERP 更严格</b>。</p>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td><b>数据可见范围（行级权限）</b></td><td>SAP 用业务角色＋限制类型；金蝶、用友均支持按组织授权</td><td><span class="tag t-grn">强</span></td><td><code>functions/_shared/rls.ts</code>：101 张表逐张登记，<b>未登记一律返回空</b>；漏登记 0、僵尸登记 0</td><td><span class="tag t-grn">轻微</span></td><td>唯一风险：新表忘登记会"静默空白"，需纳入自动检查（现已有一致性门禁）</td></tr>
-<tr><td>敏感数据脱敏</td><td>三家均有，用友 2026 迭代新增"参照字段脱敏"</td><td><span class="tag t-amb">有但不全</span></td><td><code>functions/api/protected-data/[type].ts</code>：对员工、供应商分别屏蔽银行账号、信用额度、黑名单原因等</td><td><span class="tag t-amb">中等</span></td><td>脱敏规则按类型写死，缺统一开关。改法：脱敏策略配置化</td></tr>
-<tr><td>审计日志</td><td>SAP 有业务事件记录；三家均有</td><td><span class="tag t-grn">有</span></td><td>专门的审计接口与审计降级留痕表；线上实测返回 50 条</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>字段级权限</td><td>三家均支持（含只读／必填／隐藏）</td><td><span class="tag t-amb">有但残缺</span></td><td>字段权限页面存在，但配置未完全进入关系表，且<b>只控制"看得见"，不控制"只读／必填"</b></td><td><span class="tag t-amb">中等</span></td><td>改法：补齐只读／必填两类控制并落库</td></tr>
-<tr><td>导出管控</td><td>三家均有导出权限与条数上限</td><td><span class="tag t-amb">有但残缺</span></td><td>报表权限配置存在；导出行为级管控不完整</td><td><span class="tag t-amb">中等</span></td><td>改法：导出需授权＋加水印＋留痕</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3 id="d9">2.9 打印与输出</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>打印模板与套打</td><td>三家均有模板设计器，金蝶支持自定义输出方式</td><td><span class="tag t-grn">有</span></td><td><code>migrations/0052_print_template.sql</code>；模板含页眉页脚富文本与占位符；线上实测模板接口正常</td><td><span class="tag t-grn">轻微</span></td><td>可推广到全部单据</td></tr>
-<tr><td>条码与二维码</td><td>金蝶 V9.1 支持掌上电脑拆补打与国际标准条码解析</td><td><span class="tag t-grn">有</span></td><td>条码打印页面＋移动端真扫码（移动门户 <code>/m</code>）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>导出表格文件</td><td>三家均支持表格与可移植文档格式</td><td><span class="tag t-grn">有</span></td><td>导出工具＋列表导出菜单</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>独立生成可移植文档格式文件</b></td><td>三家均为标准能力</td><td><span class="tag t-amb">有但残缺</span></td><td>主要靠"打印预览再另存"的路径，无统一的直接生成文件接口</td><td><span class="tag t-amb">中等</span></td><td>改法：服务端渲染生成文件</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3 id="d10">2.10 平台能力：多组织、多币种、多语言、移动端、接口、低代码</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>多组织多公司</td><td>三家均为核心能力，金蝶强调多法人动态模型</td><td><span class="tag t-grn">有</span></td><td>组织表＋集团层级字段；线上实测组织 300 条</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>多币种</td><td>用友支持 167 种币种实时折算</td><td><span class="tag t-grn">有</span></td><td>汇率表＋汇率端点＋凭证币种字段</td><td><span class="tag t-amb">中等</span></td><td>缺期末汇兑损益自动结转</td></tr>
-<tr><td><b>多语言</b></td><td>金蝶苍穹 V8.0 新增 8 种语言 8 国本地化；用友支持多语言多时区</td><td><span class="tag t-org">有但残缺</span></td><td><code>src/i18n/catalog.ts:14</code> 仅中文与英文，<b>英文未全覆盖，切英文时大量词条回退中文</b></td><td><span class="tag t-amb">中等</span></td><td>只做外贸或只在国内用影响不大；要做国际化必须先补这一项</td></tr>
-<tr><td>移动端</td><td>三家均有移动端与消息推送</td><td><span class="tag t-grn">有</span></td><td>移动门户（入库／出库／盘点／质检／消息）＋真扫码</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>消息与通知</td><td>三家均有</td><td><span class="tag t-grn">有</span></td><td>消息表＋通知端点＋通知中心聚合</td><td><span class="tag t-grn">轻微</span></td><td>可接邮件与即时通讯推送</td></tr>
-<tr><td>开放接口与集成</td><td>金蝶 120 多个连接器；用友接口网关可订阅变更</td><td><span class="tag t-grn">有</span></td><td>开放网关＋密钥生命周期管理＋集成中心页面</td><td><span class="tag t-amb">中等</span></td><td>连接器数量与现成集成方案远少于三家</td></tr>
-<tr><td><b>低代码二次开发</b></td><td>这是三家的命根子：金蝶动态领域模型、用友低代码平台三级开发、SAP 关键用户扩展</td><td><span class="tag t-org">能画不能跑</span></td><td><code>src/pages/Platform/LowCodeDesigner.tsx</code> 有设计器，但<b>配置存在前端、缺后端执行引擎</b></td><td><span class="tag t-org">严重</span></td><td>改法：要么把配置落库并做执行引擎，<b>要么干脆砍掉这个界面避免误导</b></td></tr>
-<tr><td><b>人工智能助手</b></td><td>SAP 的人工智能助手已覆盖财务采购供应链；用友有企业服务大模型；金蝶有财报智能体与经营助理</td><td><span class="tag t-amb">有雏形</span></td><td>存在智能问答与票据识别端点，但<b>强依赖外部人工智能密钥，缺密钥即不可用</b></td><td><span class="tag t-org">严重</span></td><td>三家在 2025 年后已把这块当主战场。建议：不要硬拼通用人工智能，先做"读自己的数据"的经营问答</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3 id="d11">2.11 体验与工程</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:16%">功能点（判据）</th><th style="width:22%">三家怎么做</th><th style="width:13%">我们有没有</th><th style="width:28%">证据</th><th style="width:9%">差距</th><th style="width:12%">根因与改法</th></tr></thead>
-<tbody>
-<tr><td>页面加载性能</td><td>三家均为云端优化，用友称复杂报表从 12 小时压到 45 秒</td><td><span class="tag t-grn">有</span></td><td>全页面按需加载</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>并发与锁（两人同时改一张单）</td><td>三家均有</td><td><span class="tag t-grn">有</span></td><td>乐观锁版本号机制（<code>migrations/0045</code>）</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td>备份与恢复</td><td>三家由平台托管</td><td><span class="tag t-grn">有</span></td><td>备份与恢复接口</td><td><span class="tag t-amb">中等</span></td><td>需确认恢复演练频率（演练过才能真正放心）</td></tr>
-<tr><td>可观测性（系统自己会报警）</td><td>三家均有监控与运维</td><td><span class="tag t-grn">有</span></td><td>指标端点＋审计健康度端点</td><td><span class="tag t-grn">轻微</span></td><td>—</td></tr>
-<tr><td><b>错误提示友好度</b></td><td>SAP 2602 起用自然语言解释报错并给处理建议</td><td><span class="tag t-amb">有但残缺</span></td><td>2026-09-17 审阅报告记录了 13 处直接弹出技术错误；部分页面已改为友好提示条，但未全覆盖</td><td><span class="tag t-amb">中等</span></td><td>改法：统一错误码到中文提示的映射</td></tr>
-<tr><td><b>数据双通道残留</b></td><td>三家均为单一数据源</td><td><span class="tag t-org">有风险</span></td><td>约 30 多个前端数据仓库仍以"整块状态"为事实源（质量、生产作业、预警规则、报表权限、低代码、工作流等）</td><td><span class="tag t-org">严重</span></td><td>这些模块<b>跨设备可能不一致、不进权限与审计、不做服务端备份</b>。改法：按域分批迁入关系表</td></tr>
-<tr><td>一致性门禁（防止改坏）</td><td>三家为商业产品质量体系</td><td><span class="tag t-grn">有</span></td><td>自动核对程序 961 项全部通过（前端调用↔后端路由↔数据库表三向核对）</td><td><span class="tag t-grn">轻微</span></td><td><b>这是工程上的亮点，很多同规模团队没有</b></td></tr>
-</tbody>
-</table>
-</div>
-<div class="mean"><b>这对你意味着什么：</b>工程底子其实不差——"改了代码会不会改坏"这件事我们有自动检查，这是很值钱的习惯。真正要治的是<b>"双通道"</b>：有些模块表面上能用，背后数据却存在用户电脑里，换台电脑看的不一样、审计也查不到。这种问题不会立刻爆，但会在你最需要查账的时候冒出来。</div>
-
-<h2 id="c3">第三章　我们到底强在哪（优势详解）</h2>
-<p>判断"强"的标准不是自说自话，而是<b>三条硬杠杠</b>：① 有可核对的代码或线上证据；② 与三家的公开能力对比不落下风；③ 对真实业务有可感知的价值。</p>
-
-<h3>优势一：数据隔离采取"默认拒绝"，比三家的常见做法更严格</h3>
-<p><b>证据：</b><code>functions/_shared/rls.ts</code> 中逐张登记 101 张业务表的可见范围，<b>没有登记的表一律返回空数据</b>；2026-09-17 全面审阅实测"漏登记 0、僵尸登记 0"；一致性门禁把这条纳入自动检查。</p>
-<p><b>为什么算强：</b>多租户系统最常见的事故是"新加了一张表，忘了配权限，结果所有公司的数据互相看得见"。我们把默认行为反过来了——<b>宁可让你看不见，也不让你看错</b>。这不是所有厂商都愿意做的选择，因为它会让开发时"莫名其妙查不到数据"，牺牲便利性换安全。三家也有类似机制，但我们把它做成了全量登记＋自动核对，属于"笨办法但可靠"。</p>
-<div class="mean"><b>这对你意味着什么：</b>如果将来有多家公司、多个分公司共用这套系统，客户的数据不会因为一次疏忽而被隔壁公司看到。这是能拿去跟客户谈的卖点。</div>
-
-<h3>优势二：采购寻源的价格闭环，是采购专业度在代码里的体现</h3>
-<p><b>证据：</b>询价→报价→比价→价格审批→价目表五段式完整；审批通过自动生成价目表行且带防重复机制；比价自动标记最低价；供应商评级会回来料检验结果自动回流。</p>
-<p><b>为什么算强：</b>这套链条的<b>业务设计是对的</b>，而且把"事后能查"这件事做实了：谁报的价、谁批的、为什么选这家，都能翻出来。三家都有，但我们做到了"闭环自动"，不需要人工在电子表格里再倒一遍。</p>
-
-<h3>优势三：质量闭环深度不输国产中型产品</h3>
-<p><b>证据：</b>检验批由入库自动生成、检验标准版本化、不合格品处置、8D 整改报告、过程统计控制图、质量成本四类归集、检验结果回流供应商评级。</p>
-<p><b>为什么算强：</b>很多同价位 ERP 的"质量管理"只做到"填一张检验单"。我们做到了<b>从发现问题到整改到影响供应商评级</b>的完整链路，这在国内中型产品里属于上游水平。</p>
-
-<h3>优势四：工程纪律（自动核对门禁），是长期成本优势</h3>
-<p><b>证据：</b>961 项自动检查全部通过，覆盖"前端调用的接口↔后端实际路由↔数据库真实表"三向核对；另有类型检查门禁。</p>
-<p><b>为什么算强：</b>这套东西不产生任何可见功能，但能<b>防止"改一个地方、坏三个地方"</b>。三家靠商业公司的研发流程保障，我们用自动化脚本保障，对小团队来说性价比更高。</p>
-
-<h3>优势五：迁移链条可重建（全新空库能一键跑通）</h3>
-<p><b>证据：</b>V3.15.6 已验证"从零开始把 0001 到 0069 全部跑一遍"零失败，且全新库与生产库<b>逐表对比列数差异为 0</b>。</p>
-<p><b>为什么算强：</b>很多自研系统的数据库只能"增量升级"，一旦要重建新环境就发现历史脚本对不上。我们能重建，意味着<b>灾备、新客户开环境、私有化部署</b>这三件事是可行的。</p>
-
-<h2 id="c4">第四章　我们弱在哪（劣势分级）</h2>
-<p>每条都按<b>致命／严重／中等／轻微</b>分级，并给出"外行也能懂的影响描述"——<b>会导致什么后果、谁会踩到、多久踩一次</b>。</p>
-
-<h3>4.1 致命级（1 条）：不处置会做错账</h3>
-<table>
-<thead><tr><th style="width:22%">问题</th><th style="width:26%">会导致什么后果</th><th style="width:16%">谁会踩到</th><th style="width:14%">多久踩一次</th><th style="width:22%">怎么改</th></tr></thead>
-<tbody>
-<tr>
-<td><b>关键账目计算与校验在浏览器端，服务器只存不算、不校验</b><br><span class="small">凭证生成、成本结转、暂估、移动平均价、库存扣减、报表计算</span></td>
-<td>① 绕过界面写数据时服务器不拦，可能出现借贷不平的凭证；② 换设备／清缓存／版本不一致，算出的数可能不同；③ 审计时查不到"这笔数怎么来的"；④ 数据量一大浏览器先卡</td>
-<td>财务、审计、以及任何需要"事后追责"的场景</td>
-<td>平时不显灵，<b>一旦出事就是大事</b>；数据量上来后转为高频</td>
-<td>把算账逻辑搬到服务端：先做"凭证保存时后端强制校验借贷平衡"，再逐步迁移成本与库存计算</td>
-</tr>
-</tbody>
+  <thead><tr><th style="width:24%">指标</th><th style="width:14%">数值</th><th>说明</th></tr></thead>
+  <tbody>
+    <tr><td>健康端点</td><td><strong>175（92.6%）</strong></td><td>行为符合预期</td></tr>
+    <tr><td>系统错误（500）</td><td><strong style="color:#a32b2b">8</strong></td><td>本轮已全部修复（见第六章）</td></tr>
+    <tr><td>标记「鉴权缺失」</td><td>18</td><td><strong>复核后多数为探针误判</strong>：开放接口本就要求专用密钥、登出本就允许未登录、部分路径只支持修改不支持查询（返回的是网页首页而非接口数据）。真正值得记的只有「组织单条查询缺接口」一条，已列入改进清单</td></tr>
+  </tbody>
 </table>
 
-<h3>4.2 严重级（5 条）：流程跑不通或靠人兜底</h3>
+<h3>1.4 历史技术债复核（逐条标注当前状态）</h3>
+<p>2026-09-17 那份审计（针对当时的 V3.15.0）列了 1 项致命、约 12 项严重。逐条回到当前代码核对：</p>
 <table>
-<thead><tr><th style="width:22%">问题</th><th style="width:26%">会导致什么后果</th><th style="width:16%">谁会踩到</th><th style="width:14%">多久踩一次</th><th style="width:22%">怎么改</th></tr></thead>
-<tbody>
-<tr><td><b>信用超额不阻断下单</b></td><td>客户欠款已超额度仍能下单发货，超出部分没有保障</td><td>销售、老板、应收会计</td><td>只要有大客户赊销，<b>随时可能踩</b></td><td>下单接口加服务端校验：已用额度＋本单 ≤ 额度，超出拒绝并可特批</td></tr>
-<tr><td><b>审批缺撤回／催办／委托</b></td><td>单子提错撤不回；审批人请假单子卡死；无法临时转授权</td><td>所有走审批的人</td><td>公司越大越频繁，<b>20 人以上每天都会遇到</b></td><td>补三个动作：撤回（留痕）、催办（发通知）、委托（带有效期）</td></tr>
-<tr><td><b>生产领料靠手工、无倒冲发料</b></td><td>每做一批都要人工开领料单，量大时必然漏开或错开，导致库存虚高、成本不准</td><td>车间、仓管、成本会计</td><td><b>每天都在发生</b></td><td>报工或完工时按物料清单用量自动扣料生成出库单</td></tr>
-<tr><td><b>约 30 多个模块数据仍存"整块状态"</b></td><td>跨设备看到的不一样；不进权限与审计；不进服务端备份；出问题难追溯</td><td>质量、生产作业、预警、报表权限、低代码等模块的使用者</td><td>持续存在，<b>查账或换电脑时暴露</b></td><td>按域分批迁入关系表，优先迁"配置类"（丢了必须重建的）</td></tr>
-<tr><td><b>低代码平台"能画不能跑"＋人工智能依赖外部密钥</b></td><td>客户看到设计器以为能自己配，实际配完不能用，属"演示陷阱"；人工智能功能没配密钥就整块失效</td><td>想做二次开发的实施方、演示对象</td><td><b>每次对外演示都可能踩</b></td><td>要么补齐后端执行引擎，要么在界面上明确标注"演示版"并暂时隐藏</td></tr>
-</tbody>
+  <thead><tr><th style="width:10%">等级</th><th style="width:28%">问题</th><th style="width:12%">当前状态</th><th>复核依据</th></tr></thead>
+  <tbody>
+    <tr><td>致命</td><td>打印模板可被注入恶意脚本（存储型跨站脚本）</td><td><span class="tag t-ok">已修</span></td><td>三道都补上了：写入接口加了「仅管理员」校验（新建 / 修改 / 删除三个入口都在）、模板内容入库前净化、渲染前再净化一次</td></tr>
+    <tr><td>严重</td><td>父子表工厂被并发请求污染（曾导致线上反复 500）</td><td><span class="tag t-ok">已修</span></td><td>模块级全局变量已改为按请求传参，代码注释里留了原委</td></tr>
+    <tr><td>严重</td><td>主表 + 明细未包在同一事务</td><td><span class="tag t-part">部分修</span></td><td>父子表工厂与打印模板已用批量事务；凭证分录仍见逐条写入，未完全收口</td></tr>
+    <tr><td>严重</td><td>多租户唯一约束范围错误（跨公司互相阻拦）</td><td><span class="tag t-part">部分修</span></td><td>供应商表已按「公司 + 编码」建唯一约束；早期几张单据表仍待核对</td></tr>
+    <tr><td>严重</td><td>前端零单元测试</td><td><span class="tag t-no">未修</span></td><td>前端仍无任何白盒测试依赖；质量保障靠生产端到端（本轮新增后共 286 条断言）</td></tr>
+    <tr><td>严重</td><td>系统性静默失败（接口异常被吞掉）</td><td><span class="tag t-no">未修</span></td><td>本地状态与数据库真值可能分歧且用户无感知，是最需警惕的架构隐患</td></tr>
+    <tr><td>严重</td><td>任意类型泛滥（约 441 处）</td><td><span class="tag t-no">未修</span></td><td>类型检查的编译期保护仍被架空，错误逃逸到运行期</td></tr>
+    <tr><td>严重</td><td>端到端测试只覆盖「顺利路径」</td><td><span class="tag t-part">部分修</span></td><td>本轮新增的套件 31 已含「空载荷」「数量为 0」等负面断言，但存量 300 余条用例仍以顺利路径为主</td></tr>
+    <tr><td>严重</td><td>超大文件与复制粘贴型重复代码</td><td><span class="tag t-no">未修</span></td><td>仍有单文件超 1200 行（如接口服务、安全中心、采购订单表单、仓储数据仓库）</td></tr>
+    <tr><td>中等</td><td>账号与密码生命周期无审计留痕</td><td><span class="tag t-part">部分修</span></td><td>导出留痕已补；建账号 / 改密 / 重置密码的留痕仍缺</td></tr>
+    <tr><td>中等</td><td>通用接口不序列化结构字段</td><td><span class="tag t-ok">已修</span></td><td>对象与数组入参落库前已统一序列化</td></tr>
+    <tr><td>中等</td><td>凭证接口写入不存在的列</td><td><span class="tag t-ok">已修</span></td><td>红冲相关列已由后续迁移补齐（蛇形命名确权）</td></tr>
+  </tbody>
 </table>
 
-<h3>4.3 中等级（8 条）：影响效率，有替代办法</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:26%">问题</th><th style="width:30%">外行影响描述</th><th style="width:20%">证据</th><th style="width:24%">怎么改</th></tr></thead>
-<tbody>
-<tr><td>比价只有"最低价"，无加权评分</td><td>只看谁便宜，不考虑交期和质量，容易选出"便宜但老是晚交"的供应商</td><td>比价页面逻辑</td><td>加评分卡：价格／交期／质量按权重打分</td></tr>
-<tr><td>销售无独立价目表与阶梯折扣</td><td>销售报价靠手填，容易报错价，也没有"买越多越便宜"的规则</td><td>无销售价目表关系表</td><td>建销售价目表（客户／物料／数量区间）</td></tr>
-<tr><td>成本核算方法只有两种且在前端算</td><td>想换算法或复核成本，只能改代码</td><td><code>src/utils/cost.ts</code></td><td>成本方法可配＋算法上服务端</td></tr>
-<tr><td>序列号未被出入库强制驱动</td><td>贵重件／需召回件追溯时，可能查不到完整流向</td><td>出入库过账只存序列号文本</td><td>过账时强制写序列号流转记录</td></tr>
-<tr><td>三单匹配无可配容差与超差阻断</td><td>发票数量和入库差一点点时，系统不会自动判断合不合理</td><td>三单匹配页面</td><td>容差规则可配＋超差不允许过账</td></tr>
-<tr><td>账龄分桶与汇兑损益不完整</td><td>看不出欠款到底逾期多久；外币业务期末不自动算汇兑损益</td><td>应收页面仅有到期日</td><td>补账龄区间与期末重估凭证</td></tr>
-<tr><td>多语言只有中英且英文不全</td><td>切英文时大量内容还是中文，对外企或海外客户不可用</td><td><code>src/i18n/catalog.ts:14</code></td><td>要么补全英文，要么暂时只保留中文避免误导</td></tr>
-<tr><td>错误提示不友好、导出管控不完整</td><td>用户看到技术报错一头雾水；敏感数据可被随意导出</td><td>2026-09-17 审阅报告</td><td>统一错误提示映射；导出加授权与留痕</td></tr>
-</tbody>
-</table>
+<div class="warn">
+  <strong>复核中最要紧的一条更正：</strong>旧记录写着「入库单 / 出库单创建必 500，经复测为<strong>误报</strong>」。本轮实测证明这句话<strong>只对一半</strong>——字段名填错（例如把「入库单号」写成「单号」）时确实返回正常 400，但<strong>提交空内容时确实是 500</strong>。原因是校验器只检查「你填了的字段对不对」，一个键都没有的空对象会直接穿透到数据库层。<strong>教训：侦察结论必须按「入参形态」分档复现，只试一种形态就会得出片面结论。</strong>
 </div>
 
-<h3>4.4 轻微级（不再展开）</h3>
-<p>物料表单未分视图页签、缺少物料清单版本对比视图、缺少在途库存形态、缺少甘特图拖拽排产、打印无独立生成文件接口、分类未独立建表。<b>这些属于"好用"而非"能用"的范畴</b>，可以排在最后。</p>
+<!-- ============ 二、竞品 ============ -->
+<h2 id="c2">二、三家竞品当前在售版本（联网检索，注明信息日期）</h2>
 
-<h2 id="c5">第五章　已存在的问题点（含历史缺陷追踪）</h2>
-<p>本章回答"系统现在已经有的问题"，与第四章的"相比竞品的差距"是不同的两件事。我们把仓库里已有的材料（2026-09-17 全面审阅报告、V2.29 逐功能对标文档、项目记忆档案）全部吃透，并做了一次复核，结论如下。</p>
+<div class="note">
+  <strong>关于版本号的诚实说明：</strong>以下版本号均来自 2026-09-23 的联网检索，标注了出处与日期。<strong>凡未取得权威版本信息的，明确写「未取得权威版本信息」，不用「最新版」含糊带过。</strong>企业软件的版本节奏很快，读到本文档时请以标注的信息日期判断时效。
+</div>
 
-<h3>5.1 历史缺陷追踪：哪些已经修好，哪些还没修</h3>
+<h3>2.1 金蝶</h3>
 <table>
-<thead><tr><th style="width:26%">历史记录的缺陷</th><th style="width:14%">现在状态</th><th style="width:32%">复核证据</th><th style="width:28%">说明</th></tr></thead>
-<tbody>
-<tr><td>凭证是扁平借贷行、无分录结构</td><td><span class="tag t-grn">已修好</span></td><td>凭证头表＋分录表双表，0068 迁移重建为规范结构</td><td>V2.29 时期列为致命，V3.x 已重构</td></tr>
-<tr><td>采购订单无币种与税率</td><td><span class="tag t-grn">已修好</span></td><td>订单头含币种／汇率／是否含税／税额／价税合计；订单行含税率／税额／含税单价</td><td>同上</td></tr>
-<tr><td>客户主数据缺失</td><td><span class="tag t-grn">已修好</span></td><td><code>migrations/0004_customers.sql</code>，销售订单以客户编号关联</td><td>同上</td></tr>
-<tr><td>无会计期间与开账关账</td><td><span class="tag t-grn">已修好</span></td><td>会计期间主数据＋已结账期间禁止改凭证＋支持反结账</td><td>同上</td></tr>
-<tr><td>无货到票未到暂估</td><td><span class="tag t-grn">已修好</span></td><td>收货挂暂估、发票校验冲平，端到端测试全绿</td><td>同上</td></tr>
-<tr><td>生产级能力缺位（无服务端、无数据库）</td><td><span class="tag t-grn">已修好</span></td><td>云端数据库 96 张关系表＋后端函数＋行级权限＋审计</td><td><b>这是 V2.x 到 V3.x 最大的跨越</b></td></tr>
-<tr><td>打印模板存储型跨站脚本攻击</td><td><span class="tag t-grn">已修好</span></td><td>V3.15.1 三道闸，真机验证</td><td>安全类最高危项已闭环</td></tr>
-<tr><td>并发全局污染、事务缺失、多租户唯一约束方向反</td><td><span class="tag t-grn">已修好</span></td><td>V3.15.3 生产真实库逐项验证</td><td>—</td></tr>
-<tr><td><b>销售信用额度无卡点</b></td><td><span class="tag t-red">仍未修</span></td><td>下单接口无比较与拒绝逻辑</td><td><b>本次复核确认仍然存在，升级为致命级</b></td></tr>
-<tr><td><b>审批撤回／催办／委托</b></td><td><span class="tag t-red">仍未修</span></td><td>全代码库搜索无命中</td><td>同上，列严重级</td></tr>
-<tr><td>生产无倒冲发料</td><td><span class="tag t-org">仍未修</span></td><td>无倒冲端点</td><td>—</td></tr>
-<tr><td>前端零单元测试、类型宽松</td><td><span class="tag t-org">仍未修</span></td><td>2026-09-17 审阅报告</td><td>属"技术债"，不紧急但会持续拖慢速度</td></tr>
-</tbody>
+  <thead><tr><th style="width:19%">产品</th><th style="width:16%">当前版本</th><th>形态与主打能力</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>金蝶AI苍穹</strong><br>（原金蝶云·苍穹，平台层）</td>
+      <td><strong>V8.0</strong><br><span style="font-size:12px;color:#767e8d">2026-03-31 起更名焕新；更早版本已陆续停售停服</span></td>
+      <td>面向大企业的云原生平台（平台即服务）。四套生产力套件：智能体开发、应用开发（零代码 / 低代码 / 高代码）、数据智能、集成。技术底座围绕云原生、数据原生、智能原生、安全可信四项，完成全国产化信创适配（芯片、存储、操作系统、数据库）。集成服务云已迭代到 V7.0（支持自定义数据库连接、集成资源备份到代码仓库、集成智能机器人）<br><span style="font-size:12.5px;color:#767e8d">来源：金蝶官方社区「苍穹金蝶AI V8.0 升级适配公告」、金蝶官网产品页，检索于 2026-09-23</span></td>
+    </tr>
+    <tr>
+      <td><strong>金蝶云·星空</strong><br>（成长型企业管理软件）</td>
+      <td><strong>V9.1</strong><br><span style="font-size:12px;color:#767e8d">最新补丁 20260625；V8.0 将于 2026-12-31 停售</span></td>
+      <td>财务驱动的集团一体化，覆盖财务、供应链、制造、产品生命周期管理、客户关系、全渠道营销。2026 新版强化：固定资产租入全流程（入账 → 租金支付 → 折旧 → 利息确认 → 终止）、销售 / 采购 / 车间「云巡检」（主动发现异常、减少月底对账量）、数据智能云（门店销量预测、智能要货、订单风险预警）、智慧车间的移动工序报工与「工序任务超市」（把派工权部分下放给操作工）。供应链云 V9.1 新增采购看板、预估毛利查询、自动发货、智能预警，并提供业务数据全链路归档方案<br><span style="font-size:12.5px;color:#767e8d">来源：金蝶云社区、软服之家供应链云 V9.1 发布说明、金蝶官方下载页，检索于 2026-09-23</span></td>
+    </tr>
+    <tr>
+      <td>金蝶AI星瀚<br>（大型企业管理软件）</td>
+      <td>V8.0</td>
+      <td>基于苍穹平台构建，覆盖集团财务、智能供应链、智能制造、人力管控、智能协同、银企服务、数据中台、流程自动化<br><span style="font-size:12.5px;color:#767e8d">来源：金蝶服务商常见问题页，检索于 2026-09-23</span></td>
+    </tr>
+    <tr>
+      <td>官方预告中的下一版</td>
+      <td>V9.0（预告）</td>
+      <td>2026-09-16 官方文章称「AI 辅助审批」将于苍穹 V9.0 正式发布——自动解析单据与附件、生成智能审批报告、给出风险等级与推荐审批意见，并支持按企业 / 个人配置规则。<strong>尚未发布，属预告信息</strong><br><span style="font-size:12.5px;color:#767e8d">来源：金蝶官网 2026-09-16 文章</span></td>
+    </tr>
+  </tbody>
 </table>
 
-<h3>5.2 本次新发现的问题（此前材料未登记）</h3>
-<div class="box org">
-<b class="head">新问题一：核心计算与校验的位置不对（本报告的头条发现）</b>
-<p style="margin-bottom:0">后端凭证接口只校验"编号与日期必填"，<b>借贷平衡校验只存在于前端</b>；凭证生成、成本结转、暂估、移动平均价、库存扣减、报表计算全部在前端实现。这不是"缺功能"，是"架构位置错误"，也是与三家最本质的差距。交叉验证方式：两个独立视角分别扫描后端函数与前端代码，结论一致。</p>
-</div>
-<div class="box org">
-<b class="head">新问题二：仓库货位与单位换算虽已搬出浏览器，但仍是"整块状态"而非独立数据表</b>
-<p style="margin-bottom:0">这两类主数据已从本地存储搬到后端存储（换设备能看到同一份，这点已改善），但仍是打包成一大块保存，<b>享受不到关系表的查询、约束与权限能力</b>。后果：无法按仓库精确授权、无法高效检索、出问题难以定位到具体某一行。</p>
-</div>
-<div class="box org">
-<b class="head">新问题三：部分模块"有界面、有接口文档、但接口没被界面使用"</b>
-<p style="margin-bottom:0">开放网关与通用实体接口覆盖了大量表，但不少对应前端页面仍走老通道，形成"双轨并存"。后果：同一份数据在两个地方各存一份，时间一长必然不一致。</p>
-</div>
-
-<h3>5.3 线上实测结果（第三重验证）</h3>
-<p>为确保判断不是"纸上谈兵"，本次对生产站点做了一次<b>只读巡查</b>（只登录、只查询，未写入任何数据）：</p>
-<div class="scroll">
+<h3>2.2 思爱普（SAP）</h3>
 <table>
-<thead><tr><th style="width:26%">检查项</th><th style="width:18%">结果</th><th style="width:56%">说明</th></tr></thead>
-<tbody>
-<tr><td>登录接口</td><td><span class="tag t-grn">正常</span></td><td>返回令牌与用户信息</td></tr>
-<tr><td>组织／物料／客户／供应商</td><td><span class="tag t-grn">正常</span></td><td>组织 300、物料 18、客户 5、供应商 12（测试账号可见范围内）</td></tr>
-<tr><td>采购订单／销售订单／工单／委外／审批流</td><td><span class="tag t-grn">正常</span></td><td>分别返回 3／4／2／1／7 条</td></tr>
-<tr><td>审计日志</td><td><span class="tag t-grn">正常</span></td><td>返回 50 条，审计留痕在真实运行</td></tr>
-<tr><td>打印模板</td><td><span class="tag t-grn">正常</span></td><td>返回模板清单与总数</td></tr>
-<tr><td>合并报表</td><td><span class="tag t-blu">无数据</span></td><td>接口返回"暂无合并结果，请先执行合并"，<b>属正常业务响应</b>，但也说明该能力尚未在真实环境中跑通过</td></tr>
-<tr><td>出入库单／序列号／工艺路线／物料清单</td><td><span class="tag t-blu">测试环境为空</span></td><td>该测试组织未录入数据，不能据此判断功能缺失</td></tr>
-</tbody>
-</table>
-</div>
-
-<h2 id="c6">第六章　改进路线：先改哪个</h2>
-<p>分四档：<b>立刻做（1–2 周）／近期做（1–2 月）／中期规划（季度级）／不建议现在做</b>。每条写清：改什么、为什么、大概怎么改、期望收益、不做的代价。</p>
-
-<h3>6.1 立刻做（1–2 周）—— 只做"不做会出事"的</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:5%">#</th><th style="width:20%">改什么</th><th style="width:18%">为什么（动机）</th><th style="width:22%">大概怎么改</th><th style="width:17%">期望收益</th><th style="width:18%">不做的代价</th></tr></thead>
-<tbody>
-<tr>
-<td><b>L1</b></td>
-<td><b>后端补"借贷平衡"强制校验</b></td>
-<td>目前只有前端拦，绕开界面就失效；账错了是最贵的错误</td>
-<td>在凭证保存与过账接口加服务端校验：借方合计必须等于贷方合计，不等直接拒绝并提示差额</td>
-<td>账目正确性的最后一道闸门；改动小、风险低</td>
-<td>可能出现借贷不平的凭证流入账套，月结时发现已经晚了</td>
-</tr>
-<tr>
-<td><b>L2</b></td>
-<td><b>销售下单加信用额度闸门</b></td>
-<td>额度算出来了却不拦，等于没算</td>
-<td>下单保存时服务端校验"已用额度＋本单金额 ≤ 信用额度"，超出拒绝并给出"申请特批"入口</td>
-<td>赊销风险从"事后知道"变成"事前拦住"</td>
-<td>超额发货收不回钱；销售和财务互相甩锅</td>
-</tr>
-<tr>
-<td><b>L3</b></td>
-<td><b>审批补"撤回"与"催办"</b></td>
-<td>这两个动作最简单、最高频、最容易做</td>
-<td>撤回：发起人可在未审批前撤回并留痕；催办：按钮＋发一条站内消息</td>
-<td>立刻缓解"单子卡住没人管"的抱怨</td>
-<td>持续的人工沟通成本，用户对系统失去信任</td>
-</tr>
-<tr>
-<td><b>L4</b></td>
-<td><b>低代码设计器加"演示版"标注或暂时隐藏</b></td>
-<td>能画不能跑，对外演示是信用损失</td>
-<td>界面显著位置标注"当前为设计器演示，执行引擎开发中"，或直接下线该入口</td>
-<td>避免客户误判产品成熟度</td>
-<td>客户以为能自己配置，签单后才发现不行</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<h3>6.2 近期做（1–2 月）—— 把"能用"变成"好用且可信"</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:5%">#</th><th style="width:20%">改什么</th><th style="width:18%">为什么</th><th style="width:22%">大概怎么改</th><th style="width:17%">期望收益</th><th style="width:18%">不做的代价</th></tr></thead>
-<tbody>
-<tr><td><b>N1</b></td><td><b>算账逻辑上移服务端（分域推进）</b></td><td>这是"演示级"与"生产级"的分界线</td><td>按域迁移：先成本与库存，再凭证生成与暂估；前端改为调用服务端接口</td><td>多设备一致、可审计、可承载大数据量</td><td>数据可信度存疑，规模一大就要推倒重做</td></tr>
-<tr><td><b>N2</b></td><td><b>生产倒冲发料</b></td><td>车间手工开领料单不现实</td><td>报工或完工时按物料清单用量自动生成出库单扣减库存</td><td>库存与生产打通，成本自动归集</td><td>库存虚高、成本核算失真</td></tr>
-<tr><td><b>N3</b></td><td><b>审批"委托"能力</b></td><td>请假／出差场景必需</td><td>委托关系表（委托人／受托人／有效期）＋自动转办</td><td>审批流不再因人员缺席中断</td><td>每逢假期审批积压</td></tr>
-<tr><td><b>N4</b></td><td><b>仓库货位与单位换算建独立数据表</b></td><td>基础数据不该是"整块状态"</td><td>建仓库表、库位表、单位换算表，接入权限与备份</td><td>可精确授权、可高效查询、可追溯</td><td>仓库管理做不深，无法支撑多仓多货位</td></tr>
-<tr><td><b>N5</b></td><td><b>销售价目表与阶梯折扣</b></td><td>报价靠手填容易出错</td><td>建销售价目表（客户／物料／数量区间）＋下单自动取价</td><td>报价一致、可管控</td><td>报错价的损失由公司承担</td></tr>
-<tr><td><b>N6</b></td><td><b>比价加权综合评分</b></td><td>只看最低价会选出"便宜但总晚交"的供应商</td><td>价格／交期／质量／历史绩效按权重打分，可配置权重</td><td>选供应商从"拍脑袋"到"有依据"</td><td>隐性交期损失大于价格节省</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>6.3 中期规划（季度级）—— 决定能走多远</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:5%">#</th><th style="width:20%">改什么</th><th style="width:18%">为什么</th><th style="width:22%">大概怎么改</th><th style="width:17%">期望收益</th><th style="width:18%">不做的代价</th></tr></thead>
-<tbody>
-<tr><td><b>M1</b></td><td>剩余约 30 个模块的"双通道"清理</td><td>灰色数据地带是长期隐患</td><td>按"配置类优先、流水类其次"分批迁入关系表</td><td>数据单一来源，全量进权限与审计</td><td>审计与灾备永远有盲区</td></tr>
-<tr><td><b>M2</b></td><td>合并报表实战跑通</td><td>底座建好了但没在真实集团跑过</td><td>选一家多组织客户，完整跑一次月度合并与内部往来抵消</td><td>集团客户可交付</td><td>谈下集团单子却交不了付</td></tr>
-<tr><td><b>M3</b></td><td>成本核算方法可配置</td><td>不同行业算法不同</td><td>支持移动平均／全月加权／先进先出可选，算法服务端化</td><td>适配更多行业</td><td>客户要求换算法时只能改代码</td></tr>
-<tr><td><b>M4</b></td><td>字段级权限补齐（只读／必填／脱敏）＋导出管控</td><td>合规是拿大客户的门槛</td><td>策略配置化＋导出授权与留痕</td><td>可接对合规有要求的企业客户</td><td>投标时被合规项卡住</td></tr>
-<tr><td><b>M5</b></td><td>人工智能助手（先做窄场景）</td><td>三家已把它当主战场</td><td>不拼通用人工智能，先做"用中文问经营数据自动出答案"和"凭证科目推荐"</td><td>差异化卖点，贴合自身数据</td><td>三年后选型标准变了，我们不在牌桌上</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>6.4 不建议现在做</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:24%">事项</th><th style="width:38%">为什么现在不做</th><th style="width:38%">什么时候该做</th></tr></thead>
-<tbody>
-<tr><td>自研高级计划排程（甘特拖拽、多约束优化）</td><td>投入大、算法门槛高；<b>连金蝶的复杂排程都要借第三方</b>，属行业共性短板，短期不产生成交差异</td><td>等有真实制造客户明确要求，或能接到现成组件时</td></tr>
-<tr><td>多语言补齐到 8 国</td><td>没有海外客户就是纯成本；现在英文都不全，补 8 国不现实</td><td>拿到第一个海外或外资客户时</td></tr>
-<tr><td>自建完整低代码平台（对标金蝶动态领域模型、用友低代码）</td><td>这是三家投入十年以上的平台级工程，硬拼不划算</td><td>除非把"低代码"作为公司战略方向，否则保持"能改源码"的优势更实际</td></tr>
-<tr><td>通用人工智能大模型自研</td><td>不现实，也没必要</td><td>始终以"接成熟模型＋喂自己的数据"为主</td></tr>
-<tr><td>推倒重来换架构</td><td>现有 96 张表、191 个页面、961 项自动检查是真实资产，重写会丢掉全部业务积累</td><td>任何情况下都不建议；应按域渐进改造</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>6.5 优先级总表（一张表定顺序）</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:6%">排序</th><th style="width:22%">事项</th><th style="width:10%">档次</th><th style="width:12%">投入</th><th style="width:12%">收益</th><th style="width:10%">风险</th><th style="width:28%">判断依据</th></tr></thead>
-<tbody>
-<tr><td><b>1</b></td><td>后端补借贷平衡校验</td><td>立刻</td><td>很小</td><td>很高</td><td>很低</td><td>唯一致命级；改动集中在凭证保存与过账两处</td></tr>
-<tr><td><b>2</b></td><td>销售下单信用闸门</td><td>立刻</td><td>小</td><td>很高</td><td>低</td><td>额度与预警已具备，只差一道判断</td></tr>
-<tr><td><b>3</b></td><td>审批撤回＋催办</td><td>立刻</td><td>小</td><td>高</td><td>低</td><td>高频抱怨点，实现简单</td></tr>
-<tr><td><b>4</b></td><td>低代码标注或下线</td><td>立刻</td><td>极小</td><td>中</td><td>极低</td><td>几行文字的事，避免对外失真</td></tr>
-<tr><td><b>5</b></td><td>成本与库存计算上服务端</td><td>近期</td><td>中</td><td>很高</td><td>中</td><td>架构正确性的关键一步</td></tr>
-<tr><td><b>6</b></td><td>生产倒冲发料</td><td>近期</td><td>中</td><td>高</td><td>中</td><td>生产域最大断点</td></tr>
-<tr><td><b>7</b></td><td>审批委托</td><td>近期</td><td>小</td><td>高</td><td>低</td><td>组织规模化的必需件</td></tr>
-<tr><td><b>8</b></td><td>仓库货位／单位换算建表</td><td>近期</td><td>中</td><td>高</td><td>中</td><td>基础数据质量的地基</td></tr>
-<tr><td><b>9</b></td><td>销售价目表与阶梯折扣</td><td>近期</td><td>中</td><td>中高</td><td>低</td><td>销售域最大短板</td></tr>
-<tr><td><b>10</b></td><td>比价加权评分</td><td>近期</td><td>小</td><td>中</td><td>低</td><td>采购专业度的加分项</td></tr>
-<tr><td><b>11</b></td><td>双通道模块清理</td><td>中期</td><td>大</td><td>高</td><td>中</td><td>按域推进，每迁一域收益一域</td></tr>
-<tr><td><b>12</b></td><td>合并报表实战跑通</td><td>中期</td><td>中</td><td>中高</td><td>中</td><td>取决于是否已有集团型客户</td></tr>
-<tr><td><b>13</b></td><td>成本方法可配置</td><td>中期</td><td>中</td><td>中</td><td>中</td><td>行业适配性</td></tr>
-<tr><td><b>14</b></td><td>字段级权限与导出管控</td><td>中期</td><td>中</td><td>中</td><td>低</td><td>合规门槛</td></tr>
-<tr><td><b>15</b></td><td>人工智能助手窄场景</td><td>中期</td><td>大</td><td>待验证</td><td>中</td><td>差异化机会，但需先有稳定数据底座</td></tr>
-</tbody>
-</table>
-</div>
-
-<div class="box green">
-<b class="head">如果只能做三件事</b>
-<p style="margin-bottom:0"><b>第一，补后端借贷平衡校验（一天工作量，堵住最贵的错）；第二，装信用额度闸门（把算好的数用起来）；第三，启动成本与库存计算上服务端（这是从"能用"走向"可信"的转折点）。</b>做完这三件，系统在"能不能放心用"这件事上会跨一个台阶，而这三件的总投入远小于再做一个新模块。</p>
-</div>
-
-<h2 id="c7">第七章　信息来源、方法与边界</h2>
-<h3>7.1 三方交叉验证的做法</h3>
-<p>为避免"一个人说了算"，本次分析采用<b>四个独立视角并行、最后交叉比对</b>：</p>
-<ul>
-<li><b>视角一</b>：竞品调研（SAP、用友、金蝶各一路），只看官方公开资料，记录版本号、日期与来源链接。</li>
-<li><b>视角二</b>：我方代码扫描，逐功能点取证，必须给出文件位置或界面路径，找不到就写"未找到证据"。</li>
-<li><b>视角三</b>：争议点复核——针对"旧文档说没有、新扫描说有"的分歧点逐条核实（本次发现 8 条已修好、2 条部分修好、1 条仍未修）。</li>
-<li><b>视角四</b>：生产站点只读实测，确认系统确实在真实运行。</li>
-</ul>
-<p><b>出现分歧时的处理：</b>例如"凭证是否强制借贷平衡"，代码扫描报"已修好"、直接读后端接口发现"只校验编号与日期"。追到根因后确认：<b>校验确实存在，但只在前端，后端没有</b>——两条结论都对，只是位置不同。报告按这个更精确的口径写。</p>
-
-<h3>7.2 证据口径说明</h3>
-<ul>
-<li><b>"有"</b>＝找到可运行的代码或线上数据，不是"应该支持"。</li>
-<li><b>"有但残缺"</b>＝功能存在，但缺关键一环（如只存不算、只配不用）。</li>
-<li><b>"没有"</b>＝全代码库搜索无命中，且不是命名差异导致。</li>
-<li><b>竞品信息</b>：一律以官方公开资料为准；未查到者已明确标注"未查到公开资料，属推测"，<b>本报告不含任何编造的版本号或日期</b>。</li>
-</ul>
-
-<h3>7.3 本报告的诚实边界</h3>
-<ul>
-<li>本报告是<b>静态分析＋只读实测</b>，没有做压力测试，也没有逐个功能在界面上点一遍，因此"体验类"判断（好不好用、快不快）比"有没有"的判断可靠度低。</li>
-<li>评分是<b>相对标杆的主观刻度</b>，用于排序而非绝对衡量；三家之间的强弱本报告不作仲裁。</li>
-<li>竞品的功能描述基于公开资料，<b>实际能否满足你的具体业务，仍须实测</b>。厂商资料普遍存在"宣传口径强于实现口径"的情况。</li>
-<li>线上实测使用的是测试账号，部分业务表为空是正常现象，不能据此判断功能缺失。</li>
-</ul>
-
-<h3>7.4 主要来源清单</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:18%">对象</th><th style="width:56%">来源</th><th style="width:14%">抓取日期</th><th style="width:12%">性质</th></tr></thead>
-<tbody>
-<tr><td>SAP</td><td>SAP 官方帮助文档《What's New 2602》；SAP 社区官方发布博客（2608 批次）；SAP 升级维护日历</td><td>2026-09-18</td><td>官方</td></tr>
-<tr><td>用友</td><td>用友官网新闻（BIP 3 R6、BIP 5）；YonSuite 官网与迭代公告；第三方测评交叉参考</td><td>2026-09-18</td><td>官方＋第三方</td></tr>
-<tr><td>金蝶</td><td>金蝶开放平台产品页；金蝶官网文章（苍穹 V8.0）；科技日报对苍穹智能体平台 2.0 的报道</td><td>2026-09-18</td><td>官方＋权威媒体</td></tr>
-<tr><td>我方</td><td>项目源码（前端页面、后端函数、数据库迁移文件）；2026-09-17 全面审阅报告；V2.29 逐功能对标文档；项目记忆档案；生产站点只读实测</td><td>2026-09-18</td><td>一手证据</td></tr>
-</tbody>
-</table>
-</div>
-
-<!-- ════════════════════════════════════════════════════════════
-     第八章　改进执行台账（2026-09-19 追加）
-     ════════════════════════════════════════════════════════════ -->
-<h2 id="c8">第八章　改进执行台账</h2>
-
-<div class="box amber">
-<b class="head">这一章是什么</b>
-<p style="margin-bottom:0">第六章给出了改进清单，这一章回答<b>"清单上的事情，实际做了哪几条、做到什么程度、哪些没做、没做的原因是什么"</b>。执行时间 2026-09-19，版本号由 V3.15.8 升至 <b>V3.15.9</b>，已构建并部署到线上生产站点。</p>
-</div>
-
-<h3>8.0 先说结论（三十秒版）</h3>
-<div class="kpi">
-  <div><div class="n">2 / 15</div><div class="l">清单条目已执行并上线</div></div>
-  <div><div class="n">8 / 15</div><div class="l">需强哥拍板后执行</div></div>
-  <div><div class="n">5 / 15</div><div class="l">本轮风险过高不做</div></div>
-  <div><div class="n">0</div><div class="l">回滚项（全部验证通过）</div></div>
-</div>
-<p><b>已上线的两条</b>：一是<b>账目正确性的最后一道闸门</b>（借贷平衡校验从界面下沉到服务端），二是<b>低代码设计器的成熟度标注</b>。前者是本报告评定的<b>唯一致命级</b>问题，后者是"几行文字"的事但能避免对外演示失真。</p>
-<p><b>为什么只做了两条</b>：清单里剩下的条目，几乎都涉及"改变业务规则的默认值""改写历史数据口径""删除现有功能"或"架构级重构"。这些不是技术上做不到，而是<b>做之前必须先有人拍板</b>——拍错了方向，返工成本远高于多等一天。本章 8.3 节把每一条需要您回答的问题都列了出来。</p>
-
-<h3>8.1 三桶分类：什么直接做、什么要先问</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:14%">桶</th><th style="width:30%">判定标准</th><th style="width:56%">本轮落入该桶的条目</th></tr></thead>
-<tbody>
-<tr>
-<td><span class="tag t-grn">桶 A<br>直接执行</span></td>
-<td>让系统更流畅、更稳定、更友好、更安全的改进；<b>不改变任何业务规则的默认值</b>、不迁移历史数据、不删除现有功能</td>
-<td><b>L1</b> 后端补借贷平衡强制校验<br><b>L4</b> 低代码设计器加演示标注</td>
-</tr>
-<tr>
-<td><span class="tag t-amb">桶 B<br>需强哥判断</span></td>
-<td>会改变业务规则的默认阈值／要迁移或改写历史数据口径／要删掉某个现成功能或字段／涉及付费或架构级重构／需要外部账号授权</td>
-<td><b>L2</b> 销售信用额度闸门、<b>L3</b> 审批撤回与催办、<b>N1</b> 算账逻辑上移服务端、<b>N2</b> 生产倒冲发料、<b>N3</b> 审批委托、<b>N4</b> 仓库货位与单位换算建表、<b>N5</b> 销售价目表与阶梯折扣、<b>N6</b> 比价加权评分</td>
-</tr>
-<tr>
-<td><span class="tag t-red">桶 C<br>本轮不做</span></td>
-<td>季度级大工程，需要先有稳定的数据底座或明确的客户场景，本轮强做风险高于收益</td>
-<td><b>M1</b> 双通道模块清理、<b>M2</b> 合并报表实战跑通、<b>M3</b> 成本核算方法可配置、<b>M4</b> 字段级权限与导出管控、<b>M5</b> 人工智能助手窄场景</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p class="small">说明：报告第六章要求"先做满立刻做档，再往下做近期档"。立刻做档（L1–L4）中，L1、L4 属桶 A 已执行；L2、L3 因需拍板落入桶 B。因此立刻做档在本轮已<b>做满可执行部分</b>，未向近期档扩张——近期档（N1–N6）全部需要拍板或属架构重构，不具备无人值守执行的条件。</p>
-
-<h3>8.2 执行总表（一条一行）</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:6%">编号</th><th style="width:19%">改进项</th><th style="width:7%">桶</th><th style="width:7%">是否执行</th><th style="width:22%">改了哪些文件</th><th style="width:22%">怎么验证的</th><th style="width:9%">结果</th><th style="width:8%">跳过原因</th></tr></thead>
-<tbody>
-<tr>
-<td><b>L1</b></td><td>后端补借贷平衡强制校验</td><td><span class="tag t-grn">A</span></td><td><b>已执行</b></td>
-<td><code>functions/_shared/voucherGuard.ts</code>（新增）<br><code>functions/api/vouchers/index.ts</code><br><code>functions/api/vouchers/[id].ts</code></td>
-<td>线上真实接口往返 9 组 18 项断言（预览域名与主域名各跑一遍，均全通过）</td>
-<td><span class="tag t-grn">成功</span></td><td>—</td>
-</tr>
-<tr>
-<td><b>L2</b></td><td>销售下单信用额度闸门</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ①</td>
-</tr>
-<tr>
-<td><b>L3</b></td><td>审批撤回与催办</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ②</td>
-</tr>
-<tr>
-<td><b>L4</b></td><td>低代码设计器加演示标注</td><td><span class="tag t-grn">A</span></td><td><b>已执行</b></td>
-<td><code>src/pages/Platform/LowCodeDesigner.tsx</code></td>
-<td>真实浏览器访问该页面 9 项断言（横幅渲染／非白屏／原有功能未破坏／无脚本报错）</td>
-<td><span class="tag t-grn">成功</span></td><td>—</td>
-</tr>
-<tr>
-<td colspan="8" style="background:var(--bg2);font-weight:700">近期做档（1–2 月）</td>
-</tr>
-<tr>
-<td><b>N1</b></td><td>算账逻辑上移服务端</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ③</td>
-</tr>
-<tr>
-<td><b>N2</b></td><td>生产倒冲发料</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ④</td>
-</tr>
-<tr>
-<td><b>N3</b></td><td>审批委托能力</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ②</td>
-</tr>
-<tr>
-<td><b>N4</b></td><td>仓库货位与单位换算建表</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ⑤</td>
-</tr>
-<tr>
-<td><b>N5</b></td><td>销售价目表与阶梯折扣</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ⑥</td>
-</tr>
-<tr>
-<td><b>N6</b></td><td>比价加权综合评分</td><td><span class="tag t-amb">B</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-amb">待拍板</span></td><td>见 8.3 ⑦</td>
-</tr>
-<tr>
-<td colspan="8" style="background:var(--bg2);font-weight:700">中期规划（季度级）</td>
-</tr>
-<tr>
-<td><b>M1–M5</b></td><td>双通道清理／合并报表实战／成本方法可配置／字段级权限／人工智能助手</td><td><span class="tag t-red">C</span></td><td>跳过</td><td>—</td><td>—</td><td><span class="tag t-red">本轮不做</span></td><td>见 8.4</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<h3>8.3 已执行的两条：改了什么、您能感知到什么</h3>
-
-<div class="box green">
-<b class="head">L1 · 账目正确性的最后一道闸门（本次最重要的改动）</b>
-<p><b>用业务话说改了什么</b>：会计有一条铁律——一张凭证里<b>借方合计必须等于贷方合计</b>。此前系统只在<b>录入界面</b>上拦这件事。只要不从这个界面进来（直接调接口、用脚本批量导入、第三方系统对接），这道拦挡就完全不存在，一张借贷不平的凭证可以安安静静写进账套，往往要到月底结账、报表对不上时才发现。</p>
-<p><b>您能感知到的三处变化</b>：</p>
-<ul>
-<li><b>绕过界面的写入现在会被直接拒绝</b>，并明确告诉对方"借方合计 100.00、贷方合计 90.00、差额 10.00"，而不是悄悄存进去。</li>
-<li><b>凭证的"借方合计／贷方合计"改由服务端按分录逐行重算</b>，不再采信客户端传来的数字——彻底杜绝"明细加起来 100、合计写着 80"的错位。</li>
-<li>拒绝时会一并返回<b>逐行明细</b>：哪一行缺科目、哪一行借贷双方都填了金额，直接定位，不用猜。</li>
-</ul>
-<p><b>三条刻意"没做"的事（这里最容易踩坑，已在代码里写明理由）</b>：</p>
-<ul>
-<li><b>没有拦"金额为负数"</b>：红字冲销凭证（用来冲掉一张错误凭证的凭证）借贷双方本来就是负数，这是正确的会计表达。照搬界面那条规则，会把<b>所有红冲凭证全部拒掉</b>，反而制造事故。已用真实接口验证红字凭证正常放行。</li>
-<li><b>没有拦"已过账凭证不能再改"</b>：系统里"过账"和"红冲"两个动作是<b>整张凭证连同分录一起回写</b>的，若按状态一刀切禁止，会直接把过账与冲销功能打断。已用接口模拟过账整单回写，确认不受影响。</li>
-<li><b>没有重复报"至少两行分录"</b>：一行分录的凭证必然借贷不平，已被平衡规则覆盖，不必再单独报错。</li>
-</ul>
-<p style="margin-bottom:0"><b>验证方式</b>：部署后直连线上生产地址做真实接口往返，9 组 18 项断言，预览域名与主生产域名<b>各跑一遍、均 18/18 通过</b>；测试用的两张凭证已删除并确认清理干净。</p>
-</div>
-
-<div class="box green">
-<b class="head">L4 · 低代码设计器的成熟度标注</b>
-<p><b>用业务话说改了什么</b>：「低代码单据设计器」这个页面是"能画不能跑"的原型——可以定义表单字段、在页面里试填并提交记录，但<b>没有接入后端表单引擎</b>：自定义表单不会自动生成独立数据表、不会进入审批流与权限体系、也不会出现在业务单据的取数范围中。</p>
-<p>现在页面顶部有一条醒目的黄色提示把这件事讲清楚。<b>入口保留了</b>（内部试用、收集需求仍有价值），只是不再让人误判。</p>
-<p style="margin-bottom:0"><b>为什么不干脆下线</b>：报告第六章给了"标注"和"下线"两个选项。下线属于<b>删除现有功能</b>，按本轮规则归入桶 B，需要您先拍板——所以这里做的是风险更低的标注。</p>
-</div>
-
-<h3>8.4 跳过的八条：需要您回答什么问题</h3>
-<p>下面每一条都写清了<b>"为什么不能替您决定"</b>和<b>"您需要回答的具体问题"</b>。您回答后即可排期执行。</p>
-
-<div class="box org">
-<b class="head">① L2 销售下单信用额度闸门 —— 为什么不能替您定</b>
-<p>信用额度已经能算出来（系统里有额度字段、也有预警），缺的是"超了到底怎么办"这一句话。但这一句话恰恰是<b>业务规则，不是技术问题</b>：</p>
-<ul>
-<li><b>超额时是"直接拒绝保存"还是"允许保存但强制填特批理由"？</b>直接拒绝最安全，但可能把真实业务卡住（比如老客户临时加单、有定金在手）；留特批口子更贴近实际，但需要定义"谁有特批权限"。</li>
-<li><b>"已用额度"按什么口径算？</b>是只算已过账的应收，还是要算上未过账的销售订单、未发货的在途、已收的定金？四种口径算出来的数差别很大，直接决定会不会误拦。</li>
-<li><b>额度是按客户算，还是按"客户＋销售员"或"客户＋产品线"分别算？</b></li>
-</ul>
-<p style="margin-bottom:0"><b>建议先答前两个</b>：① 硬拦还是软拦（带特批）；② 已用额度含不含"未过账订单"和"已收定金"。这两条一定，实现本身不到一天。</p>
-</div>
-
-<div class="box org">
-<b class="head">② L3 审批撤回与催办 / N3 审批委托 —— 为什么需要先定架构</b>
-<p>核查代码后发现一个报告里没写到的<b>关键事实</b>：<b>本系统目前没有统一的审批任务表</b>。审批状态是分散在各个业务模块自己表里的（采购申请、供应商报价、价格审批、物料审批……各存各的）。</p>
-<p>这直接决定了三条功能怎么做：</p>
-<ul>
-<li><b>是先建一张统一的"审批任务中心"表，把各模块的审批收拢进来？</b>——架构正确、一次做完三个功能（撤回／催办／委托全省事），但需要把现有各模块的审批数据迁移过去，属于"改写历史数据口径"。</li>
-<li><b>还是先在一个模块试点（比如采购申请），其它模块暂不动？</b>——风险低、见效快，但会出现"这个模块能撤回、那个模块不能"的不一致。</li>
-</ul>
-<p style="margin-bottom:0"><b>需要您回答</b>：① 选哪条路（统一收拢 ／ 单模块试点）；② 若试点，先做哪个模块；③ "催办"通知通过什么渠道送达——系统内消息？邮件？（邮件需要外部邮箱服务授权，属另一类待办）。</p>
-</div>
-
-<div class="box org">
-<b class="head">③ N1 算账逻辑上移服务端 —— 为什么本轮不敢动</b>
-<p>这是报告认定的"演示级 vs 生产级"分界线，方向绝对正确。但它是<b>架构级重构</b>：成本结转、暂估、移动平均价、库存扣减、报表计算目前全在前端实现。一次性迁移会让"多设备一致"变好，也可能让现有数字<b>一夜之间全变</b>。</p>
-<p style="margin-bottom:0"><b>需要您回答</b>：① 按什么顺序迁（建议先成本与库存，再凭证生成与暂估）；② 迁移后如果某个报表的数字和以前对不上，以新口径为准还是回滚？③ 能不能先拿一个测试组织跑双轨比对（新旧口径各算一遍、逐项对差异），确认无差异再全量切？</p>
-</div>
-
-<div class="box org">
-<b class="head">④ N2 生产倒冲发料 —— 需要先定业务规则</b>
-<p>报告说"报工或完工时按物料清单用量自动生成出库单扣减库存"。这里有三个数必须先定：<b>按标准用量还是实际用量</b>（损耗算谁的）、<b>倒冲的时点是报工时还是完工入库时</b>、<b>差额怎么入账</b>。</p>
-<p style="margin-bottom:0"><b>需要您回答</b>：倒冲用"物料清单标准用量"还是"实际领用量"？超耗部分直接进生产成本还是单独挂差异科目？</p>
-</div>
-
-<div class="box org">
-<b class="head">⑤ N4 仓库货位与单位换算建独立表 —— 涉及历史数据迁移</b>
-<p>这两类主数据现在已从浏览器搬到服务端，但仍是"打包成一大块"保存，享受不到关系表的查询、约束与权限能力。拆成独立表是正确方向，但<b>现有的整块数据怎么拆、拆错了一行怎么回滚</b>，属于改写历史数据口径。</p>
-<p style="margin-bottom:0"><b>需要您回答</b>：① 现有仓库与货位数据大概有多少条，是否允许停机迁移；② 迁移后"历史单据上引用的旧仓库名"是保留文本还是改成关联新表（后者会影响历史单据的显示）。</p>
-</div>
-
-<div class="box org">
-<b class="head">⑥ N5 销售价目表与阶梯折扣 —— 取价优先级要定</b>
-<p>建表不难，难在"下单时系统自动取价"这条会<b>改变现有报价行为</b>：客户有专属价时取客户价还是取价目表价？同时命中多个阶梯时取哪个？促销价与合同价冲突时谁优先？</p>
-<p style="margin-bottom:0"><b>需要您回答</b>：取价优先级顺序（建议：客户专属价 → 合同价 → 价目表阶梯价 → 标准价），以及"自动取价后销售员还能不能手工改"（能改＝留了口子，不能改＝强管控）。</p>
-</div>
-
-<div class="box org">
-<b class="head">⑦ N6 比价加权综合评分 —— 权重默认值要定</b>
-<p>功能本身很小（价格／交期／质量／历史绩效按权重打分）。但<b>默认权重是多少</b>会直接改变"系统推荐哪家供应商"的结果，等于间接改变了采购决策。</p>
-<p style="margin-bottom:0"><b>需要您回答</b>：四个维度的默认权重（例如价格 40%、交期 25%、质量 25%、历史绩效 10%），以及权重是全局统一还是可按物料类别分别设。</p>
-</div>
-
-<div class="box red">
-<b class="head">⑧ M1–M5 中期规划 —— 本轮为什么不做</b>
-<p><b>M1 双通道清理</b>：涉及约 30 个模块，属季度工程，且每迁一域都要一次完整回归；<b>M2 合并报表实战</b>：底座已建好，但需要有真实的多组织集团数据才能跑通，目前没有这样的客户场景；<b>M3 成本方法可配置</b>：前提是 N1（算账上服务端）先完成，否则可配置只是在前端配了个开关；<b>M4 字段级权限与导出管控</b>：合规门槛，投入中等但当前没有投标压力，可排在 L2/L3 之后；<b>M5 人工智能助手</b>：报告明确说"需先有稳定数据底座"，在 N1 完成前做等于在流沙上盖楼。</p>
-<p style="margin-bottom:0"><b>共同风险点</b>：这五项都会同时改动大量文件，一旦中途出问题，回滚成本远高于本轮两条改动；且都依赖 ⑧ 之前的桶 B 条目先定方向。<b>建议等 L2、L3 定下来、N1 启动后再排这五项。</b></p>
-</div>
-
-<h3>8.5 未通过验证已回滚的条目</h3>
-<div class="box green">
-<b class="head">本轮没有回滚项</b>
-<p style="margin-bottom:0">两条已执行的改动<b>全部一次验证通过</b>（接口往返 18/18、浏览器实访 9/9），无需回滚。四条质量门禁（后端类型检查、语法与引用审计、一致性门禁、前端类型检查）全部通过，其中后端类型检查的新增错误数为 <b>0</b>（存量基线 59 条保持不变）。</p>
-</div>
-
-<h3>8.6 顺带发现（本轮未改，登记备查）</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:22%">现象</th><th style="width:38%">核查结论</th><th style="width:20%">是否本轮引入</th><th style="width:20%">建议</th></tr></thead>
-<tbody>
-<tr>
-<td>打开任何页面时，浏览器会请求一批 <code>/api/state/…</code> 地址并返回 404（低代码页 51 条、工作台 13 条）</td>
-<td>这些是"系统状态键尚未创建"的正常响应，前端按容错处理，<b>不影响功能</b>。已用<b>对照组</b>验证：本轮未改动的工作台页面同样有 13 条，说明是既有现象</td>
-<td><span class="tag t-grn">否（既有）</span></td>
-<td>属性能与日志噪声，建议下轮合并请求或延迟初始化；非缺陷</td>
-</tr>
-<tr>
-<td>工作区存在 9 个"来源不明"的未提交改动</td>
-<td>按本轮执行规则<b>一律未触碰</b>，提交时只添加了本次改动的文件，未使用全量添加</td>
-<td><span class="tag t-grn">否</span></td>
-<td><b>需要您确认这 9 个文件的去留</b>——它们会被一起打包上线，导致"线上不完全等于任何一个提交版本"</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<h3>8.7 版本、提交与部署信息</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:22%">项目</th><th style="width:78%">内容</th></tr></thead>
-<tbody>
-<tr><td>版本</td><td><b>V3.15.8 → V3.15.9</b>（五处同步：版本常量文件、包配置文件、使用说明书、实施主计划、项目记忆；已用脚本逐处断言核对，7 项正向 + 5 项反向全通过）</td></tr>
-<tr><td>提交号</td><td><code>31d5857</code>（L1 借贷平衡校验）· <code>3e4aabb</code>（L4 设计器标注）· <code>4b12a5f</code>（版本同步）· <code>cb79d5e</code>（验收脚本）<br><b>均为本地提交，git 网络在沙箱被拦截，需您在本机运行 push-github.bat 推送</b></td></tr>
-<tr><td>线上地址</td><td>生产主域名 <b>https://ssa-erp.pages.dev</b>（已验证生效）· 本次构建预览 https://2f006c3d.ssa-erp.pages.dev</td></tr>
-<tr><td>质量门禁</td><td>后端类型检查 新增 0 条（存量 59 不变）· 语法与引用审计 131 文件 0 错 · 一致性门禁 僵尸登记 0／漏登记 0／前端调后端 404 风险 0 · 前端类型检查 0 错</td></tr>
-<tr><td>数据操作</td><td><b>未在生产库上做任何删表、删列、批量改写</b>；验收过程自建的两张测试凭证已删除并确认清理干净</td></tr>
-<tr><td>未提交改动</td><td>工作区里 9 个"来源不明"的已跟踪文件改动<b>一律未触碰</b>，提交时只添加本次改动的文件，未使用全量添加</td></tr>
-<tr><td>归档状态</td><td><span class="tag t-amb">待归档</span> 本次执行环境的 ima 知识库接口不可用，报告已覆盖到工作区本地 <code>强哥知识库/erp开发项目/</code> 同名文件。<b>需您在本机手动归档到 ima「强哥的知识库 → ⑥通用-交付物 → erp 开发项目」</b>（同名选覆盖），或在 ima 接口恢复后重跑一次归档</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>8.8 接下来建议强哥先做的三件事</h3>
-<div class="box">
-<b class="head">第一件：先回答 L2 的两个问题（半天内可完成，收益最高）</b>
-<p style="margin-bottom:0">① 客户超额下单时，<b>直接拒绝</b>还是<b>允许保存但必须填特批理由</b>？② "已用额度"要不要把<b>未过账的销售订单</b>和<b>已收定金</b>算进去？这两条一答，信用闸门就能落地——把已经算好的额度真正用起来，赊销风险从"事后知道"变成"事前拦住"。</p>
-</div>
-<div class="box">
-<b class="head">第二件：定审批的三条路怎么走（决定 L3 与 N3 能不能一起做）</b>
-<p style="margin-bottom:0">目前审批状态分散在各业务模块、没有统一任务表。请您定：<b>统一收拢成一张审批任务中心表</b>（一次解决撤回／催办／委托，但要迁移存量数据），还是<b>先在一个模块试点</b>（风险低但会有模块间不一致）？若选试点，先做哪个模块？另外"催办"通知走系统内消息还是邮件——走邮件需要外部邮箱服务授权，是另一类待办。</p>
-</div>
-<div class="box">
-<b class="head">第三件：给 N1 开一个测试组织做双轨比对（这是从"能用"走向"可信"的转折点）</b>
-<p style="margin-bottom:0">算账逻辑上移服务端是方向最确定的一件事，也是风险最高的一件。建议不要一次性全量切换：<b>先建一个隔离的测试组织，新旧口径各算一遍、逐项对差异</b>，确认无差异后再按域推进（先成本与库存，再凭证生成与暂估）。同时，这 9 个"来源不明"的未提交改动也请您一并确认去留——在它们悬着的时候做架构级重构，等于地基没夯实就盖楼。</p>
-</div>
-
-<p style="text-align:center;margin-top:34px"><a href="#c0" style="color:var(--blue);text-decoration:none">↑ 回到开头</a></p>
-
-<h2 id="c9">第九章　差距深度代码审计（2026-09-22 追加）</h2>
-<p>第八章节录了 2026-09-19 的改进执行结果，但未回答"报告里登记的全部差距现在还有多少没消除"。本章以报告第四章（劣势分级）和第六章（改进路线）为底表，<span class="tag t-org">逐条</span>用代码审计验证每一项差距的当前状态。</p>
-<p><b>审计方法：</b>五个子 Agent 并行扫描代码，分别在凭证与财务、采购与销售、审批流与工作流、生产与库存、平台与体验五个维度做深度核查。每条差距给出"已消除 / 部分消除 / 仍存"三级判定和具体文件位置。</p>
-<p><b>核查基准：</b>本章首次审计基于 V3.15.9（2026-09-19）的代码；后复核基于 V3.17.9（2026-09-21）的实际版本，参考提交 <code>7629c8e</code>（V3.15.10 数据导出审计）、<code>60a9836</code>（V3.17.0 服务端算账闭环）、<code>2c60b86</code>（V3.17.5 两套账合一）、<code>e7b8e52</code>（V3.17.8 5 页面 Snackbar 替换 alert）。</p>
-
-<h3>9.1 三十秒结论（V3.17.9 复核后）</h3>
-<div class="kpi-row">
-<div class="kpi t-grn"><span class="num">4</span><span class="label">已完全消除（含差距2、3）</span></div>
-<div class="kpi t-amb"><span class="num">9</span><span class="label">部分消除（含差距4/18/20）</span></div>
-<div class="kpi t-org"><span class="num">8</span><span class="label">仍存（审批三功能、倒冲发料等）</span></div>
-<div class="kpi t-red"><span class="num">3</span><span class="label">高风险项（导出数据前端无管控 / 审批三无功能 / 单位换算无独立表）</span></div>
-</div>
-<div class="mean"><b>这说明：</b>V3.15.9 到 V3.17.9 之间又做了一轮大迭代（服务端算账闭环、两套账合一、乐观锁全量、单据状态机等），差距2（财务报表服务端计算）和差距3（成本核算服务端化）已彻底修复。但仍存 8 条差距，其中心理预期偏差最大的是<b>差距20（导出数据管控）</b>——V3.15.10 仅补了服务端备份接口的审计，前端 DataTable 导出组件完全未动。</div>
-
-<h3>9.2 差距核查总表（21 条）</h3>
-<div class="scroll">
-<table>
-<thead><tr><th style="width:5%">#</th><th style="width:22%">差距主题</th><th style="width:10%">报告等级</th><th style="width:12%">核查状态</th><th style="width:40%">关键证据（代码位置）</th><th style="width:11%">一句话结论</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>凭证借贷平衡后端校验</td><td><span class="tag t-red">致命</span></td><td><span class="tag t-grn">✓ 已消除</span></td><td><code>functions/_shared/voucherGuard.ts</code> + POST/PUT 双闸接入</td><td>两道闸均已就位，合计由服务端反推</td></tr>
-<tr><td>2</td><td>财务报表服务端计算</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-grn">✓ 已消除</span></td><td>V3.17.5 <code>2c60b86</code>：deriveEntries 派生自凭证表，旧表 fin_account_entries 停写；7 张报表零改动</td><td>两套账合一完成，报表真源切凭证表</td></tr>
-<tr><td>3</td><td>成本核算服务端化</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-grn">✓ 已消除</span></td><td>V3.17.0 <code>60a9836</code>：inventoryPosting.ts 完整服务端实现移动均价滚动（rollIn/rollOut），入库/出库端点均已接入；V3.17.2 金额精度统一</td><td>核心成本滚动已上线，报表级成本分析仍在前端（次要）</td></tr>
-<tr><td>4</td><td>序列号出入库自动驱动</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>V3.17.x：functions/_shared/serial.ts 的 insertSerialMovement 基础设施就绪；serial-numbers API 完整；但 inventoryPosting.ts 未调用</td><td>底层已建，业务入库/出库过账未联动</td></tr>
-<tr><td>5</td><td>销售信用额度闸门</td><td><span class="tag t-red">致命</span></td><td><span class="tag t-grn">✓ 已消除</span></td><td><code>src/pages/Sales/SalesOrderForm.tsx</code> A3 硬管控；服务端透传<code>creditOccupied</code></td><td>前端硬控生效；服务端暂缺重算（建议补）</td></tr>
-<tr><td>6</td><td>销售价目表与阶梯折扣</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>前端 store + 页面完整；<code>functions/api/sales-prices/</code> 目录不存在</td><td>前端能取价，绕过前端仍可手填价格</td></tr>
-<tr><td>7</td><td>比价加权综合评分</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-org">✗ 仍存</span></td><td><code>src/pages/Purchase/PriceCompare.tsx</code> 仅卡片并排展示，无评分逻辑</td><td>只看最低价，缺加权卡</td></tr>
-<tr><td>8</td><td>三单匹配容差与超差阻断</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>前端可配阈值 + 后端硬编码 1%；两处均无 <code>blocked</code> 字段拦截付款</td><td>可视化有了，超差不拦款</td></tr>
-<tr><td>9</td><td>审批撤回</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-org">✗ 仍存</span></td><td><code>src/types/common.ts:52</code> 无 <code>withdraw</code> 动作；前端审批对话框无撤回按钮</td><td>提交错了只能等审批人拒绝</td></tr>
-<tr><td>10</td><td>审批催办</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-org">✗ 仍存</span></td><td>全代码库搜索 <code>remind/urge/催办</code> 零命中；<code>EscalationRule.notify</code> 仅配置无触发</td><td>无任何催办机制</td></tr>
-<tr><td>11</td><td>审批委托</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-org">✗ 仍存</span></td><td>搜索 <code>delegate/proxy/委托</code> 全代码库零命中；无委托关系表</td><td>审批人出差单子就卡死</td></tr>
-<tr><td>12</td><td>审批统一表结构</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>配置层已统一到 <code>approval_flows</code>；实例层仍散落各业务表，无 <code>approval_instances</code></td><td>配置层通了，高级功能（撤回/催办/委托）仍受架构制约</td></tr>
-<tr><td>13</td><td>生产倒冲发料</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-org">✗ 仍存</span></td><td><code>functions/api/work-orders/[id].ts</code> 零库存扣减；搜索 <code>backflush/倒冲</code> 零命中</td><td>车间必须手工开领料单，量大必然漏开</td></tr>
-<tr><td>14</td><td>仓库货位独立建表</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>前端 store 有货位管理；D1 无 <code>warehouse_locations</code> 表，货位随仓库嵌套存储</td><td>界面有了，关系表没有</td></tr>
-<tr><td>15</td><td>单位换算独立建表</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-org">✗ 仍存</span></td><td><code>unitConversionStore.ts</code> 用 <code>persist</code>；D1 无 <code>unit_conversions</code> 表</td><td>换算规则不受权限与备份保护</td></tr>
-<tr><td>16</td><td>数据双通道残留</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>主业务数据已迁 D1；<code>warehouseMaster</code>/<code>unitConversion</code>/<code>approvalFlow</code>/<code>orderTemplate</code> 仍 persist</td><td>约 9 个 store 仍跨设备不一致</td></tr>
-<tr><td>17</td><td>低代码设计器演示标注</td><td><span class="tag t-org">严重</span></td><td><span class="tag t-grn">✓ 已消除</span></td><td><code>src/pages/Platform/LowCodeDesigner.tsx:51-56</code> 黄色 Alert 横幅</td><td>成熟度说明已上界</td></tr>
-<tr><td>18</td><td>错误提示友好度</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>V3.17.8 <code>e7b8e52</code> 替换5个核心页面；src/pages/ 仍残留 44 处 alert(，主要分布在采购/销售/生产表单</td><td>核心路径已改善，非核心路径 alert 仍多</td></tr>
-<tr><td>19</td><td>字段级只读/必填控制</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td><code>src/types/platform.ts:159</code> 有 <code>FieldMode</code> 类型；<code>FieldPermissions.tsx:63-73</code> 仅隐藏/可见 UI</td><td>类型定了，UI 没跟上</td></tr>
-<tr><td>20</td><td>导出数据管控（授权+留痕+水印）</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>V3.15.10 <code>7629c8e</code> 仅补了服务端备份接口审计；前端 DataTable.tsx:588-650 仍无权限检查、无审计日志、无水印</td><td>后端备份已补审计，通用导出组件未动——主要缺口在前端</td></tr>
-<tr><td>21</td><td>多语言英文补全</td><td><span class="tag t-amb">中等</span></td><td><span class="tag t-amb">⚠ 部分消除</span></td><td><code>src/i18n/catalog.ts:22</code> 中文 259 条全覆盖；英文约 50 条，缺省回退中文</td><td>框架好了，词条还差约 80%</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>9.3 三类差距详细分析</h3>
-
-<h4>A. 已完全消除（4 条）</h4>
-<table>
-<thead><tr><th style="width:8%">#</th><th style="width:22%">差距主题</th><th style="width:35%">实现位置</th><th style="width:35%">验收证据</th></tr></thead>
-<tbody>
-<tr><td>1</td><td>凭证借贷平衡后端校验</td><td><code>functions/_shared/voucherGuard.ts</code>；<code>functions/api/vouchers/index.ts</code>（POST）、<code>[id].ts</code>（PUT）双闸接入；合计由服务端从分录行反推，不采信客户端传入值</td><td>线上 <code>scripts/_verify_voucher_guard_live.mjs</code> 9 组 18 项断言通过（预览域与主域名各跑一遍）</td></tr>
-<tr><td>2</td><td>财务报表服务端计算</td><td>V3.17.5 <code>2c60b86</code>：两套账合一，<code>accountEntries</code> 由凭证表派生（<code>deriveEntries</code>），旧表 <code>fin_account_entries</code> 停写；7 张报表零改动</td><td><code>src/stores/financeStore.ts</code> 中 <code>load()</code> 改走 <code>loadVouchers()</code>，过账/红冲后重新派生</td></tr>
-<tr><td>3</td><td>成本核算服务端化</td><td>V3.17.0 <code>60a9836</code>：服务端 <code>inventoryPosting.ts</code> 完整实现移动均价滚动（<code>rollIn()</code>/<code>rollOut()</code>），入库/出库单过账自动触发；V3.17.2 金额精度统一</td><td>入库/出库端点均已 import <code>postInbound</code>/<code>postOutbound</code>，超发两维度夹 0</td></tr>
-<tr><td>17</td><td>低代码设计器演示标注</td><td><code>src/pages/Platform/LowCodeDesigner.tsx:51-56</code>：顶部黄色 Alert，写明"当前为设计器演示版，执行引擎仍在开发中"，逐条说明不会自动生成数据表、不会进审批流、不会出现在取数范围</td><td>浏览器实访 <code>/platform/lowcode</code>，横幅渲染正常；9/9 断言通过</td></tr>
-</tbody>
+  <thead><tr><th style="width:19%">产品</th><th style="width:16%">当前版本</th><th>形态与主打能力</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>思爱普云企业资源计划公有云版</strong><br>（SAP S/4HANA Cloud Public Edition）</td>
+      <td><strong>2608</strong><br><span style="font-size:12px;color:#767e8d">2026 年 8 月发布；上一版 2602 于 2026 年 2 月发布</span></td>
+      <td>按「年 + 月」编号、强制升级。2608 主打把业务智能嵌进日常流程：智能助手工作台（把业务上下文、洞察、自动化与智能体收在一处）、自然语言填写单据、在制品分析与高管摘要、把合规文件转成结构化义务、凭证生成智能体（从非结构化信息推荐科目与金额、生成待审凭证）。2602 是转向「自主型智能体」的分水岭：应计项目智能体、现金管理智能体、生产计划与运作智能体（正式发布）、国际贸易归类智能体、智能体构建器正式发布、750 余项财务增强、75 个以上主数据产品支撑近实时分析、支持碳边境调节机制的绿色账本<br><span style="font-size:12.5px;color:#767e8d">来源：思爱普官方帮助文档（版本号 2602.08）、思爱普合作伙伴发布说明、思爱普社区博客，检索于 2026-09-23</span></td>
+    </tr>
+    <tr>
+      <td>核心能力特征</td>
+      <td>—</td>
+      <td>嵌入式分析（分析不跳出业务系统）、清洁核心（扩展不改动内核）、全球化与本地合规（2608 的本地化更新含官方凭证编号灵活化与智能助手辅助财务分析）、智能助手贯穿采购 / 财务 / 制造 / 销售</td>
+    </tr>
+  </tbody>
 </table>
 
-<h4>B. 部分消除（9 条）— 前端有 UI，服务端还缺；或底层已建但业务未联动</h4>
+<h3>2.3 用友</h3>
 <table>
-<thead><tr><th style="width:5%">#</th><th style="width:22%">差距主题</th><th style="width:35%">已做到哪</th><th style="width:35%">还差什么</th></tr></thead>
-<tbody>
-<tr><td>4</td><td>序列号出入库自动驱动</td><td>V3.17.x：基础设施就绪——<code>functions/_shared/serial.ts</code> 的 <code>insertSerialMovement</code> 函数、独立 <code>serial-numbers</code> API 完整</td><td><code>inventoryPosting.ts</code> 未调用序列号写入，出入库单据过账不驱动序列号流转</td></tr>
-<tr><td>5</td><td>销售信用额度闸门</td><td><code>SalesOrderForm.tsx</code> A3 区硬控：<code>grandTotal &gt; effectiveAvailable + 0.005</code> 直接 <code>return</code> 禁止提交</td><td>服务端 <code>functions/api/sales-orders/</code> 仅透传 <code>creditOccupied</code>，不重复校验额度；绕过前端仍可写入超额订单</td></tr>
-<tr><td>6</td><td>销售价目表与阶梯折扣</td><td>前端 <code>SalesPriceStore.resolvePrice()</code> + <code>SalesOrderForm.tsx:C5</code> 自动取价；设置页 <code>SalesPriceTab.tsx</code> 完整 CRUD</td><td><code>functions/api/sales-prices/</code> 目录不存在；订单保存时服务端不验证价格来源</td></tr>
-<tr><td>8</td><td>三单匹配容差与超差阻断</td><td>前端 <code>ThreeWayMatch.tsx:42-43</code> 可配警告/错误阈值（默认 5%/10%），颜色高亮；后端 <code>create.ts:29-33</code> 硬编码 1%</td><td>前端只高亮不拦截；后端只返回 <code>matchStatus</code>，无 <code>blocked: true</code> 字段；付款流程未加闸</td></tr>
-<tr><td>12</td><td>审批统一表结构</td><td>配置层统一到 <code>migrations/0056</code> 的 <code>approval_flows</code> + <code>approval_flow_nodes</code>，所有模块审批流配置走同一套 <code>parentChild.ts</code></td><td>实例层各业务表散落 <code>approvalRecords</code>/<code>currentStep</code>，无 <code>approval_instances</code> 统一表；撤回/催办/委托在当前架构下无法低成本实现</td></tr>
-<tr><td>14</td><td>仓库货位独立建表</td><td>前端 <code>warehouseMasterStore.ts</code> 有完整的货位 CRUD store</td><td>D1 无 <code>warehouse_locations</code> 独立关系表；货位随仓库对象以嵌套数组存储</td></tr>
-<tr><td>16</td><td>数据双通道残留</td><td>主业务数据（物料/客户/供应商/采购/销售/工单/审批流配置）已迁 D1</td><td><code>warehouseMaster</code>、<code>unitConversion</code>、<code>approvalFlow</code>、<code>orderTemplate</code> 等 9 个 store 仍走 <code>persist</code>（localStorage 回退）</td></tr>
-<tr><td>18</td><td>错误提示友好度</td><td>V3.17.8 <code>e7b8e52</code>：5 个核心页面（BOMForm/InquiryForm/PriceApproval/PriceComparison）已替换为 Snackbar</td><td>src/pages/ 仍残留 44 处 alert(，主要分布在采购/销售/生产表单校验和"演示模式"暂存提示</td></tr>
-<tr><td>20</td><td>导出数据管控（授权+留痕+水印）</td><td>V3.15.10 <code>7629c8e</code>：服务端 <code>/api/system/backup</code> 补了 <code>writeAudit</code> 审计留痕</td><td>前端 <code>DataTable.tsx:588-650</code> 的 <code>handleExport</code>/<code>handleBatchExport</code> 仍无任何权限检查、无审计日志、无水印——这是主要缺口</td></tr>
-<tr><td>21</td><td>多语言英文补全</td><td>框架已就绪：<code>catalog.ts</code> 双语 <code>Entry</code> 类型 + <code>regBi()</code> 注册函数；中文导航 259 条全覆盖；缺省回退中文，不暴露裸 key</td><td>英文词条仅约 50-60 条，覆盖率约 20%；预计需额外人天补录</td></tr>
-</tbody>
+  <thead><tr><th style="width:19%">产品</th><th style="width:16%">当前版本</th><th>形态与主打能力</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>用友企业商业创新平台 6 版</strong><br>（用友 BIP 6）</td>
+      <td><strong>BIP 6</strong><br><span style="font-size:12px;color:#767e8d">2026 年 8 月于全球商业创新大会发布</span></td>
+      <td>从「流程 + 智能」切换为「智能 × 流程」。十大领域云（财务、人力、供应链、营销、采购、制造、研发、项目、资产、协同），19 大端到端流程、3000 多个细分场景。已沉淀 63 个垂直领域智能体、623 项智能能力、2.6 万个以上应用与服务接口。产品矩阵：智能工作台（统一入口）、企业数据智能体、智能编码平台、穿透式监管平台、本体语义平台、智能治理平台。提出「智能原生 + 流程执行双模」架构与「数据 + 模型 + 平台 + 应用」四层结构，并推出「企业智能盒子」软硬一体方案（模型数据不出域）<br><span style="font-size:12.5px;color:#767e8d">来源：用友官网 BIP 6 产品页、2026 全球商业创新大会报道，检索于 2026-09-23</span></td>
+    </tr>
+    <tr>
+      <td>面向中型成长企业</td>
+      <td>YonSuite（2026 版）</td>
+      <td>云原生一体化订阅式管理软件。两大更新：超级智能体（自动处理单据、跨系统任务、经营预警）、全球化财税套件（覆盖东南亚多国薪资与税务合规）</td>
+    </tr>
+    <tr>
+      <td>面向复杂制造</td>
+      <td>U9 Cloud（2026 新版）</td>
+      <td>专精特新与多工厂离散制造：智能排产、工序管控、深度打通制造执行系统，支持按订单设计 / 按订单装配等多种生产模式，多组织产销协同，多国财税方案适配外贸制造</td>
+    </tr>
+    <tr>
+      <td>智能体演进路线</td>
+      <td>—</td>
+      <td>2023-03 接入通用大模型 → 2023-07 发布企业服务大模型 → 2024-08 通用 + 企业垂类双基座 → 2025-02 全面适配低成本模型 → 2026-02 发布本体大模型（降低幻觉）→ 2026-05 企业超级智能体 → 2026-08 平台 6 版</td>
+    </tr>
+  </tbody>
 </table>
-<div class="box org">
-<b class="head">为什么"部分消除"比"仍存"更危险</b>
-<p style="margin-bottom:0">这类差距最容易让人误判——前端有按钮、有页面，看起来"功能已经有了"。但实际上：<b>绕过界面直接调接口，服务端不会拦</b>。这和第五章"核心计算位置错误"的根因完全一致。建议把这 8 条按"补服务端 API"统一处理，不要只修前端。</p>
+
+<h3>2.4 三家横向对照（含本系统）</h3>
+<table>
+  <thead><tr><th style="width:14%">维度</th><th style="width:20%">金蝶</th><th style="width:20%">思爱普</th><th style="width:20%">用友</th><th style="width:26%">本系统（SSA ERP）</th></tr></thead>
+  <tbody>
+    <tr><td><strong>产品形态</strong></td><td>公有云 / 私有云 / 混合云，平台 + 应用两层</td><td>公有云为主，强制升级节奏</td><td>公有云 / 专属云 / 混合云，软硬一体可选</td><td>前端单页应用 + 边缘函数 + 云数据库，全球分发</td></tr>
+    <tr><td><strong>财务深度</strong></td><td>财务基因最强，多组织多核算体系成熟</td><td>750 余项财务增强，应计与现金智能体</td><td>事项法会计，全球司库、全税种、电子档案</td><td>凭证 / 期间 / 结账 / 合并报表 / 多账簿齐备，服务端借贷平衡；<strong>深度不及三家</strong></td></tr>
+    <tr><td><strong>智能与自动化</strong></td><td>智能体平台 2.0，支持模型上下文协议与智能体互通协议</td><td>智能体正式可用 + 智能体构建器，10 余个专用智能体</td><td>63 个领域智能体、623 项智能能力、本体大模型</td><td>已接通大模型对话、分析、预警、票据识别；<strong>属「问答型」，不是「执行型」</strong></td></tr>
+    <tr><td><strong>制造深度</strong></td><td>智慧车间、工序任务超市、产品生命周期一体化</td><td>生产计划与运作智能体、外部排程集成</td><td>多工厂离散制造、按订单设计 / 装配、智能排产</td><td>物料清单 / 工单 / 领退料 / 倒冲 / 排程齐备；<strong>无车间执行与设备联网</strong></td></tr>
+    <tr><td><strong>扩展与低代码</strong></td><td>零代码到高代码完整体系，第四代动态建模</td><td>清洁核心 + 低代码扩展</td><td>低代码平台 + 智能编码</td><td>低代码设计器<strong>已标注为演示版（未接后端表单引擎）</strong></td></tr>
+    <tr><td><strong>开放接口</strong></td><td>集成服务云，支持自定义数据库连接</td><td>标准接口与集成套件成熟</td><td>2.6 万个以上接口</td><td>接口密钥网关（权限分级 + 吊销 + 有效期）已实测生效</td></tr>
+    <tr><td><strong>移动端</strong></td><td>全员应用，移动工序报工</td><td>移动端支持文档智能</td><td>统一工作入口</td><td>渐进式网页应用门户，扫码入库 / 出库 / 盘点 / 质检真过账</td></tr>
+    <tr><td><strong>合规与审计</strong></td><td>国产化信创全栈适配</td><td>全球本地化 + 碳边境调节机制</td><td>穿透式监管、全税种、电子会计档案</td><td>行级权限默认拒绝、审计三层降级、字段级权限服务端强制；<strong>无外部合规认证</strong></td></tr>
+    <tr><td><strong>实施与价格</strong></td><td>按用户数年费订阅，分版本分模块</td><td>企业级定价，需销售报价</td><td>订阅 + 业务成果分成的合作模式</td><td><span class="tag t-no">未取得权威定价信息</span>（本系统未对外商业化定价）</td></tr>
+  </tbody>
+</table>
+
+<!-- ============ 三、总表 ============ -->
+<h2 id="c3">三、十六个业务域 × 五维对照总表</h2>
+
+<div class="note">
+  <strong>怎么读这张表：</strong><br>
+  <span class="tag t-s">优势</span> 强于或持平于竞品 ｜ <span class="tag t-w">劣势</span> 明显弱于竞品 ｜ <span class="tag t-g">缺失</span> 完全没有 ｜ <span class="tag t-o">机会</span> 可借智能或架构优势弯道超车 ｜ <span class="tag t-a">改进措施</span> 具体可执行动作<br>
+  <strong>每项结论都可追证到系统里的真实位置</strong>（文件 / 接口 / 页面 / 数据库表），第四章逐域展开说明。
 </div>
 
-<h4>C. 仍存差距（8 条）</h4>
 <table>
-<thead><tr><th style="width:5%">#</th><th style="width:20%">差距主题</th><th style="width:10%">等级</th><th style="width:40%">代码证据</th><th style="width:25%">风险描述</th></tr></thead>
-<tbody>
-<tr><td>7</td><td>比价加权综合评分</td><td><span class="tag t-amb">中等</span></td><td><code>PriceCompare.tsx</code> 仅卡片并排展示，无 <code>score</code>/<code>weight</code> 关键词</td><td>只看最低价，不考虑交期和质量，容易选出"便宜但老是晚交"的供应商</td></tr>
-<tr><td>9</td><td>审批撤回</td><td><span class="tag t-org">严重</span></td><td><code>src/types/common.ts:52</code> 无 <code>withdraw</code> 动作；前端审批对话框无撤回按钮</td><td>单据提错了撤不回，只能等审批人拒绝，增加沟通成本</td></tr>
-<tr><td>10</td><td>审批催办</td><td><span class="tag t-org">严重</span></td><td>全代码库搜索 <code>remind/urge/催办</code> 零命中；<code>EscalationRule.notify</code> 仅配置无定时触发</td><td>审批人遗忘任务时无法主动提醒，单子卡死</td></tr>
-<tr><td>11</td><td>审批委托</td><td><span class="tag t-org">严重</span></td><td>搜索 <code>delegate/proxy/委托</code> 全代码库零命中；无委托关系表</td><td>审批人出差/请假时无替代处理路径，审批积压</td></tr>
-<tr><td>13</td><td>生产倒冲发料</td><td><span class="tag t-org">严重</span></td><td><code>functions/api/work-orders/[id].ts</code> 零库存扣减调用；搜索 <code>backflush/倒冲</code> 零命中；无相关迁移</td><td>车间每做一批都要人工开领料单，量大必然漏开或错开，库存虚高、成本不准</td></tr>
-<tr><td>15</td><td>单位换算独立建表</td><td><span class="tag t-org">严重</span></td><td><code>unitConversionStore.ts</code> 用 <code>persist</code>；D1 无 <code>unit_conversions</code> 表</td><td>换算规则出错影响全公司算料算钱；不受权限与备份保护</td></tr>
-<tr><td>19</td><td>字段级只读/必填控制</td><td><span class="tag t-amb">中等</span></td><td><code>src/types/platform.ts:159</code> 有 <code>FieldMode</code> 类型；<code>FieldPermissions.tsx:63-73</code> 仅隐藏/可见 UI</td><td>合规客户要求字段级权限时无法交付</td></tr>
-<tr><td>20</td><td>导出数据管控（前端部分）</td><td><span class="tag t-amb">中等</span></td><td><code>src/components/common/DataTable.tsx:588-650</code>：无授权检查、无审计日志、无水印</td><td><b>任何登录用户可无限制导出全部数据</b>，存在数据泄露风险</td></tr>
-</tbody>
+  <thead>
+    <tr>
+      <th style="width:11%">业务域</th><th style="width:17%">优势</th><th style="width:19%">劣势</th>
+      <th style="width:14%">缺失</th><th style="width:19%">机会</th><th style="width:20%">改进措施</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1 财务与会计</strong></td>
+      <td>服务端借贷平衡硬校验；会计期间与结账管控；合并报表与多账簿；折旧服务端化</td>
+      <td>无多会计准则并行；无税务申报一体化；无凭证模板</td>
+      <td>外部合规认证</td>
+      <td>凭证生成智能体（思爱普 2608 已做，本系统有大模型通道可复用）</td>
+      <td>补凭证模板与常用凭证；智能生成凭证草稿</td>
+    </tr>
+    <tr>
+      <td><strong>2 采购与付款</strong></td>
+      <td>三单匹配超差硬拦且拦后不写库；付款闸门真接通；供应商门户回写</td>
+      <td>无寻源招投标；无合同全生命周期</td>
+      <td>供应商自助对账门户</td>
+      <td>采购执行智能体（自动比价、异常交期预警）</td>
+      <td>补采购合同管理；交期风险预警</td>
+    </tr>
+    <tr>
+      <td><strong>3 库存与成本</strong></td>
+      <td>移动均价滚动；出入库成本凭证服务端生成；批次与序列号双向追溯</td>
+      <td>无标准成本与实际成本差异分析；无成本还原</td>
+      <td>多计价方式并存（仅移动均价）</td>
+      <td>成本差异自动归因（用自然语言解释波动）</td>
+      <td>补标准成本与差异分析；成本波动归因</td>
+    </tr>
+    <tr>
+      <td><strong>4 生产制造</strong></td>
+      <td>完工倒冲发料（多级展开、只补差额、幂等）；物料需求计划含批量与提前期</td>
+      <td>无车间执行与设备联网；工序级成本归集弱</td>
+      <td>产能负荷实时反馈闭环</td>
+      <td>生产计划与运作智能体；排产建议可解释化</td>
+      <td>工序成本归集；排产结果可解释</td>
+    </tr>
+    <tr>
+      <td><strong>5 质量管理</strong></td>
+      <td>抽样方案字码与样本量已修一致；不合格品联动库存；失效模式分析、过程能力指数</td>
+      <td>无检验设备数据自动采集；供应商质量整改未闭环回门户</td>
+      <td>质量体系文档管理</td>
+      <td>质量分析智能体（用友已做同类）</td>
+      <td>补检验数据批量导入；质量趋势预警</td>
+    </tr>
+    <tr>
+      <td><strong>6 销售与应收</strong></td>
+      <td>信用额度硬拦截；销售价目表带数据权限；三方销售</td>
+      <td>应收账龄与汇兑损益未收口（历史遗留）</td>
+      <td>客户自助门户</td>
+      <td>订单风险预警（金蝶星空已做）</td>
+      <td>补应收账龄；汇兑损益需先定口径</td>
+    </tr>
+    <tr>
+      <td><strong>7 资产与折旧</strong></td>
+      <td>折旧计提彻底服务端化（生成权威凭证、同期幂等、已结账硬拒）</td>
+      <td>无资产全生命周期（采购转固 → 领用 → 维修 → 处置）</td>
+      <td>租入使用权资产（金蝶星空 V9.1 已做）</td>
+      <td>资产健康诊断（用友已做同类）</td>
+      <td>补资产维修与处置流程；资产盘点</td>
+    </tr>
+    <tr>
+      <td><strong>8 预算与费用</strong></td>
+      <td>项目核算与资金管理、内部计息；付款计划分期</td>
+      <td>预算编制与控制未打通（付款时不校验是否超预算）</td>
+      <td>费用报销全流程</td>
+      <td>预算智能助理；更实际的是把预算占用接进已有付款闸门</td>
+      <td>把预算占用接进付款闸门</td>
+    </tr>
+    <tr>
+      <td><strong>9 报表与分析</strong></td>
+      <td>合并报表结构化与导出；20 张关键指标；经营驾驶舱</td>
+      <td>无自助式分析（用户不能自己拖字段做表）；无预测类分析</td>
+      <td>语义层 / 指标平台</td>
+      <td><strong>最有把握超车的一域</strong>：对话式取数所需条件已具备</td>
+      <td>指标口径统一登记；对话式取数</td>
+    </tr>
+    <tr>
+      <td><strong>10 审批与工作流</strong></td>
+      <td>审批实例层（撤回 / 催办 / 委托）；自定义流程；动态侧边栏</td>
+      <td>操作权限开关有定义但<strong>零调用点</strong>（界面能勾、实际不生效）</td>
+      <td>跨系统流程编排</td>
+      <td>智能辅助审批（金蝶 V9.0 预告）</td>
+      <td><span class="p0">P0</span> 处置骗人的操作权限开关</td>
+    </tr>
+    <tr>
+      <td><strong>11 权限与审计</strong></td>
+      <td>行级策略默认拒绝 + 全量显式登记；字段级权限服务端强制；审计三层降级</td>
+      <td>字段级权限只做了「可见 / 不可见」一维；账号与密码生命周期无留痕</td>
+      <td>只读 / 必填两维度</td>
+      <td>权限配置智能建议（按业务口径推荐）</td>
+      <td><span class="p0">P0</span> 只读维度（待拍板）；补凭据变更留痕</td>
+    </tr>
+    <tr>
+      <td><strong>12 智能与自动化</strong></td>
+      <td>大模型对话、对话式分析、异常预警、票据识别已落地</td>
+      <td>智能体只能「说」不能「做」（无工具调用与执行闭环）</td>
+      <td>智能体编排与治理；本体 / 语义层</td>
+      <td><strong>最大弯道机会</strong>：架构轻、接口齐，接工具调用成本低</td>
+      <td>先做「读取类」工具调用，再扩到写入</td>
+    </tr>
+    <tr>
+      <td><strong>13 移动端与离线</strong></td>
+      <td>渐进式网页应用门户；扫码入库 / 出库 / 盘点 / 质检真过账</td>
+      <td>无离线可用（断网即不可用）；无消息推送</td>
+      <td>离线队列与冲突合并</td>
+      <td>边缘函数 + 本地存储天然适合离线同步</td>
+      <td>先离线只读缓存，再离线提交队列</td>
+    </tr>
+    <tr>
+      <td><strong>14 多组织多币种</strong></td>
+      <td>多组织与组织间结算；汇率表与三角换算引擎；合并报表抵消</td>
+      <td>无多语言界面；无多时区处理</td>
+      <td>界面多语言</td>
+      <td>出海场景（用友全球化财税套件已做）</td>
+      <td>抽离语种文件；补多时区</td>
+    </tr>
+    <tr>
+      <td><strong>15 集成与开放</strong></td>
+      <td>接口密钥网关（权限分级、吊销、有效期）已实测；开放读写全端点</td>
+      <td>无事件订阅（回调重试机制待补）；无标准行业协议</td>
+      <td>连接器市场</td>
+      <td>先补回调重试，再谈生态</td>
+      <td>补回调鉴权与重试</td>
+    </tr>
+    <tr>
+      <td><strong>16 实施与运维</strong></td>
+      <td>一键部署（含迁移）；六项门禁；生产端到端常驻；全新空库迁移链可重建</td>
+      <td>无健康检查面板、无可观测性（报错靠翻日志）、无租户级备份恢复界面</td>
+      <td>实施方法论与交付工具</td>
+      <td>把已有门禁做成可视化健康度</td>
+      <td>补运维健康度面板；租户级导出</td>
+    </tr>
+  </tbody>
 </table>
-<div class="box red">
-<b class="head">差距 20 特别警示：导出数据管控</b>
-<p style="margin-bottom:0">V3.15.10（<code>7629c8e</code>）仅修复了<b>服务端备份端点</b> <code>/api/system/backup</code> 的审计留痕问题，<b>未触及前端通用组件</b> <code>DataTable.tsx</code> 的导出逻辑。<code>handleExport</code>（588行）和 <code>handleBatchExport</code>（618行）仍是纯前端操作，导出时不经过服务端、无权限检查、无审计日志、无水印。这是差距20的<b>主要缺口</b>，也是合规客户必问项。</p>
+
+<!-- ============ 四、逐域展开 ============ -->
+<h2 id="c4">四、逐域展开说明</h2>
+
+<div class="domain">
+  <div class="hd"><span>1 · 财务与会计</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 vouchers / voucher_items / fin_chart_of_accounts · 接口 vouchers · 页面 Finance</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>服务端借贷平衡强制校验（科目必填、借贷合计相等、容差半分），且合计由服务端从分录反推，杜绝「分录改了合计没跟着改」；会计期间与期末结账管控；合并报表与多账簿已落地；折旧计提服务端化并生成权威凭证、同一期间幂等。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>只有一套会计准则口径，无法多准则并行出表；税务申报未一体化（数电票核验目前是<strong>模拟桩</strong>，需企业税号与服务商密钥才能启用真实通道）；没有凭证模板与常用凭证，重复分录靠手工。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>外部合规认证（三家都有各自的合规背书）；财务共享与全球司库这类集团级能力。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>思爱普 2608 的「凭证生成智能体」是最好抄的一课：从非结构化信息（发票、邮件）推荐会计科目与金额、生成待审凭证。本系统已接通大模型且有审核流程，只需补「生成草稿 → 人工确认 → 过账」这一条链路，风险可控。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 补凭证模板与常用凭证（小、见效快）；② 启用数电票真实核验（<strong>需你提供企业税号与服务商密钥，属外部依赖</strong>）；③ 凭证草稿智能生成（需先定「哪些单据允许智能体起草」的口径）。</div></div>
+    </div>
+  </div>
 </div>
 
-<h3>9.4 对比报告第六章"立刻做 / 近期做"档的变化</h3>
-<table>
-<thead><tr><th style="width:8%">原清单编号</th><th style="width:22%">内容</th><th style="width:12%">原档</th><th style="width:12%">审计状态</th><th style="width:46%">变化说明</th></tr></thead>
-<tbody>
-<tr><td><b>L1</b></td><td>凭证借贷平衡后端校验</td><td>立刻做</td><td><span class="tag t-grn">✓ 已消除</span></td><td>V3.15.9 已上线，线上真实接口往返 18/18 通过</td></tr>
-<tr><td><b>L2</b></td><td>销售信用额度闸门</td><td>立刻做</td><td><span class="tag t-grn">✓ 已消除</span></td><td>前端硬管控已生效（A3 区）；服务端缺重算（次要，归入 N 档建议补）</td></tr>
-<tr><td><b>L3</b></td><td>审批补撤回与催办</td><td>立刻做</td><td><span class="tag t-org">✗ 仍存</span></td><td>撤回归 C 档（需先建统一实例表）；催办需先有实例表才能低成本加</td></tr>
-<tr><td><b>L4</b></td><td>低代码设计器演示标注</td><td>立刻做</td><td><span class="tag t-grn">✓ 已消除</span></td><td>V3.15.9 已上线，横幅在位</td></tr>
-<tr><td><b>N1</b></td><td>算账逻辑上移服务端（分域推进）</td><td>近期做</td><td><span class="tag t-grn">✓ 已消除</span></td><td>V3.17.0 服务端算账闭环 + V3.17.5 两套账合一；成本滚动与报表真源均已服务端化</td></tr>
-<tr><td><b>N2</b></td><td>生产倒冲发料</td><td>近期做</td><td><span class="tag t-org">✗ 仍存</span></td><td>无相关 API、无相关迁移，需新建 <code>work-orders/picking</code> 扣减逻辑或新建 <code>backflush</code> 端点</td></tr>
-<tr><td><b>N3</b></td><td>审批委托</td><td>近期做</td><td><span class="tag t-org">✗ 仍存</span></td><td>与差距9、10 同构：需先建 <code>approval_instances</code> 统一表才能低成本实现</td></tr>
-<tr><td><b>N4</b></td><td>仓库货位与单位换算建独立表</td><td>近期做</td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>货位：前端 store 有，D1 无表；单位换算：两处均未建表</td></tr>
-<tr><td><b>N5</b></td><td>销售价目表与阶梯折扣</td><td>近期做</td><td><span class="tag t-amb">⚠ 部分消除</span></td><td>前端完整，服务端 <code>functions/api/sales-prices/</code> 不存在</td></tr>
-<tr><td><b>N6</b></td><td>比价加权综合评分</td><td>近期做</td><td><span class="tag t-org">✗ 仍存</span></td><td>PriceCompare.tsx 无评分逻辑，需新建评分卡</td></tr>
-</tbody>
-</table>
-<div class="mean"><b>整体判断：</b>第六章的"立刻做"档 4 条里，4 条已落地（L1/L2/L4 + V3.17.x 期间的差距2/3）。"近期做"档 6 条里，1 条已消除（N1 成本滚动已下沉）、1 条部分消除（N4 货位前端有但无表）、4 条仍存（N2倒冲/ N3委托/ N5价目表API/ N6评分卡）。剩余未消除的差距，建议按"补服务端 API"和"新建关系表"两条主线继续推进。</div>
-
-<h3>9.5 后续建议优先级</h3>
-<table>
-<thead><tr><th style="width:8%">优先级</th><th style="width:22%">差距编号</th><th style="width:28%">改进主题</th><th style="width:42%">理由</th></tr></thead>
-<tbody>
-<tr><td><span class="tag t-red">P0</span></td><td>20</td><td>导出数据管控（授权 + 审计 + 水印）</td><td>任何登录用户可无限制导出全部数据，存在数据泄露风险；合规客户必问项</td></tr>
-<tr><td><span class="tag t-org">P1</span></td><td>9, 10, 11</td><td>审批撤回 / 催办 / 委托</td><td>三件事同构：需先建 <code>approval_instances</code> 统一表，再补三个动作；收益最高</td></tr>
-<tr><td><span class="tag t-org">P1</span></td><td>2</td><td>财务报表服务端计算</td><td>与 L1 同等性质的架构问题；补 <code>/api/reports/*</code> 端点即可闭合</td></tr>
-<tr><td><span class="tag t-org">P1</span></td><td>15</td><td>单位换算独立建表</td><td>换算规则出错影响全公司算料算钱；建表成本低、收益确定</td></tr>
-<tr><td><span class="tag t-amb">P2</span></td><td>5</td><td>销售信用额度服务端重算</td><td>补 <code>functions/api/sales-orders/index.ts</code> 里的额度重算逻辑即可</td></tr>
-<tr><td><span class="tag t-amb">P2</span></td><td>6</td><td>销售价目表服务端 API</td><td>补 <code>functions/api/sales-prices/</code> 目录 + 订单保存时强制取价</td></tr>
-<tr><td><span class="tag t-amb">P2</span></td><td>7, 13, 4</td><td>比价评分 / 倒冲发料 / 序列号驱动</td><td>三件事各自独立，工作量均约半天~一天</td></tr>
-<tr><td><span class="tag t-amb">P2</span></td><td>8</td><td>三单匹配超差阻断</td><td>后端加 <code>blocked</code> 字段 + 前端拦截付款即可</td></tr>
-<tr><td><span class="tag t-amb">P3</span></td><td>14, 16, 18, 19, 21</td><td>货位建表 / 双通道清理 / 错误提示 / 字段权限 / 英文补全</td><td>偏工程性改进，可按迭代节奏推进</td></tr>
-</tbody>
-</table>
-
-<h3>9.6 审计信息</h3>
-<table>
-<thead><tr><th style="width:15%">项目</th><th style="width:85%">内容</th></tr></thead>
-<tbody>
-<tr><td>审计日期</td><td>2026-09-22（V3.15.9 基线）</td></tr>
-<tr><td>审计方法</td><td>五个子 Agent 并行扫描，分别覆盖凭证与财务、采购与销售、审批流与工作流、生产与库存、平台与体验五个维度；每条差距给出代码位置证据</td></tr>
-<tr><td>验证方式</td><td>代码 grep + 文件读内容 + 迁移脚本检查 + 路由目录扫描</td></tr>
-<tr><td>未验证项</td><td>差距 20（导出数据管控）建议线上实际测试：用普通员工账号尝试导出全部数据，确认当前是否可无限制导出</td></tr>
-<tr><td>输出文件</td><td><code>tmp/code-audit-v1.md</code> ~ <code>tmp/code-audit-v5.md</code>（五份子报告）；本章为汇总</td></tr>
-</tbody>
-</table>
-
-<div style="text-align:center;margin-top:34px;margin-bottom:20px">
-<a href="#c0" style="color:var(--blue);text-decoration:none">↑ 回到开头</a>
+<div class="domain">
+  <div class="hd"><span>2 · 采购与付款</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 purchase_orders / three_way_match / fin_payment_plans · 接口 purchase-orders / three-way-match · 页面 Purchase</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>三单匹配超差硬拦，且<strong>被拦后不写库</strong>（拦而不住等于假拦截），超差返回 422 与中文原因及差额；判定口径收敛为唯一来源（不含税金额 + 1% 相对容差），消除了此前三套互相矛盾的口径；供应商门户已能确认订单、报价、变更资料。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>没有寻源与招投标；没有采购合同全生命周期（签订、变更、履约、结算）。金蝶星空的采购云已含智能寻源与货源清单经营。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>供应商自助对账门户（目前对账靠人工发出）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>采购执行智能体：自动比价、异常交期预警、报价异常识别。本系统已有比价加权评分与货源清单，数据基础现成。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 补采购合同管理（中）；② 交期风险预警（小，复用现有预警框架）；③ 采购执行智能体（需先定「智能体能替采购员做哪些决定」的边界）。</div></div>
+    </div>
+  </div>
 </div>
 
-</main>
-<div class="foot">
-  SSA ERP 竞品对标全面分析报告 · V3.17.9 基线（第九章代码审计基于 V3.17.9 复核） · 编制 2026-09-18 · 执行台账追加 2026-09-19 · 代码审计追加 2026-09-22 · 竞品资料抓取日期 2026-09-18<br>
-  第一至九章为只读分析。第九章记录 2026-09-22 的代码审计结论（V3.17.9 复核）：21 条差距中 4 条已完全消除、9 条部分消除、8 条仍存。所有判定均附代码文件位置与提交哈希证据。
+<div class="domain">
+  <div class="hd"><span>3 · 库存与成本核算</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 inventory_records / materials · 接口 inventory-records / stock-transfers / inventory-adjustments · 共享模块 inventoryPosting</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>移动均价滚动；出入库成本凭证由服务端权威生成（金额取服务端计算值，不接受前端传值）；批次与序列号双向穿透追溯（成品批次 → 工单 → 原料批次 → 供应商）；库存调整与调拨齐备。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>只有移动均价一种计价方式，缺标准成本 / 先进先出 / 个别计价并存；<strong>没有标准成本与实际成本的差异分析</strong>，也就没法回答「这个月成本为什么高了」。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>成本还原（用友在高科技制造方案里主推的能力）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>成本差异自动归因——把「材料价差 / 量差 / 制造费用差异」拆出来，再用自然语言解释波动原因。这是三家都在讲但中小企业用不起的能力，本系统架构轻，做成内置功能有差异化。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 补标准成本与差异分析（中，需先定成本口径，<strong>属需你拍板的业务口径</strong>）；② 成本波动归因（依赖 ①）。</div></div>
+    </div>
+  </div>
 </div>
+
+<div class="domain">
+  <div class="hd"><span>4 · 生产制造</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 work_orders / work_order_pickings / bom_headers / bom_items · 接口 work-orders / bom · 页面 Production</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>完工倒冲发料已真接通：多级物料清单展开（含子装配引用、虚项透传、废品率），只补「应耗用 − 已手工领用」的差额，幂等守卫防重复扣料，缺物料清单不阻断完工但返回可区分代码与中文原因；物料需求计划已真实消费安全库存分层、批量规则、提前期偏置。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>没有车间执行系统与设备联网（用友 U9 Cloud 与金蝶智慧车间都有）；工序级成本归集弱，工单成本只能到「料」这一层。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>产能负荷的实时反馈闭环（排产是算出来的，实际执行没回来修正）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>生产计划与运作智能体（思爱普 2602 已正式发布）：辅助工单下达、工艺路线推荐。本系统已有甘特排产与有限产能模型，接一层「建议 + 解释」即可。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 工序成本归集（中）；② 排产结果可解释（小，把「为什么排这天」写出来）；③ 倒冲明细界面已有，可补「差异预警」。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>5 · 质量管理</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 quality_holds · 接口 quality-holds · 页面 Quality · 共享模块 aql</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>抽样方案的字码与样本量已修为一致（此前 455 组组合中 124 组互相矛盾，等于给检验员一份执行不了的方案，现已归零）；不合格品联动库存处置；已含失效模式分析、过程能力指数、动态检验、合格证、计量校准。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>检验数据靠人工录入，没有检验设备数据自动采集；供应商质量门户未闭环（质量问题单能回写，但整改确认没回到供应商）。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>质量体系文档管理（质量手册、作业指导书的版本与发放）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>质量分析智能体（用友已做同类）：自动发现不良率异常、关联到批次 / 供应商 / 工序。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 补检验数据批量导入（小，比做设备采集划算）；② 质量趋势预警（复用现有预警框架）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>6 · 销售与应收</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 sales_orders / sales_order_items / triparty_sales · 接口 sales-orders · 页面 Sales</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>信用额度占用与逾期冻结；销售价目表带数据权限（销售只见自己客户）；销售合同、销售漏斗、返利、三方销售（供应商直发客户）齐备。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>应收账龄分析与汇兑损益<strong>自历史版本起就列为待办，至今未收口</strong>——这直接影响「该催谁的钱」。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>客户自助门户（查订单、查对账单、自助下单）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>销售订单风险预警（金蝶星空 V9.1 已做）：结合客户信用、历史回款、订单金额给出风险提示。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① <span class="p1">P1</span> 补应收账龄（中，纯查询与展示，无业务语义变更）；② 汇兑损益（需先定外币评估口径，<strong>属业务口径</strong>）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>7 · 资产管理与折旧</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 fixed_assets · 接口 fixed-assets · 页面 Finance</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>折旧计提彻底服务端化：直线法按月计提、仅对在用资产、生成权威凭证、同一期间幂等、已结账期间硬拒。本地不再自己算账，避免了双写分歧。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>只有「建卡 → 计提」这一段，没有资产全生命周期（采购转固、领用、调拨、维修、盘点、处置）。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>租入使用权资产（金蝶星空 V9.1 已覆盖从入账到终止的全过程）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>资产健康诊断（用友已做同类）：基于维修记录与运行时长预测故障。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 补资产维修与处置流程（中）；② 资产盘点（可复用移动端扫码能力，成本低）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>8 · 预算与费用</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 fin_project_accounts / fin_project_cost_items / cash_accounts / cash_flows · 接口 fin-project-accounts · 页面 Finance</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>项目核算（含成本明细）、资金管理（资金计划、头寸、内部计息、银行流水）、付款计划分期已落地。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>预算编制与控制没打通</strong>——能记预算数，但付款时不会校验「这笔钱超没超预算」。相比之下付款闸门已经在拦三单匹配，预算这一道是缺的。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>费用报销全流程（申请 → 审批 → 支付 → 入账）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>预算智能助理（用友已做同类）；更实际的是把预算占用接进已有付款闸门——架构现成，改动面小。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 把预算占用接进付款闸门（中，复用现有闸门模式，<strong>但「超预算是硬拦还是提醒」需你拍板</strong>）；② 费用报销（大，独立模块）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>9 · 报表与分析</span><span style="font-size:12px;font-weight:400;color:#4a5160">接口 consolidation / chatbi · 页面 Reports / Analytics</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>合并报表（资产负债表 / 利润表结构化 + 导出）、多账簿、经营驾驶舱、20 张关键指标卡、嵌入式分析（页面内出图，不跳出系统）。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>没有自助式分析</strong>：用户不能自己拖字段做表，要什么报表得提需求改代码。三家都已有对话式取数（金蝶的智能问数、用友的智能问数、思爱普的嵌入式分析）。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>语义层 / 指标平台——同一「毛利」在不同页面口径可能不同，还没有统一登记与校验。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div><strong>本系统最有把握超车的一域</strong>：对话式取数所需的两样东西（大模型通道、104 张表的结构）都已具备，缺的只是「自然语言 → 查询」这一层，且可限定只能读、不能写，风险极低。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 指标口径统一登记（小，先把口径写清楚）；② 对话式取数（中，只读，建议先做）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>10 · 审批流与工作流</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 approval_instances / approval_actions / approval_delegates / approval_flows / approval_flow_nodes · 接口 approval-instances / approval-delegates</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>审批实例层已落地：撤回、催办（30 分钟限流）、委托（含反向查询「我替谁在批」）；自定义流程可新建与发布并按组织隔离；审批中心动态化。撤回与催办限提交人或管理员，通过 / 驳回只认当前审批人本人。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>模块级操作权限开关（谁能建单、谁能删除）有定义但全项目零调用点</strong>——界面上能勾，勾完不生效。这比没有这个功能更糟：没有它你会用别的方式管控，有了它你会以为已经管住了。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>跨系统流程编排（打通外部系统的审批）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>智能辅助审批（金蝶 V9.0 预告）：自动解析单据与附件、生成风险等级与推荐意见。本系统有单据数据与大模型，可先做「审批要点摘要」这一小步。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① <span class="p0">P0</span> 处置操作权限开关（两条路：标注未启用 / 真正接上，<strong>需你拍板</strong>，见第七章）；② 审批要点摘要（小）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>11 · 权限与审计</span><span style="font-size:12px;font-weight:400;color:#4a5160">共享模块 rls / fieldAccess / auditLog · 接口 protected-data · 页面 Settings</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>行级策略「未登记 = 默认拒绝」+ 业务表全量显式登记 + 与真实库双向机器核对；字段级权限已在服务端强制（读不到就剥离、写入时值变了才拦、创建时静默剔除）；审计写入失败走三层降级（日志 → 降级表 → 绝不阻断业务）+ 管理员健康度入口。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>字段级权限只做了「可见 / 不可见」一维，「只读」与「必填」两维空白——目前<strong>「看得见但不该改」这类字段完全没人管</strong>（例如库管能看到也能改物料采购价）；账号创建、改密、重置密码的审计留痕仍缺。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>只读、必填两个维度（已有决策建议书，待你拍板）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>权限配置智能建议：按「业务口径应该由谁维护」推荐默认矩阵，减少管理员逐字段勾选。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① <span class="p0">P0</span> 补只读维度（默认全放开、不勾不改变现有行为，风险低，<strong>待你拍板</strong>）；② 补凭据变更审计留痕（小，无业务语义变更）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>12 · 智能与自动化</span><span style="font-size:12px;font-weight:400;color:#4a5160">接口 ai / chatbi / ocr / tax-gateway</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>大模型对话助手已接通（可换模型）、对话式分析、异常检测预警、发票文字识别、数电票核验骨架（多服务商路由 + 结构化校验，默认模拟兜底）。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>智能体只能「说」不能「做」</strong>——没有工具调用与执行闭环，与三家的差距是代际的：思爱普 2602 已发布 10 余个专用智能体并正式可用，用友已沉淀 63 个领域智能体、623 项智能能力。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>智能体编排与治理（身份 / 权限 / 审计 / 人工确认）；本体或语义层（用友靠它降幻觉）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div><strong>架构上最可能弯道超车的一域</strong>：本系统后端是 117 个接口文件、边界清晰，接工具调用的改造面远小于三家那种庞大内核。建议从「只读类工具」（查库存、查订单进度、查应收款）起步，天然安全，再逐步放开写入并强制人工确认。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 只读工具调用（中，建议第一步）；② 写入类工具 + 人工确认闸门（需先定「哪些动作允许智能体发起」的口径，<strong>需你拍板</strong>）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>13 · 移动端与离线</span><span style="font-size:12px;font-weight:400;color:#4a5160">路由 /m（渐进式网页应用）· 移动作业：入库 / 出库 / 盘点 / 质检</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>渐进式网页应用门户（可装到桌面），扫码入库 / 出库 / 盘点 / 质检都真过账写回数据库；扫码支持原生识别 + 第三方解码 + 手工输入三级兜底，兼容老旧扫码设备。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>断网即不可用</strong>——仓库、车间这类场景恰恰是信号最差的地方；没有消息推送，待办靠用户自己打开看。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>离线队列与冲突合并（三家成熟产品都具备）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>边缘函数 + 浏览器本地存储的天然组合：先把「今日待办与物料基础信息」缓存到本地做到断网可读，再补离线提交队列，比三家从零做便宜得多。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 离线只读缓存（小，风险最低，先做）；② 离线提交队列 + 冲突提示（中）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>14 · 多组织 · 多币种 · 多语言</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 fx_rates / orgs · 接口 fx / consolidation / orgs</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>多组织与组织间结算；汇率表 + 三角换算引擎；合并报表含抵消分录；注册审批与无主公司代管（超级管理员可代管没有管理员的公司）。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>界面只有中文</strong>；没有多时区处理（跨国协同会出现「按谁的日期算」的问题）。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>界面多语言（三家都支持）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>出海场景：用友已推全球化财税套件覆盖东南亚多国薪资与税务合规。若本系统面向出海中小企业，多语言 + 多时区是刚需入口。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 抽离语种文件（中，纯工程，先把散落的中文文案收拢）；② 多时区（小）。<strong>是否需要多语言取决于你是否面向海外客户，属方向选择</strong>。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>15 · 集成与开放接口</span><span style="font-size:12px;font-weight:400;color:#4a5160">表 api_keys · 接口 open（开放网关）· 页面 Settings 的接口控制台</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>接口密钥网关已实测生效：密钥哈希存储、权限分级（读 / 写）、有效期、可吊销、写操作四道护栏；开放网关覆盖读写全端点。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>没有事件订阅（回调）的鉴权与重试</strong>——外部系统想知道「单据状态变了」只能不停来问。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>连接器市场 / 标准行业协议（金蝶集成服务云已支持自定义数据库连接与多系统连接）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>先补回调鉴权与重试（改动面小、立竿见影），再谈生态。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 回调鉴权（签名）+ 指数退避重试 + 失败留痕（中，历史遗留待办项）；② 与金蝶 / 用友的预置连接器（大，需明确客户场景）。</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="domain">
+  <div class="hd"><span>16 · 实施与运维</span><span style="font-size:12px;font-weight:400;color:#4a5160">脚本 deploy.mjs / check-consistency.mjs / prod-e2e · 接口 system（备份与恢复）</span></div>
+  <div class="bd">
+    <div class="five">
+      <div class="row5"><div class="k t-s">优势</div><div>一键部署（含迁移自动应用）；六项门禁；生产端到端常驻套件（本轮后共 286 条断言）；全新空库迁移链可完整重建（灾备能力已验证）；云端数据库备份下载。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div><strong>没有可观测性</strong>：出问题时只能翻日志，没有健康检查面板、没有错误率与慢接口统计；没有租户级的备份恢复界面。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>实施方法论与交付工具（三家都有成熟的实施体系与伙伴网络）。</div></div>
+      <div class="row5"><div class="k t-o">机会</div><div>把已有的门禁与端到端结果做成可视化健康度面板——数据现成，只差展示；对小团队自运维价值很高。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 运维健康度面板（中，展示门禁结果 + 端到端通过率 + 接口错误率）；② 租户级导出与恢复界面（中）。</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 五、改进措施排序 ============ -->
+<h2 id="c5">五、改进措施清单（按优先级排序）</h2>
+
+<div class="note">
+  <strong>分级判据：</strong><br>
+  <span class="p0">P0</span> 安全漏洞、数据正确性缺陷、服务端强制缺失 —— 不修会持续产生错误数据，或让人误以为有管控<br>
+  <span class="p1">P1</span> 业务闭环断点 —— 流程走到某处走不下去，或走下去产生不了应有的结果<br>
+  <span class="p2">P2</span> 体验与效率 —— 能做但绕、能看但要翻<br>
+  <span class="p3">P3</span> 锦上添花 —— 有更好，没有不影响主流程
+</div>
+
+<table>
+  <thead><tr><th style="width:6%">级</th><th style="width:24%">措施</th><th style="width:12%">涉及域</th><th style="width:31%">为什么是这个级</th><th style="width:27%">本轮状态</th></tr></thead>
+  <tbody>
+    <tr><td><span class="p0">P0</span></td><td>五个核心写端点补入参守卫（空内容不再报系统错误）</td><td>库存 / 采购 / 生产</td><td>输入端问题被当成系统故障报出，用户既不知道缺什么也不知道能不能补救；<strong>且其中领料端点能建出「数量为 0」的废记录，把后续真领料卡死</strong></td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
+    <tr><td><span class="p0">P0</span></td><td>委外订单缺类型字段直接报系统错误</td><td>生产</td><td>该列不允许为空且无默认值，接口也没兜底</td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
+    <tr><td><span class="p0">P0</span></td><td>处置「能勾但不生效」的操作权限开关</td><td>权限与审计</td><td>比没有更糟：会让管理员误以为已经管住，实际谁都能建单 / 删除</td><td><span class="tag t-no">待你拍板</span>（见第七章）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>补字段级权限「只读」维度</td><td>权限与审计</td><td>「看得见但不该改」目前完全空白，例如库管能看到也能改物料采购价</td><td><span class="tag t-no">待你拍板</span>（见第七章）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>消除前端接口的「静默失败」（异常被吞掉）</td><td>全系统</td><td>本地状态与数据库真值可能永久分歧且用户零感知，是最危险的架构隐患</td><td><span class="tag t-no">未落地</span>（改动面大，需专项）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>账号创建 / 改密 / 重置密码补审计留痕</td><td>权限与审计</td><td>发生安全事件时无法追溯「谁建了哪个公司、谁重置了谁的密码」</td><td><span class="tag t-no">未落地</span>（改动小，可下轮做）</td></tr>
+    <tr><td><span class="p1">P1</span></td><td>补应收账龄分析</td><td>销售与应收</td><td>直接影响「该催谁的钱」，自历史版本起列为待办未收口</td><td><span class="tag t-no">未落地</span>（纯查询，改动可控）</td></tr>
+    <tr><td><span class="p1">P1</span></td><td>预算占用接进付款闸门</td><td>预算与费用</td><td>闸门已在拦三单匹配，预算这一道是缺的——钱付出去才知道超预算</td><td><span class="tag t-no">待拍板</span>（硬拦还是提醒）</td></tr>
+    <tr><td><span class="p1">P1</span></td><td>回调（事件订阅）补鉴权与重试</td><td>集成与开放</td><td>外部系统只能不停轮询，集成效率低且易丢事件</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p1">P1</span></td><td>凭证分录与单据子表写入补事务</td><td>财务</td><td>中途失败会留下「有头无明细」的脏数据，且接口已返回成功</td><td><span class="tag t-no">未落地</span>（部分域已用批量事务）</td></tr>
+    <tr><td><span class="p2">P2</span></td><td>对话式取数（只读）</td><td>报表与分析</td><td>三家都有，本系统缺的只是自然语言转查询这一层；限定只读风险极低</td><td><span class="tag t-no">未落地</span>（建议下轮首选）</td></tr>
+    <tr><td><span class="p2">P2</span></td><td>智能体只读工具调用</td><td>智能与自动化</td><td>从「会说」到「会做」的第一步，只读天然安全</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p2">P2</span></td><td>凭证模板与常用凭证</td><td>财务</td><td>重复分录靠手工，效率低</td><td><span class="tag t-no">未落地</span>（小改动）</td></tr>
+    <tr><td><span class="p2">P2</span></td><td>运维健康度面板</td><td>实施与运维</td><td>数据现成只差展示，对自运维价值高</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p2">P2</span></td><td>移动端离线只读缓存</td><td>移动端</td><td>仓库车间信号差，断网即不可用</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p2">P2</span></td><td>资产盘点（复用移动端扫码）</td><td>资产</td><td>扫码能力现成，成本低</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p2">P2</span></td><td>前端补单元测试（先覆盖金额与状态机）</td><td>全系统</td><td>重构无回归保护；但存量代码量大，需择要害先补</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p3">P3</span></td><td>界面多语言与多时区</td><td>多组织</td><td>取决于是否面向海外客户，属方向选择</td><td><span class="tag t-no">未落地</span></td></tr>
+    <tr><td><span class="p3">P3</span></td><td>标准成本与差异分析</td><td>库存与成本</td><td>需先定成本口径</td><td><span class="tag t-no">待拍板</span></td></tr>
+    <tr><td><span class="p3">P3</span></td><td>寻源招投标与采购合同全流程</td><td>采购</td><td>功能面补齐，非当前痛点</td><td><span class="tag t-no">未落地</span></td></tr>
+  </tbody>
+</table>
+
+<!-- ============ 六、本轮已落地 ============ -->
+<h2 id="c6">六、本轮已落地项与验证数据</h2>
+
+<div class="good">
+  <strong>本轮落地原则：</strong>只做「修补」不做「方向选择」——安全漏洞、数据正确性缺陷、服务端强制缺失这三类直接动手；凡涉及业务口径、存量数据、新增表结构的一律留到你拍板。
+</div>
+
+<h3>6.1 改了什么</h3>
+<table>
+  <thead><tr><th style="width:30%">文件</th><th>改动内容</th></tr></thead>
+  <tbody>
+    <tr><td><code>functions/api/inbound-orders/index.ts</code></td><td>接入必填守卫：缺「入库单号」直接 400 并点名字段</td></tr>
+    <tr><td><code>functions/api/outbound-orders/index.ts</code></td><td>接入必填守卫：缺「出库单号」直接 400 并点名字段</td></tr>
+    <tr><td><code>functions/api/subcontracts/index.ts</code></td><td>接入必填守卫（委外订单号）；另把「类型」按前端表单初值兜底，修掉该列不允许为空却无默认值导致的系统错误</td></tr>
+    <tr><td><code>functions/api/serial-numbers/index.ts</code></td><td>接入必填守卫（序列号）；另要求必须归属到具体物料，不再允许建出无归属的序列号</td></tr>
+    <tr><td><code>functions/api/work-orders/picking/index.ts</code></td><td>要求工单、物料、数量三样齐全且数量大于 0，修掉「空着也能建单」导致的占位卡死</td></tr>
+    <tr><td><code>scripts/prod-e2e/suites/31-write-payload-guard.mjs</code></td><td>新增生产端到端套件（26 条断言）</td></tr>
+    <tr><td>版本号五处</td><td>源码版本文件、依赖清单、主计划、项目记忆、使用手册版本词条，同步至 V3.22.0</td></tr>
+  </tbody>
+</table>
+
+<div class="warn">
+  <strong>刻意没做的事（避免越界）：</strong>没有新增任何数据库表、没有改任何已有数据、没有修改任何业务规则的计算口径。加的必填只影响「本来就会失败」的请求——过去是「系统错误」，现在是「请填写某某」，结果都是没建成，只是提示变清楚了。
+</div>
+
+<h3>6.2 验证数据（全部为生产真实往返，非本地推演）</h3>
+<table>
+  <thead><tr><th style="width:26%">验证项</th><th style="width:17%">结果</th><th>证据</th></tr></thead>
+  <tbody>
+    <tr><td>修复前复现</td><td>8 处系统错误</td><td>五个端点提交空内容，全部返回「请求处理失败，请稍后重试」</td></tr>
+    <tr><td>修复后同脚本复跑</td><td><span class="tag t-ok">8 / 8 转 400</span></td><td>全部返回点名字段的中文原因，且<strong>零数据写入</strong>（都拦在创建之前）</td></tr>
+    <tr><td>正常路径防误伤</td><td><span class="tag t-ok">5 / 5 正常建成</span></td><td>五个端点用完整入参，返回 200 / 201；五条测试数据全部删除干净</td></tr>
+    <tr><td>新增套件 31</td><td><span class="tag t-ok">26 断言全绿</span></td><td>含空载荷 400、原因点名、错误码可机读、缺物料被拦、数量 0 被拦、不传类型不再报错、<strong>完整入参仍可创建</strong></td></tr>
+    <tr><td>回归（生产域）</td><td><span class="tag t-ok">59 断言全绿</span></td><td>套件 23</td></tr>
+    <tr><td>回归（完工倒冲）</td><td><span class="tag t-ok">56 断言全绿</span></td><td>套件 28</td></tr>
+    <tr><td>回归（搜索关键词）</td><td><span class="tag t-ok">77 断言全绿</span></td><td>套件 29</td></tr>
+    <tr><td>回归（字段级权限）</td><td><span class="tag t-ok">68 断言全绿</span></td><td>套件 30</td></tr>
+    <tr><td>六项门禁</td><td><span class="tag t-ok">全部通过</span></td><td>后端类型检查新增 0 条；语法与引用链 0 错</td></tr>
+    <tr><td>构建与部署</td><td><span class="tag t-ok">成功</span></td><td>类型检查 0 错、构建 39 秒完成、已部署至 ssa-erp.pages.dev 并复验端点行为生效</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>为什么要把「完整入参仍可创建」写成断言：</strong>只断言「不再报系统错误」会放过一种假修复——为了不报错，干脆把所有请求都拦掉。那样套件照样全绿，但业务已经不能用了。<strong>空跑出来的绿色比红字更危险</strong>，所以套件里明确要求「正常填单必须照样成功」，并规定拿不到可清理的记录编号就判失败（否则测试数据会残留在生产库）。
+</div>
+
+<!-- ============ 七、待决策 ============ -->
+<h2 id="c7">七、待你拍板的事项</h2>
+
+<div class="warn">
+  <strong>为什么这些不能替你决定：</strong>以下三项都涉及「业务上应该由谁对什么数据做什么」的口径选择。这个口径与你们的实际分工强相关，我给的是建议和代价对比，但不能替你选——选错会让一线干不了活，而这种错误的代价通常比「先不做」更高。
+</div>
+
+<h3>决策 1 · 字段级权限的「只读」清单认不认</h3>
+<p><strong>背景：</strong>「可见 / 不可见」已在上一版落地，「只读」这一维目前完全空白——<strong>看得见但不该改的字段没有任何管控</strong>。例如库管能看到物料采购价，也能改。</p>
+<p><strong>建议清单（按「业务口径应该由谁维护」推出）：</strong></p>
+<table>
+  <thead><tr><th style="width:14%">模块</th><th style="width:18%">字段</th><th style="width:28%">建议只读的角色</th><th>理由</th></tr></thead>
+  <tbody>
+    <tr><td>物料</td><td>采购价</td><td>库管、质检、班长、物流</td><td>进价是采购谈下来的结果 <span class="tag t-w">真缺口</span></td></tr>
+    <tr><td>物料</td><td>当前库存</td><td>全部业务角色（含采购员）</td><td>库存只能由单据变动，手改会让账实不符且找不到是哪张单造成的 <span class="tag t-g">风险最高</span></td></tr>
+    <tr><td>其余（标准价、移动均价、授信额度、凭证金额等）</td><td>—</td><td>—</td><td>已被「不可见」覆盖，再配只读只是把规则写完整，不改变行为</td></tr>
+  </tbody>
+</table>
+<p><strong>我的建议：</strong>至少把「当前库存」这一行纳入。库存数字能被手工改写，账实就不一致。本维度的默认方向是「未登记 = 允许改」，所以<strong>不主动勾就不改变任何现有行为</strong>，风险可以压到最低。</p>
+<p><strong>三条路径：</strong>① 只做只读（推荐，风险低、收益占大头）｜② 只读 + 必填窄做（需逐字段核口径，中风险）｜③ 全做含创建必填（不建议，几乎必然出现「该拦的没拦、不该拦的拦了」）。</p>
+
+<h3>决策 2 · 「能勾但不生效」的操作权限开关怎么处置</h3>
+<p><strong>背景：</strong>系统里有一个模块级操作权限矩阵（谁能建单、谁能删除、谁能审批），界面上可以勾选，但<strong>全项目零调用点</strong>——勾的每一个权限都不会被执行。</p>
+<table>
+  <thead><tr><th style="width:22%">选项</th><th style="width:44%">做法与代价</th><th>适合什么情况</th></tr></thead>
+  <tbody>
+    <tr><td><strong>① 标注为「未启用」</strong><br><span style="font-size:12px;color:#767e8d">我的建议</span></td><td>界面上明确标成未启用（或直接隐藏），等有明确需求再接。改动小</td><td>诚实优先，先消除误导</td></tr>
+    <tr><td><strong>② 真正接上</strong></td><td>把模块级权限接进各写入接口的判定（建单 / 删除 / 审批）。改动中到大，且要定「哪个角色能建哪种单」的口径</td><td>当你确实需要限制某些角色建单 / 删除时</td></tr>
+    <tr><td>③ 暂时不动</td><td>留在待办里，但请知道这个开关现在不生效</td><td>近期无管控需求</td></tr>
+  </tbody>
+</table>
+<p class="note">注意：选项 ② 要拍的口径，和决策 1 的「只读」是同一类问题（哪个角色能对这个数据做什么）。<strong>如果打算接，建议和只读一起做，一次把口径定齐</strong>，避免分两次打扰业务部门。</p>
+
+<h3>决策 3 · 「必填」要不要做</h3>
+<p><strong>建议：暂不做。</strong>理由是必填最危险的地方在于——它会把「历史数据缺失」变成「这张单永远存不了」。例如某张历史工单的仓库字段是空的，某天你给「仓库」配了必填，这张单从此一动就报错，而且改的是别的字段也会被一起拦下。</p>
+<p>相比之下，「只读」出事最多是「某个字段改不了，去找管理员放开」；「必填」出事是「这张单一动就报错」，排查更绕。目前各接口已有针对性的必填校验，基本够用。</p>
+<p><strong>如果确实要做：</strong>建议只做「更新时不可清空」（不做创建时必填的通用化），只挑几个天然不该空的字段（已过账凭证的金额、已有库存的物料编码、已完工工单的完工数量），且只对新单据生效、历史单据不受影响。</p>
+
+<div class="good">
+  <strong>你只需要回一句：</strong>「决策 1 选__、决策 2 选__、决策 3 选__」即可开工，不需要再解释细节。例如「1 只做库存那行、2 标注未启用、3 暂不做」。
+</div>
+
+<!-- ============ 八、未落地 ============ -->
+<h2 id="c8">八、本轮未落地项与原因（不含糊带过）</h2>
+
+<table>
+  <thead><tr><th style="width:28%">事项</th><th style="width:14%">级别</th><th>未落地的原因</th></tr></thead>
+  <tbody>
+    <tr><td>字段级权限「只读 / 必填」两个维度</td><td><span class="p0">P0</span></td><td><strong>属业务口径决策</strong>，你此前明确要求「只出建议、我来决策」。已出决策建议书（单独文件），见第七章</td></tr>
+    <tr><td>操作权限开关的处置</td><td><span class="p0">P0</span></td><td>两条路（标注未启用 / 真正接上）代价差别大且涉及角色口径，需你选</td></tr>
+    <tr><td>消除前端接口「静默失败」</td><td><span class="p0">P0</span></td><td><strong>改动面大</strong>：涉及约 54 处异常被吞掉的调用点与多个数据仓库的写入路径，需专项推进，不宜在本轮顺带改（顺带改容易引入回归且验证不完整）</td></tr>
+    <tr><td>账号与密码生命周期补审计留痕</td><td><span class="p0">P0</span></td><td>改动本身很小，但涉及认证路径，需配套回归验证；本轮时间已用于端点缺陷修复</td></tr>
+    <tr><td>应收账龄、汇兑损益</td><td><span class="p1">P1</span></td><td>应收账龄可下轮直接做；汇兑损益需先定外币评估口径（<strong>业务口径</strong>）</td></tr>
+    <tr><td>预算占用接进付款闸门</td><td><span class="p1">P1</span></td><td>「超预算是硬拦还是提醒」需你拍板（硬拦会挡住紧急付款，提醒等于没管控）</td></tr>
+    <tr><td>回调鉴权与重试</td><td><span class="p1">P1</span></td><td>历史遗留待办，改动面中等</td></tr>
+    <tr><td>凭证分录与子表写入补事务</td><td><span class="p1">P1</span></td><td>部分域已用批量事务；凭证侧仍未收口，需逐个写入点核对</td></tr>
+    <tr><td>对话式取数、智能体工具调用</td><td><span class="p2">P2</span></td><td>属能力建设而非缺陷修补，且需先定「智能体能做什么」的边界</td></tr>
+    <tr><td>多语言与多时区</td><td><span class="p3">P3</span></td><td>取决于是否面向海外客户，<strong>属方向选择</strong></td></tr>
+    <tr><td>数电票真实核验</td><td>—</td><td><strong>外部依赖</strong>：代码已就位（多服务商路由 + 结构化校验），需企业税号与服务商密钥才能启用真实通道，目前默认模拟兜底</td></tr>
+  </tbody>
+</table>
+
+<!-- ============ 九、下一步 ============ -->
+<h2 id="c9">九、下一步建议</h2>
+
+<div class="card">
+  <h4>立刻可以做（不依赖你拍板）</h4>
+  <ol>
+    <li><strong>补应收账龄</strong>——纯查询与展示，无业务语义变更，改动可控，且直接回答「该催谁的钱」。</li>
+    <li><strong>账号与密码生命周期补审计留痕</strong>——改动很小，却是「发生安全事件时能不能追溯」的关键。</li>
+    <li><strong>补凭证模板与常用凭证</strong>——重复分录靠手工，是财务侧最高频的低效点。</li>
+    <li><strong>对话式取数（只读）</strong>——本系统最有把握超车的一域，大模型通道与表结构都现成，限定只读风险极低。</li>
+  </ol>
+
+  <h4>建议你先拍板的（否则会卡住）</h4>
+  <ol>
+    <li>第七章三项决策——其中<strong>「只读」与「操作权限开关」建议一起拍</strong>，因为口径同类。</li>
+    <li>预算超支是硬拦还是提醒——决定预算能否接进付款闸门。</li>
+  </ol>
+
+  <h4>需要外部条件的</h4>
+  <ol>
+    <li>数电票真实核验——需企业税号与服务商密钥。</li>
+    <li>多语言——需先确认是否面向海外客户。</li>
+  </ol>
+</div>
+
+<div class="note">
+  <strong>最后一句实话：</strong>和三家比，这套系统最大的资产不是功能数量，而是<strong>「改一处能立刻验证」的能力</strong>——六项门禁、286 条生产断言、一键部署。三家能做到这个迭代速度的也不多。差距主要在深度与智能化，而这些可以按上面的顺序一块块补；真正补不回来的，是「改了不知道有没有改坏」这件事——这方面你已经比很多团队强。
+</div>
+
+<footer>
+  SSA ERP 对标评测报告 · 基于 V3.22.0 基线（2026-09-23）<br>
+  本文件为单一权威版本，后续更新直接覆盖本文件，不产生带版本后缀的副本<br>
+  所有规模数字为 2026-09-23 当场实测；竞品版本号与信息日期已在第二章逐条注明
+</footer>
+
 </div>
 </body>
 </html>
