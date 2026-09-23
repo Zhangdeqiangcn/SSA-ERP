@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Box, Typography, Paper, Grid, Button, TextField, Dialog, DialogTitle,
   DialogContent, DialogActions, IconButton, Table, TableContainer, TableHead,
@@ -17,10 +17,13 @@ import {
 
 const UnitConversionTab: React.FC = () => {
   const rules = useUnitConversionStore((s) => s.rules);
+  const loadRules = useUnitConversionStore((s) => s.loadRules);
   const addRule = useUnitConversionStore((s) => s.addRule);
   const updateRule = useUnitConversionStore((s) => s.updateRule);
   const removeRule = useUnitConversionStore((s) => s.removeRule);
-  const resetRules = useUnitConversionStore((s) => s.resetRules);
+
+  // V3.17.9 差距15 收口：规则主源在 D1，进入页面时拉一次
+  useEffect(() => { void loadRules(); }, [loadRules]);
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<UnitRule | null>(null);
@@ -54,7 +57,7 @@ const UnitConversionTab: React.FC = () => {
     setDialogOpen(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const f = Number(form.factor);
     if (!form.fromUnit || !form.toUnit || !(f > 0)) {
       setSnackbar({ open: true, msg: '请填写完整且因子大于 0' });
@@ -64,23 +67,31 @@ const UnitConversionTab: React.FC = () => {
       setSnackbar({ open: true, msg: '源单位与目标单位不能相同' });
       return;
     }
-    if (editing) {
-      updateRule(editing.id, { fromUnit: form.fromUnit, toUnit: form.toUnit, factor: f });
-    } else {
-      addRule({ fromUnit: form.fromUnit, toUnit: form.toUnit, factor: f });
+    // V3.17.9：规则现在写服务端（D1 unit_conversions），必须等结果再提示 ——
+    // 否则「保存成功」会在服务端拒绝（例如单位组合重复）时变成假消息。
+    const ok = editing
+      ? await updateRule(editing.id, { fromUnit: form.fromUnit, toUnit: form.toUnit, factor: f })
+      : await addRule({ fromUnit: form.fromUnit, toUnit: form.toUnit, factor: f });
+    if (!ok) {
+      setSnackbar({ open: true, msg: useUnitConversionStore.getState().lastError || '保存失败' });
+      return;
     }
     setDialogOpen(false);
     setSnackbar({ open: true, msg: '换算规则已保存' });
   };
 
-  const handleDelete = (id: string) => {
-    removeRule(id);
-    setSnackbar({ open: true, msg: '已删除换算规则' });
+  const handleDelete = async (id: string) => {
+    const ok = await removeRule(id);
+    setSnackbar({
+      open: true,
+      msg: ok ? '已删除换算规则' : (useUnitConversionStore.getState().lastError || '删除失败'),
+    });
   };
 
-  const handleReset = () => {
-    resetRules();
-    setSnackbar({ open: true, msg: '已恢复默认换算规则' });
+  const handleReload = async () => {
+    await loadRules();
+    const err = useUnitConversionStore.getState().lastError;
+    setSnackbar({ open: true, msg: err ? `加载失败：${err}` : '已从服务端重新加载' });
   };
 
   const convResult = convertUnit(Number(convValue) || 0, convFrom, convTo, rules);
@@ -99,7 +110,7 @@ const UnitConversionTab: React.FC = () => {
             <Box sx={{ px: 2.5, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #EEF2F7' }}>
               <Typography variant="subtitle1" fontWeight={700}>换算规则</Typography>
               <Stack direction="row" spacing={1}>
-                <Button size="small" startIcon={<RestartAlt />} onClick={handleReset}>恢复默认</Button>
+                <Button size="small" startIcon={<RestartAlt />} onClick={handleReload}>重新加载</Button>
                 <Button size="small" variant="contained" startIcon={<Add />} onClick={openAdd}>新增规则</Button>
               </Stack>
             </Box>
