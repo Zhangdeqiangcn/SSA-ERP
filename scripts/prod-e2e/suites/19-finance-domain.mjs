@@ -61,6 +61,34 @@ export default async function run(ctx, s) {
   // ══════════════════════════════════════════════════════════════
   // 2. ★ 付款计划：installments 嵌套数组往返
   // ══════════════════════════════════════════════════════════════
+  // ★ V3.19.0 前置：付款闸门要求付款计划关联一张**真实存在**的采购订单。
+  //   本套件原先用编造的 `PO-E2E-xxx` 单号，闸门上线后会被 PO_NOT_FOUND 拦下 ——
+  //   那不是测试跑坏了，而是闸门确实在工作。
+  //   因此这里先建一张真实订单（含明细：100 件 × 100 元 = 不含税 10000 元；
+  //   闸门要求订单明细金额大于 0，光有主表金额不算）。
+  //   同时给计划带上 advanceAmount（分期里本就含 30% 预付款），
+  //   让闸门走「预付款允许无发票」这条正常业务路径，而不是被 NO_INVOICE 拦下。
+  const gatePoNo = `PO-FIN-${stamp}`;
+  const gatePo = await req('POST', '/api/purchase-orders', {
+    token,
+    body: {
+      orderNo: gatePoNo,
+      vendorId: 'vnd-e2e',
+      vendorName: 'E2E 验证供应商',
+      status: 'draft',
+      orderDate: '2026-09-01',
+      totalAmount: 10000,
+      items: [{
+        materialCode: 'M-FIN', materialName: 'E2E 财务域物料', unit: '件',
+        orderedQuantity: 100, unitPrice: 100, amount: 10000, amountWithTax: 11300,
+      }],
+    },
+  });
+  // 用 ctx.track 而非本套件的局部 cleanup 数组：
+  // 局部数组不会经过 harness 的清理通道（跑完只剩「尝试 0 项」），
+  // 测试数据会一直留在隔离组织里。track 才会被真正删掉。
+  if (gatePo.data?.id) ctx.track('purchase-order', gatePo.data.id);
+
   const planNo = `PP-E2E-${stamp}`;
   const installments = [
     { id: `ins-${stamp}-1`, seq: 1, type: 'advance', label: '预付款 30%', amount: 3000, dueDate: '2026-09-20', status: 'pending', note: '首期' },
@@ -72,9 +100,11 @@ export default async function run(ctx, s) {
     planNo,
     vendorName: 'E2E 验证供应商',
     vendorId: 'vnd-e2e',
-    purchaseOrderNo: `PO-E2E-${stamp}`,
+    purchaseOrderNo: gatePoNo,
     totalAmount: 10000,
     paidAmount: 0,
+    // 分期含 30% 预付款，闸门据此走「预付款允许无发票」路径（见 threeWayMatch.ts 第⑥步）
+    advanceAmount: 3000,
     status: 'draft',
     dueDate: '2026-11-20',
     paymentMethod: 'transfer',

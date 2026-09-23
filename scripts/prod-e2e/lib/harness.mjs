@@ -317,6 +317,20 @@ export async function createContext({ req, runId }) {
         // V3.17.9 补：审批实例套件需要建一张真实采购申请来验证「撤回→业务回退」，
         // 因此清理表必须认识这个类型，否则会被记为「未知类型」清理失败。
         'purchase-request': (id) => `/api/purchase-requests/${id}`,
+        // V3.19.0 补：付款闸门套件要造「订单 → 入库 → 发票 → 付款」完整链路，
+        // 少一个类型都会让测试数据残留在生产库里。
+        'purchase-order': (id) => `/api/purchase-orders/${id}`,
+        'inbound-order': (id) => `/api/inbound-orders/${id}`,
+        'fin-payment-plan': (id) => `/api/fin-payment-plans/${id}`,
+        // 走通用实体路由创建的行（发票等）
+        finInvoice: (id) => `/api/entities/finInvoice/${id}`,
+        finPaymentPlan: (id) => `/api/entities/finPaymentPlan/${id}`,
+        // V3.20.0 补：完工倒冲套件要造「物料 → BOM → 工单 → 完工 → 倒冲出库」完整链路。
+        // 少一个类型都会被记为「未知类型」而残留 —— 测试数据残留生产库是最不该犯的错。
+        material: (id) => `/api/materials/${id}`,
+        bom: (id) => `/api/bom/${id}`,
+        'work-order': (id) => `/api/work-orders/${id}`,
+        'outbound-order': (id) => `/api/outbound-orders/${id}`,
       };
 
       for (const item of [...tracked].reverse()) {

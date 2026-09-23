@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Button, Paper, Typography, Chip, Divider, Alert,
@@ -14,6 +14,7 @@ import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useFinanceStore } from '@/stores/financeStore';
+import { api } from '@/services/api';
 import { useVendorStore } from '@/stores/vendorStore';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
@@ -36,10 +37,15 @@ const statusToFlowNode: Record<string, string> = {
   cancelled: 'po_closed',
 };
 
+/** 这些判定代码表示「数据还不齐、暂时判不了」，界面上应显示「待处理」而不是「存在差异」。
+ *  区别很重要：把「还没录发票」显示成「存在差异」，会让业务人员去找一个不存在的问题。 */
+const PENDING_MATCH_CODES = ['NO_PO', 'PO_NOT_FOUND', 'PO_AMOUNT_INVALID', 'NO_INVOICE'];
+
 const OrderDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { invoices } = useFinanceStore();
+  const { inboundOrders } = useWarehouseStore();
   const { purchaseOrders, purchaseRequests, deletePurchaseOrder, changePurchaseOrder } = usePurchaseStore();
   const applyVendorCreditDelta = useVendorStore(s => s.applyVendorCreditDelta);
   const order = purchaseOrders.find(o => o.id === id);
@@ -52,6 +58,35 @@ const OrderDetail: React.FC = () => {
   const [changeDelivery, setChangeDelivery] = useState('');
   const [changeReason, setChangeReason] = useState('');
   const [itemEdits, setItemEdits] = useState<Record<string, { quantity: number; unitPrice: number }>>({});
+
+  // V3.19.0：三单匹配结论改由服务端给出。
+  // 本页原先自算一套（数量要求精确相等、金额用绝对容差 0.01 元），
+  // 与服务端付款闸门口径（1% 相对容差、统一按不含税金额）不同，
+  // 会出现「本页显示一致、付款却被拦」。同一个判定有两个答案，
+  // 最终结果是用户不再相信任何一个。
+  // 预检与真实闸门调用的是同一个判定函数，因此结论必然一致。
+  const [twmCheck, setTwmCheck] = useState<{ ok: boolean; code: string; message: string } | null>(null);
+  const twmPoNo = order?.orderNo;
+  useEffect(() => {
+    if (!twmPoNo) {
+      setTwmCheck(null);
+      return;
+    }
+    let alive = true;
+    api
+      .get<{ ok: boolean; code: string; message: string }>('/three-way-match/check', { poNo: twmPoNo })
+      .then((r) => {
+        if (alive) setTwmCheck(r);
+      })
+      .catch(() => {
+        // 拿不到结论时退回「待处理」，绝不默认显示「匹配一致」——
+        // 把未知当成通过，正是这类管控最容易出的错。
+        if (alive) setTwmCheck(null);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [twmPoNo]);
 
   if (!order) {
     return (
@@ -136,7 +171,6 @@ const OrderDetail: React.FC = () => {
   };
 
   // 三单匹配（采购订单 / 收货入库 / 发票）— 对标 SAP MM 三单匹配
-  const { inboundOrders } = useWarehouseStore();
   const relatedInbounds = inboundOrders.filter(o => o.sourceNo === order.orderNo);
   const receivedQty = relatedInbounds.reduce((s, o) => s + o.items.reduce((a, it) => a + (it.actualQuantity || 0), 0), 0);
   const relatedInvoices = invoices.filter(inv => inv.purchaseOrderNo === order.orderNo);
@@ -149,7 +183,7 @@ const OrderDetail: React.FC = () => {
   // 进项税对账：订单预估税额 vs 发票实际税额
   const taxMatch = relatedInvoices.length > 0 && Math.abs(invoiceTaxTotal - orderTaxTotal) < 0.01;
   const hasMatchData = relatedInbounds.length > 0 || relatedInvoices.length > 0;
-  const matchStatus: 'pending' | 'matched' | 'diff' = !hasMatchData ? 'pending' : (qtyMatch && amountMatch ? 'matched' : 'diff');
+  const matchStatus: 'pending' | 'matched' | 'diff' = !twmCheck ? 'pending' : twmCheck.ok ? 'matched' : (PENDING_MATCH_CODES.includes(twmCheck.code) ? 'pending' : 'diff');
   const MATCH_CONFIG = {
     pending: { label: '待处理', color: '#94A3B8' },
     matched: { label: '匹配一致', color: '#10B981' },
@@ -392,11 +426,9 @@ const OrderDetail: React.FC = () => {
                   </Box>
                 )}
                 <Alert severity={matchStatus === 'matched' ? 'success' : matchStatus === 'diff' ? 'warning' : 'info'} sx={{ mt: 1.5, py: 0 }}>
-                  {matchStatus === 'matched'
-                    ? '采购订单、收货数量与发票金额一致，可进入付款流程。'
-                    : matchStatus === 'diff'
-                      ? '存在数量或金额差异，请核对收货单与发票后再付款。'
-                      : '尚未关联收货单或发票，三单匹配待处理。'}
+                  // 直接展示服务端原话：后端已把「差多少、差在哪一维」写在消息里，
+                  // 前端再翻译一遍只会丢信息，而且又变成第二套口径。
+                  {twmCheck?.message ? twmCheck.message : '正在获取服务端三单匹配结论…'}
                 </Alert>
               </Paper>
             ),

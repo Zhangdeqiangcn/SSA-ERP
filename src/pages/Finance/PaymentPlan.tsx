@@ -25,8 +25,23 @@ const STATUS_CONFIG: Record<string, { label: string; color: 'default' | 'warning
   overdue: { label: '已逾期', color: 'error' },
 };
 
+/** 付款闸门拦截代码 → 业务语言。后端返回的是机器码，直接展示给业务人员看不懂。 */
+const GATE_CODE_LABELS: Record<string, string> = {
+  THREE_WAY_MATCH_NO_PO: '未关联采购订单',
+  THREE_WAY_MATCH_PO_NOT_FOUND: '采购订单不存在',
+  THREE_WAY_MATCH_PO_AMOUNT_INVALID: '采购订单金额无效',
+  THREE_WAY_MATCH_NO_INVOICE: '缺少有效发票',
+  THREE_WAY_MATCH_OVER_PO: '开票超过订单金额（可能超付）',
+  THREE_WAY_MATCH_INSUFFICIENT_INBOUND: '入库不足（货未到齐）',
+  THREE_WAY_MATCH_OVER_INVOICE: '付款金额超过发票金额',
+};
+
 export default function PaymentPlan() {
-  const { paymentPlans, financeStats, addPaymentPlan, generateVoucherFromPayment, payInstallment } = useFinanceStore();
+  const {
+    paymentPlans, financeStats, addPaymentPlan, generateVoucherFromPayment, payInstallment,
+    // V3.19.0 付款闸门：被三单匹配拦下的原因（服务端 422 返回）
+    paymentGateError, clearPaymentGateError,
+  } = useFinanceStore();
   const { vendors } = useVendorStore();
   const { exchangeRates } = useFinanceExtensionStore();
   const [search, setSearch] = useState('');
@@ -90,6 +105,33 @@ export default function PaymentPlan() {
         <Box flex={1} />
         <Button variant="contained" startIcon={<PaymentIcon />} size="small" onClick={() => setCreateOpen(true)}>申请付款</Button>
       </Box>
+
+      {/* V3.19.0 付款闸门：被服务端拦下时，必须把「为什么被拦、差多少」讲清楚。
+          此前 financeStore 的失败只写进 syncError，而财务域没有任何页面渲染 syncError，
+          结果是「数据默默回滚、界面毫无反应」—— 用户会以为按钮坏了，反复点击。 */}
+      {paymentGateError && (() => {
+        const d: any = paymentGateError.detail || {};
+        const n = (k: string) => Number(d[k] || 0).toLocaleString();
+        return (
+          <Alert severity="error" sx={{ mb: 2 }} onClose={() => clearPaymentGateError()}>
+            <Typography variant="subtitle2" fontWeight={700}>
+              付款已被拦截：{GATE_CODE_LABELS[paymentGateError.code] || '三单匹配未通过'}
+            </Typography>
+            <Typography variant="body2" sx={{ mt: 0.5 }}>{paymentGateError.message}</Typography>
+            {paymentGateError.detail && (
+              <Typography variant="caption" component="div" sx={{ mt: 0.5, opacity: 0.85 }}>
+                采购订单 ¥{n('poAmount')} · 已入库 ¥{n('inboundAmount')}
+                （到货率 {((Number(d.arrivalRate) || 0) * 100).toFixed(1)}%）
+                · 发票 ¥{n('invoiceAmount')} · 本次付款 ¥{n('payAmount')}
+                · 容差 {((Number(d.tolerance) || 0) * 100).toFixed(0)}%
+              </Typography>
+            )}
+            <Typography variant="caption" component="div" sx={{ mt: 0.5 }}>
+              这是服务端按三单匹配规则拒绝写入，不是系统故障。请先修正差异后再提交。
+            </Typography>
+          </Alert>
+        );
+      })()}
 
       {overdueCount > 0 && (
         <Alert severity="error" sx={{ mb: 2 }}>

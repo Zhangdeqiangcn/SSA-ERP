@@ -1,13 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Chip, Button, Stack, Alert, TextField, Card, CardContent
+TableHead, TableRow, Chip, Button, Stack, Alert, TextField, Card, CardContent, Tooltip
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useFinanceStore } from '@/stores/financeStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { calcTaxTotals } from '@/utils/tax';
+import { api } from '@/services/api';
 
 // 归一化：去除非字母数字，便于不同编码风格（PO-2024-0321 vs PO20240506001）匹配
 const norm = (s?: string) => (s || '').replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
@@ -33,6 +34,19 @@ interface MatchRow {
   amountMatched: boolean;
   fullyMatched: boolean;
 }
+/** 服务端三单匹配留档记录（GET /api/three-way-match 返回，camelCase） */
+interface ServerRecord {
+  id: string;
+  poNo: string;
+  invoiceNo?: string;
+  matchStatus: string;
+  poAmount: number;
+  inboundAmount: number;
+  invoiceAmount: number;
+  discrepancy?: string;
+  matchedBy?: string;
+  createdAt: string;
+}
 
 export default function ThreeWayMatch() {
   const invoices = useFinanceStore((s) => s.invoices);
@@ -41,6 +55,31 @@ export default function ThreeWayMatch() {
   const [nonce, setNonce] = useState(0);
   const [warnThreshold, setWarnThreshold] = useState(5);
   const [errorThreshold, setErrorThreshold] = useState(10);
+
+  // V3.19.0：服务端判定记录（付款闸门的实际依据）。
+  // 本页「差异」列是按界面本地数据算出的**参考值**，与服务端口径不同：
+  // 服务端统一按不含税金额、1% 相对容差判定。因此必须把服务端结论单独展示，
+  // 并写明「以谁为准」，否则会出现「本页看着一致、付款却被拦」。
+  const [serverRecords, setServerRecords] = useState<ServerRecord[]>([]);
+  const [serverTolerance, setServerTolerance] = useState(1);
+  useEffect(() => {
+    let alive = true;
+    api
+      .get<{ data: ServerRecord[]; tolerance: number }>('/three-way-match', { pageSize: 100 })
+      .then((r) => {
+        if (!alive) return;
+        setServerRecords(r?.data ?? []);
+        setServerTolerance(Math.round((Number(r?.tolerance) || 0.01) * 100));
+      })
+      .catch(() => {
+        // 拉不到记录不阻断页面，但也不虚构结论：面板会显示「暂无判定记录」
+        if (alive) setServerRecords([]);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [nonce]);
+
 
   const rows = useMemo<MatchRow[]>(() => {
     void nonce; // 手动刷新触发重算
@@ -190,6 +229,69 @@ export default function ThreeWayMatch() {
             </Typography>
           </Box>
         </Stack>
+      </Paper>
+
+      {/* V3.19.0 服务端判定记录：付款是否被放行，以这里为准。
+          本页差异列保留作为对照工具，但不再作为结论来源。 */}
+      <Paper sx={{ p: 2, mb: 2 }} data-testid="twm-server-records">
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+          <Typography variant="subtitle2" fontWeight={600}>
+            服务端判定记录（付款闸门依据）
+          </Typography>
+          <Box flex={1} />
+          <Typography variant="caption" color="text.secondary">
+            统一口径：不含税金额 · 相对容差 {serverTolerance}%
+          </Typography>
+        </Box>
+        <Alert severity="info" sx={{ mb: 1, py: 0 }}>
+          下方「差异」列是按界面数据算出的参考值，各维度口径与服务端可能不同。
+          <b>付款是否被放行，以服务端判定为准</b>：服务端在建立付款计划与执行付款时
+          都会重新判定一次，超差即拦截写入。
+        </Alert>
+        {serverRecords.length === 0 ? (
+          <Typography variant="body2" color="text.secondary">
+            暂无判定记录。发起付款或提交匹配判定后，这里会留下可追溯的结论。
+          </Typography>
+        ) : (
+          <TableContainer>
+            <Table size="small">
+              <TableHead>
+                <TableRow sx={{ bgcolor: 'grey.50' }}>
+                  <TableCell sx={{ fontWeight: 600 }}>判定时间</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>采购订单</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>发票号</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>订单金额</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>已入库</TableCell>
+                  <TableCell align="right" sx={{ fontWeight: 600 }}>发票金额</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>结论</TableCell>
+                  <TableCell sx={{ fontWeight: 600 }}>判定人</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {serverRecords.map((r) => (
+                  <TableRow key={r.id} hover>
+                    <TableCell>{(r.createdAt || '').replace('T', ' ').slice(0, 19)}</TableCell>
+                    <TableCell>{r.poNo}</TableCell>
+                    <TableCell>{r.invoiceNo || '-'}</TableCell>
+                    <TableCell align="right">{Number(r.poAmount || 0).toLocaleString()}</TableCell>
+                    <TableCell align="right">{Number(r.inboundAmount || 0).toLocaleString()}</TableCell>
+                    <TableCell align="right">{Number(r.invoiceAmount || 0).toLocaleString()}</TableCell>
+                    <TableCell>
+                      {r.matchStatus === 'matched' ? (
+                        <Chip label="放行" size="small" color="success" data-testid="twm-server-pass" />
+                      ) : (
+                        <Tooltip title={r.discrepancy || '存在差异'}>
+                          <Chip label="已拦截" size="small" color="error" data-testid="twm-server-block" />
+                        </Tooltip>
+                      )}
+                    </TableCell>
+                    <TableCell>{r.matchedBy || '-'}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
       </Paper>
 
       <Alert severity="info" sx={{ mb: 2 }} data-testid="twm-summary">
