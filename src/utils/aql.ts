@@ -114,6 +114,5 @@ export function computeAqlPlan(
   if (!Number.isFinite(lotSize) || lotSize < 2) return null;
   const code = getCodeLetter(lotSize, level);
   if (!code) return null;
-  const plan = resolvePlan(code, aql);
-  return { ...plan, code };
+  return resolvePlan(code, aql);
 }

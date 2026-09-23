@@ -5,7 +5,7 @@ import {
   Paper, Button, Chip, IconButton, Tooltip, Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, Slider,
 } from '@mui/material';
-import { Evaluate as EvaluateIcon } from '@mui/icons-material';
+import { Scale } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { formatCurrency } from '@/utils/format';
@@ -91,7 +91,7 @@ const PriceCompare: React.FC = () => {
         <Tooltip title="设置评分权重">
           <Button
             variant="outlined"
-            startIcon={<EvaluateIcon />}
+            startIcon={<Scale />}
             onClick={() => setOpenWeightDialog(true)}
           >
             评分权重
@@ -130,24 +130,24 @@ const PriceCompare: React.FC = () => {
                   <TableCell>{quote.validUntil}</TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box sx={{ width: 80 }}>
-                        <Slider size="small" value={quote.priceScore} readOnly />
+                      <Box sx={{ width: 80 }} title="已计算分数">
+                        <Slider size="small" value={quote.priceScore} disabled />
                       </Box>
                       <Typography variant="caption">{quote.priceScore}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box sx={{ width: 80 }}>
-                        <Slider size="small" value={quote.deliveryScore} readOnly />
+                      <Box sx={{ width: 80 }} title="已计算分数">
+                        <Slider size="small" value={quote.deliveryScore} disabled />
                       </Box>
                       <Typography variant="caption">{quote.deliveryScore}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Box sx={{ width: 80 }}>
-                        <Slider size="small" value={quote.qualityScore} readOnly />
+                      <Box sx={{ width: 80 }} title="已计算分数">
+                        <Slider size="small" value={quote.qualityScore} disabled />
                       </Box>
                       <Typography variant="caption">{quote.qualityScore}</Typography>
                     </Box>

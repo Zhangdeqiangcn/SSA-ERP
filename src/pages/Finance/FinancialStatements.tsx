@@ -4,12 +4,14 @@ import {
   Tabs, Tab, TextField, MenuItem, Button, Alert, Chip, Grid
 } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useSalesStore } from '@/stores/salesStore';
 import {
   buildBalanceSheet, buildIncomeStatement, buildCashFlowStatement,
   buildAPSubledger, buildARSubledger,
 } from '@/utils/financialStatements';
+import { exportToPDF } from '@/utils/pdfExport';
 
 const fmt = (n: number) =>
   (n < 0 ? '-' : '') + '¥' + Math.abs(n).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -76,8 +78,10 @@ export default function FinancialStatements() {
           {PERIODS.map((p) => <MenuItem key={p.value} value={p.value}>{p.label}</MenuItem>)}
         </TextField>
         <Button variant="outlined" startIcon={<PrintIcon />} size="small" onClick={() => window.print()}>打印</Button>
+        <Button variant="outlined" startIcon={<PictureAsPdfIcon />} size="small" onClick={() => exportToPDF('financial-statements-content', '财务报表')}>导出PDF</Button>
       </Box>
 
+      <div id="financial-statements-content">
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
         <Tab label="资产负债表" />
         <Tab label="利润表" />
@@ -219,6 +223,7 @@ export default function FinancialStatements() {
           </TableContainer>
         </Box>
       )}
+      </div>
     </Box>
   );
 }
