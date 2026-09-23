@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP · 字段级权限「只读 / 必填」维度决策建议书</title>
+<style>
+  :root{
+    --ink:#1a1d23; --ink-2:#4a5158; --ink-3:#737b85; --line:#e3e6ea; --line-2:#eef0f3;
+    --bg:#ffffff; --bg-2:#f7f8fa; --bg-3:#f2f4f7;
+    --accent:#1f5fa9; --accent-bg:#eef4fc;
+    --ok:#1f7a3d; --ok-bg:#edf7f0;
+    --warn:#8a5a00; --warn-bg:#fdf6e7;
+    --bad:#b3261e; --bad-bg:#fdeeed;
+    --purple:#6b3fa0; --purple-bg:#f4effa;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg-2); color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",-apple-system,sans-serif;
+    font-size:15px; line-height:1.75;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 22px 80px}
+  header{
+    background:linear-gradient(135deg,#1f5fa9,#2b7cc9); color:#fff;
+    border-radius:14px; padding:26px 28px; margin-bottom:22px;
+  }
+  header h1{margin:0 0 8px; font-size:23px; letter-spacing:.5px}
+  header .sub{opacity:.92; font-size:14px}
+  header .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  header .meta span{
+    background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.28);
+    border-radius:999px; padding:3px 11px; font-size:12.5px;
+  }
+  section{
+    background:var(--bg); border:1px solid var(--line); border-radius:12px;
+    padding:22px 24px; margin-bottom:18px;
+  }
+  h2{
+    font-size:18px; margin:0 0 14px; padding-bottom:10px;
+    border-bottom:1px solid var(--line-2); color:var(--accent);
+  }
+  h3{font-size:15.5px; margin:20px 0 8px; color:var(--ink)}
+  h3:first-of-type{margin-top:6px}
+  p{margin:9px 0}
+  ul,ol{margin:9px 0; padding-left:22px}
+  li{margin:5px 0}
+  b,strong{color:var(--ink)}
+  code{
+    background:var(--bg-3); border:1px solid var(--line);
+    border-radius:4px; padding:1px 5px; font-size:13px;
+    font-family:Consolas,"Courier New",monospace; color:#8b3a62;
+  }
+  table{
+    width:100%; border-collapse:collapse; margin:12px 0; font-size:14px;
+    background:var(--bg);
+  }
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+  th{background:var(--bg-3); font-weight:600; color:var(--ink-2); white-space:nowrap}
+  tbody tr:nth-child(even){background:#fafbfc}
+  .box{border-radius:9px; padding:13px 16px; margin:13px 0; border:1px solid; font-size:14.3px}
+  .box .t{font-weight:600; display:block; margin-bottom:5px}
+  .box.key{background:var(--accent-bg); border-color:#c5dcf5; color:#17456f}
+  .box.ok{background:var(--ok-bg); border-color:#c6e3d0; color:#155c2e}
+  .box.warn{background:var(--warn-bg); border-color:#f0dfae; color:#6b4600}
+  .box.bad{background:var(--bad-bg); border-color:#f2cdca; color:#8c1d17}
+  .box.purple{background:var(--purple-bg); border-color:#ded0ee; color:#4f2d79}
+  .box p{margin:5px 0}
+  .pill{
+    display:inline-block; border-radius:999px; padding:1px 9px;
+    font-size:12.5px; font-weight:600; white-space:nowrap;
+  }
+  .pill.a{background:#e8f2ff;color:#1a5ba8;border:1px solid #c3daf7}
+  .pill.b{background:#fff4e3;color:#8a5a00;border:1px solid #f0dcb4}
+  .pill.c{background:#fdeeed;color:#a4231c;border:1px solid #f2cdca}
+  .pill.yes{background:var(--ok-bg);color:var(--ok);border:1px solid #c6e3d0}
+  .pill.no{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cdca}
+  .num{
+    display:inline-flex;width:22px;height:22px;border-radius:50%;
+    background:var(--accent);color:#fff;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;margin-right:7px;flex:none;
+  }
+  .q{
+    background:var(--bg-2); border:1px solid var(--line); border-left:4px solid var(--accent);
+    border-radius:8px; padding:14px 16px; margin:11px 0;
+  }
+  .q .qh{font-weight:600; color:var(--accent); margin-bottom:7px}
+  .q .opt{margin:4px 0 4px 4px}
+  footer{text-align:center; color:var(--ink-3); font-size:13px; margin-top:26px}
+  .toc{display:flex;flex-wrap:wrap;gap:7px;margin:4px 0 0}
+  .toc a{
+    text-decoration:none;color:var(--accent);background:var(--accent-bg);
+    border:1px solid #cfe0f6;border-radius:999px;padding:3px 11px;font-size:13px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>字段级权限「只读 / 必填」维度 —— 决策建议书</h1>
+  <div class="sub">差距 19 第 ③ 步 · 只出方案，等你拍板后再动手</div>
+  <div class="meta">
+    <span>SSA ERP</span>
+    <span>V3.21.0 基线</span>
+    <span>2026-09-23</span>
+    <span>待决策：3 项</span>
+  </div>
+</header>
+
+<section>
+  <h2>零、先看结论（30 秒版）</h2>
+  <div class="box key">
+    <span class="t">我的建议：只做「只读」，暂不做「必填」；先把 <code>hasOperation</code> 这个骗人的开关处置掉。</span>
+    <p><b>理由一句话：</b>「可见/不可见」已在 V3.21.0 落地，而<b>「看得见但不该改」这块目前完全空白</b>——这是当前最大的真实缺口；「必填」则是最容易挡住真人干活的一类规则，而系统已有的逐字段校验基本够用，通用化收益低、误伤风险高。</p>
+  </div>
+  <div class="toc">
+    <a href="#why">一、为什么不能「顺便加上」</a>
+    <a href="#readonly">二、只读（建议做）</a>
+    <a href="#required">三、必填（建议暂缓）</a>
+    <a href="#paths">四、三条路径对比</a>
+    <a href="#hasop">五、骗人的开关</a>
+    <a href="#ask">六、需要你拍板</a>
+  </div>
+</section>
+
+<section id="why">
+  <h2>一、为什么不能「顺便加上」——三个维度的默认方向是相反的</h2>
+
+  <p>「可见 / 不可见」「只读」「必填」看起来是同一类东西（都是「这个角色对这个字段能干什么」），但它们的<b>出错方向完全不同</b>，因此不能用同一套开关、同一种默认值：</p>
+
+  <table>
+    <thead>
+      <tr><th>维度</th><th>它回答的问题</th><th>判断失误的后果</th><th>安全的默认值应该是</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>可见 / 不可见</b><br><span class="pill yes">已完成</span></td>
+        <td>这个角色<b>该不该知道</b>这个数字</td>
+        <td><b>泄密</b>——银行账号、授信额度被无权的人拿到</td>
+        <td><b>宁可多遮</b>（读不到配置就按最严来）</td>
+      </tr>
+      <tr>
+        <td><b>只读</b><br><span class="pill a">建议做</span></td>
+        <td>这个角色<b>该不该改</b>这个数字</td>
+        <td><b>挡住正常干活</b>——库管改不了自己该改的字段，会立刻来找你</td>
+        <td><b>一律放开</b>（没登记就允许改）</td>
+      </tr>
+      <tr>
+        <td><b>必填</b><br><span class="pill b">建议暂缓</span></td>
+        <td>这个字段<b>能不能空着</b></td>
+        <td><b>单据存不下去</b>——历史数据本来就缺这个字段时，那张单永远保存不了</td>
+        <td><b>一律放开</b>（没登记就允许空）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box warn">
+    <span class="t">★ 这是本方案最要紧的一条</span>
+    <p>V3.21.0 里「不可见」的实现是 <b>fail-safe（读不到配置就按最严遮）</b>——这个方向对「保密」是对的，但<b>如果照着抄给「只读」，一上线就会全员改不了字段</b>。三个维度的默认方向必须分别定，不能复用同一套「读不到配置怎么办」的逻辑。</p>
+  </div>
+
+  <h3>为什么现在才提这件事</h3>
+  <p>因为「只读」和「不可见」有重叠但不相等。已经被「不可见」覆盖的组合（例如库管看不到授信额度），再配「只读」是多余的——看不见自然改不了。所以<b>只读真正要解决的问题是这一种：字段看得见、但不该由这个角色改</b>。</p>
+  <p>举个系统里真实存在的例子：库管<b>能看到</b>物料的 <code>price</code>（采购价），也能<b>改</b>它。这个组合现在没有任何管控——这才是缺口。</p>
+</section>
+
+<section id="readonly">
+  <h2>二、「只读」建议怎么做</h2>
+
+  <h3>2.1 语义定义（先说清，避免后面扯皮）</h3>
+  <table>
+    <thead><tr><th>场景</th><th>字段可见？</th><th>允许提交修改？</th><th>拦截方式</th></tr></thead>
+    <tbody>
+      <tr><td>字段对该角色「只读」</td><td>是，正常显示值</td><td>否</td><td>值有变化 → 403，并说明是哪个字段</td></tr>
+      <tr><td>字段对该角色「不可见」</td><td>否（键不返回）</td><td>否</td><td>同 V3.21.0，先于只读判定</td></tr>
+      <tr><td>未登记</td><td>是</td><td>是（<b>默认放开</b>）</td><td>不拦</td></tr>
+    </tbody>
+  </table>
+  <p>判定顺序：<b>先看可见性（不可见直接拦），再看只读</b>。理由是不可见更严，且能给出更准确的原因（「这个字段你看不到」比「这个字段你是只读」更贴切）。</p>
+
+  <h3>2.2 判定沿用同一个「值确有变化」原则</h3>
+  <p>和 V3.21.0 一样：<b>字段出现了不算违规，值真的变了才算</b>。否则编辑页保存时回传整个对象，会把只读字段原值一起带上，正常改动会被误拦——一个「改动联系电话都被拦」的规则，下场一定是被要求关掉。</p>
+
+  <h3>2.3 需要你拍板的核心：只读清单</h3>
+  <p>下面是我按「业务口径应该由谁维护」推出来的一份<b>建议清单</b>。这类口径我不能替你定（涉及你们实际分工），但可以给一个可以直接改的起点：</p>
+
+  <table>
+    <thead>
+      <tr><th>模块</th><th>字段</th><th>建议只读的角色</th><th>理由（业务口径归属）</th><th>是否已被「不可见」覆盖</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>物料</td><td><code>price</code> 采购价</td><td>库管、质检、班长、物流</td><td>进价是采购谈下来的结果</td><td><span class="pill yes">未覆盖（真缺口）</span></td></tr>
+      <tr><td>物料</td><td><code>standardPrice</code> 标准价</td><td>库管、质检、班长、物流、供应商</td><td>成本口径由财务/采购维护</td><td>已不可见（配了也是冗余）</td></tr>
+      <tr><td>物料</td><td><code>movingAvgPrice</code> 移动平均价</td><td>同上</td><td>系统按出库自动算，本就不该手改</td><td>已不可见</td></tr>
+      <tr><td>物料</td><td><code>currentStock</code> 当前库存</td><td><b>全部业务角色</b>（含采购员）</td><td><b>库存只能通过单据变动，不能手改数字</b>——手改会让账实不符且无凭证</td><td><span class="pill yes">未覆盖（真缺口，且风险最高）</span></td></tr>
+      <tr><td>采购</td><td><code>unitPrice</code> 单价</td><td>库管、质检、班长、物流</td><td>单价属采购口径</td><td>已不可见</td></tr>
+      <tr><td>销售</td><td><code>unitPrice</code> / <code>orderAmount</code></td><td>库管、质检、班长、物流</td><td>报价属销售口径</td><td>已不可见</td></tr>
+      <tr><td>供应商 / 客户</td><td><code>creditLimit</code> 授信额度</td><td>库管、质检、班长、物流</td><td>授信属财务口径</td><td>已不可见</td></tr>
+      <tr><td>财务</td><td><code>voucherAmount</code> 凭证金额</td><td>工程、质检、库管、物流、采购、班长、供应商</td><td>凭证金额只有财务能改（且已过账的更不许改）</td><td>已不可见</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box ok">
+    <span class="t">这份清单里真正新增价值的只有两行</span>
+    <p><b>物料采购价</b>与<b>物料当前库存</b>。其余各行都已经被「不可见」覆盖了，配上只读只是把规则写得更完整（不影响行为）。</p>
+    <p>其中<b>「当前库存」这一行我特别建议纳入</b>：库存数字如果能被手工改写，账实就不一致、又找不到是哪张单造成的。系统里库存本该只由入库/出库/调整/倒冲这些单据驱动。</p>
+  </div>
+
+  <h3>2.4 改动面（如果你选「做」）</h3>
+  <table>
+    <thead><tr><th>要改的地方</th><th>具体内容</th><th>规模</th></tr></thead>
+    <tbody>
+      <tr><td>策略模块</td><td><code>functions/_shared/fieldAccess.ts</code> 加一个 <code>readOnly</code> 维度 + 独立的「读不到配置就放开」默认值</td><td>小（1 个文件）</td></tr>
+      <tr><td>服务端拦截</td><td>在已接入的写端点复用 <code>findForbiddenFieldWrites</code>，新增只读判定（403 + 新的错误码区分于「不可见」）</td><td>中（试点域 4 个端点）</td></tr>
+      <tr><td>配置界面</td><td>「设置 → 字段级权限」页面的每个字段从「一个开关」变「三选：可见 / 只读 / 可改」</td><td>中</td></tr>
+      <tr><td>配置持久化</td><td>策略对象结构扩展（向后兼容：旧配置没有只读项＝全放开）</td><td>小</td></tr>
+      <tr><td>测试</td><td>套件 30 扩充：只读字段「可见但改不动」+「未登记字段照常可改」+ 与不可见的判定顺序</td><td>中</td></tr>
+    </tbody>
+  </table>
+  <p><b>兼容性提示：</b>旧配置里没有只读信息，按「未登记＝可改」处理，所以<b>上线不会改变任何现有行为</b>，除非你主动去界面上勾。这一点很重要——可以把风险压到最低。</p>
+</section>
+
+<section id="required">
+  <h2>三、「必填」为什么建议暂缓</h2>
+
+  <h3>3.1 必填其实是两件事，风险差别很大</h3>
+  <table>
+    <thead><tr><th>类型</th><th>含义</th><th>现状</th><th>我的判断</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>创建时必填</b></td>
+        <td>建单时这个字段不能空</td>
+        <td>已有：逐端点上写了针对性校验（如物料编码与名称必填、必填参数缺失返回 400）</td>
+        <td><span class="pill no">不建议通用化</span> 各端点的必填项本来就不一样，做成一套通用开关反而要挨个去核对口径，收益低、漏改风险高</td>
+      </tr>
+      <tr>
+        <td><b>更新时不可清空</b></td>
+        <td>原来是 A，不允许改成空</td>
+        <td><b>没有</b>（这是新能力）</td>
+        <td><span class="pill b">窄做可以考虑</span> 只挑几个「天然不该空」的字段，不做成全员可配</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box bad">
+    <span class="t">必填最危险的地方：它会把「历史数据缺失」变成「单据永远存不了」</span>
+    <p>举个真实场景：某张历史工单的仓库字段是空的（当年建单时没这个要求）。某天你给「仓库」配了必填，这张单从此<b>再也保存不了</b>——而且改的是别的字段也会被一起拦下。这种情况在业务现场很常见。</p>
+    <p>相比之下「只读」出事最多是「某个字段改不了，去找管理员放开」；「必填」出事是「这张单一动就报错」，排查起来更绕。</p>
+  </div>
+
+  <h3>3.2 如果要做，建议这样收窄</h3>
+  <ul>
+    <li><b>只做「更新时不可清空」</b>，不做创建时必填的通用化；</li>
+    <li><b>只挑「不该空」的字段</b>，例如：已过账凭证的金额、已有库存的物料编码、已完工工单的完工数量；</li>
+    <li><b>灰度顺序</b>：先只在「可编辑的常规单据」上启用，历史单据与已锁定单据不受影响；</li>
+    <li><b>报错要能看懂</b>：直接说「凭证金额不能清空，因为该凭证已过账」，而不是一句「参数不合法」。</li>
+  </ul>
+</section>
+
+<section id="paths">
+  <h2>四、三条路径的代价对比</h2>
+
+  <table>
+    <thead>
+      <tr><th>路径</th><th>内容</th><th>改动面</th><th>主要风险</th><th>我的评价</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>A · 只做只读</b></td>
+        <td>加 <code>readOnly</code> 维度 + 服务端拦截 + 配置界面三选 + 套件扩充</td>
+        <td>后端 1 模块 / 试点域 4 端点 / 1 个配置页</td>
+        <td><b>低</b>：默认全放开，不主动勾就不改变任何现有行为</td>
+        <td><span class="pill yes">推荐</span></td>
+      </tr>
+      <tr>
+        <td><b>B · 只读 + 必填（窄做）</b></td>
+        <td>A + <code>required</code> 维度（仅「更新不可清空」）+ 逐字段口径确认</td>
+        <td>A + 各字段口径梳理</td>
+        <td><b>中</b>：口径定错会把历史单据卡死</td>
+        <td><span class="pill b">有需求再做</span></td>
+      </tr>
+      <tr>
+        <td><b>C · 全做（含创建必填）</b></td>
+        <td>B + 创建时必填通用化 + 全表单梳理</td>
+        <td>大：要过一遍全部表单与端点</td>
+        <td><b>高</b>：几乎必然出现「该填的没拦住、不该拦的拦住了」</td>
+        <td><span class="pill c">不建议</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box key">
+    <span class="t">为什么推荐 A 而不是「一次做完」</span>
+    <p>因为 <b>A 的收益已占这三个维度总收益的大部分</b>（它填的是完全空白的「可见但不可改」），而它的风险又是最低的（默认放开 + 不勾不生效）。<b>先把便宜又安全的那块拿到手，再按真实需求决定要不要往下走</b>，比一次铺开然后回头收拾误伤要划算。</p>
+  </div>
+</section>
+
+<section id="hasop">
+  <h2>五、顺带说一个「骗人的开关」：<code>hasOperation</code></h2>
+
+  <p>摸底时发现系统里有一个<b>模块级操作权限矩阵</b>（<code>hasOperation</code>），意思是「谁能建单、谁能删除、谁能审批」这类权限。它在配置界面上<b>可以勾选</b>，但——</p>
+
+  <div class="box bad">
+    <span class="t">全项目零调用点</span>
+    <p>这个函数只有定义、没有任何地方调用它。也就是说：<b>你在界面上勾的每一个权限，都不会被执行</b>。</p>
+  </div>
+
+  <p>这比「没有这个功能」更糟——没有它，你会去用别的方式管控；有了它，你会以为已经管住了。两个选项：</p>
+
+  <table>
+    <thead><tr><th>选项</th><th>做法</th><th>代价</th><th>适合什么情况</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>① 标注为「未启用」</b></td>
+        <td>界面上把这块明确标成未启用（或直接隐藏），等有明确需求再接</td>
+        <td>小（改界面文案/显隐）</td>
+        <td><span class="pill yes">我建议先这样做</span> 诚实优先，避免误以为有管控</td>
+      </tr>
+      <tr>
+        <td><b>② 真正接上</b></td>
+        <td>把模块级权限接进各端点的写操作判定（建单/删除/审批）</td>
+        <td>中～大（要过一遍写端点，且要定「哪个角色能建哪种单」的口径）</td>
+        <td>当你确实需要「限制某些角色建单/删除」时</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>注意选项 ② 要拍的口径，和「只读」是同一类问题（「哪个角色能对这个数据做什么」），所以<b>如果打算接，建议和只读一起做</b>，一次把口径定齐，避免分两次打扰业务部门。</p>
+</section>
+
+<section id="ask">
+  <h2>六、需要你拍板的三个问题</h2>
+
+  <div class="q">
+    <div class="qh"><span class="num">1</span>只读清单认可吗？（第二节 2.3 的表格）</div>
+    <div class="opt">· 直接认可 → 我按清单实施（试点物料域）</div>
+    <div class="opt">· 要增删 → 你圈一下哪些行去掉、哪些角色改掉，我按你的版本做</div>
+    <div class="opt">· 只想先做最高价值的两行（物料采购价 + 当前库存）→ 也可以，改动更小</div>
+  </div>
+
+  <div class="q">
+    <div class="qh"><span class="num">2</span><code>hasOperation</code> 怎么处置？</div>
+    <div class="opt">· 先标注「未启用」（我建议）→ 小改动，先把误导消掉</div>
+    <div class="opt">· 真正接上 → 需要你再定「哪些角色能建单/删除」的口径</div>
+    <div class="opt">· 暂时不动 → 我会在待办里留着，但请知道这个开关现在不生效</div>
+  </div>
+
+  <div class="q">
+    <div class="qh"><span class="num">3</span>「必填」要不要做？</div>
+    <div class="opt">· 暂不做（我建议）→ 保持现状，已有逐字段校验够用</div>
+    <div class="opt">· 做窄版（仅「更新不可清空」，只挑几个字段）→ 请指定字段</div>
+  </div>
+
+  <div class="box key">
+    <span class="t">你只需要回一句「1 选哪个、2 选哪个、3 选哪个」</span>
+    <p>比如「<b>1 只做两行、2 标注未启用、3 暂不做</b>」——我就能直接开工，不需要再问细节。如果清单里拿不准某一行，也可以只对这一行提问。</p>
+  </div>
+</section>
+
+<footer>
+  SSA ERP · 字段级权限「只读 / 必填」维度决策建议书 · 基于 V3.21.0 基线（2026-09-23）<br>
+  本文件为单一权威版本，后续变更直接覆盖本文件，不产生带版本后缀的副本。
+</footer>
+
+</div>
+</body>
+</html>
