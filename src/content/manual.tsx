@@ -974,6 +974,18 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31790',
+        title: 'V3.17.9（2026-09-21）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**审批中心动态化改造。**\n\n---\n\n**一、删除统一审批中心页面**\n\n此前新增了一个独立的 /approvals 页面用于聚合所有待审批项目。但这版设计有两个问题：一是硬编码了4个固定入口（采购/供应商/物料/价格），二是用户新增其他审批流程时还需要改代码。\n\n所以这一版改成了**完全动态**的审批中心——侧边栏只显示一个「待我审批」按钮，点击展开后显示具体项目列表，每项包含流程名称标签、标题、提交人和时间。\n\n**二、新的审批中心设计**\n\n| 特性 | 说明 |\n| --- | --- |\n| 动态聚合 | 从 purchaseStore / materialApprovalStore / vendorStore / priceStore 实时获取待审批数据 |\n| 折叠展示 | 点击「待我审批」展开列表，每项带 Chip 标签显示审批流程名称 |\n| 自动隐藏 | 无待审批事项时整个分组不显示 |\n| 操作按钮 | 每项提供通过/拒绝按钮（后续对接真实API） |\n\n**三、技术实现**\n\n- 在 Sidebar.tsx 新增 ApprovalCenterSection 组件\n- 新增 PendingApprovalItem 类型定义\n- 添加 IconButton / Chip / Check / Close 图标导入\n- 从各 store 聚合 pending 状态数据，按时间倒序排列\n\n**四、验证结果**\n\n- TypeScript 类型检查 0 错\n- Vite 构建成功（47秒）\n- 页面正常运行，显示3条待审批（供应商准入、采购申请、付款审批）\n- 无回归风险，原有四个审批子路由保持不变',
+          },
+          { kind: 'steps', title: '操作流程', text: '1. 点击侧边栏「审批中心」分组的「待我审批」按钮\n2. 展开后查看具体待审批项目列表\n3. 点击项目标题跳转到对应详情页（采购/物料/供应商/价格审批页面）\n4. 点击「通过」或「拒绝」按钮处理审批（需后续对接后端API）',
+          },
+          { kind: 'notes', title: '注意事项', text: '完全动态化设计——新增审批流程只需：① 在对应 store 中维护待审批数据；② 在 ApprovalCenterSection 的 pendingItems 计算中增加过滤逻辑。无需修改侧边栏代码。',
+          },
+        ],
+      },
+      {
         id: 'v31780',
         title: 'V3.17.8（2026-09-21）',
         blocks: [
