@@ -47,6 +47,9 @@ const steps = [
   { name: '② 前端调用 ↔ 后端路由', file: '_verify_routes.mjs', blocking: true },
   { name: '③ 生产端点存在性探针', file: '_probe_route_exist.mjs', blocking: strict },
   { name: '④ 后端端点全量真实巡检', file: '_sweep_api_live.mjs', blocking: true, liveOnly: true },
+  // V3.21.0 新增：两处「必须成对出现」的约定，靠人记一定会漏（坑㉛），故机器核对。
+  { name: '⑤ LIKE 转义一致性', file: 'check-search-escape.mjs', blocking: true },
+  { name: '⑥ 字段权限矩阵一致性', file: 'check-field-policy.mjs', blocking: true },
 ];
 
 const W = 26;
