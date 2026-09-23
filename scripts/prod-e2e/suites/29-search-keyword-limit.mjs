@@ -152,6 +152,108 @@ export default async function run(ctx, s) {
   const emptyKw = await G('/api/outbound-orders?keyword=&pageSize=5');
   s.expectStatus('空关键词等价于不筛选，返回 200', emptyKw, 200);
 
+  // ══════════════════════════════════════════════════════════════
+  // 5. ★ V3.21.0：LIKE 通配符转义（搜「100%」不再被当通配符）
+  //
+  //    修复前：`%`（任意长度）与 `_`（任意单字符）直接生效 ——
+  //      搜「100%」返回「以 100 开头的一切」；搜「_」几乎能匹配任何记录。
+  //    修法：进模式前转义 `%` `_` `\`，并在 SQL 里声明 `ESCAPE '\'`；
+  //      两者**必须成对**，且两种错法都很隐蔽：
+  //        · 只转义不声明 ESCAPE → 模式里的 `\%` 被理解成「字面反斜杠 + 通配符」，
+  //          搜索去找数据里根本不存在的反斜杠 → **连该搜到的也搜不到**，且不报错；
+  //        · 只声明不转义 → 通配符照旧生效（＝没修）。
+  //    故本节断言刻意成对设计，任一边写错必有红字：
+  //      「能搜到含 100% 的行」= 证明 ESCAPE 已声明且被识别
+  //      「搜不到含 100X 的行」= 证明 % 已转义、不再当通配符
+  // ══════════════════════════════════════════════════════════════
+  const wcStamp = Date.now();
+  const mkMat = async (suffix, name) => {
+    const code = `M-E2E-WC-${suffix}-${runId}`;
+    const r = await req('POST', '/api/materials', { token, body: { code, name, unit: '个' } });
+    if (r.data?.id) ctx.track('material', r.data.id);
+    return { res: r, code, id: r.data?.id };
+  };
+
+  const wcPct = await mkMat('PCT', `E2E WC ${wcStamp} 100%纯铜`);      // 含字面 %
+  const wcPctX = await mkMat('PCTX', `E2E WC ${wcStamp} 100X纯铜`);    // 用 X 代替 %（对照）
+  const wcUnd = await mkMat('UND', `E2E WC ${wcStamp} AB_CD料号`);     // 含字面 _
+  const wcUndX = await mkMat('UNDX', `E2E WC ${wcStamp} ABXCD料号`);   // 用 X 代替 _（对照）
+
+  for (const [label, w] of [
+    ['含字面 % 的物料', wcPct], ['用 X 代替 % 的对照物料', wcPctX],
+    ['含字面 _ 的物料', wcUnd], ['用 X 代替 _ 的对照物料', wcUndX],
+  ]) {
+    s.expectStatus(`前置：创建${label} → 201`, w.res, [200, 201],
+      w.res.status >= 300 ? JSON.stringify(w.res.data).slice(0, 200) : '');
+  }
+
+  const searchMat = async (kw) => {
+    const r = await G('/api/materials?keyword=' + encodeURIComponent(kw) + '&pageSize=50');
+    return { res: r, rows: r.data?.data || [] };
+  };
+
+  // 5.1 搜「100%」——成对断言
+  const q1 = await searchMat('100%');
+  s.expectStatus('★ 搜「100%」返回 200（不再 500 也不报错）', q1.res, 200,
+    q1.res.status !== 200 ? JSON.stringify(q1.res.data).slice(0, 200) : '');
+  s.expectTrue(
+    '★★ 搜「100%」能找到含字面 100% 的物料（证明 ESCAPE 已声明、转义符被正确识别）',
+    q1.rows.some((r2) => r2.code === wcPct.code),
+    `命中 code 列表=${JSON.stringify(q1.rows.map((r2) => r2.code))} 期望含 ${wcPct.code}`
+  );
+  s.expectTrue(
+    '★★ 搜「100%」找不到含 100X 的物料（证明 % 已转义、不再当通配符）',
+    !q1.rows.some((r2) => r2.code === wcPctX.code),
+    `命中 code 列表=${JSON.stringify(q1.rows.map((r2) => r2.code))} 不应含 ${wcPctX.code}`
+  );
+
+  // 5.2 搜「AB_CD」——`_` 是单字符通配符，修复前会误匹配 ABXCD
+  const q2 = await searchMat('AB_CD');
+  s.expectStatus('★ 搜「AB_CD」返回 200', q2.res, 200);
+  s.expectTrue(
+    '★★ 搜「AB_CD」能找到含字面下划线的物料',
+    q2.rows.some((r2) => r2.code === wcUnd.code),
+    `命中 code 列表=${JSON.stringify(q2.rows.map((r2) => r2.code))}`
+  );
+  s.expectTrue(
+    '★★ 搜「AB_CD」找不到 ABXCD（证明 _ 已转义、不再匹配任意单字符）',
+    !q2.rows.some((r2) => r2.code === wcUndX.code),
+    `命中 code 列表=${JSON.stringify(q2.rows.map((r2) => r2.code))} 不应含 ${wcUndX.code}`
+  );
+
+  // 5.3 单个 `%` 是最锋利的探针：修复前它匹配一切（等于没筛选）
+  const q3 = await searchMat('%');
+  s.expectStatus('★ 搜单个「%」返回 200', q3.res, 200);
+  s.expectTrue(
+    '★★ 搜单个「%」不会返回全部记录（修复前 % 匹配一切，等于筛选失效）',
+    !q3.rows.some((r2) => r2.code === wcPctX.code) && !q3.rows.some((r2) => r2.code === wcUndX.code),
+    `命中 code 列表=${JSON.stringify(q3.rows.map((r2) => r2.code))} ` +
+    `（不应含不含字面 % 的 ${wcPctX.code} / ${wcUndX.code}）`
+  );
+
+  // 5.4 普通搜索未退化：搜不含通配符的前缀，应同时命中两条对照行
+  const q4 = await searchMat('100');
+  s.expectStatus('★ 搜普通词「100」返回 200', q4.res, 200);
+  s.expectTrue(
+    '★ 普通搜索未退化：搜「100」同时命中 100% 与 100X 两条（转义不影响正常匹配）',
+    q4.rows.some((r2) => r2.code === wcPct.code) && q4.rows.some((r2) => r2.code === wcPctX.code),
+    `命中 code 列表=${JSON.stringify(q4.rows.map((r2) => r2.code))}`
+  );
+
+  // 5.5 ★ 转义会让模式变长（一个 % 变两个字符），必须确认长度收口仍在生效：
+  //      60 个 % 经截断 + 转义后仍不得超过 D1 的 50 字符模式上限。
+  const q5 = await searchMat('%'.repeat(60));
+  s.expectStatus('★★ 60 个「%」的关键词不 500（转义膨胀后的长度收口仍生效）', q5.res, 200,
+    q5.res.status !== 200
+      ? '若此处变红：转义把模式撑长后突破了 D1 上限，需检查 likePattern 的二次收口'
+        + JSON.stringify(q5.res.data).slice(0, 160)
+      : '');
+  s.expectTrue(
+    '★★ 60 个「%」搜不到任何记录（收口后它是一串字面 %，而数据里没有这种串）',
+    q5.rows.length === 0,
+    `返回 ${q5.rows.length} 条：${JSON.stringify(q5.rows.slice(0, 3).map((r2) => r2.code))}`
+  );
+
   // 收尾
   if (ob.data?.id) {
     const del = await req('DELETE', '/api/outbound-orders/' + ob.data.id, { token });
