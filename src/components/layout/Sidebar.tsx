@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Drawer, List, ListItem, ListItemButton, ListItemIcon,
   ListItemText, Collapse, Box, Tooltip, Divider, Typography, Badge,
-  useMediaQuery,
+  IconButton, Chip, useMediaQuery, Dialog, DialogTitle, DialogContent,
+  DialogActions, TextField, MenuItem, Button, Snackbar, Alert,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 import {
   Dashboard, Inventory2, People, Person, ShoppingCart, Warehouse, Settings,
-  ExpandLess, ExpandMore, Category, ListAlt, Rule,
+  ExpandLess, ExpandMore, AssignmentTurnedIn, Category, ListAlt, Rule,
   Block, Star, Approval, RequestQuote, LocalShipping, Assignment,
   MoveToInbox, CallReceived, Inventory, PlaylistAddCheck, FactCheck,
   ReportProblem, Autorenew, BarChart, ChecklistRtl, AccountTree,
@@ -20,14 +21,25 @@ import {
   SwapHoriz as SwapHorizIcon, Timeline as TimelineIcon, Savings,
   AccountBalanceWallet, Lock, Layers, ChangeCircle, Outbound, Speed,
   Build, Insights, ViewTimeline, Article, FilterAlt,
-  Chat, WarningAmber,
+  Chat, WarningAmber, AddCircle, Check, Close,
+  Undo, NotificationsActive, SwitchAccount,
 } from '@mui/icons-material';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useUIStore } from '@/stores/uiStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useTranslation } from '@/i18n/useTranslation';
 import { GROUP_LABEL_KEY } from '@/i18n/catalog';
+import { usePurchaseStore } from '@/stores/purchaseStore';
+import { useMaterialApprovalStore } from '@/stores/materialApprovalStore';
+import { useVendorStore } from '@/stores/vendorStore';
+import { usePriceStore } from '@/stores/priceStore';
+import {
+  useApprovalInstanceStore,
+  MODULE_BY_APPROVAL_TYPE,
+} from '@/stores/approvalInstanceStore';
+import { approvalModuleLabel } from '@/types/approval';
+import { authHeaders } from '@/utils/authHeaders';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -38,7 +50,6 @@ interface MenuItem {
   path?: string;
   children?: MenuItem[];
   badge?: number;
-  /** 仅管理员（super_admin / admin）可见，对应后端已收口的特权配置入口 */
   adminOnly?: boolean;
 }
 
@@ -52,16 +63,6 @@ const menuGroups: MenuGroup[] = [
     items: [
       { label: '仪表盘', icon: <Dashboard />, path: '/' },
       { label: '个人中心', icon: <Workspaces />, path: '/profile' },
-    ],
-  },
-  {
-    groupLabel: '审批中心',
-    items: [
-      { label: '物料审批', icon: <FactCheck />, path: '/material/approvals' },
-      { label: '供应商注册审批', icon: <Approval />, path: '/vendor/approvals' },
-      { label: '采购审批', icon: <Approval />, path: '/purchase/approvals' },
-      { label: '价格审批', icon: <Approval />, path: '/price/approvals' },
-      { label: '自定义审批流程', icon: <Rule />, path: '/settings' },
     ],
   },
   {
@@ -287,7 +288,622 @@ const menuGroups: MenuGroup[] = [
   },
 ];
 
-// ── 菜单自定义落地：读取设置页保存的「顺序 + 可见性」，应用到侧边栏 ──
+// ── 待审批项目类型定义 ────────────────────────────────────────────────
+interface PendingApprovalItem {
+  id: string;
+  flowName: string; // 审批流程名称
+  title: string;    // 标题/内容摘要
+  subtitle?: string; // 副标题
+  time: string;     // 提交时间
+  type: 'purchase' | 'material' | 'vendor' | 'price' | 'finance' | 'warehouse' | 'sales' | 'custom'; // 类型
+}
+
+// ── 动态审批中心 ────────────────────────────────────────────────────
+//
+// V3.17.9 修复差距 9/10/11 后，这里承担三件事，且都**有服务端权威**：
+//   ① 待我审批：业务 store 的待办 + 服务端审批实例（含「别人委托给我的」）；
+//   ② 我提交的：可撤回、可催办 —— 这两个动作以前完全没有，提交错了只能等审批人拒绝；
+//   ③ 委托管理：出差/请假时把审批权交给同事，委托期内由他代批。
+//
+// 设计取舍：待办列表仍以业务 store 为主源（各模块状态散落、短期不重构），
+// 只有「撤回/催办/委托」走服务端实例表 —— 这三件事本来就没有本地替代品。
+const ApprovalCenterSection: React.FC = () => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [submittedOpen, setSubmittedOpen] = useState(false);
+  const [toast, setToast] = useState<{ msg: string; sev: 'success' | 'error' | 'info' } | null>(null);
+
+  // 委托管理对话框
+  const [delegateOpen, setDelegateOpen] = useState(false);
+  const [delegateForm, setDelegateForm] = useState({
+    delegateId: '', delegateName: '', module: '', startDate: '', endDate: '', reason: '',
+  });
+  const [userOptions, setUserOptions] = useState<Array<{ id: string; name: string }>>([]);
+  const [saving, setSaving] = useState(false);
+
+  const { purchaseRequests } = usePurchaseStore();
+  const { materialApplications } = useMaterialApprovalStore();
+  const { vendors } = useVendorStore();
+  const { priceApprovals } = usePriceStore();
+  const currentUserId = useAuthStore((s) => s.currentUser?.id);
+  const {
+    pendingForMe, submittedByMe, delegatedToMe, delegators,
+    myDelegates, loadAll,
+    approve: approveInstance, reject: rejectInstance,
+    withdraw: withdrawInstance, urge: urgeInstance,
+    createDelegate, revokeDelegate,
+  } = useApprovalInstanceStore();
+
+  // 挂载时拉一次；登录态变化后由各页面触发 refresh（这里不轮询，避免无谓请求）
+  useEffect(() => {
+    void loadAll({ silent: true });
+    const timer = setInterval(() => void loadAll({ silent: true }), 5 * 60 * 1000);
+    return () => clearInterval(timer);
+  }, [loadAll]);
+
+  // 聚合所有待审批项目
+  const pendingItems = useMemo<PendingApprovalItem[]>(() => {
+    const items: PendingApprovalItem[] = [];
+
+    // 采购申请
+    if (Array.isArray(purchaseRequests)) {
+      purchaseRequests
+        .filter(r => ['pending', 'reviewing'].includes(r.status))
+        .forEach(r => items.push({
+          id: r.id,
+          flowName: '采购申请审批',
+          title: r.title || '采购申请',
+          subtitle: r.requestNo ? `单号：${r.requestNo}` : undefined,
+          time: r.createdAt || '',
+          type: 'purchase',
+        }));
+    }
+
+    // 物料申请
+    if (Array.isArray(materialApplications)) {
+      materialApplications
+        .filter(a => a.status === 'pending')
+        .forEach(a => items.push({
+          id: a.id,
+          flowName: '物料申请审批',
+          title: a.draft?.name || '新物料申请',
+          subtitle: `提交人：${a.applicant || '未知'}`,
+          time: a.createdAt || '',
+          type: 'material',
+        }));
+    }
+
+    // 供应商注册
+    if (Array.isArray(vendors)) {
+      vendors
+        .filter(v => v.status === 'pending')
+        .forEach(v => items.push({
+          id: v.id,
+          flowName: '供应商注册审批',
+          title: v.name || '新供应商申请',
+          subtitle: v.contact ? `联系人：${v.contact}` : undefined,
+          time: v.createdAt || '',
+          type: 'vendor',
+        }));
+    }
+
+    // 价格审批
+    if (Array.isArray(priceApprovals)) {
+      priceApprovals
+        .filter(a => a.status === 'pending' || a.status === 'reviewing')
+        .forEach(a => items.push({
+          id: a.id,
+          flowName: '价格变更审批',
+          title: a.title || a.approvalNo || '价格变更申请',
+          subtitle: `申请人：${a.applicant || '未知'}`,
+          time: a.applicationDate || a.createdAt || '',
+          type: 'price',
+        }));
+    }
+
+    // 按时间倒序排列
+    return items.sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime());
+  }, [purchaseRequests, materialApplications, vendors, priceApprovals]);
+
+  const totalCount = pendingItems.length;
+
+  // 我提交且仍在审批中的实例 —— 这些才能撤回/催办
+  const myInFlight = useMemo(
+    () => submittedByMe.filter((i) => i.status === 'pending'),
+    [submittedByMe],
+  );
+
+  // 走了委托落到我头上的实例（currentApprover ≠ 配置审批人）
+  const delegatedIds = useMemo(
+    () => new Set(delegatedToMe.map((i) => i.id)),
+    [delegatedToMe],
+  );
+
+  if (totalCount === 0 && myInFlight.length === 0 && myDelegates.length === 0) return null;
+
+  // 格式化时间
+  const formatTime = (timeStr: string) => {
+    if (!timeStr) return '';
+    try {
+      const date = new Date(timeStr);
+      const now = new Date();
+      const diff = now.getTime() - date.getTime();
+      const minutes = Math.floor(diff / 60000);
+      if (minutes < 1) return '刚刚';
+      if (minutes < 60) return `${minutes}分钟前`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours}小时前`;
+      const days = Math.floor(hours / 24);
+      if (days < 7) return `${days}天前`;
+      return date.toLocaleDateString('zh-CN');
+    } catch {
+      return '';
+    }
+  };
+
+  /** 找到某个业务待办对应的服务端审批实例（有实例才谈得上服务端审批） */
+  const findInstance = (item: PendingApprovalItem) => {
+    const module = MODULE_BY_APPROVAL_TYPE[item.type];
+    if (!module) return undefined;
+    return [...pendingForMe, ...delegatedToMe].find(
+      (i) => i.module === module && i.entityId === item.id,
+    );
+  };
+
+  /**
+   * 处理审批操作。
+   *
+   * 为什么不再是一句 console.log：原实现是两个 TODO 占位，按钮点下去**什么都不发生**、
+   * 也不报错 —— 这类「看起来能用其实没用」的界面比缺少功能更危险（用户以为批了，
+   * 单子其实还挂着）。现在的语义是：
+   *   · 该单据在服务端有审批实例 → 真正调用实例的 approve/reject；
+   *   · 没有实例（该模块审批仍在前端 store）→ 明确告知「请到对应页处理」并跳转，
+   *     不假装成功。
+   */
+  const handleApprove = async (item: PendingApprovalItem) => {
+    const inst = findInstance(item);
+    if (!inst) {
+      setToast({ msg: `「${item.title}」的审批在 ${item.flowName} 页面处理`, sev: 'info' });
+      handleViewDetail(item);
+      return;
+    }
+    const r = await approveInstance(inst.id, { version: inst.version });
+    setToast(r.ok
+      ? { msg: `已同意：${item.title}`, sev: 'success' }
+      : { msg: r.error || '审批失败', sev: 'error' });
+  };
+
+  const handleReject = async (item: PendingApprovalItem) => {
+    const inst = findInstance(item);
+    if (!inst) {
+      setToast({ msg: `「${item.title}」的审批在 ${item.flowName} 页面处理`, sev: 'info' });
+      handleViewDetail(item);
+      return;
+    }
+    const r = await rejectInstance(inst.id, '侧边栏快捷驳回', inst.version);
+    setToast(r.ok
+      ? { msg: `已驳回：${item.title}`, sev: 'success' }
+      : { msg: r.error || '驳回失败', sev: 'error' });
+  };
+
+  /** 撤回：把单据收回来（服务端会同时把业务单据退回草稿） */
+  const handleWithdraw = async (instanceId: string, title: string) => {
+    const r = await withdrawInstance(instanceId, '提交后有误，撤回修改');
+    setToast(r.ok
+      ? { msg: `已撤回：${title}`, sev: 'success' }
+      : { msg: r.error || '撤回失败', sev: 'error' });
+  };
+
+  /** 催办：提醒当前审批人（服务端限流，30 分钟内只能催一次） */
+  const handleUrge = async (instanceId: string, title: string) => {
+    const r = await urgeInstance(instanceId, '请尽快处理，谢谢');
+    setToast(r.ok
+      ? { msg: `已催办：${title}`, sev: 'success' }
+      : { msg: r.error || '催办失败', sev: 'error' });
+  };
+
+  /** 打开委托对话框时按需拉取同组织成员名录（懒加载，避免每次进页面都请求）
+   *  用 /api/org-members 而非 /api/users：后者仅管理员可访问，
+   *  普通审批人拉不到人选列表，「委托」对他们等于不可用。 */
+  const openDelegateDialog = async () => {
+    setDelegateOpen(true);
+    if (userOptions.length > 0) return;
+    try {
+      const res = await fetch('/api/org-members?pageSize=500', { headers: authHeaders() });
+      if (!res.ok) return;
+      const payload = await res.json();
+      const list = Array.isArray(payload) ? payload : (payload?.data || []);
+      setUserOptions(
+        (list as any[])
+          .filter((u) => u && u.id && u.id !== currentUserId)
+          .map((u) => ({ id: String(u.id), name: String(u.name || u.username || u.id) })),
+      );
+    } catch {
+      /* 拉不到成员列表时保持空列表，用户可手填 —— 不阻断委托 */
+    }
+  };
+
+  const handleSaveDelegate = async () => {
+    if (!delegateForm.delegateId || !delegateForm.startDate || !delegateForm.endDate) {
+      setToast({ msg: '请填写受委托人与起止日期', sev: 'error' });
+      return;
+    }
+    setSaving(true);
+    const r = await createDelegate({
+      delegateId: delegateForm.delegateId,
+      delegateName: delegateForm.delegateName,
+      module: delegateForm.module || null,
+      startDate: delegateForm.startDate,
+      endDate: delegateForm.endDate,
+      reason: delegateForm.reason,
+    });
+    setSaving(false);
+    if (r.ok) {
+      setDelegateOpen(false);
+      setDelegateForm({ delegateId: '', delegateName: '', module: '', startDate: '', endDate: '', reason: '' });
+      setToast({ msg: '委托已建立，委托期内的待办将转交对方', sev: 'success' });
+    } else {
+      setToast({ msg: r.error || '建立委托失败', sev: 'error' });
+    }
+  };
+
+  // 跳转到对应详情页
+  const handleViewDetail = (item: PendingApprovalItem) => {
+    switch (item.type) {
+      case 'purchase':
+        navigate('/purchase/approvals');
+        break;
+      case 'material':
+        navigate('/material/approvals');
+        break;
+      case 'vendor':
+        navigate('/vendor/approvals');
+        break;
+      case 'price':
+        navigate('/price/approvals');
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <Box sx={{ mb: 1 }}>
+      <Typography variant="caption" sx={{ display: 'block', px: 3, pb: 0.5, fontSize: '0.6875rem', fontWeight: 600, color: 'text.disabled', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+        审批中心
+      </Typography>
+      <List sx={{ px: 0.5, py: 0 }}>
+        {/* 总览按钮 */}
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => setOpen(!open)}
+            sx={{
+              pl: 2, py: 1, borderRadius: 2, mx: 1, my: 0.3,
+              '&:hover': { bgcolor: 'action.hover' },
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 34 }}>
+              <Badge badgeContent={totalCount} color="error" max={9}>
+                <AssignmentTurnedIn />
+              </Badge>
+            </ListItemIcon>
+            <ListItemText
+              primary="待我审批"
+              primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500 }}
+            />
+            {open ? <ExpandLess sx={{ color: 'text.disabled', fontSize: 18 }} /> : <ExpandMore sx={{ color: 'text.disabled', fontSize: 18 }} />}
+          </ListItemButton>
+        </ListItem>
+
+        {/* 折叠内容 - 显示具体待审批项目 */}
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding sx={{ maxHeight: 300, overflow: 'auto' }}>
+            {pendingItems.map((item) => (
+              <Box key={item.id} sx={{ mb: 0.5 }}>
+                <ListItem
+                  secondaryAction={
+                    <Box sx={{ display: 'flex', gap: 0.5 }}>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => { e.stopPropagation(); handleApprove(item); }}
+                        sx={{ color: 'success.main' }}
+                      >
+                        <Check fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        onClick={(e) => { e.stopPropagation(); handleReject(item); }}
+                        sx={{ color: 'error.main' }}
+                      >
+                        <Close fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  }
+                  disablePadding
+                  sx={{
+                    px: 3,
+                    py: 0.75,
+                    borderRadius: 1,
+                    cursor: 'pointer',
+                    '&:hover': { bgcolor: 'action.hover' },
+                  }}
+                  onClick={() => handleViewDetail(item)}
+                >
+                  <ListItemText
+                    primary={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500, fontSize: '0.8125rem' }}>
+                          {item.title}
+                        </Typography>
+                        <Chip
+                          label={item.flowName}
+                          size="small"
+                          sx={{
+                            height: 18,
+                            fontSize: '0.625rem',
+                            bgcolor: 'primary.light',
+                            color: 'primary.contrastText',
+                          }}
+                        />
+                        {/* 「代批」标记：这张单是别人委托给我的，代批要看得见（责任可追溯） */}
+                        {(() => {
+                          const inst = findInstance(item);
+                          if (!inst || !delegatedIds.has(inst.id)) return null;
+                          const from = inst.originalApproverId
+                            ? delegators.find((d) => d.delegatorId === inst.originalApproverId)?.delegatorName
+                            : '';
+                          return (
+                            <Chip
+                              label={from ? `代${from}批` : '代批'}
+                              size="small"
+                              sx={{
+                                height: 18,
+                                fontSize: '0.625rem',
+                                bgcolor: 'warning.light',
+                                color: 'warning.contrastText',
+                              }}
+                            />
+                          );
+                        })()}
+                      </Box>
+                    }
+                    secondary={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.25 }}>
+                        {item.subtitle && (
+                          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.6875rem' }}>
+                            {item.subtitle}
+                          </Typography>
+                        )}
+                        <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.625rem' }}>
+                          · {formatTime(item.time)}
+                        </Typography>
+                      </Box>
+                    }
+                  />
+                </ListItem>
+              </Box>
+            ))}
+          </List>
+        </Collapse>
+
+        {/* ── 我提交的（可撤回 / 可催办）── V3.17.9 修复差距 9/10 ── */}
+        {myInFlight.length > 0 && (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => setSubmittedOpen(!submittedOpen)}
+                sx={{ pl: 2, py: 1, borderRadius: 2, mx: 1, my: 0.3, '&:hover': { bgcolor: 'action.hover' } }}
+              >
+                <ListItemIcon sx={{ minWidth: 34 }}>
+                  <Badge badgeContent={myInFlight.length} color="info" max={9}>
+                    <AssignmentTurnedIn />
+                  </Badge>
+                </ListItemIcon>
+                <ListItemText
+                  primary="我提交的"
+                  primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500 }}
+                />
+                {submittedOpen ? <ExpandLess sx={{ color: 'text.disabled', fontSize: 18 }} /> : <ExpandMore sx={{ color: 'text.disabled', fontSize: 18 }} />}
+              </ListItemButton>
+            </ListItem>
+            <Collapse in={submittedOpen} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding sx={{ maxHeight: 260, overflow: 'auto' }}>
+                {myInFlight.map((inst) => (
+                  <ListItem
+                    key={inst.id}
+                    disablePadding
+                    sx={{ px: 3, py: 0.75, borderRadius: 1 }}
+                  >
+                    <ListItemText
+                      primary={
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500, fontSize: '0.8125rem' }}>
+                            {inst.title || inst.entityNo || inst.entityId}
+                          </Typography>
+                          <Chip
+                            label={approvalModuleLabel(inst.module)}
+                            size="small"
+                            sx={{ height: 18, fontSize: '0.625rem', bgcolor: 'primary.light', color: 'primary.contrastText' }}
+                          />
+                        </Box>
+                      }
+                      secondary={
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.25 }}>
+                          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.6875rem' }}>
+                            待 {inst.currentApproverName || '审批人'} 处理
+                            {inst.currentNodeName ? ` · ${inst.currentNodeName}` : ''}
+                            {inst.urgeCount > 0 ? ` · 已催 ${inst.urgeCount} 次` : ''}
+                          </Typography>
+                        </Box>
+                      }
+                    />
+                    <Box sx={{ display: 'flex', gap: 0.25, ml: 1 }}>
+                      <Tooltip title={inst.urgeCount > 0 ? `已催办 ${inst.urgeCount} 次，30 分钟内不可再催` : '催办当前审批人'}>
+                        <span>
+                          <IconButton
+                            size="small"
+                            onClick={() => handleUrge(inst.id, inst.title || inst.entityNo || '该单据')}
+                            sx={{ color: 'warning.main' }}
+                          >
+                            <NotificationsActive fontSize="small" />
+                          </IconButton>
+                        </span>
+                      </Tooltip>
+                      <Tooltip title="撤回（单据将退回草稿）">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleWithdraw(inst.id, inst.title || inst.entityNo || '该单据')}
+                          sx={{ color: 'text.secondary' }}
+                        >
+                          <Undo fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </>
+        )}
+
+        {/* ── 委托管理 ── V3.17.9 修复差距 11 ── */}
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={openDelegateDialog}
+            sx={{ pl: 2, py: 0.75, borderRadius: 2, mx: 1, my: 0.3, '&:hover': { bgcolor: 'action.hover' } }}
+          >
+            <ListItemIcon sx={{ minWidth: 34 }}>
+              <SwitchAccount sx={{ fontSize: 20 }} />
+            </ListItemIcon>
+            <ListItemText
+              primary="审批委托"
+              secondary={myDelegates.some((d) => d.effective) ? '委托生效中' : undefined}
+              primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500 }}
+              secondaryTypographyProps={{ fontSize: '0.6875rem' }}
+            />
+          </ListItemButton>
+        </ListItem>
+      </List>
+
+      {/* ── 委托管理对话框 ── */}
+      <Dialog open={delegateOpen} onClose={() => setDelegateOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle sx={{ fontSize: '1rem' }}>审批委托</DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="caption" sx={{ display: 'block', mb: 2, color: 'text.secondary' }}>
+            委托期内，原本轮到你审批的单据会自动转交给受委托人；委托前已提交的单子也会一并转过去。
+          </Typography>
+
+          {myDelegates.length > 0 && (
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>我委托出去的</Typography>
+              {myDelegates.map((d) => (
+                <Box key={d.id} sx={{ display: 'flex', alignItems: 'center', gap: 1, py: 0.5 }}>
+                  <Chip
+                    size="small"
+                    label={d.effective ? '生效中' : d.active ? '未到生效日' : '已撤销'}
+                    color={d.effective ? 'success' : 'default'}
+                    sx={{ height: 20, fontSize: '0.625rem' }}
+                  />
+                  <Typography variant="body2" sx={{ flex: 1, fontSize: '0.8125rem' }}>
+                    {d.delegateName || d.delegateId} · {d.startDate} ~ {d.endDate}
+                    {d.module ? ` · ${approvalModuleLabel(d.module)}` : ' · 全部模块'}
+                  </Typography>
+                  {d.active === 1 && (
+                    <Button size="small" onClick={() => void revokeDelegate(d.id)}>撤销</Button>
+                  )}
+                </Box>
+              ))}
+              <Divider sx={{ my: 1.5 }} />
+            </Box>
+          )}
+
+          <Typography variant="subtitle2" sx={{ mb: 1 }}>新建委托</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, pt: 1 }}>
+            <TextField
+              select
+              size="small"
+              label="受委托人"
+              value={delegateForm.delegateId}
+              onChange={(e) => {
+                const id = e.target.value;
+                const u = userOptions.find((x) => x.id === id);
+                setDelegateForm((f) => ({ ...f, delegateId: id, delegateName: u?.name || '' }));
+              }}
+              helperText={userOptions.length === 0 ? '未能加载用户列表，可在下方直接填写姓名' : undefined}
+            >
+              {userOptions.map((u) => (
+                <MenuItem key={u.id} value={u.id}>{u.name}</MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              size="small"
+              label="受委托人姓名（用户列表加载失败时手填）"
+              value={delegateForm.delegateName}
+              onChange={(e) => setDelegateForm((f) => ({ ...f, delegateName: e.target.value }))}
+            />
+            <TextField
+              select
+              size="small"
+              label="委托范围"
+              value={delegateForm.module}
+              onChange={(e) => setDelegateForm((f) => ({ ...f, module: e.target.value }))}
+            >
+              <MenuItem value="">全部模块</MenuItem>
+              {Object.entries({ purchase_request: '采购申请', price_approval: '价格变更', material_application: '物料申请', vendor_profile: '供应商注册', sales_order: '销售订单' }).map(([k, v]) => (
+                <MenuItem key={k} value={k}>{v}</MenuItem>
+              ))}
+            </TextField>
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <TextField
+                size="small"
+                type="date"
+                label="开始日期"
+                InputLabelProps={{ shrink: true }}
+                value={delegateForm.startDate}
+                onChange={(e) => setDelegateForm((f) => ({ ...f, startDate: e.target.value }))}
+                sx={{ flex: 1 }}
+              />
+              <TextField
+                size="small"
+                type="date"
+                label="结束日期"
+                InputLabelProps={{ shrink: true }}
+                value={delegateForm.endDate}
+                onChange={(e) => setDelegateForm((f) => ({ ...f, endDate: e.target.value }))}
+                sx={{ flex: 1 }}
+              />
+            </Box>
+            <TextField
+              size="small"
+              label="事由（如：出差）"
+              value={delegateForm.reason}
+              onChange={(e) => setDelegateForm((f) => ({ ...f, reason: e.target.value }))}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDelegateOpen(false)}>取消</Button>
+          <Button variant="contained" onClick={handleSaveDelegate} disabled={saving}>
+            {saving ? '保存中…' : '建立委托'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Snackbar
+        open={!!toast}
+        autoHideDuration={4000}
+        onClose={() => setToast(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity={toast?.sev || 'info'} onClose={() => setToast(null)} variant="filled">
+          {toast?.msg}
+        </Alert>
+      </Snackbar>
+    </Box>
+  );
+};
+
+// ── 菜单自定义落地 ──────────────────────────────────────────────────
 const applyMenuConfig = (groups: MenuGroup[], cfg: { order?: Record<string, number>; visible?: Record<string, boolean> } | null | undefined): MenuGroup[] => {
   if (!cfg || (!cfg.order && !cfg.visible)) return groups;
   const order = cfg.order || {};
@@ -324,18 +940,14 @@ const Sidebar: React.FC = () => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { currentUser } = useAuthStore();
   const { t, nav } = useTranslation();
-  // 管理员判定：与后端收口一致。非管理员剔除侧边栏中 adminOnly 的特权配置入口
   const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
 
-  // A4 多语言：菜单项本质是「声明式中文字典」，渲染时按路径/分组名查词条。
-  // 词条缺失时回退中文原文（见 i18n/translate），因此不会出现裸 key。
   const L = React.useCallback(
     (zh: string, path?: string) => (path ? nav(path, zh) : zh),
     [nav],
   );
   void t;
 
-  // P4-6 响应式断点：移动端(<600)用临时抽屉，平板(600~899)强制折叠为图标栏
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -447,7 +1059,6 @@ const Sidebar: React.FC = () => {
     );
   };
 
-  // 有效宽度：移动端临时抽屉用全宽；平板强制折叠；桌面跟随手动开关
   const effectiveWidth = isMobile
     ? DRAWER_WIDTH
     : isTablet
@@ -456,7 +1067,6 @@ const Sidebar: React.FC = () => {
         ? DRAWER_COLLAPSED_WIDTH
         : DRAWER_WIDTH;
 
-  // 非管理员：剔除 adminOnly 的特权入口（含其可能带 adminOnly 的子项），再交给菜单自定义逻辑
   const visibleMenuGroups = isAdmin
     ? menuGroups
     : menuGroups
@@ -498,10 +1108,13 @@ const Sidebar: React.FC = () => {
       }}
     >
       <Box sx={{ overflow: 'auto', py: 1 }}>
+        {/* 动态审批中心 */}
+        {!sidebarCollapsed && <ApprovalCenterSection />}
+        
         {applyMenuConfig(visibleMenuGroups, menuConfig).map((group, gIdx) => (
           <Box key={gIdx}>
             {/* 分组标题 */}
-            {group.groupLabel && !sidebarCollapsed && (
+            {group.groupLabel && (
               <Typography
                 variant="caption"
                 sx={{
@@ -525,8 +1138,6 @@ const Sidebar: React.FC = () => {
 
       <Divider sx={{ borderColor: 'divider', mx: 2, mt: 'auto' }} />
       <Box sx={{ p: 2, textAlign: 'center' }}>
-        {/* 版本号不再在界面上展示（历次改版易忘记同步，反而误导用户）；
-            版本信息统一收敛到「系统设置 → 帮助中心 → 系统信息」。 */}
         <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.6875rem', letterSpacing: '0.05em' }}>
           {sidebarCollapsed ? '' : 'SSA ERP · 钢材供应链管理平台'}
         </Typography>
