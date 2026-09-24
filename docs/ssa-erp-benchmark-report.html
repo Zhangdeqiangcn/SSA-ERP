@@ -654,10 +654,10 @@
   <tbody>
     <tr><td><span class="p0">P0</span></td><td>五个核心写端点补入参守卫（空内容不再报系统错误）</td><td>库存 / 采购 / 生产</td><td>输入端问题被当成系统故障报出，用户既不知道缺什么也不知道能不能补救；<strong>且其中领料端点能建出「数量为 0」的废记录，把后续真领料卡死</strong></td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
     <tr><td><span class="p0">P0</span></td><td>委外订单缺类型字段直接报系统错误</td><td>生产</td><td>该列不允许为空且无默认值，接口也没兜底</td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
-    <tr><td><span class="p0">P0</span></td><td>处置「能勾但不生效」的操作权限开关</td><td>权限与审计</td><td>比没有更糟：会让管理员误以为已经管住，实际谁都能建单 / 删除</td><td><span class="tag t-no">待你拍板</span>（见第七章）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>处置「能勾但不生效」的操作权限开关</td><td>权限与审计</td><td>比没有更糟：会让管理员误以为已经管住，实际谁都能建单 / 删除</td><td><span class="tag t-part">部分落地</span>：第一刀已诚实标注「仅前端展示、服务端未强制」；真正接通服务端强制仍<span class="tag t-no">待你拍板</span></td></tr>
     <tr><td><span class="p0">P0</span></td><td>补字段级权限「只读」维度</td><td>权限与审计</td><td>「看得见但不该改」目前完全空白，例如库管能看到也能改物料采购价</td><td><span class="tag t-no">待你拍板</span>（见第七章）</td></tr>
-    <tr><td><span class="p0">P0</span></td><td>消除前端接口的「静默失败」（异常被吞掉）</td><td>全系统</td><td>本地状态与数据库真值可能永久分歧且用户零感知，是最危险的架构隐患</td><td><span class="tag t-no">未落地</span>（改动面大，需专项）</td></tr>
-    <tr><td><span class="p0">P0</span></td><td>账号创建 / 改密 / 重置密码补审计留痕</td><td>权限与审计</td><td>发生安全事件时无法追溯「谁建了哪个公司、谁重置了谁的密码」</td><td><span class="tag t-no">未落地</span>（改动小，可下轮做）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>消除前端接口的「静默失败」（异常被吞掉）</td><td>全系统</td><td>本地状态与数据库真值可能永久分歧且用户零感知，是最危险的架构隐患</td><td><span class="tag t-part">部分落地</span>：第一刀已让 5xx / 网络失败全局可见（红条提示）；store 乐观更新失败未回滚为专项</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>账号创建 / 改密 / 重置密码补审计留痕</td><td>权限与审计</td><td>发生安全事件时无法追溯「谁建了哪个公司、谁重置了谁的密码」</td><td><span class="tag t-ok">复核确认已全部落地</span>：五个账密生命周期端点实测均已接审计，无需改动</td></tr>
     <tr><td><span class="p1">P1</span></td><td>补应收账龄分析</td><td>销售与应收</td><td>直接影响「该催谁的钱」，自历史版本起列为待办未收口</td><td><span class="tag t-no">未落地</span>（纯查询，改动可控）</td></tr>
     <tr><td><span class="p1">P1</span></td><td>预算占用接进付款闸门</td><td>预算与费用</td><td>闸门已在拦三单匹配，预算这一道是缺的——钱付出去才知道超预算</td><td><span class="tag t-no">待拍板</span>（硬拦还是提醒）</td></tr>
     <tr><td><span class="p1">P1</span></td><td>回调（事件订阅）补鉴权与重试</td><td>集成与开放</td><td>外部系统只能不停轮询，集成效率低且易丢事件</td><td><span class="tag t-no">未落地</span></td></tr>
@@ -770,9 +770,9 @@
   <thead><tr><th style="width:28%">事项</th><th style="width:14%">级别</th><th>未落地的原因</th></tr></thead>
   <tbody>
     <tr><td>字段级权限「只读 / 必填」两个维度</td><td><span class="p0">P0</span></td><td><strong>属业务口径决策</strong>，你此前明确要求「只出建议、我来决策」。已出决策建议书（单独文件），见第七章</td></tr>
-    <tr><td>操作权限开关的处置</td><td><span class="p0">P0</span></td><td>两条路（标注未启用 / 真正接上）代价差别大且涉及角色口径，需你选</td></tr>
-    <tr><td>消除前端接口「静默失败」</td><td><span class="p0">P0</span></td><td><strong>改动面大</strong>：涉及约 54 处异常被吞掉的调用点与多个数据仓库的写入路径，需专项推进，不宜在本轮顺带改（顺带改容易引入回归且验证不完整）</td></tr>
-    <tr><td>账号与密码生命周期补审计留痕</td><td><span class="p0">P0</span></td><td>改动本身很小，但涉及认证路径，需配套回归验证；本轮时间已用于端点缺陷修复</td></tr>
+    <tr><td>操作权限开关的处置</td><td><span class="p0">P0</span></td><td>第一刀已做：界面诚实标注「仅前端展示、服务端未强制」，消除「开了等于没开还以为开了」的误导。真正接通服务端强制（两条路：标注未启用 / 真正接上）代价差别大且涉及角色口径，<strong>仍待你选</strong></td></tr>
+    <tr><td>消除前端接口「静默失败」</td><td><span class="p0">P0</span></td><td><strong>第一刀已落</strong>：中央请求封装新增全局错误提示，服务端 5xx / 网络失败现在会弹出红条（4 秒同消息去重）。剩余「store 写失败后本地乐观状态未回滚」涉及约 54 处调用点，需专项推进</td></tr>
+    <tr><td>账号与密码生命周期补审计留痕</td><td><span class="p0">P0</span></td><td><strong>复核确认已全部落地</strong>：注册 / 改密 / 找回重置 / 超管激活 / 管理员审批改角色改状态五个端点实测均已接 <code>writeAudit</code>，本报告原「未落地」结论偏旧，本轮无需改动</td></tr>
     <tr><td>应收账龄、汇兑损益</td><td><span class="p1">P1</span></td><td>应收账龄可下轮直接做；汇兑损益需先定外币评估口径（<strong>业务口径</strong>）</td></tr>
     <tr><td>预算占用接进付款闸门</td><td><span class="p1">P1</span></td><td>「超预算是硬拦还是提醒」需你拍板（硬拦会挡住紧急付款，提醒等于没管控）</td></tr>
     <tr><td>回调鉴权与重试</td><td><span class="p1">P1</span></td><td>历史遗留待办，改动面中等</td></tr>

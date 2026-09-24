@@ -79,8 +79,14 @@ const RolePermissionTab: React.FC = () => {
     <Box sx={{ p: 2 }}>
       <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>角色操作权限</Typography>
       <Typography variant="body2" sx={{ color: '#64748B', mb: 2 }}>
-        配置每个角色对各业务模块的增/删/改/查权限。配置后，列表页将根据权限自动隐藏批量操作按钮和入口。
+        配置每个角色对各业务模块的增/删/改/查权限（仅前端展示，当前服务端尚未强制生效，详见下方说明）。
       </Typography>
+
+      <Alert severity="warning" sx={{ mb: 2, alignItems: 'center' }}>
+        <Warning fontSize="small" sx={{ mr: 1 }} />
+        本配置<strong>仅为前端展示，服务端尚未强制生效</strong>：即使在此关闭某角色的某项操作，
+        该角色仍可直接调用接口完成对应动作。真正启用需后端逐接口接入权限校验（属专项改造），请不要在「已禁用」上误以为已封锁。
+      </Alert>
 
       <Alert severity="info" sx={{ mb: 2, alignItems: 'center' }}>
         <Warning fontSize="small" sx={{ mr: 1 }} />
@@ -156,8 +162,8 @@ const RolePermissionTab: React.FC = () => {
         <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>说明</Typography>
         <ul style={{ margin: 0, paddingLeft: 20, color: '#64748B', fontSize: '0.875rem' }}>
           <li>绿色勾 = 有权限，红色叉 = 无权限</li>
-          <li>配置生效范围：列表页批量操作按钮、详情页编辑/删除按钮</li>
-          <li>字段级敏感信息仍由「字段级权限」配置控制</li>
+          <li><strong>当前状态：本页配置仅作前端展示，服务端未强制。</strong>列表页按钮是否按此隐藏、详情页编辑/删除是否拦截，均以各页面实际实现为准；若某页面未读取本配置，则配置不影响其功能。</li>
+          <li>字段级敏感信息仍由「字段级权限」配置控制（同样为前端隐藏，服务端强制已在 V3.21.0 落地）。</li>
         </ul>
       </Box>
     </Box>

@@ -258,6 +258,8 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+import GlobalErrorToast from '@/components/common/GlobalErrorToast';
+
 function App() {
   // ★★ V3.10.1 修复「登录页频繁刷新、无法登录」（严重缺陷，根因见下）
   //
@@ -327,6 +329,7 @@ function App() {
     // 从而在「已建立会话」的前提下完成这批拉取。
   }, [isAuthenticated]);
   return (
+    <>
     <Routes>
       {/* ── 登录页 ───────────────────────────────────── */}
       <Route path="/login" element={<Login />} />
@@ -596,6 +599,8 @@ function App() {
         <Route path="help/manual" element={<UserManual />} />
       </Route>
     </Routes>
+    <GlobalErrorToast />
+    </>
   );
 }
 
