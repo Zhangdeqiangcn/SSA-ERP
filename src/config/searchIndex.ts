@@ -142,6 +142,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '科目余额表', path: '/finance/trial-balance', module: '财务与报表', group: '财务管理', keywords: ['trial balance', '余额', '科目余额'], desc: '科目余额' },
   { label: '科目表', path: '/finance/chart-accounts', module: '财务与报表', group: '财务管理', keywords: ['chart of accounts', '科目', '会计科目'], desc: '会计科目表' },
   { label: '凭证列表', path: '/finance/vouchers', module: '财务与报表', group: '财务管理', keywords: ['voucher', '凭证', '会计凭证'], desc: '会计凭证' },
+  { label: '凭证模板', path: '/finance/voucher-templates', module: '财务与报表', group: '财务管理', keywords: ['voucher template', '凭证模板', '常用凭证', '套用模板'], desc: '凭证模板（常用凭证）管理与套用' },
   { label: '三单匹配', path: '/finance/three-way', module: '财务与报表', group: '财务管理', keywords: ['three way', '三单匹配', '订单收货发票'], desc: '订单/收货/发票匹配' },
   { label: '财务报表', path: '/finance/report', module: '财务与报表', group: '财务管理', keywords: ['financial report', '财报'], desc: '财务报表' },
   { label: '税务核算', path: '/finance/tax', module: '财务与报表', group: '财务管理', keywords: ['tax', '税务', '增值税'], desc: '税务核算' },

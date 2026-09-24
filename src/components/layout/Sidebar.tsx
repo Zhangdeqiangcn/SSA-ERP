@@ -231,6 +231,7 @@ const menuGroups: MenuGroup[] = [
           { label: '科目余额表', icon: <Summarize />, path: '/finance/trial-balance' },
           { label: '科目表', icon: <ListAlt />, path: '/finance/chart-accounts' },
           { label: '凭证列表', icon: <MenuBook />, path: '/finance/vouchers' },
+          { label: '凭证模板', icon: <MenuBook />, path: '/finance/voucher-templates' },
           { label: '三单匹配', icon: <CompareArrows />, path: '/finance/three-way' },
           { label: '财务报表', icon: <BarChart />, path: '/finance/report' },
           { label: '税务核算', icon: <AttachMoney />, path: '/finance/tax' },

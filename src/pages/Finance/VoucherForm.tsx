@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import BalanceIcon from '@mui/icons-material/Balance';
 import { useFinanceStore } from '@/stores/financeStore';
+import { useVoucherTemplateStore } from '@/stores/voucherTemplateStore';
 import type { Voucher, VoucherItem } from '@/types/finance';
 import { calcVoucherTotals, emptyVoucherItem, nextVoucherNo, round2, validateVoucher } from '@/utils/voucher';
 import { SecureField } from '@/components/common';
@@ -24,6 +25,8 @@ const VOUCHER_TYPES = ['记', '收', '付', '转'];
 
 export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) {
   const { chartOfAccounts, createVoucher, updateVoucher, vouchers } = useFinanceStore();
+  const { templates, loaded: tplLoaded, load: loadTpl } = useVoucherTemplateStore();
+  const [templateId, setTemplateId] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [voucherType, setVoucherType] = useState('记');
   const [attachmentCount, setAttachmentCount] = useState(0);
@@ -35,6 +38,8 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
   useEffect(() => {
     if (!open) return;
     setSubmitted(false);
+    if (!tplLoaded) loadTpl();
+    setTemplateId('');
     if (voucher) {
       setDate(voucher.date);
       setVoucherType(voucher.voucherType || '记');
@@ -61,6 +66,26 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
   const addLine = () => setItems((prev) => [...prev, emptyVoucherItem(prev.length + 1)]);
   const removeLine = (idx: number) =>
     setItems((prev) => prev.filter((_, i) => i !== idx).map((it, i) => ({ ...it, lineNo: i + 1 })));
+
+  /** 套用凭证模板：把模板预设的分录骨架带入表单（金额按模板默认值，0 则留空待填） */
+  const applyTemplate = (id: string) => {
+    setTemplateId(id);
+    if (!id) return;
+    const tpl = templates.find((t) => t.id === id);
+    if (!tpl) return;
+    if (tpl.voucherType) setVoucherType(tpl.voucherType);
+    const newItems: VoucherItem[] = (tpl.items || []).map((ti, i) => ({
+      id: `vi-${Date.now()}-${i}`,
+      lineNo: i + 1,
+      summary: ti.summary,
+      accountCode: ti.accountCode,
+      accountName: ti.accountName,
+      debit: ti.direction === 'debit' ? (ti.defaultAmount || 0) : 0,
+      credit: ti.direction === 'credit' ? (ti.defaultAmount || 0) : 0,
+      costCenterName: '',
+    }));
+    setItems(newItems.length ? newItems : [emptyVoucherItem(1), emptyVoucherItem(2)]);
+  };
 
   /** 一键补平：把差额补到最后一行的相反方向 */
   const autoBalance = () => {
@@ -114,6 +139,19 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
       <DialogTitle>{voucher ? `编辑凭证 ${voucher.voucherNo}` : '新增记账凭证'}</DialogTitle>
       <DialogContent dividers>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5, flexWrap: 'wrap' }}>
+          <TextField select size="small" label="套用模板" value={templateId}
+            onChange={(e) => applyTemplate(e.target.value)} sx={{ minWidth: 240 }}
+            data-testid="voucher-apply-template">
+            <MenuItem value="">不套用（空白凭证）</MenuItem>
+            {templates.map((t) => (
+              <MenuItem key={t.id} value={t.id}>{t.name}{t.voucherType ? `（${t.voucherType}）` : ''}</MenuItem>
+            ))}
+          </TextField>
+          <Typography variant="caption" color="text.secondary">
+            选择后下方分录自动带出模板预设的摘要与科目，金额留空待填
+          </Typography>
+        </Box>
         <Grid container spacing={2} sx={{ mb: 1 }}>
           <Grid item xs={12} sm={2}>
             <TextField select fullWidth size="small" label="凭证字" value={voucherType}

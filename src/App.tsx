@@ -187,6 +187,7 @@ const AccountingEntries = lazy(() => import('./pages/Finance/AccountingEntries')
 const TrialBalance = lazy(() => import('./pages/Finance/TrialBalance'));
 const ChartOfAccounts = lazy(() => import('./pages/Finance/ChartOfAccounts'));
 const VoucherList = lazy(() => import('./pages/Finance/VoucherList'));
+const VoucherTemplateList = lazy(() => import('./pages/Finance/VoucherTemplateList'));
 const ThreeWayMatch = lazy(() => import('./pages/Finance/ThreeWayMatch'));
 const FinanceReport = lazy(() => import('./pages/Finance/FinanceReport'));
 const TaxAccounting = lazy(() => import('./pages/Finance/TaxAccounting'));
@@ -544,6 +545,7 @@ function App() {
         <Route path="finance/trial-balance" element={<TrialBalance />} />
         <Route path="finance/chart-accounts" element={<ChartOfAccounts />} />
         <Route path="finance/vouchers" element={<VoucherList />} />
+        <Route path="finance/voucher-templates" element={<VoucherTemplateList />} />
         <Route path="finance/three-way" element={<ThreeWayMatch />} />
         <Route path="finance/report" element={<FinanceReport />} />
         <Route path="finance/tax" element={<TaxAccounting />} />

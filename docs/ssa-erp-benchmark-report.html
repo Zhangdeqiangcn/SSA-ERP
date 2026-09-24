@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SSA ERP 基于真实系统现状的对标评测报告 · V3.22.0</title>
+<title>SSA ERP 基于真实系统现状的对标评测报告 · V3.25.0（2026-09-24 复核）</title>
 <style>
   :root{
     --bg:#f7f8fa; --card:#ffffff; --ink:#1a1d24; --ink2:#4a5160; --ink3:#767e8d;
@@ -75,10 +75,10 @@
     <h1>SSA ERP 基于真实系统现状的对标评测报告</h1>
     <div class="sub">对照 金蝶 · 思爱普（SAP）· 用友 三家的当前在售版本，逐域给出优势 / 劣势 / 缺失 / 机会 / 改进措施，并按优先级真正落地</div>
     <div class="meta">
-      <span>被测版本 V3.22.0</span>
+      <span>被测基线 V3.22.0 · 复核对齐至 V3.25.0</span>
       <span>生产站点 ssa-erp.pages.dev</span>
-      <span>评测日期 2026-09-23</span>
-      <span>方法：当场实测 + 联网检索 + 生产真实往返</span>
+      <span>复核更新 2026-09-24</span>
+      <span>方法：当场实测 + 联网检索 + 生产真实往返 + 代码逐项核对</span>
     </div>
   </div>
 </header>
@@ -94,29 +94,35 @@
 <!-- ============ 结论 30 秒版 ============ -->
 <div class="verdict" id="c0">
   <h2>结论 30 秒版</h2>
-  <p><strong>一句话：</strong>这套系统已经不是「玩具」——核心业务闭环（采购 → 入库 → 库存 → 生产 → 成本 → 财务凭证 → 报表）是真打通的，服务端强制管控层（借贷平衡、付款闸门、生产倒冲、单据状态机、字段级权限、乐观锁）也补齐了；但和三家竞品的差距已经<strong>不在「功能有没有」，而在「深度、智能化与工程纪律」</strong>。本轮据此真正落地了一批修补，并留出三项需要你拍板的决策。</p>
+  <p><strong>一句话：</strong>这套系统已经不是「玩具」——核心业务闭环（采购 → 入库 → 库存 → 生产 → 成本 → 财务凭证 → 报表）是真打通的，服务端强制管控层（借贷平衡、付款闸门、生产倒冲、单据状态机、字段级权限、乐观锁）也补齐了；但和三家竞品的差距已经<strong>不在「功能有没有」，而在「深度、智能化与工程纪律」</strong>。V3.22 修掉了 8 处生产系统错误；V3.24 又落了强哥拍板的三项决策（字段只读维度 / 操作权限服务端强制 / 核心必填校验）；V3.25 把操作守卫扩展到主数据高频端点、并给主数据写入失败做了乐观回滚——<strong>本报告已复核对齐到 V3.25.0（2026-09-24），原「三项待拍板决策」均已落地</strong>。</p>
 
   <div class="kpis">
     <div class="kpi"><div class="n ok">6 / 6</div><div class="l">六项门禁全绿</div></div>
     <div class="kpi"><div class="n">189</div><div class="l">生产端点（唯一）</div></div>
-    <div class="kpi"><div class="n bad">8</div><div class="l">扫描检出的系统错误处</div></div>
-    <div class="kpi"><div class="n ok">8→0</div><div class="l">本轮修复后</div></div>
-    <div class="kpi"><div class="n ok">286</div><div class="l">生产断言全绿</div></div>
-    <div class="kpi"><div class="n warn">3</div><div class="l">待你拍板的项</div></div>
+    <div class="kpi"><div class="n ok">0</div><div class="l">生产系统错误（原 8 处已修复）</div></div>
+    <div class="kpi"><div class="n ok">7 类</div><div class="l">写端点接入操作守卫</div></div>
+    <div class="kpi"><div class="n ok">3 项</div><div class="l">强哥决策已落地</div></div>
+    <div class="kpi"><div class="n warn">5</div><div class="l">仍待拍板的项</div></div>
   </div>
 
-  <h4>本轮真正做到了什么</h4>
+  <h4>本轮（V3.22）真正做到了什么</h4>
   <ul>
     <li><strong>修掉了 8 处生产系统错误（500）</strong>：全部落在「提交内容不完整」的写入请求上。根因统一——单号等「不允许为空」的列收到空值后直接写库，数据库拒绝、接口没人接住、被兜底成一句笼统的「请求处理失败」。现在全部变成<strong>「请填写「入库单号」后再提交」</strong>这类能照着做的话。</li>
     <li><strong>顺带挖出一个更隐蔽的问题</strong>：工单领料原先<strong>什么都不填也能建单成功</strong>（返回成功并生成单号）。一条数量为 0 的空记录会占住「该物料已领料」这个判断位，导致后面真正要领料时反而被挡住——<strong>业务被自己造出来的空记录卡死</strong>，还会让完工倒冲发料算错应补的差额。已拦下。</li>
     <li><strong>零误伤</strong>：五个端点用完整入参实测，全部正常建成，五条测试数据全部清理干净。新增生产端到端套件 31（26 条断言），并把「完整入参仍要能建成」写成了断言——防止将来出现「为了不报错而把功能拦死」的假修复。</li>
   </ul>
 
+  <h4>强哥拍板后已落地（V3.24 → V3.25，本次复核对齐）</h4>
+  <ul>
+    <li><strong>V3.24 三项决策全部落地：</strong>① 字段级权限新增「只读」维度（看得见但不该改的字段，写入时返回 403 + FIELD_READONLY）；② <code>hasOperation</code> 服务端强制接入 purchase / inbound / outbound / work-orders 写入守卫（无权限返回 403 + OPERATION_FORBIDDEN）；③ 单据核心必填项按类别强制（供应商 / 客户 / 日期等），非核心由管理员自定义。</li>
+    <li><strong>V3.25 守卫扩展 + 主数据回滚：</strong>① 操作守卫扩展到 materials / vendors / customers / work-orders[id] 主数据高频端点；② materialStore / vendorStore / customerStore 关键写操作改为「快照 → 乐观改内存 → 失败回滚快照 + 红条提示」，消灭「界面点得动、刷新就消失」的静默失败；③ 字段权限套件 30 断言重构（68 → 39，均为预期拦截）。</li>
+  </ul>
+
   <h4>最该知道的三件事</h4>
   <ol>
     <li><strong>功能面已经不输中小厂商，输在深度。</strong>16 个域里「完全没有」的只有少数几项（界面多语言、真实税务通道、实施方法论），而「明显偏弱」的有 9 项，集中在成本精细度、智能体自主执行、实施与运维工具链。</li>
-    <li><strong>历史文档里有失实结论，本轮纠正了一条。</strong>旧记录曾写「入库单 / 出库单创建必 500 是误报」，实测证明<strong>只对一半</strong>：字段名填错时是正常的 400，但空载荷确实是 500。教训是侦察结论要按「入参形态」分档复现，只试一种形态就会得出片面结论。</li>
-    <li><strong>有 3 件事我不能替你拍板</strong>（字段级权限的「只读 / 必填」两个维度、操作权限开关怎么处置、要不要做必填通用化），已列在第七章，附三条路径与代价对比。</li>
+    <li><strong>历史文档里有失实结论，本轮纠正了一条，并发现报告本身严重过期。</strong>旧记录曾写「入库单 / 出库单创建必 500 是误报」，实测证明只对一半；更关键的是——本报告上一版把「字段只读 / 操作权限开关 / 必填」三项写成「待你拍板」，但强哥在 V3.24 实际已拍板并落地。本次复核已把这三处改为「已落地」，并把 V3.24 / V3.25 的改动补进第六章，避免任何人照着过期结论瞎干。</li>
+    <li><strong>仍有 5 件事不能替你拍板</strong>（销售等端点是否也接操作守卫的口径、预算超支硬拦还是提醒、智能体能做什么边界、是否面向海外做多语言、标准成本口径），已列在第七章，附代价对比。</li>
   </ol>
 </div>
 
@@ -124,7 +130,7 @@
 <h2 id="c1">一、系统现状基线（当场实测，非引用旧文档）</h2>
 
 <div class="note">
-  <strong>为什么这一节的数字要重新数一遍：</strong>历史对标文档的结论会过期。上一份对标报告写于 V3.15.0 基线，本文档所有规模数字都在 2026-09-23 当场重新统计，所有「已修」判断都回到代码与生产端点重新验证，并逐条标注「已修 / 部分修 / 未修」。
+  <strong>为什么这一节的数字要重新数一遍：</strong>历史对标文档的结论会过期。上一份对标报告写于 V3.15.0 基线，本文档所有规模数字都在 2026-09-23 当场重新统计，所有「已修」判断都回到代码与生产端点重新验证，并逐条标注「已修 / 部分修 / 未修」。<strong>2026-09-24 又做了一次复核对齐：把 V3.24（强哥三项决策落地）与 V3.25（守卫扩展 + 主数据回滚）的实际改动补进本报告，并把上一版错写成「待拍板」的三项改为「已落地」。</strong>
 </div>
 
 <h3>1.1 真实规模（2026-09-23 实测）</h3>
@@ -171,7 +177,7 @@
     <tr><td>严重</td><td>主表 + 明细未包在同一事务</td><td><span class="tag t-part">部分修</span></td><td>父子表工厂与打印模板已用批量事务；凭证分录仍见逐条写入，未完全收口</td></tr>
     <tr><td>严重</td><td>多租户唯一约束范围错误（跨公司互相阻拦）</td><td><span class="tag t-part">部分修</span></td><td>供应商表已按「公司 + 编码」建唯一约束；早期几张单据表仍待核对</td></tr>
     <tr><td>严重</td><td>前端零单元测试</td><td><span class="tag t-no">未修</span></td><td>前端仍无任何白盒测试依赖；质量保障靠生产端到端（本轮新增后共 286 条断言）</td></tr>
-    <tr><td>严重</td><td>系统性静默失败（接口异常被吞掉）</td><td><span class="tag t-no">未修</span></td><td>本地状态与数据库真值可能分歧且用户无感知，是最需警惕的架构隐患</td></tr>
+    <tr><td>严重</td><td>系统性静默失败（接口异常被吞掉）</td><td><span class="tag t-part">部分修</span></td><td>V3.23 中央请求封装新增全局红条提示（5xx / 网络失败不再静默）；V3.25 给 material / vendor / customer 主数据写入做了「快照 → 乐观改 → 失败回滚 + 红条」。剩余：warehouse / finance 等带库存过账副作用的写入仍用「即发即弃 + 静默 catch」，需副作用感知设计，暂未做（见第八章）</td></tr>
     <tr><td>严重</td><td>任意类型泛滥（约 441 处）</td><td><span class="tag t-no">未修</span></td><td>类型检查的编译期保护仍被架空，错误逃逸到运行期</td></tr>
     <tr><td>严重</td><td>端到端测试只覆盖「顺利路径」</td><td><span class="tag t-part">部分修</span></td><td>本轮新增的套件 31 已含「空载荷」「数量为 0」等负面断言，但存量 300 余条用例仍以顺利路径为主</td></tr>
     <tr><td>严重</td><td>超大文件与复制粘贴型重复代码</td><td><span class="tag t-no">未修</span></td><td>仍有单文件超 1200 行（如接口服务、安全中心、采购订单表单、仓储数据仓库）</td></tr>
@@ -371,18 +377,18 @@
     <tr>
       <td><strong>10 审批与工作流</strong></td>
       <td>审批实例层（撤回 / 催办 / 委托）；自定义流程；动态侧边栏</td>
-      <td>操作权限开关有定义但<strong>零调用点</strong>（界面能勾、实际不生效）</td>
+      <td>操作权限开关曾「零调用点」（界面能勾、实际不生效）</td>
       <td>跨系统流程编排</td>
       <td>智能辅助审批（金蝶 V9.0 预告）</td>
-      <td><span class="p0">P0</span> 处置骗人的操作权限开关</td>
+      <td>操作权限开关已落地（V3.24 接入 <code>hasOperation</code> 服务端强制，403 + OPERATION_FORBIDDEN）</td>
     </tr>
     <tr>
       <td><strong>11 权限与审计</strong></td>
-      <td>行级策略默认拒绝 + 全量显式登记；字段级权限服务端强制；审计三层降级</td>
-      <td>字段级权限只做了「可见 / 不可见」一维；账号与密码生命周期无留痕</td>
-      <td>只读 / 必填两维度</td>
+      <td>行级策略默认拒绝 + 全量显式登记；字段级权限服务端强制（可见 / 不可见 + 只读）；审计三层降级</td>
+      <td>必填通用化尚未做（核心必填已按单据类别落地）；智能体调用审计待补</td>
+      <td>必填通用化（按字段）</td>
       <td>权限配置智能建议（按业务口径推荐）</td>
-      <td><span class="p0">P0</span> 只读维度（待拍板）；补凭据变更留痕</td>
+      <td>只读维度已落地（V3.24，403 + FIELD_READONLY）；补凭据变更留痕（小）</td>
     </tr>
     <tr>
       <td><strong>12 智能与自动化</strong></td>
@@ -552,10 +558,10 @@
   <div class="bd">
     <div class="five">
       <div class="row5"><div class="k t-s">优势</div><div>审批实例层已落地：撤回、催办（30 分钟限流）、委托（含反向查询「我替谁在批」）；自定义流程可新建与发布并按组织隔离；审批中心动态化。撤回与催办限提交人或管理员，通过 / 驳回只认当前审批人本人。</div></div>
-      <div class="row5"><div class="k t-w">劣势</div><div><strong>模块级操作权限开关（谁能建单、谁能删除）有定义但全项目零调用点</strong>——界面上能勾，勾完不生效。这比没有这个功能更糟：没有它你会用别的方式管控，有了它你会以为已经管住了。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>模块级操作权限开关（谁能建单、谁能删除）曾在 V3.23 及以前「全项目零调用点」——界面上能勾、勾完不生效，比没有更糟。V3.24 已真正接入 <code>hasOperation</code> 服务端强制（purchase / inbound / outbound / work-orders / 主数据写端点），无权限返回 403 + OPERATION_FORBIDDEN。<strong>销售等端点因权限矩阵暂无销售写角色，暂未接</strong>（见第七章待拍板项）。</div></div>
       <div class="row5"><div class="k t-g">缺失</div><div>跨系统流程编排（打通外部系统的审批）。</div></div>
       <div class="row5"><div class="k t-o">机会</div><div>智能辅助审批（金蝶 V9.0 预告）：自动解析单据与附件、生成风险等级与推荐意见。本系统有单据数据与大模型，可先做「审批要点摘要」这一小步。</div></div>
-      <div class="row5"><div class="k t-a">改进</div><div>① <span class="p0">P0</span> 处置操作权限开关（两条路：标注未启用 / 真正接上，<strong>需你拍板</strong>，见第七章）；② 审批要点摘要（小）。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 操作权限开关已落地（V3.24 接入 <code>hasOperation</code> 服务端强制）；② 审批要点摘要（小，待做）；③ 销售等端点守卫口径待拍板（见第七章）。</div></div>
     </div>
   </div>
 </div>
@@ -565,10 +571,10 @@
   <div class="bd">
     <div class="five">
       <div class="row5"><div class="k t-s">优势</div><div>行级策略「未登记 = 默认拒绝」+ 业务表全量显式登记 + 与真实库双向机器核对；字段级权限已在服务端强制（读不到就剥离、写入时值变了才拦、创建时静默剔除）；审计写入失败走三层降级（日志 → 降级表 → 绝不阻断业务）+ 管理员健康度入口。</div></div>
-      <div class="row5"><div class="k t-w">劣势</div><div>字段级权限只做了「可见 / 不可见」一维，「只读」与「必填」两维空白——目前<strong>「看得见但不该改」这类字段完全没人管</strong>（例如库管能看到也能改物料采购价）；账号创建、改密、重置密码的审计留痕仍缺。</div></div>
-      <div class="row5"><div class="k t-g">缺失</div><div>只读、必填两个维度（已有决策建议书，待你拍板）。</div></div>
+      <div class="row5"><div class="k t-w">劣势</div><div>字段级权限「只读」维度已在 V3.24 落地——看得见的字段若被配置为只读，写入时返回 403 + FIELD_READONLY（例如库管不再能改物料采购价）。「必填通用化」两维仍空白：目前只按单据类别做了核心必填，逐字段必填通用化未做。账号创建 / 改密 / 重置密码审计留痕已于 V3.22 复核确认全部落地。</div></div>
+      <div class="row5"><div class="k t-g">缺失</div><div>必填通用化（逐字段必填，按单据类别的核心必填已在 V3.24 落地）。</div></div>
       <div class="row5"><div class="k t-o">机会</div><div>权限配置智能建议：按「业务口径应该由谁维护」推荐默认矩阵，减少管理员逐字段勾选。</div></div>
-      <div class="row5"><div class="k t-a">改进</div><div>① <span class="p0">P0</span> 补只读维度（默认全放开、不勾不改变现有行为，风险低，<strong>待你拍板</strong>）；② 补凭据变更审计留痕（小，无业务语义变更）。</div></div>
+      <div class="row5"><div class="k t-a">改进</div><div>① 只读维度已落地（V3.24）；② 补凭据变更审计留痕（小，待做）；③ 必填通用化（需拍板，见第七章）。</div></div>
     </div>
   </div>
 </div>
@@ -654,9 +660,9 @@
   <tbody>
     <tr><td><span class="p0">P0</span></td><td>五个核心写端点补入参守卫（空内容不再报系统错误）</td><td>库存 / 采购 / 生产</td><td>输入端问题被当成系统故障报出，用户既不知道缺什么也不知道能不能补救；<strong>且其中领料端点能建出「数量为 0」的废记录，把后续真领料卡死</strong></td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
     <tr><td><span class="p0">P0</span></td><td>委外订单缺类型字段直接报系统错误</td><td>生产</td><td>该列不允许为空且无默认值，接口也没兜底</td><td><span class="tag t-ok">本轮已落地并验证</span></td></tr>
-    <tr><td><span class="p0">P0</span></td><td>处置「能勾但不生效」的操作权限开关</td><td>权限与审计</td><td>比没有更糟：会让管理员误以为已经管住，实际谁都能建单 / 删除</td><td><span class="tag t-part">部分落地</span>：第一刀已诚实标注「仅前端展示、服务端未强制」；真正接通服务端强制仍<span class="tag t-no">待你拍板</span></td></tr>
-    <tr><td><span class="p0">P0</span></td><td>补字段级权限「只读」维度</td><td>权限与审计</td><td>「看得见但不该改」目前完全空白，例如库管能看到也能改物料采购价</td><td><span class="tag t-no">待你拍板</span>（见第七章）</td></tr>
-    <tr><td><span class="p0">P0</span></td><td>消除前端接口的「静默失败」（异常被吞掉）</td><td>全系统</td><td>本地状态与数据库真值可能永久分歧且用户零感知，是最危险的架构隐患</td><td><span class="tag t-part">部分落地</span>：第一刀已让 5xx / 网络失败全局可见（红条提示）；store 乐观更新失败未回滚为专项</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>处置「能勾但不生效」的操作权限开关</td><td>权限与审计</td><td>比没有更糟：会让管理员误以为已经管住，实际谁都能建单 / 删除</td><td><span class="tag t-ok">已落地（V3.24）</span>：接入 <code>hasOperation</code> 服务端强制，覆盖 purchase / inbound / outbound / work-orders / 主数据写端点；销售等端点因矩阵无销售写角色暂未接（见第七章）</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>补字段级权限「只读」维度</td><td>权限与审计</td><td>「看得见但不该改」目前完全空白，例如库管能看到也能改物料采购价</td><td><span class="tag t-ok">已落地（V3.24）</span>：写入时返回 403 + FIELD_READONLY，默认放开不改变现有行为</td></tr>
+    <tr><td><span class="p0">P0</span></td><td>消除前端接口的「静默失败」（异常被吞掉）</td><td>全系统</td><td>本地状态与数据库真值可能永久分歧且用户零感知，是最危险的架构隐患</td><td><span class="tag t-part">部分落地</span>：V3.23 全局红条（5xx / 网络失败可见）；V3.25 主数据 store 写入失败回滚（material / vendor / customer）；warehouse / finance 带库存过账副作用的写入仍即发即弃，需副作用感知设计（见第八章）</td></tr>
     <tr><td><span class="p0">P0</span></td><td>账号创建 / 改密 / 重置密码补审计留痕</td><td>权限与审计</td><td>发生安全事件时无法追溯「谁建了哪个公司、谁重置了谁的密码」</td><td><span class="tag t-ok">复核确认已全部落地</span>：五个账密生命周期端点实测均已接审计，无需改动</td></tr>
     <tr><td><span class="p1">P1</span></td><td>补应收账龄分析</td><td>销售与应收</td><td>直接影响「该催谁的钱」，自历史版本起列为待办未收口</td><td><span class="tag t-no">未落地</span>（纯查询，改动可控）</td></tr>
     <tr><td><span class="p1">P1</span></td><td>预算占用接进付款闸门</td><td>预算与费用</td><td>闸门已在拦三单匹配，预算这一道是缺的——钱付出去才知道超预算</td><td><span class="tag t-no">待拍板</span>（硬拦还是提醒）</td></tr>
@@ -721,65 +727,83 @@
   <strong>为什么要把「完整入参仍可创建」写成断言：</strong>只断言「不再报系统错误」会放过一种假修复——为了不报错，干脆把所有请求都拦掉。那样套件照样全绿，但业务已经不能用了。<strong>空跑出来的绿色比红字更危险</strong>，所以套件里明确要求「正常填单必须照样成功」，并规定拿不到可清理的记录编号就判失败（否则测试数据会残留在生产库）。
 </div>
 
+<h3>6.3 强哥拍板后落地（V3.24 → V3.25，本次复核对齐补录）</h3>
+<table>
+  <thead><tr><th style="width:30%">版本 / 文件</th><th>改动内容</th></tr></thead>
+  <tbody>
+    <tr><td><strong>V3.24.0</strong><br><code>functions/_shared/fieldAccess.ts</code></td><td>字段级权限新增「只读」维度：读写映射改为三元（隐藏 / 只读 / 可写），只读字段写入侧返回 403 + FIELD_READONLY，创建时静默剔除，fail-safe 宁可多拦</td></tr>
+    <tr><td><strong>V3.24.0</strong><br><code>functions/_shared/operationGuard.ts</code> + 各写入端点</td><td>新增 <code>guardOperation</code> 函数式守卫（特权角色豁免、矩阵缺失回退内置默认）；接入 purchase / inbound / outbound / work-orders 写入端点，无权限返回 403 + OPERATION_FORBIDDEN</td></tr>
+    <tr><td><strong>V3.24.0</strong><br><code>functions/_shared/requireFields.ts</code> + 端点</td><td>单据核心必填按类别强制（供应商 / 客户 / 日期等），非核心由管理员在配置页自定义</td></tr>
+    <tr><td><strong>V3.25.0</strong><br><code>materials / vendors / customers / work-orders[id]</code></td><td>操作守卫扩展到主数据高频写端点（创建 / 更新 / 删除）</td></tr>
+    <tr><td><strong>V3.25.0</strong><br><code>materialStore / vendorStore / customerStore</code></td><td>关键写操作改为「快照 → 乐观改内存 → 失败回滚快照 + 红条提示」，消灭「界面点得动、刷新就消失」的静默失败</td></tr>
+    <tr><td><strong>V3.25.0</strong><br><code>scripts/prod-e2e/suites/30-field-access-control.mjs</code></td><td>字段权限套件断言重构（68 → 39，均为预期拦截，消除空跑假绿）</td></tr>
+  </tbody>
+</table>
+
+<div class="good">
+  <strong>V3.24 / V3.25 的落地原则与 V3.22 一致：</strong>只做「强化管控、消除数据正确性缺陷」这类不引入新业务口径的改动；涉及「销售等端点是否也接守卫、预算闸门是否硬拦、智能体能做什么」等口径问题，一律留到第七章待拍板，不擅自扩大范围。
+</div>
+
 <!-- ============ 七、待决策 ============ -->
 <h2 id="c7">七、待你拍板的事项</h2>
 
-<div class="warn">
-  <strong>为什么这些不能替你决定：</strong>以下三项都涉及「业务上应该由谁对什么数据做什么」的口径选择。这个口径与你们的实际分工强相关，我给的是建议和代价对比，但不能替你选——选错会让一线干不了活，而这种错误的代价通常比「先不做」更高。
+<div class="good">
+  <strong>已拍板并落地（不再待决策）：</strong>原报告把「字段只读维度 / 操作权限开关 / 必填」三项写成「待你拍板」——实际上强哥已在 <strong>V3.24 全部拍板并落地</strong>（只读维度、hasOperation 服务端强制、核心必填校验），V3.25 又扩展守卫到主数据。本版已将其移出待决策清单，仅在此确认闭环，避免任何人照着过期结论瞎干。
 </div>
 
-<h3>决策 1 · 字段级权限的「只读」清单认不认</h3>
-<p><strong>背景：</strong>「可见 / 不可见」已在上一版落地，「只读」这一维目前完全空白——<strong>看得见但不该改的字段没有任何管控</strong>。例如库管能看到物料采购价，也能改。</p>
-<p><strong>建议清单（按「业务口径应该由谁维护」推出）：</strong></p>
-<table>
-  <thead><tr><th style="width:14%">模块</th><th style="width:18%">字段</th><th style="width:28%">建议只读的角色</th><th>理由</th></tr></thead>
-  <tbody>
-    <tr><td>物料</td><td>采购价</td><td>库管、质检、班长、物流</td><td>进价是采购谈下来的结果 <span class="tag t-w">真缺口</span></td></tr>
-    <tr><td>物料</td><td>当前库存</td><td>全部业务角色（含采购员）</td><td>库存只能由单据变动，手改会让账实不符且找不到是哪张单造成的 <span class="tag t-g">风险最高</span></td></tr>
-    <tr><td>其余（标准价、移动均价、授信额度、凭证金额等）</td><td>—</td><td>—</td><td>已被「不可见」覆盖，再配只读只是把规则写完整，不改变行为</td></tr>
-  </tbody>
-</table>
-<p><strong>我的建议：</strong>至少把「当前库存」这一行纳入。库存数字能被手工改写，账实就不一致。本维度的默认方向是「未登记 = 允许改」，所以<strong>不主动勾就不改变任何现有行为</strong>，风险可以压到最低。</p>
-<p><strong>三条路径：</strong>① 只做只读（推荐，风险低、收益占大头）｜② 只读 + 必填窄做（需逐字段核口径，中风险）｜③ 全做含创建必填（不建议，几乎必然出现「该拦的没拦、不该拦的拦了」）。</p>
+<div class="warn">
+  <strong>为什么剩下这些不能替你决定：</strong>以下各项都涉及「业务上应该由谁对什么数据做什么 / 系统该做到哪一步」的口径选择，与你们的实际分工和战略方向强相关。我给建议和代价对比，但不替你选——选错会让一线干不了活，或把方向做偏，代价通常比「先不做」更高。
+</div>
 
-<h3>决策 2 · 「能勾但不生效」的操作权限开关怎么处置</h3>
-<p><strong>背景：</strong>系统里有一个模块级操作权限矩阵（谁能建单、谁能删除、谁能审批），界面上可以勾选，但<strong>全项目零调用点</strong>——勾的每一个权限都不会被执行。</p>
-<table>
-  <thead><tr><th style="width:22%">选项</th><th style="width:44%">做法与代价</th><th>适合什么情况</th></tr></thead>
-  <tbody>
-    <tr><td><strong>① 标注为「未启用」</strong><br><span style="font-size:12px;color:#767e8d">我的建议</span></td><td>界面上明确标成未启用（或直接隐藏），等有明确需求再接。改动小</td><td>诚实优先，先消除误导</td></tr>
-    <tr><td><strong>② 真正接上</strong></td><td>把模块级权限接进各写入接口的判定（建单 / 删除 / 审批）。改动中到大，且要定「哪个角色能建哪种单」的口径</td><td>当你确实需要限制某些角色建单 / 删除时</td></tr>
-    <tr><td>③ 暂时不动</td><td>留在待办里，但请知道这个开关现在不生效</td><td>近期无管控需求</td></tr>
-  </tbody>
-</table>
-<p class="note">注意：选项 ② 要拍的口径，和决策 1 的「只读」是同一类问题（哪个角色能对这个数据做什么）。<strong>如果打算接，建议和只读一起做，一次把口径定齐</strong>，避免分两次打扰业务部门。</p>
+<h3>决策 A · 销售 / 质量 / 财务 / 委外端点是否也接入操作守卫</h3>
+<p><strong>背景：</strong>V3.24/25 的 <code>hasOperation</code> 守卫已接入 purchase / inbound / outbound / work-orders / 主数据写端点。但 <strong>sales-orders、quality、vouchers（财务凭证）、subcontracts 的写端点尚未接守卫</strong>——不是漏做，而是当前角色矩阵里<strong>没有任何角色被授予这几类模块的写权限</strong>（只有 admin 通配全权、user 通配只读）。如果直接接守卫，销售员等角色会被一并挡掉，反而破坏正常业务。</p>
+<p><strong>两条路径：</strong>① 暂不接（现状，最安全，admin 仍需手工管控这些端点）｜② 接，但需先在矩阵里给这几个模块配上写角色（例如新增 sales 角色并授权 sales 模块写）。若选 ②，需你确认「谁可以建销售单 / 凭证」，属业务口径。</p>
 
-<h3>决策 3 · 「必填」要不要做</h3>
-<p><strong>建议：暂不做。</strong>理由是必填最危险的地方在于——它会把「历史数据缺失」变成「这张单永远存不了」。例如某张历史工单的仓库字段是空的，某天你给「仓库」配了必填，这张单从此一动就报错，而且改的是别的字段也会被一起拦下。</p>
-<p>相比之下，「只读」出事最多是「某个字段改不了，去找管理员放开」；「必填」出事是「这张单一动就报错」，排查更绕。目前各接口已有针对性的必填校验，基本够用。</p>
-<p><strong>如果确实要做：</strong>建议只做「更新时不可清空」（不做创建时必填的通用化），只挑几个天然不该空的字段（已过账凭证的金额、已有库存的物料编码、已完工工单的完工数量），且只对新单据生效、历史单据不受影响。</p>
+<h3>决策 B · 预算超支是硬拦还是提醒</h3>
+<p><strong>背景：</strong>付款闸门已在拦三单匹配，但「付款时是否校验预算占用」这道缺。接进去架构现成（复用现有闸门模式）。</p>
+<p><strong>两条路径：</strong>① 硬拦（超预算的付款直接 422，不写库）——最严，但会挡住紧急付款｜② 仅提醒（红条提示但允许过账）——柔性管控，需管理员事后追。需你定口径。</p>
+
+<h3>决策 C · 智能体（大模型）能做什么</h3>
+<p><strong>背景：</strong>当前智能体只能「说」不能「做」。最大弯道机会是接工具调用。但「哪些动作允许智能体发起、是否强制人工确认」是口径问题，且涉及审计与权限边界。</p>
+<p><strong>建议路径：</strong>先做「只读类工具调用」（查库存、查订单进度、查应收款），天然安全；写入类工具 + 人工确认闸门需你拍板边界。</p>
+
+<h3>决策 D · 是否面向海外客户做多语言与多时区</h3>
+<p><strong>背景：</strong>界面目前仅中文，无多时区。三家都支持。这取决于战略方向，不是技术难题。</p>
+
+<h3>决策 E · 标准成本与差异分析的口径</h3>
+<p><strong>背景：</strong>目前仅移动均价一种计价方式，无标准成本 / 实际成本差异分析。要做需先定「标准成本怎么来、差异怎么分摊」的口径，属业务口径。</p>
 
 <div class="good">
-  <strong>你只需要回一句：</strong>「决策 1 选__、决策 2 选__、决策 3 选__」即可开工，不需要再解释细节。例如「1 只做库存那行、2 标注未启用、3 暂不做」。
+  <strong>你只需回一句：</strong>「A 选__、B 选__、C 选__、D 选__、E 选__」即可开工，不需要再解释细节。例如「A 暂接、B 硬拦、C 先做只读、D 暂不做、E 待定」。
 </div>
 
 <!-- ============ 八、未落地 ============ -->
 <h2 id="c8">八、本轮未落地项与原因（不含糊带过）</h2>
 
+<div class="note">
+  <strong>重要更正（两处）：</strong>
+  <br>① 上一版把「字段只读维度 / 操作权限开关 / 必填」三项列为「未落地、待拍板」——<strong>这是过期结论</strong>。强哥已在 V3.24 拍板并落地这三项（详见第六章 6.3 与第七章开头确认）。
+  <br>② <strong>本版（V3.25 复核）又发现一处大面积过期：</strong>下方原「未落地」清单里，<strong>应收账龄 / 汇兑损益结转 / 凭证事务 / 对话式取数 ChatBI / 运维健康度面板 / 资产盘点 六项其实早已落地</strong>（评测当时没翻代码就列成了未落地，违反「引用历史清单前必须回代码复核」的铁律）；预算 / 回调 / 移动端离线 / 多语言 / 标准成本 五项属「部分落地」。表格第 4 列「复核结论（代码实测）」为逐条回代码核实后的真实状态，<strong>真正仍待做的仅 6 项</strong>：销售等端点守卫、warehouse/finance 静默失败、智能体工具调用、凭证模板、前端单测、数电票（外部依赖）。
+</div>
+
 <table>
-  <thead><tr><th style="width:28%">事项</th><th style="width:14%">级别</th><th>未落地的原因</th></tr></thead>
+  <thead><tr><th style="width:23%">事项</th><th style="width:9%">原评级</th><th>原述未落地原因</th><th style="width:25%">复核结论（代码实测 V3.25）</th></tr></thead>
   <tbody>
-    <tr><td>字段级权限「只读 / 必填」两个维度</td><td><span class="p0">P0</span></td><td><strong>属业务口径决策</strong>，你此前明确要求「只出建议、我来决策」。已出决策建议书（单独文件），见第七章</td></tr>
-    <tr><td>操作权限开关的处置</td><td><span class="p0">P0</span></td><td>第一刀已做：界面诚实标注「仅前端展示、服务端未强制」，消除「开了等于没开还以为开了」的误导。真正接通服务端强制（两条路：标注未启用 / 真正接上）代价差别大且涉及角色口径，<strong>仍待你选</strong></td></tr>
-    <tr><td>消除前端接口「静默失败」</td><td><span class="p0">P0</span></td><td><strong>第一刀已落</strong>：中央请求封装新增全局错误提示，服务端 5xx / 网络失败现在会弹出红条（4 秒同消息去重）。剩余「store 写失败后本地乐观状态未回滚」涉及约 54 处调用点，需专项推进</td></tr>
-    <tr><td>账号与密码生命周期补审计留痕</td><td><span class="p0">P0</span></td><td><strong>复核确认已全部落地</strong>：注册 / 改密 / 找回重置 / 超管激活 / 管理员审批改角色改状态五个端点实测均已接 <code>writeAudit</code>，本报告原「未落地」结论偏旧，本轮无需改动</td></tr>
-    <tr><td>应收账龄、汇兑损益</td><td><span class="p1">P1</span></td><td>应收账龄可下轮直接做；汇兑损益需先定外币评估口径（<strong>业务口径</strong>）</td></tr>
-    <tr><td>预算占用接进付款闸门</td><td><span class="p1">P1</span></td><td>「超预算是硬拦还是提醒」需你拍板（硬拦会挡住紧急付款，提醒等于没管控）</td></tr>
-    <tr><td>回调鉴权与重试</td><td><span class="p1">P1</span></td><td>历史遗留待办，改动面中等</td></tr>
-    <tr><td>凭证分录与子表写入补事务</td><td><span class="p1">P1</span></td><td>部分域已用批量事务；凭证侧仍未收口，需逐个写入点核对</td></tr>
-    <tr><td>对话式取数、智能体工具调用</td><td><span class="p2">P2</span></td><td>属能力建设而非缺陷修补，且需先定「智能体能做什么」的边界</td></tr>
-    <tr><td>多语言与多时区</td><td><span class="p3">P3</span></td><td>取决于是否面向海外客户，<strong>属方向选择</strong></td></tr>
-    <tr><td>数电票真实核验</td><td>—</td><td><strong>外部依赖</strong>：代码已就位（多服务商路由 + 结构化校验），需企业税号与服务商密钥才能启用真实通道，目前默认模拟兜底</td></tr>
+    <tr><td>销售 / 质量 / 财务 / 委外端点接入操作守卫</td><td><span class="p0">P0</span></td><td>角色矩阵无这几类模块写角色，直接接会误伤正常业务；需先定「谁可建销售单 / 凭证」口径（见第七章决策 A）</td><td><span class="tag t-no">未落地（报告准确）</span>：sales / quality / vouchers / subcontracts 确未调 <code>guardOperation</code></td></tr>
+    <tr><td>warehouse / finance 等带副作用写入的静默失败</td><td><span class="p0">P0</span></td><td>主数据回滚已做；仓储 / 财务写操作同时过账库存与成本，回滚需副作用感知设计，暂未做</td><td><span class="tag t-no">未落地（准确）</span>：warehouse / warehouseAdvanced / finance 仍约 33 处裸吞，主数据回滚范式未下沉</td></tr>
+    <tr><td>应收账龄、汇兑损益结转</td><td><span class="p1">P1</span></td><td>纯查询可直接做；汇兑损益需定外币评估口径</td><td><span class="tag t-ok">已落地（纠正）</span>：AgingReport.tsx 五档分桶 + PeriodClosing.tsx 真实汇兑损益结转凭证</td></tr>
+    <tr><td>预算占用接进付款闸门</td><td><span class="p1">P1</span></td><td>超预算硬拦还是提醒需拍板（决策 B）</td><td><span class="tag t-part">部分落地</span>：BudgetControl 预算页 + 归集 + 告警在；paymentGate 未消费 budget，仅告警不硬拦</td></tr>
+    <tr><td>回调鉴权与重试</td><td><span class="p1">P1</span></td><td>历史遗留待办，改动面中等</td><td><span class="tag t-part">部分落地</span>：前端 integrationStore 订阅 + 密钥鉴权 + 重试在；functions 无服务端事件扇出 / 签名校验</td></tr>
+    <tr><td>凭证分录与子表事务</td><td><span class="p1">P1</span></td><td>部分域已用批量事务；凭证侧未收口</td><td><span class="tag t-ok">已落地（纠正）</span>：voucherWriter.ts 用 db.batch 原子写头 + 分录</td></tr>
+    <tr><td>对话式取数、智能体只读 / 写入工具调用</td><td><span class="p2">P2</span></td><td>需定智能体边界（决策 C）</td><td><span class="tag t-ok">对话式取数已落地（纠正）</span>：chatbi 7 类只读查询完整；<span class="tag t-no">智能体工具未落地</span>：无 function-calling 框架</td></tr>
+    <tr><td>凭证模板与常用凭证</td><td><span class="p2">P2</span></td><td>重复分录靠手工，改动小（建议下轮首选）</td><td><span class="tag t-no">未落地（准确）</span>：前后端全量 grep 确无任何实现（本轮下轮首选落地）</td></tr>
+    <tr><td>资产盘点（复用移动端扫码）</td><td><span class="p2">P2</span></td><td>扫码能力现成，成本低</td><td><span class="tag t-ok">已落地（纠正）</span>：MobileStocktake.tsx + CheckTask / CheckList 双端盘点</td></tr>
+    <tr><td>运维健康度面板、移动端离线缓存</td><td><span class="p2">P2</span></td><td>数据现成只差展示 / 本地存储能力现成</td><td><span class="tag t-ok">健康度面板已落地（纠正）</span>：audit-health + metrics + SecurityCenterTab；<span class="tag t-part">离线部分落地</span>：PWA + 本地兜底在、独立模块无</td></tr>
+    <tr><td>前端补单元测试</td><td><span class="p2">P2</span></td><td>重构无回归保护，择要害先补</td><td><span class="tag t-no">未落地（准确）</span>：零单测、无测试框架</td></tr>
+    <tr><td>多语言与多时区</td><td><span class="p3">P3</span></td><td>取决于是否面向海外客户（第七章决策 D）</td><td><span class="tag t-part">部分落地</span>：i18n 框架 + zh / en 注册在、英文不全；时区仅默认 Asia/Shanghai</td></tr>
+    <tr><td>标准成本与差异分析</td><td><span class="p3">P3</span></td><td>需先定成本口径（第七章决策 E）</td><td><span class="tag t-part">部分落地</span>：BOM 卷积出标准成本 + 成本归集做差异，无独立模块</td></tr>
+    <tr><td>寻源招投标与采购合同全流程</td><td><span class="p3">P3</span></td><td>仅销售合同 + 询价比价已落地</td><td><span class="tag t-part">部分落地（准确）</span>：销售合同 + 询价比价在；招投标 / 采购合同全流程无</td></tr>
+    <tr><td>数电票真实核验</td><td>—</td><td>代码就位，需企业税号 + 服务商密钥</td><td><span class="tag t-no">外部依赖未满足（准确）</span>：tax-gateway 多服务商路由 + 结构化校验在，默认 mock 兜底</td></tr>
   </tbody>
 </table>
 
@@ -789,33 +813,32 @@
 <div class="card">
   <h4>立刻可以做（不依赖你拍板）</h4>
   <ol>
-    <li><strong>补应收账龄</strong>——纯查询与展示，无业务语义变更，改动可控，且直接回答「该催谁的钱」。</li>
-    <li><strong>账号与密码生命周期补审计留痕</strong>——改动很小，却是「发生安全事件时能不能追溯」的关键。</li>
-    <li><strong>补凭证模板与常用凭证</strong>——重复分录靠手工，是财务侧最高频的低效点。</li>
-    <li><strong>对话式取数（只读）</strong>——本系统最有把握超车的一域，大模型通道与表结构都现成，限定只读风险极低。</li>
+    <li><strong>凭证模板与常用凭证</strong>——第八章二次复核后，原清单里「应收账龄 / 资产盘点 / 对话式取数」三项均已发现其实早已落地，<strong>唯一真正未做的「立刻可做」项就是它</strong>：重复分录靠手工，是财务侧最高频的低效点，改动小（新增 voucher_templates 实体 + 套用）。</li>
+    <li><strong>前端补单元测试（先覆盖金额与状态机）</strong>——当前为零单测，重构无回归保护；虽列 P2，但它能直接降低后续「改了不知道改坏没有」的风险，建议同步推进。</li>
   </ol>
 
   <h4>建议你先拍板的（否则会卡住）</h4>
   <ol>
-    <li>第七章三项决策——其中<strong>「只读」与「操作权限开关」建议一起拍</strong>，因为口径同类。</li>
-    <li>预算超支是硬拦还是提醒——决定预算能否接进付款闸门。</li>
+    <li>第七章五项决策——其中<strong>「销售等端点守卫（A）」与「预算闸门（B）」「智能体边界（C）」</strong>口径同类，建议一起拍。</li>
+    <li>预算超支是硬拦还是提醒（B）——决定预算能否接进付款闸门。</li>
+    <li>智能体能做什么（C）——决定能否从「会说」走向「会做」。</li>
   </ol>
 
   <h4>需要外部条件的</h4>
   <ol>
     <li>数电票真实核验——需企业税号与服务商密钥。</li>
-    <li>多语言——需先确认是否面向海外客户。</li>
+    <li>多语言（D）——需先确认是否面向海外客户。</li>
   </ol>
 </div>
 
 <div class="note">
-  <strong>最后一句实话：</strong>和三家比，这套系统最大的资产不是功能数量，而是<strong>「改一处能立刻验证」的能力</strong>——六项门禁、286 条生产断言、一键部署。三家能做到这个迭代速度的也不多。差距主要在深度与智能化，而这些可以按上面的顺序一块块补；真正补不回来的，是「改了不知道有没有改坏」这件事——这方面你已经比很多团队强。
+  <strong>最后一句实话：</strong>和三家比，这套系统最大的资产不是功能数量，而是<strong>「改一处能立刻验证」的能力</strong>——六项门禁、生产端到端套件常驻、一键部署。三家能做到这个迭代速度的也不多。差距主要在深度与智能化，而这些可以按上面的顺序一块块补；真正补不回来的，是「改了不知道有没有改坏」这件事——这方面你已经比很多团队强。
 </div>
 
 <footer>
-  SSA ERP 对标评测报告 · 基于 V3.22.0 基线（2026-09-23）<br>
+  SSA ERP 对标评测报告 · 复核对齐至 V3.25.0（2026-09-24）· 第八章未落地清单二次复核（代码实测）<br>
   本文件为单一权威版本，后续更新直接覆盖本文件，不产生带版本后缀的副本<br>
-  所有规模数字为 2026-09-23 当场实测；竞品版本号与信息日期已在第二章逐条注明
+  所有规模数字为 2026-09-23 当场实测、2026-09-24 复核对齐；竞品版本号与信息日期已在第二章逐条注明
 </footer>
 
 </div>

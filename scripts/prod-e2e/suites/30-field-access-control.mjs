@@ -377,6 +377,63 @@ export default async function run(ctx, s) {
     `phone=${JSON.stringify(vAfterOk.data?.phone)}`);
 
   // ════════════════════════════════════════════════════════════════
+  // 域 B-2 · V3.26.0 操作权限守卫扩展：入库 / 出库端点（warehouse 模块）
+  //    验证两件事，避免「空跑绿 / 假修复」：
+  //      · 库管（warehouse_keeper）对 warehouse 模块有 create → 能建单（201，不误伤）
+  //      · 采购员（buyer）对 warehouse 模块无 create → 建单被拦（403 + OPERATION_FORBIDDEN）
+  // ════════════════════════════════════════════════════════════════
+  const stamp2 = Date.now();
+  const inbByKeeper = await P('/api/inbound-orders', {
+    inboundNo: `E2E-INB-${stamp2}`,
+    vendorId: 'e2e-vendor-x',
+    vendorName: 'E2E供应商',
+    inboundDate: '2026-09-24',
+    status: 'pending',
+    operator: '库管',
+    warehouseId: 'e2e-wh',
+    warehouseName: 'E2E仓库',
+  }, keeper.token);
+  s.expectStatus('★ 库管创建入库单 → 201（warehouse 模块写权限生效，不误伤合法角色）',
+    inbByKeeper, 201,
+    `实际=${inbByKeeper.status} body=${JSON.stringify(inbByKeeper.data).slice(0, 240)}`);
+  const inbId = inbByKeeper.data?.id;
+  if (inbId) ctx.track('inbound-order', inbId);
+
+  const outByKeeper = await P('/api/outbound-orders', {
+    outboundNo: `E2E-OUT-${stamp2}`,
+    customerId: 'e2e-customer-x',
+    customerName: 'E2E客户',
+    outboundDate: '2026-09-24',
+    status: 'pending',
+    operator: '库管',
+    warehouseId: 'e2e-wh',
+    warehouseName: 'E2E仓库',
+  }, keeper.token);
+  s.expectStatus('★ 库管创建出库单 → 201（warehouse 模块写权限生效，不误伤合法角色）',
+    outByKeeper, 201,
+    `实际=${outByKeeper.status} body=${JSON.stringify(outByKeeper.data).slice(0, 240)}`);
+  const outId = outByKeeper.data?.id;
+  if (outId) ctx.track('outbound-order', outId);
+
+  if (!buyer) {
+    s.fail('★★ 采购员账号未建成，入库单越权拦截断言无法执行（失败，不是通过）');
+  } else {
+    const inbByBuyer = await P('/api/inbound-orders', {
+      inboundNo: `E2E-INB-B-${stamp2}`,
+      vendorId: 'e2e-vendor-x',
+      vendorName: 'E2E供应商',
+      inboundDate: '2026-09-24',
+      status: 'pending',
+    }, buyer.token);
+    s.expectStatus('★★ 采购员创建入库单 → 403（越权建单被 hasOperation 守卫拦截）',
+      inbByBuyer, 403,
+      `实际=${inbByBuyer.status} body=${JSON.stringify(inbByBuyer.data).slice(0, 240)}`);
+    s.expectTrue('★★ 入库单 403 带 code=OPERATION_FORBIDDEN（不是 RLS 的行级 403）',
+      inbByBuyer.data?.code === 'OPERATION_FORBIDDEN',
+      `code=${JSON.stringify(inbByBuyer.data?.code)}`);
+  }
+
+  // ════════════════════════════════════════════════════════════════
   // 域 C · 受保护数据接口（protected-data）收口到同一套策略后的冒烟
   //    V3.21.0 把它的档位表（admin/manager/staff/vendor）替换为真实角色词表。
   //    它曾因词表不匹配（manager/staff 不是真实角色）而整体失效。

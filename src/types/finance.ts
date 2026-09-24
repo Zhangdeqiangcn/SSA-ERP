@@ -293,3 +293,29 @@ export interface Payable {
   balance: number; dueDate: string; agingBucket: AgingBucket;
   status: 'open' | 'partial' | 'overdue' | 'closed'; paymentDate?: string; remarks?: string;
 }
+
+// ==================== 凭证模板（V3.26.0 常用凭证） ====================
+/** 模板分录行方向：借 / 贷 */
+export type VoucherTemplateDirection = 'debit' | 'credit';
+
+/** 凭证模板分录行（骨架：套用后金额可留空待填） */
+export interface VoucherTemplateItem {
+  id?: string;
+  lineNo: number;          // 行号，从 1 开始
+  summary: string;         // 摘要
+  accountCode: string;     // 科目编码
+  accountName: string;     // 科目名称
+  direction: VoucherTemplateDirection; // 借 / 贷
+  defaultAmount: number;   // 套用时的默认金额；0 = 留空待填
+  ledgerBook?: string;     // 账簿，默认 0000
+}
+
+/** 凭证模板（头 + 分录行） */
+export interface VoucherTemplate extends BaseEntity {
+  name: string;            // 模板名称
+  description?: string;    // 说明
+  voucherType?: string;    // 凭证字：记/收/付/转（套用时建议带入）
+  isDefault?: boolean;     // 是否默认模板
+  sortOrder?: number;      // 排序
+  items: VoucherTemplateItem[];
+}
