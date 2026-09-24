@@ -992,6 +992,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v32500',
+        title: 'V3.25.0（2026-09-24）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版扩展 hasOperation 服务端守卫到材料/供应商/客户端点，并为三大核心 store 添加写失败回滚。**\n\n---\n\n**一、hasOperation 服务端强制扩展**\n\n在上一版试点（采购/销售/入库/出库/工单）基础上，本版将守卫扩展至三个高频主数据端点：\n\n| 端点 | 写入操作 |\n| --- | --- |\n| /api/materials | POST → 创建检查 |\n| /api/materials/:id | PUT → 修改检查 / DELETE → 删除检查 |\n| /api/vendors | POST → 创建检查 |\n| /api/vendors/:id | PUT → 修改检查 / DELETE → 删除检查 |\n| /api/customers | POST → 创建检查 |\n| /api/customers/:id | PUT → 修改检查 / DELETE → 删除检查 |\n\n无权限时返回 **403 + OPERATION_FORBIDDEN** + 中文原因。\n\n**二、核心 store 乐观更新回滚专项**\n\nmaterialStore、vendorStore、customerStore 的 write 方法改为「快照 → 乐观更新 → try/catch → 失败回滚」模式：\n\n· 失败时恢复内存快照（避免本地状态与数据库真值永久分歧）\n· 调用 useGlobalToastStore.showError() 向用户提示\n· 修复了 vendorStore.updateVendor/deleteVendor 和 customerStore.updateCustomer 未回滚的问题\n\n**三、设计原则**\n\n· 内置默认矩阵（BUILTIN_ROLE_OPS）与前端 defaultRoleModuleOps 完全一致，fail-safe 宁可多拦\n· E2E 测试账号 e2e_supervisor 豁免，不影响生产回归\n· 非特权角色未配置操作权限时，通配符 * 档兜底' },
+          { kind: 'why', title: '为什么这样操作', text: '**为什么必须扩展 hasOperation 到主数据端点**：上一版只覆盖了业务单据（采购/销售/入库/出库/工单），但材料/供应商/客户是基础主数据，如果这些端点没有权限控制，低权限角色可以通过直接调接口修改主数据，绕过界面的权限设置。\n\n**为什么 store 需要回滚**：以前的模式是「先改内存、再写服务器、失败就吞掉」，结果是前端显示成功但后端实际没写入——下次刷新页面数据就还原了，而用户根本不知道发生了什么。这种「静默分歧」是最难排查的 bug 之一。\n\n**为什么用快照而不是直接查询数据库**：写失败后重新从数据库拉数据成本高（需要额外网络请求），而快照只需要深拷贝当前内存状态，开销极小且能保证一致性。' },
+          { kind: 'notes', title: '注意事项', text: '· 只读模式的字段仍然会在接口响应中返回（区别于隐藏模式整条不返回）。\n\n· hasOperation 服务端强制现已覆盖材料/供应商/客户/采购/销售/入库/出库/工单八个端点；其他端点暂不做强制，待评估后推广。\n\n· 核心必填项校验与现有 requireFields 并行生效，不冲突。\n\n· 界面「字段级权限」页的 ToggleButton 切换只读/隐藏时，会自动更新已配置规则的 mode 字段。\n\n· 本版**不改任何已有数据**，仅新增服务端校验逻辑。' },
+        ],
+      },
+      {
         id: 'v32200',
         title: 'V3.22.0（2026-09-23）',
         blocks: [

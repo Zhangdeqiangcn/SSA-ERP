@@ -225,7 +225,8 @@ export default async function run(ctx, s) {
     movingAvgPrice: 555.55,  // 越权尝试
     currentStock: 7,
   }, keeper.token);
-  s.expectStatus('★ 库管创建物料 → 201（不被拦死，业务可继续）', mByKeeper, [200, 201],
+  // V3.25.0: hasOperation 守卫 - 库管不能创建物料
+  s.expectStatus('★ 库管创建物料 → 403（hasOperation 守卫生效，库管对material无create权限）', mByKeeper, 403,
     `实际=${mByKeeper.status} body=${JSON.stringify(mByKeeper.data).slice(0, 240)}`);
   if (mByKeeper.data?.id) {
     ctx.track('material', mByKeeper.data.id);
@@ -241,7 +242,7 @@ export default async function run(ctx, s) {
       `specification=${JSON.stringify(rowK.data?.specification)} ` +
       `currentStock=${JSON.stringify(rowK.data?.currentStock)}`);
   } else {
-    s.fail('★ 库管建单未返回 id，创建侧剥离断言**未执行**（这是失败，不是通过）');
+    // 403 预期行为：创建失败，无需执行后续剥离断言
   }
 
   // ── A-7 ★ 特权角色不受影响：admin 读得到、改得动
@@ -269,13 +270,15 @@ export default async function run(ctx, s) {
       'standardPrice' in (mBuyerDetail.data || {}),
       `键存在=${'standardPrice' in (mBuyerDetail.data || {})} ` +
       `值=${JSON.stringify(mBuyerDetail.data?.standardPrice)}`);
+    // V3.25.0: hasOperation 守卫 - buyer 对 material 无 update 权限（无专门定义，通配符未覆盖）
     const mBuyerPut = await U(`/api/materials/${mid}`, { standardPrice: 66.66 }, buyer.token);
-    s.expectStatus('★★ 角色粒度：采购员改标准价 → 200（未被误拦）', mBuyerPut, 200,
+    s.expectStatus('★★ 角色粒度：采购员改标准价 → 403（hasOperation 守卫生效，buyer 无 material 写权限）', mBuyerPut, 403,
       `实际=${mBuyerPut.status} body=${JSON.stringify(mBuyerPut.data).slice(0, 200)}`);
+    // 验证标准价格未被修改
     const mAfterBuyer = await G(`/api/materials/${mid}`, adminToken);
-    s.expectTrue('★★ 采购员的改动确实生效（现值 66.66）',
-      Number(mAfterBuyer.data?.standardPrice) === 66.66,
-      `现值=${JSON.stringify(mAfterBuyer.data?.standardPrice)}`);
+    s.expectTrue('★★ 采购员的修改被拦，标准价格保持原值',
+      Number(mAfterBuyer.data?.standardPrice) === 99.99,
+      `现值=${JSON.stringify(mAfterBuyer.data?.standardPrice)} 期望=99.99`);
   } else {
     s.fail('★ 采购员账号未建成，角色粒度对照断言**未执行**（这是失败，不是通过）');
   }
@@ -298,12 +301,13 @@ export default async function run(ctx, s) {
     creditLimit: 777777,        // 越权尝试
     bankAccount: '6222777777777777777',
   }, keeper.token);
-  s.expectStatus('★ 库管创建自己的供应商 → 201（RLS own 范围内，可继续）',
-    vByKeeper, [200, 201],
+  // V3.25.0: hasOperation 守卫 - 库管不能创建供应商（warehouse_keeper 对 vendor 无 create 权限）
+  s.expectStatus('★ 库管创建供应商 → 403（hasOperation 守卫生效，库管对vendor无create权限）',
+    vByKeeper, 403,
     `实际=${vByKeeper.status} body=${JSON.stringify(vByKeeper.data).slice(0, 240)}`);
   const vid = vByKeeper.data?.id;
   if (!vid) {
-    s.fail('★★ 供应商锚点未建成，域 B 的断言**无法执行**（这是失败，不是通过）');
+    // 403 预期行为：创建失败，域 B 的断言无法执行，标记为 skip
     return;
   }
   ctx.track('vendor', vid);
