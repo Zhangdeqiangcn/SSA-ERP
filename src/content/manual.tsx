@@ -1001,6 +1001,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v32800',
+        title: 'V3.28.0（2026-09-30）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版把对标评测报告第七章「决策 A（销售端点守卫）」真正落地——补齐销售模块服务端写角色，并把操作权限守卫接入销售 / 凭证 / 委外 / 质量四类写入端点。**\n\n---\n\n**一、补齐销售模块写角色**\n\n此前后端操作守卫矩阵（`operationGuard.ts` 的 `BUILTIN_ROLE_OPS`）和前端默认矩阵（`dataPermissionStore.ts` 的 `defaultRoleModuleOps`）都缺销售模块写角色，导致销售员在权限页显示为「全零权限」。本版新增两个角色：\n\n| 角色 | 模块 | 创建 | 读取 | 修改 | 删除 |\n| --- | --- | --- | --- | --- | --- |\n| 销售管理员 sales_manager | sales | ✓ | ✓ | ✓ | ✓ |\n| 销售员 salesperson | sales | ✓ | ✓ | ✓ | ✗ |\n\n同时新增 zustand 持久化迁移 v5→v6，自动给旧矩阵注入这两个角色，避免老用户升级后权限矩阵残缺。\n\n**二、8 个写入端点接入 guardOperation**\n\n`guardOperation(user, module, operation, db, orgId)` 此前已覆盖采购/入库/出库/工单/主数据。本版补齐四类：\n\n| 端点 | 写入操作 | 守卫模块 |\n| --- | --- | --- |\n| /api/sales-orders | POST 创建 | sales |\n| /api/sales-orders/:id | PUT 修改 / DELETE 删除 | sales |\n| /api/vouchers | POST 创建 | finance |\n| /api/vouchers/:id | PUT 修改 / DELETE 删除 | finance |\n| /api/subcontracts | POST 创建 | production |\n| /api/subcontracts/:id | PUT 修改 / DELETE 删除 | production |\n| /api/quality-holds | POST 创建 | quality |\n| /api/quality-holds/:id | PUT 修改 / DELETE 删除 | quality |\n\n无权限时返回 403 + OPERATION_FORBIDDEN + 中文原因，前端可据此提示。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么销售模块此前缺写角色却没暴露**：操作权限开关（hasOperation）在 V3.24.0 试点时覆盖了销售端点，但后端 `BUILTIN_ROLE_OPS` 内置矩阵当时只登记了 finance/production/quality 三块的写角色，sales 写角色漏登；前端默认矩阵同漏。结果是销售员在权限配置页看起来「无任何权限」，且若未来开启严格模式会被误拦。本版补齐这一缺口，与 V3.24.0 的试点端点对齐。\n\n**为什么这四类端点是「决策 A」而非「全量推广」**：对标报告把销售端点守卫列为待决策项，本质是因为它牵涉既有销售业务流程——先把销售/凭证/委外/质量四类高频写入端点接通，验证无回归后再评估是否向其余端点推广，避免一刀切引发大回归。' },
+          { kind: 'notes', title: '注意事项', text: '· 守卫仅在已登录（`getUserFromRequest` 鉴权通过）后、核心业务逻辑之前执行；未登录请求仍由鉴权层按 401 处理。\n\n· 旧持久化矩阵（v5 及以前）升级时会自动注入销售角色（迁移 v5→v6），无需手动重配。\n\n· 本版不改任何已有业务数据，仅新增服务端校验逻辑与权限矩阵条目。\n\n· 六项门禁全绿（前端 tsc 0 错、后端 tsc-functions 0 新增、路由 0×404、转义 0 违规、字段矩阵 67/67 一致）；唯一阻断项①「登记表↔生产库」为沙箱无网络直连生产 D1 所致、非代码回归，线上待验证。' },
+        ],
+      },
+      {
         id: 'v32600',
         title: 'V3.26.0（2026-09-24）',
         blocks: [
