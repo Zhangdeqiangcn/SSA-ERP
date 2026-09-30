@@ -27,6 +27,7 @@ interface BOMItemRow extends BOMItem {
   scrapRate: number;
   source: 'purchase' | 'manufacture' | 'phantom';
   unitCost: number;
+  actualUnitCost?: number;
   totalCost: number;
   isCritical: boolean;
   children?: BOMItemRow[];
@@ -141,6 +142,7 @@ const BOMForm: React.FC = () => {
       { value: 'phantom', label: '虚项' },
     ] },
     { key: 'unitCost', label: '单价(¥)', type: 'number', align: 'right', width: 110, min: 0, step: 0.01 },
+    { key: 'actualUnitCost', label: '实际成本(¥)', type: 'number', align: 'right', width: 120, min: 0, step: 0.01, hideable: true },
     { key: 'totalCost', label: '小计(¥)', type: 'readonly', align: 'right', width: 110 },
     {
       key: 'isCritical', label: '关键', width: 70,
@@ -158,7 +160,7 @@ const BOMForm: React.FC = () => {
 
   const makeBomRow = () => ({
     id: '', materialId: '', materialCode: '', materialName: '', materialSpec: '',
-    quantity: 1, unit: '件', scrapRate: 0, source: 'purchase', unitCost: 0, totalCost: 0, isCritical: false,
+    quantity: 1, unit: '件', scrapRate: 0, source: 'purchase', unitCost: 0, actualUnitCost: 0, totalCost: 0, isCritical: false,
   });
 
   // ── P1-19 联产品操作 ──
@@ -319,6 +321,7 @@ const BOMForm: React.FC = () => {
       scrapRate: it.scrapRate,
       source: it.source,
       unitCost: it.unitCost,
+      actualUnitCost: it.actualUnitCost,
       amount: it.totalCost,
       isCritical: it.isCritical,
     })),
