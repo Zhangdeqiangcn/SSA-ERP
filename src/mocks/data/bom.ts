@@ -22,11 +22,11 @@ export const bomList: BOMHeader[] = [
     createdBy: 'user-rd01',
     updatedBy: 'user-rd01',
     items: [
-      { id: 'bi-001', bomId: 'bom-001', level: 1, sequence: 10, materialId: 'mat-001', materialCode: 'MAT-STEEL-Q235-3', materialName: '热轧钢板 Q235B 3mm', materialSpec: '1500×3000×3mm', unit: '张', quantity: 4, scrapRate: 5, unitCost: 280.00, totalCost: 1176.00, source: 'purchase', isCritical: true },
-      { id: 'bi-002', bomId: 'bom-001', level: 1, sequence: 20, materialId: 'mat-002', materialCode: 'MAT-STEEL-H200', materialName: 'H型钢 200×200×8×12', materialSpec: '200×200mm L=6m', unit: '根', quantity: 6, scrapRate: 3, unitCost: 356.00, totalCost: 2201.28, source: 'purchase', isCritical: true },
-      { id: 'bi-003', bomId: 'bom-001', level: 1, sequence: 30, materialId: 'mat-003', materialCode: 'MAT-BOLT-M12-80', materialName: '六角螺栓 M12×80 8.8级', unit: '套', quantity: 48, scrapRate: 2, unitCost: 1.50, totalCost: 73.44, source: 'purchase', isCritical: false },
-      { id: 'bi-004', bomId: 'bom-001', level: 1, sequence: 40, materialId: 'mat-004', materialCode: 'MAT-WELD-E4303', materialName: '焊条 E4303 Φ3.2', unit: 'kg', quantity: 2.5, scrapRate: 10, unitCost: 12.00, totalCost: 33.00, source: 'purchase', isCritical: false, laborCost: 120.00 },
-      { id: 'bi-005', bomId: 'bom-001', level: 1, sequence: 50, materialId: 'mat-005', materialCode: 'MAT-PAINT-GRAY', materialName: '防锈底漆（灰色）', unit: 'kg', quantity: 1.2, scrapRate: 5, unitCost: 28.00, totalCost: 35.28, source: 'purchase', isCritical: false },
+      { id: 'bi-001', bomId: 'bom-001', level: 1, sequence: 10, materialId: 'mat-001', materialCode: 'MAT-STEEL-Q235-3', materialName: '热轧钢板 Q235B 3mm', materialSpec: '1500×3000×3mm', unit: '张', quantity: 4, scrapRate: 5, unitCost: 280.00, actualUnitCost: 295.00, totalCost: 1176.00, source: 'purchase', isCritical: true },
+      { id: 'bi-002', bomId: 'bom-001', level: 1, sequence: 20, materialId: 'mat-002', materialCode: 'MAT-STEEL-H200', materialName: 'H型钢 200×200×8×12', materialSpec: '200×200mm L=6m', unit: '根', quantity: 6, scrapRate: 3, unitCost: 356.00, actualUnitCost: 368.00, totalCost: 2201.28, source: 'purchase', isCritical: true },
+      { id: 'bi-003', bomId: 'bom-001', level: 1, sequence: 30, materialId: 'mat-003', materialCode: 'MAT-BOLT-M12-80', materialName: '六角螺栓 M12×80 8.8级', unit: '套', quantity: 48, scrapRate: 2, unitCost: 1.50, actualUnitCost: 1.42, totalCost: 73.44, source: 'purchase', isCritical: false },
+      { id: 'bi-004', bomId: 'bom-001', level: 1, sequence: 40, materialId: 'mat-004', materialCode: 'MAT-WELD-E4303', materialName: '焊条 E4303 Φ3.2', unit: 'kg', quantity: 2.5, scrapRate: 10, unitCost: 12.00, actualUnitCost: 13.50, totalCost: 33.00, source: 'purchase', isCritical: false, laborCost: 120.00 },
+      { id: 'bi-005', bomId: 'bom-001', level: 1, sequence: 50, materialId: 'mat-005', materialCode: 'MAT-PAINT-GRAY', materialName: '防锈底漆（灰色）', unit: 'kg', quantity: 1.2, scrapRate: 5, unitCost: 28.00, actualUnitCost: 26.00, totalCost: 35.28, source: 'purchase', isCritical: false },
     ],
   },
   {

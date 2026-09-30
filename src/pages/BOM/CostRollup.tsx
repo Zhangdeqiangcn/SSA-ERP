@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Grid, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Button, LinearProgress, Chip, Divider,
@@ -11,59 +11,86 @@ import { Material } from '@/types';
 
 const COST_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'];
 
-/** 差异分析的"实际成本"来源：优先物料主数据移动均价（单位一致时），否则回退 BOM 项自带演示实际成本 */
-type ActualSource = 'movingAvg' | 'demo' | 'none';
+/** 差异分析的"实际成本"来源：优先 BOM 子件维护的实际单价（同口径、可维护），其次物料移动均价（单位一致时） */
+type ActualSource = 'bomActual' | 'movingAvg' | 'none';
 interface ActualResult {
   value: number | undefined;
   source: ActualSource;
-  unitMismatch: boolean; // BOM 单位与物料主数据单位不一致（差异仅供示意）
 }
 
+/**
+ * 解析某 BOM 子件的"实际单价"（用于标准成本差异分析）。
+ * 优先级：
+ *  ① BOM 子件自身维护的 actualUnitCost —— 与标准单价（unitCost）同单位同口径，
+ *     由 BOM 维护者填入，诚实不伪造，最可靠（避免强依赖物料主数据对齐）。
+ *  ② 物料主数据的 movingAvgPrice —— 预埋真实来源，仅当 materialId 能正确关联同口径物料（单位一致）时采用。
+ *     （历史数据里 BOM 子件与物料主数据存在口径错位，故仅作兜底，不强行换算。）
+ *  ③ 两者皆无 → 返回 undefined，界面如实显示"—"，不编造差异率。
+ */
 function resolveActual(item: { materialId?: string; unit: string; unitCost: number; actualUnitCost?: number }, matMap: Map<string, Material>): ActualResult {
-  const mat = item.materialId ? matMap.get(item.materialId) : undefined;
-  if (mat && typeof mat.movingAvgPrice === 'number' && mat.movingAvgPrice > 0) {
-    if (mat.unit === item.unit) {
-      return { value: mat.movingAvgPrice, source: 'movingAvg', unitMismatch: false };
-    }
-    // 单位不一致：移动均价不可直接对比，标注后回退演示实际成本
-    if (typeof item.actualUnitCost === 'number') {
-      return { value: item.actualUnitCost, source: 'demo', unitMismatch: true };
-    }
-    return { value: undefined, source: 'none', unitMismatch: true };
-  }
   if (typeof item.actualUnitCost === 'number') {
-    return { value: item.actualUnitCost, source: 'demo', unitMismatch: false };
+    return { value: item.actualUnitCost, source: 'bomActual' };
   }
-  return { value: undefined, source: 'none', unitMismatch: false };
+  const mat = item.materialId ? matMap.get(item.materialId) : undefined;
+  if (mat && typeof mat.movingAvgPrice === 'number' && mat.movingAvgPrice > 0 && mat.unit === item.unit) {
+    return { value: mat.movingAvgPrice, source: 'movingAvg' };
+  }
+  return { value: undefined, source: 'none' };
+}
+
+/**
+ * 把（可能嵌套的）BOM 子件树递归展平为最底层物料行。
+ * - D1 返回的 items 已是平铺数组（按 level/parentItemId），递归时直接收集；
+ * - mock 回填前的 items 可能带 children 嵌套，递归展开；
+ * - 排除"子装配占位行"（source=manufacture 且 unitCost=0、totalCost=0）：其成本在子件中，避免重复计算。
+ */
+function collectLeaves(items: any[]): any[] {
+  const out: any[] = [];
+  for (const it of items || []) {
+    if (it?.children && it.children.length) {
+      out.push(...collectLeaves(it.children));
+    } else if (it?.source === 'manufacture' && (it?.unitCost ?? 0) === 0 && (it?.totalCost ?? 0) === 0) {
+      continue; // 子装配占位：成本已计入其子件，跳过
+    } else {
+      out.push(it);
+    }
+  }
+  return out;
 }
 
 const CostRollup: React.FC = () => {
-  const { bomList, bomTreeData } = useBOMStore();
+  const { bomList } = useBOMStore();
   const { materials } = useMaterialStore();
   const [selectedBOM, setSelectedBOM] = useState(bomList[0]);
   const [calculated, setCalculated] = useState(true);
 
+  // 选中 BOM 跟随 D1 数据（load 完成后 bomList 被真实数据覆盖，按 id 重新定位）
+  const activeBOM = bomList.find((b) => b.id === (selectedBOM?.id ?? bomList[0]?.id)) || bomList[0] || selectedBOM;
+
   const matMap = new Map<string, Material>(materials.map((m) => [m.id, m]));
 
-  const materialCost = bomTreeData.reduce((sum, i) => sum + i.totalCost, 0);
+  // ── 接通 D1：直接取真实 BOM 子件（递归摊平到最底层），不再用全局 mock bomTreeData ──
+  const bomItems = useMemo(() => collectLeaves((activeBOM as any)?.items || []), [activeBOM]);
+
+  const materialCost = bomItems.reduce((sum, i) => sum + (i.totalCost || 0), 0);
   const laborCost = materialCost * 0.15;
   const overheadCost = materialCost * 0.12;
   const totalCost = materialCost + laborCost + overheadCost;
 
-  // ── 标准成本差异分析（决策 E）──
-  const varianceRows = bomTreeData.map((i) => {
+  // ── 标准成本差异分析（决策 E · V3.32.0 接通 D1 后真实化）──
+  const varianceRows = bomItems.map((i) => {
     const actual = resolveActual(i, matMap);
-    const stdQty = i.quantity * (1 + i.scrapRate / 100);
-    const stdTotal = i.unitCost * stdQty;
+    const stdQty = i.quantity * (1 + (i.scrapRate || 0) / 100);
+    const stdTotal = (i.unitCost || 0) * stdQty;
     const actTotal = actual.value !== undefined ? actual.value * stdQty : undefined;
     const diffTotal = actTotal !== undefined ? actTotal - stdTotal : undefined;
-    const diffPct = actual.value !== undefined ? actual.value / i.unitCost - 1 : undefined;
+    const diffPct = actual.value !== undefined ? actual.value / (i.unitCost || 1) - 1 : undefined;
     return { ...i, actual, stdTotal, actTotal, diffTotal, diffPct };
   });
   const actualTotalCost = varianceRows.reduce((s, r) => s + (r.actTotal || 0), 0);
   const varianceTotal = actualTotalCost - materialCost;
   const variancePct = materialCost > 0 ? varianceTotal / materialCost : 0;
-  const mismatchCount = varianceRows.filter((r) => r.actual.unitMismatch).length;
+  const hasActual = varianceRows.some((r) => r.actual.value !== undefined);
 
   const breakdown = [
     { label: '原材料成本', value: materialCost, percentage: (materialCost / totalCost) * 100, color: '#3B82F6' },
@@ -93,8 +120,8 @@ const CostRollup: React.FC = () => {
                 onClick={() => setSelectedBOM(bom)}
                 sx={{
                   p: 1.5, borderRadius: 2, cursor: 'pointer', mb: 1,
-                  border: `1px solid ${selectedBOM.id === bom.id ? '#3B82F6' : 'rgba(226,232,240,0.8)'}`,
-                  bgcolor: selectedBOM.id === bom.id ? '#EFF6FF' : '#FAFAFA',
+                  border: `1px solid ${(selectedBOM?.id ?? bomList[0]?.id) === bom.id ? '#3B82F6' : 'rgba(226,232,240,0.8)'}`,
+                  bgcolor: (selectedBOM?.id ?? bomList[0]?.id) === bom.id ? '#EFF6FF' : '#FAFAFA',
                 }}
               >
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -165,14 +192,14 @@ const CostRollup: React.FC = () => {
                 </Grid>
               </Paper>
 
-              {/* 标准成本差异分析（决策 E） */}
+              {/* 标准成本差异分析（决策 E · 接通 D1 真实化） */}
               <Paper sx={{ p: 3, borderRadius: 3, mb: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>标准成本差异分析</Typography>
                   <Chip
                     size="small"
-                    label={mismatchCount > 0 ? `${mismatchCount} 项单位不一致` : '口径已对齐'}
-                    sx={{ bgcolor: mismatchCount > 0 ? '#FEF3C7' : '#ECFDF5', color: mismatchCount > 0 ? '#92400E' : '#10B981' }}
+                    label={hasActual ? '已含实际成本' : '尚未维护实际成本'}
+                    sx={{ bgcolor: hasActual ? '#ECFDF5' : '#FEF3C7', color: hasActual ? '#10B981' : '#92400E' }}
                   />
                 </Box>
                 <Grid container spacing={2}>
@@ -206,11 +233,11 @@ const CostRollup: React.FC = () => {
                   </Grid>
                 </Grid>
                 <Typography variant="caption" sx={{ color: '#94A3B8', display: 'block', mt: 1.5 }}>
-                  实际成本优先取物料主数据移动均价（单位一致时采用），否则取 BOM 项维护的演示实际成本；差异率＝(实际−标准)/标准，正值=超支(红)、负值=节约(绿)。
+                  实际成本优先取 BOM 子件维护的「实际单价」（与标准单价同口径、由 BOM 维护者填入）；物料主数据移动均价为预埋真实来源（单位一致时自动采用）。差异率＝(实际−标准)/标准，正值=超支(红)、负值=节约(绿)。
                 </Typography>
               </Paper>
 
-              {/* 物料明细 */}
+              {/* 物料明细（接通 D1 真实子件） */}
               <Paper sx={{ borderRadius: 3 }}>
                 <Box sx={{ p: 2.5, borderBottom: '1px solid rgba(226,232,240,0.8)' }}>
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>物料成本明细</Typography>
@@ -237,29 +264,26 @@ const CostRollup: React.FC = () => {
                           <TableCell><Typography variant="body2">{row.materialName}</Typography></TableCell>
                           <TableCell><Typography variant="body2">{row.quantity}</Typography></TableCell>
                           <TableCell><Typography variant="body2">{row.unit}</Typography></TableCell>
-                          <TableCell><Typography variant="body2">¥{row.unitCost.toFixed(2)}</Typography></TableCell>
+                          <TableCell><Typography variant="body2">¥{(row.unitCost || 0).toFixed(2)}</Typography></TableCell>
                           <TableCell>
                             {row.actual.value !== undefined ? (
                               <Box>
                                 <Typography variant="body2">¥{row.actual.value.toFixed(2)}</Typography>
-                                <Typography variant="caption" sx={{ color: row.actual.source === 'movingAvg' ? '#10B981' : '#94A3B8' }}>
-                                  {row.actual.source === 'movingAvg' ? '移动均价' : '演示实际'}
+                                <Typography variant="caption" sx={{ color: row.actual.source === 'movingAvg' ? '#10B981' : '#64748B' }}>
+                                  {row.actual.source === 'movingAvg' ? '移动均价' : '维护实际'}
                                 </Typography>
                               </Box>
                             ) : (
                               <Typography variant="body2" sx={{ color: '#94A3B8' }}>—</Typography>
                             )}
                           </TableCell>
-                          <TableCell><Typography variant="body2" sx={{ fontWeight: 500 }}>¥{row.totalCost.toFixed(2)}</Typography></TableCell>
+                          <TableCell><Typography variant="body2" sx={{ fontWeight: 500 }}>¥{(row.totalCost || 0).toFixed(2)}</Typography></TableCell>
                           <TableCell>
                             {row.diffPct !== undefined ? (
                               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 <Typography variant="body2" sx={{ fontWeight: 600, color: row.diffPct > 0.005 ? '#EF4444' : row.diffPct < -0.005 ? '#10B981' : '#64748B' }}>
                                   {row.diffPct > 0 ? '+' : ''}{(row.diffPct * 100).toFixed(1)}%
                                 </Typography>
-                                {row.actual.unitMismatch && (
-                                  <Chip size="small" label="单位不一致" sx={{ height: 16, fontSize: 9, bgcolor: '#FEF3C7', color: '#92400E' }} />
-                                )}
                               </Box>
                             ) : (
                               <Typography variant="body2" sx={{ color: '#94A3B8' }}>—</Typography>
@@ -269,11 +293,11 @@ const CostRollup: React.FC = () => {
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                               <LinearProgress
                                 variant="determinate"
-                                value={(row.totalCost / materialCost) * 100}
+                                value={materialCost > 0 ? (row.totalCost / materialCost) * 100 : 0}
                                 sx={{ width: 50, height: 4, borderRadius: 2, bgcolor: '#F1F5F9' }}
                               />
                               <Typography variant="caption" sx={{ color: '#64748B' }}>
-                                {((row.totalCost / materialCost) * 100).toFixed(1)}%
+                                {materialCost > 0 ? ((row.totalCost / materialCost) * 100).toFixed(1) : '0.0'}%
                               </Typography>
                             </Box>
                           </TableCell>
