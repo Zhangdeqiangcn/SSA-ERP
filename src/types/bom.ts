@@ -70,6 +70,12 @@ export interface BOMItem {
   scrapRate: number;       // 废品率 %
   unitCost: number;
   totalCost: number;
+  /**
+   * 实际单价（移动均价口径，与 unitCost 同单位同口径）。
+   * 真实来源应为物料主数据的 movingAvgPrice（按 materialId 关联、单位一致时优先采用）；
+   * 演示态由 BOM 项自带此字段，避免强依赖物料主数据对齐。待 bomTreeData 接通 D1 后切换为真实来源。
+   */
+  actualUnitCost?: number;
   leadTime?: number;       // 采购/生产提前期（天）
   source: 'purchase' | 'manufacture' | 'phantom';
   isCritical: boolean;
