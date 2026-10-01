@@ -1028,6 +1028,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33400',
+        title: 'V3.34.0（2026-10-02）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版把 V3.31.0 在 BOM 成本卷积页预埋的「真实来源＝物料移动均价」通道真正打通——重做 BOM 子件 ↔ 物料主数据映射，让差异分析的「实际单价」能真正按 materialId 取到物料移动均价，而不再只靠 BOM 行维护的演示实际成本。**\n\n---\n\n**一、新增 14 个同口径对齐物料 `mat-bom-*`**\n\nV3.31.0 的 `resolveActual` 早已定义取数优先级：① BOM 子件 `actualUnitCost` 为 number → `bomActual`；② 否则物料 `movingAvgPrice` 且 `mat.unit === item.unit` → `movingAvg`；③ 否则 `none`。但 BOM 子件 `mat-001~mat-005`（钢板/工字钢/螺栓/焊条/油漆）与物料主数据 `mat-001~mat-005`（H型钢/螺栓/螺栓/螺栓/螺栓）是**同名不同物、且单位不一致**（如 BOM 钢板单位「张」vs 物料「吨」），`mat.unit !== item.unit` 永远成立，移动均价分支永不生效；`bom-003` 的 `mat-cab-steel/mat-angle/mat-glass/...` 在物料主数据里根本不存在。本版**不改动现有全局物料**（避免采购/库存演示崩 + 采购单位≠BOM用量单位的大回归），而是新增 14 个与 BOM 子件**完全同口径**（同名称/规格/单位）的对齐物料 `mat-bom-*`，每个带真实进价口径的 `standardPrice`/`movingAvgPrice`（如 mat-bom-steel3: 280/268、mat-bom-bolt12: 1.5/1.46、mat-bom-weld: 12/12.8、mat-bom-paint: 28/26.5）、`valuationClass:"RAW"`、`priceControl:"V"` 及完整库存/安全字段。\n\n**二、BOM 子件 `materialId` 改指 `mat-bom-*`**\n\n`src/mocks/data/bom.ts` 14 处 `materialId` 替换（`bomList` 与 `bomTreeData` 两处一并改对）；顺手修正 `bom-003` 的 `productId` 错指（`mat-011` 油漆 → `mat-fg-002` 标准配电柜箱体成品）。\n\n**三、三套数据分别处理**\n\n· mock 层（`src/mocks/data/`）：本版直接改对，演示态自洽；\n· 种子层（`scripts/seed/seed_materials.sql`）：重写为 20 条（原 6 + 新增 14），每条严格 60 字段对齐；\n· 生产 D1：另建 `scripts/fix_bom_material_mapping.sql`（INSERT 14 物料 + UPDATE 14 条 `material_id` 映射，`org_id` 用标量子查询自动取组织），**由强哥在有 `CLOUDFLARE_API_TOKEN` 的机器执行**——沙箱无网络，不擅自写生产库。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么新增对齐料而非改全局物料**：把 `mat-001~mat-005` 的单位/价格改成与 BOM 一致，会破坏库存、采购、生产计划等大量模块演示，且 BOM 用量单位（张/套/kg）本就与采购单位（吨/个）不同——正确修复是「新增同口径料」而非互相将就，符合「不引发大回归」铁律。\n\n**为什么生产 D1 不上线自动跑**：沙箱无网直连生产 D1 会失败（历史门禁阻断项①同源），且生产组织隔离——`org_id` 须取自目标组织而非硬编码。故交付可幂等执行的同步脚本，由强哥在可联网机器跑 `wrangler d1 execute ssa-erp-db --remote --file=scripts/fix_bom_material_mapping.sql`，脚本内 UPDATE 用 `UPDATE bom_items SET material_id=... WHERE material_id=旧编号`（若生产实际值不同会命中 0 行，注释已提示先用 `SELECT DISTINCT material_id FROM bom_items` 核对）。\n\n**为什么顺手修 bom-003 的 productId**：该成品父项此前错指到「油漆 mat-011」，属于同批历史错位，借本次映射重做一并纠正，避免配电柜成品挂错物料主数据。' },
+          { kind: 'notes', title: '注意事项', text: '· 演示态差异分析现在能真正走 `movingAvg` 分支（BOM 子件单位与 `mat-bom-*` 单位一致）→ 取物料移动均价，不再只靠 `actualUnitCost` 演示值；错位事实清单：mat-001↔mat-bom-steel3、mat-002↔mat-bom-h200、mat-003↔mat-bom-bolt12、mat-004↔mat-bom-weld、mat-005↔mat-bom-paint、mat-cab-steel↔mat-bom-cabsteel、mat-angle↔mat-bom-angle、mat-glass↔mat-bom-glass、mat-hinge↔mat-bom-hinge、mat-lock↔mat-bom-lock、mat-seal↔mat-bom-seal、mat-zsteel↔mat-bom-zsteel、mat-ins↔mat-bom-ins、mat-led↔mat-bom-led。\n\n· 生产库同步：执行 `scripts/fix_bom_material_mapping.sql`（需 `CLOUDFLARE_API_TOKEN` + 联网）；seed 与生产是不同于 mock 的另一套数据（如 mat-fg-002 在种子里为「轻型货架组件 SH200」），脚本注释与 org_id 标量子查询已处理该差异。\n\n· 本版只改 mock/种子/新增生产同步脚本，不动现有 `mat-001~015`、不加迁移、不改任何后端端点，不影响路由/转义/字段矩阵；前端 tsc 0 错。\n\n· BOM 子件↔物料映射错位专项收口（口径＝新增同口径对齐料，不动全局物料）；差异分析「实际」来源优先级仍为 actualUnitCost → 移动均价 → none(显示「—」)，不编造。' },
+        ],
+      },
+      {
         id: 'v33300',
         title: 'V3.33.0（2026-10-01）',
         blocks: [
