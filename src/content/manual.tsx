@@ -1028,6 +1028,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33600',
+        title: 'V3.36.0（2026-10-02）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版收口待办 #34（DB-002 凭证写入事务）——把凭证「更新」与「删除」两条写入路径从多个独立 `.run()` 改为同一 D1 `db.batch()` 原子批次，杜绝中途失败导致凭证头与分录不一致。**\n\n---\n\n**一、复核结论（修正旧审计报告）**\n\n回代码复核发现：创建凭证早已收口——`functions/_shared/voucherWriter.ts` 的 `writeVoucher` 用 `await db.batch([headStmt, ...itemStmts])` 原子写头+分录。真正未收口的是：`functions/api/vouchers/[id].ts` 的**更新**（改头 + 删分录 + 插分录，三个独立 `.run()`）与**删除**（删头 + 删分录，两个独立 `.run()`）。\n\n**二、修复**\n\n- 更新路径：把「UPDATE 头 + DELETE 分录 + 循环 INSERT 分录」收集为语句数组，一次性 `db.batch(stmts)`；\n\n- 删除路径：把「DELETE 头 + DELETE 分录」包进同一个 `db.batch()`；审计(`audit`)留在事务外，按降级铁律审计失败不得回滚业务。\n\n**三、边界**\n\nD1 `db.batch` 单次上限 100 条语句，与 `writeVoucher` 一致；会计凭证分录极少超此数。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么只对更新/删除收口、不动创建**：创建已原子（writeVoucher 的 batch），重复改造无意义且可能引入回归。**为什么审计不进事务**：本项目审计降级铁律（审计写失败只降级留痕、绝不阻断业务）；若把 audit 塞进 batch，审计库的瞬时故障会连累凭证本体写失败，本末倒置。**为什么用 batch 而非 BEGIN/COMMIT 事务**：D1 的 `db.batch()` 是原生原子批量（all-or-nothing），比手写多语句事务更稳、且项目已有先例（writeVoucher），零新范式。' },
+          { kind: 'notes', title: '注意事项', text: '· 仅后端 `functions/api/vouchers/[id].ts` 两处改动（更新/删除），无前端改动、不加迁移、不影响路由/转义/字段矩阵；前端 tsc 0 错、后端 tsc-functions 0 新增、语法 0 错。\n\n· 旧审计报告把 DB-002 标「凭证侧未收口」是笼统结论；精确事实是「创建已收口、更新/删除未收口」，本版补齐后者。\n\n· 验证局限：改动与已上线 `writeVoucher` 的 batch 同款（语法/类型门禁已确认 0 新增），真实往返（更新/删除凭证）建议后续跑财务 E2E 套件或手动打生产接口复核——本版未独立做真实往返，按诚实原则标注。' },
+        ],
+      },
+      {
         id: 'v33500',
         title: 'V3.35.0（2026-10-02）',
         blocks: [
