@@ -1028,6 +1028,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33500',
+        title: 'V3.35.0（2026-10-02）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版修掉门禁「阻断项①（登记表↔生产库核对）」长期假失败的真因——不是沙箱无网，而是核对脚本让当前 node 进程同步派生自身、Windows 下报 EBUSY 拿不到返回。**\n\n---\n\n**一、根因**\n\n`scripts/_verify_registries_vs_db.mjs` 的 `d1()` 用 `spawnSync(process.execPath, [wranglerBin(), ...])`：当前 node 进程**同步派生自身**去跑 wrangler，Windows 下子进程镜像文件锁冲突报 `EBUSY`，stdout 永远为空，脚本判「无输出」→ 每版门禁①假失败，长期被误判成「沙箱无网直连生产 D1 失败」。\n\n**二、修复**\n\n把 `d1()` 改为**异步 `spawn`（不再同步派生自身）**，与在终端里 `node wrangler.js d1 execute` 能成功的路径一致；脚本主流程包进 `async main()`，`d1()` 返回 Promise。\n\n**三、验证**\n\n修复后手动跑该脚本连生产库：真实返回 **110 张业务表**，5 份登记表（rls / entities / validate / backupSchema）双向核对**全部对齐（僵尸登记 0、漏登记 0）**。这同时坐实两点：① 历史每版①失败确为 EBUSY 而非无网；② 本版 V3.34.0 确实未触碰任何登记表，无漂移。' },
+          { kind: 'why', title: '为什么重要', text: '**门禁①的设计意图是「真能发现登记表漂移」**（rls/entities/validate/backupSchema 与真实库双向比对，漏登记=RLS 默认拒绝=空表这类静默失效）。但过去它每版都「假失败」，等于这个护栏从未真正生效——漂移若真发生也发现不了。修复后①恢复设计能力，是消除盲区而非新增负担。**为什么之前误判成无网**：当时只看到「脚本拿不到输出」，没往「同步派生自身 EBUSY」方向查，且与 deploy 能联网并存（deploy 不走这条 spawn 路径）造成混淆。' },
+          { kind: 'notes', title: '注意事项', text: '· 纯脚本改动（`scripts/_verify_registries_vs_db.mjs`），无前端/后端业务代码变更，不影响路由/转义/字段矩阵/前端 tsc。\n\n· 修复后门禁①会**真正连生产库核查**（110 张表），每次 `npm run check` 默认跑①②；本版无漂移故 PASS，后续若有人改动登记表且漂移会被真阻断——这正是盲区消除的价值。\n\n· 仍保留「沙箱无网时①失败」的兜底认知：若将来某次门禁因网络波动①失败，应先区分「真漂移」还是「网络问题」，而非一律归为无网。' },
+        ],
+      },
+      {
         id: 'v33400',
         title: 'V3.34.0（2026-10-02）',
         blocks: [

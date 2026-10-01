@@ -14,8 +14,14 @@
  *
  * 做法：以**生产库 sqlite_master 为唯一事实源**，逐份清单双向比对。
  * 通过门槛：漏登记 0、僵尸登记 0（允许的例外必须显式登记在 ALLOW_* 白名单里并写明理由）。
+ *
+ * ★ V3.35.0 修复（#43）：原 d1() 用 `spawnSync(process.execPath, [wranglerBin(), ...])`
+ *   让当前 node 进程**同步派生自身**，Windows 下报 EBUSY（进程锁），stdout 永远为空，
+ *   导致本核对每版「假失败」、被误判成「沙箱无网」而非代码问题。改为**异步 spawn（经
+ *   shell 派生）**后，与 `node wrangler.js d1 execute` 成功路径一致，能真正拿到生产库
+ *   返回，使门禁①（阻断项）恢复其设计能力——真能发现登记表漂移。
  */
-import { spawnSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
@@ -44,14 +50,32 @@ function wranglerBin() {
   throw new Error('找不到 wrangler：请设置 WRANGLER_BIN 环境变量');
 }
 
+/** 异步执行远端 D1 查询，返回 results 数组。改用异步 spawn（不再同步派生自身），避免 Windows EBUSY。 */
 function d1(sql) {
-  const r = spawnSync(process.execPath, [wranglerBin(), 'd1', 'execute', 'ssa-erp-db', '--remote', '--json', '--command', sql], {
-    encoding: 'utf8', cwd: root, maxBuffer: 64 * 1024 * 1024,
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      [wranglerBin(), 'd1', 'execute', 'ssa-erp-db', '--remote', '--json', '--command', sql],
+      { encoding: 'utf8', cwd: root, maxBuffer: 64 * 1024 * 1024, env: process.env }
+    );
+    let out = '';
+    let err = '';
+    child.stdout.on('data', (d) => { out += d; });
+    child.stderr.on('data', (d) => { err += d; });
+    child.on('error', (e) => reject(e));
+    child.on('close', (code) => {
+      const i = out.indexOf('[');
+      if (i < 0) {
+        reject(new Error(`wrangler 输出异常 (exit ${code}):\n${out.slice(0, 800)}\n${err.slice(0, 400)}`));
+        return;
+      }
+      try {
+        resolve(JSON.parse(out.slice(i))[0].results);
+      } catch (e) {
+        reject(new Error(`JSON 解析失败:\n${out.slice(0, 800)}\n${err.slice(0, 400)}`));
+      }
+    });
   });
-  const out = r.stdout || '';
-  const i = out.indexOf('[');
-  if (i < 0) throw new Error('wrangler 输出异常:\n' + out.slice(0, 800) + (r.stderr || ''));
-  return JSON.parse(out.slice(i))[0].results;
 }
 
 /**
@@ -112,100 +136,107 @@ function grabArrayStrings(file, constName) {
   return [...body.matchAll(/['"]([a-z_][a-z_0-9]*)['"]/g)].map(m => m[1]);
 }
 
-console.log('══════ 清单型登记表 ↔ 生产库 双向核对 ══════\n');
+async function main() {
+  console.log('══════ 清单型登记表 ↔ 生产库 双向核对 ══════\n');
 
-// ── 1. 事实源：生产库真实表 ──────────────────────────────
-const rows = d1("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
-const dbTables = new Set(rows.map(r => r.name).filter(n => !n.startsWith('sqlite_') && !n.startsWith('_cf_')));
-console.log(`生产库真实表 = ${dbTables.size} 张（已排除 sqlite_ / _cf_ 前缀）\n`);
+  // ── 1. 事实源：生产库真实表 ──────────────────────────────
+  const rows = await d1("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
+  const dbTables = new Set(rows.map(r => r.name).filter(n => !n.startsWith('sqlite_') && !n.startsWith('_cf_')));
+  console.log(`生产库真实表 = ${dbTables.size} 张（已排除 sqlite_ / _cf_ 前缀）\n`);
 
-// ── 2. 各清单 ────────────────────────────────────────────
-/**
- * ★ 口径比正则更重要：每份清单要先问「它打算覆盖什么」，只核对那一维。
- *   - 全量式（打算覆盖所有业务表）→ 漏登记 + 僵尸登记 **双向都查**
- *   - 覆盖式（只登记特殊情况，如多子表）→ **只查僵尸登记**（查漏登记会全是噪音）
- */
-const registries = [
-  {
-    label: 'rls.ts  RLS_SCOPE ∪ RLS_EXEMPT',
-    note: '全量式：任何一张业务表都必须在二者之一，否则 RLS 返回 1=0（静默空表）',
-    mode: 'full',
-    // ★ RLS 是「SCOPE + EXEMPT 两张表合起来覆盖」，只查 SCOPE 会把豁免表全误报成漏登记
-    grab: () => [
-      ...(grabKeys('functions/_shared/rls.ts', 'RLS_SCOPE') || []),
-      ...(grabKeys('functions/_shared/rls.ts', 'RLS_EXEMPT') || []),
-    ],
-    allowMissing: ['schema_migrations', 'd1_migrations'], // 迁移元数据，非业务表
-  },
-  {
-    label: 'entities.ts  ENTITY_RESOURCES.table',
-    note: '覆盖式：只登记走通用实体端点的资源，故只查「登记的表名在库里是否存在」',
-    mode: 'ghost',
-    // ★ ENTITY_RESOURCES 是 Record 对象形态，块括号是 {} 不是 []
-    grab: () => grabFieldValues('functions/_shared/entities.ts', 'ENTITY_RESOURCES', ['table'], '{', '}'),
-  },
-  {
-    label: 'validate.ts  CHILD_TABLE_OVERRIDE',
-    note: '覆盖式：只有「父子表名不按默认规则推导」才登记',
-    mode: 'ghost',
-    grab: () => grabKeys('functions/_shared/validate.ts', 'CHILD_TABLE_OVERRIDE'),
-  },
-  {
-    label: 'backupSchema.ts  CHILD_TABLES(table+parent)',
-    note: '覆盖式：备份用的父子表关系，table 与 parent 双方都必须真实存在',
-    mode: 'ghost',
-    grab: () => grabFieldValues('functions/_shared/backupSchema.ts', 'CHILD_TABLES', ['table', 'parent']),
-  },
-  {
-    label: 'backupSchema.ts  EXCLUDED_TABLES',
-    note: '白名单：不参与备份的表，须真实存在（否则是拼错的死条目）',
-    mode: 'ghost',
-    grab: () => grabArrayStrings('functions/_shared/backupSchema.ts', 'EXCLUDED_TABLES'),
-  },
-];
+  // ── 2. 各清单 ────────────────────────────────────────────
+  /**
+   * ★ 口径比正则更重要：每份清单要先问「它打算覆盖什么」，只核对那一维。
+   *   - 全量式（打算覆盖所有业务表）→ 漏登记 + 僵尸登记 **双向都查**
+   *   - 覆盖式（只登记特殊情况，如多子表）→ **只查僵尸登记**（查漏登记会全是噪音）
+   */
+  const registries = [
+    {
+      label: 'rls.ts  RLS_SCOPE ∪ RLS_EXEMPT',
+      note: '全量式：任何一张业务表都必须在二者之一，否则 RLS 返回 1=0（静默空表）',
+      mode: 'full',
+      // ★ RLS 是「SCOPE + EXEMPT 两张表合起来覆盖」，只查 SCOPE 会把豁免表全误报成漏登记
+      grab: () => [
+        ...(grabKeys('functions/_shared/rls.ts', 'RLS_SCOPE') || []),
+        ...(grabKeys('functions/_shared/rls.ts', 'RLS_EXEMPT') || []),
+      ],
+      allowMissing: ['schema_migrations', 'd1_migrations'], // 迁移元数据，非业务表
+    },
+    {
+      label: 'entities.ts  ENTITY_RESOURCES.table',
+      note: '覆盖式：只登记走通用实体端点的资源，故只查「登记的表名在库里是否存在」',
+      mode: 'ghost',
+      // ★ ENTITY_RESOURCES 是 Record 对象形态，块括号是 {} 不是 []
+      grab: () => grabFieldValues('functions/_shared/entities.ts', 'ENTITY_RESOURCES', ['table'], '{', '}'),
+    },
+    {
+      label: 'validate.ts  CHILD_TABLE_OVERRIDE',
+      note: '覆盖式：只有「父子表名不按默认规则推导」才登记',
+      mode: 'ghost',
+      grab: () => grabKeys('functions/_shared/validate.ts', 'CHILD_TABLE_OVERRIDE'),
+    },
+    {
+      label: 'backupSchema.ts  CHILD_TABLES(table+parent)',
+      note: '覆盖式：备份用的父子表关系，table 与 parent 双方都必须真实存在',
+      mode: 'ghost',
+      grab: () => grabFieldValues('functions/_shared/backupSchema.ts', 'CHILD_TABLES', ['table', 'parent']),
+    },
+    {
+      label: 'backupSchema.ts  EXCLUDED_TABLES',
+      note: '白名单：不参与备份的表，须真实存在（否则是拼错的死条目）',
+      mode: 'ghost',
+      grab: () => grabArrayStrings('functions/_shared/backupSchema.ts', 'EXCLUDED_TABLES'),
+    },
+  ];
 
-let totalGhost = 0, totalMissing = 0;
-const report = [];
+  let totalGhost = 0, totalMissing = 0;
+  const report = [];
 
-for (const reg of registries) {
-  let keys;
-  try { keys = reg.grab(); } catch (e) { report.push(`⚠️  ${reg.label} 解析失败：${e.message}`); totalGhost++; continue; }
-  if (!keys) { report.push(`⚠️  ${reg.label} 未找到该常量，跳过`); totalGhost++; continue; }
-  // ★「0 项」是不可信信号：通常是解析器又找错了块/正则，而不是清单真的空。
-  //   与其给出一片「僵尸 0」的假绿，不如直接判失败逼人去看。
-  if (keys.length === 0) {
-    report.push(`── ${reg.label}`);
-    report.push(`   ❌ 解析出 0 项 —— 判为核对器缺陷，不认可为「通过」（请检查块括号形态与正则）`);
-    report.push('');
-    totalGhost++;
-    continue;
-  }
-  const set = new Set(keys);
-  const ghost = [...set].filter(k => !dbTables.has(k));
-  totalGhost += ghost.length;
-
-  report.push(`── ${reg.label}（有效项 ${set.size}）`);
-  report.push(`   ${reg.note}`);
-  if (ghost.length) report.push(`   ❌ 僵尸登记 ${ghost.length}：${ghost.join(', ')}`);
-  else report.push(`   ✅ 僵尸登记 0`);
-
-  if (reg.mode === 'full') {
-    const allow = new Set(reg.allowMissing || []);
-    const missing = [...dbTables].filter(t => !set.has(t) && !allow.has(t));
-    totalMissing += missing.length;
-    if (missing.length) {
-      report.push(`   ❌ 漏登记 ${missing.length}：${missing.join(', ')}`);
-    } else {
-      report.push(`   ✅ 漏登记 0${allow.size ? `（显式放行 ${allow.size}：${[...allow].join(', ')}）` : ''}`);
+  for (const reg of registries) {
+    let keys;
+    try { keys = reg.grab(); } catch (e) { report.push(`⚠️  ${reg.label} 解析失败：${e.message}`); totalGhost++; continue; }
+    if (!keys) { report.push(`⚠️  ${reg.label} 未找到该常量，跳过`); totalGhost++; continue; }
+    // ★「0 项」是不可信信号：通常是解析器又找错了块/正则，而不是清单真的空。
+    //   与其给出一片「僵尸 0」的假绿，不如直接判失败逼人去看。
+    if (keys.length === 0) {
+      report.push(`── ${reg.label}`);
+      report.push(`   ❌ 解析出 0 项 —— 判为核对器缺陷，不认可为「通过」（请检查块括号形态与正则）`);
+      report.push('');
+      totalGhost++;
+      continue;
     }
-  } else {
-    report.push(`   － 漏登记不查（覆盖式清单，查了全是噪音）`);
+    const set = new Set(keys);
+    const ghost = [...set].filter(k => !dbTables.has(k));
+    totalGhost += ghost.length;
+
+    report.push(`── ${reg.label}（有效项 ${set.size}）`);
+    report.push(`   ${reg.note}`);
+    if (ghost.length) report.push(`   ❌ 僵尸登记 ${ghost.length}：${ghost.join(', ')}`);
+    else report.push(`   ✅ 僵尸登记 0`);
+
+    if (reg.mode === 'full') {
+      const allow = new Set(reg.allowMissing || []);
+      const missing = [...dbTables].filter(t => !set.has(t) && !allow.has(t));
+      totalMissing += missing.length;
+      if (missing.length) {
+        report.push(`   ❌ 漏登记 ${missing.length}：${missing.join(', ')}`);
+      } else {
+        report.push(`   ✅ 漏登记 0${allow.size ? `（显式放行 ${allow.size}：${[...allow].join(', ')}）` : ''}`);
+      }
+    } else {
+      report.push(`   － 漏登记不查（覆盖式清单，查了全是噪音）`);
+    }
+    report.push('');
   }
-  report.push('');
+
+  console.log(report.join('\n'));
+  console.log(`\n══════ 汇总 ══════`);
+  console.log(`僵尸登记 = ${totalGhost}　漏登记 = ${totalMissing}`);
+  console.log(totalGhost === 0 && totalMissing === 0 ? '✅ 全部对齐' : '❌ 存在不一致，须逐项处理');
+  process.exit(totalGhost === 0 && totalMissing === 0 ? 0 : 1);
 }
 
-console.log(report.join('\n'));
-console.log(`\n══════ 汇总 ══════`);
-console.log(`僵尸登记 = ${totalGhost}　漏登记 = ${totalMissing}`);
-console.log(totalGhost === 0 && totalMissing === 0 ? '✅ 全部对齐' : '❌ 存在不一致，须逐项处理');
-process.exit(totalGhost === 0 && totalMissing === 0 ? 0 : 1);
+main().catch((e) => {
+  console.error(e && e.message ? e.message : e);
+  process.exit(1);
+});
