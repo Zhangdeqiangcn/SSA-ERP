@@ -1028,6 +1028,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33700',
+        title: 'V3.37.0（2026-10-02）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**这一版收口待办 #36（SEC-002 凭据审计留痕）——回代码复核发现旧审计笼统结论已过时：除「税务网关配置清除」外，所有凭据端点早已审计；并顺带用生产库实证确认待办 #35（DB-003 唯一约束范围）已修。**\n\n---\n\n**一、SEC-002 唯一真缺口（已补）**\n\n回代码逐端点复核凭据/密钥类写操作：开放平台 API Key（open/keys 的 create/revoke/rotate）、改密码（change-password）、邮件 SMTP 授权码（mail-config）、备份导出（backup）、AI 对话（ai/chat invoke）、AI 模型配置（ai/models 的 POST/PUT/DELETE）、税务网关配置保存（tax-gateway POST）**全部已调 writeAudit 且敏感值不进审计、不回明文**；唯一缺口是 `functions/api/tax-gateway/index.ts` 的 **DELETE（清除含 apiKey/apiSecret 的税务网关配置）原未留痕**，本版补 `writeAudit`（摘要记服务商、绝不记密钥值）。SEC-002 收口。\n\n**二、DB-003 经实证已修（无代码改动）**\n\n旧审计把 DB-003（唯一约束范围）标「部分修」；回代码复核＋**连生产库查 sqlite_master** 确认：迁移 0060/0061/0065/0067/0068 已把全局单字段 UNIQUE 改为 `UNIQUE(org_id, 业务键)` 组织隔离复合索引，生产实证 vouchers/work_orders/vendors/purchase_requests/process_routes 等仅含 `(org_id, 列)` 索引、无单列全局唯一残留，原「过宽误拦不同组织共用单号」已真正修复。' },
+          { kind: 'why', title: '为什么重要', text: '**凭据审计留痕是安全审计的基础能力**：谁在什么时候创建/轮换/吊销/删除了密钥或外部通道配置，必须有可追溯记录（且绝不能把密钥明文抄进审计表，否则等于把审计库变成第二份密钥库——本项目对 SMTP 授权码、AI 密钥、税务网关密钥都遵守此原则）。税务网关配置清除是「凭据销毁」动作，原漏审等于销毁无痕，本版补齐闭环。**DB-003 的修复价值**：组织隔离后，A 组织和 B 组织可各自使用单号 `PO-2026-001` 而不冲突，既防重复又不妨碍多租户——这是多租户数据模型正确性的地基之一。' },
+          { kind: 'notes', title: '注意事项', text: '· 仅后端 `functions/api/tax-gateway/index.ts` 一处改动（DELETE 补审计），无前端改动、不加迁移、不影响路由/转义/字段矩阵；前端 tsc 0 错、后端 tsc-functions 0 新增、语法 0 错。\n\n· 诚实标注遗留风险：`tax-gateway/index.ts` 的 `encryptApiKey` 仍用 base64 演示级混淆（注释自承「生产应使用真正加密，这里仅作演示」），这是独立加密强度问题（非 SEC-002 审计留痕范畴），建议另立 SEC 项或强哥拍板是否升级为真加密（涉及 KV 存储格式迁移，需考虑存量兼容性）。\n\n· DB-003 本轮无代码改动；结论升级为「已修」基于：迁移层 0060/0061/0065/0067/0068 代码复核 ＋ 生产库索引实证。\n\n· #35/#36 均经回代码复核（铁律㉜），旧「部分修」结论已过时——引用审计结论前逐条复核，注明已修/部分修/未修，避免过期结论误导。' },
+        ],
+      },
+      {
         id: 'v33600',
         title: 'V3.36.0（2026-10-02）',
         blocks: [
