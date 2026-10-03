@@ -1028,6 +1028,13 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v34000',
+        title: 'V3.40.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-002 静默失败消除第二刀（待办 #38 续）：把 materialStore 替代料增改删 3 处 fire-and-forget 写失败（原 .catch(() => {}) 静默吞掉），以及 purchaseStore 采购订单 5 处写失败（新增/更新/删除三处原 catch 空吞且不回滚、供应商确认回写与订单变更留痕两处原 .catch(() => {}) 静默），全部改为「乐观改内存→写 D1→失败回滚到改前快照＋全局错误通道 useGlobalToastStore.showError 红条告警」。\n\n关键判断：采购域原有 reportFailure 只写 store 内 syncError，但采购页面并不渲染 syncError（仅 BOM 列表页渲染），等于半静默；本刀统一改用全局错误通道（任何页面底部红条都可见），真正消除「界面点得动但动作没落库」假成功（铁律㊴）。\n\nload 加载类与历史回填类 catch 按既定策略保留空吞（离线容忍、best-effort 不阻断）。仅前端改动、无后端变更、不加迁移；前端 tsc 0 错、tsc-functions 新增 0、语法/转义/字段矩阵 67/一致性阻断项 0 全绿。' },
+        ],
+      },
+      {
         id: 'v33900',
         title: 'V3.39.0（2026-10-04）',
         blocks: [
