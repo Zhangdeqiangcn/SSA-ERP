@@ -1028,6 +1028,13 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33800',
+        title: 'V3.38.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-002 残余静默失败消除第一刀（仓库高级 store，待办 #38）：warehouseAdvancedStore.ts 的 13 处「先乐观改内存、再写 D1、写失败被吞」的 .catch(() => {})，以及 addSerialMaster/updateSerialMaster/deleteSerialMaster 三处写失败空吞 catch，全部改为调用全局错误通道 useGlobalToastStore.showError 弹出告警（自带 4 秒同消息防抖，避免刷屏），杜绝「界面点得动但动作没落库」的假成功（铁律㊴）。load 加载类与历史数据回填类 catch 按既定策略保留空吞（离线容忍、best-effort 不阻断）。仅前端改动、无后端变更、不加迁移；前端 tsc 0 错。' },
+        ],
+      },
+      {
         id: 'v33700',
         title: 'V3.37.0（2026-10-02）',
         blocks: [
