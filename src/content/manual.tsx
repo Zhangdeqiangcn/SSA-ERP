@@ -1028,6 +1028,13 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v33900',
+        title: 'V3.39.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-003 any 类型污染清理第一刀（待办 #39）：src/utils/localAlerts.ts 的 13 处 store 数组 filter/map 冗余 `: any` 注解（rec/o/c/w）全部删除，改由数组既有强类型（InventoryRecord/PurchaseOrder/SalesOrder/Customer/WorkOrder）自动推断，真实消除 any 且不引入新错误（前端 tsc 0 错验证）。服务端边界反序列化 normalizeServerAlerts(raw: any)/mapItem(it: any) 的 any 保留（外部 JSON，合理）。仅前端改动、无后端变更、不加迁移。#39 剩余约 501 处 any 遍布 store/page/service，按同法分批收敛（删冗余注解 + tsc 验证，不强行扩大类型面以免连锁）。' },
+        ],
+      },
+      {
         id: 'v33800',
         title: 'V3.38.0（2026-10-04）',
         blocks: [

@@ -95,11 +95,11 @@ export function computeLocalAlerts(): AlertData {
     safetyByMaterial.set(m.id, m.safetyStock ?? 100);
   });
   const lowStock: AlertItem[] = inventory
-    .filter((rec: any) => {
+    .filter((rec) => {
       const safety = safetyByMaterial.get(rec.materialId) ?? 100;
       return (rec.availableQuantity ?? rec.quantity ?? 0) < safety;
     })
-    .map((rec: any) => {
+    .map((rec) => {
       const safety = safetyByMaterial.get(rec.materialId) ?? 100;
       const qty = rec.availableQuantity ?? rec.quantity ?? 0;
       return {
@@ -120,8 +120,8 @@ export function computeLocalAlerts(): AlertData {
   // 2. 逾期采购订单（未完结：received/closed/cancelled 之外）
   const poDone = ['received', 'closed', 'cancelled'];
   const overduePO: AlertItem[] = purchaseOrders
-    .filter((o: any) => o.expectedDeliveryDate && o.expectedDeliveryDate < todayStr && !poDone.includes(o.status))
-    .map((o: any) => {
+    .filter((o) => o.expectedDeliveryDate && o.expectedDeliveryDate < todayStr && !poDone.includes(o.status))
+    .map((o) => {
       const days = overdueDays(o.expectedDeliveryDate, today);
       return {
         id: o.orderNo,
@@ -137,8 +137,8 @@ export function computeLocalAlerts(): AlertData {
   // 3. 逾期销售订单
   const soDone = ['completed', 'cancelled', 'fully_shipped'];
   const overdueSO: AlertItem[] = salesOrders
-    .filter((o: any) => o.expectedDeliveryDate && o.expectedDeliveryDate < todayStr && !soDone.includes(o.status))
-    .map((o: any) => {
+    .filter((o) => o.expectedDeliveryDate && o.expectedDeliveryDate < todayStr && !soDone.includes(o.status))
+    .map((o) => {
       const days = overdueDays(o.expectedDeliveryDate, today);
       return {
         id: o.orderNo,
@@ -153,8 +153,8 @@ export function computeLocalAlerts(): AlertData {
 
   // 4. 临期 / 过期
   const expiringBatches: AlertItem[] = inventory
-    .filter((rec: any) => (rec.shelfLifeStatus === 'expiring' || rec.shelfLifeStatus === 'expired') && (rec.quantity ?? 0) > 0)
-    .map((rec: any) => ({
+    .filter((rec) => (rec.shelfLifeStatus === 'expiring' || rec.shelfLifeStatus === 'expired') && (rec.quantity ?? 0) > 0)
+    .map((rec) => ({
       id: rec.materialCode,
       label: `${rec.materialName} (${rec.materialCode})`,
       value: `状态: ${rec.shelfLifeStatus === 'expired' ? '过期' : '临期'}`,
@@ -165,8 +165,8 @@ export function computeLocalAlerts(): AlertData {
 
   // 5. 信用超额
   const creditOverdue: AlertItem[] = customers
-    .filter((c: any) => (c.creditLimit ?? 0) > 0 && (c.usedCredit ?? 0) > (c.creditLimit ?? 0))
-    .map((c: any) => {
+    .filter((c) => (c.creditLimit ?? 0) > 0 && (c.usedCredit ?? 0) > (c.creditLimit ?? 0))
+    .map((c) => {
       const limit = c.creditLimit ?? 0;
       const used = c.usedCredit ?? 0;
       return {
@@ -182,9 +182,9 @@ export function computeLocalAlerts(): AlertData {
 
   // 6. 待审批
   const pendingApprovals = {
-    purchaseOrders: purchaseOrders.filter((o: any) => ['created', 'sent'].includes(o.status)).length,
-    salesOrders: salesOrders.filter((o: any) => o.status === 'draft').length,
-    workOrders: workOrders.filter((w: any) => w.status === 'draft').length,
+    purchaseOrders: purchaseOrders.filter((o) => ['created', 'sent'].includes(o.status)).length,
+    salesOrders: salesOrders.filter((o) => o.status === 'draft').length,
+    workOrders: workOrders.filter((w) => w.status === 'draft').length,
   };
 
   return {
