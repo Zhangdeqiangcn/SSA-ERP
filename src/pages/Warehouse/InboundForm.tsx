@@ -108,6 +108,18 @@ const InboundForm: React.FC = () => {
           d.setDate(d.getDate() + material.shelfLifeDays);
           expiryDate = d.toISOString().slice(0, 10);
         }
+        // ★ V3.45.0 补单价/金额：原映射**只传数量、完全没有 unitPrice/amount**，
+        //   而服务端 `Number(item.amount) || 0` 完全依赖前端 → 入库金额列恒为 0
+        //   → 三单匹配的入库金额恒为 0 → 付款闸门 100% 拦截正常采购付款、到货率永远 0%。
+        //   单价取「行单价 → 物料标准价 → 移动均价 → 采购价」逐级兜底（与成本取值口径一致）。
+        const qty = item.orderedQuantity - item.deliveredQuantity;
+        const unitPrice = Number(
+          item.unitPrice
+          || material?.standardPrice
+          || material?.movingAvgPrice
+          || material?.price
+          || 0
+        );
         return {
           id: `item-${item.id}-${Date.now()}`,
           materialId: item.materialId || item.id,
@@ -115,8 +127,10 @@ const InboundForm: React.FC = () => {
           materialName: item.materialName,
           specification: item.specification,
           unit: item.unit,
-          expectedQuantity: item.orderedQuantity - item.deliveredQuantity,
-          actualQuantity: item.orderedQuantity - item.deliveredQuantity,
+          expectedQuantity: qty,
+          actualQuantity: qty,
+          unitPrice,
+          amount: Math.round(unitPrice * qty * 100) / 100,
           qualityStatus: 'qualified',
           batchNo: itemBatches[item.id] || undefined,
           locationId: locId || undefined,

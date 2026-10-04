@@ -80,6 +80,12 @@ export function computeAccountBalances(
   chart: ChartAccount[],
   period?: string
 ): AccountBalance[] {
+  // ★ V3.45.0 改为**按科目编码匹配**（对标 SAP SKT0 主数据 + 金蝶/用友科目编码）：
+  //   原实现用「科目名称字符串」建 Map 再匹配，而分录侧存的是 accountName。
+  //   一旦用户改了科目名，所有历史分录的 nameToCode.get() 返回 undefined，
+  //   `if (row)` 为假 → **该科目金额被静默丢弃**，资产负债表/利润表/试算平衡/
+  //   现金流量表同时少这笔钱且不报任何错。科目编码才是唯一的核算维度，改名只应影响显示。
+  //   现在：优先用分录自带的 accountCode 精确匹配；老数据没有 code 时才回退按名称匹配。
   const nameToCode = new Map<string, string>();
   for (const acc of chart) nameToCode.set(acc.name, acc.code);
 
@@ -98,16 +104,24 @@ export function computeAccountBalances(
     });
   }
 
+  /** 取分录某一侧对应的科目行：编码优先，名称兜底（兼容 V3.45.0 之前的历史分录）。 */
+  const rowOf = (code?: string | null, name?: string | null): AccountBalance | undefined => {
+    if (code) {
+      const byCode = rows.get(code);
+      if (byCode) return byCode;
+    }
+    if (name) return rows.get(nameToCode.get(name) || '');
+    return undefined;
+  };
+
   const periodEntries = entries.filter((e) => periodMatch(e.date, period));
   for (const e of periodEntries) {
     if (e.debitAccount) {
-      const code = nameToCode.get(e.debitAccount);
-      const row = code ? rows.get(code) : undefined;
+      const row = rowOf(e.debitAccountCode, e.debitAccount);
       if (row) row.debit += e.amount;
     }
     if (e.creditAccount) {
-      const code = nameToCode.get(e.creditAccount);
-      const row = code ? rows.get(code) : undefined;
+      const row = rowOf(e.creditAccountCode, e.creditAccount);
       if (row) row.credit += e.amount;
     }
   }
@@ -206,8 +220,12 @@ export function buildCashFlowStatement(
   const result: CashFlowResult = { operating: section(), investing: section(), financing: section(), totalNet: 0 };
 
   for (const e of periodEntries) {
-    const debitCode = e.debitAccount ? nameToCode.get(e.debitAccount) : undefined;
-    const creditCode = e.creditAccount ? nameToCode.get(e.creditAccount) : undefined;
+    // ★ V3.45.0 与 computeAccountBalances 同一修法：现金/对方科目一律按**编码**判定，
+    //   名称仅作历史数据兜底。否则改科目名会让现金流量表整行漏掉该笔现金收支。
+    const debitCode = e.debitAccountCode
+      || (e.debitAccount ? nameToCode.get(e.debitAccount) : undefined);
+    const creditCode = e.creditAccountCode
+      || (e.creditAccount ? nameToCode.get(e.creditAccount) : undefined);
     const debitIsCash = debitCode && CASH_ACCOUNT_CODES.includes(debitCode);
     const creditIsCash = creditCode && CASH_ACCOUNT_CODES.includes(creditCode);
     if (!debitIsCash && !creditIsCash) continue;

@@ -147,6 +147,9 @@ export function flattenVoucherToEntries(v: Voucher): AccountEntry[] {
       description: it.summary || v.remark || '',
       debitAccount: d !== 0 ? it.accountName : '',
       creditAccount: c !== 0 ? it.accountName : '',
+      // ★ V3.45.0 带出科目编码：报表改按编码匹配（改科目名不再让金额消失）。
+      debitAccountCode: d !== 0 ? it.accountCode : undefined,
+      creditAccountCode: c !== 0 ? it.accountCode : undefined,
       amount: round2(d + c),
       currency: it.currency || v.currency || 'CNY',
       voucherNo: v.voucherNo,

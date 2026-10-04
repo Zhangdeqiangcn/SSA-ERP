@@ -127,6 +127,15 @@ export interface AccountEntry extends BaseEntity {
   description: string;
   debitAccount: string;
   creditAccount: string;
+  /**
+   * ★ V3.45.0 借贷两侧的科目**编码**（此前只有名称）。
+   * 报表（资产负债/利润/试算平衡/现金流）此前按「科目名称字符串」匹配科目表，
+   * 改一次科目名就会让所有历史分录匹配失败、金额被静默丢弃。
+   * 科目编码才是唯一核算维度（对标 SAP SKT0），名称只用于显示。
+   * 可选：V3.45.0 之前的历史分录没有该字段，报表会回退按名称匹配。
+   */
+  debitAccountCode?: string;
+  creditAccountCode?: string;
   amount: number;
   currency: string;
   voucherNo: string;
