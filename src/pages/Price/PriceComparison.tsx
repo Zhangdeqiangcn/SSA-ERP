@@ -65,7 +65,7 @@ const PriceComparison: React.FC = () => {
     const items = inquiry.items.map((item: any) => {
       const quotes = relatedQuotations
         .map(q => {
-          const quoteItem = q.items.find((qi: any) => qi.materialId === item.materialId || qi.materialCode === item.materialCode);
+          const quoteItem = q.items.find((qi) => qi.materialId === item.materialId || qi.materialCode === item.materialCode);
           if (!quoteItem) return null;
           return {
             vendorId: q.vendorId,
@@ -116,7 +116,7 @@ const PriceComparison: React.FC = () => {
       title: inquiry.title,
       comparisonDate: new Date().toISOString().split('T')[0],
       items,
-      participatingVendors: relatedQuotations.map((q: any) => q.vendorName),
+      participatingVendors: relatedQuotations.map((q) => q.vendorName),
       status: 'pending',
     };
   }

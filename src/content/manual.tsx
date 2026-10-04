@@ -1028,6 +1028,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v34200',
+        title: 'V3.42.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-003 any 类型污染清理第二刀（待办 #39 续）：按"只删强类型数组上的冗余 : any 形参注解"策略收敛 ReportCenter.tsx 与 PriceComparison.tsx。① ReportCenter.tsx 报表聚合的 7 处回调（purchaseOrders/salesOrders/materials/workOrders 均来自强类型 store 数组）删 : any，让参数被推断、获得真实类型检查收益；其中 materials 回调删注解后类型检查精准暴露一个真实潜在缺口——Material 类型缺失 standardCost / cost 字段（报表用 m.standardCost ?? m.cost 兼容历史成本字段名不一），本版不掩盖，而是给 Material 补这俩可选成本字段，既消除报错又补上类型缺口。② PriceComparison.tsx 仅删其中确来自强类型数组的 2 处回调（relatedQuotations 为 VendorQuotation[]、q.items 为 QuotationItem[]）；comparison/inquiry 的 let x: any 属牵动 displayData 联合形态的必要边界 any，本刀不动（避免外溢）。仅前端改动、无后端变更、不加迁移；前端 tsc 0 错、门禁全绿。' },
+          { kind: 'notes', title: '注意事项', text: '· #39 剩余 any 多属真实边界（数据库行 toXxx(row: any)、catch(e: any)、Record<string, any> 动态表、DataTable 的 row.original as any、以及 comparison/inquiry 这类联合形态变量），这些不是"冗余注解"而是"必要 any"，强行删会扩大类型面或外溢，按既定策略保留。\n\n· 真正能安全收敛的剩余目标：组件层 X.items.map((i: any) 这类来自强类型 props/state 的回调（如 OrderDetail/PurchaseDetail/SalesOrderDetail/BOMDetail/SalesContractDetail/WorkOrderDetail/InquiryForm/OrderForm 等），下一刀按同法继续。\n\n· Material 新增 standardCost?/cost? 为可选字段，不影响既有用法；若后续统一成本核算口径，可再与 standardPrice/movingAvgPrice 收敛。' },
+        ],
+      },
+      {
         id: 'v34100',
         title: 'V3.41.0（2026-10-04）',
         blocks: [

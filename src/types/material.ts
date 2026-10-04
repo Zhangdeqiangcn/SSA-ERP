@@ -93,6 +93,10 @@ export interface Material extends BaseEntity {
   movingAvgPrice?: number;
   /** A4 成本核算：库存金额（本位币未税，恒等式 stockValue ≈ currentStock × movingAvgPrice，由出入库滚动更新） */
   stockValue?: number;
+  /** 标准成本（遗留/备选成本字段，与 standardPrice 并存；报表取数时兼容 `standardCost ?? cost`） */
+  standardCost?: number;
+  /** 单位成本（遗留/备选成本字段，与 movingAvgPrice 并存；报表取数时兼容 `standardCost ?? cost`） */
+  cost?: number;
   /** 是否批次管理 */
   batchManaged?: boolean;
   /** 是否序列号管理 */

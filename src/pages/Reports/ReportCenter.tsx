@@ -186,7 +186,7 @@ export default function ReportCenter() {
   const result: ReportResult = useMemo(() => {
     switch (activeReport.id) {
       case 'purchase-by-vendor': {
-        const items = purchaseOrders.map((o: any) => ({
+        const items = purchaseOrders.map((o) => ({
           group: o.vendorName || '(未填供应商)',
           metrics: {
             amount: Number(o.totalAmount) || 0,
@@ -200,14 +200,14 @@ export default function ReportCenter() {
       }
       case 'purchase-by-month': {
         const order = makeMonthOrder(12);
-        const items = purchaseOrders.map((o: any) => ({
+        const items = purchaseOrders.map((o) => ({
           group: monthKey(o.orderDate),
           metrics: { amount: Number(o.totalAmount) || 0, orders: 1 },
         }));
         return aggregate(items, order);
       }
       case 'sales-by-customer': {
-        const items = salesOrders.map((o: any) => ({
+        const items = salesOrders.map((o) => ({
           group: o.customerName || '(未填客户)',
           metrics: {
             amount: Number(o.totalAmount) || 0,
@@ -218,7 +218,7 @@ export default function ReportCenter() {
       }
       case 'sales-by-month': {
         const order = makeMonthOrder(12);
-        const items = salesOrders.map((o: any) => ({
+        const items = salesOrders.map((o) => ({
           group: monthKey(o.orderDate),
           metrics: { amount: Number(o.totalAmount) || 0, orders: 1 },
         }));
@@ -228,8 +228,8 @@ export default function ReportCenter() {
         const items = materials
           // 只统计有库存的物料：库存为 0 的物料列出来只会把表格撑长，
           // 而「哪些物料有货、值多少钱」才是这张表要回答的问题
-          .filter((m: any) => (Number(m.currentStock) || 0) !== 0)
-          .map((m: any) => ({
+          .filter((m) => (Number(m.currentStock) || 0) !== 0)
+          .map((m) => ({
             group: `${m.code || m.id} ${m.name || ''}`.trim(),
             metrics: {
               qty: Number(m.currentStock) || 0,
@@ -240,7 +240,7 @@ export default function ReportCenter() {
         return aggregate(items);
       }
       case 'wo-by-status': {
-        const items = workOrders.map((w: any) => ({
+        const items = workOrders.map((w) => ({
           group: WO_STATUS_LABEL[w.status] || w.status || '(未知)',
           metrics: {
             count: 1,
