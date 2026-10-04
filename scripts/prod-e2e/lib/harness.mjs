@@ -346,6 +346,9 @@ export async function createContext({ req, runId }) {
         // V3.45.0 补：第1批整改守护套件（34）验证「库管建调拨单不被守卫误伤」会真实建一张转储单。
         // 少这个类型 → 被记为「未知类型」清理失败 → 测试数据残留生产库。
         'stock-transfer': (id) => `/api/stock-transfers/${id}`,
+        // V3.45.0 补：第3批守护套件（35）验证「库存调整/盘点真正过账」会真实建调整单。
+        // 少这个类型 → 被记为「未知类型」清理失败 → 测试数据残留生产库。
+        'inventory-adjustment': (id) => `/api/inventory-adjustments/${id}`,
       };
 
       for (const item of [...tracked].reverse()) {
