@@ -339,6 +339,13 @@ export async function createContext({ req, runId }) {
         project: (id) => `/api/projects/${id}`,
         // 组织级 app_state 键（预算闸门套件注入的 ssa-erp-finance-ext 等）：DELETE /api/state/<key>
         appstate: (id) => `/api/state/${id}`,
+        // V3.45.0 补：第1批整改守护套件（34）走通用实体路由建发票，
+        // 用的是资源名 'fin-invoice'（带连字符，与实体路由的资源名一致），
+        // 此前缺这个类型 → 清理记为「未知类型」→ 发票残留在生产库。
+        'fin-invoice': (id) => `/api/entities/finInvoice/${id}`,
+        // V3.45.0 补：第1批整改守护套件（34）验证「库管建调拨单不被守卫误伤」会真实建一张转储单。
+        // 少这个类型 → 被记为「未知类型」清理失败 → 测试数据残留生产库。
+        'stock-transfer': (id) => `/api/stock-transfers/${id}`,
       };
 
       for (const item of [...tracked].reverse()) {
