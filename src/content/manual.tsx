@@ -1028,6 +1028,15 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v34400',
+        title: 'V3.44.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-001 前端白盒单测加深 + 纳入六项门禁⑦；FE-004 安全闸门负面守护套件落地。**#37 第二刀（加深）**：在第一刀 23 例（cost.ts 金额精度/移动平均滚动 16 例 + case.ts snakeToCamel 7 例）基础上，扩面到更高风险纯函数——① 财务凭证金额校验（借贷平衡/精度/红冲合法性判定）；② 操作权限守卫映射（API_TO_MODULE + BUILTIN_ROLE_OPS 矩阵判定逻辑，覆盖越权角色拦截与特权角色豁免）；③ 预算闸门判定（`guardBudget`/`guardPaymentRow` 的「累计已发生＋本次付款」超预算逻辑与超管安全阀分支）；新增 49 例，前端单测总计 **72 例全绿**（vitest run）。**并把白盒单测正式纳入六项门禁**——`scripts/check-consistency.mjs` 第⑦项 `_audit_unit_tests.mjs`（直接 spawnSync 调 `vitest run --no-coverage`）作为阻断项，任一例失败即门禁 FAIL。**#40 第二刀（加深）**：新增 `scripts/prod-e2e/suites/33-security-gates.mjs` 安全闸门负面守护套件，分两段——A 操作权限守卫：admin 先建凭证/销售单/委外单/质量扣留各 201/200，再用越权角色（finance/sales/quality 写=false、production 写=false）对四模块 POST/DELETE 共 8 类端点越权，期望 403 + code=OPERATION_FORBIDDEN，特权角色自身删除 200/204；B 预算闸门：建项目→注入极小预算(dimension=project, amount=1)→采购单关联→入库→发票→三单预检 ok→非超管合规付款超预算期望 422 + BUDGET_EXCEEDED（且查库确认未写、拦而不住=没拦）→超管同超预算 201 放行（安全阀）。两段均成对断言（非法被拦 + 合法成功不误伤，防假修复铁律㊹）。仅前端/测试改动、无后端变更、不加迁移。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么 #37 要扩到权限/预算纯函数**：第一刀只覆盖了零界面依赖的算法纯函数（金额/成本），而 A4 成本核算真正的高风险决策点——「谁有权写什么」「付款会不会击穿预算」——此前完全靠运行时人工/手测，是权限越权与预算超支两类的核心判定逻辑，必须白盒锁死回归。**为什么单测必须进门禁**：纯靠人工跑 `npm run test:unit` 容易被忘；把它设为 check-consistency 阻断项，等价于把「改了 guardOperation/guardBudget 必须过单测」写进发布铁律，杜绝「改了守卫逻辑却没跑单测放行」的回归漏洞。**为什么 #40 套件 33 要查库确认未写**：历史教训（铁律㊳㊴）——「请求返回 422 但副作用其实落了库」「界面点得动≠已落库」。预算闸门若不查库，可能「返回 422 但付款计划已写」，等于没拦。本套件对 BUDGET_EXCEEDED 后显式查库断言无新增记录，坐实「硬拦不写库」。' },
+          { kind: 'notes', title: '注意事项', text: '· #37 单测纳入门禁后，`npm run check -- --no-probe` 第⑦项会真实调用 vitest；沙箱 worker 写盘 EPERM 已用 `isolate:false`（让模块缓存写盘回主进程）根治，72 例 exit 0、零 EPERM。TEMP 重定向到项目内的旧做法已废弃（反向操作、使 worker 仍被拒）。\n\n· #40 套件 33 仅在联网环境（本地起服务或生产域）由 `npm run test:prod-e2e` 真实跑验；沙箱无网时该套件按"没跑"处理，不计入绿。harness.mjs 的 cleanup 资源类型已补齐（voucher/sales-order/quality-hold/project/appstate），保证测试组织与预算配置可靠清除。\n\n· #40 套件 33 强调「先亮明令牌」——4 条 expectTrue 先验证越权角色是否拿到令牌，避免把 401（注册失败）误判为 403 缺失（越权守卫漏拦）。\n\n· 后续 #37 可继续扩至核心 store reducer 与关键组件（需引 jsdom + 组件测试库）；#40 可继续扩支付闸门（三单匹配超差）、审批实例层等其它闸门。' },
+        ],
+      },
+      {
         id: 'v34300',
         title: 'V3.43.0（2026-10-04）',
         blocks: [

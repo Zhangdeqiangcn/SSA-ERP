@@ -331,6 +331,14 @@ export async function createContext({ req, runId }) {
         bom: (id) => `/api/bom/${id}`,
         'work-order': (id) => `/api/work-orders/${id}`,
         'outbound-order': (id) => `/api/outbound-orders/${id}`,
+        // V3.44.0 补：安全闸门套件（33）要造「凭证 / 销售订单 / 质量扣留 / 项目」验证越权与预算闸门，
+        // 少一个类型都会让测试数据残留在生产库里 —— 这正是最不该犯的错。
+        voucher: (id) => `/api/vouchers/${id}`,
+        'sales-order': (id) => `/api/sales-orders/${id}`,
+        'quality-hold': (id) => `/api/quality-holds/${id}`,
+        project: (id) => `/api/projects/${id}`,
+        // 组织级 app_state 键（预算闸门套件注入的 ssa-erp-finance-ext 等）：DELETE /api/state/<key>
+        appstate: (id) => `/api/state/${id}`,
       };
 
       for (const item of [...tracked].reverse()) {

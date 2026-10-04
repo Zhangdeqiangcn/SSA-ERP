@@ -50,6 +50,9 @@ const steps = [
   // V3.21.0 新增：两处「必须成对出现」的约定，靠人记一定会漏（坑㉛），故机器核对。
   { name: '⑤ LIKE 转义一致性', file: 'check-search-escape.mjs', blocking: true },
   { name: '⑥ 字段权限矩阵一致性', file: 'check-field-policy.mjs', blocking: true },
+  // V3.44.0 新增：⑦ 前端白盒单测（FE-001）。纯本地、无副作用、无网络依赖，
+  // 因此即使 --no-probe（构建门槛）也跑；任一用例失败即阻断，防回归成"静默放行"。
+  { name: '⑦ 前端白盒单测', file: '_audit_unit_tests.mjs', blocking: true },
 ];
 
 const W = 26;
