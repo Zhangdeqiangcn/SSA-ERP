@@ -1028,6 +1028,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v34300',
+        title: 'V3.43.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-001 前端白盒单测体系从零搭建 + FE-004 负面用例扩面。① 从零引入 vitest 单元测试框架（前端构建工具 Vite 原生配套），新增 vitest.config.ts 复用 @→src 路径别名、test/unit 目录；新增 package.json 脚本 test:unit。② 第一批白盒单测 23 例全绿：cost.ts 金额精度/移动平均滚动（roundAmount/roundPrice/getUnitCost/getStockValue/rollInMovingAverage/rollOutMovingAverage/normalizeMaterialCost）16 例、case.ts snakeToCamel 命名转换 7 例——覆盖 A4 成本核算高风险纯函数（此前零白盒保护）与 any 重灾区根。③ FE-004 在已有 30（字段权限）/31（入参守卫）基础上扩面，新增 scripts/prod-e2e/suites/32-negative-edges.mjs 覆盖负数数量/超长字符串/金额超精度/并发双提交幂等/行级 RLS 越权读取，均成对断言（非法被拦+合法成功不误伤，防假修复）。仅前端/测试改动、无后端变更、不加迁移；前端 tsc 0 错、tsc-functions 新增 0、语法/转义/字段矩阵 67/一致性阻断项 0 全绿（已真连生产库核对）。' },
+          { kind: 'notes', title: '注意事项', text: '· #37 第一刀聚焦零界面依赖的纯函数（金额/成本/命名转换），后续批次可扩至核心 store reducer 与关键组件（需引 jsdom + 组件测试库）。\n\n· #40 套件 32 需在联网环境（本地起服务或生产域）由 npm run test:prod-e2e 真实跑验；沙箱无网时该套件按"没跑"处理，不计入绿。\n\n· vitest 依赖在当前 node 22.12 触发 EBADENGINE 警告（要求 22.13+），仅警告不影响运行；升级 node 可消除。' },
+        ],
+      },
+      {
         id: 'v34200',
         title: 'V3.42.0（2026-10-04）',
         blocks: [
