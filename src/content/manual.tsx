@@ -1028,6 +1028,13 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v34100',
+        title: 'V3.41.0（2026-10-04）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: 'FE-002 静默失败消除第三刀（待办 #38 续）：消除 productionStore / subcontractStore / repetitiveMfgStore / messageStore 四个状态仓库共 5 处"写 D1 失败被静默吞掉"隐患。① productionStore 工单领料双写（postPicking 循环逐条）原 .catch(() => {}) 静默，改全局红条告警；② subcontractStore 委外订单变更持久化（persistOrder）原 fire-and-forget 静默，改红条告警；③ repetitiveMfgStore 报工回写（reportProduction）即发即弃静默，改红条告警；④ messageStore 标记已读（markRead）与批量标记已读（markAllRead）原空吞，改红条告警。均保留乐观更新语义（写失败不强行回滚，load 校正），仅补"失败可见"告警（底部红条 4 秒同消息防抖，循环多条失败仅一条）。仅前端改动、无后端变更、不加迁移；前端 tsc 0 错、门禁全绿。' },
+        ],
+      },
+      {
         id: 'v34000',
         title: 'V3.40.0（2026-10-04）',
         blocks: [
