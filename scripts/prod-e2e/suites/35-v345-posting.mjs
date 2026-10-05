@@ -234,4 +234,59 @@ export default async function run(ctx, s) {
     `实际=${afterIn2?.avg} 期望≈${expectAvg.toFixed(4)}（若不符说明存在前端/后端双算）`);
 
   s.info(`   → 最终：库存=${afterIn2?.stock} 件，移动均价=${afterIn2?.avg}`);
+
+  // ════════════════════════════════════════════════════════════════════
+  // D. 库存流水底座（V3.46.0 第2批① · 对标 SAP MATDOC）
+  //    验收标准：**余额能由流水重建** —— SUM(qty_delta) 必须等于 inventory_records
+  //    的 quantity。这条是整个底座的意义所在：从前余额只是快照，任何差异都被
+  //    静默吸收；有了流水，差异可被发现、可定位到具体单据。
+  // ════════════════════════════════════════════════════════════════════
+  s.info('── D. 库存流水：余额可由流水重建（底座验收）──');
+
+  // D1. 查本物料的流水
+  const tx = await req('GET', `/api/inventory-transactions?materialId=${encodeURIComponent(matId)}&pageSize=100`, { token: admin });
+  const txList = Array.isArray(tx.data?.data) ? tx.data.data : [];
+  s.expectTrue('★ D1 库存流水已写入（入库/出库/调拨/盘亏各留痕）',
+    txList.length >= 5,
+    `流水条数=${txList.length}（期望 ≥5）明细=${JSON.stringify(txList.map((t) => ({ t: t.txnType, w: t.warehouseId, q: t.qtyDelta })))}`);
+
+  // D2. 流水类型应覆盖本次全部过账动作
+  const types = Array.from(new Set(txList.map((t) => t.txnType)));
+  s.expectTrue('★ D2 流水类型覆盖入库/调拨/调整（本轮动作全覆盖）',
+    types.includes('inbound')
+    && types.includes('transfer_in') && types.includes('transfer_out')
+    && types.includes('adjust_loss'),
+    `实际类型=${JSON.stringify(types)}（注：本套件未测销售出库，故不含 outbound）`);
+
+  // D3. ★ 核心验收：余额能由流水重建，且与库存表一致
+  //   A仓：+100（C 段第一次入库）-30（调出）+50（C 段第二次入库）= 120
+  //   B仓：+30（调入）-5（盘亏）= 25
+  //   ★ rebuiltBalance 按 (warehouse_id, warehouse_name, location_id) 分组，
+  //     同仓内「无库位/有库位」会是多行，必须**按仓求和**后比对
+  //     （取第一行会漏分组；本次先误判为 -30、又误判为 150，都是这个坑）。
+  const bal = await req('GET', `/api/inventory-transactions?materialId=${encodeURIComponent(matId)}&balance=1`, { token: admin });
+  const rebuilt = Array.isArray(bal.data?.rebuiltBalance) ? bal.data.rebuiltBalance : [];
+  const sumByWarehouse = (wh) => rebuilt
+    .filter((r) => r.warehouseId === wh)
+    .reduce((s, r) => s + Number(r.qty || 0), 0);
+  const aRebuiltQty = sumByWarehouse('wh-A');
+  const bRebuiltQty = sumByWarehouse('wh-B');
+  s.expectTrue('★ D3 余额可由流水重建：A仓=120（100+50-30） / B仓=25（30-5）',
+    aRebuiltQty === 120 && bRebuiltQty === 25,
+    `流水重建 A=${aRebuiltQty} B=${bRebuiltQty}（期望 120 / 25）分组=${JSON.stringify(rebuilt.map((r) => ({ w: r.warehouseId, l: r.locationId, q: r.qty })))}`);
+
+  // D4. ★ 重建余额必须与库存表一致（两者不一致 = 有差异被静默吸收）
+  const aInv = await readInv(MAT, 'wh-A', matId);
+  const bInv = await readInv(MAT, 'wh-B', matId);
+  s.expectTrue('★ D4 流水重建余额 == 库存表余额（无静默差异）',
+    aRebuiltQty === aInv && bRebuiltQty === bInv,
+    `流水 A=${aRebuiltQty}/B=${bRebuiltQty} vs 库存表 A=${aInv}/B=${bInv}`);
+
+  // D5. 出库流水必须记真实数量（负值），这样超发差异才不会被吞掉
+  const outTx = txList.filter((t) => Number(t.qtyDelta) < 0);
+  s.expectTrue('★ D5 出库流水以负数记录真实数量（超发差异可被发现）',
+    outTx.length >= 2,
+    `出库流水 ${outTx.length} 条，数量=${JSON.stringify(outTx.map((t) => t.qtyDelta))}`);
+
+  s.info(`   → 流水 ${txList.length} 条：${JSON.stringify(types)}`);
 }
