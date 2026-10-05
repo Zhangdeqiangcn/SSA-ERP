@@ -25,6 +25,11 @@ import type {
   SalesOrder, SalesOrderStatus, PurchaseOrder, PurchaseOrderStatus, Material, BOMHeader,
 } from '@/types';
 import { resolveBOM } from '@/utils/bomResolver';
+import { computeSupply } from '@/utils/supply';
+import { useWarehouseStore } from '@/stores/warehouseStore';
+import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
+import type { InventoryRecord } from '@/types/warehouse';
+import type { QualityHold } from '@/types/supplyChain';
 
 const PRIORITY_CONFIG: Record<string, { label: string; color: 'error' | 'warning' | 'default' }> = {
   urgent: { label: '紧急', color: 'error' },
@@ -41,7 +46,8 @@ export interface MrpResultRow {
   materialName: string;
   unit: string;
   gross: number;   // 毛需求（经 BOM 多级展开后）
-  onHand: number;  // 现有库存
+  onHand: number;  // 可用量（★ 已扣质量扣留，见 utils/supply.ts）
+  holdQty: number; // 质量扣留量（单独展示，说明可用量为何比在库少）
   onOrder: number; // 在途（已下单未到货）
   safetyStock: number; // 安全库存（B8：纳入净需求分层，不被消耗）
   net: number;     // 净需求 = max(0, 毛需求 + 安全库存 - 现有库存 - 在途)
@@ -142,6 +148,11 @@ function computeNetRequirements(
   materials: Material[],
   bomList: BOMHeader[],
   purchaseOrders: PurchaseOrder[],
+  // ★ V3.47.0 3-04：传入库存记录与质量扣留单，让 onHand 走统一供应量口径
+  //   （此前只取 material.currentStock ⇒ **不扣质量冻结**，
+  //     而 ATP 页同一物料扣冻结 ⇒ 同一物料两个页面报出不同可用量）
+  inventoryRecords: InventoryRecord[] = [],
+  qualityHolds: QualityHold[] = [],
 ): MrpResultRow[] {
   const materialById = new Map(materials.map((m) => [m.id, m]));
   // 以 productId 为键索引 BOM：用于判断某物料本身是否为“成品/半成品”（拥有自己的 BOM）
@@ -290,10 +301,15 @@ function computeNetRequirements(
   for (const [materialId, gross] of grossDemand) {
     const mat = materialById.get(materialId);
     if (!mat) continue; // 引用的物料在物料主数据中不存在，跳过
-    const onHand = mat.currentStock;
+    // ★ 统一供应量口径：在库量 − 质量扣留量（此前用 currentStock 不扣冻结）
+    const supply = computeSupply({ material: mat, inventoryRecords, qualityHolds });
+    const onHand = supply.availableQty;
     const oo = onOrder.get(materialId) ?? 0;
     const safetyStock = mat.safetyStock ?? 0;
     // 安全库存分层：净需求须把安全库存补回，保障安全库存不被消耗
+    // （口径边界：MRP 只扣「可用量」，**不扣销售订单承诺量** ——
+    //  销售承诺由需求侧本身承载，若再扣一次等于同一份库存被扣两次，
+    //  会让计划员虚假地认为缺料更严重而多采购。对标 SAP MRP 元素。）
     const net = Math.max(0, gross + safetyStock - onHand - oo);
 
     // A3：综合废品率 = Σ(需求量×废品率) / Σ需求量；某物料若在全 BOM 中废品率均为 0，则为 0
@@ -341,6 +357,7 @@ function computeNetRequirements(
       unit: mat.unit,
       gross,
       onHand,
+      holdQty: supply.holdQty,
       onOrder: oo,
       safetyStock,
       net,
@@ -373,6 +390,9 @@ export default function MRPPlan() {
   const { bomList } = useBOMStore();
   // B2：落库时需要判断物料是自制还是采购（决定建议类型）
   const { materials } = useMaterialStore();
+  // ★ V3.47.0 3-04：净需求要扣质量扣留，必须拿到库存记录与扣留单
+  const { inventoryRecords } = useWarehouseStore();
+  const { qualityHolds } = useWarehouseAdvancedStore();
 
   const [lastCalcTime, setLastCalcTime] = useState<string>('2024-05-10 14:30');
   const [loading, setLoading] = useState(false);
@@ -404,7 +424,7 @@ export default function MRPPlan() {
       const { bomList: boms } = useBOMStore.getState();
       const { purchaseOrders } = usePurchaseStore.getState();
 
-      const rows = computeNetRequirements(salesOrders, materials, boms, purchaseOrders);
+      const rows = computeNetRequirements(salesOrders, materials, boms, purchaseOrders, inventoryRecords, qualityHolds);
       setMrpResult(rows);
       setHasComputed(true);
 

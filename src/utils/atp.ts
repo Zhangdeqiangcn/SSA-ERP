@@ -1,3 +1,4 @@
+import { computeSupply } from './supply';
 import { InventoryRecord, SalesOrder, InboundOrder, QualityHold, Material, ATPResult } from '@/types';
 
 export interface ATPInput {
@@ -20,14 +21,16 @@ export function computeATP(input: ATPInput): ATPResult[] {
 
   const inWh = (r: { warehouseId: string }) => !warehouseId || r.warehouseId === warehouseId;
 
-  // 当前在手（扣除在检扣留）
-  const onHandRaw = inventoryRecords
-    .filter((r) => r.materialId === materialId && inWh(r))
-    .reduce((s, r) => s + r.quantity, 0);
-  const holdQty = qualityHolds
-    .filter((h) => h.materialId === materialId && h.status !== 'passed' && inWh(h as unknown as { warehouseId: string }))
-    .reduce((s, h) => s + h.quantity, 0);
-  const onHand = Math.max(0, onHandRaw - holdQty);
+  // ★ V3.47.0 3-04：当前在手改走统一供应量口径（computeSupply）——
+  //   本文件此前自己算了一份「库存 − 在检扣留」，MRP 与缺料预警各算各的，
+  //   于是同一物料在不同页面报出不同可用量。现在三者共用 utils/supply.ts。
+  //   仓库过滤先做一次，避免把别仓的扣留单算进来。
+  const supply = computeSupply({
+    material,
+    inventoryRecords: inventoryRecords.filter((r) => r.materialId === materialId && inWh(r)),
+    qualityHolds: qualityHolds.filter((h) => h.materialId === materialId && inWh(h as unknown as { warehouseId: string })),
+  });
+  const onHand = supply.availableQty;
 
   // 承诺：未完工销售订单的未发运量
   const committed = salesOrders

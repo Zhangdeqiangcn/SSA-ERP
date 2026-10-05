@@ -11,6 +11,9 @@ import { useProductionStore } from '@/stores/productionStore';
 import { useProductionOperationStore, DEFAULT_LABOR_RATE, DEFAULT_MACHINE_RATE } from '@/stores/productionOperationStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { SecureField } from '@/components/common';
+import { resolveBOM } from '@/utils/bomResolver';
+import { calcLaborCost, calcMaterialCost } from '@/utils/costBasis';
+import { roundAmount } from '@/utils/cost';
 
 const WO_STATUS_LABEL: Record<string, string> = {
   draft: '草稿', released: '已下达', in_progress: '生产中', completed: '已完成', closed: '已关闭',
@@ -39,18 +42,27 @@ export default function CostCollection() {
         processRoutes.find((r) => r.id === wo.routeId) ||
         processRoutes.find((r) => r.routeNo === wo.routeNo) ||
         processRoutes.find((r) => r.productCode === wo.productCode);
-      const bom = bomList.find((b) => b.id === wo.bomId) || bomList.find((b) => b.bomNo === wo.bomNo);
-      const unitMaterial = bom?.items ? bom.items.reduce((s, it) => s + (it.totalCost || 0), 0) : 0;
+      // ★ V3.47.0 3-04：改用唯一解析口径（原先按 id/bomNo 兜底，跨组织同号会取错 BOM）
+      const bom = resolveBOM(bomList, wo.productCode, { bomId: wo.bomId });
+      // ★ 材料成本走统一口径（含废品率放大，只放大一次）
+      const unitMaterial = calcMaterialCost(bom?.items || []);
+      // 缺 BOM / 缺工艺路线都要显式看见 —— 原先静默按 0 参与运算，
+      // 差异率会显示成一个看似正常的数字（分母小了而已），无法察觉。
+      const missingBom = !bom;
+      const missingRoute = !route;
 
-      // 标准成本（按计划量）
-      let stdHours = 0;
-      route?.operations.forEach((op) => {
-        stdHours += (op.setupTime + op.runTime * wo.plannedQuantity) / 60;
+      // 标准成本（按计划量）：工时口径统一到 costBasis（原式 setupTime 每道工序
+      // 都按全量摊，与「准备时间按批量摊一次」口径不一致，会随工序数放大）
+      const std = calcLaborCost({
+        operations: route?.operations,
+        plannedQty: wo.plannedQuantity,
+        rates: { laborRate, machineRate },
       });
-      const stdMaterial = unitMaterial * wo.plannedQuantity;
-      const stdLabor = stdHours * laborRate;
-      const stdMachine = stdHours * machineRate;
-      const stdTotal = stdMaterial + stdLabor + stdMachine;
+      const stdHours = std.totalHours;
+      const stdMaterial = roundAmount(unitMaterial * wo.plannedQuantity);
+      const stdLabor = std.laborCost;
+      const stdMachine = std.processCost;
+      const stdTotal = roundAmount(stdMaterial + stdLabor + stdMachine);
 
       // 实际成本（按报工 / 完成量）
       const reports = operationReports.filter((r) => r.workOrderId === wo.id);
@@ -60,16 +72,16 @@ export default function CostCollection() {
         const h = r.laborHours ?? (op ? (op.setupTime + op.runTime * r.goodQuantity) / 60 : 0);
         actHours += h;
       });
-      const actMaterial = unitMaterial * wo.completedQuantity;
-      const actLabor = actHours * laborRate;
-      const actMachine = actHours * machineRate;
-      const actTotal = actMaterial + actLabor + actMachine;
+      const actMaterial = roundAmount(unitMaterial * wo.completedQuantity);
+      const actLabor = roundAmount(actHours * laborRate);
+      const actMachine = roundAmount(actHours * machineRate);
+      const actTotal = roundAmount(actMaterial + actLabor + actMachine);
 
-      const variance = actTotal - stdTotal;
+      const variance = roundAmount(actTotal - stdTotal);
       const variancePct = stdTotal > 0 ? (variance / stdTotal) * 100 : 0;
 
       return {
-        wo, hasBom: !!bom,
+        wo, hasBom: !!bom, missingBom, missingRoute,
         unitMaterial,
         stdMaterial, stdLabor, stdMachine, stdTotal,
         actMaterial, actLabor, actMachine, actTotal, actHours,
@@ -159,6 +171,7 @@ export default function CostCollection() {
                   <Typography variant="caption" color="text.secondary">
                     计划 {c.wo.plannedQuantity} / 完成 {c.wo.completedQuantity} 件
                     {!c.hasBom && ' · 无关联 BOM（物料成本按 0 计）'}
+                    {c.missingRoute && ' · 无关联工艺路线（人工/工序成本按 0 计，差异率会偏小）'}
                   </Typography>
                 </Box>
                 <Stack direction="row" spacing={1} alignItems="center">

@@ -5,8 +5,13 @@ import {
 } from '@mui/material';
 import { Calculate, Refresh, FileDownload } from '@mui/icons-material';
 import { ResponsiveChartContainer, PiePlot } from '@mui/x-charts';
+import Alert from '@mui/material/Alert';
 import { useBOMStore } from '@/stores/bomStore';
 import { useMaterialStore } from '@/stores/materialStore';
+import { useProductionStore } from '@/stores/productionStore';
+import { useProductionOperationStore } from '@/stores/productionOperationStore';
+import { calcLaborCost, calcMaterialCost, calcOverheadCost } from '@/utils/costBasis';
+import { roundAmount } from '@/utils/cost';
 import { Material } from '@/types';
 
 const COST_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444'];
@@ -68,14 +73,36 @@ const CostRollup: React.FC = () => {
   const activeBOM = bomList.find((b) => b.id === (selectedBOM?.id ?? bomList[0]?.id)) || bomList[0] || selectedBOM;
 
   const matMap = new Map<string, Material>(materials.map((m) => [m.id, m]));
+  // ★ V3.47.0 3-04：人工/工序成本改由「工序工时 × 费率」算出（对标金蝶/用友/SAP），
+  //   费率来自 production_rates（已落库、按生效日取，见 V3.46.0 第2批③）。
+  const { laborRate, machineRate } = useProductionOperationStore();
+  const { processRoutes } = useProductionStore();
+  // 工艺路线：BOM 本身不挂路线，按「产品编码」匹配（同 resolveBOM 的思路）
+  const route = useMemo(
+    () => processRoutes.find((r: any) => String(r?.productCode || '') === String(activeBOM?.productCode || '')),
+    [processRoutes, activeBOM]
+  );
 
   // ── 接通 D1：直接取真实 BOM 子件（递归摊平到最底层），不再用全局 mock bomTreeData ──
   const bomItems = useMemo(() => collectLeaves((activeBOM as any)?.items || []), [activeBOM]);
 
-  const materialCost = bomItems.reduce((sum, i) => sum + (i.totalCost || 0), 0);
-  const laborCost = materialCost * 0.15;
-  const overheadCost = materialCost * 0.12;
-  const totalCost = materialCost + laborCost + overheadCost;
+  // 材料成本：统一口径（含废品率放大，只放大一次；原先用 totalCost 逐行相加，
+  //   而 totalCost 是否含废品率取决于各行怎么填，口径不稳）
+  const materialCost = calcMaterialCost(bomItems as any);
+  // 人工/工序成本：工时 × 费率。批次按 BOM 明细合计数量取（成本卷积是单件视角，
+  //   但费率是元/小时，必须给一个批量才能把准备时间摊掉，故用合计数量作批量）
+  const batchQty = bomItems.reduce((s, i) => s + Number(i.quantity || 0), 0);
+  const lc = calcLaborCost({
+    operations: (route as any)?.operations,
+    plannedQty: batchQty,
+    rates: { laborRate, machineRate },
+  });
+  const laborCost = lc.laborCost;
+  const processCost = lc.processCost;
+  // 制造费用：按工时分摊（原先按材料金额 × 12% —— 材料涨价会让制造费用跟着涨，
+  //   这在会计上是错误的联动）。无工时数据时按 0 计并显式标注。
+  const overheadCost = calcOverheadCost(lc.totalHours, machineRate);
+  const totalCost = roundAmount(materialCost + laborCost + overheadCost);
 
   // ── 标准成本差异分析（决策 E · V3.32.0 接通 D1 后真实化）──
   const varianceRows = bomItems.map((i) => {
@@ -92,10 +119,12 @@ const CostRollup: React.FC = () => {
   const variancePct = materialCost > 0 ? varianceTotal / materialCost : 0;
   const hasActual = varianceRows.some((r) => r.actual.value !== undefined);
 
+  const _pct = (v: number) => (totalCost > 0 ? (v / totalCost) * 100 : 0);
   const breakdown = [
-    { label: '原材料成本', value: materialCost, percentage: (materialCost / totalCost) * 100, color: '#3B82F6' },
-    { label: '人工成本 (15%)', value: laborCost, percentage: (laborCost / totalCost) * 100, color: '#10B981' },
-    { label: '制造费用 (12%)', value: overheadCost, percentage: (overheadCost / totalCost) * 100, color: '#F59E0B' },
+    { label: '原材料成本', value: materialCost, percentage: _pct(materialCost), color: '#3B82F6' },
+    { label: `人工成本（${laborRate} 元/工时）`, value: laborCost, percentage: _pct(laborCost), color: '#10B981' },
+    { label: '工序成本', value: processCost, percentage: _pct(processCost), color: '#8B5CF6' },
+    { label: '制造费用', value: overheadCost, percentage: _pct(overheadCost), color: '#F59E0B' },
   ];
 
   return (
@@ -147,6 +176,15 @@ const CostRollup: React.FC = () => {
               {/* 成本饼图 */}
               <Paper sx={{ p: 3, borderRadius: 3, mb: 3 }}>
                 <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>成本构成</Typography>
+                {/* ★ V3.47.0 3-04：缺工艺路线时人工/工序成本恒 0。原先此处写死
+                    「材料成本 × 15%」所以永远有数；改成工时口径后没数据就是 0，
+                    必须显式说明，否则看板上的人工成本 0 会被当成"人工免费"。 */}
+                {lc.missingRoute && (
+                  <Alert severity="warning" sx={{ mb: 2 }}>
+                    该产品没有匹配的工艺路线，<b>人工成本与工序成本按 0 计</b>，当前总成本仅含材料成本。
+                    请在「生产 → 工艺路线」中为产品编码 {activeBOM?.productCode || '（未填）'} 维护工序工时。
+                  </Alert>
+                )}
                 <Grid container>
                   <Grid item xs={12} md={5}>
                     <ResponsiveChartContainer
