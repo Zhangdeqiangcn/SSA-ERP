@@ -24,6 +24,7 @@ import { MRPRecommendation } from '@/types/production';
 import type {
   SalesOrder, SalesOrderStatus, PurchaseOrder, PurchaseOrderStatus, Material, BOMHeader,
 } from '@/types';
+import { resolveBOM } from '@/utils/bomResolver';
 
 const PRIORITY_CONFIG: Record<string, { label: string; color: 'error' | 'warning' | 'default' }> = {
   urgent: { label: '紧急', color: 'error' },
@@ -586,8 +587,9 @@ export default function MRPPlan() {
     const now = new Date().toISOString();
     let woCount = 0;
 
-    // 查找对应的BOM
-    const findBOM = (materialCode: string) => bomList.find(b => b.productCode === materialCode);
+    // 查找对应的BOM（★ V3.46.0 收敛到 resolveBOM：原 find 无 released 优先/无有效期判定，
+    //   同一产品存在多版 BOM 时，MRP 算出的需求量与领料页可能不是同一版 BOM 的口径）
+    const findBOM = (materialCode: string) => resolveBOM(bomList, materialCode);
 
     productGroups.forEach((items, materialCode) => {
       const firstItem = items[0];

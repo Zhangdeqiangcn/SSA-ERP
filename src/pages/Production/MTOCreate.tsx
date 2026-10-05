@@ -7,6 +7,8 @@ import { useSalesStore } from '@/stores/salesStore';
 import { useProductionStore } from '@/stores/productionStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { WorkOrder, WorkOrderStatus } from '@/types/production';
+import { resolveBOM } from '@/utils/bomResolver';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
 
 const fmt = (n: number) => '¥' + n.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -38,7 +40,16 @@ export default function MTOCreate() {
   const handleGenerate = () => {
     if (!so) return;
     const item = so.items[0];
-    const bom = bomList.find((b) => b.productCode === item?.materialCode) || bomList[0];
+    // ★ V3.46.0 收敛到 resolveBOM：原式 `find(...) || bomList[0]` 会在产品编码
+    //   完全不匹配时**无声地拿第一张不相干的 BOM 建工单** —— 于是工单挂错 BOM、
+    //   后续领料与成本全错，且界面上看不出任何异常。宁可建不出工单也不给错的。
+    const bom = resolveBOM(bomList, item?.materialCode || '');
+    if (!bom) {
+      useGlobalToastStore.getState().showError(
+        `产品「${item?.materialName || item?.materialCode || '未命名'}」没有可用 BOM，请先维护该产品的 BOM 再下达工单`
+      );
+      return;
+    }
     const woNo = `WO-MTO-${Date.now()}`;
     const wo: WorkOrder = {
       id: `wo-${Date.now()}`,
@@ -46,8 +57,9 @@ export default function MTOCreate() {
       status: 'released' as WorkOrderStatus,
       productCode: item?.materialCode ?? 'PRD-FRAME-001',
       productName: item?.materialName ?? so.customerName,
-      bomId: bom?.id ?? 'bom-001',
-      bomNo: bom?.bomNo ?? 'BOM-2024-001',
+      // ★ 不再兜底 'bom-001'/'BOM-2024-001'：挂错 BOM 比建不出工单危害更大
+      bomId: bom.id,
+      bomNo: bom.bomNo,
       routeId: 'route-001',
       routeNo: 'R-2024-001',
       plannedQuantity: qty,

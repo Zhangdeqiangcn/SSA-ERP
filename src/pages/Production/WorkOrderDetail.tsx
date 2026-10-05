@@ -17,6 +17,7 @@ import OutputIcon from '@mui/icons-material/Output';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { FlowTracker, ConfirmDialog, PrintPreviewButton } from '@/components/common';
 import { useProductionStore, CompleteWorkOrderResult } from '@/stores/productionStore';
+import { resolveBOM, topLevelItems } from '@/utils/bomResolver';
 import { useBOMStore } from '@/stores/bomStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -108,7 +109,10 @@ export default function WorkOrderDetail() {
   const wo = workOrders.find(w => w.id === id);
 
   // BOM 物料清单（多级展开用），提升到组件作用域供领料出库与打印共用
-  const bom = bomList.find(b => b.id === wo?.bomId || b.productCode === wo?.productCode);
+  // ★ V3.46.0 收敛到 resolveBOM：原式 `find(b => b.id === wo?.bomId || b.productCode === ...)`
+  //   没有 released 优先也没有效期判定，列表顺序一变就换一张 BOM，
+  //   且 EBOM/MBOM 的 productCode 相同 → 永远拿数组第一张（EBOM）冒充 MBOM。
+  const bom = resolveBOM(bomList, wo?.productCode || '', { bomId: wo?.bomId });
   const sourceItems = bom?.items && bom.items.length > 0
     ? bom.items
     : bomTreeData.filter(t => t.bomId === (bom?.id || ''));
@@ -118,12 +122,9 @@ export default function WorkOrderDetail() {
   const materialByCode = useMemo(() => new Map(materials.map((m) => [m.code, m])), [materials]);
 
   // 子装配解析器：productCode → 该产品的顶层明细行。
-  // 优先已发布版本（与服务端 resolveChildBom 的排序一致：released 优先、其余按创建时间倒序）。
+  // 与上面同用 resolveBOM（同一张工单在领料页/成本页必须挂同一张 BOM）。
   const bomByProduct = useCallback((code: string): BOMItem[] | undefined => {
-    const hit =
-      bomList.find((b) => b.productCode === code && b.status === 'released') ||
-      bomList.find((b) => b.productCode === code);
-    return hit?.items && hit.items.length > 0 ? hit.items : undefined;
+    return topLevelItems(resolveBOM(bomList, code));
   }, [bomList]);
 
   // 多级展开 + 按物料编码聚合（含废品率），得到领料明细与现有库存/缺料量，供缺料预警与替代料建议
