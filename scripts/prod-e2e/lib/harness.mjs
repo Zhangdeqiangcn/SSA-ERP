@@ -344,6 +344,11 @@ export async function createContext({ req, runId }) {
         mesOperationReport: (id) => `/api/entities/mesOperationReport/${id}`,
         workCenter: (id) => `/api/entities/workCenter/${id}`,
         productionRate: (id) => `/api/entities/productionRate/${id}`,
+        // V3.47.0 3-05：序列号治理 + 三单匹配行级化守护套件（39）会真建
+        //   序列号主档、出库单、发票明细。少任一类型 → 测试数据残留生产库。
+        'serial-number': (id) => `/api/serial-numbers/${id}`,
+        'outbound-order': (id) => `/api/outbound-orders/${id}`,
+        finInvoiceItem: (id) => `/api/entities/finInvoiceItem/${id}`,
         // V3.45.0 补：第1批整改守护套件（34）走通用实体路由建发票，
         // 用的是资源名 'fin-invoice'（带连字符，与实体路由的资源名一致），
         // 此前缺这个类型 → 清理记为「未知类型」→ 发票残留在生产库。
