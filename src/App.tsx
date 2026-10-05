@@ -11,6 +11,7 @@ import { useMaterialStore } from './stores/materialStore';
 import { useCustomerStore } from './stores/customerStore';
 import { useWarehouseAdvancedStore } from './stores/warehouseAdvancedStore';
 import { useSubcontractStore } from './stores/subcontractStore';
+import { useProductionOperationStore } from './stores/productionOperationStore';
 // W1 根治双通道：采购订单 / 销售订单 / 工单 / 凭证 直连真实 D1（启动期拉取在下方 useEffect）
 import { usePurchaseStore } from './stores/purchaseStore';
 import { useSalesStore } from './stores/salesStore';
@@ -310,6 +311,11 @@ function App() {
     // ★ 注意：工单（workOrders）早在 V2.75.x 就已直连 D1，本轮**不重复处理** ——
     //   「生产域」这个说法容易误导，真正还在 Blob 里的只有上面两个切片。
     useProductionStore.getState().load();
+    // ★ V3.46.0 第2批③：生产运营域落库（工序报工 / 工作中心 / 成本费率）。
+    //   此前这三类数据只存在用户浏览器里 —— 换台电脑费率就变、报工就看不到，
+    //   于是「同一批产品的成本」在不同机器上算出不同数字且无法复算。
+    //   载入放在启动期，与其它主数据同批，避免首屏先显示本机旧值再跳变。
+    useProductionOperationStore.getState().load();
     // C1 财务域关系化（V3.8.0）：发票/付款计划/分录/税务/项目核算/科目 六个切片
     // 从 app_state 大对象迁入 D1 关系表；load() 内含凭证拉取，取代原 loadVouchers()。
     useFinanceStore.getState().load();

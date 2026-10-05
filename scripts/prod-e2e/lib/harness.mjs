@@ -339,6 +339,11 @@ export async function createContext({ req, runId }) {
         project: (id) => `/api/projects/${id}`,
         // 组织级 app_state 键（预算闸门套件注入的 ssa-erp-finance-ext 等）：DELETE /api/state/<key>
         appstate: (id) => `/api/state/${id}`,
+        // V3.46.0 第2批③补：生产运营域落库守护套件（38）会真建工序报工/工作中心/费率行。
+        //   少任一类型 → 被记为「未知类型」清理失败 → 测试数据残留生产库。
+        mesOperationReport: (id) => `/api/entities/mesOperationReport/${id}`,
+        workCenter: (id) => `/api/entities/workCenter/${id}`,
+        productionRate: (id) => `/api/entities/productionRate/${id}`,
         // V3.45.0 补：第1批整改守护套件（34）走通用实体路由建发票，
         // 用的是资源名 'fin-invoice'（带连字符，与实体路由的资源名一致），
         // 此前缺这个类型 → 清理记为「未知类型」→ 发票残留在生产库。
