@@ -183,6 +183,39 @@ describe('flattenBomLeaves：子装配展开为实物料', () => {
     expect(flattenBomLeaves(undefined)).toEqual([]);
     expect(flattenBomLeaves([])).toEqual([]);
   });
+
+  it('★ 循环引用 BOM 被环保护截断，不栈溢出（脏数据护栏）', () => {
+    const a: any = { ...leaf('A', 1) };
+    const b: any = { ...leaf('B', 1) };
+    a.children = [b];
+    b.children = [a]; // 脏数据：a→b→a 循环
+    const leaves = flattenBomLeaves([a]);
+    // 不抛错、不爆栈；子装配逐层展开，回到已展开的 A 时被截断
+    expect(leaves.length).toBeGreaterThan(0);
+    expect(leaves.every((l) => l.materialCode)).toBeTruthy();
+  });
+
+  it('★ 共享子装配在不同父项下各自展开，需求不丢（环保护不误伤兄弟分支）', () => {
+    const shared: any = { ...leaf('SUB', 1), children: [leaf('M1', 2)] };
+    const items: any[] = [
+      { ...leaf('P1', 1), children: [shared] },
+      { ...leaf('P2', 1), children: [shared] },
+    ];
+    const codes = flattenBomLeaves(items).map((l) => l.materialCode);
+    // 共享子件 SUB 在 P1、P2 下各展开一次 → M1 出现 2 次（两条分支需求叠加）
+    expect(codes.filter((c) => c === 'M1')).toHaveLength(2);
+  });
+
+  it('★ 超深度 BOM 在 BOM_MAX_DEPTH 处截断，不无限递归', () => {
+    let node: any = null;
+    for (let i = 12; i >= 1; i -= 1) {
+      node = { ...leaf('L' + i, 1), children: node ? [node] : [] };
+    }
+    const leaves = flattenBomLeaves([node]);
+    // 12 层链在 depth > BOM_MAX_DEPTH(10) 处截断，结果有限、不爆栈
+    expect(leaves.length).toBe(1);
+    expect(leaves[0].__level).toBeLessThanOrEqual(11);
+  });
 });
 
 describe('topLevelItems：区分「无 BOM」与「BOM 无明细」', () => {
