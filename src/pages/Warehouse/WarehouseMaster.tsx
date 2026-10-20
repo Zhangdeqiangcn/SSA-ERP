@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, IconButton, TextField, Dialog,
@@ -17,9 +17,16 @@ import { useOrgStore } from '@/stores/orgStore';
 import { Warehouse, WarehouseLocation, WarehouseType } from '@/types';
 
 const WarehouseMaster: React.FC = () => {
-  const { warehouses, addWarehouse, updateWarehouse, deleteWarehouse, addLocation, updateLocation, deleteLocation, resetWarehouses } =
+  const { warehouses, addWarehouse, updateWarehouse, deleteWarehouse, addLocation, updateLocation, deleteLocation, resetWarehouses, loadWarehouses } =
     useWarehouseMasterStore();
   const { organizations, currentOrgId } = useOrgStore();
+
+  // W4：在线时从后端 D1 拉取仓库权威源并按 id 合并（离线/异常保留本地种子）
+  useEffect(() => {
+    void loadWarehouses?.();
+    // 仅挂载时拉一次，避免每次渲染触发
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [expanded, setExpanded] = useState<string | null>(null);
   const [whDialog, setWhDialog] = useState(false);

@@ -244,17 +244,17 @@ const TraceBatch: React.FC = () => {
     }
   };
 
-  // 演示快捷入口
+  // 示例快捷入口（填示例批次/序列号供快速体验；实际查询仍走真实数据，匹配不到即提示未找到）
   const demos = [
-    { label: '成品批次 F20240620X（反向上游穿透）', value: 'F20240620X' },
-    { label: '原料批次 B20240601X（正向下游穿透）', value: 'B20240601X' },
-    { label: '序列号 SN-2024-0001（一物一码）', value: 'SN-2024-0001' },
+    { label: '示例：成品批次 F20240620X（反向上游）', value: 'F20240620X' },
+    { label: '示例：原料批次 B20240601X（正向下游）', value: 'B20240601X' },
+    { label: '示例：序列号 SN-2024-0001（一物一码）', value: 'SN-2024-0001' },
   ];
 
   return (
     <PageWrapper
       title="批次追溯穿透"
-      subtitle="批次正反向追溯穿透视图（含序列号级一物一码溯源）— C1"
+      subtitle="批次正反向追溯穿透视图（含序列号级一物一码溯源）— C1。数据源随真实单据流转自动更新（入库/出库/成品入库/序列号均已接数据库）；下方示例号仅作快速体验入口。"
     >
       {/* 查询条 */}
       <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
@@ -274,7 +274,7 @@ const TraceBatch: React.FC = () => {
           </Button>
         </Stack>
         <Stack direction="row" spacing={1} sx={{ mt: 1.5 }} flexWrap="wrap">
-          <Typography variant="caption" color="text.secondary" sx={{ mr: 1, alignSelf: 'center' }}>快捷演示：</Typography>
+          <Typography variant="caption" color="text.secondary" sx={{ mr: 1, alignSelf: 'center' }}>示例入口（查询仍走真实数据）：</Typography>
           {demos.map((d) => (
             <Chip key={d.value} size="small" variant="outlined" label={d.label}
               onClick={() => { setQuery(d.value); }}

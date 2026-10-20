@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, IconButton, LinearProgress, Tabs, Tab,
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem, Alert,
@@ -7,12 +7,14 @@ import {
 import { Add, Visibility, PlayArrow, Close, TrendingUp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { useProductionStore } from '@/stores/productionStore';
+import { notifyError } from '@/utils/notify';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { useOrgStore, useCurrentOrg } from '@/stores/orgStore';
 import { useDataPermissionStore, passDataPermission } from '@/stores/dataPermissionStore';
 import { WorkOrder, WorkOrderStatus } from '@/types/production';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const STATUS_LABELS: Record<WorkOrderStatus, string> = {
   draft: '草稿',
@@ -22,16 +24,16 @@ const STATUS_LABELS: Record<WorkOrderStatus, string> = {
   closed: '已关闭',
 };
 
-const STATUS_COLORS: Record<WorkOrderStatus, string> = {
-  draft: '#94A3B8',
-  released: '#3B82F6',
-  in_progress: '#F59E0B',
-  completed: '#10B981',
-  closed: '#6366F1',
+// 状态 → 中央 StatusBadge key（draft/released/completed/closed 复用通用 key，仅 in_progress 用专属 key）
+const WO_STATUS_KEY: Record<WorkOrderStatus, string> = {
+  draft: 'draft', released: 'released', in_progress: 'wo_in_progress', completed: 'completed', closed: 'closed',
+};
+// 状态 → 主题令牌（供进度条/统计卡等非 Chip 场景使用，杜绝 '#hex'）
+const WO_STATUS_TOKEN: Record<WorkOrderStatus, string> = {
+  draft: 'grey.400', released: 'primary.main', in_progress: 'warning.main', completed: 'success.main', closed: 'secondary.main',
 };
 
 const PRIORITY_LABELS: Record<string, string> = { urgent: '紧急', high: '高', normal: '普通', low: '低' };
-const PRIORITY_COLORS: Record<string, string> = { urgent: '#EF4444', high: '#F59E0B', normal: '#10B981', low: '#94A3B8' };
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => {
@@ -48,6 +50,7 @@ const WorkOrderList: React.FC = () => {
   const currentOrgId = useOrgStore((s) => s.currentOrgId);
   const currentOrg = useCurrentOrg();
   const { enabled, mode, modules } = useDataPermissionStore();
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const [open, setOpen] = useState(false);
   const [orderNo, setOrderNo] = useState('');
@@ -60,6 +63,9 @@ const WorkOrderList: React.FC = () => {
   const [plannedStartDate, setPlannedStartDate] = useState(todayStr());
   const [plannedEndDate, setPlannedEndDate] = useState(todayStr());
   const [status, setStatus] = useState<WorkOrderStatus>('released');
+  // ★ V3.62.0 边界①：折旧与制造费用（工单 manual 录入，完工结转含入 5001）
+  const [depreciationCost, setDepreciationCost] = useState('');
+  const [overheadCost, setOverheadCost] = useState('');
 
   const openCreate = () => {
     setOrderNo(nextNo('WO'));
@@ -67,10 +73,20 @@ const WorkOrderList: React.FC = () => {
     setPriority('normal'); setWorkshop(''); setSupervisor('');
     setPlannedStartDate(todayStr()); setPlannedEndDate(todayStr());
     setStatus('released');
+    setDepreciationCost(''); setOverheadCost('');
     setOpen(true);
   };
 
   const handleSave = () => {
+    // 与后端 REQUIRED_CORE_FIELDS（work_orders: productCode + plannedQuantity）对齐：提交前拦截空值
+    if (!productCode.trim()) {
+      notifyError('请填写「生产物料（产品编码）」后再提交');
+      return;
+    }
+    if (!plannedQuantity || Number(plannedQuantity) <= 0) {
+      notifyError('请填写「计划数量」后再提交');
+      return;
+    }
     const ts = nowStr();
     const wo: WorkOrder = {
       id: `wo-${Date.now()}`,
@@ -91,6 +107,9 @@ const WorkOrderList: React.FC = () => {
       priority,
       workshop,
       supervisor,
+      // ★ V3.62.0 边界①：折旧与制造费用录入
+      depreciationCost: Number(depreciationCost) || 0,
+      overheadCost: Number(overheadCost) || 0,
       createdAt: ts,
       updatedAt: ts,
       createdBy: '系统',
@@ -142,8 +161,10 @@ const WorkOrderList: React.FC = () => {
   const columns: ColumnDef<WorkOrder, unknown>[] = [
     {
       id: 'orderNo',
+      accessorKey: 'orderNo',
       header: '工单编号',
       accessorFn: (row) => row.orderNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontWeight: 500, fontFamily: 'monospace', color: '#3B82F6' }}>
           {row.original.orderNo}
@@ -152,8 +173,10 @@ const WorkOrderList: React.FC = () => {
     },
     {
       id: 'product',
+      accessorKey: 'productName',
       header: '产品',
       accessorFn: (row) => row.productName,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box>
           <Typography variant="body2" sx={{ fontWeight: 500 }}>{row.original.productName}</Typography>
@@ -163,26 +186,30 @@ const WorkOrderList: React.FC = () => {
     },
     {
       id: 'priority',
+      accessorKey: 'priority',
       header: '优先级',
       accessorFn: (row) => row.priority,
-      cell: ({ row }) => (
-        <Chip
-          label={PRIORITY_LABELS[row.original.priority]}
-          size="small"
-          sx={{ bgcolor: PRIORITY_COLORS[row.original.priority] + '15', color: PRIORITY_COLORS[row.original.priority], fontWeight: 500 }}
-        />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: (Object.keys(PRIORITY_LABELS) as WorkOrder['priority'][]).map((k) => ({ value: k, label: PRIORITY_LABELS[k] })),
+      },
+      cell: ({ row }) => <StatusBadge status={row.original.priority} />,
     },
     {
       id: 'plannedQuantity',
+      accessorKey: 'plannedQuantity',
       header: '计划数量',
       accessorFn: (row) => row.plannedQuantity,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.plannedQuantity}</Typography>,
     },
     {
       id: 'completedQuantity',
+      accessorKey: 'completedQuantity',
       header: '完成数量',
       accessorFn: (row) => row.completedQuantity,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontWeight: 500, color: row.original.completedQuantity > 0 ? '#10B981' : '#64748B' }}>
           {row.original.completedQuantity}
@@ -191,8 +218,10 @@ const WorkOrderList: React.FC = () => {
     },
     {
       id: 'planDate',
+      accessorKey: 'plannedStartDate',
       header: '计划日期',
       accessorFn: (row) => row.plannedStartDate,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box>
           <Typography variant="body2">{row.original.plannedStartDate}</Typography>
@@ -202,8 +231,10 @@ const WorkOrderList: React.FC = () => {
     },
     {
       id: 'workshop',
+      accessorKey: 'workshop',
       header: '车间',
       accessorFn: (row) => row.workshop,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.workshop}</Typography>,
     },
     {
@@ -217,7 +248,7 @@ const WorkOrderList: React.FC = () => {
             <LinearProgress
               variant="determinate"
               value={progress}
-              sx={{ flex: 1, height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: STATUS_COLORS[row.original.status], borderRadius: 3 } }}
+              sx={{ flex: 1, height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: WO_STATUS_TOKEN[row.original.status], borderRadius: 3 } }}
             />
             <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500, minWidth: 30 }}>{progress}%</Typography>
           </Box>
@@ -226,15 +257,15 @@ const WorkOrderList: React.FC = () => {
     },
     {
       id: 'status',
+      accessorKey: 'status',
       header: '状态',
       accessorFn: (row) => row.status,
-      cell: ({ row }) => (
-        <Chip
-          label={STATUS_LABELS[row.original.status]}
-          size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }}
-        />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: (Object.keys(STATUS_LABELS) as WorkOrderStatus[]).map((k) => ({ value: k, label: STATUS_LABELS[k] })),
+      },
+      cell: ({ row }) => <StatusBadge status={WO_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'actions',
@@ -254,6 +285,12 @@ const WorkOrderList: React.FC = () => {
       ),
     },
   ];
+
+  // 列表检索：在「状态 Tab + 字段权限」已过滤后的数据上，再用通用列检索覆盖全部声明了 meta.searchable 的列（工单编号/产品/优先级/数量/计划日期/车间/状态），并按字段权限门控
+  const filteredData = useMemo(
+    () => applyColumnFilters(filtered, columns, filterData, { module: 'production' }),
+    [filterData, filtered, columns]
+  );
 
   return (
     <Box>
@@ -347,7 +384,7 @@ const WorkOrderList: React.FC = () => {
                     <Box sx={{
                       height: '100%', borderRadius: 5,
                       width: `${(count / maxCount) * 100}%`,
-                      bgcolor: STATUS_COLORS[s as WorkOrderStatus],
+                      bgcolor: WO_STATUS_TOKEN[s as WorkOrderStatus],
                       transition: 'width 0.5s',
                       minWidth: count > 0 ? 8 : 0,
                     }} />
@@ -367,8 +404,8 @@ const WorkOrderList: React.FC = () => {
         {Object.entries(STATUS_LABELS).map(([s, label]) => {
           const count = workOrders.filter(w => w.status === s).length;
           return (
-            <Paper key={s} sx={{ px: 2.5, py: 2, borderRadius: 3, flex: 1, minWidth: 80, border: `1px solid ${STATUS_COLORS[s as WorkOrderStatus]}20` }}>
-              <Typography variant="h5" sx={{ fontWeight: 700, color: STATUS_COLORS[s as WorkOrderStatus] }}>{count}</Typography>
+            <Paper key={s} sx={{ px: 2.5, py: 2, borderRadius: 3, flex: 1, minWidth: 80, border: '1px solid', borderColor: WO_STATUS_TOKEN[s as WorkOrderStatus] }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: WO_STATUS_TOKEN[s as WorkOrderStatus] }}>{count}</Typography>
               <Typography variant="caption" sx={{ color: '#64748B' }}>{label}</Typography>
             </Paper>
           );
@@ -376,6 +413,7 @@ const WorkOrderList: React.FC = () => {
       </Box>
 
       <Paper sx={{ borderRadius: 3 }}>
+        <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="workorder-list" />
         <Tabs
           value={tabValue}
           onChange={(_, v) => setTabValue(v)}
@@ -388,7 +426,7 @@ const WorkOrderList: React.FC = () => {
         </Tabs>
 
         <DataTable<WorkOrder>
-          data={filtered}
+          data={filteredData}
           columns={columns}
           enableRowSelection={false}
           enablePagination={true}
@@ -397,6 +435,7 @@ const WorkOrderList: React.FC = () => {
           enableBlockSelect={true}
           enableExport={true}
           exportFormat="xlsx"
+          codeColumnId="orderNo"
           enableImport={true}
           onImport={(rows, headers) => rows.forEach(r => addWorkOrder(mapImportRow(r, headers)))}
           columnConfigKey="production-workorder-list"
@@ -417,8 +456,9 @@ const WorkOrderList: React.FC = () => {
               <TextField fullWidth label="产品名称" value={productName} onChange={e => setProductName(e.target.value)} data-testid="wo-product" />
             </Stack>
             <Stack direction="row" spacing={2}>
-              <TextField fullWidth label="产品编码" value={productCode} onChange={e => setProductCode(e.target.value)} />
-              <TextField fullWidth label="计划数量" type="number" value={plannedQuantity} onChange={e => setPlannedQuantity(e.target.value)} />
+              {/* 与后端 REQUIRED_CORE_FIELDS（work_orders: productCode + plannedQuantity）对齐：两项均必填 */}
+              <TextField fullWidth required label="产品编码" value={productCode} onChange={e => setProductCode(e.target.value)} />
+              <TextField fullWidth required label="计划数量" type="number" value={plannedQuantity} onChange={e => setPlannedQuantity(e.target.value)} />
             </Stack>
             <Stack direction="row" spacing={2}>
               <TextField select fullWidth label="优先级" value={priority} onChange={e => setPriority(e.target.value as any)}>
@@ -433,6 +473,10 @@ const WorkOrderList: React.FC = () => {
               <TextField fullWidth label="主管" value={supervisor} onChange={e => setSupervisor(e.target.value)} />
             </Stack>
             <Stack direction="row" spacing={2}>
+              <TextField fullWidth label="折旧成本" type="number" value={depreciationCost} onChange={e => setDepreciationCost(e.target.value)} />
+              <TextField fullWidth label="制造费用" type="number" value={overheadCost} onChange={e => setOverheadCost(e.target.value)} />
+            </Stack>
+            <Stack direction="row" spacing={2}>
               <TextField fullWidth label="计划开始" type="date" value={plannedStartDate}
                 onChange={e => setPlannedStartDate(e.target.value)} InputLabelProps={{ shrink: true }} />
               <TextField fullWidth label="计划结束" type="date" value={plannedEndDate}
@@ -442,7 +486,8 @@ const WorkOrderList: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>取消</Button>
-          <Button variant="contained" onClick={handleSave} disabled={!productName.trim() || Number(plannedQuantity) <= 0}
+          {/* 禁用条件同步对齐后端必填：产品编码 / 产品名称 / 计划数量>0 */}
+          <Button variant="contained" onClick={handleSave} disabled={!productCode.trim() || !productName.trim() || Number(plannedQuantity) <= 0}
             data-testid="wo-save">
             保存
           </Button>

@@ -12,7 +12,7 @@ const DEMO_RATE: Record<string, number> = {
 };
 
 export default function FxConfig() {
-  const { baseCurrency, rates, setBaseCurrency, upsertRate, removeRate, setRates, convert } = useFxStore();
+  const { baseCurrency, rates, setBaseCurrency, upsertRate, removeRate, setRates, convert, load } = useFxStore();
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [dialog, setDialog] = useState(false);
@@ -21,20 +21,8 @@ export default function FxConfig() {
   const [convResult, setConvResult] = useState<number | null>(null);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const r = await fetch('/api/fx?base=' + baseCurrency);
-        if (r.ok) {
-          const j = await r.json();
-          if (j.data?.length) {
-            setRates(j.data.map((x: any) => ({
-              id: `${x.base}-${x.quote}`, base: x.base, quote: x.quote,
-              rate: x.rate, source: x.source, updatedAt: x.updatedAt,
-            })));
-          }
-        }
-      } catch { /* DEV 回退本地 fxStore */ }
-    })();
+    // 登录态经 fxStore.load() 走云端 /api/fx（带 token + org 隔离），替代原裸 fetch（无 token 必然 401 假拉取）
+    void load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseCurrency]);
 
@@ -159,11 +147,12 @@ export default function FxConfig() {
               onChange={(e) => setForm({ ...form, base: e.target.value })}>
               {COMMON.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
             </TextField>
-            <TextField select label="目标币种" value={form.quote}
+            {/* 与后端 REQUIRED_CORE_FIELDS（fx_rates: quote + rate）对齐：目标币种、汇率均必填 */}
+            <TextField select label="目标币种" value={form.quote} required
               onChange={(e) => setForm({ ...form, quote: e.target.value })}>
               {COMMON.map((c) => <MenuItem key={c} value={c}>{c}</MenuItem>)}
             </TextField>
-            <TextField label="汇率" type="number" value={form.rate}
+            <TextField label="汇率" type="number" value={form.rate} required
               onChange={(e) => setForm({ ...form, rate: e.target.value })} />
           </Stack>
         </DialogContent>

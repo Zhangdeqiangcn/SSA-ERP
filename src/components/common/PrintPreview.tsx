@@ -5,7 +5,7 @@ import {
   PrintTemplate, PrintEntity, PRINT_FIELD_CATALOG,
   HeaderFooterConfig, DEFAULT_HEADER_CONFIG, DEFAULT_FOOTER_CONFIG, textToHtml,
 } from '@/stores/printTemplateStore';
-import { useCustomFieldStore } from '@/stores/customFieldStore';
+import { useCustomFieldStore, type CustomFieldEntity } from '@/stores/customFieldStore';
 import { formatCurrency } from '@/utils/format';
 
 /**
@@ -65,7 +65,7 @@ const PRINT_STYLE_ID = 'ssa-print-style';
  * 可打印单据预览：按模板渲染字段，并提供浏览器打印（仅打印单据区域）。
  */
 const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }) => {
-  const customDefs = useCustomFieldStore((s) => s.fields[template.entity] || []);
+  const customDefs = useCustomFieldStore((s) => s.fields[template.entity as CustomFieldEntity] || []);
 
   useEffect(() => {
     if (document.getElementById(PRINT_STYLE_ID)) return;
@@ -311,7 +311,7 @@ const PrintPreview: React.FC<PrintPreviewProps> = ({ template, record, onClose }
           <Box sx={{ mt: 3 }}>
             <Box sx={{ fontWeight: 600, mb: 1, fontSize: 13 }}>自定义字段</Box>
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 24px', fontSize: 13 }}>
-              {customDefs.map((def) => (
+              {customDefs.map((def: any) => (
                 <Box key={def.key} sx={{ display: 'flex', borderBottom: '1px dotted #E2E8F0', py: 0.5 }}>
                   <Box sx={{ width: 110, color: '#64748B', flexShrink: 0 }}>{def.label}：</Box>
                   <Box sx={{ flex: 1, fontWeight: 500 }}>{String(record.customFields[def.key] ?? '—')}</Box>

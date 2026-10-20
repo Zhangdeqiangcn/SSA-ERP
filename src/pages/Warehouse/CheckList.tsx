@@ -14,6 +14,7 @@ import {
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { CheckTask, CheckTaskItem, CyclePlanItem, AbcClass, CycleFrequency } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const nowStr = () => {
   const d = new Date();
@@ -127,28 +128,38 @@ const CheckList: React.FC = () => {
   };
 
   const columns: ColumnDef<CheckTask, unknown>[] = useMemo(() => [
-    { accessorKey: 'taskNo', header: '盘点单号' },
-    { accessorKey: 'warehouseName', header: '仓库' },
+    { accessorKey: 'taskNo', header: '盘点单号', meta: { searchable: true } },
+    { accessorKey: 'warehouseName', header: '仓库', meta: { searchable: true } },
     {
       accessorKey: 'type',
       header: '盘点类型',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'full', label: '全盘' },
+          { value: 'partial', label: '抽盘' },
+        ],
+      },
       cell: ({ row }) => row.original.type === 'full' ? '全盘' : '抽盘',
     },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     {
       accessorKey: 'blindMode',
       header: '盲盘',
+      meta: { searchable: true, filterType: 'select', filterOptions: [{ value: 'true', label: '盲盘' }, { value: 'false', label: '非盲盘' }] },
       cell: ({ row }) => row.original.blindMode ? (
         <Chip size="small" label="盲盘" color="secondary" />
       ) : <Typography variant="body2" color="text.disabled">—</Typography>,
     },
-    { accessorKey: 'operator', header: '操作员' },
-    { accessorKey: 'startDate', header: '开始日期', cell: ({ row }) => formatDate(row.original.startDate) },
-    { accessorKey: 'endDate', header: '结束日期', cell: ({ row }) => formatDate(row.original.endDate) },
+    { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
+    { accessorKey: 'startDate', header: '开始日期', cell: ({ row }) => formatDate(row.original.startDate), meta: { searchable: true } },
+    { accessorKey: 'endDate', header: '结束日期', cell: ({ row }) => formatDate(row.original.endDate), meta: { searchable: true } },
   ], []);
 
   // 循环盘点计划列（只读）
@@ -189,15 +200,9 @@ const CheckList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...checkTasks];
-    if (filterData.taskNo) {
-      data = data.filter(t => t.taskNo.includes(filterData.taskNo as string));
-    }
-    if (filterData.status) {
-      data = data.filter(t => t.status === filterData.status);
-    }
-    return data;
-  }, [filterData]);
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（盘点单号/仓库/类型/状态/盲盘/操作员/日期），并按字段权限门控
+    return applyColumnFilters(checkTasks, columns, filterData, { module: 'warehouse' });
+  }, [filterData, checkTasks, columns]);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
   const CHECK_BATCH_FIELDS: BatchEditField[] = [
@@ -377,7 +382,7 @@ const CheckList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <FilterBar fields={filterFields} onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="check-list" />
       <DataTable<CheckTask>
         data={filteredData}
         columns={columns}

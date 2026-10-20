@@ -12,6 +12,7 @@ import {
 import { useAIStore } from '@/stores/aiStore';
 import type { AIModelConfig, AIProvider } from '@/types/ai';
 import { AI_PROVIDER_TEMPLATES, RECOMMENDED_MODELS } from '@/types/ai';
+import { ConfirmDialog } from '@/components/common';
 
 const AIConfigPage: React.FC = () => {
   const { models, activeModelId, addModel, updateModel, deleteModel, setActiveModel, getActiveModel, isConfigured } = useAIStore();
@@ -55,9 +56,14 @@ const AIConfigPage: React.FC = () => {
     setOpenDialog(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('确认删除此模型配置？')) return;
-    deleteModel(id);
+  // V3.92.0：删除模型配置改走统一确认弹窗（替代浏览器原生 confirm）
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+
+  const handleDelete = (id: string) => setDeleteTargetId(id);
+
+  const confirmDelete = () => {
+    if (deleteTargetId) deleteModel(deleteTargetId);
+    setDeleteTargetId(null);
   };
 
   const handleSave = async () => {
@@ -115,6 +121,15 @@ const AIConfigPage: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
+      <ConfirmDialog
+        open={deleteTargetId !== null}
+        title="确认删除模型配置"
+        content="确认删除此模型配置？删除后使用该模型的功能将不可用。"
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTargetId(null)}
+        confirmText="确认删除"
+        confirmColor="error"
+      />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
         <SettingsIcon color="primary" />
         <Typography variant="h5" fontWeight={700}>AI 大模型配置</Typography>

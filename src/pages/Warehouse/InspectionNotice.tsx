@@ -21,10 +21,15 @@ import { ColumnDef } from '@tanstack/react-table';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker } from '@/components/common';
 import { useFlowStore } from '@/stores/flowStore';
+import { useQualityStore } from '@/stores/qualityStore';
+import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehouseMasterStore';
 import { useOrgStore } from '@/stores/orgStore';
+import type { UnqualifiedDisposition } from '@/types/quality';
 import type { InspectionNotice } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
+import DemoBanner from '@/components/common/DemoBanner';
 
 // ── 状态映射 ──────────────────────────────────────────────────
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
@@ -186,8 +191,47 @@ const NewNoticeDialog: React.FC<{ open: boolean; onClose: () => void; onSubmit: 
       <Divider />
       <DialogActions sx={{ p: 2, gap: 1 }}>
         <Button onClick={onClose}>取消</Button>
-        <Button variant="outlined" onClick={() => { onClose(); alert('报检单已暂存！（演示模式）'); }}>暂存</Button>
-        <Button variant="contained" startIcon={<VerifiedUser />} onClick={onSubmit}>
+        <Button variant="outlined" onClick={() => {
+          const now = new Date().toISOString();
+          useFlowStore.getState().addInspectionNotice({
+            id: `QN-${Date.now()}`, noticeNo: `QN-${Date.now()}`,
+            sourceType: form.sourceType as 'purchase' | 'production' | 'return',
+            sourceNo: form.sourceNo, materialId: form.materialCode, materialCode: form.materialCode,
+            materialName: form.materialName, specification: form.specification, unit: form.unit,
+            noticeQty: Number(form.noticeQty) || 0, batchNo: form.batchNo,
+            warehouseId: form.warehouseId, warehouseName: form.warehouseName,
+            status: 'pending', reportedBy: form.reportedBy, reportedAt: now, remarks: form.remarks,
+            createdAt: now, updatedAt: now, createdBy: form.reportedBy, updatedBy: form.reportedBy,
+          });
+          onClose();
+        }}>暂存</Button>
+        <Button variant="contained" startIcon={<VerifiedUser />} onClick={() => {
+          const now = new Date().toISOString();
+          const taskId = `IT-${Date.now()}`;
+          useQualityStore.getState().addInspectionTask({
+            id: taskId, taskNo: taskId, type: 'incoming', status: 'pending',
+            materialId: form.materialCode, materialCode: form.materialCode, materialName: form.materialName,
+            batchNo: form.batchNo, quantity: Number(form.noticeQty) || 0,
+            sampleQuantity: Math.max(1, Math.ceil((Number(form.noticeQty) || 0) * 0.1)),
+            purchaseOrderNo: form.sourceNo,
+            inspectionStandardId: 'STD-PENDING', inspectionStandardName: '待分配检验标准',
+            assignedTo: form.reportedBy || '待分配',
+            plannedDate: new Date().toISOString().slice(0, 10),
+            createdAt: now, updatedAt: now, createdBy: form.reportedBy, updatedBy: form.reportedBy,
+          });
+          useFlowStore.getState().addInspectionNotice({
+            id: `QN-${Date.now()}`, noticeNo: `QN-${Date.now()}`,
+            sourceType: form.sourceType as 'purchase' | 'production' | 'return',
+            sourceNo: form.sourceNo, materialId: form.materialCode, materialCode: form.materialCode,
+            materialName: form.materialName, specification: form.specification, unit: form.unit,
+            noticeQty: Number(form.noticeQty) || 0, batchNo: form.batchNo,
+            warehouseId: form.warehouseId, warehouseName: form.warehouseName,
+            status: 'inspecting', inspectionTaskId: taskId, reportedBy: form.reportedBy, reportedAt: now,
+            remarks: form.remarks,
+            createdAt: now, updatedAt: now, createdBy: form.reportedBy, updatedBy: form.reportedBy,
+          });
+          onSubmit();
+        }}>
           提交报检
         </Button>
       </DialogActions>
@@ -317,7 +361,6 @@ const InspectionResultDialog: React.FC<{
       <Divider />
       <DialogActions sx={{ p: 2, gap: 1 }}>
         <Button onClick={onClose}>取消</Button>
-        <Button variant="outlined" onClick={() => { onClose(); alert('处置结果已暂存！（演示模式）'); }}>暂存</Button>
         {isPassed ? (
           <Button variant="contained" color="success" startIcon={<Inventory />}
             onClick={onConfirmInbound}>
@@ -348,6 +391,7 @@ const InspectionNoticeWarehouse: React.FC = () => {
   const columns: ColumnDef<InspectionNotice, unknown>[] = useMemo(() => [
     {
       accessorKey: 'noticeNo', header: '报检单号',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ color: '#6366F1', fontWeight: 600, fontFamily: 'monospace', cursor: 'pointer' }}
           onClick={() => navigate(`/warehouse/inspection-notice/${row.original.id}`)}>
@@ -357,14 +401,16 @@ const InspectionNoticeWarehouse: React.FC = () => {
     },
     {
       accessorKey: 'sourceType', header: '来源',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Chip label={sourceTypeMap[row.original.sourceType]} size="small"
           sx={{ bgcolor: '#F1F5F9', color: '#475569', fontSize: '0.75rem' }} />
       ),
     },
-    { accessorKey: 'sourceNo', header: '来源单号' },
+    { accessorKey: 'sourceNo', header: '来源单号', meta: { searchable: true } },
     {
       accessorKey: 'materialCode', header: '物料',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Stack spacing={0.3}>
           <Chip label={row.original.materialCode} size="small"
@@ -375,15 +421,17 @@ const InspectionNoticeWarehouse: React.FC = () => {
     },
     {
       accessorKey: 'noticeQty', header: '报检数量',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontWeight={600}>
           {row.original.noticeQty} <Typography component="span" variant="caption" color="text.secondary">{row.original.unit}</Typography>
         </Typography>
       ),
     },
-    { accessorKey: 'batchNo', header: '批次号' },
+    { accessorKey: 'batchNo', header: '批次号', meta: { searchable: true } },
     {
       accessorKey: 'status', header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const s = statusMap[row.original.status];
         return <Chip label={s?.label} size="small" color={s?.color} sx={{ fontWeight: 600, fontSize: '0.75rem' }} />;
@@ -391,6 +439,7 @@ const InspectionNoticeWarehouse: React.FC = () => {
     },
     {
       accessorKey: 'warehouseName', header: '仓库',
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="caption">{row.original.warehouseName}</Typography>,
     },
     {
@@ -447,12 +496,9 @@ const InspectionNoticeWarehouse: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...inspectionNotices];
-    if (filterData.noticeNo) data = data.filter(d => d.noticeNo.includes(filterData.noticeNo as string));
-    if (filterData.sourceType) data = data.filter(d => d.sourceType === filterData.sourceType);
-    if (filterData.status) data = data.filter(d => d.status === filterData.status);
-    return data;
-  }, [filterData]);
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（报检单号/来源/来源单号/物料/数量/批次/状态/仓库），并按字段权限门控
+    return applyColumnFilters(inspectionNotices, columns, filterData, { module: 'warehouse' });
+  }, [filterData, inspectionNotices, columns]);
 
   // 统计卡
   const stats = useMemo(() => ({
@@ -464,6 +510,7 @@ const InspectionNoticeWarehouse: React.FC = () => {
 
   return (
     <PageWrapper title="报检单管理" actions={<FlowTracker module="inspection-notice" currentStatus="in_accepted" />}>
+      <DemoBanner reason="报检单（仓库侧）已**真实落库**：「提交报检」生成报检单并派发检验任务；「确认入库」生成真实入库单、回写报检状态为已通过；「提交处置方案」生成不合格品记录、回写状态为未通过。报检池与质量模块共享。" />
       {/* 流程说明 */}
       <FlowGuide />
 
@@ -493,11 +540,12 @@ const InspectionNoticeWarehouse: React.FC = () => {
         </Button>
       </ActionBar>
 
-      <FilterBar fields={filterFields} onFilter={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onFilter={setFilterData} listKey="inspection-notice-list" />
 
       <DataTable
         data={filteredData}
         columns={columns}
+        codeColumnId="noticeNo"
         onView={(row) => navigate(`/warehouse/inspection-notice/${row.id}`)}
       />
 
@@ -515,10 +563,51 @@ const InspectionNoticeWarehouse: React.FC = () => {
         notice={resultDialog}
         onClose={() => setResultDialog(null)}
         onConfirmInbound={() => {
+          if (resultDialog) {
+            const now = new Date().toISOString();
+            const ibId = `IB-${Date.now()}`;
+            useWarehouseStore.getState().addInboundOrder({
+              id: ibId, inboundNo: ibId,
+              type: resultDialog.sourceType === 'return' ? 'return' : resultDialog.sourceType === 'production' ? 'production' : 'purchase',
+              sourceNo: resultDialog.sourceNo, status: 'pending',
+              warehouseId: resultDialog.warehouseId, warehouseName: resultDialog.warehouseName,
+              operator: resultDialog.reportedBy, inboundDate: new Date().toISOString().slice(0, 10),
+              items: [{
+                id: `IBI-${Date.now()}`, materialId: resultDialog.materialId, materialCode: resultDialog.materialCode,
+                materialName: resultDialog.materialName, specification: resultDialog.specification, unit: resultDialog.unit,
+                expectedQuantity: resultDialog.noticeQty, actualQuantity: resultDialog.noticeQty,
+                batchNo: resultDialog.batchNo, qualityStatus: 'qualified',
+              }],
+              remarks: `报检单 ${resultDialog.noticeNo} 合格入库`,
+              createdAt: now, updatedAt: now, createdBy: resultDialog.reportedBy, updatedBy: resultDialog.reportedBy,
+            });
+            useFlowStore.getState().updateInspectionNotice(resultDialog.id, { status: 'passed' });
+          }
           setResultDialog(null);
           setSnackbar({ open: true, msg: '检验合格！入库单已生成，请前往"采购入库"确认收货', severity: 'success' });
         }}
         onDispose={(method) => {
+          if (resultDialog) {
+            const now = new Date().toISOString();
+            const dispositionMap: Record<string, UnqualifiedDisposition> = {
+              return: 'return_vendor', concession: 'conditional_accept', discount: 'conditional_accept',
+              isolate: 'conditional_accept', other: 'conditional_accept',
+            };
+            const taskId = resultDialog.inspectionTaskId || `IT-${resultDialog.id}`;
+            useQualityStore.getState().addUnqualifiedItem({
+              id: `UQ-${Date.now()}`, itemNo: `UQ-${Date.now()}`,
+              inspectionTaskId: taskId, inspectionTaskNo: taskId,
+              materialCode: resultDialog.materialCode, materialName: resultDialog.materialName,
+              batchNo: resultDialog.batchNo, defectQuantity: resultDialog.noticeQty,
+              defectDescription: `报检单 ${resultDialog.noticeNo} 不合格处置：${method}`,
+              disposition: dispositionMap[method] || 'conditional_accept', dispositionStatus: 'pending',
+              source: 'inbound',
+              responsiblePerson: resultDialog.reportedBy || '待分配',
+              dueDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+              createdAt: now, updatedAt: now, createdBy: resultDialog.reportedBy, updatedBy: resultDialog.reportedBy,
+            });
+            useFlowStore.getState().updateInspectionNotice(resultDialog.id, { status: 'failed' });
+          }
           setResultDialog(null);
           const msgs: Record<string, string> = {
             return: '已发起退货申请，供应商将收到退货通知',

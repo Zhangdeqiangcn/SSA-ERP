@@ -109,23 +109,53 @@ export function topLevelItems(bom: BOMHeader | undefined): BOMItem[] | undefined
 }
 
 /**
+ * 多层 BOM 展开的深度上限。与 MRPPlan 的 MAX_BOM_DEPTH 保持一致：
+ * 真实物料清单超过 10 层即视为脏数据，截断而不是继续递归（防栈溢出白屏）。
+ */
+export const BOM_MAX_DEPTH = 10;
+
+/**
  * 深度优先展开 BOM 子装配为叶子物料行（对标 SAP 多层 BOM 展开 / 低层码）。
  *
  * ★ 存在的意义：后端 `nestItems` 还原了 children 树后，若调用方仍只取 `items`，
  *   子装配件会被当成实物料领用（其子件一分不领）。凡是需要"全部实物料"的地方
  *   （领料、MRP 需求、成本卷积）都必须走本函数展开。
  *
- * @param items  顶层明细行
- * @param depth  当前递归深度（内部使用）
+ * ★ 安全护栏（P2 收口加固）：
+ *   · 深度上限 `BOM_MAX_DEPTH`：超深层级按叶子截断，绝不递归到栈溢出。
+ *   · 祖先链环保护（visited 只记**当前展开路径**，兄弟分支各自回溯）：
+ *     脏数据 a→b→a 的循环 BOM 会在回到 a 时截断；而共享子装配（同一子件
+ *     出现在两个父项下）因为不在彼此的祖先路径上，仍会在两条分支各自展开，
+ *     需求数量不会被环保护误伤。
+ *
+ * @param items   顶层明细行
+ * @param depth   当前递归深度（内部使用，默认 1）
+ * @param visited 当前展开路径已展开项的 id 集合（内部使用，调用方无需传入）
  * @returns 叶子行数组（不含子装配自身），每行带 `__level` 标注原始层级便于对账
  */
-export function flattenBomLeaves(items: BOMItem[] | undefined, depth = 1): (BOMItem & { __level: number })[] {
+export function flattenBomLeaves(
+  items: BOMItem[] | undefined,
+  depth = 1,
+  visited?: Set<string>
+): (BOMItem & { __level: number })[] {
   const out: (BOMItem & { __level: number })[] = [];
+  const seen = visited ?? new Set<string>();
   for (const it of Array.isArray(items) ? items : []) {
     const children = (it as BOMItem).children;
-    if (Array.isArray(children) && children.length > 0) {
-      // 子装配：自身不作为实物料，展开其子件
-      out.push(...flattenBomLeaves(children, depth + 1));
+    const key = it.id || it.materialId;
+    const hasChildren = Array.isArray(children) && children.length > 0;
+    // 深度上限：超层即按叶子截断（脏数据护栏）
+    if (depth > BOM_MAX_DEPTH) {
+      out.push({ ...it, __level: depth });
+      continue;
+    }
+    if (hasChildren && key && !seen.has(key)) {
+      // 子装配：自身不作为实物料，展开其子件。
+      // 环保护用「祖先链」而非全局：进入前登记、退出前回溯，
+      // 这样共享子装配在不同父项下仍会各自展开（需求不丢）。
+      seen.add(key);
+      out.push(...flattenBomLeaves(children, depth + 1, seen));
+      seen.delete(key);
     } else {
       out.push({ ...it, __level: depth });
     }

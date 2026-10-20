@@ -23,7 +23,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { useUserStore } from '@/stores/userStore';
 import { useNotificationStore, useNotificationData, type NotifyLevel } from '@/stores/notificationStore';
-import { searchIndex, type SearchEntry } from '@/config/searchIndex';
+import { globalSearch, type GlobalHit, type GlobalSearchResult } from '@/config/globalSearch';
 import { useTranslation } from '@/i18n/useTranslation';
 import { LOCALES } from '@/i18n';
 
@@ -72,7 +72,7 @@ const pathNameMap: Record<string, string> = {
 };
 
 // ────────────────────────────────────────────────
-// 全局搜索（基于 src/config/searchIndex 全量索引）
+// 全局搜索（三源：菜单页 / 模块说明 / 记录，基于 src/config/globalSearch）
 // ────────────────────────────────────────────────
 const ICON_FOR_MODULE: Record<string, React.ReactNode> = {
   首页: <Dashboard fontSize="small" />,
@@ -86,21 +86,28 @@ const ICON_FOR_MODULE: Record<string, React.ReactNode> = {
   系统: <Settings fontSize="small" />,
 };
 
-/** 评分匹配：名称前缀 > 名称包含 > 分组/模块 > 关键词/路径 */
-function scoreEntry(e: SearchEntry, q: string): number {
-  const query = q.trim().toLowerCase();
-  if (!query) return 0;
-  const label = e.label.toLowerCase();
-  const path = e.path.toLowerCase();
-  const kw = e.keywords.map((k) => k.toLowerCase());
-  if (label.startsWith(query)) return 100;
-  if (label.includes(query)) return 80;
-  if (e.module.toLowerCase().includes(query) || e.group.toLowerCase().includes(query)) return 60;
-  if (kw.some((k) => k.startsWith(query))) return 55;
-  if (kw.some((k) => k.includes(query))) return 40;
-  if (path.includes(query.replace(/\s+/g, ''))) return 20;
-  return 0;
-}
+// 记录/说明命中图标
+const ICON_FOR_HIT: Record<GlobalHit['kind'], React.ReactNode> = {
+  page: <Assignment fontSize="small" />,
+  manual: <HelpOutline fontSize="small" />,
+  record: <Inventory2 fontSize="small" />,
+};
+
+/** 命中词高亮：把 title 里包含 query 的子串用 primary 色加粗（简单子串高亮，非全文本索引） */
+const Highlight: React.FC<{ text: string; q: string }> = ({ text, q }) => {
+  if (!q) return <>{text}</>;
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  if (idx < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <mark style={{ background: 'transparent', color: '#2563eb', fontWeight: 700 }}>
+        {text.slice(idx, idx + q.length)}
+      </mark>
+      {text.slice(idx + q.length)}
+    </>
+  );
+};
 
 // ────────────────────────────────────────────────
 // 通知图标（级别 → 图标）
@@ -181,36 +188,77 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
 
   // 管理员判定：与后端收口一致。非管理员剔除搜索索引中 adminOnly 的特权配置入口
   const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
-  const searchableIndex = isAdmin ? searchIndex : searchIndex.filter((e) => !e.adminOnly);
 
-  const filteredSearch = searchText.trim().length > 0
-    ? searchableIndex
-        .map((e) => ({ e, s: scoreEntry(e, searchText) }))
-        .filter((x) => x.s > 0)
-        .sort((a, b) => b.s - a.s)
-        .slice(0, 12)
-        .map((x) => x.e)
-    : searchableIndex.slice(0, 8);
+  // ── V3.70.0：三源全局搜索（菜单页 / 模块说明 / 记录，权限内）──
+  const [searchResult, setSearchResult] = useState<GlobalSearchResult | null>(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const searchReqSeq = useRef(0); // 竞态丢弃：只认最新一次请求
 
-  const handleSearchSelect = (path: string) => {
+  // 防抖 300ms 调引擎（记录源动态 import 有成本，必须防抖；竞态用 seq 丢弃过期结果）
+  useEffect(() => {
+    if (!searchOpen) return;
+    const q = searchText.trim();
+    const seq = ++searchReqSeq.current;
+    if (!q) {
+      // 空输入：出热门（前 8 条菜单），不设 loading
+      globalSearch('', { isAdmin, recordLimit: 0 }).then((r) => {
+        if (seq === searchReqSeq.current) setSearchResult(r);
+      }).catch(() => { /* 引擎异常不阻断 UI */ });
+      return;
+    }
+    const timer = setTimeout(() => {
+      setSearchLoading(true);
+      globalSearch(q, { isAdmin, recordLimit: 8 }).then((r) => {
+        if (seq !== searchReqSeq.current) return; // 已有更新的输入，丢弃本次
+        setSearchResult(r);
+        setSearchLoading(false);
+      }).catch(() => {
+        if (seq === searchReqSeq.current) { setSearchResult(null); setSearchLoading(false); }
+      });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchText, searchOpen, isAdmin]);
+
+  // 下拉里展示的三组（实时命中；记录组未登录时隐藏并提示）
+  const showPages = searchResult?.pages ?? [];
+  const showManuals = searchResult?.manuals ?? [];
+  const showRecords = searchResult?.records ?? [];
+  const recordsHidden = searchResult ? !searchResult.recordsAvailable && searchText.trim() !== '' : false;
+  const allHits: GlobalHit[] = [...showPages, ...showManuals, ...showRecords];
+
+  // V3.70.0：命中项导航（记录/菜单进详情，说明书进锚点）
+  const handleHitSelect = (hit: GlobalHit) => {
     setSearchOpen(false);
     setSearchText('');
-    setActiveIndex(0);
-    navigate(path);
+    setActiveIndex(-1);
+    if (hit.path) {
+      navigate(hit.hash ? `${hit.path}#${hit.hash}` : hit.path);
+    }
+  };
+
+  // 进入独立结果页（回车且未选中某条时；q 为空则不跳）
+  const handleGoResults = () => {
+    const q = searchText.trim();
+    if (!q) return;
+    setSearchOpen(false);
+    setSearchText('');
+    setActiveIndex(-1);
+    navigate(`/help/search-results?q=${encodeURIComponent(q)}`);
   };
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!searchOpen) return;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filteredSearch.length - 1));
+      setActiveIndex((i) => (i < 0 ? 0 : Math.min(i + 1, allHits.length - 1)));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, 0));
     } else if (e.key === 'Enter') {
       e.preventDefault();
-      const target = filteredSearch[activeIndex];
-      if (target) handleSearchSelect(target.path);
+      const target = activeIndex >= 0 ? allHits[activeIndex] : undefined;
+      if (target) handleHitSelect(target);
+      else handleGoResults(); // 未用方向键选中的直接回车 → 进独立结果页
     } else if (e.key === 'Escape') {
       setSearchOpen(false);
     }
@@ -358,7 +406,7 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
             )}
           </Paper>
 
-          {/* 搜索下拉 */}
+          {/* 搜索下拉（V3.70.0 三源分组：菜单页 / 模块说明 / 记录，实时命中） */}
           {searchOpen && (
             <Paper
               elevation={3}
@@ -368,36 +416,148 @@ const notifyIcon: Record<NotifyLevel, React.ReactNode> = {
                 boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
               }}
             >
-              {filteredSearch.length === 0 ? (
+              {searchLoading ? (
+                <Box sx={{ p: 2, textAlign: 'center', color: 'text.secondary', fontSize: '0.8rem' }}>
+                  搜索中…
+                </Box>
+              ) : allHits.length === 0 && !recordsHidden ? (
                 <Box sx={{ p: 2, textAlign: 'center', color: 'text.secondary', fontSize: '0.875rem' }}>
                   {t('common.noResult', '未找到匹配结果')}
                 </Box>
               ) : (
-                <List dense disablePadding>
-                  {filteredSearch.map((item, idx) => (
-                    <ListItem
-                      key={item.path}
-                      button
-                      onClick={() => handleSearchSelect(item.path)}
-                      onMouseEnter={() => setActiveIndex(idx)}
+                <Box sx={{ maxHeight: 460, overflow: 'auto' }}>
+                  {/* ① 菜单 / 表单页 */}
+                  {showPages.length > 0 && (
+                    <Box>
+                      <Box sx={{ px: 2, py: 0.5, bgcolor: 'action.hover', position: 'sticky', top: 0, fontSize: '0.65rem', fontWeight: 700, color: 'text.secondary', letterSpacing: '0.05em' }}>
+                            页面 / 功能（{showPages.length}）
+                      </Box>
+                      <List dense disablePadding>
+                        {showPages.map((item, idx) => (
+                          <ListItem
+                            key={item.key}
+                            button
+                            onClick={() => handleHitSelect(item)}
+                            onMouseEnter={() => setActiveIndex(idx)}
+                            sx={{
+                              py: 0.9, px: 2, cursor: 'pointer',
+                              bgcolor: idx === activeIndex ? alpha(p, 0.1) : 'transparent',
+                              '&:hover': { bgcolor: 'action.hover' },
+                            }}
+                          >
+                            <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>
+                              {ICON_FOR_MODULE[item.group] || <Assignment fontSize="small" />}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={<Highlight text={item.title} q={searchText.trim()} />}
+                              secondary={item.sub}
+                              primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: idx === activeIndex ? 700 : 500 }}
+                              secondaryTypographyProps={{ fontSize: '0.72rem' }}
+                            />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Box>
+                  )}
+                  {/* ② 模块使用说明（命中即展示该模块用法） */}
+                  {showManuals.length > 0 && (
+                    <Box>
+                      <Box sx={{ px: 2, py: 0.5, bgcolor: 'action.hover', position: 'sticky', top: 0, fontSize: '0.65rem', fontWeight: 700, color: 'text.secondary', letterSpacing: '0.05em' }}>
+                            模块使用说明（{showManuals.length}）
+                      </Box>
+                      <List dense disablePadding>
+                        {showManuals.map((item, idx) => {
+                          const g = showPages.length + idx;
+                          return (
+                            <ListItem
+                              key={item.key}
+                              button
+                              onClick={() => handleHitSelect(item)}
+                              onMouseEnter={() => setActiveIndex(g)}
+                              sx={{
+                                py: 0.9, px: 2, cursor: 'pointer',
+                                bgcolor: g === activeIndex ? alpha(p, 0.1) : 'transparent',
+                                '&:hover': { bgcolor: 'action.hover' },
+                              }}
+                            >
+                              <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>
+                                {ICON_FOR_HIT[item.kind]}
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={<Highlight text={item.title} q={searchText.trim()} />}
+                                secondary={item.sub}
+                                primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: g === activeIndex ? 700 : 500 }}
+                                secondaryTypographyProps={{ fontSize: '0.72rem' }}
+                              />
+                            </ListItem>
+                          );
+                        })}
+                      </List>
+                    </Box>
+                  )}
+                  {/* ③ 业务记录（权限内；未登录给提示） */}
+                  {showRecords.length > 0 && (
+                    <Box>
+                      <Box sx={{ px: 2, py: 0.5, bgcolor: 'action.hover', position: 'sticky', top: 0, fontSize: '0.65rem', fontWeight: 700, color: 'text.secondary', letterSpacing: '0.05em' }}>
+                            业务记录（{showRecords.length}，仅限本人权限）
+                      </Box>
+                      <List dense disablePadding>
+                        {showRecords.map((item, idx) => {
+                          const g = showPages.length + showManuals.length + idx;
+                          return (
+                            <ListItem
+                              key={item.key}
+                              button
+                              onClick={() => handleHitSelect(item)}
+                              onMouseEnter={() => setActiveIndex(g)}
+                              sx={{
+                                py: 0.9, px: 2, cursor: 'pointer',
+                                bgcolor: g === activeIndex ? alpha(p, 0.1) : 'transparent',
+                                '&:hover': { bgcolor: 'action.hover' },
+                              }}
+                            >
+                              <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>
+                                {ICON_FOR_HIT[item.kind]}
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={
+                                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, minWidth: 0 }}>
+                                    <Chip label={item.recordType} size="small" sx={{ height: 18, fontSize: '0.6rem' }} />
+                                    <Typography noWrap sx={{ fontSize: '0.875rem' }}><Highlight text={item.title} q={searchText.trim()} /></Typography>
+                                  </Box>
+                                }
+                                secondary={item.sub}
+                                primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: g === activeIndex ? 700 : 500 }}
+                                secondaryTypographyProps={{ fontSize: '0.72rem' }}
+                              />
+                            </ListItem>
+                          );
+                        })}
+                      </List>
+                    </Box>
+                  )}
+                  {recordsHidden && (
+                    <Box sx={{ px: 2, py: 1, fontSize: '0.72rem', color: 'text.secondary', borderTop: '1px solid', borderColor: 'divider' }}>
+                      记录搜索需登录且在其数据权限范围内。
+                    </Box>
+                  )}
+                  {/* 「查看全部结果」→ 独立结果页 */}
+                  {searchText.trim() && allHits.length > 0 && (
+                    <Box
                       sx={{
-                        py: 1, px: 2, cursor: 'pointer',
-                        bgcolor: idx === activeIndex ? alpha(p, 0.1) : 'transparent',
-                        '&:hover': { bgcolor: 'action.hover' },
+                        px: 2, py: 1, borderTop: '1px solid', borderColor: 'divider',
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' },
                       }}
+                      onClick={handleGoResults}
                     >
-                      <ListItemIcon sx={{ minWidth: 32, color: 'text.secondary' }}>
-                        {ICON_FOR_MODULE[item.module] || <Assignment fontSize="small" />}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={item.label}
-                        secondary={`${item.module} · ${item.desc}`}
-                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: idx === activeIndex ? 700 : 500 }}
-                        secondaryTypographyProps={{ fontSize: '0.72rem' }}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
+                      <Typography variant="caption" sx={{ color: p, fontWeight: 600 }}>
+                        查看全部结果（回车键直达）
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>Enter ↵</Typography>
+                    </Box>
+                  )}
+                </Box>
               )}
             </Paper>
           )}

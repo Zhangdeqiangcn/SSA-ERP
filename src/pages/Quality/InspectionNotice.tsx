@@ -14,6 +14,7 @@ import { DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker } from '@/com
 import { useFlowStore } from '@/stores/flowStore';
 import type { InspectionNotice } from '@/types';
 import { formatDate } from '@/utils/format';
+import DemoBanner from '@/components/common/DemoBanner';
 
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
   pending:    { label: '待检验', color: 'warning' },
@@ -107,8 +108,38 @@ const NewNoticeDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ ope
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
         <Button onClick={onClose}>取消</Button>
-        <Button variant="outlined" onClick={() => { onClose(); alert('报检单已暂存！（演示模式）'); }}>暂存</Button>
-        <Button variant="contained" onClick={onClose}>提交报检</Button>
+        <Button variant="outlined" onClick={() => {
+          const now = new Date().toISOString();
+          useFlowStore.getState().addInspectionNotice({
+            id: `QN-${Date.now()}`, noticeNo: `QN-${Date.now()}`,
+            sourceType: form.sourceType as 'purchase' | 'production' | 'return',
+            sourceNo: form.sourceNo,
+            materialId: form.materialCode, materialCode: form.materialCode, materialName: form.materialName,
+            specification: form.specification, unit: form.unit,
+            noticeQty: Number(form.noticeQty) || 0, batchNo: form.batchNo,
+            warehouseId: '', warehouseName: form.warehouseName,
+            status: 'pending', reportedBy: form.reportedBy, reportedAt: now,
+            remarks: form.remarks,
+            createdAt: now, updatedAt: now, createdBy: form.reportedBy, updatedBy: form.reportedBy,
+          });
+          onClose();
+        }}>暂存</Button>
+        <Button variant="contained" onClick={() => {
+          const now = new Date().toISOString();
+          useFlowStore.getState().addInspectionNotice({
+            id: `QN-${Date.now()}`, noticeNo: `QN-${Date.now()}`,
+            sourceType: form.sourceType as 'purchase' | 'production' | 'return',
+            sourceNo: form.sourceNo,
+            materialId: form.materialCode, materialCode: form.materialCode, materialName: form.materialName,
+            specification: form.specification, unit: form.unit,
+            noticeQty: Number(form.noticeQty) || 0, batchNo: form.batchNo,
+            warehouseId: '', warehouseName: form.warehouseName,
+            status: 'pending', reportedBy: form.reportedBy, reportedAt: now,
+            remarks: form.remarks,
+            createdAt: now, updatedAt: now, createdBy: form.reportedBy, updatedBy: form.reportedBy,
+          });
+          onClose();
+        }}>提交报检</Button>
       </DialogActions>
     </Dialog>
   );
@@ -222,6 +253,7 @@ const InspectionNoticeList: React.FC = () => {
         </Stack>
       }
     >
+      <DemoBanner reason="报检单（质量侧）已**真实落库**：「暂存 / 提交报检」会写入报检池（status=pending，本页列表即时刷新、刷新/换端后仍在）。检验任务派发与不合格品处置由质量模块承接。" />
       {/* 统计卡片 */}
       <Grid container spacing={2} sx={{ mb: 2 }}>
         {[

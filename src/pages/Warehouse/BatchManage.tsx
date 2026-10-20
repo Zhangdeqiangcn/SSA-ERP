@@ -1,23 +1,26 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, Table, TableBody, TableCell,
+  Box, Typography, Paper, Button, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, IconButton, TextField, Dialog,
   DialogTitle, DialogContent, DialogActions, Stack, MenuItem, Grid, Alert, Tooltip,
 } from '@mui/material';
-import { Add, Edit, Delete, Search, Close, Visibility } from '@mui/icons-material';
+import { Add, Edit, Delete, Close, Visibility } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { ConfirmDialog } from '@/components/common';
+import { ConfirmDialog, StatusBadge, FilterBar } from '@/components/common';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehouseMasterStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { BatchRecord, BatchStatus, matchOrg } from '@/types';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
-const STATUS_CONFIG: Record<BatchStatus, { label: string; color: string }> = {
-  normal: { label: '正常', color: '#10B981' },
-  expiring: { label: '临期', color: '#F59E0B' },
-  expired: { label: '已过期', color: '#EF4444' },
-  locked: { label: '锁定', color: '#64748B' },
+// 批次状态 → 集中 statusConfig key（expiring / locked 已存在通用 key，直接复用）
+const BATCH_STATUS_KEY: Record<BatchStatus, string> = {
+  normal: 'batch_normal',
+  expiring: 'expiring',
+  expired: 'batch_expired',
+  locked: 'locked',
 };
 
 const EXPIRING_WINDOW_DAYS = 60;
@@ -42,8 +45,7 @@ const BatchManage: React.FC = () => {
   const visibleWarehouses = warehouses.filter(selectWarehousesByOrg(currentOrgId));
   const orgBatches = batchRecords.filter((b) => matchOrg(b, currentOrgId));
 
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<BatchStatus | ''>('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<BatchRecord | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<BatchRecord | null>(null);
@@ -59,11 +61,36 @@ const BatchManage: React.FC = () => {
     return dates.length ? dates.sort().slice(-1)[0] : new Date().toISOString().slice(0, 10);
   }, [batchRecords]);
 
-  const filtered = orgBatches.filter((b) => {
-    if (statusFilter && b.status !== statusFilter) return false;
-    if (search && !`${b.batchNo}${b.materialName}${b.supplierName}`.includes(search)) return false;
-    return true;
-  });
+  const columns: ColumnDef<BatchRecord, unknown>[] = [
+    { id: 'batchNo', header: '批次号', accessorFn: (b) => b.batchNo, meta: { searchable: true } },
+    { id: 'materialName', header: '物料', accessorFn: (b) => b.materialName, meta: { searchable: true } },
+    { id: 'materialCode', header: '物料编码', accessorFn: (b) => b.materialCode, meta: { searchable: true } },
+    { id: 'warehouseName', header: '仓库', accessorFn: (b) => b.warehouseName, meta: { searchable: true } },
+    { id: 'supplierName', header: '供应商', accessorFn: (b) => b.supplierName, meta: { searchable: true } },
+    { id: 'productionDate', header: '生产日期', accessorFn: (b) => b.productionDate, meta: { searchable: true } },
+    { id: 'expiryDate', header: '效期', accessorFn: (b) => b.expiryDate, meta: { searchable: true } },
+    { id: 'inboundDate', header: '入库日期', accessorFn: (b) => b.inboundDate, meta: { searchable: true } },
+    {
+      id: 'status',
+      header: '状态',
+      accessorFn: (b) => b.status,
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'normal', label: '正常' },
+          { value: 'expiring', label: '临期' },
+          { value: 'expired', label: '已过期' },
+          { value: 'locked', label: '锁定' },
+        ],
+      },
+    },
+  ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(orgBatches, columns, filterData, { module: 'warehouse' }),
+    [orgBatches, columns, filterData]
+  );
 
   const stats = [
     { label: '批次总数', count: orgBatches.length, color: '#3B82F6' },
@@ -124,24 +151,10 @@ const BatchManage: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索/筛选 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-          <TextField size="small" placeholder="搜索批次号/物料/供应商" value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-            sx={{ width: 280 }} />
-          <TextField select size="small" label="状态" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as BatchStatus | '')} sx={{ width: 140 }}>
-            <MenuItem value="">全部</MenuItem>
-            <MenuItem value="normal">正常</MenuItem>
-            <MenuItem value="expiring">临期</MenuItem>
-            <MenuItem value="expired">已过期</MenuItem>
-            <MenuItem value="locked">锁定</MenuItem>
-          </TextField>
-          <Box flex={1} />
-          <Alert severity="info" sx={{ py: 0 }}><Typography variant="caption">数据基准日：{refDate}（用于效期计算）</Typography></Alert>
-        </Stack>
-      </Paper>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="warehouse" onSearch={setFilterData} listKey="warehouse-batch-manage" />
+
+      <Alert severity="info" sx={{ mb: 2, py: 0 }}><Typography variant="caption">数据基准日：{refDate}（用于效期计算）</Typography></Alert>
 
       <Paper sx={{ borderRadius: 3 }}>
         <TableContainer>
@@ -175,8 +188,7 @@ const BatchManage: React.FC = () => {
                   <TableCell>{b.inboundDate}</TableCell>
                   <TableCell>{b.supplierName || '-'}</TableCell>
                   <TableCell>
-                    <Chip label={STATUS_CONFIG[b.status].label} size="small"
-                      sx={{ bgcolor: STATUS_CONFIG[b.status].color + '15', color: STATUS_CONFIG[b.status].color, fontWeight: 500 }} />
+                    <StatusBadge status={BATCH_STATUS_KEY[b.status]} />
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="编辑"><IconButton size="small" onClick={() => openEdit(b)}><Edit fontSize="small" /></IconButton></Tooltip>

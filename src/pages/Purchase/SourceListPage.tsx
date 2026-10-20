@@ -7,6 +7,7 @@ import {
 import { Add } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ActionBar, StatusBadge, ConfirmDialog } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useSourceListStore } from '@/stores/sourceListStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -63,21 +64,23 @@ const SourceListPage: React.FC = () => {
 
   // 列定义
   const columns: ColumnDef<SourceListItem, unknown>[] = useMemo(() => [
-    { accessorKey: 'materialName', header: '物料名称' },
+    { accessorKey: 'materialName', header: '物料名称', meta: { searchable: true } },
     {
       accessorKey: 'materialCode',
       header: '物料编码',
       size: 130,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box component="span" sx={{ fontFamily: 'monospace', color: 'text.secondary' }}>
           {row.original.materialCode || '-'}
         </Box>
       ),
     },
-    { accessorKey: 'vendorName', header: '供应商名称' },
-    { accessorKey: 'priority', header: '优先级' },
-    { accessorKey: 'validFrom', header: '有效起', size: 110 },
-    { accessorKey: 'validTo', header: '有效止', size: 110 },
+    { accessorKey: 'vendorName', header: '供应商名称', meta: { searchable: true } },
+    { accessorKey: 'vendorCode', header: '供应商编码', meta: { searchable: true } },
+    { accessorKey: 'priority', header: '优先级', meta: { searchable: true } },
+    { accessorKey: 'validFrom', header: '有效起', size: 110, meta: { searchable: true } },
+    { accessorKey: 'validTo', header: '有效止', size: 110, meta: { searchable: true } },
     {
       accessorKey: 'fixedVendor',
       header: '固定货源',
@@ -98,39 +101,20 @@ const SourceListPage: React.FC = () => {
     {
       accessorKey: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: STATUS_OPTIONS.filter((o) => o.value !== ''),
+      },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
   ], []);
 
-  // 筛选字段
-  const filterFields = [
-    { name: 'keyword', label: '关键词（物料名称/物料编码/供应商）', type: 'text' as const },
-    {
-      name: 'status',
-      label: '状态',
-      type: 'select' as const,
-      options: STATUS_OPTIONS,
-    },
-  ];
-
-  // 数据筛选
-  const filteredData = useMemo(() => {
-    let data = [...items];
-    if (filterData.keyword) {
-      const kw = (filterData.keyword as string).toLowerCase();
-      data = data.filter(
-        (r) =>
-          r.vendorName?.toLowerCase().includes(kw) ||
-          r.materialName?.toLowerCase().includes(kw) ||
-          r.vendorCode?.toLowerCase().includes(kw) ||
-          r.materialCode?.toLowerCase().includes(kw)
-      );
-    }
-    if (filterData.status) {
-      data = data.filter((r) => r.status === filterData.status);
-    }
-    return data;
-  }, [items, filterData]);
+  // 数据筛选：统一列检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）
+  const filteredData = useMemo(
+    () => applyColumnFilters(items, columns, filterData, { module: 'purchase' }),
+    [items, columns, filterData]
+  );
 
   // 打开新增
   const handleAdd = () => {
@@ -245,7 +229,7 @@ const SourceListPage: React.FC = () => {
       }
       data-testid="source-list"
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="source-list" />
+      <FilterBar columns={columns} module="purchase" onSearch={setFilterData} listKey="source-list" />
       <DataTable
         data={filteredData}
         columns={columns}

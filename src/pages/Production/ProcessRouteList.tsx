@@ -3,10 +3,16 @@ import {
   Box, Typography, Paper, Chip, Button, IconButton, Tooltip,
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { Add, Visibility, Edit, PlayArrow, Close, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { ColumnDef } from '@tanstack/react-table';
+import { StatusBadge, FilterBar } from '@/components/common';
+import { PageWrapper } from '@/components/layout';
+import { ActionBar } from '@/components/common';
 import { useProductionStore } from '@/stores/productionStore';
 import { ProcessRoute, ProcessRouteStatus, Operation } from '@/types/production';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const STATUS_LABELS: Record<ProcessRouteStatus, string> = {
   draft: '草稿',
@@ -14,10 +20,10 @@ const STATUS_LABELS: Record<ProcessRouteStatus, string> = {
   obsolete: '废弃',
 };
 
-const STATUS_COLORS: Record<ProcessRouteStatus, string> = {
-  draft: '#F59E0B',
-  active: '#10B981',
-  obsolete: '#94A3B8',
+// 状态展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
+// draft / active 复用通用 key，obsolete 用 route_ 前缀专属 key
+const ROUTE_STATUS_KEY: Record<ProcessRouteStatus, string> = {
+  draft: 'draft', active: 'active', obsolete: 'route_obsolete',
 };
 
 interface OpForm {
@@ -39,9 +45,27 @@ const nowStr = () => {
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
 };
 
-const ProcessRouteList: React.FC = () => {
+  const ProcessRouteList: React.FC = () => {
   const { processRoutes, addProcessRoute, updateProcessRoute } = useProductionStore();
   const navigate = useNavigate();
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+
+  // 列表检索派生用列定义（仅驱动 FilterBar 检索项；列表本身为既有卡片流，保持原样）
+  const columns: ColumnDef<ProcessRoute, unknown>[] = [
+    { accessorKey: 'routeNo', header: '路线编号', meta: { searchable: true } },
+    { accessorKey: 'name', header: '路线名称', meta: { searchable: true } },
+    { accessorKey: 'productCode', header: '产品编码', meta: { searchable: true } },
+    { accessorKey: 'productName', header: '产品名称', meta: { searchable: true } },
+    { accessorKey: 'version', header: '版本', meta: { searchable: true } },
+    {
+      accessorKey: 'status', header: '状态',
+      meta: {
+        searchable: true, filterType: 'select',
+        filterOptions: (Object.keys(STATUS_LABELS) as ProcessRouteStatus[]).map((k) => ({ value: k, label: STATUS_LABELS[k] })),
+      },
+    },
+  ];
+  const filteredRoutes = applyColumnFilters(processRoutes, columns, filterData, { module: 'production' });
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -105,28 +129,23 @@ const ProcessRouteList: React.FC = () => {
   };
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-        <Typography variant="h4" sx={{ fontWeight: 700, color: '#1E293B' }}>工艺路线</Typography>
-        <Button variant="contained" startIcon={<Add />} onClick={openCreate}>新建工艺路线</Button>
-      </Box>
-
+    <PageWrapper
+      title="工艺路线"
+      actions={<ActionBar primary={{ label: '新建工艺路线', onClick: openCreate, icon: <Add /> }} />}
+    >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {processRoutes.map((route) => (
-          <Paper key={route.id} sx={{ p: 3, borderRadius: 3 }}>
+        <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="process-route-list" />
+        {filteredRoutes.map((route) => (
+          <Paper key={route.id} variant="outlined" sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2.5 }}>
               <Box>
                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', mb: 0.5 }}>
-                  <Typography variant="body2" sx={{ fontFamily: 'monospace', color: '#94A3B8', fontWeight: 600 }}>{route.routeNo}</Typography>
-                  <Chip label={route.version} size="small" sx={{ bgcolor: '#F8FAFC', color: '#475569' }} />
-                  <Chip
-                    label={STATUS_LABELS[route.status]}
-                    size="small"
-                    sx={{ bgcolor: STATUS_COLORS[route.status] + '15', color: STATUS_COLORS[route.status], fontWeight: 500 }}
-                  />
+                  <Typography variant="body2" sx={{ fontFamily: 'monospace', color: 'text.secondary', fontWeight: 600 }}>{route.routeNo}</Typography>
+                  <Chip label={route.version} size="small" variant="outlined" />
+                  <StatusBadge status={ROUTE_STATUS_KEY[route.status]} />
                 </Box>
-                <Typography variant="h6" sx={{ fontWeight: 600, color: '#1E293B' }}>{route.name}</Typography>
-                <Typography variant="body2" sx={{ color: '#64748B' }}>{route.productName} · 标准工时 {route.totalLeadTime}h</Typography>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>{route.name}</Typography>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>{route.productName} · 标准工时 {route.totalLeadTime}h</Typography>
               </Box>
               <Box sx={{ display: 'flex', gap: 0.5 }}>
                 <Tooltip title="查看详情">
@@ -142,25 +161,25 @@ const ProcessRouteList: React.FC = () => {
               {route.operations.map((op, idx) => (
                 <Box key={op.id} sx={{ display: 'flex', alignItems: 'center' }}>
                   <Box
-                    sx={{
-                      minWidth: 120, p: 1.5, borderRadius: 2, bgcolor: '#F8FAFC',
-                      border: '1px solid rgba(226,232,240,0.8)', textAlign: 'center',
-                      '&:hover': { bgcolor: '#EFF6FF', borderColor: '#3B82F6' },
-                    }}
+                    sx={(theme) => ({
+                      minWidth: 120, p: 1.5, borderRadius: 2, bgcolor: 'grey.50',
+                      border: '1px solid', borderColor: 'divider', textAlign: 'center',
+                      '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.08), borderColor: 'primary.main' },
+                    })}
                   >
                     <Box sx={{
-                      width: 22, height: 22, borderRadius: '50%', bgcolor: '#3B82F6', color: '#fff',
+                      width: 22, height: 22, borderRadius: '50%', bgcolor: 'primary.main', color: 'common.white',
                       fontSize: '0.6875rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center',
                       mx: 'auto', mb: 0.5
                     }}>
                       {op.sequence / 10}
                     </Box>
-                    <Typography variant="caption" sx={{ fontWeight: 600, color: '#1E293B', display: 'block' }}>{op.operationName}</Typography>
-                    <Typography variant="caption" sx={{ color: '#94A3B8', display: 'block' }}>{op.workCenter}</Typography>
-                    <Typography variant="caption" sx={{ color: '#64748B' }}>{op.runTime}分/件</Typography>
+                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.primary', display: 'block' }}>{op.operationName}</Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>{op.workCenter}</Typography>
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>{op.runTime}分/件</Typography>
                   </Box>
                   {idx < route.operations.length - 1 && (
-                    <Box sx={{ display: 'flex', alignItems: 'center', px: 0.5, color: '#CBD5E1' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', px: 0.5, color: 'grey.300' }}>
                       <PlayArrow sx={{ fontSize: 18 }} />
                     </Box>
                   )}
@@ -196,7 +215,7 @@ const ProcessRouteList: React.FC = () => {
               <TextField fullWidth label="标准工时(h)" type="number" value={totalLeadTime} onChange={e => setTotalLeadTime(e.target.value)} />
             </Stack>
 
-            <Typography variant="subtitle2" sx={{ color: '#475569' }}>工序列表</Typography>
+            <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>工序列表</Typography>
             {ops.map((op, i) => (
               <Stack key={i} direction="row" spacing={1} alignItems="center">
                 <TextField label="工序名称" value={op.operationName}
@@ -221,7 +240,7 @@ const ProcessRouteList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Box>
+    </PageWrapper>
   );
 };
 

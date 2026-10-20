@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Box, Typography, Tabs, Tab, Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { DataTable } from '@/components/common/DataTable';
+import { FilterBar } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
+import type { ColumnDef } from '@tanstack/react-table';
 import { useCashMgmtStore } from '@/stores/cashMgmtStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { CashFlowDirection, CASH_FLOW_LABELS } from '@/types/cashMgmt';
@@ -83,32 +86,51 @@ export default function CashMgmtList() {
 
   const totalBalance = accounts.reduce((a, x) => a + x.currentBalance, 0);
 
-  const accColumns = [
-    { accessorKey: 'accountNo', header: '账号' },
-    { accessorKey: 'accountName', header: '账户名' },
-    { accessorKey: 'bank', header: '开户行' },
-    { accessorKey: 'currency', header: '币种' },
-    { accessorKey: 'openingBalance', header: '期初', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
-    { accessorKey: 'currentBalance', header: '当前余额', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
+  // 账户检索状态
+  const [accFilter, setAccFilter] = useState<Record<string, unknown>>({});
+  const [flowFilter, setFlowFilter] = useState<Record<string, unknown>>({});
+
+  const accColumns: ColumnDef<any, unknown>[] = [
+    { accessorKey: 'accountNo', header: '账号', meta: { searchable: true } },
+    { accessorKey: 'accountName', header: '账户名', meta: { searchable: true } },
+    { accessorKey: 'bank', header: '开户行', meta: { searchable: true } },
+    { accessorKey: 'currency', header: '币种', meta: { searchable: true } },
+    { accessorKey: 'openingBalance', header: '期初', meta: { searchable: true }, cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
+    { accessorKey: 'currentBalance', header: '当前余额', meta: { searchable: true }, cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
   ];
-  const flowColumns = [
+  const flowColumns: ColumnDef<any, unknown>[] = [
     {
       accessorKey: 'direction', header: '方向',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: (['in', 'out'] as CashFlowDirection[]).map((d) => ({ value: d, label: CASH_FLOW_LABELS[d] })),
+      },
       cell: (c: any) => { const v = c.getValue() as CashFlowDirection; return <Chip label={CASH_FLOW_LABELS[v]} size="small" sx={{ bgcolor: v === 'in' ? '#10b981' : '#ef4444', color: '#fff' }} />; },
     },
     {
-      accessorKey: 'category', header: '类别',
+      accessorKey: 'category', header: '类别', meta: { searchable: true },
       cell: (c: any) => {
         const f = flows.find((x) => x.id === c.row?.id) || (c.row as any);
         const acc = accounts.find((a) => a.id === (f as any).accountId);
         return `${c.getValue()} · ${acc?.accountName || ''}`;
       },
     },
-    { accessorKey: 'counterparty', header: '往来方' },
-    { accessorKey: 'amount', header: '金额', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
-    { accessorKey: 'flowDate', header: '日期' },
-    { accessorKey: 'relatedDoc', header: '关联单号' },
+    { accessorKey: 'counterparty', header: '往来方', meta: { searchable: true } },
+    { accessorKey: 'amount', header: '金额', meta: { searchable: true }, cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
+    { accessorKey: 'flowDate', header: '日期', meta: { searchable: true } },
+    { accessorKey: 'relatedDoc', header: '关联单号', meta: { searchable: true } },
   ];
+
+  // 列驱动统一检索（默认显前 5 项，其余「更多筛选」展开；可按字段权限门控）
+  const filteredAccounts = useMemo(
+    () => applyColumnFilters(accounts, accColumns, accFilter, { module: 'finance' }),
+    [accounts, accColumns, accFilter]
+  );
+  const filteredFlows = useMemo(
+    () => applyColumnFilters(flows, flowColumns, flowFilter, { module: 'finance' }),
+    [flows, flowColumns, flowFilter]
+  );
 
   return (
     <Box sx={{ p: 2 }}>
@@ -127,8 +149,9 @@ export default function CashMgmtList() {
           <Stack direction="row" sx={{ mb: 2 }}>
             <Button variant="contained" startIcon={<Add />} onClick={openAccCreate}>新建账户</Button>
           </Stack>
+          <FilterBar columns={accColumns} module="finance" onSearch={setAccFilter} listKey="cash-accounts" />
           <DataTable
-            data={accounts} columns={accColumns}
+            data={filteredAccounts} columns={accColumns}
             onView={(r) => openAccEdit(r)} onEdit={(r) => openAccEdit(r)} onDelete={(r) => deleteAccount(r.id)}
             enableExport enableColumnFilter sapStyle columnConfigKey="cash-accounts"
           />
@@ -140,8 +163,9 @@ export default function CashMgmtList() {
           <Stack direction="row" sx={{ mb: 2 }}>
             <Button variant="contained" startIcon={<Add />} onClick={openFlowCreate}>新增流水</Button>
           </Stack>
+          <FilterBar columns={flowColumns} module="finance" onSearch={setFlowFilter} listKey="cash-flows" />
           <DataTable
-            data={flows} columns={flowColumns}
+            data={filteredFlows} columns={flowColumns}
             onView={(r) => openFlowEdit(r)} onEdit={(r) => openFlowEdit(r)} onDelete={(r) => deleteFlow(r.id)}
             enableExport enableColumnFilter sapStyle columnConfigKey="cash-flows"
           />

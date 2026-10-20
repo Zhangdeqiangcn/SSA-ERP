@@ -7,6 +7,7 @@ import {
 import { Add as AddIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { useLowCodeStore } from '@/stores';
 import type { LowCodeField, LowCodeFieldType } from '@/types';
+import DemoBanner from '@/components/common/DemoBanner';
 
 const FIELD_TYPES: LowCodeFieldType[] = ['text', 'number', 'date', 'select', 'textarea', 'checkbox'];
 
@@ -48,12 +49,7 @@ const LowCodeDesigner: React.FC = () => {
           但尚未与后端表单引擎、审批流、权限体系打通。对外演示若不加说明，
           客户会误判为已具备低代码平台能力，签单后才发现跑不起来。
           这里保留入口（内部试用仍有价值），但把成熟度讲清楚。 */}
-      <Alert severity="warning" sx={{ mb: 2 }} data-testid="lowcode-demo-banner">
-        <b>当前为设计器演示版，执行引擎仍在开发中。</b>
-        本页可以定义表单字段、在本页内试填并提交记录，但<b>尚未接入后端表单引擎</b>：
-        自定义表单目前<b>不会</b>自动生成独立数据表、不会自动进入审批流与权限体系、
-        也不会出现在业务单据的取数范围中。请勿据此判断本系统已具备完整的低代码平台能力。
-      </Alert>
+      <DemoBanner reason="本页可以定义表单字段、在本页内试填并提交记录，但**尚未接入后端表单引擎**：自定义表单目前**不会**自动生成独立数据表、不会自动进入审批流与权限体系、也不会出现在业务单据的取数范围中。请勿据此判断本系统已具备完整的低代码平台能力。" />
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2 }}>
         <Tab label="表单定义" />
         <Tab label="数据填报" />

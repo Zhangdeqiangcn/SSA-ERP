@@ -7,26 +7,17 @@ import {
 import { Visibility, ThumbUp, Clear, Close } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import FlowTracker from '@/components/common/FlowTracker';
+import { FilterBar } from '@/components/common';
 import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
 import { useMaterialApprovalStore, buildMaterialFromApplication } from '@/stores/materialApprovalStore';
 import { useMaterialStore } from '@/stores';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useAuthStore } from '@/stores/authStore';
-import { Material, MaterialApplication, MaterialApprovalStatus } from '@/types';
+import { Material, MaterialApplication } from '@/types';
 import { ROLE_NAMES } from '@/types/settings';
-
-const STATUS_LABEL: Record<MaterialApprovalStatus, string> = {
-  draft: '草稿',
-  pending: '待审批',
-  approved: '已批准',
-  rejected: '已驳回',
-};
-const STATUS_COLOR: Record<MaterialApprovalStatus, 'default' | 'warning' | 'success' | 'error'> = {
-  draft: 'default',
-  pending: 'warning',
-  approved: 'success',
-  rejected: 'error',
-};
+import { approvalStatusColor, approvalStatusLabel } from '@/constants/approvalEnums';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const FIELD_LABELS: Record<string, string> = {
   name: '物料名称', unit: '单位', specification: '规格型号', model: '型号',
@@ -68,6 +59,36 @@ const MaterialApprovalQueue: React.FC = () => {
   const { materialApplications, updateMaterialApplication } = useMaterialApprovalStore();
   const currentUser = useAuthStore(s => s.currentUser);
   const vendors = useVendorStore(s => s.vendors);
+
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+
+  // 列定义（驱动检索条派生检索项；表格为内联渲染）
+  // 注：物料名称(draft.name) 为嵌套字段、当前步骤为派生显示，applyColumnFilters 直接按 row[字段] 取值，
+  // 对嵌套/派生字段无法过滤，故此处仅覆盖可直接读取的顶层字段。
+  const columns: ColumnDef<MaterialApplication, unknown>[] = [
+    { id: 'applicationNo', header: '申请单号', accessorFn: (a) => a.applicationNo, meta: { searchable: true } },
+    { id: 'applicant', header: '申请人', accessorFn: (a) => a.applicant, meta: { searchable: true } },
+    {
+      id: 'status',
+      header: '状态',
+      accessorFn: (a) => a.status,
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'pending', label: '待审批' },
+          { value: 'approved', label: '已批准' },
+          { value: 'rejected', label: '已驳回' },
+        ],
+      },
+    },
+    { id: 'createdAt', header: '创建时间', accessorFn: (a) => a.createdAt, meta: { searchable: true } },
+  ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(materialApplications, columns, filterData, { module: 'material' }),
+    [materialApplications, columns, filterData]
+  );
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [rejectComment, setRejectComment] = useState('');
@@ -211,7 +232,8 @@ const MaterialApprovalQueue: React.FC = () => {
 
   return (
     <PageWrapper title="物料新增审批队列">
-      {materialApplications.length === 0 ? (
+      <FilterBar columns={columns} module="material" onSearch={setFilterData} listKey="material-approval-queue" />
+      {filtered.length === 0 ? (
         <Alert severity="info">暂无物料新增审批申请。</Alert>
       ) : (
         <TableContainer component={Paper}>
@@ -228,14 +250,14 @@ const MaterialApprovalQueue: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {materialApplications.map(app => (
+              {filtered.map(app => (
                 <TableRow key={app.id}>
                   <TableCell>{app.applicationNo}</TableCell>
                   <TableCell>{app.applicant}</TableCell>
                   <TableCell>{app.draft?.name || '-'}</TableCell>
                   <TableCell>{steps[app.currentStep]?.name || '-'}</TableCell>
                   <TableCell>
-                    <Chip label={STATUS_LABEL[app.status]} color={STATUS_COLOR[app.status]} size="small" />
+                    <Chip label={approvalStatusLabel('material_application', app.status)} color={approvalStatusColor('material_application', app.status)} size="small" />
                   </TableCell>
                   <TableCell>{app.createdAt.slice(0, 10)}</TableCell>
                   <TableCell>
@@ -272,13 +294,13 @@ const MaterialApprovalQueue: React.FC = () => {
               <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
                   当前步骤：{steps[selectedApp.currentStep]?.name}
-                  <Chip sx={{ ml: 1 }} label={STATUS_LABEL[selectedApp.status]} color={STATUS_COLOR[selectedApp.status]} size="small" />
+                  <Chip sx={{ ml: 1 }} label={approvalStatusLabel('material_application', selectedApp.status)} color={approvalStatusColor('material_application', selectedApp.status)} size="small" />
                 </Typography>
 
                 {successMsg && <Alert severity="success" sx={{ mb: 2 }}>{successMsg}</Alert>}
 
                 {selectedApp.status !== 'pending' ? (
-                  <Alert severity="info">该申请已{STATUS_LABEL[selectedApp.status]}，审批流程结束。</Alert>
+                  <Alert severity="info">该申请已{approvalStatusLabel('material_application', selectedApp.status)}，审批流程结束。</Alert>
                 ) : canEdit ? (
                   <>
                     {/* 物料基本信息（只读，供审批人员参考上下文） */}

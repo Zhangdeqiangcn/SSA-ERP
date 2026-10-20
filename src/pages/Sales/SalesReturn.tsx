@@ -4,7 +4,7 @@ import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useSalesAdvancedStore } from '@/stores/salesAdvancedStore';
+import { useSalesReturnStore } from '@/stores/salesReturnStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { SalesReturn } from '@/types';
 
@@ -13,7 +13,7 @@ const STATUS_LABEL: Record<SalesReturn['status'], string> = {
 };
 
 export default function SalesReturnPage() {
-  const { salesReturns, addReturn, completeReturn } = useSalesAdvancedStore();
+  const { salesReturns, addReturn, completeReturn } = useSalesReturnStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ salesOrderNo: '', returnDate: '2026-07-20', reason: '质量异议' });

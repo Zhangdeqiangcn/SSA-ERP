@@ -233,11 +233,12 @@ const UnitConversionTab: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 600 }}>{editing ? '编辑换算规则' : '新增换算规则'}</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Stack spacing={2} sx={{ mt: 0.5 }}>
-            <TextField label="源单位（如 箱）" value={form.fromUnit}
+            {/* 与后端 REQUIRED_CORE_FIELDS（unit_conversions: fromUnit + toUnit + factor）对齐：三项均必填 */}
+            <TextField required label="源单位（如 箱）" value={form.fromUnit}
               onChange={e => setForm(f => ({ ...f, fromUnit: e.target.value }))} fullWidth />
-            <TextField label="目标单位（如 个）" value={form.toUnit}
+            <TextField required label="目标单位（如 个）" value={form.toUnit}
               onChange={e => setForm(f => ({ ...f, toUnit: e.target.value }))} fullWidth />
-            <TextField label="换算因子（1 源单位 = ? 目标单位）" type="number" value={form.factor}
+            <TextField required label="换算因子（1 源单位 = ? 目标单位）" type="number" value={form.factor}
               onChange={e => setForm(f => ({ ...f, factor: e.target.value }))} fullWidth
               helperText="例如 1 箱 = 12 个，则填写 12" />
           </Stack>

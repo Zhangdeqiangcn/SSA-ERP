@@ -176,13 +176,15 @@ export const searchIndex: SearchEntry[] = [
   { label: '价格趋势分析', path: '/analytics/price', module: '分析与报表', group: '分析与报表', keywords: ['price trend', '价格趋势'], desc: '价格趋势分析' },
   { label: '数电票核验台账', path: '/analytics/invoice-verify', module: '分析与报表', group: '分析与报表', keywords: ['invoice', '核验', '发票核验', '数电票', '台账'], desc: '数电票批量核验与历史记录台账' },
   { label: '系统设置', path: '/settings', module: '系统', group: '系统设置', keywords: ['setting', '设置', '配置', '参数', '版本号'], desc: '系统参数配置' },
+  { label: '电商平台连接', path: '/settings?tab=channel-auth', module: '系统', group: '系统设置', keywords: ['channel', '电商', '抖音', '拼多多', 'OAuth', '授权', '登录即连接', 'appkey', '密钥'], desc: '电商平台 OAuth 授权连接（抖音/拼多多），配置应用密钥/手动填令牌/断开', adminOnly: true },
   { label: '公司与邀请码', path: '/settings', module: '系统', group: '系统设置', keywords: ['invite', '邀请码', '公司码', 'company code', '加入公司', '有效期', '轮换', '更换', '停用'], desc: '公司邀请码的查看/生成/有效期/停用管理', adminOnly: true },
   // A4/A5（V3.4.0）：多语言底座与数据容量守护 —— 均为管理员运维入口
   { label: '多语言', path: '/platform/i18n', module: '系统', group: '系统设置', keywords: ['i18n', 'locale', '语言', '翻译', 'english', '本地化'], desc: '界面语言切换、词条覆盖与缺失词条补录', adminOnly: true },
   { label: '数据容量守护', path: '/platform/data-capacity', module: '系统', group: '系统设置', keywords: ['capacity', '容量', '体积', '大对象', 'app_state', '存储上限', '运维'], desc: '各数据域体积监控与超限预警', adminOnly: true },
   { label: '字段级权限', path: '/platform/field-permissions', module: '系统', group: '系统设置', keywords: ['field permission', '字段权限', '遮蔽', '脱敏'], desc: '字段级可见性与遮蔽规则', adminOnly: true },
   { label: '系统信息（版本查询）', path: '/settings?tab=sysinfo', module: '系统', group: '帮助中心', keywords: ['version', '版本', '版本号', '系统信息', 'about', '关于', '构建', '发布日期', '运行环境', '升级'], desc: '查看当前系统版本、发布日期与运行环境（界面唯一版本号查询入口）' },
-  { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档', '版本更新记录', '变更记录'], desc: 'ERP 使用说明书（含版本更新记录）' },
+  { label: '使用说明书', path: '/help/manual', module: '系统', group: '帮助中心', keywords: ['manual', '说明书', '帮助', 'help', '文档', '版本更新记录', '变更记录', '操作指引'], desc: 'ERP 使用说明书（含版本更新记录）' },
+  { label: '全局搜索结果', path: '/help/search-results', module: '系统', group: '帮助中心', keywords: ['搜索结果', '全局搜索', '记录搜索', '模糊搜索', '搜索', 'search', '物料', '订单', '合同', '流程'], desc: '顶栏搜索回车后的独立结果页（页面/模块说明/权限内记录三源命中）' },
   { label: '账号登录', path: '/login', module: '系统', group: '账号', keywords: ['login', '登录', '注册', '账号', '密码', '登出', 'logout', '公司码', '邀请码'], desc: '账号注册/登录与多人协同' },
   { label: '全流程自检', path: '/test/flow', module: '系统', group: '测试与诊断', keywords: ['selftest', '自检', '测试', '流程'], desc: '业务流程自检' },
 ];

@@ -4,7 +4,7 @@ import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { usePurchaseAdvancedStore } from '@/stores/purchaseAdvancedStore';
+import { usePurchaseReturnStore } from '@/stores/purchaseReturnStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PurchaseReturn } from '@/types';
 
@@ -13,7 +13,7 @@ const STATUS_LABEL: Record<PurchaseReturn['status'], string> = {
 };
 
 export default function PurchaseReturnPage() {
-  const { purchaseReturns, addReturn, completeReturn } = usePurchaseAdvancedStore();
+  const { purchaseReturns, addReturn, completeReturn } = usePurchaseReturnStore();
   const { purchaseOrders } = usePurchaseStore();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ purchaseOrderNo: '', returnDate: '2026-07-20', reason: '质量不合格' });

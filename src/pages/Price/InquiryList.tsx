@@ -12,17 +12,19 @@ import {
   DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker,
   ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
 } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PriceInquiry, PriceInquiryItem } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  draft: { label: '草稿', color: 'default' },
-  published: { label: '已发布', color: 'info' },
-  closed: { label: '已截止', color: 'warning' },
-  quotation_received: { label: '已收到报价', color: 'primary' },
-  compared: { label: '已比价', color: 'success' },
+// 询价单状态 → 集中 statusConfig key（draft/published/quotation_received/compared 复用通用 key）
+const PR_STATUS_KEY: Record<string, string> = {
+  draft: 'draft',
+  published: 'published',
+  closed: 'pr_closed',
+  quotation_received: 'quotation_received',
+  compared: 'compared',
 };
 
 const InquiryList: React.FC = () => {
@@ -45,10 +47,10 @@ const InquiryList: React.FC = () => {
   });
 
   const columns: ColumnDef<PriceInquiry, unknown>[] = useMemo(() => [
-    { accessorKey: 'inquiryNo', header: '询价单号', size: 160 },
-    { accessorKey: 'title', header: '标题', size: 220 },
-    { accessorKey: 'inquirer', header: '询价人' },
-    { accessorKey: 'department', header: '部门' },
+    { accessorKey: 'inquiryNo', header: '询价单号', size: 160, meta: { searchable: true } },
+    { accessorKey: 'title', header: '标题', size: 220, meta: { searchable: true } },
+    { accessorKey: 'inquirer', header: '询价人', meta: { searchable: true } },
+    { accessorKey: 'department', header: '部门', meta: { searchable: true } },
     {
       accessorKey: 'targetVendorNames',
       header: '目标供应商',
@@ -65,17 +67,14 @@ const InquiryList: React.FC = () => {
     {
       accessorKey: 'deadline',
       header: '截止日期',
+      meta: { searchable: true },
       cell: ({ row }) => formatDate(row.original.deadline),
     },
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={STATUS_MAP[row.original.status]?.label || row.original.status}
-          size="small"
-          color={STATUS_MAP[row.original.status]?.color as any || 'default'}
-          sx={{ fontSize: '0.75rem' }} />
-      ),
+      meta: { searchable: true },
+      cell: ({ row }) => <StatusBadge status={PR_STATUS_KEY[row.original.status]} />,
     },
     {
       accessorKey: 'totalEstimatedAmount',
@@ -146,14 +145,11 @@ const InquiryList: React.FC = () => {
     { name: 'inquirer', label: '询价人', type: 'text' as const },
   ];
 
-  const filteredData = useMemo(() => {
-    let data = [...priceInquiries];
-    if (filterData.inquiryNo) data = data.filter(r => r.inquiryNo.includes(filterData.inquiryNo as string));
-    if (filterData.title) data = data.filter(r => r.title.includes(filterData.title as string));
-    if (filterData.status) data = data.filter(r => r.status === filterData.status);
-    if (filterData.inquirer) data = data.filter(r => r.inquirer.includes(filterData.inquirer as string));
-    return data;
-  }, [filterData]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
+  const filteredData = useMemo(
+    () => applyColumnFilters(priceInquiries, columns, filterData, { module: 'price' }),
+    [filterData, priceInquiries, columns]
+  );
 
   // 获取可勾选的已批准采购申请
   const approvedRequests = useMemo(() =>
@@ -331,7 +327,7 @@ const InquiryList: React.FC = () => {
         </Box>
       }
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="price" onSearch={setFilterData} />
       <DataTable<PriceInquiry>
         data={filteredData}
         columns={columns}

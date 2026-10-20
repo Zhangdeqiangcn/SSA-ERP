@@ -22,15 +22,13 @@
 // 边界：本文件不依赖 axios，也不触发 401 跳登录 —— 因为审计留痕这类调用
 // 失败时不应把用户踢出当前页面。
 
-const TOKEN_KEY = 'ssa-erp-auth-token';
+import { getSyncToken } from '@/stores/persistStorage';
 
-/** 读取当前登录令牌；未登录 / 读取失败返回 null（绝不抛错） */
+/** 读取当前登录令牌；未登录 / 读取失败返回 null（绝不抛错）
+ *  V3.91.0：改为内存态令牌（不再读明文 localStorage），生产刷新后返回 null，
+ *  由 HttpOnly Cookie 兜底鉴权。 */
 export function getAuthToken(): string | null {
-  try {
-    return typeof window !== 'undefined' ? window.localStorage.getItem(TOKEN_KEY) : null;
-  } catch {
-    return null;
-  }
+  return getSyncToken();
 }
 
 /**

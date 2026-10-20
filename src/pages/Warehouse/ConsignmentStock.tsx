@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Button, IconButton,
@@ -11,6 +11,7 @@ import { useVendorStore } from '@/stores/vendorStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useConsignmentStore } from '@/stores/consignmentStore';
 import { ConsignmentStock } from '@/types/purchase';
+import { notifySuccess } from '@/utils/notify';
 
 const genId = () => `cs-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
@@ -19,8 +20,10 @@ const ConsignmentStockPage: React.FC = () => {
   const vendors = useVendorStore((s) => s.vendors);
   const { addPurchaseOrder } = usePurchaseStore();
 
-  // 寄售库存数据来自专门的 consignmentStore（持久化，刷新不丢失）
-  const { records: consignmentRecords, settleConsumption } = useConsignmentStore();
+  // 寄售库存数据来自专门的 consignmentStore（V3.76.0 起 D1 关系表权威源，页面挂载水合）
+  const { records: consignmentRecords, settleConsumption, hydrateConsignment } = useConsignmentStore();
+
+  useEffect(() => { void hydrateConsignment(); }, [hydrateConsignment]);
 
   // 结算对话框
   const [settleDialog, setSettleDialog] = useState(false);
@@ -77,7 +80,7 @@ const ConsignmentStockPage: React.FC = () => {
     settleConsumption(settleRecord.id, settleQty);
 
     setSettleDialog(false);
-    alert(`消耗结算采购订单 ${orderNo} 已生成，金额 ¥${totalAmount.toLocaleString()}`);
+    notifySuccess(`消耗结算采购订单 ${orderNo} 已生成，金额 ¥${totalAmount.toLocaleString()}`);
   };
 
   return (

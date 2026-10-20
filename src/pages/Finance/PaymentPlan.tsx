@@ -1,28 +1,30 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Chip, Grid, Card, CardContent, Button, TextField,
-  InputAdornment, LinearProgress, Alert, Tooltip, Dialog, DialogTitle,
+  LinearProgress, Alert, Tooltip, Dialog, DialogTitle,
   DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem,
   Stack, Divider, Switch, FormControlLabel, IconButton,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import PaymentIcon from '@mui/icons-material/Payment';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FlowTracker } from '@/components/common';
+import { FlowTracker, StatusBadge, FilterBar } from '@/components/common';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import type { PaymentInstallment, PaymentInstallmentType } from '@/types/finance';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
-const STATUS_CONFIG: Record<string, { label: string; color: 'default' | 'warning' | 'error' | 'success' | 'info' }> = {
-  pending: { label: '待支付', color: 'warning' },
-  partial: { label: '部分付款', color: 'info' },
-  paid: { label: '已付清', color: 'success' },
-  overdue: { label: '已逾期', color: 'error' },
+// 付款计划状态 → 集中 statusConfig key（overdue 复用通用 key）
+const PP_STATUS_KEY: Record<string, string> = {
+  pending: 'pp_pending',
+  partial: 'pp_partial',
+  paid: 'pp_paid',
+  overdue: 'overdue',
 };
 
 /** 付款闸门拦截代码 → 业务语言。后端返回的是机器码，直接展示给业务人员看不懂。 */
@@ -44,7 +46,7 @@ export default function PaymentPlan() {
   } = useFinanceStore();
   const { vendors } = useVendorStore();
   const { exchangeRates } = useFinanceExtensionStore();
-  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [createOpen, setCreateOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<typeof paymentPlans[number] | null>(null);
@@ -91,8 +93,33 @@ export default function PaymentPlan() {
     setVoucherMsg(v ? `凭证已生成，凭证号：${v}` : '该付款已生成过凭证（无需重复生成）');
   };
 
-  const filtered = paymentPlans.filter(p =>
-    !search || p.vendorName.includes(search) || p.planNo.includes(search) || p.invoiceNo.includes(search)
+  const columns: ColumnDef<typeof paymentPlans[number], unknown>[] = [
+    { id: 'planNo', header: '计划号', accessorFn: (p) => p.planNo, meta: { searchable: true } },
+    { id: 'vendorName', header: '供应商', accessorFn: (p) => p.vendorName, meta: { searchable: true } },
+    { id: 'invoiceNo', header: '关联发票', accessorFn: (p) => p.invoiceNo, meta: { searchable: true } },
+    { id: 'paymentMethod', header: '付款方式', accessorFn: (p) => p.paymentMethod, meta: { searchable: true } },
+    { id: 'currency', header: '币种', accessorFn: (p) => p.currency, meta: { searchable: true } },
+    { id: 'dueDate', header: '到期日', accessorFn: (p) => p.dueDate, meta: { searchable: true } },
+    {
+      id: 'status',
+      header: '状态',
+      accessorFn: (p) => p.status,
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'pending', label: '待付款' },
+          { value: 'partial', label: '部分付款' },
+          { value: 'paid', label: '已付清' },
+          { value: 'overdue', label: '已逾期' },
+        ],
+      },
+    },
+  ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(paymentPlans, columns, filterData, { module: 'finance' }),
+    [paymentPlans, columns, filterData]
   );
 
   const overdueCount = paymentPlans.filter(p => p.status === 'overdue').length;
@@ -161,17 +188,8 @@ export default function PaymentPlan() {
         ))}
       </Grid>
 
-      {/* 搜索栏 */}
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          size="small"
-          placeholder="搜索计划号/供应商/发票号"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-          sx={{ width: 300 }}
-        />
-      </Box>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="finance-payment-plan" />
 
       <Paper>
         <TableContainer>
@@ -193,7 +211,6 @@ export default function PaymentPlan() {
             </TableHead>
             <TableBody>
               {filtered.map(p => {
-                const sc = STATUS_CONFIG[p.status];
                 const paidPct = p.totalAmount > 0 ? Math.round((p.paidAmount / p.totalAmount) * 100) : 0;
                 const isOverdue = p.status === 'overdue';
                 return (
@@ -240,7 +257,7 @@ export default function PaymentPlan() {
                       </Tooltip>
                     </TableCell>
                     <TableCell>
-                      <Chip label={sc.label} color={sc.color} size="small" />
+                      <StatusBadge status={PP_STATUS_KEY[p.status]} />
                     </TableCell>
                     <TableCell>
                       <Button size="small" onClick={() => handleViewDetail(p)}>详情</Button>
@@ -425,7 +442,7 @@ export default function PaymentPlan() {
                 { label: '应付总额', value: `¥${selectedPlan.totalAmount.toLocaleString()}` },
                 { label: '已付金额', value: `¥${selectedPlan.paidAmount.toLocaleString()}` },
                 { label: '到期日', value: selectedPlan.dueDate },
-                { label: '状态', value: STATUS_CONFIG[selectedPlan.status].label },
+                { label: '状态', value: <StatusBadge status={PP_STATUS_KEY[selectedPlan.status]} /> },
               ].map(row => (
                 <Grid item xs={6} key={row.label}>
                   <Typography variant="caption" color="text.secondary">{row.label}</Typography>
@@ -457,7 +474,7 @@ export default function PaymentPlan() {
                         <TableCell>{inst.label}</TableCell>
                         <TableCell align="right">¥{inst.amount.toLocaleString()}</TableCell>
                         <TableCell>{inst.dueDate}</TableCell>
-                        <TableCell><Chip size="small" label={STATUS_CONFIG[inst.status].label} color={STATUS_CONFIG[inst.status].color} /></TableCell>
+                        <TableCell><StatusBadge status={PP_STATUS_KEY[inst.status]} /></TableCell>
                         <TableCell>
                           {inst.status !== 'paid' && (
                             <Button size="small" data-testid={`pp-pay-inst-${inst.id}`} onClick={() => {

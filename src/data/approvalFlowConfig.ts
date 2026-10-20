@@ -1,8 +1,6 @@
 import type { FlowDefinition } from './flowDefinitions';
 import type { FlowStatus } from '@/stores/approvalFlowStore';
-
-/** 可被业务层消费的有效流程状态 */
-const ACTIVE_STATUSES: FlowStatus[] = ['system', 'published'];
+import { isFlowStatusActive } from '@/constants/approvalEnums';
 import {
   useApprovalFlowStore,
   type ApprovalFlowConfig,
@@ -131,7 +129,7 @@ export function loadApprovalFlows(): ApprovalFlowConfig[] {
 export function getApprovalFlow(module: string): ApprovalFlowConfig | undefined {
   const target = normalizeModule(module);
   return useApprovalFlowStore.getState().flows.find(
-    (f) => normalizeModule(f.module) === target && ACTIVE_STATUSES.includes(f.status ?? 'system')
+    (f) => normalizeModule(f.module) === target && isFlowStatusActive(f.status ?? 'system')
   );
 }
 

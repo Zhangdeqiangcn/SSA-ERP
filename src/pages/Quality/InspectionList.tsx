@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
-  Box, Typography, Grid, Paper, Chip, Button, TextField, MenuItem,
+  Box, Typography, Grid, Paper, Button, TextField, MenuItem,
   Select, FormControl, InputLabel, IconButton, Tooltip, Tab, Tabs,
   Dialog, DialogTitle, DialogContent, DialogActions, Snackbar,
   Alert, LinearProgress,
 } from '@mui/material';
 import {
-  Add, Search, Visibility, Assignment, CheckCircle, Cancel,
-  HourglassEmpty, Warning, Refresh, Info,
+  Add, Visibility, Assignment, Info,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { InspectionStatus, InspectionType, InspectionTask } from '@/types/quality';
 import { computeAqlPlan, LEVELS, AQLS } from '@/utils/aql';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const TYPE_LABELS: Record<InspectionType, string> = {
   incoming: '来料检验',
@@ -22,41 +22,21 @@ const TYPE_LABELS: Record<InspectionType, string> = {
   final: '成品检验',
 };
 
-const TYPE_COLORS: Record<InspectionType, string> = {
-  incoming: '#3B82F6',
-  process: '#F59E0B',
-  final: '#10B981',
+// 类型 / 状态展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
+// 类型：incoming/process/final → insp_ 前缀专属 key
+const INSP_TYPE_KEY: Record<InspectionType, string> = {
+  incoming: 'insp_incoming', process: 'insp_process', final: 'insp_final',
 };
-
-const STATUS_LABELS: Record<InspectionStatus, string> = {
-  pending: '待检',
-  in_progress: '检验中',
-  passed: '合格',
-  failed: '不合格',
-  conditional_pass: '条件接收',
-};
-
-const STATUS_COLORS: Record<InspectionStatus, string> = {
-  pending: '#94A3B8',
-  in_progress: '#3B82F6',
-  passed: '#10B981',
-  failed: '#EF4444',
-  conditional_pass: '#F59E0B',
-};
-
-const STATUS_ICONS: Record<InspectionStatus, React.ReactNode> = {
-  pending: <HourglassEmpty sx={{ fontSize: 14 }} />,
-  in_progress: <Refresh sx={{ fontSize: 14 }} />,
-  passed: <CheckCircle sx={{ fontSize: 14 }} />,
-  failed: <Cancel sx={{ fontSize: 14 }} />,
-  conditional_pass: <Warning sx={{ fontSize: 14 }} />,
+// 状态：pending/in_progress → insp_ 前缀专属 key；passed/failed/conditional_pass 复用通用 key
+const INSP_STATUS_KEY: Record<InspectionStatus, string> = {
+  pending: 'insp_pending', in_progress: 'insp_in_progress',
+  passed: 'passed', failed: 'failed', conditional_pass: 'conditional_pass',
 };
 
 const InspectionList: React.FC = () => {
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState<'all' | InspectionType>('all');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [keyword, setKeyword] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const { inspectionTasks, addInspectionTask, inspectionStandards } = useQualityStore();
   const [createOpen, setCreateOpen] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
@@ -88,12 +68,11 @@ const InspectionList: React.FC = () => {
     }
   }, [aqlPlan]);
 
-  const filtered = inspectionTasks.filter((t) => {
-    if (tabValue !== 'all' && t.type !== tabValue) return false;
-    if (statusFilter && t.status !== statusFilter) return false;
-    if (keyword && !t.taskNo.includes(keyword) && !t.materialName.includes(keyword)) return false;
-    return true;
-  });
+  // 标签页筛选（分类视图）单独保留，检索条件交由 FilterBar + applyColumnFilters 统一处理
+  const tabFiltered = useMemo(
+    () => inspectionTasks.filter((t) => tabValue === 'all' || t.type === tabValue),
+    [inspectionTasks, tabValue]
+  );
 
   const stats = {
     total: inspectionTasks.length,
@@ -133,11 +112,11 @@ const InspectionList: React.FC = () => {
     };
   };
 
-  const columns: ColumnDef<InspectionTask, unknown>[] = [
+  const columns: ColumnDef<InspectionTask, unknown>[] = useMemo(() => [
     {
-      id: 'taskNo',
+      accessorKey: 'taskNo',
       header: '任务编号',
-      accessorFn: (row) => row.taskNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontWeight: 500, color: '#3B82F6', fontFamily: 'monospace' }}>
           {row.original.taskNo}
@@ -145,70 +124,72 @@ const InspectionList: React.FC = () => {
       ),
     },
     {
-      id: 'type',
+      accessorKey: 'type',
       header: '检验类型',
-      accessorFn: (row) => row.type,
+      meta: { searchable: true, filterType: 'select', filterOptions: [
+        { value: 'incoming', label: '来料检验' },
+        { value: 'process', label: '过程检验' },
+        { value: 'final', label: '成品检验' },
+      ] },
+      cell: ({ row }) => <StatusBadge status={INSP_TYPE_KEY[row.original.type]} />,
+    },
+    {
+      accessorKey: 'materialCode',
+      header: '物料号',
+      meta: { searchable: true },
       cell: ({ row }) => (
-        <Chip
-          label={TYPE_LABELS[row.original.type]}
-          size="small"
-          sx={{ bgcolor: TYPE_COLORS[row.original.type] + '15', color: TYPE_COLORS[row.original.type], fontWeight: 500 }}
-        />
+        <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{row.original.materialCode}</Typography>
       ),
     },
     {
-      id: 'material',
-      header: '物料',
-      accessorFn: (row) => row.materialName,
+      accessorKey: 'materialName',
+      header: '物料名称',
+      meta: { searchable: true },
       cell: ({ row }) => (
-        <Box>
-          <Typography variant="body2" sx={{ fontWeight: 500 }}>{row.original.materialName}</Typography>
-          <Typography variant="caption" sx={{ color: '#94A3B8' }}>{row.original.materialCode}</Typography>
-        </Box>
+        <Typography variant="body2" sx={{ fontWeight: 500 }}>{row.original.materialName}</Typography>
       ),
     },
     {
-      id: 'batchNo',
+      accessorKey: 'batchNo',
       header: '批次号',
-      accessorFn: (row) => row.batchNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{row.original.batchNo}</Typography>
       ),
     },
     {
-      id: 'vendor',
+      accessorKey: 'vendorName',
       header: '供应商/工单',
-      accessorFn: (row) => row.vendorName || row.workOrderNo || '',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2">{row.original.vendorName || row.original.workOrderNo || '-'}</Typography>
       ),
     },
     {
-      id: 'quantity',
+      accessorKey: 'quantity',
       header: '检验数量',
-      accessorFn: (row) => row.quantity,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2">{row.original.quantity} / 抽{row.original.sampleQuantity}</Typography>
       ),
     },
     {
-      id: 'plannedDate',
+      accessorKey: 'plannedDate',
       header: '计划日期',
-      accessorFn: (row) => row.plannedDate,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.plannedDate}</Typography>,
     },
     {
-      id: 'status',
+      accessorKey: 'status',
       header: '状态',
-      accessorFn: (row) => row.status,
-      cell: ({ row }) => (
-        <Chip
-          icon={STATUS_ICONS[row.original.status] as React.ReactElement}
-          label={STATUS_LABELS[row.original.status]}
-          size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }}
-        />
-      ),
+      meta: { searchable: true, filterType: 'select', filterOptions: [
+        { value: 'pending', label: '待检' },
+        { value: 'in_progress', label: '检验中' },
+        { value: 'passed', label: '合格' },
+        { value: 'failed', label: '不合格' },
+        { value: 'conditional_pass', label: '条件接收' },
+      ] },
+      cell: ({ row }) => <StatusBadge status={INSP_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'actions',
@@ -231,7 +212,14 @@ const InspectionList: React.FC = () => {
         </Box>
       ),
     },
-  ];
+  ], []);
+
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
+  // （置于 columns 声明之后，避免『used before declaration』类型错误）
+  const filtered = useMemo(
+    () => applyColumnFilters(tabFiltered, columns, filterData, { module: 'quality' }),
+    [tabFiltered, columns, filterData]
+  );
 
   return (
     <Box>
@@ -267,27 +255,8 @@ const InspectionList: React.FC = () => {
         ))}
       </Grid>
 
-      {/* Filter */}
-      <Paper sx={{ p: 2.5, borderRadius: 3, mb: 2 }}>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-          <TextField
-            size="small"
-            placeholder="任务编号/物料名称"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-            sx={{ width: 220 }}
-          />
-          <FormControl size="small" sx={{ width: 140 }}>
-            <InputLabel>状态</InputLabel>
-            <Select value={statusFilter} label="状态" onChange={(e) => setStatusFilter(e.target.value)}>
-              <MenuItem value="">全部</MenuItem>
-              {Object.entries(STATUS_LABELS).map(([k, v]) => <MenuItem key={k} value={k}>{v}</MenuItem>)}
-            </Select>
-          </FormControl>
-          <Button variant="outlined" size="small" onClick={() => { setStatusFilter(''); setKeyword(''); }}>重置</Button>
-        </Box>
-      </Paper>
+      {/* 检索条：覆盖全部可搜列，默认显 5 项、其余『更多筛选』展开，按字段权限门控 */}
+      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="inspection-list" />
 
       {/* Tabs */}
       <Paper sx={{ borderRadius: 3 }}>
@@ -313,6 +282,7 @@ const InspectionList: React.FC = () => {
           enableExport={true}
           exportFormat="xlsx"
           enableImport={true}
+          codeColumnId="taskNo"
           onImport={(rows, headers) => rows.forEach(r => addInspectionTask(mapImportRow(r, headers)))}
           columnConfigKey="quality-inspection-list"
         />

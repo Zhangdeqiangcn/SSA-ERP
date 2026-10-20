@@ -1,19 +1,20 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Chip, Grid, Card, CardContent, Button, TextField,
-  InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, Alert,
+  Dialog, DialogTitle, DialogContent, DialogActions, Alert,
   MenuItem,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
-import { FlowTracker } from '@/components/common';
+import { FlowTracker, FilterBar } from '@/components/common';
 import {
   useFinanceExtensionStore,
   BASE_CURRENCY_CODE,
 } from '@/stores/financeExtensionStore';
 import { useDataDictStore } from '@/stores/dataDictStore';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 /** 从数据字典「货币」(如 "美元 (USD)") 解析出 { code, label } */
 function parseCurrencyOptions(raw: string[]): { code: string; label: string }[] {
@@ -30,7 +31,7 @@ export default function ExchangeRate() {
   const { currencies } = useDataDictStore();
   const currencyOptions = parseCurrencyOptions(currencies);
 
-  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [editOpen, setEditOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -38,8 +39,17 @@ export default function ExchangeRate() {
   });
   const [msg, setMsg] = useState<string | null>(null);
 
-  const filtered = exchangeRates.filter((r) =>
-    !search || r.currency.includes(search.toUpperCase()) || r.currencyName.includes(search)
+  // 列定义（仅驱动检索条派生检索项；表格为内联渲染）
+  const columns: ColumnDef<typeof exchangeRates[number], unknown>[] = [
+    { id: 'currency', header: '币种代码', accessorFn: (r) => r.currency, meta: { searchable: true } },
+    { id: 'currencyName', header: '币种名称', accessorFn: (r) => r.currencyName, meta: { searchable: true } },
+    { id: 'effectiveDate', header: '生效日期', accessorFn: (r) => r.effectiveDate, meta: { searchable: true } },
+    { id: 'note', header: '备注', accessorFn: (r) => r.note, meta: { searchable: true } },
+  ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(exchangeRates, columns, filterData, { module: 'finance' }),
+    [exchangeRates, columns, filterData]
   );
 
   const openCreate = () => {
@@ -96,12 +106,7 @@ export default function ExchangeRate() {
         ))}
       </Grid>
 
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-        <TextField size="small" placeholder="搜索币种代码/名称"
-          value={search} onChange={(e) => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-          sx={{ width: 280 }} />
-      </Box>
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="finance-exchange-rate" />
 
       <Paper>
         <TableContainer>

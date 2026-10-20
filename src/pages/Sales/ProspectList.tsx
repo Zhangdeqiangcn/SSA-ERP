@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, IconButton, TextField, Dialog,
   DialogTitle, DialogContent, DialogActions, Stack, LinearProgress,
   Tooltip, MenuItem, Alert,
 } from '@mui/material';
 import {
-  Add, Visibility, Edit, EventNote, Search, Close, Notes,
+  Add, Visibility, Edit, EventNote, Close, Notes,
 } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
 import { Prospect, ProspectStatus, ProspectSource, FollowupRecord } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge, statusTokenPath, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const SOURCE_LABELS: Record<ProspectSource, string> = {
   web: '网络', exhibition: '展会', referral: '介绍', cold_call: '电话', advertise: '广告', other: '其他',
@@ -20,8 +21,14 @@ const SOURCE_LABELS: Record<ProspectSource, string> = {
 const STATUS_LABELS: Record<ProspectStatus, string> = {
   new: '新线索', contacted: '已联系', negotiating: '洽谈中', quoted: '已报价', won: '已成交', lost: '已丢失',
 };
-const STATUS_COLORS: Record<ProspectStatus, string> = {
-  new: '#6366F1', contacted: '#3B82F6', negotiating: '#F59E0B', quoted: '#8B5CF6', won: '#10B981', lost: '#94A3B8',
+// 意向客户状态 → 集中 statusConfig key（negotiating/quoted/won/lost 复用通用 key）
+const PS_STATUS_KEY: Record<ProspectStatus, string> = {
+  new: 'lead_new',
+  contacted: 'lead_contacted',
+  negotiating: 'negotiating',
+  quoted: 'quoted',
+  won: 'won',
+  lost: 'lost',
 };
 
 const genProspectNo = () => {
@@ -75,7 +82,7 @@ const toForm = (p: Prospect): FormState => ({
 });
 
 const ProspectList: React.FC = () => {
-  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [statusFilter, setStatusFilter] = useState<ProspectStatus | ''>('');
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
   const [followupOpen, setFollowupOpen] = useState(false);
@@ -133,12 +140,6 @@ const ProspectList: React.FC = () => {
     setDialogOpen(false);
   };
 
-  const filtered = prospects.filter(p => {
-    if (statusFilter && p.status !== statusFilter) return false;
-    if (search && !p.companyName.includes(search) && !p.prospectNo.includes(search) && !p.contactName.includes(search)) return false;
-    return true;
-  });
-
   const stats = [
     { label: '全部', count: prospects.length, color: '#6366F1', filter: '' },
     { label: '新线索', count: prospects.filter(p => p.status === 'new').length, color: '#6366F1', filter: 'new' },
@@ -153,6 +154,7 @@ const ProspectList: React.FC = () => {
       id: 'prospectNo',
       header: '编号',
       accessorFn: (p) => p.prospectNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#3B82F6">{row.original.prospectNo}</Typography>
       ),
@@ -161,6 +163,7 @@ const ProspectList: React.FC = () => {
       id: 'companyName',
       header: '公司名称',
       accessorFn: (p) => p.companyName,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" fontWeight={500}>{row.original.companyName}</Typography>,
     },
     {
@@ -178,18 +181,32 @@ const ProspectList: React.FC = () => {
       id: 'industry',
       header: '行业',
       accessorFn: (p) => p.industry,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.industry || '-'}</Typography>,
     },
     {
       id: 'region',
       header: '区域',
       accessorFn: (p) => p.region,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.region || '-'}</Typography>,
     },
     {
       id: 'source',
       header: '来源',
       accessorFn: (p) => SOURCE_LABELS[p.source],
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'web', label: '网络' },
+          { value: 'exhibition', label: '展会' },
+          { value: 'referral', label: '介绍' },
+          { value: 'cold_call', label: '电话' },
+          { value: 'advertise', label: '广告' },
+          { value: 'other', label: '其他' },
+        ],
+      },
       cell: ({ row }) => <Chip label={SOURCE_LABELS[row.original.source]} size="small" variant="outlined" />,
     },
     {
@@ -248,10 +265,19 @@ const ProspectList: React.FC = () => {
       id: 'status',
       header: '状态',
       accessorFn: (p) => STATUS_LABELS[p.status],
-      cell: ({ row }) => (
-        <Chip label={STATUS_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'new', label: '新线索' },
+          { value: 'contacted', label: '已联系' },
+          { value: 'negotiating', label: '洽谈中' },
+          { value: 'quoted', label: '已报价' },
+          { value: 'won', label: '已成交' },
+          { value: 'lost', label: '已丢失' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={PS_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'probability',
@@ -261,9 +287,9 @@ const ProspectList: React.FC = () => {
         const p = row.original;
         return p.probability ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LinearProgress variant="determinate" value={p.probability}
-              sx={{ width: 60, height: 6, borderRadius: 3, bgcolor: '#E2E8F0',
-                '& .MuiLinearProgress-bar': { bgcolor: STATUS_COLORS[p.status] } }} />
+                <LinearProgress variant="determinate" value={p.probability}
+                  sx={{ width: 60, height: 6, borderRadius: 3, bgcolor: 'grey.200',
+                    '& .MuiLinearProgress-bar': { bgcolor: statusTokenPath(PS_STATUS_KEY[p.status]) } }} />
             <Typography variant="caption">{p.probability}%</Typography>
           </Box>
         ) : '-';
@@ -273,6 +299,7 @@ const ProspectList: React.FC = () => {
       id: 'nextFollowupDate',
       header: '下次跟进',
       accessorFn: (p) => p.nextFollowupDate,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.nextFollowupDate || '-'}</Typography>,
     },
     {
@@ -297,6 +324,14 @@ const ProspectList: React.FC = () => {
       },
     },
   ];
+
+  const filtered = useMemo(
+    () => {
+      const base = applyColumnFilters(prospects, columns, filterData, { module: 'sales' });
+      return statusFilter ? base.filter(p => p.status === statusFilter) : base;
+    },
+    [prospects, columns, filterData, statusFilter]
+  );
 
   // ── 导入：把表头行映射回 store 字段 ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -362,16 +397,8 @@ const ProspectList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索和筛选 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <TextField size="small" placeholder="搜索公司/编号/联系人" value={search}
-            onChange={e => setSearch(e.target.value)}
-            InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-            sx={{ width: 260 }} />
-          <Box flex={1} />
-        </Stack>
-      </Paper>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-prospect-list" />
 
       {/* 客户列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>

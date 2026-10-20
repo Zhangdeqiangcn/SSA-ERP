@@ -1,27 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, IconButton, TextField, Stack,
   Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Grid,
   Stepper, Step, StepLabel, Alert, MenuItem,
 } from '@mui/material';
 import {
-  Add, Visibility, Search, LocalShipping, Close, FlightTakeoff,
+  Add, Visibility, LocalShipping, Close, FlightTakeoff,
   DirectionsBoat, DirectionsRailway, DirectionsCar,
 } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
+import { useWarehouseMasterStore } from '@/stores/warehouseMasterStore';
+import { useOrgStore } from '@/stores/orgStore';
 import { Shipment, ShipmentStatus, TransportMode, ShipmentItem } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const STATUS_LABELS: Record<ShipmentStatus, string> = {
   pending: '待发货', picked: '已拣货', packed: '已打包', shipped: '已出库',
   in_transit: '运输中', delivered: '已签收', cancelled: '已取消',
 };
-const STATUS_COLORS: Record<ShipmentStatus, string> = {
-  pending: '#94A3B8', picked: '#6366F1', packed: '#8B5CF6', shipped: '#3B82F6',
-  in_transit: '#F59E0B', delivered: '#10B981', cancelled: '#EF4444',
+// 物流发货状态 → 集中 statusConfig key（delivered/cancelled 复用通用 key）
+const SHIP_STATUS_KEY: Record<ShipmentStatus, string> = {
+  pending: 'ship_pending',
+  picked: 'ship_picked',
+  packed: 'ship_packed',
+  shipped: 'ship_shipped',
+  in_transit: 'ship_in_transit',
+  delivered: 'delivered',
+  cancelled: 'cancelled',
 };
 const TRANSPORT_ICONS: Record<TransportMode, React.ReactNode> = {
   road: <DirectionsCar fontSize="small" />, rail: <DirectionsRailway fontSize="small" />,
@@ -34,12 +43,16 @@ const getActiveStep = (status: ShipmentStatus) => Math.max(0, SHIPMENT_STEPS.ind
 
 const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const { salesOrders, addShipment } = useSalesStore();
+  // ★ V3.62.0 边界④：发货仓库可选（多仓场景指定发货仓，否则服务端回退本组织首个仓库）
+  const warehouses = useWarehouseMasterStore(s => s.warehouses);
+  const currentOrgId = useOrgStore(s => s.currentOrgId);
+  const visibleWarehouses = (warehouses || []).filter(w => !currentOrgId || w.orgId === currentOrgId);
   const [orderId, setOrderId] = useState('');
   const [form, setForm] = useState({
     transportMode: 'road' as TransportMode,
     carrier: '', trackingNo: '', originAddress: '', destinationAddress: '',
     estimatedPickupDate: '', estimatedDeliveryDate: '', driverName: '', vehicleNo: '', packageCount: '1', freight: '',
-    notes: '',
+    notes: '', warehouseId: '',
   });
   const [msg, setMsg] = useState('');
 
@@ -80,6 +93,7 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
       id: `ship-${Date.now()}`,
       shipmentNo: `SH${today.replace(/-/g, '')}${seq}`,
       salesOrderNo: selectedOrder.orderNo,
+      warehouseId: form.warehouseId || undefined,
       projectNo: selectedOrder.projectNo,
       projectName: selectedOrder.projectName,
       customerName: selectedOrder.customerName,
@@ -130,6 +144,15 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
               </Typography>
             </Grid>
           )}
+          <Grid item xs={6}>
+            <TextField select fullWidth size="small" label="发货仓库"
+              value={form.warehouseId || ''} onChange={(e) => setForm({ ...form, warehouseId: e.target.value })}>
+              <MenuItem value="">（默认取本组织首个仓库）</MenuItem>
+              {visibleWarehouses.map(w => (
+                <MenuItem key={w.id} value={w.id}>{w.name}</MenuItem>
+              ))}
+            </TextField>
+          </Grid>
           <Grid item xs={6}>
             <TextField select fullWidth size="small" label="运输方式"
               value={form.transportMode} onChange={(e) => setForm({ ...form, transportMode: e.target.value as TransportMode })}>
@@ -184,17 +207,12 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
 };
 
 const LogisticsList: React.FC = () => {
-  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [detailOpen, setDetailOpen] = useState(false);
   const [newOpen, setNewOpen] = useState(false);
   const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
   const shipments = useSalesStore(s => s.shipments);
   const addShipment = useSalesStore(s => s.addShipment);
-
-  const filtered = shipments.filter(s => {
-    if (search && !s.shipmentNo.includes(search) && !s.salesOrderNo.includes(search) && !s.customerName.includes(search)) return false;
-    return true;
-  });
 
   // ── 列定义（驱动 DataTable）──
   const transportLabel = (m: TransportMode) =>
@@ -204,6 +222,7 @@ const LogisticsList: React.FC = () => {
       id: 'shipmentNo',
       header: '发货单号',
       accessorFn: (s) => s.shipmentNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#3B82F6" fontWeight={500}>{row.original.shipmentNo}</Typography>
       ),
@@ -212,6 +231,7 @@ const LogisticsList: React.FC = () => {
       id: 'salesOrderNo',
       header: '销售订单',
       accessorFn: (s) => s.salesOrderNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace">{row.original.salesOrderNo}</Typography>
       ),
@@ -220,6 +240,7 @@ const LogisticsList: React.FC = () => {
       id: 'customerName',
       header: '客户',
       accessorFn: (s) => s.customerName,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.customerName}</Typography>,
     },
     {
@@ -240,6 +261,17 @@ const LogisticsList: React.FC = () => {
       id: 'transportMode',
       header: '运输方式',
       accessorFn: (s) => transportLabel(s.transportMode),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'road', label: '公路' },
+          { value: 'rail', label: '铁路' },
+          { value: 'sea', label: '海运' },
+          { value: 'air', label: '空运' },
+          { value: 'express', label: '快递' },
+        ],
+      },
       cell: ({ row }) => {
         const s = row.original;
         return (
@@ -254,12 +286,14 @@ const LogisticsList: React.FC = () => {
       id: 'carrier',
       header: '承运商',
       accessorFn: (s) => s.carrier,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.carrier}</Typography>,
     },
     {
       id: 'trackingNo',
       header: '运单号',
       accessorFn: (s) => s.trackingNo,
+      meta: { searchable: true },
       cell: ({ row }) => {
         const s = row.original;
         return (
@@ -271,6 +305,7 @@ const LogisticsList: React.FC = () => {
       id: 'packageCount',
       header: '件数',
       accessorFn: (s) => s.packageCount,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box sx={{ textAlign: 'right' }}><Typography variant="body2">{row.original.packageCount}</Typography></Box>
       ),
@@ -279,6 +314,7 @@ const LogisticsList: React.FC = () => {
       id: 'freight',
       header: '运费',
       accessorFn: (s) => s.freight,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box sx={{ textAlign: 'right' }}>
           <Typography variant="body2">{row.original.freight ? formatCurrency(row.original.freight) : '-'}</Typography>
@@ -289,16 +325,27 @@ const LogisticsList: React.FC = () => {
       id: 'estimatedDeliveryDate',
       header: '预计到货',
       accessorFn: (s) => s.estimatedDeliveryDate,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.estimatedDeliveryDate}</Typography>,
     },
     {
       id: 'status',
       header: '状态',
       accessorFn: (s) => STATUS_LABELS[s.status],
-      cell: ({ row }) => (
-        <Chip label={STATUS_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'pending', label: '待发货' },
+          { value: 'picked', label: '已拣货' },
+          { value: 'packed', label: '已打包' },
+          { value: 'shipped', label: '已出库' },
+          { value: 'in_transit', label: '运输中' },
+          { value: 'delivered', label: '已签收' },
+          { value: 'cancelled', label: '已取消' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={SHIP_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'actions',
@@ -316,6 +363,11 @@ const LogisticsList: React.FC = () => {
       ),
     },
   ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(shipments, columns, filterData, { module: 'sales' }),
+    [shipments, columns, filterData]
+  );
 
   // ── 导入：把表头行映射回 store 字段 ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -382,13 +434,8 @@ const LogisticsList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <TextField size="small" placeholder="搜索发货单号/销售订单号/客户" value={search}
-          onChange={e => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-          sx={{ width: 300 }} />
-      </Paper>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-logistics-list" />
 
       {/* 发货列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>

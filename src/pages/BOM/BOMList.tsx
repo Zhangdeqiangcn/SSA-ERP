@@ -1,29 +1,26 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, TextField, Tooltip, Alert,
+  Box, Typography, Paper, Chip, Button, IconButton, Tooltip, Alert,
 } from '@mui/material';
-import { Add, Visibility, Edit, ContentCopy, Search } from '@mui/icons-material';
+import { Add, Visibility, Edit, ContentCopy } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useBOMStore } from '@/stores/bomStore';
 import { BOMType, BOMStatus, BOMHeader } from '@/types/bom';
 
-const TYPE_COLORS: Record<BOMType, string> = {
-  EBOM: '#3B82F6',
-  MBOM: '#10B981',
+// BOM 类型 → MUI 语义色令牌（EBOM=设计蓝 / MBOM=制造绿），替代原 hex 硬编码
+const TYPE_TOKEN: Record<BOMType, 'primary' | 'success'> = {
+  EBOM: 'primary',
+  MBOM: 'success',
 };
 
-const STATUS_LABELS: Record<BOMStatus, string> = {
-  draft: '草稿',
-  released: '已发布',
-  obsolete: '已废弃',
-};
-
-const STATUS_COLORS: Record<BOMStatus, string> = {
-  draft: '#F59E0B',
-  released: '#10B981',
-  obsolete: '#94A3B8',
+// BOM 状态 → 集中 statusConfig key（obsolete 复用通用 key）
+const BOM_STATUS_KEY: Record<BOMStatus, string> = {
+  draft: 'bom_draft',
+  released: 'bom_released',
+  obsolete: 'obsolete',
 };
 
 /** 按 productId 分组，每组第一条为主BOM（isAlternate !== true），其余为替代 */
@@ -47,8 +44,7 @@ const groupBOMsByProduct = (bomList: BOMHeader[]): Map<string, { main: BOMHeader
 
 const BOMList: React.FC = () => {
   const navigate = useNavigate();
-  const [keyword, setKeyword] = useState('');
-  const [typeFilter, setTypeFilter] = useState<BOMType | ''>('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const bomList = useBOMStore(s => s.bomList);
   const addBOM = useBOMStore(s => s.addBOM);
   const load = useBOMStore(s => s.load);
@@ -66,27 +62,15 @@ const BOMList: React.FC = () => {
 
   const grouped = useMemo(() => groupBOMsByProduct(bomList), [bomList]);
 
-  const filteredGroups = useMemo(() => {
-    const entries = Array.from(grouped.entries());
-    if (!typeFilter && !keyword) return entries;
-    return entries.filter(([, group]) => {
-      const all = [group.main, ...group.alternates];
-      return all.some(b => {
-        if (typeFilter && b.type !== typeFilter) return false;
-        if (keyword && !b.productName.includes(keyword) && !b.bomNo.includes(keyword)) return false;
-        return true;
-      });
-    });
-  }, [grouped, typeFilter, keyword]);
-
-  // 展平为单列数据（保留过滤结果，按 主BOM + 替代 顺序）
+  // 展平为单列数据（按 主BOM + 替代 顺序）。注意：Map.forEach 回调签名是 (value, key)，
+  // 因此直接接 group（value = { main, alternates }），不要按数组解构。
   const flatRows = useMemo(() => {
     const rows: BOMHeader[] = [];
-    filteredGroups.forEach(([, group]) => {
+    grouped.forEach((group) => {
       rows.push(group.main, ...group.alternates);
     });
     return rows;
-  }, [filteredGroups]);
+  }, [grouped]);
 
   const mapImportRow = (r: Record<string, string>, _headers: string[]): BOMHeader => {
     const typeMap: Record<string, BOMType> = { EBOM: 'EBOM', MBOM: 'MBOM' };
@@ -114,6 +98,8 @@ const BOMList: React.FC = () => {
     {
       id: 'product',
       header: '产品',
+      accessorKey: 'productName',
+      meta: { searchable: true },
       accessorFn: (row) => `${row.productName} ${row.productCode}`,
       cell: ({ row }) => (
         <Box>
@@ -141,6 +127,7 @@ const BOMList: React.FC = () => {
     {
       id: 'bomNo',
       header: 'BOM 编号',
+      meta: { searchable: true },
       accessorFn: (row) => row.bomNo,
       cell: ({ row }) => (
         <Box
@@ -158,18 +145,29 @@ const BOMList: React.FC = () => {
     {
       id: 'type',
       header: '类型',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'EBOM', label: 'EBOM' },
+          { value: 'MBOM', label: 'MBOM' },
+        ],
+      },
       accessorFn: (row) => row.type,
       cell: ({ row }) => (
         <Chip
           label={row.original.type}
           size="small"
-          sx={{ bgcolor: TYPE_COLORS[row.original.type] + '15', color: TYPE_COLORS[row.original.type], fontWeight: 600, fontSize: '0.75rem' }}
+          color={TYPE_TOKEN[row.original.type]}
+          variant="outlined"
+          sx={{ fontWeight: 600, fontSize: '0.75rem' }}
         />
       ),
     },
     {
       id: 'version',
       header: '版本',
+      meta: { searchable: true },
       accessorFn: (row) => row.version,
       cell: ({ row }) => (
         <Chip label={row.original.version} size="small" sx={{ bgcolor: '#F8FAFC', color: '#475569' }} />
@@ -178,24 +176,29 @@ const BOMList: React.FC = () => {
     {
       id: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'draft', label: '草稿' },
+          { value: 'released', label: '已发布' },
+          { value: 'obsolete', label: '已废弃' },
+        ],
+      },
       accessorFn: (row) => row.status,
-      cell: ({ row }) => (
-        <Chip
-          label={STATUS_LABELS[row.original.status]}
-          size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }}
-        />
-      ),
+      cell: ({ row }) => <StatusBadge status={BOM_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'effectiveDate',
       header: '生效日期',
+      meta: { searchable: true },
       accessorFn: (row) => row.effectiveDate,
       cell: ({ row }) => <Typography variant="body2">{row.original.effectiveDate}</Typography>,
     },
     {
       id: 'totalCost',
       header: '总成本',
+      meta: { searchable: true },
       accessorFn: (row) => row.totalCost ?? 0,
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -206,6 +209,7 @@ const BOMList: React.FC = () => {
     {
       id: 'approvedBy',
       header: '发布人',
+      meta: { searchable: true },
       accessorFn: (row) => row.approvedBy || '-',
       cell: ({ row }) => <Typography variant="body2">{row.original.approvedBy || '-'}</Typography>,
     },
@@ -232,6 +236,12 @@ const BOMList: React.FC = () => {
       ),
     },
   ];
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(flatRows, columns, filterData, { module: 'bom' }),
+    [flatRows, columns, filterData]
+  );
 
   return (
     <Box>
@@ -264,7 +274,7 @@ const BOMList: React.FC = () => {
           <Paper
             key={item.label}
             sx={{ px: 2.5, py: 2, borderRadius: 3, cursor: 'pointer', border: `1px solid ${item.color}20`, flex: 1 }}
-            onClick={() => item.filter && setTypeFilter(item.filter as BOMType | '')}
+            onClick={() => item.filter && setFilterData((prev) => ({ ...prev, type: item.filter || undefined }))}
           >
             <Typography variant="h5" sx={{ fontWeight: 700, color: item.color }}>{item.count}</Typography>
             <Typography variant="caption" sx={{ color: '#64748B' }}>{item.label}</Typography>
@@ -272,33 +282,12 @@ const BOMList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 过滤 */}
-      <Paper sx={{ p: 2.5, borderRadius: 3, mb: 2 }}>
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-          <TextField
-            size="small"
-            placeholder="产品名称/BOM编号"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-            sx={{ width: 220 }}
-          />
-          {(['', 'EBOM', 'MBOM'] as const).map((t) => (
-            <Button
-              key={t}
-              variant={typeFilter === t ? 'contained' : 'outlined'}
-              size="small"
-              onClick={() => setTypeFilter(t)}
-            >
-              {t || '全部'}
-            </Button>
-          ))}
-        </Box>
-      </Paper>
+      {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
+      <FilterBar columns={columns} module="bom" onSearch={setFilterData} listKey="bom-list" />
 
-      {flatRows.length > 0 ? (
+      {filtered.length > 0 ? (
         <DataTable<BOMHeader>
-          data={flatRows}
+          data={filtered}
           columns={columns}
           loading={!loaded}
           emptyText="暂无 BOM。点右上角「新建 BOM」开始，或从销售订单一键生成。"

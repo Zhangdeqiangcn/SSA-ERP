@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
+import { ColumnDef } from '@tanstack/react-table';
 import {
-  Box, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions,
+  Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  IconButton, MenuItem, Paper, Snackbar, Autocomplete, Grid, Tooltip,
+  IconButton, MenuItem, Paper, Snackbar, Autocomplete, Grid,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditIcon from '@mui/icons-material/Edit';
+import { PageWrapper } from '@/components/layout';
+import { ActionBar, DataTable, ConfirmDialog } from '@/components/common';
 import { useVoucherTemplateStore } from '@/stores/voucherTemplateStore';
 import { useFinanceStore } from '@/stores/financeStore';
 import type { VoucherTemplate, VoucherTemplateItem, ChartAccount } from '@/types/finance';
@@ -67,58 +69,60 @@ export default function VoucherTemplateList() {
     if (res.ok) setOpen(false);
   };
 
-  const onDelete = async (t: VoucherTemplate) => {
-    if (!confirm(`确认删除凭证模板「${t.name}」？此操作不可撤销。`)) return;
-    const res = await remove(t.id!);
+  // V3.92.0：删除凭证模板不可撤销，改走统一确认弹窗（替代浏览器原生 confirm）
+  const [deleteTarget, setDeleteTarget] = useState<VoucherTemplate | null>(null);
+
+  const handleDelete = (t: VoucherTemplate) => setDeleteTarget(t);
+
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    const res = await remove(deleteTarget.id!);
     setSnackbar({ open: true, message: res.message });
+    setDeleteTarget(null);
   };
 
-  return (
-    <Box sx={{ p: 2 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 700 }}>凭证模板（常用凭证）</Typography>
-        <Box flex={1} />
-        <Button variant="contained" startIcon={<AddIcon />} onClick={openCreate}>
-          新建模板
-        </Button>
-      </Box>
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-        把高频重复的凭证（如计提工资、摊销房租、结转损益）的分录骨架存成模板，录入凭证时点「套用模板」即可一键带出摘要与科目，金额留空待填。
-      </Typography>
+  // 列表列定义（驱动标准 DataTable，替代原自建 <Table>）
+  const columns: ColumnDef<VoucherTemplate, unknown>[] = [
+    { accessorKey: 'name', header: '模板名称' },
+    {
+      accessorKey: 'voucherType',
+      header: '凭证字',
+      cell: ({ row }) => row.original.voucherType || '—',
+    },
+    {
+      accessorKey: 'description',
+      header: '说明',
+      cell: ({ row }) => row.original.description || '—',
+    },
+    {
+      id: 'lineCount',
+      header: '分录行',
+      accessorFn: (t) => (t.items || []).length,
+      cell: ({ getValue }) => getValue() as number,
+    },
+  ];
 
-      <TableContainer component={Paper} variant="outlined">
-        <Table size="small">
-          <TableHead>
-            <TableRow sx={{ '& th': { fontWeight: 600 } }}>
-              <TableCell>模板名称</TableCell>
-              <TableCell>凭证字</TableCell>
-              <TableCell>说明</TableCell>
-              <TableCell align="right">分录行</TableCell>
-              <TableCell width={120} />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!loaded && (
-              <TableRow><TableCell colSpan={5} align="center" sx={{ py: 3 }}>加载中…</TableCell></TableRow>
-            )}
-            {loaded && templates.length === 0 && (
-              <TableRow><TableCell colSpan={5} align="center" sx={{ py: 3 }}>暂无模板，点右上角「新建模板」创建第一份常用凭证。</TableCell></TableRow>
-            )}
-            {templates.map((t) => (
-              <TableRow key={t.id}>
-                <TableCell sx={{ fontWeight: 600 }}>{t.name}</TableCell>
-                <TableCell>{t.voucherType || '—'}</TableCell>
-                <TableCell>{t.description || '—'}</TableCell>
-                <TableCell align="right">{(t.items || []).length}</TableCell>
-                <TableCell>
-                  <Tooltip title="编辑"><IconButton size="small" onClick={() => openEdit(t)}><EditIcon fontSize="small" /></IconButton></Tooltip>
-                  <Tooltip title="删除"><IconButton size="small" color="error" onClick={() => onDelete(t)}><DeleteOutlineIcon fontSize="small" /></IconButton></Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+  return (
+    <PageWrapper
+      title="凭证模板（常用凭证）"
+      subtitle="把高频重复的凭证（如计提工资、摊销房租、结转损益）的分录骨架存成模板，录入凭证时点「套用模板」即可一键带出摘要与科目，金额留空待填。"
+      actions={
+        <ActionBar
+          primary={{ label: '新建模板', onClick: openCreate, icon: <AddIcon /> }}
+        />
+      }
+    >
+      <DataTable
+        data={templates}
+        columns={columns}
+        onEdit={(t) => openEdit(t)}
+        onDelete={(t) => void handleDelete(t)}
+        loading={!loaded}
+        emptyText="暂无模板，点右上角「新建模板」创建第一份常用凭证。"
+        enableExport
+        sapStyle
+        columnConfigKey="voucher-templates"
+      />
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>{editing ? `编辑模板 ${editing.name}` : '新建凭证模板'}</DialogTitle>
@@ -204,6 +208,16 @@ export default function VoucherTemplateList() {
       <Snackbar open={snackbar.open} autoHideDuration={3000}
         onClose={() => setSnackbar({ open: false, message: '' })} message={snackbar.message}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }} />
-    </Box>
+
+      <ConfirmDialog
+        open={deleteTarget !== null}
+        title="确认删除凭证模板"
+        content={`确认删除凭证模板「${deleteTarget?.name ?? ''}」？此操作不可撤销。`}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+        confirmText="确认删除"
+        confirmColor="error"
+      />
+    </PageWrapper>
   );
 }

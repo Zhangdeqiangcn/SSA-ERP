@@ -3,7 +3,7 @@ import {
   Box, Typography, Paper, Grid, Chip, Button, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow, Dialog, DialogTitle,
   DialogContent, DialogActions, Stack, Alert, Divider, Card, CardContent,
-  TextField, IconButton, Tooltip,
+  TextField, IconButton, Tooltip, Select, MenuItem,
 } from '@mui/material';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import HistoryIcon from '@mui/icons-material/History';
@@ -11,6 +11,10 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { PageWrapper } from '@/components/layout';
 import { useProductionStore } from '@/stores/productionStore';
 import { useProductionOperationStore } from '@/stores/productionOperationStore';
+// V3.66.0 P0-3 生产投诉推供应商门户（双写：门户 issue + NCR 带 vendor 归属）
+import { useFlowStore } from '@/stores/flowStore';
+import { useQualityStore } from '@/stores/qualityStore';
+import { useVendorStore } from '@/stores/vendorStore';
 
 const nowISO = () => new Date().toISOString();
 const toLocal = (iso?: string) => (iso ? new Date(iso).toLocaleString('zh-CN', { hour12: false }) : '-');
@@ -36,16 +40,20 @@ interface ReportDraft {
   startTime: string;
   endTime: string;
   note: string;
+  /** V3.66.0 P0-3：报废责任供应商（可选，选了才推门户/NCR） */
+  responsibleVendorId: string;
 }
 
 export default function OperationReporting() {
   const { workOrders, processRoutes, updateWorkOrder } = useProductionStore();
   const { operationReports, addOperationReport, removeOperationReport } = useProductionOperationStore();
+  // V3.66.0 P0-3：责任供应商下拉数据源（vendor_master 直连 D1）
+  const { vendors } = useVendorStore();
 
   const [selectedWoId, setSelectedWoId] = useState<string>('');
   const [dialogOpId, setDialogOpId] = useState<string | null>(null);
   const [draft, setDraft] = useState<ReportDraft>({
-    goodQuantity: '', scrapQuantity: '0', operator: '', startTime: '', endTime: '', note: '',
+    goodQuantity: '', scrapQuantity: '0', operator: '', startTime: '', endTime: '', note: '', responsibleVendorId: '',
   });
 
   const openWos = useMemo(
@@ -96,6 +104,7 @@ export default function OperationReporting() {
       startTime: new Date().toISOString().slice(0, 16),
       endTime: new Date().toISOString().slice(0, 16),
       note: '',
+      responsibleVendorId: '',
     });
   };
 
@@ -106,7 +115,7 @@ export default function OperationReporting() {
     const good = Math.max(0, Number(draft.goodQuantity) || 0);
     const scrap = Math.max(0, Number(draft.scrapQuantity) || 0);
 
-    // 写报工记录
+    // 写报工记录（V3.66.0 P0-3：带责任供应商归属）
     addOperationReport({
       workOrderId: selectedWo.id,
       workOrderNo: selectedWo.orderNo,
@@ -120,7 +129,46 @@ export default function OperationReporting() {
       scrapQuantity: scrap,
       laborHours: Number(((op.setupTime + op.runTime * good) / 60).toFixed(2)),
       note: draft.note,
+      vendorId: draft.responsibleVendorId || undefined,
+      vendorName: vendors.find((v) => v.id === draft.responsibleVendorId)?.name || undefined,
     });
+
+    // ── V3.66.0 P0-3 生产投诉推供应商门户（双写，根治「生产投诉追责链断裂」）──
+    // 报废数 > 0 且选了责任供应商时：①推供应商门户一条 issue（issueType='production'）；
+    // ②建 NCR（source='production_complaint'，带 vendorId/vendorName 归属，幂等锚定 工单+工序）。
+    // 不选供应商则只报工、不追责（不误伤正常报废上报）。
+    const responsibleVendor = vendors.find((v) => v.id === draft.responsibleVendorId);
+    if (scrap > 0 && responsibleVendor) {
+      const anchor = `prod-scrap-${selectedWo.id}-${op.id}`;
+      const nowStr2 = () => {
+        const d = new Date();
+        const p = (n: number) => String(n).padStart(2, '0');
+        return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+      };
+      const ts = nowStr2();
+      const issue = {
+        id: anchor,
+        issueNo: `VQI-PROD-${selectedWo.orderNo}-${op.operationName}`,
+        vendorId: responsibleVendor.id,
+        vendorName: responsibleVendor.name,
+        materialCode: selectedWo.productCode,
+        materialName: selectedWo.productName,
+        batchNo: selectedWo.orderNo,
+        issueType: 'production' as const,
+        severity: (scrap >= good ? 'critical' : scrap > 0 ? 'major' : 'minor') as 'critical' | 'major' | 'minor',
+        description: `生产报废投诉：工单 ${selectedWo.orderNo} 工序 ${op.operationName} 报废 ${scrap} 件（${draft.note || '车间上报'}），追责供应商 ${responsibleVendor.name}`,
+        defectQty: scrap,
+        totalQty: good + scrap,
+        defectRate: good + scrap > 0 ? Number(((scrap / (good + scrap)) * 100).toFixed(1)) : 0,
+        status: 'open' as const,
+        createdAt: ts,
+        updatedAt: ts,
+        createdBy: '生产投诉自动推送',
+        updatedBy: '生产投诉自动推送',
+      };
+      useFlowStore.getState().addVendorQualityIssue(issue);
+      useQualityStore.getState().addVendorQualityIssue(issue);
+    }
 
     // 更新工单进度 + 状态
     const progress = selectedWo.progress ? [...selectedWo.progress] : [];
@@ -392,6 +440,24 @@ export default function OperationReporting() {
               minRows={2}
               fullWidth
             />
+            <div>
+              <Typography variant="caption" sx={{ color: '#8A8F9C' }}>
+                V3.66.0 P0-3：报废责任供应商（可选，选了才推供应商门户/NCR 追责）
+              </Typography>
+              <Select
+                size="small"
+                value={draft.responsibleVendorId}
+                onChange={(e) => setDraft((d) => ({ ...d, responsibleVendorId: e.target.value }))}
+                displayEmpty
+                fullWidth
+                sx={{ mt: 0.5 }}
+              >
+                <MenuItem value=""><em>不追责（仅报工）</em></MenuItem>
+                {vendors.map((v) => (
+                  <MenuItem key={v.id} value={v.id}>{v.name}</MenuItem>
+                ))}
+              </Select>
+            </div>
           </Stack>
         </DialogContent>
         <DialogActions>

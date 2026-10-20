@@ -121,7 +121,7 @@ const PriceApproval: React.FC = () => {
   );
 
   const handleSubmitForApproval = () => {
-    setSnackbar({ open: true, message: '价格审批单已提交！（演示模式）将按设置中心配置的审批流依次审批', severity: 'info' });
+    setSnackbar({ open: true, message: '价格审批单已提交！将按设置中心配置的审批流依次审批', severity: 'info' });
     navigate('/price/approvals');
   };
 
@@ -240,7 +240,7 @@ const PriceApproval: React.FC = () => {
         });
       }
       setApprovalStatus('rejected');
-      setSnackbar({ open: true, message: '审批驳回！请重新比价。（演示模式）', severity: 'info' });
+      setSnackbar({ open: true, message: '审批驳回！请重新比价。', severity: 'info' });
     }
     setShowApprovalDialog(false);
     navigate('/price/approvals');

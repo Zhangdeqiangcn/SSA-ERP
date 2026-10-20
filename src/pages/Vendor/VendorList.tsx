@@ -13,6 +13,7 @@ import {
 import { useVendorStore } from '@/stores/vendorStore';
 import { Vendor, VendorType, VendorStatus } from '@/types';
 import { formatPhone, formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 /** 批量导入：表头 → 字段 别名映射（中英文均可） */
 const VENDOR_IMPORT_ALIASES: Record<string, string> = {
@@ -118,11 +119,12 @@ const VendorList: React.FC = () => {
   );
 
   const columns: ColumnDef<Vendor, unknown>[] = useMemo(() => [
-    { accessorKey: 'code', header: '供应商编码' },
-    { accessorKey: 'name', header: '供应商名称' },
+    { accessorKey: 'code', header: '供应商编码', meta: { searchable: true } },
+    { accessorKey: 'name', header: '供应商名称', meta: { searchable: true } },
     {
       accessorKey: 'type',
       header: '类型',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const typeMap: Record<string, string> = {
           manufacturer: '生产商',
@@ -132,16 +134,18 @@ const VendorList: React.FC = () => {
         return typeMap[row.original.type] || row.original.type;
       },
     },
-    { accessorKey: 'contact', header: '联系人' },
-    { accessorKey: 'phone', header: '电话', cell: ({ row }) => formatPhone(row.original.phone) },
+    { accessorKey: 'contact', header: '联系人', meta: { searchable: true } },
+    { accessorKey: 'phone', header: '电话', meta: { searchable: true }, cell: ({ row }) => formatPhone(row.original.phone) },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     {
       accessorKey: 'rating',
       header: '评级',
+      meta: { searchable: true },
       cell: ({ row }) => row.original.rating ? `${row.original.rating}星` : '-',
     },
     {
@@ -163,6 +167,7 @@ const VendorList: React.FC = () => {
   ], []);
 
   const filterFields = [
+    { name: 'code', label: '供应商编码', type: 'text' as const },
     { name: 'name', label: '供应商名称', type: 'text' as const },
     {
       name: 'type',
@@ -189,19 +194,12 @@ const VendorList: React.FC = () => {
     },
   ];
 
-  const filteredData = useMemo(() => {
-    let data = [...vendors];
-    if (filterData.name) {
-      data = data.filter(v => v.name.includes(filterData.name as string));
-    }
-    if (filterData.type) {
-      data = data.filter(v => v.type === filterData.type);
-    }
-    if (filterData.status) {
-      data = data.filter(v => v.status === filterData.status);
-    }
-    return data;
-  }, [filterData, vendors]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（编号/名称/类型/联系人/电话/状态/评级），
+  // 并按字段权限门控（如授信等敏感列未纳入则本就不出现）。默认显 5 项、其余『更多筛选』可展开。
+  const filteredData = useMemo(
+    () => applyColumnFilters(vendors, columns, filterData, { module: 'vendor' }),
+    [filterData, vendors, columns]
+  );
 
   // ── 删除（单行 / 批量共用同一确认框）──
   const [deleteTargets, setDeleteTargets] = useState<Vendor[]>([]);
@@ -341,7 +339,7 @@ const VendorList: React.FC = () => {
           </Stack>
         </Alert>
       )}
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="vendor-list" />
+      <FilterBar fields={filterFields} columns={columns} module="vendor" onSearch={setFilterData} listKey="vendor-list" />
       <DataTable
         data={filteredData}
         columns={columns}

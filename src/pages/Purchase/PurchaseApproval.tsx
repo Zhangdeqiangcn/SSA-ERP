@@ -10,6 +10,7 @@ import {
 } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, FlowTracker } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useAuthStore } from '@/stores/authStore';
 import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
@@ -210,26 +211,26 @@ const PurchaseApproval: React.FC = () => {
   };
 
   const columns = useMemo(() => [
-    { accessorKey: 'requestNo', header: '申请单号',
+    { accessorKey: 'requestNo', header: '申请单号', meta: { searchable: true },
       cell: ({ row }: { row: { original: PurchaseRequest } }) =>
         <Typography variant="body2" sx={{ color: '#3B82F6', fontWeight: 500, fontFamily: 'monospace' }}>{row.original.requestNo}</Typography> },
-    { accessorKey: 'title', header: '标题', cell: ({ row }: { row: { original: PurchaseRequest } }) =>
+    { accessorKey: 'title', header: '标题', meta: { searchable: true }, cell: ({ row }: { row: { original: PurchaseRequest } }) =>
       <Typography variant="body2" fontWeight={500}>{row.original.title}</Typography> },
-    { accessorKey: 'applicant', header: '申请人', cell: ({ row }: { row: { original: PurchaseRequest } }) =>
+    { accessorKey: 'applicant', header: '申请人', meta: { searchable: true }, cell: ({ row }: { row: { original: PurchaseRequest } }) =>
       <Typography variant="body2">{row.original.applicant}</Typography> },
-    { accessorKey: 'department', header: '部门', cell: ({ row }: { row: { original: PurchaseRequest } }) =>
+    { accessorKey: 'department', header: '部门', meta: { searchable: true }, cell: ({ row }: { row: { original: PurchaseRequest } }) =>
       <Typography variant="body2">{row.original.department}</Typography> },
     { accessorKey: 'currentStep', header: '当前步骤',
       cell: ({ row }: { row: { original: PurchaseRequest } }) => {
         const step = steps[row.original.currentStep ?? 0];
         return <Chip label={step?.name || '审批'} size="small" color="info" variant="outlined" sx={{ fontSize: '0.7rem' }} />;
       } },
-    { accessorKey: 'status', header: '状态',
+    { accessorKey: 'status', header: '状态', meta: { searchable: true },
       cell: ({ row }: { row: { original: PurchaseRequest } }) => {
         const s = statusMap[row.original.status];
         return <Chip label={s?.label} size="small" color={s?.color || 'default'} />;
       } },
-    { accessorKey: 'expectedDate', header: '需求日期', cell: ({ row }: { row: { original: PurchaseRequest } }) => formatDate(row.original.expectedDate) },
+    { accessorKey: 'expectedDate', header: '需求日期', meta: { searchable: true }, cell: ({ row }: { row: { original: PurchaseRequest } }) => formatDate(row.original.expectedDate) },
   ], [steps]);
 
   const filterFields = [
@@ -243,12 +244,11 @@ const PurchaseApproval: React.FC = () => {
     ] },
   ];
 
+  // 业务预过滤（仅待审批/审核中）+ 通用列检索（覆盖全部 meta.searchable 列，按字段权限门控）
   const filteredData = useMemo(() => {
-    let data = purchaseRequests.filter((r) => ['pending', 'reviewing'].includes(r.status));
-    if (filterData.title) data = data.filter((d) => d.title.includes(filterData.title as string));
-    if (filterData.status) data = data.filter((d) => d.status === filterData.status);
-    return data;
-  }, [filterData, purchaseRequests]);
+    const base = purchaseRequests.filter((r) => ['pending', 'reviewing'].includes(r.status));
+    return applyColumnFilters(base, columns, filterData, { module: 'purchase' });
+  }, [filterData, purchaseRequests, columns]);
 
   return (
     <PageWrapper title="采购申请审批">
@@ -267,7 +267,7 @@ const PurchaseApproval: React.FC = () => {
         </Box>
       </Paper>
 
-      <FilterBar fields={filterFields} onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} />
       <DataTable data={filteredData} columns={columns} enablePagination enableExport
         onView={(row: PurchaseRequest) => setSelected(row)} onEdit={(row: PurchaseRequest) => setSelected(row)} />
       <ApprovalDialog open={Boolean(selected)} req={selected} steps={steps} canAct={canAct}

@@ -89,19 +89,41 @@ export default function PeriodClosing() {
     const { exchangeRates } = useFinanceExtensionStore.getState();
     let total = 0;
     const lines: { name: string; amount: number }[] = [];
+    // P1-A：期末汇兑损益必须用「该期间期末」的生效汇率，而不是「store 里当前那条」。
+    //   期末日 = 该期间最后一天的日期（period 形如 2026-07 → 2026-07-31）。
+    const [py, pm] = period.split('-').map(Number);
+    const endOfMonth = Number.isFinite(py) && Number.isFinite(pm) && py > 0 && pm > 0
+      ? `${period}-${String(new Date(py, pm, 0).getDate()).padStart(2, '0')}`
+      : undefined;
+    const skipped: { vendorName: string; reason: string }[] = [];
     for (const inv of invoices) {
       if (!inv.currency || inv.currency === 'CNY') continue;
       if (inv.status === 'paid' || inv.status === 'cancelled') continue;
-      const current = getExchangeRate(inv.currency, exchangeRates);
-      const entryRate = inv.exchangeRate || 1;
+      // P1-A：① 期末汇率按 effectiveDate<=期末日 的最后一条取（getExchangeRate 第三参）；
+      //       ② strict 模式缺失返回 NaN 而非 1（fail-closed），杜绝「按 1 算出虚假损益」。
+      const current = getExchangeRate(inv.currency, exchangeRates, endOfMonth, true);
+      const entryRate = Number(inv.exchangeRate);
+      // 入账汇率缺失（null/0）或期末汇率取不到（NaN）→ 该行无法可靠折算，
+      //   跳过并告警（fail-closed），不再 `|| 1` 静默兜底。
+      if (Number.isNaN(current)) {
+        skipped.push({ vendorName: inv.vendorName, reason: `${inv.currency} 无 ${endOfMonth || '期末'} 生效汇率，本期未计入汇兑损益` });
+        continue;
+      }
+      if (!(entryRate > 0)) {
+        skipped.push({ vendorName: inv.vendorName, reason: `${inv.currency} 发票未记录入账汇率，本期未计入汇兑损益` });
+        continue;
+      }
       const diff = (current - entryRate) * inv.amount; // 正数：本币升值，应付减少（收益）
       if (Math.abs(diff) > 0.001) {
         total += diff;
         lines.push({ name: inv.vendorName, amount: diff });
       }
     }
+    if (skipped.length > 0) {
+      setSnack(`已跳过 ${skipped.length} 笔无法折算的外币项目：${skipped.map((s) => s.reason).join('；')}`);
+    }
     if (Math.abs(total) < 0.001) {
-      setSnack('当前无外币未结清项目，无需结转汇兑损益');
+      if (skipped.length === 0) setSnack('当前无外币未结清项目，无需结转汇兑损益');
       return;
     }
     const stamp = Date.now();

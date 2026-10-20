@@ -5,13 +5,11 @@ import {
 } from '@mui/material';
 import { Add, Sync } from '@mui/icons-material';
 import { DataTable } from '@/components/common/DataTable';
+import { StatusBadge } from '@/components/common';
 import { useBiStore } from '@/stores/biStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { BiConnection, BiPlatform, BiStatus, BI_PLATFORM_LABELS, BI_STATUS_LABELS } from '@/types/bi';
 
-const STATUS_COLORS: Record<BiStatus, string> = {
-  connected: '#10b981', disconnected: '#94a3b8', error: '#ef4444',
-};
 const nowStr = () => new Date().toISOString();
 
 export default function BiIntegration() {
@@ -74,10 +72,7 @@ export default function BiIntegration() {
     { accessorKey: 'dataset', header: '数据集/看板' },
     {
       accessorKey: 'status', header: '状态',
-      cell: (c: any) => {
-        const v = c.getValue() as BiStatus;
-        return <Chip label={BI_STATUS_LABELS[v]} size="small" sx={{ bgcolor: STATUS_COLORS[v], color: '#fff' }} />;
-      },
+      cell: (c: any) => <StatusBadge status={`bi_${c.getValue() as BiStatus}`} />,
     },
     { accessorKey: 'lastSyncAt', header: '最近同步', cell: (c: any) => (c.getValue() ? new Date(c.getValue()).toLocaleString('zh-CN') : '—') },
   ];

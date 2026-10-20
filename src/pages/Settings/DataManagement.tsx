@@ -9,6 +9,7 @@ import {
   Storage, Download, Upload, DeleteOutline, Refresh, CloudDownload, Sync,
 } from '@mui/icons-material';
 import { listCollections, estimateStorageKB } from '@/services/serverService';
+import { getSyncToken, hasSession } from '@/stores/persistStorage';
 
 const STORAGE_PREFIX = 'ssa-erp-';
 
@@ -42,8 +43,8 @@ const DataManagement: React.FC = () => {
 
   const loadManifest = async () => {
     try {
-      const token = localStorage.getItem('ssa-erp-auth-token');
-      if (!token) { setAlert({ type: 'info', msg: '当前未登录云端，请先登录' }); return; }
+      const token = getSyncToken();
+      if (!hasSession()) { setAlert({ type: 'info', msg: '当前未登录云端，请先登录' }); return; }
       const res = await fetch('/api/system/backup?mode=manifest', {
         headers: { Authorization: `Bearer ${token}` }, cache: 'no-store',
       });
@@ -62,8 +63,8 @@ const DataManagement: React.FC = () => {
     if (!restoreFile) { setAlert({ type: 'info', msg: '请先选择备份文件' }); return; }
     setBusy(true);
     try {
-      const token = localStorage.getItem('ssa-erp-auth-token');
-      if (!token) { setAlert({ type: 'info', msg: '当前未登录云端，请先登录' }); setBusy(false); return; }
+      const token = getSyncToken();
+      if (!hasSession()) { setAlert({ type: 'info', msg: '当前未登录云端，请先登录' }); setBusy(false); return; }
       const payload = JSON.parse(await restoreFile.text());
       const res = await fetch('/api/system/restore', {
         method: 'POST',
@@ -156,8 +157,8 @@ const DataManagement: React.FC = () => {
 
   const handleCloudBackup = async () => {
     try {
-      const token = localStorage.getItem('ssa-erp-auth-token');
-      if (!token) {
+      const token = getSyncToken();
+      if (!hasSession()) {
         setAlert({ type: 'info', msg: '当前未登录云端，请先登录后再备份' });
         return;
       }
@@ -191,8 +192,8 @@ const DataManagement: React.FC = () => {
 
   const handleSyncMaterials = async () => {
     try {
-      const token = localStorage.getItem('ssa-erp-auth-token');
-      if (!token) {
+      const token = getSyncToken();
+      if (!hasSession()) {
         setAlert({ type: 'info', msg: '当前未登录云端，请先登录后再同步' });
         return;
       }

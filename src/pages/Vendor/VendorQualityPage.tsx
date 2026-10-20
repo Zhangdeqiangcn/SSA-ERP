@@ -177,6 +177,8 @@ function QualityIssuePanel() {
                   <MenuItem value="appearance">外观缺陷</MenuItem>
                   <MenuItem value="performance">性能不达标</MenuItem>
                   <MenuItem value="documentation">文件缺失</MenuItem>
+                  <MenuItem value="production">生产投诉（V3.66）</MenuItem>
+                  <MenuItem value="customer_return">客户退货追责（V3.66）</MenuItem>
                   <MenuItem value="other">其他</MenuItem>
                 </Select>
               </FormControl>
@@ -367,6 +369,11 @@ const VendorQualityPage: React.FC = () => {
   const [tab, setTab] = useState(0);
   return (
     <Box sx={{ p: 3 }}>
+      {!identity && (
+        <Alert severity="warning" sx={{ mb: 2 }} data-testid="portal-demo-identity-banner">
+          未识别到供应商门户登录身份，当前展示的是演示供应商（{DEFAULT_VENDOR_NAME}）的数据。请从供应商门户登录后再操作。
+        </Alert>
+      )}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
         <Typography variant="h5" fontWeight={700} sx={{ color: '#1E293B' }}>质量管理</Typography>
         <Chip size="small" color="primary" variant="outlined" data-testid="portal-current-vendor" label={identity?.vendorName || DEFAULT_VENDOR_NAME} />

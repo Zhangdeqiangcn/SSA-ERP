@@ -26,7 +26,7 @@ interface ServerAuditRow {
   id: string;
   entity: string;
   entityId: string;
-  action: AuditAction | string;
+  action: AuditAction;
   summary: string;
   userId: string;
   userName: string;
@@ -41,6 +41,7 @@ const ServerAuditTab: React.FC = () => {
   const records = useAuditStore((s) => s.records);
   const clearAudit = useAuditStore((s) => s.clearAudit);
   const getVersionHistory = useAuditStore((s) => s.getVersionHistory);
+  const getServerVersionHistory = useAuditStore((s) => s.getServerVersionHistory);
   const rollbackTo = useAuditStore((s) => s.rollbackTo);
 
   // 回滚对话框状态
@@ -220,10 +221,13 @@ const ServerAuditTab: React.FC = () => {
                     <Tooltip title="查看变更历史">
                       <IconButton
                         size="small"
-                        onClick={() => {
+                        onClick={async () => {
                           setRollbackTarget({ entity: r.entity, entityId: r.entityId! });
-                          setVersionHistory(getVersionHistory(r.entity, r.entityId));
                           setRollbackOpen(true);
+                          // V3.83.0 跨端：优先服务端版本链（多人/换端/刷新后可见），
+                          //   未登录/离线拉不到则回落本地会话历史。
+                          const serverChain = await getServerVersionHistory(r.entity, r.entityId!);
+                          setVersionHistory(serverChain.length > 0 ? serverChain : getVersionHistory(r.entity, r.entityId!));
                         }}
                       >
                         <Timeline fontSize="small" />

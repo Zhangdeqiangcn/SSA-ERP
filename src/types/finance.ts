@@ -25,6 +25,23 @@ export interface Invoice extends BaseEntity {
   // P2-5 多币种支持（可选，向后兼容）
   currency?: string;          // 原币代码，如 USD；缺省视为本位币 CNY
   exchangeRate?: number;      // 原币→本位币汇率（1 原币 = exchangeRate CNY）
+  // V3.62.0 边界②修复：发票录入界面补全明细行（行级三单匹配依赖）
+  items?: InvoiceItem[];
+}
+
+// V3.62.0 发票明细行（与 fin_invoice_items 子表字段对齐；金额服务端以 Σ明细 复核覆盖）
+export interface InvoiceItem {
+  materialId?: string;
+  materialCode?: string;
+  materialName?: string;
+  quantity?: number;
+  unit?: string;
+  unitPrice?: number;
+  amount?: number;        // 行不含税金额
+  taxRate?: number;       // 行税率
+  taxAmount?: number;     // 行税额
+  totalAmount?: number;   // 行含税金额
+  orderItemId?: string;   // 关联采购订单行锚点（行级三单匹配用）
 }
 
 // B11 多笔付款计划：单笔付款计划可拆为多期（预付款/进度款/尾款）

@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
-  Box, Typography, Chip, Grid, Card, CardContent, TextField, MenuItem,
+  Box, Typography, Chip, Grid, Card, CardContent,
 } from '@mui/material';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar } from '@/components/common';
 import { PageWrapper } from '@/components/layout';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useArapStore } from '@/stores/arapStore';
+import { applyColumnFilters } from '@/utils/listSearch';
 import type { Receivable, AgingBucket } from '@/types';
 
 const AGING_LABELS: Record<AgingBucket, { label: string; color: 'success' | 'warning' | 'info' | 'error' | 'default' }> = {
@@ -36,28 +37,11 @@ const STATUS_COLOR: Record<string, 'error' | 'success' | 'default'> = {
 };
 
 export default function ReceivableList() {
-  const { receivables, addReceivable } = useArapStore();
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [agingFilter, setAgingFilter] = useState('');
+  const { receivables, addReceivable, hydrateArap } = useArapStore();
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
-  const filtered = useMemo(() => {
-    let data = [...receivables];
-    if (search) {
-      const s = search.toLowerCase();
-      data = data.filter((r) => r.customerName.toLowerCase().includes(s) || r.invoiceNo.toLowerCase().includes(s));
-    }
-    if (statusFilter) data = data.filter((r) => r.status === statusFilter);
-    if (agingFilter) data = data.filter((r) => r.agingBucket === agingFilter);
-    return data;
-  }, [receivables, search, statusFilter, agingFilter]);
-
-  // 账龄汇总
-  const agingSummary = useMemo(() => {
-    const map: Record<AgingBucket, number> = { current: 0, '1-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
-    filtered.forEach((r) => { map[r.agingBucket] += r.balance; });
-    return map;
-  }, [filtered]);
+  // V3.76.0：应收台账迁 D1（fin_receivables）——页面挂载从权威源水合（未登录自动跳过）
+  useEffect(() => { void hydrateArap(); }, [hydrateArap]);
 
   // 催款建议
   const dunningAdvice = (r: Receivable): string => {
@@ -73,30 +57,35 @@ export default function ReceivableList() {
     {
       id: 'customerName',
       header: '客户',
+      meta: { searchable: true },
       accessorFn: (r) => r.customerName,
       cell: ({ row }) => <>{row.original.customerName}</>,
     },
     {
       id: 'invoiceNo',
       header: '发票号',
+      meta: { searchable: true },
       accessorFn: (r) => r.invoiceNo,
       cell: ({ row }) => <>{row.original.invoiceNo}</>,
     },
     {
       id: 'amount',
       header: '金额',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.amount) || 0,
       cell: ({ row }) => <Typography align="right">{row.original.amount.toLocaleString()}</Typography>,
     },
     {
       id: 'paidAmount',
       header: '已付',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.paidAmount) || 0,
       cell: ({ row }) => <Typography align="right">{row.original.paidAmount.toLocaleString()}</Typography>,
     },
     {
       id: 'balance',
       header: '余额',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.balance) || 0,
       cell: ({ row }) => (
         <Typography align="right" sx={{ fontWeight: 600, color: 'primary.main' }}>{row.original.balance.toLocaleString()}</Typography>
@@ -105,12 +94,18 @@ export default function ReceivableList() {
     {
       id: 'dueDate',
       header: '到期日',
+      meta: { searchable: true },
       accessorFn: (r) => r.dueDate,
       cell: ({ row }) => <>{row.original.dueDate}</>,
     },
     {
       id: 'agingBucket',
       header: '账龄',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: AGING_OPTIONS.filter((o) => o.value !== ''),
+      },
       accessorFn: (r) => r.agingBucket,
       cell: ({ row }) => (
         <Chip size="small" label={AGING_LABELS[row.original.agingBucket].label} color={AGING_LABELS[row.original.agingBucket].color} />
@@ -119,6 +114,11 @@ export default function ReceivableList() {
     {
       id: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: STATUS_OPTIONS.filter((o) => o.value !== ''),
+      },
       accessorFn: (r) => r.status,
       cell: ({ row }) => (
         <Chip size="small" label={STATUS_LABEL[row.original.status]} color={STATUS_COLOR[row.original.status]} />
@@ -133,6 +133,19 @@ export default function ReceivableList() {
       cell: ({ row }) => <Typography variant="body2">{row.original.remarks || dunningAdvice(row.original)}</Typography>,
     },
   ];
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(receivables, columns, filterData, { module: 'finance' }),
+    [receivables, columns, filterData]
+  );
+
+  // 账龄汇总（依赖过滤后的数据）
+  const agingSummary = useMemo(() => {
+    const map: Record<AgingBucket, number> = { current: 0, '1-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
+    filtered.forEach((r) => { map[r.agingBucket] += r.balance; });
+    return map;
+  }, [filtered]);
 
   return (
     <PageWrapper title="应收管理">
@@ -152,22 +165,8 @@ export default function ReceivableList() {
         ))}
       </Grid>
 
-      {/* 搜索与筛选 */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-        <TextField
-          size="small" label="搜索客户/发票号" value={search}
-          onChange={(e) => setSearch(e.target.value)} sx={{ minWidth: 220 }}
-          data-testid="ar-search"
-        />
-        <TextField select size="small" label="状态" value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 120 }}>
-          {STATUS_OPTIONS.map((o) => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-        </TextField>
-        <TextField select size="small" label="账龄" value={agingFilter}
-          onChange={(e) => setAgingFilter(e.target.value)} sx={{ minWidth: 120 }}>
-          {AGING_OPTIONS.map((o) => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-        </TextField>
-      </Box>
+      {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="receivable-list" />
 
       {/* 应收表格 */}
       <DataTable<Receivable>

@@ -5,18 +5,19 @@ import { Add, CompareArrows, EditNote, DeleteOutline } from '@mui/icons-material
 import { ColumnDef } from '@tanstack/react-table';
 import { PageWrapper } from '@/components/layout';
 import {
-  DataTable, ActionBar, FlowTracker,
+  DataTable, ActionBar, FlowTracker, StatusBadge,
   ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
 } from '@/components/common';
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceComparison } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  pending: { label: '待选定', color: 'warning' },
-  selected: { label: '已选定', color: 'info' },
-  approved: { label: '已审批', color: 'success' },
-  rejected: { label: '已驳回', color: 'error' },
+// 比价单状态 → 集中 statusConfig key（selected 复用通用 key）
+const PR_STATUS_KEY: Record<string, string> = {
+  pending: 'pr_pending',
+  selected: 'selected',
+  approved: 'pr_approved',
+  rejected: 'pr_rejected',
 };
 
 const ComparisonsList: React.FC = () => {
@@ -68,10 +69,7 @@ const ComparisonsList: React.FC = () => {
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={STATUS_MAP[row.original.status]?.label} size="small"
-          color={STATUS_MAP[row.original.status]?.color as any || 'default'} />
-      ),
+      cell: ({ row }) => <StatusBadge status={PR_STATUS_KEY[row.original.status]} />,
     },
   ], []);
 

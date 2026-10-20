@@ -8,7 +8,7 @@ import {
   PlayArrow, CheckCircle, LocalShipping, Inventory2,
 } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, DetailActions } from '@/components/common';
+import { DataTable, DetailActions, StatusBadge } from '@/components/common';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { OutboundOrder } from '@/types';
 import { formatDate } from '@/utils/format';
@@ -24,15 +24,16 @@ const STATUS_LABELS: Record<string, string> = {
   completed: '已完成',
   cancelled: '已取消',
 };
-const STATUS_COLORS: Record<string, string> = {
-  pending: '#94A3B8',
-  processing: '#F59E0B',
-  picking: '#3B82F6',
-  picked: '#8B5CF6',
-  packed: '#F59E0B',
-  shipped: '#10B981',
-  completed: '#10B981',
-  cancelled: '#EF4444',
+// 数据状态值 → 统一状态登记表显示键（保留出库单专属中文标签，颜色由 StatusBadge 集中管理）
+const OB_STATUS: Record<string, string> = {
+  pending: 'ob_pending',
+  processing: 'ob_processing',
+  picking: 'ob_picking',
+  picked: 'ob_picked',
+  packed: 'ob_packed',
+  shipped: 'ob_shipped',
+  completed: 'ob_completed',
+  cancelled: 'ob_cancelled',
 };
 
 const PACKAGING_LABELS: Record<string, string> = {
@@ -119,8 +120,8 @@ const OutboundDetail: React.FC = () => {
       }
     >
       {/* ── 基本信息 ── */}
-      <Paper sx={{ p: 3, mb: 3, borderRadius: 3 }}>
-        <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>基本信息</Typography>
+      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>基本信息</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6} md={3}>
             <Typography variant="caption" color="text.secondary">出库类型</Typography>
@@ -154,18 +155,14 @@ const OutboundDetail: React.FC = () => {
           </Grid>
           <Grid item xs={6} md={3}>
             <Typography variant="caption" color="text.secondary">状态</Typography>
-            <Chip
-              label={STATUS_LABELS[order.status] || order.status}
-              size="small"
-              sx={{ bgcolor: STATUS_COLORS[order.status] + '15', color: STATUS_COLORS[order.status], fontWeight: 500 }}
-            />
+            <StatusBadge status={OB_STATUS[order.status] || order.status} />
           </Grid>
         </Grid>
       </Paper>
 
       {/* ── 拣配进度条 ── */}
-      <Paper sx={{ p: 3, mb: 3, borderRadius: 3 }}>
-        <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>拣配进度</Typography>
+      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>拣配进度</Typography>
         <Stepper activeStep={currentStepIndex} alternativeLabel sx={{ mb: 2 }}>
           {STATUS_STEPS.map((step) => (
             <Step key={step}>
@@ -223,8 +220,8 @@ const OutboundDetail: React.FC = () => {
       {/* ── 包装清单与快递信息 ── */}
       <Grid container spacing={3} sx={{ mb: 3 }}>
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3, height: '100%' }}>
-            <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>包装清单</Typography>
+          <Paper variant="outlined" sx={{ p: 3, height: '100%' }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>包装清单</Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="caption" color="text.secondary">包装方式</Typography>
@@ -248,8 +245,8 @@ const OutboundDetail: React.FC = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3, height: '100%' }}>
-            <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 2 }}>快递信息</Typography>
+          <Paper variant="outlined" sx={{ p: 3, height: '100%' }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>快递信息</Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="caption" color="text.secondary">快递公司</Typography>
@@ -283,8 +280,8 @@ const OutboundDetail: React.FC = () => {
       </Grid>
 
       {/* ── 出库物料明细 ── */}
-      <Paper sx={{ borderRadius: 3 }}>
-        <Typography variant="subtitle2" fontWeight={600} sx={{ p: 3, pb: 0 }}>
+      <Paper variant="outlined">
+        <Typography variant="h6" sx={{ p: 3, pb: 0 }}>
           出库物料明细 ({order.items?.length || 0} 项)
         </Typography>
         <DataTable

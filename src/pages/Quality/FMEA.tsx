@@ -15,10 +15,12 @@ const STATUS_LABEL: Record<FMEAStatus, { label: string; color: 'default' | 'warn
   approved: { label: '已批准', color: 'success' },
 };
 
+// RPN 风险等级阈值色（数值分档，非枚举状态）：≥200 严重 / ≥100 中 / 其余 低。
+// 返回 MUI 主题色路径而非 '#hex'，跟随换肤（审计报告 P2 令牌化）。
 const RPN_COLOR = (rpn: number) => {
-  if (rpn >= 200) return '#EF4444';
-  if (rpn >= 100) return '#F59E0B';
-  return '#10B981';
+  if (rpn >= 200) return 'error.main';
+  if (rpn >= 100) return 'warning.main';
+  return 'success.main';
 };
 
 const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;

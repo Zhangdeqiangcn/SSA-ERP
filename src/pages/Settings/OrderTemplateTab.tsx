@@ -14,6 +14,9 @@ import {
   type TemplateItem,
 } from '@/stores/orderTemplateStore';
 import { useDataDictStore } from '@/stores/dataDictStore';
+import { FilterBar } from '@/components/common';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const OrderTemplateTab: React.FC = () => {
   const { vendors } = useVendorStore();
@@ -28,6 +31,22 @@ const OrderTemplateTab: React.FC = () => {
   const [dialog, setDialog] = useState<{ open: boolean; template: OrderTemplate | null }>({
     open: false, template: null,
   });
+
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+
+  // 列定义（驱动检索条派生检索项；表格为内联渲染；物料数为派生展示，不纳入检索）
+  const columns: ColumnDef<OrderTemplate, unknown>[] = [
+    { id: 'name', header: '模板名称', accessorFn: (t) => t.name, meta: { searchable: true } },
+    { id: 'vendorName', header: '供应商', accessorFn: (t) => t.vendorName, meta: { searchable: true } },
+    { id: 'paymentTerms', header: '付款条件', accessorFn: (t) => t.paymentTerms, meta: { searchable: true } },
+    { id: 'tradeTerms', header: '贸易条件', accessorFn: (t) => t.tradeTerms, meta: { searchable: true } },
+    { id: 'remarks', header: '备注', accessorFn: (t) => t.remarks, meta: { searchable: true } },
+  ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(templates, columns, filterData, { module: 'settings' }),
+    [templates, columns, filterData]
+  );
 
   const vendorOptions = useMemo(() =>
     vendors.map(v => ({ id: v.id, name: v.name })),
@@ -139,7 +158,9 @@ const OrderTemplateTab: React.FC = () => {
         </Stack>
       </Box>
 
-      {templates.length === 0 ? (
+      <FilterBar columns={columns} module="settings" onSearch={setFilterData} listKey="settings-order-template" />
+
+      {filtered.length === 0 ? (
         <Alert severity="info" sx={{ borderRadius: 2 }}>
           暂无订单模板，点击「新建模板」创建第一个模板。
         </Alert>
@@ -158,7 +179,7 @@ const OrderTemplateTab: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {templates.map(tpl => (
+              {filtered.map(tpl => (
                 <TableRow key={tpl.id} hover>
                   <TableCell>
                     <Typography variant="body2" fontWeight={500}>{tpl.name}</Typography>

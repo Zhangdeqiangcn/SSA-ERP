@@ -224,4 +224,5 @@ export interface PriceListItem {
   writtenBack?: boolean;   // 是否已回写物料主数据 standardPrice
   syncedAt?: string;       // 回写时间
   erpPriceId?: string;     // 回写对应的 ERP 物料价 ID
+  parentId?: string;       // P1-14 上一版价目表项引用（历史价/协议价版本链，向后兼容可选）
 }

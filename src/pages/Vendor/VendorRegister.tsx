@@ -286,7 +286,6 @@ const VendorRegister: React.FC = () => {
                 <Button variant="contained" onClick={() => setActiveStep(s => s + 1)} endIcon={<ArrowForward />}>下一步</Button>
               ) : (
                 <Stack direction="row" spacing={1}>
-                  <Button variant="outlined" onClick={() => alert('供应商注册申请已暂存！（演示模式）')}>暂存</Button>
                   <Button variant="contained" color="success" startIcon={<Send />} onClick={() => {
                   const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
                   const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');

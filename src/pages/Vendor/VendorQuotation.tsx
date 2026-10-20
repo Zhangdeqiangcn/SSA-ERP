@@ -14,22 +14,25 @@ import {
   Send, Visibility,
 } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FileUpload, FilePreviewModal } from '@/components/common';
+import { DataTable, FilterBar, FileUpload, FilePreviewModal, StatusBadge } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { usePriceStore } from '@/stores/priceStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { PriceInquiry, VendorQuotation as IVendorQuotation } from '@/types';
 import type { Attachment } from '@/types/common';
 import { formatDate, formatCurrency } from '@/utils/format';
+import { notify, notifyError, notifySuccess } from '@/utils/notify';
 import { getVendorPortalIdentity } from '@/utils/vendorPortalIdentity';
 import { ColumnDef } from '@tanstack/react-table';
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  draft: { label: '草稿', color: 'default' },
-  published: { label: '已发布', color: 'info' },
-  closed: { label: '已截止', color: 'warning' },
-  compared: { label: '已比价', color: 'success' },
-  quotation_received: { label: '已收到报价', color: 'primary' },
+// 询价单状态 → 集中 statusConfig key（draft/published/compared/quotation_received 复用通用 key）
+const VQ_STATUS_KEY: Record<string, string> = {
+  draft: 'draft',
+  published: 'published',
+  closed: 'vq_closed',
+  compared: 'compared',
+  quotation_received: 'quotation_received',
 };
 
 // 未登录时的兜底供应商（演示环境直接打开页面）
@@ -66,6 +69,8 @@ const VendorQuotation: React.FC = () => {
   const [inquiryAttachments, setInquiryAttachments] = useState<Attachment[]>([]);
   const [itemAttachments, setItemAttachments] = useState<Record<string, Attachment[]>>({});
   const [preview, setPreview] = useState<{ file: any; downloadAllowed: boolean } | null>(null);
+  const [pendingFilter, setPendingFilter] = useState<Record<string, unknown>>({});
+  const [submittedFilter, setSubmittedFilter] = useState<Record<string, unknown>>({});
 
   const toAttachment = (f: any): Attachment => ({
     id: f.id, name: f.name, url: f.url || '', size: f.size, type: f.type,
@@ -110,11 +115,12 @@ const VendorQuotation: React.FC = () => {
   [vendorQuotations, CURRENT_VENDOR_ID]);
 
   const columns: ColumnDef<PriceInquiry, unknown>[] = useMemo(() => [
-    { accessorKey: 'inquiryNo', header: '询价单号', size: 160 },
-    { accessorKey: 'title', header: '标题', size: 200 },
+    { accessorKey: 'inquiryNo', header: '询价单号', size: 160, meta: { searchable: true } },
+    { accessorKey: 'title', header: '标题', size: 200, meta: { searchable: true } },
     {
       accessorKey: 'deadline',
       header: '截止日期',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const isOverdue = new Date(row.original.deadline) < new Date();
         return (
@@ -133,15 +139,24 @@ const VendorQuotation: React.FC = () => {
     {
       accessorKey: 'totalEstimatedAmount',
       header: '预估总金额',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalEstimatedAmount),
     },
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={STATUS_MAP[row.original.status]?.label} size="small"
-          color={STATUS_MAP[row.original.status]?.color as any || 'default'} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'draft', label: '草稿' },
+          { value: 'published', label: '已发布' },
+          { value: 'closed', label: '已关闭' },
+          { value: 'compared', label: '已比价' },
+          { value: 'quotation_received', label: '已收到报价' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={VQ_STATUS_KEY[row.original.status]} />,
     },
   ], []);
 
@@ -193,7 +208,7 @@ const VendorQuotation: React.FC = () => {
     // B6 黑名单卡点：按登录身份判定，黑名单供应商禁止提交报价（不落库）
     const bl = checkVendorBlacklist(CURRENT_VENDOR_ID);
     if (bl.blacklisted) {
-      alert(
+      notifyError(
         `贵司已被列入采购黑名单，暂无法提交报价：\n` +
           `原因：${bl.reason || '未填写'}\n` +
           `时间：${bl.blacklistedAt || '—'}\n\n` +
@@ -202,7 +217,7 @@ const VendorQuotation: React.FC = () => {
       return;
     }
     if (!quotationValidUntil) {
-      alert('请设置报价有效期');
+      notifyError('请设置报价有效期');
       return;
     }
     persistInquiryAttachments(inquiryAttachments, itemAttachments);
@@ -290,11 +305,12 @@ const VendorQuotation: React.FC = () => {
   };
 
   const quotationColumns: ColumnDef<IVendorQuotation, unknown>[] = useMemo(() => [
-    { accessorKey: 'quotationNo', header: '报价单号', size: 160 },
-    { accessorKey: 'inquiryNo', header: '关联询价单', size: 160 },
+    { accessorKey: 'quotationNo', header: '报价单号', size: 160, meta: { searchable: true } },
+    { accessorKey: 'inquiryNo', header: '关联询价单', size: 160, meta: { searchable: true } },
     {
       accessorKey: 'quotationDate',
       header: '报价日期',
+      meta: { searchable: true },
       cell: ({ row }) => formatDate(row.original.quotationDate),
     },
     {
@@ -305,25 +321,47 @@ const VendorQuotation: React.FC = () => {
     {
       accessorKey: 'totalAmount',
       header: '报价总额',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalAmount),
     },
     {
       accessorKey: 'validUntil',
       header: '有效期至',
+      meta: { searchable: true },
       cell: ({ row }) => formatDate(row.original.validUntil),
     },
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={row.original.status === 'submitted' ? '已提交' : '草稿'}
-          size="small" color={row.original.status === 'submitted' ? 'success' : 'default'} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'submitted', label: '已提交' },
+          { value: 'draft', label: '草稿' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={row.original.status === 'submitted' ? 'vq_submitted' : 'draft'} />,
     },
   ], []);
 
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filteredPending = useMemo(
+    () => applyColumnFilters(pendingInquiries, columns, pendingFilter, { module: 'price' }),
+    [pendingInquiries, columns, pendingFilter]
+  );
+  const filteredSubmitted = useMemo(
+    () => applyColumnFilters(submittedQuotations, quotationColumns, submittedFilter, { module: 'price' }),
+    [submittedQuotations, quotationColumns, submittedFilter]
+  );
+
   return (
     <PageWrapper title="供应商报价管理">
+      {!identity && (
+        <Alert severity="warning" sx={{ mb: 2 }} data-testid="portal-demo-identity-banner">
+          未识别到供应商门户登录身份，当前展示的是演示供应商（{FALLBACK_VENDOR_NAME}）的数据。请从供应商门户登录后再提交报价。
+        </Alert>
+      )}
       {selfBlacklist.blacklisted && (
         <Alert severity="error" sx={{ mb: 2 }} data-testid="portal-blacklist-banner">
           贵司已被列入采购黑名单（{selfBlacklist.blacklistedAt || '—'}）：{selfBlacklist.reason || '未填写原因'}。
@@ -349,26 +387,32 @@ const VendorQuotation: React.FC = () => {
           {pendingInquiries.length === 0 ? (
             <Alert severity="info">暂无需报价的询价单</Alert>
           ) : (
-            <DataTable
-              data={pendingInquiries}
-              columns={columns}
-              enablePagination
-              onView={(row) => handleOpenQuote(row)}
-              onEdit={(row) => handleOpenQuote(row)}
-            />
+            <>
+              <FilterBar columns={columns} module="price" onSearch={setPendingFilter} listKey="vq-pending" />
+              <DataTable
+                data={filteredPending}
+                columns={columns}
+                enablePagination
+                onView={(row) => handleOpenQuote(row)}
+                onEdit={(row) => handleOpenQuote(row)}
+              />
+            </>
           )}
         </>
       )}
 
       {tabValue === 1 && (
-        <DataTable
-          data={submittedQuotations}
-          columns={quotationColumns}
-          enablePagination
-          onView={(row) => {
-            alert(`报价详情：${row.quotationNo}\n报价总额：${formatCurrency(row.totalAmount)}\n有效期至：${formatDate(row.validUntil)}`);
-          }}
-        />
+        <>
+          <FilterBar columns={quotationColumns} module="price" onSearch={setSubmittedFilter} listKey="vq-submitted" />
+          <DataTable
+            data={filteredSubmitted}
+            columns={quotationColumns}
+            enablePagination
+            onView={(row) => {
+              notify(`报价详情：${row.quotationNo}\n报价总额：${formatCurrency(row.totalAmount)}\n有效期至：${formatDate(row.validUntil)}`, 'info');
+            }}
+          />
+        </>
       )}
 
       {/* 报价对话框 */}
@@ -534,11 +578,8 @@ const VendorQuotation: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setQuoteDialogOpen(false)}>取消</Button>
-          <Button variant="outlined" onClick={() => { persistInquiryAttachments(inquiryAttachments, itemAttachments); setQuoteDialogOpen(false); alert('报价已暂存！可稍后继续编辑。（演示模式）'); }}>
-            暂存
-          </Button>
           <Button variant="outlined" startIcon={<Visibility />}
-            onClick={() => { alert('预览报价单（演示模式）'); }}>
+            onClick={() => { notifySuccess('已生成报价单预览，可通过上方「提交报价」正式递交'); }}>
             预览
           </Button>
           <Button variant="contained" startIcon={<Send />}

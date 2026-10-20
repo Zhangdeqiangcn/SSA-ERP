@@ -285,7 +285,6 @@ const VendorProfilePage: React.FC = () => {
           {editing ? (
             <Stack direction="row" spacing={1}>
               <Button size="small" variant="outlined" startIcon={<Cancel />} onClick={handleCancel}>取消</Button>
-              <Button size="small" variant="outlined" onClick={() => alert('资料已暂存！（演示模式）')}>暂存</Button>
               <Button size="small" variant="contained" startIcon={<Save />} onClick={handleSave}>保存</Button>
             </Stack>
           ) : (

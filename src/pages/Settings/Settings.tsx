@@ -33,6 +33,7 @@ import PrintTemplateTab from './PrintTemplateTab';
 import MaterialRatingTab from '@/pages/Material/MaterialRatingTab';
 import DisplaySettingsTab from './DisplaySettingsTab';
 import VendorRatingTab from '@/pages/Vendor/VendorRatingTab';
+import InspectionStandardConfigTab from './InspectionStandardConfigTab';
 import VendorPortalConfigTab from './VendorPortalConfigTab';
 import NumberingTab from './NumberingTab';
 import DataPermissionTab from './DataPermissionTab';
@@ -48,6 +49,7 @@ import IntegrationHub from '@/pages/Platform/IntegrationHub';
 import FieldPermissions from '@/pages/Platform/FieldPermissions';
 import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
+import ChannelAuthTab from '@/pages/Settings/ChannelAuthTab';
 import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import UserManagementTab from './UserManagementTab';
 import OrgInviteCodeTab from './OrgInviteCodeTab';
@@ -549,6 +551,7 @@ const Settings: React.FC = () => {
         { id: 'lowcode', label: '表单设计器', icon: <Description fontSize="small" />, render: () => <LowCodeDesigner /> },
         { id: 'material_rating', label: '物料评级', icon: <StarRate fontSize="small" />, render: () => <MaterialRatingTab /> },
         { id: 'vendor_rating', label: '供应商评级', icon: <StarRate fontSize="small" />, render: () => <VendorRatingTab /> },
+        { id: 'inspection_standard', label: '检验标准配置', icon: <StarRate fontSize="small" />, render: () => <InspectionStandardConfigTab /> },
         { id: 'condition', label: '条件技术', icon: <Tune fontSize="small" />, render: () => <ConditionTab /> },
       ],
     },
@@ -577,7 +580,8 @@ const Settings: React.FC = () => {
     {
       id: 'integration', label: '集成与开发', icon: <Code fontSize="small" />,
       items: [
-        { id: 'integration', label: '第三方对接通道', icon: <Hub fontSize="small" />, render: () => <IntegrationTab /> },
+          { id: 'channel-auth', label: '电商平台连接', icon: <Storefront fontSize="small" />, adminOnly: true, render: () => <ChannelAuthTab /> },
+          { id: 'integration', label: '第三方对接通道', icon: <Hub fontSize="small" />, render: () => <IntegrationTab /> },
         { id: 'integrationHub', label: '开放接口与Webhook', icon: <Api fontSize="small" />, render: () => <IntegrationHub /> },
         { id: 'api', label: 'API接口文档', icon: <Code fontSize="small" />, render: () => <APIDocTab /> },
         { id: 'ai', label: 'AI大模型配置', icon: <SmartToy fontSize="small" />, render: () => <AIConfigPage /> },

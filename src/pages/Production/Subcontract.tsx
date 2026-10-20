@@ -4,10 +4,14 @@ import {
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { ColumnDef } from '@tanstack/react-table';
 import { useSubcontractStore } from '@/stores/subcontractStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { SubcontractOrder, SubcontractType, SubcontractStatus } from '@/types/production';
+import { applyColumnFilters } from '@/utils/listSearch';
+import { notifyError } from '@/utils/notify';
+import { FilterBar } from '@/components/common';
 
 const STATUS_LABEL: Record<SubcontractStatus, string> = {
   draft: '草稿', issued: '已发料', received: '已收货', returned: '已回收', closed: '已关闭',
@@ -27,8 +31,41 @@ export default function Subcontract() {
 
   const rows = useMemo(() => orders, [orders]);
   const vendorName = (id: string) => vendors.find((v) => v.id === id)?.name ?? id;
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+
+  // 列表检索派生用列定义（仅驱动 FilterBar 检索项；表格本身为既有裸 Table，保持原样）
+  const columns: ColumnDef<SubcontractOrder, unknown>[] = [
+    { accessorKey: 'orderNo', header: '委外单号', meta: { searchable: true } },
+    {
+      accessorKey: 'type', header: '类型',
+      meta: {
+        searchable: true, filterType: 'select',
+        filterOptions: (['process', 'whole'] as SubcontractType[]).map((k) => ({ value: k, label: k === 'process' ? '工序委外' : '整体委外' })),
+      },
+    },
+    { accessorKey: 'materialCode', header: '物料编码', meta: { searchable: true } },
+    { accessorKey: 'materialName', header: '物料名称', meta: { searchable: true } },
+    { accessorKey: 'vendorName', header: '供应商', meta: { searchable: true } },
+    {
+      accessorKey: 'status', header: '状态',
+      meta: {
+        searchable: true, filterType: 'select',
+        filterOptions: (Object.keys(STATUS_LABEL) as SubcontractStatus[]).map((k) => ({ value: k, label: STATUS_LABEL[k] })),
+      },
+    },
+  ];
+  const filteredRows = useMemo(
+    () => applyColumnFilters(rows, columns, filterData, { module: 'production' }),
+    [rows, columns, filterData]
+  );
 
   const handleAdd = () => {
+    // 与后端 REQUIRED_CORE_FIELDS（subcontracts: vendorId + orderDate）对齐：vendorId（委外方）必填
+    // （orderDate 该表单未收集，由后端/模板默认提供，按规则不拦截）
+    if (!form.vendorId) {
+      notifyError('请填写「委外方」后再提交');
+      return;
+    }
     const m = materials.find((x) => x.id === form.materialId);
     const o: SubcontractOrder = {
       id: `sub-${Date.now()}`,
@@ -77,6 +114,7 @@ export default function Subcontract() {
       <Button data-testid="sub-add" variant="contained" startIcon={<AddIcon />} onClick={() => setOpen(true)} sx={{ mb: 2 }}>
         新增委外单
       </Button>
+      <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="subcontract-list" />
       <TableContainer component={Paper}>
         <Table size="small">
           <TableHead>
@@ -95,7 +133,7 @@ export default function Subcontract() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((o) => (
+            {filteredRows.map((o) => (
               <TableRow key={o.id} data-testid="sub-row">
                 <TableCell>{o.orderNo}</TableCell>
                 <TableCell>{o.type === 'process' ? '工序委外' : '整体委外'}</TableCell>
@@ -157,7 +195,7 @@ export default function Subcontract() {
           <TextField fullWidth margin="dense" label="单件耗用组件数量" type="number" value={form.issueQtyPerUnit}
             data-testid="sub-issue-qty"
             onChange={(e) => setForm({ ...form, issueQtyPerUnit: Number(e.target.value) })} />
-          <TextField fullWidth margin="dense" select label="供应商" value={form.vendorId}
+          <TextField fullWidth margin="dense" select label="供应商" required value={form.vendorId}
             onChange={(e) => setForm({ ...form, vendorId: e.target.value })}>
             {vendors.map((v) => (
               <MenuItem key={v.id} value={v.id}>{v.name}</MenuItem>

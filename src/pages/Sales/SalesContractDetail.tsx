@@ -11,15 +11,18 @@ import { useSalesContractStore } from '@/stores/salesContractStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { ContractStatus } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
+import { notify, notifyError } from '@/utils/notify';
+import { statusConfig } from '@/components/common/StatusBadge';
 
-const STATUS_LABELS: Record<ContractStatus, string> = {
-  draft: '草稿', active: '执行中', suspended: '已暂停',
-  completed: '已完成', terminated: '已终止',
+// 合同状态值 → 统一状态登记表显示键（active 在合同语境为「执行中」，故用专用键 contract_active）
+const SC_STATUS: Record<ContractStatus, string> = {
+  draft: 'draft',
+  active: 'contract_active',
+  suspended: 'suspended',
+  completed: 'completed',
+  terminated: 'terminated',
 };
-const STATUS_COLORS: Record<ContractStatus, string> = {
-  draft: '#94A3B8', active: '#10B981', suspended: '#F59E0B',
-  completed: '#3B82F6', terminated: '#EF4444',
-};
+const scLabel = (s: ContractStatus) => statusConfig[SC_STATUS[s]]?.label ?? s;
 
 const SalesContractDetail: React.FC = () => {
   const { id } = useParams();
@@ -41,7 +44,7 @@ const SalesContractDetail: React.FC = () => {
   }
 
   const handleShare = () => {
-    const text = `销售合同 ${contract.contractNo}\n名称：${contract.name}\n客户：${contract.customerName}\n金额：${formatCurrency(contract.amount)}\n状态：${STATUS_LABELS[contract.status]}`;
+    const text = `销售合同 ${contract.contractNo}\n名称：${contract.name}\n客户：${contract.customerName}\n金额：${formatCurrency(contract.amount)}\n状态：${scLabel(contract.status)}`;
     navigator.clipboard.writeText(text).then(() => setSnackbar(true));
   };
 
@@ -49,12 +52,12 @@ const SalesContractDetail: React.FC = () => {
   const handleGenerateOrder = () => {
     const existing = salesOrders.find((o) => o.contractId === contract.id);
     if (existing) {
-      alert(`已存在该合同生成的销售订单（${existing.orderNo}），将跳转到该订单。`);
+      notify(`已存在该合同生成的销售订单（${existing.orderNo}），将跳转到该订单。`, 'info');
       navigate(`/sales/orders/${existing.id}`);
       return;
     }
     if (!contract.items || contract.items.length === 0) {
-      alert('该合同没有物料明细，无法生成销售订单。');
+      notifyError('该合同没有物料明细，无法生成销售订单。');
       return;
     }
     const now = new Date().toISOString();
@@ -114,12 +117,12 @@ const SalesContractDetail: React.FC = () => {
   const receivedRatio = totalPayments > 0 ? (totalReceived / totalPayments) * 100 : 0;
 
   const basicFields = [
-    { label: '合同编号', value: <Chip label={contract.contractNo} size="small" sx={{ fontFamily: 'monospace', bgcolor: '#F0FDF4', color: '#16A34A' }} /> },
+    { label: '合同编号', value: <Chip label={contract.contractNo} size="small" variant="outlined" sx={{ fontFamily: 'monospace' }} /> },
     { label: '合同名称', value: contract.name },
     { label: '客户', value: contract.customerName },
     { label: '客户编码', value: contract.customerCode || '-' },
     { label: '销售员', value: contract.salesPerson || '-' },
-    { label: '合同状态', value: <StatusBadge status={contract.status} /> },
+    { label: '合同状态', value: <StatusBadge status={SC_STATUS[contract.status]} /> },
     { label: '合同金额', value: formatCurrency(contract.amount) },
     { label: '开始日期', value: formatDate(contract.startDate) },
     { label: '结束日期', value: formatDate(contract.endDate) },
@@ -131,7 +134,7 @@ const SalesContractDetail: React.FC = () => {
 
   // 状态流转时间线
   const operationLogs = [
-    { id: 'op-1', action: 'info' as const, operator: '系统', time: contract.createdAt, description: `创建合同（状态：${STATUS_LABELS[contract.status]}）` },
+    { id: 'op-1', action: 'info' as const, operator: '系统', time: contract.createdAt, description: `创建合同（状态：${scLabel(contract.status)}）` },
     ...(contract.status !== 'draft' ? [{ id: 'op-2', action: 'approve' as const, operator: contract.salesPerson || '销售员', time: contract.updatedAt, description: `合同${contract.status === 'active' ? '生效' : contract.status === 'suspended' ? '暂停' : contract.status === 'completed' ? '完成' : '终止'}` }] : []),
   ];
 
@@ -166,14 +169,14 @@ const SalesContractDetail: React.FC = () => {
     >
       {/* 基本信息 */}
       <Paper sx={{ p: 3, mb: 2 }}>
-        <Typography variant="subtitle1" fontWeight={600} mb={2}>合同基本信息</Typography>
+        <Typography variant="h6" fontWeight={600} mb={2}>合同基本信息</Typography>
         <DetailSection fields={basicFields} />
       </Paper>
 
       {/* 物料明细 */}
       <Paper sx={{ p: 3, mb: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="subtitle1" fontWeight={600}>合同物料明细</Typography>
+          <Typography variant="h6" fontWeight={600}>合同物料明细</Typography>
           <Typography variant="caption" color="text.secondary">共 {contract.items.length} 项</Typography>
         </Box>
         <DataTable
@@ -186,7 +189,7 @@ const SalesContractDetail: React.FC = () => {
               id: 'materialCode', header: '物料编码',
               cell: ({ row }) => (
                 <Chip label={row.original.materialCode || '-'} size="small"
-                  sx={{ fontSize: '0.75rem', bgcolor: '#F0FDF4', color: '#16A34A', fontFamily: 'monospace' }} />
+                  variant="outlined" color="success" sx={{ fontSize: '0.75rem', fontFamily: 'monospace' }} />
               ),
             },
             {
@@ -195,7 +198,7 @@ const SalesContractDetail: React.FC = () => {
             },
             {
               id: 'specification', header: '规格型号', accessorKey: 'specification',
-              cell: ({ row }) => <Box sx={{ color: '#64748B', fontSize: '0.8125rem' }}>{row.original.specification || '-'}</Box>,
+              cell: ({ row }) => <Box sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}>{row.original.specification || '-'}</Box>,
             },
             {
               id: 'unit', header: '单位', accessorKey: 'unit',
@@ -211,7 +214,7 @@ const SalesContractDetail: React.FC = () => {
             },
             {
               id: 'amount', header: '金额', accessorKey: 'amount',
-              cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 600, color: '#16A34A' }}>{formatCurrency(row.original.amount)}</Box>,
+              cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 600, color: 'success.main' }}>{formatCurrency(row.original.amount)}</Box>,
             },
             {
               id: 'deliveryDate', header: '交货日期', accessorKey: 'deliveryDate',
@@ -222,14 +225,14 @@ const SalesContractDetail: React.FC = () => {
         <Divider sx={{ my: 1 }} />
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Typography variant="body2" fontWeight={700}>
-            合同总金额：<span style={{ color: '#16A34A', fontSize: '1.05rem' }}>{formatCurrency(contract.amount)}</span>
+            合同总金额：<Box component="span" sx={{ color: 'success.main', fontSize: '1.05rem' }}>{formatCurrency(contract.amount)}</Box>
           </Typography>
         </Box>
       </Paper>
 
       {/* 收款进度 */}
       <Paper sx={{ p: 3, mb: 2 }}>
-        <Typography variant="subtitle1" fontWeight={600} mb={2}>收款进度</Typography>
+        <Typography variant="h6" fontWeight={600} mb={2}>收款进度</Typography>
 
         {/* 进度条 */}
         <Box sx={{ mb: 2 }}>
@@ -279,11 +282,7 @@ const SalesContractDetail: React.FC = () => {
                 <Chip
                   label={row.original.received ? '已收款' : '未收款'}
                   size="small"
-                  sx={{
-                    bgcolor: row.original.received ? '#F0FDF4' : '#FEF3C7',
-                    color: row.original.received ? '#16A34A' : '#D97706',
-                    fontWeight: 500,
-                  }}
+                  color={row.original.received ? 'success' : 'warning'}
                 />
               ),
             },
@@ -293,7 +292,7 @@ const SalesContractDetail: React.FC = () => {
 
       {/* 操作历史时间线 */}
       <Paper sx={{ p: 3 }}>
-        <Typography variant="subtitle1" fontWeight={600} mb={2}>操作历史</Typography>
+        <Typography variant="h6" fontWeight={600} mb={2}>操作历史</Typography>
         <OperationTimeline events={operationLogs} />
       </Paper>
 

@@ -11,14 +11,17 @@ import { DetailSection, StatusBadge, OperationTimeline, FlowTracker, ConfirmDial
 import type { TimelineEvent } from '@/components/common/OperationTimeline';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
+import { useAuthStore } from '@/stores/authStore';
 import { formatDate, formatCurrency } from '@/utils/format';
+import DemoBanner from '@/components/common/DemoBanner';
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  draft: { label: '草稿', color: 'default' },
-  published: { label: '已发布', color: 'info' },
-  closed: { label: '已截止', color: 'warning' },
-  quotation_received: { label: '已收到报价', color: 'primary' },
-  compared: { label: '已比价', color: 'success' },
+// 询价单状态值 → 统一状态登记表显示键（closed 在询价语境为「已截止」，用专用键）
+const IQ_STATUS: Record<string, string> = {
+  draft: 'draft',
+  published: 'published',
+  closed: 'inquiry_closed',
+  quotation_received: 'quotation_received',
+  compared: 'compared',
 };
 
 const InquiryDetail: React.FC = () => {
@@ -28,6 +31,7 @@ const InquiryDetail: React.FC = () => {
   const [confirmDialog, setConfirmDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState('分享内容已复制到剪贴板');
 
   const inquiry = priceInquiries.find(i => i.id === id);
   const purchaseRequests = usePurchaseStore(s => s.purchaseRequests);
@@ -47,8 +51,7 @@ const InquiryDetail: React.FC = () => {
     { label: '标题', value: inquiry.title },
     {
       label: '状态',
-      value: <Chip label={STATUS_MAP[inquiry.status]?.label} size="small"
-        color={STATUS_MAP[inquiry.status]?.color as any || 'default'} />,
+      value: <StatusBadge status={IQ_STATUS[inquiry.status] || inquiry.status} />,
     },
     { label: '询价人', value: `${inquiry.inquirer}（${inquiry.department}）` },
     { label: '询价日期', value: formatDate(inquiry.inquiryDate) },
@@ -66,6 +69,19 @@ const InquiryDetail: React.FC = () => {
   const handleShare = () => {
     const shareText = `询价单 ${inquiry.inquiryNo}\n标题：${inquiry.title}\n目标供应商：${inquiry.targetVendorNames.join('、')}\n预估金额：${formatCurrency(inquiry.totalEstimatedAmount)}`;
     navigator.clipboard.writeText(shareText).then(() => setSnackbar(true));
+  };
+
+  /** 发布询价：真实落库，状态草稿→已发布，进入寻源/比价 */
+  const handlePublish = async () => {
+    const now = new Date().toISOString();
+    const by = useAuthStore.getState().currentUser?.name || '当前用户';
+    await usePriceStore.getState().updatePriceInquiry(inquiry.id, {
+      status: 'published',
+      updatedAt: now,
+      updatedBy: by,
+    });
+    setSnackbarMsg('询价单已发布，已进入寻源/比价流程');
+    setSnackbar(true);
   };
 
   // 获取关联来源采购申请
@@ -99,7 +115,7 @@ const InquiryDetail: React.FC = () => {
           )}
           {inquiry.status === 'draft' && (
             <Button variant="contained" startIcon={<PlayArrow />}
-              onClick={() => { alert('询价单已发布！（演示模式）'); }}>
+              onClick={() => void handlePublish()}>
               发布询价
             </Button>
           )}
@@ -127,12 +143,13 @@ const InquiryDetail: React.FC = () => {
         </Stack>
       }
     >
+      <DemoBanner reason="询价单「发布询价」已**真实落库**：点击后单据状态由草稿变为已发布（status=published），进入寻源/比价流程，可据此生成比价单。原仅弹出提示的演示版本已移除。" />
       {/* 基本信息 */}
       <DetailSection title="基本信息" fields={basicFields} />
 
       {/* 物料明细 */}
       <Paper sx={{ p: 2, mb: 2 }}>
-        <Typography variant="subtitle1" fontWeight={600} mb={1}>物料明细</Typography>
+        <Typography variant="h6" fontWeight={600} mb={1}>物料明细</Typography>
         <DataTable
           data={inquiry.items}
           enablePagination={false}
@@ -172,7 +189,7 @@ const InquiryDetail: React.FC = () => {
       {/* 供应商报价情况 */}
       {relatedQuotations.length > 0 && (
         <Paper sx={{ p: 2, mb: 2 }}>
-          <Typography variant="subtitle1" fontWeight={600} mb={1}>
+          <Typography variant="h6" fontWeight={600} mb={1}>
             供应商报价情况（{relatedQuotations.length} 家）
           </Typography>
           {relatedQuotations.map(q => (
@@ -246,7 +263,7 @@ const InquiryDetail: React.FC = () => {
         open={snackbar}
         autoHideDuration={2000}
         onClose={() => setSnackbar(false)}
-        message="分享内容已复制到剪贴板"
+        message={snackbarMsg}
       />
     </PageWrapper>
   );

@@ -87,12 +87,12 @@ export interface ApprovalDelegate {
   createdAt: string;
 }
 
-export const APPROVAL_STATUS_LABELS: Record<ApprovalInstanceStatus, string> = {
-  pending: '审批中',
-  approved: '已通过',
-  rejected: '已驳回',
-  withdrawn: '已撤回',
-};
+/**
+ * 审批实例状态中文标签（V3.75.0 P1-4 收敛：改从统一登记表派生，
+ * 词表与标签的唯一来源是 src/constants/approvalEnums.ts；
+ * 原字面量与本表逐项一致，零显示变化）
+ */
+export { APPROVAL_INSTANCE_STATUS_LABELS as APPROVAL_STATUS_LABELS } from '@/constants/approvalEnums';
 
 export const APPROVAL_ACTION_LABELS: Record<ApprovalActionType, string> = {
   submit: '提交',

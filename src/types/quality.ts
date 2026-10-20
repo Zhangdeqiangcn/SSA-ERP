@@ -23,6 +23,8 @@ export interface InspectionTask extends BaseEntity {
   aqlRe?: number;               // 拒收数
   vendorId?: string;
   vendorName?: string;
+  /** P0-3：关联的检验批 id（id 级互引，与 InspectionLot.inspectionTaskId 双向绑定） */
+  inspectionLotId?: string;
   purchaseOrderNo?: string;
   workOrderNo?: string;
   projectNo?: string;
@@ -88,12 +90,17 @@ export interface UnqualifiedItem extends BaseEntity {
   linkedInboundNo?: string;
   /** B4：实际处置方式（用户从处置弹窗选择，可能与预设 disposition 不同，如 rework/scrap/concession 等） */
   actualDisposition?: string;
-  /** B7-T2：质量异常来源（区别于内部 inspection 等；'vendor' 表示供应商门户上报） */
-  source?: 'inspection' | 'customer_complaint' | 'internal_audit' | 'vendor';
+  /** B7-T2：质量异常来源（区别于内部 inspection 等；'vendor' 表示供应商门户上报）
+   *  V3.66.0 P0-3 加 'production_complaint'（生产侧报废投诉追责供应商） */
+  /** P0-1：采购退货触发的来料质量 NCR（与销售退货客户侧 NCR 对称闭环，补齐采购侧质量闭环缺角） */
+  source?: 'inspection' | 'customer_complaint' | 'internal_audit' | 'vendor' | 'production_complaint' | 'inbound';
   /** B7-T2：回写主 ERP 时对端门户问题单 id，用于幂等守卫与双向追溯 */
   portalIssueId?: string;
   /** B7-T2：是否由供应商在门户主动上报 */
   vendorReported?: boolean;
+  /** V3.66.0 P0-3/P0-4：质量追责链的供应商归属（生产投诉/客户退货追责时锚定 vendor） */
+  vendorId?: string;
+  vendorName?: string;
   // NCR 闭环状态：open(未关闭) → capa_raised(已发起CAPA) → closed(已关闭)
   status?: UnqualifiedStatus;
   responsiblePerson: string;

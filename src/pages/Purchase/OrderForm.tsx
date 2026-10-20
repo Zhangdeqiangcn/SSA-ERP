@@ -24,6 +24,7 @@ import { useDataDictStore } from '@/stores/dataDictStore';
 import { useFinanceExtensionStore, getExchangeRate } from '@/stores/financeExtensionStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { formatCurrency } from '@/utils/format';
+import { notifyError } from '@/utils/notify';
 import { calcLineTax, calcTaxTotals, DEFAULT_TAX_RATE } from '@/utils/tax';
 import { CURRENCY_OPTIONS, TAX_RATE_OPTIONS } from '@/constants/options';
 
@@ -624,7 +625,7 @@ const OrderForm: React.FC = () => {
     if (!vendorId) return false;
     const bl = checkVendorBlacklist(vendorId);
     if (!bl.blacklisted) return false;
-    alert(
+    notifyError(
       `供应商已列入黑名单，采购订单无法保存：\n` +
         `供应商：${bl.vendorName || vendorId}\n` +
         `拉黑原因：${bl.reason || '未填写'}\n` +
@@ -730,7 +731,7 @@ const OrderForm: React.FC = () => {
   const handleSubmit = () => {
     if (!validate()) {
       const errorMessages = Object.values(errors).filter(Boolean).join('\n');
-      alert(`请修正以下问题：\n${errorMessages}`);
+      notifyError(`请修正以下问题：\n${errorMessages}`);
       return;
     }
     // 自定义字段必填校验
@@ -739,7 +740,7 @@ const OrderForm: React.FC = () => {
       if (def.required) {
         const v = customFields[def.key];
         if (v === undefined || v === null || v === '' || (def.type === 'checkbox' && v === false)) {
-          alert(`请填写必填自定义字段：${def.label}`);
+          notifyError(`请填写必填自定义字段：${def.label}`);
           return;
         }
       }
@@ -753,7 +754,7 @@ const OrderForm: React.FC = () => {
     const offset = prevCredit.vendorId === vendorId ? prevCredit.amount : 0;
     const chk = checkVendorCredit(vendorId, creditAmount - offset);
     if (!chk.ok) {
-      alert(
+      notifyError(
         `供应商信用额度不足，订单无法提交：\n` +
           `供应商：${chk.vendorName || vendorId}\n` +
           `授信额度：${formatCurrency(chk.limit ?? 0, currency)}\n` +
@@ -774,7 +775,7 @@ const OrderForm: React.FC = () => {
       if (prevCredit.vendorId) {
         applyVendorCreditDelta(prevCredit.vendorId, prevCredit.amount);
       }
-      alert('供应商信用额度占用失败，订单未提交。请核对供应商授信设置后重试。');
+      notifyError('供应商信用额度占用失败，订单未提交。请核对供应商授信设置后重试。');
       return;
     }
 
@@ -1014,7 +1015,7 @@ const OrderForm: React.FC = () => {
                 }
               }}
               renderInput={(params) => (
-                <TextField {...params} label="主供应商" error={!!errors.vendorId} helperText={errors.vendorId} />
+                <TextField {...params} label="主供应商" error={!!errors.vendorId} helperText={errors.vendorId} required />
               )}
             />
           </Grid2>

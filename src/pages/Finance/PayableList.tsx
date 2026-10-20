@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
-  Box, Typography, Chip, Grid, Card, CardContent, TextField, MenuItem, Button,
+  Box, Typography, Chip, Grid, Card, CardContent, Button,
 } from '@mui/material';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar } from '@/components/common';
 import { PageWrapper } from '@/components/layout';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useArapStore } from '@/stores/arapStore';
+import { applyColumnFilters } from '@/utils/listSearch';
 import type { Payable, AgingBucket } from '@/types';
 
 const AGING_LABELS: Record<AgingBucket, { label: string; color: 'success' | 'warning' | 'info' | 'error' | 'default' }> = {
@@ -40,28 +41,11 @@ const STATUS_COLOR: Record<string, 'error' | 'success' | 'default'> = {
 };
 
 export default function PayableList() {
-  const { payables, addPayable } = useArapStore();
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
-  const [agingFilter, setAgingFilter] = useState('');
+  const { payables, addPayable, hydrateArap } = useArapStore();
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
-  const filtered = useMemo(() => {
-    let data = [...payables];
-    if (search) {
-      const s = search.toLowerCase();
-      data = data.filter((p) => p.vendorName.toLowerCase().includes(s) || p.invoiceNo.toLowerCase().includes(s));
-    }
-    if (statusFilter) data = data.filter((p) => p.status === statusFilter);
-    if (agingFilter) data = data.filter((p) => p.agingBucket === agingFilter);
-    return data;
-  }, [payables, search, statusFilter, agingFilter]);
-
-  // 账龄汇总
-  const agingSummary = useMemo(() => {
-    const map: Record<AgingBucket, number> = { current: 0, '1-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
-    filtered.forEach((p) => { map[p.agingBucket] += p.balance; });
-    return map;
-  }, [filtered]);
+  // V3.76.0：应付台账迁 D1（fin_payables）——页面挂载从权威源水合（未登录自动跳过）
+  useEffect(() => { void hydrateArap(); }, [hydrateArap]);
 
   // 付款建议
   const payAdvice = (p: Payable): string => {
@@ -77,30 +61,35 @@ export default function PayableList() {
     {
       id: 'vendorName',
       header: '供应商',
+      meta: { searchable: true },
       accessorFn: (r) => r.vendorName,
       cell: ({ row }) => <>{row.original.vendorName}</>,
     },
     {
       id: 'invoiceNo',
       header: '发票号',
+      meta: { searchable: true },
       accessorFn: (r) => r.invoiceNo,
       cell: ({ row }) => <>{row.original.invoiceNo}</>,
     },
     {
       id: 'amount',
       header: '金额',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.amount) || 0,
       cell: ({ row }) => <Typography align="right">{row.original.amount.toLocaleString()}</Typography>,
     },
     {
       id: 'paidAmount',
       header: '已付',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.paidAmount) || 0,
       cell: ({ row }) => <Typography align="right">{row.original.paidAmount.toLocaleString()}</Typography>,
     },
     {
       id: 'balance',
       header: '余额',
+      meta: { searchable: true },
       accessorFn: (r) => Number(r.balance) || 0,
       cell: ({ row }) => (
         <Typography align="right" sx={{ fontWeight: 600, color: 'primary.main' }}>{row.original.balance.toLocaleString()}</Typography>
@@ -109,12 +98,18 @@ export default function PayableList() {
     {
       id: 'dueDate',
       header: '到期日',
+      meta: { searchable: true },
       accessorFn: (r) => r.dueDate,
       cell: ({ row }) => <>{row.original.dueDate}</>,
     },
     {
       id: 'agingBucket',
       header: '账龄',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: AGING_OPTIONS.filter((o) => o.value !== ''),
+      },
       accessorFn: (r) => r.agingBucket,
       cell: ({ row }) => (
         <Chip size="small" label={AGING_LABELS[row.original.agingBucket].label} color={AGING_LABELS[row.original.agingBucket].color} />
@@ -123,6 +118,11 @@ export default function PayableList() {
     {
       id: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: STATUS_OPTIONS.filter((o) => o.value !== ''),
+      },
       accessorFn: (r) => r.status,
       cell: ({ row }) => (
         <Chip size="small" label={STATUS_LABEL[row.original.status]} color={STATUS_COLOR[row.original.status]} />
@@ -147,6 +147,19 @@ export default function PayableList() {
     },
   ];
 
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(payables, columns, filterData, { module: 'finance' }),
+    [payables, columns, filterData]
+  );
+
+  // 账龄汇总（依赖过滤后的数据）
+  const agingSummary = useMemo(() => {
+    const map: Record<AgingBucket, number> = { current: 0, '1-30': 0, '31-60': 0, '61-90': 0, '90+': 0 };
+    filtered.forEach((p) => { map[p.agingBucket] += p.balance; });
+    return map;
+  }, [filtered]);
+
   return (
     <PageWrapper title="应付管理">
       {/* 账龄汇总卡 */}
@@ -165,22 +178,8 @@ export default function PayableList() {
         ))}
       </Grid>
 
-      {/* 搜索与筛选 */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-        <TextField
-          size="small" label="搜索供应商/发票号" value={search}
-          onChange={(e) => setSearch(e.target.value)} sx={{ minWidth: 220 }}
-          data-testid="ap-search"
-        />
-        <TextField select size="small" label="状态" value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 120 }}>
-          {STATUS_OPTIONS.map((o) => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-        </TextField>
-        <TextField select size="small" label="账龄" value={agingFilter}
-          onChange={(e) => setAgingFilter(e.target.value)} sx={{ minWidth: 120 }}>
-          {AGING_OPTIONS.map((o) => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-        </TextField>
-      </Box>
+      {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="payable-list" />
 
       {/* 应付表格 */}
       <DataTable<Payable>

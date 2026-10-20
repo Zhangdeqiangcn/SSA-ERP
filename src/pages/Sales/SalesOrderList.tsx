@@ -1,15 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, TextField, Stack,
+  Box, Typography, Paper, Chip, Button, IconButton, Stack,
   Tooltip, LinearProgress, Grid,
 } from '@mui/material';
-import { Add, Visibility, Search, LocalShipping, TrendingUp } from '@mui/icons-material';
+import { Add, Visibility, LocalShipping, TrendingUp } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
 import { SalesOrder, SalesOrderStatus, SalesOrderType } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FlowTracker, SecureField } from '@/components/common';
+import { DataTable, FilterBar, FlowTracker, SecureField, StatusBadge } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { formatCurrency } from '@/utils/format';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
 
@@ -17,22 +18,23 @@ const STATUS_LABELS: Record<SalesOrderStatus, string> = {
   draft: '草稿', confirmed: '已确认', in_production: '生产中',
   partial_shipped: '部分发货', fully_shipped: '已发货', completed: '已完成', cancelled: '已取消',
 };
-const STATUS_COLORS: Record<SalesOrderStatus, string> = {
-  draft: '#94A3B8', confirmed: '#3B82F6', in_production: '#8B5CF6',
-  partial_shipped: '#F59E0B', fully_shipped: '#10B981', completed: '#10B981', cancelled: '#EF4444',
+// 销售订单状态 → 集中 statusConfig key（draft/completed/cancelled 复用通用 key）
+const SO_STATUS_KEY: Record<SalesOrderStatus, string> = {
+  draft: 'draft',
+  confirmed: 'so_confirmed',
+  in_production: 'so_in_production',
+  partial_shipped: 'so_partial_shipped',
+  fully_shipped: 'so_fully_shipped',
+  completed: 'completed',
+  cancelled: 'cancelled',
 };
 
 const SalesOrderList: React.FC = () => {
   const hydrating = useCloudHydrating();
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const salesOrders = useSalesStore(s => s.salesOrders);
   const addSalesOrder = useSalesStore(s => s.addSalesOrder);
-
-  const filtered = salesOrders.filter(o => {
-    if (search && !o.orderNo.includes(search) && !o.customerName.includes(search) && !o.salesPerson.includes(search) && !(o.contractNo || '').includes(search)) return false;
-    return true;
-  });
 
   // ── 嵌入式分析 ──
   const analytics = useMemo(() => {
@@ -72,6 +74,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'orderNo',
       header: '订单编号',
+      meta: { searchable: true },
       accessorFn: (o) => o.orderNo,
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#3B82F6" fontWeight={500}>
@@ -82,6 +85,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'type',
       header: '类型',
+      meta: { searchable: true },
       accessorFn: (o) => typeLabel(o.type),
       cell: ({ row }) => (
         <Chip label={typeLabel(row.original.type)} size="small" variant="outlined" />
@@ -90,6 +94,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'customerName',
       header: '客户',
+      meta: { searchable: true },
       accessorFn: (o) => o.customerName,
       cell: ({ row }) => {
         const o = row.original;
@@ -124,6 +129,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'projectName',
       header: '项目',
+      meta: { searchable: true },
       accessorFn: (o) => o.projectName,
       cell: ({ row }) => {
         const o = row.original;
@@ -138,6 +144,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'contractNo',
       header: '关联合同',
+      meta: { searchable: true },
       accessorFn: (o) => o.contractNo || '',
       cell: ({ row }) => {
         const o = row.original;
@@ -156,6 +163,7 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'salesPerson',
       header: '销售员',
+      meta: { searchable: true },
       accessorFn: (o) => o.salesPerson,
       cell: ({ row }) => <Typography variant="body2">{row.original.salesPerson}</Typography>,
     },
@@ -190,23 +198,27 @@ const SalesOrderList: React.FC = () => {
     {
       id: 'orderDate',
       header: '订单日期',
+      meta: { searchable: true },
       accessorFn: (o) => o.orderDate,
       cell: ({ row }) => <Typography variant="body2">{row.original.orderDate}</Typography>,
     },
     {
       id: 'expectedDeliveryDate',
       header: '预计交期',
+      meta: { searchable: true },
       accessorFn: (o) => o.expectedDeliveryDate,
       cell: ({ row }) => <Typography variant="body2">{row.original.expectedDeliveryDate}</Typography>,
     },
     {
       id: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: Object.entries(STATUS_LABELS).map(([value, label]) => ({ value, label })),
+      },
       accessorFn: (o) => STATUS_LABELS[o.status],
-      cell: ({ row }) => (
-        <Chip label={STATUS_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      cell: ({ row }) => <StatusBadge status={SO_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'actions',
@@ -234,6 +246,12 @@ const SalesOrderList: React.FC = () => {
       },
     },
   ];
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(salesOrders, columns, filterData, { module: 'sales' }),
+    [salesOrders, columns, filterData]
+  );
 
   // ── 导入：把表头行映射回 store 字段 ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -380,13 +398,8 @@ const SalesOrderList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <TextField size="small" placeholder="搜索订单号/客户/销售员" value={search}
-          onChange={e => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-          sx={{ width: 300 }} />
-      </Paper>
+      {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
+      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-order-list" />
 
       {/* 订单列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>

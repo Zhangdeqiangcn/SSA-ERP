@@ -14,6 +14,7 @@ import { MRPRecommendation } from '@/types/production';
 import { useBOMStore } from '@/stores/bomStore';
 import { useProductionStore } from '@/stores/productionStore';
 import { useMaterialStore } from '@/stores/materialStore';
+import { usePurchaseStore } from '@/stores/purchaseStore';
 import { computeBOMCost, type RollupResult, type CostLine } from '@/utils/bomCost';
 
 type FlatCostLine = CostLine & { depth: number; id: string };
@@ -53,6 +54,7 @@ const BOMDetail: React.FC = () => {
   const { bomList, deleteBOM, bomTreeData, setSelectedBOM } = useBOMStore();
   const { setMrpRecommendations } = useProductionStore();
   const { materials, substitutes } = useMaterialStore();
+  const { purchaseOrders } = usePurchaseStore();
   // V2.84.0 C9：有替代料组的物料编码集合（只读提示，低风险）
   const subCodes = useMemo(() => new Set(substitutes.map((s) => s.materialCode)), [substitutes]);
 
@@ -78,24 +80,50 @@ const BOMDetail: React.FC = () => {
     setCostResult(computeBOMCost(bom.id));
   };
 
+  // 触发MRP运算：复用 MRP 页面口径，读取真实库存/安全库存/在途，避免建议量失真
+  //   现有库存 = 物料主数据 currentStock
+  //   安全库存 = 物料主数据 safetyStock（纳入净需求，安全库存不被消耗）
+  //   在途量   = 采购订单（已订 − 已交），排除已收货/已关闭/已取消
+  //   建议量   = max(0, 需求量 + 安全库存 − 现有库存 − 在途量)
   const handleMrpCalculation = () => {
+    const TERMINAL_PO_STATUS = new Set(['received', 'closed', 'cancelled']);
+    const onOrderByCode = new Map<string, number>();
+    for (const po of purchaseOrders) {
+      if (TERMINAL_PO_STATUS.has(po.status as string)) continue;
+      for (const li of po.items || []) {
+        const remaining = (li.orderedQuantity || 0) - (li.deliveredQuantity || 0);
+        if (remaining > 0) {
+          const key = li.materialCode || li.materialId;
+          onOrderByCode.set(key, (onOrderByCode.get(key) || 0) + remaining);
+        }
+      }
+    }
+
     const recommendations: MRPRecommendation[] = displayItems
       .filter((item) => item.source !== 'phantom')
-      .map((item) => ({
-        id: `mrp-${Date.now()}-${item.id}`,
-        materialCode: item.materialCode,
-        materialName: item.materialName,
-        currentStock: 0,
-        safetyStock: 0,
-        requiredQuantity: item.quantity,
-        onOrderQuantity: 0,
-        suggestedQuantity: item.quantity,
-        unit: item.unit,
-        suggestedDate: new Date().toISOString().split('T')[0],
-        reason: `BOM ${bom.bomNo} MRP运算`,
-        type: item.source === 'purchase' ? 'purchase' : 'manufacture',
-        priority: item.isCritical ? 'urgent' : 'normal',
-      }));
+      .map((item) => {
+        const mat = materials.find((m) => m.code === item.materialCode || m.id === item.materialId);
+        const currentStock = mat?.currentStock ?? 0;
+        const safetyStock = mat?.safetyStock ?? 0;
+        const onOrderQuantity = onOrderByCode.get(item.materialCode) ?? 0;
+        const required = item.quantity;
+        const net = Math.max(0, required + safetyStock - currentStock - onOrderQuantity);
+        return {
+          id: `mrp-${Date.now()}-${item.id}`,
+          materialCode: item.materialCode,
+          materialName: item.materialName,
+          currentStock,
+          safetyStock,
+          requiredQuantity: required,
+          onOrderQuantity,
+          suggestedQuantity: net,
+          unit: item.unit,
+          suggestedDate: new Date().toISOString().split('T')[0],
+          reason: `BOM ${bom.bomNo} MRP运算：建议 ${net} = 需求 ${required} + 安全库存 ${safetyStock} − 库存 ${currentStock} − 在途 ${onOrderQuantity}`,
+          type: item.source === 'purchase' ? 'purchase' : 'manufacture',
+          priority: item.isCritical ? 'urgent' : 'normal',
+        };
+      });
     setMrpRecommendations(recommendations);
     navigate('/production/mrp');
   };

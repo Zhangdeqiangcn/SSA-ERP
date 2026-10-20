@@ -1,20 +1,27 @@
-// 全局错误提示挂载组件（V3.23.0 · #5）
-// 唯一的全局 Snackbar 出口，由 globalToastStore 驱动；
-// 仅在服务端 5xx / 网络失败时弹出，让「静默失败」变为可见。
+// 全局提示挂载组件（V3.23.0 起为唯一全局 Snackbar 出口；V3.92.0 支持四级提示）
+// 由 globalToastStore 驱动；替代全站浏览器原生 alert/confirm 弹窗。
+// 文件名/导出名保持不变，App.tsx 的引入方式零改动。
 import React from 'react';
 import { Snackbar, Alert } from '@mui/material';
 import { useGlobalToastStore } from '@/stores/globalToastStore';
 
 const GlobalErrorToast: React.FC = () => {
-  const { open, message, close } = useGlobalToastStore();
+  const { open, message, severity, close } = useGlobalToastStore();
+  const duration = severity === 'error' ? 6000 : 3000;
   return (
     <Snackbar
       open={open}
-      autoHideDuration={6000}
+      autoHideDuration={duration}
       onClose={close}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
-      <Alert onClose={close} severity="error" variant="filled" sx={{ width: '100%', maxWidth: 420 }}>
+      <Alert
+        onClose={close}
+        severity={severity}
+        variant="filled"
+        data-testid="global-toast"
+        sx={{ width: '100%', maxWidth: 480, whiteSpace: 'pre-line' }}
+      >
         {message}
       </Alert>
     </Snackbar>

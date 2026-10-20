@@ -185,7 +185,6 @@ const PriceComparison: React.FC = () => {
             documentNo={comparison?.comparisonNo || displayData.inquiryNo} />
           {!comparison && !submitted && (
             <>
-              <Button variant="outlined" onClick={() => { setSnackbar({ open: true, message: '比价单已暂存！（演示模式）', severity: 'info' }); }}>暂存</Button>
               <Button variant="contained" color="primary" startIcon={<Send />}
                 onClick={handleSubmitApproval}>
                 提交价格审批

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Add, Visibility, Edit, Delete, QrCode2, PlayCircle } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge } from '@/components/common';
 import { useWaveRfidStore } from '@/stores/waveRfidStore';
 import {
   WaveRfid, RfidEvent, WaveLine, WAVE_STATUS_LABELS, WAVE_STRATEGY_LABELS,
@@ -18,13 +18,6 @@ const nowStr = () => new Date().toISOString();
 // 本模块编号未纳入统一编号规则（numberingStore 的 DocType 不含 WAVE），按「前缀-年份-四位序号」本地生成
 const seqNo = (prefix: string, count: number) =>
   `${prefix}-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
-
-const STATUS_COLORS: Record<WaveStatus, string> = {
-  draft: '#94A3B8', released: '#3B82F6', in_progress: '#F59E0B', completed: '#10B981', closed: '#6366F1',
-};
-const OP_COLORS: Record<RfidOpType, string> = {
-  receive: '#3B82F6', putaway: '#6366F1', pick: '#F59E0B', transfer: '#0EA5E9', count: '#8B5CF6',
-};
 
 const WaveRfidList: React.FC = () => {
   const { waves, rfidEvents, addWave, updateWave, deleteWave, addRfidEvent, deleteRfidEvent } = useWaveRfidStore();
@@ -118,10 +111,7 @@ const WaveRfidList: React.FC = () => {
     { accessorKey: 'strategy', header: '策略', cell: (c) => WAVE_STRATEGY_LABELS[c.getValue() as WaveStrategy] },
     {
       accessorKey: 'status', header: '状态',
-      cell: (c) => {
-        const v = c.getValue() as WaveStatus;
-        return <Chip label={WAVE_STATUS_LABELS[v]} size="small" sx={{ bgcolor: STATUS_COLORS[v], color: '#fff' }} />;
-      },
+      cell: (c) => <StatusBadge status={`wave_${c.getValue() as WaveStatus}`} />,
     },
     { accessorKey: 'warehouseName', header: '仓库' },
     { accessorKey: 'orderCount', header: '订单数' },
@@ -132,7 +122,7 @@ const WaveRfidList: React.FC = () => {
   const rfColumns: ColumnDef<RfidEvent>[] = [
     { accessorKey: 'tagId', header: '标签ID' },
     { accessorKey: 'epc', header: 'EPC' },
-    { accessorKey: 'opType', header: '操作', cell: (c) => { const v = c.getValue() as RfidOpType; return <Chip label={RFID_OP_LABELS[v]} size="small" sx={{ bgcolor: OP_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'opType', header: '操作', cell: (c) => <StatusBadge status={`wave_${c.getValue() as RfidOpType}`} /> },
     { accessorKey: 'bizNo', header: '业务单' },
     { accessorKey: 'materialCode', header: '物料' },
     { accessorKey: 'location', header: '货位' },
@@ -149,6 +139,9 @@ const WaveRfidList: React.FC = () => {
 
   return (
     <Box sx={{ p: 2 }}>
+      <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }}>
+        本模块的<strong>RFID 硬件实时扫描与设备联动当前为模拟演示</strong>：波次与 RFID 事件数据均真实写入本地台账，「模拟扫描」按钮用于演示，未真正对接 RFID 读写硬件。接入真实硬件后将自动切换。
+      </Alert>
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
         <Typography variant="h5">波次RFID（P2-07）</Typography>
         <Button variant="contained" startIcon={<Add />} onClick={() => { setTab('wave'); openCreate(); }}>

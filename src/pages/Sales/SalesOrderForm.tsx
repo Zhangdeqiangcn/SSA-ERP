@@ -13,11 +13,13 @@ import {
 import { useMaterialStore } from '@/stores/materialStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useSalesPriceStore } from '@/stores/salesPriceStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { Customer, type SalesOrder } from '@/types';
 import type { ShippingMode } from '@/types/sales';
 import { formatCurrency } from '@/utils/format';
+import { notifyError } from '@/utils/notify';
 
 interface OrderItem {
   id: string;
@@ -40,6 +42,7 @@ const SalesOrderForm: React.FC = () => {
   const { salesOrders, addSalesOrder, updateSalesOrder, projects } = useSalesStore();
   const customers = useCustomerStore((s) => s.customers);
   const applyCreditDelta = useCustomerStore((s) => s.applyCreditDelta);
+  const currentUser = useAuthStore((s) => s.currentUser);
 
   const existingOrder = useMemo(() =>
     (id ? salesOrders.find(o => o.id === id) : null) as
@@ -52,8 +55,8 @@ const SalesOrderForm: React.FC = () => {
   const [customerCode, setCustomerCode] = useState(existingOrder?.customerCode || '');
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(() => {
     if (!existingOrder) return null;
-    if (existingOrder.customerId) return customers.find((c) => c.id === existingOrder.customerId) || null;
-    return customers.find((c) => c.name === existingOrder.customerName) || null;
+    if (existingOrder.customerId) return customers.find((c: any) => c.id === existingOrder.customerId) || null;
+    return customers.find((c: any) => c.name === existingOrder.customerName) || null;
   });
   const [contactName, setContactName] = useState(existingOrder?.contactName || '');
   const [contactPhone, setContactPhone] = useState(existingOrder?.contactPhone || '');
@@ -66,7 +69,7 @@ const SalesOrderForm: React.FC = () => {
   const [qualityStandard, setQualityStandard] = useState(existingOrder?.qualityStandard || 'GB/T');
   const [attachments, setAttachments] = useState<AttachmentItem[]>(existingOrder?.attachments || []);
   const [shipToAddress, setShipToAddress] = useState(existingOrder?.shipToAddress || '');
-  const [salesPerson, setSalesPerson] = useState(existingOrder?.salesPerson || '陈伟');
+  const [salesPerson, setSalesPerson] = useState(existingOrder?.salesPerson || currentUser?.name || currentUser?.username || '');
   const [taxRate, setTaxRate] = useState(existingOrder?.taxRate ?? 13);
   const [remarks, setRemarks] = useState(existingOrder?.remarks || '');
 
@@ -147,7 +150,7 @@ const SalesOrderForm: React.FC = () => {
       setProjectName(project.projectName);
       setCustomerName(project.customerName);
       // A3：若项目客户命中客户主数据，自动带出主数据（含信用/开票/联系人）
-      const matched = customers.find((c) => c.name === project.customerName);
+      const matched = customers.find((c: any) => c.name === project.customerName);
       if (matched) {
         setSelectedCustomer(matched);
         setCustomerCode(matched.code);
@@ -168,6 +171,18 @@ const SalesOrderForm: React.FC = () => {
       setCustomerCode(c.code);
       setContactName(c.contactName || '');
       setContactPhone(c.contactPhone || '');
+      // 客户联动项目：名下仅一个项目时自动带出；多个项目不擅自替用户选，由用户手动指定
+      const matchedProjects = projects.filter((p) => p.customerName === c.name);
+      if (matchedProjects.length === 1) {
+        const only = matchedProjects[0];
+        setProjectId(only.id);
+        setProjectNo(only.projectNo);
+        setProjectName(only.projectName);
+      } else {
+        setProjectId('');
+        setProjectNo('');
+        setProjectName('');
+      }
     }
   };
 
@@ -240,8 +255,8 @@ const SalesOrderForm: React.FC = () => {
       setCreditError('请选择客户主数据（须为「客户列表」中的正式客户）。');
       return;
     }
-    if (!customerName.trim()) { alert('请输入客户名称'); return; }
-    if (items.length === 0) { alert('请添加至少一项物料'); return; }
+    if (!customerName.trim()) { notifyError('请输入客户名称'); return; }
+    if (items.length === 0) { notifyError('请添加至少一项物料'); return; }
 
     // ── A3 信用硬管控（对标 SAP / 用友 / 金蝶）──
     // 订单含税金额超过可用额度时，直接禁止提交（不保存、不跳转、不占用）。

@@ -9,6 +9,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import { useMaterialStore, useUserStore } from '@/stores';
 import { InventoryRecord, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const Inventory: React.FC = () => {
   const inventoryRecords = useWarehouseStore(s => s.inventoryRecords);
@@ -56,8 +57,8 @@ const Inventory: React.FC = () => {
   };
 
   const columns: ColumnDef<InventoryRecord, unknown>[] = useMemo(() => [
-    { accessorKey: 'materialCode', header: '物料编码' },
-    { accessorKey: 'materialName', header: '物料名称' },
+    { accessorKey: 'materialCode', header: '物料编码', meta: { searchable: true } },
+    { accessorKey: 'materialName', header: '物料名称', meta: { searchable: true } },
     {
       id: 'keeper',
       header: '库管责任人',
@@ -73,15 +74,15 @@ const Inventory: React.FC = () => {
         );
       },
     },
-    { accessorKey: 'specification', header: '规格型号' },
-    { accessorKey: 'warehouseName', header: '仓库' },
-    { accessorKey: 'locationName', header: '库位' },
-    { accessorKey: 'unit', header: '单位' },
-    { accessorKey: 'quantity', header: '库存数量' },
-    { accessorKey: 'availableQuantity', header: '可用数量' },
-    { accessorKey: 'frozenQuantity', header: '冻结数量' },
-    { accessorKey: 'lastInboundDate', header: '最后入库', cell: ({ row }) => formatDate(row.original.lastInboundDate) },
-    { accessorKey: 'lastOutboundDate', header: '最后出库', cell: ({ row }) => formatDate(row.original.lastOutboundDate) },
+    { accessorKey: 'specification', header: '规格型号', meta: { searchable: true } },
+    { accessorKey: 'warehouseName', header: '仓库', meta: { searchable: true } },
+    { accessorKey: 'locationName', header: '库位', meta: { searchable: true } },
+    { accessorKey: 'unit', header: '单位', meta: { searchable: true } },
+    { accessorKey: 'quantity', header: '库存数量', meta: { searchable: true } },
+    { accessorKey: 'availableQuantity', header: '可用数量', meta: { searchable: true } },
+    { accessorKey: 'frozenQuantity', header: '冻结数量', meta: { searchable: true } },
+    { accessorKey: 'lastInboundDate', header: '最后入库', cell: ({ row }) => formatDate(row.original.lastInboundDate), meta: { searchable: true } },
+    { accessorKey: 'lastOutboundDate', header: '最后出库', cell: ({ row }) => formatDate(row.original.lastOutboundDate), meta: { searchable: true } },
     {
       id: 'shelfLifeStatus',
       header: '保质期状态',
@@ -107,17 +108,9 @@ const Inventory: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...inventoryRecords];
-    data = data.filter(r => matchOrg(r, currentOrgId));
-    if (filterData.materialCode) {
-      data = data.filter(r => r.materialCode.includes(filterData.materialCode as string));
-    }
-    if (filterData.materialName) {
-      data = data.filter(r => r.materialName.includes(filterData.materialName as string));
-    }
-    if (filterData.warehouseName) {
-      data = data.filter(r => r.warehouseName?.includes(filterData.warehouseName as string));
-    }
+    let data = inventoryRecords.filter(r => matchOrg(r, currentOrgId));
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（物料编码/名称/规格/仓库/库位/单位/数量等），并按字段权限门控
+    data = applyColumnFilters(data, columns, filterData, { module: 'warehouse' });
     // P1-08 FEFO 排序：按到期日升序（先到期先出）
     if (fefoSorted) {
       data.sort((a, b) => {
@@ -132,7 +125,7 @@ const Inventory: React.FC = () => {
       });
     }
     return data;
-  }, [filterData, fefoSorted]);
+  }, [filterData, fefoSorted, inventoryRecords, columns, currentOrgId, materials]);
 
   return (
     <PageWrapper title="库存查询">
@@ -158,7 +151,7 @@ const Inventory: React.FC = () => {
         ))}
       </Grid>
 
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="inventory-list" />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="inventory-list" />
 
       {/* P1-08 FEFO 排序 */}
       <Box sx={{ mb: 2 }}>
@@ -180,6 +173,7 @@ const Inventory: React.FC = () => {
         enableRowSelection
         enablePagination
         enableExport
+        codeColumnId="materialCode"
       />
     </PageWrapper>
   );

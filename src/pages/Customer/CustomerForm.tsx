@@ -87,10 +87,10 @@ const CustomerForm: React.FC = () => {
   const customers = useCustomerStore((s) => s.customers);
   const addCustomer = useCustomerStore((s) => s.addCustomer);
   const updateCustomer = useCustomerStore((s) => s.updateCustomer);
-  const existing = useCustomerStore((s) => (id ? s.customers.find((c) => c.id === id) : undefined));
+  const existing = useCustomerStore((s) => (id ? s.customers.find((c: any) => c.id === id) : undefined));
 
   const nextCode = useMemo(
-    () => `C${getNextSequence(customers.map((c) => c.code), 'C', 3)}`,
+    () => `C${getNextSequence(customers.map((c: any) => c.code), 'C', 3)}`,
     [customers]
   );
 

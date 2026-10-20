@@ -22,7 +22,7 @@ import {
   AccountBalanceWallet, Lock, Layers, ChangeCircle, Outbound, Speed,
   Build, Insights, ViewTimeline, Article, FilterAlt,
   Chat, WarningAmber, AddCircle, Check, Close,
-  Undo, NotificationsActive, SwitchAccount,
+  Undo, NotificationsActive, SwitchAccount, MoreVert,
 } from '@mui/icons-material';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useUIStore } from '@/stores/uiStore';
@@ -51,6 +51,9 @@ interface MenuItem {
   children?: MenuItem[];
   badge?: number;
   adminOnly?: boolean;
+  /** V3.53.0 易用性 U1：进阶能力组 —— **默认收起**（不占用首屏、降认知负担），任何角色都可见可展开；
+   *  入口一个不删、对非管理员不隐藏（进阶功能常是普通业务角色的实际使用项，如仓管员的寄售/波次）。 */
+  advanced?: boolean;
 }
 
 interface MenuGroup {
@@ -113,15 +116,24 @@ const menuGroups: MenuGroup[] = [
         ],
       },
       {
-        label: '仓储物流', icon: <Warehouse />,
+        // ★ V3.53.0 易用性 U1（菜单分组）：原「仓储物流」16 个子菜单挤在一个父项下，
+        //   非仓管专业用户难以定位。按使用频率拆「常用 / 进阶」两层：
+        //   高频核心流转（入/出/盘/查/批次）常驻可见，进阶能力（寄售/波次/序列号/跨组织转储等）
+        //   折叠进「进阶」——入口一个不删、path 一个不变，纯分组与默认展开态。
+        label: '仓储 · 常用', icon: <Warehouse />,
         children: [
-          { label: '报检单', icon: <VerifiedUser />, path: '/warehouse/inspection-notice' },
           { label: '采购入库', icon: <MoveToInbox />, path: '/warehouse/inbound' },
-          { label: '成品入库', icon: <QrCode2 />, path: '/warehouse/fg-inbound' },
           { label: '出库管理', icon: <CallReceived />, path: '/warehouse/outbound' },
           { label: '库存盘点', icon: <PlaylistAddCheck />, path: '/warehouse/check' },
           { label: '库存查询', icon: <Inventory />, path: '/warehouse/inventory' },
           { label: '批次管理', icon: <QrCode2 />, path: '/warehouse/batch' },
+        ],
+      },
+      {
+        label: '仓储 · 进阶', icon: <MoreVert />, advanced: true,
+        children: [
+          { label: '报检单', icon: <VerifiedUser />, path: '/warehouse/inspection-notice' },
+          { label: '成品入库', icon: <QrCode2 />, path: '/warehouse/fg-inbound' },
           { label: '库龄分析', icon: <Schedule />, path: '/warehouse/aging' },
           { label: '条码打印', icon: <QrCode2 />, path: '/warehouse/barcode' },
           { label: '仓库主数据', icon: <Warehouse />, path: '/warehouse/master' },
@@ -131,6 +143,7 @@ const menuGroups: MenuGroup[] = [
           { label: '批次追溯穿透', icon: <AccountTree />, path: '/warehouse/trace' },
           { label: '寄售库存', icon: <Storefront />, path: '/warehouse/consignment' },
           { label: '波次RFID', icon: <QrCode2 />, path: '/warehouse/wave-rfid' },
+          { label: '电子面单/轨迹', icon: <LocalShipping />, path: '/warehouse/waybill' },
         ],
       },
     ],
@@ -192,25 +205,38 @@ const menuGroups: MenuGroup[] = [
         ],
       },
       {
-        label: '生产管理', icon: <PrecisionManufacturing />,
+        // ★ V3.53.0 易用性 U1（菜单分组）：原「生产管理」21 个子菜单全系统最重，
+        //   工单/排程/报工/SPC/ECN 混在一起认知负担重。按业务簇拆 3 组、默认只露「工单与领料」，
+        //   入口一个不删、path 一个不变，纯分组与默认展开态。
+        label: '生产 · 工单与领料', icon: <EventNote />,
         children: [
           { label: '工单管理', icon: <EventNote />, path: '/production/orders' },
-          { label: '工艺路线', icon: <Route />, path: '/production/routes' },
           { label: 'MRP计划', icon: <Assignment />, path: '/production/mrp' },
-          { label: '生产报表', icon: <QueryStats />, path: '/production/report' },
-          { label: '产能排产', icon: <Hub />, path: '/production/capacity' },
+          { label: 'MTO生成', icon: <PlaylistAddCheck />, path: '/production/mto' },
           { label: '工序报工', icon: <PlaylistAddCheck />, path: '/production/operation-reporting' },
           { label: 'WIP看板', icon: <Hub />, path: '/production/wip' },
-          { label: '成本归集', icon: <AttachMoney />, path: '/production/cost' },
+        ],
+      },
+      {
+        label: '生产 · 排程与产能', icon: <Schedule />, advanced: true,
+        children: [
+          { label: '产能排产', icon: <Hub />, path: '/production/capacity' },
           { label: 'APS排程', icon: <Schedule />, path: '/production/aps' },
+          { label: 'CRP产能计划', icon: <Speed />, path: '/production/crp' },
+          { label: '详细排程', icon: <TimelineIcon />, path: '/production/scheduling' },
+          { label: '甘特排产', icon: <ViewTimeline />, path: '/production/gantt' },
+        ],
+      },
+      {
+        label: '生产 · 工艺与基础', icon: <PrecisionManufacturing />, advanced: true,
+        children: [
+          { label: '工艺路线', icon: <Route />, path: '/production/routes' },
+          { label: '生产报表', icon: <QueryStats />, path: '/production/report' },
+          { label: '成本归集', icon: <AttachMoney />, path: '/production/cost' },
           { label: '生产版本', icon: <Layers />, path: '/production/versions' },
           { label: '工程变更ECN', icon: <ChangeCircle />, path: '/production/ecn' },
           { label: '委外加工', icon: <Outbound />, path: '/production/subcontract' },
-          { label: 'CRP产能计划', icon: <Speed />, path: '/production/crp' },
           { label: '设备工装', icon: <Build />, path: '/production/equipment' },
-          { label: 'MTO生成', icon: <PlaylistAddCheck />, path: '/production/mto' },
-          { label: '详细排程', icon: <TimelineIcon />, path: '/production/scheduling' },
-          { label: '甘特排产', icon: <ViewTimeline />, path: '/production/gantt' },
           { label: '工序SPC', icon: <Insights />, path: '/production/spc' },
           { label: '重复制造', icon: <Hub />, path: '/production/repetitive' },
           { label: 'MES集成', icon: <ViewTimeline />, path: '/production/mes' },
@@ -223,32 +249,50 @@ const menuGroups: MenuGroup[] = [
     groupLabel: '财务与报表',
     items: [
       {
-        label: '财务管理', icon: <AccountBalance />, badge: 2,
+        // ★ V3.53.0 易用性 U1（菜单分组）：原「财务管理」26 个子菜单全系统最多，
+        //   核算/报表/税务/资金/ESG 全挤一起、财务人员也难定位。按业务簇拆 4 组、
+        //   默认只露「核算日常」，入口一个不删、path 一个不变，纯分组与默认展开态。
+        label: '财务 · 核算日常', icon: <AccountBalance />, badge: 2,
         children: [
           { label: '发票管理', icon: <Receipt />, path: '/finance/invoices', badge: 2 },
-          { label: '付款计划', icon: <CreditCard />, path: '/finance/payments' },
           { label: '会计分录', icon: <MenuBook />, path: '/finance/entries' },
-          { label: '科目余额表', icon: <Summarize />, path: '/finance/trial-balance' },
-          { label: '科目表', icon: <ListAlt />, path: '/finance/chart-accounts' },
           { label: '凭证列表', icon: <MenuBook />, path: '/finance/vouchers' },
           { label: '凭证模板', icon: <MenuBook />, path: '/finance/voucher-templates' },
           { label: '三单匹配', icon: <CompareArrows />, path: '/finance/three-way' },
-          { label: '财务报表', icon: <BarChart />, path: '/finance/report' },
-          { label: '税务核算', icon: <AttachMoney />, path: '/finance/tax' },
-          { label: '项目核算', icon: <TrackChanges />, path: '/finance/project-accounting' },
-          { label: '现金流量表', icon: <Summarize />, path: '/finance/cash-flow' },
-          { label: '汇率管理', icon: <SwapHorizIcon />, path: '/finance/exchange-rates' },
-          { label: '账龄分析', icon: <TimelineIcon />, path: '/finance/aging' },
-          { label: '辅助核算', icon: <AccountTree />, path: '/finance/auxiliary' },
-          { label: '预算控制', icon: <Savings />, path: '/finance/budget' },
-          { label: '三大财务报表', icon: <BarChart />, path: '/finance/statements' },
-          { label: '合并报表', icon: <AccountBalance />, path: '/finance/consolidated' },
-          { label: '固定资产', icon: <AccountBalanceWallet />, path: '/finance/fixed-assets' },
+          { label: '科目表', icon: <ListAlt />, path: '/finance/chart-accounts' },
           { label: '期末结账', icon: <Lock />, path: '/finance/closing' },
+        ],
+      },
+      {
+        label: '财务 · 资金与往来', icon: <AccountBalanceWallet />, advanced: true,
+        children: [
+          { label: '付款计划', icon: <CreditCard />, path: '/finance/payments' },
           { label: '应收管理', icon: <CallReceived />, path: '/finance/receivables' },
           { label: '应付管理', icon: <Outbound />, path: '/finance/payables' },
-          { label: 'COPA获利分析', icon: <Assessment />, path: '/finance/copa' },
+          { label: '账龄分析', icon: <TimelineIcon />, path: '/finance/aging' },
+          { label: '汇率管理', icon: <SwapHorizIcon />, path: '/finance/exchange-rates' },
+          { label: '预算控制', icon: <Savings />, path: '/finance/budget' },
           { label: '资金管理', icon: <AccountBalanceWallet />, path: '/finance/cash' },
+          { label: '固定资产', icon: <AccountBalanceWallet />, path: '/finance/fixed-assets' },
+        ],
+      },
+      {
+        label: '财务 · 报表与税务', icon: <BarChart />, advanced: true,
+        children: [
+          { label: '财务报表', icon: <BarChart />, path: '/finance/report' },
+          { label: '三大财务报表', icon: <BarChart />, path: '/finance/statements' },
+          { label: '合并报表', icon: <AccountBalance />, path: '/finance/consolidated' },
+          { label: '税务核算', icon: <AttachMoney />, path: '/finance/tax' },
+          { label: '现金流量表', icon: <Summarize />, path: '/finance/cash-flow' },
+          { label: '辅助核算', icon: <AccountTree />, path: '/finance/auxiliary' },
+          { label: '项目核算', icon: <TrackChanges />, path: '/finance/project-accounting' },
+          { label: '科目余额表', icon: <Summarize />, path: '/finance/trial-balance' },
+        ],
+      },
+      {
+        label: '财务 · 高级分析', icon: <Insights />, advanced: true,
+        children: [
+          { label: 'COPA获利分析', icon: <Assessment />, path: '/finance/copa' },
           { label: 'BI集成', icon: <Insights />, path: '/finance/bi' },
           { label: 'ESG报告', icon: <Summarize />, path: '/finance/esg' },
         ],
@@ -288,6 +332,10 @@ const menuGroups: MenuGroup[] = [
     ],
   },
 ];
+
+// V3.53.0 易用性 U1：高频分组父项默认展开（「默认只露高频」），进阶组保持折叠降认知负担。
+// 仅作为 useState 初值 —— 用户仍可手动折叠/展开，不写死、不锁死。
+const DEFAULT_EXPANDED: string[] = ['仓储 · 常用', '生产 · 工单与领料', '财务 · 核算日常'];
 
 // ── 待审批项目类型定义 ────────────────────────────────────────────────
 interface PendingApprovalItem {
@@ -938,7 +986,7 @@ const Sidebar: React.FC = () => {
   const setMobileOpen = useUIStore((state) => state.setMobileOpen);
   const menuConfig = useSettingsStore((state) => state.menuConfig);
   const location = useLocation();
-  const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [expandedItems, setExpandedItems] = useState<string[]>(DEFAULT_EXPANDED);
   const { currentUser } = useAuthStore();
   const { t, nav } = useTranslation();
   const isAdmin = currentUser?.role === 'super_admin' || currentUser?.role === 'admin';
@@ -963,6 +1011,18 @@ const Sidebar: React.FC = () => {
       prev.includes(label) ? prev.filter((i) => i !== label) : [...prev, label]
     );
   };
+
+  // V3.53.0 易用性 U1（分组后入口变深，定位不能靠猜）：当前页若落在某个父项的子项里，
+  // 自动展开该父项（只加不删，不干扰用户手动折叠其它组）。
+  useEffect(() => {
+    const path = location.pathname;
+    const parentLabel = menuGroups
+      .flatMap((g) => g.items)
+      .find((it) => it.children?.some((c) => c.path && path.startsWith(c.path)))?.label;
+    if (parentLabel) {
+      setExpandedItems((prev) => (prev.includes(parentLabel) ? prev : [...prev, parentLabel]));
+    }
+  }, [location.pathname, menuGroups]);
 
   const renderMenuItem = (item: MenuItem, level: number = 0) => {
     const hasChildren = !!item.children?.length;
@@ -1042,6 +1102,12 @@ const Sidebar: React.FC = () => {
                 color: active ? p : level === 0 ? 'text.primary' : 'text.secondary',
               }}
             />
+            {hasChildren && item.advanced && !isExpanded && (
+              <Tooltip title="进阶能力（默认收起，点击展开）" arrow>
+                <Chip label="进阶" size="small" variant="outlined"
+                  sx={{ height: 18, fontSize: '0.5625rem', mr: 0.25, color: 'text.disabled', borderColor: 'divider' }} />
+              </Tooltip>
+            )}
             {hasChildren && (
               isExpanded
                 ? <ExpandLess sx={{ color: 'text.disabled', fontSize: 18 }} />

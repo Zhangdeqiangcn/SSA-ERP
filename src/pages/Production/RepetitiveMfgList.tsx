@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
+  Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
   TableCell, TableHead, TableRow, Alert,
 } from '@mui/material';
 import { Add, Visibility, Edit, Delete, PlayCircle, ViewTimeline } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { useRepetitiveMfgStore } from '@/stores/repetitiveMfgStore';
+import { applyColumnFilters } from '@/utils/listSearch';
+import { notifyWarning } from '@/utils/notify';
 import {
   ProductionLine, RepetitiveMfgPeriod, BackflushItem, REP_LINE_STATUS_LABELS,
   REP_PERIOD_STATUS_LABELS, RepLineStatus, RepPeriodStatus,
@@ -19,8 +21,15 @@ const nowStr = () => new Date().toISOString();
 const seqNo = (prefix: string, count: number) =>
   `${prefix}-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
 
-const LINE_COLORS: Record<RepLineStatus, string> = { running: '#10B981', idle: '#94A3B8', maintenance: '#F59E0B' };
-const PERIOD_COLORS: Record<RepPeriodStatus, string> = { active: '#3B82F6', closed: '#6366F1' };
+// 状态展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
+// 生产线：running 复用通用 key；idle/maintenance 用 rep_ 前缀专属 key
+const LINE_STATUS_KEY: Record<RepLineStatus, string> = {
+  running: 'running', idle: 'rep_idle', maintenance: 'rep_maintenance',
+};
+// 周期：active/closed → rep_period_ 前缀专属 key
+const PERIOD_STATUS_KEY: Record<RepPeriodStatus, string> = {
+  active: 'rep_period_active', closed: 'rep_period_closed',
+};
 
 const RepetitiveMfgList: React.FC = () => {
   const { lines, periods, addLine, updateLine, deleteLine, addPeriod, updatePeriod, deletePeriod, reportProduction, load } = useRepetitiveMfgStore();
@@ -56,6 +65,9 @@ const RepetitiveMfgList: React.FC = () => {
 
   // 倒冲明细
   const [bfDetail, setBfDetail] = useState<RepetitiveMfgPeriod | null>(null);
+
+  // 列表检索状态（覆盖生产线 / 重复制造周期两套列）
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const openLineCreate = () => {
     setLineEditId(null); setLineNo(seqNo('LINE', lines.length)); setLineName(''); setWcName('');
@@ -100,29 +112,29 @@ const RepetitiveMfgList: React.FC = () => {
   const handleReport = () => {
     if (!report) return;
     const ok = reportProduction(report.id, Number(goodQty) || 0, Number(scrapQty) || 0);
-    if (!ok) alert('周期已关闭，无法报工');
+    if (!ok) notifyWarning('周期已关闭，无法报工');
     setReport(null); setGoodQty('100'); setScrapQty('0');
   };
 
   const lineColumns: ColumnDef<ProductionLine>[] = [
-    { accessorKey: 'lineNo', header: '线号' },
-    { accessorKey: 'name', header: '名称' },
-    { accessorKey: 'workCenterName', header: '工作中心' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as RepLineStatus; return <Chip label={REP_LINE_STATUS_LABELS[v]} size="small" sx={{ bgcolor: LINE_COLORS[v], color: '#fff' }} />; } },
-    { accessorKey: 'dailyCapacity', header: '日产能' },
-    { accessorKey: 'note', header: '备注' },
+    { accessorKey: 'lineNo', header: '线号', meta: { searchable: true } },
+    { accessorKey: 'name', header: '名称', meta: { searchable: true } },
+    { accessorKey: 'workCenterName', header: '工作中心', meta: { searchable: true } },
+    { accessorKey: 'status', header: '状态', meta: { searchable: true, filterType: 'select', filterOptions: (['running', 'idle', 'maintenance'] as RepLineStatus[]).map((s) => ({ value: s, label: REP_LINE_STATUS_LABELS[s] })) }, cell: (c) => { const v = c.getValue() as RepLineStatus; return <StatusBadge status={LINE_STATUS_KEY[v]} />; } },
+    { accessorKey: 'dailyCapacity', header: '日产能', meta: { searchable: true } },
+    { accessorKey: 'note', header: '备注', meta: { searchable: true } },
   ];
 
   const periodColumns: ColumnDef<RepetitiveMfgPeriod>[] = [
-    { accessorKey: 'periodNo', header: '周期号' },
-    { accessorKey: 'lineName', header: '产线' },
-    { accessorKey: 'materialName', header: '产出物料' },
-    { accessorKey: 'startDate', header: '开始' },
-    { accessorKey: 'endDate', header: '结束' },
-    { accessorKey: 'plannedQty', header: '计划' },
-    { accessorKey: 'producedQty', header: '已产' },
-    { accessorKey: 'scrapQty', header: '报废' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as RepPeriodStatus; return <Chip label={REP_PERIOD_STATUS_LABELS[v]} size="small" sx={{ bgcolor: PERIOD_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'periodNo', header: '周期号', meta: { searchable: true } },
+    { accessorKey: 'lineName', header: '产线', meta: { searchable: true } },
+    { accessorKey: 'materialName', header: '产出物料', meta: { searchable: true } },
+    { accessorKey: 'startDate', header: '开始', meta: { searchable: true } },
+    { accessorKey: 'endDate', header: '结束', meta: { searchable: true } },
+    { accessorKey: 'plannedQty', header: '计划', meta: { searchable: true } },
+    { accessorKey: 'producedQty', header: '已产', meta: { searchable: true } },
+    { accessorKey: 'scrapQty', header: '报废', meta: { searchable: true } },
+    { accessorKey: 'status', header: '状态', meta: { searchable: true, filterType: 'select', filterOptions: (['active', 'closed'] as RepPeriodStatus[]).map((s) => ({ value: s, label: REP_PERIOD_STATUS_LABELS[s] })) }, cell: (c) => { const v = c.getValue() as RepPeriodStatus; return <StatusBadge status={PERIOD_STATUS_KEY[v]} />; } },
   ];
 
   return (
@@ -138,20 +150,26 @@ const RepetitiveMfgList: React.FC = () => {
       </Tabs>
 
       {tab === 'line' && (
-        <DataTable data={lines} columns={lineColumns} onView={(r) => openLineEdit(r)} onEdit={(r) => openLineEdit(r)} onDelete={(r) => deleteLine(r.id)} enableExport enableColumnFilter sapStyle columnConfigKey="rep-lines" />
+        <>
+          <FilterBar columns={lineColumns} module="production" onSearch={setFilterData} listKey="rep-lines" />
+          <DataTable data={applyColumnFilters(lines, lineColumns, filterData, { module: 'production' })} columns={lineColumns} onView={(r) => openLineEdit(r)} onEdit={(r) => openLineEdit(r)} onDelete={(r) => deleteLine(r.id)} enableExport enableColumnFilter sapStyle columnConfigKey="rep-lines" codeColumnId="lineNo" />
+        </>
       )}
       {tab === 'period' && (
-        <DataTable
-          data={periods} columns={periodColumns}
-          onEdit={(r) => openPeriodEdit(r)}
-          onDelete={(r) => deletePeriod(r.id)}
-          enableRowSelection
-          batchActions={[
-            { label: '产量报工', icon: <PlayCircle />, color: 'primary', testId: 'rep-report-production', onClick: (rows: RepetitiveMfgPeriod[]) => setReport(rows[0]) },
-            { label: '倒冲明细', icon: <ViewTimeline />, color: 'primary', testId: 'rep-backflush-detail', onClick: (rows: RepetitiveMfgPeriod[]) => setBfDetail(rows[0]) },
-          ]}
-          enableExport enableColumnFilter sapStyle columnConfigKey="rep-periods"
-        />
+        <>
+          <FilterBar columns={periodColumns} module="production" onSearch={setFilterData} listKey="rep-periods" />
+          <DataTable
+            data={applyColumnFilters(periods, periodColumns, filterData, { module: 'production' })} columns={periodColumns}
+            onEdit={(r) => openPeriodEdit(r)}
+            onDelete={(r) => deletePeriod(r.id)}
+            enableRowSelection
+            batchActions={[
+              { label: '产量报工', icon: <PlayCircle />, color: 'primary', testId: 'rep-report-production', onClick: (rows: RepetitiveMfgPeriod[]) => setReport(rows[0]) },
+              { label: '倒冲明细', icon: <ViewTimeline />, color: 'primary', testId: 'rep-backflush-detail', onClick: (rows: RepetitiveMfgPeriod[]) => setBfDetail(rows[0]) },
+            ]}
+            enableExport enableColumnFilter sapStyle columnConfigKey="rep-periods" codeColumnId="periodNo"
+          />
+        </>
       )}
 
       {/* 生产线 */}

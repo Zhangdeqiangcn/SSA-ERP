@@ -25,6 +25,7 @@ export interface Quotation extends BaseEntity {
   quotationNo: string;
   customerName: string;
   customerCode?: string;
+  customerId?: string;    // P1-6 补客户主数据外键（向后兼容可选）
   status: 'draft' | 'submitted' | 'approved' | 'lost' | 'converted';
   validUntil: string;
   currency: string;
@@ -92,6 +93,8 @@ export interface SalesReturn extends BaseEntity {
   items: SalesReturnItem[];
   totalAmount: number;
   creditNoteNo?: string;
+  /** V3.64.0 P0-3：该销售退货触发的采购退货单号（质量类退货追责供应商，可为空） */
+  linkedPurchaseReturnNo?: string;
 }
 
 // ───────────────────── 采购框架协议 ─────────────────────
@@ -153,6 +156,8 @@ export interface PurchaseReturn extends BaseEntity {
   items: PurchaseReturnItem[];
   totalAmount: number;
   voucherNo?: string;
+  /** V3.64.0 P0-3：该采购退货对应的销售退货来源单号（客户退货追责供应商，可为空） */
+  linkedSalesReturnNo?: string;
 }
 
 // ───────────────────── 跨组织转储 ─────────────────────
@@ -270,6 +275,8 @@ export interface InspectionLot extends BaseEntity {
   vendorId?: string;
   vendorName?: string;
   inspectionTaskNo?: string;
+  /** P0-3：关联的手工检验任务 id（id 级互引，与 inspectionTaskNo 展示号并存），根治「自动建批 vs 手工建任务」对齐缺失 */
+  inspectionTaskId?: string;
   status: 'pending' | 'in_inspection' | 'passed' | 'failed';
   createdFrom: string;
 }
@@ -319,6 +326,13 @@ export interface MaterialChangeField {
   newValue: string;
 }
 
+/** P1-16 物料变更受影响对象（BOM / 工单 / 在制 / 出入库等），供变更记录反查下游 */
+export interface MaterialChangeAffected {
+  type: 'bom' | 'workOrder' | 'wip' | 'inbound' | 'outbound';
+  id: string;
+  no?: string;
+}
+
 export interface MaterialChangeDoc extends BaseEntity {
   changeNo: string;
   materialId: string;
@@ -328,6 +342,7 @@ export interface MaterialChangeDoc extends BaseEntity {
   fields: MaterialChangeField[];
   reason: string;
   operator: string;
+  affectedObjects?: MaterialChangeAffected[]; // P1-16 受影响对象反查入口（非破坏补强，可选）
 }
 
 // ───────────────────── ATP 结果 ─────────────────────

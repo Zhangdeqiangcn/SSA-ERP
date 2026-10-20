@@ -32,7 +32,7 @@ const SalesPriceTab: React.FC = () => {
   // 客户列表本身已由后端按 owner_id 过滤，故与「可见客户」求交即可；通用价（无客户）对全体可见。
   const currentUser = useAuthStore((s) => s.currentUser);
   const canSeeAllCustomers = !currentUser || RLS_PRIVILEGED.has(currentUser.role);
-  const visibleCustomerIds = useMemo(() => new Set(customers.map((c) => c.id)), [customers]);
+  const visibleCustomerIds = useMemo(() => new Set(customers.map((c: any) => c.id)), [customers]);
   const visiblePriceList = useMemo(
     () => (canSeeAllCustomers ? priceList : priceList.filter((p) => !p.customerId || visibleCustomerIds.has(p.customerId))),
     [canSeeAllCustomers, priceList, visibleCustomerIds]
@@ -83,7 +83,7 @@ const SalesPriceTab: React.FC = () => {
 
   const handleSave = () => {
     if (!item.materialId) return;
-    const cust = customers.find((c) => c.id === item.customerId);
+    const cust = customers.find((c: any) => c.id === item.customerId);
     const payload: Omit<SalesPriceListItem, 'id'> = { ...item, customerName: cust?.name };
     if (editingId) updatePriceItem(editingId, payload);
     else addPriceItem(payload);
@@ -121,7 +121,7 @@ const SalesPriceTab: React.FC = () => {
           <TextField select label="客户(可空=通用)" value={calcCustomer} onChange={(e) => setCalcCustomer(e.target.value)} sx={{ minWidth: 180 }}
             SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-calc-customer' } as React.HTMLAttributes<HTMLDivElement> }}>
             <MenuItem value="">通用物料价</MenuItem>
-            {customers.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
+            {customers.map((c: any) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
           </TextField>
           <TextField select label="物料" value={calcMaterial} onChange={(e) => onPickCalcMaterial(e.target.value)} sx={{ minWidth: 200 }}
             SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-calc-material' } as React.HTMLAttributes<HTMLDivElement> }}>
@@ -194,7 +194,7 @@ const SalesPriceTab: React.FC = () => {
                 </TableCell>
                 <TableCell align="right">{p.value}{p.type === 'percent' ? '%' : ''}</TableCell>
                 <TableCell>
-                  {p.customerId ? `客户 ${customers.find((c) => c.id === p.customerId)?.name || p.customerId}` : '全部客户'}
+                  {p.customerId ? `客户 ${customers.find((c: any) => c.id === p.customerId)?.name || p.customerId}` : '全部客户'}
                   {' / '}
                   {p.materialId ? `物料 ${materials.find((m) => m.id === p.materialId)?.name || p.materialId}` : '全部物料'}
                 </TableCell>
@@ -216,7 +216,7 @@ const SalesPriceTab: React.FC = () => {
           <TextField select fullWidth label="客户(可空=通用)" value={item.customerId} onChange={(e) => setItem({ ...item, customerId: e.target.value })} sx={{ mt: 1, mb: 2 }}
             SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-dlg-customer' } as React.HTMLAttributes<HTMLDivElement> }}>
             <MenuItem value="">通用物料价</MenuItem>
-            {customers.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
+            {customers.map((c: any) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
           </TextField>
           <TextField select fullWidth label="物料" value={item.materialId} onChange={(e) => onPickMaterial(e.target.value)} sx={{ mb: 2 }}
             SelectProps={{ SelectDisplayProps: { 'data-testid': 'sp-dlg-material' } as React.HTMLAttributes<HTMLDivElement> }}>
@@ -257,7 +257,7 @@ const SalesPriceTab: React.FC = () => {
             <TextField fullWidth label="优惠值" type="number" value={promo.value} onChange={(e) => setPromo({ ...promo, value: Number(e.target.value) })} data-testid="sp-dlg-promo-value" />
             <TextField select fullWidth label="适用客户(可空=全部)" value={promo.customerId || ''} onChange={(e) => setPromo({ ...promo, customerId: e.target.value || undefined })}>
               <MenuItem value="">全部客户</MenuItem>
-              {customers.map((c) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
+              {customers.map((c: any) => <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>)}
             </TextField>
           </Stack>
           <TextField select fullWidth label="适用物料(可空=全部)" value={promo.materialId || ''} onChange={(e) => setPromo({ ...promo, materialId: e.target.value || undefined })}>

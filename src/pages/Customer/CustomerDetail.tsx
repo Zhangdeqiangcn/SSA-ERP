@@ -25,7 +25,7 @@ const labelOf = (
 const CustomerDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const customer = useCustomerStore((s) => s.customers.find((c) => c.id === id));
+  const customer = useCustomerStore((s) => s.customers.find((c: any) => c.id === id));
   const deleteCustomer = useCustomerStore((s) => s.deleteCustomer);
   const salesOrders = useSalesStore((s) => s.salesOrders);
 

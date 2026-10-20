@@ -27,6 +27,8 @@ const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 const FlowSelfTest = lazy(() => import('./pages/Test/FlowSelfTest'));
 // 使用说明书（P4 帮助中心）
 const UserManual = lazy(() => import('./pages/Help/UserManual'));
+// V3.70.0 全局搜索结果页（顶栏搜索回车后的独立临时页）
+const SearchResultsPage = lazy(() => import('./pages/Help/SearchResults'));
 // 物料
 const CategoryList = lazy(() => import('./pages/Material/CategoryList'));
 const MaterialList = lazy(() => import('./pages/Material/MaterialList'));
@@ -178,6 +180,7 @@ const ProcessSPC = lazy(() => import('./pages/Production/ProcessSPC'));
 const GanttSchedule = lazy(() => import('./pages/Production/GanttSchedule'));
 // 整页补齐 A 轮（P2-07/08/09）
 const WaveRfidList = lazy(() => import('./pages/Warehouse/WaveRfidList'));
+const LogisticsWaybill = lazy(() => import('./pages/Warehouse/LogisticsWaybill'));
 const RepetitiveMfgList = lazy(() => import('./pages/Production/RepetitiveMfgList'));
 const MesIntegrationList = lazy(() => import('./pages/Production/MesIntegrationList'));
 const SopPlan = lazy(() => import('./pages/Production/SopPlan'));
@@ -540,6 +543,8 @@ function App() {
         <Route path="production/gantt" element={<GanttSchedule />} />
         {/* 整页补齐 A 轮（P2-07/08/09） */}
         <Route path="warehouse/wave-rfid" element={<WaveRfidList />} />
+        {/* P1-6 电商物流面单 / 轨迹看板 */}
+        <Route path="warehouse/waybill" element={<LogisticsWaybill />} />
         <Route path="production/repetitive" element={<RepetitiveMfgList />} />
         <Route path="production/mes" element={<MesIntegrationList />} />
         <Route path="production/sop" element={<SopPlan />} />
@@ -605,6 +610,7 @@ function App() {
         <Route path="test/flow" element={<FlowSelfTest />} />
         {/* 使用说明书 */}
         <Route path="help/manual" element={<UserManual />} />
+        <Route path="help/search-results" element={<SearchResultsPage />} />
       </Route>
     </Routes>
     <GlobalErrorToast />

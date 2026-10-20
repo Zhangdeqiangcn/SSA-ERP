@@ -9,16 +9,22 @@ import {
   Warning, Add, CheckCircle, Edit, Error, Timer, TrendingUp, Share,
 } from '@mui/icons-material';
 import { useSalesStore } from '@/stores/salesStore';
+import { useAuthStore } from '@/stores/authStore';
 import { ProjectException, ExceptionSeverity } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { ConfirmDialog, DetailActions } from '@/components/common';
+import { ConfirmDialog, DetailActions, StatusBadge } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
+import DemoBanner from '@/components/common/DemoBanner';
 
-const SEVERITY_COLORS: Record<ExceptionSeverity, string> = {
-  low: '#F59E0B', medium: '#F97316', high: '#EF4444', critical: '#DC2626',
+// 状态展示统一走 StatusBadge（审计报告 P0/P1 整改：禁止页面内 hex 副本）
+const EXC_SEVERITY: Record<ExceptionSeverity, string> = {
+  low: 'exc_low', medium: 'exc_medium', high: 'exc_high', critical: 'exc_critical',
 };
-const SEVERITY_LABELS: Record<ExceptionSeverity, string> = {
-  low: '低', medium: '中', high: '高', critical: '严重',
+const EXC_STATUS: Record<string, string> = {
+  open: 'exc_open', investigating: 'exc_investigating', resolved: 'exc_resolved', closed: 'exc_closed',
+};
+const PROJECT_STATUS: Record<string, string> = {
+  planned: 'planning', in_progress: 'project_in_progress', completed: 'completed', at_risk: 'at_risk', on_hold: 'suspended',
 };
 
 const ProjectDetail: React.FC = () => {
@@ -29,6 +35,7 @@ const ProjectDetail: React.FC = () => {
 
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
+  const [snackbarMsg, setSnackbarMsg] = useState('分享内容已复制到剪贴板');
 
   const [exceptionOpen, setExceptionOpen] = useState(false);
   const [followupOpen, setFollowupOpen] = useState(false);
@@ -52,6 +59,29 @@ const ProjectDetail: React.FC = () => {
     navigator.clipboard.writeText(text).then(() => setSnackbar(true));
   };
 
+  /** 提交异常：真实写入本项目主数据（落 D1），进入跟踪闭环 */
+  const handleSubmitException = async () => {
+    const now = new Date().toISOString();
+    const reportedBy = useAuthStore.getState().currentUser?.name || '当前用户';
+    const ex: ProjectException = {
+      id: `EX-${Date.now()}`,
+      exceptionNo: `EX-${Date.now()}`,
+      type: newException.type as ProjectException['type'],
+      severity: newException.severity,
+      title: newException.title,
+      description: newException.description,
+      reportedBy,
+      reportedAt: now,
+      status: 'open',
+    };
+    await useSalesStore.getState().updateProject(project.id, {
+      exceptions: [...(project.exceptions || []), ex],
+    });
+    setExceptionOpen(false);
+    setSnackbarMsg('异常已提交并记入项目跟踪闭环');
+    setSnackbar(true);
+  };
+
   return (
     <PageWrapper
       title={`项目详情 — ${project.projectNo}`}
@@ -68,30 +98,30 @@ const ProjectDetail: React.FC = () => {
         />
       }
     >
+      <DemoBanner reason="项目异常反馈已**真实落库**：「反馈异常 → 提交异常」会把异常写入本项目主数据（status=open，进入跟踪闭环），刷新/换端后仍在、并可在本页异常列表查看。「编辑里程碑」仍为演示按钮、不落库；本页其余项目信息均为真实数据。" />
       {/* 项目头 */}
-      <Paper sx={{ p: 3, mb: 3, borderRadius: 3 }}>
+      <Paper variant="outlined" sx={{ p: 3, mb: 3 }}>
         <Grid container spacing={3} alignItems="center">
           <Grid item xs={12} md={8}>
             <Stack direction="row" spacing={1} mb={1}>
-              <Chip label={project.status === 'in_progress' ? '执行中' : project.status} size="small"
-                color={project.status === 'in_progress' ? 'primary' : project.status === 'completed' ? 'success' : 'default'} />
+              <StatusBadge status={PROJECT_STATUS[project.status] || project.status} />
               {exceptions.filter(e => e.status !== 'closed').length > 0 && (
                 <Chip icon={<Warning />} label="有异常" size="small" color="error" variant="outlined" />
               )}
             </Stack>
-            <Typography variant="h5" fontWeight={700} color="#1E293B" mb={0.5}>{project.projectName}</Typography>
+            <Typography variant="h5" fontWeight={700} color="text.primary" mb={0.5}>{project.projectName}</Typography>
             <Typography variant="body2" color="text.secondary">
               客户：{project.customerName} | 项目经理：{project.manager} | 团队：{project.team.join('、')}
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper sx={{ p: 2, bgcolor: '#F8FAFC' }}>
-              <Typography variant="subtitle2" mb={1}>项目进度</Typography>
+            <Paper variant="outlined" sx={{ p: 2 }}>
+              <Typography variant="h6" mb={1}>项目进度</Typography>
               <Stack direction="row" alignItems="center" spacing={2}>
                 <LinearProgress variant="determinate" value={project.progress}
-                  sx={{ flex: 1, height: 10, borderRadius: 5, bgcolor: '#E2E8F0',
-                    '& .MuiLinearProgress-bar': { bgcolor: project.progress >= 80 ? '#10B981' : '#3B82F6' } }} />
-                <Typography variant="h6" fontWeight={700} color={project.progress >= 80 ? '#10B981' : '#3B82F6'}>
+                  sx={{ flex: 1, height: 10, borderRadius: 5, bgcolor: 'grey.200',
+                    '& .MuiLinearProgress-bar': { bgcolor: project.progress >= 80 ? 'success.main' : 'primary.main' } }} />
+                <Typography variant="h6" fontWeight={700} color={project.progress >= 80 ? 'success.main' : 'primary.main'}>
                   {project.progress}%
                 </Typography>
               </Stack>
@@ -101,14 +131,14 @@ const ProjectDetail: React.FC = () => {
       </Paper>
 
       {/* KPI */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+      <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
         {[
-          { label: '合同金额', value: formatCurrency(project.contractAmount), color: '#3B82F6', icon: <TrendingUp /> },
-          { label: '已回款', value: formatCurrency(project.receivedAmount), color: '#10B981', icon: <CheckCircle /> },
-          { label: '实际成本', value: formatCurrency(project.actualCost), color: '#F59E0B', icon: <Timer /> },
-          { label: '项目预算', value: formatCurrency(project.budget), color: '#8B5CF6', icon: <TrendingUp /> },
+          { label: '合同金额', value: formatCurrency(project.contractAmount), color: 'primary.main', icon: <TrendingUp /> },
+          { label: '已回款', value: formatCurrency(project.receivedAmount), color: 'success.main', icon: <CheckCircle /> },
+          { label: '实际成本', value: formatCurrency(project.actualCost), color: 'warning.main', icon: <Timer /> },
+          { label: '项目预算', value: formatCurrency(project.budget), color: 'secondary.main', icon: <TrendingUp /> },
         ].map(kpi => (
-          <Paper key={kpi.label} sx={{ p: 2.5, borderRadius: 3, flex: 1, border: `1px solid ${kpi.color}20` }}>
+          <Paper key={kpi.label} variant="outlined" sx={{ p: 2.5, flex: 1, minWidth: 160 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" mb={0.5}>
               <Typography variant="caption" color="text.secondary">{kpi.label}</Typography>
               <Box sx={{ color: kpi.color, opacity: 0.6 }}>{kpi.icon}</Box>
@@ -121,9 +151,9 @@ const ProjectDetail: React.FC = () => {
       <Grid container spacing={3}>
         {/* 里程碑 */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
+          <Paper variant="outlined" sx={{ p: 3 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="subtitle1" fontWeight={600}>项目里程碑</Typography>
+              <Typography variant="h6" fontWeight={600}>项目里程碑</Typography>
               <Button size="small" startIcon={<Edit />}>编辑里程碑</Button>
             </Stack>
             <Box sx={{ ml: 2 }}>
@@ -131,11 +161,11 @@ const ProjectDetail: React.FC = () => {
                 <Box key={m.id} sx={{ display: 'flex', mb: idx < milestones.length - 1 ? 0 : 0 }}>
                   <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mr: 2 }}>
                     <Box sx={{ width: 12, height: 12, borderRadius: '50%',
-                      bgcolor: m.status === 'completed' ? '#10B981' : m.status === 'in_progress' ? '#3B82F6' : m.status === 'delayed' ? '#EF4444' : '#E2E8F0',
-                      border: '2px solid white', boxShadow: m.status === 'in_progress' ? '0 0 0 2px #3B82F6' : 'none',
+                      bgcolor: m.status === 'completed' ? 'success.main' : m.status === 'in_progress' ? 'primary.main' : m.status === 'delayed' ? 'error.main' : 'grey.300',
+                      border: '2px solid white', boxShadow: m.status === 'in_progress' ? 3 : 'none',
                     }} />
                     {idx < milestones.length - 1 && (
-                      <Box sx={{ width: 2, flex: 1, bgcolor: m.status === 'completed' ? '#10B981' : '#E2E8F0', minHeight: 30 }} />
+                      <Box sx={{ width: 2, flex: 1, bgcolor: m.status === 'completed' ? 'success.main' : 'grey.300', minHeight: 30 }} />
                     )}
                   </Box>
                   <Box sx={{ pb: 2, flex: 1 }}>
@@ -153,10 +183,10 @@ const ProjectDetail: React.FC = () => {
 
         {/* 异常反馈 */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 3, borderRadius: 3 }}>
+          <Paper variant="outlined" sx={{ p: 3 }}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="subtitle1" fontWeight={600}>
-                <Warning sx={{ fontSize: 18, mr: 0.5, verticalAlign: 'middle', color: '#EF4444' }} />
+              <Typography variant="h6" fontWeight={600}>
+                <Warning sx={{ fontSize: 18, mr: 0.5, verticalAlign: 'middle', color: 'error.main' }} />
                 异常反馈
               </Typography>
               <Button size="small" startIcon={<Add />} color="error" onClick={() => setExceptionOpen(true)}>
@@ -168,14 +198,12 @@ const ProjectDetail: React.FC = () => {
             ) : (
               <Stack spacing={2}>
                 {exceptions.map((ex: ProjectException) => (
-                  <Paper key={ex.id} sx={{ p: 2, bgcolor: '#FFF5F5', borderLeft: `4px solid ${SEVERITY_COLORS[ex.severity]}` }}>
+                  <Paper key={ex.id} variant="outlined" sx={{ p: 2 }}>
                     <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={0.5}>
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <Chip label={SEVERITY_LABELS[ex.severity]} size="small"
-                          sx={{ bgcolor: SEVERITY_COLORS[ex.severity] + '20', color: SEVERITY_COLORS[ex.severity], fontWeight: 600 }} />
+                        <StatusBadge status={EXC_SEVERITY[ex.severity]} />
                         <Chip label={ex.type === 'schedule' ? '进度' : ex.type === 'cost' ? '成本' : ex.type === 'quality' ? '质量' : ex.type === 'resource' ? '资源' : ex.type === 'customer' ? '客户' : '其他'} size="small" variant="outlined" />
-                        <Chip label={ex.status === 'open' ? '待处理' : ex.status === 'investigating' ? '调查中' : ex.status === 'resolved' ? '已解决' : '关闭'} size="small"
-                          color={ex.status === 'closed' || ex.status === 'resolved' ? 'success' : ex.status === 'investigating' ? 'warning' : 'error'} />
+                        <StatusBadge status={EXC_STATUS[ex.status] || ex.status} />
                       </Stack>
                       <Typography variant="caption" color="text.secondary">{ex.reportedAt}</Typography>
                     </Stack>
@@ -195,7 +223,7 @@ const ProjectDetail: React.FC = () => {
       {/* 异常填报弹窗 */}
       <Dialog open={exceptionOpen} onClose={() => setExceptionOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>
-          <Warning sx={{ mr: 1, verticalAlign: 'middle', color: '#EF4444' }} />
+          <Warning sx={{ mr: 1, verticalAlign: 'middle', color: 'error.main' }} />
           新增异常反馈
         </DialogTitle>
         <DialogContent>
@@ -225,10 +253,7 @@ const ProjectDetail: React.FC = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setExceptionOpen(false)}>取消</Button>
-          <Button variant="contained" color="error" onClick={() => {
-            alert('异常已提交！（演示模式）');
-            setExceptionOpen(false);
-          }}>提交异常</Button>
+          <Button variant="contained" color="error" onClick={() => void handleSubmitException()}>提交异常</Button>
         </DialogActions>
       </Dialog>
       <ConfirmDialog
@@ -244,7 +269,7 @@ const ProjectDetail: React.FC = () => {
         open={snackbar}
         autoHideDuration={3000}
         onClose={() => setSnackbar(false)}
-        message="分享内容已复制到剪贴板"
+        message={snackbarMsg}
       />
     </PageWrapper>
   );

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, TextField, Stack,
-  Tooltip, MenuItem,
+  Box, Typography, Paper, Chip, Button, IconButton, Tooltip,
 } from '@mui/material';
 import { Add, Visibility, Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -9,38 +8,37 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useSalesContractStore } from '@/stores/salesContractStore';
 import { SalesContract, ContractStatus } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, ConfirmDialog } from '@/components/common';
+import { DataTable, FilterBar, ConfirmDialog, StatusBadge } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { formatCurrency } from '@/utils/format';
 
 const STATUS_LABELS: Record<ContractStatus, string> = {
   draft: '草稿', active: '执行中', suspended: '已暂停',
   completed: '已完成', terminated: '已终止',
 };
-const STATUS_COLORS: Record<ContractStatus, string> = {
-  draft: '#94A3B8', active: '#10B981', suspended: '#F59E0B',
-  completed: '#3B82F6', terminated: '#EF4444',
+// 销售合同状态 → 集中 statusConfig key（均为通用 key，contract_active 已登记「执行中」）
+const SC_STATUS_KEY: Record<ContractStatus, string> = {
+  draft: 'draft',
+  active: 'contract_active',
+  suspended: 'suspended',
+  completed: 'completed',
+  terminated: 'terminated',
 };
 
 const SalesContractList: React.FC = () => {
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<ContractStatus | ''>('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const contracts = useSalesContractStore((s) => s.contracts);
   const addContract = useSalesContractStore((s) => s.addContract);
   const deleteContract = useSalesContractStore((s) => s.deleteContract);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-
-  const filtered = contracts.filter((c) => {
-    if (statusFilter && c.status !== statusFilter) return false;
-    if (search && !c.contractNo.includes(search) && !c.customerName.includes(search) && !c.name.includes(search)) return false;
-    return true;
-  });
 
   // ── 列定义（驱动 DataTable）──
   const columns: ColumnDef<SalesContract, unknown>[] = [
     {
       id: 'contractNo',
       header: '合同编号',
+      meta: { searchable: true },
       accessorFn: (c) => c.contractNo,
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#3B82F6" fontWeight={500}>
@@ -51,12 +49,14 @@ const SalesContractList: React.FC = () => {
     {
       id: 'name',
       header: '合同名称',
+      meta: { searchable: true },
       accessorFn: (c) => c.name,
       cell: ({ row }) => <Typography variant="body2" fontWeight={500}>{row.original.name}</Typography>,
     },
     {
       id: 'customerName',
       header: '客户',
+      meta: { searchable: true },
       accessorFn: (c) => c.customerName,
       cell: ({ row }) => (
         <Box>
@@ -68,6 +68,7 @@ const SalesContractList: React.FC = () => {
     {
       id: 'amount',
       header: '合同金额',
+      meta: { searchable: true },
       accessorFn: (c) => c.amount,
       cell: ({ row }) => (
         <Box sx={{ textAlign: 'right' }}>
@@ -78,25 +79,35 @@ const SalesContractList: React.FC = () => {
     {
       id: 'startDate',
       header: '开始日期',
+      meta: { searchable: true },
       accessorFn: (c) => c.startDate,
       cell: ({ row }) => <Typography variant="body2">{row.original.startDate}</Typography>,
     },
     {
       id: 'endDate',
       header: '结束日期',
+      meta: { searchable: true },
       accessorFn: (c) => c.endDate,
       cell: ({ row }) => <Typography variant="body2">{row.original.endDate}</Typography>,
     },
     {
       id: 'status',
       header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: Object.entries(STATUS_LABELS).map(([value, label]) => ({ value, label })),
+      },
       accessorFn: (c) => STATUS_LABELS[c.status],
-      cell: ({ row }) => (
-        <Chip label={STATUS_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      cell: ({ row }) => <StatusBadge status={SC_STATUS_KEY[row.original.status]} />,
     },
   ];
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(contracts, columns, filterData, { module: 'sales' }),
+    [contracts, columns, filterData]
+  );
 
   // ── 导入：把表头行映射回 store 字段 ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -157,27 +168,8 @@ const SalesContractList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索与筛选 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <Stack direction="row" spacing={2} alignItems="center">
-          <TextField
-            size="small" placeholder="搜索合同号/客户/合同名称" value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            InputProps={{ startAdornment: <Typography sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }}>🔍</Typography> }}
-            sx={{ width: 360 }}
-          />
-          <TextField
-            select size="small" label="状态" value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as ContractStatus | '')}
-            sx={{ width: 160 }}
-          >
-            <MenuItem value="">全部</MenuItem>
-            {Object.entries(STATUS_LABELS).map(([k, v]) => (
-              <MenuItem key={k} value={k}>{v}</MenuItem>
-            ))}
-          </TextField>
-        </Stack>
-      </Paper>
+      {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
+      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-contract-list" />
 
       {/* 合同列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>

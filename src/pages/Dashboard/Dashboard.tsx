@@ -95,8 +95,64 @@ const Dashboard: React.FC = () => {
 
   const todayStr = new Date().toISOString().slice(0, 7);
 
+  // ── 月份工具：由当前月倒推真实月份，供环比与图表按月聚合使用（不再写死 1~6 月）──
+  /** 取某月键（YYYY-MM）的上一月键 */
+  const prevMonthKey = (mk: string): string => {
+    const [y, m] = mk.split('-').map(Number);
+    const d = new Date(Date.UTC(y, m - 2, 1));
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  };
+  /** 近 n 个月（含本月）的 [YYYY-MM, 标签] 列表 */
+  const recentMonths = (n: number): { key: string; label: string }[] => {
+    const out: { key: string; label: string }[] = [];
+    const [y, m] = todayStr.split('-').map(Number);
+    for (let i = n - 1; i >= 0; i--) {
+      const d = new Date(Date.UTC(y, m - 1 - i, 1));
+      out.push({
+        key: `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`,
+        label: `${d.getUTCMonth() + 1}月`,
+      });
+    }
+    return out;
+  };
+  /** 安全读取任意台账行的时间戳字段（不同实体更新时间字段命名不完全一致） */
+  const rowTs = (row: unknown): string => {
+    const r = row as { updatedAt?: string; createdAt?: string };
+    return r.updatedAt || r.createdAt || '';
+  };
+
   // ── KPI 实时计算 ──
   const kpiData: KPIItem[] = useMemo(() => {
+    const prevMk = prevMonthKey(todayStr);
+    /** 真实环比：按单据日期落在本月 vs 上月计数；算不出基数就不给趋势（不伪造数字） */
+    const countTrend = (
+      rows: any[],
+      dateOf: (r: never) => string | undefined,
+    ): { value: number; direction: 'up' | 'down' } | undefined => {
+      const cur = rows.filter(r => (dateOf(r as never) || '').startsWith(todayStr)).length;
+      const prev = rows.filter(r => (dateOf(r as never) || '').startsWith(prevMk)).length;
+      if (!prev) return undefined;
+      const delta = ((cur - prev) / prev) * 100;
+      if (delta === 0) return undefined;
+      return { value: Math.abs(Math.round(delta * 10) / 10), direction: delta > 0 ? 'up' : 'down' };
+    };
+    /** 金额环比（月销售额等） */
+    const amountTrend = (
+      rows: any[],
+      dateOf: (r: never) => string | undefined,
+      amountOf: (r: never) => number,
+    ): { value: number; direction: 'up' | 'down' } | undefined => {
+      const sumOf = (mk: string): number => rows
+        .filter(r => (dateOf(r as never) || '').startsWith(mk))
+        .reduce((s: number, r) => s + (amountOf(r as never) || 0), 0);
+      const cur = sumOf(todayStr);
+      const prev = sumOf(prevMk);
+      if (!prev) return undefined;
+      const delta = ((cur - prev) / prev) * 100;
+      if (delta === 0) return undefined;
+      return { value: Math.abs(Math.round(delta * 10) / 10), direction: delta > 0 ? 'up' : 'down' };
+    };
+
     const monthInbound = inboundOrders.filter(o => o.inboundDate?.startsWith(todayStr)).length;
     const monthOutbound = outboundOrders.filter(o => o.outboundDate?.startsWith(todayStr)).length;
     const monthSalesOrders = salesOrders.filter(o => o.orderDate?.startsWith(todayStr));
@@ -118,52 +174,133 @@ const Dashboard: React.FC = () => {
 
     const pendingInvoices = vouchers.filter(v => v.source === 'invoice' && v.status !== 'posted').length;
 
+    const poRows = purchaseOrders as unknown[];
+    const salesRows = salesOrders as unknown[];
+    const poTrend = countTrend(poRows, (r: never) => (r as { orderDate?: string }).orderDate);
+    const salesTrend = countTrend(salesRows, (r: never) => (r as { orderDate?: string }).orderDate);
+    const reqTrend = countTrend(purchaseRequests as unknown[], (r: never) => (r as { createdAt?: string }).createdAt);
+    const woTrend = countTrend(workOrders as unknown[], (r: never) => (r as { createdAt?: string }).createdAt);
+    const salesAmountTrend = amountTrend(
+      salesRows,
+      (r: never) => (r as { orderDate?: string }).orderDate,
+      (r: never) => (r as { grandTotal?: number; totalAmount?: number }).grandTotal
+        || (r as { totalAmount?: number }).totalAmount
+        || 0,
+    );
+    const inboundTrend = countTrend(inboundOrders as unknown[], (r: never) => (r as { inboundDate?: string }).inboundDate);
+    const outboundTrend = countTrend(outboundOrders as unknown[], (r: never) => (r as { outboundDate?: string }).outboundDate);
+
     return [
-      { title: '物料总数', value: materials.length, icon: <Inventory2 />, trend: { value: 12, direction: 'up' }, color: '#3B82F6', path: '/material/list' },
-      { title: '供应商数', value: vendors.length, icon: <People />, trend: { value: 5, direction: 'up' }, color: '#10B981', path: '/vendor/list' },
-      { title: '在途采购', value: purchaseOrders.filter(o => ['created', 'sent', 'confirmed', 'vendorConfirmed'].includes(o.status)).length, icon: <LocalShipping />, trend: { value: 3, direction: 'down' }, color: '#F59E0B', path: '/purchase/orders' },
-      { title: '库存预警', value: inventoryAlerts.length, icon: <Warning />, trend: { value: 2, direction: 'up' }, color: '#EF4444', path: '/warehouse/inventory' },
-      { title: '检验任务', value: inspectionTasks.filter(t => t.status === 'pending' || t.status === 'in_progress').length, icon: <FactCheck />, trend: { value: 1, direction: 'up' }, color: '#9C27B0', path: '/quality/inspection' },
-      { title: '在制工单', value: workOrders.filter(w => w.status === 'in_progress').length, icon: <PrecisionManufacturing />, trend: { value: 0, direction: 'up' }, color: '#FF5722', path: '/production/orders' },
-      { title: '待付发票', value: pendingInvoices, icon: <AccountBalance />, trend: { value: 1, direction: 'up' }, color: '#607D8B', path: '/finance/invoices' },
-      { title: '逾期付款', value: vouchers.filter(v => v.date < nowDate && v.status !== 'posted').length, icon: <Warning />, trend: { value: 1, direction: 'up' }, color: '#d32f2f', path: '/finance/payments' },
-      { title: '采购申请数', value: purchaseRequests.length, icon: <RateReview />, trend: { value: 8, direction: 'up' }, color: '#6366F1', path: '/purchase/list' },
-      { title: '采购订单数', value: purchaseOrders.length, icon: <ShoppingCart />, trend: { value: 5, direction: 'up' }, color: '#14B8A6', path: '/purchase/orders' },
-      { title: '逾期订单数', value: overdueOrders, icon: <ReportProblem />, trend: { value: overdueOrders, direction: 'down' }, color: '#E11D48', path: '/purchase/orders' },
-      { title: '月入库量', value: monthInbound, icon: <MoveToInbox />, trend: { value: 15, direction: 'up' }, color: '#06B6D4', path: '/warehouse/inbound' },
-      { title: '出库量', value: monthOutbound, icon: <Outbox />, trend: { value: 10, direction: 'up' }, color: '#84CC16', path: '/warehouse/outbound' },
-      { title: '销售订单数', value: salesOrders.length, icon: <PointOfSale />, trend: { value: 6, direction: 'up' }, color: '#D946EF', path: '/sales/orders' },
-      { title: '月销售额', value: monthSalesAmount, icon: <Assessment />, trend: { value: 12, direction: 'up' }, color: '#0EA5E9', path: '/sales/orders', isCurrency: true },
-      { title: '生产工单数', value: totalWO, icon: <Engineering />, trend: { value: 3, direction: 'up' }, color: '#FB923C', path: '/production/orders' },
-      { title: '完工率', value: completionRate, icon: <TaskAlt />, trend: { value: completionRate, direction: 'up' }, color: '#22C55E', path: '/production/orders', isPercent: true },
-      { title: '检验合格率', value: inspectionRate, icon: <VerifiedUser />, trend: { value: inspectionRate, direction: 'up' }, color: '#3B82F6', path: '/quality/inspection', isPercent: true },
-      { title: 'NCR数量', value: unqualifiedItems.length, icon: <ReportProblem />, trend: { value: unqualifiedItems.length, direction: 'down' }, color: '#EF4444', path: '/quality/report' },
-      { title: '客户数量', value: customers.length, icon: <GroupAdd />, trend: { value: 4, direction: 'up' }, color: '#A855F7', path: '/sales/customers' },
+      { title: '物料总数', value: materials.length, icon: <Inventory2 />, color: '#3B82F6', path: '/material/list' },
+      { title: '供应商数', value: vendors.length, icon: <People />, color: '#10B981', path: '/vendor/list' },
+      { title: '在途采购', value: purchaseOrders.filter(o => ['created', 'sent', 'confirmed', 'vendorConfirmed'].includes(o.status)).length, icon: <LocalShipping />, trend: poTrend, color: '#F59E0B', path: '/purchase/orders' },
+      { title: '库存预警', value: inventoryAlerts.length, icon: <Warning />, color: '#EF4444', path: '/warehouse/inventory' },
+      { title: '检验任务', value: inspectionTasks.filter(t => t.status === 'pending' || t.status === 'in_progress').length, icon: <FactCheck />, color: '#9C27B0', path: '/quality/inspection' },
+      { title: '在制工单', value: workOrders.filter(w => w.status === 'in_progress').length, icon: <PrecisionManufacturing />, trend: woTrend, color: '#FF5722', path: '/production/orders' },
+      { title: '待付发票', value: pendingInvoices, icon: <AccountBalance />, color: '#607D8B', path: '/finance/invoices' },
+      { title: '逾期付款', value: vouchers.filter(v => v.date < nowDate && v.status !== 'posted').length, icon: <Warning />, color: '#d32f2f', path: '/finance/payments' },
+      { title: '采购申请数', value: purchaseRequests.length, icon: <RateReview />, trend: reqTrend, color: '#6366F1', path: '/purchase/requests' },
+      { title: '采购订单数', value: purchaseOrders.length, icon: <ShoppingCart />, trend: poTrend, color: '#14B8A6', path: '/purchase/orders' },
+      { title: '逾期订单数', value: overdueOrders, icon: <ReportProblem />, color: '#E11D48', path: '/purchase/orders' },
+      { title: '月入库量', value: monthInbound, icon: <MoveToInbox />, trend: inboundTrend, color: '#06B6D4', path: '/warehouse/inbound' },
+      { title: '出库量', value: monthOutbound, icon: <Outbox />, trend: outboundTrend, color: '#84CC16', path: '/warehouse/outbound' },
+      { title: '销售订单数', value: salesOrders.length, icon: <PointOfSale />, trend: salesTrend, color: '#D946EF', path: '/sales/orders' },
+      { title: '月销售额', value: monthSalesAmount, icon: <Assessment />, trend: salesAmountTrend, color: '#0EA5E9', path: '/sales/orders', isCurrency: true },
+      { title: '生产工单数', value: totalWO, icon: <Engineering />, trend: woTrend, color: '#FB923C', path: '/production/orders' },
+      { title: '完工率', value: completionRate, icon: <TaskAlt />, color: '#22C55E', path: '/production/orders', isPercent: true },
+      { title: '检验合格率', value: inspectionRate, icon: <VerifiedUser />, color: '#3B82F6', path: '/quality/inspection', isPercent: true },
+      { title: 'NCR数量', value: unqualifiedItems.length, icon: <ReportProblem />, color: '#EF4444', path: '/quality/report' },
+      { title: '客户数量', value: customers.length, icon: <GroupAdd />, color: '#A855F7', path: '/sales/customers' },
     ];
   }, [materials, vendors, purchaseRequests, purchaseOrders, inboundOrders, outboundOrders,
       inventoryAlerts, inspectionTasks, unqualifiedItems, workOrders, salesOrders,
       customers, vouchers, todayStr]);
 
-  // ── Mock 审批 / 待办 / 动态 ──
-  const approvalTasks = [
-    { id: 'APP-001', type: '供应商准入', title: '武汉钢铁贸易有限公司', from: '张三', time: '2小时前', urgent: true },
-    { id: 'APP-002', type: '采购申请', title: '热轧钢板 Q235B × 50吨', from: '李四', time: '3小时前', urgent: true },
-    { id: 'APP-003', type: '付款审批', title: 'PMT-2024-0440 广东南方钢铁', from: '王五', time: '昨天', urgent: false },
-  ];
-  const pendingTasks = [
-    { type: '质检', title: 'IQC-2024-0512：宝钢钢板来料检验', priority: 'high', color: '#EF4444', path: '/quality/inspection' },
-    { type: '付款', title: 'PMT-2024-0440：广东南方钢铁逾期付款', priority: 'urgent', color: '#d32f2f', path: '/finance/payments' },
-    { type: '采购', title: 'MRP建议：热轧钢板Q235B库存告急', priority: 'urgent', color: '#FF5722', path: '/production/mrp' },
-    { type: '审核', title: '供应商准入审核：武汉钢铁贸易有限公司', priority: 'normal', color: '#F59E0B', path: '/vendor/approvals' },
-    { type: '盘点', title: '6月月度仓库盘点任务待启动', priority: 'normal', color: '#2196F3', path: '/warehouse/check' },
-  ];
-  const recentActivities = [
-    { time: '10分钟前', desc: '工单 WO-2024-0501 组焊工序已开始', module: '生产', color: '#FF5722' },
-    { time: '35分钟前', desc: '发票 INV-2024-0501 已完成验证', module: '财务', color: '#4CAF50' },
-    { time: '1小时前', desc: 'BOM-2024-001 成本卷积已更新', module: 'BOM', color: '#9C27B0' },
-    { time: '2小时前', desc: '供应商 宝钢股份 评级更新为 A+', module: '供应商', color: '#2196F3' },
-    { time: '昨天', desc: 'PDCA-2024-003 改进计划已关闭', module: '质量', color: '#FF9800' },
-  ];
+  // ── 待我审批 / 待办事项 / 最近动态：全部由真实台账推导（原为写死演示数组）──
+  const nowDate = new Date().toISOString().slice(0, 10);
+
+  /** 把时间戳转成「几分钟/几小时/几天前」；无法解析时原样显示日期 */
+  const humanizeTs = (ts: string): string => {
+    if (!ts) return '—';
+    const t = new Date(ts.replace(' ', 'T')).getTime();
+    if (Number.isNaN(t)) return ts.slice(0, 10);
+    const diff = Date.now() - t;
+    if (diff < 0) return '刚刚';
+    const min = Math.floor(diff / 60000);
+    if (min < 60) return `${Math.max(1, min)}分钟前`;
+    const hr = Math.floor(min / 60);
+    if (hr < 24) return `${hr}小时前`;
+    const day = Math.floor(hr / 24);
+    return day === 1 ? '昨天' : `${day}天前`;
+  };
+
+  // 待我审批：取真实的待审批单据（待审采购申请 + 待处理检验任务 + 待处置不合格品）
+  const approvalTasks = useMemo(() => {
+    const list: { id: string; type: string; title: string; from: string; time: string; urgent: boolean }[] = [];
+    purchaseRequests.filter(r => r.status === 'pending').forEach(r => list.push({
+      id: r.id, type: '采购申请',
+      title: `${r.requestNo}：${r.title || r.department || '采购申请'}`,
+      from: r.applicant || '-', time: humanizeTs(rowTs(r)), urgent: r.priority === 'urgent',
+    }));
+    inspectionTasks
+      .filter(t => t.status === 'pending' || t.status === 'in_progress')
+      .forEach(t => list.push({
+        id: t.id, type: '来料检验',
+        title: `${t.taskNo}：${t.materialName || t.materialCode} ${t.batchNo ? `批次 ${t.batchNo}` : ''}`.trim(),
+        from: t.assignedTo || t.vendorName || '-', time: humanizeTs(t.plannedDate),
+        urgent: !!t.plannedDate && t.plannedDate <= nowDate,
+      }));
+    unqualifiedItems.filter(u => u.dispositionStatus !== 'completed').forEach(u => list.push({
+      id: u.id, type: '不合格品处置',
+      title: `${u.itemNo}：${u.materialName || u.materialCode} 不合格 ${u.defectQuantity || 0} 件`,
+      from: u.responsiblePerson || '-', time: humanizeTs(rowTs(u)),
+      urgent: u.dispositionStatus === 'pending',
+    }));
+    return list.sort((a, b) => Number(b.urgent) - Number(a.urgent)).slice(0, 20);
+  }, [purchaseRequests, inspectionTasks, unqualifiedItems, nowDate]);
+
+  // 待办事项：仍需我处理且未完成的事项（执行侧）
+  const pendingTasks = useMemo(() => {
+    const list: { type: string; title: string; priority: 'urgent' | 'high' | 'normal'; color: string; path: string }[] = [];
+    inspectionTasks.filter(t => t.status === 'pending' || t.status === 'in_progress').forEach(t => list.push({
+      type: '质检', title: `${t.taskNo}：${t.materialName || t.materialCode} 待检验`,
+      priority: !!t.plannedDate && t.plannedDate <= nowDate ? 'urgent' : 'high',
+      color: '#EF4444', path: '/quality/inspection',
+    }));
+    purchaseRequests.filter(r => r.status === 'draft').forEach(r => list.push({
+      type: '采购', title: `${r.requestNo}：${r.title || '采购申请待提交'}`,
+      priority: r.priority === 'urgent' ? 'urgent' : 'normal', color: '#FF5722', path: '/purchase/requests',
+    }));
+    purchaseOrders
+      .filter(o => ['created', 'sent', 'vendorConfirmed', 'confirmed', 'partial'].includes(o.status))
+      .forEach(o => list.push({
+        type: '催货', title: `${o.orderNo}：${o.vendorName || '供应商'} 交期 ${o.expectedDeliveryDate || '未定'}`,
+        priority: !!o.expectedDeliveryDate && o.expectedDeliveryDate < nowDate ? 'urgent' : 'normal',
+        color: '#d32f2f', path: '/purchase/orders',
+      }));
+    unqualifiedItems.filter(u => u.dispositionStatus !== 'completed').forEach(u => list.push({
+      type: '处置', title: `${u.itemNo}：${u.materialName || u.materialCode} 待处置`,
+      priority: u.dispositionStatus === 'pending' ? 'urgent' : 'high', color: '#F59E0B', path: '/quality/unqualified',
+    }));
+    return list.slice(0, 20);
+  }, [inspectionTasks, purchaseRequests, purchaseOrders, unqualifiedItems, nowDate]);
+
+  // 最近动态：各台账最近更新的真实记录（按时间倒序）
+  const recentActivities = useMemo(() => {
+    const rows: { ts: string; desc: string; module: string; color: string }[] = [];
+    const push = (ts: string, desc: string, module: string, color: string) => {
+      if (ts) rows.push({ ts, desc, module, color });
+    };
+    purchaseOrders.forEach(o => push(rowTs(o), `采购订单 ${o.orderNo}（${o.status}）`, '采购', '#2196F3'));
+    salesOrders.forEach(o => push(rowTs(o), `销售订单 ${o.orderNo}（${o.status}）`, '销售', '#D946EF'));
+    workOrders.forEach(o => push(rowTs(o), `生产工单 ${o.orderNo}（${o.status}）`, '生产', '#FF5722'));
+    inspectionTasks.forEach(t => push(rowTs(t), `检验任务 ${t.taskNo}（${t.status}）`, '质量', '#FF9800'));
+    vouchers.forEach(v => push(rowTs(v), `凭证 ${v.voucherNo}（${v.status}）`, '财务', '#4CAF50'));
+    return rows
+      .sort((a, b) => (a.ts < b.ts ? 1 : -1))
+      .slice(0, 20)
+      .map(r => ({ time: humanizeTs(r.ts), desc: r.desc, module: r.module, color: r.color }));
+  }, [purchaseOrders, salesOrders, workOrders, inspectionTasks, vouchers]);
   const quickEntries = [
     { label: '新建采购申请', icon: <Add sx={{ fontSize: 18 }} />, color: '#3B82F6', path: '/purchase/create' },
     { label: '创建工单', icon: <Assignment sx={{ fontSize: 18 }} />, color: '#FF5722', path: '/production/orders' },
@@ -175,16 +312,60 @@ const Dashboard: React.FC = () => {
     { label: 'ChatBI 分析', icon: <Assessment sx={{ fontSize: 18 }} />, color: '#8B5CF6', path: '/analytics/chatbi' },
   ];
 
-  // ── 图表数据 ──
-  const months = ['1月', '2月', '3月', '4月', '5月', '6月'];
-  const monthlyPurchase = [280000, 220000, 380000, 420000, 338156, 410000];
-  const monthlyQualityRate = [95.2, 96.8, 94.5, 97.1, 96.3, 97.8];
-  const inventoryDist = [
-    { id: 0, value: 45, label: '原材料', color: '#3B82F6' },
-    { id: 1, value: 25, label: '半成品', color: '#10B981' },
-    { id: 2, value: 20, label: '成品', color: '#F59E0B' },
-    { id: 3, value: 10, label: '辅料', color: '#8B5CF6' },
-  ];
+  // ── 图表数据：全部由真实台账按月聚合（原为写死演示数组）──
+  const monthList = recentMonths(6);
+  const months = monthList.map(m => m.label);
+  // 月度采购金额：按采购订单下单日期归集，取价税合计（无数据月为 0，真实反映）
+  const monthlyPurchase = monthList.map(({ key }) =>
+    purchaseOrders
+      .filter(o => !!o.orderDate && o.orderDate.startsWith(key))
+      .reduce((sum, o) => sum + (o.grandTotal || o.totalAmount || 0), 0));
+  // 月度检验合格率：按检验任务归集（完成日期优先，缺省用计划日期）；
+  //   该月无已出结论的检验任务时留 null（图表断点），不伪造 0%
+  const monthlyQualityRate = monthList.map(({ key }) => {
+    const decided = inspectionTasks.filter(t => {
+      const d = t.completedDate || t.plannedDate || '';
+      if (!d.startsWith(key)) return false;
+      return t.status === 'passed' || t.status === 'failed' || t.status === 'conditional_pass';
+    });
+    if (decided.length === 0) return null;
+    const ok = decided.filter(t => t.status !== 'failed').length;
+    return Math.round((ok / decided.length) * 1000) / 10;
+  });
+  // 库存结构：按物料类型统计在库数量占比
+  const TYPE_META: Record<string, { label: string; color: string }> = {
+    raw: { label: '原材料', color: '#3B82F6' },
+    semi: { label: '半成品', color: '#10B981' },
+    finished: { label: '成品', color: '#F59E0B' },
+    purchased: { label: '外购物料', color: '#8B5CF6' },
+    service: { label: '服务', color: '#94A3B8' },
+  };
+  const stockByType = new Map<string, number>();
+  materials.forEach(m => {
+    const k = m.materialType || 'raw';
+    stockByType.set(k, (stockByType.get(k) || 0) + (m.currentStock || 0));
+  });
+  const totalStock = Array.from(stockByType.values()).reduce((s, v) => s + v, 0);
+  const inventoryDist = Array.from(stockByType.entries())
+    .filter(([, v]) => v > 0)
+    .map(([k, v], idx) => ({
+      id: idx,
+      value: totalStock > 0 ? Math.round((v / totalStock) * 1000) / 10 : 0,
+      label: TYPE_META[k]?.label || k,
+      color: TYPE_META[k]?.color || '#64748B',
+    }));
+
+  /** 环比：取最近两个有值的点算变化率；无基数时返回空文本（不显示箭头） */
+  const momText = (arr: (number | null)[]): { text: string; up: boolean } => {
+    const pts = arr.filter((v): v is number => v !== null && v !== undefined);
+    if (pts.length < 2) return { text: '', up: true };
+    const cur = pts[pts.length - 1], prev = pts[pts.length - 2];
+    if (!prev) return { text: '', up: true };
+    const delta = ((cur - prev) / prev) * 100;
+    return { text: `${delta >= 0 ? '+' : ''}${Math.round(delta * 10) / 10}%`, up: delta >= 0 };
+  };
+  const purchaseTrend = momText(monthlyPurchase);
+  const qualityTrend = momText(monthlyQualityRate);
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -200,7 +381,13 @@ const Dashboard: React.FC = () => {
             工作台
           </Typography>
           <Typography variant="body2" sx={{ color: '#94A3B8', mt: 0.2 }}>
-            2026年6月23日 星期二 · 数据更新于 17:07
+            {(() => {
+              const now = new Date();
+              const d = now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+              const w = now.toLocaleDateString('zh-CN', { weekday: 'long' });
+              const t = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+              return `${d} ${w} · 数据更新于 ${t}`;
+            })()}
           </Typography>
         </Box>
         <Tooltip title="刷新数据">
@@ -270,9 +457,12 @@ const Dashboard: React.FC = () => {
           <Paper sx={{ p: 2.5, borderRadius: 3, height: '100%' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
               <Typography variant="subtitle2" fontWeight={600} sx={{ flex: 1 }}>月度采购金额趋势</Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#10B981', fontSize: '0.75rem' }}>
-                <TrendingUp sx={{ fontSize: 14 }} />21.4%
-              </Box>
+              {purchaseTrend.text && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: purchaseTrend.up ? '#10B981' : '#EF4444', fontSize: '0.75rem' }}>
+                  {purchaseTrend.up ? <TrendingUp sx={{ fontSize: 14 }} /> : <TrendingDown sx={{ fontSize: 14 }} />}
+                  {purchaseTrend.text}
+                </Box>
+              )}
             </Box>
             <BarChart
               series={[{ data: monthlyPurchase, label: '采购金额(元)', color: '#3B82F6' }]}
@@ -286,9 +476,12 @@ const Dashboard: React.FC = () => {
           <Paper sx={{ p: 2.5, borderRadius: 3, height: '100%' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
               <Typography variant="subtitle2" fontWeight={600} sx={{ flex: 1 }}>月度质量合格率（%）</Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: '#10B981', fontSize: '0.75rem' }}>
-                <TrendingUp sx={{ fontSize: 14 }} />1.5%
-              </Box>
+              {qualityTrend.text && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, color: qualityTrend.up ? '#10B981' : '#EF4444', fontSize: '0.75rem' }}>
+                  {qualityTrend.up ? <TrendingUp sx={{ fontSize: 14 }} /> : <TrendingDown sx={{ fontSize: 14 }} />}
+                  {qualityTrend.text}
+                </Box>
+              )}
             </Box>
             <LineChart
               series={[{ data: monthlyQualityRate, label: '合格率', color: '#10B981', area: true }]}

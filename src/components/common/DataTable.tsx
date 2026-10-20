@@ -14,6 +14,7 @@ import {
 } from '@mui/icons-material';
 import { statusConfig } from './StatusBadge';
 import { triggerDownload } from '@/utils/exportUtils';
+import { notify, notifyWarning, notifyError } from '@/utils/notify';
 import { hasPermission } from '@/utils/permission';
 import { authHeaders } from '@/utils/authHeaders';
 import { useAuthStore } from '@/stores/authStore';
@@ -601,13 +602,13 @@ export function DataTable<T>({
   const handleExport = async () => {
     // 权限检查
     if (!hasPermission('export')) {
-      alert('您没有导出权限，请联系管理员开通');
+      notifyWarning('您没有导出权限，请联系管理员开通');
       return;
     }
 
     const exportData = buildExportRows();
     if (!exportData || exportData.length === 0) {
-      alert('没有可导出的数据');
+      notify('没有可导出的数据', 'info');
       return;
     }
 
@@ -664,14 +665,14 @@ export function DataTable<T>({
       }
     } catch (err) {
       console.error('[Export] 导出失败', err);
-      alert('导出失败，请重试');
+      notifyError('导出失败，请重试');
     }
   };
 
   const handleBatchExport = async () => {
     if (onBatchExport) { onBatchExport(selectedRows); return; }
     if (!hasPermission('export')) {
-      alert('您没有导出权限，请联系管理员开通');
+      notifyError('您没有导出权限，请联系管理员开通');
       return;
     }
     const exportData = selectedRows.map((row) => {
@@ -732,7 +733,7 @@ export function DataTable<T>({
       }
     } catch (err) {
       console.error('[BatchExport] 批量导出失败', err);
-      alert('批量导出失败，请重试');
+      notifyError('批量导出失败，请重试');
     }
   };
 

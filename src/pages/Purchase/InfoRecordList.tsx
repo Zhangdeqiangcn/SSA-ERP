@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Box, Button, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -12,6 +12,7 @@ import { useVendorStore } from '@/stores/vendorStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { PurchaseInfoRecord } from '@/types';
 import { formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const STATUS_LABEL: Record<PurchaseInfoRecord['status'], string> = {
   active: '生效中',
@@ -27,9 +28,12 @@ const STATUS_OPTIONS = [
 ];
 
 const InfoRecordList: React.FC = () => {
-  const { records, addRecord, updateRecord, deleteRecord } = usePurchaseInfoRecordStore();
+  const { records, addRecord, updateRecord, deleteRecord, hydrateInfoRecords } = usePurchaseInfoRecordStore();
   const { vendors } = useVendorStore();
   const { materials } = useMaterialStore();
+
+  // V3.76.0：采购信息记录迁 D1（purchase_info_records）——页面挂载从权威源水合（未登录自动跳过）
+  useEffect(() => { void hydrateInfoRecords(); }, [hydrateInfoRecords]);
 
   // 筛选
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
@@ -69,31 +73,34 @@ const InfoRecordList: React.FC = () => {
 
   // 列定义
   const columns: ColumnDef<PurchaseInfoRecord, unknown>[] = useMemo(() => [
-    { accessorKey: 'vendorName', header: '供应商名称' },
-    { accessorKey: 'materialName', header: '物料名称' },
-    { accessorKey: 'specification', header: '规格' },
-    { accessorKey: 'unit', header: '单位' },
+    { accessorKey: 'materialCode', header: '物料编码', meta: { searchable: true } },
+    { accessorKey: 'vendorName', header: '供应商名称', meta: { searchable: true } },
+    { accessorKey: 'vendorCode', header: '供应商编码', meta: { searchable: true } },
+    { accessorKey: 'materialName', header: '物料名称', meta: { searchable: true } },
+    { accessorKey: 'specification', header: '规格', meta: { searchable: true } },
+    { accessorKey: 'unit', header: '单位', meta: { searchable: true } },
     {
       accessorKey: 'unitPrice',
       header: '单价',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.unitPrice),
     },
-    { accessorKey: 'currency', header: '币种' },
-    { accessorKey: 'validFrom', header: '有效起', size: 110 },
-    { accessorKey: 'validTo', header: '有效止', size: 110 },
-    { accessorKey: 'minQty', header: '最小起订量' },
-    { accessorKey: 'leadTime', header: '交货天数' },
-    { accessorKey: 'purchasingGroup', header: '采购组' },
+    { accessorKey: 'currency', header: '币种', meta: { searchable: true } },
+    { accessorKey: 'validFrom', header: '有效起', meta: { searchable: true }, size: 110 },
+    { accessorKey: 'validTo', header: '有效止', meta: { searchable: true }, size: 110 },
+    { accessorKey: 'minQty', header: '最小起订量', meta: { searchable: true } },
+    { accessorKey: 'leadTime', header: '交货天数', meta: { searchable: true } },
+    { accessorKey: 'purchasingGroup', header: '采购组', meta: { searchable: true } },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
   ], []);
 
-  // 筛选字段
+  // 筛选字段（状态保留为显式 select；其余列由 FilterBar 依据列 meta.searchable 自动派生）
   const filterFields = [
-    { name: 'keyword', label: '关键词（供应商/物料）', type: 'text' as const },
     {
       name: 'status',
       label: '状态',
@@ -102,24 +109,11 @@ const InfoRecordList: React.FC = () => {
     },
   ];
 
-  // 数据筛选
-  const filteredData = useMemo(() => {
-    let data = [...records];
-    if (filterData.keyword) {
-      const kw = (filterData.keyword as string).toLowerCase();
-      data = data.filter(
-        (r) =>
-          r.vendorName?.toLowerCase().includes(kw) ||
-          r.materialName?.toLowerCase().includes(kw) ||
-          r.vendorCode?.toLowerCase().includes(kw) ||
-          r.materialCode?.toLowerCase().includes(kw)
-      );
-    }
-    if (filterData.status) {
-      data = data.filter((r) => r.status === filterData.status);
-    }
-    return data;
-  }, [records, filterData]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（物料编码/供应商/物料/规格…），并按字段权限门控。
+  const filteredData = useMemo(
+    () => applyColumnFilters(records, columns, filterData, { module: 'purchase' }),
+    [records, filterData, columns]
+  );
 
   // 打开新增
   const handleAdd = () => {
@@ -244,7 +238,7 @@ const InfoRecordList: React.FC = () => {
       }
       data-testid="info-record-list"
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="purchase-info-record-list" />
+      <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} listKey="purchase-info-record-list" />
       <DataTable
         data={filteredData}
         columns={columns}

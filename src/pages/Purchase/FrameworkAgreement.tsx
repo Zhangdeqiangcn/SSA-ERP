@@ -107,7 +107,8 @@ export default function FrameworkAgreementPage() {
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle>新增框架协议</DialogTitle>
         <DialogContent>
-          <TextField fullWidth margin="dense" select label="供应商" value={form.vendorId}
+          {/* 与后端 REQUIRED_CORE_FIELDS（framework_agreements: vendorId）对齐：供应商必填（该 select 有默认值，永不为空，仅加标记，不重复拦截） */}
+          <TextField fullWidth margin="dense" select label="供应商" required value={form.vendorId}
             onChange={(e) => setForm({ ...form, vendorId: e.target.value })}>
             {vendors.map((v) => (
               <MenuItem key={v.id} value={v.id}>{v.name}</MenuItem>

@@ -23,6 +23,7 @@ import {
   Add, AccountBalance, Receipt, CheckCircle, Send, Schedule, Print,
   VerifiedUser, PictureAsPdf, Visibility, Delete, FactCheck,
 } from '@mui/icons-material';
+import DemoBanner from '@/components/common/DemoBanner';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, FilterBar } from '@/components/common';
 import { useFlowStore } from '@/stores/flowStore';
@@ -745,6 +746,12 @@ const VendorFinancePage: React.FC = () => {
   const [tab, setTab] = useState(0);
   return (
     <Box sx={{ p: 3 }}>
+      {!identity && (
+        <Alert severity="warning" sx={{ mb: 2 }} data-testid="portal-demo-identity-banner">
+          未识别到供应商门户登录身份，当前展示的是演示供应商（{DEFAULT_VENDOR_NAME}）的数据。请从供应商门户登录后再操作。
+        </Alert>
+      )}
+      <DemoBanner reason="对账单、开票申请与发票均**已真实写入财务台账**（addVendorStatement / confirmReconciliation / addInvoice）；当前「审批通过 / 客户同意」为**模拟按钮**，未对接外部真实采购-财务审批系统与税务开票平台。" />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
         <Typography variant="h5" fontWeight={700} sx={{ color: '#1E293B' }}>财务管理</Typography>
         <Chip size="small" color="primary" variant="outlined" data-testid="portal-current-vendor" label={identity?.vendorName || DEFAULT_VENDOR_NAME} />

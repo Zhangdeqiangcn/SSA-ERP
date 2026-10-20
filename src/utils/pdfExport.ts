@@ -5,6 +5,7 @@
  */
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
+import { notifyError } from '@/utils/notify';
 
 /**
  * 打印指定元素并允许用户保存为PDF
@@ -21,7 +22,7 @@ export function printToPDF(elementId: string, title: string = '打印'): void {
   // 创建打印窗口
   const printWindow = window.open('', '_blank');
   if (!printWindow) {
-    alert('请允许弹窗以继续操作');
+    notifyError('请允许弹窗以继续操作');
     return;
   }
 
@@ -155,13 +156,13 @@ export function exportReportToPDF(reportData: any, reportType: string): void {
 export function exportToPDF(elementId: string, fileName: string = 'document'): void {
   const element = document.getElementById(elementId);
   if (!element) {
-    alert('未找到要导出的内容');
+    notifyError('未找到要导出的内容');
     return;
   }
 
   const printWindow = window.open('', '_blank');
   if (!printWindow) {
-    alert('请允许弹窗以继续操作');
+    notifyError('请允许弹窗以继续操作');
     return;
   }
 

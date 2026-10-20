@@ -12,6 +12,7 @@ import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { InboundOrder, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const InboundList: React.FC = () => {
   const navigate = useNavigate();
@@ -30,10 +31,21 @@ const InboundList: React.FC = () => {
   });
 
   const columns: ColumnDef<InboundOrder, unknown>[] = useMemo(() => [
-    { accessorKey: 'inboundNo', header: '入库单号' },
+    { accessorKey: 'inboundNo', header: '入库单号', meta: { searchable: true } },
     {
       accessorKey: 'type',
       header: '类型',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'purchase', label: '采购入库' },
+          { value: 'return', label: '退货入库' },
+          { value: 'transfer', label: '调拨入库' },
+          { value: 'subcontract', label: '委外收货' },
+          { value: 'production', label: '生产完工入库' },
+        ],
+      },
       cell: ({ row }) => {
         const typeMap: Record<string, string> = {
           purchase: '采购入库',
@@ -45,15 +57,16 @@ const InboundList: React.FC = () => {
         return typeMap[row.original.type] || row.original.type;
       },
     },
-    { accessorKey: 'sourceNo', header: '来源单号' },
-    { accessorKey: 'vendorName', header: '供应商' },
+    { accessorKey: 'sourceNo', header: '来源单号', meta: { searchable: true } },
+    { accessorKey: 'vendorName', header: '供应商', meta: { searchable: true } },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
-    { accessorKey: 'operator', header: '操作员' },
-    { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate) },
+    { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
+    { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate), meta: { searchable: true } },
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -181,16 +194,11 @@ const InboundList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...inboundOrders];
-    data = data.filter(r => matchOrg(r, currentOrgId));
-    if (filterData.inboundNo) {
-      data = data.filter(o => o.inboundNo.includes(filterData.inboundNo as string));
-    }
-    if (filterData.status) {
-      data = data.filter(o => o.status === filterData.status);
-    }
+    let data = inboundOrders.filter(r => matchOrg(r, currentOrgId));
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（入库单号/类型/来源单号/供应商/状态/操作员/入库日期），并按字段权限门控
+    data = applyColumnFilters(data, columns, filterData, { module: 'warehouse' });
     return data;
-  }, [filterData]);
+  }, [filterData, inboundOrders, columns, currentOrgId]);
 
   return (
     <PageWrapper
@@ -201,7 +209,7 @@ const InboundList: React.FC = () => {
         />
       }
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="inbound-list" />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="inbound-list" />
       <DataTable<InboundOrder>
         data={filteredData}
         columns={columns}

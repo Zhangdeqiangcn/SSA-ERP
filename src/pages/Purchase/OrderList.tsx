@@ -17,6 +17,7 @@ import { PurchaseOrder, PurchaseOrderStatus } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 /** 批量导入：表头 → 字段 别名映射（中英文均可） */
 const ORDER_IMPORT_ALIASES: Record<string, string> = {
@@ -86,21 +87,24 @@ const OrderList: React.FC = () => {
   });
 
   const columns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(() => [
-    { accessorKey: 'orderNo', header: '订单号' },
-    { accessorKey: 'vendorName', header: '供应商' },
+    { accessorKey: 'orderNo', header: '订单号', meta: { searchable: true } },
+    { accessorKey: 'vendorName', header: '供应商', meta: { searchable: true } },
     {
       accessorKey: 'currency',
       header: '币种',
+      meta: { searchable: true },
       cell: ({ row }) => row.original.currency || 'CNY',
     },
     {
       accessorKey: 'totalAmount',
       header: '未税金额',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalAmount, row.original.currency || 'CNY'),
     },
     {
       accessorKey: 'totalTaxAmount',
       header: '税额',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const o = row.original;
         const tax = o.totalTaxAmount ?? calcTaxTotals(o.items || []).totalTaxAmount;
@@ -110,6 +114,7 @@ const OrderList: React.FC = () => {
     {
       accessorKey: 'grandTotal',
       header: '价税合计',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const o = row.original;
         const totals = calcTaxTotals(o.items || []);
@@ -120,11 +125,12 @@ const OrderList: React.FC = () => {
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
-    { accessorKey: 'orderDate', header: '下单日期', cell: ({ row }) => formatDate(row.original.orderDate) },
-    { accessorKey: 'expectedDeliveryDate', header: '预计交货', cell: ({ row }) => formatDate(row.original.expectedDeliveryDate) },
-    { accessorKey: 'actualDeliveryDate', header: '实际交货', cell: ({ row }) => formatDate(row.original.actualDeliveryDate) },
+    { accessorKey: 'orderDate', header: '下单日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.orderDate) },
+    { accessorKey: 'expectedDeliveryDate', header: '预计交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDeliveryDate) },
+    { accessorKey: 'actualDeliveryDate', header: '实际交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.actualDeliveryDate) },
   ], []);
 
   const filterFields = [
@@ -147,16 +153,11 @@ const OrderList: React.FC = () => {
     },
   ];
 
-  const filteredData = useMemo(() => {
-    let data = [...purchaseOrders];
-    if (filterData.orderNo) {
-      data = data.filter(o => o.orderNo.includes(filterData.orderNo as string));
-    }
-    if (filterData.status) {
-      data = data.filter(o => o.status === filterData.status);
-    }
-    return data;
-  }, [filterData, purchaseOrders]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控。
+  const filteredData = useMemo(
+    () => applyColumnFilters(purchaseOrders, columns, filterData, { module: 'purchase' }),
+    [filterData, purchaseOrders, columns]
+  );
 
   // ── 删除确认 ──
   const confirmDelete = () => {
@@ -360,7 +361,7 @@ const OrderList: React.FC = () => {
           </Paper>
         </Grid>
       </Grid>
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="purchase-order-list" columnConfigKey="purchase-order-list" />
+      <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} listKey="purchase-order-list" columnConfigKey="purchase-order-list" />
       <DataTable
         data={filteredData}
         columns={columns}

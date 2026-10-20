@@ -58,6 +58,9 @@ export interface WorkOrder extends BaseEntity {
   actualMaterialCost?: number;
   actualMachineCost?: number;
   actualTotalCost?: number;
+  // ── V3.62.0 边界①：折旧与制造费用（工单 manual 录入，完工结转含入 5001）──
+  depreciationCost?: number;
+  overheadCost?: number;
   /** B2-② 领料联动：本工单已领料明细（防重复领料） */
   issuedMaterials?: IssuedMaterial[];
   // ── V3.20.0 差距13 倒冲发料（可选，由服务端写入，前端只读展示）──
@@ -65,6 +68,8 @@ export interface WorkOrder extends BaseEntity {
   inventoryPosted?: boolean;
   /** 倒冲生成的出库单号（对应 work_orders.backflush_outbound_no），可从工单直追到扣料单据 */
   backflushOutboundNo?: string;
+  /** P1-10 委外闭环：本工单已下达委外的数量（由 subcontractStore 收货回写累加，前端只读展示） */
+  outsourcedQty?: number;
 }
 
 /** B2-② 工单领料明细 */
@@ -101,6 +106,9 @@ export interface OperationReport {
   scrapQuantity: number;    // 报废数
   laborHours?: number;      // 实际工时（缺省按 工序标准工时×合格数 推算）
   note?: string;
+  /** V3.66.0 P0-3：生产投诉追责——本次报废的责任供应商（选了才推门户/NCR，不选不影响报工） */
+  vendorId?: string;
+  vendorName?: string;
   reportedAt: string;       // 上报时间（ISO）
 }
 
@@ -165,6 +173,12 @@ export interface ECN extends BaseEntity {
   status: ECNStatus;
   releasedAt?: string;
   note?: string;
+  /**
+   * P0-4 非破坏补强（V3.74.0）：关联的物料域工程变更 id 列表（ecnStore.ecns）。
+   * 与 EngineeringChange.linkedEcnIds 互为对侧，两侧方法任选其一调用即双向落库；
+   * 维护入口在 ProductionVersions 页「工程变更 ECN」区「关联ECM」。
+   */
+  linkedChangeIds?: string[];
 }
 
 /** 委外加工：工序委外 / 整体委外 + 发料回收 */

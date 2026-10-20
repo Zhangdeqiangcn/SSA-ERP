@@ -9,6 +9,7 @@ export interface TripartySale extends BaseEntity {
   partyCode: string;
   partyName: string;
   customerName: string;
+  customerId?: string;    // P1-6 补客户主数据外键（与 SalesOrder/SalesContract 一致，向后兼容可选）
   warehouse: string;
   materialCode: string;
   materialName: string;

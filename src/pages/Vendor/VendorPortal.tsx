@@ -135,7 +135,7 @@ function QualityIssuePanel() {
               <FormControl fullWidth size="small">
                 <InputLabel>问题类型</InputLabel>
                 <Select value={form.issueType} label="问题类型" onChange={(e) => setForm({ ...form, issueType: e.target.value })}>
-                  {[['dimension','尺寸偏差'],['appearance','外观缺陷'],['performance','性能不足'],['documentation','文件问题'],['other','其他']].map(([v,l]) => <MenuItem key={v} value={v}>{l}</MenuItem>)}
+                  {[['dimension','尺寸偏差'],['appearance','外观缺陷'],['performance','性能不足'],['documentation','文件问题'],['production','生产投诉'],['customer_return','客户退货追责'],['other','其他']].map(([v,l]) => <MenuItem key={v} value={v}>{l}</MenuItem>)}
                 </Select>
               </FormControl>
             </Grid>

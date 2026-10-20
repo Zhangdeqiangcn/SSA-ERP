@@ -15,6 +15,7 @@ import {
   type IntType,
   type IntStatus,
 } from '@/stores/settingsStore';
+import DemoBanner from '@/components/common/DemoBanner';
 
 const TYPE_META: Record<IntType, { label: string; icon: React.ReactNode; color: string }> = {
   WMS: { label: '仓储管理系统', icon: <Warehouse />, color: '#10B981' },
@@ -80,6 +81,7 @@ const IntegrationTab: React.FC = () => {
 
   return (
     <Box>
+      <DemoBanner reason="与外部系统的对接通道（WMS / TMS / MES / PLM / SRM / 财务）当前为**模拟接口**：「测试连接」不会真实连通外部系统，配置仅保存在本地。" />
       <Alert severity="info" sx={{ mb: 2.5, borderRadius: 2, fontSize: '0.8125rem' }}>
         配置与外部系统的对接通道（WMS / TMS / MES / PLM / SRM / 财务）。支持启停、同步频率与「测试连接」。对应 Phase 3「WMS/TMS 对接」能力（演示环境为模拟接口）。
       </Alert>

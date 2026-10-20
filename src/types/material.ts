@@ -206,6 +206,12 @@ export interface EngineeringChange {
   effectiveDate: string;
   status: ECMStatus;
   approvedBy?: string;
+  /**
+   * P0-4 非破坏补强（V3.74.0）：关联的生产域 ECN id 列表（productionVersionStore.ecns）。
+   * 两套 ECN 数据源并存时，用此字段把物料域变更与生产域变更单互相挂钩，
+   * 不动旧数据、不删旧源；维护入口在 ECNList 页「关联生产ECN」。
+   */
+  linkedEcnIds?: string[];
   createdAt: string;
   updatedAt: string;
 }

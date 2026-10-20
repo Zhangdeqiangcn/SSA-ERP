@@ -10,9 +10,11 @@ import { PageWrapper } from '@/components/layout';
 import { MaterialLineItemsGrid, GridColumn, PrintPreviewButton } from '@/components/common';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useCustomerStore } from '@/stores/customerStore';
+import { useAuthStore } from '@/stores/authStore';
 import { useSalesContractStore } from '@/stores/salesContractStore';
 import { Customer, ContractStatus } from '@/types';
 import { formatCurrency } from '@/utils/format';
+import { notifyError } from '@/utils/notify';
 import dayjs from 'dayjs';
 
 const STATUS_LABELS: Record<ContractStatus, string> = {
@@ -50,6 +52,7 @@ const SalesContractForm: React.FC = () => {
   const materials = useMaterialStore((s) => s.materials);
   const customers = useCustomerStore((s) => s.customers);
   const { contracts, addContract, updateContract } = useSalesContractStore();
+  const currentUser = useAuthStore((s) => s.currentUser);
 
   const existing = useMemo(() =>
     id ? contracts.find((c) => c.id === id) : null,
@@ -60,11 +63,11 @@ const SalesContractForm: React.FC = () => {
   const [name, setName] = useState(existing?.name || '');
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(() => {
     if (!existing) return null;
-    return customers.find((c) => c.id === existing.customerId) || null;
+    return customers.find((c: any) => c.id === existing.customerId) || null;
   });
   const [startDate, setStartDate] = useState(existing?.startDate || '');
   const [endDate, setEndDate] = useState(existing?.endDate || '');
-  const [salesPerson, setSalesPerson] = useState(existing?.salesPerson || '陈伟');
+  const [salesPerson, setSalesPerson] = useState(existing?.salesPerson || currentUser?.name || currentUser?.username || '');
   const [status, setStatus] = useState<ContractStatus>(existing?.status || 'draft');
   const [terms, setTerms] = useState(existing?.terms || '');
   const [remarks, setRemarks] = useState(existing?.remarks || '');
@@ -152,9 +155,9 @@ const SalesContractForm: React.FC = () => {
 
   // --- 保存 ---
   const handleSave = () => {
-    if (!name.trim()) { alert('请输入合同名称'); return; }
-    if (!selectedCustomer) { alert('请选择客户'); return; }
-    if (items.length === 0) { alert('请添加至少一项物料明细'); return; }
+    if (!name.trim()) { notifyError('请输入合同名称'); return; }
+    if (!selectedCustomer) { notifyError('请选择客户'); return; }
+    if (items.length === 0) { notifyError('请添加至少一项物料明细'); return; }
 
     const now = new Date().toISOString();
     const formData = {
@@ -177,9 +180,9 @@ const SalesContractForm: React.FC = () => {
 
   // --- 提交 ---
   const handleSubmit = () => {
-    if (!name.trim()) { alert('请输入合同名称'); return; }
-    if (!selectedCustomer) { alert('请选择客户'); return; }
-    if (items.length === 0) { alert('请添加至少一项物料明细'); return; }
+    if (!name.trim()) { notifyError('请输入合同名称'); return; }
+    if (!selectedCustomer) { notifyError('请选择客户'); return; }
+    if (items.length === 0) { notifyError('请添加至少一项物料明细'); return; }
 
     const now = new Date().toISOString();
     const formData = {

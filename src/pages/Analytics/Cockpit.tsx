@@ -11,6 +11,7 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useProductionStore } from '@/stores/productionStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
+import { computeGrossMargin, formatGrossMargin } from '@/utils/grossProfit'; // S-10 毛利口径统一
 
 interface KpiDef {
   key: string;
@@ -51,7 +52,8 @@ export default function Cockpit() {
       (a, s) => a + (s.items || []).reduce((b, it) => b + (it.quantity || 0) * (priceMap[it.materialId] || 0), 0),
       0
     );
-    const grossMargin = revenue > 0 ? (revenue - estCOGS) / revenue : 0;
+    // S-10 毛利口径统一：成本口径 = 标准价估算（驾驶舱为实时预估，非实际成本）
+    const grossMargin = computeGrossMargin(revenue, estCOGS);
 
     const wip = workOrders.filter((w) => w.status === 'released' || w.status === 'in_progress');
     const inventoryRows = inventory.map((r) => ({
@@ -96,13 +98,13 @@ export default function Cockpit() {
       {
         key: 'margin',
         label: '预估毛利率',
-        value: (grossMargin * 100).toFixed(1) + '%',
+        value: formatGrossMargin(grossMargin),
         sub: `预估成本 ${fmtMoney(estCOGS)}`,
         color: theme.palette.success.main,
-        drillTitle: '预估毛利率 · 基于物料标准价估算',
+        drillTitle: '预估毛利率 · 基于物料标准价估算（非实际成本）',
         columns: [
           { label: '指标', render: () => '营业收入 / 预估成本' },
-          { label: '数值', render: () => `${fmtMoney(revenue)} / ${fmtMoney(estCOGS)}` },
+          { label: '数值', render: () => `${fmtMoney(revenue)} / ${fmtMoney(estCOGS)}（毛利率 ${formatGrossMargin(grossMargin)}）` },
         ],
         rows: [{ _: 1 }],
       },

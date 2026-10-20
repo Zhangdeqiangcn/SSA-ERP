@@ -184,11 +184,10 @@ const OrderDetail: React.FC = () => {
   const taxMatch = relatedInvoices.length > 0 && Math.abs(invoiceTaxTotal - orderTaxTotal) < 0.01;
   const hasMatchData = relatedInbounds.length > 0 || relatedInvoices.length > 0;
   const matchStatus: 'pending' | 'matched' | 'diff' = !twmCheck ? 'pending' : twmCheck.ok ? 'matched' : (PENDING_MATCH_CODES.includes(twmCheck.code) ? 'pending' : 'diff');
-  const MATCH_CONFIG = {
-    pending: { label: '待处理', color: '#94A3B8' },
-    matched: { label: '匹配一致', color: '#10B981' },
-    diff: { label: '存在差异', color: '#F59E0B' },
-  }[matchStatus];
+  // 匹配结论 → 集中 statusConfig key（统一走 StatusBadge，删本地 hex 副本）
+  const MATCH_STATUS_KEY: Record<'pending' | 'matched' | 'diff', string> = {
+    pending: 'twm_pending', matched: 'twm_matched', diff: 'twm_diff',
+  };
 
   const canEdit = ['created'].includes(order.status);
 
@@ -389,7 +388,7 @@ const OrderDetail: React.FC = () => {
               <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
                   <Typography variant="subtitle2" fontWeight={600}>三单匹配（采购订单 / 收货 / 发票）</Typography>
-                  <Chip label={MATCH_CONFIG.label} size="small" sx={{ bgcolor: MATCH_CONFIG.color + '15', color: MATCH_CONFIG.color, fontWeight: 600 }} />
+                  <StatusBadge status={MATCH_STATUS_KEY[matchStatus]} />
                 </Box>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>

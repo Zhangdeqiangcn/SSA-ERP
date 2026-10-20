@@ -11,7 +11,7 @@ export { FilePreviewModal } from './FilePreviewModal';
 export type { PreviewFile } from './FilePreviewModal';
 export { TreeSelector } from './TreeSelector';
 export type { TreeNode } from './TreeSelector';
-export { StatusBadge } from './StatusBadge';
+export { StatusBadge, statusConfig, statusTokenPath, resolveToken } from './StatusBadge';
 export { ConfirmDialog } from './ConfirmDialog';
 export { BatchEditDialog } from './BatchEditDialog';
 export type { BatchEditField } from './BatchEditDialog';

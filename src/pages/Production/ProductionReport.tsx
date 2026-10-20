@@ -22,6 +22,9 @@ const workshopStats = [
   { name: '激光切割区', orders: 3, completed: 3, onTime: 3, efficiency: 100 },
 ];
 
+// status-color-exception: 工单状态分布饼图的配色数组，@mui/x-charts 的 PiePlot 需要
+// 具体色值字符串（不解析 'success.main' 这类主题路径），故按审计报告 §7 图表例外登记。
+// 颜色语义仍与 statusConfig 对齐：进行中=warning / 已完工=success / 已下达=info / 已关闭=default。
 const workOrderStatusDist = [
   { id: 0, value: 5, label: '进行中', color: '#ff9800' },
   { id: 1, value: 12, label: '已完工', color: '#4caf50' },

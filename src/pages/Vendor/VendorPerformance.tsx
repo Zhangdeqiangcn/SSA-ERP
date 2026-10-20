@@ -7,7 +7,8 @@ import {
 import { Delete } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, ActionBar } from '@/components/common';
+import { DataTable, FilterBar, ActionBar } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useVendorPerformanceStore } from '@/stores/vendorPerformanceStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { VendorPerformance } from '@/types';
@@ -33,6 +34,7 @@ const VendorPerformancePage: React.FC = () => {
   const deleteRecord = useVendorPerformanceStore((s) => s.deleteRecord);
   const calculateScore = useVendorPerformanceStore((s) => s.calculateScore);
   const vendors = useVendorStore((s) => s.vendors);
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // 权重状态
   const [weights, setWeights] = useState({ quality: 30, delivery: 30, price: 25, service: 15 });
@@ -85,20 +87,26 @@ const VendorPerformancePage: React.FC = () => {
 
   const columns: ColumnDef<VendorPerformance, unknown>[] = useMemo(
     () => [
-      { accessorKey: 'vendorName', header: '供应商名称' },
-      { accessorKey: 'period', header: '评估周期' },
-      { accessorKey: 'qualityScore', header: '质量分' },
-      { accessorKey: 'deliveryScore', header: '交期分' },
-      { accessorKey: 'priceScore', header: '价格分' },
-      { accessorKey: 'serviceScore', header: '服务分' },
+      { accessorKey: 'vendorName', header: '供应商名称', meta: { searchable: true } },
+      { accessorKey: 'period', header: '评估周期', meta: { searchable: true } },
+      { accessorKey: 'qualityScore', header: '质量分', meta: { searchable: true } },
+      { accessorKey: 'deliveryScore', header: '交期分', meta: { searchable: true } },
+      { accessorKey: 'priceScore', header: '价格分', meta: { searchable: true } },
+      { accessorKey: 'serviceScore', header: '服务分', meta: { searchable: true } },
       {
         accessorKey: 'totalScore',
         header: '总分(加权)',
+        meta: { searchable: true },
         cell: ({ row }) => row.original.totalScore.toFixed(1),
       },
       {
         accessorKey: 'ranking',
         header: '排名',
+        meta: {
+          searchable: true,
+          filterType: 'select',
+          filterOptions: Object.entries(rankingLabel).map(([value, label]) => ({ value, label })),
+        },
         cell: ({ row }) => (
           <Chip
             size="small"
@@ -109,6 +117,12 @@ const VendorPerformancePage: React.FC = () => {
       },
     ],
     []
+  );
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(records, columns, filterData, { module: 'vendor' }),
+    [records, columns, filterData]
   );
 
   const handleOpenDialog = (record?: VendorPerformance) => {
@@ -272,8 +286,9 @@ const VendorPerformancePage: React.FC = () => {
       </Card>
 
       {/* 数据表格 */}
+      <FilterBar columns={columns} module="vendor" onSearch={setFilterData} listKey="vendor-performance" />
       <DataTable
-        data={records}
+        data={filtered}
         columns={columns}
         enablePagination
         enableSorting

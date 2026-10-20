@@ -11,12 +11,8 @@ import {
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceApproval } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
-
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  pending: { label: '待审批', color: 'warning' },
-  approved: { label: '已通过', color: 'success' },
-  rejected: { label: '已驳回', color: 'error' },
-};
+import { notify } from '@/utils/notify';
+import { approvalStatusColor, approvalStatusLabel, approvalStatusOptions } from '@/constants/approvalEnums';
 
 const ApprovalList: React.FC = () => {
   const { priceApprovals, updatePriceApproval, deletePriceApproval } = usePriceStore();
@@ -46,8 +42,8 @@ const ApprovalList: React.FC = () => {
       accessorKey: 'status',
       header: '状态',
       cell: ({ row }) => (
-        <Chip label={STATUS_MAP[row.original.status]?.label} size="small"
-          color={STATUS_MAP[row.original.status]?.color as any || 'default'} />
+        <Chip label={approvalStatusLabel('price_approval', row.original.status)} size="small"
+          color={approvalStatusColor('price_approval', row.original.status)} />
       ),
     },
   ], []);
@@ -56,12 +52,7 @@ const ApprovalList: React.FC = () => {
   const APPROVAL_BATCH_FIELDS: BatchEditField[] = [
     {
       key: 'status', label: '状态', type: 'select',
-      options: [
-        { value: 'pending', label: '待审批' },
-        { value: 'reviewing', label: '审批中' },
-        { value: 'approved', label: '已通过' },
-        { value: 'rejected', label: '已驳回' },
-      ],
+      options: approvalStatusOptions('price_approval'),
     },
     { key: 'title', label: '标题', type: 'text' },
     { key: 'applicant', label: '申请人', type: 'text' },
@@ -81,10 +72,10 @@ const ApprovalList: React.FC = () => {
     币种: 'currency', currency: 'currency',
     备注: 'remarks', remarks: 'remarks',
   };
-  const APPROVAL_STATUS_MAP: Record<string, PriceApproval['status']> = {
-    待审批: 'pending', 审批中: 'reviewing', 已通过: 'approved', 已驳回: 'rejected',
-    pending: 'pending', reviewing: 'reviewing', approved: 'approved', rejected: 'rejected',
-  };
+  // 由统一登记表派生「中文/英文 → 状态值」反查（标签改词只动登记表一处）
+  const APPROVAL_STATUS_MAP: Record<string, PriceApproval['status']> = Object.fromEntries(
+    approvalStatusOptions('price_approval').flatMap(o => [[o.label, o.value], [o.value, o.value]]),
+  ) as Record<string, PriceApproval['status']>;
   const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
     let updated = 0;
     let skipped = 0;
@@ -160,7 +151,7 @@ const ApprovalList: React.FC = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <FlowTracker module="price-approval" currentStatus="pa_submitted" label="流程追踪" />
           <ActionBar
-            primary={{ label: '新建审批单', onClick: () => alert('请从比价单中选择供应商后提交审批'), icon: <Add /> }}
+            primary={{ label: '新建审批单', onClick: () => notify('请从比价单中选择供应商后提交审批', 'info'), icon: <Add /> }}
           />
         </Box>
       }

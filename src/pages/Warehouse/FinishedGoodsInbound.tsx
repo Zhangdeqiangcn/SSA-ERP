@@ -15,6 +15,7 @@ import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehou
 import { useOrgStore } from '@/stores/orgStore';
 import type { FinishedGoodsInbound } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
   pending:    { label: '待入库', color: 'warning' },
@@ -171,6 +172,7 @@ const FinishedGoodsInboundList: React.FC = () => {
 
   const columns: ColumnDef<FinishedGoodsInbound, unknown>[] = useMemo(() => [
     { accessorKey: 'inboundNo', header: '入库单号',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ color: '#3B82F6', fontWeight: 500, fontFamily: 'monospace' }}>
           {row.original.inboundNo}
@@ -178,6 +180,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       ),
     },
     { accessorKey: 'workOrderNo', header: '生产工单',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#64748B' }}>
           {row.original.workOrderNo}
@@ -185,6 +188,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       ),
     },
     { accessorKey: 'productCode', header: '成品编码',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Stack>
           <Chip label={row.original.productCode} size="small"
@@ -194,6 +198,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       ),
     },
     { accessorKey: 'specification', header: '规格',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontSize: '0.8rem', color: '#64748B', maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {row.original.specification}
@@ -201,6 +206,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       ),
     },
     { accessorKey: 'actualQty', header: '入库数量',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const r = row.original;
         const pct = r.plannedQty > 0 ? Math.round((r.actualQty / r.plannedQty) * 100) : 0;
@@ -215,6 +221,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       },
     },
     { accessorKey: 'qualifiedQty', header: '合格/不合格',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Stack direction="row" spacing={0.5}>
           <Chip label={`合格 ${row.original.qualifiedQty}`} size="small" sx={{ bgcolor: '#ECFDF5', color: '#065F46', fontSize: '0.75rem' }} />
@@ -226,15 +233,14 @@ const FinishedGoodsInboundList: React.FC = () => {
     },
     { accessorKey: 'batchNo', header: '批次号', cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>{row.original.batchNo}</Typography>
-      ),
-    },
-    { accessorKey: 'warehouseName', header: '仓库' },
-    { accessorKey: 'status', header: '状态', cell: ({ row }) => {
+      ), meta: { searchable: true } },
+    { accessorKey: 'warehouseName', header: '仓库', meta: { searchable: true } },
+    { accessorKey: 'status', header: '状态', meta: { searchable: true }, cell: ({ row }) => {
         const s = statusMap[row.original.status];
         return <Chip label={s?.label} size="small" color={s?.color || 'default'} />;
       },
     },
-    { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate) },
+    { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate), meta: { searchable: true } },
   ], []);
 
   const filterFields = [
@@ -254,26 +260,23 @@ const FinishedGoodsInboundList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...finishedGoodsInbounds];
-    if (filterData.inboundNo) data = data.filter(d => d.inboundNo.includes(filterData.inboundNo as string));
-    if (filterData.productCode) data = data.filter(d => d.productCode.includes(filterData.productCode as string));
-    if (filterData.workOrderNo) data = data.filter(d => d.workOrderNo.includes(filterData.workOrderNo as string));
-    if (filterData.status) data = data.filter(d => d.status === filterData.status);
-    return data;
-  }, [filterData, finishedGoodsInbounds]);
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（入库单号/生产工单/成品编码/规格/数量/批次/仓库/状态/日期），并按字段权限门控
+    return applyColumnFilters(finishedGoodsInbounds, columns, filterData, { module: 'warehouse' });
+  }, [filterData, finishedGoodsInbounds, columns]);
 
   return (
     <PageWrapper
       title="成品入库单"
       actions={<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}><FlowTracker module="inbound" currentStatus="ib_completed" /><ActionBar primary={{ label: '新建入库单', onClick: () => setNewOpen(true) }} /></Box>}
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="finished-goods-inbound-list" />
       <DataTable
         data={filteredData}
         columns={columns}
         enableRowSelection
         enablePagination
         enableExport
+        codeColumnId="inboundNo"
       />
       <NewFGInboundDialog open={newOpen} onClose={() => setNewOpen(false)} />
     </PageWrapper>

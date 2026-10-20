@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
@@ -14,10 +14,13 @@ const STATUS_LABEL: Record<Quotation['status'], string> = {
 };
 
 export default function QuotationPage() {
-  const { quotations, addQuotation, convertQuotationToSO } = useSalesAdvancedStore();
+  const { quotations, addQuotation, convertQuotationToSO, hydrateQuotations } = useSalesAdvancedStore();
   const { materials } = useMaterialStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
+
+  // V3.76.0：报价单迁 D1（sales_quotations）——页面挂载从权威源水合（未登录自动跳过）
+  useEffect(() => { void hydrateQuotations(); }, [hydrateQuotations]);
   const [form, setForm] = useState({
     customerName: '东风汽车零部件', validUntil: '2026-08-31', currency: 'CNY',
     salesPerson: '王伟', materialId: '', quantity: 1000, unitPrice: 42,

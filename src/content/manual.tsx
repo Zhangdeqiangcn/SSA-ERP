@@ -56,9 +56,9 @@ export const MANUAL_MODULES: ManualModule[] = [
         id: 'overview-position',
         title: '系统定位',
         blocks: [
-          { kind: 'usage', title: '用途', text: 'SSA ERP 是一套面向钢材/装备制造供应链的一体化管理系统，覆盖「销售—采购—仓储—生产—质量—财务」全业务链路，数据全部存于浏览器本地（localStorage），无需后端即可单机运行与演示。' },
-          { kind: 'why', title: '为什么这样操作', text: '采用纯前端 + 本地存储架构，便于零成本上线、随时演示与离线使用；所有模块共享同一套主数据（物料/供应商/客户/仓库），保证业务单据之间可联动、可追溯。' },
-          { kind: 'notes', title: '注意事项', text: '本地存储仅存在于当前浏览器，清理浏览器数据或更换设备会丢失数据；正式多用户协同需对接后端服务（当前为演示版）。' },
+          { kind: 'usage', title: '用途', text: 'SSA ERP 是一套面向钢材/装备制造供应链的一体化管理系统，覆盖「销售—采购—仓储—生产—质量—财务」全业务链路。支持多用户登录协同，业务单据与主数据统一存于云端数据库（D1），各模块共享同一套主数据（物料/供应商/客户/仓库），保证业务单据之间可联动、可追溯；未登录的演示态下退化为浏览器本地存储，可离线单机体验。' },
+          { kind: 'why', title: '为什么这样操作', text: '登录态下数据走云端数据库 + 行级数据权限，多组织/多用户各自隔离、可审计；离线或未登录时自动回退本地存储兜底，不清空、不阻断界面。' },
+          { kind: 'notes', title: '注意事项', text: '登录态数据以云端数据库为准（多终端同步）；浏览器本地仅缓存副本与离线兜底。数据权限由「组织 + 角色 + 模块作用域」决定，你看不到他人/他组织的单据属正常隔离，而非缺失。' },
         ],
       },
       {
@@ -74,8 +74,18 @@ export const MANUAL_MODULES: ManualModule[] = [
         title: '通用操作（搜索 / 打印 / 审批 / 快捷键）',
         blocks: [
           { kind: 'usage', title: '用途', text: '介绍跨模块通用的四大能力，建议在开始业务前先熟悉。' },
-          { kind: 'steps', title: '操作流程', text: '1) 搜索：顶栏按 Ctrl/Cmd+K，输入「采购订单」「PO」「MRP」等，用 ↑/↓ 选择、Enter 打开。\n2) 打印：进入任一详情页，点击顶部「打印/打印预览」调用通用打印模块，可选模板与纸张。\n3) 审批：业务单据提交后进入审批中心（物料/供应商/采购/价格审批），按待办逐条处理。\n4) 快捷键：? 或顶栏「?」按钮查看全部快捷键；Esc 关闭弹层。' },
-          { kind: 'why', title: '为什么这样操作', text: '把「搜索、打印、审批、快捷键」做成通用能力而非各页面重复实现，是为了降低学习成本、保证体验一致，并让新页面开箱即用。' },
+          { kind: 'steps', title: '操作流程', text: '1) 搜索：顶栏按 Ctrl/Cmd+K，输入「采购订单」「PO」「MRP」等，下拉**实时**分三组命中——「页面/功能」「模块使用说明」「业务记录」（记录仅限登录且本人数据权限内）；用 ↑/↓ 选中某条后 Enter 直达该条，**不选中直接 Enter** 则进入「搜索结果」独立页（/help/search-results?q=），一次性列出全部命中并可逐条跳转。\n2) 打印：进入任一详情页，点击顶部「打印/打印预览」调用通用打印模块，可选模板与纸张。\n3) 审批：业务单据提交后进入审批中心（物料/供应商/采购/价格审批），按待办逐条处理。\n4) 快捷键：? 或顶栏「?」按钮查看全部快捷键；Esc 关闭弹层。' },
+          { kind: 'why', title: '为什么这样操作', text: '把「搜索、打印、审批、快捷键」做成通用能力而非各页面重复实现，是为了降低学习成本、保证体验一致，并让新页面开箱即用。搜索三源（页面/说明/记录）统一走一个引擎，记录类按数据权限过滤，登录态才出，保证"只看得到自己该看的"。' },
+        ],
+      },
+      {
+        id: 'overview-relation',
+        title: '单据主链路与表单关联关系',
+        blocks: [
+          { kind: 'usage', title: '用途', text: '说明各业务域「表单（单据）之间如何引用、如何自动联动」，是理解系统数据流向的核心。所有单据共享同一套主数据（物料/供应商/客户/仓库），单据之间通过编号与外键字段串联，形成可追溯的主链路。' },
+          { kind: 'fields', title: '各域表单关联（引用方向：前者引用后者）', text: '销售域：销售订单 SO 〔orderNo〕←引用→ 客户主数据〔customerCode/Name〕；SO → 生成 发货/出库单；SO → 生成 销售发票；SO 可关联 销售合同〔contractNo〕；SO → 触发 MRP → 生成 工单。\n采购域：采购申请 PR〔requestNo〕→ 转 采购订单 PO〔orderNo〕；PO 〔vendorId/Name〕←引用→ 供应商主数据；PO → 生成 采购入库单〔inboundNo〕；PO 可挂 交期跟踪/采购退货。\n生产域：工单 WO〔orderNo〕←引用→ BOM〔bomNo〕与 工艺路线〔routeNo〕、成品物料；WO → 完工入库〔入库单〕；WO 报工 〔生产报工〕可追责到供应商并联动 质量 NCR。\n仓储域：入库单〔inboundNo〕/出库单〔outboundNo〕→ 更新 库存记录；按 批次〔batchNo〕扣减并结转批次成本；盘点单〔调整〕修正库存。\n质量域：检验任务/检验批 → 不合格品 NCR → PDCA；来料/成品不合格触发 质量扣留（仓库冻结）。\n财务域：凭证由 发票/出入库/工单 成本 自动生成（三单匹配：采购订单-入库单-发票）；成本核算走 材料/人工/制造费用 归集 → 工单/库存 结转。' },
+          { kind: 'steps', title: '典型全链路（一张订单的旅程）', text: '销售订单 →（MRP）→ 工单 →（领料）出库单 →（完工）成品入库单 →（发货）销售出库单 → 销售发票 → 收款；同时采购侧：采购申请 → 采购订单 → 采购入库单 → 采购发票 → 付款；成本侧：入库/完工/出库自动过账到 库存记录 与 凭证，批次成本随 FIFO 消耗结转。' },
+          { kind: 'notes', title: '注意事项', text: '· 单据可互相引用但**不硬删**：删上游单据前先看下游是否已引用（系统用「停用/冲销」代替硬删）。\n· 跨组织单据通过「跨组织转储」在组织间移动库存，不直接改对方组织单据。\n· 全局搜索可直接模糊定位到具体某张订单/物料/合同（仅限本人数据权限内），回车进独立结果页可一次看全命中。' },
         ],
       },
     ],
@@ -1025,6 +1035,551 @@ export const MANUAL_MODULES: ManualModule[] = [
           { kind: 'usage', title: '本次变更', text: '**这一版把对标评测报告第七章「决策 E（标准成本差异分析）」真正落地——在 BOM 成本卷积页新增「标准成本差异分析」能力，把原本只有标准成本的卷积页，补上「实际成本（移动均价）vs 标准成本」的差异列与汇总。**\n\n---\n\n**一、新增差异列与汇总卡片**\n\nBOM 成本卷积页（成本卷积计算）原本只有「标准单价 / 小计 / 占比」，看不出「设计标准成本 vs 实际采购成本」的偏差。本版新增：\n\n· 顶部「标准成本差异分析」汇总卡片：标准总成本 / 实际总成本 / 差异额 / 差异率四项，并标注「口径是否对齐」；\n· 明细表新增「标准单价」「实际单价」「差异率」三列——实际单价优先取物料主数据的**移动均价**（单位一致时采用），否则取 BOM 项维护的演示实际成本；差异率＝(实际−标准)/标准，正值=超支(红)、负值=节约(绿)。\n\n**二、成本口径（强哥已拍板）**\n\n标准＝BOM 卷积单价（unitCost，按 BOM 行单位）；实际＝物料移动均价（movingAvgPrice）；按 BOM 单位统一口径对比。\n\n**三、诚实防错（不伪造差异）**\n\nBOM 卷积的 bomTreeData（mat-001~mat-005）与物料主数据（mat-001~mat-005）原本是**两套错位的演示数据**：例如钢板在 BOM 里是「280 元/张」、在物料主数据里是「4200 元/吨」，名称、单位、价格全对不上。若硬按 materialId 关联物料移动均价算差异，会得到荒唐的差异率。故本版：\n\n· 给 BOM 项新增与实际同单位同口径的「演示实际成本」字段，差异列先以它为准，让差异分析立即可用且不假数；\n· 同时预埋「真实来源＝物料移动均价」的关联逻辑——待 bomTreeData 接通 D1、物料主数据对齐后自动切换；\n· BOM 单位与物料主数据单位不一致时，差异率旁标注「单位不一致」提示、不强行换算，杜绝假数。' },
           { kind: 'why', title: '为什么这样做', text: '**为什么决策 E 一直停在「待拍板」**：报告把它列为需拍板的业务口径——标准成本怎么来、实际成本取什么、单位怎么换算都没定义前，硬做必然出假数。强哥本次明确口径（标准＝BOM 单价、实际＝物料移动均价、按 BOM 单位统一换算），本版据此落地。\n\n**为什么不直接硬改全局物料主数据去对齐 BOM**：把 mat-001~mat-005 的物料主数据单位/价格改成与 BOM 一致，会破坏库存、采购、生产计划等大量模块的演示数据，违背「不引发大回归」铁律；且 BOM 与物料主数据本就是两套独立 mock 体系，正确修复是「接通 D1 + 物料对齐」而非互相将就。\n\n**为什么工单级差异早已能做、BOM 级现在才补**：成本归集页（CostCollection）已能按工单对比标准 vs 实际（标准按计划量、实际按完成量/报工、差异率齐备）；BOM 卷积页此前只出标准成本，缺「设计端」差异视角，本版补齐这一列。' },
           { kind: 'notes', title: '注意事项', text: '· 实际成本来源优先级：物料主数据移动均价（BOM 单位与物料单位一致时才采用）→ 否则 BOM 项自带演示实际成本；差异率仅在有有效实际成本时计算。\n\n· BOM 单位与物料主数据单位不一致时，差异率旁标注「单位不一致」，不强行换算（防假数）。演示态当前 5 项均为「演示实际」来源、口径自洽。\n\n· 成本口径边界：本版只做 BOM 卷积页的「设计端标准 vs 实际」差异视图；真正按生产实际分摊（差异分摊规则、工单实际成本来源）的差异分析仍待专项拍板。\n\n· **bomTreeData 接通 D1**（从 BOM 明细表取标准/实际成本）是下一步独立任务，接通后本差异视图自动改用真实移动均价，无需改页面逻辑。\n\n· 本版不改任何后端端点，不影响路由/转义/字段矩阵；前端 tsc 0 错；唯一阻断项①登记表↔生产库为沙箱无网络直连生产 D1 所致、非代码回归。' },
+        ],
+      },
+      {
+        id: 'v39300',
+        title: 'V3.93.0（2026-10-19）｜审计整改收口 + 单据统一发号 + 模拟功能标识',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**审计整改九项 + 专项四项收口**：
+
+① 首页死链修复：工作台「采购申请数」卡片由跳不存在路径改为真实路由「采购申请列表」。
+
+② BOM 物料需求接真实库存：现有库存/安全库存/在途量不再写死 0，在途量=采购订单「已订−已交」（已收货/关闭/取消不计入），建议量=max(0, 需求+安全库存−现有库存−在途)，算式写进依据字段，与「生产→物料需求计划」页同一套算法。
+
+③ 删除 6 处假保存按钮：原只弹「已暂存」、数据不落库、刷新即失，已删除（每处旁已有真正落库按钮）。
+
+④ 首页「待我审批/待办/最近动态」由写死演示数据改为真实台账推导，无数据显示空状态。
+
+⑤ 首页 20 张指标卡片假趋势箭头改为真实本月对上月环比，无基数不显示箭头。
+
+⑥ 首页三图 + 页头日期由写死改为真实台账按月聚合、物料类型实时占比、当天真实日期。
+
+⑦ 全站约 39 处原生弹窗统一替换：提示仓库升级四级 + 统一提示组件（四级+多行可回查）+ 新增提示工具，删除类一律走确认弹窗不自动执行。
+
+⑧ 表单联动统一：销售订单/销售合同销售员默认值由写死「陈伟」改为取当前登录用户（缺失时留空不虚构）；销售订单选客户带出项目（仅一个项目自动带出，多个由用户手动指定）。
+
+⑨ 供应商门户静默冒充真实主体→顶部明示演示身份横幅（未识别到门户登录身份时明确告知当前是演示供应商数据）。
+
+⑩ 全局搜索补加载闸门：recordSources 登记 10 处按需预取（ensureLoaded），避免搜出本地种子假数据。
+
+⑪ 采购申请接入服务端权威取号：numbering 加 PR 规则，parentChild 加可选 docType 开关（向后兼容老客户端，取号失败不阻断建单）。
+
+⑫ 前端 apiService 业务单号兜底由裸时间戳（PR-1760…）改为统一生成器 generateLocalDocNo（前缀-日期-流水+随机尾，美观+防撞），主键 id 不动。
+
+⑬ 制造执行同步、电子标签两页补顶部「外部对接模拟」警示横幅（外部对接、物流运单、现金流量表投资/筹资段此前已有标识）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么要修这些**：审计指出一批「界面显示与真实数据/行为不一致」的坑——假保存按钮让用户以为存了实则没存、BOM 建议采购量恒等于需求导致仓库有货仍被建议再买、首页演示数据让人误判经营状况。这类问题比功能缺失更危险（看起来正常实则错）。
+
+**为什么单据取号走后端权威**：前端本地随机/扫最大号在多终端并发会重号；服务端在 D1 内原子自增（RETURNING 机制）无并发竞态，且按「组织+单据类型」隔离。
+
+**为什么模拟功能要明示**：MES/物流/电子标签等业务数据真实写入本地台账，但「与外部系统的实时对接/同步/扫描」是模拟的；若不明确标注，用户会误以为已对接真实系统。标识只说"对接模拟"，不否定"已落地写库"，避免误导。` },
+          { kind: 'notes', title: '注意事项', text: `· **验证**：前端+后端 tsc 0 错 / build 通过。
+· 全量 Playwright E2E 因沙箱缺 wrangler 运行时未在此执行，需在本机 wrangler 环境回归后再 deploy（预计零回归：本次以展示层/配置层/取号为主，未改既有契约）。
+· 供应商门户演示标识为「低干扰明示」而非「拦截」：保留兜底数据范围，仅顶部告知是演示数据，不阻断演示链路与回归测试。` },
+        ],
+      },
+      {
+        id: 'v39310',
+        title: 'V3.93.1（2026-10-19）｜修复首页与登录页反复跳闪（鉴权重定向死循环）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**修复「打开网站在 /（首页）与 /login（登录页）之间不停跳闪」的鉴权重定向死循环。**
+
+· 根因：登录态（isAuthenticated）持久化在 localStorage，刷新后恢复为「已登录」；但 V3.91.0 起会话令牌只存 HttpOnly Cookie（内存态刷新即失）。当本地残留「已登录」、而 Cookie 无效（从未登录 / 已过期 / 账号被停用）时，各 store 启动拉取全部 401。
+
+· 缺陷路径：此前 src/services/api.ts 的 axios 401 处理是「清内存令牌后直接 window.location.href = /login」的裸整页跳转，且**没有清 localStorage 里 auth-storage 的 isAuthenticated**。落到 /login 时，登录页「已登录则回首页」的守卫（isAuthenticated 仍为 true）立刻跳回 /，回到 / 再 401、再跳 /login → 双向无限弹跳，用户到不了登录表单。
+
+· 修复：把 api.ts 的 401 也收敛到系统既有的防循环路径——清会话 + 派发 SESSION_EXPIRED_EVENT，由 authStore 监听器统一做「清 localStorage 登录态 + 一次性跳转闸门 + 已在 /login 则不再跳」。401 后 isAuthenticated 被彻底清成 false，登录页不再跳回首页，死循环即断。
+
+· 附带收口：补装 @tiptap/extension-text-style 与 @tiptap/extension-table（富文本编辑器 mui-tiptap 的依赖，此前靠传递依赖侥幸解析、重解析后缺失导致构建失败），并显式写入 package.json 声明，根治依赖缺口。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么会反复跳闪（三层叠加）**：① 登录态（isAuthenticated）与令牌（token）在 V3.91.0 后分离——前者存 localStorage（刷新后仍在），后者存 HttpOnly Cookie（刷新后由浏览器带、脚本读不到）；② api.ts 的 401 处理是「野路子」裸跳转，绕过了 persistStorage → authStore 那条「清登录态 + 一次性闸门 + 已在登录页不跳」的防循环机制；③ 登录页的「已登录就回首页」守卫读的是 localStorage 里没被清掉的 isAuthenticated。三者一叠加就是双向弹跳。
+
+**为什么收敛到既有防循环事件而非另写**：本系统早有 SESSION_EXPIRED_EVENT 这条统一路径（persistStorage 的 401 就走它），它用「一次性闸门（同一页面生命周期只跳一次）+ 已在 /login 则不跳」两道守卫杜绝无限刷新。让 api.ts 复用同一条事件，等于把「裸跳转」收编进已有防线，改动最小、且天然继承那两道防循环守卫，不引入新机制。` },
+          { kind: 'notes', title: '注意事项', text: `· **验证**：前端 tsc 0 错 / build 通过（先移走旧 dist 规避 safe-delete 回收站二进制超时后再构建）/ 部署到生产 ssa-erp.pages.dev 成功（远程 D1 迁移幂等、无新迁移，前端 273 文件上传，探活 HTTP 200）。
+
+· **未破坏正常鉴权**：本次只改 401 的「跳转方式」，不改任何正常请求路径；HttpOnly Cookie 有效时刷新后各 store 拉取照旧成功、不触发 401，登录/登出链路不变。
+
+· **依赖收口**：@tiptap/extension-text-style（打印模板页直接引用）与 @tiptap/extension-table（mui-tiptap 内部引用）此前依赖 npm 传递依赖、未显式声明，重装/清理依赖树时易缺失。本版两者对齐到 3.31.3 并写入 package.json，后续重装不再复现。
+
+· 用户侧：此前因残留登录态卡在跳闪死循环的浏览器，升级后 401 会一次性清掉本地登录态并停在登录页（不再弹跳），重新登录即可。` },
+        ],
+      },
+      {
+        id: 'v39200',
+        title: 'V3.92.0（2026-10-19）｜P1-7 电商平台「登录即连接」OAuth 配置界面',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按强哥「调研 GitHub 主流做法、做成配置界面放系统设置」指令，落地 P1-7 电商平台 OAuth 2.0 授权码「登录即连接」配置界面**：\n\n**一、配置界面（系统设置 → 集成与开发 → 电商平台连接，管理员可见）**：平台卡片覆盖抖音/拼多多（可授权）、淘宝/京东/快手（标"即将支持"）；三种接入模式——①连接（OAuth 授权码登录，跳平台授权页）；②模拟授权（未配真实密钥时跑通整套界面与流程、令牌标"模拟"、绝不冒充真实平台）；③手动填令牌 / 配置应用（AppKey/Secret）/ 断开。\n\n**二、后端 OAuth 链路**：7 个端点——start（下发授权 URL + state 防 CSRF Cookie）、mock（模拟登录页）、callback（校验 state 后换令牌回写 D1）、status（状态查询，仅返布尔不泄露密钥）、app（存密钥、改密钥重置连接态）、manual（手动令牌）、disconnect（断连保留密钥）；channelOAuth 助手处理抖音 client_key / 拼多多 client_id 字段差异与令牌交换/刷新/Mock/凭据读写。\n\n**三、数据地基**：迁移 0107 给 channel_credentials 补 refresh_token / scope / auth_mode / status / shop_id / shop_name / is_mock（已上云）；前端 channelApi 加 oauthStatus/oauthStart/oauthSaveApp/oauthSaveManual/oauthDisconnect。\n\n**安全铁律**：AppKey / AppSecret / access_token / refresh_token 一律只存后端 D1，前端永不接触。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么用 OAuth 授权码而非前端直连**：GitHub 主流实现（Shopify 连接应用、抖音/拼多多开放平台）均为授权码流程——密钥与令牌只在后端持有，前端拿不到，杜绝密钥泄露到浏览器。\n\n**为什么要有模拟授权**：强哥尚未在开放平台注册应用、拿不到真实 AppKey/Secret；模拟授权让整套界面与回调流程在没真实密钥时即可端到端跑通、令牌明确标"模拟"，等强哥填真实密钥后自动切真实 OAuth，无需改代码。\n\n**为什么状态色要收敛**：新增页面状态一律走 StatusBadge 语义色（success/warning/info），平台品牌色（Logo 色）单独登记并加 status-color-exception 豁免，符合界面一致性门禁。` },
+          { kind: 'notes', title: '注意事项', text: `· **验证**：tsc 0 错（前端+后端）/ npm run check 一致性门禁全绿（阻断 0）/ vitest 220 全过（含 8 例新增 OAuth 单测）/ build 通过 / 状态色收敛门禁 0 违例。\n· 全量 Playwright E2E 47 套件本次为纯新增模块（独立端点/页面/迁移），未触碰既有契约，建议发布后回归。\n· 接真实平台：抖音/拼多多开放平台注册「自用型应用」拿 AppKey/AppSecret → 配置界面「配置应用」填入 → 回调地址配为 https://ssa-erp.pages.dev/api/channels/oauth/callback → 点「连接」即走真实 OAuth。\n· 密钥仅存后端 D1（channel_credentials 表），前端任何途径均不可见。` },
+        ],
+      },
+      {
+        id: 'v39100',
+        title: 'V3.91.0（2026-10-16）｜安全审计真缺口收口（认证/审计/类型/CSP）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按安全审计「爆炸半径」排期的真缺口逐项收口（审计报告第六部分优先级）：**\n\n**①【高】认证 token 明文 localStorage → HttpOnly Cookie（生产态）**：\n- 前端令牌枢纽 \`src/stores/persistStorage.ts\` 不再明文存 token 于 localStorage，改为「内存态令牌」（刷新即失，靠浏览器自动携带 HttpOnly Cookie 续期）；dev 跨域回退 sessionStorage 镜像，E2E 走 Authorization 头兜底。\n- 后端 \`functions/_shared/auth.ts\` 新增 \`buildAuthCookie\`（HttpOnly; SameSite=Strict; Secure; Path=/; Max-Age）与 \`parseAuthCookie\`；\`getUserFromRequest\` 改为「Cookie 优先 → Authorization 头兜底」；\`json()\` 助手在响应体含 \`data.token\` 时自动 Set-Cookie、含 \`data.clearAuth\` 时清 Cookie。\n- 登出/全量登出端点返回 \`{ clearAuth: true }\` 触发后端清 Cookie。\n\n**②【高】审计无自动补偿重试 → 降级表自动重放**：\n- \`functions/_shared/auditLog.ts\` 新增 \`replayDegradedAudit(DB, limit)\`：扫描 \`audit_degraded\` 降级表，逐行回写主表 \`audit_logs\`，成功即删，返回 \`{ processed, recovered, failed }\`。\n- \`functions/_shared/jobs.ts\` 的 \`runJobTick\` 挂载该重放（Cloudflare 无 Cron，靠每次 tick 执行），TickResult 新增 \`auditRecovered/auditFailed\` 指标。\n\n**③【中】严格类型未开 → 开启 noImplicitAny**：\n- \`tsconfig.json\` 的 \`noImplicitAny\` 由 false 改为 true，消除 167 个隐式 any（111 个 TS7006 真实参数 + 53 个 TS7016 mui 图标缺类型，后者靠新增 \`src/mui-icons.d.ts\` 垫片消除），最终 tsc 0 错。\n\n**④【低/暂缓】统一后端仓储层 + 域 Store 聚合**：核心域（customer/vendor/material）与简单域（copa/tripartySales/repetitiveMfg/mes）已在前序 V3.90.0 收口工厂，本轮不重复；purchase/sales/quality/warehouse 保留现状（范式不兼容，收益为负）。\n\n**⑤【暂缓】P2 全部 + CSP/DOMPurify**：CSP 顺手加——新增 \`public/_headers\`（default-src 'self' + X-Content-Type-Options + Referrer-Policy）；DOMPurify 暂缓（当前无用户富文本入 DOM 的高危路径）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么认证要换 HttpOnly Cookie**：token 存 localStorage 易被 XSS 窃取（任意脚本可读），是等保/安全审计的硬伤。改为「HttpOnly + Secure + SameSite=Strict」Cookie 后，脚本无法读取，且后端同源校验降维（不再依赖前端带 Authorization 头）。代价是刷新页面时内存令牌丢失——但浏览器会自动携带 Cookie，后端 Cookie 优先生效，用户无感续期；dev 跨域与 E2E 隔离组织仍走内存令牌 + Authorization 头兜底，改造对测试透明。\n\n**为什么审计要加自动补偿**：审计降级表 \`audit_degraded\` 是「主表写失败时的最后兜底」，但此前只有写入、没有回补，降级数据永久滞留、主表永远缺这一笔。挂 \`runJobTick\` 后每次后台 tick 自动尝试回写，恢复即删，把「单向丢弃」升级为「可自愈闭环」。\n\n**为什么开 noImplicitAny**：关闭该开关等于允许整个代码库隐式 any，安全审计指出这是类型安全的系统性缺口；开 true 后必须显式标注类型，53 个 mui 图标缺声明用垫片补（不污染业务代码），最终 0 错证明改动面可控。` },
+          { kind: 'notes', title: '注意事项', text: `· **验证**：tsc 0 错 / build 过 / 本地全量 E2E **PASS 1650 / FAIL 0 / WARN 13 / INFO 53 零回归**（与 V3.90.0 生产基线逐项一致，含 01-auth 认证套件、04/04b 同源守护、07 RLS、财务/生产/BOM/序列号等守卫生效验证，证明 HttpOnly Cookie + 内存令牌改造对 E2E 透明无破坏）。\n· 生产态刷新后内存令牌丢失属预期（浏览器自动带 Cookie 续期），非缺陷。\n· DOMPurify 暂缓：当前所有用户可见文本走 React 受控渲染（自动转义），无 v-html 高危注入点，待后续引入富文本编辑再补。\n· 下一步：P2 全部项（含 DOMPurify、更细粒度 CSP、SRI 等）按需单独立项。` },
+        ],
+      },
+      {
+        id: 'v39000',
+        title: 'V3.90.0（2026-10-16）｜统一仓储工厂收口 P1 剩余简单域',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按强哥「连那 5 个核心域仓库也要一并纳入工厂」+「purchase/sales 保留现状」指令，把通用仓储工厂 createEntityStore 从「核心域可插拔后端版（V3）」继续收口 P1 剩余简单域**：\n\n**一、核心域三仓库迁入工厂（backend 可插拔后端）**：customerStore / vendorStore / materialStore 的 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）已统一收敛到工厂，核心域专用接口（customerApi/vendorApi/materialApi）经 backend 适配层隔离——调用方零改动。\n\n**二、简单域四仓库迁入工厂（entityRepo 主源）**：copaStore / tripartySalesStore（单资源）、repetitiveMfgStore（双资源 repMfgLine/repMfgPeriod，倒冲明细 JSON 序列化经 parse/serialize 隔离）、mesStore（四资源 mesConnections/mesDevices/mesWips/mesOperationReports）的 CRUD 骨架同样收敛到工厂，多资源经 extraResources 管理，领域方法（reportProduction / syncConnection）保留在 extend 行为不变。\n\n**三、明确保留现状（不迁入）**：purchaseStore / salesStore（3~5 资源混合签名 + 版本留痕 + 门户回写 + 合同双向联动，强行套工厂收益为负）；qualityStore（公开方法为同步 void + fire-and-forget 写 D1 + 跨仓库编排 disposeUnqualified 联动库存/财务/供应商绩效，范式与工厂异步乐观不兼容）；warehouseStore（persist 水合耦合）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么工厂要先升 V3（可插拔后端）才能收口核心域**：核心域（客户/供应商/物料）走各自专用接口而非统一数据访问服务 entityRepo，V2 工厂强制 entityRepo 无法适配。V3 引入 backend 适配层后，工厂只负责 CRUD 骨架与乐观回滚，后端差异（专用接口 vs 统一路由）完全隔离，核心域得以在不改调用方的前提下迁入。\n\n**为什么 qualityStore 不迁**：它的范式是「同步方法 void 返回 + entityRepo 写即发即弃(.catch 静默) + disposeUnqualified 跨仓库编排(写 warehouseStore/financeStore/vendorPerformanceStore)」，而工厂是「异步乐观更新+失败回滚」——强制迁入要重写整个公开 API（void→Promise）并破坏大量调用方，违背去重初衷，与 purchase/sales 同理判为保留。\n\n**为什么重复制造/ MES 仍值得迁**：它们虽是多资源，但全部是「entityRepo 直连 + 扁平/可序列化字段 + 无跨仓库编排」，恰好是工厂 extraResources 的标准形态，迁入后净删约 600 行重复 CRUD 锅炉代码。` },
+          { kind: 'notes', title: '注意事项', text: `· 全量 E2E 回归（本地 8799）**PASS 1650 / FAIL 0 / WARN 13 / INFO 53 零回归**，与 V3.89.0 生产基线逐项一致；tsc 0 错、build 通过。\n· 迁移仅收敛重复 CRUD 骨架，不改变任何业务契约、字段矩阵、接口路径与 UI 行为；调用方（页面/组件）逐个方法名原样保留。\n· repetitiveMfgStore.reportProduction 与 mesStore.syncConnection 的乐观+写回语义与原实现逐行对齐（含失败告警 toast），未做行为裁剪。\n· 下一步：剩余简单域（如 sopStore 等已先行迁入的同类仓库）已归并；purchase/sales/quality/warehouse 四类保留仓库的收口需独立立项（范式差异大，不强行套工厂）。` },
+        ],
+      },
+      {
+        id: 'v38900',
+        title: 'V3.89.0（2026-10-15）｜P0-1A 离线写入队列 + 上线自动重放',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按强哥「P0-1 按 A 方案执行」指令，把「离线优先」补上同步机制（保持离线可用架构不动，只补「失败入队 + 上线自动重放」）**：\n\n**一、b2Api 新增 enqueueWriteFailure（带去重）**：导出统一入队口——同 path+同 body 的 pending 失败不重复入队（仅刷新时间戳与最新错误），避免「update 失败 fallback create」写入两条等效失败、重放时产生僵尸项。\n\n**二、entityRepo 写路径接入失败队列 + 新增 upsert**：create/update/remove 失败时分类——401（登录失效，api 拦截器已跳登录）与 4xx 业务校验（用户需改数据）不入队；网络中断/5xx（用户无能为力但操作确未成功）入 b2Api 失败队列，由右下角 B2SyncStatus 提示、可一键重试。新增 entityRepo.upsert（先 update 覆盖，记录不存在/网络断时 fallback create 带显式 id；仅最终 create 失败才入队，消除双队列项）。\n\n**三、writeRow/writeConfig 改用 upsert**：entityBackedShared 的统一写穿口（约 50 个 store 经此双写 D1）改调 upsert，调用方零改动。\n\n**四、main.tsx 接线「上线自动重放」**：监听 window online 事件（网络恢复立即重放）+ 应用启动清积压 + 每 30s 心跳重试（覆盖 online 事件未触发但网络已恢复的边界）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么复用 b2Api 现有队列而不自研**：P1 FE-002 修复已落地 b2Api 的 failureLog（环形缓冲）+ retryAll()（按原 method/path/body 重放非 GET）+ subscribe（UI 订阅）+ B2SyncStatus 状态条（已挂 MainLayout），机制经过验证。本版只补两个真缺口——① entityRepo 写路径（几十个 store 的统一写入口）失败仍被 .catch(() => {}) 静默吞、没入队；② 「上线自动重放」零接线（此前只能用户手动点「重试」）。复用而不造轮子，改动面小、风险低。\n\n**为什么新增 upsert 而非在 create/update 各自入队**：writeRow 的 upsert 语义（先 update 覆盖，失败则 create 建首条）若 update 与 create 各自入队，重放时 update 会因「记录不存在」永远失败，产生僵尸项占队列。upsert 把「最终形态」（create）作为唯一入队点，重放一次成功。\n\n**为什么 401/4xx 不入队**：401 登录态失效时 api 拦截器已整页跳登录，重放无意义；4xx 业务校验（如必填缺失）需要用户改数据，自动重放只会重复失败。只有「网络断/5xx」这类用户无能为力、重放大概率成功的失败才值得入队。` },
+          { kind: 'notes', title: '注意事项', text: `· **验证边界诚实说明**：本次改动是前端运行时逻辑（entityRepo 拦截 + main.tsx 心跳），现有 prod-e2e 为 HTTP 接口级、不渲染 UI，测不到这条离线队列路径。已用 Playwright 实测首页跳登录页渲染完整（无 pageerror、非白屏），验证 main.tsx→b2Api→entityRepo 模块链加载无崩；队列实际行为（断网→入队→恢复→重放）建议本地手动验证或后续补 UI E2E。\n\n· 后端零改动、无迁移、无接口契约变化，全量 E2E **PASS 1650 / FAIL 0 / WARN 13 零回归**。\n\n· B2SyncStatus 状态条（右下角）现在会同时反映 b2Api 自有端点与 entityRepo 写路径的未同步失败；用户可一键重试，网络恢复后也会自动重放。` },
+        ],
+      },
+      {
+        id: 'v38800',
+        title: 'V3.88.0（2026-10-15）｜P0 止血·PUT 必填门禁 + 部署脚本加固',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按强哥「逐项解决 P0」指令，落地两项可立即收口的 P0 工程（其余 P0 项经代码核实已是达标设计或属设计级大工程）：**\n\n**一、P0-2 · PUT 必填语义回归门禁（新增）**：新增 \`scripts/check-put-partial.mjs\`，纳入 \`npm run check\` 第 ⑩ 项阻断式门禁（同步加 \`npm run check:put-partial\` 独立入口）。它静态扫描 \`functions/api/**/[id].ts\` 的 \`onRequestPut\`，凡调用 \`validateOrReject\` 的 PUT 端点**必须**传 \`{ partial: true }\`——漏配即阻断提交，把「V3.86 局部更新被必填埋 400」的坑挡在源头（当前 40 个动态路由文件、18 个含必填校验的全部已合规）。\n\n**二、P0-3 · 部署脚本去硬编码 + 可回滚（加固）**：\`scripts/deploy.mjs\` 的 wrangler 解析从「写死本机绝对路径」改为按优先级解析——环境变量 \`WRANGLER_BIN\` → 项目本地 \`node_modules/wrangler\` → 项目 \`.bin/wrangler\` → 系统 PATH → 最后才回退本机隔离 workspace（跨机器可移植，不再因换机即失效）；新增**凭据预检**（缺 \`CLOUDFLARE_API_TOKEN\` 时提前退出码 2，避免迁移 apply 一半才失败）；新增 \`--dry\`（仅 apply 迁移不部署）与 \`--preview\`（发预览分支、不碰生产主域）开关，并说明回滚路径（\`wrangler pages deployment list/promote\`）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么加 PUT partial 门禁**：V3.86 的 PUT 回归坑是「人改端点时忘了加 partial」，靠 E2E 事后抓。把规则收进静态门禁，提交前就拦，成本最低、最稳，符合「改一处忘改另一处」用机器守的既有铁律（同 ⑤⑨ 范式）。\n\n**为什么部署脚本要去硬编码**：原脚本把强哥本机隔离 workspace 的 wrangler 绝对路径作为唯一兜底，换机器/重装即失效，且迁移与部署耦合在一步、缺凭据会半途失败。改为可解析 + 预检 + 预览/回滚，部署更可控、可审计。\n\n**P0-1 / P0-4 / P0-5 经代码核实的结论**：① P0-4（中间件错误透传）——\`errors.ts\` 早已把异常分类为 \`DATA_UNIQUE/DATA_CHECK/DATA_REQUIRED/DATA_TYPE/SCHEMA_MISMATCH\`（400）与 \`INTERNAL\`（500），中间件统一返带 \`code\`+\`errorId\` 的 JSON、绝不返 HTML 白屏，已是达标设计，**无需改**；② P0-5（审计补偿队列）——\`auditLog.ts\` V3.3.0 已是三层降级（结构化日志 + \`audit_degraded\` 表（迁移 0048）+ 永不抛出）+ \`auditHealth()\` 可查，原「静默丢弃」早已修复，**无需改**；③ P0-1（双通道数据源）——属设计级大工程（离线优先是有意设计，全量删除风险高、会破坏离线可用），需先上「离线写入队列 + 上线重放」再分阶段收口，已列为独立决策项，不在此次冒险改动。` },
+          { kind: 'notes', title: '注意事项', text: `· P0-2 门禁纯本地、无副作用、无网络依赖；本次改动均为 dev 工具链与部署脚本，**不改变线上应用运行时行为**，E2E 基线（PASS 1650 / FAIL 0 / WARN 13）不受影响。\n· 部署脚本默认 \`npm run deploy\` 行为不变（先幂等 apply 远程迁移、再 pages deploy 生产主域）；\`--dry\` / \`--preview\` 为附加开关。\n· 验证：门禁脚本自身扫描通过（18/18 合规）；部署脚本 \`node --check\` 通过；构建通过；生产探针首页 200、接口返 JSON。` },
+        ],
+      },
+      {
+        id: 'v38700',
+        title: 'V3.87.0（2026-10-16）｜表单必填项扩面收口 + 前端全表单补标',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**按强哥「扩面和前端补标都落实下去」指令，把 V3.86.0 的必填收口从「主数据+单据」扩到「配置类端点」，并把前端表单必填标记补全**：\n\n**一、后端扩面（配置类端点收编集中登记表）**：REQUIRED_CORE_FIELDS 新增 6 类配置表——print_templates(name+entity)、voucher_templates(name)、unit_conversions(fromUnit+toUnit+factor)、fx_rates(quote+rate)、framework_agreements(vendorId)、approval_flows(module+moduleLabel)；原先散写在各端点的必填校验（如 print-templates 的 name+entity、unit-conversions 的 fromUnit+toUnit+factor）统一改为 requireByRegistry 复用同一份登记表——单一真相、不造双源（与强哥「不造双源」工程偏好一致）。\n\n**二、预防性修复（与 V3.86 PUT 回归坑同源）**：登记 approval_flows 前，先修 pcUpdate 的 validateOrReject 调用补 {partial:true}——否则审批流局部更新（只传单字段）会被必填埋成 400。\n\n**三、前端补标（表单必填标记 + 提交拦截）**：主数据（供应商 VendorDetail 名称、客户/仓库此前已对齐、物料 MaterialForm zod 已标）、单据（采购/销售订单、入出库、委外、工单的供应商/客户/日期/产品编码/计划数量等）、配置（打印/凭证模板、单位换算、汇率、框架协议、审批流）表单，统一加 MUI required 标记 + 提交时空值拦截 + 中文点名提示，口径与后端登记表逐项一致、不增不减（避免破坏 E2E 回归）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么扩面**：V3.86.0 只收了主数据+单据，配置类端点（打印模板/凭证模板/单位换算/汇率/框架协议/审批流）的必填仍是各端点散写，新增配置端点容易忘记登记（必填悄悄裸奔）；集中登记 + 统一执行，一处登记全端点自动生效。\n\n**为什么前端也要补标**：后端 400 是最后一道闸，但用户先在界面看到必填星标、提交前被中文提示拦下，体验更顺、也减少无效请求；且前端标记必须与后端登记表「同口径」，否则会出现「后端拦了前端没标」或「前端标了后端没拦」的双重不一致。` },
+          { kind: 'notes', title: '注意事项', text: `· 不纳入范围：consolidation（执行合并动作，无新建配置必填语义）、tax-gateway（金税 KV 配置，provider 已校验）——避免误伤正常动作端点。\n· 前端补标严格对齐后端 REQUIRED_CORE_FIELDS：只标后端登记的必填字段，未多标未少标；单据类中 orderDate/inboundDate/outboundDate 等由代码自动填（永不为空）、客户/供应商在部分表单由上游单据带入的，按「可见可空才拦」原则处理，不误拦合法提交。\n· 验证：tsc 0 错 / build 通过 / **本地全量 E2E 47 套件 PASS 1650 FAIL 0 WARN 13 零回归**（与 V3.86.0 生产基线逐项一致）。` },
+        ],
+      },
+      {
+        id: 'v38600',
+        title: 'V3.86.0（2026-10-15）｜表单必填项严格审计与强制落地（前后端同拦 + 历史数据置 NULL）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**严格审计所有表单的必填项**（强哥指令：不填则影响后续工作开展），按「更严档」判据落地：① **主数据**：物料/供应商/客户/仓库的编码+名称必填（早已有后端硬拦，本版统一登记表口径），**物料额外规格+单位必填**（新增，前端 MaterialForm 的 zod schema 与后端登记表同步收紧）；② **单据业务键**：采购/销售订单、入出库、工单、凭证等的供应商/客户+日期、计划数量等沿用既有 \`REQUIRED_CORE_FIELDS\` 集中登记表强制。
+
+**单一口径、集中登记**：必填规则集中于 \`functions/_shared/validate.ts\` 的 \`REQUIRED_CORE_FIELDS\` 登记表，\`requireCoreFields\` 执行——走 \`validateOrReject\` 的 15 个 POST 端点自动获得必填能力，新建（POST）字段缺失或为空一律 400 \`MISSING_REQUIRED_CORE\` 并中文点名缺哪项。
+
+**关键修复·PUT 局部更新语义**：必填只约束「新建」，不能误伤「编辑」——\`validateOrReject\`/\`requireCoreFields\` 增加 \`partial\` 模式，18 个 \`[id].ts\` 的 PUT handler 传 \`{partial:true}\`：请求**没传**的字段放行（局部更新合法省略未改字段），**传了但为空**仍 400（防编辑时故意清空必填项）。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么建集中登记表**：逐端点手写必填有三大坏处——31 个写端点易漏、各端点文案口径不一、新增端点容易忘记登记（必填悄悄裸奔）；集中登记 + 统一执行，一处登记、全端点自动生效，新增表只需加一行。
+
+**为什么 PUT 要区分 partial**：V3.86.0 开发中被 E2E 抓到一个真问题——把新建必填直接用于 PUT 后，「仅传单字段的局部更新」（如只改价格）被必填拦成 400，防 500 回潮护栏全线报红。新建要求「必须填」，更新只该要求「要改就别改空」，两者不是同一个契约。` },
+          { kind: 'notes', title: '注意事项', text: `· 历史遗留数据：迁移 0105 把可空的必填列（\`materials.specification\`、\`vendor_master.vendor_code\`、\`vendor_master.company_name\`）中历史空串/空白规范化为 \`NULL\`（不删行、不填假值，让「未填写」真实可见）；\`code\`/\`name\` 等 NOT NULL 列物理上不可能为空，无需处理。
+· E2E 造数契约同步对齐：13 处建物料 payload 补 \`specification\`（其中 3 处修正过时键 \`spec\`→\`specification\`）。
+· 验证：tsc 0 错 / build 通过 / **本地全量 E2E 47 套件 PASS 1650 / FAIL 0 / WARN 13，与 V3.85.0 生产基线逐项一致零回归**。
+· 边界：本轮未覆盖「备注/说明/自定义字段」等可选属性（判据 D 不纳入）；服务端自管列（id/org_id/时间戳/操作人/自动单号）不纳入。` },
+        ],
+      },
+      {
+        id: 'v38500',
+        title: 'V3.85.0（2026-10-15）｜全系统列表标准化整改·全列检索 + 编号列展示',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**落地强哥两条全系统级硬需求**：① 所有明细记录都要有系统唯一编号，列表首列即展示（物料→物料编码、供应商→供应商编码、类别→类别编号等，复用业务单号/编码，不新增冗余流水号）；② 所有列表的检索可查列表全部列，默认展示 5 个查询项、其余「更多筛选」展开，且按用户角色字段权限门控可见性。
+
+**框架层（一次建设、全站复用）**：新增 \`src/utils/listSearch.ts\`（\`applyColumnFilters\` + \`deriveFilterFields\`），列定义声明 \`meta:{searchable:true}\`（文本模糊）或 \`filterType:'select'+filterOptions\`（枚举精确）即自动纳为检索项；\`src/components/common/FilterBar.tsx\` 传 \`columns\`+\`module\` 自动派生检索项，默认显 5 项、其余「更多筛选」展开、支持检索项显隐持久化（⚙自定义），并按 \`isFieldVisible(role,module,field)\` 门控字段可见性。兼容 \`accessorKey\` 与 \`id\`+\`accessorFn\` 两种列写法（无 accessorKey 时回退 col.id 作数据字段）。
+
+**铺开范围**：列驱动检索覆盖全站 47 个业务列表页（主代理 12 页 + 子代理 10 页 + 历史已转约 25 页），含销售/采购/财务/库存/供应商/物料/BOM/设置等域；编号列在三大主数据（物料编码/供应商编码/类别编号）列表首列已落地。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么做这套整改**：强哥明确要求「所有记录有编号、所有列表能查所有列」——这是 ERP 可审计、可追溯、可检索的基础纪律，此前各列表各自为政（有的无编号列、有的只暴露 2~3 个搜索框），既不符合审计要求也难用。本版把「编号展示」与「全列检索」做成框架能力，新增列表只需声明列即可自动获得，从根上保证一致性、杜绝后续漂移。
+
+**为什么复用业务单号而非新增流水号**：物料号/供应商代码/类别编号本身就是系统唯一标识，再加一列冗余流水号只会制造「哪个才是真编号」的混乱；故编号列直接复用既有业务编码。` },
+          { kind: 'notes', title: '注意事项', text: `· 本版为纯前端列表框架与组件整改，**无数据库迁移、无后端接口变更**。
+· 验证：类型检查 0 错 / 生产构建通过 / **本地全量 E2E 47 套件 PASS 1650 / FAIL 0 / WARN 13，与 V3.84.0 生产基线逐项一致零回归**（注：prod-e2e 为 HTTP 契约门禁，前端 FilterBar 渲染行为经 tsc/build 编译保证，界面效果建议开本地预览核对）。
+· 检索「更多筛选」展开、字段权限门控的界面表现未纳入自动 E2E，发布前建议人工过一遍。` },
+        ],
+      },
+      {
+        id: 'v38400',
+        title: 'V3.84.0（2026-10-15）｜界面一致性审计整改·全模块视觉统一 + 全新库重建门槛打通',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**对全部模块做了一遍「界面一致性审计」（明细列表 / 详情页的格式、布局、功能、默认视觉是否统一），并按 P0→P1→P2 逐项修复。本版不改变任何业务逻辑与数据，只统一「怎么显示」。**
+
+**① 状态色全站收敛（P0）**：以前每个页面各自维护一份「状态→颜色+中文标签」的本地副本（几十份、色值还各不相同，同一种状态在不同页面长得不一样）。本版把 StatusBadge（状态徽标）的中央登记表扩成覆盖全业务域的唯一真源，32 个页面全部改走统一徽标；模块专属标签用带前缀的键登记（如出库单 ob_、检验 insp_、异常 exc_），不污染通用语义。
+
+**② 工单详情页迁标准对象页（P0）**：唯一一个「裸奔」自建外壳的工单详情页，迁到标准的 ObjectPage（面包屑 + 描边头部 + 锚点导航 + 分区样式与全系统一致）。
+
+**③ 详情页内层统一（P1）**：4 个详情页的分区标题字号从两三种混用统一为 h6；圆角色块卡片统一为描边卡片；硬编码色值全部换成主题令牌（支持换肤）。
+
+**④ 列表页状态列（P1）**：全部列表页状态列走统一徽标，无本地色片。
+
+**⑤ 列表规范（P2）**：凭证模板列表从 36 处手写表格迁到标准 DataTable（一次性获得排序/筛选/导出/列设置）；工艺路线列表判定为「工序流可视化」（横向工序链+箭头，压成表格会毁掉视图），只对齐外壳与配色、保留可视化。
+
+**⑥ 防复发门禁（P2，长期价值最高）**：新增 scripts/check-status-colors.mjs 并挂进 npm run check 一键检查（第 ⑨ 项，阻断式）——以后谁再在页面里写一份「活着」的本地状态色副本，检查直接报错拦下；图表等合理例外必须写理由注释才放行。
+
+**⑦ 修复全新库重建断点**：迁移 0087 与 0013 重复添加同一列（inventory_records.dept_id），全新空库按序应用必报错断裂（生产因列早已存在、迁移已登记而无碍，属历史债务）。本版删除重复列、仅留幂等索引，**全新空库重建门槛正式打通**（105 个迁移全链应用，与生产 177 张表逐表比对一致），生产零影响。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么值得单独立一版做「视觉统一」**：状态色散落几十份本地副本，是典型的「界面慢慢漂移」型技术债——不报错、不出故障，但同一种状态在不同页面颜色/叫法不一致，用户认知成本高、培训成本高，且每加一个新页面就再抄一份。本版把「颜色+标签」收敛到一处登记，从根上消除漂移，并用机器门禁防复发。
+
+**为什么图表类页面的 hex 没有机械重写**：130 个页面里有大量图表/仪表盘，其色值是图表库入参（非状态语义），机械重写风险高、收益低，按审计例外条款仅保留一处已登记理由的图表配色；完整换肤/深色模式建议后续单独立项。
+
+**为什么工艺路线列表不迁表格**：它本质是工序流可视化（横向工序链 + 箭头），压成二维表格会毁掉这个视图；审计报告本身对树形/可视化页面留有「或可理解」判定，故只统一外壳与配色。` },
+          { kind: 'notes', title: '注意事项', text: `· 本版为纯前端视觉整改 + 1 处迁移脚本修正（仅影响全新空库重建，对生产库零影响），无任何业务逻辑、数据、接口变更。
+
+· 验证全绿：类型检查 0 错 / 生产构建通过 / 单元测试 169 个全过 / 新增状态色门禁通过 / **E2E 全量回归 47 套件 PASS 1650 / FAIL 0 / WARN 13，与上一版生产基线逐项一致，零回归**。
+
+· 使用上无感知变化：所有按钮、入口、操作方式与数据完全不变，变的是「状态长什么样」在全系统保持一致。` },
+        ],
+      },
+      {
+        id: 'v38300',
+        title: 'V3.83.0（2026-10-14）｜服务端能力增强·三态结账落库 + 审计跨端精确回滚',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**承接 V3.82（C 类去双源收口），本批补上那 2 项「去双源边界里明确记为后续独立工程」的服务端能力增强：① 三态结账落库（profit_closed 中间态也落 D1）；② 审计跨端精确回滚（audit_logs 加 version 列，他人/换端/刷新后留下的版本链也能看到并回滚）。**
+
+**① 三态结账落库**：此前服务端 /api/finance/closing-periods 只认 open/closed 两态（profit_closed 是前端损益结转的过渡态、落不了库），多人同时结账/换端时中间态会丢。本版结账端点 POST 增加 action='profit_close'（落 profit_closed 中间态、跳过试算/跨期/折旧硬检查，因中间态不锁凭证），closed 维持原最终结账语义；前端 financeLedgerStore 的写穿与水合随之支持三态（服务端已存 profit_closed，loadClosingPeriods 直接映射、upsertClosing 的损益结转也写穿服务端）。数据库 fin_closing_periods 本就无 CHECK 约束、注释已预留三态，故本版无 DDL 改动。
+
+**② 审计跨端精确回滚**：给 audit_logs 加 version INTEGER 列（迁移 0104，按 org_id+entity+entity_id 维度单调递增；存量行 version=1 兜底、无主键全局日志恒 1）。writeAudit 插入时自增实体维度版本号；GET /api/audit 返回 version；前端 auditStore 新增 getServerVersionHistory（登录态按 entity 拉服务端版本链、客户端按 entityId 过滤），回滚对话框优先展示服务端跨端版本链（他人操作、换端、刷新后都可见），回滚动作 rollbackTo 也双写服务端留痕。
+
+**向后兼容**：结账 PUT 反结账逻辑不变（行存在即可打回 open）；审计老数据无 version 的按 1 处理不产生歧义；纯离线/未登录时前端全部回落本地会话态，功能不破坏。前端 tsc 零错误（EXIT 0），0104 本地直执行成功（加列 + 索引）。` },
+        ],
+      },
+      {
+        id: 'v38200',
+        title: 'V3.82.0（2026-10-14）｜C 类影子双源去双源·收口多人共享审计/结账态',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**承接 V3.81（B 类 7 个迁 D1），本批收口最后的 C 类 2 个「影子双源」——它们已有服务端权威端点（/api/finance/closing-periods、/api/audit/logs），但前端 store 仍多写一份整块 blob（backendStorage），多人同时操作会整块 409 冲突、换端看不到别人的结账态/审计。**
+
+**去双源＝删本地 blob 影子 + 登录态从既有服务端端点水合 + 写穿，方法签名与界面零改动：**
+
+· financeLedgerStore.closingPeriods：去掉 persist(backendStorage) 整块 blob，改「登录态 loadClosingPeriods() 从 /api/finance/closing-periods 水合（服务端 open/closed 态覆盖 12 期骨架，profit_closed 中间态保留本地）+ 结账 upsertClosing / 反结账 openPeriod 时 fire-and-forget 写穿服务端」。保留本地 12 期主数据骨架与三态状态机（open/profit_closed/closed），界面 PeriodClosing 零改动。
+
+· auditStore.records：去掉 persist(backendStorage) 整块 blob，records 改纯内存会话态；recordAudit 每次仍双写服务端 /api/audit/logs（权威、org 隔离、含 diff），本地 records 只承载当前会话内「版本历史 + 回滚」的即时能力（刷新即清，不影响服务端留痕）。界面 ServerAuditTab 生产态本就拉服务端、本地只是 DEV/离线兜底，零改动。
+
+**去双源边界（不做，记后续独立工程）**：① 把结账扩成服务端三态（profit_closed 中间态落库）需改 /api/finance/closing-periods 状态机与 fin_closing_periods 表；② 给 audit_logs 加 version 列做跨端精确版本回滚。这两项是服务端能力增强，混进本版会放大结账核心链路/审计回滚的回归面，故本版只收口「删 blob + 水合 + 写穿」的去双源核心，方法签名不变、界面不动。
+
+前端 tsc 零错误（EXIT 0），纯前端改动、无数据库迁移。` },
+        ],
+      },
+      {
+        id: 'v38100',
+        title: 'V3.81.0（2026-10-14）｜B 类共享配置/留痕型本地 store 迁 D1·收口多人共享数据',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**承接 V3.80（A 类 6 强协作型），本批把 B 类 7 个「共享配置/留痕型、仍在整块 Blob」的 store 迁 D1 行级，根治多人同时改配置/共享留痕的整块 409 冲突、换端看不到别人配置的问题。**
+
+沿用 V3.77/V3.80 已验证的 payload 列范式，数据地基＝迁移 0103 建 7 张 D1 表（幂等）+ entities.ts 注册 7 资源 + rls.ts 登记 7 表 'all'（组织内共享）；前端各 store 保留原方法名改走 entityRepo（本地乐观 + 登录态 fire-and-forget 写穿 + 未登录/离线种子兜底 + 挂载自动水合）。
+
+**7 个 store（三种形态）**：
+· 整块 config 型（单行 payload + subscribe 写穿 + 水合）：customFieldStore（三实体自定义字段定义，custom_fields）、alertRuleStore（异常预警规则 6 条，alert_rules）。
+· 逐行型（rowkey=对象 id）：fmeaStore（FMEA 分析记录，fmea_items）。
+· 双切片型（单表 __kind 分流，rowkey=各对象 id）：integrationStore（webhooks+webhookLogs，integration_shared）、lowCodeStore（表单定义+表单记录，low_code_shared）、workflowStore（定义+实例，workflow_shared）、analyticsStore（预测建议+OCR 历史，analytics_shared）。
+
+**纯个人偏好/会话类（auth/i18n/notification/session/display/listPrefs/tab/workbench）本就该本地、不迁；C 类 2 影子双源（closingPeriods/auditStore）风险画像不同，单独立项到 V3.82。**
+
+前端 tsc 零错误（EXIT 0），0103 本地直执行 7 表全部建出（幂等）。` },
+        ],
+      },
+      {
+        id: 'v38000',
+        title: 'V3.80.0（2026-10-13）｜强协作型本地 store 迁 D1·根治多人同时使用的数据冲突',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**强哥指令「全面梳理还在本地 store 运行的模块，识别迁移 D1 必要性，影响多人同时使用的就迁移到 D1」——先全量排查 95 个 store 的持久化方式，判定标准=「存的是不是多人各写各的共享业务数据、且只走整块 blob、无 D1 行级通道」，锁定 6 个强协作型优先迁移。**
+
+**背景根因**：旧通道 backendStorage 把整个 store 状态打成「一整块 blob」按组织上云（/api/state/:key），多人同时改里面不同记录会触发整块版本冲突（409）/互相覆盖/413 体积上限；D1 关系表是一行一条、行级独立，多人各改各的互不干扰。
+
+**本批 6 个强协作型 store 全部迁 D1 行级**（沿用 V3.77 已验证的 payload 列范式，生产零回归）：
+· flowStore：报检单/供应商申请/订单确认/发货物流/质量问题/改进报告/供应商对账/发票申请 共 8 切片 → 共 1 张表 flow_shared（__kind 标记分流，行主键=各对象 id）。
+· equipmentStore：设备台账 + 保养工单 双切片 → equipment_ledger（__kind 分流）。
+· invoiceVerificationStore：数电票核验批次台账 → invoice_verification（OCR 待载入队列保持纯内存、不上云）。
+· conditionStore：采购价格/折扣/运费条款 → purchase_conditions（保留 resolvePrice 纯计算逻辑）。
+· sourceListStore：货源清单 → source_lists（全部 selector 联动口径不变）。
+· slowMovingStore：呆滞物料处置决策 → slow_moving_disposals（无 id，行主键=materialId，同物料覆盖语义与 upsert 天然吻合）。
+
+**数据地基**：迁移 0102 建 6 张 payload 列表（幂等 DDL）+ entities.ts 注册 6 资源 + rls.ts 登记 6 表为 'all'（组织内共享，隔离靠 org_id）；前端各 store 保留原方法名，内部改走 entityRepo（本地乐观更新 + 登录态 fire-and-forget 写穿 + 未登录/离线种子兜底 + 挂载自动水合）。
+
+**未迁（保留）**：B 类共享配置/留痕（customField/alertRule/fmea/integration/workflow/analytics/lowCode）与 C 类影子双源（financeLedger.closingPeriods 已有 /api/finance/closing-periods、auditStore 服务端 audit_logs 已 append-only）后续批次处理；纯个人偏好/会话类（auth/i18n/notification/session/display/listPrefs/tab/workbench）本就该本地，不迁。
+
+前端 tsc 零错误（EXIT 0），生产构建通过，0102 本地直执行 6 表全部建出。` },
+        ],
+      },
+      {
+        id: 'v37900',
+        title: 'V3.79.0（2026-10-13）｜演示页分批落地·真正落库闭环（强哥「逐个落地」指令）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**把 V3.78 标注「功能演示·未落地」的 9 页逐一甄别：凡影响系统功能/运行逻辑的，逐个真正落地；不影响系统功能的，保留横幅（后续立项）。**\n\n**已落地（影响系统功能，本次真写库）**：\n· 报检单-质量侧：暂存/提交报检写入报检池（status=pending，列表即时刷新、刷新/换端后仍在）；同步更正 V3.78 误标「不写入业务系统」的横幅。\n· 报检单-仓库侧：提交报检→生成报检单+派发检验任务；确认入库→生成真实入库单、回写报检状态为已通过；处置→生成不合格品记录、回写状态为未通过；更正误标横幅，并补齐 addInspectionTask 缺的检验标准/责任人/计划日、addUnqualifiedItem 缺的责任人/到期日、入库项 qualityStatus 非法值（'pending'→'qualified'）三类类型错误（系 V3.78 仓库侧落地时引入、Vite 不类型检查故未暴露，本次纳入 tsc 零错基线）。\n· 销售项目异常反馈：「反馈异常→提交异常」写入本项目主数据 exceptions（status=open，进入跟踪闭环），不再仅弹提示。\n· 询价单详情-发布询价：点击后单据状态由草稿变已发布（status=published），进入寻源/比价流程，可据此生成比价单。\n\n**保留横幅（不影响系统功能，仅本地演示/配置，后续立项）**：低代码设计器（未接后端表单引擎）、外部系统对接(集成页)（模拟接口+本地配置）。\n\n**V3.78 已更正的误标**：供应商对账单/开票页、供应商发货/物流页、询价单发布页本就写库，仅清理旧「（演示模式）」文案。` },
+        ],
+      },
+      {
+        id: 'v37800',
+        title: 'V3.78.0（2026-10-13）｜表单功能演示页全量标记「功能演示·未落地」（防误判）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**把「只是功能演示、没真正落库」的页面全部在页内醒目标记，避免使用者误以为已上线（强哥指令「全部在页面标记上功能演示，未落地」）**：
+
+经逐页核对「提交/保存处理器」是否真正写库（调用 store 的 add/update 落 D1，还是只 alert/setSnackbar 不写），把所有页面分成两类处理：
+
+· **A 类 · 确凿未落地（9 页）**：新增统一可复用组件 \`src/components/common/DemoBanner.tsx\`（警告色横幅「⚠ 功能演示 · 未落地」+ 每页定制的原因说明），在页面顶部注入。覆盖：① 报检单-质量侧 ② 报检单-仓库侧 ③ 低代码设计器 ④ 询价单发布页 ⑤ 供应商对账单/开票页 ⑥ 供应商发货/物流页 ⑦ 外部系统对接(集成页) ⑧ 销售项目异常反馈 ⑨ 询价单详情发布。
+· **B 类 · 已落库但残留旧文案（6 页）**：这些页其实已写库（调用 addVendorApplication / addVendorQuotation / updateVendor / disposeUnqualified / addPriceApproval 等），只是按钮提示里还残留「（演示模式）」字样会误导使用者以为没落库。本版**只清理残留文案、不标横幅**，避免误伤真实功能。覆盖：价格审批 / 供应商注册 / 供应商报价 / 供应商资料 / 不合格品处置 / 比价单。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么必须分两类**：简单 grep「演示模式」会把 6 个已落库页面误判为「没上线」，给真实功能打上「演示」横幅会反过来误导使用者不敢用。故逐页读提交处理器确认「是否真写库」再分类——只有「提交只弹提示、不调 store 写」的页才标横幅。\n\n**为什么做统一 DemoBanner 组件**：9 个横幅若各写各的，样式/措辞会漂移；统一组件保证「警告色 + 标题 + 原因」三要素一致，且原因支持 **加粗** 关键词（renderEmphasis 解析 \\*\\* 标记），比裸写一堆文字更醒目。\n\n**为什么 B 类不标横幅**：它们与 A 类本质不同——提交确实写库，残留「（演示模式）」只是历史文案没清；标横幅会制造「这功能没上线」的假象，违背「不误伤真实功能」原则。' },
+          { kind: 'notes', title: '注意事项', text: '· 横幅为纯前端展示，不触碰任何数据写入路径，零数据层回归风险；仅改 9 个页面顶部 + 新增 1 个组件 + 清理 6 处旧文案。\n· 横幅原因文字均写明「具体哪个按钮只提示、不写库」，让使用者一眼知道哪里是演示、哪里是真实可用。\n· 前端 tsc 全绿（EXIT 0）；本版属 UI 标注性质，未动业务逻辑、未动迁移，生产回归基线（V3.77.0 PASS 1650/FAIL 0）不受影响。\n· 若后续某 A 类页真正落库，记得移除对应 DemoBanner 横幅；若某 B 类页发现其实没落库，应升级为 A 类加横幅。' },
+        ],
+      },
+      {
+        id: 'v37700',
+        title: 'V3.77.0（2026-10-13）｜全模块联动审计整改：本地孤岛 store 全量迁 D1（根治数据不准确/不对齐/不联动）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**把审计发现的本地孤岛 store 全部迁接后端 D1 关系表（强哥「全部修复」指令）**：
+
+审计报告指出约 20 个前端 store 仍走纯浏览器整状态 Blob（\`persist(backendStorage)\`），导致「数据不准确 / 不对齐 / 不联动」——换设备即丢、多用户互不可见、与其它已在 D1 的模块对不上。
+
+本版用「统一 payload 列范式」一次性根治：
+· **数据地基**：迁移 0101 新建 20 张关系表（统一 \`id\` 主键 + \`org_id\` + \`payload TEXT\` + 6 个审计列），后端通用实体路由 \`/api/entities/<resource>\` 提供会话鉴权 + 组织隔离 + 行级策略 + 审计；\`entities.ts\` 注册 20 资源、\`rls.ts\` 标 'all'（组织内共享基础资料/配置，无越权面）。
+· **统一辅助**：新建 \`src/stores/entityBackedShared.ts\`（parsePayload / withKind / splitByKind / writeRow / writeConfig），整对象 JSON 落 payload + 登录态 fire-and-forget 写穿 + 未登录种子兜底 + 页面挂载水合。
+· **分批改写**：P0-1 ECN 双源（ecn / productionVersion / productionEcn）；P0-2 用户/组织/权限接后端（systemUser / systemOrg 与鉴权表解耦，dataPermissionStore 写穿+水合收口）；P0-3 价格审批/价目表（priceStore 5 资源）；P1 配置/扩展类孤岛（coa / materialApproval / vendorPortal / reportPermission / materialExtension / qualityExtension / financeExtension / salesPrice / settings 共 9 store）。
+· **零破坏**：保留原 store 领域方法名、内部改走 entityRepo；本地乐观更新 + 登录态写穿，未登录/离线回退种子；多集合同表用 \`__kind\` 标记水合分流。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么迁关系表**：Blob 整状态经 \`/api/state\` 云同步有三个硬伤——① 没有行级概念，多用户同时改互相整块覆盖；② 换设备/清缓存即丢；③ 与凭证/物料等已在 D1 的模块对不上账、无法被按行引用（如质量不合格品无法回写供应商评级、价格审批无法被采购订单引用）。关系表补齐后：组织内多用户共享、换设备不丢、与其它 D1 数据同库可对、可被外键引用。\n\n**为什么用「统一 payload 列」而非逐字段建模**：这 20 个对象结构各异（有的含嵌套数组、有的只是配置），逐字段建表改动面巨大、易出错；统一 \`payload TEXT\` 把整对象 JSON 序列化落库，前端改动极小且零数据建模风险，与 V3.76 的应收应付/寄售/报价同款范式一致（框架自动 JSON 序列化/解析）。\n\n**为什么 dataPermission 保留本地 persist**：它含复杂的 v3→v8 迁移逻辑与大量被其它模块 import 的纯函数，直接改写风险高；故仅追加 D1 写穿订阅 + hydrate（D1 作组织共享权威源、本地仍作离线缓存），不动其内部逻辑与导出。' },
+          { kind: 'notes', title: '注意事项', text: '· 前端 tsc 全绿（EXIT 0）、生产构建通过（✓ 13940 modules，47.76s）。\n· 20 张表全部 \`CREATE TABLE IF NOT EXISTS\`，可重复执行、零破坏。\n· 未登录状态各页面展示本地种子（与迁移前全新浏览器表现一致），不发任何云端请求；登录态以 D1 为权威源。\n· 部署前置：需先对生产 D1 应用迁移 0101（\`wrangler d1 migrations apply ssa-erp-db\`），再 \`node scripts/deploy.mjs\`；随后全量回归确认零回归（基线 1586/FAIL 0，注意 Cloudflare 平台 1102 抖动降级判据：连静态首页 503 = 平台层，勿改代码背锅）。\n· 与 V3.76 同款「旧 Blob 键保留不删」原则：本批 store 已不再读旧键，但旧 localStorage 数据未被主动清除（无副作用，作回滚安全垫）。' },
+        ],
+      },
+      {
+        id: 'v37600',
+        title: 'V3.76.0（2026-10-12）｜B 类第 4 批：应收应付台账 + Blob 残余迁 D1 关系表（P1-1 / P1-5）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**应收应付台账 + 三个 Blob 单据正式迁 D1 关系表（B 类最后一批，强哥已拍板「正式迁 D1 关系表」）**：
+
+审计 P1-1「应收应付双源」的根因：服务端往来只到凭证科目层（采购发票过账写 2202 应付账款、销售开票写 1122 应收账款，见 \`arapPosting\`），而前台另有一份手工台账存在整状态 Blob 里（\`ssa-erp-arap\`），两处对不上账。审计 P1-5「仍 Blob 的单据」：寄售库存（\`ssa-erp-consignment\`）、采购信息记录（\`ssa-erp-purchase-info-record\`）、销售报价（\`ssa-erp-sales-adv\` 的 quotations 切片）三类数据只存单浏览器大对象，换设备即丢、多用户互不可见。
+
+本版把四类数据全部落成组织隔离的关系表（迁移 0100，5 张表）：
+
+· **应收/应付台账**：\`fin_receivables\` / \`fin_payables\`，与凭证同库同组织，发票号与凭证来源号（\`INV-<发票号>\`）同键可对；
+· **寄售库存**：\`consignment_stocks\`（约定单价/寄存/已消耗/结存四件套 + 仓库）；
+· **采购信息记录**：\`purchase_info_records\`（供应商-物料价格/货期主数据，采购员之间共享）；
+· **销售报价**：\`sales_quotations\` 头表 + 明细封 \`extra_json\`（与销售合同范式一致，头部金额列支持列表直查）。
+· **一次性回填（非破坏）**：各页面首次挂载时若发现 D1 对应表为空，把旧 Blob 里的存量数据（本地优先、云端兜底）或种子写入 D1，之后纯 D1 读写；旧 Blob 键原样保留不删，作为回滚安全垫；
+· **数据流**：登录态 D1 为权威源；未登录保留本地种子兜底（离线可用）；增删改本地即时 + 登录态写穿 D1（失败不阻断界面）。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么迁关系表而不是继续用大对象**：Blob 模式整状态 JSON 经 \`/api/state\` 云同步，三个硬伤——① 没有行级概念，多用户同时改就是互相整块覆盖；② 换设备/清缓存即丢；③ 与凭证/发票这些已在 D1 的数据对不上账（应收应付双源正是这么来的）。关系表补齐后：组织内多用户共享、换设备不丢、与凭证同库可对。\n\n**为什么回填要「本地优先、云端兜底」**：旧 Blob 在 \`localStorage\` 和云端 \`app_state\` 各有一份（云端供换设备），任一份有数据就先用它；两份都没有才落种子。**为什么旧 Blob 不删**：删掉就没有回滚安全垫了——万一 D1 侧有问题，把 store 切回 Blob 模式即可恢复；保留一个无人再写的旧键没有副作用。\n\n**为什么报价明细封 extra_json 而不是建子表**：报价明细只在报价详情/转订单时整组使用，没有服务端按行检索的需求（对比：发票明细有三单匹配的行级锚点，必须真子表）。封 \`extra_json\` 与 V3.66 销售合同完全同范式，框架零改动。' },
+          { kind: 'notes', title: '注意事项', text: '· 零破坏：所有旧数据原样保留，回填只增不删；迁移 0100 全部 \`CREATE TABLE IF NOT EXISTS\`，可重复执行。\n· **回填幂等边界**：若回填中途失败（网络中断），该组织 D1 已有一部分数据，再次 hydrate 时按「D1 非空即跳过回填」处理——剩余种子不会自动补落，可手工新增（不影响已有数据正确性）。\n· 应收/应付的「账龄」是展示派生值：读回时按当前日期重算，不信任库里的旧账龄桶。\n· 未登录状态下四个页面展示本地种子（与迁移前全新浏览器的表现一致），不发任何云端请求。\n· 新增 E2E 套件 46（5 资源列表契约/未登录 401/建单 201/字段读回/更新/删除 404/跨组织不泄漏/报价 extra_json 明细往返）。\n· 前端 tsc 全绿、169 单测全过、functions 类型基线零新增。' },
+        ],
+      },
+      {
+        id: 'v37500',
+        title: 'V3.75.0（2026-10-12）｜B 类第 3 批：审批状态枚举统一登记表（P1-4）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**审批状态枚举统一收敛（审计 P1-4，强哥已拍板「连各业务模块一起统一」）**：
+
+审计发现「审批状态枚举散落多处」：框架层审批实例状态（审批中/已通过/已驳回/已撤回，落库 D1 \`approval_instances\`）、业务层物料申请 / 价格审批 / 供应商注册申请 / 采购申请各自一套状态词、审批流定义（系统预置/草稿/待审/已发布）又一套，且每个页面各自再抄一份中文标签和颜色——同义词漂移严重：同为 \`pending\`，物料页叫「待审批」、框架叫「审批中」；同为 \`rejected\`，物料/价格页叫「已驳回」、供应商/采购页叫「已拒绝」。
+
+本版建统一登记表 \`src/constants/approvalEnums.ts\`，把 6 套审批相关词表（审批实例 / 物料申请 / 价格审批 / 供应商申请 / 采购申请 / 审批流定义）的「状态值 + 中文标签 + 颜色 + 相位」集中到一处：
+
+· **非破坏收敛**：不动任何已落库的状态字面值，各类型联合原样保留，页面标签/颜色改为从登记表派生——界面显示零变化；
+· **类型即覆盖率断言**：每模块一张「状态联合 → 条目」映射表，将来某模块新增状态成员而忘了登记，类型检查直接报错（防再发散）；
+· **统一相位与谓词**：所有状态归一到 draft（未提交）/ in_flight（审批中）/ approved / rejected / closed（其他终态）五种相位，提供 \`isApprovalInFlight\`（能否审批/催办）/ \`isApprovalSettled\`（是否已了结）等谓词，替换各页面手写的 \`['submitted','reviewing','supplement'].includes(s)\` 这类清单；
+· **消费方全收敛**：物料审批队列 / 价格审批列表 / 供应商审批队列 / 采购申请列表（筛选 + 批量编辑选项）/ 审批流设置页 / 审批流配置读取器（生效流程判断）共 7 处，全部改为读登记表；
+· **单测锁行为**：新增 6 条单测，断言登记表覆盖各类型联合全部成员、相位谓词语义、标签措辞与原页面逐字一致（收敛不能改显示）。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么枚举散落是问题**：同一状态词在不同页面有不同中文标签和不同「是否审批中」判断，新增审批模块时要从 4 处旧代码里抄一套、还要自己决定标签叫什么——抄漏一个状态就出现「有单无标签」的空白 chip（价格审批的 \`reviewing\` 状态就是历史漏抄，本版补上）。集中后：加新模块只改登记表一处，标签/颜色/相位/谓词全局一致。\n\n**为什么不顺手统一中文用词**：本版目标是枚举结构收敛，用词统一（如全部改成「已驳回」）会动所有界面的文案、影响用户习惯，留作单独决策——真要改时只动登记表 label 一处即可全局生效。' },
+          { kind: 'notes', title: '注意事项', text: '· 零数据迁移、零接口变更，纯前端类型/store/页面；所有状态字面值与数据库既有值完全一致。\n· 界面显示零变化：各模块标签措辞按原页面逐一保留（物料「待审批」、框架「审批中」、供应商「已拒绝」等），仅来源统一。\n· 采购申请批量编辑状态选项顺带补齐「已下单」（与原筛选选项一致，此前批量编辑漏了该值）。\n· 价格审批的 \`reviewing\`（审批中）状态原有页面无标签渲染（会显示空 chip），本版补「审批中」。\n· 前端 tsc 全绿、169 单测全过（新增 6 条登记表测试）；后端 functions 零改动。' },
+        ],
+      },
+      {
+        id: 'v37400',
+        title: 'V3.74.0（2026-10-12）｜B 类第 2 批：ECN 双源双向引用（保留两套不并源）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**工程变更 ECN 双源加双向引用（B 类 P0-4，强哥已拍板「保留两套加双向引用」）**：
+
+系统里一直存在两套工程变更数据：① 物料域工程变更单 ECM（工程变更单页 \`/production/ecn\`，ecnStore，管物料/BOM/工艺路线的值变更与审批流）；② 生产域工程变更单 ECN（生产版本页 \`/production/versions\` 的 store 里，productionVersionStore，发布时切换关联 BOM 至新版本）。两套各自为政、种子数据还同号异义（都叫 ecn-001 但是两张完全不同的单），用户看得见却摸不着、对不上账。
+
+本版按「非破坏补强」处理——两套数据全部保留、不删不并、旧数据不动，只加互相挂钩的引用：
+
+· **类型层**：EngineeringChange 加 \`linkedEcnIds\`（关联的生产域 ECN），ECN 加 \`linkedChangeIds\`（关联的物料域 ECM），均为可选字段、向后兼容；
+· **Store 层**：ecnStore 加 \`linkEcn/unlinkEcn\`，productionVersionStore 加 \`linkChange/unlinkChange\`——任一侧调用即双向落库（本侧字段 + 镜像对侧字段），任选其一效果等价；
+· **界面层**：工程变更单页新增「关联生产ECN」列（绿色单号 chip，点击跳转生产版本页）+ 每行「关联生产ECN」按钮（勾选式对话框，保存时按差集增删）；生产版本页新增「工程变更 ECN（生产域）」区块——原本只在 store 里、没有任何界面能看到，现在显式列出，支持「关联ECM」（蓝色单号 chip 点击跳回工程变更单页）与「发布」（切换 BOM 版本）。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么不并源**：两套 ECN 服务不同场景——物料域 ECM 走审批流（草稿/批准/执行/取消）、管的是「值」的变更；生产域 ECN 管的是「BOM 版本切换」，发布动作直接改 BOM。强行合并要迁数据、改语义、动发布联动，回归面极大；强哥拍板保留两套，本版只补「互相能找到对方」的最小关联。\n\n**为什么引用字段放两侧而不只放一侧**：只放一侧会出现「从 A 能看到 B、从 B 看不到 A」的半链路；两侧字段 + store 方法内镜像，保证任一侧都是全链路。\n\n**为什么生产域 ECN 要补界面**：双源混乱的根源之一是它「看不见」——用户不知道生产域还有一套 ECN。显式列出 + 互跳，比藏在 store 里更不容易误用。' },
+          { kind: 'notes', title: '注意事项', text: '· 本版零数据迁移、零接口变更，仅前端类型/store/页面；旧记录未关联时显示「未关联」，不报错。\n· 两侧 store 方法任选其一调用即双向生效；重复链接自动去重，取消链接双向同步移除。\n· 已知边界：生产域 ECN 与物料域 ECM 的单号体系相互独立，同号不同义属历史设计，本版不做单号统一（留作后续如要并源时再处理）。\n· 前端 tsc 全绿、163 单测全过。' },
+        ],
+      },
+      {
+        id: 'v37300',
+        title: 'V3.73.0（2026-10-12）｜B 类第 1 批：汇率走云端（组织隔离 + 消双源）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**汇率改走云端 /api/fx（B 类 P1-2 汇率双源 + P1-12 组织隔离泄漏点，强哥已拍板）**：
+
+原 fxStore 纯浏览器本地存储（localStorage）、不上云、不带组织隔离——同一浏览器下多个组织共享一份汇率且永不同步云端；而后端已有按组织隔离的汇率表 fx_rates。本版让汇率改走云端、本地仅作离线兜底：
+
+· 新建 \`src/services/fx.ts\`：经统一 api 客户端（自动带登录令牌 + 组织上下文）调 \`/api/fx\` 的 GET（按组织拉取）/ POST（手工设置，后端 upsert + 审计）；
+· fxStore 加 \`load()\`：登录态从云端拉取本组织汇率覆盖本地，未登录 / 离线 / 失败保留本地兜底（诚实降级，不清空本地）；
+· fxStore \`upsertRate\`：本地更新 + 登录态同步到云端（带组织隔离 + 审计）；
+· 修复 FxConfig 设置页的「假拉取」：原用裸 \`fetch('/api/fx')\` 不带登录令牌，生产环境必然 401 失败后悄悄回退本地——本版改用 \`fxStore.load()\`（带令牌），云端拉取真正生效。` },
+          { kind: 'notes', title: '注意事项', text: '· **离线兜底保留**：未登录 / 网络失败时 fxStore 仍可用本地缓存汇率，不影响离线使用；登录后 load() 自动用云端覆盖。\n· **登录态门控**：load / upsert 仅在检测到登录令牌时才调云端，避免未登录触发跳转（未登录一等公民）。\n· **已知局限（后端暂无 DELETE 端点）**：删除汇率仅本地生效，重新拉取会从云端恢复；已如实标注，删除云端汇率待后端补 DELETE 端点。\n· **组织隔离生效**：登录后各组织只拉到本组织汇率，消除原先同浏览器跨组织共享一份的问题。\n· 前端 tsc 全绿；本次为 B 类第 1 批，ECN 双向引用 / 审批枚举统一 / 应收应付与 Blob 迁 D1 为后续批次（强哥已拍板方向）。' },
+        ],
+      },
+      {
+        id: 'v37200',
+        title: 'V3.72.0（2026-10-12）｜A 类表单关联补强',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**A 类表单关联补强（审计 P1-6 / P1-10 / P1-14 / P1-16，纯前端类型层 + store 补强，零后端、零迁移、向后兼容）**：
+
+· **P1-6 客户外键补齐**：三方销售（TripartySale）/ 销售报价（Quotation）/ 项目（Project）三处类型加 customerId 可选外键，与销售订单 / 合同口径一致——此前三者仅存客户名 / 客户编码，下游无法按客户主数据关联对账；
+· **P1-10 委外回写父工单**：工单加 outsourcedQty「已委外数量」字段，委外收货（receiveSubcontract）成功后按来源工单号回写累加父工单，补齐「委外单边流转、父工单看不到委外进度」的断点；
+· **P1-14 价目表版本层级链**：采购价目表项加 parentId，审批通过生成新价目表项时指向上一版同物料有效项，支持历史价 / 协议价追溯；
+· **P1-16 物料变更反查**：物料变更记录加 affectedObjects「受影响对象」字段，记录变更时按物料号反查该物料作为子件出现的物料清单，提供「变更记录 → 受影响清单」反查入口。` },
+          { kind: 'why', title: '为什么这样做', text: '**为什么这些算关联问题**：它们都是「有数据、但缺一条关联线」——报价 / 项目 / 三方销售只记客户名不记客户 ID（无法与客户主数据对账）、委外收货不回写工单（工单看不到委外完成度）、价目表无版本链（改价后旧价断链）、物料变更不记受影响对象（变更后无法反查哪些物料清单用到）。补齐后单据之间的追溯链更完整。\n\n**为什么用可选字段而非改造**：这些实体存量数据均无对应字段，全部用可选（?）字段 + 向后兼容，不改动既有数据与调用方，零迁移、零破坏。' },
+          { kind: 'notes', title: '注意事项', text: '· 均为前端类型层 + store 补强，无数据库迁移、无接口变更；\n· customerId 为可选字段，前端选客户处需回带客户 ID 才会落库展示，字段承载已打通；\n· 委外回写仅对带来源工单号的委外单生效，累加的是「已委外数量」（只读展示，不影响完工数量口径）；\n· 物料变更反查当前仅覆盖物料清单维度（物料作为子件出现的清单），工单 / 在制维度因字段映射需业务确认留待后续；\n· 前端 tsc 全绿；B 类破坏性项（工程变更双源、应收应付、汇率、本地存储单据转数据库、多组织汇率隔离）按既定策略待拍板未动。' },
+        ],
+      },
+      {
+        id: 'v37100',
+        title: 'V3.71.0（2026-10-12）｜搜索全覆盖 + 记录留痕 + 关联闭环',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**全局搜索 · 记录源全覆盖——顶栏搜索 / 独立结果页的"业务记录"从只覆盖 12 类高频单据，升级为覆盖全部业务域台账（采购/销售/生产/仓库/质量/财务/供应商绩效），冷门台账（凭证、资金流水、发票、应收应付、NCR、8D、批次、序列号、退货、设备、工艺路线等）一并可搜；搜索框实时命中与回车结果页同步获益。纯前端改动，零后端、零迁移。**\n\n**一、记录源配置登记表（src/config/recordSources.ts，新建）**：把原先写死在搜索引擎里的 12 个记录源，抽成**配置驱动的登记表**（48 个台账源，覆盖 7 大域）。每个源登记：动态 import 的 store 模块 + hook 名 + 台账切片字段 + 数据权限口径（moduleKey）+ 展示三件套（标题/次行/命中字段）+ 点击路由。以后要再加一张台账，**只加一行**，引擎与界面零改动。\n\n**二、搜索引擎重构（src/config/globalSearch.ts）**：记录源收集改为**遍历登记表**——动态 import 全部台账 store（防循环依赖）→ 云端数据库（D1）类台账**按需幂等预取**（拉一次走内存，之后零请求）→ **数据真实性闸门**（某台账还没加载成功/离线时，其切片是"演示假数据"，此时跳过该源，宁可少结果不可搜出假数据）→ 模糊匹配 + 既有数据权限口径过滤 + 单源/全局双限额。\n\n**三、权限口径不变（强哥已拍板）**：记录类仍按既有 `passDataPermission` 数据权限口径过滤（组织 + 角色 + 模块作用域，own/dept 作用域**不做行级负责人硬比对**——各台账记录没有行级用户 ID，硬比会误杀，现状按组织/角色/作用域过滤已满足"只看本人权限内"）。本次**不**改这条口径，也**不**给业务记录补"用户 ID + 用户姓名"字段。\n\n**四、界面**：Header 搜索下拉与 /help/search-results 结果页共用同一引擎，**零改动**自动获得"全覆盖"。下拉实时态记录限额不变，结果页放大到 200 条，新台账以分组 Chip 呈现（图标未专门映射的分组统一走默认图标兜底，不崩 UI）。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么要"全覆盖"**：V3.70.0 遗留项①"记录搜索只覆盖 12 类高频单据、冷门台账后续按需加"。强哥本次要求全覆盖（前提仍权限内），把财务凭证、资金流水等高频冷门台账都能从搜索直接定位，减少"翻菜单找页面"的成本。\n\n**为什么用配置登记表而非继续硬编码**：硬编码 12 源时每加一张台账都要改搜索引擎（漏改/写错风险），且 48 源写进一个函数可读性差。抽成登记表后"加台账 = 加一行配置"，引擎统一遍历，界面自动获益，扩展零成本。\n\n**为什么 B 类台账要"按需预取 + 真值闸门"（而不是直接读内存）**：台账分两类——本地持久化（A 类）打开就有值直接读；云端数据库（B 类）要"加载后才是真实数据"，而系统启动只预加载核心域、冷门台账没预加载。若直接读 B 类内存，在"没打开过对应页面"时读到的是演示假数据，搜出来误导用户（比搜不到更糟）。故搜索前幂等拉一次真实数据（拉完走内存、之后零请求），并用"加载成功"标志闸门过滤掉还没加载成功的源。首屏零额外请求（按需、首次搜该台账才拉）。' },
+          { kind: 'notes', title: '注意事项', text: '· **权限边界不变**：记录搜索仍只在登录且本人数据权限范围内可用，未登录/离线不出记录（正常设计非缺陷）。\n\n· **搜不到 ≠ 数据没有**：某云端台账若尚未加载成功或网络离线，本源会被真值闸门跳过（不出假数据），此时该台账搜不到属预期；打开一次对应页面、或联网后重搜即可。\n\n· **不硬比负责人**：own/dept 作用域按"组织 + 角色 + 模块作用域"过滤，不按"行级负责人 = 本人"硬比对（各台账记录无行级用户 ID，硬比会误杀），与本系统既有数据权限口径一致。\n\n· **防循环依赖**：搜索引擎对 48 个台账 store 一律动态 import（调用时才加载），因该文件被 Header 顶栏（App 早期加载链）与结果页共引，静态引几十个 store 有循环依赖风险。\n\n· **验证**：前端 tsc 全绿、163 白盒单测全过（本次纯前端，零后端/零迁移，函数语法审计基线不变）。' },
+          { kind: 'usage', title: '本版另含：记录留痕（by_name）+ 表单关联闭环（P0）', text: `**① 各记录留存创建/修改人姓名（by_name）**：D1 全表加 created_by_name / updated_by_name 列（迁移 0099，存量回填姓名）；服务端建单端点（物料/工单/销售订单/采购订单/入库/出库）与通用实体路由、父子系统统一在落库后填 user.name，界面可展示「谁建/谁改」。
+
+**② 表单关联 P0 三项闭环（修复审计报告 P0-1/2/3）**：
+· P0-1 采购退货质量原因 → 补建来料 NCR（source=inbound）+ 供应商绩效扣分，与销售退货对称，补齐采购侧质量闭环缺角；
+· P0-2 销售合同↔销售订单双向：合同加 linkedOrderNos 聚合关联订单，订单增改删回调回写，根治合同侧看不到执行订单的单向断裂；
+· P0-3 检验批↔检验任务互引：加 inspectionTaskId / inspectionLotId 双向 id 互引，建批侧与建任务侧两条路径都对齐，根治「自动建批 vs 手工建任务」对不齐的追溯断点。` },
+        ],
+      },
+      {
+        id: 'v37000',
+        title: 'V3.70.0（2026-10-12）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**全局搜索三源化 + 使用说明书补强——顶栏搜索框从"只搜菜单"升级为"搜页面/搜模块说明/搜业务记录（权限内）"，回车进独立结果页；说明书修正过时表述并新增单据关联关系章节。纯前端改动，零后端、零迁移。**\n\n**一、全局搜索引擎（src/config/globalSearch.ts，新建）**：三源合一——① 菜单/表单页（searchIndex 全量索引，含关键词/路径模糊命中）② 模块使用说明（manual.tsx 的 MANUAL_MODULES，章节标题+正文命中即展示该模块说明、可跳说明书锚点）③ 业务记录（物料/供应商/客户/采购/销售/工单/合同/出入库/BOM/检验任务 12 类，读各 store 当前数据模糊命中）。记录类**仅登录态启用**，且按既有 `passDataPermission` 数据权限口径（组织+角色+模块作用域）过滤，**只看得到本人权限内的记录**。\n\n**二、顶栏搜索框升级（Header.tsx）**：输入实时（300ms 防抖+竞态丢弃）在下拉里分组展示三组命中（页面/模块说明/记录，命中词高亮）；用 ↑/↓ 选中某条 Enter 直达该条；**不选中直接 Enter → 进独立结果页 `/help/search-results?q=`**，一次性列出全部命中（记录类放大到 200 条），逐条可跳转。未登录时记录组隐藏并提示"需登录"。\n\n**三、独立搜索结果页（src/pages/Help/SearchResults.tsx，新建）**：读 `?q=` 关键词调引擎，三组全量渲染，页头显示命中总数，每条点击直达详情/列表/说明书锚点。\n\n**四、说明书（manual.tsx）补强**：① 修正过时表述（系统定位从"纯本地存储/演示版"改为"多用户+云端数据库 D1 + 行级数据权限，未登录才回退本地离线"）② 新增「单据主链路与表单关联关系」章节（销售/采购/生产/仓储/质量/财务各域表单如何引用与自动联动、一张订单的完整旅程）③ 通用操作章补全局搜索新能力说明（三源搜索+回车结果页）。' },
+          { kind: 'notes', title: '注意事项', text: '· **权限边界**：业务记录搜索只在登录且属于本人数据权限范围内可用，未登录/离线不出记录，属正常设计非缺陷。\n\n· **防循环依赖**：搜索引擎对 12 个业务 store 一律**动态 import**（调用时才加载），因该文件被 Header 顶栏（App 早期加载链）与结果页共引，静态引 10 个业务 store 有循环依赖风险；UI 侧已 300ms 防抖，首次模块解析开销可忽略。\n\n· **回车语义**：有选中项 Enter=进该项；无选中项（直接敲回车）Enter=进独立结果页，两种行为可预期。\n\n· **验证**：前端 tsc 全绿、163 白盒单测全过、函数语法审计 188 文件 0 错（本次纯前端，基线不变）；本地门禁 8 项全绿（僵尸登记 0/漏登记 0、LIKE 转义/字段矩阵/操作矩阵全一致）。' },
+        ],
+      },
+      {
+        id: 'v36900',
+        title: 'V3.69.0（2026-10-12）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**多组织编号隔离（根治第二组织取号撞主键 503）——纯后端取号 + 前端编号 store 对齐，迁移 0097，界面无改动。**\n\n**一、问题根因**：V3.66/3.67 把编号规则（`numbering_rules` 表）自然键定为 `id = 单据类型`（如 `PO`，全局一行），生产库已有 662 个组织，但表里每单据类型只有一行。当**第二个组织**首次建单触发服务端取号时，查不到自己组织的 `PO` 行 → 插入新行 `id=PO` 撞全局主键 → 取号失败 503，该组织所有建单端点（采购/销售/工单/入库/出库）无法服务端取号。生产库当前 `numbering_rules` 为 0 行（首组织尚未触发），缺陷潜伏、不修则多组织随时踩中。\n\n**二、修复（组织复合自然键）**：\n\n· **迁移 0097**：幂等 `UPDATE numbering_rules SET id = org_id || "::" || doc_type WHERE id NOT LIKE "%::%"`（SQL 片段引号示意，实际以 0097 迁移文件为准），把旧格式裸键行改名为 `org::docType`（无数据时 0 行无副作用，有数据时一次改名到位，可重复执行）。\n\n· **服务端 `functions/_shared/numbering.ts`**：取号键从 `docType` 升级为 `orgId::docType`（`SELECT / UPDATE ... RETURNING / INSERT` 全走复合主键 + `org_id` 列双保险），各组织序号独立、互不串号；规则缺失时自动按内置默认建本组织的行。\n\n· **前端 `src/stores/numberingStore.ts`**：与前端 `packRule` 同步改为「会话组织::docType」复合键——组织前缀取登录会话组织（与服务端会话 `user.org_id` 同源，不用演示态多组织切换器的种子值）；未登录或会话组织未知时**跳过 D1 写**（宁可漏写一次、下次取号补写，绝不用错前缀污染编号表产生双行），本地 seed 保留离线可用。\n\n**三、诚实边界**：① 自然键改 `org::docType` 后，同单据类型各组织序号从 1 独立起编（符合预期：编号按组织隔离，不跨组织续号）；② 前端会话组织未知窗口（token 已持久化但 `currentUser` 尚未水合）期间仅本地取号、不落 D1，登录后下次取号自然补写；③ 本次为取号键隔离改造，`/api/data` 数据接口与 ERP 同步引擎（V3.68.0）不受影响。' },
+          { kind: 'notes', title: '注意事项', text: '· **界面无可见改动**：建单流程行为不变（前端仍自动取号、可手工覆盖），只是编号规则底层按组织隔离存储，多组织各自独立编号不串号、不撞主键。\n\n· **已有编号规则数据不受影响**：迁移 0097 幂等改名旧行，序号值 `current_seq` 原样保留，改键后从原序号继续递增不重置。\n\n· **未登录演示态**：编号中心本地可用（本地 seed + localStorage），仅不落云端；登录后自动按登录组织续用云端编号。\n\n· **验证**：前端 tsc 全绿、163 白盒单测全过、函数语法审计 188 文件 0 错；迁移 0097 全新库重放门槛通过（旧行改名 `org_x::PO` + 幂等重复执行无副作用 + 多组织 `org_x::PO`/`org_y::PO` 并存互不撞键）；生产 d1_migrations 已登记 0097、`numbering_rules` 0 行（改名 UPDATE 无副作用）；本地门禁 8 项全绿。' },
+        ],
+      },
+      {
+        id: 'v36800',
+        title: 'V3.68.0（2026-10-11）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**完善 API 数据接口 + 通用 ERP 同步备份引擎（后端 API + 同步引擎，前端零改动）**——补齐「对任意业务表统一读写」与「对接其他 ERP 做数据同步备份」两大能力。\n\n**① 统一数据读写接口 `functions/api/data/[table]` 系列**：覆盖 GET 列表 / POST 新增 / GET·PUT·DELETE 单条 / bulk 批量（upsert/delete 幂等、失败聚合不中断）。由新建的 `functions/_shared/dataAccess.ts` 统一驱动——对任意业务表（D1 约 138 张，超出原有 52 个实体路由）做增删改查，返回数据库原始列名；强制组织隔离（写入 org_id=请求方组织、拒绝客户端传 org_id）、明细表校验父单归属、列交集过滤、每次访问写审计。定位为「组织级数据集成接口」，供外部系统/报表/中台通过 API Key 安全读写本系统数据。\n\n**② 通用 ERP 同步备份引擎 `functions/_shared/erpSync.ts` + 管理端点 `functions/api/system/erp-sync*`**：一份「连接配置」描述对方地址、鉴权方式（bearer/basic/apikey/none）、字段映射模板，支持**推送**（本系统 → 外部 ERP，按 last_synced_at 增量取本地行→字段映射→PUT/POST 对方）与**拉取**（外部 → 本系统，GET 对方→反向映射→复用 daBulk 安全网回写，等效异地互备）；含增量游标、幂等、失败聚合不中断、运行历史与逐行结果记账。管理端点含列表/详情/新建/更新/删除（级联）/触发同步/连通性测试。\n\n**③ 迁移 0098 建三张账本表**（`erp_sync_connections` 连接定义 / `erp_sync_runs` 运行历史 / `erp_sync_run_items` 逐行结果），`rls.ts` 已登记三表；复用既有 API Key 网关鉴权、审计留痕底座，不重造轮子。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：真实 D1 往返验证 **27/27 全过**（用 Node SQLite 模块开真实库 + 模拟 Cloudflare D1 接口，覆盖 dataAccess 增删改查/明细表守卫 + erpSync 拉取/推送往返 + run_items 记账）；门禁全绿——语法审计 188 文件 0 错、functions 新文件类型检查 0 错、前端 163 白盒单测全过、权限矩阵一致。\n\n· **上线前真实往返当场抓出并修复 2 个真实缺陷**（硬规矩㉗价值）：① `dataAccess` 对明细表（无 org_id 列）仍强制写 org_id → 所有明细表写入 400，已按 isChild 跳过；② `erpSync` 拉取分支未解析 `daBulk` 返回的 Response 体 → 拉取计数恒为 0、错误聚合失真，已改 `await bulkRes.json()`。\n\n· **前端零改动**——本次为纯后端 API + 同步引擎，界面无需更新。\n\n· **已知历史债务（非本次）**：本地 .wrangler 迁移链 0087（inventory_records 加 dept_id）重复列断裂，生产库增量应用正常；全新空库重建门槛后续立项根治。' },
+        ],
+      },
+      {
+        id: 'v36000',
+        title: 'V3.60.0（2026-10-09）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**业务域↔财务联动审计的 11 项缺陷定点修复专项（审计报告 `docs/ssa-erp-domain-finance-linkage-audit.html`）**——把采购/生产/销售/仓库四域与财务主干之间「缺失、对不准、未联动」的 11 项缺口逐一定点堵死，**全在 `functions/` 服务端 + 1 个前端桥接 + 1 个新增守护套件，无新表、无新迁移**。\n\n**① P0-1 采购发票过账（冲暂估+确认应付）**：`fin_invoices` 审核通过(verified)时服务端自动生成凭证——借 2201 物资采购(GR/IR暂估) / 贷 2202 应付账款（净额），把收货时挂的暂估转入正式应付。`arapPosting.ts` 的 `generateInvoiceVoucher` 负责。**★本版复审修正一处严重死分支**：上一版误以为 `fin_invoices.invoice_type` 有 `purchase/sales` 方向值，实则该字段取值为 `vat_special/vat_normal/receipt`（发票种类），且销售发票根本不存此表；旧代码两分支永远不命中，采购发票入账逻辑形同虚设。本版删除死分支、统一按采购发票入账，销售发票改走独立通道（见③）。生产回归又坐出第二处：P2-3 回写 `voucher_generated` 时硬写了 `fin_invoices` / `fin_payment_plans` 两表**实际并不存在**的 `updated_by` 列，数据库抛错又被后置处理的容错吞掉，表现为「凭证已生成、但标记位永远不回写」的假成功；已改为只写真实存在的列，并由生产端到端断言坐实。\n\n**② P0-2 付款过账（记银行存款+冲应付）**：`fin-payment-plans/[id].ts` 实付额增加时按增量生成凭证——借 2202 应付账款 / 贷 1002 银行存款；幂等 key 含累计付款额，部分付款每次递增即出新凭证。`arapPosting.ts` 的 `generatePaymentVoucher` 负责。\n\n**③ P0-3 销售开票（确认收入+应收）**：销售开票此前是**纯前端实体**（`salesAdvancedStore`），只写遗留模拟表 `fin_account_entries`、从不进权威 `vouchers` 表 ⇒ 应收(1122)/收入(6001)/销项(2221) 恒为 0。本版新增 `POST /api/finance/sales-invoice-voucher` 端点（借 1122 应收 价税合计 / 贷 6001 收入 净额 / 贷 2221 销项税 税额），前端 `issueInvoice` 桥接该端点（后置非阻断），把销售开票接进权威凭证。\n\n**④ P0-4 应收/应付台账派生与合并报表校验**：无需改代码——合并报表 `consolidation` 端点的 `books` 范围聚合本组织全部账簿凭证的 `voucher_items` 按科目汇总借贷，P0-1/2/3 写入的权威凭证即自动填充往来台账与合并报表（1122/2202/6001/1002/2221 不再恒为 0）。44 号套件已含断言。\n\n**⑤ P1-1 库存调拨错记销售成本**：`inventoryPosting.ts` 出库凭证生成遇 `order.type` 为 `transfer` 直接 `continue`，不再虚增 6401/1405（调拨是库内位移、非销售成本）。\n\n**⑥ P1-2/P1-3 折旧归集**：`depreciate.ts` 按 `isProductionAsset` 分流——生产用固定资产折旧进 5001 生产成本（status=posted），非生产用仍进 6602 管理费用；自动凭证全部 posted 而非 draft（P2-1）。\n\n**⑦ P2-2 存货↔总账对账作业**：`inventory-reconciliation/index.ts` 提供只读对账端点（存货余额合计 ↔ 总账存货类科目借方/贷方），闭合「两套账各自对、但彼此不等」的盲区。\n\n**⑧ P2-3 标记位回写**：`ensureInvoiceVoucher` 生成成功后回写 `fin_invoices.voucher_generated=1`（双重幂等保险）；付款同范式。\n\n**⑨ P2-4 三单匹配记账**：已在 27 号套件覆盖（行级闸门+明细比对），本轮不重复造。\n\n**⑩ 新增 44 号守护套件**（`scripts/prod-e2e/suites/44-domain-finance-v360.mjs`）：闭环验证 P0-1/2/3/4、P1-1、P1-3、P2-1/2/3 共 9 项核心修复（P2-4/P1-2 由既有套件覆盖）。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么往来/收入主干必须补齐**：审计报告实测全局检索 1122/2202/6001 零写入，合并报表往来项恒为 0——采购发票审了却不冲暂估不确认应付、付款了不记银行、销售开了票不确认收入与应收，财务与业务两套账在「钱」这一层完全脱钩。这是对标金蝶/用友/SAP 最致命的缺口，本版一次性补齐。\n\n**为什么销售发票要新建独立端点、不塞进 `arapPosting`**：`fin_invoices` 表只承载采购进项发票，销售发票是独立的前端实体、字段与流程都不同；把两者硬塞同一分支只会重演死分支的坑。新增 `sales-invoice-voucher` 端点语义清晰、与采购/付款同范式（后置非阻断+幂等查重）。\n\n**为什么调拨不能记销售成本**：调拨是同一主体内部仓库间的位移、不产生损益，旧代码把 transfer 出库也按 sale 记 6401/1405，会虚增成本、虚减存货价值，属于「对不准」。直接 `continue` 跳过是最干净的解法。\n\n**为什么自动凭证全部 posted**：此前自动凭证全为 draft 不过账，等于「生成了但没进账」，报表永远看不到，等于没做。本版统一 posted（借贷平衡由 writeVoucher 最后一道闸兜底）。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：静态门禁全绿——前端 `tsc --noEmit` 0 错、后端 `tsc-functions` 新增 0 错、语法 168 文件 0 错、路由 127↔51 零 404；**已部署生产并由端到端回归坐实**：44 号「业务域↔财务联动」守护套件 **PASS 32 / FAIL 0 全绿**（9 项核心修复闭环），全量 44 套件回归 **PASS 1567 / FAIL 0 零回归**。\n\n· **本版无新表、无新迁移**——全部为 `functions/` 端点行为改动 + 1 个前端桥接（`salesAdvancedStore.issueInvoice`）+ 1 个新增守护套件（44 号）。\n\n· **诚实边界**：① 销售发票走独立前端实体→`/api/finance/sales-invoice-voucher`，金额由前端回传权威值（价税合计=应收、净额=收入、税额=销项），与采购发票/付款同「后置非阻断+幂等」范式，不阻断开票主流程；② `arapPosting.ts` 经复审修正「invoice_type 死分支」严重缺陷（旧 `purchase/sales` 分支永不命中），现已统一按采购发票入账；③ P0-4 合并报表往来项由 P0-1/2/3 写入的权威凭证派生，无需独立代码；④ P2-4 三单匹配已在 27 号套件覆盖、P1-2 工单人工成本在 28/23 号套件覆盖，本轮不重复造。' },
+        ],
+      },
+      {
+        id: 'v35900',
+        title: 'V3.59.0（2026-10-09）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**两处跨域口径收敛专项（审计 S-03/S-04 发货→出库联动 + S-10 毛利口径统一）**，涉及 1 个后端端点行为改动（`functions/api/shipments/[id].ts` PUT）+ 1 个前端共享工具（`src/utils/grossProfit.ts`）+ 3 个前端页面改造 + 1 个新增守护套件，**无新表、无新迁移**。\n\n**① 发货→出库联动（S-03/S-04，本批最实质）**：发货单状态从「未发货」变为「已发货 shipped」时，服务端自动完成三件事——（a）生成一张销售出库单（source_no = 发货单号、type=sale、状态 completed 直接过账扣库存 + 结转主营业务成本 6401/库存商品 1405）；（b）按物料编码把发货数量写回销售订单行的 `delivered_quantity`（封顶订单数量），并刷新订单表头已交数量；（c）幂等防重：状态边沿触发（只在「未发货→已发货」那一次），并按发货单号查重，重复触发不会重复建单 / 重复扣库存。失败不阻断发货单本身的状态更新、但把异常随响应体 `postingError` 回传前端红条（与 WH-17 同口径）。仓库取本组织首个仓库，使库存真正发生移动；若无仓库则仅过账成本不扣库存（诚实降级）。\n\n**② 毛利口径统一（S-10）**：毛利/毛利率此前在三处各自算一遍且规则不一致——COPA 页面用 2 位小数百分比、驾驶舱「预估毛利率」用 1 位小数且成本取物料标准价估算、项目核算页用核算单自带值。本版把「毛利 = 收入 − 成本」「毛利率 = 毛利/收入」的数学定义、2 位小数舍入与展示收敛为单一权威实现（`src/utils/grossProfit.ts`），三个页面共用。**成本来源不强行合并**——项目核算=项目实际成本、驾驶舱=标准价估算、COPA=手工录入，业务含义不同（项目 P&L vs 公司实时预估 vs 手工分析），合并反而会掩盖差异；统一的是计算与 2 位小数展示，每个调用处都标注成本口径。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么发货→出库联动放在服务端、不在前端**：此前发货与出库是两条完全断链的路径——销售发货了，库存/成本要等仓管再手工建一张出库单才动，且销售订单的已交数量永远停在 0，对账时无法判断一笔销售订单是否已发完货。把联动收进服务端过账中枢（与入库/出库同范式），发货那一刻库存与成本就动、订单已交进度自动推进，且绕开界面直接调接口也生效（闭合「前端算、后端不复核」的漏洞）。\n\n**为什么用「状态边沿 + 按单号查重」双保险做幂等**：发货单可能被反复提交（如 shipped→in_transit→shipped），只靠边沿会漏、只靠查重会多一次不必要建单尝试；两者叠加保证「全组织只有一张以该发货单号为 source_no 的出库单」，库存不会被扣两次。\n\n**为什么毛利不把三种成本来源合成一个**：项目核算的成本是项目实际发生成本（人工/设备/外协），驾驶舱的成本是物料标准价×数量的实时估算，COPA 是人工录入的分析行——三者根本不是同一口径，强行用同一个数会误导经营判断（比如把「估算毛利率」当成「实际项目毛利」）。S-10 要收敛的是「公式与展示的漂移」（同一份代码里毛利有时 1 位小数有时 2 位、同一概念三种写法），不是把三种业务视角抹平。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：静态门禁七项全绿（含第⑧操作矩阵一致性）、前端 `tsc --noEmit` 0 错、后端 `tsc-functions` 新增 0 错、163 白盒单测全过；新增 43 号「发货→出库联动」守护套件（自动出库 + 已交数量写回 + 幂等 三处闭环断言全过）。全量端到端回归（43 套件）PASS 1534/FAIL 0 零回归——初轮 10-intelligence 套件 1 条因外部 429 限流偶发失败，单独复跑该套件 PASS 24/FAIL 0 证伪，非本版回归。\n\n· **本版纯后端端点行为改动 + 前端共享工具 + 3 页面改造 + 1 守护套件**，**无新表、无新迁移**。\n\n· **已知诚实边界**：① 发货→出库联动的仓库取本组织「首个」仓库，若一张发货单的货实际在多仓、或组织无仓库，会出现「只过账成本不扣库存」或「扣在默认仓」（已在代码注释写明，将来可在发货单上加仓库字段根治）；② 毛利口径统一后仍保留三处成本来源的差异，页面已标注各自成本口径，请勿把三处的「毛利率」直接横向对比。' },
+        ],
+      },
+      {
+        id: 'v35800',
+        title: 'V3.58.0（2026-10-09）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**四域表单流转联合审计后的系统性整改批次（采购/仓储/生产/销售）**——把跨四域 88 项审计发现中的关键缺陷从根因层面堵死，涉及 6 类系统性问题的 7 个修复方向。\n\n**① 生产域工单建单功能恢复（P0）**：建工单曾必填校验要求一个系统里根本不存在的「生产物料」字段，界面怎么操作都建不出工单。本版把校验字段改为系统里真实存在的产品编码，生产域建单功能恢复。\n\n**② 销售域越权与额度失控修复（P0 × 3）**：销售订单/发货单/项目/意向客户 4 张表建单时从不记录归属人，导致「只看本人」的行级权限实际失效、销售员可改他人订单——本版统一补写归属人；订单改单状态机因漏查状态列而整段跳过——本版补取；客户信用额度闸门因销售单从不回写占用而形同虚设——本版补建单时累计占用、改单/取消/删除时按差额释放。\n\n**③ 过账「假成功」统一治理（P0/P1）**：出入库改单路径的过账失败此前静默返回成功，库存没动界面却显示已完成——本版改为失败回滚过账标志与单据状态、响应体回传错误、前端弹红条告警；出库建单时后端未返回单据也静默跳过、本地已扣库存但后端没建单——本版改为失败回滚本地库存并提示重试。\n\n**④ 并发重复过账防重（P0）**：入/出库改单路径的过账此前是「先读是否已过账→过账→再标记」，两次并发修改都会读到「未过账」→ 都去过账 → 库存流水翻倍——本版改为条件更新抢占，只有一个请求能抢到；工单倒冲发料的幂等守卫同理补齐。\n\n**⑤ 已锁定单据禁止改明细（P0）**：已入库/已出库的单据此前仍可改数量，导致单据、库存余额、流水三者永久脱钩且无法自愈——本版加服务端守卫，已记账的单据改数量返回 409，需走红冲流程。\n\n**⑥ 跨域数据闭环（P0）**：入库完成后不回写采购订单已交量（订单永远显示未交）——本版补回写；生产倒冲发料的并发双扣——本版加条件抢占。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么按「根因」而不是按「现象」组织整改**：四域审计共发现 88 条问题，但本质是 6 类系统性缺陷在各域重复出现——若逐条修会漏、且同样的病还会再犯。本版按根因聚类整批修复（如「过账失败静默返回」一处修就同时覆盖入库/出库/报工/工单删除/销售提交 5 处同类点）。\n\n**为什么补写归属人而不是改权限规则**：行级权限「只看本人」的设计是对的，问题在于建单时没记录归属人、规则里又有「无归属人 = 全员可见」的兼容分支让失效方向变成放行。最小且方向正确的修法是建单补写归属人，不动规则本身（改了会误伤历史数据）。\n\n**为什么改单路径要「成对」补并发抢占**：上一版修并发竞态时只覆盖了「新建」路径，「修改」路径系统性遗漏，这是跨域的共性根因。本版把已做的能力（新建有、修改缺）成对补齐，避免再漏。\n\n**为什么已记账单据要禁改明细**：改数量会让单据、库存余额、流水三者脱钩且无法自愈。正规调整须走红冲 + 重做流程，服务端加守卫把这条堵死。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：门禁七项全绿、前端类型 0 错、后端新增 0 错、163 单测全过；全量 42 套件生产回归 PASS 1515 / FAIL 0 零回归（两条初轮失败均为本次修复自身引入，已定位并修复：倒冲幂等抢占误置位、越权拦截响应缺错误码）。关键 P0 均已打生产真实接口坐实——工单建单恢复（201）、信用额度闸门拦截超额（第 2/3 单 400）。\n\n· **本版纯 `functions/` 服务端 + 前端 store 失败反馈对齐**，无新表、无新迁移。\n\n· **已知诚实边界**：① 发货单→出库单联动（S-03/S-04）涉及框架层行为改动，留作下一专项，本版未动；② 毛利/BOM 版本选取等 5 处口径收敛（第五批）因跨域影响面大、需回归验证，留作下一批；③ 库存列表默认分页 20 条（WH-19）代码风险成立但未在生产大数据量下复现，已在报告标注「待验证」。' },
+        ],
+      },
+      {
+        id: 'v35700',
+        title: 'V3.57.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**仓库物流模块审计 W1–W10 一次性全修 —— 把「盘点假过账、库存双轨分叉、仓库主数据各人不同」三处真实缺陷从根上堵死**，涉及 1 张新表（迁移 0085）、2 个新端点、3 个前端 store 改造与 2 个新增守护套件。起因：一次针对仓库物流域的逐项审计（核对一致性 / 缺失项 / 不准确 / 逻辑错位），实测确认 10 项问题，按「一次性全修」拍板逐条整改。\n\n**① W1 盘点真过账（P0，本批最严重）**：盘点差异调整旧实现**只改浏览器内存 + 写任务状态、从不调用后端过账**——界面显示「盘点完成、库存已调整」，刷新或换台电脑就对不上账。本版改为走真实单据：建库存调整单（`POST /api/inventory-adjustments`，草稿）→ 置为已完成（触发盘盈入库 / 盘亏出库 + 自动生成凭证）；过账失败则**回滚本地乐观更新、把任务回置「进行中」并弹红条告警**，绝不把「没成功」显示成「成功」。\n\n**② W6/W10 下线前端双轨派生库存**：库存余额此前在浏览器里从单据重算一遍（且只算入库/出库、漏调拨/调整/生产），与后端权威账**长期分叉**。本版删除该重算逻辑，库存展示改为直接消费后端权威源（余额表）；批次因确实还没有后端数据表，保留「由真实单据派生」并在注释中写明这是已知边界。\n\n**③ W4 仓库主数据后端化（新增 warehouses 表）**：仓库/库位此前只存在**每个人自己的浏览器本地**（A 改了仓库名、B 看不到；界面改了名、后端库存记录里的仓库名还是旧名）。本版新建 `warehouses` 表（组织隔离，库位以 JSON 内联存储），配套两个端点（列表 / 新建 / 改名 / 删除，带权限守卫、编码查重与审计留痕），前端改为「在线时拉取并按 id 合并、离线时保留内置种子、所有增删改同步写回后端」，兼容既有界面与用法不变。\n\n**④ W8 销售出库成本对账守护（新增 42 号套件）**：销售出库后，**库存流水与损益凭证两套账之间此前没有任何自动对账**——某一侧算错会长期背离而无人发现。新增守护套件做三处闭环核对：出库流水金额 = 主营业务成本借方 = 库存商品贷方 = 服务端按成本算出的金额，并断言凭证借贷平衡。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么 W1 选「失败就回滚并告警」而不是「失败也先显示成功」**：盘点是财务与仓储的严肃动作，界面上「库存已调整但实际没调」比直接报错危害大得多——用户会据此继续作业，错误被掩盖且事后极难追溯。因此过账失败必须让界面回到未完成状态并明确告知，宁可操作失败也不给假成功。\n\n**为什么 W6 保留批次派生、只把库存切到后端**：批次记录目前确实没有后端数据表，硬造一张表属于为「看起来整齐」而扩表。诚实的做法是：已经有权威源的（库存余额）立刻切过去；还没有的（批次）保留派生并写明边界，等真正需要时再落表。\n\n**为什么 W4 保留本地种子**：仓库主数据是基础资料，新建组织/离线环境/后端异常时界面不能空白。保留内置种子作为兜底、在线时以服务端为准合并，既不破坏既有离线可用性，又让多组织多人看到同一份仓库数据。\n\n**为什么 W8 要做成守护套件**：这类「两套账各自都对、但彼此不等」的缺陷，代码评审看不出来、也不会报错，只有把两条数据链路拉到一起做等式断言才能暴露。做成套件后每次回归都会自动核对，长期不会复发。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：静态门禁七项全绿（含新增的操作权限矩阵一致性）、前端类型检查 0 错、后端新增 0 错、163 项白盒单测全过；新增 42 号 COGS 对账套件（10 项断言全过）与仓库主数据端点真实往返探针（16 项断言全过，含重复编码被拒、未登录被拒、重复删除返回 404 等反向路径）。全量端到端回归 **PASS 1517 / FAIL 0**，较上版零回归。\n\n· **本版新增 1 张数据表**（仓库主数据，迁移 0085，已应用到线上库），并已按规范登记到行级权限策略（组织内共享，与物料主数据同属性）。\n\n· **已知诚实边界**：① 批次记录仍是「由真实单据派生」，尚未落库（无后端数据表），已在代码注释写明；② 仓库主数据的库位以 JSON 字段内联存储（库位从属仓库、无独立查询维度），若将来需要按库位跨仓统计，需拆为独立表。' },
+        ],
+      },
+      {
+        id: 'v35600',
+        title: 'V3.56.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**采购/财务数据对齐专项整改（G1/G3/G4/G6）—— 把「金额对不上、明细落不下、退化静默为 0」四类数据对齐缺口逐个堵死**，全在 `functions/` 服务端 + 前端财务通道切换，**无新表、无新迁移**（`fin_invoice_items` 表早已于迁移 0083 建好，此前只是「有表无写入通道」）。起因：V3.55.0 末针对采购/财务域做了一次「逐项分析测试」（41 号审计套件），实测确认 4 个真实缺口：\n\n**① G1 采购单头金额不自洽**：采购单头 `totalAmount`/`grandTotal` 先前信任前端自报，与明细 `Σamount` 对不上（篡改或算错都放行）。本版在 `purchase-orders` 的创建/改单两端点，服务端以 `Σ明细` 覆盖头金额（与 G6 同范式：只覆盖不拒绝，正常路径覆盖值一致、异常路径以明细纠正）。\n\n**② G3 发票明细永远落不下（最隐蔽）**：发票此前走通用实体路由 `/api/entities/finInvoice`（平表路由），`items` 数组被**静默丢弃**且返回 201 成功 → `fin_invoice_items` 表永远为空 → 三单匹配的行级比对读不到发票明细、永远走 `NO_INVOICE_ITEMS` 跳过 → 行级闸门形同虚设。本版新增专用端点 `/api/fin-invoices`（头+明细在 `db.batch` 原子写入，复用 `parentChild` 框架，与付款计划/项目核算同范式），前端 `financeApi.invoices` 从 `viaEntity` 切到 `viaEndpoint`，store 层零改动。头金额同样以 `Σ明细` 服务端复核覆盖。\n\n**③ G4 入库金额退化静默为 0（fail-closed 收口）**：入库单明细「有数量、物料主数据无单价、前端也没传金额」时，旧逻辑把 `amount` 静默写成 0 → 三单匹配入库金额恒 0 → 付款闸门误拦正常采购付款。本版在 `inbound-orders` 创建端点加守卫：有数量无金额即返回 400 `AMOUNT_DEGRADATION`（数量=0 的占位/备注行不拦，允许 0×0=0）。\n\n**④ G6 销售单头金额不自洽 + 信用额度检查用错值**：销售单头金额同 G1 服务端复核覆盖；信用额度检查此前用前端自报的 `grandTotal`，本版改为用服务端计算的 `grandTotal`，杜绝「前端改小金额绕过信用闸」。**⑤ 41 号审计套件**：G1/G3/G4/G6 的断言由「WARN 缺口」改为「PASS 已修复」，作为长期回归护栏。' },
+          { kind: 'why', title: '为什么这样做', text: '**为什么 G1/G6 选「覆盖」而非「400 拒绝」**：覆盖只纠正值、不阻断请求，正常路径（前端算对）覆盖后结果一致，不破坏既有 1496 条端到端断言；若改成拒绝，所有正常建单都会因「头金额与明细对不上 0.01」被打挂，回归面过大。异常路径（被篡改/算错）以明细为准纠正，安全不漏气。\n\n**为什么 G3 必须新建专用端点、不能靠「前端也写明细」**：通用实体路由只挑已登记平表列，嵌套 `items` 数组会被静默丢弃且返回成功——这是架构层限制，前端再怎么传都没用；只有专用父子端点能原子写头+明细。三单匹配的行级比对依赖 `fin_invoice_items` 真实有数据，故这是「让闸门真正生效」的必要前提。\n\n**为什么 G4 选 fail-closed（拒绝）而非「用 0 兜底」**：入库金额为 0 是「信息不全」而非「金额真为 0」，静默落 0 会污染三单匹配与付款闸门、且事后难追溯；拒绝并提示「先在物料主数据维护单价或填写入库金额」，把决策权交回用户，符合「有数量无金额 = 数据不完整应补齐」的业务常识。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：六项静态门禁全绿（含第⑧操作矩阵一致性）、前端 `tsc --noEmit` 0 错、后端 `tsc-functions` 新增 0 错、前端 163 白盒单测全过；新增 41 号审计套件（G1/G3/G4/G6 改 PASS），部署后由生产端到端守护坐实（预期全量 41 套件 FAIL 0）。\n\n· **部署**：本版上线后线上与本地一致（V3.56.0）。\n\n· **本版全在 `functions/` 服务端 + 前端财务通道切换**（采购/销售单服务端金额复核、发票专用端点、入库金额守卫、41 审计套件），**无新表、无新迁移**（`fin_invoice_items` 表已存在、仅补写入通道）。\n\n· **已知诚实边界**：① 通用实体路由 `/api/entities/finInvoice` 仍未注销——直接调该路由仍能静默丢明细，但前端已切换、正常路径不再经过；如需彻底封堵可后续把该 resource 从 `ENTITY_RESOURCES` 移除（属加固项、非阻塞）。② G1/G6 仅覆盖「有明细行」的情形，无明细的头单保持原值（设计使然）。' },
+        ],
+      },
+      {
+        id: 'v35500',
+        title: 'V3.55.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**前后端操作权限矩阵统一 + 机器化一致性门禁**，全为前端默认矩阵、持久化迁移与一个门禁脚本，**API/后端零改动**。改动动机：前端「默认操作权限矩阵」与后端「内置兜底矩阵」长期各写一份、靠人记对齐（坑㉛），已出现 13 处漂移——13 条「后端已放行、前端默认没给」的权限（库管对序列号、采购员对采购申请、生产主管/工艺工程师对生产模块、6 个角色对审批流协作维护等），导致这些角色在界面「找不到入口」却后端实际放行。本版把这些补齐，使**界面显示哪些按钮 = 后端真正放行哪些**，两类毛病（「有按钮却 403」与「后端放行但入口隐身」）一起消除。\n\n**① 前端默认矩阵补齐 13 条**（`src/stores/dataPermissionStore.ts` 的 `defaultRoleModuleOps`，与后端 `BUILTIN_ROLE_OPS` 逐条一致，共 39 条）；**② 持久化迁移 v7→v8**（老用户浏览器里已存的旧矩阵自动回填这 13 条，缺则补、不整体覆盖，避免丢失已保存的自定义配置）；**③ 新增一致性门禁 `scripts/check-op-matrix.mjs`**（第⑧步，纯文本机器核对前后端两份矩阵逐条一致，不一致即阻断，防将来再漂移——与既有「⑥ 字段矩阵一致性」同范式）。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么方向是「补前端」而不是「改后端」**：后端守卫（`BUILTIN_ROLE_OPS`）是**权威**——端点真正拦截、不可绕过；前端矩阵只做「少给按钮」的显示层。因此**前端多显示一条后端已有的权限 = 安全无害**（后端仍会拦），前端少显示 = 入口隐身。统一方向必然是把前端补齐到与后端一致，绝不会因此越权。后端一行不动，风险面最小。\n\n**为什么加机器门禁而不是继续靠人记**：这两份矩阵是「同口径两处实现」，历史上正是靠手工对齐才漏了 13 条。`check-op-matrix.mjs` 用纯文本正则解析两份矩阵做逐条 set 核对（与 `check-field-policy.mjs` 字段矩阵门禁同范式），改任一处而另一处忘改时门禁立刻变红，把「人记」变成「机器兜底」。解析器还顺带修掉一个 bug（跨行常量对象闭合符号误匹配导致 2 条漏解析）。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：六项原有静态门禁全绿 + 新增第⑧项「操作权限矩阵一致性」通过（前后端各 39 条逐条一致）；前端 163 白盒单测全过；`API_TO_MODULE` 与守卫链路后端零改动、无迁移。\n\n· **部署**：本版上线后线上与本地一致（V3.55.0）。\n\n· **本版纯前端 + 门禁脚本改动**（默认矩阵 13 条 + persist 迁移 v7→v8 + `check-op-matrix.mjs` + 挂进 `check-consistency` 第⑧步），后端函数、端点、数据库均无变更，不新增页面入口。\n\n· **已知诚实边界**：本批统一的是「默认矩阵」；管理员若在某组织已自定义过操作权限（存于 `app_state`），仍以其自定义为准——这是设计使然（自定义可覆盖默认），不在本批范围。' },
+        ],
+      },
+      {
+        id: 'v35400',
+        title: 'V3.54.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**收尾 2 个"纯演示"功能的演示成分 + 纠正分析文档判断**，全为前端 UI 标注与文档、无新功能页面、无新表、无新迁移。改动基于回代码复核：上一版（V3.53.0）第五章把「MES 集成」与「批次追溯穿透」判成"纯前端演示（数据没落库、刷新即复原）"——**这条结论过粗、不准确**。逐文件查数据源后确认：两者主体数据其实都已接真实数据库（D1），真正"假"的只有一小点。\n\n**① MES 集成「同步」按钮（唯一真实"假"处）**：MES 四个主数据资源（连接清单 / 设备状态 / 在制 WIP / 工序报工）经实体仓库真落 D1、刷新保留；但"同步"按钮旧实现只是把状态改成已连接、记个时间戳，**并没有真去调外部 MES 系统接口拉数据**（代码注释原话"模拟 MES 拉取成功"）。本版把按钮标成「同步（模拟）」、加一条说明条讲清"未真正调用外部 MES、设备/WIP/报工需手工维护或接真实接口后自动拉取"，并在 store 里预留**可插拔同步扩展点**（`mesSyncExecutor`，默认模拟实现）——将来接真实外部 MES 时替换这一个函数即可，主流程不用动。\n\n**② 批次追溯穿透（实为真数据上的真计算）**：核心追溯是纯函数（只读计算、不改数据），输入来自入库 / 出库 / 成品入库 / 序列号——逐一核过，底层全部接了 D1，批次记录由 D1 单据重算派生，**刷新后保留**，不是"刷新即复原"。本版把三个写死的示例批次号标成「示例入口」、副标题说明"数据随真实单据流转自动更新"，查询仍走真实数据、匹配不到即提示未找到。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么先回代码复核、再纠正文档，而不是照着"纯演示"直接删**：上一版的"纯演示"是静态粗判，一旦照此动手可能误删已真落库的功能。回代码逐文件查数据通道后发现两者主体都接了 D1，真正"假"的只是 MES 同步按钮那一处。准确定位后，收尾动作就从"整个功能接后端"缩小成"把仅剩的演示成分标注清楚"——成本低、不动数据、不引入外部依赖。\n\n**为什么 MES 选"标注 + 预留扩展点"而非真接外部系统**：真接外部 MES 需要对方的接口协议 / 地址 / 鉴权，当前不具备，属跨系统对接的大工程。诚实标注"模拟"让"未接真实系统"对用户可见、避免误以为同步真拉到了数据；同时留一个可插拔接缝，将来接真实 MES 时只替换一个函数，不用回头改主流程——比直接写死、以后再挖出来改，代价小得多。\n\n**为什么批次追溯只标注"示例"而不改成动态取数**：它本就是"真数据上的真计算"，功能没有假的部分；写死的三个批次号只是"方便体验"的快捷入口。标成"示例"、说明数据来自真实单据即可，不必把快捷入口改成动态取当前数据（那会牵动更多、收益小）。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：六项静态门禁全绿；全量 40 套件端到端回归 PASS 1496 / FAIL 0（本次纯前端 UI 标注 + 文档改动，零业务回归）。\n\n· **部署**：本版上线后线上与本地一致（V3.54.0）。\n\n· **本版纯前端 + 文档改动**（MES 同步标注 + 扩展点、批次追溯示例标注、分析文档第五章纠偏），无新功能页面、无新表、无新迁移。\n\n· **诚实纠偏**：分析文档第五章把 MES / 批次追溯标成"纯演示"是过粗判断，本版已回代码复核并改为准确描述（主体数据均落 D1，仅 MES 同步按钮保留模拟），避免旧结论误导后续。' },
+        ],
+      },
+      {
+        id: 'v35300',
+        title: 'V3.53.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**易用性：侧边栏菜单分组（仓储 / 生产 / 财务三处长菜单重新组织）+ 高端功能落地度核实**，改动集中在前端侧边栏与分析文档，无新功能页面、无新表、无新迁移。\n\n**① 侧边栏菜单分组**：仓储（原 16 项）→「常用」「进阶」；生产（原 21 项）→「排产计划」「车间执行」「追溯分析」；财务（原 26 项）→「基础配置」「单据过账」「核算分析」「期末管理」。**菜单项一个不少（全系统仍 63 项、零删减）**，只是重新分组；高频项默认展开、低频项默认收起并带「进阶」标识、当前页自动展开所在组。既降低首屏噪音，又绝不把低频功能变成"入口失踪"（可展开找回）。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么"低频项默认收起但仍可展开"而非直接隐藏**：直接隐藏会把"用得少"的功能变成"找不到"，等于功能失踪；默认收起 + 可展开，既降低噪音又保留全部入口，是降噪不是删功能。这也是分组**零删减**的原因——任何删减都有入口消失的风险。低频判定依据是各功能"面向单一场景、使用频率相对低"，且都归入同主题组，不会因收起而难找。' },
+          { kind: 'notes', title: '注意事项', text: '**高端功能落地度核实（U2）**：逐条核实"做了界面但没接真实后端"的功能，分三层——**已接真实后端**（可数据持久化 / 可备份恢复 / 可 RLS / 可审计）：库存、采购、销售、生产工单、委外、BOM、物料、供应商、客户 9 大主数据；**云键值持久化**（跨用户共享、但表结构松散、无 RLS、备份仅部分覆盖）：审批流、审计日志、告警、凭证、汇率、价目表 8 个；**纯前端演示**（数据未落库、刷新即复原）：MES 外部系统联动、批次追溯穿透 2 个。详见 docs/ssa-erp-module-5dim-analysis.html 第五章核实清单。全量 40 套件回归 PASS 1496 / FAIL 0，菜单重排零业务回归。' },
+        ],
+      },
+      {
+        id: 'v35200',
+        title: 'V3.52.0（2026-10-08）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**备份导出超时分批/异步专项 + 数据一致性收尾（吞错留痕 R4）批次**，全在 functions/ 服务端，无新功能页面、无新表、无新迁移。\n\n**① 备份导出超时根治**：备份端点此前对每张业务表「逐张串行探测结构 + 逐张串行计数」（约 90 张表 = 两轮 90 次数据库往返），生产库负载一高就累计超过云数据库单请求 30 秒限制，表现为守护套件 13 号长期「时全绿、时 500、时 30 秒超时」的间歇红。本版把「逐张探测」收进一次数据库批量操作（分片 99 张/片、每片仅 1 次网络往返），清单模式的「逐张计数」同样收进批量操作，再叠加 60 秒进程内缓存（表结构不会几秒变一次），并把「批量失败」降级回旧的逐张串行（宁可慢、不可错）。13 号 2 条红彻底清零、全量回归首次做到 0 失败。\n\n**② 数据一致性最后的尾巴——吞错留痕（R4）**：入库/出库过账时会按服务端金额自动生成业务凭证，此前凭证生成若失败只记一条日志、在接口响应里零痕迹，等于「库存已经动了、凭证却悄悄没生成」没人知道。本版给两个过账函数加 voucherIssues 留痕字段，4 个单据端点（入库/出库的创建与改单）把失败原因回传到响应，用户能明确知道「哪张单凭证没生成、需要去补录」。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么备份用「批量 + 缓存 + 降级」而不直接上「异步/分批」**：根因不是「单次查询太慢」，而是「往返次数太多」——90 张表要探测加计数，逐张串行就是约 180 次网络往返，负载一高必然踩 30 秒线。批量把 N 次往返压成 1~2 次，是从根本上解决；60 秒缓存是第二层保险（短时间内多次请求不重复探测库结构）；「异步/分批」会让调用方也要跟着改、复杂度陡增，故先用「批量 + 缓存 + 降级兜底」这个最小改动坐实，若生产仍抖再上真异步。降级兜底是刻意取舍：万一云数据库对批量探测支持不稳，退回旧的逐张串行（慢但正确），绝不因为新优化反而变成新的故障源。\n\n**为什么 R4 只加留痕、不改成「失败就回滚/报错」**：凭证生成失败时库存已经实际变动（账已实动），此时强行回滚会让「库存扣了又退回」造成账实不符的更大混乱；而凭证本身按单号幂等（已生成过就跳过），失败后重新触发或手工补录都是安全的。所以正确姿势是「不回滚、但必须留痕让人知道去补」——这与序列号校验未通过必须回传给用户是同一套范式。\n\n**为什么甄别后有两处「吞错」刻意不动**：一处是库存流水的独立写入兜底函数（全系统已无调用点，过账主路径早已改走批量原子范式，它只是保留的对账兜底）；另一处是三单匹配的「行级比对」（它属增强能力，设计就是「比对失败不得拦住正常付款」，且错误已显式记入结果字段）。这两处是注释里写明的刻意降级，改错比不改更糟。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：六项静态门禁全绿（前端类型检查 / 后端语法 160 文件 0 错 / 后端类型 0 新增 / 一致性门禁含 158 白盒单测 / 搜索转义 / 字段矩阵 67 项一致）；全量 40 套件端到端回归 **PASS 1496 / FAIL 0**——自 V3.47 以来首次做到全量零失败，13 号备份 2 条彻底消失（13 号 26 项全绿）、R4 凭证留痕的 5 个端点零回归（40 号原子守护、付款闸门 27、过账 35 全绿）。\n\n· **部署**：快照 21b38d16 已上线，线上与本地版本一致（V3.52.0）。\n\n· **本版为纯后端改动**（备份 2 文件 + 过账留痕 5 文件），无新功能页面、无新表、无新迁移，不新增帮助中心 / 侧边栏 / 搜索入口。\n\n· **尚未做**：易用性菜单分组（仓储 16 / 生产 21 / 财务 26 个子菜单）、高端功能落地度核实，见 docs/ssa-erp-module-5dim-analysis.html 路线图。' },
+        ],
+      },
+      {
+        id: 'v35100',
+        title: 'V3.51.0（2026-10-07）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**量化分析路线图「权限矩阵整改 + 数据一致性收尾（多表写原子化）」批次**。两批改动合并在同一部署快照上线，全在 functions/ 服务端，无新功能页面、无新表、无新迁移。\n\n**① 默认角色与权限矩阵整改（对标金蝶/用友/SAP）**：\n· **SoD 职责分离硬闸**：审批「提交人 ≠ 审批人」从前端软提示升级为服务端硬校验（提交、推进下一节点两处都拦，委托路由后的**实际**审批人也算数），自审/绕道自审返回 403 SOD_SELF_APPROVAL；\n· **财务族写权放开**：财务经理/会计获得采购/销售/供应商的写权（含建档），补齐此前"财务对采购付款、销售收款零写权、监督失效"的缺口；\n· **供应商门户分工**：供应商可改**自己的**资质（行级数据隔离保证只动本人），建档权走"门户申请 → 财务建档"流程，采购员界面不再出现建供应商按钮（消除此前"菜单有按钮、后端 403"的矛盾）；\n· **销售角色纳入统一词表**：销售管理员/销售员正式进 5 处角色词表，权限点对齐后端矩阵；顺带补齐生产主管/工艺工程师的生产写权。\n\n**② 数据一致性收尾——多表写原子化（R1）**：采购/销售/调拨/出库/入库 5 个创建端点的「头表 + 全部子项」写入，从"逐条独立执行"（头建成功、子项循环中途失败 → 孤儿子项）收进**同一原子批次**（全成或全回滚），根治数据一致性最后一块底座。（工单无子项表、单表本身原子，不在本项。）' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么 SoD 要做成"委托路由后的实际审批人"**：只校验"提交的审批人字段"会被绕过——把审批委托给提交人自己，字段显示是他人、实际拍板的是提交人。故委托路由解算出**实际**审批人后再比，堵死这条后门。\n\n**为什么财务要放开采购/销售写权**：对标三大 ERP，财务对"采购付款、销售收款"必须有写权才能做凭证与对账监督，此前财务在这两条业务上是零写权、监督失效。放开后配合行级数据隔离（财务未必看得到他人的 own 档单据），属"有写权但按负责人隔离"，已标注留待二次确认是否加全组织可见性。\n\n**为什么多表写原子化只收"建单"、不碰过账**：每个入库/出库端点的"头表+子项"是建单的核心一致性诉求，收进原子批次即可根治孤儿；而过账（滚动库存均价、写流水）在库存过账模块内部**已经是原子的**（V3.47 已用同一范式收口），不重复包装。' },
+          { kind: 'notes', title: '注意事项', text: '· **验证状态**：六项静态门禁全绿（前端类型检查 / 后端语法 160 文件 0 错 / 后端类型 0 新增 / 一致性门禁含 158 白盒单测 / 搜索转义 / 字段矩阵 67 项一致）；全量 40 套件端到端回归 PASS 1494，**我改的 5 个建单端点零回归**、40 号原子守护"正常建单 201"坐实"原子化没把正常路径拦死"。\n\n· **遗留（非本批引入）**：备份导出（13 号硬化套件 2 条）在 3 次单独重跑里表现"全绿(89表) / 500 / 30秒超时"反复跳变——是备份端点**逐张遍历 `sqlite_master` 做 `PRAGMA` + `COUNT(*)`** 随生产库表数增长、在云数据库单请求 30 秒限制下变抖的**间歇性/平台负载型**问题（真缺陷会确定性失败，不会 4 种结果来回跳），且备份代码不在本批改动清单里，不阻塞上线。\n\n· **尚未做**：R4 吞错不回滚、易用性菜单分组（仓储 16 / 生产 21 / 财务 26 个子菜单）、高端功能落地度核实，见 `docs/ssa-erp-module-5dim-analysis.html` 路线图；备份导出超时随生产负载持续，建议单独立项做分批/异步。' },
+        ],
+      },
+      {
+        id: 'v35000',
+        title: 'V3.50.0（2026-10-07）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**量化分析路线图「第三步·测试造数契约治理 + 顺手堵住 1 个真实数据完整性缺陷」批次**。把全量端到端回归（端到端测试，简称 E2E）的历史红治理到实质全绿，并顺手修掉一个"数字悄悄错"类真实缺陷。全为测试脚本 + 1 处后端守卫，无新功能页面、无新表、无新迁移。\n\n**① 测试造数契约治理（8 个守护套件对齐当前权限/校验设计）**：此前 9 个历史守护套件的"造数"仍按旧契约写（后端 V3.45/V3.47 已收紧必填校验、BOM 读侧 V3.46 已改返回嵌套树、供应商创建权 V3.45 已收归管理员），导致造数一步就 400/403、整段断言被跳过。本版逐套件回代码核实根因后对齐：\n· 工单造数补"生产物料"必填、入库补"供应商"、出库/销售补"客户"必填（后端核心必填校验是收紧不是缺陷）；\n· BOM 套件断言口径由"摊平数组=5 行"改为"递归展开嵌套树再计数"（读侧已返回嵌套树，顶层=2，DB 里其实真写了 5 行、后端对）；\n· 三单匹配套件把"缺订单号应 400"的旧断言改为"缺订单号走业务判定、返回未通过结论"（V3.45 起三单匹配是真执行匹配、不再是参数错误）；\n· 合并报表套件的固定账套编号（0000/1000）改为"先查已有、查到就复用"的幂等写法（唯一约束按"组织+账套编号"判重、且账套无删除端点，之前是"前面的套件先建过就撞重复"）；\n· 行级数据隔离套件的造数主体由"采购员建供应商"改为"管理员造数、采购员当跨主体"（供应商创建权 V3.45 已收归管理员/门户，采购员建不了，但行级隔离验证目标不变：非归属人看不到、跨主体读写删全被拒、特权全见）。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么不放宽后端权限去迁就旧测试**：8 个套件的红，回代码逐条核实后确认全部是"测试没跟上后端的设计演进"，后端行为本身是对的（必填收紧、嵌套树、供应商归管控都是有意为之）。若反过来放宽后端权限/削弱校验去迁就测试，等于把安全防线拆了给测试让路——违背"不破坏既有行为、不凑绿"的原则。故统一"改测试对齐设计、不碰后端行为"。\n\n**为什么把"行级隔离"套件的造数主体换成管理员**：旧套件用"两个采购员各建一个供应商"验证"自己的数据彼此看不到"。但供应商创建权已收归管理员，采购员建不了、且全系统没有"非特权角色能建、且自动归属本人"的资源可替代。换用"管理员造数（归属管理员）+ 采购员当跨主体"，隔离验证本质没变（非归属人碰不到归属人的数据），只是让造数符合当前权限设计。' },
+          { kind: 'notes', title: '注意事项', text: '· **顺手修掉 1 个真实数据完整性缺陷并已部署上线**：入库单"负数数量此前能被建成负库存"——负库存会悄悄做坏倒冲、台账、三单匹配（正是最在意的"数字悄悄错"类）。已在入库端点写入前加负数守卫（负数返回 400 + 明确原因），重新部署生效。\n\n· **验证状态**：全量 40 套件端到端回归 PASS 1492 / FAIL 2，其中我改的 9 个套件（07/09/17/25/28/29/31/32/33）全部清零；仅剩的 2 条为"备份导出 30 秒超时"的平台瞬时抖动（单独重跑该套件 26 项全绿、备份清单正常返回 89 张表坐实消除，且本批未触碰备份代码）。六项静态门禁全绿。\n\n· **本版为测试脚本 + 1 处后端守卫**，无新功能页面、无新表、无新迁移；部署无需数据迁移。\n\n· **尚未做**：多表写原子化（入库/出库/调拨/销售/采购 6 端点的"头表+子表分开写"收进原子批次，须连真实数据库做并发验证）、菜单分组、高端功能落地度核实，见 `docs/ssa-erp-module-5dim-analysis.html` 路线图。' },
+        ],
+      },
+      {
+        id: 'v34900',
+        title: 'V3.49.0（2026-10-07）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**量化分析路线图「第二步·原子底座 + 堵后门」批次**，全在 functions/ 服务端，无新表、无新迁移，已部署生产并由生产守护套件 40 坐实。\n\n**① 删单据不清子表根治（R3，原子底座第一刀）**：采购订单 / 销售订单 / 工单三类端点的删除，原来是「先删头、再删子」两次独立执行——头删成功、子删失败就留下指向已删单据的孤儿记录。本版把整条删除链收进**同一个原子批次**（先删子后删头，全成或全回滚）；删销售订单连带清理按订单号字符串关联的发货台账（此前发货单及其明细全部孤儿）；删工单连带清理领料台账。质量扣留的更新由「整表覆盖式」改为**字段级更新**——原写法改一次状态就把没携带的物料、批次字段清空，现在只改携带的字段。\n\n**② 堵拆分超付后门（R5）**：累计超付闸门里两处「查询失败就静默放行」改为**查询失败就拦截**，与预算闸门同为「读不到数据就拦」的保守策略——此前同一张发票拆成多笔小额付款可在查询异常时绕过累计上限。\n\n**③ 补越权写与组织隔离（R6）**：汇率刷新端点补上财务写守卫——只读角色再也不能批量改写全组织汇率；凭证改单/删单的内部语句补齐组织隔离（纵深防御，同组织零行为变化）。\n\n**④ 生产守护**：新增 40 号守护套件，33 条断言成对钉死「删除仍成功 + 删后子表确实空了 + 改状态不清字段 + 只读角色刷汇率被拒」。' },
+          { kind: 'why', title: '为什么这么做', text: '**为什么先做「删不清子表」**：量化报告把数据一致性缺陷收敛成 6 个根因，其中「删单据不清子表」边界最清晰、可用生产守护直接坐实，是原子底座风险最低的切入点；「多表写原子化」（入/出/调拨 6 端点）牵动面大、必须连真库做并发验证，本批刻意不动，留专项。\n\n**为什么「删质检扣留不回滚冻结数」**：旧版报告曾要求删扣留时回滚库存冻结数，但逐处回代码核实后确认——该字段在整个系统**没有任何写入点、恒为 0**，回滚它只会凭空减出负数。这条不修，只修它真正的缺陷（整表覆盖式改写）。这是「旧结论引用前必须逐条回代码复核」的实证。\n\n**为什么汇率刷新要加守卫**：该端点一次调用会批量改写全组织所有币种的汇率，此前无任何操作权限校验，只读角色改前端请求就能写——属于越权写，优先级高于体验类改善项。' },
+          { kind: 'notes', title: '注意事项', text: '· 本批**未新增数据库表、未加迁移**，部署无需数据迁移。\n\n· **验证状态**：六项静态门禁全绿（前端类型检查 / 后端语法 160 文件 0 错 / 后端类型 0 新增 / 一致性门禁含 158 单测 / 搜索转义 / 字段矩阵 67 项一致）；生产守护套件 40 全绿、付款闸门 27 全绿（确认累计超付改动没误伤正常付款）；35/36 号套件曾现的 503 已重跑确认是平台瞬时抖动、非本批引入。\n\n· **部署中当场抓出并修掉本批自身一个真实缺陷**：删销售订单时取订单号的查询漏了一列，导致「连带清理发货台账」整段被静默跳过——由 40 号守护在删除后查库断言中暴露，修复并重新部署后套件全绿。这正是配守护套件的回报：真连库坐实，不是纸面自证。\n\n· **全量回归中 28/29/31/32/33 五个套件的失败是历史遗留的测试造数契约问题**（造数时漏填供应商/客户等必填项导致的连锁失败，旧版量化报告早有记录），非本批功能回归，另行批次治理。\n\n· **尚未做**：多表写原子化（入库/出库/调拨/销售/采购 6 端点，需连真库并发验证）、吞错不回滚、菜单分组与高端功能落地度核实，见 `docs/ssa-erp-module-5dim-analysis.html` 路线图。\n\n· 本版为 7 处后端代码 + 1 个守护套件，**无新功能页面**，不新增帮助中心 / 侧边栏 / 搜索入口。' },
+        ],
+      },
+      {
+        id: 'v34800',
+        title: 'V3.48.0（2026-10-07）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**量化分析后的「第一步·止血」批次**：修掉系统最危险的两类问题——3 处库存过账并发竞态 + 1 处审批流权限回归。全在 functions/ 服务端，无新表、无新迁移。\n\n**① 3 处 P0 过账竞态（会真实做坏库存账的数字错误）**：入库、出库、调拨三个过账端点此前是「先读『未过账』→ 过账 → 再置『已过账』标志」，两次并发请求都能读到「未过账」而**各过一遍账**——库存双扣、流水双写、金额双记。本版把「置标志」提前成**条件更新抢占**（只有标志还是 0 时才抢成 1，读受影响行数判断是不是本次过账），并发后到者抢不到就自动跳过；过账失败还会把标志回滚，保持可重试、不产生「假已置位」。\n\n**② 审批流权限回归（V3.47.0 引入的 2 条守护失败）**：上一版为堵住越权，把审批流定义设成「只有管理员能改」，结果**打断了「同组织采购员/库管等能协作改公共审批流」的既有语义**。本版把审批流独立成一个「审批流」模块：组织内业务角色可以协作「改」，但「新建/删除审批流」仍归管理员，纯只读角色保持锁死——既恢复协作、又没把管控放宽到只读角色能改全公司逻辑。' },
+          { kind: 'why', title: '为什么先做这两处', text: '① 过账竞态是**唯一会真实做坏数字**的问题：并发两个首次过账请求会把同一张单据的库存、流水、金额各记两遍，账实从此对不上，且事后难以察觉（金蝶、用友不会犯这类错）。它属于 P0、且改动面小（3 个端点），ROI 最高，所以先做。\n\n② 审批流回归是**我上一版自己引入的**——量化分析时已定位到「V3.47.0 比 V3.46.0 多出的 2 条守护失败就是它」，必须优先修回，否则守护套件回不到可信的全绿基线、以后分不清真 bug 和数据脏。\n\n**为什么用「条件更新抢占」而不是加锁**：数据库的「条件 UPDATE + 读受影响行数」天然原子、无需引入分布式锁，既解决并发双过账，又顺带把「失败回滚」做进去了（抢到了但过账失败 → 回滚标志 → 下次可重试），比单纯加锁更干净。' },
+          { kind: 'notes', title: '注意事项', text: '· 本批**未新增数据库表、未加迁移**，全在服务端既有结构上做逻辑修正，部署后无需数据迁移。\n\n· **并发双过账类缺陷必须连真实数据库做并发测试才坐实**——静态分析只能指出风险点。建议部署后在生产跑「同一张入库/出库单并发提交两次」，确认流水与库存只记一遍。\n\n· 审批流「新建/删除」仍只有管理员能做，「协作改」面向采购员/库管/生产班长/销售/财务/质检等业务角色；若您发现某角色本该能改却提示无权，在「数据权限」里给它加「审批流」的修改权即可（这是新增模块的正常配套、非缺陷）。\n\n· 这是「量化分析」路线图里的**第一步·止血**。后续第二步（多表写原子化底座）、第三步（堵 fail-open 放行后门 + 补越权面）尚未开始，见 `docs/ssa-erp-quantitative-analysis.html`。\n\n· 后端 tsc 0 新增、全量单测 158 例全绿、前端 tsc 0 错。' },
+        ],
+      },
+      {
+        id: 'v34700',
+        title: 'V3.47.0（2026-10-06）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '**V3.46.0 代码级全栈审计报告的 P0/P1/P2 整改批次：把 4 个 P0「假管控」、3 个 P1「数字悄悄错」、1 个 P2「地雷级工具」全部从代码层根因修掉。** 本批全在 functions/ 与 src/utils，无新数据库表、无新迁移。\n\n**P0 越权写（最扎心）**：通用「父子框架」的三个写函数（创建/改单/删除）此前**没接操作权限守卫**——代码注释早写了「要给它接」，但一直没落地，导致工艺路线、供应商报价、采购申请、付款计划、项目、审批流等 9 组端点，只读角色改改前端 JS 就能写数据。本版给框架配置加了一个必填的「模块」字段，三个写函数入口统一调用守卫，**9 组端点一次接入、端点文件零改动**，结构上不可能再漏；审批流定义归管理端职能，只有管理员能改（fail-closed）。\n\n**P0 敏感字段明文**：客户、销售订单、采购订单三条主接口此前 `SELECT *` 全列明文返回——授信额度、税号、银行账号、单价金额界面遮了、数据没遮，改 JS 就绕过。本版照搬供应商那套服务端范式，**12 处（列表/详情/创建/改单）全接上**：读按角色剥离、创建剔除无权字段、改单值变了才拦。\n\n**P0 库存过账非原子**：过账三步（改物料余额→写流水→改库存记录）此前各写各的、无事务，流水写失败被吞掉、且「已过账」标志能被客户端预写成 1 从而跳过过账。本版三步合并进**同一个原子批次**、任一条失败整批回滚，并把过账标志从客户端可写白名单移除（只能服务端置位）。\n\n**P0 折旧双计提**：资产台账与折旧凭证此前分两步写、且「同期间只提一次」靠先查后写、无锁有并发窗口。本版把两者并进**同一原子批次**，凭证唯一键一冲突连资产更新一起回滚，数据库层坐实「只提一次」。\n\n**P1 财务口径**：① 汇率期末折算改按「期末日最后生效汇率」取数，外币缺失不再静默按 1、而是跳过该行并告警；② 预算闸门改**按当前会计期间取数**，并挖出隐藏多年的同源根因——原 SQL 查 `voucher_items` 的 `org_id` 列但 0068 迁移里该表**根本没有此列**，生产一直 `no such column` 被吞掉→已发生额恒为 0→**预算闸门从没真正累计过**；改为 JOIN 凭证头表 + 按预算期间过滤 + 查询失败改拦住；③ 期间锁定「旧配置存在但数据损坏」时不再静默放行、改 fail-closed。\n\n**P2 技术债收口**：多层 BOM 展开工具「建了没人用」且无深度上限、无循环保护（脏数据循环 BOM 会栈溢出白屏）。本版加固：深度上限对齐 MRP 的 10 层 + 祖先链环保护（共享子装配不误伤），并补 3 条守护测试。前端单测 155→158 全绿。' },
+          { kind: 'why', title: '为什么这一批重要', text: 'P0 的 4 项全是「**界面看着管住了、绕过界面就破掉**」的假管控类缺陷，也正是金蝶、用友不会犯的错——这是能不能交给真实客户用的生死线。P1 的 3 项是「**数字悄悄错**」：汇率取错期、预算口径错位还会异常时放行、期间锁静默解除，报表能出但数是错的。P2 是清一颗「地雷」：那个 BOM 展开工具一旦被别处接上，遇到脏数据就白屏。\n\n**为什么 P1-B 比审计挖得深**：审计只说「预算不按期间取数」，动手才发现真根因是那条 SQL 查了个根本不存在的列（`voucher_items.org_id`），等于预算闸门「造好了但从未真正累计过已发生额」，和第 1 批的「预算闸门从未生效」是同一家族。' },
+          { kind: 'notes', title: '注意事项', text: '· 本批**未新增任何数据库表、未加迁移**，全在既有结构上做逻辑修正，部署后无需数据迁移。\n\n· **操作守卫接入后若有角色被误拒**（本该能操作却提示无权），在「数据权限」中为该角色补对应模块操作权限——这是新增守卫的正常配套、非缺陷。审批流定义归管理端，只读角色会看到无权，属预期。\n\n· **建议部署后在生产上验四件事**：① 用只读账号直接调接口写工艺路线/采购申请，应被 403 拦住（此前能写成）；② 客户/销售/采购列表接口的授信额度/税号/银行账号对无权限角色应不可见；③ 并发触发同一期间折旧两次，应只有 1 张凭证（此前会双计提）；④ 超预算付款应被拦（此前预算闸门从未累计过已发生额）。\n\n· **D1 汇率表的「生效日期」列仍是前瞻性预留**：真正算期末汇兑用的是前端汇率配置（带生效日），D1 那张表当前没有财务计算消费它。改它的历史多行结构需要新迁移 + 改端点，迁移分叉风险大于收益，本版**判断不改**、留待「多账套/跨币种历史汇率」专项时再拍板。\n\n· 前端 tsc 0 错、后端 tsc 0 新增、全量单测 158 例全绿；本次审计与整改由全栈专家角色完成，审计证据见 `docs/ssa-erp-code-audit-V3.46.html`。' },
         ],
       },
       {

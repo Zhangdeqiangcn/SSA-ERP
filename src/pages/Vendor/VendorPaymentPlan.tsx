@@ -8,30 +8,33 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Grid, Stack, Chip, Button, Divider,
   Table, TableHead, TableRow, TableCell, TableBody, TableContainer,
-  TextField, InputAdornment, LinearProgress, Alert, Tooltip,
+  TextField, LinearProgress, Alert, Tooltip,
   Collapse, MenuItem,
 } from '@mui/material';
 import {
-  Search, Payment, AccessAlarm, CheckCircle, Schedule,
+  Payment, AccessAlarm, CheckCircle, Schedule,
   AttachMoney, FilterList, Clear, ExpandMore, ExpandLess,
   CalendarToday, Receipt,
 } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
+import { StatusBadge, FilterBar } from '@/components/common';
 import { useFinanceStore } from '@/stores/financeStore';
 import { formatCurrency } from '@/utils/format';
+import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 
-const STATUS_CONFIG: Record<string, { label: string; color: 'default' | 'warning' | 'error' | 'success' | 'info' }> = {
-  pending: { label: '待支付', color: 'warning' },
-  partial: { label: '部分付款', color: 'info' },
-  paid: { label: '已付清', color: 'success' },
-  overdue: { label: '已逾期', color: 'error' },
+// 付款计划状态 → 集中 statusConfig key（overdue 复用通用 key）
+const PP_STATUS_KEY: Record<string, string> = {
+  pending: 'pp_pending',
+  partial: 'pp_partial',
+  paid: 'pp_paid',
+  overdue: 'overdue',
 };
 
 const VendorPaymentPlan: React.FC = () => {
   const navigate = useNavigate();
   const paymentPlans = useFinanceStore(s => s.paymentPlans);
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -54,38 +57,45 @@ const VendorPaymentPlan: React.FC = () => {
       ['上海宝钢钢铁贸易有限公司'].some(name => p.vendorName.includes('宝钢') || p.vendorName.includes('钢铁')));
   }, [vendorCode]);
 
-  // 进一步搜索筛选
+  // 列定义（驱动检索条派生检索项）
+  const columns: ColumnDef<typeof vendorFiltered[number], unknown>[] = [
+    { id: 'planNo', header: '计划号', accessorFn: (p) => p.planNo, meta: { searchable: true } },
+    { id: 'invoiceNo', header: '关联发票', accessorFn: (p) => p.invoiceNo, meta: { searchable: true } },
+    { id: 'vendorName', header: '供应商', accessorFn: (p) => p.vendorName, meta: { searchable: true } },
+    { id: 'paymentMethod', header: '付款方式', accessorFn: (p) => p.paymentMethod, meta: { searchable: true } },
+    { id: 'dueDate', header: '到期日', accessorFn: (p) => p.dueDate, meta: { searchable: true } },
+    {
+      id: 'status',
+      header: '状态',
+      accessorFn: (p) => p.status,
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'pending', label: '待支付' },
+          { value: 'partial', label: '部分付款' },
+          { value: 'paid', label: '已付清' },
+          { value: 'overdue', label: '已逾期' },
+        ],
+      },
+    },
+  ];
+
+  // 进一步搜索筛选（文本+状态走标准化 FilterBar；日期区间保留自定义）
   const filtered = useMemo(() => {
-    let data = [...vendorFiltered];
-    if (search) {
-      const kw = search.toLowerCase();
-      data = data.filter(p =>
-        p.planNo.toLowerCase().includes(kw) ||
-        p.invoiceNo.toLowerCase().includes(kw) ||
-        p.vendorName.toLowerCase().includes(kw)
-      );
-    }
-    if (statusFilter) {
-      data = data.filter(p => p.status === statusFilter);
-    }
-    if (dateFrom) {
-      data = data.filter(p => p.dueDate >= dateFrom);
-    }
-    if (dateTo) {
-      data = data.filter(p => p.dueDate <= dateTo);
-    }
+    let data = applyColumnFilters(vendorFiltered, columns, filterData, { module: 'vendor' });
+    if (dateFrom) data = data.filter(p => p.dueDate >= dateFrom);
+    if (dateTo) data = data.filter(p => p.dueDate <= dateTo);
     return data;
-  }, [vendorFiltered, search, statusFilter, dateFrom, dateTo]);
+  }, [vendorFiltered, columns, filterData, dateFrom, dateTo]);
 
   const clearFilters = () => {
-    setSearch('');
-    setStatusFilter('');
     setDateFrom('');
     setDateTo('');
     setShowAdvanced(false);
   };
 
-  const hasActiveFilter = search || statusFilter || dateFrom || dateTo;
+  const hasActiveFilter = dateFrom || dateTo;
 
   // 统计
   const stats = useMemo(() => {
@@ -150,30 +160,10 @@ const VendorPaymentPlan: React.FC = () => {
           </Stack>
         </Stack>
 
-        <Grid container spacing={1.5}>
-          <Grid item xs={12} sm={5}>
-            <TextField
-              fullWidth size="small" placeholder="搜索计划号/发票号"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              InputProps={{
-                startAdornment: <InputAdornment position="start"><Search fontSize="small" sx={{ color: '#94A3B8' }} /></InputAdornment>,
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <TextField
-              fullWidth size="small" label="状态" select value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value)}
-            >
-              <MenuItem value="">全部</MenuItem>
-              <MenuItem value="pending">待支付</MenuItem>
-              <MenuItem value="partial">部分付款</MenuItem>
-              <MenuItem value="paid">已付清</MenuItem>
-              <MenuItem value="overdue">已逾期</MenuItem>
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={4}>
+        <FilterBar columns={columns} module="vendor" onSearch={setFilterData} listKey="vendor-payment-plan" />
+
+        <Grid container spacing={1.5} sx={{ mt: 0 }}>
+          <Grid item xs={12} sm={8}>
             <Typography variant="caption" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', gap: 0.5, height: '100%' }}>
               <CalendarToday sx={{ fontSize: 14 }} />
               当前显示 {vendorCode} 的付款计划（共 {vendorFiltered.length} 笔）
@@ -235,7 +225,6 @@ const VendorPaymentPlan: React.FC = () => {
             </TableHead>
             <TableBody>
               {filtered.map(p => {
-                const sc = STATUS_CONFIG[p.status];
                 const paidPct = p.totalAmount > 0 ? Math.round((p.paidAmount / p.totalAmount) * 100) : 0;
                 const unpaid = p.totalAmount - p.paidAmount;
                 const isOverdue = p.status === 'overdue';
@@ -291,13 +280,7 @@ const VendorPaymentPlan: React.FC = () => {
                       </Tooltip>
                     </TableCell>
                     <TableCell>
-                      <Chip
-                        label={sc.label}
-                        color={sc.color}
-                        size="small"
-                        variant={p.status === 'paid' ? 'outlined' : 'filled'}
-                        sx={{ fontWeight: 500 }}
-                      />
+                      <StatusBadge status={PP_STATUS_KEY[p.status]} />
                     </TableCell>
                   </TableRow>
                 );

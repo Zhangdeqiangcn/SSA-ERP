@@ -17,6 +17,7 @@ import {
   CustomFieldDef,
   makeFieldKey,
 } from '@/stores/customFieldStore';
+import { ConfirmDialog } from '@/components/common';
 
 const ENTITIES = Object.keys(CUSTOM_FIELD_ENTITY_LABELS) as CustomFieldEntity[];
 
@@ -81,21 +82,38 @@ const CustomFieldTab: React.FC = () => {
     setDialogOpen(false);
   };
 
-  const handleDelete = (key: string) => {
-    if (confirm('确定删除该自定义字段？已录入的数据不会自动清除。')) {
-      removeField(entity, key);
-      setSnackbar('已删除字段');
-    }
-  };
+  // V3.92.0：删除/清空为不可逆操作，改走统一确认弹窗（替代浏览器原生 confirm）
+  const [confirmState, setConfirmState] = useState<{ kind: 'field' | 'reset'; key?: string } | null>(null);
 
-  const handleReset = () => {
-    if (confirm(`确定清空「${CUSTOM_FIELD_ENTITY_LABELS[entity]}」的全部自定义字段？`)) {
+  const handleDelete = (key: string) => setConfirmState({ kind: 'field', key });
+
+  const handleReset = () => setConfirmState({ kind: 'reset' });
+
+  const runConfirmed = () => {
+    if (!confirmState) return;
+    if (confirmState.kind === 'field' && confirmState.key) {
+      removeField(entity, confirmState.key);
+      setSnackbar('已删除字段');
+    } else {
       resetEntity(entity);
       setSnackbar('已重置');
     }
+    setConfirmState(null);
   };
 
   return (
+    <>
+    <ConfirmDialog
+      open={confirmState !== null}
+      title={confirmState?.kind === 'reset' ? '确认清空' : '确认删除'}
+      content={confirmState?.kind === 'reset'
+        ? `确定清空「${CUSTOM_FIELD_ENTITY_LABELS[entity]}」的全部自定义字段？`
+        : '确定删除该自定义字段？已录入的数据不会自动清除。'}
+      onConfirm={runConfirmed}
+      onCancel={() => setConfirmState(null)}
+      confirmText="确认"
+      confirmColor="error"
+    />
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Box>
@@ -213,6 +231,7 @@ const CustomFieldTab: React.FC = () => {
         onClose={() => setSnackbar('')} message={snackbar}
       />
     </Box>
+    </>
   );
 };
 

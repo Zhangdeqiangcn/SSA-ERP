@@ -17,7 +17,8 @@ import {
 } from '@mui/material';
 import { Block } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, ConfirmDialog } from '@/components/common';
+import { DataTable, FilterBar, ConfirmDialog } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useVendorStore } from '@/stores/vendorStore';
 import { Vendor } from '@/types';
 import { formatDate } from '@/utils/format';
@@ -30,6 +31,7 @@ const Blacklist: React.FC = () => {
   const [addOpen, setAddOpen] = useState(false);
   const [addVendorId, setAddVendorId] = useState<string | null>(null);
   const [addReason, setAddReason] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const blacklistedVendors = useMemo(
     () => vendors.filter((v) => v.status === 'blacklisted'),
@@ -43,16 +45,17 @@ const Blacklist: React.FC = () => {
 
   const columns: ColumnDef<Vendor, unknown>[] = useMemo(
     () => [
-      { accessorKey: 'code', header: '供应商编码' },
-      { accessorKey: 'name', header: '供应商名称' },
-      { accessorKey: 'contact', header: '联系人' },
-      { accessorKey: 'phone', header: '电话' },
+      { accessorKey: 'code', header: '供应商编码', meta: { searchable: true } },
+      { accessorKey: 'name', header: '供应商名称', meta: { searchable: true } },
+      { accessorKey: 'contact', header: '联系人', meta: { searchable: true } },
+      { accessorKey: 'phone', header: '电话', meta: { searchable: true } },
       {
         accessorKey: 'blacklistedAt',
         header: '加入黑名单时间',
+        meta: { searchable: true },
         cell: ({ row }) => formatDate(row.original.blacklistedAt),
       },
-      { accessorKey: 'blacklistReason', header: '原因' },
+      { accessorKey: 'blacklistReason', header: '原因', meta: { searchable: true } },
       {
         id: 'history',
         header: '处置留痕',
@@ -78,6 +81,12 @@ const Blacklist: React.FC = () => {
       },
     ],
     []
+  );
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(blacklistedVendors, columns, filterData, { module: 'vendor' }),
+    [blacklistedVendors, columns, filterData]
   );
 
   const handleRemoveFromBlacklist = () => {
@@ -113,8 +122,9 @@ const Blacklist: React.FC = () => {
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
         黑名单供应商将被系统硬拦截：无法作为采购订单主供应商、无法被询价单选为目标供应商、无法在供应商门户提交报价。
       </Typography>
+      <FilterBar columns={columns} module="vendor" onSearch={setFilterData} listKey="vendor-blacklist" />
       <DataTable
-        data={blacklistedVendors}
+        data={filtered}
         columns={columns}
         enablePagination
         onView={(row) => navigate(`/vendor/${row.id}`)}

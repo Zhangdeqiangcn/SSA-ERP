@@ -117,3 +117,21 @@ export const generatePurchaseRequestNo = (
   const nextSeq = (maxSeq + 1).toString().padStart(3, '0');
   return `${prefix}${nextSeq}`;
 };
+
+/**
+ * 前端离线兜底单号（仅在使用前端模拟数据层、且调用方未传入单号时生效）。
+ * 格式：前缀-YYYYMMDD-4位(当日流水+2位随机尾)，保证单号美观，并大幅降低多端同日碰撞概率。
+ * 说明：走后端 functions 的建单接口已由 functions/_shared/numbering.ts 在 D1 内原子取号，
+ * 此函数仅用于前端 apiService 层的本地兜底，不依赖 localStorage，浏览器与 Node 测试环境均可运行。
+ */
+const _localDocSeq: Record<string, number> = {};
+export const generateLocalDocNo = (prefix: string): string => {
+  const d = new Date();
+  const ymd = `${d.getFullYear()}${(d.getMonth() + 1).toString().padStart(2, '0')}${d.getDate().toString().padStart(2, '0')}`;
+  const key = `${prefix}-${ymd}`;
+  _localDocSeq[key] = (_localDocSeq[key] || 0) + 1;
+  const seq = _localDocSeq[key].toString().padStart(4, '0');
+  // 2 位 36 进制随机尾，规避多端同日同序碰撞
+  const tail = Math.floor(Math.random() * 1296).toString(36).toUpperCase().padStart(2, '0');
+  return `${prefix}-${ymd}-${seq}${tail}`;
+};

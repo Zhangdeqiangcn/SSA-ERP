@@ -21,6 +21,7 @@ import { useMaterialApprovalStore } from '@/stores/materialApprovalStore';
 import { useAuthStore } from '@/stores/authStore';
 import { Material, MaterialApplication, MaterialType, MakeOrBuy, MaterialCategory } from '@/types';
 import { generateMaterialCodeByCategory, getCategoryFullCode } from '@/utils/codeGenerator';
+import { notifyWarning } from '@/utils/notify';
 
 // 物料类型 / 自制外购 选项
 const MATERIAL_TYPE_OPTIONS = [
@@ -83,7 +84,7 @@ const materialSchema = z.object({
   code: z.string().min(1, '请输入物料编码'),
   name: z.string().min(1, '请输入物料名称'),
   categoryId: z.string().min(1, '请选择物料分类'),
-  specification: z.string().optional(),
+  specification: z.string().min(1, '请输入规格型号'),
   model: z.string().optional(),
   materialType: z.enum(['raw', 'semi', 'finished', 'purchased', 'service'] as const).optional(),
   makeOrBuy: z.enum(['make', 'buy']).optional(),
@@ -708,7 +709,7 @@ const MaterialForm: React.FC = () => {
                                   const v = scanned.trim();
                                   setValue('gtin', v, { shouldValidate: true, shouldDirty: true });
                                   const r = validateGTIN(v);
-                                  if (v && !r.valid) window.alert(`GTIN 校验未通过：${r.message}`);
+                                  if (v && !r.valid) notifyWarning(`GTIN 校验未通过：${r.message}`);
                                 }
                               }}>
                               扫码

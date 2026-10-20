@@ -1,20 +1,26 @@
 import React, { useMemo } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Chip, Grid, Alert, LinearProgress, Button,
+  TableHead, TableRow, Chip, Grid, Alert, LinearProgress, Button, type Theme,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { Warning, Star } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
+import { resolveToken } from '@/components/common';
 import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { Sync, CheckCircle } from '@mui/icons-material';
 
 type CustomerClass = 'A' | 'B' | 'C';
-const CLASS_CONFIG: Record<CustomerClass, { label: string; color: string; bg: string }> = {
-  A: { label: 'A类(核心客户)', color: '#EF4444', bg: '#FEE2E2' },
-  B: { label: 'B类(重要客户)', color: '#F59E0B', bg: '#FFFBEB' },
-  C: { label: 'C类(一般客户)', color: '#10B981', bg: '#ECFDF5' },
+// 客户 ABC 分级展示色：只登记主题色路径，浅色底由 alpha() 现场派生（不写死 '#hex'）
+const CLASS_CONFIG: Record<CustomerClass, { label: string; color: string }> = {
+  A: { label: 'A类(核心客户)', color: 'error.main' },
+  B: { label: 'B类(重要客户)', color: 'warning.main' },
+  C: { label: 'C类(一般客户)', color: 'success.main' },
 };
+/** 由主题色路径派生 12% 淡色底（替代原 #FEE2E2 / #FFFBEB / #ECFDF5 硬编码） */
+const classTint = (theme: Theme, cls: CustomerClass) =>
+  alpha(resolveToken(theme, CLASS_CONFIG[cls].color), 0.12);
 
 const dayDiff = (d: string) => {
   const now = new Date();
@@ -58,7 +64,7 @@ const CustomerABC: React.FC = () => {
     });
 
     // 补充没有订单的客户
-    customers.forEach((c) => {
+    customers.forEach((c: any) => {
       if (!customerSales[c.name] && !customerSales[c.id]) {
         customerSales[c.name] = {
           customerId: c.id,
@@ -111,7 +117,7 @@ const CustomerABC: React.FC = () => {
     return analysis.items
       .filter((item) => item.totalAmount > 0)
       .map((item) => {
-        const cust = customers.find((c) => c.id === item.customerId || c.name === item.customerName);
+        const cust = customers.find((c: any) => c.id === item.customerId || c.name === item.customerName);
         const creditLimit = cust?.creditLimit ?? 0;
         const usedCredit = cust?.usedCredit ?? 0;
         const recommended = Math.max(10000, Math.round(item.totalAmount * ABC_CREDIT_COEFF[item.cls]));
@@ -136,7 +142,7 @@ const CustomerABC: React.FC = () => {
       <Grid container spacing={2} sx={{ mb: 3 }}>
         {(['A', 'B', 'C'] as CustomerClass[]).map((cls) => (
           <Grid item xs={4} key={cls}>
-            <Paper sx={{ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: CLASS_CONFIG[cls].bg }}>
+            <Paper sx={(theme) => ({ p: 2, textAlign: 'center', borderRadius: 2, bgcolor: classTint(theme, cls) })}>
               <Typography variant="h5" sx={{ fontWeight: 700, color: CLASS_CONFIG[cls].color }}>
                 {analysis.classCount[cls]}
               </Typography>
@@ -230,7 +236,7 @@ const CustomerABC: React.FC = () => {
                       <Chip
                         size="small"
                         label={cfg.label}
-                        sx={{ bgcolor: cfg.bg, color: cfg.color, fontWeight: 600 }}
+                        sx={(theme) => ({ bgcolor: alpha(resolveToken(theme, cfg.color), 0.12), color: cfg.color, fontWeight: 600 })}
                       />
                     </TableCell>
                     <TableCell>
@@ -289,10 +295,10 @@ const CustomerABC: React.FC = () => {
               {creditLinkage.map((item) => {
                 const cfg = CLASS_CONFIG[item.cls];
                 const riskCfg = item.risk === 'over'
-                  ? { label: '超额/高占用', color: '#DC2626', bg: '#FEE2E2' }
+                  ? { label: '超额/高占用', color: 'error.main' }
                   : item.risk === 'under'
-                    ? { label: '授信不足', color: '#F59E0B', bg: '#FFFBEB' }
-                    : { label: '正常', color: '#10B981', bg: '#ECFDF5' };
+                    ? { label: '授信不足', color: 'warning.main' }
+                    : { label: '正常', color: 'success.main' };
                 const needSync = item.custId && item.creditLimit !== item.recommended;
                 return (
                   <TableRow key={item.customerId || item.customerName} hover>
@@ -301,7 +307,7 @@ const CustomerABC: React.FC = () => {
                       <Typography variant="caption" color="text.secondary">{item.customerCode}</Typography>
                     </TableCell>
                     <TableCell>
-                      <Chip size="small" label={item.cls} sx={{ bgcolor: cfg.bg, color: cfg.color, fontWeight: 700 }} />
+                      <Chip size="small" label={item.cls} sx={(theme) => ({ bgcolor: alpha(resolveToken(theme, cfg.color), 0.12), color: cfg.color, fontWeight: 700 })} />
                     </TableCell>
                     <TableCell align="right">{item.totalAmount.toLocaleString()}</TableCell>
                     <TableCell align="right">{item.creditLimit.toLocaleString()}</TableCell>
@@ -312,7 +318,7 @@ const CustomerABC: React.FC = () => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Chip size="small" label={riskCfg.label} sx={{ bgcolor: riskCfg.bg, color: riskCfg.color, fontWeight: 600 }} />
+                      <Chip size="small" label={riskCfg.label} sx={(theme) => ({ bgcolor: alpha(resolveToken(theme, riskCfg.color), 0.12), color: riskCfg.color, fontWeight: 600 })} />
                     </TableCell>
                     <TableCell align="right">
                       <Typography fontWeight={700} color="#3B82F6">{item.recommended.toLocaleString()}</Typography>

@@ -18,14 +18,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { getApprovalSteps, resolveApprovalAdvance } from '@/data/approvalFlowConfig';
 import type { VendorApplication, Vendor } from '@/types';
 import { formatDate } from '@/utils/format';
-
-const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
-  submitted:  { label: '已提交', color: 'info' },
-  reviewing:  { label: '审核中', color: 'warning' },
-  approved:   { label: '已批准', color: 'success' },
-  rejected:   { label: '已拒绝', color: 'error' },
-  supplement: { label: '需补充', color: 'warning' },
-};
+import { approvalStatusColor, approvalStatusLabel, approvalStatusOptions, isApprovalInFlight } from '@/constants/approvalEnums';
 
 const VENDOR_MODULE = 'vendor_register';
 
@@ -106,7 +99,7 @@ const ApprovalDialog: React.FC<{
             {app.companyName}
             <Typography variant="caption" color="text.secondary" sx={{ ml: 1 }}>{app.applicationNo}</Typography>
           </Box>
-          <Chip label={statusMap[app.status]?.label} size="small" color={statusMap[app.status]?.color} />
+          <Chip label={approvalStatusLabel('vendor_application', app.status)} size="small" color={approvalStatusColor('vendor_application', app.status)} />
         </Stack>
       </DialogTitle>
       <Divider />
@@ -206,7 +199,7 @@ const ApprovalDialog: React.FC<{
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2, flexDirection: 'column', alignItems: 'stretch', gap: 1 }}>
         {!inProgress ? (
-          <Alert severity="info">该申请已{statusMap[app.status]?.label}，审批流程结束。</Alert>
+          <Alert severity="info">该申请已{approvalStatusLabel('vendor_application', app.status)}，审批流程结束。</Alert>
         ) : !canAct ? (
           <Alert severity="info">
             当前角色无「{step?.name}」步骤的审批权限，仅可查看。
@@ -450,10 +443,10 @@ const ApprovalQueue: React.FC = () => {
       },
     },
     { accessorKey: 'status', header: '状态',
-      cell: ({ row }) => {
-        const s = statusMap[row.original.status];
-        return <Chip label={s?.label} size="small" color={s?.color || 'default'} />;
-      },
+      cell: ({ row }) => (
+        <Chip label={approvalStatusLabel('vendor_application', row.original.status)} size="small"
+          color={approvalStatusColor('vendor_application', row.original.status)} />
+      ),
     },
     { accessorKey: 'submittedAt', header: '提交时间', cell: ({ row }) => formatDate(row.original.submittedAt) },
   ], [steps]);
@@ -464,11 +457,7 @@ const ApprovalQueue: React.FC = () => {
       name: 'status', label: '状态', type: 'select' as const,
       options: [
         { value: '', label: '全部' },
-        { value: 'submitted', label: '已提交' },
-        { value: 'reviewing', label: '审核中' },
-        { value: 'approved', label: '已批准' },
-        { value: 'rejected', label: '已拒绝' },
-        { value: 'supplement', label: '需补充' },
+        ...approvalStatusOptions('vendor_application'),
       ],
     },
   ];

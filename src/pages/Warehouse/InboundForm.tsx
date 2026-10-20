@@ -22,6 +22,7 @@ import { PageWrapper } from '@/components/layout';
 import { FlowTracker } from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
+import { notifyError } from '@/utils/notify';
 import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehouseMasterStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { useMaterialStore } from '@/stores';
@@ -77,7 +78,7 @@ const InboundForm: React.FC = () => {
         else if (serials.length !== qty) serialErrs.push(`物料【${item.materialName}】序列号数量(${serials.length})必须等于本次入库数量(${qty})`);
       }
     });
-    if (serialErrs.length) { alert('序列号校验未通过：\n' + serialErrs.join('\n')); return; }
+    if (serialErrs.length) { notifyError('序列号校验未通过：\n' + serialErrs.join('\n')); return; }
     const now = new Date().toISOString();
     const id = `inbound-${Date.now()}`;
     const inboundNo = `IB${new Date().toISOString().slice(0, 10).replace(/-/g, '')}${String(Date.now()).slice(-4)}`;
@@ -137,6 +138,10 @@ const InboundForm: React.FC = () => {
           locationName: loc?.name || undefined,
           productionDate: prodDate || undefined,
           expiryDate: expiryDate || undefined,
+          // ★ V3.61.0 P0-3：行锚点= 采购订单行 id（selectedOrder.items 来自采购订单，
+          //   其 item.id 即 purchase_order_items.id）。缺它则行级三单比对键永不相等，
+          //   累计入库量恒 0 → 每行判「欠交/欠票」→ 付款闸门拦截所有付款。
+          orderItemId: item.id,
           // B2-① 序列号驱动：serialized 物料写入序列号清单
           serialNos: material?.serialized
             ? (itemSerials[item.id] || '').split(/[,\n]/).map(s => s.trim()).filter(Boolean)

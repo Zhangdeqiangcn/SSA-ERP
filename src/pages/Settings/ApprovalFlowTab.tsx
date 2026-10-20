@@ -34,6 +34,7 @@ import {
   getPendingApprovalFlows,
   type ApprovalContext,
 } from '@/data/approvalFlowConfig';
+import { approvalStatusColor, approvalStatusLabel } from '@/constants/approvalEnums';
 
 type ApprovalFlow = ApprovalFlowConfig;
 
@@ -603,12 +604,11 @@ const ApprovalFlowTab: React.FC = () => {
         ) : (
           <Stack spacing={1.5}>
             {getCustomFlows().map((flow) => {
-              const statusLabel: Record<string, { label: string; color: 'default' | 'primary' | 'success' | 'warning' | 'error' }> = {
-                draft: { label: '草稿', color: 'default' },
-                pending: { label: '待审', color: 'warning' },
-                published: { label: '已发布', color: 'success' },
+              // V3.75.0 P1-4：流程状态标签/颜色改从统一登记表派生（原内联 map）
+              const st = {
+                label: approvalStatusLabel('approval_flow', flow.status ?? 'draft'),
+                color: approvalStatusColor('approval_flow', flow.status ?? 'draft'),
               };
-              const st = statusLabel[flow.status ?? 'draft'];
               return (
                 <Paper key={flow.id} variant="outlined" sx={{ borderRadius: 2, p: 2, opacity: flow.status === 'published' ? 1 : 0.8 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 1 }}>

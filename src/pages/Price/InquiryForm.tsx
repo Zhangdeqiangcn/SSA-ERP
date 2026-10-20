@@ -18,6 +18,7 @@ import { usePriceStore } from '@/stores/priceStore';
 import type { PriceInquiry } from '@/types/price';
 import type { PurchaseRequest, PurchaseRequestItem } from '@/types/purchase';
 import { formatCurrency } from '@/utils/format';
+import DemoBanner from '@/components/common/DemoBanner';
 
 interface InquiryItem {
   id: string;
@@ -355,6 +356,7 @@ const InquiryForm: React.FC = () => {
         </Stack>
       }
     >
+      <DemoBanner reason="询价单「保存草稿 / 发布询价」均**已真实写入询价池**（status=draft/published，可在询价列表与比价单查看）；当前**未对接供应商自动邀请与寻源平台**，发布后需线下通知供应商报价。" />
       {/* 基本信息 */}
       <Paper sx={{ p: 3, mb: 2 }}>
         <Typography variant="subtitle1" fontWeight={600} mb={2}>基本信息</Typography>

@@ -11,6 +11,7 @@ import {
   Download, Upload, Save, Delete, Info,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { ConfirmDialog } from '@/components/common';
 
 // ── 发票类型映射 ──
 const INVOICE_TYPES = [
@@ -94,8 +95,13 @@ const TaxConfigPage: React.FC = () => {
     }
   };
 
+  // V3.92.0：清除金税网关为不可逆操作，改走统一确认弹窗（替代浏览器原生 confirm）
+  // 两段式守卫：首次点击只打开确认弹窗；用户在弹窗点「确认清除」后才真正执行清除
+  const [clearOpen, setClearOpen] = useState(false);
+
   const handleDelete = async () => {
-    if (!confirm('确定要清除金税网关配置吗？')) return;
+    if (!clearOpen) { setClearOpen(true); return; }
+    setClearOpen(false);
     try {
       await fetch('/api/tax-gateway/config', { method: 'DELETE' });
       setConfig(null);
@@ -118,6 +124,15 @@ const TaxConfigPage: React.FC = () => {
 
   return (
     <Box sx={{ maxWidth: 900, mx: 'auto' }}>
+      <ConfirmDialog
+        open={clearOpen}
+        title="确认清除金税网关配置"
+        content="确定要清除金税网关配置吗？清除后需重新填写服务商、接口地址与密钥才能继续查验发票。"
+        onConfirm={handleDelete}
+        onCancel={() => setClearOpen(false)}
+        confirmText="确认清除"
+        confirmColor="error"
+      />
       {/* 标题 */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
         <AdminPanelSettings color="primary" />

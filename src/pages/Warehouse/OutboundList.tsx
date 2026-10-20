@@ -12,6 +12,7 @@ import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { OutboundOrder, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const OutboundList: React.FC = () => {
   const navigate = useNavigate();
@@ -30,10 +31,21 @@ const OutboundList: React.FC = () => {
   });
 
   const columns: ColumnDef<OutboundOrder, unknown>[] = useMemo(() => [
-    { accessorKey: 'outboundNo', header: '出库单号' },
+    { accessorKey: 'outboundNo', header: '出库单号', meta: { searchable: true } },
     {
       accessorKey: 'type',
       header: '类型',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'sale', label: '销售出库' },
+          { value: 'pick', label: '领料出库' },
+          { value: 'transfer', label: '调拨出库' },
+          { value: 'return', label: '退货出库' },
+          { value: 'subcontract', label: '委外发料' },
+        ],
+      },
       cell: ({ row }) => {
         const typeMap: Record<string, string> = {
           sale: '销售出库',
@@ -45,14 +57,15 @@ const OutboundList: React.FC = () => {
         return typeMap[row.original.type] || row.original.type;
       },
     },
-    { accessorKey: 'customerName', header: '客户' },
+    { accessorKey: 'customerName', header: '客户', meta: { searchable: true } },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
-    { accessorKey: 'operator', header: '操作员' },
-    { accessorKey: 'outboundDate', header: '出库日期', cell: ({ row }) => formatDate(row.original.outboundDate) },
+    { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
+    { accessorKey: 'outboundDate', header: '出库日期', cell: ({ row }) => formatDate(row.original.outboundDate), meta: { searchable: true } },
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -190,16 +203,11 @@ const OutboundList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = [...outboundOrders];
-    data = data.filter(r => matchOrg(r, currentOrgId));
-    if (filterData.outboundNo) {
-      data = data.filter(o => o.outboundNo.includes(filterData.outboundNo as string));
-    }
-    if (filterData.status) {
-      data = data.filter(o => o.status === filterData.status);
-    }
+    let data = outboundOrders.filter(r => matchOrg(r, currentOrgId));
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（出库单号/类型/客户/状态/操作员/出库日期），并按字段权限门控
+    data = applyColumnFilters(data, columns, filterData, { module: 'warehouse' });
     return data;
-  }, [filterData]);
+  }, [filterData, outboundOrders, columns, currentOrgId]);
 
   return (
     <PageWrapper
@@ -210,7 +218,7 @@ const OutboundList: React.FC = () => {
         />
       }
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="outbound-list" />
       <DataTable<OutboundOrder>
         data={filteredData}
         columns={columns}

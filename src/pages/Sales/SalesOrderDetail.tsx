@@ -16,6 +16,7 @@ import { useSalesStore } from '@/stores/salesStore';
 import { useCustomerStore } from '@/stores/customerStore';
 import { useBOMStore } from '@/stores/bomStore';
 import { formatDate, formatCurrency } from '@/utils/format';
+import { notify, notifyError } from '@/utils/notify';
 import type { SalesOrder } from '@/types';
 
 const statusLabels: Record<string, string> = {
@@ -50,7 +51,7 @@ const SalesOrderDetail: React.FC = () => {
   const order = salesOrders.find(o => o.id === id) as
     | (SalesOrder & { qualityStandard?: string; attachments?: AttachmentItem[] })
     | undefined;
-  const customer = useCustomerStore(s => (order?.customerId ? s.customers.find(c => c.id === order.customerId) : undefined));
+  const customer = useCustomerStore(s => (order?.customerId ? s.customers.find((c: any) => c.id === order.customerId) : undefined));
   const applyCreditDelta = useCustomerStore(s => s.applyCreditDelta);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
@@ -84,7 +85,7 @@ const SalesOrderDetail: React.FC = () => {
     // 检查是否已有BOM（按来源销售订单号判重，避免重复创建）
     const existingBOM = bomList.find(b => b.sourceOrderNo === order.orderNo);
     if (existingBOM) {
-      alert(`已存在BOM（${existingBOM.bomNo}），将跳转到编辑页面`);
+      notify(`已存在BOM（${existingBOM.bomNo}），将跳转到编辑页面`, 'info');
       navigate(`/bom/${existingBOM.id}/edit`);
       return;
     }
@@ -92,7 +93,7 @@ const SalesOrderDetail: React.FC = () => {
     // 取第一个物料作为产品
     const firstItem = order.items?.[0];
     if (!firstItem) {
-      alert('销售订单中没有物料明细，无法创建BOM');
+      notifyError('销售订单中没有物料明细，无法创建BOM');
       return;
     }
 

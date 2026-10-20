@@ -8,6 +8,7 @@ import {
   DataTable, FilterBar, ActionBar, StatusBadge, SecureField,
   ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
 } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useCustomerStore } from '@/stores/customerStore';
 import { Customer, CustomerStatus, CustomerType, CreditLevel } from '@/types';
 import {
@@ -115,27 +116,31 @@ const CustomerList: React.FC = () => {
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const columns: ColumnDef<Customer, unknown>[] = useMemo(() => [
-    { accessorKey: 'code', header: '客户编码' },
-    { accessorKey: 'name', header: '客户名称' },
+    { accessorKey: 'code', header: '客户编码', meta: { searchable: true } },
+    { accessorKey: 'name', header: '客户名称', meta: { searchable: true } },
     {
       accessorKey: 'type',
       header: '类型',
+      meta: { searchable: true },
       cell: ({ row }) => labelOf(CUSTOMER_TYPE_OPTIONS, row.original.type),
     },
-    { accessorKey: 'contactName', header: '联系人', cell: ({ row }) => row.original.contactName || '-' },
+    { accessorKey: 'contactName', header: '联系人', meta: { searchable: true }, cell: ({ row }) => row.original.contactName || '-' },
     {
       accessorKey: 'contactPhone',
       header: '电话',
+      meta: { searchable: true },
       cell: ({ row }) => formatPhone(row.original.contactPhone),
     },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     {
       accessorKey: 'creditLevel',
       header: '信用等级',
+      meta: { searchable: true },
       cell: ({ row }) => row.original.creditLevel
         ? <Chip size="small" label={row.original.creditLevel} color="primary" variant="outlined" />
         : '-',
@@ -173,22 +178,11 @@ const CustomerList: React.FC = () => {
     },
   ];
 
-  const filteredData = useMemo(() => {
-    let data = [...customers];
-    if (filterData.name) {
-      data = data.filter((c) => c.name.includes(filterData.name as string));
-    }
-    if (filterData.type) {
-      data = data.filter((c) => c.type === filterData.type);
-    }
-    if (filterData.status) {
-      data = data.filter((c) => c.status === filterData.status);
-    }
-    if (filterData.creditLevel) {
-      data = data.filter((c) => c.creditLevel === filterData.creditLevel);
-    }
-    return data;
-  }, [filterData, customers]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
+  const filteredData = useMemo(
+    () => applyColumnFilters(customers, columns, filterData, { module: 'customer' }),
+    [filterData, customers, columns]
+  );
 
   // ── 删除（单行 / 批量共用同一确认框）──
   const [deleteTargets, setDeleteTargets] = useState<Customer[]>([]);
@@ -237,7 +231,7 @@ const CustomerList: React.FC = () => {
       const type = CUSTOMER_TYPE_MAP[mapped.type] || 'direct';
       const status = CUSTOMER_STATUS_MAP[mapped.status] || 'active';
       const creditLevel = CREDIT_LEVEL_MAP[mapped.creditLevel];
-      const existing = mapped.code ? customers.find((c) => c.code === mapped.code) : undefined;
+      const existing = mapped.code ? customers.find((c: any) => c.code === mapped.code) : undefined;
 
       if (existing) {
         await updateCustomer(existing.id, {
@@ -317,7 +311,7 @@ const CustomerList: React.FC = () => {
         />
       }
     >
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="customer-list" />
+      <FilterBar fields={filterFields} columns={columns} module="customer" onSearch={setFilterData} listKey="customer-list" />
       <DataTable
         data={filteredData}
         columns={columns}

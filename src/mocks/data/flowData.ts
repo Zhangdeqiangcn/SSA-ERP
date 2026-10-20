@@ -159,7 +159,7 @@ export interface VendorQualityIssue {
   materialCode: string;
   materialName: string;
   batchNo: string;
-  issueType: 'dimension' | 'appearance' | 'performance' | 'documentation' | 'other';
+  issueType: 'dimension' | 'appearance' | 'performance' | 'documentation' | 'production' | 'customer_return' | 'other';
   severity: 'critical' | 'major' | 'minor';
   description: string;
   defectQty: number;

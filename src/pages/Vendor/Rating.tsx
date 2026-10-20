@@ -2,7 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Box, Rating, Typography, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, Grid } from '@mui/material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useVendorStore } from '@/stores/vendorStore';
 import { Vendor } from '@/types';
 
@@ -18,14 +19,15 @@ const RatingPage: React.FC = () => {
     serviceRate: 5,
     remarks: '',
   });
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const approvedVendors = useMemo(() => {
     return vendors.filter(v => v.status === 'approved');
   }, [vendors]);
 
   const columns: ColumnDef<Vendor, unknown>[] = useMemo(() => [
-    { accessorKey: 'code', header: '供应商编码' },
-    { accessorKey: 'name', header: '供应商名称' },
+    { accessorKey: 'code', header: '供应商编码', meta: { searchable: true } },
+    { accessorKey: 'name', header: '供应商名称', meta: { searchable: true } },
     {
       accessorKey: 'rating',
       header: '当前评级',
@@ -38,8 +40,14 @@ const RatingPage: React.FC = () => {
         </Box>
       ),
     },
-    { accessorKey: 'creditLevel', header: '信用等级' },
+    { accessorKey: 'creditLevel', header: '信用等级', meta: { searchable: true } },
   ], []);
+
+  // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  const filtered = useMemo(
+    () => applyColumnFilters(approvedVendors, columns, filterData, { module: 'vendor' }),
+    [approvedVendors, columns, filterData]
+  );
 
   const handleOpenDialog = (vendor: Vendor) => {
     setSelectedVendor(vendor);
@@ -77,8 +85,9 @@ const RatingPage: React.FC = () => {
 
   return (
     <PageWrapper title="供应商评级">
+      <FilterBar columns={columns} module="vendor" onSearch={setFilterData} listKey="vendor-rating" />
       <DataTable
-        data={approvedVendors}
+        data={filtered}
         columns={columns}
         enablePagination
         onEdit={(row) => handleOpenDialog(row)}

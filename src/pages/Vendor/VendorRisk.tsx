@@ -3,7 +3,9 @@ import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Chip, Grid, Alert, LinearProgress,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { PageWrapper } from '@/components/layout';
+import { resolveToken } from '@/components/common';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useQualityStore } from '@/stores/qualityStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -31,11 +33,21 @@ interface VendorRiskScore {
   riskLevel: 'low' | 'medium' | 'high' | 'critical';
 }
 
+// 供应商风险等级：label + 评分阈值；配色单独走主题色路径（不写 '#hex'，支持换肤）
 const RISK_CONFIG = {
-  low: { label: '低风险', color: 'success' as const, bg: '#ECFDF5', max: 30 },
-  medium: { label: '中风险', color: 'warning' as const, bg: '#FFFBEB', max: 60 },
-  high: { label: '高风险', color: 'error' as const, bg: '#FEF2F2', max: 80 },
-  critical: { label: '严重风险', color: 'error' as const, bg: '#FEE2E2', max: 100 },
+  low: { label: '低风险', max: 30 },
+  medium: { label: '中风险', max: 60 },
+  high: { label: '高风险', max: 80 },
+  critical: { label: '严重风险', max: 100 },
+} as const;
+
+type RiskLevel = keyof typeof RISK_CONFIG;
+
+const RISK_COLOR: Record<RiskLevel, string> = {
+  low: 'success.main',
+  medium: 'warning.main',
+  high: 'error.main',
+  critical: 'error.main',
 };
 
 const VendorRisk: React.FC = () => {
@@ -297,11 +309,11 @@ const VendorRisk: React.FC = () => {
                     <Chip
                       size="small"
                       label={cfg.label}
-                      sx={{
-                        bgcolor: cfg.bg,
-                        color: score.riskLevel === 'critical' ? '#DC2626' : score.riskLevel === 'high' ? '#EF4444' : score.riskLevel === 'medium' ? '#F59E0B' : '#10B981',
+                      sx={(theme) => ({
+                        bgcolor: alpha(resolveToken(theme, RISK_COLOR[score.riskLevel]), 0.12),
+                        color: RISK_COLOR[score.riskLevel],
                         fontWeight: 600,
-                      }}
+                      })}
                     />
                   </TableCell>
                 </TableRow>

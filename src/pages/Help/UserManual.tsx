@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Box, Typography, Paper, TextField, InputAdornment, List, ListItemButton,
   ListItemIcon, ListItemText, Chip, Divider, useTheme, alpha,
@@ -80,6 +80,16 @@ const UserManual: React.FC = () => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   const q = query.trim().toLowerCase();
+
+  // V3.70.0：全局搜索跳「/help/manual#sec-xxx」自动定位到命中章节（内容水合后滚一次）
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash || !hash.startsWith('#sec-')) return;
+    const timer = setTimeout(() => {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filtered: ManualModule[] = useMemo(() => {
     if (!q) return MANUAL_MODULES;

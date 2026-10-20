@@ -6,6 +6,7 @@ import { Share } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, FileUpload, ConfirmDialog, DetailActions, SecureField } from '@/components/common';
 import { useVendorStore } from '@/stores/vendorStore';
+import { notifyError } from '@/utils/notify';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useQualityStore } from '@/stores/qualityStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -82,6 +83,12 @@ const VendorDetail: React.FC = () => {
   };
 
   const handleEditSave = () => {
+    // 与后端 REQUIRED_CORE_FIELDS（vendor_master: code + name）对齐：name 必填，提交前拦截空值
+    // （code 不在本编辑表单内，由记录自带、永不为空，按规则不拦截）
+    if (!editForm.name.trim()) {
+      notifyError('请填写「供应商名称」后再提交');
+      return;
+    }
     updateVendor(vendor.id, { ...editForm });
     setEditOpen(false);
   };
@@ -306,7 +313,8 @@ const VendorDetail: React.FC = () => {
         <DialogTitle>编辑供应商 - {vendor.code}</DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ pt: 1 }}>
-            <Grid item xs={12}><TextField fullWidth size="small" label="供应商名称" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} /></Grid>
+            {/* 与后端 REQUIRED_CORE_FIELDS（vendor_master: code + name）对齐：name 为必填可见输入框，标记 required */}
+            <Grid item xs={12}><TextField fullWidth size="small" required label="供应商名称" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} /></Grid>
             <Grid item xs={6}><TextField fullWidth size="small" label="简称" value={editForm.shortName} onChange={(e) => setEditForm({ ...editForm, shortName: e.target.value })} /></Grid>
             <Grid item xs={6}>
               <FormControl fullWidth size="small">

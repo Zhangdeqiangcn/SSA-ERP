@@ -4,14 +4,19 @@ import {
   TextField, MenuItem, Paper, Chip,
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
+import { ColumnDef } from '@tanstack/react-table';
 import { DataTable } from '@/components/common/DataTable';
+import { StatusBadge, FilterBar } from '@/components/common';
 import { useSopStore } from '@/stores/sopStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import type { SopPlan } from '@/types/sop';
 import { SopStatus, SOP_STATUS_LABELS } from '@/types/sop';
+import { applyColumnFilters } from '@/utils/listSearch';
 
-const STATUS_COLORS: Record<SopStatus, string> = {
-  draft: '#94a3b8', balanced: '#3b82f6', approved: '#10b981', executing: '#8b5cf6',
+// 状态展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
+// draft / approved 复用通用 key；balanced / executing 用 sop_ 前缀专属 key
+const SOP_STATUS_KEY: Record<SopStatus, string> = {
+  draft: 'draft', balanced: 'sop_balanced', approved: 'approved', executing: 'sop_executing',
 };
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
@@ -50,6 +55,8 @@ export default function SopPlan() {
     setStatus(r.status); setOwner(r.owner); setRemark(r.remark || ''); setOpen(true);
   };
 
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
+
   const save = () => {
     const d = parseFloat(demand) || 0;
     const s = parseFloat(supply) || 0;
@@ -68,26 +75,32 @@ export default function SopPlan() {
   const totalBalance = Math.round((totalSupply - totalDemand) * 100) / 100;
   const approvedCount = list.filter((r) => r.status === 'approved' || r.status === 'executing').length;
 
-  const columns = [
-    { accessorKey: 'planNo', header: '计划号' },
-    { accessorKey: 'period', header: '计划期' },
-    { accessorKey: 'demandForecast', header: '需求预测(吨)' },
-    { accessorKey: 'supplyPlan', header: '供应计划(吨)' },
+  const columns: ColumnDef<SopPlan, unknown>[] = [
+    { accessorKey: 'planNo', header: '计划号', meta: { searchable: true } },
+    { accessorKey: 'period', header: '计划期', meta: { searchable: true } },
+    { accessorKey: 'demandForecast', header: '需求预测(吨)', meta: { searchable: true } },
+    { accessorKey: 'supplyPlan', header: '供应计划(吨)', meta: { searchable: true } },
     {
       accessorKey: 'balanceQty', header: '平衡差(吨)',
+      meta: { searchable: true },
       cell: (c: any) => {
         const v = c.getValue() as number;
-        return <Chip label={v} size="small" sx={{ bgcolor: v >= 0 ? '#10b981' : '#ef4444', color: '#fff' }} />;
+        return <Chip label={v} size="small" sx={{ bgcolor: v >= 0 ? 'success.main' : 'error.main', color: '#fff' }} />;
       },
     },
     {
       accessorKey: 'status', header: '状态',
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: (Object.keys(SOP_STATUS_LABELS) as SopStatus[]).map((k) => ({ value: k, label: SOP_STATUS_LABELS[k] })),
+      },
       cell: (c: any) => {
         const v = c.getValue() as SopStatus;
-        return <Chip label={SOP_STATUS_LABELS[v]} size="small" sx={{ bgcolor: STATUS_COLORS[v], color: '#fff' }} />;
+        return <StatusBadge status={SOP_STATUS_KEY[v]} />;
       },
     },
-    { accessorKey: 'owner', header: '责任人' },
+    { accessorKey: 'owner', header: '责任人', meta: { searchable: true } },
   ];
 
   return (
@@ -100,14 +113,15 @@ export default function SopPlan() {
       <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
         <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">需求预测合计</Typography><Typography variant="h6">{(totalDemand / 10000).toFixed(2)} 万吨</Typography></Paper>
         <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">供应计划合计</Typography><Typography variant="h6">{(totalSupply / 10000).toFixed(2)} 万吨</Typography></Paper>
-        <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">产销平衡差</Typography><Typography variant="h6" sx={{ color: totalBalance >= 0 ? '#10b981' : '#ef4444' }}>{totalBalance >= 0 ? '+' : ''}{(totalBalance / 10000).toFixed(2)} 万吨</Typography></Paper>
+        <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">产销平衡差</Typography><Typography variant="h6" sx={{ color: totalBalance >= 0 ? 'success.main' : 'error.main' }}>{totalBalance >= 0 ? '+' : ''}{(totalBalance / 10000).toFixed(2)} 万吨</Typography></Paper>
         <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">已审批/执行</Typography><Typography variant="h6">{approvedCount} / {list.length}</Typography></Paper>
       </Stack>
 
+      <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="sop-plans" />
       <DataTable
-        data={list} columns={columns}
+        data={applyColumnFilters(list, columns, filterData, { module: 'production' })} columns={columns}
         onView={(r) => openEdit(r)} onEdit={(r) => openEdit(r)} onDelete={(r) => deletePlan(r.id)}
-        enableExport enableColumnFilter sapStyle columnConfigKey="sop-plans"
+        enableExport enableColumnFilter sapStyle columnConfigKey="sop-plans" codeColumnId="planNo"
       />
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>

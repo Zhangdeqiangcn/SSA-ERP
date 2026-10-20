@@ -165,8 +165,8 @@ export function computeLocalAlerts(): AlertData {
 
   // 5. 信用超额
   const creditOverdue: AlertItem[] = customers
-    .filter((c) => (c.creditLimit ?? 0) > 0 && (c.usedCredit ?? 0) > (c.creditLimit ?? 0))
-    .map((c) => {
+    .filter((c: any) => (c.creditLimit ?? 0) > 0 && (c.usedCredit ?? 0) > (c.creditLimit ?? 0))
+    .map((c: any) => {
       const limit = c.creditLimit ?? 0;
       const used = c.usedCredit ?? 0;
       return {
@@ -177,7 +177,7 @@ export function computeLocalAlerts(): AlertData {
         metrics: { overRatePct: limit > 0 ? ((used - limit) / limit) * 100 : 0 },
       };
     })
-    .sort((a, b) => (b.metrics?.overRatePct ?? 0) - (a.metrics?.overRatePct ?? 0))
+    .sort((a: any, b: any) => (b.metrics?.overRatePct ?? 0) - (a.metrics?.overRatePct ?? 0))
     .slice(0, 10);
 
   // 6. 待审批

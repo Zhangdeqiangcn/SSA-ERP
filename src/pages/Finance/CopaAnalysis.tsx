@@ -7,6 +7,7 @@ import { Add } from '@mui/icons-material';
 import { DataTable } from '@/components/common/DataTable';
 import { useCopaStore } from '@/stores/copaStore';
 import { CopaDimension, CopaRecord, COPA_DIMENSION_LABELS } from '@/types/copa';
+import { computeGrossProfit, computeGrossMargin, formatGrossMargin } from '@/utils/grossProfit'; // S-10 毛利口径统一
 
 const DIMS: CopaDimension[] = ['product', 'customer', 'region', 'period'];
 const nowStr = () => new Date().toISOString();
@@ -32,18 +33,19 @@ export default function CopaAnalysis() {
   const [revenue, setRevenue] = useState('');
   const [cogs, setCogs] = useState('');
 
+  // S-10 毛利口径统一：成本口径 = 手工录入（COPA 为人工维护的分析行）
   const rows: Row[] = list
     .filter((r) => r.dimension === dim)
     .map((r) => {
-      const grossProfit = Math.round((r.revenue - r.cogs) * 100) / 100;
-      const margin = r.revenue ? Math.round((grossProfit / r.revenue) * 10000) / 100 : 0;
+      const grossProfit = computeGrossProfit(r.revenue, r.cogs);
+      const margin = computeGrossMargin(r.revenue, r.cogs);
       return { ...r, grossProfit, margin };
     });
 
   const totalRev = rows.reduce((a, r) => a + r.revenue, 0);
   const totalCogs = rows.reduce((a, r) => a + r.cogs, 0);
-  const totalGp = Math.round((totalRev - totalCogs) * 100) / 100;
-  const totalMargin = totalRev ? Math.round((totalGp / totalRev) * 10000) / 100 : 0;
+  const totalGp = computeGrossProfit(totalRev, totalCogs);
+  const totalMargin = computeGrossMargin(totalRev, totalCogs);
   const maxGp = Math.max(...rows.map((r) => r.grossProfit), 1);
 
   const columns = [
@@ -51,7 +53,7 @@ export default function CopaAnalysis() {
     { accessorKey: 'revenue', header: '收入', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
     { accessorKey: 'cogs', header: '成本', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
     { accessorKey: 'grossProfit', header: '毛利', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
-    { accessorKey: 'margin', header: '毛利率', cell: (c: any) => `${c.getValue()}%` },
+    { accessorKey: 'margin', header: '毛利率', cell: (c: any) => formatGrossMargin(c.getValue()) },
   ];
 
   const openCreate = () => { setKey(''); setLabel(''); setPeriod('2026-08'); setRevenue(''); setCogs(''); setOpen(true); };
@@ -76,7 +78,7 @@ export default function CopaAnalysis() {
       <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
         <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">收入合计</Typography><Typography variant="h6">¥{totalRev.toLocaleString()}</Typography></Paper>
         <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">毛利合计</Typography><Typography variant="h6" sx={{ color: '#10b981' }}>¥{totalGp.toLocaleString()}</Typography></Paper>
-        <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">综合毛利率</Typography><Typography variant="h6">{totalMargin}%</Typography></Paper>
+        <Paper sx={{ p: 2, flex: 1 }}><Typography variant="caption" color="text.secondary">综合毛利率</Typography><Typography variant="h6">{formatGrossMargin(totalMargin)}</Typography></Paper>
       </Stack>
 
       <Tabs value={dim} onChange={(_, v) => setDim(v)} sx={{ mb: 2 }}>
@@ -90,7 +92,7 @@ export default function CopaAnalysis() {
           <Paper key={r.id} sx={{ p: 1.5 }}>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="body2">{r.label}</Typography>
-              <Typography variant="body2" sx={{ color: '#10b981' }}>毛利 ¥{r.grossProfit.toLocaleString()}（{r.margin}%）</Typography>
+              <Typography variant="body2" sx={{ color: '#10b981' }}>毛利 ¥{r.grossProfit.toLocaleString()}（{formatGrossMargin(r.margin)}）</Typography>
             </Stack>
             <Box sx={{ height: 8, bgcolor: 'action.hover', borderRadius: 1, mt: 0.5, overflow: 'hidden' }}>
               <Box sx={{ width: `${(r.grossProfit / maxGp) * 100}%`, height: '100%', bgcolor: '#10b981' }} />

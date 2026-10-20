@@ -1,26 +1,27 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Box, Typography, Chip, Grid, Card, CardContent, Button, TextField,
-  InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, Alert,
+  Dialog, DialogTitle, DialogContent, DialogActions, Alert,
   Select, MenuItem, FormControl, InputLabel,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
-import { FlowTracker, DataTable } from '@/components/common';
+import { FlowTracker, DataTable, StatusBadge, FilterBar } from '@/components/common';
 import type { ColumnDef } from '@tanstack/react-table';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
-import { Invoice } from '@/types/finance';
+import { Invoice, InvoiceItem } from '@/types/finance';
 
-const STATUS_CONFIG: Record<string, { label: string; color: 'default' | 'warning' | 'info' | 'success' | 'error' }> = {
-  draft: { label: '草稿', color: 'default' },
-  submitted: { label: '待验证', color: 'warning' },
-  verified: { label: '已验证', color: 'info' },
-  paid: { label: '已付款', color: 'success' },
-  cancelled: { label: '已作废', color: 'error' },
+// 发票状态 → 集中 statusConfig key（draft / paid 复用通用 key）
+const INV_STATUS_KEY: Record<string, string> = {
+  draft: 'draft',
+  submitted: 'inv_submitted',
+  verified: 'inv_verified',
+  paid: 'paid',
+  cancelled: 'inv_cancelled',
 };
 
 const TYPE_CONFIG: Record<string, string> = {
@@ -32,8 +33,7 @@ const TYPE_CONFIG: Record<string, string> = {
 export default function InvoiceList() {
   const { invoices, financeStats, addInvoice, generateVoucherFromInvoice } = useFinanceStore();
   const { exchangeRates } = useFinanceExtensionStore();
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [selectedInv, setSelectedInv] = useState<Invoice | null>(null);
   const [detailOpen, setDetailOpen] = useState(false);
   const [voucherMsg, setVoucherMsg] = useState<string | null>(null);
@@ -43,12 +43,27 @@ export default function InvoiceList() {
     purchaseOrderNo: '', invoiceDate: new Date().toISOString().split('T')[0],
     amount: 0, taxRate: 13, status: 'submitted',
   });
+  const [items, setItems] = useState<InvoiceItem[]>([]);
 
-  const filtered = invoices.filter(inv => {
-    const matchSearch = !search || inv.invoiceNo.includes(search) || inv.vendorName.includes(search);
-    const matchStatus = statusFilter === 'all' || inv.status === statusFilter;
-    return matchSearch && matchStatus;
+  // V3.62.0 边界②：发票明细行编辑器
+  const blankItem = (): InvoiceItem => ({
+    materialName: '', materialCode: '', quantity: 0, unit: '', unitPrice: 0, taxRate: 13,
+    amount: 0, taxAmount: 0, totalAmount: 0,
   });
+  const recomputeItem = (it: InvoiceItem): InvoiceItem => {
+    const qty = Number(it.quantity) || 0;
+    const price = Number(it.unitPrice) || 0;
+    const rate = Number(it.taxRate) || 0;
+    const amount = Math.round(qty * price * 100) / 100;
+    const taxAmount = Math.round(amount * rate / 100 * 100) / 100;
+    const totalAmount = Math.round((amount + taxAmount) * 100) / 100;
+    return { ...it, amount, taxAmount, totalAmount };
+  };
+  const updateItem = (idx: number, patch: Partial<InvoiceItem>) =>
+    setItems(prev => prev.map((it, i) => (i === idx ? recomputeItem({ ...it, ...patch }) : it)));
+  const addItem = () => setItems(prev => [...prev, blankItem()]);
+  const removeItem = (idx: number) => setItems(prev => prev.filter((_, i) => i !== idx));
+  const resetItems = () => setItems([]);
 
   const handleViewDetail = (inv: Invoice) => {
     setSelectedInv(inv);
@@ -67,30 +82,43 @@ export default function InvoiceList() {
       id: 'invoiceNo',
       header: '发票号',
       accessorFn: (r) => r.invoiceNo,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" fontFamily="monospace">{row.original.invoiceNo}</Typography>,
     },
     {
       id: 'invoiceType',
       header: '发票类型',
       accessorFn: (r) => r.invoiceType,
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'vat_special', label: '增值税专用发票' },
+          { value: 'vat_normal', label: '增值税普通发票' },
+          { value: 'receipt', label: '收据' },
+        ],
+      },
       cell: ({ row }) => <Typography variant="caption">{TYPE_CONFIG[row.original.invoiceType]}</Typography>,
     },
     {
       id: 'vendorName',
       header: '供应商',
       accessorFn: (r) => r.vendorName,
+      meta: { searchable: true },
       cell: ({ row }) => <>{row.original.vendorName}</>,
     },
     {
       id: 'purchaseOrderNo',
       header: '关联采购单',
       accessorFn: (r) => r.purchaseOrderNo,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" fontFamily="monospace">{row.original.purchaseOrderNo}</Typography>,
     },
     {
       id: 'invoiceDate',
       header: '发票日期',
       accessorFn: (r) => r.invoiceDate,
+      meta: { searchable: true },
       cell: ({ row }) => <>{row.original.invoiceDate}</>,
     },
     {
@@ -115,6 +143,7 @@ export default function InvoiceList() {
       id: 'currency',
       header: '币种 / 折合' + BASE_CURRENCY_CODE,
       accessorFn: (r) => r.currency || BASE_CURRENCY_CODE,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box>
           <Typography variant="body2">{(row.original.currency || BASE_CURRENCY_CODE)}</Typography>
@@ -130,10 +159,18 @@ export default function InvoiceList() {
       id: 'status',
       header: '状态',
       accessorFn: (r) => r.status,
-      cell: ({ row }) => {
-        const sc = STATUS_CONFIG[row.original.status];
-        return <Chip label={sc.label} color={sc.color} size="small" />;
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'draft', label: '草稿' },
+          { value: 'submitted', label: '待验证' },
+          { value: 'verified', label: '已验证' },
+          { value: 'paid', label: '已付款' },
+          { value: 'cancelled', label: '已作废' },
+        ],
       },
+      cell: ({ row }) => <StatusBadge status={INV_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'actions',
@@ -149,6 +186,11 @@ export default function InvoiceList() {
       ),
     },
   ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(invoices, columns, filterData, { module: 'finance' }),
+    [invoices, columns, filterData]
+  );
 
   return (
     <Box sx={{ p: 3 }}>
@@ -181,28 +223,8 @@ export default function InvoiceList() {
         ))}
       </Grid>
 
-      {/* 筛选栏 */}
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-        <TextField
-          size="small"
-          placeholder="搜索发票号/供应商"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
-          sx={{ width: 280 }}
-        />
-        <FormControl size="small" sx={{ width: 140 }}>
-          <InputLabel>状态</InputLabel>
-          <Select value={statusFilter} label="状态" onChange={e => setStatusFilter(e.target.value)}>
-            <MenuItem value="all">全部</MenuItem>
-            <MenuItem value="draft">草稿</MenuItem>
-            <MenuItem value="submitted">待验证</MenuItem>
-            <MenuItem value="verified">已验证</MenuItem>
-            <MenuItem value="paid">已付款</MenuItem>
-            <MenuItem value="cancelled">已作废</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="finance-invoice-list" />
 
       {/* 发票表格 */}
       <DataTable<Invoice>
@@ -257,7 +279,7 @@ export default function InvoiceList() {
                 { label: '供应商', value: selectedInv.vendorName },
                 { label: '税号', value: selectedInv.vendorTaxNo },
                 { label: '发票类型', value: TYPE_CONFIG[selectedInv.invoiceType] },
-                { label: '状态', value: STATUS_CONFIG[selectedInv.status].label },
+                { label: '状态', value: <StatusBadge status={INV_STATUS_KEY[selectedInv.status]} /> },
                 { label: '关联采购单', value: selectedInv.purchaseOrderNo },
                 { label: '发票日期', value: selectedInv.invoiceDate },
                 { label: '收票日期', value: selectedInv.receivedDate },
@@ -292,7 +314,7 @@ export default function InvoiceList() {
       </Dialog>
 
       {/* 新建发票 */}
-      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth>
+      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>新建发票</DialogTitle>
         <DialogContent dividers>
           <Grid container spacing={2} sx={{ pt: 1 }}>
@@ -327,6 +349,70 @@ export default function InvoiceList() {
               <TextField fullWidth size="small" label="发票日期" type="date" InputLabelProps={{ shrink: true }}
                 value={form.invoiceDate} onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} />
             </Grid>
+          </Grid>
+
+          {/* 明细行编辑器（边界②修复：行级三单匹配依赖发票明细） */}
+          <Box sx={{ mt: 2, pt: 2, borderTop: '1px dashed', borderColor: 'divider' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Typography variant="subtitle2" fontWeight={600}>发票明细行</Typography>
+              <Box flex={1} />
+              <Button size="small" startIcon={<AddIcon />} onClick={addItem}>添加明细行</Button>
+            </Box>
+            {items.length === 0 ? (
+              <Alert severity="info" sx={{ mb: 1 }}>
+                未填明细行时将按头表金额创建（纯头发票，行级三单匹配将跳过）。填写明细行后，头表「不含税金额 / 税额 / 含税总额」将自动按明细合计覆盖（服务端同口径复核）。
+              </Alert>
+            ) : (
+              <Typography variant="caption" color="text.secondary">
+                填写明细行后，下方头表金额字段将自动被明细合计覆盖，无需手填。
+              </Typography>
+            )}
+            {items.map((it, idx) => (
+              <Box key={idx} sx={{ p: 1.5, mb: 1.5, border: '1px solid', borderColor: 'divider', borderRadius: 1, bgcolor: 'background.paper' }}>
+                <Grid container spacing={1.5} alignItems="center">
+                  <Grid item xs={4}>
+                    <TextField fullWidth size="small" label="物料名称" value={it.materialName || ''}
+                      onChange={(e) => updateItem(idx, { materialName: e.target.value })} />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField fullWidth size="small" label="物料编码" value={it.materialCode || ''}
+                      onChange={(e) => updateItem(idx, { materialCode: e.target.value })} />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField fullWidth size="small" label="单位" value={it.unit || ''}
+                      onChange={(e) => updateItem(idx, { unit: e.target.value })} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField fullWidth size="small" label="数量" type="number" value={it.quantity ?? 0}
+                      onChange={(e) => updateItem(idx, { quantity: Number(e.target.value) })} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField fullWidth size="small" label="单价" type="number" value={it.unitPrice ?? 0}
+                      onChange={(e) => updateItem(idx, { unitPrice: Number(e.target.value) })} />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField fullWidth size="small" label="税率%" type="number" value={it.taxRate ?? 13}
+                      onChange={(e) => updateItem(idx, { taxRate: Number(e.target.value) })} />
+                  </Grid>
+                  <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button size="small" color="error" onClick={() => removeItem(idx)}>删除</Button>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary">行不含税：¥{Number(it.amount || 0).toLocaleString()}</Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary">行税额：¥{Number(it.taxAmount || 0).toLocaleString()}</Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="caption" color="text.secondary">行含税：¥{Number(it.totalAmount || 0).toLocaleString()}</Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+            ))}
+          </Box>
+
+          {/* 头表金额（有明细行时由明细合计覆盖） */}
+          <Grid container spacing={2} sx={{ mt: 1 }}>
             <Grid item xs={6}>
               <TextField fullWidth size="small" label="不含税金额" type="number" value={form.amount}
                 onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })} />
@@ -340,7 +426,11 @@ export default function InvoiceList() {
         <DialogActions>
           <Button onClick={() => setCreateOpen(false)}>取消</Button>
           <Button variant="contained" onClick={() => {
-            const taxAmount = +(form.amount * form.taxRate / 100).toFixed(2);
+            const hasItems = items.length > 0;
+            // 有明细行：头金额由明细合计覆盖（与服务端 Σ明细 复核口径一致）
+            const headerAmount = hasItems ? items.reduce((s, it) => s + (Number(it.amount) || 0), 0) : form.amount;
+            const headerTax = hasItems ? items.reduce((s, it) => s + (Number(it.taxAmount) || 0), 0) : +(form.amount * form.taxRate / 100).toFixed(2);
+            const headerTotal = hasItems ? items.reduce((s, it) => s + (Number(it.totalAmount) || 0), 0) : +(form.amount + headerTax).toFixed(2);
             addInvoice({
               id: `inv-${Date.now()}`,
               invoiceNo: form.invoiceNo || `INV${Date.now()}`,
@@ -351,15 +441,28 @@ export default function InvoiceList() {
               purchaseOrderNo: form.purchaseOrderNo,
               invoiceDate: form.invoiceDate,
               receivedDate: form.invoiceDate,
-              amount: form.amount,
+              amount: Math.round(headerAmount * 100) / 100,
               taxRate: form.taxRate,
-              taxAmount,
-              totalAmount: +(form.amount + taxAmount).toFixed(2),
+              taxAmount: Math.round(headerTax * 100) / 100,
+              totalAmount: Math.round(headerTotal * 100) / 100,
+              ...(hasItems ? { items: items.map(it => ({
+                materialName: it.materialName || undefined,
+                materialCode: it.materialCode || undefined,
+                quantity: Number(it.quantity) || 0,
+                unit: it.unit || undefined,
+                unitPrice: Number(it.unitPrice) || 0,
+                taxRate: Number(it.taxRate) || 0,
+                amount: Math.round((Number(it.amount) || 0) * 100) / 100,
+                taxAmount: Math.round((Number(it.taxAmount) || 0) * 100) / 100,
+                totalAmount: Math.round((Number(it.totalAmount) || 0) * 100) / 100,
+                orderItemId: it.orderItemId || undefined,
+              })) } : {}),
               createdAt: new Date().toISOString(),
               updatedAt: new Date().toISOString(),
               createdBy: '当前用户',
               updatedBy: '当前用户',
             });
+            resetItems();
             setCreateOpen(false);
           }}>创建</Button>
         </DialogActions>

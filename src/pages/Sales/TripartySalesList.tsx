@@ -5,11 +5,11 @@ import {
 } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { DataTable } from '@/components/common/DataTable';
+import { StatusBadge } from '@/components/common';
 import { useTripartySalesStore } from '@/stores/tripartySalesStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { TripartySale, TripartySettleStatus, TRIPARTY_SETTLE_LABELS } from '@/types/tripartySales';
 
-const SETTLE_COLORS: Record<TripartySettleStatus, string> = { pending: '#f59e0b', partial: '#3b82f6', settled: '#10b981' };
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
 
@@ -84,7 +84,7 @@ export default function TripartySalesList() {
     { accessorKey: 'amount', header: '金额', cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
     {
       accessorKey: 'settleStatus', header: '结算状态',
-      cell: (c: any) => { const v = c.getValue() as TripartySettleStatus; return <Chip label={TRIPARTY_SETTLE_LABELS[v]} size="small" sx={{ bgcolor: SETTLE_COLORS[v], color: '#fff' }} />; },
+      cell: (c: any) => <StatusBadge status={`settle_${c.getValue() as TripartySettleStatus}`} />,
     },
     { accessorKey: 'orderDate', header: '业务日期' },
   ];

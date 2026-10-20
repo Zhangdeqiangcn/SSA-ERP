@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
+  Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
   TableCell, TableHead, TableRow, Alert,
 } from '@mui/material';
 import { Add, Edit, Delete, Hub, Sync } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge } from '@/components/common';
 import { useMesStore } from '@/stores/mesStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import {
@@ -17,11 +17,6 @@ import {
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
-
-const CONN_COLORS: Record<MesConnStatus, string> = { connected: '#10B981', disconnected: '#94A3B8', error: '#EF4444' };
-const DEV_COLORS: Record<DeviceStatus, string> = { running: '#10B981', idle: '#94A3B8', down: '#EF4444', maintenance: '#F59E0B' };
-const WIP_COLORS: Record<WipStatus, string> = { waiting: '#94A3B8', processing: '#F59E0B', done: '#10B981' };
-const OP_COLORS: Record<OpReportStatus, string> = { pending: '#94A3B8', in_progress: '#F59E0B', completed: '#10B981' };
 
 const MesIntegrationList: React.FC = () => {
   const { connections, devices, wips, operationReports, addConnection, updateConnection, deleteConnection, syncConnection, addDevice, updateDevice, deleteDevice, addWip, updateWip, deleteWip, addOperationReport, updateOperationReport, deleteOperationReport, load } = useMesStore();
@@ -121,7 +116,7 @@ const MesIntegrationList: React.FC = () => {
     { accessorKey: 'name', header: '名称' },
     { accessorKey: 'endpoint', header: '接口地址' },
     { accessorKey: 'protocol', header: '协议' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as MesConnStatus; return <Chip label={MES_CONN_STATUS_LABELS[v]} size="small" sx={{ bgcolor: CONN_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'status', header: '状态', cell: (c) => <StatusBadge status={`bi_${c.getValue() as MesConnStatus}`} /> },
     { accessorKey: 'lastSyncAt', header: '最近同步' },
     { accessorKey: 'note', header: '备注' },
   ];
@@ -129,7 +124,7 @@ const MesIntegrationList: React.FC = () => {
     { accessorKey: 'deviceCode', header: '设备编码' },
     { accessorKey: 'deviceName', header: '设备名称' },
     { accessorKey: 'workCenter', header: '工作中心' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as DeviceStatus; return <Chip label={DEVICE_STATUS_LABELS[v]} size="small" sx={{ bgcolor: DEV_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'status', header: '状态', cell: (c) => <StatusBadge status={`mes_dev_${c.getValue() as DeviceStatus}`} /> },
     { accessorKey: 'oee', header: 'OEE%' },
     { accessorKey: 'reportedAt', header: '上报时间' },
   ];
@@ -138,7 +133,7 @@ const MesIntegrationList: React.FC = () => {
     { accessorKey: 'productName', header: '产品' },
     { accessorKey: 'qty', header: '数量' },
     { accessorKey: 'station', header: '工位' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as WipStatus; return <Chip label={WIP_STATUS_LABELS[v]} size="small" sx={{ bgcolor: WIP_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'status', header: '状态', cell: (c) => <StatusBadge status={`mes_wip_${c.getValue() as WipStatus}`} /> },
     { accessorKey: 'updatedAt', header: '更新时间' },
   ];
   const opColumns: ColumnDef<MesOperationReport>[] = [
@@ -148,12 +143,15 @@ const MesIntegrationList: React.FC = () => {
     { accessorKey: 'operator', header: '操作工' },
     { accessorKey: 'goodQuantity', header: '合格' },
     { accessorKey: 'scrapQuantity', header: '报废' },
-    { accessorKey: 'status', header: '状态', cell: (c) => { const v = c.getValue() as OpReportStatus; return <Chip label={OP_REPORT_STATUS_LABELS[v]} size="small" sx={{ bgcolor: OP_COLORS[v], color: '#fff' }} />; } },
+    { accessorKey: 'status', header: '状态', cell: (c) => <StatusBadge status={`mes_op_${c.getValue() as OpReportStatus}`} /> },
     { accessorKey: 'reportedAt', header: '报工时间' },
   ];
 
   return (
     <Box sx={{ p: 2 }}>
+      <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }}>
+        本模块的<strong>外部 MES 系统实时对接与「同步」当前为模拟演示</strong>：连接配置、设备状态、在制品、工序报工等数据均真实写入本地台账，但「同步」仅标记连接状态并记录时间，未真正调用外部 MES 系统。接入真实接口后将自动切换。
+      </Alert>
       <Typography variant="h5" sx={{ mb: 2 }}>MES集成（P2-09）</Typography>
       <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ mb: 2 }}>
         <Tab label={`连接配置（${connections.length}）`} value="conn" />
@@ -164,14 +162,17 @@ const MesIntegrationList: React.FC = () => {
 
       {tab === 'conn' && (
         <Box>
-          <Stack direction="row" justifyContent="flex-end" sx={{ mb: 1 }}>
+          <Stack direction="row" justifyContent="flex-end" alignItems="center" sx={{ mb: 1, gap: 1 }}>
+            <Alert severity="info" sx={{ py: 0.25, flexGrow: 0 }}>
+              「同步」当前为<strong>模拟</strong>：仅标记连接状态并记录同步时间，未真正调用外部 MES 系统（设备/WIP/报工数据需手工维护或待接入真实接口后自动拉取）。已预留可插拔同步扩展点。
+            </Alert>
             <Button variant="contained" startIcon={<Add />} onClick={() => openConn()}>新建连接</Button>
           </Stack>
           <DataTable
             data={connections} columns={connColumns}
             onEdit={(r) => openConn(r)} onDelete={(r) => deleteConnection(r.id)}
             enableRowSelection
-            batchActions={[{ label: '同步', icon: <Sync />, color: 'primary', testId: 'mes-conn-sync', onClick: (rows: MesConnection[]) => syncConnection(rows[0].id) }]}
+            batchActions={[{ label: '同步（模拟）', icon: <Sync />, color: 'primary', testId: 'mes-conn-sync', onClick: (rows: MesConnection[]) => syncConnection(rows[0].id) }]}
             enableExport enableColumnFilter sapStyle columnConfigKey="mes-conn"
           />
         </Box>

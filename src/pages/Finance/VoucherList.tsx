@@ -1,18 +1,19 @@
 import { useMemo, useState } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, Grid, TextField, MenuItem,
+  Box, Typography, Chip, Button, Grid,
   Alert, Card, CardContent,
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { DataTable, SecureField } from '@/components/common';
+import { DataTable, FilterBar, SecureField } from '@/components/common';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useFinanceStore } from '@/stores/financeStore';
-import type { Voucher, VoucherStatus, VoucherItem } from '@/types/finance';
+import type { Voucher, VoucherItem } from '@/types/finance';
 import { VOUCHER_STATUS_COLOR, VOUCHER_STATUS_LABEL } from '@/utils/voucher';
+import { applyColumnFilters } from '@/utils/listSearch';
 import VoucherForm from './VoucherForm';
 
-const STATUS_OPTIONS: { value: VoucherStatus | 'all'; label: string }[] = [
+const STATUS_OPTIONS: { value: Voucher['status'] | 'all'; label: string }[] = [
   { value: 'all', label: '全部状态' },
   { value: 'draft', label: '制单' },
   { value: 'reviewed', label: '已审核' },
@@ -25,34 +26,14 @@ export default function VoucherList() {
     vouchers, createVoucher, reviewVoucher, unreviewVoucher, postVoucher, reverseVoucher, deleteVoucher,
   } = useFinanceStore();
 
-  const [status, setStatus] = useState<VoucherStatus | 'all'>('all');
-  const [period, setPeriod] = useState('');
-  const [keyword, setKeyword] = useState('');
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Voucher | null>(null);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
   const [reverseTarget, setReverseTarget] = useState<Voucher | null>(null);
 
-  const periods = useMemo(
-    () => Array.from(new Set(vouchers.map((v) => v.period).filter(Boolean))).sort().reverse(),
-    [vouchers]
-  );
-
-  const filtered = useMemo(() => {
-    const kw = keyword.trim().toLowerCase();
-    return vouchers.filter((v) => {
-      if (status !== 'all' && v.status !== status) return false;
-      if (period && v.period !== period) return false;
-      if (kw) {
-        const hay = `${v.voucherNo} ${v.remark || ''} ${v.items.map((i) => `${i.summary}${i.accountName}`).join(' ')}`.toLowerCase();
-        if (!hay.includes(kw)) return false;
-      }
-      return true;
-    });
-  }, [vouchers, status, period, keyword]);
-
   const totalLines = vouchers.reduce((s, v) => s + v.items.length, 0);
-  const stat = (s: VoucherStatus) => vouchers.filter((v) => v.status === s).length;
+  const stat = (s: Voucher['status']) => vouchers.filter((v) => v.status === s).length;
   const unbalanced = vouchers.filter((v) => Math.abs(v.totalDebit - v.totalCredit) >= 0.005).length;
 
   const run = (fn: () => { ok: boolean; message: string }) => {
@@ -117,26 +98,32 @@ export default function VoucherList() {
 
   const columns: ColumnDef<Voucher, unknown>[] = [
     {
-      id: 'voucherNo',
+      accessorKey: 'voucherNo',
       header: '凭证号',
-      accessorFn: (r) => r.voucherNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="subtitle2" fontWeight={700} fontFamily="monospace">{row.original.voucherNo}</Typography>
       ),
     },
     {
-      id: 'status',
+      accessorKey: 'status',
       header: '状态',
-      accessorFn: (r) => r.status,
+      meta: { searchable: true, filterType: 'select', filterOptions: STATUS_OPTIONS.filter((o) => o.value !== 'all').map((o) => ({ value: o.value, label: o.label })) },
       cell: ({ row }) => (
         <Chip size="small" label={VOUCHER_STATUS_LABEL[row.original.status]} color={VOUCHER_STATUS_COLOR[row.original.status]} />
       ),
     },
     {
-      id: 'date',
+      accessorKey: 'date',
       header: '日期',
-      accessorFn: (r) => r.date,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" color="text.secondary">{row.original.date}</Typography>,
+    },
+    {
+      accessorKey: 'period',
+      header: '会计期间',
+      meta: { searchable: true },
+      cell: ({ row }) => <Typography variant="body2" color="text.secondary">{row.original.period}</Typography>,
     },
     {
       id: 'lines',
@@ -226,6 +213,13 @@ export default function VoucherList() {
     },
   ];
 
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
+  // （置于 columns 声明之后，避免『used before declaration』类型错误）
+  const filtered = useMemo(
+    () => applyColumnFilters(vouchers, columns, filterData, { module: 'finance' }),
+    [vouchers, columns, filterData]
+  );
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 1, flexWrap: 'wrap' }}>
@@ -261,30 +255,8 @@ export default function VoucherList() {
         </Alert>
       )}
 
-      <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={3}>
-            <TextField select fullWidth size="small" label="状态" value={status}
-              data-testid="voucher-filter-status"
-              onChange={(e) => setStatus(e.target.value as VoucherStatus | 'all')}>
-              {STATUS_OPTIONS.map((o) => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={3}>
-            <TextField select fullWidth size="small" label="会计期间" value={period}
-              data-testid="voucher-filter-period"
-              onChange={(e) => setPeriod(e.target.value)}>
-              <MenuItem value="">全部期间</MenuItem>
-              {periods.map((p) => <MenuItem key={p} value={p}>{p}</MenuItem>)}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField fullWidth size="small" label="搜索凭证号 / 摘要 / 科目" value={keyword}
-              data-testid="voucher-filter-kw"
-              onChange={(e) => setKeyword(e.target.value)} />
-          </Grid>
-        </Grid>
-      </Paper>
+      {/* 检索条：覆盖全部可搜列，默认显 5 项、其余『更多筛选』展开，按字段权限门控 */}
+      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="voucher-list" />
 
       <DataTable<Voucher>
         data={filtered}
@@ -296,6 +268,7 @@ export default function VoucherList() {
         enableBlockSelect
         enableExport
         exportFormat="xlsx"
+        codeColumnId="voucherNo"
         enableImport
         onImport={handleImportVouchers}
         columnConfigKey="voucher-list"

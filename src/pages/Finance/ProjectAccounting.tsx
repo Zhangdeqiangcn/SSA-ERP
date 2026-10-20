@@ -9,6 +9,7 @@ import { useFinanceStore } from '@/stores/financeStore';
 import { ProjectAccount } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { formatCurrency } from '@/utils/format';
+import { computeGrossMargin, formatGrossMargin } from '@/utils/grossProfit'; // S-10 毛利口径统一
 
 const CATEGORY_LABELS: Record<string, string> = {
   material: '材料', labor: '人工', equipment: '设备', outsource: '外协', overhead: '制造费用', other: '其他',
@@ -86,8 +87,9 @@ const ProjectAccounting: React.FC = () => {
                     <Typography variant="body2" fontWeight={600}>{formatCurrency(a.grossProfit)}</Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <Typography variant="body2" color={a.grossMargin > 20 ? '#10B981' : a.grossMargin > 0 ? '#F59E0B' : '#EF4444'}>
-                      {a.grossMargin}%
+                    {/* S-10 毛利口径统一：成本口径 = 项目实际成本（totalActual） */}
+                    <Typography variant="body2" color={computeGrossMargin(a.revenue, a.totalActual) > 20 ? '#10B981' : computeGrossMargin(a.revenue, a.totalActual) > 0 ? '#F59E0B' : '#EF4444'}>
+                      {formatGrossMargin(computeGrossMargin(a.revenue, a.totalActual))}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -116,11 +118,11 @@ const ProjectAccounting: React.FC = () => {
           {selectedAccount && (
             <Stack spacing={2} mt={1}>
               <Grid container spacing={2}>
-                {[
+                  {[
                   { label: '总预算', value: formatCurrency(selectedAccount.totalBudget) },
                   { label: '实际成本', value: formatCurrency(selectedAccount.totalActual) },
                   { label: '收入', value: formatCurrency(selectedAccount.revenue) },
-                  { label: '毛利', value: `${formatCurrency(selectedAccount.grossProfit)}（${selectedAccount.grossMargin}%）` },
+                  { label: '毛利', value: `${formatCurrency(selectedAccount.grossProfit)}（${formatGrossMargin(computeGrossMargin(selectedAccount.revenue, selectedAccount.totalActual))}）` },
                 ].map(kpi => (
                   <Grid item xs={6} key={kpi.label}>
                     <Paper sx={{ p: 1.5, bgcolor: '#F8FAFC', textAlign: 'center' }}>

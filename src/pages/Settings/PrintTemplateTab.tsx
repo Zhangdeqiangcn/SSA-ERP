@@ -13,6 +13,7 @@ import {
   PrintExtraOptions, DEFAULT_EXTRA_OPTIONS, textToHtml,
 } from '@/stores/printTemplateStore';
 import PrintPreview from '@/components/common/PrintPreview';
+import { ConfirmDialog } from '@/components/common';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -316,15 +317,39 @@ const PrintTemplateTab: React.FC = () => {
     setDialogOpen(false);
   };
 
-  const handleDelete = (id: string) => {
-    if (confirm('确定删除该打印模板？')) {
-      removeTemplate(id);
+  // V3.92.0：删除模板 / 恢复默认均为不可逆操作，改走统一确认弹窗
+  // （替代浏览器原生 confirm：样式与全站割裂、无法回看、无障碍差）
+  const [confirmState, setConfirmState] = useState<
+    { kind: 'delete'; id: string } | { kind: 'reset' } | null
+  >(null);
+
+  const handleDelete = (id: string) => setConfirmState({ kind: 'delete', id });
+
+  const runConfirmed = () => {
+    if (!confirmState) return;
+    if (confirmState.kind === 'delete') {
+      removeTemplate(confirmState.id);
       setSnackbar('已删除模板');
+    } else {
+      resetTemplates();
+      setSnackbar('已恢复默认');
     }
+    setConfirmState(null);
   };
 
   return (
     <Box>
+      <ConfirmDialog
+        open={confirmState !== null}
+        title={confirmState?.kind === 'reset' ? '确认恢复默认' : '确认删除'}
+        content={confirmState?.kind === 'reset'
+          ? '确定恢复全部默认模板？当前自定义模板将被覆盖。'
+          : '确定删除该打印模板？删除后不可恢复。'}
+        onConfirm={runConfirmed}
+        onCancel={() => setConfirmState(null)}
+        confirmText="确认"
+        confirmColor="error"
+      />
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Box>
           <Typography variant="h6" fontWeight={600}>打印模板设计器</Typography>
@@ -333,7 +358,7 @@ const PrintTemplateTab: React.FC = () => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" startIcon={<RestartAlt />} color="warning" onClick={() => { if (confirm('恢复全部默认模板？')) { resetTemplates(); setSnackbar('已恢复默认'); } }}>
+          <Button variant="outlined" startIcon={<RestartAlt />} color="warning" onClick={() => setConfirmState({ kind: 'reset' })}>
             恢复默认
           </Button>
           <Button variant="contained" startIcon={<Add />} onClick={openAdd}>新增模板</Button>
@@ -341,8 +366,9 @@ const PrintTemplateTab: React.FC = () => {
       </Box>
 
       <Box sx={{ mb: 2 }}>
-        <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel>业务实体</InputLabel>
+        {/* 与后端 REQUIRED_CORE_FIELDS（print_templates: name + entity）对齐：entity（适用单据类型）必填 */}
+        <FormControl size="small" sx={{ minWidth: 200 }} required>
+          <InputLabel required>业务实体</InputLabel>
           <Select value={entity} label="业务实体" onChange={(e) => setEntity(e.target.value as PrintEntity)}>
             {ENTITIES.map((en) => (
               <MenuItem key={en} value={en}>{PRINT_ENTITY_LABELS[en]}</MenuItem>
@@ -402,7 +428,8 @@ const PrintTemplateTab: React.FC = () => {
         <DialogTitle sx={{ fontWeight: 600 }}>{editing ? '编辑打印模板' : '新增打印模板'}</DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           <Stack spacing={2} sx={{ mt: 0.5 }}>
-            <TextField fullWidth label="模板名称" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
+            {/* 与后端 REQUIRED_CORE_FIELDS（print_templates: name + entity）对齐：name 必填 */}
+            <TextField fullWidth required label="模板名称" value={name} onChange={(e) => setName(e.target.value)} autoFocus />
             <TextField fullWidth label="单据标题" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="如：采购订单" />
             <Box sx={{ display: 'flex', gap: 2 }}>
               <FormControl fullWidth>

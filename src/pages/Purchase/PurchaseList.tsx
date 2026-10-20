@@ -16,6 +16,10 @@ import type { BatchAction } from '@/components/common/DataTable';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PurchaseRequest, PurchaseRequestStatus, Priority } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
+import { approvalStatusOptions } from '@/constants/approvalEnums';
+import { applyColumnFilters } from '@/utils/listSearch';
+
+const PR_STATUS_OPTIONS = approvalStatusOptions('purchase_request');
 
 // ── 批量修改弹窗 ──
 interface BatchEditValues {
@@ -61,24 +65,27 @@ const PurchaseList: React.FC = () => {
 
   // ── 列定义 ──
   const columns: ColumnDef<PurchaseRequest, unknown>[] = useMemo(() => [
-    { accessorKey: 'requestNo', header: '申请单号' },
-    { accessorKey: 'title', header: '标题' },
-    { accessorKey: 'applicant', header: '申请人' },
-    { accessorKey: 'department', header: '部门' },
+    { accessorKey: 'requestNo', header: '申请单号', meta: { searchable: true } },
+    { accessorKey: 'title', header: '标题', meta: { searchable: true } },
+    { accessorKey: 'applicant', header: '申请人', meta: { searchable: true } },
+    { accessorKey: 'department', header: '部门', meta: { searchable: true } },
     {
       accessorKey: 'priority',
       header: '优先级',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.priority} />,
     },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
-    { accessorKey: 'expectedDate', header: '期望日期', cell: ({ row }) => formatDate(row.original.expectedDate) },
+    { accessorKey: 'expectedDate', header: '期望日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDate) },
     {
       accessorKey: 'totalAmount',
       header: '预估金额',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalAmount),
     },
   ], []);
@@ -92,11 +99,7 @@ const PurchaseList: React.FC = () => {
       type: 'select' as const,
       options: [
         { value: '', label: '全部' },
-        { value: 'draft', label: '草稿' },
-        { value: 'pending', label: '待审批' },
-        { value: 'approved', label: '已批准' },
-        { value: 'rejected', label: '已拒绝' },
-        { value: 'ordered', label: '已下单' },
+        ...PR_STATUS_OPTIONS,
       ],
     },
     {
@@ -113,22 +116,12 @@ const PurchaseList: React.FC = () => {
     },
   ];
 
-  const filteredData = useMemo(() => {
-    let data = [...purchaseRequests];
-    if (filterData.requestNo) {
-      data = data.filter(r => r.requestNo.includes(filterData.requestNo as string));
-    }
-    if (filterData.title) {
-      data = data.filter(r => r.title.includes(filterData.title as string));
-    }
-    if (filterData.status) {
-      data = data.filter(r => r.status === filterData.status);
-    }
-    if (filterData.priority) {
-      data = data.filter(r => r.priority === filterData.priority);
-    }
-    return data;
-  }, [purchaseRequests, filterData]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（编号/标题/申请人/部门/优先级/状态/期望日期/预估金额），
+  // 并按字段权限门控。默认显 5 项、其余『更多筛选』可展开（由 FilterBar 内置）。
+  const filteredData = useMemo(
+    () => applyColumnFilters(purchaseRequests, columns, filterData, { module: 'purchase' }),
+    [purchaseRequests, filterData, columns]
+  );
 
   // ── 单条删除 ──
   const handleSingleDelete = (row: PurchaseRequest) => {
@@ -333,7 +326,7 @@ const PurchaseList: React.FC = () => {
         onChange={handleFileChange}
       />
 
-      <FilterBar fields={filterFields} onSearch={setFilterData} listKey="purchase-request-list" />
+      <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} listKey="purchase-request-list" />
       <DataTable
         data={filteredData}
         columns={columns}
@@ -389,10 +382,7 @@ const PurchaseList: React.FC = () => {
               size="small"
             >
               <MenuItem value="">不修改</MenuItem>
-              <MenuItem value="draft">草稿</MenuItem>
-              <MenuItem value="pending">待审批</MenuItem>
-              <MenuItem value="approved">已批准</MenuItem>
-              <MenuItem value="rejected">已拒绝</MenuItem>
+              {PR_STATUS_OPTIONS.map(o => <MenuItem key={o.value} value={o.value}>{o.label}</MenuItem>)}
             </TextField>
             <TextField
               select

@@ -37,6 +37,13 @@ export interface InboundOrderItem {
   productionDate?: string;
   /** P1-08 保质期管理：到期日（生产日期+物料保质期天数） */
   expiryDate?: string;
+  /**
+   * ★ V3.61.0 P0-3 · 行锚点：本行对应的采购订单行 id（purchase_order_items.id）
+   *   行级三单比对靠它把「订单行 ↔ 入库行 ↔ 发票行」一一对应。
+   *   缺失时后端 threeWayLineMatch.keyOf() 会退回 `mc:编码#单位`，而订单行用 `oi:id`，
+   *   两侧键永不相等 → 累计入库量恒 0 → 每行判「欠交/欠票」→ 付款闸门拦截所有付款。
+   */
+  orderItemId?: string;
   /** B2-① 序列号驱动：是否强制校验序列号（serialized物料必填） */
   requireSerialNo?: boolean;
 }
@@ -210,6 +217,8 @@ export interface BatchRecord {
   locationId?: string; // P2-2 库位
   orgId?: string; // P2-2 多组织
   quantity: number;
+  /** V3.66.0 P0-5：批次级成本（入库单价×数量快照；出库/完工按批次回写口径细化到批次） */
+  cost?: number;
   productionDate?: string;
   expiryDate?: string;
   inboundNo?: string;

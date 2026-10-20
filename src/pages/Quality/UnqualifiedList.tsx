@@ -4,27 +4,31 @@
  */
 import React, { useState, useMemo, useEffect } from 'react';
 import { FlowTracker } from '@/components/common';
+import { resolveToken } from '@/components/common';
 import {
   Box, Typography, Paper, Chip, Button, IconButton, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, MenuItem, Select, FormControl,
   InputLabel, Snackbar, Alert, Divider, Grid, Stack, Tooltip,
 } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import {
   Add, Edit, CheckCircle, Visibility, Warning, ArrowBack,
   LocalShipping, Handshake, MoneyOff, Inventory, MoreHoriz,
   AutoFixHigh,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { ColumnDef } from '@tanstack/react-table';
 import { useQualityStore } from '@/stores/qualityStore';
 import { UnqualifiedDisposition, UnqualifiedStatus } from '@/types/quality';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 // 扩展处置方式（兼容旧4种 + 新5种枚举）
 type DisposalMethod = 'return' | 'concession' | 'discount' | 'isolate' | 'rework' | 'scrap' | 'other';
 
 interface DisposalConfig {
   label: string;
+  /** MUI 主题色路径（如 'error.main'），替代原 hex 硬编码，支持换肤 */
   color: string;
   icon: React.ReactNode;
   desc: string;
@@ -32,35 +36,13 @@ interface DisposalConfig {
 }
 
 const DISPOSAL_CONFIG: Record<DisposalMethod, DisposalConfig> = {
-  return:      { label: '退货', color: '#DC2626', icon: <LocalShipping fontSize="small" />, desc: '退还给供应商，发起退货入库/出库流程', nextStep: '→ 供应商退货单' },
-  concession:  { label: '让步接收', color: '#D97706', icon: <Handshake fontSize="small" />, desc: '质量认可后按原价入库，质量负责人须签字', nextStep: '→ 让步接收入库单' },
-  discount:    { label: '折价入库', color: '#7C3AED', icon: <MoneyOff fontSize="small" />, desc: '协商降价后入库，自动生成差价通知单', nextStep: '→ 折价入库单 + 差价通知' },
-  isolate:     { label: '隔离', color: '#0369A1', icon: <Inventory fontSize="small" />, desc: '移入隔离仓位，等待质量委员会决议', nextStep: '→ 隔离库位记录' },
-  rework:      { label: '返工', color: '#F59E0B', icon: <Edit fontSize="small" />, desc: '退回供应商或内部返工修复后重新检验', nextStep: '→ 重新报检' },
-  scrap:       { label: '报废', color: '#EF4444', icon: <Warning fontSize="small" />, desc: '无法使用，直接报废处理', nextStep: '→ 报废单' },
-  other:       { label: '其他', color: '#64748B', icon: <MoreHoriz fontSize="small" />, desc: '其他特殊处理方式，需在备注中详细说明', nextStep: '→ 手工跟进' },
-};
-
-// 旧类型兼容映射
-const OLD_DISPOSITION_LABELS: Record<UnqualifiedDisposition, string> = {
-  rework: '返工',
-  scrap: '报废',
-  conditional_accept: '让步接收',
-  return_vendor: '退货供应商',
-};
-
-const OLD_DISPOSITION_COLORS: Record<UnqualifiedDisposition, string> = {
-  rework: '#F59E0B',
-  scrap: '#EF4444',
-  conditional_accept: '#6366F1',
-  return_vendor: '#64748B',
-};
-
-// NCR 闭环状态映射（open → capa_raised → closed）
-const NCR_STATUS_META: Record<UnqualifiedStatus, { label: string; color: string }> = {
-  open: { label: '未关闭', color: '#64748B' },
-  capa_raised: { label: '已发起CAPA', color: '#3B82F6' },
-  closed: { label: '已关闭', color: '#10B981' },
+  return:      { label: '退货', color: 'error.main', icon: <LocalShipping fontSize="small" />, desc: '退还给供应商，发起退货入库/出库流程', nextStep: '→ 供应商退货单' },
+  concession:  { label: '让步接收', color: 'warning.main', icon: <Handshake fontSize="small" />, desc: '质量认可后按原价入库，质量负责人须签字', nextStep: '→ 让步接收入库单' },
+  discount:    { label: '折价入库', color: 'secondary.main', icon: <MoneyOff fontSize="small" />, desc: '协商降价后入库，自动生成差价通知单', nextStep: '→ 折价入库单 + 差价通知' },
+  isolate:     { label: '隔离', color: 'info.main', icon: <Inventory fontSize="small" />, desc: '移入隔离仓位，等待质量委员会决议', nextStep: '→ 隔离库位记录' },
+  rework:      { label: '返工', color: 'warning.main', icon: <Edit fontSize="small" />, desc: '退回供应商或内部返工修复后重新检验', nextStep: '→ 重新报检' },
+  scrap:       { label: '报废', color: 'error.main', icon: <Warning fontSize="small" />, desc: '无法使用，直接报废处理', nextStep: '→ 报废单' },
+  other:       { label: '其他', color: 'grey.500', icon: <MoreHoriz fontSize="small" />, desc: '其他特殊处理方式，需在备注中详细说明', nextStep: '→ 手工跟进' },
 };
 
 // ── 处置方案对话框 ────────────────────────────────────────────
@@ -116,13 +98,16 @@ const DisposalDialog: React.FC<{
               <Paper
                 onClick={() => setMethod(key)}
                 data-testid={`disposal-method-${key}`}
-                sx={{
+                sx={(theme) => ({
                   p: 1.5, borderRadius: 2, cursor: 'pointer',
-                  border: `2px solid ${method === key ? cfg.color : 'transparent'}`,
-                  bgcolor: method === key ? `${cfg.color}10` : '#F8FAFC',
+                  border: `2px solid ${method === key ? resolveToken(theme, cfg.color) : 'transparent'}`,
+                  bgcolor: method === key ? alpha(resolveToken(theme, cfg.color), 0.06) : '#F8FAFC',
                   transition: 'all 0.15s',
-                  '&:hover': { bgcolor: `${cfg.color}08`, borderColor: `${cfg.color}60` },
-                }}
+                  '&:hover': {
+                    bgcolor: alpha(resolveToken(theme, cfg.color), 0.05),
+                    borderColor: alpha(resolveToken(theme, cfg.color), 0.4),
+                  },
+                })}
               >
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.3 }}>
                   <Box sx={{ color: cfg.color }}>{cfg.icon}</Box>
@@ -154,7 +139,6 @@ const DisposalDialog: React.FC<{
       <Divider />
       <DialogActions sx={{ p: 2, gap: 1 }}>
         <Button onClick={onClose} startIcon={<ArrowBack />}>取消</Button>
-        <Button variant="outlined" onClick={() => { onClose(); alert('处置方案已暂存！（演示模式）'); }}>暂存</Button>
         <Button variant="contained" color="warning"
           sx={{ bgcolor: cfg.color, '&:hover': { bgcolor: cfg.color } }}
           data-testid="disposal-confirm"
@@ -177,6 +161,7 @@ const UnqualifiedList: React.FC = () => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
   const [capaDialogOpen, setCapaDialogOpen] = useState(false);
   const [capaTarget, setCapaTarget] = useState<typeof unqualifiedItems[0] | null>(null);
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // NCR → CAPA：创建关联 PDCA 并关闭 NCR
   const handleGenerateCapa = (item: typeof unqualifiedItems[0], templateName?: string) => {
@@ -243,9 +228,9 @@ const UnqualifiedList: React.FC = () => {
 
   const columns: ColumnDef<typeof unqualifiedItems[0], unknown>[] = [
     {
-      id: 'itemNo',
+      accessorKey: 'itemNo',
       header: '记录编号',
-      accessorFn: (row) => row.itemNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontWeight: 600, color: '#EF4444', fontFamily: 'monospace' }}>
           {row.original.itemNo}
@@ -253,37 +238,42 @@ const UnqualifiedList: React.FC = () => {
       ),
     },
     {
-      id: 'material',
-      header: '物料',
-      accessorFn: (row) => row.materialName,
+      accessorKey: 'materialCode',
+      header: '物料号',
+      meta: { searchable: true },
       cell: ({ row }) => (
-        <Stack spacing={0.3}>
-          <Chip label={row.original.materialCode} size="small"
-            sx={{ bgcolor: '#EFF6FF', color: '#1D4ED8', fontFamily: 'monospace', fontSize: '0.7rem', width: 'fit-content' }} />
-          <Typography variant="caption" color="text.secondary">{row.original.materialName}</Typography>
-        </Stack>
+        <Chip label={row.original.materialCode} size="small"
+          sx={{ bgcolor: '#EFF6FF', color: '#1D4ED8', fontFamily: 'monospace', fontSize: '0.7rem', width: 'fit-content' }} />
       ),
     },
     {
-      id: 'batchNo',
+      accessorKey: 'materialName',
+      header: '物料名称',
+      meta: { searchable: true },
+      cell: ({ row }) => (
+        <Typography variant="caption" color="text.secondary">{row.original.materialName}</Typography>
+      ),
+    },
+    {
+      accessorKey: 'batchNo',
       header: '批次',
-      accessorFn: (row) => row.batchNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>{row.original.batchNo}</Typography>
       ),
     },
     {
-      id: 'defectQuantity',
+      accessorKey: 'defectQuantity',
       header: '不合格数量',
-      accessorFn: (row) => row.defectQuantity,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ color: '#EF4444', fontWeight: 600 }}>{row.original.defectQuantity} 件</Typography>
       ),
     },
     {
-      id: 'defectDescription',
+      accessorKey: 'defectDescription',
       header: '缺陷描述',
-      accessorFn: (row) => row.defectDescription,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Tooltip title={row.original.defectDescription}>
           <Typography variant="body2" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 180 }}>
@@ -303,22 +293,24 @@ const UnqualifiedList: React.FC = () => {
       ),
     },
     {
-      id: 'disposition',
+      accessorKey: 'disposition',
       header: '处置方式',
-      accessorFn: (row) => row.disposition,
-      cell: ({ row }) => (
-        <Chip
-          label={OLD_DISPOSITION_LABELS[row.original.disposition]}
-          size="small"
-          sx={{ bgcolor: `${OLD_DISPOSITION_COLORS[row.original.disposition]}18`,
-            color: OLD_DISPOSITION_COLORS[row.original.disposition], fontWeight: 600 }}
-        />
-      ),
+      meta: { searchable: true, filterType: 'select', filterOptions: [
+        { value: 'return_vendor', label: '退货供应商' },
+        { value: 'conditional_accept', label: '让步接收' },
+        { value: 'rework', label: '返工' },
+        { value: 'scrap', label: '报废' },
+      ] },
+      cell: ({ row }) => <StatusBadge status={row.original.disposition} />,
     },
     {
-      id: 'dispositionStatus',
+      accessorKey: 'dispositionStatus',
       header: '处置状态',
-      accessorFn: (row) => row.dispositionStatus,
+      meta: { searchable: true, filterType: 'select', filterOptions: [
+        { value: 'pending', label: '待处理' },
+        { value: 'in_progress', label: '处理中' },
+        { value: 'completed', label: '已完成' },
+      ] },
       cell: ({ row }) => (
         <Chip
           icon={row.original.dispositionStatus === 'completed' ? <CheckCircle sx={{ fontSize: '12px !important' }} /> : undefined}
@@ -338,15 +330,7 @@ const UnqualifiedList: React.FC = () => {
         const related = pdcaRecords.filter(r => r.relatedItemId === item.id);
         return (
           <Box>
-            <Chip
-              label={NCR_STATUS_META[item.status || 'open'].label}
-              size="small"
-              sx={{
-                bgcolor: NCR_STATUS_META[item.status || 'open'].color + '18',
-                color: NCR_STATUS_META[item.status || 'open'].color,
-                fontWeight: 600,
-              }}
-            />
+            <StatusBadge status={`unq_${item.status || 'open'}`} />
             {related.length > 0 && (
               <Chip
                 icon={<AutoFixHigh sx={{ fontSize: 12 }} />}
@@ -360,15 +344,15 @@ const UnqualifiedList: React.FC = () => {
       },
     },
     {
-      id: 'responsiblePerson',
+      accessorKey: 'responsiblePerson',
       header: '负责人',
-      accessorFn: (row) => row.responsiblePerson,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.responsiblePerson}</Typography>,
     },
     {
-      id: 'dueDate',
+      accessorKey: 'dueDate',
       header: '截止日期',
-      accessorFn: (row) => row.dueDate,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ color: row.original.dispositionStatus !== 'completed' ? '#F59E0B' : '#64748B' }}>
           {row.original.dueDate}
@@ -407,6 +391,12 @@ const UnqualifiedList: React.FC = () => {
       },
     },
   ];
+
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
+  const filtered = useMemo(
+    () => applyColumnFilters(unqualifiedItems, columns, filterData, { module: 'quality' }),
+    [unqualifiedItems, columns, filterData]
+  );
 
   return (
     <Box>
@@ -447,15 +437,17 @@ const UnqualifiedList: React.FC = () => {
           <Stack direction="row" spacing={0.8} flexWrap="wrap" sx={{ gap: 0.5 }}>
             {(['return', 'concession', 'discount', 'isolate', 'rework', 'scrap'] as DisposalMethod[]).map(k => (
               <Chip key={k} label={DISPOSAL_CONFIG[k].label} size="small"
-                sx={{ bgcolor: `${DISPOSAL_CONFIG[k].color}15`, color: DISPOSAL_CONFIG[k].color, fontSize: '0.7rem' }} />
+                sx={(theme) => ({ bgcolor: alpha(resolveToken(theme, DISPOSAL_CONFIG[k].color), 0.08), color: DISPOSAL_CONFIG[k].color, fontSize: '0.7rem' })} />
             ))}
           </Stack>
         </Paper>
       </Stack>
 
+      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="unqualified-list" />
+
       <Paper sx={{ borderRadius: 3 }}>
         <DataTable<typeof unqualifiedItems[0]>
-          data={unqualifiedItems}
+          data={filtered}
           columns={columns}
           enableRowSelection={false}
           enablePagination={true}
@@ -464,6 +456,7 @@ const UnqualifiedList: React.FC = () => {
           enableBlockSelect={true}
           enableExport={true}
           exportFormat="xlsx"
+          codeColumnId="itemNo"
           enableImport={true}
           onImport={(rows, headers) => rows.forEach(r => addUnqualifiedItem(mapImportRow(r, headers)))}
           columnConfigKey="quality-unqualified-list"
@@ -623,11 +616,7 @@ const UnqualifiedList: React.FC = () => {
                 </Box>
                 <Box>
                   <Typography variant="caption" color="text.secondary">闭环状态</Typography>
-                  <Chip
-                    label={NCR_STATUS_META[liveItem.status || 'open'].label}
-                    size="small"
-                    sx={{ bgcolor: NCR_STATUS_META[liveItem.status || 'open'].color + '18', color: NCR_STATUS_META[liveItem.status || 'open'].color, fontWeight: 600 }}
-                  />
+                  <StatusBadge status={`unq_${liveItem.status || 'open'}`} />
                 </Box>
               </Stack>
               <Typography variant="body2" sx={{ mt: 1, color: '#92400E' }}>缺陷描述：{liveItem.defectDescription}</Typography>

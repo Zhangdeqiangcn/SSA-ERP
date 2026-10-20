@@ -12,6 +12,7 @@ import { useMaterialStore } from '@/stores';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
 import { Material, MaterialType, MakeOrBuy, MaterialFilter, MaterialCategory, LifecycleStatus } from '@/types';
 import { formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const MATERIAL_TYPE_LABELS: Record<MaterialType, string> = {
   raw: '原材料',
@@ -26,18 +27,12 @@ const MAKE_OR_BUY_LABELS: Record<MakeOrBuy, string> = {
   buy: '外购',
 };
 
-const LIFECYCLE_STATUS_LABELS: Record<LifecycleStatus, string> = {
-  draft: '创建中',
-  active: '激活',
-  phasing_out: '逐步淘汰',
-  obsolete: '已淘汰',
-};
-
-const LIFECYCLE_STATUS_COLORS: Record<LifecycleStatus, string> = {
-  draft: '#94A3B8',
-  active: '#10B981',
-  phasing_out: '#F59E0B',
-  obsolete: '#EF4444',
+// 生命周期展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
+const LIFECYCLE_STATUS_MAP: Record<LifecycleStatus, string> = {
+  draft: 'lifecycle_draft',
+  active: 'lifecycle_active',
+  phasing_out: 'lifecycle_phasing_out',
+  obsolete: 'lifecycle_obsolete',
 };
 
 // 将分类树拍平成 Select 选项
@@ -100,21 +95,21 @@ const MaterialList: React.FC = () => {
 
   const materials = useMaterialStore((s) => s.materials);
   const categories = useMaterialStore((s) => s.categories);
-  const filter = useMaterialStore((s) => s.filter);
-  const setFilter = useMaterialStore((s) => s.setFilter);
   const updateMaterial = useMaterialStore((s) => s.updateMaterial);
   const deleteMaterial = useMaterialStore((s) => s.deleteMaterial);
   const addMaterial = useMaterialStore((s) => s.addMaterial);
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const columns: ColumnDef<Material, unknown>[] = useMemo(() => [
-    { accessorKey: 'code', header: '物料编码' },
-    { accessorKey: 'name', header: '物料名称' },
-    { accessorKey: 'categoryName', header: '分类' },
-    { accessorKey: 'specification', header: '规格型号' },
-    { accessorKey: 'unit', header: '单位' },
+    { accessorKey: 'code', header: '物料编码', meta: { searchable: true } },
+    { accessorKey: 'name', header: '物料名称', meta: { searchable: true } },
+    { accessorKey: 'categoryName', header: '分类', meta: { searchable: true } },
+    { accessorKey: 'specification', header: '规格型号', meta: { searchable: true } },
+    { accessorKey: 'unit', header: '单位', meta: { searchable: true } },
     {
       accessorKey: 'materialType',
       header: '物料类型',
+      meta: { searchable: true },
       cell: ({ row }) =>
         row.original.materialType
           ? (MATERIAL_TYPE_LABELS[row.original.materialType] ?? row.original.materialType)
@@ -123,6 +118,7 @@ const MaterialList: React.FC = () => {
     {
       accessorKey: 'makeOrBuy',
       header: '自制外购',
+      meta: { searchable: true },
       cell: ({ row }) =>
         row.original.makeOrBuy
           ? (MAKE_OR_BUY_LABELS[row.original.makeOrBuy] ?? row.original.makeOrBuy)
@@ -131,36 +127,29 @@ const MaterialList: React.FC = () => {
     {
       accessorKey: 'currentStock',
       header: '当前库存',
+      meta: { searchable: true },
       cell: ({ row }) => `${row.original.currentStock} ${row.original.unit}`,
     },
     {
       accessorKey: 'price',
       header: '单价',
+      meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.price),
     },
     {
       accessorKey: 'status',
       header: '状态',
+      meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     {
       accessorKey: 'lifecycleStatus',
       header: '生命周期',
+      meta: { searchable: true },
       cell: ({ row }) => {
         const ls = row.original.lifecycleStatus;
         if (!ls) return <Typography variant="body2" color="text.secondary">-</Typography>;
-        return (
-          <Chip
-            label={LIFECYCLE_STATUS_LABELS[ls] ?? ls}
-            size="small"
-            sx={{
-              bgcolor: (LIFECYCLE_STATUS_COLORS[ls] ?? '#94A3B8') + '15',
-              color: LIFECYCLE_STATUS_COLORS[ls] ?? '#94A3B8',
-              fontWeight: 500,
-              fontSize: '0.75rem',
-            }}
-          />
-        );
+        return <StatusBadge status={LIFECYCLE_STATUS_MAP[ls] || ls} />;
       },
     },
   ], []);
@@ -182,7 +171,6 @@ const MaterialList: React.FC = () => {
   const filterFields = [
     { name: 'code', label: '物料编码', type: 'text' as const },
     { name: 'name', label: '物料名称', type: 'text' as const },
-    { name: 'categoryId', label: '分类', type: 'select' as const, options: categoryOptions },
     {
       name: 'materialType',
       label: '物料类型',
@@ -217,54 +205,14 @@ const MaterialList: React.FC = () => {
       ],
     },
     { name: 'unit', label: '单位', type: 'select' as const, options: unitOptions },
-    { name: 'minPrice', label: '最低单价', type: 'text' as const },
-    { name: 'maxPrice', label: '最高单价', type: 'text' as const },
   ];
 
-  // 合并 FilterBar 提交的值到 store 的 filter（空值清除，价格转为 number）
-  const applyFilter = (values: Record<string, unknown>) => {
-    const next: MaterialFilter = { ...filter };
-    (['code', 'name', 'categoryId', 'materialType', 'makeOrBuy', 'status', 'unit'] as const).forEach(
-      (k) => {
-        const v = values[k];
-        if (v === '' || v === undefined || v === null) delete (next as Record<string, unknown>)[k];
-        else (next as Record<string, unknown>)[k] = v;
-      }
-    );
-    if (values.minPrice === '' || values.minPrice === undefined || values.minPrice === null) {
-      delete next.minPrice;
-    } else {
-      next.minPrice = Number(values.minPrice);
-    }
-    if (values.maxPrice === '' || values.maxPrice === undefined || values.maxPrice === null) {
-      delete next.maxPrice;
-    } else {
-      next.maxPrice = Number(values.maxPrice);
-    }
-    setFilter(next);
-  };
-
-  const filteredData = useMemo(() => {
-    const kw = (filter.keyword || '').trim().toLowerCase();
-    return materials.filter((m) => {
-      if (filter.code && !m.code.includes(filter.code)) return false;
-      if (filter.name && !m.name.includes(filter.name)) return false;
-      if (filter.status && m.status !== filter.status) return false;
-      if (filter.categoryId && m.categoryId !== filter.categoryId) return false;
-      if (filter.materialType && m.materialType !== filter.materialType) return false;
-      if (filter.makeOrBuy && m.makeOrBuy !== filter.makeOrBuy) return false;
-      if (filter.unit && m.unit !== filter.unit) return false;
-      if (typeof filter.minPrice === 'number' && m.price < filter.minPrice) return false;
-      if (typeof filter.maxPrice === 'number' && m.price > filter.maxPrice) return false;
-      if (kw) {
-        const hit = [m.code, m.name, m.specification, m.model].some(
-          (v) => v && v.toLowerCase().includes(kw)
-        );
-        if (!hit) return false;
-      }
-      return true;
-    });
-  }, [materials, filter]);
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（物料编码/名称/分类/规格/单位/类型/自制外购/库存/单价/状态/生命周期），
+  // 并按字段权限门控。默认显 5 项、其余『更多筛选』可展开。
+  const filteredData = useMemo(
+    () => applyColumnFilters(materials, columns, filterData, { module: 'material' }),
+    [materials, filterData, columns]
+  );
 
   // ── 批量操作 ──
   const handleBatchEnable = (rows: Material[]) => {
@@ -480,26 +428,7 @@ const MaterialList: React.FC = () => {
         />
       }
     >
-      {/* 模糊搜索 */}
-      <Box sx={{ mb: 2 }}>
-        <TextField
-          fullWidth
-          size="small"
-          placeholder="模糊搜索：物料编码 / 名称 / 规格型号 / 型号"
-          value={filter.keyword ?? ''}
-          onChange={(e) => setFilter({ ...filter, keyword: e.target.value })}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Search fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-          inputProps={{ 'data-testid': 'material-keyword' }}
-        />
-      </Box>
-
-      <FilterBar fields={filterFields} onSearch={applyFilter} listKey="material-list" columnConfigKey="material-list" />
+      <FilterBar fields={filterFields} columns={columns} module="material" onSearch={setFilterData} listKey="material-list" columnConfigKey="material-list" />
 
       {/* P1-05 批量修改 & 从模板创建按钮 */}
       <Stack direction="row" spacing={1} sx={{ mb: 2 }}>

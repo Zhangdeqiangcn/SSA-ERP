@@ -1,33 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, TextField, Stack,
-  Tooltip, LinearProgress,
+  Box, Typography, Paper, Chip, Button, LinearProgress,
 } from '@mui/material';
-import { Add, Visibility, Warning, Search } from '@mui/icons-material';
+import { Add, Visibility, Warning } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
 import { Project, ProjectStatus } from '@/types';
 import { PageWrapper } from '@/components/layout';
-import { DataTable } from '@/components/common';
+import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const STATUS_LABELS: Record<ProjectStatus, string> = {
   planning: '规划中', in_progress: '执行中', pending: '暂停', at_risk: '风险', completed: '已完成', closed: '已关闭',
 };
-const STATUS_COLORS: Record<ProjectStatus, string> = {
-  planning: '#6366F1', in_progress: '#3B82F6', pending: '#F59E0B', at_risk: '#EF4444', completed: '#10B981', closed: '#94A3B8',
+// 销售项目状态 → 集中 statusConfig key（at_risk/completed/closed 复用通用 key）
+const PROJ_STATUS_KEY: Record<ProjectStatus, string> = {
+  planning: 'proj_planning',
+  in_progress: 'proj_in_progress',
+  pending: 'proj_pending',
+  at_risk: 'at_risk',
+  completed: 'completed',
+  closed: 'closed',
 };
 
 const ProjectList: React.FC = () => {
   const { projects, addProject } = useSalesStore();
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
-
-  const filtered = projects.filter(p => {
-    if (search && !p.projectName.includes(search) && !p.projectNo.includes(search) && !p.customerName.includes(search)) return false;
-    return true;
-  });
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // ── 列定义（驱动 DataTable）──
   const columns: ColumnDef<Project, unknown>[] = [
@@ -35,6 +36,7 @@ const ProjectList: React.FC = () => {
       id: 'projectNo',
       header: '项目编号',
       accessorFn: (p) => p.projectNo,
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#3B82F6" fontWeight={500}>{row.original.projectNo}</Typography>
       ),
@@ -43,18 +45,21 @@ const ProjectList: React.FC = () => {
       id: 'projectName',
       header: '项目名称',
       accessorFn: (p) => p.projectName,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" fontWeight={500}>{row.original.projectName}</Typography>,
     },
     {
       id: 'customerName',
       header: '客户',
       accessorFn: (p) => p.customerName,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.customerName}</Typography>,
     },
     {
       id: 'manager',
       header: '项目经理',
       accessorFn: (p) => p.manager,
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2">{row.original.manager}</Typography>,
     },
     {
@@ -112,10 +117,19 @@ const ProjectList: React.FC = () => {
       id: 'status',
       header: '状态',
       accessorFn: (p) => STATUS_LABELS[p.status],
-      cell: ({ row }) => (
-        <Chip label={STATUS_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: STATUS_COLORS[row.original.status] + '15', color: STATUS_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'planning', label: '规划中' },
+          { value: 'in_progress', label: '执行中' },
+          { value: 'pending', label: '暂停' },
+          { value: 'at_risk', label: '风险' },
+          { value: 'completed', label: '已完成' },
+          { value: 'closed', label: '已关闭' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={PROJ_STATUS_KEY[row.original.status]} />,
     },
     {
       id: 'exceptions',
@@ -133,6 +147,11 @@ const ProjectList: React.FC = () => {
       },
     },
   ];
+
+  const filtered = useMemo(
+    () => applyColumnFilters(projects, columns, filterData, { module: 'sales' }),
+    [projects, columns, filterData]
+  );
 
   // ── 导入：把表头行映射回 store 字段 ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -197,13 +216,8 @@ const ProjectList: React.FC = () => {
         ))}
       </Box>
 
-      {/* 搜索 */}
-      <Paper sx={{ p: 2, mb: 2, borderRadius: 3 }}>
-        <TextField size="small" placeholder="搜索项目名称/编号/客户" value={search}
-          onChange={e => setSearch(e.target.value)}
-          InputProps={{ startAdornment: <Search sx={{ color: '#94A3B8', mr: 0.5, fontSize: 18 }} /> }}
-          sx={{ width: 300 }} />
-      </Paper>
+      {/* 检索条（标准化） */}
+      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-project-list" />
 
       {/* 项目列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>

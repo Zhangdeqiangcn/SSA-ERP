@@ -7,9 +7,10 @@ import {
 } from '@mui/material';
 import { Add, Edit, Link as LinkIcon } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { PDCARecord, PDCAStatus } from '@/types/quality';
+import { applyColumnFilters } from '@/utils/listSearch';
 
 const PDCA_STEPS: PDCAStatus[] = ['plan', 'do', 'check', 'act', 'closed'];
 const CAPA_STEPS: PDCAStatus[] = ['open', 'in_progress', 'verified', 'closed'];
@@ -23,20 +24,15 @@ const PDCA_STEP_LABELS: Record<PDCAStatus, string> = {
   in_progress: '进行中',
   verified: '已验证',
 };
-const PDCA_COLORS: Record<PDCAStatus, string> = {
-  plan: '#3B82F6',
-  do: '#F59E0B',
-  check: '#6366F1',
-  act: '#10B981',
-  closed: '#94A3B8',
-  open: '#EF4444',
-  in_progress: '#3B82F6',
-  verified: '#10B981',
+// 状态 → 中央 StatusBadge key
+const PDCA_KEY: Record<PDCAStatus, string> = {
+  plan: 'pdca_plan', do: 'pdca_do', check: 'pdca_check', act: 'pdca_act',
+  closed: 'closed', open: 'pdca_open', in_progress: 'in_progress', verified: 'verified',
 };
-const PRIORITY_COLORS: Record<string, string> = {
-  high: '#EF4444',
-  medium: '#F59E0B',
-  low: '#10B981',
+// 状态 → 主题令牌（供进度条/统计卡/流转按钮等非 Chip 场景使用，杜绝 '#hex'）
+const PDCA_TOKEN: Record<PDCAStatus, string> = {
+  plan: 'primary.main', do: 'warning.main', check: 'secondary.main', act: 'success.main',
+  closed: 'grey.400', open: 'error.main', in_progress: 'primary.main', verified: 'success.main',
 };
 const PRIORITY_LABELS: Record<string, string> = { high: '高', medium: '中', low: '低' };
 const SOURCE_LABELS: Record<string, string> = {
@@ -57,6 +53,7 @@ const PDCAList: React.FC = () => {
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState('');
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // 新建表单
   const [formData, setFormData] = useState({
@@ -188,6 +185,7 @@ const PDCAList: React.FC = () => {
     {
       accessorKey: 'pdcaNo',
       header: '编号',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" fontFamily="monospace" color="#94A3B8">{row.original.pdcaNo}</Typography>
       ),
@@ -195,6 +193,7 @@ const PDCAList: React.FC = () => {
     {
       accessorKey: 'title',
       header: '标题',
+      meta: { searchable: true },
       cell: ({ row }) => (
         <Box>
           <Typography variant="body2" fontWeight={600}>{row.original.title}</Typography>
@@ -205,28 +204,30 @@ const PDCAList: React.FC = () => {
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={PDCA_STEP_LABELS[row.original.status]} size="small"
-          sx={{ bgcolor: PDCA_COLORS[row.original.status] + '15', color: PDCA_COLORS[row.original.status], fontWeight: 500 }} />
-      ),
+      meta: { searchable: true, filterType: 'select', filterOptions: (Object.keys(PDCA_STEP_LABELS) as PDCAStatus[]).map((k) => ({ value: k, label: PDCA_STEP_LABELS[k] })) },
+      cell: ({ row }) => <StatusBadge status={PDCA_KEY[row.original.status]} />,
     },
     {
       accessorKey: 'priority',
       header: '优先级',
-      cell: ({ row }) => (
-        <Chip label={PRIORITY_LABELS[row.original.priority]} size="small"
-          sx={{ bgcolor: PRIORITY_COLORS[row.original.priority] + '15', color: PRIORITY_COLORS[row.original.priority], fontWeight: 500 }} />
-      ),
+      meta: { searchable: true, filterType: 'select', filterOptions: [
+        { value: 'high', label: '高' },
+        { value: 'medium', label: '中' },
+        { value: 'low', label: '低' },
+      ] },
+      cell: ({ row }) => <StatusBadge status={row.original.priority} />,
     },
-    { accessorKey: 'owner', header: '负责人' },
+    { accessorKey: 'owner', header: '负责人', meta: { searchable: true } },
     {
       accessorKey: 'targetDate',
       header: '目标日期',
+      meta: { searchable: true },
       cell: ({ row }) => <Typography variant="body2" color="#94A3B8">{row.original.targetDate}</Typography>,
     },
     {
       accessorKey: 'source',
       header: '来源',
+      meta: { searchable: true, filterType: 'select', filterOptions: (Object.keys(SOURCE_LABELS) as string[]).map((k) => ({ value: k, label: SOURCE_LABELS[k] })) },
       cell: ({ row }) => SOURCE_LABELS[row.original.source] || row.original.source,
     },
     {
@@ -240,7 +241,7 @@ const PDCAList: React.FC = () => {
             <LinearProgress
               variant="determinate"
               value={p}
-              sx={{ flex: 1, height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_COLORS[row.original.status], borderRadius: 3 } }}
+              sx={{ flex: 1, height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_TOKEN[row.original.status], borderRadius: 3 } }}
             />
             <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500 }}>{p}%</Typography>
           </Box>
@@ -262,9 +263,9 @@ const PDCAList: React.FC = () => {
             {getAvailableStatuses(r).map((s) => (
               <Button key={s.value} size="small" variant="outlined"
                 sx={{
-                  borderColor: PDCA_COLORS[s.value], color: PDCA_COLORS[s.value],
+                  borderColor: PDCA_TOKEN[s.value], color: PDCA_TOKEN[s.value],
                   fontSize: '0.7rem', py: 0.3, px: 1, minWidth: 'auto',
-                  '&:hover': { bgcolor: PDCA_COLORS[s.value] + '15', borderColor: PDCA_COLORS[s.value] },
+                  '&:hover': { bgcolor: PDCA_TOKEN[s.value], borderColor: PDCA_TOKEN[s.value] },
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -278,6 +279,12 @@ const PDCAList: React.FC = () => {
       },
     },
   ];
+
+  // 通用列检索：在标签筛选结果上叠加，覆盖全部声明了 meta.searchable 的列，并按字段权限门控（置于 columns 声明之后）
+  const filtered = useMemo(
+    () => applyColumnFilters(filteredRecords, columns, filterData, { module: 'quality' }),
+    [filteredRecords, columns, filterData]
+  );
 
   // ── 导入：表头 → store 字段映射，调用 addPdcaRecord ──
   const pickField = (r: Record<string, string>, headers: string[], zh: string, en: string): string => {
@@ -342,8 +349,8 @@ const PDCAList: React.FC = () => {
           const count = pdcaRecords.filter(r => r.status === status).length;
           if (count === 0 && !['plan', 'do', 'check', 'act', 'closed'].includes(status)) return null;
           return (
-            <Paper key={status} sx={{ px: 3, py: 2, borderRadius: 3, border: `1px solid ${PDCA_COLORS[status]}20`, flex: 1, minWidth: 100 }}>
-              <Typography variant="h5" sx={{ fontWeight: 700, color: PDCA_COLORS[status] }}>{count}</Typography>
+            <Paper key={status} sx={{ px: 3, py: 2, borderRadius: 3, border: '1px solid', borderColor: PDCA_TOKEN[status], flex: 1, minWidth: 100 }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: PDCA_TOKEN[status] }}>{count}</Typography>
               <Typography variant="caption" sx={{ color: '#64748B' }}>{PDCA_STEP_LABELS[status]}</Typography>
             </Paper>
           );
@@ -351,8 +358,9 @@ const PDCAList: React.FC = () => {
       </Box>
 
       {/* 主列表（DataTable） */}
+      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="pdca-list" />
       <DataTable<PDCARecord>
-        data={filteredRecords}
+        data={filtered}
         columns={columns}
         enablePagination
         enableExport
@@ -369,10 +377,8 @@ const PDCAList: React.FC = () => {
           <Box sx={{ p: 2.5 }}>
             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', flexWrap: 'wrap', mb: 1 }}>
               <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: 'monospace', color: '#94A3B8' }}>{expandedRecord.pdcaNo}</Typography>
-              <Chip label={PDCA_STEP_LABELS[expandedRecord.status]} size="small"
-                sx={{ bgcolor: PDCA_COLORS[expandedRecord.status] + '15', color: PDCA_COLORS[expandedRecord.status], fontWeight: 500 }} />
-              <Chip label={PRIORITY_LABELS[expandedRecord.priority]} size="small"
-                sx={{ bgcolor: PRIORITY_COLORS[expandedRecord.priority] + '15', color: PRIORITY_COLORS[expandedRecord.priority], fontWeight: 500 }} />
+              <StatusBadge status={PDCA_KEY[expandedRecord.status]} />
+              <StatusBadge status={expandedRecord.priority} />
               {expandedRecord.relatedItemId && (() => {
                 const linkedNcr = unqualifiedItems.find(u => u.id === expandedRecord.relatedItemId);
                 return linkedNcr ? (
@@ -395,7 +401,7 @@ const PDCAList: React.FC = () => {
                 <LinearProgress
                   variant="determinate"
                   value={getProgress(expandedRecord)}
-                  sx={{ height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_COLORS[expandedRecord.status], borderRadius: 3 } }}
+                  sx={{ height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_TOKEN[expandedRecord.status], borderRadius: 3 } }}
                 />
               </Box>
               <Typography variant="body2" sx={{ color: '#64748B', whiteSpace: 'nowrap' }}>
@@ -540,8 +546,8 @@ const PDCAList: React.FC = () => {
                 {getAvailableStatuses(editingRecord).map((s) => (
                   <Button key={s.value} size="small" variant="outlined"
                     sx={{
-                      borderColor: PDCA_COLORS[s.value], color: PDCA_COLORS[s.value],
-                      '&:hover': { bgcolor: PDCA_COLORS[s.value] + '15', borderColor: PDCA_COLORS[s.value] },
+                      borderColor: PDCA_TOKEN[s.value], color: PDCA_TOKEN[s.value],
+                      '&:hover': { bgcolor: PDCA_TOKEN[s.value], borderColor: PDCA_TOKEN[s.value] },
                     }}
                     onClick={() => {
                       handleStatusChange(editingRecord, s.value);

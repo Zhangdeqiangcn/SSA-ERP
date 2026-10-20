@@ -16,6 +16,8 @@ import { useFlowStore } from '@/stores/flowStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import type { DeliveryShipment } from '@/types';
 import { formatDate } from '@/utils/format';
+import { notifyError } from '@/utils/notify';
+import DemoBanner from '@/components/common/DemoBanner';
 import { getVendorPortalIdentity } from '@/utils/vendorPortalIdentity';
 
 // ── 通用工具 ─────────────────────────────────────────────
@@ -286,11 +288,11 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
 
   const handleSubmit = () => {
     if (!form.purchaseOrderNo || !form.logisticsCompany || !form.trackingNo) {
-      alert('请填写关联采购订单号、物流公司与运单号');
+      notifyError('请填写关联采购订单号、物流公司与运单号');
       return;
     }
     const validItems = items.filter(it => it.materialCode);
-    if (validItems.length === 0) { alert('请至少填写一个物料行'); return; }
+    if (validItems.length === 0) { notifyError('请至少填写一个物料行'); return; }
     const shipment: DeliveryShipment = {
       id: `shp-${Date.now()}`,
       shipmentNo: `SHP${dateCode()}${rand3()}`,
@@ -491,6 +493,12 @@ const DeliveryShipmentList: React.FC = () => {
       title="发货物流管理"
       actions={<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}><FlowTracker module="vendor-order" currentStatus="vo_shipped" /><ActionBar primary={{ label: '新建发货通知', onClick: () => setNewOpen(true) }} /></Box>}
     >
+      {!identity && (
+        <Alert severity="warning" sx={{ mb: 2 }} data-testid="portal-demo-identity-banner">
+          未识别到供应商门户登录身份，当前展示的是演示供应商（{DEFAULT_VENDOR_NAME}）的数据。请从供应商门户登录后再操作。
+        </Alert>
+      )}
+      <DemoBanner reason="发货通知、ASN 在途预告与入库单均**已真实写入系统**（addDeliveryShipment / addInboundOrder）；本页是供应商门户发货回写主 ERP 的真实入口。「模拟仓库入库」按钮同样会生成真实入库单。" />
       <FilterBar fields={filterFields} onSearch={setFilterData} />
       <DataTable
         data={filteredData}

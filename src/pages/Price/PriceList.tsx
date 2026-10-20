@@ -1,23 +1,24 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Box, Button, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Chip, Stack, Typography,
-  TextField, Autocomplete, Dialog, DialogTitle, DialogContent,
+  TextField, Dialog, DialogTitle, DialogContent,
   DialogActions, MenuItem, IconButton,
 } from '@mui/material';
-import { Add, FilterList, Edit, Block, Close } from '@mui/icons-material';
+import { Add, Edit, Block, Close } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
-import { DataTable, FilterBar, ActionBar, FlowTracker } from '@/components/common';
+import { DataTable, FilterBar, ActionBar, FlowTracker, StatusBadge } from '@/components/common';
+import { applyColumnFilters } from '@/utils/listSearch';
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceListItem } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { ColumnDef } from '@tanstack/react-table';
 
-const STATUS_MAP: Record<string, { label: string; color: string }> = {
-  active: { label: '有效', color: 'success' },
-  expired: { label: '已过期', color: 'default' },
-  frozen: { label: '已冻结', color: 'error' },
+// 价目表状态 → 集中 statusConfig key（expired / frozen 复用通用 key）
+const PR_STATUS_KEY: Record<string, string> = {
+  active: 'pr_active',
+  expired: 'expired',
+  frozen: 'frozen',
 };
 
 const nowStr = () => {
@@ -29,10 +30,7 @@ const todayStr = () => new Date().toISOString().slice(0, 10);
 
 const PriceList: React.FC = () => {
   const { priceList, addPriceListItem, updatePriceListItem } = usePriceStore();
-  const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
-  const [vendorFilter, setVendorFilter] = useState('');
-  const [materialFilter, setMaterialFilter] = useState('');
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -50,11 +48,11 @@ const PriceList: React.FC = () => {
   const [status, setStatus] = useState<'active' | 'expired' | 'frozen'>('active');
 
   const columns: ColumnDef<PriceListItem, unknown>[] = useMemo(() => [
-    { accessorKey: 'materialCode', header: '物料编码', size: 150 },
-    { accessorKey: 'materialName', header: '物料名称', size: 150 },
-    { accessorKey: 'specification', header: '规格', size: 180 },
-    { accessorKey: 'unit', header: '单位', size: 60 },
-    { accessorKey: 'vendorName', header: '供应商', size: 180 },
+    { accessorKey: 'materialCode', header: '物料编码', size: 150, meta: { searchable: true } },
+    { accessorKey: 'materialName', header: '物料名称', size: 150, meta: { searchable: true } },
+    { accessorKey: 'specification', header: '规格', size: 180, meta: { searchable: true } },
+    { accessorKey: 'unit', header: '单位', size: 60, meta: { searchable: true } },
+    { accessorKey: 'vendorName', header: '供应商', size: 180, meta: { searchable: true } },
     {
       accessorKey: 'unitPrice',
       header: '单价',
@@ -64,14 +62,20 @@ const PriceList: React.FC = () => {
         </Typography>
       ),
     },
-    { accessorKey: 'currency', header: '币种', size: 60 },
+    { accessorKey: 'currency', header: '币种', size: 60, meta: { searchable: true } },
     {
       accessorKey: 'status',
       header: '状态',
-      cell: ({ row }) => (
-        <Chip label={STATUS_MAP[row.original.status]?.label} size="small"
-          color={STATUS_MAP[row.original.status]?.color as any || 'default'} />
-      ),
+      meta: {
+        searchable: true,
+        filterType: 'select',
+        filterOptions: [
+          { value: 'active', label: '有效' },
+          { value: 'expired', label: '已过期' },
+          { value: 'frozen', label: '已冻结' },
+        ],
+      },
+      cell: ({ row }) => <StatusBadge status={PR_STATUS_KEY[row.original.status]} />,
       size: 80,
     },
     {
@@ -96,40 +100,15 @@ const PriceList: React.FC = () => {
       header: '失效日期',
       cell: ({ row }) => row.original.expiryDate ? formatDate(row.original.expiryDate) : '长期有效',
     },
-    { accessorKey: 'paymentTerms', header: '付款条件', cell: ({ row }) => row.original.paymentTerms || '-' },
+    { accessorKey: 'paymentTerms', header: '付款条件', meta: { searchable: true }, cell: ({ row }) => row.original.paymentTerms || '-' },
     { accessorKey: 'deliveryDays', header: '交期(天)', cell: ({ row }) => `${row.original.deliveryDays}天` },
-    { accessorKey: 'sourceApprovalNo', header: '来源审批单', size: 150 },
+    { accessorKey: 'sourceApprovalNo', header: '来源审批单', size: 150, meta: { searchable: true } },
   ], []);
 
-  const filterFields = [
-    { name: 'materialCode', label: '物料编码', type: 'text' as const },
-    { name: 'materialName', label: '物料名称', type: 'text' as const },
-    {
-      name: 'status',
-      label: '状态',
-      type: 'select' as const,
-      options: [
-        { value: '', label: '全部' },
-        { value: 'active', label: '有效' },
-        { value: 'expired', label: '已过期' },
-        { value: 'frozen', label: '已冻结' },
-      ],
-    },
-    { name: 'vendorName', label: '供应商', type: 'text' as const },
-  ];
-
-  const filteredData = useMemo(() => {
-    let data = [...priceList];
-    if (filterData.materialCode) data = data.filter(r => r.materialCode.includes(filterData.materialCode as string));
-    if (filterData.materialName) data = data.filter(r => r.materialName.includes(filterData.materialName as string));
-    if (filterData.status) data = data.filter(r => r.status === filterData.status);
-    if (filterData.vendorName) data = data.filter(r => r.vendorName.includes(filterData.vendorName as string));
-    return data;
-  }, [filterData]);
-
-  const vendorOptions = useMemo(() =>
-    [...new Set(priceList.map(p => p.vendorName))].map(name => ({ label: name, value: name })),
-  []);
+  const filteredData = useMemo(
+    () => applyColumnFilters(priceList, columns, filterData, { module: 'price' }),
+    [priceList, columns, filterData]
+  );
 
   const openCreate = () => {
     setEditingId(null);
@@ -195,29 +174,7 @@ const PriceList: React.FC = () => {
         </Box>
       }
     >
-      <Box sx={{ mb: 2, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-        <TextField
-          size="small"
-          label="物料搜索"
-          value={materialFilter}
-          onChange={e => setMaterialFilter(e.target.value)}
-          sx={{ minWidth: 200 }}
-        />
-        <Autocomplete
-          size="small"
-          options={vendorOptions}
-          value={vendorOptions.find(o => o.value === vendorFilter) || null}
-          onChange={(_, newVal) => setVendorFilter(newVal?.value || '')}
-          renderInput={(params) => <TextField {...params} label="供应商筛选" />}
-          sx={{ minWidth: 200 }}
-        />
-        <Button variant="outlined" size="small" startIcon={<FilterList />}
-          onClick={() => {
-            setFilterData(prev => ({ ...prev, vendorName: vendorFilter, materialName: materialFilter }));
-          }}>
-          筛选
-        </Button>
-      </Box>
+      <FilterBar columns={columns} module="price" onSearch={setFilterData} listKey="price-list" />
 
       <DataTable
         data={filteredData}

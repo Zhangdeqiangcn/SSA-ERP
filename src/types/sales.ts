@@ -64,6 +64,7 @@ export interface SalesPriceListItem {
   effectiveTo?: string;    // 生效止（YYYY-MM-DD），缺省不限制
   tiers?: SalesPriceTier[];// 阶梯量价（按数量升序）
   currency?: string;
+  parentId?: string;      // P1-14 上一版价目表项引用（历史价/协议价版本链，向后兼容可选）
   status?: 'active' | 'inactive';
 }
 
@@ -174,6 +175,7 @@ export interface Project extends BaseEntity {
   projectName: string;
   customerName: string;
   customerCode?: string;
+  customerId?: string;    // P1-6 补客户主数据外键（向后兼容可选）
   status: ProjectStatus;
   startDate: string;
   endDate: string;
@@ -223,6 +225,7 @@ export type TransportMode = 'road' | 'rail' | 'sea' | 'air' | 'express';
 
 export interface Shipment extends BaseEntity {
   shipmentNo: string;
+  warehouseId?: string;
   salesOrderNo: string;
   projectNo?: string;
   projectName?: string;
@@ -341,6 +344,8 @@ export interface SalesContract {
   terms?: string;         // 主要条款
   attachments?: { name: string; url: string }[];
   remarks?: string;
+  /** P0-2：关联销售订单号列表（由订单 contractId 回填，实现合同↔订单双向可达，根治单向断裂） */
+  linkedOrderNos?: string[];
   createdAt: string;
   updatedAt: string;
 }
