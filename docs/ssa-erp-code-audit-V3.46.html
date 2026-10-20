@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V3.46.0 代码级全栈审计报告</title>
+<style>
+  :root{
+    --bg:#0f1420; --panel:#171e2e; --panel2:#1e2639; --line:#2b3550;
+    --txt:#e6ebf5; --sub:#9aa7c4; --mut:#6b7896;
+    --p0:#ef4444; --p1:#f59e0b; --p2:#3b82f6; --ok:#22c55e; --warn:#f97316;
+    --accent:#5b8cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"Microsoft YaHei","PingFang SC",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.7;font-size:14.5px}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:26px;margin:0 0 6px;font-weight:700}
+  h2{font-size:20px;margin:38px 0 14px;padding-left:12px;border-left:4px solid var(--accent);font-weight:700}
+  h3{font-size:16px;margin:22px 0 10px;font-weight:700}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:4px}
+  .lead{background:linear-gradient(135deg,#1a2440,#141a2b);border:1px solid var(--line);border-radius:14px;padding:22px;margin:20px 0}
+  .lead .num{font-size:30px;font-weight:800}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card .k{font-size:26px;font-weight:800}
+  .card .t{color:var(--sub);font-size:12.5px;margin-top:4px}
+  .card.red .k{color:var(--p0)} .card.amber .k{color:var(--p1)} .card.blue .k{color:var(--p2)} .card.green .k{color:var(--ok)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--panel2);color:var(--sub);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.3px}
+  tr:hover td{background:rgba(91,140,255,.05)}
+  code{background:#0b0f1a;border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:"Cascadia Code",Consolas,monospace;font-size:12.5px;color:#a9c3ff}
+  .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .tag.p0{background:rgba(239,68,68,.16);color:#ff8a8a;border:1px solid rgba(239,68,68,.4)}
+  .tag.p1{background:rgba(245,158,11,.16);color:#ffc061;border:1px solid rgba(245,158,11,.4)}
+  .tag.p2{background:rgba(59,130,246,.16);color:#8fb8ff;border:1px solid rgba(59,130,246,.4)}
+  .tag.ok{background:rgba(34,197,94,.16);color:#7ee2a3;border:1px solid rgba(34,197,94,.4)}
+  .tag.warn{background:rgba(249,115,22,.16);color:#ffb37e;border:1px solid rgba(249,115,22,.4)}
+  .def{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--p0);border-radius:10px;padding:16px 18px;margin:14px 0}
+  .def.p1{border-left-color:var(--p1)} .def.p2{border-left-color:var(--p2)} .def.ok{border-left-color:var(--ok)}
+  .def h4{margin:0 0 8px;font-size:15px;font-weight:700}
+  .def p{margin:6px 0;color:var(--txt)}
+  .def .ev{color:var(--sub);font-size:12.5px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
+  .def .ev code{font-size:11.5px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .bench{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .bench h3{margin-top:0}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:5px 0}
+  .check{color:var(--ok)} .cross{color:var(--p0)}
+  .note{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.3);border-radius:10px;padding:14px 16px;margin:14px 0;font-size:13.5px}
+  .road{counter-reset:step}
+  .road .step{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0;position:relative;padding-left:52px}
+  .road .step:before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:14px;width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;text-align:center;line-height:28px;font-weight:700;font-size:14px}
+  .footer{margin-top:50px;padding-top:20px;border-top:1px solid var(--line);color:var(--mut);font-size:12px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>SSA ERP V3.46.0 代码级全栈审计报告</h1>
+  <div class="meta">审计基线：V3.46.0（2026-10-04/05）· 对标对象：金蝶 AI 星空旗舰版 + 灵基（2026.05）/ 用友 U9 cloud 2026 + YonClaw（2026.05）/ SAP S/4HANA Cloud PE 2608（2026.08）</div>
+  <div class="meta">审计方法：双端类型门禁 + 一致性机器核对 + 库存/财务/越权/BOM 四域代码深挖（含两个并行研究子代理交叉验证）· 出具日期：2026-10-06</div>
+
+  <div class="lead">
+    <div style="font-size:14px;color:var(--sub);margin-bottom:14px">一句话结论</div>
+    <div style="font-size:16px;line-height:1.9">
+      系统「地基已立、门禁全绿」，但绿的是<strong>类型与路由</strong>，不是<strong>业务原子性与授权面</strong>。
+      本次在代码层挖出 <span class="num" style="color:var(--p0)">4 个 P0</span>、<span class="num" style="color:var(--p1)">3 个 P1</span>、
+      <span class="num" style="color:var(--p2)">1 个 P2</span> 真缺陷，其中 <strong>2 个 P0 是「绕过界面直接调接口即可越权写 / 读敏感字段」</strong>——
+      这正是对标金蝶、用友时最容易被一票否决的「假管控」。所有结论均带 <code>文件:行号</code> 证据，可逐条复验。
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="card red"><div class="k">4</div><div class="t">P0 阻断级缺陷（越权/非原子/双计提）</div></div>
+    <div class="card amber"><div class="k">3</div><div class="t">P1 严重缺陷（口径错位/fail-open 回退）</div></div>
+    <div class="card blue"><div class="k">1</div><div class="t">P2 技术债（工具建了没接线）</div></div>
+    <div class="card green"><div class="k">0</div><div class="t">类型/路由/转义/单测 阻断项</div></div>
+  </div>
+
+  <h2>一、门禁基线（这部分是干净的）</h2>
+  <p>以下机器门禁全部通过，说明「类型正确、路由齐全、无未转义查询、无静默 404」这些<strong>结构面</strong>没问题。问题全藏在结构面看不见的<strong>业务逻辑层</strong>：</p>
+  <table>
+    <tr><th>门禁项</th><th>结果</th><th>说明</th></tr>
+    <tr><td>前端 <code>tsc --noEmit</code></td><td><span class="tag ok">0 错</span></td><td>376 文件无类型错误</td></tr>
+    <tr><td>后端 <code>tsc-functions</code></td><td><span class="tag ok">0 新增</span></td><td>存量基线 59 条（快照模式）</td></tr>
+    <tr><td>一致性核对（路由↔端点）</td><td><span class="tag ok">0 处 404</span></td><td>前端调用的端点后端全存在</td></tr>
+    <tr><td>字段权限矩阵</td><td><span class="tag ok">67 条一致</span></td><td>前后端默认矩阵逐条相同</td></tr>
+    <tr><td>LIKE 转义一致性</td><td><span class="tag ok">0 违规</span></td><td>160 文件 21878 行含 SQL</td></tr>
+    <tr><td>前端白盒单测</td><td><span class="tag ok">155 例全绿</span></td><td>11 个测试文件</td></tr>
+  </table>
+
+  <h2>二、确证缺陷清单（带证据）</h2>
+
+  <div class="def">
+    <h4><span class="tag p0">P0-A</span> 通用父子框架写端点漏接操作权限守卫——只读角色可直接调接口越权写</h4>
+    <p>「操作权限守卫」的模块映射表已为 9 组业务声明了对应关系，代码注释也白纸黑字写着「配套：父子框架创建/更新/删除要按模块统一守卫」，<strong>但这句承诺没落地</strong>。父子框架的三个写函数全文没有任何一处调用守卫。后果：界面里被禁用写权限的「普通用户」角色，绕过界面直接调这些接口就能写数据。</p>
+    <p class="ev">
+      证据：<code>functions/_shared/operationGuard.ts:42-48</code>（注释自认「配套…未落地」）；<code>functions/_shared/parentChild.ts</code>（pcCreate/pcUpdate/pcRemove 无 guardOperation）；
+      实例 <code>functions/api/process-routes/index.ts:20</code>（直接 pcCreate 无守卫）。
+      受影响的 9 组端点：process-routes、vendor-quotes、purchase-requests、fin-payment-plans、fin-project-accounts、shipments、sales-prospects、projects、approval-flows；外加 4 组专用端点 fixed-assets、three-way-match/create、unit-conversions、entities 通用资源。
+      <strong>对照组（已正确处理）</strong>：work-orders、vouchers、materials、customers、vendors、入库/出库/调拨/库存调整等单表端点均已正确接守卫——说明团队知道写法，唯独通用框架这条线漏了。
+    </p>
+  </div>
+
+  <div class="def">
+    <h4><span class="tag p0">P0-B</span> 敏感字段脱敏只对 2 类端点生效，客户/销售/采购主通道明文返回</h4>
+    <p>项目定义了一张 67 条的「敏感字段矩阵」（哪些角色不能看信用额度、税号、银行账号、单价金额等），但<strong>服务端只在「供应商」和「物料」两类接口真正执行脱敏</strong>。客户、销售订单、采购订单这三条主通道都是整行明文返回——界面上做了字段隐藏是「装饰性的」，改动前端代码或直接调接口即可读到全部敏感数据。</p>
+    <p class="ev">
+      证据：<code>functions/_shared/fieldAccess.ts</code>（矩阵已建，但客户/销售/采购三组规则无端点消费）；
+      明文返回点 <code>functions/api/customers/[id].ts:128-146</code>（creditLimit/taxId/bankAccount 等明文）、<code>functions/api/sales-orders/[id].ts:24-35</code>（unit_price/amount 明文）。
+      对照：vendors、materials、protected-data 三类端点已正确接脱敏。
+    </p>
+  </div>
+
+  <div class="def">
+    <h4><span class="tag p0">P0-C</span> 库存过账非原子 + 幂等标志可被客户端直写 + 无对账作业</h4>
+    <p>过账是「写物料主数据 → 写库存流水 → 写库存余额」三步独立操作、<strong>无事务包裹</strong>；写流水那一步出错时被吞掉、不回滚（代码注释自己承认「需对账修复」），但<strong>全项目没有对账作业</strong>去发现这种漂移。更严重的是：防止重复过账的「已记账」标志在改单接口的白名单里，客户端可以自己把它置 1 让系统以为已记账、实际库存从没动过；并发改单还有「读后写」的重复过账窗口。</p>
+    <p class="ev">
+      证据：<code>functions/_shared/inventoryPosting.ts:104-109</code>（写流水吞错不回滚，注释「余额已变动，需对账修复」）；
+      <code>:186→197→210</code>（三步无事务）；<code>functions/api/inbound-orders/[id].ts:68,77</code>（白名单含 inventoryPosted，可被直写）；
+      4 个删除端点（inbound/outbound/调拨/盘点 <code>[id].ts</code>）直接删、审计只写「需人工核对冲销」，作废标志建了表却无任何代码去置位。
+    </p>
+  </div>
+
+  <div class="def">
+    <h4><span class="tag p0">P0-D</span> 固定资产折旧可并发双计提，资产台账与凭证跨事务非原子</h4>
+    <p>折旧的「同期间只提一次」靠的是「先查有没有凭证、没有就全量重提」，没有锁、没有抢占。而且「更新资产台账」和「生成凭证」是两个独立的批量写、不在同一事务里。后果链：第二步（写凭证）中途失败或并发时，资产台账已经累计了折旧，重放或并发会基于「已被累加过的值」再提一次——台账记了两遍、凭证只有一张甚至没有，账实背离。</p>
+    <p class="ev">
+      证据：<code>functions/api/fixed-assets/depreciate.ts:92-107</code>（select-then-act 无锁幂等）；
+      <code>:185</code>（资产表 batch）与 <code>:190</code>（凭证 batch）跨 batch 非原子。
+      对照组：凭证写入 <code>functions/_shared/voucherWriter.ts:141</code> 与改凭证 <code>vouchers/[id].ts:115-145</code> 都用同一批量原子写——团队知道原子写法，唯独折旧这条链没做。
+    </p>
+  </div>
+
+  <div class="def p1">
+    <h4><span class="tag p1">P1-A</span> 汇率「生效日期」列建了没接，且结构上存不下多行历史，缺失时静默按 1 处理</h4>
+    <p>声称「补上汇率表缺失的生效日期列」属实（列加了、索引也建了），但<strong>全代码库没有任何一处查询按这个日期取数</strong>，索引是死索引；且唯一约束没改，同一币种对永远只能存一行、每次刷新覆盖，「取期末最后一条汇率」这条口径在数据模型层面根本不成立。该币种没有汇率记录时，前端直接按 1 算（静默放行，不是拦住）。</p>
+    <p class="ev">
+      证据：<code>migrations/0081_finance_config_tables.sql:71</code>（加列）+ <code>:79-80</code>（死索引）vs <code>0014:11</code>（UNIQUE 未改）；
+      全库 grep「按汇率表查询」仅 2 处、均不带日期条件；缺失静默按 1：<code>src/stores/financeExtensionStore.ts:72</code>、<code>src/pages/Finance/PeriodClosing.tsx:96</code>。
+    </p>
+  </div>
+
+  <div class="def p1">
+    <h4><span class="tag p1">P1-B</span> 预算闸门「累计口径」跨期错位，读预算不按期间取数，异常时按 0 放行</h4>
+    <p>预算判定取预算值时不带期间条件、直接取一条（不确定取到哪个期间的）；而「已发生额」是跨全部期间累计的凭证借方，却拿它去比「某一期的预算」——时间维度错位，长期运行必误判超预算。更隐蔽的是：当已发生额这条统计查询失败时，直接按 0 计算后放行，等于给了一笔大额付款开绿灯。</p>
+    <p class="ev">
+      证据：<code>functions/_shared/paymentGate.ts:174-182</code>（读 fin_budgets 无 period 过滤 + LIMIT 1）；
+      <code>:217-220</code>（已发生额跨全期累计）；<code>:222-225</code>（查失败按 0 放行，注释自认）。
+      对照：真正的「累计已付+本次」口径在发票超付检查 <code>:391</code> 是写对的，但预算这条没复用对。
+    </p>
+  </div>
+
+  <div class="def p1">
+    <h4><span class="tag p1">P1-C</span> 结账期间锁定的「未初始化」回退路径仍是放行，与声称的「拦住」自相矛盾</h4>
+    <p>读「结账期间表」失败时确实改成了拦住（放行改拦截），这点做对了。但「新表还没初始化的组织」不是读失败、是「成功但一行都没有」，会回退到旧的键值存储；而这条回退路径在键不存在或解析失败时<strong>一律放行</strong>——即「期间锁」对这类组织静默失效，和文件头注释承诺的「宁可拦住也不给错误的安全感」直接冲突。</p>
+    <p class="ev">
+      证据：<code>functions/_shared/appState.ts:58-78</code>（新表空→回退旧键；旧键缺/解析失败→return false 放行）；头部注释 <code>:31-33</code> 与实现矛盾。
+    </p>
+  </div>
+
+  <div class="def p2">
+    <h4><span class="tag p2">P2</span> BOM 叶子展开工具「建了没人用」，且无深度上限、无循环引用保护</h4>
+    <p>为「把嵌套 BOM 摊平成全部实物料」新写了一个展开工具，注释还强调「凡要全部实物料的地方必须走它」，但<strong>全项目零个调用方</strong>——物料需求计算、成本卷积实际用的都是另一套图遍历（那套有深度上限）。这个工具一旦被接上，遇到脏数据的循环 BOM 会因无环保护、无深度上限直接栈溢出白屏。</p>
+    <p class="ev">
+      证据：<code>src/utils/bomResolver.ts:122</code>（flattenBomLeaves 定义，无深度/环保护）全项目仅自身递归、无业务调用；对照 <code>MRPPlan.tsx:250</code> 有 MAX_BOM_DEPTH 上限。
+    </p>
+  </div>
+
+  <h2>三、对标金蝶 / 用友 / SAP 最新版：能力矩阵</h2>
+  <p>下面是「三家 2026 最新版主打什么 vs 我们当前站在哪」。★ = 我们的差异化优势，⚠ = 有但浅，✗ = 空白。</p>
+  <table>
+    <tr><th>能力域</th><th>金蝶 AI 星空+灵基</th><th>用友 U9C+YonClaw</th><th>SAP 2608</th><th>SSA V3.46.0</th></tr>
+    <tr><td>业财一体化（凭证/GR暂估/三单匹配/结账）</td><td>★★★★★</td><td>★★★★★</td><td>★★★★★</td><td><span class="check">★ 强项</span> 主干真算法，GR暂估冲销口径专业</td></tr>
+    <tr><td>库存/成本服务端权威过账</td><td>★★★★★</td><td>★★★★★</td><td>★★★★★</td><td><span class="warn">⚠ 有但非原子</span>（P0-C）</td></tr>
+    <tr><td>审批流引擎深度</td><td>★★★★★</td><td>★★★★</td><td>★★★★</td><td><span class="check">★ 罕见深度</span> 会签/条件/超时升级</td></tr>
+    <tr><td>操作与字段权限「真拦」</td><td>★★★★★</td><td>★★★★★</td><td>★★★★★</td><td><span class="cross">✗ 假管控</span>（P0-A/B 可绕过）</td></tr>
+    <tr><td>智能体自主执行业务（2026 主战场）</td><td>★★★★★ 40+智能体</td><td>★★★★★ YonClaw</td><td>★★★★★ 自主财务/供应链</td><td><span class="cross">✗ 基本空白</span>（大两代）</td></tr>
+    <tr><td>国产化合规（金税/数电票/电子档案）</td><td>★★★★★</td><td>★★★★★</td><td>★★</td><td><span class="warn">⚠ 半桩</span> 数电票有模拟、真实通道待税号密钥</td></tr>
+    <tr><td>集团能力（合并报表/多准则）</td><td>★★★★★</td><td>★★★★</td><td>★★★★★</td><td><span class="warn">⚠ 合并报表已建、多准则空白</span></td></tr>
+    <tr><td>部署成本</td><td>★★</td><td>★★★</td><td>★★</td><td><span class="check">★ 近零</span>（绝对优势）</td></tr>
+  </table>
+  <div class="note">
+    战略判断（延续历史对标结论）：<strong>不要在 12 个模块上和三家拼功能军备竞赛</strong>——SAP 50 年积累、金蝶 AI 单季收入 2.96 亿、用友深耕制造 18 年，拼不过。
+    正确的顺序是：<strong>先把 P0 的「假管控」修成「真管控」（这是能不能交给真实客户用的生死线）→ 再补合规红线（能不能卖给中国企业做真账）→ 最后选 1–2 个战场（采购寻源智能体、钢材垂直特性）做到比三家更好用</strong>。
+  </div>
+
+  <h2>四、改善路线图（按投入产出比排序）</h2>
+  <div class="road">
+    <div class="step"><strong>补 P0-A：父子框架接操作守卫。</strong>给父子框架的创建/更新/删除加「按模块守卫」，一次接完 9 组端点 + 4 组专用端点，与代码注释承诺对齐。<em>低成本高回报，直接堵住最大越权面。</em></div>
+    <div class="step"><strong>补 P0-B：敏感字段脱敏扩到三大主通道。</strong>把服务端脱敏从「供应商/物料」扩到「客户/销售订单/采购订单」，读侧隐藏、写侧拒改。<em>消除「界面脱敏、接口明文」的绕过。</em></div>
+    <div class="step"><strong>补 P0-C：过账改条件抢占 + 失败即拦 + 对账作业。</strong>用「条件更新（只有未记账才过账）」杜绝标志直写与重复过账；写流水失败改为同生共死（回滚）；新增对账作业比对流水合计与库存余额。<em>根治账实不符。</em></div>
+    <div class="step"><strong>补 P0-D：折旧原子化 + 抢占式幂等。</strong>幂等改用「不存在才插入」的抢占写法，资产台账与凭证合并进同一事务批量。<em>防双计提。</em></div>
+    <div class="step"><strong>补 P1-A/B/C：财务口径对齐 + 堵住放行后门。</strong>汇率表改多行历史并按期末取数、缺失改拦住；预算按期间取数、累计口径与预算期对齐、异常不放行；结账期间「未初始化」回退改拦住。<em>财务数字才对。</em></div>
+    <div class="step"><strong>P2 收口：删掉或真正接线 BOM 叶子展开工具。</strong>要么接进物料需求/成本卷积并补深度上限+环保护，要么删除，避免留一个「地雷级」未用函数。<em>清技术债。</em></div>
+  </div>
+
+  <div class="note" style="margin-top:20px">
+    <strong>关于「全面测试确认达到金蝶/用友最新水平」的诚实说明：</strong>
+    本报告是<strong>静态代码审计</strong>，能坐实「哪些闸门没接、哪些口径错位、哪些竞态窗口」，但这些缺陷多数<strong>必须连上真实数据库并并发操作</strong>才暴露得出来，无法只靠代码阅读 100% 证明「已达成生产可用」。
+    要达到「可交付真实客户」还需三步：① 修完上述 P0 后跑一遍带并发与负例的端到端守护；② 部署上线后拉生产库核对「流水重建余额 = 库存余额」「无重复折旧凭证」「无越权写记录」；③ 合规红线（数电票真实通道）需企业税号与服务商密钥到位才能验。
+  </div>
+
+  <div class="footer">
+    本报告为单一权威交付物，存于 <code>docs/ssa-erp-code-audit-V3.46.html</code>。所有「文件:行号」基于 V3.46.0 基线，修复后需重新审计。审计由全栈专家角色完成，含两个并行研究子代理交叉验证。
+  </div>
+</div>
+</body>
+</html>

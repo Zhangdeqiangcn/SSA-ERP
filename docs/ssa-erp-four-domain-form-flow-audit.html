@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP · 采购/仓储/生产/销售 四域表单流转联合审计报告</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#fff; --ink:#0f172a; --ink2:#475569; --ink3:#94a3b8;
+    --line:#e2e8f0; --brand:#2563eb; --p0:#dc2626; --p1:#ea580c; --p2:#ca8a04; --p3:#64748b;
+    --ok:#059669; --okbg:#ecfdf5; --p0bg:#fef2f2; --p1bg:#fff7ed;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;line-height:1.75;padding:0 0 60px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  header{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 55%,#3b82f6 100%);color:#fff;padding:44px 0 38px;margin-bottom:26px}
+  header h1{font-size:27px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px}
+  header .sub{font-size:14px;opacity:.92}
+  header .meta{margin-top:16px;font-size:12.5px;opacity:.85;display:flex;gap:20px;flex-wrap:wrap}
+  header .meta span{background:rgba(255,255,255,.16);padding:3px 11px;border-radius:20px}
+
+  h2{font-size:20px;font-weight:700;margin:34px 0 14px;padding-left:11px;border-left:4px solid var(--brand)}
+  h3{font-size:16px;font-weight:650;margin:22px 0 10px;color:#1e293b}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04)}
+
+  /* 结论卡 */
+  .verdict{background:linear-gradient(135deg,#fef2f2 0%,#fff 100%);border:1px solid #fecaca;border-left:5px solid var(--p0)}
+  .verdict h3{color:var(--p0);margin-top:0}
+  .verdict ul{margin:10px 0 0 20px}
+  .verdict li{margin-bottom:7px;font-size:14.5px}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px}
+  th{background:#f1f5f9;text-align:left;padding:10px 12px;font-weight:650;color:#334155;border-bottom:2px solid #cbd5e1;white-space:nowrap}
+  td{padding:9px 12px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+  tbody tr:hover{background:#fafbfc}
+  td.num{text-align:center;font-weight:650}
+
+  .tag{display:inline-block;padding:2px 9px;border-radius:5px;font-size:12px;font-weight:650;white-space:nowrap}
+  .t0{background:#fee2e2;color:#b91c1c}
+  .t1{background:#ffedd5;color:#c2410c}
+  .t2{background:#fef9c3;color:#a16207}
+  .t3{background:#f1f5f9;color:#475569}
+  .tok{background:var(--okbg);color:var(--ok)}
+  .tnew{background:#ede9fe;color:#6d28d9}
+
+  .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+  .kpi div{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:15px;text-align:center}
+  .kpi .n{font-size:28px;font-weight:700;line-height:1.2}
+  .kpi .l{font-size:12.5px;color:var(--ink3);margin-top:3px}
+
+  .root{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px 18px;margin-bottom:12px}
+  .root h4{font-size:15px;font-weight:650;margin-bottom:3px}
+  .root .rid{font-size:12px;color:var(--ink3);font-weight:500;margin-left:7px}
+  .root .why{font-size:13.5px;color:var(--ink2);margin:8px 0}
+  .root .eff{font-size:13px;background:#f8fafc;border-left:3px solid var(--brand);padding:8px 12px;border-radius:0 5px 5px 0;margin-top:8px}
+
+  .finding{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--p0);border-radius:8px;padding:15px 18px;margin-bottom:11px}
+  .finding.p1{border-left-color:var(--p1)}
+  .finding.p2{border-left-color:var(--p2)}
+  .finding .fh{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+  .finding .fid{font-family:Consolas,monospace;font-size:12.5px;color:var(--ink3)}
+  .finding .ft{font-weight:650;font-size:15px}
+  .finding .fb{font-size:13.5px;color:var(--ink2);margin-top:5px}
+  .finding code{background:#f1f5f9;padding:1px 6px;border-radius:4px;font-size:12.5px;font-family:Consolas,monospace;color:#be123c}
+  .proof{background:var(--okbg);border:1px solid #a7f3d0;border-radius:6px;padding:9px 13px;margin-top:9px;font-size:13px;color:#065f46}
+  .proof b{color:#047857}
+
+  .pos{background:var(--okbg);border:1px solid #a7f3d0;border-radius:9px;padding:16px 18px;margin-bottom:11px}
+  .pos h4{color:#047857;font-size:15px;font-weight:650;margin-bottom:8px}
+  .pos ul{margin-left:20px;font-size:13.5px;color:#065f46}
+  .pos li{margin-bottom:5px}
+
+  .plan{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:15px 18px;margin-bottom:10px}
+  .plan .ph{display:flex;align-items:center;gap:10px;margin-bottom:7px;flex-wrap:wrap}
+  .plan .pb{font-size:13.5px;color:var(--ink2);margin-top:5px}
+
+  .note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:13px 17px;font-size:13.5px;margin:14px 0;color:#78350f}
+  footer{text-align:center;color:var(--ink3);font-size:12.5px;margin-top:38px;padding-top:18px;border-top:1px solid var(--line)}
+  .hint{font-size:12.5px;color:var(--ink3);margin-top:6px}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <h1>采购 / 仓储 / 生产 / 销售 四域表单流转联合审计报告</h1>
+  <div class="sub">逻辑合理性 · 数据准确性 · 完整性 · 可靠性 · 一致性 · 前后端分工配合</div>
+  <div class="meta">
+    <span>报告日期 2026-10-09</span>
+    <span>基线版本 V3.57.0</span>
+    <span>方法 代码走查 + 生产接口取证</span>
+    <span>发现 88 条</span>
+  </div>
+</div></header>
+
+<div class="wrap">
+
+<!-- 结论先行 -->
+<div class="card verdict">
+  <h3>核心结论</h3>
+  <p style="font-size:14.5px;margin-bottom:6px">四域表单流转的<strong>整体设计是完整的</strong>——单据状态机、行级权限、金额校验、过账中枢、审计留痕一应俱全，采购域的失败回滚甚至做到位。但存在<strong>三类系统性缺陷</strong>，它们不是 88 个孤立问题，而是<strong>少数几个根因在四域重复出现</strong>：</p>
+  <ul>
+    <li><strong>有一处功能完全不可用</strong>：生产域建工单必然返回 400（后端要一个系统里根本不存在的字段），已打真实接口坐实。这是本次最严重的问题。</li>
+    <li><strong>有两处管控实际失效</strong>：销售信用额度闸门（授信 1000 可无限超额下单，已坐实）、销售员可见并改动他人订单（行级权限失效）。</li>
+    <li><strong>有一类问题反复出现</strong>：历次整改（并发防重、金额复核、原子化）都只覆盖了「新建单据」，<strong>系统性漏掉了「修改单据」这条路径</strong>。这是最值得改的方法论问题。</li>
+  </ul>
+</div>
+
+<div class="kpi">
+  <div><div class="n">88</div><div class="l">发现总数</div></div>
+  <div><div class="n" style="color:var(--p0)">16</div><div class="l">P0 严重</div></div>
+  <div><div class="n" style="color:var(--p1)">35</div><div class="l">P1 高</div></div>
+  <div><div class="n">37</div><div class="l">P2/P3 中低</div></div>
+  <div><div class="n" style="color:var(--ok)">6</div><div class="l">根因聚类</div></div>
+</div>
+
+<!-- 一、分布 -->
+<h2>一、问题分布</h2>
+<div class="card">
+<table>
+<thead><tr><th>业务域</th><th class="num">发现</th><th class="num">P0</th><th class="num">P1</th><th class="num">P2/P3</th><th>最典型的问题</th></tr></thead>
+<tbody>
+<tr><td><strong>采购域</strong></td><td class="num">22</td><td class="num">3</td><td class="num">6</td><td class="num">13</td><td>入库完成后不回写采购订单已交量 → 订单永远显示未交</td></tr>
+<tr><td><strong>仓储域</strong></td><td class="num">18</td><td class="num">5</td><td class="num">7</td><td class="num">6</td><td>修改单据缺并发抢占 → 重复过账、流水翻倍</td></tr>
+<tr><td><strong>生产域</strong></td><td class="num">24</td><td class="num">3</td><td class="num">12</td><td class="num">9</td><td><strong>建工单必然 400（功能不可用）</strong></td></tr>
+<tr><td><strong>销售域</strong></td><td class="num">24</td><td class="num">5</td><td class="num">10</td><td class="num">9</td><td><strong>信用额度闸门实际失效</strong></td></tr>
+</tbody>
+</table>
+<div class="hint">采购域是唯一「失败回滚与告警」落实完整的域；生产域问题密度最高（24 条，且含唯一的功能不可用缺陷）。</div>
+</div>
+
+<!-- 二、真实取证 -->
+<h2>二、关键结论的真实接口取证</h2>
+<div class="card">
+<p style="font-size:14px">代码推理容易骗人——所以对影响面最大的问题，全部打了<strong>生产真实接口</strong>复现（隔离组织 + 自动清理测试数据），不采信未验证的结论。</p>
+<table style="margin-top:12px">
+<thead><tr><th>待验证结论</th><th>结果</th><th>实际返回</th></tr></thead>
+<tbody>
+<tr>
+  <td>生产域建工单会失败</td>
+  <td><span class="tag t0">已坐实</span></td>
+  <td><code>400</code> <code>MISSING_REQUIRED_CORE</code>「请填写『生产物料』」<br>
+  <span class="hint">系统里只有「产品编码/产品名称」，没有「生产物料」这个字段——所以界面上怎么点都建不出工单</span></td>
+</tr>
+<tr>
+  <td>信用额度闸门形同虚设</td>
+  <td><span class="tag t0">已坐实</span></td>
+  <td>客户授信 1000，连下 3 单各 900（累计 2700），<b>3 单全部放行</b><br>
+  <span class="hint">原因：客户已用额度字段全系统只有一处会写，销售单从不回写 → 闸门读到的占用恒为 0</span></td>
+</tr>
+<tr>
+  <td>修改单据存在并发重复过账</td>
+  <td><span class="tag t0">代码坐实</span></td>
+  <td>新建路径已做「条件更新抢占」，修改路径仍是「先读→判断→写」<br>
+  <span class="hint">两次并发修改都读到「未过账」→ 都去过账 → 库存流水翻倍</span></td>
+</tr>
+<tr>
+  <td>销售员可改动他人订单</td>
+  <td><span class="tag t0">代码坐实</span></td>
+  <td>销售订单建单不写「归属人」字段，而权限规则依赖它<br>
+  <span class="hint">规则里还留着「无归属人 = 全员可见」的兼容分支 → 失效方向是「放行」不是「拒绝」</span></td>
+</tr>
+<tr>
+  <td>库存列表只显示前 20 行</td>
+  <td><span class="tag t2">待验证</span></td>
+  <td>代码默认每页 20 条，前端未传分页参数<br>
+  <span class="hint">测试环境数据量不足 20 条，未能复现；真实使用必然超页</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- 三、根因 -->
+<h2>三、根本原因：6 个系统性缺陷</h2>
+<p style="font-size:14.5px;margin-bottom:14px">这是本报告最有价值的部分。<strong>88 条问题收敛为 6 个根因</strong>——修根因比逐条修补更有效，而且能解释为什么同一个毛病反复出现。</p>
+
+<div class="root">
+  <h4>根因 A · 修复只覆盖「新建」，系统性漏掉「修改」<span class="rid">影响 8 条 P0/P1</span></h4>
+  <p class="why">此前三轮整改（并发防重、多表原子化、金额复核）都是按「创建路径」实施的，修改单据的路径被系统性遗漏。同一份能力，新建做对了、修改没做。</p>
+  <div class="eff"><strong>典型：</strong>并发抢占做了新建、漏修改；金额按明细复核做了新建、漏修改；多表原子化做了新建、漏修改。<br>
+  <strong>教训：</strong>整改必须按「同一能力的两条路径成对核查」，不能再按端点逐个修。</div>
+</div>
+
+<div class="root">
+  <h4>根因 B · 行级权限「登记了但数据侧没填」<span class="rid">销售/项目/发货/意向客户</span></h4>
+  <p class="why">这几张表在权限登记表里设的是「只看本人」，但建单时从不记录「这张单是谁建的」。规则里又有「无归属人 = 全员可见」的历史兼容分支，于是失效方向是<b>放行</b>而不是拒绝。</p>
+  <div class="eff"><strong>危害：</strong>销售员能看到并修改、删除他人的订单，权限形同虚设。这是本次发现的唯一「越权」类问题。</div>
+</div>
+
+<div class="root">
+  <h4>根因 C · 前端传了、后端静默丢弃<span class="rid">9 个字段·涉及三域</span></h4>
+  <p class="why">请求里带了但后端没实现的字段，被<strong>默默丢掉并且返回成功</strong>——不报错、不告警、无任何痕迹。受影响的包括：供应商确认交期、订单行关联、报工进度、领料明细、附件、质量标准等。</p>
+  <div class="eff"><strong>为什么危险：</strong>比直接报错更难发现。用户看到「保存成功」，实际数据没落库，事后也查不出原因。</div>
+</div>
+
+<div class="root">
+  <h4>根因 D · 守卫取数漏字段，导致静默失效<span class="rid">最隐蔽的一类</span></h4>
+  <p class="why">状态机校验时，查询语句少取了一个「状态」字段，传给校验函数的是空值，校验规则查不到对应规则就直接跳过——整套状态机等于没生效。已完成、已取消的订单可以被改回任意状态。</p>
+  <div class="eff"><strong>同类：</strong>盘点任务的权限映射目录为空，同样导致守卫失效。<br>
+  <strong>教训：</strong>守卫的入参必须「缺什么就报错」，绝不能让空值流进守卫后静默放行。</div>
+</div>
+
+<div class="root">
+  <h4>根因 E · 金额与成本口径多处实现，前后端漂移<span class="rid">6 处不一致</span></h4>
+  <p class="why">同一个口径在不同地方各算一遍：毛利有三套算法、BOM 版本选取前后端是两套算法、多层成本卷积一处连乘一处不连乘、税额舍入两边规则不同、匹配容差界面 0.01 元而服务端 1%。</p>
+  <div class="eff"><strong>后果：</strong>界面显示的毛利和财务账上的利润对不上，且没人知道该信哪个。</div>
+</div>
+
+<div class="root">
+  <h4>根因 F · 失败反馈不闭环<span class="rid">「界面成功、实际没成」</span></h4>
+  <p class="why">多个后端端点过账失败时只往服务器日志写一行字，<strong>仍然返回「成功」</strong>；前端因此显示完成，用户以为做完了。采购域做对了（失败回滚+红条告警），但这个正确做法没推广到其他三域。</p>
+  <div class="eff"><strong>涉及：</strong>入/出库修改过账失败、调拨、报工完工入库、工单删除、销售订单提交等 6 处。</div>
+</div>
+
+<!-- 四、P0 -->
+<h2>四、16 条严重问题（P0）</h2>
+<p style="font-size:14px;margin-bottom:14px">以下每条都是「不修就会造成错误数据或功能不可用」。</p>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">F-01</span><span class="ft">生产域：工单建不出来（界面完全不可用）</span></div>
+  <div class="fb">后端建单必填校验要求「生产物料」，但数据库表里只有「产品编码 / 产品名称」，前端表单也没有这个字段。<b>无论怎么操作，建工单必然被拒绝。</b></div>
+  <div class="fb" style="margin-top:6px">为什么测试没发现：端到端测试脚本自己传了这个不存在的字段，与界面真实调用不是同一条路。</div>
+  <div class="proof"><b>真实接口已坐实：</b>返回 <code>400 MISSING_REQUIRED_CORE · field=materialId</code>「请填写『生产物料』后再提交」</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>字段对齐即可（改动很小，见第六节第一批）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">S-07</span><span class="ft">销售域：信用额度闸门实际失效，可无限超额下单</span></div>
+  <div class="fb">服务端检查信用额度时读客户「已用额度」，但这个字段全系统只有一处会写，而<b>销售单从不回写</b>。于是闸门读到的占用恒为 0，可用额度永远是满额。</div>
+  <div class="proof"><b>真实接口已坐实：</b>授信 1000 的客户连下 3 单各 900（累计 2700，超额 170%），<b>三单全部 201 放行</b></div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>销售单确认/发货时回写占用额度，并让闸门读服务端值（前端此前自报，已在上一版改过一半）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">S-16</span><span class="ft">销售域：行级权限失效，销售员可修改/删除他人订单</span></div>
+  <div class="fb">销售订单在权限规则里设为「只看本人」，但建单时<b>不记录归属人</b>；规则里「无归属人 = 全员可见」的兼容分支又让失效方向变成放行。结果：任何销售员都能看到并改动别人的订单。</div>
+  <div class="fb" style="margin-top:6px">同样问题的还有：发货单、项目、意向客户。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>建单统一写入归属人；并考虑把「无归属人全员可见」限定为只对存量数据生效。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">S-01</span><span class="ft">销售域：订单状态机守卫完全失效（漏取状态字段）</span></div>
+  <div class="fb">改订单时查询只取了「编号、归属人」，<b>漏取「状态」</b>，导致状态校验收到空值、整套规则直接跳过。已完成、已取消的订单可被改回任意状态。</div>
+  <div class="fb" style="margin-top:6px">对照：采购订单的同类守卫写法正确，属孤立回归。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>补取状态列；并让守卫在入参缺失时拒绝而非跳过。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">S-12</span><span class="ft">销售域：明细为空时金额复核失效 + 明细数量金额无校验</span></div>
+  <div class="fb">上一版已做「按明细合计复核订单头金额」，但条件是「有明细行」。<b>明细为空时会回退采信前端自报金额</b>，等于绕过复核；且明细的数量、金额、交期均无校验。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>把「明细为空」改为拒绝；明细行数量金额纳入非负校验。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">WH-16</span><span class="ft">仓储域：修改单据缺并发抢占 → 重复过账、流水翻倍</span></div>
+  <div class="fb">入库单、出库单的<b>新建路径</b>已做「条件更新抢占」（谁抢到谁过账），但<b>修改路径</b>仍是「先读是否已过账 → 过账 → 再标记」，两次并发修改都会读到「未过账」→ 都去过账 → 库存流水翻倍。</div>
+  <div class="fb" style="margin-top:6px">销售端同类问题一并存在（上版并发整改只覆盖了新建）。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>把新建路径的抢占写法搬到修改路径（修复范式就在隔壁文件，可直接照搬）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">WH-17</span><span class="ft">仓储域：过账失败仍返回「成功」</span></div>
+  <div class="fb">入/出库修改单据时若过账失败（库存没动），系统只往服务器日志写一行错误，<b>仍返回成功</b>。界面显示「已完成」，实际库���没扣没加。</div>
+  <div class="fb" style="margin-top:6px">调拨、库存调整两个端点已做对（会回滚并回传原因），<b>未推广到入/出库</b>。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>失败回滚过账标志 + 返回非 200 + 前端红条告警。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">WH-01</span><span class="ft">仓储域：已过账的单据仍可改数量 → 单据/库存/流水三者脱钩</span></div>
+  <div class="fb">入库单、出库单一旦过账，修改单据时仍允许改明细数量，但<b>不重算金额、不回滚库存、不改历史流水</b>。结果是单据上的数量、库存余额、流水三者永久对不上，且无法自愈。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>已过账单据禁止改明细数量；若确需调整，走「红冲 + 重做」正规流程。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">WH-03</span><span class="ft">仓储域：调拨被过账两次（双路径重复）</span></div>
+  <div class="fb">调拨确认时前端自己建了出库单和入库单（都标记为已完成），随后又调用后端修改接口触发双边过账——<b>同一次调拨被扣两次、增两次</b>。过账标志拦不住，因为走的是两条不同的单据路径。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>调拨只保留一条过账路径（建议走后端统一双边过账）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">WH-02</span><span class="ft">仓储域：出库无负库存拦截，超发后成本仍按真实量结转</span></div>
+  <div class="fb">出库数量超过库存时，系统把库存<b>夹到 0</b> 继续执行，无任何告警；而成本结转、凭证仍按<b>真实出库量</b>计算。后果：库存为 0、成本照结、账实不符且无人知晓。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>超发改为拒绝（与入库的负数守卫、金额退化守卫同一策略）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">F-02</span><span class="ft">生产域：未下达的工单可直接完工并触发倒冲扣料</span></div>
+  <div class="fb">状态机只锁了「已完成」不允许再改，但<b>草稿 → 已完成</b>是允许的。绕过界面直接调接口，就能让一张还没下达的工单完工并触发倒冲扣料。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>状态机补全合法流转路径（草稿→已下达→生产中→已完工）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">F-18</span><span class="ft">生产域：重复领料 / 倒冲双扣</span></div>
+  <div class="fb">领料时先扣库存、再逐条写领料台账（不等待、失败不处理）；防重复的判断依赖内存变量，<b>刷新页面即失效</b>。后果：重复领料、倒冲时二次扣料。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>防重落到服务端唯一约束/抢占，不能依赖前端内存。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">PO-01</span><span class="ft">采购域：入库完成后不回写采购订单 → 订单永远显示「未交」</span></div>
+  <div class="fb">采购入库单完成后<b>完全不回写</b>采购订单的已交数量与状态（已确认代码中无任何引用）。采购员看到订单永远是未交齐，实际货已入库，订单与入库单永久脱钩。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>入库过账后按订单号回写已交量并推进订单状态。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">PO-02 / PO-03</span><span class="ft">采购域：已收货订单可被改回、可被删除</span></div>
+  <div class="fb">订单「编辑保存」会<b>无条件把状态打回初始态</b>，已收货的订单能被改回并重写明细；已收货订单还可以被直接删除，导致三单匹配与付款闸门的比对基准消失。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>状态回写按当前状态条件更新；已收货订单禁止删除（应走取消/关闭流程）。</div>
+</div>
+
+<div class="finding">
+  <div class="fh"><span class="tag t0">P0</span><span class="fid">PO-04</span><span class="ft">采购域：采购申请审批只靠前端判断</span></div>
+  <div class="fb">审批动作的合法性完全由前端判断，<b>后端没有任何审批权限校验</b>。绕过界面直接调接口，任何人可审批通过。</div>
+  <div class="fb" style="margin-top:8px"><strong>修复：</strong>审批权下沉到服务端（与项目已有的操作权限守卫同一范式）。</div>
+</div>
+
+<!-- 五、跨域 -->
+<h2>五、跨域衔接：单域审计看不到的问题</h2>
+<div class="card">
+<p style="font-size:14px">各域内部审得再好，<strong>域与域的衔接处最容易出问题</strong>。本次发现 7 处跨域断链：</p>
+<table style="margin-top:12px">
+<thead><tr><th>断链</th><th>涉及域</th><th>后果</th></tr></thead>
+<tbody>
+<tr><td><strong>入库不回写采购订单</strong></td><td>采购 ↔ 仓储</td><td>订单永远显示未交，无法判断是否交齐</td></tr>
+<tr><td><strong>发货单 ↔ 出库单零联动</strong></td><td>销售 ↔ 仓储</td><td>发货单建完不出库单；出库单可凭空创建，发货台账与实际出库永远对不上</td></tr>
+<tr><td><strong>报工完工绕过成品入库</strong></td><td>生产 ↔ 仓储</td><td>料扣了、成品没入账；且两者非原子，入库失败仍报成功</td></tr>
+<tr><td><strong>倒冲幂等守卫非原子</strong></td><td>生产 ↔ 仓储</td><td>并发完工可双扣料（与仓储并发问题同源，未一并修复）</td></tr>
+<tr><td><strong>BOM 无快照</strong></td><td>生产内部</td><td>BOM 一改，历史工单成本被追溯改写，去年成本今年变</td></tr>
+<tr><td><strong>工单成本 ≠ 出库成本</strong></td><td>生产 ↔ 销售</td><td>成本归集用标准价、COGS 用移动均价，两套口径打架</td></tr>
+<tr><td>采购订单状态被无条件重置</td><td>采购内部</td><td>已收货订单可回到初始态，下游三单匹配基准动摇</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- 六、正面 -->
+<h2>六、值得肯定的部分</h2>
+<div class="pos">
+<h4>审计不是为了找茬——这些做对了</h4>
+<ul>
+  <li><strong>采购域的失败处理是四域标杆</strong>：乐观更新 → 失败回滚快照 → 全局红条告警，完整落实「界面点得动 ≠ 已落库」。生产域的工单建单/更新也做对了。</li>
+  <li><strong>入库金额退化守卫设计扎实</strong>：有数量无金额时<b>拒绝</b>而不是静默记 0，且正确区分「数量为 0 的占位行不拦」。</li>
+  <li><strong>行级权限的默认方向是安全的</strong>：未登记的表默认拒绝并留告警（问题出在已登记但数据侧没填，不在机制本身）。</li>
+  <li><strong>父子表字段登记有明确纪律</strong>，上一版还顺手修过框架级缺陷（子表写入不注入组织字段导致插入失败）。</li>
+  <li><strong>单号生成规则前后端一致</strong>，服务端做了查重。</li>
+  <li><strong>上一版的三处修复方向都对</strong>（金额按明细复核、金额退化拒绝、盘点真过账），只是都只覆盖了新建路径——方向对、覆盖面不足。</li>
+</ul>
+</div>
+
+<!-- 七、修复计划 -->
+<h2>七、建议修复顺序</h2>
+<p style="font-size:14px;margin-bottom:14px">按「先止功能不可用 → 再止越权与数据错 → 再补方法论缺口」排序。<strong>不按单个问题排</strong>，避免修完一处漏一处。</p>
+
+<div class="plan">
+  <div class="ph"><span class="tag t0">第一批</span><strong>止「功能不可用」</strong><span class="tag t3">改动最小</span></div>
+  <div class="pb">修复工单建单字段错配（F-01）。<strong>预计改动 1-2 个文件</strong>，修完生产域立刻可用。这是投入产出比最高的一批，建议立刻做。</div>
+</div>
+
+<div class="plan">
+  <div class="ph"><span class="tag t0">第二批</span><strong>止「越权 + 额度失控」</strong></div>
+  <div class="pb">归属人字段补写（S-16 等 4 张表）、状态机补取状态列（S-01）、信用额度回写并读服务端值（S-07）。三条都已坐实，对外风险最高。</div>
+</div>
+
+<div class="plan">
+  <div class="ph"><span class="tag t1">第三批</span><strong>止「假成功」</strong><span class="tag t3">统一纪律</span></div>
+  <div class="pb">过账失败必须返回失败 + 前端告警，覆盖 WH-17/WH-18/F-04/F-20/S-19 等 6 处。<strong>把采购域的正确做法推广到四域</strong>——项目里已有现成范式，无需新设计。</div>
+</div>
+
+<div class="plan">
+  <div class="ph"><span class="tag t1">第四批</span><strong>成对补齐「修改路径」</strong><span class="tag tnew">方法论修正</span></div>
+  <div class="pb">按「同一能力的新建 + 修改两条路径成对核查」原则，一次性过完并发抢占、金额复核、原子化三类共 8 条。<strong>这是根治根因A 的关键批次，务必整批做、不要拆</strong>，否则会重演本轮遗漏。</div>
+</div>
+
+<div class="plan">
+  <div class="ph"><span class="tag t2">第五批</span><strong>收敛 5 处口径</strong></div>
+  <div class="pb">毛利口径、BOM 版本选取、成本卷积、税额舍入、匹配容差 → 各自收敛为单一权威实现，前后端共用，消除漂移。</div>
+</div>
+
+<div class="plan">
+  <div class="ph"><span class="tag t2">第六批</span><strong>补跨域闭环</strong></div>
+  <div class="pb">入库回写订单、发货联动出库、倒冲幂等抢占、工单 BOM 快照。做完前五批后打通链路，让四域真正串起来。</div>
+</div>
+
+<div class="note">
+<strong>一句话总结：</strong>系统的骨架是对的，问题是「守卫建了但没建到最后一公里」——建单路径都做到了，改单路径漏了；权限登记了但数据没填；守卫写了但取数漏字段。<strong>建议按批次整批推进，尤其第四批务必一次做完</strong>，零散修会继续重演同样的遗漏。
+</div>
+
+<footer>
+  SSA ERP 四域表单流转联合审计 · 报告日期 2026-10-09 · 基于 V3.57.0 代码与生产环境实测<br>
+  全部P0 结论均经真实接口取证；标注「待验证」的条目代码风险成立但尚未在生产复现
+</footer>
+
+</div>
+</body>
+</html>

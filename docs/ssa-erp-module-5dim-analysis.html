@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V3.48.0 逐模块五维分析 · 可用性/数据完整性/准确性/易用性/逻辑合理性</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#4d8fff; --good:#3fb950;
+    --warn:#d29922; --bad:#f85149; --info:#a371f7; --line:#21262d;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,"Segoe UI",Roboto,"Microsoft YaHei",sans-serif;line-height:1.65;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:26px;margin:0 0 6px}
+  h2{font-size:20px;margin:38px 0 14px;padding-left:10px;border-left:4px solid var(--accent)}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--accent)}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);font-weight:600;white-space:nowrap}
+  tr:nth-child(even) td{background:#12161d}
+  .gA{color:var(--good);font-weight:700}.gB{color:#7aa8ff;font-weight:700}.gC{color:var(--warn);font-weight:700}
+  .gD{color:var(--bad);font-weight:700}
+  .tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:12px;font-weight:600}
+  .t-good{background:#1a3a24;color:#7ee787}.t-warn{background:#3a2d12;color:#e3b341}
+  .t-bad{background:#3a1615;color:#ff7b72}.t-info{background:#241a3a;color:#c4a8ff}.t-mut{background:#21262d;color:var(--muted)}
+  .kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:14px 0}
+  .kpi .b{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .kpi .n{font-size:24px;font-weight:800}.kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
+  code{background:#1c2333;padding:1px 6px;border-radius:5px;font-size:12.5px;color:#ff9e64;font-family:"Consolas",monospace}
+  .ev{color:var(--muted);font-size:12.5px}
+  ul{margin:8px 0;padding-left:20px}li{margin:4px 0}
+  .callout{border-left:4px solid;padding:12px 16px;background:var(--panel);border-radius:0 8px 8px 0;margin:14px 0}
+  .c-good{border-color:var(--good)}.c-warn{border-color:var(--warn)}.c-bad{border-color:var(--bad)}.c-info{border-color:var(--accent)}
+  .radar{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  .radar .b{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+  .bar{height:8px;background:#21262d;border-radius:5px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%}
+  .dimhead{font-weight:700;font-size:14px}
+  .dimsub{font-size:12px;color:var(--muted);margin-top:2px}
+  .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:12.5px}
+  .legend{font-size:12px;color:var(--muted);margin:8px 0}
+  .note{font-size:12.5px;color:var(--muted)}
+  .fix{background:#12161d;border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0}
+  .fix b{color:var(--good)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>SSA ERP V3.48.0 · 逐模块五维可用性分析</h1>
+<div class="sub">基线版本 V3.48.0（2026-10-07 止血批次后）· 数据源：121 个 API 端点静态面 + 最新生产 E2E（10-07 07:01，2 套守护全绿 121 断言）+ 前端 216 页面 / 88 store 结构扫描 · 生成 2026-10-07</div>
+
+<div class="callout c-info">
+<b>先说结论（结论先行）</b><br>
+系统<b>功能骨架完整、能跑</b>：121 个接口全部可达、无死链，前端 216 个页面全部能打开，过账/折旧等数字正确性问题在 V3.45~V3.48 已大幅修复。<br>
+真正的短板集中在两处：<b>① 数据完整性（删单据不清子表、多表写没收进同一批）与稳定性（吞错不回滚、个别静默放行）</b>——这是 V3.47 量化报告已定位、V3.48 只止血了最险的 3 处并发竞态、其余仍挂着；<b>② 易用性（菜单过载）</b>——仓储物流 16 个、生产 21 个、财务 26 个子菜单挤在一级分组下，非专业用户难以定位。
+</div>
+
+<div class="kpi">
+  <div class="b"><div class="n">216 / 121 / 85</div><div class="l">前端页面 / 后端接口 / 数据库迁移</div></div>
+  <div class="b"><div class="n">121 · 0</div><div class="l">最新 E2E 断言 PASS / FAIL（V3.48 已验证的 2 套守护）</div></div>
+  <div class="b"><div class="n">~20 处</div><div class="l">V3.48 后仍挂的多表写/删不清子 待收口（原子底座）</div></div>
+  <div class="b"><div class="n">63</div><div class="l">一级子菜单总数（易用性主要扣分点，集中在仓储/生产/财务）</div></div>
+</div>
+
+<h2>一、五维评分口径（先看怎么打分的）</h2>
+<div class="card">
+<p>本次比 V3.47 的「四维」多两个维度：<b>易用性</b>（操作路径、认知负担、反馈及时性、菜单组织、搜索与空状态）与<b>逻辑合理性</b>（状态机/业务规则是否贴合行业惯例、会不会产出违背常识的结果）。评分沿用 V3.47 量化报告的四维基线做对照，保证数字可比。</p>
+<div class="radar">
+  <div class="b"><div class="dimhead">可用性 A</div><div class="bar"><i style="width:88%;background:var(--good)"></i></div><div class="dimsub">功能能不能真正端到端用起来（接口在、行级权限已登记、不是死链/占位）</div></div>
+  <div class="b"><div class="dimhead">数据完整性 B−</div><div class="bar"><i style="width:62%;background:var(--warn)"></i></div><div class="dimsub">多表写是否原子、删单据是否清子表（不留孤儿引用）</div></div>
+  <div class="b"><div class="dimhead">准确性 B</div><div class="bar"><i style="width:74%;background:#7aa8ff"></i></div><div class="dimsub">金额/计算对不对、有没有静默放行、口径是否唯一</div></div>
+  <div class="b"><div class="dimhead">易用性 C+</div><div class="bar"><i style="width:55%;background:var(--warn)"></i></div><div class="dimsub">菜单过载、认知负担、反馈及时性（本次最薄弱）</div></div>
+  <div class="b"><div class="dimhead">逻辑合理性 B+</div><div class="bar"><i style="width:72%;background:#7aa8ff"></i></div><div class="dimsub">状态机与业务规则是否贴合 SAP/金蝶/用友惯例</div></div>
+</div>
+<p class="legend">字母级：<span class="gA">A 优</span> / <span class="gB">B 良好</span> / <span class="gC">C 及格偏下</span> / <span class="gD">D 危险</span>。± 半档。数据完整性、易用性为全系统两个短板。</p>
+</div>
+
+<h2>二、逐域逐模块五维评分总表</h2>
+<p class="note">按菜单 6 大域展开。每域先给总体评分，再拆子模块。评据见第三、四章（带 <code>文件:行号</code> 证据）。</p>
+
+<h3>主数据域（物料 / 供应商 / 客户）</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>物料管理（分类/列表/评估价控）</td><td class="gA">A</td><td class="gA">A−</td><td class="gB">B+</td><td class="gB">B+</td><td class="gA">A−</td><td>C1 关系化完成度最高，主数据最干净；替代料/价控口径清晰</td></tr>
+<tr><td>供应商管理（列表/黑名单/评级/绩效/风险/门户）</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B−</td><td class="gB">B+</td><td>域大、字段多；供应商门户是独立登录入口，需单独验</td></tr>
+<tr><td>客户主数据</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B+</td><td class="gB">B+</td><td>结构规整，V3.47 已补服务端脱敏（totalAmount 列）</td></tr>
+</table>
+
+<h3>供应链域（采购 / 价格 / 仓储物流）</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>采购（申请/订单/交期/框架/信息记录/货源/退货）</td><td class="gB">B+</td><td class="gC">B−</td><td class="gB">B+</td><td class="gB">B−</td><td class="gB">B+</td><td>撞号/过账已修；<b>删采购单不清子项</b>仍挂（R3）</td></tr>
+<tr><td>价格（询价/比价/价目表）</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B+</td><td>比价链路完整</td></tr>
+<tr><td>三单匹配（财务/采购共用）</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gA">A−</td><td>V3.47 已行级化（靠订单行锚点），口径最贴合 SAP</td></tr>
+<tr><td>仓储物流（入库/出库/调拨/盘点/调整/查询/批次/库龄/序列号/追溯/寄售/波次RFID/条码/仓库主数据/报检）</td><td class="gB">B+</td><td class="gC">B−</td><td class="gB">B+</td><td class="gC">C+</td><td class="gB">B+</td><td><b>核心流转（入/出/调/盘）最稳</b>；但 16 个子菜单过载，且删单据不清子表、列表明细恒空占位</td></tr>
+</table>
+
+<h3>销售域</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>销售订单/合同/报价/开票/物流/退货</td><td class="gB">B+</td><td class="gC">B−</td><td class="gB">B</td><td class="gB">B−</td><td class="gB">B+</td><td><b>删销售单不清 shipments/发货台账</b>仍挂（R3）</td></tr>
+<tr><td>ATP 可用量承诺/漏斗/返利/客户ABC/三方销售</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B</td><td class="gB">B</td><td>偏轻量分析功能，主链路完整</td></tr>
+<tr><td>意向客户/市场分析/项目管理</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B+</td><td class="gB">B+</td><td>项目核算与财务项目科目联动</td></tr>
+</table>
+
+<h3>生产与质量域（本系统菜单最重）</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>工单/MRP/工艺路线/委外</td><td class="gB">B+</td><td class="gC">B−</td><td class="gB">B+</td><td class="gB">B−</td><td class="gA">A−</td><td>倒冲发料逻辑合理；<b>删工单不清领料台账 work_order_pickings</b>仍挂（R3）</td></tr>
+<tr><td>成本归集/BOM（列表/卷积）</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B+</td><td class="gA">A−</td><td>成本双轨已消除、BOM 解析口径已统一（V3.46），全系统最成熟块之一</td></tr>
+<tr><td>质量（检验/标准/AQL/8D/SPC/FMEA/COA/PDCA/不合格）</td><td class="gB">B+</td><td class="gC">B−</td><td class="gB">B+</td><td class="gB">B−</td><td class="gB">B+</td><td><b>删质检扣留不回滚库存冻结数</b>（可用库存虚高）+ PUT 整表覆盖式改字段会清空（仍挂）</td></tr>
+<tr><td>高端排程（产能/APS/CRP/甘特/详细排程/MES/S&OP/重复制造/工序SPC/设备）</td><td class="gC">C+</td><td class="gC">C+</td><td class="gC">C</td><td class="gC">C</td><td class="gC">C+</td><td>多为扩展/演示能力，落地度参差，需逐个核实是真库还是 mock（<b>本域待专项核实清单</b>）</td></tr>
+</table>
+
+<h3>财务域（子菜单最多，26 项）</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>凭证/科目/分录/结账/固定资产/折旧</td><td class="gA">A−</td><td class="gB">B+</td><td class="gA">A−</td><td class="gB">B−</td><td class="gA">A−</td><td>准确性提升最大（借贷平衡/原子幂等/期间双侧校验）；凭证列表 N+1、跨组织过滤仍挂</td></tr>
+<tr><td>三单匹配/预算/付款闸门</td><td class="gA">A−</td><td class="gA">A−</td><td class="gA">A</td><td class="gB">B+</td><td class="gA">A−</td><td>预算已接关系表 fail-closed、闸门才真正累计生效（V3.45/3.46）</td></tr>
+<tr><td>报表（三大/现金流/科目余额/试算/账龄/合并/税务/COPA/BI/ESG）</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B+</td><td class="gC">C+</td><td class="gB">B+</td><td>改按科目编码匹配后准确性提升；合并报表跨组织读取已加闸</td></tr>
+<tr><td>汇率/应收应付/资金/税务核算/项目核算/辅助核算</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gB">B</td><td class="gB">B</td><td>汇率期末口径已修（不再静默按 1）；<b>fx/refresh 缺权限守卫</b>仍挂</td></tr>
+</table>
+
+<h3>分析与平台域</h3>
+<table>
+<tr><th>子模块</th><th>可用性</th><th>数据完整性</th><th>准确性</th><th>易用性</th><th>逻辑合理性</th><th>一句话评述</th></tr>
+<tr><td>报表中心/设计器/BI自助/ChatBI/OCR/驾驶舱/预测/异常预警</td><td class="gB">B+</td><td class="gB">B+</td><td class="gB">B</td><td class="gC">C+</td><td class="gB">B</td><td>分析展示型；ChatBI 只读工具注册表已落地（V3.30）</td></tr>
+<tr><td>系统设置/权限/审计/数据权限/审批中心</td><td class="gA">A−</td><td class="gA">A−</td><td class="gA">A−</td><td class="gB">B+</td><td class="gA">A−</td><td>权限矩阵 + 行级权限 + 审计 + 审批流（含撤回/催办/委托）最完整</td></tr>
+</table>
+
+<h2>三、各模块五维详解与改善建议（按域）</h2>
+
+<div class="card">
+<h3>① 仓储物流域 —— 核心最稳、菜单最挤、删不清子</h3>
+<table>
+<tr><th>维度</th><th>评分</th><th>证据与说明</th></tr>
+<tr><td>可用性</td><td class="gB">B+</td><td>入/出/调/盘/查核心全通。库存流水重建余额 == 库存表余额（最新 E2E 套 35 断言全绿）。</td></tr>
+<tr><td>数据完整性</td><td class="gC"><b>B−（域内最低）</b></td><td><b>删单据不清子表</b>：采购单删了头表不清子项、调拨/盘点/盘亏单据删了不清关联台账。删父先于删子是两次独立执行，子删失败=头已删、孤儿子行残留（R3 未收口）。</td></tr>
+<tr><td>准确性</td><td class="gB">B+</td><td>成本双轨已消除（V3.47 第3批）、移动均价服务端唯一滚动、过账竞态 V3.48 已修（条件 UPDATE 抢占）。残留：金额浮点累加口径 ≤0.01 元漂移。</td></tr>
+<tr><td>易用性</td><td class="gC"><b>C+（全系统扣分大头）</b></td><td>仓储物流一个分组下挂 <b>16 个子菜单</b>（报检/入库/成品入库/出库/盘点/查询/批次/库龄/条码/仓库主数据/跨组织转储/调整/序列号/批次追溯/寄售/波次RFID），非仓管专业用户很难记住谁归谁。</td></tr>
+<tr><td>逻辑合理性</td><td class="gB">B+</td><td>倒冲、批次、库龄逻辑贴合 SAP 301。质检扣留删除不回滚冻结库存，逻辑上会造成「可用库存虚高、出库绕过冻结」。</td></tr>
+</table>
+<div class="fix"><b>改善建议（按 ROI）</b>：
+<ul>
+<li>【高·数据完整性】把「删单据」统一收口：删父 + 删全部子表 + 回滚冻结数，进同一原子批次，失败整批回滚（一次范式改动覆盖采购/调拨/盘点/质检扣留多处，对应 R3 约 6 条）。</li>
+<li>【中·易用性】菜单分「常用 / 进阶」两层：默认只露出 入库/出库/盘点/库存查询/批次 5 个高频，其余（寄售/波次RFID/序列号/跨组织转储）折叠进「更多」。强哥已有工作台，可再按使用频率排序置顶高频操作。</li>
+<li>【中·可用性】列表接口把明细从「恒空占位」改成随列表带出（或前端统一懒加载），避免列表看着「无明细」实际有。</li>
+</ul></div>
+</div>
+
+<div class="card">
+<h3>② 生产域 —— 逻辑最规范、菜单 21 项最重、删工单不清领料</h3>
+<table>
+<tr><th>维度</th><th>评分</th><th>证据与说明</th></tr>
+<tr><td>可用性</td><td class="gB">B+</td><td>工单/MRP/工艺路线/委外主链路完整，倒冲发料已服务端权威化。高端排程（APS/CRP/甘特/MES/S&OP/重复制造）落地度需逐个核实（C 档）。</td></tr>
+<tr><td>数据完整性</td><td class="gC">B−</td><td>删工单不清 <code>work_order_pickings</code> 领料台账 → 领料记录指向已删工单，成品成本脱节（R3 未收口）。</td></tr>
+<tr><td>准确性</td><td class="gB">B+</td><td>成本归集 + BOM 卷积口径统一（V3.46 bomResolver 收敛 4 处散落口径），是准确性最成熟块之一。</td></tr>
+<tr><td>易用性</td><td class="gC">C</td><td>生产管理一个分组下挂 <b>21 个子菜单</b>（全系统最多），工单/排程/报工/SPC/ECN 混在一起，认知负担重。</td></tr>
+<tr><td>逻辑合理性</td><td class="gB">B+</td><td>状态机（已完工不可回退）、倒冲只在「首次变 completed 时触发一次」的收窄逻辑，都贴合生产实务。</td></tr>
+</table>
+<div class="fix"><b>改善建议（按 ROI）</b>：
+<ul>
+<li>【高】删工单连带清领料台账（进原子批次，同 R3）。</li>
+<li>【中·易用性】21 项拆 3 组：① 工单与领料（工单/MRP/MTO/报工/WIP）② 排程（APS/CRP/甘特/详细排程/产能）③ 质量与基础（工艺路线/SPC/ECN/设备/委外/重复制造/MES/S&OP）。默认只露出①，另两组折叠。</li>
+<li>【中】出一份「高端排程功能落地度核实清单」，逐个标注 真库/mock/演示，把「看着能用其实没接后端」的项标出来（对应教训㊲：界面点得动≠动作已落库）。</li>
+</ul></div>
+</div>
+
+<div class="card">
+<h3>③ 财务域 —— 准确性提升最大、报表/菜单 26 项过载</h3>
+<table>
+<tr><th>维度</th><th>评分</th><th>证据与说明</th></tr>
+<tr><td>可用性</td><td class="gB">B+</td><td>凭证/结账/固定资产/报表全通；凭证列表 N+1（每行单查一次子表，100 行=100 次查询）在高并发会拖慢。</td></tr>
+<tr><td>数据完整性</td><td class="gB">B+</td><td>凭证已收口原子批次（借贷同批、失败回滚）；跨组织 UPDATE/DELETE 缺 <code>AND org_id=?</code> 过滤仍挂（R6，UUID 难猜但违设计）。</td></tr>
+<tr><td>准确性</td><td class="gA"><b>A−（全系统最高）</b></td><td>借贷平衡/红冲合法性/期间双侧/科目编码匹配/汇率期末口径/预算按期间取数，V3.45~3.47 系统性修过；残余跨币种 1:1 兜底。</td></tr>
+<tr><td>易用性</td><td class="gC">C+</td><td>财务管理挂 <b>26 个子菜单</b>（全系统最多），核算/报表/税务/资金/ESG 全挤一起，财务人员也难定位。</td></tr>
+<tr><td>逻辑合理性</td><td class="gB">B+</td><td>结账前检查（试算平衡/跨期凭证/折旧未计提）+ 反结账需更高权限 + 强制填原因，逻辑严格贴合会计实务。</td></tr>
+</table>
+<div class="fix"><b>改善建议（按 ROI）</b>：
+<ul>
+<li>【高·准确性/完整性】凭证列表 N+1 改批量查（一次 <code>IN</code> 取全部子表）；vouchers 增删补 <code>AND org_id=?</code>。</li>
+<li>【高·完整性】fx/refresh 汇率刷新端点补权限守卫（只读角色可覆盖全组织汇率，越权写，R6）。</li>
+<li>【中·易用性】26 项拆 4 组：① 核算（凭证/科目/分录/结账）② 报表（三大/现金流/试算/账龄/合并/税务）③ 往来与预算（应收应付/预算/付款/资金）④ 专项（COPA/ESG/BI/项目/辅助）。默认只露①②。</li>
+</ul></div>
+</div>
+
+<div class="card">
+<h3>④ 采购 + 销售域 —— 链路完整、删单不清子表、脱敏已补</h3>
+<div class="ev">关键增量：V3.47 已补销售/采购/客户三大接口服务端脱敏（<code>total_amount</code>/<code>grand_total</code> 列映射），V3.48 已补父子框架统一接操作守卫（越权写根治）。</div>
+<table>
+<tr><th>模块</th><th>最该修的一件事</th><th>维度</th></tr>
+<tr><td>采购订单</td><td>删单不清子项 → 三单匹配仍引用已删单（R3，数据完整性 B−）</td><td class="gC">完整性</td></tr>
+<tr><td>销售订单</td><td>删订单不清 shipments/shipment_items → 孤儿发货台账（R3，数据完整性 B−）</td><td class="gC">完整性</td></tr>
+<tr><td>报价/返利/三方</td><td>逻辑合理、可用性 B+；无高危</td><td class="gB">—</td></tr>
+</table>
+<div class="fix"><b>改善建议</b>：采购/销售删除收口与仓储共用同一套「删父+删子+回滚」原子范式（见 R3），一次改动覆盖两个域。</div>
+</div>
+
+<div class="card">
+<h3>⑤ 质量域 —— 检验标准稳、质检扣留两处数据一致性缺口</h3>
+<table>
+<tr><th>维度</th><th>评分</th><th>说明</th></tr>
+<tr><td>数据完整性</td><td class="gC">B−</td><td>① 删质检扣留前不回滚 <code>inventory_records.frozen_quantity</code> → 可用库存虚高、出库绕过质检冻结；② PUT 是整表覆盖式（<code>body.x||null</code>），改一次状态会顺手清空物料/批次等字段。</td></tr>
+<tr><td>准确性 / 逻辑</td><td class="gB">B+</td><td>AQL 抽样、8D、SPC 逻辑规范；审计留痕已区分「未放行即删除=疑似绕流程」。</td></tr>
+<tr><td>易用性</td><td class="gB">B−</td><td>12 个子菜单，检验/AQL/8D/SPC/FMEA/COA 混排。</td></tr>
+</table>
+<div class="fix"><b>改善建议</b>：删扣留前 <code>UPDATE inventory_records SET frozen_quantity = frozen_quantity - ?</code>（同 R3 原子批次）；PUT 改「字段级更新」（只改携带的字段，不整表覆盖）。</div>
+</div>
+
+<div class="card">
+<h3>⑥ 平台与基础（权限/审计/审批/设置/ChatBI）—— 全系统最完整</h3>
+<table>
+<tr><th>维度</th><th>评分</th><th>说明</th></tr>
+<tr><td>可用性 / 完整性 / 准确性 / 逻辑</td><td class="gA">A−</td><td>权限矩阵 + 行级权限 + 操作守卫 + 字段级权限（67 三元组前后端一致）+ 审计三层降级 + 审批流（撤回/催办/委托）+ ChatBI 只读工具注册表，是全系统工程质量最高的部分。</td></tr>
+<tr><td>易用性</td><td class="gB">B+</td><td>审批中心做了「待我审批/我提交的/委托管理」三层，认知友好；V3.48 修复了审批流权限回归（同组织 buyer 可协作改公共审批流）。</td></tr>
+</table>
+<div class="fix"><b>改善建议</b>：本域作为标杆；主要投入应转向把它的「原子批次 + 统一守卫 + 字段级更新」范式<b>复制推广</b>到仓储/生产/财务/采购/销售，一处范式改动可覆盖约 20 条缺陷（性价比最高）。</div>
+</div>
+
+<h2>四、根因收敛与分级路线图（改什么最划算）</h2>
+<p>缺陷看着多（V3.47 报告 36 条），但收敛度极高——绝大多数源于少数几个根因。<b>修根因比逐条打补丁高效得多。</b></p>
+<table>
+<tr><th>根因</th><th>命中缺陷</th><th>影响维度</th><th>统一解法</th><th>预估投入</th></tr>
+<tr><td><b>R3 删单据不清子表 / 不回滚关联台账</b></td><td>约 6</td><td>数据完整性</td><td>删父+删全部子表+回滚冻结数，进同一原子批次，失败整批回滚</td><td>1 天</td></tr>
+<tr><td><b>R1 多表写未原子化（头+子 / 库存+流水+凭证）</b></td><td>约 10</td><td>数据完整性+稳定性</td><td>抽 <code>atomicParentChild</code>/<code>atomicPosting</code> 范式，一次 <code>db.batch()</code> 提交</td><td>1.5 天</td></tr>
+<tr><td><b>R4 吞错不回滚（catch 后静默继续仍返成功）</b></td><td>约 5</td><td>稳定性</td><td>过账/写凭证失败上抛、端点回滚状态、响应告知；凭证与库存/流水同生共死</td><td>含在 R1</td></tr>
+<tr><td><b>R6 缺权限守卫 / 缺组织隔离</b></td><td>约 5</td><td>准确性(越权)+完整性</td><td>fx/refresh、通用路由 PUT、vouchers 增删 补 <code>guardOperation</code> + <code>AND org_id=?</code></td><td>0.5 天</td></tr>
+<tr><td><b>R5 静默放行（fail-open）</b></td><td>约 4</td><td>准确性</td><td>区分「合法缺省」vs「配置损坏/查询故障」，后者 fail-closed（对齐已修的 guardBudget/结账口径）</td><td>0.5 天</td></tr>
+<tr><td><b>U1 菜单过载（新增维度）</b></td><td>3 组</td><td>易用性</td><td>仓储 16→常用5/进阶11；生产 21→3 组；财务 26→4 组；默认只露高频</td><td>✅ V3.53.0 已完成（Sidebar 分组 + 高频组默认展开 + 当前页父项自动展开）</td></tr>
+<tr><td><b>U2 高端功能落地度不明（新增维度）</b></td><td>~15</td><td>逻辑合理性</td><td>出核实清单，逐个标注 真库/云键值/纯演示，把未接后端的项显式提示「演示态」</td><td>✅ V3.53.0 已完成（核实清单见第五章）</td></tr>
+</table>
+
+<div class="callout c-warn">
+<b>优先级建议（投入产出比排序）</b>
+<ol>
+<li><b>第一优先</b>：R3 + R1 + R4「原子底座」一次范式改动收口约 20 条数据一致性缺陷（4~5 天，一次覆盖仓储/生产/采购/销售/财务删除与多表写）。</li>
+<li><b>第二优先</b>：R6 越权/组织隔离补齐（0.5 天）——越权写是安全类，应优先于纯体验项。</li>
+<li><b>第三优先（已完成）</b>：U1 菜单分组 + U2 落地度核实 —— 直接改善「不好用、分不清真假」的两类体验短板；V3.53.0 落地，核实清单见第五章。</li>
+<li><b>并行</b>：R5 fail-open 收敛（0.5 天）。</li>
+</ol>
+</div>
+
+<h2>五、高端功能落地度核实清单（U2 核实完成 · 2026-10-08，V3.53.0）</h2>
+<p>核实方法：逐项追「前端页面 → 引用的 store → 数据通道」（页面内是否有 <code>/api/</code> 调用、store 是否含 <code>entityRepo</code>（关系表）/ <code>backendStorage</code>（云键值）/ 纯内存），不靠猜。结论把「C 档」拆成<b>三档</b>——此前笼统标「演示」会误判，因为多数项其实<b>数据是真的进了库的</b>。</p>
+
+<h3>第一档 · 真 D1 关系表（数据落业务表、有实体仓库/专属端点，可作权威账本）</h3>
+<table>
+<tr><th>功能</th><th>入口</th><th>数据通道与证据</th></tr>
+<tr><td>跨组织转储</td><td>/warehouse/transfer</td><td><code>services/warehouseAdv.ts:105-111</code> 直连 <code>/api/stock-transfers</code> 专属端点（V3.51 R1 已原子化）</td></tr>
+<tr><td>重复制造</td><td>/production/repetitive</td><td><code>repetitiveMfgStore</code> 调 entityRepo×15，持久化 productionLine / repetitiveMfgPeriod 实体</td></tr>
+<tr><td>波次RFID</td><td>/warehouse/wave-rfid</td><td><code>waveRfidStore</code> entityRepo×13（另叠加云键值双通道）</td></tr>
+<tr><td>COPA获利分析</td><td>/finance/copa</td><td><code>copaStore</code> entityRepo×8</td></tr>
+<tr><td>BI集成</td><td>/finance/bi</td><td><code>biStore</code> entityRepo×9</td></tr>
+<tr><td>ESG报告</td><td>/finance/esg</td><td><code>esgStore</code> entityRepo×8</td></tr>
+<tr><td>工序报工/工作中心/成本费率</td><td>/production/operation-reporting</td><td><code>productionOperationStore</code> → entityRepo（mesOperationReport / workCenter / productionRate，V3.46 已落库）</td></tr>
+</table>
+
+<h3>第二档 · 组织共享云键值（persist + backendStorage → /api/state/${key}，刷新不丢、组织内共享；但业务算法在前端、无专属后端端点）</h3>
+<table>
+<tr><th>功能</th><th>入口</th><th>数据通道与证据</th></tr>
+<tr><td>APS排程</td><td>/production/aps</td><td>页面 <code>FiniteCapacity.tsx</code>；调度参数走 <code>productionSchedulingStore</code>（云键值），工单基础数据源真实库</td></tr>
+<tr><td>CRP产能计划</td><td>/production/crp</td><td>同上（<code>CRP.tsx</code>）</td></tr>
+<tr><td>详细排程</td><td>/production/scheduling</td><td>同上（<code>CapacityScheduling.tsx</code>）</td></tr>
+<tr><td>甘特排产</td><td>/production/gantt</td><td>同上（<code>GanttSchedule.tsx</code>，共用 productionSchedulingStore）</td></tr>
+<tr><td>产能排产</td><td>/production/capacity</td><td>同上</td></tr>
+<tr><td>设备工装</td><td>/production/equipment</td><td><code>equipmentStore</code>（云键值，离线回退本地）</td></tr>
+<tr><td>工序SPC</td><td>/production/spc</td><td><code>qualityExtensionStore</code>（云键值）</td></tr>
+<tr><td>寄售库存</td><td>/warehouse/consignment</td><td><code>consignmentStore</code>（云键值 + 演示种子数据）</td></tr>
+</table>
+
+<h3>第三档 · 局部演示成分（主体数据已落库，仅局部动作/入口带演示性质——「界面点得动≠动作已落库」的教训㊲，应就局部成分显式标注）</h3>
+<table>
+<tr><th>功能</th><th>入口</th><th>判定依据（回代码复核，V3.54.0）</th></tr>
+<tr><td>MES集成</td><td>/production/mes</td><td>四主数据资源（连接清单/设备状态/在制WIP/工序报工）经 <code>entityRepo</code> 已真落 D1（mesStore，非纯演示）；<b>唯一演示成分=「同步」按钮</b>——旧实现只把状态改 connected+记时间戳、<b>未真正调用外部 MES 系统</b>。已收尾：按钮标「同步（模拟）」+ 预留可插拔同步扩展点（接真实 MES 时替换 <code>mesSyncExecutor</code> 即可）。</td></tr>
+</table>
+
+<h3>第一档追加 · 批次追溯穿透（主体即真数据上的真计算，非纯演示）</h3>
+<table>
+<tr><th>功能</th><th>入口</th><th>判定依据（回代码复核，V3.54.0）</th></tr>
+<tr><td>批次追溯穿透</td><td>/warehouse/trace</td><td>核心 <code>buildTrace</code> 为纯函数（只读计算、不改数据），输入来自 D1 单据：采购入库/销售出库/成品入库/序列号均接 D1，批次记录由 D1 单据重算派生——是<b>真数据上的真计算、刷新后保留</b>，并非「数据未落库、刷新即复原」。已收尾：三个写死批次号标成「示例入口」、副标题说明「数据随真实单据流转自动更新」，查询仍走真实数据、匹配不到即提示未找到。</td></tr>
+</table>
+
+<div class="callout c-info">
+<b>核实结论与后续建议</b>
+<ul>
+<li><b>修正此前「C 档多为演示」的笼统判断</b>：17 项里 7 项真 D1、8 项云键值、仅 2 项需标注。<b>V3.54.0 回代码复核进一步纠偏</b>：批次追溯穿透的底层数据（入库/出库/成品入库/序列号）其实都已接 D1，是「真数据上的真计算」，非纯演示——已上提至第一档、仅「示例快捷入口」保留演示性质；MES集成 四主数据资源也已落 D1，唯一演示成分仅剩「同步」按钮（未真调外部 MES）。两项均已收尾标注。</li>
+<li><b>第二档的升级路径</b>（若后续要把 APS/CRP/甘特等做到「权威账本」级）：把前端调度算法的结果落到关系表（仿 V3.46 生产域落库范式：mes_operation_reports / work_centers / production_rates），目前它们只把「参数/偏好」存云键值，调度计算仍在前端内存——换台设备算法可重跑但结果不可追溯审计。</li>
+<li><b>局部演示 2 项已收尾（V3.54.0）</b>：MES 的「同步」按钮保留模拟、已加「（模拟）」标注并预留可插拔扩展点（接真实 MES 时替换 <code>mesSyncExecutor</code>）；批次追溯穿透的「示例快捷入口」已标注为示例、并说明数据随真实单据流转。两项的主体数据均已落 D1，故不再算「纯演示」。</li>
+</ul>
+</div>
+
+<h2>六、采购/财务 数据对齐专项审计（41 号审计套件 · 2026-10-08，V3.55.0）</h2>
+<p>针对「采购域 + 财务域是否存在数据不对齐 / 不准确 / 缺失项」，不靠历史结论、逐项回代码走查 + <b>打真实生产接口取证</b>（新增 41 号审计套件，隔离组织自动清理、可复跑）。结论分「坐实正常」与「发现缺口」两组。</p>
+
+<div class="callout c-good">
+<b>先说「没问题的」—— 这些是资金重灾区、已实测坐实扎实：</b>
+<ul>
+<li><b>凭证借贷平衡</b>：手工凭证 Σ借≠Σ贷 被服务端拒绝（400），不平绝不落库（41 号 G5 坐实）。</li>
+<li><b>三单匹配付款闸门</b>：开票超订单 / 入库不足 / 无发票 / 付款超发票 四类各拦，且被拦后<b>不写库</b>、通用实体路由后门也拦（27 号 44 断言全绿）。</li>
+<li><b>累计超付守卫</b>：同一发票拆多笔小额付款，超发票额即 422（V3.49 已 fail-closed 收口，33 号坐实）。</li>
+<li><b>预算闸门</b>：按会计期间取数、查不到已发生额时 fail-closed 拦住（V3.47 根治 voucher_items 无 org_id 列的假累计）。</li>
+<li><b>入库金额自算</b>：入库单金额按「实收数量 × 单价」服务端实算、单价缺失回物料主数据兜底（V3.45 根治「入库金额恒为 0」，41 号 G2/G4 佐证兜底路径）。</li>
+</ul>
+</div>
+
+<div class="callout c-warn">
+<b>逐项坐实的 4 个缺口（按严重度排序）：</b>
+<ol>
+<li><b>【不对齐·中等】采购/销售订单头金额 = 客户端自报，服务端不勾稽 Σ明细</b>。41 号 G1 坐实：故意传头金额 99999、明细合计 3000，服务端照写 99999。销售侧 <code>sales-orders</code> POST 同构（走查确认）。<b>后果</b>：用户在界面看到的「订单总额」可能和明细加起来对不上；但<b>不影响付款核算</b>——三单匹配取数用的是 <code>SUM(明细.amount)</code>（41 号 G2 坐实），所以这是「展示值失真」而非「资金判定错误」。<b>修法</b>：建单时服务端把 <code>totalAmount</code> 改写为 <code>SUM(items.amount)</code>（或建后校验差异&gt;容差即 400），一行改动堵住。</li>
+<li><b>【缺失项·中高】发票主表路由建单不自动拆明细行，行级三单匹配实战拿不到发票数量</b>。41 号 G3 坐实：主表路由 <code>/api/entities/finInvoice</code> 建发票后 <code>fin_invoice_items</code> 明细行=0；明细表通道存在（单独 POST <code>finInvoiceItem</code> 能写 201）、三单匹配的行级比对也支持读它，但「随发票录明细」的<b>主流程没接</b>——所以实战中发票基本都没有明细行，行级比对会走「明细为空即跳过」的兜底（如实标注、不误拦）。<b>后果</b>：行级「某物料既没到货也没开票」的精细识破能力，在没录发票明细时形同虚设。<b>修法</b>：发票表单加明细录入并随主表原子写 <code>fin_invoice_items</code>（表/RLS/读侧均已就绪，只缺写入通道）。</li>
+<li><b>【不准确·边缘】入库单「无单价 + 物料无主数据」时金额退化为 0</b>。41 号 G4 坐实：明细不传单价、物料编码查无主数据时，兜底取不到单价、金额落回 0，三单匹配「入库金额」侧失真（到货率 0%、正常付款可能被误拦）。<b>注意</b>：这是<b>数据治理缺口</b>不是计算 bug——只要物料主数据维护了移动均价/标准价/采购价、或入库单填了单价，就正常；只有「新物料没建档 + 入库没填价」这个交叉场景才触发。<b>修法</b>：把「无主数据物料」建单时强制要求填单价（或建档），或至少入库金额=0 时打醒目提示。</li>
+<li><b>【不准确·轻微·待量化】采购订单信用占用 / 收款等「自报累计字段」缺服务端校验</b>。销售侧走查发现信用额度校验依赖 <code>body.grandTotal</code>（客户端传值），若头金额失真会连带信用判断失真；采购侧 <code>deliveredQuantity</code>、<code>creditOccupied</code> 等累计字段也是客户端回写、服务端不复核。<b>影响面待生产库存量量化</b>（见下方诚实边界）。</li>
+</ol>
+<p><b>诚实说明</b>：以上 4 项均为「读代码 + 打真实接口复现」坐实的<b>机制</b>；它们在<b>生产真实存量数据里影响多少条记录</b>（例如实际有多少张头金额≠明细合计的订单、多少张无明细的发票），需连生产库做 COUNT 聚合统计，本轮因直连库工具在 Windows 沙箱下派生进程报 EBUSY、未能取到存量数字，<b>不编造影响面</b>，列为待办。41 号审计套件已固化进 <code>scripts/prod-e2e/suites/</code>，可随全量回归复跑（PASS 8 / WARN 3 / FAIL 0，缺口以 WARN 记录不阻断）。</p>
+</div>
+
+<h2>七、诚实边界说明（哪些是我没实测的）</h2>
+<div class="callout c-info">
+<ul>
+<li>本报告静态面（门禁全绿、路由 0 死链、字段矩阵 67 条前后端一致）可 100% 复核；第五章 U2 核实清单基于逐文件读数据通道（静态坐实），非运行时连库压测。</li>
+<li>最新生产 E2E（10-07 07:01）只重跑了 V3.48 验证所需的 <b>2 套守护</b>（审批流 97 + 过账底座 24，121 断言全绿），并非全量 40 套；并发双过账、跨组织越权这类缺陷<b>必须连真实数据库做并发与负例测试才坐实</b>，静态扫描只能「指出风险点」。</li>
+<li>已核实仍挂的项（删工单不清领料、删质检扣留不回滚冻结数、PUT 整表覆盖）是<b>直接读 V3.48 当前代码确认</b>的，不是照搬 V3.47 旧结论。</li>
+<li>「高端排程/波次RFID/寄售」等标记 C 档的模块，已逐个核实数据通道（对应 U2），结论见<b>第五章</b>——其中大部分并非「看着能用其实没接后端」的纯演示，而是接了按组织共享的云键值存储或通用实体仓库。<b>V3.54.0 复核</b>：连原标「纯演示」的 2 项（MES集成、批次追溯穿透）主体数据也均落 D1，真正未接真实后端的仅剩 MES「同步」按钮（保留模拟并标注），故「纯演示」一项已清零。</li>
+</ul>
+</div>
+
+<div class="foot">
+SSA ERP V3.55.0 · 逐模块五维分析 · 单一权威交付物 · 存于 <code>docs/ssa-erp-module-5dim-analysis.html</code> · 初版生成 2026-10-07（V3.48.0 现状）· U1 菜单分组 + U2 落地度核实清单于 2026-10-08（V3.53.0）原地更新 · 2026-10-08（V3.54.0）复核纠偏 MES/批次追溯定位并收尾标注演示成分 · 2026-10-08（V3.55.0）新增「采购/财务 数据对齐专项审计」（41 号审计套件坐实 4 缺口 + 5 项资金重灾区已扎实）· 评分口径对照 <code>docs/ssa-erp-quantitative-analysis.html</code>（V3.47 四维基线）· 数据源：121 端点静态面 + 最新生产 E2E + 216 页面结构扫描 + 逐文件数据通道核实 + 41 号审计套件打接口取证
+</div>
+
+</div>
+</body>
+</html>

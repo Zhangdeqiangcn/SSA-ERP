@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP 业务域↔财务联动审计报告（V3.59.0）</title>
+<style>
+  :root{
+    --bg:#f6f8fb; --card:#ffffff; --ink:#1f2937; --sub:#5b6675; --line:#e5e9f0;
+    --ok:#0f9d58; --okbg:#e7f6ee; --bad:#d93025; --badbg:#fdecea; --warn:#e8830c; --warnbg:#fdf0e0;
+    --p0:#d93025; --p1:#e8830c; --p2:#2563eb; --accent:#1d4ed8; --head:#0f2747;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.7;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 22px 60px}
+  header{background:linear-gradient(135deg,#0f2747,#1d4ed8);color:#fff;border-radius:16px;padding:30px 30px 26px;margin-bottom:26px}
+  header h1{margin:0 0 8px;font-size:25px;letter-spacing:.5px}
+  header .meta{opacity:.92;font-size:13.5px;line-height:1.9}
+  header .tag{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+    padding:2px 10px;border-radius:20px;margin-right:8px;font-size:12.5px}
+  h2{font-size:20px;margin:38px 0 14px;padding-left:12px;border-left:5px solid var(--accent);color:var(--head)}
+  h3{font-size:16.5px;margin:22px 0 10px;color:var(--head)}
+  p{margin:10px 0}
+  .lead{font-size:15.5px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);
+    border-radius:10px;padding:16px 20px;margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0;
+    box-shadow:0 1px 3px rgba(16,39,71,.05)}
+  .card h3{margin-top:0}
+  table{border-collapse:collapse;width:100%;margin:14px 0;background:var(--card);font-size:14px;
+    border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:#eef2f9;color:var(--head);font-weight:600}
+  tr:nth-child(even) td{background:#fafbfd}
+  .ok{color:var(--ok);font-weight:600}
+  .bad{color:var(--bad);font-weight:600}
+  .warn{color:var(--warn);font-weight:600}
+  .pill{display:inline-block;padding:1px 9px;border-radius:20px;font-size:12px;font-weight:700;color:#fff}
+  .pill.p0{background:var(--p0)} .pill.p1{background:var(--p1)} .pill.p2{background:var(--p2)}
+  .pill.ok{background:var(--ok)} .pill.bad{background:var(--bad)} .pill.warn{background:var(--warn)}
+  code{background:#eef1f6;padding:1px 6px;border-radius:5px;font-size:13px;color:#b91c1c;
+    font-family:"SFMono-Regular",Consolas,monospace}
+  .ev{font-size:12.5px;color:var(--sub);background:#f3f5f9;border-radius:6px;padding:3px 8px;display:inline-block;margin:2px 4px 2px 0}
+  .sev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+  .sev{border-radius:12px;padding:16px;text-align:center;color:#fff}
+  .sev .n{font-size:30px;font-weight:800;line-height:1} .sev .t{font-size:13px;margin-top:6px;opacity:.95}
+  .sev.s0{background:#d93025} .sev.s1{background:#e8830c} .sev.s2{background:#2563eb} .sev.s3{background:#0f9d58}
+  .note{font-size:13px;color:var(--sub);margin:6px 0}
+  .kbd{background:#0f2747;color:#fff;padding:1px 7px;border-radius:5px;font-size:12px}
+  footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--sub)}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 20px;margin:18px 0}
+  .toc a{color:var(--accent);text-decoration:none} .toc a:hover{text-decoration:underline}
+  .def{background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+  .def b{color:var(--accent)}
+  ul{margin:8px 0 8px 4px;padding-left:20px} li{margin:5px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP · 业务域 ↔ 财务 表单联动审计报告</h1>
+  <div class="meta">
+    <span class="tag">审计对象：采购 / 生产 / 销售 / 仓库 × 财务</span>
+    <span class="tag">代码版本：V3.59.0</span>
+    <span class="tag">审计日期：2026-10-09</span><br/>
+    审计方式：逐行读取后端 <code>functions/</code> 真实代码 + 全局关键字检索，结论均附文件:行号证据；
+    不照搬 2026-09-17 旧报告（彼时版本 V3.15.1，当前已迭代 44 个小版本，财务联动逻辑大量重构）。
+  </div>
+</header>
+
+<div class="toc">
+  <b>目录</b>　
+  <a href="#c1">一、审计结论（先看这里）</a> ·
+  <a href="#c2">二、审计方法</a> ·
+  <a href="#c3">三、联动健康度矩阵</a> ·
+  <a href="#c4">四、已正确建立的联动</a> ·
+  <a href="#c5">五、缺陷详单（P0/P1/P2）</a> ·
+  <a href="#c6">六、正确联动设计参考</a> ·
+  <a href="#c7">七、修复优先级与工作量</a> ·
+  <a href="#c8">八、证据附录</a>
+</div>
+
+<!-- 一、结论 -->
+<h2 id="c1">一、审计结论（先看这里）</h2>
+<div class="lead">
+  <b>一句话结论：</b>SSA ERP 的 <b>"货"（存货 / 成本）这条财务线已经基本打通</b>——采购收货、生产领料完工、销售发货出库、仓库盘点，都能自动生成存货类凭证。
+  但 <b>"钱"（往来 + 收入 + 收付款）这条财务主干完全没接上</b>：应付账款、应收账款、主营业务收入、银行存款这四个核心科目，在整个后端代码里<b>从没有任何一张业务单据去写它</b>。
+  结果就是：总账里只有"货从哪来、货到哪去"，没有"钱欠谁、钱收谁、钱花哪了"。
+  此外还有两处<b>记错科目</b>的缺陷：库存调拨被错记成销售成本、生产成本只含材料没含工费折旧。
+</div>
+
+<div class="sev-grid">
+  <div class="sev s0"><div class="n">4</div><div class="t">P0 致命缺陷<br/>（往来/收入主干断裂）</div></div>
+  <div class="sev s1"><div class="n">3</div><div class="t">P1 重要缺陷<br/>（记错科目/归集不全）</div></div>
+  <div class="sev s2"><div class="n">4</div><div class="t">P2 一般缺陷<br/>（对账/标记/过账）</div></div>
+  <div class="sev s3"><div class="n">6</div><div class="t">已正确联动<br/>（存货/成本侧）</div></div>
+</div>
+
+<div class="def">
+  <b>报告里几个会计词，用大白话解释一下：</b><br/>
+  · <b>应收（1122）= 应收账款</b>：货卖出去了、票开了，客户还没付的钱 → 别人欠我的。<br/>
+  · <b>应付（2202）= 应付账款</b>：货买了、票收了，我还没付供应商的钱 → 我欠别人的。<br/>
+  · <b>暂估（2201）= 物资采购（GR/IR）</b>：货到了、发票还没到，先按估计金额记一笔"欠供应商的"，等发票来了再冲掉、换成正式的应付。<br/>
+  · <b>结转成本（6401/1405）</b>：卖出去的货，它的进货成本从"库存"搬到"成本"。<br/>
+  · <b>收入（6001）= 主营业务收入</b>：卖货该确认的收入。<br/>
+  · <b>生产成本（5001）</b>：生产一件产品花掉的 材料 + 人工 + 制造费用（含设备折旧）。<br/>
+  · <b>折旧（1602）= 累计折旧</b>：设备用旧了，价值逐月减少，对应一笔费用。
+</div>
+
+<!-- 二、方法 -->
+<h2 id="c2">二、审计方法</h2>
+<p>本次审计不依赖旧报告结论，而是直接核对当前代码。重点查了这些"联动心脏"文件与端点：</p>
+<ul>
+  <li><code>functions/_shared/inventoryPosting.ts</code> —— 库存过账 + 自动业务凭证生成的总闸（入库/出库/调拨/盘点都走这）。</li>
+  <li><code>functions/_shared/backflush.ts</code> —— 生产完工倒冲发料（领料扣账）。</li>
+  <li><code>functions/_shared/voucherWriter.ts</code> —— 所有凭证的唯一写入通道，含借贷平衡校验。</li>
+  <li><code>functions/_shared/threeWayMatch.ts</code> / <code>threeWayLineMatch.ts</code> —— 采购三单匹配（订单/收货/发票）。</li>
+  <li>端点：<code>fin-invoices</code>（发票）、<code>fin-payment-plans</code>（付款计划）、<code>shipments</code>（发货）、<code>stock-transfers</code>（调拨）、<code>inventory-adjustments</code>（盘点）、<code>fixed-assets/depreciate</code>（折旧）、<code>finance/closing-periods</code>（结账）。</li>
+  <li>全局检索 <code>1122 / 2202 / 6001 / 主营业务收入 / 应收账款 / 应付账款 / 应收 / 应付</code> 在 <code>functions/</code> 中的写入情况。</li>
+</ul>
+
+<!-- 三、矩阵 -->
+<h2 id="c3">三、联动健康度矩阵</h2>
+<table>
+  <tr><th>业务域</th><th>存货 / 成本联动</th><th>应付(2202)</th><th>应收(1122)</th><th>收入(6001)</th><th>收 / 付款记账</th><th>整体评级</th></tr>
+  <tr>
+    <td><b>采购</b></td>
+    <td><span class="ok">✅ 收货暂估 2201</span></td>
+    <td><span class="bad">❌ 缺失</span></td>
+    <td>—</td><td>—</td>
+    <td><span class="bad">❌ 付款不记账</span></td>
+    <td><span class="pill bad">严重缺失</span></td>
+  </tr>
+  <tr>
+    <td><b>生产</b></td>
+    <td><span class="ok">✅ 领料 5001/1403 + 完工 1405/5001</span></td>
+    <td>—</td><td>—</td><td>—</td><td>—</td>
+    <td><span class="pill warn">成本归集不全</span></td>
+  </tr>
+  <tr>
+    <td><b>销售</b></td>
+    <td><span class="ok">✅ 发货出库成本 6401/1405</span></td>
+    <td>—</td>
+    <td><span class="bad">❌ 缺失</span></td>
+    <td><span class="bad">❌ 缺失</span></td>
+    <td><span class="bad">❌ 无收款记账</span></td>
+    <td><span class="pill bad">严重缺失</span></td>
+  </tr>
+  <tr>
+    <td><b>仓库</b></td>
+    <td><span class="ok">✅ 入库/出库/盘点凭证</span></td>
+    <td>—</td><td>—</td><td>—</td><td>—</td>
+    <td><span class="pill warn">调拨错记成本</span></td>
+  </tr>
+</table>
+<p class="note">说明：库存/成本侧（1403/1405/5001/2201）已自动记账；但 2202（应付）、1122（应收）、6001（收入）、1002（银行存款）四个科目在后端<b>零写入</b>。
+合并报表（<code>consolidation</code>）的应收/应付是从凭证按科目借贷余额派生的，既然从没有凭证记这些科目，合并表里的往来项永远是 0，进一步印证该链路为空。</p>
+
+<!-- 四、已正确建立的联动 -->
+<h2 id="c4">四、已正确建立的联动（客观正面清单）</h2>
+<p>先列已做对的，避免误导。以下联动真实有效、且为服务端权威过账（绕开界面也生效）：</p>
+<table>
+  <tr><th>序号</th><th>联动</th><th>触发点</th><th>生成凭证</th><th>证据</th></tr>
+  <tr><td>1</td><td>采购收货 → 存货暂估</td><td>入库单(PO)状态 completed</td><td>借1403 / 贷2201（物资采购暂估）</td><td><code>inventoryPosting.ts:590-592</code></td></tr>
+  <tr><td>2</td><td>生产领料（倒冲）</td><td>工单→completed（服务端倒冲）</td><td>借5001 / 贷1403</td><td><code>backflush.ts:587</code> → <code>inventoryPosting.ts:671-673</code></td></tr>
+  <tr><td>3</td><td>生产完工入库</td><td>入库单(type=production)</td><td>借1405 / 贷5001</td><td><code>inventoryPosting.ts:609-614</code></td></tr>
+  <tr><td>4</td><td>销售发货 → 出库成本</td><td>发货单→shipped（联动生成出库单）</td><td>借6401 / 贷1405</td><td><code>shipments/[id].ts:115</code> → <code>inventoryPosting.ts:679-682</code></td></tr>
+  <tr><td>5</td><td>仓库盘点（盘盈/盘亏）</td><td>盘点单过账</td><td>盘盈 借1403/1405 贷2201；盘亏 借6602 贷1403/1405</td><td><code>inventory-adjustments/[id].ts:174-187</code></td></tr>
+  <tr><td>6</td><td>采购三单匹配（付款闸门）</td><td>付款计划付款动作</td><td>不记账，但拦截超发票/欠货付款</td><td><code>threeWayMatch.ts:123</code></td></tr>
+</table>
+
+<!-- 五、缺陷详单 -->
+<h2 id="c5">五、缺陷详单（按严重度）</h2>
+
+<!-- P0 -->
+<h3><span class="pill p0">P0-1</span> 采购发票不冲暂估、不确认应付（2202 永不入账）</h3>
+<div class="card">
+  <p><b>现象：</b>供应商发票端点 <code>fin-invoices</code> 的 POST 只把发票头+明细落库（<code>pcCreate</code>），<b>完全不写凭证</b>。系统已经做了"收货暂估（贷2201）"，但发票来了之后应该"冲掉暂估、确认正式应付（贷2202）"这一步从未实现。</p>
+  <p><b>后果：</b>① 暂估科目 2201 会越积越大、永远结不平；② 应付账款 2202 永远是 0，等于公司"从不欠供应商钱"的假象；③ 发票与应付脱节，无法做账龄分析、无法对账。</p>
+  <p><b>证据：</b><code>fin-invoices/index.ts:23-54</code>（仅 <code>pcCreate</code>，无 <code>writeVoucher</code>）；<code>finConfig.ts:64-115</code>（发票配置有 <code>invoice_type</code> 进/销方向，但无记账逻辑）。</p>
+  <p><b>正确做法：</b>采购发票过账应生成 借2201暂估 / 贷2202应付账款（如含税还需拆进项税 2221）。</p>
+</div>
+
+<h3><span class="pill p0">P0-2</span> 付款不记账（不记银行存款 1002、不冲应付/暂估）</h3>
+<div class="card">
+  <p><b>现象：</b>付款计划端点 <code>fin-payment-plans/[id].ts</code> 的 PUT 在"付款动作"时只累加 <code>paid_amount</code>、改 <code>status=paid</code>，<b>不生成任何凭证</b>。虽经三单匹配闸门（拦风险），但闸门只管"能不能付"，付完之后钱从哪出、欠谁的账消没消，财务侧一无所知。</p>
+  <p><b>后果：</b>银行存款 1002 不动、应付 2202/暂估 2201 不冲减 → 付款越付，账面"欠供应商的钱"还是那么多，现金却没少，资金账完全失真。</p>
+  <p><b>证据：</b><code>fin-payment-plans/[id].ts:28-52</code>（<code>guardPaymentRow</code> 只判闸门，随后 <code>pcUpdate</code> 仅改状态/金额）；<code>paymentGate.ts</code> 无 <code>writeVoucher</code>。</p>
+  <p><b>正确做法：</b>付款过账应生成 借2202应付账款 / 贷1002银行存款。</p>
+</div>
+
+<h3><span class="pill p0">P0-3</span> 销售无收入确认、无应收（6001 / 1122 缺失）</h3>
+<div class="card">
+  <p><b>现象：</b>销售侧只做到"发货→出库结转成本（借6401/贷1405）"，但<b>收入（6001）和应收（1122）在整个后端零写入</b>（全局检索 <code>6001 / 1122 / 主营业务收入 / 应收账款</code> 在 <code>functions/</code> 中无任何业务单据落账）。即便录入了销售发票（<code>fin-invoices</code> 支持 <code>invoice_type</code> 销售方向），也不会确认收入与应收。</p>
+  <p><b>后果：</b>① 卖了货只在账上记了"成本"，没记"收入" → 总账层面越卖越亏，毛利虚亏；② 应收账款 1122 永远为 0 → 公司"从没有人欠我钱"的假象，无法做应收账龄、无法催款；③ 前端毛利报表若基于订单金额估算，与总账口径不一致，两份数对不上。</p>
+  <p><b>证据：</b><code>shipments/[id].ts:115</code>（仅 <code>postOutbound</code> 结转成本）；<code>fin-invoices/index.ts</code>（销售发票也不记账）；全局 grep 零命中写入。</p>
+  <p><b>正确做法：</b>销售开票应生成 借1122应收账款 / 贷6001主营业务收入（及 贷2221应交增值税-销项）；收款时 借1002 / 贷1122。</p>
+</div>
+
+<h3><span class="pill p0">P0-4</span> 根因：应收 / 应付 / 收入 台账为空（主干断裂）</h3>
+<div class="card">
+  <p><b>现象：</b>系统没有 <code>accounts_receivable</code> / <code>accounts_payable</code> 实体表，所有往来都依赖从 <code>vouchers</code> 凭证按科目派生。由于 P0-1~P0-3，没有任何业务单据产生 1122/2202/6001 凭证，所以往来与收入台账实质为空。</p>
+  <p><b>后果：</b>这是 P0-1~P0-3 的共同根因——业务单据与财务总账之间"往来+收入"这条主干完全没有自动记账通道。采购、销售两条业务线都变成了"只动货、不动钱"。</p>
+  <p><b>证据：</b>全局检索 <code>1122|2202|6001|主营业务收入|应收账款|应付账款</code> 在 <code>functions/</code> 仅出现在注释/只读（合并报表抵消、ChatBI 应收账龄、三单匹配文案），无任何 <code>writeVoucher</code> 调用。</p>
+</div>
+
+<!-- P1 -->
+<h3><span class="pill p1">P1-1</span> 库存调拨被错记成"销售成本"（6401/1405）</h3>
+<div class="card">
+  <p><b>现象：</b><code>stock-transfers/[id].ts</code> 调拨时调 <code>postOutbound({type:'transfer'})</code> 做调出仓扣减，但 <code>generateOutboundVouchers</code> 里<b>没有 <code>transfer</code> 分支</b>，会掉进 <code>else</code> 被当成销售出库，错误生成 <b>借6401主营业务成本 / 贷1405库存商品</b>。而调入侧的 <code>type:'transfer'</code> 在 <code>generateInboundVouchers</code> 正确 <code>return</code>（不生成凭证）。</p>
+  <p><b>后果：</b>调拨只是"货在公司内部从 A 仓搬到 B 仓"，经济上没有销售、不该产生成本。现在每次调拨都会凭空在总账上：库存（1405）被贷记减少、成本（6401）被借记虚增 → <b>成本虚高、库存账虚低</b>。仓库越多、调拨越频繁，偏差越大。</p>
+  <p><b>证据：</b><code>stock-transfers/[id].ts:157,169</code>（传 <code>type:'transfer'</code>）；<code>inventoryPosting.ts:645-682</code>（出库凭证函数无 transfer 分支，else 兜底记 6401/1405）；<code>inventoryPosting.ts:615-616</code>（入库侧 transfer 正确 return）。</p>
+  <p><b>修复建议：</b>在 <code>generateOutboundVouchers</code> 增加 <code>order.type === 'transfer'</code> 分支——调拨出库<b>不生成损益类凭证</b>（库存价值已由 postInbound 的 <code>costPriceOverride</code> 按调出仓成本结转保留，无需进 6401）。</p>
+</div>
+
+<h3><span class="pill p1">P1-2</span> 生产成本只含材料，缺人工 / 制造费用 / 折旧归集（5001 不完整）</h3>
+<div class="card">
+  <p><b>现象：</b>生产成本（5001）目前只能从"生产领料"进来（借5001/贷1403）。系统里<b>没有任何"人工工资、制造费用、设备折旧归集进 5001"的通路</b>。完工入库（贷5001）时，5001 里只有材料成本，没有工费。</p>
+  <p><b>后果：</b>完工产品的成本被低估 → 后续销售出库结转的 COGS（6401）偏低 → 毛利虚高；真实的人工与制造费用没有归宿，要么进了费用（见 P1-3 折旧），要么干脆没记账。</p>
+  <p><b>证据：</b><code>inventoryPosting.ts:671-673</code>（仅领料进 5001）；全仓无"工资/制造费用→5001"的写入代码；<code>backflush.ts</code> 只算材料。</p>
+  <p><b>修复建议：</b>建立"工费归集"通道（借5001生产成本-直接人工/制造费用 / 贷应付职工薪酬、累计折旧等），月末将制造费用分摊进 5001，使完工成本完整。</p>
+</div>
+
+<h3><span class="pill p1">P1-3</span> 固定资产折旧全进"管理费用"，不进生产成本</h3>
+<div class="card">
+  <p><b>现象：</b>折旧计提端点 <code>fixed-assets/depreciate.ts</code> 一律生成 <b>借6602管理费用 / 贷1602累计折旧</b>，不论资产是生产用还是管理用。制造型企业生产设备折旧应归集到制造费用/生产成本，而非直接费用化。</p>
+  <p><b>后果：</b>与生产 P1-2 同源——生产设备的折旧没有进 5001，进一步加剧完工成本低估；且所有折旧一刀切进管理费用，费用结构失真。</p>
+  <p><b>证据：</b><code>fixed-assets/depreciate.ts:205-206</code>（固定 借6602/贷1602，无按资产用途分流）。</p>
+  <p><b>修复建议：</b>按资产"使用部门/用途"区分：生产用设备折旧 借5101制造费用（再分摊进 5001）；管理用 借6602。可加资产字段 <code>cost_center</code> 或 <code>depreciation_account</code> 控制。</p>
+</div>
+
+<!-- P2 -->
+<h3><span class="pill p2">P2-1</span> 自动业务凭证均为 draft，无系统自动过账机制</h3>
+<div class="card">
+  <p><b>现象：</b>库存过账自动生成的凭证（采购暂估、出库成本、生产、调拨等） status 一律写 <code>draft</code>（见 <code>inventoryPosting.ts:629,700</code>）；唯独盘点凭证直接写 <code>posted</code>（<code>inventory-adjustments/[id].ts:201</code>）。两套状态不一致。系统没有"自动把业务凭证过账"的环节，依赖人工在凭证界面逐张过账。</p>
+  <p><b>后果：</b>若业务凭证长期停在 draft 未过账，即便记账逻辑正确，总账也收不到这些分录（试算平衡、结账、合并报表都基于已过账凭证）。盘点凭证却自动 posted —— 同一系统两种口径，易乱。</p>
+  <p><b>证据：</b><code>inventoryPosting.ts:629,700</code> vs <code>inventory-adjustments/[id].ts:201</code>。</p>
+  <p><b>修复建议：</b>统一策略——业务联动凭证要么自动 posted（推荐，减少人工漏过账），要么全部 draft 并加"批量过账/结账自动收口"机制；禁止两套并存。</p>
+</div>
+
+<h3><span class="pill p2">P2-2</span> 无"库存账面价值 ↔ 总账"对账作业</h3>
+<div class="card">
+  <p><b>现象：</b>结账端点 <code>finance/closing-periods</code> 只查试算平衡、跨期凭证、折旧是否计提，<b>没有把 <code>inventory_records</code>/<code>materials.stock_value</code> 的存货价值与总账 1403/1405 余额做勾稽</b>。</p>
+  <p><b>后果：</b>一旦库存过账与凭证任一侧出错（如 P1-1 调拨错记、或凭证 draft 未过账），存货实物账与财务账偏离却无任何预警，月底才发现对不上，排查困难。</p>
+  <p><b>证据：</b><code>finance/closing-periods/index.ts:81-97</code>（仅折旧/凭证检查）；结合 <code>inventory_transactions</code> 流水已存在（可对账底座）。</p>
+  <p><b>修复建议：</b>结账时增加"存货余额（按物料汇总 stock_value）vs 总账 1403/1405 已记账发生额"的差异校验，超阈值告警。</p>
+</div>
+
+<h3><span class="pill p2">P2-3</span> "凭证已生成"标记位形同虚设（voucher_generated）</h3>
+<div class="card">
+  <p><b>现象：</b>发票表（<code>fin_invoices</code>）和付款计划表（<code>fin_payment_plans</code>）都定义了 <code>voucher_generated</code> 字段（见 <code>finConfig.ts:47,110</code>、<code>entities.ts:84,103</code>），但<b>全代码无任何地方把它置 1</b>。即便将来修了 P0 让发票/付款生成凭证，也无法从单据上反查"这张发票的财务凭证是否已出"。</p>
+  <p><b>后果：</b>业务与财务之间缺少"已联动/未联动"的可视化标记，审计、对账、防重复记账都失去抓手。</p>
+  <p><b>证据：</b>grep <code>voucher_generated|voucherGenerated</code> 在 <code>functions/</code> 仅出现在配置/字段定义，无写入点。</p>
+  <p><b>修复建议：</b>在发票/付款生成凭证处回填 <code>voucher_generated=1</code> 与 <code>voucher_no</code>，前端据此显示"已入账/未入账"徽标。</p>
+</div>
+
+<h3><span class="pill p2">P2-4</span> 三单匹配只做"付款闸门"，未串联"发票→应付→付款"记账链</h3>
+<div class card>
+  <p><b>现象：</b><code>threeWayMatch.ts</code> 的匹配逻辑本身很完善（金额+行级数量、容差、欠货拦截），但它<b>纯只读、不写账</b>。发票录入、匹配判定、付款执行三件事各干各的，没有把"发票确认应付""付款冲应付"串成自动记账链。</p>
+  <p><b>后果：</b>有了好闸门却没接后端记账，导致 P0-1/P0-2。匹配数据（应付金额已算出）其实可以直接驱动应付凭证，目前白白浪费。</p>
+  <p><b>证据：</b><code>threeWayMatch.ts:118-119</code>（注释明确"只读，不写库"）；<code>recordThreeWayMatch</code> 仅留档。</p>
+  <p><b>修复建议：</b>修复 P0 时，让发票过账与付款过账在匹配通过的前提下自动触发，把闸门结论直接变成记账动作。</p>
+</div>
+
+<!-- 六、设计参考 -->
+<h2 id="c6">六、正确联动设计参考（每个域应有的凭证链）</h2>
+<p>下表给出各行业 ERP（金蝶/用友/SAP）标准做法，供修复时对齐。绿色=当前已实现，红色=当前缺失。</p>
+
+<h3>采购 → 财务（应付链）</h3>
+<table>
+  <tr><th>业务动作</th><th>应生成凭证</th><th>当前状态</th></tr>
+  <tr><td>收货（票未到）</td><td>借1403原材料 / 贷2201物资采购（暂估）</td><td><span class="ok">✅ 已实现</span></td></tr>
+  <tr><td>收到采购发票</td><td>借2201暂估 / 贷2202应付账款（拆进项税2221）</td><td><span class="bad">❌ 缺失（P0-1）</span></td></tr>
+  <tr><td>付款给供应商</td><td>借2202应付账款 / 贷1002银行存款</td><td><span class="bad">❌ 缺失（P0-2）</span></td></tr>
+</table>
+
+<h3>销售 → 财务（应收链）</h3>
+<table>
+  <tr><th>业务动作</th><th>应生成凭证</th><th>当前状态</th></tr>
+  <tr><td>发货出库（成本）</td><td>借6401主营业务成本 / 贷1405库存商品</td><td><span class="ok">✅ 已实现</span></td></tr>
+  <tr><td>开具销售发票（确认收入+应收）</td><td>借1122应收账款 / 贷6001主营业务收入（及贷2221销项税）</td><td><span class="bad">❌ 缺失（P0-3）</span></td></tr>
+  <tr><td>收到客户款</td><td>借1002银行存款 / 贷1122应收账款</td><td><span class="bad">❌ 缺失（P0-3）</span></td></tr>
+</table>
+
+<h3>生产 → 财务（成本归集链）</h3>
+<table>
+  <tr><th>业务动作</th><th>应生成凭证</th><th>当前状态</th></tr>
+  <tr><td>生产领料（材料）</td><td>借5001生产成本 / 贷1403原材料</td><td><span class="ok">✅ 已实现</span></td></tr>
+  <tr><td>归集人工 / 制造费用</td><td>借5001 / 贷应付职工薪酬、累计折旧等</td><td><span class="bad">❌ 缺失（P1-2）</span></td></tr>
+  <tr><td>生产设备折旧</td><td>借5101制造费用→分摊 借5001 / 贷1602</td><td><span class="bad">❌ 错记6602（P1-3）</span></td></tr>
+  <tr><td>完工入库</td><td>借1405库存商品 / 贷5001生产成本</td><td><span class="ok">✅ 已实现</span></td></tr>
+</table>
+
+<h3>仓库 → 财务</h3>
+<table>
+  <tr><th>业务动作</th><th>应生成凭证</th><th>当前状态</th></tr>
+  <tr><td>采购/生产入库</td><td>借1403/1405（含暂估/成本）</td><td><span class="ok">✅ 已实现</span></td></tr>
+  <tr><td>销售/生产/报废出库</td><td>借6401/5001/6602 / 贷1405/1403</td><td><span class="ok">✅ 已实现（除调拨）</span></td></tr>
+  <tr><td>库存调拨（A仓→B仓）</td><td>仅库存移动，<b>不进损益</b>（成本按调出仓结转）</td><td><span class="bad">❌ 错记6401/1405（P1-1）</span></td></tr>
+  <tr><td>盘点盘盈/盘亏</td><td>借1403/1405 贷2201 / 借6602 贷1403/1405</td><td><span class="ok">✅ 已实现</span></td></tr>
+</table>
+
+<!-- 七、优先级 -->
+<h2 id="c7">七、修复优先级与工作量估算</h2>
+<table>
+  <tr><th>优先级</th><th>缺陷</th><th>业务影响</th><th>建议修复顺序</th></tr>
+  <tr><td><span class="pill p0">P0</span></td><td>采购应付链（P0-1/2）、销售应收收入链（P0-3/4）</td><td>财务主干断裂，总账无往来/收入，无法出真实资产负债表与利润表</td><td><b>第一优先</b>：在发票过账、付款过账、销售开票三处接入 <code>writeVoucher</code>，补齐 2202/1122/6001/1002/2221</td></tr>
+  <tr><td><span class="pill p1">P1</span></td><td>调拨错记成本（P1-1）、生产成本归集（P1-2/3）</td><td>成本失真、损益虚增/虚减</td><td><b>第二优先</b>：P1-1 一行分支即可修；P1-2/3 需新增工费归集模块</td></tr>
+  <tr><td><span class="pill p2">P2</span></td><td>凭证自动过账（P2-1）、存货↔总账对账（P2-2）、标记位（P2-3）、匹配串联（P2-4）</td><td>过程管控薄弱、易漏过账、难反查</td><td><b>第三优先</b>：伴随 P0 修复一并把标记位、过账策略、对账作业补齐</td></tr>
+</table>
+<div class="lead" style="border-left-color:var(--warn)">
+  <b>给强哥的决策建议：</b>P0 四项属于"系统能不能出真账"的底线问题，建议作为下一版本（V3.60）的专项一次性修复——它不需要改前端界面，只在后端三个端点各加一段凭证生成（复用现成的 <code>writeVoucher</code> 通道），工作量可控、风险低、收益最大。修复后建议补一套"应付/应收/收入自动凭证"的 E2E 守护用例，防止回归。
+</div>
+
+<!-- 八、附录 -->
+<h2 id="c8">八、证据附录（文件:行号）</h2>
+<table>
+  <tr><th>断言</th><th>证据位置</th></tr>
+  <tr><td>发票不记账（P0-1）</td><td><code>functions/api/fin-invoices/index.ts:23-54</code></td></tr>
+  <tr><td>付款不记账（P0-2）</td><td><code>functions/api/fin-payment-plans/[id].ts:28-52</code></td></tr>
+  <tr><td>销售无收入/应收（P0-3）</td><td><code>functions/api/shipments/[id].ts:115</code>；全局 grep <code>6001/1122</code> 零写入</td></tr>
+  <tr><td>往来/收入台账空（P0-4）</td><td>grep <code>1122|2202|6001|主营业务收入|应收账款|应付账款</code> 仅注释/只读</td></tr>
+  <tr><td>调拨错记成本（P1-1）</td><td><code>functions/api/stock-transfers/[id].ts:157,169</code>；<code>functions/_shared/inventoryPosting.ts:645-682</code></td></tr>
+  <tr><td>生产成本缺工费（P1-2）</td><td><code>functions/_shared/inventoryPosting.ts:671-673</code>（仅领料）；无工费归集代码</td></tr>
+  <tr><td>折旧错记管理费用（P1-3）</td><td><code>functions/api/fixed-assets/depreciate.ts:205-206</code></td></tr>
+  <tr><td>自动凭证全 draft（P2-1）</td><td><code>functions/_shared/inventoryPosting.ts:629,700</code> vs <code>functions/api/inventory-adjustments/[id].ts:201</code></td></tr>
+  <tr><td>无存货↔总账对账（P2-2）</td><td><code>functions/api/finance/closing-periods/index.ts:81-97</code></td></tr>
+  <tr><td>voucher_generated 未写（P2-3）</td><td>grep <code>voucher_generated</code> 仅 <code>finConfig.ts:47,110</code> / <code>entities.ts:84,103</code> 定义</td></tr>
+  <tr><td>三单匹配只读（P2-4）</td><td><code>functions/_shared/threeWayMatch.ts:118-119</code></td></tr>
+  <tr><td>合并报表往来从凭证派生（佐证 P0-4）</td><td><code>functions/api/consolidation/index.ts:107-130</code></td></tr>
+</table>
+
+<footer>
+  本报告由真实代码审计生成，所有缺陷均附可复现的文件:行号证据。修复方案以"复用现有 <code>writeVoucher</code> 单一凭证通道 + 在各业务端点补齐科目"为原则，不引入新架构。<br/>
+  生成时间：2026-10-09 · 项目版本：V3.59.0 · 审计范围：采购 / 生产 / 销售 / 仓库 × 财务 表单联动。
+</footer>
+
+</div>
+</body>
+</html>

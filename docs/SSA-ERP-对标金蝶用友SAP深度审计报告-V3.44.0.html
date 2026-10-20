@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP 对标金蝶/用友/SAP 深度审计报告（V3.44.0 基线）</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",-apple-system,sans-serif;background:#f5f6f8;color:#1f2328;line-height:1.75;font-size:14px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px 80px}
+header{background:linear-gradient(135deg,#1e3a5f 0%,#2c5282 100%);color:#fff;padding:48px 20px 40px;margin-bottom:32px}
+header .inner{max-width:1280px;margin:0 auto}
+header h1{font-size:30px;font-weight:700;letter-spacing:.5px;margin-bottom:12px}
+header .sub{font-size:15px;opacity:.92;margin-bottom:20px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.meta span{background:rgba(255,255,255,.16);padding:5px 12px;border-radius:4px;font-size:12.5px}
+h2{font-size:22px;margin:44px 0 18px;padding:12px 16px;background:#fff;border-left:5px solid #2c5282;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+h3{font-size:17px;margin:28px 0 12px;color:#1e3a5f;padding-bottom:8px;border-bottom:1px solid #e2e8f0}
+h4{font-size:15px;margin:20px 0 8px;color:#2d3748}
+p{margin:10px 0;color:#3d4451}
+.card{background:#fff;border-radius:8px;padding:24px 28px;margin:18px 0;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #e8ebf0}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:16px;margin:24px 0}
+.kpi div{background:#fff;border-radius:8px;padding:20px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #2c5282}
+.kpi .n{font-size:32px;font-weight:700;color:#c53030;line-height:1.2}
+.kpi .n.ok{color:#2f855a}
+.kpi .n.warn{color:#d69e2e}
+.kpi .l{font-size:13px;color:#718096;margin-top:6px}
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;background:#fff;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+th{background:#edf2f7;padding:11px 13px;text-align:left;font-weight:600;color:#2d3748;border-bottom:2px solid #cbd5e0;white-space:nowrap}
+td{padding:10px 13px;border-bottom:1px solid #edf2f7;vertical-align:top;color:#3d4451}
+tr:hover td{background:#f7fafc}
+.tag{display:inline-block;padding:2px 9px;border-radius:3px;font-size:12px;font-weight:600;white-space:nowrap}
+.t-p0{background:#fed7d7;color:#9b2c2c}
+.t-p1{background:#feebc8;color:#975a16}
+.t-p2{background:#e2e8f0;color:#4a5568}
+.t-p3{background:#edf2f7;color:#718096}
+.t-acc{background:#e6fffa;color:#285e61}
+.t-biz{background:#ebf8ff;color:#2b6cb0}
+.t-both{background:#faf089;color:#744210}
+code{background:#edf2f7;padding:2px 6px;border-radius:3px;font-family:Consolas,Monaco,monospace;font-size:12.5px;color:#2b6cb0;word-break:break-all}
+pre{background:#1a202c;color:#e2e8f0;padding:15px 18px;border-radius:6px;overflow-x:auto;margin:12px 0;font-size:12.5px;line-height:1.65}
+pre code{background:none;color:#e2e8f0;padding:0}
+.ok-box{background:#f0fff4;border-left:4px solid #48bb78;padding:14px 18px;border-radius:0 6px 6px 0;margin:14px 0}
+.warn-box{background:#fffaf0;border-left:4px solid #f6ad55;padding:14px 18px;border-radius:0 6px 6px 0;margin:14px 0}
+.danger-box{background:#fff5f5;border-left:4px solid #fc8181;padding:14px 18px;border-radius:0 6px 6px 0;margin:14px 0}
+.issue{background:#fff;border-radius:8px;padding:20px 24px;margin:16px 0;box-shadow:0 1px 4px rgba(0,0,0,.07);border-left:4px solid #fc8181}
+.issue.p1{border-left-color:#f6ad55}
+.issue.p2{border-left-color:#a0aec0}
+.issue.p3{border-left-color:#cbd5e0}
+.issue h4{margin:0 0 10px;font-size:15.5px;color:#1a202c;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.issue .row{margin:8px 0;font-size:13.5px}
+.issue .row b{color:#4a5568;display:inline-block;min-width:82px}
+.filters{background:#fff;padding:18px 22px;border-radius:8px;margin:20px 0;box-shadow:0 1px 4px rgba(0,0,0,.07);position:sticky;top:0;z-index:10}
+.filters .fg{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+.filters button{padding:7px 15px;border:1px solid #cbd5e0;background:#fff;border-radius:20px;cursor:pointer;font-size:13px;transition:all .18s;font-family:inherit;color:#4a5568}
+.filters button:hover{border-color:#2c5282;color:#2c5282}
+.filters button.on{background:#2c5282;color:#fff;border-color:#2c5282}
+.bar{background:#edf2f7;height:9px;border-radius:5px;overflow:hidden;margin:5px 0}
+.bar i{display:block;height:100%;border-radius:5px}
+.prio-item{background:#fff;border-radius:8px;padding:18px 22px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;gap:16px;align-items:flex-start}
+.prio-item .no{flex:0 0 44px;height:44px;background:#c53030;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700}
+.prio-item .no.mid{background:#d69e2e}
+.prio-item .no.low{background:#718096}
+.prio-item .bd{flex:1}
+.prio-item .bd h4{margin:0 0 7px}
+ul,ol{margin:10px 0 10px 22px;color:#3d4451}
+li{margin:5px 0}
+.gap{color:#975a16;font-weight:600}
+.hide{display:none}
+footer{text-align:center;padding:36px 20px;color:#718096;font-size:13px;border-top:1px solid #e2e8f0;margin-top:44px}
+.bench-name{font-weight:600;color:#2d3748}
+.mini{font-size:12.5px;color:#718096;margin-top:6px}
+.hl{background:#fff5ad;padding:0 3px;border-radius:2px;font-weight:600}
+</style>
+</head>
+<body>
+<header>
+<div class="inner">
+<h1>SSA ERP 对标金蝶 · 用友 · SAP 深度审计报告</h1>
+<div class="sub">聚焦「影响业务使用 + 数据准确性」的硬伤清单 · 全部结论回源码核实并标注文件行号</div>
+<div class="meta">
+<span>基线版本：V3.44.0（2026-10-04）</span>
+<span>审计日期：2026-10-04</span>
+<span>对标：金蝶云·星空 V9.1 / 用友 BIP 6·U9 cloud / SAP S/4HANA Cloud 2608</span>
+<span>审计方式：全量源码 + 迁移 SQL 逐条核查</span>
+<span>证据强度：每条含文件路径与行号</span>
+</div>
+</div>
+</header>
+
+<div class="wrap">
+
+<div class="danger-box">
+<h4 style="margin:0 0 8px">⚠ 本报告的定位与诚实边界</h4>
+<p style="margin:0">本报告<b>不是</b>功能清单式对标（系统已具备 191 页、111 张关系表、88 个状态仓库，功能覆盖度较高），而是<b>专攻「数字算错、账实不符、假管控、静默失败」</b>的深度审计。所有问题均已回源码逐条核实并给出文件+行号证据；已复核修正了子代理的个别误判（如工单 API 实际不返回 bom_id、BOM 读取侧确实未重建嵌套树，均二次确认成立）。<br>
+<b>未做的事：</b>未修改任何代码（本轮只出报告）；未在联网环境跑端到端测试；标杆功能清单依据项目既有 §十三 对标结论与公开资料交叉验证，未逐条实测竞品系统。</p>
+</div>
+
+<div class="kpi">
+<div><div class="n">94</div><div class="l">问题总数（均附源码证据）</div></div>
+<div><div class="n">15</div><div class="l">P0 阻断级数据准确性硬伤</div></div>
+<div><div class="n">31</div><div class="l">P1 严重（可绕过管控/关键缺口）</div></div>
+<div><div class="n">8</div><div class="l">P2 中等（可用性/可维护性）</div></div>
+<div><div class="n warn">6</div><div class="l">跨域结构性问题（根因层）</div></div>
+<div><div class="n ok">40+</div><div class="l">已做好的强项（勿破坏）</div></div>
+</div>
+
+<h2>一、结论先行：最该立刻修的 12 个硬伤</h2>
+
+<p>这 12 条不是"最严重"的排名，而是<b>「会导致数字算错、且用户完全不知情」</b>的集合——即最违背 ERP 信任前提的问题。每条我都标注了确切的断链位置。</p>
+
+<div class="prio-item">
+<div class="no">1</div>
+<div class="bd">
+<h4>预算闸门<span class="tag t-p0">P0</span><span class="tag t-both">数据准确性+业务使用</span>超预算永不触发（闸门造好了没接线）</h4>
+<p class="row"><b>断链处</b><code>functions/_shared/voucherWriter.ts:114</code> 把凭证行的 <code>project_id</code>、<code>cost_center_id</code> 硬编码为 <code>null</code>，币种/汇率硬编码 <code>'CNY', 1</code>。</p>
+<p class="row"><b>后果</b><code>paymentGate.ts:179</code> 的 <code>SUM(debit) WHERE project_id = ?</code> 恒匹配 0 行 → 实际发生额恒为 0 → 单笔付款不超预算就放行。V3.29.0 声称的"预算硬拦+安全阀"<b>实际从未生效</b>，用户却以为有管控（假管控比没管控更危险）。</p>
+<p class="row"><b>修复成本</b>极低（两处 INSERT 补字段，前端 <code>toVoucherPayload</code> 已在传值），但<b>必须补守护测试</b>防回归。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">2</div>
+<div class="bd">
+<h4>凭证行维度丢失 → 报表金额按科目名匹配后静默消失<span class="tag t-p0">P0</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>断链处</b>写侧 <code>voucherWriter.ts:110-115</code> 写死币种/汇率/项目/成本中心；存侧 <code>functions/api/vouchers/[id].ts:110</code> 的 PUT <b>连这几列都不写</b>（先 DELETE 再全量 INSERT，任何编辑都清空）；读侧 <code>src/utils/financialStatements.ts:83-84,104-105</code> <b>用科目名称字符串</b>匹配科目表。</p>
+<p class="row"><b>后果链</b>科目一改名 → 历史分录匹配不到 → 资产负债表/利润表/现金流量表<b>同时少这笔钱且不报错</b>。SAP 的科目编号是唯一核算维度，改名只影响显示。</p>
+<p class="row"><b>对标</b>SAP <code>SKT0</code> 主数据 + 凭证行存科目号；金蝶/用友同理强制记科目编码。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">3</div>
+<div class="bd">
+<h4>入库单金额恒为 0 → 三单匹配形同虚设、付款闸门 100% 拦截正常采购付款<span class="tag t-p0">P0</span><span class="tag t-both">两者</span></h4>
+<p class="row"><b>断链处</b><code>functions/api/inbound-orders/index.ts:124</code> 写 <code>Number(item.amount) || 0</code>，而前端 <code>src/pages/Warehouse/InboundForm.tsx:112-134</code> 建单<b>只传数量、根本不传单价与金额</b>；三单匹配 <code>threeWayMatch.ts:191</code> 按 <code>SUM(i.amount)</code> 算入库金额。</p>
+<p class="row"><b>后果</b><code>inboundAmount</code> 恒 0 → 判定「入库金额 &lt; 发票金额×(1-容差)」必然触发 <code>INSUFFICIENT_INBOUND</code> → <b>有发票的采购付款 100% 被拦</b>；到货率永远 0%。这不是精度问题，是功能不可用。</p>
+<p class="row"><b>修复</b>三处小改：表单带出单价、SQL 改 <code>SUM(actual_quantity * unit_price)</code>、服务端补 UPDATE。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">4</div>
+<div class="bd">
+<h4>已过账凭证可用空分录清空，明细归零但总额保留<span class="tag t-p0">P0</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>断链处</b><code>functions/_shared/voucherGuard.ts:89</code> <code>if (!Array.isArray(body.items) || body.items.length === 0) return null;</code> —— 空数组直接放行；<code>vouchers/[id].ts:106-117</code> 的写入条件 <code>[]</code> 是 truthy，触发 <code>DELETE FROM voucher_items</code> 后插入 0 行。</p>
+<p class="row"><b>后果</b>一张 10 万的凭证变成「总额 10 万、明细 0 行」，借贷平衡校验永远通过，服务端返回成功，<b>无任何报错</b>。且前端 <code>persistVoucher</code> 的 409 分支会转 PUT，可在正常界面操作下触发。</p>
+<p class="row"><b>对标</b>SAP 分录行过账后受凭证头锁定，只能整体冲销；金蝶/用友无此接口语义。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">5</div>
+<div class="bd">
+<h4>结账管控三处漏：已结账可反冲、结账状态可伪造、只锁凭证不锁单据<span class="tag t-p0">P0</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>漏 1</b><code>vouchers/[id].ts:52-56</code> 期间校验只算<b>目标</b>期间，源期间不查 → 已结账凭证改日期即挪进未结账期间（SAP OB52 双侧校验）。</p>
+<p class="row"><b>漏 2</b>结账状态存 <code>app_state</code> 键 <code>ssa-erp-finance-ledger</code>，<b>任何登录用户可覆写</b>，无审计，且 <code>appState.ts:38,44</code> 的 <code>isPeriodClosed</code> 是 <b>fail-open</b>（解析失败即视为未结账）。</p>
+<p class="row"><b>漏 3</b>期间锁只在凭证与折旧三处调用，<code>fin_invoices</code>/<code>fin_tax_records</code>/项目核算走通用实体路由<b>完全不查期间</b> → 可在已结账期补发票，2 月自动生成 1 月凭证。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">6</div>
+<div class="bd">
+<h4>应收应付账龄是孤儿数据，五个入口三种口径<span class="tag t-p0">P0</span><span class="tag t-both">两者</span></h4>
+<p class="row"><b>断链处</b><code>src/stores/arapStore.ts:24-76</code> 只有 8 条硬编码种子存 <code>ssa-erp-arap</code>，与 <code>fin_invoices</code>/<code>fin_payment_plans</code>/凭证<b>无任何外键或联动</b>，收款不回写 <code>paidAmount</code>。</p>
+<p class="row"><b>五处口径分裂</b><code>ReceivableList</code>/<code>PayableList</code> 读 arapStore 种子、<code>AgingReport</code> 读付款计划、<code>buildAPSubledger</code> 读发票+付款计划、<code>buildARSubledger</code> 读销售订单 → <b>财务人员最常看的账龄表必然对不上</b>，且销售发货根本不产生应收。</p>
+<p class="row"><b>对标</b>SAP 应收应付是总账 1122/2202 子账，由开票/付款自动过账，三张报表永远一致。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">7</div>
+<div class="bd">
+<h4>多层 BOM 嵌套在 D1 往返中被压平，子装配被当实物料领<span class="tag t-p0">P0</span><span class="tag t-both">两者</span></h4>
+<p class="row"><b>断链处</b>写入侧 <code>functions/api/bom/index.ts:154-167</code> <code>flattenItems</code> 正确展平并写 <code>parent_item_id</code>；但读取侧 <code>itemToApi</code>（<code>:95-103</code>）<b>逐行平铺，无 <code>nestItems</code> 重建</b>，<code>:243</code> 直接 <code>headers.map(...itemsByBom.get(h.id))</code>。第 91 行注释"明细组装回嵌套数组"是<b>误导性注释</b>（<code>map</code> 不构成嵌套）。</p>
+<p class="row"><b>后果</b><code>WorkOrderDetail.tsx:70</code> 的 <code>if (it.children?.length)</code> 恒 false → 父行走 <code>childProductCode</code> 分支去查产品独立 BOM（本库不存在）→ <b>落到叶子分支：柜体框架这个"子装配"被当实物料号去领料</b>，其 4 个真实子件一分不领。成本卷积 <code>bomCost.ts:56-63</code> 同样把子装配整行成本静默归零。<b>已经发生</b>（mock 的 bom-003 三层 BOM 已进 D1）。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">8</div>
+<div class="bd">
+<h4>工单列表 API 不返回 BOM/工艺路线/成本/倒冲标记 → 四处退化为"猜第一个"<span class="tag t-p0">P0</span><span class="tag t-both">两者</span></h4>
+<p class="row"><b>断链处</b><code>functions/api/work-orders/index.ts:44-52</code> 手工列举返回字段，<b>无 <code>bom_id</code>/<code>route_id</code>/<code>actual_*_cost</code>/<code>inventory_posted</code></b>（<code>bomId</code> 只存在于 POST/PUT 白名单）。</p>
+<p class="row"><b>后果</b>① BOM 挂载退化为 <code>find(b =&gt; b.productCode === wo.productCode)</code>，而 mock 的 EBOM 与 MBOM <b>productCode 相同</b> → 永远拿 EBOM 冒充 MBOM；② 成本归集页 <code>bomId</code> 恒 undefined → <b>物料成本整列恒为 0</b>；③ 已倒冲工单刷新后显示成"未倒冲"（V3.20.0 特意做的信任提示失效）。</p>
+<p class="row"><b>修复</b>一行 SQL 改动量，堵住四个下游退化点。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">9</div>
+<div class="bd">
+<h4>盘点与调拨不写库存——账实不符的主要来源<span class="tag t-p0">P0</span><span class="tag t-both">两者</span></h4>
+<p class="row"><b>盘点</b><code>src/stores/warehouseStore.ts:889-953</code> <code>postCheckAdjustment</code> 全程只改前端内存，只把任务状态发后端 → <code>inventory_records</code> 与 <code>materials.current_stock</code> 不变、<b>刷新即失</b>、无盘盈盘亏凭证。</p>
+<p class="row"><b>调拨</b><code>functions/api/stock-transfers/[id].ts</code> 全文<b>无一句</b> <code>postInbound</code>/<code>postOutbound</code>，且 <code>statusMachine.ts:28-34</code> 的 <code>DocType</code> <b>没有 stock_transfer</b> → 状态可任意设 completed，不扣调出仓不加调入仓 → 两仓数字永久偏差且无痕迹。</p>
+<p class="row">用户报的"库存不准"十有八九来自这两条。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no">10</div>
+<div class="bd">
+<h4>折旧无到期判断，提满后仍继续计提<span class="tag t-p0">P0</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>断链处</b><code>functions/api/fixed-assets/depreciate.ts:78</code> 只筛 <code>status='in_use'</code>，<b>不判断 <code>useful_life_months</code> 或累计折旧期数</b>；<code>net</code> 用 <code>Math.max(0, ...)</code> 卡 0 不变负，但 <code>total</code>/<code>accumulated</code> 照累加 → 凭证继续全额计提，累计折旧可超原值。</p>
+<p class="row"><b>对标</b>SAP FI-AA 按 <code>useful_life</code> 到期自动停止（折旧基数为 0）；金蝶/用友到期自动停提。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no mid">11</div>
+<div class="bd">
+<h4>成本核算全在前端 + 销售出库不结转成本 → 利润表永远虚高<span class="tag t-p0">P0</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>断链处</b><code>src/utils/cost.ts</code> 的移动平均滚动全在前端内存；服务端 <code>functions/_shared/inventoryPosting.ts</code> 过账只算入库金额，<b>不读不写移动均价，也没有出库结转凭证</b>（<code>generateOutboundVouchers</code> 无 COGS 分录）。</p>
+<p class="row"><b>后果</b>换台电脑成本就不同；<b>存货已出但成本未进总账</b> → 利润表虚高；叠加委外收货从"界面内存"取成本（<code>subcontractStore.ts:195-202</code>，换设备得 0 材料成本）→ 移动均价被污染 → <b>之后所有出库结转成本全错</b>（级联失真）。</p>
+</div>
+</div>
+
+<div class="prio-item">
+<div class="no mid">12</div>
+<div class="bd">
+<h4>付款无累计超付校验，可重复付同一张发票<span class="tag t-p1">P1</span><span class="tag t-acc">数据准确性</span></h4>
+<p class="row"><b>断链处</b><code>threeWayMatch.ts:264</code> 的 <code>OVER_INVOICE</code> 判定用 <code>payAmount &gt; invoiceTotal×(1+tol)</code>，是<b>单次上限、不累计历史已付</b>；<code>pcUpdate</code> 对 <code>paid_amount</code>/<code>total_amount</code> 是"传什么写什么"。</p>
+<p class="row"><b>后果</b>同一张发票拆 3 张付款计划各付 100%（合计 300%）三次都能通过校验；也可直接手工改 <code>paidAmount</code>。真实资金损失风险。SAP <code>F030</code> 按发票校验未清金额防重复清账。</p>
+</div>
+</div>
+
+<h2>二、六条跨域结构性问题（根因层）</h2>
+
+<p>上面 94 条具体问题中，多数可归因到下面 6 个结构性问题。<b>只修具体问题不改结构，同类问题会继续长出来</b>——这是 V3.4.0 对标报告 §十三 已指出、本轮再次验证的结论。</p>
+
+<div class="card">
+<h3 style="margin-top:0">S1 · 「假管控」：闸门造好了但没接线（3 处）</h3>
+<table>
+<tr><th>闸门</th><th>声称能力</th><th>实际断链</th><th>后果</th></tr>
+<tr><td>预算闸门 <code>guardBudget</code></td><td>超预算硬拦 + 超管安全阀</td><td><code>voucher_items.project_id</code> 恒 NULL</td><td>超预算永不触发</td></tr>
+<tr><td>三单匹配</td><td>订单/入库/发票三单比对</td><td>入库金额恒 0 + 发票无明细表</td><td>付款闸门 100% 拦截 / 数量维度完全不参与判定</td></tr>
+<tr><td>操作权限守卫</td><td>9 模块写端点服务端硬拦</td><td><code>API_TO_MODULE</code> 定义了却无人用，调拨/调整/序列号/单位换算等<b>直接决定库存数字的端点零守卫</b></td><td>任何登录用户可改库存调整单、批量改序列号</td></tr>
+</table>
+<div class="warn-box mini"><b>共性</b>：闸门的<b>匹配链</b>都写对了（V3.28/3.29 的设计质量很高），断的都是<b>最后一公里的数据落地</b>。这类问题单测与黑盒都测不出来——因为"闸门放行"和"闸门没生效"返回的都是 200。必须补<b>守护测试</b>（造数据 → 断言被拦）。</div>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">S2 · 「双数据源」：关系表 + 大对象并存，同一数据两处能改</h3>
+<p>项目 C1 数据关系化<b>只完成 BOM 一个域</b>（样板），本轮实测仍有一批 store 数据只存浏览器大对象（<code>app_state</code> JSON），换设备即失、与关系表分叉：</p>
+<table>
+<tr><th>数据</th><th>现状</th><th>风险</th></tr>
+<tr><td><b>工序报工</b> <code>operationReports</code></td><td>app_state 大对象，<b>零 D1 调用</b></td><td>与 <code>mes_operation_reports</code>（D1 瘦模型）<b>两套并存无同步</b>；报工不落库、刷新即丢、不可撤销；人工/机器费率也在此 store → <b>成本参数在用户浏览器里，换设备成本就变、不可复算</b></td></tr>
+<tr><td><b>工作中心</b> <code>workCenters</code></td><td>app_state，无 <code>work_centers</code> 表</td><td>产能主数据无源；工艺路线存字符串名无法外键；CRP 页与负荷页对同一工序算出两个结果</td></tr>
+<tr><td>应收应付、结账状态、预算、汇率</td><td>app_state（4 个 store）</td><td>见硬伤 5、6；汇率竟有 3 个互不相通的存储（app_state / localStorage / D1 表）</td></tr>
+<tr><td>价格/合同/寄售/供应商绩效/采购寻源</td><td>app_state（6 个 store，零 D1）</td><td>已在业务界面使用；<b>寄售与供应商绩效涉及库存与钱</b>，换设备即失；价目表审批回写物料标准价时两边写入时机不一致会矛盾</td></tr>
+<tr><td>工单领料明细 <code>issuedMaterials</code></td><td>只在内存，<code>work_orders</code> 表<b>无对应列</b></td><td>幂等守卫 <code>if (issuedMaterials.length) return</code> 刷新/换设备后失效 → <b>可重复领料</b></td></tr>
+</table>
+<div class="danger-box mini"><b>关键判断</b>：工单的"双源"问题已被 W1 根治（BOM 域样板效应），但<b>工序报工、工作中心、成本费率这三处至今仍是浏览器大对象</b>，而它们恰好是<b>成本与产能的计算输入</b>——比"工单没迁"更危险，因为成本数字会随设备而变且无法复算。</div>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">S3 · 「口径分裂」：同一指标在多个页面用不同算法</h3>
+<table>
+<tr><th>指标</th><th>口径分裂表现</th><th>后果</th></tr>
+<tr><td>人工成本</td><td>成本卷积页 <code>materialCost×15%</code>（<code>CostRollup.tsx:76-77</code> 写死系数）<br>成本归集页 <code>(setupTime+runTime×计划量)/60 × 费率</code>（<code>CostCollection.tsx:51-53</code>）<br><code>bomCost.ts:52</code> 用 BOM 行 <code>laborCost+processCost</code></td><td>同一个 BOM 的成本在三个页面算出三个数；写死系数与工艺路线完全脱钩</td></tr>
+<tr><td>现有库存</td><td>ATP <code>atp.ts:27-30</code> <b>扣质量冻结</b><br>MRP <code>MRPPlan.tsx:292</code> <b>不扣</b></td><td>MRP 净需求<b>系统性偏低</b> → 少提采购需求 → 判退时缺料停线</td></tr>
+<tr><td>现金流量</td><td>报表 <code>financialStatements.ts:197-231</code> 从凭证派生<br>资金流水 <code>cashMgmtStore</code> 独立维护</td><td>同一天两个"现金流"数</td></tr>
+<tr><td>领料取整</td><td>手工领料 <code>Math.ceil</code> 向上取整<br>倒冲 <code>backflush.ts:439</code> 4 位小数不取整</td><td>"先领料再完工"总耗用 ≠ "直接完工"总耗用；<b>BOM 用量 0.4 的螺栓会被领成 1 件</b>（显著超领）</td></tr>
+<tr><td>移动平均成本</td><td>前端 <code>warehouseStore.ts:665-671</code> 滚一次<br>后端 <code>inventoryPosting.ts:93</code> 再滚一次</td><td>成本被双算，基数取决于两个未必一致的数</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">S4 · 「静默失败」：写库失败被吞，界面点得动但动作没落库（铁律㊴）</h3>
+<table>
+<tr><th>位置</th><th>表现</th><th>影响</th></tr>
+<tr><td><code>src/stores/productionStore.ts:251-258</code></td><td><code>updateWorkOrder</code> 的 <code>catch {}</code> <b>完全空吞</b>，连 <code>syncError</code> 都不写</td><td><b>全项目唯一</b>放弃"乐观更新+回滚+提示"纪律的 store；报工回写失败时界面显示成功、刷新后数量回退而报工记录仍在 → 倒冲算出的差额偏大 → <b>倒冲重复扣料</b></td></tr>
+<tr><td><code>productionStore.ts:239-250</code></td><td><code>addWorkOrder</code> 写失败<b>保留内存态</b>（与 bomStore 的回滚相反）</td><td>界面存在一张<b>服务器上不存在的工单</b>，点领料会 404</td></tr>
+<tr><td><code>inbound-orders/[id].ts:149-151</code></td><td>过账异常只 <code>console.error</code>，<code>inventory_posted</code> 不置 1 但单据已 completed</td><td><b>单据显示已完成、库存没加</b>，系统不告诉任何人</td></tr>
+<tr><td><code>fixed-assets/depreciate.ts:130</code></td><td>资产已扣减折旧，<code>writeVoucher</code> 失败时只 <code>if (vid)</code> 不返回错误</td><td>调用方<b>无法区分"计提成功"与"资产已改但凭证没生成"</b>；台账与总账永久背离</td></tr>
+<tr><td><code>cashMgmtStore.ts:103-107</code></td><td><code>deleteFlow</code> 删流水<b>不回冲余额</b></td><td>删一笔流水 → <b>账户余额凭空多出这笔钱</b></td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">S5 · 「无流水台账」：只存余额快照，差异不可追溯</h3>
+<p>本轮最深的结构性发现：<code>inventory_records</code> 是<b>当前余额快照</b>，每次过账只做 <code>quantity = quantity + ?</code> 原地累加（<code>inventoryPosting.ts:106</code>），<b>没有库存变动流水表</b>（迁移全目录确认）。同样地，<code>rep_mfg_periods.backflush_items</code> 与 <code>subcontract_orders.receipt_inbound_nos</code> 用 TEXT JSON 存数组（<code>catch { return [] }</code> 静默吞脏数据）。</p>
+<div class="danger-box mini"><b>为什么这是根因</b>：余额快照 + 原地累加的结构，导致<b>所有差异都被静默吸收</b>——超发卡 0（S-12）、手工改库存（S-06）、盘点不过账（S-04）、调拨不过账（S-05）、双轨滚成本（S-03）这 5 个问题<b>共用同一个底座缺陷</b>。SAP 的 <code>MATDOC</code>（物料凭证）每一笔收发调拨报废都是一条可重建余额的凭证；金蝶/用友有库存流水账。<b>不建流水表，这 5 个问题修完还会复发。</b></div>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">S6 · 「不可逆」：已过账数据无冲销通道，错了只能删或改</h3>
+<table>
+<tr><th>对象</th><th>现状</th><th>标杆做法</th></tr>
+<tr><td>工单</td><td><code>statusMachine</code> 锁 <code>completed</code>，但 <code>work-orders/[id].ts:145</code> 的 DELETE <b>无任何状态校验</b>；<code>inventory_posted=1</code> 置后倒冲<b>永不重跑</b>（<code>backflush.ts:336</code>）</td><td>SAP 反向移动类型（262/122）生成红冲凭证，原单保留；<b>三家原则都是永不删除已过账单据</b></td></tr>
+<tr><td>报工</td><td>只能 <code>removeOperationReport</code> 删内存记录，<b>不回退工单数量</b>，无反报工</td><td>SAP Confirmation 支持 REVERSAL；金蝶星空支持反报工</td></tr>
+<tr><td>重复制造</td><td><code>repetitiveMfgStore.ts:119-147</code> 只增不减，<b>无冲销能力</b>，误报无法回退</td><td>SAP RM 订单支持取消报工生成红冲</td></tr>
+<tr><td>工单状态机</td><td>无 <code>cancelled</code> 态，下错产只能走 <code>closed</code>（完全锁定、无原因）→ 月结时"下错单"与"正常结案"混在一起</td><td>三家均有取消/作废态并<b>强制填原因</b></td></tr>
+</table>
+</div>
+
+<h2>三、逐模块对标能力总览</h2>
+
+<h3>3.1 财务域（对标 SAP FI/CO · 金蝶财务云 · 用友 BIP）</h3>
+<table>
+<tr><th>能力</th><th>金蝶 V9.1</th><th>用友 BIP 6</th><th>SAP S/4HANA</th><th>SSA 现状</th><th>缺口</th></tr>
+<tr><td>总账凭证</td><td>科目编码必录</td><td>科目编码必录</td><td><code>SKT0</code> 主数据</td><td>借贷平衡硬拦✓，但<b>币种/项目/成本中心写死</b></td><td><span class="gap">辅助核算维度全丢</span></td></tr>
+<tr><td>科目属性</td><td>辅助核算组合</td><td>辅助核算</td><td>成本中心必填</td><td><b>报表按科目名匹配</b>，改名即丢数</td><td><span class="gap">科目编号未成为核算维度</span></td></tr>
+<tr><td>期间控制</td><td>期末结账锁全模块</td><td>同上</td><td>OB52 双侧校验</td><td>只锁凭证、状态可伪造、fail-open</td><td><span class="gap">结账承诺失效</span></td></tr>
+<tr><td>期初建账</td><td>独立向导+试算平衡</td><td>同</td><td>Opening balances 报表</td><td>表内一个 <code>balance</code> 列，<b>无试算校验，种子数据本身不平 50 万</b></td><td><span class="gap">无期初建账流程</span></td></tr>
+<tr><td>应收应付</td><td>往来核算双向联动</td><td>往来核算</td><td>总账子账自动过账</td><td><b>孤儿种子数据，五入口三口径</b></td><td><span class="gap">数据不落库</span></td></tr>
+<tr><td>付款控制</td><td>核销+累计校验</td><td>付款核销分摊</td><td><code>F030</code> 防重复清账</td><td>三单匹配有，但<b>无累计超付校验</b></td><td><span class="gap">可重复付款</span></td></tr>
+<tr><td>固定资产</td><td>多种折旧方法+到期停提</td><td>同</td><td>FI-AA 到期自动停+重估流程</td><td>直线法唯一，<b>无到期判断</b>，改原值不重算</td><td><span class="gap">多提折旧</span></td></tr>
+<tr><td>多账簿合并</td><td>账簿组→范围→抵消</td><td>同</td><td>Group Reporting 分层</td><td>SQL <b>无 ledger_book 条件</b>（账簿维度形同虚设），抵消只按科目取 min</td><td><span class="gap">合并数必错</span></td></tr>
+<tr><td>成本核算</td><td>服务端存货核算</td><td>收发存四栏</td><td>MBEW/MATDOC</td><td><b>全在前端</b>，仅移动平均，无出库结转</td><td><span class="gap">利润表虚高</span></td></tr>
+<tr><td>预算控制</td><td>预算对象行级触发</td><td>同</td><td><code>COBJA</code> 实时更新</td><td>逻辑完整但 <b>project_id 恒空</b>，永不触发</td><td><span class="gap">假管控</span></td></tr>
+<tr><td>结转损益</td><td>服务端一键幂等</td><td>期末处理</td><td>Closing Cockpit + checklist</td><td>前端多次 PUT 相互覆盖，<b>无结账前检查清单</b></td><td><span class="gap">分录可能只落部分</span></td></tr>
+</table>
+<div class="ok-box mini"><b>财务域做得好的</b>：①借贷平衡服务端硬拦且<b>刻意不拦负数</b>以保护红冲凭证（取舍判断很专业）；②凭证写入统一到 <code>voucherWriter</code> 单路径，消除"两处 INSERT 各自拼列"的经典漂移坑，并用 <code>db.batch</code> 保证原子性；③<code>financeStore</code>/<code>cashMgmtStore</code> 彻底移除 persist 并统一"乐观更新+回滚+提示"模式，是其余切片改造的样板；④报表真源已切到受保护的凭证表且<b>用"非零"而非"大于零"判定红字行</b>（细节到位）；⑤金额精度已统一到 <code>money.ts</code> 单一来源（<b>经核查此前怀疑的"精度分裂"不成立</b>）；⑥迁移 0054 主动发现并纠正 0053 的建表契约错误，理由写得很清楚。</div>
+
+<h3>3.2 供应链域（对标 SAP MM/SD · 金蝶供应链 · 用友 YonSuite）</h3>
+<table>
+<tr><th>能力</th><th>金蝶 V9.1</th><th>用友 BIP 6</th><th>SAP S/4HANA</th><th>SSA 现状</th><th>缺口</th></tr>
+<tr><td>采购全流程</td><td>申请→订单→收货→发票→付款</td><td>同</td><td>PR→PO→GR→IR</td><td>主数据已关系化✓，但<b>采购单 PUT/DELETE 因 TDZ 报错 100% 不可用</b>（<code>purchase-orders/[id].ts:44</code> 在 <code>const db</code> 声明前使用）</td><td><span class="gap">改单/删单报错</span></td></tr>
+<tr><td>采购寻源</td><td>询价比价→推荐</td><td>采购寻源</td><td>RFQ/Ariba</td><td>寻源在浏览器大对象、比价在 D1，<b>两套不通</b></td><td><span class="gap">流程割裂</span></td></tr>
+<tr><td>供应商绩效</td><td>完整评估模型</td><td>供应商考核</td><td>Vendor Evaluation</td><td>纯浏览器大对象，与 <code>vendor_master.rating</code> <b>无联动</b>，两个互不相干的"评级"</td><td><span class="gap">换设备即失</span></td></tr>
+<tr><td>销售 ATP</td><td>可用量承诺按时点</td><td>可用量查询</td><td>ATP/ATD</td><td>纯前端算，<b>只扣销售订单与扣留</b>，不扣计划/工单/委外占用</td><td><span class="gap">高估可用量→超卖</span></td></tr>
+<tr><td>三单匹配</td><td>订单<b>行级</b>匹配+超差审批</td><td>三单匹配</td><td>GR/IR 行级比较</td><td>金额维度可用但<b>入库金额恒 0</b>；数量维度因发票无明细表<b>完全不参与判定</b>；<b>无超差审批通道</b></td><td><span class="gap">付款被拦死</span></td></tr>
+<tr><td>批次管理</td><td>批次档案+收发存</td><td>批次管理</td><td>Batch 主数据</td><td><b>只有批次号字符串，无批次主档表</b>，<code>batchRecords</code> 纯内存刷新即丢</td><td><span class="gap">批次无档案、FEFO 无依据</span></td></tr>
+<tr><td>序列号</td><td>档案+状态机</td><td>序列号</td><td>Equipment + ENUM</td><td>有主档+流水，但<b>状态词表分裂 4 种</b>（<code>active</code>/<code>in_stock</code>/<code>out_stock</code>/<code>shipped</code>），出库回读<b>不传 serialNos</b></td><td><span class="gap">追溯链断裂</span></td></tr>
+<tr><td>库存台账</td><td>流水账+明细账</td><td>收发存汇总</td><td>MATDOC 可重建余额</td><td><b>只有余额快照，无流水表</b></td><td><span class="gap">差异不可追溯</span></td></tr>
+<tr><td>库存盘点/调拨</td><td>审核后生成出入库单</td><td>同</td><td>MIGO 过账</td><td><b>盘点只改前端、调拨完全不写库存</b></td><td><span class="gap">账实不符主因</span></td></tr>
+<tr><td>质量扣留</td><td>检验批三段参与可用量</td><td>不合格品处理单</td><td>Inspection Lot</td><td>扣留<b>不扣可用量</b>（<code>frozen_quantity</code> 是死列全库无写入）→ 判不合格的料照样能出库</td><td><span class="gap">质检失去控制力</span></td></tr>
+<tr><td>单位换算</td><td>换算率自动换算</td><td>同</td><td>Order/Base Unit 强制</td><td><b>两套机制并存且业务链路零调用</b>；<code>unit_conversions</code> 无 org 隔离会撞唯一约束</td><td><span class="gap">采购单位≠BOM单位时库存少记</span></td></tr>
+<tr><td>寄售/退货</td><td>寄售+退货单</td><td>同</td><td>WM 特殊库存</td><td>寄售纯大对象；<b>销售退货只在内存、不回补库存</b></td><td><span class="gap">完全缺失</span></td></tr>
+</table>
+<div class="ok-box mini"><b>供应链域做得好的</b>：①<b>采购单 44/45 行 TDZ 报错是本轮发现的硬伤</b>（<code>const db</code> 在守卫后才声明，修改/删除功能服务端 100% 不可用，注释还标了"V3.24.0 已加固"）；②三单匹配主动收敛为单一实现并在注释里<b>诚实标注能力边界</b>（发票无明细表→数量维度不参与）；③付款放行<b>无论是否拦截都留档</b>；④RLS 未登记表返回 <code>1=0</code> 并告警（默认拒绝）；⑤入库侧 <code>serial_nos</code> 回读正确（出库侧漏了）；⑥出库负库存卡 0 是<b>明确写在注释里的拍板策略</b>，非疏忽。</div>
+
+<h3>3.3 生产制造域（对标 SAP PP · 金蝶生产制造 · 用友 U9 cloud）</h3>
+<table>
+<tr><th>能力</th><th>金蝶 V9.1</th><th>用友 U9 cloud</th><th>SAP S/4HANA</th><th>SSA 现状</th><th>缺口</th></tr>
+<tr><td>BOM 多层</td><td>树形输出+有效期+替代</td><td>树形+版本</td><td>Recursive Display+Alternative BOM</td><td>表设计优秀（<code>level</code>+<code>parent_item_id</code>+<code>UNIQUE(bom_id,level,seq)</code>），但<b>读取侧不重建树</b></td><td><span class="gap">多层 BOM 消费方全错</span></td></tr>
+<tr><td>BOM 有效期/替代</td><td>MRP 按有效期过滤</td><td>同</td><td>Valid-From/To+优先级+使用概率</td><td>列都建了、索引都建了，<b>三处选 BOM 逻辑无一消费</b>（MRP 甚至靠数组顺序）</td><td><span class="gap">可能选中过期/草稿 BOM</span></td></tr>
+<tr><td>BOM 变更控制</td><td>ECN 变更单</td><td>变更审核</td><td>Change Number 替代 BOM</td><td>无 ECN 联动，<b>在制工单已领 60% 时 BOM 被改，剩余料立即变</b></td><td><span class="gap">在途工单用错 BOM</span></td></tr>
+<tr><td>MRP 低层码</td><td>按 LLC 运算</td><td>按层级</td><td>LLC 驱动运算顺序</td><td>LLC <b>只用于排序展示</b>，运算由递归决定 → LLC 的核心价值未兑现</td><td><span class="gap">通用件重复展开</span></td></tr>
+<tr><td>MRP 供应侧</td><td>现有+在途+在制+计划+委外</td><td>同</td><td>ATP supply 侧</td><td><b>只算采购订单</b>（在制工单/计划订单/委外在制全漏）</td><td><span class="gap">重复采购</span></td></tr>
+<tr><td>MRP 需求侧</td><td>可用库存（扣冻结/占用）</td><td>同</td><td>Available Stock</td><td>ATP 扣冻结、<b>MRP 不扣</b> → 同系统两模块定义不同</td><td><span class="gap">净需求系统性偏低</span></td></tr>
+<tr><td>MRP 替代料</td><td>替代料方案可配置</td><td>同</td><td>Substitute Material 正式特性</td><td>只做<b>展示性推荐</b>，不参与净需求计算</td><td><span class="gap">缺料不自动替代</span></td></tr>
+<tr><td>工单/报工</td><td>多工序报工+反报工</td><td>同</td><td>Confirmation+REVERSAL</td><td><b>两套报工模型并存无同步</b>；报工不落库、<code>progress</code> 字段被静默丢弃、报废累计逻辑脆弱</td><td><span class="gap">成本口径失真</span></td></tr>
+<tr><td>完工路径</td><td>单一路径</td><td>单一路径</td><td>Technical Completion→Close 两步</td><td><b>两条完工路径行为不一致</b>：报工置 completed <b>只扣料不入库</b>（无成品库存/台账/凭证）</td><td><span class="gap">料扣了货没了</span></td></tr>
+<tr><td>倒冲/反冲</td><td>过账+取消</td><td>同</td><td>261/262 反向类型</td><td>工单倒冲<b>已做对</b>（幂等+口径留痕+逐层预取）；<b>重复制造倒冲只加数字不扣账</b>；<b>两者都无冲销</b></td><td><span class="gap">误报无法回退</span></td></tr>
+<tr><td>成本卷积</td><td>成本 BOM+费用分配</td><td>成本要素体系</td><td>Costing Variant+成本组件</td><td>人工/制造费用<b>写死 15%/12% 系数</b>，与工艺路线费率脱钩</td><td><span class="gap">写死系数无对应实现</span></td></tr>
+<tr><td>差异分析</td><td>价差/量差来自实际核算</td><td>同</td><td>Price/Quantity/Lot Size Variance</td><td>实际单价是<b>BOM 行手工填的静态数字</b>，且新建 BOM <b>无录入入口</b> → 真实数据全空白</td><td><span class="gap">自己跟自己比</span></td></tr>
+<tr><td>委外</td><td>用料单+完工入库+余料退回</td><td>三流完整</td><td>541/542+特殊库存 ST</td><td>只有发料+收货两流，<b>回收只改状态字符串</b>、在外物资无台账、成本从界面内存取</td><td><span class="gap">委外成本必然对不平</span></td></tr>
+<tr><td>在制品 WIP</td><td>数量+金额+库龄</td><td>滚存表</td><td>Stock in Production</td><td><b>纯前端现算、无金额</b>；<code>mes_wips</code> 缺 <code>qty</code>/<code>status</code> 列 → MES 侧数量恒空</td><td><span class="gap">WIP 金额缺失</span></td></tr>
+<tr><td>产能负荷 CRP</td><td>工作中心多维+排队时间</td><td>车间负荷</td><td>Setup+Run+Queue</td><td>有班次日历✓，但<b>不扣已报工、不算 Queue Time</b>、<b>工作中心名匹配失败静默丢弃</b>（负荷页做映射、CRP 不做，同工序两结果）</td><td><span class="gap">负荷虚高/丢负荷</span></td></tr>
+<tr><td>成本归集</td><td>凭证驱动</td><td>同</td><td>GI+Confirmation+差异过账</td><td><code>actMaterial = 标准单位成本 × 完成量</code> → <b>结构上不可能产生材料差异</b></td><td><span class="gap">材料差异恒为 0</span></td></tr>
+<tr><td>工作中心主数据</td><td>工作中心+车间</td><td>同</td><td>含产能/班次日历/成本要素</td><td><b>无表，在浏览器大对象里 5 条</b>；工艺路线存字符串名</td><td><span class="gap">产能主数据无源</span></td></tr>
+</table>
+<div class="ok-box mini"><b>生产域做得好的（完整列举）</b>：①<b>迁移 0051 的 6 条设计取舍都有论证</b>，唯一键选 <code>(bom_id, level, sequence)</code> 而非 material_code 以容纳"同一标准件在框架段和底座段各用一次"的真实业务；②<b>工单倒冲做对了</b>——<code>inventory_posted</code> 幂等、<code>missing_material</code>/<code>missing_bom</code>/<code>phantom_skipped</code> 区分设计缺陷与正常业务、倒冲失败不阻断完工且作废出库单不置幂等位、<code>backflush.ts:365</code> 主动修复"只预取一层导致静默少扣料"；③前后端 BOM 展开规则<b>逐条对齐</b>并都做 <code>MAX_BOM_DEPTH=12</code> 防环；④MRP 低层码<b>取最深值并写明"取最浅会导致螺栓被算两遍"</b>；⑤废品率用 <code>qty/(1-r)</code> 反推而非 <code>qty×(1+r)</code>，并夹取 0~99 防除零；⑥CRP 班次日历按真实开工日折算，需求落周日标 999% 负荷；⑦委外成本用累计差分分摊修掉尾差累积；⑧<code>statusMachine</code> 把"为什么不做跳级校验/为什么不拦删除"逐条写在文件头——<b>罕见的、把设计取舍写清楚让后人敢改的注释质量</b>；⑨迁移 0076 主动记录"不改唯一键的代价与理由"。</div>
+
+<h2>四、问题全集（按域筛选）</h2>
+
+<div class="filters">
+<div class="fg">
+<span style="font-size:13px;color:#718096;margin-right:6px">筛选：</span>
+<button class="on" onclick="filt('all',this)">全部 94</button>
+<button onclick="filt('p0',this)">P0 阻断 15</button>
+<button onclick="filt('p1',this)">P1 严重 31</button>
+<button onclick="filt('p2',this)">P2 中等 8</button>
+<button onclick="filt('fin',this)">财务 35</button>
+<button onclick="filt('sc',this)">供应链 36</button>
+<button onclick="filt('prod',this)">生产 31</button>
+<button onclick="filt('acc',this)">仅数据准确性</button>
+<button onclick="filt('biz',this)">仅业务使用</button>
+</div>
+</div>
+
+<div id="list">
+
+<div class="issue" data-p="p0" data-d="fin acc biz">
+<h4><span class="tag t-p0">P0</span>凭证 PUT 可用空分录清空全部分录 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/voucherGuard.ts:89</code> + <code>functions/api/vouchers/[id].ts:106-117</code></p>
+<p class="row"><b>事实</b>守卫 <code>items.length === 0 → return null</code> 放行；PUT 条件判断空数组为 truthy → 执行 <code>DELETE FROM voucher_items</code> 后插 0 行，凭证头 <code>total_debit</code> 保持原值，返回成功无报错。</p>
+<p class="row"><b>对标</b>SAP 分录行过账后受凭证头锁定；金蝶/用友无"清空分录保留总额"的接口语义。</p>
+<p class="row"><b>建议</b>空数组语义从"放行"改"拒绝"（仅 <code>undefined</code> 放行）；已过账凭证禁带 <code>items</code>，改分录必须走红冲。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>期间锁定只校验目标期间，可反冲已结账期间 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/vouchers/[id].ts:52-56</code></p>
+<p class="row"><b>事实</b><code>toPeriod(body?.date) || toPeriod(existing.date)</code> 只在 <code>body.date</code> 缺失时回落原期间。提交新日期即算出未结账目标期间 → 放行 → 一条 UPDATE 把已结账凭证挪进未结账期。</p>
+<p class="row"><b>对标</b>SAP OB52 改凭证日期时源/目标期间双侧校验。前端 <code>financeStore.ts:727-730</code> 已正确做了双侧，<b>后端比前端更宽松</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc biz">
+<h4><span class="tag t-p0">P0</span>结账状态两套真源、可被用户覆写、且 fail-open <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/appState.ts:31-46</code> + <code>src/stores/financeLedgerStore.ts:240-247</code></p>
+<p class="row"><b>事实</b>结账状态存 <code>app_state</code> 键 <code>ssa-erp-finance-ledger</code>，<b>任何登录用户可 PUT 覆写</b>；<code>upsertClosing</code>/<code>openPeriod</code> 是纯前端 set，无端点无审计；<code>isPeriodClosed</code> 键不存在或解析失败即返回 false（fail-open）。</p>
+<p class="row"><b>建议</b>迁 <code>fin_closing_periods</code> 关系表（含 closed_by/at、reopened_by/at），结账走服务端端点 + <code>guardOperation</code> + 审计，fail-open 收口为 fail-closed。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>期间锁不覆盖发票/税务/项目单据，绕过凭证层 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/entities/[resource].ts:89</code>（期间锁只在 <code>vouchers/index.ts:86</code>、<code>vouchers/[id].ts:54</code>、<code>fixed-assets/depreciate.ts:51</code> 三处）</p>
+<p class="row"><b>事实</b><code>fin_invoices</code>/<code>fin_tax_records</code>/<code>fin_project_accounts</code> 走通用实体路由不查期间 → 可在已结账期补单据，2 月自动生成 1 月凭证（服务端会拦但<b>前端已乐观更新并提示"凭证已生成"</b>）。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>凭证行多币种/汇率/成本中心/项目被服务端写死 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/voucherWriter.ts:110-115</code></p>
+<p class="row"><b>事实</b>INSERT 绑定 <code>'CNY', 1, null, null</code>；<code>VoucherItemInput</code> 接口（<code>:22-29</code>）<b>没有定义 currency/exchangeRate 字段</b>，调用方传了也进不来；而前端 <code>financeStore.ts:260-263</code> <b>明确传了</b> → 服务端丢弃。<code>line_no</code> 用循环下标而非 <code>it.lineNo</code>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>报表以科目名称为匹配键，改名后历史金额静默失联 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/financialStatements.ts:83-84,104-105,202</code></p>
+<p class="row"><b>事实</b><code>nameToCode</code> 用科目名建 Map，分录侧存的是 <code>accountName</code>。改科目名 → <code>nameToCode.get()</code> 返回 undefined → <code>if (row)</code> 假 → <b>金额被静默丢弃</b>，资产负债表/利润表/试算平衡/现金流量表同时少这笔钱，<b>不报任何错</b>。<code>voucher_items.account_code</code> 明明存在却完全没用。</p>
+<p class="row"><b>建议</b><code>AccountEntry</code> 增 debit/creditAccountCode，报表按 code 匹配、name 仅展示；存量按历史名一次性回填映射。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>期初余额无建账流程与借贷试算校验，种子数据本身不平 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>migrations/0053_finance_domain.sql:195</code> + <code>financialStatements.ts:94-97</code></p>
+<p class="row"><b>事实</b>唯一期初载体是 <code>fin_chart_of_accounts.balance REAL</code>，无「借贷合计必须相等」校验；前端种子 <code>financeStore.ts:72-99</code> 资产合计 2,070,000 vs 负债+权益 1,568,000，<b>差 502,000 不平</b>；<code>buildBalanceSheet</code> 的 <code>balanced</code> 判平被"本年利润以净利列示"掩盖。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc biz">
+<h4><span class="tag t-p0">P0</span>应收应付账龄是孤儿数据，五个入口三种口径 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/stores/arapStore.ts:24-76,132</code>；<code>ReceivableList.tsx:39</code>、<code>PayableList.tsx:43</code>、<code>AgingReport.tsx:37</code>、<code>financialStatements.ts:234,261</code></p>
+<p class="row"><b>事实</b>8 条硬编码种子存 <code>ssa-erp-arap</code>，与发票/付款计划/凭证<b>无外键无联动</b>，收款不回写 <code>paidAmount</code>。五处取数：应收列表读种子、应付列表读种子、账龄汇总读付款计划、子账读发票+付款计划、AR 子账读销售订单 → <b>数字必然不同</b>。销售发货确认应收<b>完全没接</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>付款无累计超付校验，已付金额可任意改写 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/threeWayMatch.ts:264</code> + <code>functions/_shared/parentChild.ts:630-644</code></p>
+<p class="row"><b>事实</b><code>OVER_INVOICE</code> 用 <code>payAmount &gt; invoiceTotal×(1+tol)</code>，<b>单次上限、不累计历史已付</b>；父表 <code>paid_amount</code>/<code>total_amount</code> "传什么写什么"。同一发票拆 3 张付款计划各付 100% 三次都通过。</p>
+<p class="row"><b>建议</b><code>guardPaymentRow</code> 加按 <code>invoice_no</code> 汇总 <code>Σpaid_amount</code> 的累计校验 + 父表 <code>paid ≤ total</code> 不变式 + 新增核销表记录每笔冲抵行。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>付款凭证科目编码为空字符串 + 自动置 posted 绕过复核 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/voucher.ts:185-263</code>（<code>:211,225</code> accountCode 写死 <code>''</code>、<code>:248</code> status 固定 <code>'posted'</code>）</p>
+<p class="row"><b>事实</b>自动凭证靠科目名匹配（改名即丢），一诞生就 <code>posted</code> 跳过制单/审核/过账三步；凭证号 <code>V-PP-*</code> 不是规范 <code>记-YYYYMM-NNNN</code>；金额取 <code>totalAmount</code> 而非实际 <code>paidAmount</code>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>合并报表无 ledger_book 条件，跨账簿简单相加 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/consolidation/index.ts:57-59,83-95</code></p>
+<p class="row"><b>事实</b>注释写"账簿不限"，SQL <b>根本没有 ledger_book 条件</b>，只按 org + period 汇总 → 法定账套与管理账套凭证混在同一张试算平衡表相加，<b>得不到任何合并效果</b>。而 <code>vouchers.ledger_book</code> 列已建好且写入侧在写。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>抵消规则只按科目取 min，无双向对冲与逐笔匹配 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/consolidation/index.ts:107-130</code></p>
+<p class="row"><b>事实</b><code>Math.min(该科目所有组织汇总净额)</code> 一刀切，<b>非双向对冲</b>、<b>多对多无法按笔匹配</b>（3 笔对 2 笔会错）、<b>未区分账簿与组织</b>。</p>
+<p class="row"><b>对标</b>SAP 抵消基于内部交易<b>逐笔明细</b>并有差异追溯；金蝶/用友有"内部往来对账+抵消凭证"两步。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>折旧无到期判断，提满后继续计提且累计可超原值 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/fixed-assets/depreciate.ts:76-107</code></p>
+<p class="row"><b>事实</b>只筛 <code>status='in_use'</code>，不判 <code>useful_life_months</code>。净值 <code>Math.max(0,...)</code> 卡 0 但 <code>total</code>/<code>accumulated</code> 照累加 → <b>凭证继续全额计提</b>，累计折旧超原值。幂等检查只看"该期间是否已有凭证"，跨期重复调用无保护。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc biz">
+<h4><span class="tag t-p0">P0</span>资金账户余额前端乐观累加、删流水不回冲 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/stores/cashMgmtStore.ts:79-107</code></p>
+<p class="row"><b>事实</b>余额在客户端算好写回 D1，任何人调 <code>PUT /api/entities/cashAccount</code> 即改银行余额（该表无 version 列不走乐观锁）；<code>deleteFlow</code> <b>只删流水不回冲余额</b> → 凭空多钱；<code>updateFlow</code> 改金额也不调余额。</p>
+<p class="row"><b>对标</b>SAP 银行余额由凭证与总账自动联动，<b>不允许手工填余额</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="fin acc">
+<h4><span class="tag t-p0">P0</span>成本核算全在前端 + 无出库结转凭证 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/cost.ts</code>（全 150 行）+ <code>functions/_shared/inventoryPosting.ts:79-155</code></p>
+<p class="row"><b>事实</b>移动平均滚动全在前端内存；服务端过账只按 <code>qty×unitPrice</code> 算入库金额，<b>不读不写库存金额与移动均价</b>；<code>generateOutboundVouchers</code> <b>没有出库结转凭证</b> → 存货已出、成本未进总账 → 利润表永远虚高。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc biz">
+<h4><span class="tag t-p0">P0</span>入库单金额恒为 0，三单匹配付款闸门 100% 拦截 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/inbound-orders/index.ts:124</code> + <code>functions/_shared/threeWayMatch.ts:191</code> + <code>src/pages/Warehouse/InboundForm.tsx:112-134</code></p>
+<p class="row"><b>事实</b>服务端 <code>Number(item.amount) || 0</code>，前端表单<b>只传数量不传单价金额</b>；三单匹配按 <code>SUM(i.amount)</code> → <code>inboundAmount</code> 恒 0 → 判定必然触发 <code>INSUFFICIENT_INBOUND</code> → <b>有发票的采购付款全部被拦</b>，到货率永远 0%。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc">
+<h4><span class="tag t-p0">P0</span>库存唯一索引缺 location_id，多库位过账必失败 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>migrations/0007_p1_phase5.sql:71</code>、<code>0043_backfill_indexes.sql:26</code> vs <code>functions/_shared/inventoryPosting.ts:67-73</code></p>
+<p class="row"><b>事实</b>唯一索引 <code>(org_id, material_id, warehouse_id)</code> <b>三列</b>，查询按<b>四列</b>（含 location_id）→ 同物料同仓不同库位时 INSERT 触发唯一约束 → 异常被 <code>catch</code> 只 console.error、<code>inventory_posted</code> 不置 1，但<b>单据已 completed</b> → 单据完成、库存没加、系统不告知。</p>
+<p class="row"><b>建议</b>重建索引为四列（<code>location_id</code> 用 <code>COALESCE</code> 归一 NULL）。<b>这是多库位场景的前置必修项</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc">
+<h4><span class="tag t-p0">P0</span>前后端各滚一次移动平均价，成本双算 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>src/stores/warehouseStore.ts:665-671</code>（前端 rollInboundCost）+ <code>functions/_shared/inventoryPosting.ts:93</code>（后端 rollIn）</p>
+<p class="row"><b>事实</b>一次确认入库走两条过账路径：前端滚一次写内存物料、后端滚一次写 D1。前后端物料基数若已分叉 → 两个不同的移动均价；前端生成的暂估凭证与后端生成的靠 <code>source_no</code> 查重勉强去重，格式不同则<b>两张凭证重复挂账</b>。</p>
+<p class="row"><b>对标</b>SAP/金蝶均为<b>单一过账引擎</b>，应用层只提交业务事件不允许自己算成本。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc biz">
+<h4><span class="tag t-p0">P0</span>库存盘点不过账：只改前端内存，刷新即失 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>src/stores/warehouseStore.ts:889-953</code></p>
+<p class="row"><b>事实</b><code>postCheckAdjustment</code> 只操作本地 records 并 <code>set</code> 到 zustand，只把任务状态发后端 → <code>inventory_records</code> 不变、<code>materials.current_stock</code> 不变（MRP/ATP 取的值与实际不符）、<b>无盘盈盘亏凭证</b>、<code>difference_amount</code> 未回写。刷新后盘盈盘亏全消失。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc biz">
+<h4><span class="tag t-p0">P0</span>库存调拨完全不写库存，是只留单据的空壳 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/stock-transfers/[id].ts</code>（全文）+ <code>functions/_shared/statusMachine.ts:28-34</code></p>
+<p class="row"><b>事实</b>PUT 只更新单据头尾与明细，<b>全文无一句 postInbound/postOutbound/UPDATE inventory_records</b>；<code>DocType</code> 联合类型<b>没有 stock_transfer</b> → status 可任意设 completed。调拨后两仓数字永久偏差且系统内无痕迹。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc">
+<h4><span class="tag t-p0">P0</span>物料主数据 API 允许直接改库存数量与移动均价 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/materials/[id].ts:109-114</code></p>
+<p class="row"><b>事实</b>PUT 白名单含 <code>current_stock</code>/<code>stock_value</code>/<code>moving_avg_price</code>，<code>COALESCE(?,...)</code> 模式下任何有物料编辑权的角色都能改 → 不写 <code>inventory_records</code>（物料账与库存账永久分叉）、不产生凭证、审计只记"更新物料"。<b>直接击穿服务端算账作为唯一权威源的设计声明</b>。</p>
+<p class="row"><b>对标</b>SAP 物料主数据<b>根本没有库存数量字段</b>，库存只在评估表；金蝶物料库存字段只读。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc biz">
+<h4><span class="tag t-p0">P0</span>质量扣留不扣可用量，判不合格的料照样能出库 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/quality-holds/[id].ts:40-44</code> + <code>functions/_shared/inventoryPosting.ts:106,195</code></p>
+<p class="row"><b>事实</b>扣留 PUT 只更新 <code>quality_holds</code> 自身，不过账；<code>frozen_quantity</code> 列存在但<b>全代码库无任何一处写入</b>（INSERT 时写死 0）；过账时 <code>available_quantity</code> 只跟随数量增减 → 被判不合格 100 件账面可用量仍含这 100。ATP 计算器前端单独减扣留 → <b>界面显示可用量与出库单允许数量不一致</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="sc acc biz">
+<h4><span class="tag t-p0">P0</span>订单行 delivered_quantity 服务端从不更新，收发进度永远 0 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/inbound-orders/[id].ts:110-152</code>、<code>outbound-orders/[id].ts:109-147</code>（服务端无 UPDATE）；回写仅在 <code>src/stores/warehouseStore.ts:254-275</code>（前端内存）</p>
+<p class="row"><b>事实</b><code>grep "UPDATE purchase_order_items" functions/</code> <b>结果为空</b>；回写依赖浏览器内存 store，直接调 API 建入库单则完全不执行 → D1 中 <code>delivered_quantity</code> 恒为初值、到货进度永远 0、ATP 全部失准、订单状态不自动流转。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>多层 BOM 嵌套在 D1 往返被压平，子装配被当实物料领 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b>写侧 <code>functions/api/bom/index.ts:154-167</code>（正确展平）vs 读侧 <code>itemToApi</code>（<code>:95-103</code>，<b>逐行平铺无 nestItems</b>）+ <code>:243</code></p>
+<p class="row"><b>事实</b>第 91 行注释"明细组装回嵌套数组"是<b>误导性注释</b>（<code>map</code> 不构成嵌套）。<code>WorkOrderDetail.tsx:70</code> 的 <code>it.children</code> 判断恒 false → 父行走 <code>childProductCode</code> 查产品独立 BOM（本库不存在）→ 落到叶子分支<b>被当实物料号领料</b>，其 4 个真实子件一分不领。<code>bomCost.ts:56-63</code> 子装配整行成本静默归零。<b>mock 的 bom-003 三层 BOM 已进 D1，问题已发生</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>工单列表 API 不返回 BOM/路线/成本/倒冲标记，四处退化为猜 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>functions/api/work-orders/index.ts:44-52</code>（手工列举返回字段，<b>无 bom_id/route_id/actual_*_cost/inventory_posted</b>）</p>
+<p class="row"><b>事实</b><code>bomId</code> 只存在于 POST/PUT 的 fields 白名单。① BOM 挂载退化为按 productCode 找首个，而 mock 的 EBOM/MBOM <b>productCode 相同</b> → 永远拿 EBOM 冒充 MBOM；② 成本归集页 <code>bomId</code> 恒 undefined → <b>物料成本整列恒 0</b>；③ 已倒冲工单刷新后显示"未倒冲"。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc">
+<h4><span class="tag t-p0">P0</span>成本卷积人工/制造费用是写死的 15%/12% 系数 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/BOM/CostRollup.tsx:76-77</code></p>
+<p class="row"><b>事实</b><code>laborCost = materialCost × 0.15; overheadCost = materialCost × 0.12</code>，<b>完全不使用</b> <code>bom_items.labor_cost</code>/<code>process_cost</code>（列已建已读写）与工艺路线工时；与 <code>CostCollection.tsx:51-53</code>（工时×费率）<b>互相矛盾</b>，与 <code>bomCost.ts:52</code>（第三套口径）。"执行卷积"按钮只 <code>setCalculated(true)</code>，<b>不落库不写工单不产生凭证</b>。</p>
+<p class="row"><b>对标</b>SAP 成本估置由 Costing Variant + BOM 行成本 + 工艺路线工时×费率共同决定，有成本组件分层；<b>写死系数在三家标杆中无对应实现</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>工单领料只扣内存不落 D1，幂等守卫刷新即失效可重复领料 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/stores/productionStore.ts:289-383</code> <code>issueMaterials</code></p>
+<p class="row"><b>事实</b><code>issuedMaterials</code> 只在内存，<code>work_orders</code> 表<b>无对应列</b>（已核对 0007/0071/0076 建表）→ 刷新后守卫 <code>if (issuedMaterials.length) return</code> 失效 → <b>可重复领料</b>；<code>postPicking</code> 失败仅 toast、<b>已扣的库存不回滚</b> → 倒冲差额偏大 → <b>倒冲重复扣料</b>；取整规则与倒冲不一致（<code>Math.ceil</code> vs 4 位小数）。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>重复制造"倒冲"只累加台账数字，不扣库存不生凭证且无冲销 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/stores/repetitiveMfgStore.ts:119-147</code></p>
+<p class="row"><b>事实</b>只累加 <code>rep_mfg_periods.backflush_items</code> 的 <code>consumedQty</code>，不调 postOutbound、不建出库单、不生成凭证 → 原料账面数量纹丝不动；<b>无冲销能力</b>（误报无法回退）；<b>报废量不进料耗</b>（<code>stdQty × goodQty</code>）；超计划量无告警。<code>backflush.ts:11-12</code> 已记录该缺陷（V3.20.0 修好工单倒冲却没修重复制造）。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>工序报工与 MES 报工两套模型并存，报工不回写工单持久化字段 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b>富模型 <code>src/stores/productionOperationStore.ts:107-167</code>（app_state，0 D1 调用）vs 瘦模型 <code>mes_operation_reports</code>；<code>src/pages/Production/OperationReporting.tsx:102-165</code></p>
+<p class="row"><b>事实</b>①两套无同步，MES 表<b>无 operation_id</b> → 无法归属工序；②<code>progress</code> 不在 <code>work_orders</code> 表也不在 <code>[id].ts:47</code> 白名单 → <b>静默丢弃</b>，刷新后工序进度条不渲染；③<code>qualifiedQuantity</code> 不更新 → 倒冲 <code>doneQty</code> 退回含报废的完工数 → <b>多领料</b>；④报废累计是"历史合计再 + 本次"，依赖 zustand 同步 set 恰好生效，逻辑脆弱；⑤人工/机器费率也在此 store → <b>成本参数在浏览器里，换设备成本就变、不可复算</b>。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc">
+<h4><span class="tag t-p0">P0</span>成本归集"实际材料成本 = 标准单位成本 × 完成量"，结构上不可能产生材料差异 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Production/CostCollection.tsx:43,63</code></p>
+<p class="row"><b>事实</b><code>actMaterial = unitMaterial × wo.completedQuantity</code>，材料差异只剩产量差异一个来源，<b>采购价差/领料量差/废料损耗全部无法体现</b>；且因 P0-2（bomId 恒 undefined）<code>unitMaterial = 0</code> → <b>物料成本整列为 0</b>；<code>bom?.items</code> 是平铺数组，reduce 会把子装配父行与其子件<b>重复计算</b>。</p>
+<p class="row"><b>对标</b>SAP 生产订单实际成本由领料+收货+报工+差异过账四类真实凭证汇总，材料成本来自 261 移动的平均价。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>两条完工路径行为不一致：报工置 completed 只扣料不入库 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>OperationReporting.tsx:159-166</code> vs <code>WorkOrderDetail.tsx:203-228</code>（<code>completeWorkOrder</code>）</p>
+<p class="row"><b>事实</b>路径一（完工入库）完整：回写+倒冲+成品入库+台账；路径二（末道工序报工置 completed）<b>只触发倒冲，不生成成品入库单、无 finished_goods_inbounds 台账、无生产成本凭证</b> → <b>料扣了货没了、账实不符且界面无提示</b>。服务端只校验状态合法性，不管"是否有据可查"。</p>
+</div>
+
+<div class="issue" data-p="p0" data-d="prod acc biz">
+<h4><span class="tag t-p0">P0</span>委外回收只改状态字符串，成本从界面内存取换设备得 0 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/stores/subcontractStore.ts:275-280</code>（returnMaterials）、<code>:195-202</code>（成本分摊）</p>
+<p class="row"><b>事实</b>①"回收"按钮只把 status 改成 returned，<b>不生成退料入库单、不加回库存、不计加工费、不写凭证</b> → 用户以为料回来了，原材料库里仍是被扣状态；②材料成本从 <code>wh.outboundOrders</code>（内存数组）取，换设备/刷新后 <code>issueOb</code> 为 undefined → <b>委外成品材料成本恒 0</b> → 移动均价被拉低 → <b>级联污染后续所有出库结转成本与毛利</b>；③在外物资无台账，多退少交无法对账。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc biz">
+<h4><span class="tag t-p1">P1</span>采购订单 PUT/DELETE 必然 500：db 在声明前被使用 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/purchase-orders/[id].ts:44</code>（用）与 <code>:47</code>（声明 <code>const db</code>）；DELETE 同病（<code>:128</code> vs <code>:131</code>）</p>
+<p class="row"><b>事实</b><code>const</code> 暂时性死区 → <code>ReferenceError: Cannot access 'db' before initialization</code> → 中间件兜底 500。<b>采购订单的修改与删除功能服务端 100% 不可用</b>，而该文件还标着"V3.24.0 操作权限已加固"的注释。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc biz acc">
+<h4><span class="tag t-p1">P1</span>五个直接决定库存数字的写端点零操作守卫 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>operationGuard.ts:38-49</code> 的 <code>API_TO_MODULE</code> <b>定义了却无人使用</b>（守卫调用点全是硬编码字符串）</p>
+<p class="row"><b>事实</b>调拨/库存调整/序列号/单位换算/三单匹配/采购申请/供应商报价的 <code>guardOperation</code> 计数<b>全为 0</b>。任何登录用户（含只读 <code>user</code> 角色）都能改库存调整单、批量改序列号状态。补守卫时需同步补 <code>BUILTIN_ROLE_OPS</code>，否则库管会被 <code>?? false</code> 兜底拒绝（合法使用者也被拒）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>单位换算两套机制并存且业务链路零调用 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>migrations/0074_unit_conversions.sql:12-24</code>、<code>src/stores/unitConversionStore.ts:45</code>（唯一调用点在设置页演示）</p>
+<p class="row"><b>事实</b>迁移注释"不加 org_id——单位换算是全局基础数据"但 <code>UNIQUE(from_unit,to_unit)</code> 无 org → A 公司建"箱→个=12"，B 公司想建"=24"会撞唯一约束失败；<code>convertUnit</code> 采购/入库/BOM/领料<b>全链路零调用</b>；而 <code>materials</code> 表<b>另有一个</b> <code>unit_conversion</code> 字段（1 采购单位 = N 基本单位），两套并存互不引用、无一致性校验 → 采购单位≠BOM 单位时<b>库存少记</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>出库超发被两账本卡 0 静默吞掉，差异永不暴露 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/inventoryPosting.ts:49-64,189-199</code></p>
+<p class="row"><b>事实</b>数量与金额 <code>Math.max(0, ...)</code> 卡 0 差异消失，但 <code>costAmount</code> 按真实数量×单价计提并生成 6401 借方 → <b>为不存在的实物确认了成本</b>；且出库<b>未做可用量校验</b>（<code>if (existing)</code> 不存在时直接跳过）；入库侧 <code>if (!material) continue</code> 静默跳过无效物料 → 单据仍标 completed。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc biz">
+<h4><span class="tag t-p1">P1</span>三单匹配数量维度完全不参与判定（发票无明细表） <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/threeWayMatch.ts:20-24,246-261,299-318</code></p>
+<p class="row"><b>事实</b>能力边界在注释里<b>诚实标注了</b>（值得肯定），但 <code>invUnitPrice = invoiceAmount / inboundQty</code> 是"总额÷数量"的代理值 → 采购 3 种单价差异极大的物料时该除法无业务含义却写进台账让人误读；<code>three_way_match</code> 的 <code>inbound_id</code>/<code>invoice_id</code> <b>恒为 null</b> → 台账无法反查具体单据。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc biz">
+<h4><span class="tag t-p1">P1</span>三单匹配无超差审批放行通道，超差只能靠改数据绕过 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>threeWayMatch.ts:40,246-261</code></p>
+<p class="row"><b>事实</b><code>TWM_TOLERANCE = 0.01</code> 对所有品类一刀切（二值硬拦无放行路径）。<code>guardBudget</code> 的超管安全阀<b>只用在预算、三单匹配本身没有</b> → 业务遇真实超差（供应商多发 0.5% 零配件）唯一出路是改发票金额或新建订单 → 反而绕过管控。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>序列号状态词表分裂 4 种，FIFO 核销会漏掉过账写入的 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>inventoryPosting.ts:268,278,283</code>（<code>active</code>/<code>in_stock</code>/<code>out_stock</code>）、<code>serial-numbers/consume.ts:14</code>（<code>shipped</code>）</p>
+<p class="row"><b>事实</b>同一字段 4 种取值来源；<code>consume.ts</code> 的 FIFO 选 <code>status='in_stock'</code>，过账写的 <code>active</code> 根本不是 <code>in_stock</code> → 不被任何查询命中；出库过账写 <code>out_stock</code>、手工 consume 写 <code>shipped</code>，两条路径反复覆写 → 追溯链断裂；<code>consume.ts:31-33</code> 的 INSERT 漏 <code>created_at</code>/<code>created_by</code>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>序列号主档不校验物料归属，出库不校验在库状态 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/inventoryPosting.ts:259-287</code></p>
+<p class="row"><b>事实</b>SELECT 只取 <code>id, status</code> <b>没取 material_id</b> → SN001 绑物料 A 却填到物料 B 的出库行，主档状态被改但 material_id 仍指向 A；<code>material_name</code> 也不更新（保留首次入库的旧名）；已 <code>out_stock</code> 的 SN 再次出库<b>状态被"改回" out_stock 并成功返回，无异常</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>出库回读不传 serialNos，序列号不出库但库存已扣 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/outbound-orders/[id].ts:113-127</code> vs 入库侧 <code>inbound-orders/index.ts:152</code>（<b>入库正确</b>）</p>
+<p class="row"><b>事实</b>出库 SELECT 无 <code>serial_nos</code> → <code>PUT</code> 只传 <code>{status:'completed'}</code> 时走回读分支 → <code>handleSerialMovements</code> 的 <code>if (!serialNosStr) continue</code> 跳过 → <b>序列号不出库、主档不流转、无流水记录，但库存已扣凭证已出</b>。两条路径行为不一致（POST 直接传 items 是好的）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>BOM 有效期与替代 BOM 全部只存不用（三处选 BOM 逻辑无一消费） <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/stores/bomStore.ts:157-163</code>、<code>MRPPlan.tsx:147</code>、<code>functions/_shared/backflush.ts:259-293</code>；索引 <code>idx_bom_header_priority</code> 已建</p>
+<p class="row"><b>事实</b>MRP 用 <code>new Map(bomList.map(...))</code> <b>后写覆盖先写、连 status 都不看</b> → 同产品 EBOM(draft)+MBOM(released) 可能选草稿；倒冲用 <code>ORDER BY created_at DESC LIMIT 1</code> 不校验有效期 → 2024 年创建但已过期的 BOM 会被拿去扣料；<code>is_alternate</code>/<code>usage_probability</code>/<code>priority</code> <b>一次都没被读</b> → 替代 BOM 在业务上是摆设。</p>
+<p class="row"><b>对标</b>三家都把有效期与替代 BOM 接进选 BOM 逻辑。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>MRP 供应侧只算采购，在制工单与计划订单被重复采购 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Production/MRPPlan.tsx:274-284,296</code></p>
+<p class="row"><b>事实</b><code>onOrder</code> <b>只来自 purchaseOrders</b>；<code>workOrders</code>（尤其 <code>source:'manufacture'</code> 自制件）、<code>planned_orders</code>、<code>subcontract_orders</code> 在制量<b>全漏</b> → 自制件在制 100 件仍会建议再生产 100 件。<b>标准 MRP 供应侧五项只实现两项</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>MRP 不扣质量冻结，与 ATP 对"现有库存"定义不同 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>MRPPlan.tsx:292-296</code> vs <code>src/utils/atp.ts:27-30</code></p>
+<p class="row"><b>事实</b>ATP <code>onHand = max(0, onHandRaw - holdQty)</code> <b>扣了冻结</b>，MRP <code>onHand = mat.currentStock</code> <b>没扣</b> → 1000 件中 300 件在检待判，MRP 认为现有 1000 实际可用 700 → <b>少提 300 采购需求</b>，判退时已缺料停线。典型的同系统口径分裂。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>MRP 缺独立需求/相关需求区分，替代料不参与运算 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>MRPPlan.tsx:237-264</code>（explode）、<code>:296</code></p>
+<p class="row"><b>事实</b>递归把一切需求混在 <code>grossDemand</code> 一个 Map，<b>无需求量来源标记</b> → 无法回答"这个建议是客户订单驱动还是 BOM 展开来的"；<code>material_substitutes</code> 表（含 priority/conversion_ratio/有效期）<b>完全没读</b>，<code>SubstituteAdvisor</code> 只做展示性推荐，不改变 <code>net</code>/<code>planned</code> 计算。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>委外发出材料无在外物资台账，回收不产生库存动作 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>subcontractStore.ts:124-183,275-280</code>；<code>functions/api/subcontracts/index.ts:126-133</code></p>
+<p class="row"><b>事实</b><code>subcontract_issue_items</code> 只 INSERT 无库存动作，而 <code>generateOutboundVouchers:412-414</code> 的委外发料凭证分支<b>是存在的</b> → 设计意图明确但<b>没有任何代码把发料明细转成出库单</b> → 发出 1000 元原材料库存不减，而收货时按 <code>1408</code> 结转 → <b>1408 借方永不发生、贷方凭空结转，委外成本必然对不平</b>（代码注释自己承认了设计意图）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>rep_mfg 与 subcontract 用 TEXT JSON 存数组，无法反查无约束 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>migrations/0028_rep_mfg.sql:37</code>、<code>0011_subcontract_orders.sql:23</code></p>
+<p class="row"><b>事实</b><code>JSON.parse</code> 失败时 <code>catch { return [] }</code> <b>静默吞掉脏数据</b>（读出空数组 → 页面显示"无倒冲明细"）；迁移 0061 有 250 字论证"将来会不会需要按内部字段做 SQL 统计"作为建表判据，而 <code>backflush_items</code>（含 materialCode/qty/consumedQty）<b>恰恰需要按物料统计</b> → 判据不成立却仍用 TEXT。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>逐期付款不校验分期合计是否等于计划总额 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/stores/financeStore.ts:561-596</code></p>
+<p class="row"><b>事实</b>不校验 <code>Σinstallments.amount === totalAmount</code> → 付清全部期后 <code>paidAmount ≠ totalAmount</code> 但 <code>status</code> 已置 <code>paid</code>，并触发 <code>generateVoucherFromPayment</code> 按 <code>totalAmount</code> 记账 → <b>凭证金额按计划总额、实际付款按分期合计</b>，两者不一致无提示。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>固定资产改原值/年限不重算累计折旧，也不锁已结账期间 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/fixed-assets/index.ts:161-207</code></p>
+<p class="row"><b>事实</b>PUT 重算 <code>monthlyDepreciation</code> 但 <code>accumulated_depreciation</code>/<code>net_value</code> <b>沿用请求体传值</b>，不做口径重算；<b>全文件无 <code>isPeriodClosed</code> 调用</b>；POST 时 <code>netValue</code> 默认为 <code>originalValue</code> 不扣已提折旧；前端 <code>financeLedgerStore.ts:113</code> 写失败<b>仅本地追加无提示</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>折旧凭证为 draft 但资产已改，账实不一致窗口 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/fixed-assets/depreciate.ts:96-135</code></p>
+<p class="row"><b>事实</b>先 <code>db.batch</code> 更新资产累计折旧与净值，<b>之后</b>才 <code>writeVoucher</code> 且凭证 <code>status:'draft'</code> → 资产账面已是新值但<b>总账这笔折旧还没过账</b>（<code>deriveEntries</code> 只收 posted/reversed）→ 用户永不点审核则台账与总账 1602 永久背离；<code>writeVoucher</code> 失败时不返回错误（<code>if (vid)</code>）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>预算闸门与预算页取数口径不同，且都不按期间过滤 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Finance/BudgetControl.tsx:29-42</code> vs <code>paymentGate.ts:178-195</code></p>
+<p class="row"><b>事实</b>预算页按前端派生分录 <code>reduce(s,e)=s+e.amount</code>（含借贷合并值），闸门按 <code>SUM(voucher_items.debit)</code>（<b>只算借方</b>）→ 同一业务两边数字不同；叠加 P0-1 后闸门恒 0 而预算页有值 → 用户看到"还剩 30 万"却被拦；<code>Budget</code> 有 <code>period</code> 字段但<b>实际额计算完全没按 period 过滤</b> → 7 月的预算在 9 月仍显示被占用。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>预算数据在 app_state，解析失败即全额放行，改预算无审计无权限 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/_shared/paymentGate.ts:162-176</code></p>
+<p class="row"><b>事实</b><code>catch { budgets = [] }</code> → 找不到预算即 <code>blocked: null</code> <b>静默全额放行</b>；预算是纯前端 CRUD（<code>financeExtensionStore.ts:147-158</code>，无服务端端点），<b>改预算不经任何审计也无权限校验</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>凭证 PUT 与 POST 的分录列不对称，任何编辑都清空辅助核算 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>functions/api/vouchers/[id].ts:110</code> vs 表结构 <code>0007:44-45</code> + <code>0065:87</code></p>
+<p class="row"><b>事实</b>PUT 的 INSERT 只列 10 列，<code>voucher_items</code> 实际有 <code>cost_center_id</code>/<code>project_id</code>/<code>ledger_book</code> 三列；且 PUT 是"先 DELETE 再全量 INSERT" → <b>任何一次编辑都把这三列整体清空</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin biz">
+<h4><span class="tag t-p1">P1</span>凭证号基于前端内存取最大值，撞号后 409 转 PUT 静默覆盖他人凭证 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/voucher.ts:106-121</code> + <code>src/stores/financeStore.ts:273-276,763</code></p>
+<p class="row"><b>事实</b>序号来自浏览器内存（<code>loadVouchers</code> 只拉 500 条）→ 两台机器同时制单或凭证超 500 张必撞号；<code>persistVoucher</code> 的 409 分支<b>转而执行 updateVoucher</b>，而 <code>body.id</code> 是前端自造的 <code>VCH-&lt;voucherNo&gt;</code>（与对方相同）→ <b>撞号不再报错，而是静默覆盖对方刚创建的凭证</b>。这是最危险的一条。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc biz">
+<h4><span class="tag t-p1">P1</span>ATP 承诺量只扣销售订单，不扣计划/工单/委外占用 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>src/utils/atp.ts:32-49</code></p>
+<p class="row"><b>事实</b><code>committed</code> 只统计 salesOrders，缺 planned_orders/work_order_pickings/subcontract_issue_items → 车间已按同一批原料下达 5 张工单，ATP 仍显示全量可用 → <b>销售承诺了实际拿不出的货</b>；在途量未扣 <code>actualQuantity</code> 也未按计划到货日分层；ATP 为纯前端计算，<b>多人同时下承诺会超卖</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc biz">
+<h4><span class="tag t-p1">P1</span>批次只有编号字符串无主档表，批次页面建立在空数据上 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>src/stores/warehouseStore.ts:955-965</code>；<code>grep "batch_records" migrations/*.sql</code> <b>结果为空</b></p>
+<p class="row"><b>事实</b><code>batchRecords</code> 是纯 zustand set、<b>无 entityRepo 调用</b>，且 <code>partialize: (state) =&gt; ({})</code> 已排除出 Blob → <b>刷新即丢、不跨设备、无 RLS、无审计</b>；<code>inbound_order_items.batch_no</code> 有值但指向<b>不存在的批次主档</b>，无法查这批货入多少出多少剩多少；<code>BatchManage.tsx</code> 与 <code>TraceBatch.tsx</code> 两个页面建立在空数据之上 → FEFO/FIFO 出库无依据。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>rollIn 忽略负数量，采购退货无成本冲回 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>const qi = Number(inQty) &gt; 0 ? Number(inQty) : 0</code> 负数归零 → 退货不减库存不冲成本；<code>SalesReturn.tsx</code> 的退货走内存 <code>addReturn</code> <b>完全不回补库存</b>。设计时预留了 return 分支（<code>generateInboundVouchers:359-360</code>）但 <code>postInbound</code> 主体没有该分支。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>订单行 delivered 可被 PUT 重置为 0，进度归零可再次全额收货 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/purchase-orders/[id].ts:104-116</code></p>
+<p class="row"><b>事实</b>PUT 允许整单删除+重建明细，<code>delivered_quantity</code> 传 0 就重置为 0（<code>partial</code> 不在 <code>statusMachine</code> 锁定态内可自由改）→ <b>货已入库但订单显示零收货</b>，可再次全额收货，付款闸门的 <code>orderedQty</code> 也跟着错。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>订单/发票金额无汇率换算，外币与本币直接相加 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>functions/api/purchase-orders/index.ts:97,103</code>（存了币种汇率）vs <code>threeWayMatch.ts:171-177</code></p>
+<p class="row"><b>事实</b><code>purchase_order_items</code> 表<b>没有 currency 列</b>，三单匹配直接 <code>SUM(amount)</code> → USD 10000（汇率 7.2）与 CNY 72000 <b>直接相加比较</b>；<code>fx_rates</code> 表与 <code>fxStore</code> 已存在但三单匹配未使用。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc biz">
+<h4><span class="tag t-p1">P1</span>库存预警是浏览器本地计算，关掉页面即无预警 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>位置</b><code>src/utils/localAlerts.ts:100-104</code>；<code>migrations/0036_inventory_alerts.sql</code> 整表仅 12 行</p>
+<p class="row"><b>事实</b><code>inventory_alerts</code> 是静态快照表无触发机制，预警只在打开页面时算；<code>functions/api/alerts</code> 只处理信用超限不处理库存；<b>后台作业框架 <code>_shared/jobs.ts</code>（239 行基础设施）里没有库存预警扫描作业</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>无库存变动流水表（库存台账），差异无法逐笔追溯 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>inventory_records</code> 是余额快照，每次过账只做 <code>quantity = quantity + ?</code> 原地累加 → 无法回答"3 月 15 日那批料为什么少了 7 个"；<code>last_inbound_date</code>/<code>last_outbound_date</code> 只留最后一次；<b>S-超发卡 0/手工改库存/盘点不过账/调拨不过账/双轨滚成本 5 个问题共用此底座缺陷</b>。</p>
+<p class="row"><b>对标</b>SAP 全部走 MATDOC（每笔收发调拨报废一条凭证，余额可重建）；金蝶/用友有库存流水账。<b>三家都从不原地改余额。</b></p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc biz">
+<h4><span class="tag t-p1">P1</span>报工与工单数量一致性无服务端校验：可报超、可跳序、可重复报 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Production/OperationReporting.tsx:102-165</code>；<code>productionOperationStore.ts:115-121</code></p>
+<p class="row"><b>事实</b><code>addOperationReport</code> 纯 set 无校验：<code>goodQuantity</code> 可超计划数量、同工序可无限次 add（WIP 看板 <code>reduce</code> 累加所有记录 → 同一工序报两次 100 件则 good=200、wip 夹成 0）、前道未完成也能报后道（异常被 <code>Math.max(0,...)</code> 静默吞掉）；超报工直接放大成本归集页的人工与机器费。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod biz">
+<h4><span class="tag t-p1">P1</span>updateWorkOrder 静默失败：报工回写失败无任何提示 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/stores/productionStore.ts:251-258</code></p>
+<p class="row"><b>事实</b><code>catch { /* 写失败：保留内存态 */ }</code> <b>连 <code>syncError</code> 都不写</b>——<b>全项目唯一</b>放弃"乐观更新+回滚+提示"纪律的 store（对比 <code>bomStore.ts:107-112</code>、<code>subcontractStore.ts:60-61</code>）。报工回写失败时界面显示成功、刷新后数量回退而报工记录仍在 → 倒冲差额偏大 → <b>倒冲重复扣料</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>WIP 纯前端现算无持久化，mes_wips 缺 qty/status 列 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Production/WipBoard.tsx:27-64</code>；<code>migrations/0030_mes.sql:29-38</code> vs <code>src/types/mes.ts:31-40</code></p>
+<p class="row"><b>事实</b>WIP 数量 <code>useMemo</code> 现算、无持久化无审计换设备即变；<b>WIP 无金额</b>（表无金额列、看板只显示数量）；<code>mes_wips</code> 表缺 <code>qty</code>/<code>status</code> 而 <code>WipTrack</code> 类型声明了 → <code>pickSnake</code> 静默丢弃未登记字段 → <b>MES 侧 WIP 数量恒 undefined</b>（<code>qty</code> 是 WIP 模块核心字段）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>MRP 两套建议表并存，KPI 与表格数字必然对不上 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b><code>mrp_recommendations</code>（0061）+ <code>planned_orders</code>（0050）并存；<code>planned_orders</code> 的 <code>converted_*</code> 三列<b>永远是 NULL</b>、<code>status</code> 永远停在 draft、<code>void</code> 状态<b>无任何写入路径</b>（迁移注释花了 250 字论证 void 的必要性但没实现入口）；KPI 读表 A、表格展示 useState → 数字对不上；<code>handleGenPurchaseRequest</code> 用<b>硬编码单价 100</b> 估算金额、<code>materialId: \`mat-${code}\`</code> 拼接不存在的 id。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>BOM 变更无 ECN 控制，在制工单剩余料立即变 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b><code>ecnStore</code>/<code>productionVersionStore</code>/<code>ECNList</code> 四个组件/仓库<b>都不与 bom_headers 联动</b>；<code>functions/api/bom/[id].ts</code> 的整体替换语义在<b>没有 ECN 冻结</b>的前提下很危险 → 已领 60% 的工单，剩余 40% 的料突然变了。三家都有"已发布 BOM 不可直接改，必须走变更单+生效日期+在途单据锁定"。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>工艺路线 version/status 不被引用，MRP 生成工单时路线留空 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b>三处选路线<b>都不检查 <code>status==='active'</code></b> → 可能选中 draft 甚至 obsolete 路线算负荷与 WIP；<code>total_lead_time</code> 不被排期使用（MRP 用物料主数据的粗略字段）；<code>MRPPlan.tsx:608-609</code> 生成工单时 <code>routeId: '', routeNo: ''</code> <b>写空字符串</b>；工序表<b>无"委外工序/关键工序/检验工序"标识</b> → 委外无法体现在工艺路线上。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod acc">
+<h4><span class="tag t-p1">P1</span>work_order_pickings 唯一键禁止多批次领料，且无批次列 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>migrations/0012_work_order_pickings.sql:21</code>；<code>functions/api/work-orders/picking/index.ts:97-100</code></p>
+<p class="row"><b>事实</b><code>UNIQUE(org_id, work_order_id, material_id)</code> → 同一工单同一物料只能一行，<b>领 100 后再领 50 被 409 拒绝</b>、退料无处记录、换批次领料被拒；表<b>无 <code>batch_no</code> 列</b> → 批次追溯在领料层就断了；无 <code>location_id</code>、无 <code>cost_amount</code>（材料成本只能事后从出库单反查）。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="prod biz acc">
+<h4><span class="tag t-p1">P1</span>工单无 cancelled 态 + 无反报工/无冲销通道 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b>①下错产无法取消，只能走 <code>closed</code>（完全锁定、无原因）→ 月结时混在一起；②倒冲 <code>inventory_posted=1</code> 置后<b>永不重跑</b>，算错了无任何修正手段；③<code>work-orders/[id].ts:145</code> DELETE <b>无状态校验</b>，已过账工单可删（<code>work_order_pickings</code> 无外键 → 领料台账成孤儿行）；④报工只能删内存记录不回退工单数量。</p>
+<p class="row"><b>对标</b>SAP 反向移动类型生成红冲凭证，<b>三家原则都是永不删除已过账单据</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin biz">
+<h4><span class="tag t-p1">P1</span>结账流程不完整：点一下就锁死期间，无结账前检查清单 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Finance/PeriodClosing.tsx:122-133</code></p>
+<p class="row"><b>事实</b><code>handleClose</code> 只检查"是否重复结账"与"是否已损益结转"，<b>不检查试算是否平、往来是否核销、发票是否全部校验、折旧是否计提、现金是否盘点</b> → 点一下锁死整个期间，之后所有凭证改不动，若此时才发现账不平只能反结账而反结账同样无审计。</p>
+<p class="row"><b>对标</b>SAP 有 Closing Cockpit 完整 checklist；金蝶/用友期末处理有结账前检查逐项确认。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>结转损益与汇兑损益多次并发 PUT 相互覆盖，且汇兑按不含税金额算 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/pages/Finance/PeriodClosing.tsx:44-59,83-120</code></p>
+<p class="row"><b>事实</b>每次 <code>postEntry</code> 都触发一次 <code>persistVoucherAsync</code> <b>并发 PUT</b> → 相互覆盖，最后落库的分录可能只剩部分行；凭证号 <code>V-PL-*</code>/<code>V-FX-*</code> 非规范格式；汇兑损益用 <code>(current - entryRate) × inv.amount</code> 直接用<b>不含税金额</b>（应基于外币折算余额），且 <code>entryRate = inv.exchangeRate || 1</code> → <b>未填汇率的发票按 1 算</b>，汇率缺失静默按 1。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>前端拒绝负数金额，红冲凭证无法经正常录入路径重建 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/voucher.ts:83-85</code> vs <code>functions/_shared/voucherGuard.ts:10-12</code></p>
+<p class="row"><b>事实</b>前端 <code>validateVoucher</code> 拒绝负数，服务端<b>刻意不拦</b>（照搬会拒掉所有红冲凭证）——两套口径差异是有意的，但后果是 <code>buildReversalVoucher</code> 产出的负数凭证若走 <code>updateVoucher</code> 会被前端拦下。当前红冲靠 POST 侥幸绕开，是<b>依赖调用路径的偶然正确，不是设计保证</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>发票金额与税额无服务端一致性校验 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>事实</b><code>amount</code>/<code>tax_rate</code>/<code>tax_amount</code>/<code>total_amount</code> 四个独立 REAL 列<b>无 CHECK 约束也无服务端校验</b>；若 <code>total_amount</code> 被改小则超付闸门失效；采购暂估凭证按 <code>totalCost</code>（未税）挂 2201 而发票校验凭证按 <code>inv.amount</code> 冲 2201 → 不符时 <b>2201 残留或冲成负数且无任何校验</b>。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc biz">
+<h4><span class="tag t-p1">P1</span>成本核算方法无配置，仅移动平均一种 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>事实</b><code>getUnitCost</code> 优先级 <code>movingAvgPrice &gt; standardPrice &gt; price</code>，"标准价"<b>只作为兜底取值而非独立核算方法</b> → 走标准成本时库存金额不重估、差异不结转（SAP 的价格差异 4xx 科目）；加权平均（月末一次加权）完全未实现。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="fin acc">
+<h4><span class="tag t-p1">P1</span>出库超发时数量金额卡 0 但成本照结转，恒等式被破坏 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/cost.ts:109-136</code></p>
+<p class="row"><b>事实</b>出库 100 件库存 60 件 → 数量=0、金额=0（实际应结转 60 件价值）但 <code>costAmount = roundAmount(100 × price)</code> 按真实量计提 → <b>多结转 40 件成本，存货与成本科目同时虚增</b>，差额被吞掉不入账；<code>cost.ts:9-10</code> 自述的 <code>stockValue ≈ currentStock × movingAvgPrice</code> 恒等式在超发时被破坏。</p>
+</div>
+
+<div class="issue p1" data-p="p1" data-d="sc acc">
+<h4><span class="tag t-p1">P1</span>委外发料明细不参与任何库存过账 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b>见生产域同名问题（同一 <code>subcontract_issue_items</code> 缺陷，从供应链角度看是<b>委外发出后原材料库存不减</b>，导致委外成本对不平）。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="prod acc">
+<h4><span class="tag t-p2">P2</span>成本卷积 totalCost 口径三套并存，mock 数据与算法不自洽 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b><code>BOMForm.tsx:122</code> 的 <code>totalCost = quantity × unitCost</code>（不含废品率）vs <code>CostRollup.tsx:84</code> 的 <code>stdTotal = unitCost × (quantity×(1+scrapRate))</code>（含废品率）→ "实际"与"标准"的废品率处理不同，<b>差异率里混入废品率因素、价差分析不纯</b>；mock <code>bi-002</code> 的 <code>totalCost</code> 与任何算法都不严格自洽。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="prod acc">
+<h4><span class="tag t-p2">P2</span>bomTreeData 是跨所有 BOM 的全量混合，兜底读它时不过滤 bomId <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/utils/bomCost.ts:45</code> vs <code>WorkOrderDetail.tsx:114</code>（后者做了 filter）</p>
+<p class="row"><b>事实</b>某张 BOM 的 <code>items</code> 为空时，<code>computeBOMCost</code> 兜底返回<b>全库所有 BOM 的子件</b>当这张 BOM 的 → BOM 详情页成本卷积弹窗<b>显示完全错误的成本</b>。另有回填标记用 localStorage（换设备后在空 org 上会回填 mock 数据）、<code>readLegacyWorkOrders</code> 因 persist 已删而是死代码。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="prod acc biz">
+<h4><span class="tag t-p2">P2</span>CRP 负荷不扣已报工、不算 Queue Time、工作中心名匹配失败静默丢弃 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/utils/crp.ts:223-241</code>；<code>process_route_operations.wait_time</code> 有列但从不读</p>
+<p class="row"><b>事实</b>按计划数量全量算、不扣已报工（已开工 90% 仍按 100% 算 → 负荷虚高）；已完成工序仍计入；<code>waitTime</code>（Queue Time）不参与负荷 → SAP 标准是 Setup+Run+Queue，漏掉会低估；<code>dailyMap</code> 用工作中心<b>名字符串</b>做键而 <code>lines</code> 用 <code>wc.id</code> → 名字不一致时负荷静默丢弃，而 <code>WipBoard</code>/<code>CapacityScheduling</code> 用了 <code>mapCenter()</code> 模糊映射 → <b>同一工序在两页算出两个结果</b>。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="prod acc">
+<h4><span class="tag t-p2">P2</span>BOM 差异分析实际单价是手工填的静态数字且无录入入口 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>位置</b><code>src/pages/BOM/CostRollup.tsx:30-39</code>；<code>migrations/0078_bom_items_actual_cost.sql:11</code></p>
+<p class="row"><b>事实</b><code>resolveActual()</code> 优先级 <code>actualUnitCost</code>（BOM 行手工值）<b>&gt;</b> 移动均价，只要手工值存在移动均价分支永不生效；<code>BOMForm.tsx</code> <b>无该字段录入入口</b> → 新建 BOM 全部 <code>actual_unit_cost = NULL</code> → 走移动均价分支但要求单位一致，而 mock 的 <code>mat-bom-*</code> 是 V3.32.0 <b>人工构造的对齐物料</b> → <b>差异分析当前是"mock 上好看、真实数据上空白"</b>。</p>
+<p class="row"><b>对标</b>SAP 差异分析用 Price/Quantity Variance，实际价格来自 ERP 自己的实际成本凭证，<b>不允许人工在 BOM 上填"实际单价"</b>（否则变成自己跟自己比）。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="prod biz">
+<h4><span class="tag t-p2">P2</span>工作中心与费率在浏览器大对象，无 work_centers 表 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">生产</span></h4>
+<p class="row"><b>事实</b><code>productionOperationStore</code> 的 <code>workCenters</code>（5 条）+ <code>laborRate</code>/<code>machineRate</code> <b>全在 app_state，0 D1 调用</b> → <b>成本参数在用户浏览器里，换设备费率就变、成本不可复算</b>；<code>process_route_operations.work_center</code> 存字符串名无法外键；<code>mes_devices.oee</code> 无来源（无三分量计算，<code>syncConnection</code> 是纯模拟不调任何 MES 接口）；班次日历 <code>ShopCalendar</code> 是前端常量<b>不可按车间配置</b>。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc biz">
+<h4><span class="tag t-p2">P2</span>供应商绩效与寄售等 6 个 store 仍在浏览器大对象 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>priceStore</code>（询价/报价/比价/价目表审批）、<code>salesPriceStore</code>、<code>salesContractStore</code>、<code>vendorPerformanceStore</code>、<code>consignmentStore</code>、<code>purchaseAdvancedStore</code> 全部零 D1 调用；<b>寄售与供应商绩效已在业务界面上线</b>且涉及库存与钱，换设备即失；<code>priceStore.approvePriceApproval</code> 审批通过会<b>回写物料标准价</b>，而审批结论在 Blob、回写目标在 D1，两边写入时机不一致会矛盾。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="fin acc">
+<h4><span class="tag t-p2">P2</span>科目表 balance 字段可直接改，等于回溯改写历史报表 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>事实</b><code>finChartAccount</code> 资源登记了 <code>balance</code> 列 → 通用实体路由的 PUT 可改期初余额，且该路由不查期间、无专门审计。改这一列等于<b>回溯改写所有历史报表</b>。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="fin acc">
+<h4><span class="tag t-p2">P2</span>同一组织的外币汇率存在 3 个互不相通的存储 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>事实</b>汇率同时存在 <code>financeExtensionStore</code>（app_state）、<code>fxStore</code>（<b>注意它用的是默认 localStorage 而非 backendStorage</b>）、D1 <code>fx_rates</code> 表；<code>fx_rates</code> 表<b>只有 updated_at 没有 effective_date</b> → 期末汇兑损益该用哪个汇率无口径。三家汇率都是主数据（单一来源带生效日期）。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="fin acc biz">
+<h4><span class="tag t-p2">P2</span>报表引擎纯前端聚合，超过 500 条被截断且无提示 <span class="tag t-both">两者</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>位置</b><code>src/utils/reportEngine.ts:64-129</code></p>
+<p class="row"><b>事实</b><code>pullSlice</code> 每片只拉 500 条 → 超过部分<b>被静默截断</b>；<code>monthKey</code> 用 <code>new Date(dateStr).getTime()</code>，<b>时区偏移会让日期错位一天</b>；同一业务指标在不同报表可重复实现、无统一口径注册表；<code>sourceCount</code> 字段有定义但需核查页面是否真的消费（若未消费则数据不完整对用户不可见）。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc acc">
+<h4><span class="tag t-p2">P2</span>入库/出库用 dept_id 做 RLS 但过账无部门维度，dept_id 为空即全员可见 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>user.department</code> 为空的用户建单 → <code>dept_id = NULL</code> → RLS 策略 <code>(dept_id = ? OR dept_id IS NULL)</code> 使其<b>对全员可见，部门隔离静默失效</b>；<code>postOutbound</code> 不区分部门，跨部门调拨的库存变化<b>无法归属到部门</b>。三家都不依赖一个可为空的 dept_id 做库存隔离。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc acc biz">
+<h4><span class="tag t-p2">P2</span>替代料可用量取 currentStock，不扣冻结与占用 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>materialStore.ts:56</code> 注释自述"可用量取 material.currentStock" → 质检扣留的料、已被销售订单占用的料<b>都会被推荐为"可完全替代"</b>，建议采购/领料后实际发不出货。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc acc">
+<h4><span class="tag t-p2">P2</span>物料删除无引用检查，删除在用物料产生孤儿数据 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b>DELETE 无任何引用检查，而 <code>material_id</code> 被 8 张表引用且<b>都没有外键约束</b> → 删除在用物料后所有按 <code>material_id</code> 的聚合（ATP/MRP/成本滚动）漏掉这部分历史数据。三家都要求"已使用"校验并先停用。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc acc">
+<h4><span class="tag t-p2">P2</span>采购订单 history/version 字段可被客户端任意改写 <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b>变更历史 <code>history</code> 与乐观锁 <code>version</code> 都在 fields 白名单里可被客户端覆盖 → <b>传 <code>history: []</code> 即静默清空变更历史</b>，审计只剩"更新采购订单 xxx"。三家的变更历史都是只追加不可编辑。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc biz">
+<h4><span class="tag t-p2">P2</span>单号重复校验口径不统一（裸查询 vs dedupeByNo） <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b>采购/销售用裸 SELECT 查重，入出库用 <code>dedupeByNo</code> 助手（含幂等键）；前端本地生成单号时同毫秒并发会都通过检查 → 最终靠数据库约束（若有）或产生重复。三家都有单号规则引擎保证唯一与连续。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="fin biz">
+<h4><span class="tag t-p2">P2</span>合并结果只返回最近一次，无期间/账簿/规则版本快照 <span class="tag t-biz">业务使用</span> <span style="font-weight:400;font-size:12.5px;color:#718096">财务</span></h4>
+<p class="row"><b>事实</b>GET 硬编码 <code>ORDER BY generated_at DESC LIMIT 1</code>，UI 无从选择多个 run 做版本对比；<code>result_json</code> 未存<b>当时采用的汇率、抵消规则版本、成员组织快照</b> → 事后无法解释"上个月这个数为什么和这个月不一样"；POST <b>未校验期间合法性与结账状态</b>，已结账期间可反复执行合并并覆盖历史。</p>
+</div>
+
+<div class="issue p2" data-p="p2" data-d="sc acc">
+<h4><span class="tag t-p2">P2</span>委外发料凭证分支已就绪但无代码触发（1408 借方永不发生） <span class="tag t-acc">数据准确性</span> <span style="font-weight:400;font-size:12.5px;color:#718096">供应链</span></h4>
+<p class="row"><b>事实</b><code>generateOutboundVouchers:412-414</code> 有 <code>order.type === 'subcontract'</code> 分支（借 1408 贷 1403），但没有任何代码把 <code>subcontract_issue_items</code> 转成出库单 → <b>贷方凭空结转、借贷必不平</b>。代码注释自己承认了这个设计意图但发料侧未实现。</p>
+</div>
+
+</div>
+
+<h2>五、修复路线建议（分三批）</h2>
+
+<div class="card">
+<h3 style="margin-top:0">第 1 批：止住"假管控"与"数字消失"（约 12 条，2~3 周）</h3>
+<p><b>入选标准</b>：修复成本低 + 直接消除"用户以为有管控实则没有"或"金额凭空消失"。</p>
+<table>
+<tr><th>序</th><th>问题</th><th>修法要点</th><th>验收</th></tr>
+<tr><td>1</td><td>预算闸门 project_id 恒空</td><td><code>voucherWriter</code> + <code>vouchers/[id].ts</code> 补写 project/costCenter/currency/lineNo</td><td><b>必须补守护测试</b>：造带 project_id 的凭证，断言超预算被 422</td></tr>
+<tr><td>2</td><td>凭证空分录清空</td><td>空数组改拒绝；已过账禁带 items</td><td>PUT <code>{items:[]}</code> 返回 400</td></tr>
+<tr><td>3</td><td>凭证行维度丢失（币种/项目/成本中心）</td><td>同上第 1 项，写侧+存侧+读侧一次打通</td><td>凭证行 <code>project_id</code> 有值；报表按 code 匹配</td></tr>
+<tr><td>4</td><td>报表按科目名匹配</td><td><code>AccountEntry</code> 加 accountCode，按 code 匹配</td><td>改科目名后报表金额不变</td></tr>
+<tr><td>5</td><td>入库金额恒 0</td><td>表单带单价 + SQL 改 <code>SUM(qty×unit_price)</code> + 服务端补 UPDATE</td><td>三单匹配可通过正常采购付款</td></tr>
+<tr><td>6</td><td>采购单 TDZ 报错</td><td><code>const db</code> 上移到守卫之前</td><td>PUT/DELETE 返回 200 而非 500</td></tr>
+<tr><td>7</td><td>期间锁双侧校验 + 结账迁表</td><td>源/目标双查；结账状态迁关系表 + fail-closed</td><td>已结账凭证改日期被拒；结账有审计</td></tr>
+<tr><td>8</td><td>折叠 <span class="tag t-p1">P1</span> 五个写端点补操作守卫</td><td><code>API_TO_MODULE</code> 补映射 + <code>pcCreate/pcUpdate</code> 统一调 <code>guardOperation</code> + 同步补 <code>BUILTIN_ROLE_OPS</code></td><td>只读角色调库存调整单被 403</td></tr>
+<tr><td>9</td><td>折叠 <span class="tag t-p1">P1</span> 付款累计超付校验</td><td>按 invoice_no 汇总 Σpaid_amount 校验</td><td>同发票拆 3 张各付 100% 被拦</td></tr>
+<tr><td>10</td><td>折叠 <span class="tag t-p1">P1</span> 凭证号撞号静默覆盖</td><td>服务端发号端点；<b>409→PUT 覆盖改报错</b></td><td>并发制单不覆盖</td></tr>
+<tr><td>11</td><td>折叠 <span class="tag t-p1">P1</span> <code>updateWorkOrder</code> 静默失败</td><td>补 <code>syncError</code> + showError + addWorkOrder 回滚</td><td>写失败有红条告警（对齐 FE-002 纪律）</td></tr>
+<tr><td>12</td><td>折叠 <span class="tag t-p1">P1</span> 折旧到期停提</td><td>判 <code>useful_life_months</code> + <code>Math.min</code> 钳制</td><td>提满后不再出折旧凭证</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">第 2 批：建底座（4 条，约 4~6 周）</h3>
+<p><b>入选标准</b>：不改这些，第 1 批修完的问题会复发。这是"治本"而非"治症"。</p>
+<table>
+<tr><th>序</th><th>底座</th><th>为什么必须</th><th>覆盖的复发问题</th></tr>
+<tr><td>1</td><td><b>建 <code>inventory_transactions</code> 库存流水表</b></td><td>余额快照+原地累加的结构导致<b>所有差异被静默吸收</b>；SAP MATDOC / 金蝶流水账都是"每笔凭证可重建余额"</td><td>超发卡 0、手工改库存、盘点不过账、调拨不过账、双轨滚成本 <b>5 个问题共用此底座</b></td></tr>
+<tr><td>2</td><td><b>建 <code>fin_closing_periods</code> + 预算/应收应付/汇率迁关系表</b></td><td>结账状态、预算、AR/AP、汇率目前都在可被用户覆写的浏览器大对象里，且 fail-open</td><td>结账三处漏、假预算、孤儿账龄、汇率三处存</td></tr>
+<tr><td>3</td><td><b>生产域三个 store 迁 D1</b>（工序报工 / 工作中心 / 成本费率）</td><td>它们是<b>成本与产能的计算输入</b>，存在浏览器里 = 成本数字随设备而变且不可复算，这比"工单没迁"更危险</td><td>两套报工模型、费率不可复算、工作中心无源</td></tr>
+<tr><td>4</td><td><b>后端建 <code>nestItems</code> 重建 BOM 树 + 唯一 BOM 解析函数</b></td><td>BOM 表设计已很好（level+parent_item_id+索引齐备），<b>只差读取端消费</b>；同时把三处各写各的选 BOM 逻辑收敛为一个（接有效期+替代+优先级）</td><td>多层 BOM 全错、选中过期/草稿 BOM</td></tr>
+</table>
+</div>
+
+<div class="card">
+<h3 style="margin-top:0">第 3 批：补标杆能力（按业务优先级，约 6~10 周）</h3>
+<table>
+<tr><th>优先级</th><th>能力</th><th>对应问题</th><th>对标价值</th></tr>
+<tr><td>高</td><td>盘点/调拨真正过账 + 盘盈盘亏凭证</td><td>S-04/S-05</td><td>账实相符的<b>最基本前提</b></td></tr>
+<tr><td>高</td><td>报工下沉服务端（一个事务做完事）</td><td>P1-14/P3-26</td><td>成本可复算、完工路径统一、<b>杜绝"料扣了货没了"</b></td></tr>
+<tr><td>高</td><td>出库成本结转凭证 + 服务端移动平均</td><td>P0-11</td><td><b>利润表不再虚高</b>（当前最大报表失真）</td></tr>
+<tr><td>高</td><td>批次主档 + 序列号状态枚举 + 过账校验</td><td>S-15~S-17/S-22</td><td>追溯链完整、FEFO 有依据</td></tr>
+<tr><td>中</td><td>库存调整/序列号/单位换算迁 D1</td><td>S-26 等 6 个 store</td><td>换设备不丢、跨设备一致</td></tr>
+<tr><td>中</td><td>MRP 供应侧补全 + 现有库存口径统一 + 替代料参与运算</td><td>P1-6~P1-8</td><td>净需求可信、不重复采购、缺料不自动替代</td></tr>
+<tr><td>中</td><td>三单匹配行级化（发票明细表）+ 超差审批</td><td>S-13/S-14</td><td>数量维度真正参与判定</td></tr>
+<tr><td>中</td><td>成本口径三处统一（<code>productionCost.ts</code> 抽公共函数）</td><td>P0-3/P1-13</td><td>同一 BOM 三个页面三个数 → 一个数</td></tr>
+<tr><td>中</td><td>ECN 变更控制 + 工单 BOM 版本冻结</td><td>P2-18</td><td>在途工单不用错 BOM</td></tr>
+<tr><td>低</td><td>冲销通道（工单/报工/倒冲/委外全链路）</td><td>P3-30</td><td>三家共同原则：<b>永不删除已过账单据</b></td></tr>
+<tr><td>低</td><td>多账簿合并修正 + 抵消逐笔匹配</td><td>F-17/F-18</td><td>合并数从"必错"到"可用"</td></tr>
+<tr><td>低</td><td>结账检查清单 + 报表快照固化</td><td>F-33/F-32</td><td>月结可控、报表可复现</td></tr>
+</table>
+</div>
+
+<div class="warn-box">
+<h4 style="margin:0 0 8px">⚠ 关于投入产出比的一点提醒（诚实说明）</h4>
+<p style="margin:0">系统功能覆盖度已经相当高（191 页 / 111 张关系表 / 88 个状态仓库），本报告 94 条里<b>约七成是"最后 20% 接线"</b>而非"缺功能"。这类问题单靠人工点界面<b>很难发现</b>（界面都显示正常），必须靠：① 守护测试（造数据断言被拦）；② 一致性校验作业（把本报告提到的恒等式做成定时扫描）。建议这两项投入的优先级<b>高于任何单个功能补齐</b>——它们是把"下次不再犯"的机制装上。</p>
+</div>
+
+<h2>六、系统已做得好的强项（勿在整改中破坏）</h2>
+
+<div class="ok-box">
+<p><b>架构与数据底座</b></p>
+<ul>
+<li><b>迁移 0051 BOM 表设计</b>：6 条设计取舍<b>逐条有论证</b>（<code>UNIQUE(bom_id, level, sequence)</code> 而非 material_code，以容纳"同一标准件在框架段和底座段各用一次"的真实业务事实）</li>
+<li><b>迁移 0053 → 0054 自我纠正</b>：主动发现 0053 按"会计常识"而非前端契约建表导致三张表字段对不上，选择 DROP+CREATE 而非 ADD COLUMN，理由写得很清楚（"留一列死列就能让人算错账"）</li>
+<li><b>金额精度统一到 <code>money.ts</code> 单一来源</b>，取代原先散落 6 个文件的各自实现（<b>经本轮核查，精度口径不分裂</b>）</li>
+<li><b>RLS 默认拒绝 + 机器双向核对</b>：未登记表返回 <code>1=0</code> 并告警；110 张表 + 5 份登记表双向全对齐（V3.35.0 已实证）</li>
+<li><b>唯一约束范围正确</b>：迁移 0060/0061/0065/0067/0068 已把全局单字段 UNIQUE 改为 <code>UNIQUE(org_id, 业务键)</code> 组织隔离复合索引（V3.37.0 已实证生产库）</li>
+<li><b>stateSizeGuard</b>：大对象软 4MB 告警 / 硬 8MB 拒绝 + 体积指标表 + 管理端容量页</li>
+</ul>
+</div>
+
+<div class="ok-box">
+<p><b>业务逻辑与专业判断</b></p>
+<ul>
+<li><b>借贷平衡服务端硬拦且刻意不拦负数</b>（<code>voucherGuard.ts:10-12</code> 写明"照搬会拒掉所有红冲凭证"）——取舍判断很专业</li>
+<li><b>凭证写入统一到 <code>voucherWriter</code> 单路径</b>，消除"两处 INSERT 各自拼列"的经典漂移坑，并用 <code>db.batch</code> 保证原子性（V3.36.0）</li>
+<li><b>工单倒冲做对了</b>：<code>inventory_posted</code> 幂等 + <code>missing_material</code>/<code>missing_bom</code>/<code>phantom_skipped</code> 区分设计缺陷与正常业务 + 倒冲失败不阻断完工 + <code>backflush.ts:365</code> 主动修复"只预取一层导致静默少扣料"</li>
+<li><b>MRP 低层码取最深值并写明"取最浅会导致螺栓被算两遍"</b>；废品率用 <code>qty/(1-r)</code> 反推而非 <code>qty×(1+r)</code> 并夹取防除零</li>
+<li><b>CRP 班次日历</b>按真实开工日折算产能（非"每天 8 小时"），需求落周日标 999% 负荷</li>
+<li><b>委外成本用累计差分分摊</b>修掉"分 3 次收货每次四舍五入差 0.01"的尾差累积</li>
+<li><b>三单匹配主动收敛为单一实现</b>并<b>在注释里诚实标注能力边界</b>（发票无明细表 → 数量维度不参与）；付款放行<b>无论是否拦截都留档</b></li>
+<li><b>审计摘要专业</b>：一律写"变了什么 + 前后值 + 影响范围"，不写"更新了 XX"（事后追责等于没写）；敏感值（密钥/令牌/对话正文）<b>一律不进审计表</b>只记"是否变更过"；汇率审计记"币种对+旧值→新值+变动幅度"并注明"手工维护非市场行情"</li>
+<li><b>迁移 0076 主动记录"不改唯一键的代价与理由"</b>，避免后人误以为疏漏</li>
+</ul>
+</div>
+
+<div class="ok-box">
+<p><b>工程纪律与注释质量（这是本项目最突出的资产）</b></p>
+<ul>
+<li><b><code>statusMachine.ts</code></b> 把"为什么不做跳级校验""为什么不拦删除""为什么只锁实质完结态"逐条写在文件头——<b>罕见的、把设计取舍写清楚让后人敢改的注释质量</b></li>
+<li><b><code>threeWayMatch.ts</code></b> 文件头指出曾有三套不一致实现（1% 相对容差 / 0.01 绝对 / 数量精确相等）并统一</li>
+<li><b><code>parentChild.ts</code></b> 的父子表不变量①②③④写在文件头并被严格遵守（"不传=保持原样 / 传[]=清空"严格区分）；<code>presentCols</code> 动态检测避免 <code>no such column</code> 500；<code>parentJsonSet</code> 修掉了 module 级可变全局的并发污染</li>
+<li><b>迁移 0061</b> 的 RLS 取值<b>逐张按业务语义论证</b>（而非整批复制），并说明"不能为了制造对照而制造差异"</li>
+<li><b>迁移 0061</b> 另一段 250 字论证"将来会不会需要按内部字段做 SQL 统计"作为建表判据——方法论本身值得学习（本轮发现该判据在 rep_mfg 上被误用）</li>
+<li><b>多处主动记录"踩过的坑"</b>（<code>backflush.ts:11-12</code> 记重复制造倒冲缺陷、<code>operations</code> 数组被静默丢弃的坑）</li>
+<li><b>前端不做静默失败</b>：V3.27~V3.41 已系统性消除 60+ 处写失败空吞，统一走全局红条告警（本轮仅发现 <code>productionStore</code> 一处遗漏）</li>
+</ul>
+</div>
+
+<footer>
+<p><b>SSA ERP 对标金蝶 · 用友 · SAP 深度审计报告</b>　|　基线 V3.44.0（2026-10-04）　|　问题 94 条，全部附源码文件与行号证据</p>
+<p style="margin-top:8px">对标基线：金蝶云·星空 V9.1 ｜ 用友 BIP 6 · U9 cloud 2026 ｜ SAP S/4HANA Cloud 2608</p>
+<p style="margin-top:8px;color:#a0aec0">本报告只做诊断未改代码；标杆功能清单依据项目既有 §十三 对标结论与公开资料交叉验证，未逐条实测竞品系统</p>
+</footer>
+
+</div>
+
+<script>
+function filt(k,btn){
+  document.querySelectorAll('.filters button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#list .issue').forEach(function(el){
+    var show = (k==='all') || el.dataset.p===k || el.dataset.d===k;
+    el.classList.toggle('hide', !show);
+  });
+  window.scrollTo({top:document.querySelector('.filters').offsetTop-10,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

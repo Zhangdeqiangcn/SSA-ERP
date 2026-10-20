@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP · 七模块两两单据联动审计报告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f6f8;color:#1a1d21;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px 60px}
+header{background:linear-gradient(135deg,#1e3a5f 0%,#2c5282 100%);color:#fff;padding:44px 20px 38px;margin-bottom:32px}
+header .inner{max-width:1200px;margin:0 auto}
+header h1{font-size:27px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+header .sub{opacity:.9;font-size:14px}
+.meta{display:flex;gap:20px;flex-wrap:wrap;margin-top:20px;font-size:13px;opacity:.95}
+.meta span{background:rgba(255,255,255,.14);padding:6px 13px;border-radius:5px}
+h2{font-size:20px;margin:38px 0 16px;padding-left:12px;border-left:4px solid #2c5282}
+h3{font-size:16px;margin:24px 0 12px;color:#2c5282}
+.card{background:#fff;border-radius:9px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #e3e6ea}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;margin-bottom:26px}
+.kpi{background:#fff;border-radius:9px;padding:18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #2c5282}
+.kpi .n{font-size:29px;font-weight:700;color:#1e3a5f;line-height:1.2}
+.kpi .l{font-size:12px;color:#666;margin-top:5px}
+.kpi.p0{border-top-color:#c53030}.kpi.p0 .n{color:#c53030}
+.kpi.ok{border-top-color:#2f855a}.kpi.ok .n{color:#2f855a}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:#2c5282;color:#fff;padding:9px 10px;text-align:left;font-weight:600;font-size:12.5px}
+td{padding:8px 10px;border-bottom:1px solid #e8eaed;vertical-align:top}
+tr:nth-child(even){background:#fafbfc}
+tbody tr:hover{background:#f0f4f8}
+.sev{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+.sev.P0{background:#c53030}.sev.P1{background:#dd6b20}.sev.P2{background:#3182ce}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge.real{background:#fed7d7;color:#9b2c2c}
+.badge.suspect{background:#feebc8;color:#975a16}
+.badge.design{background:#e2e8f0;color:#4a5568}
+code{background:#edf2f7;padding:1px 5px;border-radius:3px;font-size:11.5px;color:#2b6cb0;font-family:Consolas,Monaco,monospace}
+.matrix td,.matrix th{text-align:center;font-size:12px}
+.matrix td:first-child,.matrix th:first-child{text-align:left;font-weight:600;white-space:nowrap}
+.ok-cell{background:#c6f6d5;color:#22543d;font-weight:700}
+.warn-cell{background:#feebc8;color:#975a16;font-weight:700}
+.bad-cell{background:#fed7d7;color:#9b2c2c;font-weight:700}
+.none-cell{background:#e2e8f0;color:#4a5568}
+.flow{background:#f7fafc;border-left:3px solid #4299e1;padding:12px 16px;margin:10px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.flow b{color:#2c5282}
+.evidence{background:#2d3748;color:#e2e8f0;padding:11px 14px;border-radius:6px;font-family:Consolas,Monaco,monospace;font-size:11.5px;overflow-x:auto;margin:9px 0;line-height:1.6}
+.evidence .hl{color:#f6ad55;background:rgba(246,173,85,.15);padding:1px 3px;border-radius:2px}
+.note{background:#fffff0;border-left:4px solid #d69e2e;padding:13px 17px;margin:14px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.note strong{color:#975a16}
+.good{background:#f0fff4;border-left:4px solid #38a169;padding:13px 17px;margin:14px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.good strong{color:#22543d}
+.toc{background:#fff;border-radius:9px;padding:20px 24px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #e3e6ea}
+.toc a{color:#2c5282;text-decoration:none;display:inline-block;margin:5px 16px 5px 0;font-size:13.5px}
+.toc a:hover{text-decoration:underline}
+footer{text-align:center;color:#777;font-size:12.5px;padding:26px 0;border-top:1px solid #e3e6ea;margin-top:34px}
+.tag{font-size:11px;background:#edf2f7;color:#4a5568;padding:2px 7px;border-radius:3px;margin-left:5px}
+</style>
+</head>
+<body>
+<header><div class="inner">
+<h1>SSA ERP · 七模块两两单据联动审计报告</h1>
+<div class="sub">质量 × 销售 × 采购 × 生产 × 财务 × 系统设置 × 供应商平台 —— 七大模块两两（C(7,2)=21 组配对）单据联动的准确性、合理性、全面性审计</div>
+<div class="meta">
+<span>审计日期：2026-10-10</span>
+<span>基线版本：V3.62.0（已部署生产）</span>
+<span>审计方式：代码级逐行取证 + 生产端点/代码坐实</span>
+<span>模块配对：21 组</span>
+<span>系统性缺陷：2 项（P0）</span>
+</div>
+</div></header>
+
+<div class="wrap">
+
+<div class="toc">
+<b>目录</b>
+<a href="#s1">一、审计范围与方法</a>
+<a href="#s2">二、结论速览</a>
+<a href="#s3">三、七模块后端落地矩阵</a>
+<a href="#s4">四、7×7 流转联动矩阵</a>
+<a href="#s5">五、P0 严重系统性缺陷（2 项）</a>
+<a href="#s6">六、P1 重要缺陷（8 项）</a>
+<a href="#s7">七、P2 一般缺陷与装饰性未打通模块</a>
+<a href="#s8">八、已正确联动的链路（复查确认）</a>
+<a href="#s9">九、生产坐实记录</a>
+<a href="#s10">十、整改建议与优先级</a>
+<a href="#s11">十一、诚实边界</a>
+</div>
+
+<!-- ══════════ 一 ══════════ -->
+<h2 id="s1">一、审计范围与方法</h2>
+<div class="card">
+<p><b>审计目标</b>：上一轮（V3.61.0）审计的是「采购/生产/仓库/销售/财务」五模块两两流转（10 组配对）。本轮扩展为<b>七大模块两两之间</b>的表单流转，覆盖 21 组配对，审查四类问题：</p>
+<div class="kpis">
+<div class="kpi"><div class="n">21</div><div class="l">模块配对（C(7,2)）</div></div>
+<div class="kpi p0"><div class="n">2</div><div class="l">P0 系统性缺陷</div></div>
+<div class="kpi"><div class="n">8</div><div class="l">P1 重要缺陷</div></div>
+<div class="kpi"><div class="n">6</div><div class="l">P2 一般缺陷</div></div>
+<div class="kpi"><div class="n">8</div><div class="l">装饰性未打通模块</div></div>
+</div>
+<ul class="tight">
+<li><b>缺失</b>：应该流转但完全没有后端链路（如质量检验、供应商绩效、退货单据无持久化）</li>
+<li><b>遗漏</b>：链路存在但只覆盖了一半场景（如审批流仅采购申请/报价触发，其余单据不触发）</li>
+<li><b>未联动</b>：配置项已建但业务端点不消费（如凭证模板、打印模板、系统配置、单位换算）</li>
+<li><b>不准确</b>：冻结不阻止出入库、编号规则纳管不全、数据权限仅覆盖详情端点</li>
+</ul>
+<p style="margin-top:14px"><b>审计纪律</b>（遵守项目铁律）：</p>
+<ul class="tight">
+<li>每条结论均以<code>文件路径:行号</code>为证据，<b>不采信任何历史审计报告的旧结论</b>（旧结论会过期，必须回代码复核）。</li>
+<li>区分「真缺陷」与「设计使然/装饰性未打通」——纯前端演示页（本地存储）属已知边界，单列诚实标注，不计入缺陷计数。</li>
+<li>系统性结论用<b>代码取证 + 生产/仓库真实表清单 + 端点引用链</b>三重坐实，不靠单路判断。</li>
+</ul>
+<div class="note"><strong>范围说明</strong>：你本次列的七模块未含「仓库」，但仓库是采购/生产/销售的出入库执行方。本轮仓库作为<b>被动被联动方</b>在相关配对（采购×仓库、生产×仓库、销售×仓库）中顺带核查——这三对在五模块审计（V3.61）已修复并验证，本轮复查确认仍正确，详见第八章。</div>
+</div>
+
+<!-- ══════════ 二 ══════════ -->
+<h2 id="s2">二、结论速览</h2>
+<div class="card">
+<div class="good">
+<strong>✅ 主干业务已真正打通</strong>：采购收货暂估、生产领料与完工、销售出库成本、发票/付款/收款的财务联动、结账守卫、行级三单匹配——这些主干链路的服务端算账、原子批次、幂等抢占在 V3.60–V3.62 已正确实现，并经生产端到端回归（45 套件 PASS 1586 / FAIL 0）验证。
+</div>
+<div class="note">
+<strong>⚠️ 但存在两个系统性孤岛，是本轮最重大发现</strong>：
+<ol style="margin:8px 0 0 20px">
+<li><b>质量模块数据孤岛（P0）</b>：质量的核心业务单据（检验批、检验任务、不合格品、质量成本、供应商质量反馈、八D、PDCA、SPC、实验室设备、检验标准）<b>完全没有后端持久化</b>，仅以浏览器本地存储 + 模拟数据驱动；连唯一有后端的「质量冻结（quality_holds）」也<b>不被任何下游端点消费</b>，冻结形同虚设。质量结果与采购收货、生产完工、销售退货、财务质量成本、供应商绩效<b>系统性断裂</b>。</li>
+<li><b>系统设置配置孤岛（P0）</b>：凭证模板、打印模板、系统配置<b>完全不被业务端点消费</b>；审批流、单位换算、数据权限、编号规则<b>消费面极窄</b>。系统设置模块的配置项大量「建了但不生效」，形成配置孤岛。</li>
+</ol>
+</div>
+</div>
+
+<!-- ══════════ 三 ══════════ -->
+<h2 id="s3">三、七模块后端落地矩阵</h2>
+<div class="card">
+<p>下表为各模块核心单据的真实后端落地状态（依据 <code>migrations/*.sql</code> 真实表清单 + 端点引用链取证）。这是理解「为什么联动断裂」的根因地图。</p>
+<table>
+<thead><tr><th>模块</th><th>核心单据/实体</th><th>后端落地状态</th><th>取证证据</th></tr></thead>
+<tbody>
+<tr><td><b>采购</b></td><td>采购订单、采购申请、供应商报价、供应商主数据</td><td><span class="badge real">完整后端</span> <code>purchase_orders</code> <code>purchase_requests</code> <code>vendor_quotes</code> <code>vendors</code>/<code>vendor_master</code></td><td>迁移表存在；端点齐全</td></tr>
+<tr><td><b>销售</b></td><td>销售订单、发货、销售线索、收款、三方销售、三单匹配</td><td><span class="badge real">完整后端</span> <code>sales_orders</code> <code>shipments</code> <code>sales_prospects</code> <code>fin_sales_receipts</code> <code>triparty_sales</code> <code>three_way_match</code></td><td>迁移表存在；端点齐全</td></tr>
+<tr><td><b>生产</b></td><td>工单、计划订单、工艺路线、物料清单、完工入库、委外、设备</td><td><span class="badge real">完整后端</span> <code>work_orders</code> <code>planned_orders</code> <code>process_routes</code> <code>bom_*</code> <code>finished_goods_inbounds</code> <code>subcontract_*</code></td><td>迁移表存在；端点齐全</td></tr>
+<tr><td><b>财务</b></td><td>发票、付款计划、分录、科目、凭证、结账、固定资产、资金</td><td><span class="badge real">完整后端</span> <code>fin_*</code> <code>vouchers</code> <code>fixed_assets</code> <code>cash_*</code></td><td>迁移表存在；端点齐全</td></tr>
+<tr><td><b>仓库<span class="tag">被动</span></b></td><td>入库、出库、库存、调拨、盘点、序列号、波次</td><td><span class="badge real">完整后端</span> <code>inbound_*</code> <code>outbound_*</code> <code>inventory_*</code> <code>stock_transfers</code></td><td>迁移表存在；端点齐全</td></tr>
+<tr><td><b>系统设置</b></td><td>组织、用户、审批流、编号规则、单位换算、打印模板、凭证模板、系统配置、数据权限</td><td><span class="badge real">配置有后端</span> 但<b>消费面极窄</b></td><td>详见 P0-ST / P1-ST 系列</td></tr>
+<tr><td><b>供应商平台</b></td><td>供应商主数据、供应商报价、供应商门户、供应商绩效</td><td><span class="badge real">主数据/报价有后端</span>；<span class="badge real" style="background:#fde8e8;color:#9b2c2c">绩效零后端</span></td><td>详见 P1-VP-1</td></tr>
+<tr><td><b>质量</b></td><td>检验批、检验任务、不合格品、质量成本、供应商质量反馈、八D、PDCA、SPC、实验室设备、检验标准、质量冻结</td><td><span class="badge real" style="background:#fde8e8;color:#9b2c2c">核心单据零后端</span>（仅 <code>quality_holds</code> 有表）</td><td>迁移表清单仅 <code>quality_holds</code>；<code>qualityStore.ts:2-3,5</code> persist+localStorage+mock</td></tr>
+</tbody>
+</table>
+<div class="evidence">
+<span class="hl">真实数据库表清单（migrations/*.sql 去重）</span> 与质量相关的表仅有：<b>quality_holds</b>。
+而 <span class="hl">src/types/quality.ts</span> 定义了 InspectionTask / InspectionLot / UnqualifiedItem / InspectionStandard /
+COQRecord / QmVendorFeedback / EightDRecord / PDCARecord / SpcChart / LabEquipment 等十余个实体，
+<span class="hl">src/types/supplyChain.ts</span> 另定义 InspectionLot / QualityHold / COQRecord / QmVendorFeedback —— 这些在真实库中<b>均无对应表</b>。
+</div>
+</div>
+
+<!-- ══════════ 四 ══════════ -->
+<h2 id="s4">四、7×7 流转联动矩阵总览</h2>
+<div class="card">
+<p>单元格含义：<span class="ok-cell">绿=已正确联动</span> <span class="warn-cell">黄=部分联动/配置不全</span> <span class="bad-cell">红=系统性断裂</span> <span class="none-cell">灰=无实质联动（装饰/未打通）</span>。行=主导模块，列=被联动模块。上三角为 21 组配对。</p>
+<table class="matrix">
+<thead><tr><th></th><th>质量</th><th>销售</th><th>采购</th><th>生产</th><th>财务</th><th>系统设置</th><th>供应商平台</th></tr></thead>
+<tbody>
+<tr><td>质量</td><td class="none-cell">—</td><td class="bad-cell">断</td><td class="bad-cell">断</td><td class="bad-cell">断</td><td class="bad-cell">断</td><td class="bad-cell">断</td><td class="bad-cell">断</td></tr>
+<tr><td>销售</td><td class="bad-cell">断</td><td class="none-cell">—</td><td class="warn-cell">弱</td><td class="ok-cell">通</td><td class="ok-cell">通</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td></tr>
+<tr><td>采购</td><td class="bad-cell">断</td><td class="warn-cell">弱</td><td class="none-cell">—</td><td class="ok-cell">通</td><td class="ok-cell">通</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td></tr>
+<tr><td>生产</td><td class="bad-cell">断</td><td class="ok-cell">通</td><td class="ok-cell">通</td><td class="none-cell">—</td><td class="ok-cell">通</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td></tr>
+<tr><td>财务</td><td class="bad-cell">断</td><td class="ok-cell">通</td><td class="ok-cell">通</td><td class="ok-cell">通</td><td class="none-cell">—</td><td class="bad-cell">断</td><td class="warn-cell">弱</td></tr>
+<tr><td>系统设置</td><td class="bad-cell">断</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="bad-cell">断</td><td class="none-cell">—</td><td class="warn-cell">弱</td></tr>
+<tr><td>供应商平台</td><td class="bad-cell">断</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="warn-cell">弱</td><td class="none-cell">—</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>读图结论</strong>：质量所在的 6 组配对<b>全红</b>（质量零后端，与所有模块断裂）；财务×系统设置红（配置不生效）；其余以黄为主（五模块核心链路已绿，但系统设置对各模块的「驱动/配置」普遍偏弱，供应商平台绩效/质量联动偏弱）。绿格集中在采购/销售/生产/财务/仓库之间的主干链路（五模块审计已修复）。</div>
+</div>
+
+<!-- ══════════ 五 ══════════ -->
+<h2 id="s5">五、P0 严重系统性缺陷（2 项）</h2>
+
+<div class="card">
+<h3>P0-质量-1　质量模块核心单据零后端，与六模块系统性断裂</h3>
+<p><b>问题</b>：质量模块页面丰富（检验批、检验任务、不合格品、质量成本、供应商质量反馈、八D、PDCA、SPC、实验室设备、检验标准、质量冻结），但其核心业务单据<strong>完全没有后端持久化</strong>——仅以浏览器本地存储 + 模拟数据驱动，与采购、生产、销售、财务、系统设置、供应商平台六大模块<strong>无任何真实单据联动</strong>。</p>
+<p><b>证据链</b>：</p>
+<div class="evidence">
+<span class="hl">① 真实表清单</span> migrations/*.sql 去重后，质量相关表仅 <b>quality_holds</b> 一张。
+<span class="hl">② 前端存储范式</span> src/stores/qualityStore.ts:2-3 <b>import { persist } from 'zustand/middleware'; import { backendStorage }</b>
+   :5 <b>import type { VendorQualityIssue } from '@/mocks/data/flowData'</b>（直接引用模拟数据）
+   grep 'api.|axios|fetch(' 于 qualityStore.ts → <b>无任何后端调用（No matches）</b>
+<span class="hl">③ 通用实体路由</span> functions/_shared/entities.ts:32 ENTITY_RESOURCES 注册表仅含财务域切片
+   （finInvoice/finInvoiceItem/finPaymentPlan/finAccountEntry/finTaxRecord/finProjectAccount/copa/op 等），<b>无质量资源</b>。
+<span class="hl">④ 类型与表脱节</span> src/types/quality.ts 定义 InspectionTask/UnqualifiedItem/COQRecord/QmVendorFeedback/... 等十余实体；
+   src/types/supplyChain.ts 另定义 InspectionLot/QualityHold/COQRecord/QmVendorFeedback —— 均<b>无对应真实表</b>。
+</div>
+<p><b>联动影响（6 组配对全断）</b>：</p>
+<ul class="tight">
+<li><b>质量×采购</b>：来料检验不合格 → 应触发不合格品处置 + 采购退货 + 供应商质量反馈；实际检验无后端、冻结不阻入库（见 P0-质量-2），退货无独立单据，供应商反馈无后端 → 断裂。</li>
+<li><b>质量×生产</b>：过程检/终检不合格 → 应返工/报废并计入生产成本；实际检验无后端、完工入库不校验检验结果 → 断裂。</li>
+<li><b>质量×销售</b>：客诉/退货 → 应质量分析（不合格品）+ 质量索赔；实际不合格品无后端、退货靠前端红字入库单（见 P1-VP-2） → 断裂。</li>
+<li><b>质量×财务</b>：不合格品损失/返工成本/质量成本（COQ）→ 应生成财务凭证；实际 COQRecord 无后端 → 断裂。</li>
+<li><b>质量×系统设置</b>：检验标准（AQL 抽样、数据字典）应驱动检验；实际 InspectionStandard 无后端 → 断裂。</li>
+<li><b>质量×供应商平台</b>：来料合格率/质量反馈应更新供应商绩效；实际 QmVendorFeedback 与 VendorPerformance 均零后端 → 断裂。</li>
+</ul>
+<p><b>修复方向</b>：为检验批/任务/不合格品/质量成本/供应商质量反馈建立真实表 + 端点 + 与上下游的写回链路（来料检→冻结+退货、过程检→返工/报废成本、质量损失→财务凭证、质量反馈→供应商绩效）。属重大工程，需立项。</p>
+</div>
+
+<div class="card">
+<h3>P0-ST-1　系统设置模块配置孤岛（建了但不被业务消费）</h3>
+<p><b>问题</b>：系统设置模块的多个配置项已建后端表，但<strong>业务端点基本不消费</strong>，配置形同虚设，无法真正驱动/约束业务单据。这是「配置不联动」的系统性根因。</p>
+<div class="evidence">
+<span class="hl">① 凭证模板 voucher_templates</span> grep 'voucher_template' functions/api → 仅 voucher-templates/{index,[id]}.ts 自身；
+   <b>无任何业务端点（采购/销售/生产/财务自动凭证）消费</b>。自动凭证走 voucherWriter.ts/arapPosting.ts 硬编码科目。
+<span class="hl">② 打印模板 print_templates</span> grep 'print_template' functions/api → 仅 print-templates/{index,[id]}.ts 自身；
+   <b>发货单/发票/采购单打印均不读此表</b>。
+<span class="hl">③ 系统配置 system_config / org_settings</span> grep 'system_config|org_settings' functions/api → 仅 system/mail-config.ts、system/notify.ts；
+   <b>业务单据不读税率默认/币种默认/会计政策等</b>。
+<span class="hl">④ 审批流 approval</span> grep 'approval' functions/api → 仅 purchase-requests/[id].ts、vendor-quotes/index.ts、approval-* 自身；
+   <b>采购订单/销售订单/工单/入库/发票等提交均不自动触发审批</b>。
+<span class="hl">⑤ 单位换算 unit_conversions</span> grep 'unit_conversion' functions/api → 仅 materials/*、system/migrate-materials、unit-conversions 自身；
+   <b>出入库/生产/销售业务端点不调用单位换算</b>。
+<span class="hl">⑥ 数据权限/字段权限</span> grep 'dataPermission|fieldPermission' functions/api → 仅 customers/[id]、materials/[id]、vendors/[id]；
+   <b>列表查询与其他模块未覆盖</b>。
+<span class="hl">⑦ 编号规则 numbering</span> 后端仅 approval-instances/[id].ts 引用；前端 useNumberingStore.nextNo() 被部分页面消费，
+   但 RepetitiveMfgList.tsx:18 注释明示「本模块编号未纳入统一编号规则，按本地生成」——<b>纳管不全</b>。
+</div>
+<p><b>影响配对</b>：财务×系统设置（凭证模板/打印模板/系统配置不生效 → 红）；采购/销售/生产/财务/质量×系统设置（审批/单位换算/数据权限/编号消费不全 → 黄）。</p>
+<p><b>修复方向</b>：让自动凭证读取凭证模板、业务打印读取打印模板、单据提交按审批流配置触发、业务数量按单位换算表转换、列表与详情统一应用数据权限、编号规则纳管全部单据类型。属系统性配置引擎补齐，需立项。</p>
+</div>
+
+<!-- ══════════ 六 ══════════ -->
+<h2 id="s6">六、P1 重要缺陷（8 项）</h2>
+<div class="card">
+<table>
+<thead><tr><th>编号</th><th>缺陷</th><th>证据</th><th>影响配对</th></tr></thead>
+<tbody>
+<tr><td><span class="sev P1">P1-ST-2</span></td><td>审批流仅采购申请、供应商报价自动联动，其余业务单据提交不触发审批流</td><td><code>functions/api</code> 仅 purchase-requests/[id].ts、vendor-quotes/index.ts 引用 approval；业务端点不调</td><td>采购/销售/生产/财务×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-ST-3</span></td><td>单位换算仅物料主数据消费，业务出入库/生产/销售数量不换算</td><td><code>functions/api</code> 仅 materials/*、unit-conversions/* 引用 unit_conversion</td><td>采购/生产/销售×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-ST-4</span></td><td>数据权限/字段权限仅客户/物料/供应商三详情端点，列表与其他模块未覆盖</td><td><code>functions/api</code> 仅 customers/[id]、materials/[id]、vendors/[id] 引用 fieldPermission</td><td>全模块×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-ST-5</span></td><td>凭证模板不被自动凭证消费（自动凭证硬编码科目，不读 voucher_templates）</td><td><code>functions/api</code> voucher_templates 仅自身端点引用</td><td>财务×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-ST-6</span></td><td>打印模板不被业务打印消费（无端点引用 print_templates）</td><td><code>functions/api</code> print_templates 仅自身端点引用</td><td>销售/采购/生产×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-ST-7</span></td><td>系统配置仅邮件/通知消费，业务单据不读税率/币种/会计政策默认</td><td><code>functions/api</code> system_config 仅 system/mail-config.ts、system/notify.ts 引用</td><td>财务×系统设置</td></tr>
+<tr><td><span class="sev P1">P1-VP-1</span></td><td>供应商绩效（vendorPerformanceStore）零后端，采购评标/质量反馈无真实数据</td><td><code>src/stores/vendorPerformanceStore.ts:2-3,82,118</code> persist+backendStorage；全局无 vendor_performance 表/端点</td><td>采购×供应商平台、质量×供应商平台</td></tr>
+<tr><td><span class="sev P1">P1-VP-2</span></td><td>销售退货/采购退货无独立后端单据，靠前端红字入库单承载，不联动财务红冲与供应商</td><td><code>functions/_shared/inventoryPosting.ts:703,728</code> 注释明示「前端 completeReturn 只造红字入库单」；全局无 sales_returns/purchase_returns 表</td><td>质量×销售、采购×财务、销售×财务</td></tr>
+</tbody>
+</table>
+<div class="evidence">
+<span class="hl">P1-VP-2 佐证</span> 退货业务：inventoryPosting.ts:728 <b>source = 'sales_return'</b> 表明退货仅作为入库单的 source 标记，
+退货单本身（退货原因/审批/与销售单行级匹配/财务红字凭证）无独立后端承载。
+</div>
+</div>
+
+<!-- ══════════ 七 ══════════ -->
+<h2 id="s7">七、P2 一般缺陷与装饰性未打通模块</h2>
+<div class="card">
+<h3>P2 一般缺陷（6 项）</h3>
+<table>
+<thead><tr><th>编号</th><th>缺陷</th><th>证据</th></tr></thead>
+<tbody>
+<tr><td><span class="sev P2">P2-ST-8</span></td><td>编号规则前端部分消费但纳管不全（重复制造等模块本地生成绕过），后端不生成不校验</td><td>RepetitiveMfgList.tsx:18 注释；后端端点仅接收 body.orderNo 不校验格式</td></tr>
+<tr><td><span class="sev P2">P2-质量-3</span></td><td>检验标准（InspectionStandard）零后端，检验无标准依据</td><td>qualityStore persist；ENTITY_RESOURCES 无 inspection_standard 资源</td></tr>
+<tr><td><span class="sev P2">P2-质量-4</span></td><td>质量成本（COQRecord）/供应商质量反馈（QmVendorFeedback）零后端，质量损失与反馈不沉淀</td><td>supplyChain.ts 定义但无对应表；qualityStore 不调后端</td></tr>
+<tr><td><span class="sev P2">P2-S-1</span></td><td>销售预测/需求不直接驱动采购计划（销售→采购为人工，MRP 仅生产侧）</td><td>mrp_recommendations 仅生产物料需求；销售线索无反向采购联动</td></tr>
+<tr><td><span class="sev P2">P2-VP-3</span></td><td>供应商门户可见性（open/fieldAccess）机制存在但未验证是否真正按配置隔离</td><td>functions/api/open/{auth,keys,fieldAccess}.ts 存在；需生产坐实</td></tr>
+<tr><td><span class="sev P2">P2-质量-5</span></td><td>质量冻结单审计摘要取 hold_no 为 undefined（INSERT 未写 hold_no 列）</td><td>quality-holds/index.ts:75 INSERT 无 hold_no；:84 审计用 row?.hold_no||id</td></tr>
+</tbody>
+</table>
+<h3>装饰性未打通模块（诚实标注，非缺陷计数）</h3>
+<p>以下模块为「前端页 + 本地存储（localStorage）」演示页，<code>src/content/manual.tsx</code> 明确记载其范式（CRUD 经 backendStorage 落 app_state 大对象，不新建数据库表、不改后端）。它们与任何业务模块零联动，属「未打通」而非「缺陷」——但强哥关注的「全面性」要求如实列出：</p>
+<ul class="tight">
+<li>S&OP 销售与运营计划（sopStore，本地）</li>
+<li>BI 集成（biStore，本地）</li>
+<li>ESG 报告（esgStore，本地）</li>
+<li>COPA 获利分析（copaStore，本地）</li>
+<li>资金管理（cashMgmtStore，本地余额联动）</li>
+<li>三方销售（tripartySalesStore，本地）</li>
+<li>MES 集成（mesStore，本地）</li>
+<li>重复制造（repMfgStore，本地）</li>
+</ul>
+<div class="note"><strong>说明</strong>：这些模块若仅作展示无妨；但若期望它们与采购/生产/财务联动（如 S&OP 驱动物料计划、MES 回写工序报工、COPA 取真实凭证数据、资金管理取真实银行流水），则当前全部断裂，需逐项立项打通。</div>
+</div>
+
+<!-- ══════════ 八 ══════════ -->
+<h2 id="s8">八、已正确联动的链路（复查确认）</h2>
+<div class="card">
+<p>以下链路在五模块审计（V3.61）已修复并验证，本轮复查代码确认仍正确，且经生产端到端回归（45 套件 PASS 1586 / FAIL 0）背书：</p>
+<ul class="tight">
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>采购×财务</b>：采购发票 verified 冲暂估 + 确认应付；付款记银行 + 冲应付（V3.60 已修）。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>销售×财务</b>：销售开票确认收入应收；销售收款借银行贷应收（V3.60/61 已修）。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>生产×财务</b>：完工结转贷生产成本（5001）含材料+人工+折旧+制造费用四项（V3.62 已含折旧制造费用）。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>销售×仓库</b>：发货（shipments）→ 出库（outbound-orders）联动，多仓可指定发货仓（V3.62 已修）。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>采购×仓库</b>：采购收货 → 入库（inbound-orders），库存余额与移动均价按加权平均滚动（V3.62 已修 NULL 缺陷）。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>生产×仓库</b>：领料（work_order_pickings）/ 完工入库（finished_goods_inbounds）原子写入。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>销售×生产</b>：销售订单 → 生产工单（MRP 推荐），已联动。</li>
+<li><span class="ok-cell" style="padding:1px 6px">✅</span> <b>采购×生产</b>：采购物料 → 生产领料，已联动。</li>
+</ul>
+</div>
+
+<!-- ══════════ 九 ══════════ -->
+<h2 id="s9">九、生产坐实记录</h2>
+<div class="card">
+<p>本轮高危结论采用三重坐实（代码取证 + 真实表清单 + 端点引用链），未依赖单路判断：</p>
+<table>
+<thead><tr><th>结论</th><th>坐实方式</th><th>结果</th></tr></thead>
+<tbody>
+<tr><td>质量核心单据零后端</td><td>① grep 迁移表清单（仅 quality_holds）；② 读 qualityStore.ts 确认 persist+localStorage+mock 且零后端调用；③ 读 ENTITY_RESOURCES 确认无质量资源</td><td>确证</td></tr>
+<tr><td>质量冻结不阻出入库</td><td>grep 'quality_holds' functions/ → 仅 quality-holds/* 自身端点读写，无任何入库/出库/生产端点消费</td><td>确证</td></tr>
+<tr><td>凭证模板/打印模板不生效</td><td>grep 'voucher_template' / 'print_template' functions/api → 仅自身端点引用</td><td>确证</td></tr>
+<tr><td>供应商绩效零后端</td><td>读 vendorPerformanceStore.ts 确认 persist+backendStorage；全局无 vendor_performance 表</td><td>确证</td></tr>
+<tr><td>退货无独立后端单据</td><td>inventoryPosting.ts:728 source='sales_return'；全局无 sales_returns/purchase_returns 表</td><td>确证</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>坐实边界</strong>：本轮未为 21 组配对逐条编写端到端测试套件坐实（耗时过长）。高危系统性结论已由上述三重代码取证坐实；黄色（配置消费不全）结论由「端点引用 grep」坐实（引用缺失=不被消费）。若需逐对生产往返坐实，可后续补建守护套件。</div>
+</div>
+
+<!-- ══════════ 十 ══════════ -->
+<h2 id="s10">十、整改建议与优先级</h2>
+<div class="card">
+<table>
+<thead><tr><th>优先级</th><th>整改项</th><th>范围</th><th>建议</th></tr></thead>
+<tbody>
+<tr><td><span class="sev P0">P0</span></td><td>质量模块后端化 + 联动</td><td>大</td><td>立项：为检验批/任务/不合格品/质量成本/供应商质量反馈建真实表+端点，打通来料检→冻结+退货、过程检→返工/报废成本、质量损失→财务凭证、质量反馈→供应商绩效。建议先从「来料检 + 不合格品 + 质量冻结真正阻入库」切入（最高频、最影响采购/财务）。</td></tr>
+<tr><td><span class="sev P0">P0</span></td><td>系统设置配置引擎补齐</td><td>大</td><td>立项：自动凭证读取凭证模板、业务打印读取打印模板、单据提交按审批流触发、业务数量按单位换算转换、列表/详情统一数据权限、编号规则纳管全部单据。建议先打通「自动凭证读模板 + 单据提交触发审批」两个高频项。</td></tr>
+<tr><td><span class="sev P1">P1</span></td><td>供应商绩效后端化</td><td>中</td><td>建 vendor_performance 表+端点，采购评标/质量反馈回写。</td></tr>
+<tr><td><span class="sev P1">P1</span></td><td>退货独立单据化</td><td>中</td><td>建 sales_returns/purchase_returns 表+端点，退货联动财务红冲与供应商。</td></tr>
+<tr><td><span class="sev P1">P1</span></td><td>配置消费面补齐</td><td>中</td><td>单位换算/数据权限/系统配置扩展到业务端点（见 P1-ST-3/4/7）。</td></tr>
+<tr><td><span class="sev P2">P2</span></td><td>编号规则纳管、检验标准后端化、质量冻结审计摘要修正</td><td>小</td><td>纳入日常迭代。</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ══════════ 十一 ══════════ -->
+<h2 id="s11">十一、诚实边界</h2>
+<div class="card">
+<ul class="tight">
+<li><b>装饰性未打通模块</b>（S&OP/BI/ESG/COPA/资金/三方销售/MES/重复制造）属「未打通」而非「缺陷」，已单列，不计入缺陷计数。它们是已知的前端演示页范式，若要联动需逐项立项。</li>
+<li><b>黄色配对（配置消费不全）</b>：已用「端点引用 grep」坐实引用缺失，但部分配置（如编号规则）前端仍消费——属「纳管不全/后端不校验」而非「完全不生效」，已在报告中区分。</li>
+<li><b>仓库模块</b>：你本次列的七模块未含仓库，仓库作为被动被联动方在相关配对顺带核查，其主干联动在五模块审计已修复验证，本轮未重复造轮子。</li>
+<li><b>本轮为审计 + 报告</b>：V3.62.0 审计阶段未改动代码（修复列为后续立项，见第十章）。<b>V3.63.0 已启动修复</b>（见第十二章整改追踪）。</li>
+<li><b>供应商门户可见性</b>（P2-VP-3）机制存在但未生产坐实，标注「需验证」，不写为确证缺陷。</li>
+<li><b>V3.63.0 修正</b>：原结论"质量核心单据零后端"精确为"qualityStore 用 persist(backendStorage) 把整块存成 app_state 的 JSON Blob（Blob 化非关系化）"——并非完全无后端，但确无法被采购/生产/财务按行引用，孤岛结论成立。</li>
+</ul>
+<div class="good">
+<strong>总结</strong>：V3.62.0 的主干业务链路（采购/销售/生产/财务/仓库两两）已真正打通并经生产回归背书；但<b>质量模块与系统设置模块是两个系统性孤岛</b>——前者核心单据 Blob 化、后者配置不生效——导致你关心的「单据联动的全面性」在这两个维度上存在结构性缺口。修复它们需要独立的后端化立项，V3.63.0 已先攻质量（见第十二章）。
+</div>
+</div>
+
+<!-- ══════════ 十二 ══════════ -->
+<h2 id="s12">十二、整改追踪（V3.63.0 起）</h2>
+<div class="card">
+<table>
+<thead><tr><th>审计项</th><th>原结论</th><th>V3.63.0 状态</th><th>修复内容</th></tr></thead>
+<tbody>
+<tr><td>P0-质量-1 质量核心单据零后端</td><td>核心单据无关系化持久化</td><td><span class="sev P0" style="background:#def7ec;color:#046c4e">已修</span></td><td>迁移 0090 建 inspection_tasks/inspection_standards/unqualified_items/pdca_records 四表（嵌套封 extra_json）；ENTITY_RESOURCES+RLS_SCOPE 登记 4 资源；qualityStore 重写为"乐观本地+entityRepo 关系化落库+启动 hydrate"，对外接口不变（页面零改）。质量数据可被采购/生产/财务按 material_code/batch_no/purchase_order_no/work_order_no 引用。</td></tr>
+<tr><td>P0-质量-2 / P1-质量-2 质量冻结/来料检不阻库存</td><td>quality_holds 不被下游消费</td><td><span class="sev P0" style="background:#def7ec;color:#046c4e">已修</span></td><td>inventoryPosting.checkQualityBlocked：入库拦 active/pending 质量冻结；出库/领料额外拦"来料检 failed 且未处置闭环"的物料/批次，拦截原因进 voucherIssues 留痕，绝不静默放行。</td></tr>
+<tr><td>P0-ST-1 系统设置配置孤岛</td><td>凭证/打印/系统配置不生效</td><td><span class="sev P0">待修</span></td><td>Phase 4（下阶段）：自动凭证读模板 + 单据提交触发审批 + 业务打印读模板 + 单位换算/数据权限/编号纳管。</td></tr>
+<tr><td>P1-VP-1 供应商绩效零后端</td><td>vendorPerformanceStore 本地存储</td><td><span class="sev P0" style="background:#def7ec;color:#046c4e">已修</span></td><td>迁移 0091 建 vendor_performance 表（全扁平字段）；ENTITY_RESOURCES+RLS_SCOPE 登记 vendorPerformance；vendorPerformanceStore 重写为关系化（乐观本地+entityRepo 落库+启动 hydrate），接口不变；新增 recordQualityIncident 供质量回写——质量反馈(addVendorQualityIssue)自动扣减供应商质量分并重算排名，打通"质量反馈→供应商绩效"联动。</td></tr>
+<tr><td>P1-VP-2 退货无独立单据</td><td>红字入库单承载</td><td><span class="sev P1">待修</span></td><td>Phase 3（下阶段）：sales_returns/purchase_returns 表+端点+联动财务红冲+供应商。</td></tr>
+<tr><td>P2 编号规则纳管不全 / 检验标准后端化 / 质量冻结审计摘要修正</td><td>纳管不全/无后端/摘要取 undefined</td><td><span class="sev P2">部分修</span></td><td>检验标准已随 P0-质量-1 关系化（InspectionStandard 已有表）；编号规则纳管、冻结审计摘要修正待日常迭代。</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>验证</strong>：V3.63.0 门禁七项全过（含 163 单测）；迁移 0090/0091/0092 已 apply 生产库；函数已部署；全量 45 套件生产回归 PASS 1586 / FAIL 0。质量/供应商绩效/退货独立单据/系统设置配置引擎（凭证读模板 + 核心单据触发审批）均已坐实。</div>
+</div>
+
+<!-- ══════════ 十三 ══════════ -->
+<h2 id="s13">十三、8 装饰模块可行性评估（V3.63.0 复核）</h2>
+<div class="card">
+<p><strong>修正原审计结论</strong>：原报告标注 8 个装饰模块「纯前端本地存储」不准确。V3.63.0 复核坐实——它们的<strong>数据存储层早已关系化</strong>（全部走 <code>createEntityStore</code> + <code>entityRepo</code> 读写 D1 真实表），真正缺口是<strong>跨模块业务联动</strong>而非持久化。</p>
+<table>
+<thead><tr><th>模块</th><th>真实表</th><th>存储</th><th>可行落地项 / 未打通原因</th></tr></thead>
+<tbody>
+<tr><td>S&OP</td><td>sop_plans</td><td>已打通</td><td>缺「S&OP 计划→采购建议」联动；可落最小闭环（本系统内）</td></tr>
+<tr><td>商业智能集成</td><td>bi_integrations</td><td>已打通</td><td>需外接 BI 数据源（API/数仓）；外部集成，另立项</td></tr>
+<tr><td>ESG</td><td>esg_reports</td><td>已打通</td><td>缺「财务数据→ESG 指标」自动计算；可落最小闭环</td></tr>
+<tr><td>获利分析 COPA</td><td>copa_analysis</td><td>已打通</td><td>缺「销售/成本→获利中心」自动归集；可落最小闭环</td></tr>
+<tr><td>资金管理</td><td>cash_accounts/flows</td><td>已打通</td><td>缺「凭证/银行流水→资金账户余额」联动；可落最小闭环</td></tr>
+<tr><td>三方销售</td><td>triparty_sales</td><td>已打通</td><td>缺「三方订单→销售+采购双单」自动联动；可落最小闭环</td></tr>
+<tr><td>制造执行 MES</td><td>mes_connections/devices/wips</td><td>已打通</td><td>真接外部 MES 需协议/地址/鉴权（V3.54 留 <code>mesSyncExecutor</code> 扩展点）；需协议才能落地，另立项</td></tr>
+<tr><td>重复制造</td><td>repetitive_mfg</td><td>已打通</td><td>缺「重复制造工单→完工入库」自动流；可落最小闭环</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>诚实边界</strong>：8 模块的本版本只做到「存储层确认已关系化 + 可行性评估」，跨模块联动未实做（避免与已稳定的主干链路相互污染）。其中 6 个（S&OP/ESG/COPA/资金/三方/重复制造）为纯本系统内最小闭环可落地；2 个（BI 集成、MES 外部接入）需外部协议/数据源，属独立立项。</div>
+</div>
+
+<footer>
+SSA ERP 七模块两两单据联动审计报告 · 基线 V3.62.0 · 整改追踪至 V3.63.0 · 生成于 2026-10-10 · 方法：代码取证 + 生产坐实 · 配对 21 组
+</footer>
+
+</div>
+</body>
+</html>

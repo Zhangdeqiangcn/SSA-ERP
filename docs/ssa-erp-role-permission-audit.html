@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP · 默认角色与权限矩阵对标审计（金蝶 / 用友 / SAP）</title>
+<style>
+  :root{
+    --ink:#1a1d23; --ink-2:#4a5158; --ink-3:#737b85; --line:#e3e6ea; --line-2:#eef0f3;
+    --bg:#ffffff; --bg-2:#f7f8fa; --bg-3:#f2f4f7;
+    --accent:#1f5fa9; --accent-bg:#eef4fc;
+    --ok:#1f7a3d; --ok-bg:#edf7f0;
+    --warn:#8a5a00; --warn-bg:#fdf6e7;
+    --bad:#b3261e; --bad-bg:#fdeeed;
+    --purple:#6b3fa0; --purple-bg:#f4effa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg-2);color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",-apple-system,sans-serif;
+    font-size:15px;line-height:1.75;}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px}
+  header{background:linear-gradient(135deg,#1f5fa9,#2b7cc9);color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:22px}
+  header h1{margin:0 0 8px;font-size:23px;letter-spacing:.5px}
+  header .sub{opacity:.92;font-size:14px}
+  header .meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+  header .meta span{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:3px 11px;font-size:12.5px}
+  section{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:18px}
+  h2{font-size:18px;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line-2);color:var(--accent)}
+  h3{font-size:15.5px;margin:20px 0 8px;color:var(--ink)}
+  p{margin:9px 0}
+  ul,ol{margin:9px 0;padding-left:22px}
+  li{margin:5px 0}
+  b,strong{color:var(--ink)}
+  code{background:var(--bg-3);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:13px;font-family:Consolas,"Courier New",monospace;color:#8b3a62}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;background:var(--bg)}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:var(--bg-3);font-weight:600;color:var(--ink-2)}
+  tbody tr:nth-child(even){background:#fafbfc}
+  .box{border-radius:9px;padding:13px 16px;margin:13px 0;border:1px solid;font-size:14.3px}
+  .box .t{font-weight:600;display:block;margin-bottom:5px}
+  .box.key{background:var(--accent-bg);border-color:#c5dcf5;color:#17456f}
+  .box.ok{background:var(--ok-bg);border-color:#c6e3d0;color:#155c2e}
+  .box.warn{background:var(--warn-bg);border-color:#f0dfae;color:#6b4600}
+  .box.bad{background:var(--bad-bg);border-color:#f2cdca;color:#8c1d17}
+  .box.purple{background:var(--purple-bg);border-color:#ded0ee;color:#4f2d79}
+  .box p{margin:5px 0}
+  .pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12.5px;font-weight:600;white-space:nowrap}
+  .pill.a{background:#e8f2ff;color:#1a5ba8;border:1px solid #c3daf7}
+  .pill.b{background:#fff4e3;color:#8a5a00;border:1px solid #f0dcb4}
+  .pill.c{background:#fdeeed;color:#a4231c;border:1px solid #f2cdca}
+  .pill.ok{background:var(--ok-bg);color:var(--ok);border:1px solid #c6e3d0}
+  .pill.bad{background:var(--bad-bg);color:var(--bad);border:1px solid #f2cdca}
+  .yes{color:var(--ok);font-weight:600}
+  .no{color:var(--bad);font-weight:600}
+  .muted{color:var(--ink-3);font-size:13px}
+  .sev{font-weight:700;padding:2px 8px;border-radius:6px;font-size:12.5px}
+  .sev.p0{background:var(--bad-bg);color:var(--bad)}
+  .sev.p1{background:#fff4e3;color:var(--warn)}
+  .sev.p2{background:#e8f2ff;color:var(--accent)}
+  .sev.p3{background:var(--bg-3);color:var(--ink-3)}
+  .tag{font-size:11.5px;color:var(--ink-3);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-left:6px;vertical-align:1px}
+  .legend{font-size:12.5px;color:var(--ink-3);margin:6px 0}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px}
+  .toc a{font-size:13px;text-decoration:none;color:var(--accent);border:1px solid #c5dcf5;background:#eef4fc;border-radius:999px;padding:4px 12px}
+  .toc a:hover{background:#dcebfa}
+  td.center{text-align:center}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:860px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>SSA ERP · 默认角色与权限矩阵对标审计</h1>
+  <div class="sub">对标 金蝶 KIS / 用友 U8 / SAP，逐条核对当前默认角色设计的合理性，列出不合理项并给完善方案</div>
+  <div class="meta">
+    <span>基准版本 V3.50.0 → 实施为 V3.51.0</span>
+    <span>日期 2026-10-07 ~ 10-08</span>
+    <span>范围：默认角色 · 操作矩阵 · 行级权限 · 审批制衡 · 角色词表一致性</span>
+    <span>定位：诊断结论 + 完善方案（强哥已拍板 4 决策点，P0/P1 已实施，本地 6 门禁全绿，待生产 E2E 坐实后部署）</span>
+  </div>
+</header>
+
+<!-- ═══════════ 0 · 先说结论 ═══════════ -->
+<section id="concl">
+  <h2>一、先说结论</h2>
+
+  <div class="box key">
+    <span class="t">总体判断：底座扎实、角色集偏「菜单视角」、对标三大 ERP 暴露 4 处 P0 不合理</span>
+    当前系统已经把「行级隔离（组织 / 负责人 / 部门）」「字段级脱敏」「默认拒绝」「审批委托 / 撤回 / 催办」「操作守卫」这些硬地基打得很完整，
+    属于同类自研系统里少见的水准。<b>但默认角色矩阵的设计停留在「界面给不给按钮」的菜单视角，没有真正对标金蝶 / 用友 / SAP 的「业务职责分离」</b>。
+    核心问题不在"谁不能看什么"，而在 <b>四个会伤及资金与内控的红线缺口</b>（见第三节），以及<b>角色词表在 5 处定义已经断裂</b>（第三节 R1）。
+  </div>
+
+  <div class="grid2">
+    <div class="box ok">
+      <span class="t">做得对、可保留（对标后仍是加分项）</span>
+      <ul>
+        <li>组织级隔离（org_id 强制写入 WHERE）+ 负责人 / 部门行级范围（RLS all / own / dept）；</li>
+        <li>未登记表默认 <code>1=0</code> 拒绝 + 机器核对（不静默放行，这点比多数系统强）；</li>
+        <li>字段脱敏「读侧剥离 + 写侧拒写」+ 硬敏感基线（银行账号 / 税号不可被界面放开）；</li>
+        <li>审批委托 / 撤回 / 催办的服务端闸 + 委托不允许转给自己（防空转）；</li>
+        <li>特权角色（超管 / 管理员）统一豁免，口径一致。</li>
+      </ul>
+    </div>
+    <div class="box bad">
+      <span class="t">对标三大 ERP 后，不合理项集中在 4 类</span>
+      <ul>
+        <li><b>制单与审核未分离（SoD，职责分离）</b>：提交人可指定自己当审批人，系统无制衡；</li>
+        <li><b>财务对采购 / 销售 / 供应商零写权</b>：财务能制凭证却不能管采购付款、不能建供应商，财务监督形同虚设；</li>
+        <li><b>采购员可建 / 删供应商</b>：把「选供应商」和「录采购单」都交给同一人，违背供应商制衡；</li>
+        <li><b>角色词表 5 处断裂</b>：销售角色在后端悬空、生产主管 / 研发 / 工艺在操作矩阵里"能创建却被拒"。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="toc">
+    <a href="#now">现状矩阵</a>
+    <a href="#bench">对标三大 ERP</a>
+    <a href="#prob">问题清单（P0~P3）</a>
+    <a href="#fix">完善方案（等拍板）</a>
+    <a href="#plan">落地顺序建议</a>
+  </div>
+
+  <div class="box ok">
+    <span class="t">✅ 实施状态（V3.51.0，强哥已拍板 4 决策点并落地，未部署生产）</span>
+    <p>本文档第三节的问题清单已按强哥拍板<b>实施完成</b>，六道门禁全绿（前端类型 / 163 单测 / 字段策略 67 三元组 / functions 类型 0 新增 / 语法 0 错 / 打包 0 错）。已落地：</p>
+    <ul>
+      <li><b>P0-1 SoD 硬闸</b>：提交 / 推进两处加 <code>assertSoD</code>，提交人不得审批自己单据（含委托路由后的实际审批人），5 条成对单测锁定（自审被拦 + 他人审通过）；</li>
+      <li><b>P0-2 财务放开采购 / 销售 / 供应商写权</b>（强哥选"完全放开"）：finance_manager / accountant 对 purchase / sales / vendor 全权，已同步前后端矩阵；</li>
+      <li><b>P0-3 供应商门户</b>：门户改自身资质（update）放行、采购员"新建供应商"菜单按钮撤掉（消除 403 矛盾）；建档权归财务；</li>
+      <li><b>P1 销售角色纳入 5 处词表</b>（sales_manager / salesperson：类型 + 菜单 + 后端词表 + 操作矩阵 + 用户白名单）；顺带修 prod_manager / process_engineer「能创建却被拒」；</li>
+    </ul>
+    <p class="muted">⚠️ 已知副作用（已在矩阵注释 + 本文档标注，留待强哥二次确认）：采购 / 供应商 / 销售在行级权限是「按负责人隔离」，财务"有写权却未必看得到他人单据"，需决定是否给财务加全组织可见性。</p>
+    <p class="muted">⚠️ 交叉核对顺带暴露 15 处<b>历史遗留</b>结构性缺口（前端 defaultRoleModuleOps 缺 <code>*</code> 兜底行 + approval 协作维护 + serial/purchase-request 条目，V3.45~V3.48 该同步没同步）——方向是"界面少给按钮"、不造成越权（后端兜底守住），属本批范围外，建议单独立项，未夹带。</p>
+  </div>
+</section>
+
+<!-- ═══════════ 1 · 现状矩阵 ═══════════ -->
+<section id="now">
+  <h2>二、当前默认角色与操作矩阵（现状）</h2>
+
+  <div class="box key">
+    <span class="t">系统当前真实的默认角色共 15 个（权威定义在 <code>src/types/settings.ts</code> + 后端守卫）</span>
+    2 个特权角色（超管 / 管理员，全模块全权限，豁免一切检查）+ 13 个业务角色。下表是「业务角色 × 模块 × 增删改查」的<b>实际生效矩阵</b>（取自 <code>functions/_shared/operationGuard.ts</code> 的 BUILTIN_ROLE_OPS，这是<b>真正管服务端写操作</b>的矩阵）。
+  </div>
+
+  <div class="legend">✓ = 有权限　·　— = 无权限（默认拒绝）　·　★ = 与前端菜单权限（ROLE_DEFINITIONS）口径不一致的地方（矛盾点）</div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>角色（中文）</th>
+        <th>物料</th><th>供应商</th><th>客户</th><th>采购</th><th>销售</th>
+        <th>仓储</th><th>质量</th><th>生产</th><th>财务</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><b>研发工程师</b><br><span class="muted">rd_engineer</span></td>
+        <td class="center">只读</td><td class="center">—</td><td class="center">—</td><td class="center">—</td><td class="center">—</td>
+        <td class="center">—</td><td class="center">—</td><td class="center">—</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>工艺工程师</b><br><span class="muted">process_engineer</span></td>
+        <td class="center">只读</td><td class="center">—</td><td class="center">—</td><td class="center">—</td><td class="center">—</td>
+        <td class="center">—</td><td class="center">—</td><td class="center">★只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>质量工程师</b><br><span class="muted">qa_engineer</span></td>
+        <td class="center">只读</td><td class="center">—</td><td class="center">—</td><td class="center">—</td><td class="center">—</td>
+        <td class="center">—</td><td class="center">只读</td><td class="center">—</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>质量检验员</b><br><span class="muted">qa_inspector</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">读写</td><td class="center">只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>库管员</b><br><span class="muted">warehouse_keeper</span></td>
+        <td class="center">读写</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">读+写（不可删）</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>物流调度</b><br><span class="muted">logistics</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>财务主管</b><br><span class="muted">finance_manager</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center no">—</td><td class="center no">—</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">全权</td>
+      </tr>
+      <tr><td><b>会计</b><br><span class="muted">accountant</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center no">—</td><td class="center no">—</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">全权</td>
+      </tr>
+      <tr><td><b>采购员</b><br><span class="muted">buyer</span></td>
+        <td class="center">只读</td><td class="center">读+改（不可增删）</td><td class="center">只读</td><td class="center">全权</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>生产主管</b><br><span class="muted">prod_manager</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center no">★只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>生产班长</b><br><span class="muted">prod_leader</span></td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">读+写（不可删）</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>供应商门户</b><br><span class="muted">vendor</span></td>
+        <td class="center">只读</td><td class="center no">★只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+        <td class="center">只读</td><td class="center">只读</td><td class="center">只读</td><td class="center">只读</td>
+      </tr>
+      <tr><td><b>普通用户</b><br><span class="muted">user</span></td>
+        <td class="center" colspan="8">全模块只读（新注册默认兜底身份）</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box warn">
+    <span class="t">★ 标记的 3 处"矩阵 vs 菜单"矛盾（同一人，菜单给按钮但后端会拒）</span>
+    前端 <code>ROLE_DEFINITIONS</code>（菜单 / 按钮权限）给了这几个角色「创建 / 编辑」按钮，但<b>后端真正管的 BUILTIN_ROLE_OPS 把它们全设成只读</b>：
+    <ul>
+      <li><b>生产主管</b>：菜单有 <code>production.create/edit/approve</code>，矩阵生产模块只读 → 点「新建工单」会被 403 拒（P1，合法用户被误拒）；</li>
+      <li><b>工艺工程师</b>：菜单有 <code>production.create/edit</code>，矩阵生产只读 → 同上；</li>
+      <li><b>供应商门户</b>：菜单有 <code>vendor.self.edit</code>（更新自己的资质），矩阵供应商只读 → 供应商改自己资质被拒。</li>
+    </ul>
+    这属于项目里已知的「合法使用者被自己的日常操作挡在门外」的一类故障——比"误放开"更常见，但一样伤体验。
+  </div>
+</section>
+
+<!-- ═══════════ 2 · 对标 ═══════════ -->
+<section id="bench">
+  <h2>三、对标 金蝶 / 用友 / SAP 的角色模型</h2>
+
+  <div class="box key">
+    <span class="t">三大 ERP 在「默认角色」上都遵循同一套内控底线，当前系统逐条对照如下</span>
+    金蝶 KIS、用友 U8、SAP 虽然产品形态不同，但在「谁能制单、谁能审核、谁能付款、谁能建供应商」上有一致的主线。
+    核对结论用「达标 / 部分达标 / 未达标」标注。
+  </div>
+
+  <table>
+    <thead>
+      <tr><th style="width:26%">内控维度</th><th>金蝶 KIS</th><th>用友 U8</th><th>SAP</th><th style="width:13%">SSA 现状</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>制单与审核分离<br>（SoD 职责分离）</b><br><span class="muted">制单人不得自审，SAP 靠 PFCG 授权对象 + 事务码互斥；金蝶 / 用友要求「录入 ≠ 审核」两个不同人</span></td>
+        <td>录入员 / 审核员分角色，审核人不能是本人</td>
+        <td>制单 / 审核 / 记账三权分立</td>
+        <td>同一授权对象内互斥事务码自动拦截自审批</td>
+        <td class="no">未达标<br><span class="muted">提交人可指定自己当审批人，无服务端制衡</span></td>
+      </tr>
+      <tr>
+        <td><b>采购与财务制衡</b><br><span class="muted">采购下单 / 收货 vs 财务付款 / 对账，必须分给不同部门</span></td>
+        <td>采购部 / 财务部独立账套权限</td>
+        <td>采购员与会计分角色，付款走财务</td>
+        <td>采购员（MM）与财务会计（FI）分离，付款需财务凭证</td>
+        <td class="no">未达标<br><span class="muted">财务对采购零写权，管不到付款闸门；采购员可绕过财务收付款</span></td>
+      </tr>
+      <tr>
+        <td><b>供应商管理制衡</b><br><span class="muted">「新增供应商主数据」不得由「下采购单的人」一人包办</span></td>
+        <td>供应商档案由采购 / 财务共管，供应商自维护走门户且受限</td>
+        <td>供应商建档与下单分权</td>
+        <td>供应商主数据（MM01）与采购员（MM06）权限对象分设</td>
+        <td class="no">未达标<br><span class="muted">采购员可建 / 改 / 删供应商，供应商门户却连改自己资质都不给</span></td>
+      </tr>
+      <tr>
+        <td><b>最小权限 + 默认拒绝</b><br><span class="muted">未授权即无权限，不留「全放行」后门</span></td>
+        <td>按模块授权</td>
+        <td>按功能点授权</td>
+        <td>缺省无权限，靠授权对象显式授予</td>
+        <td class="yes">达标<br><span class="muted">未登记表 1=0、操作守卫 ?? false，默认拒绝落实到位</span></td>
+      </tr>
+      <tr>
+        <td><b>财务凭证 / 记账权收口</b><br><span class="muted">制凭证、过账、期末结账必须归财务专职</span></td>
+        <td>会计 / 主管分权</td>
+        <td>制单 / 审核 / 记账</td>
+        <td>FI 过账权、期间锁分离</td>
+        <td class="yes">达标<br><span class="muted">财务模块写权只给财务主管 / 会计，非财务锁死</span></td>
+      </tr>
+      <tr>
+        <td><b>销售与采购隔离</b><br><span class="muted">销售不该掌握采购价 / 成本，采购不该掌握客户 / 售价</span></td>
+        <td>按岗位隔离价格可见性</td>
+        <td>同上</td>
+        <td>价格 / 成本字段靠视图 + 授权对象隔离</td>
+        <td class="yes">达标<br><span class="muted">字段脱敏已把销售金额对采购、采购价对销售双向屏蔽</span></td>
+      </tr>
+      <tr>
+        <td><b>新注册默认身份最小化</b></td>
+        <td>新用户默认无权限</td>
+        <td>同上</td>
+        <td>同上</td>
+        <td class="yes">达标<br><span class="muted">注册默认 user = 全模块只读，零写权，符合最小权限</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="box purple">
+    <span class="t">一句话归纳差距</span>
+    当前系统在「<b>可见性 / 脱敏 / 默认拒绝</b>」这条线上已经做到或超过中小 ERP 的常见水平；
+    但在「<b>业务动作的职责分离（谁能制、谁能审、谁能付、谁能建供应商）</b>」这条线上，还停留在"按菜单给按钮"，
+    没有像金蝶 / 用友 / SAP 那样把 <b>制衡关系写进角色矩阵本身</b>。后者才是"默认角色设计合理性"的核心判据。
+  </div>
+</section>
+
+<!-- ═══════════ 3 · 问题清单 ═══════════ -->
+<section id="prob">
+  <h2>四、不合理项清单（按严重度 P0 → P3）</h2>
+  <p class="muted">P0 = 伤及资金 / 内控红线，建议优先修；P1 = 合法用户被误拒或明显口径冲突；P2 = 一致性 / 可维护性；P3 = 体验增强。</p>
+
+  <table>
+    <thead>
+      <tr><th style="width:7%">级别</th><th style="width:44%">问题</th><th style="width:49%">依据（代码事实，非推测）</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><b>R-SoD · 制单与审核未分离</b><br>提交审批时 <code>approverId</code> 由前端传入，服务端<b>没有校验"提交人 ≠ 审批人"</b>。一个人能建采购单、再把审批人填成自己、再点批准，闭环自审。供应商同理可走通。</td>
+        <td><code>functions/api/approval-instances/index.ts</code> onRequestPost：只做了委托路由，未做 <code>submitter_id ≠ approver_id</code> 校验；<code>[id].ts</code> 的 approve/reject 只认"当前审批人"，但若当前审批人本来就是提交人自己，仍会通过。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><b>R-FIN · 财务对采购 / 销售 / 供应商零写权，监督失效</b><br>财务主管 / 会计只有财务模块写权，<b>不能改采购付款计划、不能建 / 改供应商、不能动销售收款</b>。三大 ERP 里财务是收付款的最终闸门，当前设计让财务对资金流出（采购付款）完全没有抓手，采购员可独立"下单 + 收货 + 触发付款"。</td>
+        <td><code>operationGuard.ts</code> BUILTIN_ROLE_OPS 中 finance_manager / accountant 仅有 <code>finance</code> 全权 + <code>approval</code> 读改；采购、销售、供应商模块均无对应写权限条目（默认拒绝）。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p0">P0</span></td>
+        <td><b>R-VEN · 供应商建档权只归特权角色 + 供应商门户改不了自己（倒挂）</b><br>供应商主数据建档权被收紧为「只有 admin / super_admin（<code>*</code> 特权）能建，采购员 <code>vendor.create=false</code>」——但菜单 <code>ROLE_DEFINITIONS</code> 仍给采购员 <code>vendor.create</code> 按钮（点了会 403，又是一处菜单 vs 矩阵矛盾），且系统<b>没有一个中立的"供应商建档"专职角色</b>。同时 <b>供应商门户改不了自己资质</b>（矩阵 vendor 模块对门户只读、无 update），资质维护反而要等特权角色代管，逻辑倒挂。</td>
+        <td><code>operationGuard.ts</code> 第 91 行 buyer 对 vendor 是 create=false/update=true；供应商门户（vendor）对 vendor 模块只读无 update；07 号 E2E 实测「buyer 建供应商 → 403 OPERATION_FORBIDDEN」坐实菜单与矩阵口径相反。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><b>R-WD · 生产主管 / 工艺工程师「能创建却被拒」</b><br>菜单给了 production.create / edit 按钮，但矩阵生产模块只读 → 点新建工单 / 改工单被 403。合法用户被挡在自己日常操作外。</td>
+        <td><code>settings.ts</code> prod_manager / process_engineer 的 permissions 含 production.create/edit；<code>operationGuard.ts</code> 二者走 <code>*</code> 兜底只读，无 production 写条目。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p1">P1</span></td>
+        <td><b>R-ROL · 角色词表 5 处断裂（最隐蔽、最伤维护）</b><br>同一套角色在 <b>5 个文件</b>里各自定义、且不一致：① 前端类型（13 角色，无销售）；② 前端菜单 ROLE_DEFINITIONS（13，无销售）；③ 后端权威词表 fieldAccess.REAL_ROLES（14，多 sales_manager）；④ 后端操作矩阵（15，又加 salesperson）；⑤ 用户角色白名单 users/[id].ts VALID_ROLES（13，无销售）。<b>结果：sales_manager / salesperson 是"悬空角色"——后端矩阵有它们、但管理员界面根本授不出来（不在白名单）、前端类型也不认</b>。</td>
+        <td>5 处文件角色集互有出入：<code>settings.ts</code>、<code>roleOperation.ts</code> 无销售角色；<code>fieldAccess.ts</code> REAL_ROLES 含 sales_manager；<code>operationGuard.ts</code> 另含 salesperson；<code>users/[id].ts</code> VALID_ROLES 不含任何销售角色。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p2">P2</span></td>
+        <td><b>R-DEL · 删除权过宽</b><br>采购员对采购订单有「删除」、财务对凭证有「删除」、销售主管对销售订单有「删除」。三大 ERP 里删除制单据一般收口给更高角色，且历史单据应「作废 / 冲销」而非物理删除，便于留痕与追溯。</td>
+        <td><code>operationGuard.ts</code> buyer.purchase.delete=true、accountant/finance_manager.finance.delete=true、sales_manager.sales.delete=true。</td>
+      </tr>
+      <tr>
+        <td><span class="sev p3">P3</span></td>
+        <td><b>R-DEF · 供应商门户默认全模块只读偏宽</b><br>外部供应商按当前矩阵对几乎所有模块都"只读"。对标 SAP 门户，供应商通常只能看"与己相关"的单据（自己的订单 / 报价 / 发货），不应默认看全组织数据。</td>
+        <td><code>operationGuard.ts</code> vendor 走 <code>*</code> 兜底只读（全模块可读），未收敛到"仅自身相关单据"。</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ 4 · 完善方案 ═══════════ -->
+<section id="fix">
+  <h2>五、完善方案（等拍板，未改代码）</h2>
+
+  <div class="box bad">
+    <span class="t">P0-1 · 上"制单与审核分离"服务端硬闸（SoD）</span>
+    在 <code>approval-instances</code> 提交与审批两处各加一条校验：
+    <ul>
+      <li>提交时：<code>approver_id === submitter_id</code> 直接 403 拒（提示"审批人不能是提交人本人，请指定其他责任人"）；</li>
+      <li>推进到下一节点时（approve 后填 nextApproverId）：下一审批人 === 提交人 同样拒；</li>
+      <li>委托路由仍保留，但委托后实际审批人若等于提交人，也要拒。</li>
+    </ul>
+    改动点集中在 <code>functions/_shared/approvalInstance.ts</code> 加一个纯函数 <code>assertSoD(submitterId, approverId)</code> + 两个端点各调一次，配 2 条单测（"自审被拦" + "他人审通过"成对，遵守项目"加闸门必配合法路径不断"铁律㊹）。
+  </div>
+
+  <div class="box bad">
+    <span class="t">P0-2 · 财务补"收付款闸门"写权，让财务真正管到资金</span>
+    给 finance_manager / accountant 在 <code>purchase</code> 模块补「付款计划（fin-payment-plans）写 + 供应商对账读」、<code>sales</code> 模块补「收款计划读 / 写」——注意是<b>精准给到资金相关端点</b>，不是把整个采购 / 销售模块写权放开（否则又违反最小权限）。
+    具体：purchase 模块的 <code>fin-payment-plans</code> 端点按财务放行，采购订单 / 供应商主数据本身仍不给财务写权（选商下单权保留在采购）。
+  </div>
+
+  <div class="box bad">
+    <span class="t">P0-3 · 供应商建档权拆分，把"选商"与"下单"分开</span>
+    <ul>
+      <li>先消除菜单 vs 矩阵的 403 矛盾：现状矩阵已把 <code>buyer.vendor.create</code> 收成 false（建档权只归特权），但菜单还留着"新建供应商"按钮 → 二选一：<b>撤菜单按钮</b>（建档权留在特权角色，采购员只"提议 / 维护已有"）或<b>放开矩阵</b>（采购员可建供应商）。建议前者（更合内控），撤按钮。</li>
+      <li>供应商门户：把 vendor 模块从"全组织只读"改成"仅自身相关单据只读"，<b>自身资质改（vendor.self.edit）放行</b>（对应现在 P3 的倒挂）；</li>
+      <li>新增"供应商申请"轻量流程：供应商在门户提报资质 → 由财务 / 管理员审核建档。这样"选商权"与"建档权"分离，符合三大 ERP 的主数据管控，且给"中立建档权"补上当前缺失的专职角色。</li>
+    </ul>
+  </div>
+
+  <div class="box warn">
+    <span class="t">P1 · 修"能创建却被拒"的合法用户 + 统一角色词表</span>
+    <ul>
+      <li>给 <b>prod_manager / process_engineer</b> 在生产模块补 create / update 写权（与菜单对齐，班长保留读 + 改，主管 / 工艺加 create）；</li>
+      <li>把销售角色收敛：要么<b>正式把 sales_manager / salesperson 纳入 5 处词表</b>（类型、菜单、后端词表、操作矩阵、用户白名单 5 处一起加），要么<b>从后端矩阵移除这两条悬空角色</b>。建议前者（销售域确实需要），但必须 5 处同步，并加一条机器核对（仿 <code>check-field-policy.mjs</code> 的做法，做一个"角色词表一致性"门禁）。</li>
+    </ul>
+  </div>
+
+  <div class="box warn">
+    <span class="t">P2 · 删除权收口 + 历史单据走作废 / 冲销</span>
+    采购订单 / 财务凭证 / 销售订单的 <code>delete</code> 默认收紧（业务角色不给物理删除，改给「作废 / 冲销」状态切换；物理删除只留特权角色或后台运维）。与项目已有"凭证红冲合法、已过账禁改"的既有口径保持一致。
+  </div>
+
+  <div class="box ok">
+    <span class="t">落地方式（不破坏现有门禁与回滚安全）</span>
+    以上全部集中在 <code>functions/_shared/operationGuard.ts</code>（角色矩阵）+ 2 个审批端点 + 前端 <code>settings.ts</code> 菜单，<b>不动数据库表、不加新表</b>。
+    每改一处都走项目既有六道门禁（类型检查 / 语法 / 一致性 / 字段策略 67 三元组等）+ 配对单测（合法不断 + 非法被拦），改完跑生产 E2E 守护，最后才同步版本号并归档。
+    风险点：改角色矩阵可能让某合法操作突然被拒 / 被放，必须<b>逐端点复核"入口真达服务端"</b>（铁律㊴），避免"界面点得动但没落库"。
+  </div>
+</section>
+
+<!-- ═══════════ 5 · 落地顺序 ═══════════ -->
+<section id="plan">
+  <h2>六、落地顺序建议（请强哥拍板做到哪一档）</h2>
+  <table>
+    <thead><tr><th style="width:8%">批次</th><th style="width:40%">内容</th><th style="width:26%">风险 / 影响面</th><th style="width:26%">建议</th></tr></thead>
+    <tbody>
+      <tr><td><b>批次 A（最优先）</b></td><td>P0-1 制单与审核分离硬闸（SoD）</td><td>改动小、只加 2 处校验，不影响现有合法流程；属资金安全底线</td><td class="yes">强烈建议先做</td></tr>
+      <tr><td><b>批次 B</b></td><td>P1 统一角色词表（5 处对齐）+ 修"能创建却被拒"</td><td>涉及前端 5 处同步，需配一致性门禁；不解决会持续伤体验</td><td class="yes">建议做</td></tr>
+      <tr><td><b>批次 C</b></td><td>P0-2 财务收付款写权 + P0-3 供应商建档拆分</td><td>改变业务授权范围，需确认公司实际分工（强哥采购岗最清楚现状）</td><td>需确认分工后做</td></tr>
+      <tr><td><b>批次 D</b></td><td>P2 删除权收口 + P3 供应商门户收窄</td><td>体验优化，可缓</td><td>可选</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box key">
+    <span class="t">需要强哥拍板的 4 个决策点（拍板后我按批次实施）</span>
+    <ol>
+      <li><b>SoD 自审拦截</b>：要不要上"提交人不得审批自己单据"的硬闸？（三大 ERP 均为强制，建议上）</li>
+      <li><b>财务对采购 / 销售的写权范围</b>：财务到底该管到"付款计划 / 收款计划"这一层，还是完全不管资金流出？（关系到是否给 finance_manager / accountant 补采购 / 销售端点写权）</li>
+      <li><b>供应商建档权归谁</b>：保留在采购员、收口给财务 / 管理员、还是走"供应商门户申请 → 财务建档"？</li>
+      <li><b>销售角色</b>：正式纳入 5 处词表（建议），还是先移除悬空的 sales_manager / salesperson？</li>
+    </ol>
+  </div>
+
+  <p class="muted">说明：第三节问题清单的 P0/P1 已按强哥拍板在 V3.51.0 落地（见顶部"实施状态"框），本文档同步标注"已修 / 未修"。所有「依据」均标注到具体文件与行为，可逐条回代码复核。尚未部署生产——按项目铁律「回归全绿才升版」，本批需先连真库跑生产端到端守护坐实 SoD 闸与矩阵变更不影响合法流程，再走 build + deploy 上线、归档。</p>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP V3.47.0 全系统量化分析</title>
+<style>
+:root{
+  --bg:#f5f7fa;--card:#fff;--ink:#1a2332;--ink2:#5a6b82;--line:#e3e8f0;
+  --p0:#d1342a;--p1:#e08a1e;--p2:#3f6fd1;--ok:#1f9d5b;--reg:#8a2be2;
+  --avail:#2f80ed;--integrity:#e08a1e;--accuracy:#1f9d5b;--stability:#d1342a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;padding:28px 40px 80px}
+h1{font-size:26px;margin-bottom:4px}
+.sub{color:var(--ink2);font-size:14px;margin-bottom:22px}
+h2{font-size:19px;margin:34px 0 14px;padding-left:12px;border-left:4px solid var(--avail)}
+h3{font-size:15px;margin:18px 0 8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(20,40,80,.05)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center}
+.kpi .n{font-size:30px;font-weight:700;line-height:1}
+.kpi .l{font-size:12px;color:var(--ink2);margin-top:6px}
+.kpi.p0 .n{color:var(--p0)}.kpi.ok .n{color:var(--ok)}.kpi.warn .n{color:var(--p1)}.kpi.reg .n{color:var(--reg)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:#eef2f8;font-weight:600;font-size:12.5px;color:#33415a;position:sticky;top:0}
+tr:hover td{background:#fafbfd}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.t-p0{background:#fbe4e2;color:var(--p0)}.t-p1{background:#fdf0dd;color:#b5651a}
+.t-p2{background:#dde9fb;color:#2a4f9e}.t-ok{background:#daf3e6;color:#127a44}.t-reg{background:#efe0fb;color:#6a1fb5}
+.dim{font-weight:600;font-size:12px;padding:1px 7px;border-radius:5px}
+.d-avail{background:#e3f0fd;color:#1f5bb8}.d-integ{background:#fdf0dd;color:#b5651a}
+.d-acc{background:#daf3e6;color:#127a44}.d-stab{background:#fbe4e2;color:#a02a22}
+code{background:#eef1f6;padding:1px 6px;border-radius:4px;font-size:12px;font-family:"Consolas","Monaco",monospace}
+.bar{height:9px;background:#eef1f6;border-radius:5px;overflow:hidden;min-width:60px}
+.bar>i{display:block;height:100%;border-radius:5px}
+.note{background:#fdf8ec;border:1px solid #f0e0b8;border-radius:10px;padding:14px 16px;font-size:13.5px;margin:14px 0}
+.note.red{background:#fdeceb;border-color:#f3c2bd}
+.note .h{font-weight:700;margin-bottom:5px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 14px;font-size:12.5px;cursor:pointer;color:var(--ink2)}
+.filters button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filters input{border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-size:13px;min-width:220px}
+.legend{font-size:12px;color:var(--ink2);margin:6px 0}
+.legend span{display:inline-flex;align-items:center;gap:5px;margin-right:14px}
+.dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+.hi{display:none}
+.road .step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:10px}
+.road .step b{color:var(--avail)}
+footer{margin-top:40px;color:var(--ink2);font-size:12px;text-align:center;border-top:1px solid var(--line);padding-top:16px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<h1>SSA ERP · V3.47.0 全系统量化分析</h1>
+<div class="sub">四维评估：可用性 / 数据完整性 / 准确性 / 稳定性 · 基线日期 2026-10-06 · 数据源：全量生产 E2E（40 套件）+ 静态门禁 + 前后端代码面扫描</div>
+
+<div class="note red">
+  <div class="h">⚠️ 先说最该知道的一件事（诚实性）</div>
+  本轮量化是在 <b>已部署的 V3.47.0</b> 上重跑全量生产 E2E（40 套件）得出的。对比 V3.46.0 基线（PASS 1379 / FAIL 75），<b>V3.47.0 = PASS 1377 / FAIL 77，多了 2 条失败</b>——这 2 条<b>是上一版 P0 整改（父子框架接操作守卫，审批流 module 设成 <code>*</code> fail-closed）引入的回归</b>，打断了「同组织 buyer 可协作改审批流」的既有语义。它没有掩盖在 77 条里，已被单独定位并给出修法（见 §4 根因 #R1）。本报告的全部数字都可以从 <code>test-reports/prod-e2e/latest.json</code> 与 <code>tmp/audit-server-quant.md</code> 复核。
+</div>
+
+<div class="kpis">
+  <div class="kpi warn"><div class="n">1377<small style="font-size:14px">/1454</small></div><div class="l">生产 E2E 通过率 <b>94.7%</b>（V3.47.0）</div></div>
+  <div class="kpi reg"><div class="n">+2</div><div class="l">较 V3.46.0 新增失败（P0 整改回归）</div></div>
+  <div class="kpi p0"><div class="n">3</div><div class="l">P0 级缺陷（过账竞态双过账）</div></div>
+  <div class="kpi ok"><div class="n">0</div><div class="l">静态门禁阻断（tsc/一致性/字段矩阵全绿）</div></div>
+</div>
+
+<h2>一、结论先行</h2>
+<div class="card">
+<p>系统<b>结构面健康</b>（门禁全绿、单测 158/158、路由 0 死链、字段矩阵 67 条前后端一致），但<b>业务逻辑面存在真实的并发与数据一致性风险</b>。四个维度量化结论：</p>
+<table style="margin-top:14px">
+  <tr><th>维度</th><th>量化评分</th><th style="width:34%">健康度</th><th>一句话结论</th></tr>
+  <tr><td><span class="dim d-avail">可用性</span></td><td><b>B+</b></td><td><div class="bar"><i style="width:82%;background:var(--avail)"></i></div>82%</td><td>121 端点 / 40 E2E 套件覆盖全域；残留 2 处缺 guardOperation、2 处列表 items 恒空占位</td></tr>
+  <tr><td><span class="dim d-integ">数据完整性</span></td><td><b>C+</b></td><td><div class="bar"><i style="width:58%;background:var(--integrity)"></i></div>58%</td><td>删父不清子（孤儿引用）5 处、双源漂移 3 处、静默丢字段 3 处——<b>最薄弱维度</b></td></tr>
+  <tr><td><span class="dim d-acc">准确性</span></td><td><b>B</b></td><td><div class="bar"><i style="width:74%;background:var(--accuracy)"></i></div>74%</td><td>3 处 fail-open 静默放行、2 处金额口径/浮点累加漂移、汇率跨币种兜底 1</td></tr>
+  <tr><td><span class="dim d-stab">稳定性</span></td><td><b>C</b></td><td><div class="bar"><i style="width:52%;background:var(--stability)"></i></div>52%</td><td><b>最该优先修的</b>：3 处过账幂等 check-then-act 非原子（并发双过账）+ 凭证/流水吞错不回滚</td></tr>
+</table>
+<p style="margin-top:12px;color:var(--ink2);font-size:13.5px">评分口径：综合「该维度下未修复缺陷数量 × 严重度加权」。数据完整性与稳定性偏低，根因集中——几乎都源于<b>「头表 + 子表 / 库存 + 流水 + 凭证」多步写入没有收进同一原子批次</b>。</p>
+</div>
+
+<h2>二、生产 E2E 失败全景（77 条 → 5 类根因）</h2>
+<div class="card">
+<p>77 条 FAIL <b>不是 77 个独立 bug</b>。量化归并后，<b>约 58%（44 条）是「前置造数失败导致的连锁放大」</b>——套件先建一张单据失败，后面所有依赖它的断言全挂，根因其实只有 1~2 个。真正独立的根因 5 类：</p>
+<table>
+  <tr><th>根因类</th><th>占比/条数</th><th>代表失败</th><th>性质</th></tr>
+  <tr><td><b>① 前置造数连锁</b></td><td>44/77（58%）</td><td>28-work-order-backflush 44 条：建工单 400（缺 materialId）→ 完工/倒冲全 404</td><td>测试数据契约问题，非代码缺陷</td></tr>
+  <tr><td><b>② 契约/期望过时</b></td><td>7/77</td><td>07-rls：期望 buyer 建供应商 201，但权限矩阵已定 vendor create=false → 403（fail-closed 是对的）</td><td>守护套件期望值没跟上权限矩阵演进</td></tr>
+  <tr><td><b>③ 数据残留</b></td><td>4/77</td><td>25-consolidation-enhanced：账套编号撞号 DATA_UNIQUE（上轮残留未清）</td><td>生产库脏数据，非代码缺陷</td></tr>
+  <tr><td><b>④ 我引入的回归</b></td><td>2/77</td><td>21-approval-flow：审批流 module=<code>*</code> 打断 buyer 协作改（P0 整改副作用）</td><td><b>真需修</b>，见根因 #R1</td></tr>
+  <tr><td><b>⑤ 真残留缺陷</b></td><td>16/77</td><td>17-bom-domain：嵌套 BOM 摊平只回 2 行期望 5 行（子树写入真有问题）</td><td><b>真需修</b>，服务端 36 条之一</td></tr>
+</table>
+<p class="legend" style="margin-top:10px">★ 关键判断：<b>代码的真实健康度被 ①②③ 放大低估了</b>——58% 的失败是测试数据契约，2 条是我上版引入的、已知且给了解法的回归。扣除这些，<b>真正待修的真缺陷是 ⑤ 的 16 条 + 服务端扫描出的 36 条（去重后）</b>，其中 P0 仅 3 条竞态。</p>
+</div>
+
+<h2>三、服务端 36 条量化缺陷（四维度 · 文件:行号 证据）</h2>
+<div class="card">
+<p>按严重度与维度分布：<b>P0×3 · P1×11 · P2×22</b>。下表可筛选。</p>
+<div class="filters">
+  <button data-f="sev" data-v="P0" class="on">P0</button>
+  <button data-f="sev" data-v="P1" class="on">P1</button>
+  <button data-f="sev" data-v="P2" class="on">P2</button>
+  <span style="width:1px;height:20px;background:var(--line)"></span>
+  <button data-f="dim" data-v="stab" class="on">稳定性</button>
+  <button data-f="dim" data-v="integ" class="on">数据完整性</button>
+  <button data-f="dim" data-v="acc" class="on">准确性</button>
+  <button data-f="dim" data-v="avail" class="on">可用性</button>
+  <input id="q" placeholder="搜索文件名 / 关键词…">
+</div>
+<div class="legend">
+  <span><span class="dot" style="background:var(--p0)"></span>P0 高危</span>
+  <span><span class="dot" style="background:var(--p1)"></span>P1 中危</span>
+  <span><span class="dot" style="background:var(--p2)"></span>P2 低危</span>
+</div>
+<div style="max-height:560px;overflow:auto">
+<table id="dt">
+<thead><tr><th style="width:52px">级</th><th style="width:70px">维度</th><th style="width:280px">位置</th><th>缺陷</th></tr></thead>
+<tbody>
+<tr data-sev="P0" data-dim="stab"><td><span class="tag t-p0">P0</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>inbound-orders/index.ts:167</code></td><td>过账幂等标志 <code>inventory_posted</code> 的「先读后写」非原子窗口，并发首次请求<b>双次过账</b>（流水/totalCost 双写）</td></tr>
+<tr data-sev="P0" data-dim="stab"><td><span class="tag t-p0">P0</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>outbound-orders/index.ts:130</code></td><td>同款竞态：并发双扣库存（MAX(0) 卡 0 掩盖账面，流水却翻倍）</td></tr>
+<tr data-sev="P0" data-dim="stab"><td><span class="tag t-p0">P0</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>stock-transfers/[id].ts:130</code></td><td>调拨单级竞态：并发双请求 → 调出仓双扣 + 调入仓双入账</td></tr>
+<tr data-sev="P1" data-dim="stab"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>inbound-orders/index.ts:198</code></td><td>postInbound 异常被 catch 吞掉，单据 completed 但库存/流水/凭证缺失仍返 201（调用方无从察觉）</td></tr>
+<tr data-sev="P1" data-dim="stab"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>outbound-orders/index.ts:144</code></td><td>同款：postOutbound 吞异常，库存未扣、COGS 凭证缺失仍返 200/201</td></tr>
+<tr data-sev="P1" data-dim="integ"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>inventoryPosting.ts:296</code></td><td>凭证生成吞异常不回滚：库存+流水已置位而凭证<b>永久缺失</b>（双账本漂移）</td></tr>
+<tr data-sev="P1" data-dim="integ"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>inventoryPosting.ts:388</code></td><td>出库同款：COGS 凭证缺失但 inventory_posted=1 已置位，成本凭证永久缺</td></tr>
+<tr data-sev="P1" data-dim="stab"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>inbound-orders/index.ts:114</code></td><td>头表 INSERT 与子项 INSERT 两次独立 .run() 非原子，中途失败留「头在、明细缺」</td></tr>
+<tr data-sev="P1" data-dim="stab"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>sales-orders/[id].ts:109</code></td><td>父表 UPDATE 与子行 DELETE+INSERT 分离；INSERT 抛错时父表已存、子行全删未回填</td></tr>
+<tr data-sev="P1" data-dim="integ"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>purchase-orders/[id].ts:161</code></td><td>删父先于删子两次独立 .run()，子删失败 = 头已删、孤儿子行残留，三单匹配仍引用已删单</td></tr>
+<tr data-sev="P1" data-dim="integ"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>quality-holds/[id].ts:81</code></td><td>删扣留前未回滚 <code>inventory_records.frozen_quantity</code>，可用库存虚高、出库绕过质检冻结</td></tr>
+<tr data-sev="P1" data-dim="integ"><td><span class="tag t-p1">P1</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>work-orders/[id].ts:145</code></td><td>删工单不清 <code>work_order_pickings</code>，领料台账指向已删工单，成品成本脱节</td></tr>
+<tr data-sev="P2" data-dim="avail"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-avail">可用性</span></td><td><code>vouchers/[id].ts:116/175</code></td><td>UPDATE/DELETE 凭证缺 <code>AND org_id=?</code> 过滤，跨组织同 id 可被误改/误删（UUID 难猜但违设计）</td></tr>
+<tr data-sev="P2" data-dim="acc"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-acc">准确性</span></td><td><code>voucherWriter.ts:142</code></td><td>跨币种分录未传汇率时按 1:1 兜底，EUR/USD 凭证 CNY 金额失真</td></tr>
+<tr data-sev="P2" data-dim="acc"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-acc">准确性</span></td><td><code>paymentGate.ts:451</code></td><td>guardCumulativeOverpay 发票金额查询 catch 后放行，与同族 guardBudget fail-closed 方向相反（拆分超付后门）</td></tr>
+<tr data-sev="P2" data-dim="acc"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-acc">准确性</span></td><td><code>idempotency.ts:42</code></td><td>单号去重查询异常 fail-open 放行 → 单号故障时双击建单双份同号</td></tr>
+<tr data-sev="P2" data-dim="integ"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>entities/[resource].ts:88</code></td><td>通用路由 POST finPaymentPlan 嵌套 installments 被 pickSnake 静默丢，B11 逐期付款失效</td></tr>
+<tr data-sev="P2" data-dim="stab"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>vouchers/index.ts:163</code></td><td>并发同号撞 UNIQUE 时误报 400「借贷不平」而非 409「编号冲突」，调用方会误判反复重试</td></tr>
+<tr data-sev="P2" data-dim="acc"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-acc">准确性</span></td><td><code>inbound-orders/index.ts:154</code></td><td>过账保留旧 total_cost（COALESCE），手工填过的旧值不回写，金额与库存口径错位</td></tr>
+<tr data-sev="P2" data-dim="integ"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>inventoryPosting.ts:316</code></td><td>物料未命中仍写出库流水（valueDelta=0）与库存扣减，流水合计 vs 库存重建值偏差</td></tr>
+<tr data-sev="P2" data-dim="avail"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-avail">可用性</span></td><td><code>vouchers/index.ts:52</code></td><td>列表 N+1：每行单查 voucher_items，100/页 = 100 次查询，高并发拖垮边缘函数</td></tr>
+<tr data-sev="P2" data-dim="avail"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-avail">可用性</span></td><td><code>inbound/outbound-orders/index.ts:62</code></td><td>列表 items 恒 [] 占位，真正明细只在 [id] 端点，列表展示易误判「无明细」</td></tr>
+<tr data-sev="P2" data-dim="avail"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-avail">可用性</span></td><td><code>fx/refresh.ts:7</code></td><td>汇率刷新端点无 guardOperation，只读用户可批量覆盖组织汇率</td></tr>
+<tr data-sev="P2" data-dim="integ"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>sales-orders/[id].ts:145</code></td><td>删订单不清 shipments/shipment_items，孤儿发货台账指向已删单</td></tr>
+<tr data-sev="P2" data-dim="stab"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>fx/refresh.ts:21</code></td><td>逐币种独立 INSERT 未包 batch，半程失败留脏汇率、无回滚</td></tr>
+<tr data-sev="P2" data-dim="integ"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-integ">数据完整性</span></td><td><code>quality-holds/[id].ts:40</code></td><td>PUT 整表覆盖式（body.x||null），一次只改状态就清空物料/批次</td></tr>
+<tr data-sev="P2" data-dim="acc"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-acc">准确性</span></td><td><code>inventoryPosting.ts:199</code></td><td>totalCost 单行 round 再累加 vs rollIn 未 round，跨行累计与滚动值 ≤0.01 元漂移</td></tr>
+<tr data data-sev="P2" data-dim="stab"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-stab">稳定性</span></td><td><code>fin-payment-plans/index.ts:36</code></td><td>创建先 clone 读 body 守卫、pcCreate 再读原请求体，双读竞态偶发 400</td></tr>
+<tr data-sev="P2" data-dim="avail"><td><span class="tag t-p2">P2</span></td><td><span class="dim d-avail">可用性</span></td><td><code>entities/[id].ts:38</code></td><td>通用路由 PUT 无 guardOperation，对 RLS='all' 表任何登录用户可写</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h2>四、根因收敛（36+2 → 6 个根因）</h2>
+<div class="card">
+<p>缺陷虽多，但<b>收敛度很高</b>——绝大多数源于少数几个根因。修根因比逐条打补丁高效得多：</p>
+<table>
+  <tr><th>#</th><th style="width:240px">根因</th><th>命中缺陷数</th><th>统一解法</th></tr>
+  <tr><td><b>R1</b></td><td>父子/多表写入未原子化（头+子、库存+流水+凭证分多步独立 .run()）</td><td>约 14</td><td>把「父表 + 全部子表 / 物料 + 流水 + 库存记录 + 凭证」收进<b>同一 <code>db.batch()</code></b>，失败整批回滚。一处范式改动覆盖入/出库/调拨/销售/采购/工单多端点。</td></tr>
+  <tr><td><b>R2</b></td><td>过账幂等标志 check-then-act 非原子（读到 0 → 过账 → 置 1，三步可并发穿透）</td><td>3（全 P0）</td><td>守卫条件并入 UPDATE：<code>UPDATE … SET inventory_posted=1 WHERE id=? AND inventory_posted=0</code>，读 <b>affected_rows</b> 判断是否本次过账（条件抢占，无锁即原子）。</td></tr>
+  <tr><td><b>R3</b></td><td>删父不清子 / 删单据不回滚关联台账（孤儿引用）</td><td>约 6</td><td>删除端点统一 <code>db.batch([删父, 删各子表, 回滚冻结数])</code>；quality_holds 删除前 <code>UPDATE inventory_records SET frozen_quantity=frozen_quantity-?</code>。</td></tr>
+  <tr><td><b>R4</b></td><td>吞错不回滚（异常 catch 后静默继续，返回成功）</td><td>约 5</td><td>把「过账失败」上抛到端点，端点回滚 status completed→pending 并在响应告知；凭证缺失与库存/流水<b>同生共死</b>（并入 R1 的 batch）。</td></tr>
+  <tr><td><b>R5</b></td><td>fail-open 静默放行（异常/缺失时默认放行或默认 1/0）</td><td>约 4</td><td>逐分支区分「合法缺省」vs「配置损坏/查询故障」：前者可降级、后者一律 fail-closed 拦住（对齐已修的 guardBudget/isPeriodClosed 口径）。</td></tr>
+  <tr><td><b>R6</b></td><td>写端点漏 guardOperation / 缺 org_id 过滤（越权写 + 跨组织）</td><td>约 5</td><td>给 fx/refresh、entities/[id] 通用路由 PUT、vouchers UPDATE/DELETE 补齐 <code>guardOperation</code> 与 <code>AND org_id=?</code>，与专用端点口径对齐。</td></tr>
+</table>
+<p style="margin-top:12px" class="legend">★ <b>回归 R-REG</b>（V3.47.0 新增 2 条失败）独立于上 6 因，解法单列：审批流的 module 归属从 <code>*</code> 改回具体协作模块（如 approval 或 sales），让 BUILTIN_ROLE_OPS 中本有「协作改审批流」权的角色通过；<b>不要</b>把 <code>*</code> 放宽，那会让只读角色也能改全公司管控逻辑（fail-closed 的初衷要保住）。</p>
+</div>
+
+<h2>五、分级解决方案（按投入产出比排序）</h2>
+<div class="road">
+  <div class="step"><b>第一步 · 止血（当天可做，最高 ROI）</b> —— 修 <b>R2 三个 P0 竞态</b>（过账幂等改条件 UPDATE 抢占）+ <b>R-REG 审批流 module 回归</b>。改动小、直接消除「并发双过账」这种会真实做坏库存账的数字错误，并让 E2E 恢复全绿基线。<i>约 0.5–1 天。</i></div>
+  <div class="step"><b>第二步 · 建原子底座（1–2 天）</b> —— 落地 <b>R1 + R3 + R4</b>：抽一个 <code>atomicParentChild / atomicPosting</code> 范式，把入/出库/调拨/销售/采购/工单的「多表写 + 删除 + 过账」全部收进同一 batch。这是数据完整性维度从 C+ 提到 B+ 的关键，一次范式改动覆盖 ~20 条缺陷。<i>约 1.5–2 天 + 生产守护。</i></div>
+  <div class="step"><b>第三步 · 堵放行后门 + 补越权面（1 天）</b> —— <b>R5 fail-open 收敛 + R6 守卫/组织隔离补齐</b>。把剩余 fail-open 与缺 guardOperation/org_id 的点按已修口径对齐，消除跨组织与越权写残留。<i>约 1 天。</i></div>
+  <div class="step"><b>第四步 · 性能与展示修正（0.5 天）</b> —— 凭证列表 N+1 改批量查、列表 items 占位补齐、金额浮点累加口径统一。<i>收尾。</i></div>
+  <div class="step"><b>第五步 · 测试数据契约治理（并行）</b> —— 修 28 套件的前置造数（工单带 materialId）、清 25 残留、对齐 07-rls 的权限期望。让守护套件回到可信的「全绿基线」，否则以后每次回归都分不清真 bug 和数据脏。<i>约 0.5 天，可与第一、二步并行。</i></div>
+</div>
+<div class="note">
+  <div class="h">诚实边界说明</div>
+  本报告的静态面（门禁 / 单测 / 代码扫描）可以 100% 复核；但<b>并发双过账、跨组织越权这类缺陷必须连真实数据库做并发与负例测试才坐实</b>——静态扫描只能「指出风险点」，不能「证明生产上必然发生」。建议第一、二步修完后，重跑全量生产 E2E（届时 R-REG 与前置数据契约也应全绿），并拉生产库核对「流水重建余额 = 库存余额、无重复凭证、无孤儿子行」三项，才算把数据完整性真正验穿。
+</div>
+
+<footer>SSA ERP V3.47.0 量化分析 · 单一权威交付物 · 存于 <code>docs/ssa-erp-quantitative-analysis.html</code> · 生成 2026-10-06 · 数据源：test-reports/prod-e2e/latest.json（1377 PASS / 77 FAIL）+ 静态门禁（全绿）+ tmp/audit-server-quant.md（36 条）</footer>
+
+<script>
+(function(){
+  var rows=[].slice.call(document.querySelectorAll('#dt tbody tr'));
+  var sevOn={P0:true,P1:true,P2:true},dimOn={stab:true,integ:true,acc:true,avail:true},q='';
+  function apply(){
+    rows.forEach(function(r){
+      var ok=sevOn[r.dataset.sev]&&dimOn[r.dataset.dim]&&(q==='');
+      if(q)ok=(ok)&&(r.textContent.toLowerCase().indexOf(q)>=0);
+      r.classList.toggle('hidden',!ok);
+    });
+  }
+  document.querySelectorAll('.filters button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.f,v=b.dataset.v;
+      if(k==='sev')sevOn[v]=!sevOn[v];else dimOn[v]=!dimOn[v];
+      b.classList.toggle('on',k==='sev'?sevOn[v]:dimOn[v]);
+      apply();
+    });
+  });
+  var inp=document.getElementById('q');
+  if(inp)inp.addEventListener('input',function(){q=this.value.trim().toLowerCase();apply();});
+  apply();
+})();
+</script>
+</body>
+</html>

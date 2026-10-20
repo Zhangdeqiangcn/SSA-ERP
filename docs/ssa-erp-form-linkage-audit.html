@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP 表单关联审计报告 | V3.71.0 审计基准</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --border:#e3e6ea; --text:#222831; --muted:#6a7280;
+    --accent:#3b5bdb; --ok:#1a9e6f; --p0:#e5484d; --p1:#e8890b; --warn:#f59e0b; --info:#3b82f6;
+    --green:#dcfce7; --green-t:#166534; --yellow:#fef3c7; --yellow-t:#92400e;
+    --red:#fee2e2; --red-t:#991b1b; --gray:#eef0f3; --gray-t:#6a7280;
+    --shadow:0 1px 3px rgba(16,24,40,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.65;padding:20px}
+  .container{max-width:1200px;margin:0 auto}
+  header{background:var(--card);padding:26px 30px;border-radius:14px;box-shadow:var(--shadow);
+    margin-bottom:22px;border-bottom:3px solid var(--accent)}
+  header h1{font-size:22px;color:var(--accent);margin-bottom:6px}
+  header .sub{color:var(--muted);font-size:14px}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .meta span{background:#f0f2f5;padding:3px 10px;border-radius:5px;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+  .stat{background:var(--card);padding:16px;border-radius:10px;box-shadow:var(--shadow);text-align:center}
+  .stat .n{font-size:28px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .n.ok{color:var(--ok)}.n.p0{color:var(--p0)}.n.p1{color:var(--p1)}.n.info{color:var(--info)}
+  section{background:var(--card);border-radius:12px;box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
+  section h2{background:#f0f2f5;padding:12px 20px;font-size:15px;border-left:4px solid var(--accent)}
+  .content{padding:16px 20px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f7f8fa;font-weight:600;font-size:12px;color:var(--muted)}
+  tr:nth-child(even) td{background:#fafafa}
+  .badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+  .b-ok{background:var(--green);color:var(--green-t)}
+  .b-p0{background:var(--red);color:var(--red-t)}
+  .b-p1{background:var(--yellow);color:var(--yellow-t)}
+  .b-warn{background:var(--yellow);color:var(--yellow-t)}
+  .b-info{background:#dbeafe;color:#1e40af}
+  .b-gray{background:var(--gray);color:var(--gray-t)}
+  .callout{background:#eff6ff;border-left:3px solid var(--info);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px}
+  .callout.ok{background:#ecfdf5;border-left-color:var(--ok)}
+  .callout.warn{background:#fffbeb;border-left-color:var(--warn)}
+  .callout.danger{background:#fef2f2;border-left-color:var(--p0)}
+  code{background:#f1f2f4;padding:1px 5px;border-radius:4px;font-size:12px;font-family:'Fira Code','Consolas',monospace}
+  .issue{padding:10px 0;border-bottom:1px dashed var(--border)}
+  .issue:last-child{border-bottom:none}
+  .issue .t{font-weight:600;font-size:14px;margin-bottom:3px}
+  .issue .d{color:var(--muted);font-size:12.5px}
+  .matrix-wrap{overflow-x:auto}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:16px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 14px;font-size:12px}
+  .legend div{display:flex;align-items:center;gap:5px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  svg text{font-family:-apple-system,'PingFang SC',sans-serif}
+  .tag{font-size:10px;padding:1px 5px;border-radius:3px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>SSA ERP 表单关联审计报告（十模块 · 表单级）</h1>
+    <div class="sub">主数据 · 价格管理 · 销售 · 采购 · 仓储物流 · 生产管理 · 质量管理 · 财务 · 报表 · 系统设置 —— 逐表单外键引用 / 父子关系 / 导航闭环诊断</div>
+    <div class="meta">
+      <span>审计基准 V3.71.0（代码态）</span><span>审计日期 2026-10-12</span>
+      <span>方法：实读 80+ store / 10 模块，对照 V3.65 八模块联动审计 + V3.66 修复落地</span>
+      <span>判定：准确 / 薄弱 / 断裂(应有却缺) / 无直接关联 / 模块内自引</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="stat"><div class="n">10</div><div class="l">审计模块域</div></div>
+    <div class="stat"><div class="n info">80+</div><div class="l">数据录入表单（store 实体）</div></div>
+    <div class="stat"><div class="n p0">4</div><div class="l">P0 关联断裂（闭环缺角）</div></div>
+    <div class="stat"><div class="n p1">16</div><div class="l">P1 关联薄弱 / 不一致</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>审计方法（实读坐实，非推断）：</strong>逐模块枚举 80+ 个 store 实体 → 提取每个表单的外键引用字段
+    （<code>vendorId/customerId/materialId/xxxOrderId/workOrderId/warehouseId/orgId/bomId/inspectionTaskId…</code>）
+    → 比对目标表单是否真实存在、是否为 ID 级关联、是否双向对称、父子（主从）是否完整、导航跳转是否可达。
+    每条结论标注 <span class="tag" style="background:#dbeafe;color:#1e40af">实读坐实</span> 或
+    <span class="tag" style="background:var(--gray);color:var(--gray-t)">需运行验证</span>，诚实区分。
+    对照前序 V3.65（八模块页面联动）、V3.66（关系化修复落地）复核本轮新增与残余。
+  </div>
+
+  <!-- S1: 十模块表单关联矩阵图 -->
+  <section>
+    <h2>1. 十模块表单关联矩阵图（行模块表单 → 列模块表单 的引用健康度）</h2>
+    <div class="content">
+      <div class="legend">
+        <div><span class="dot" style="background:var(--ok)"></span>✅ 关联准确 / 双向一致</div>
+        <div><span class="dot" style="background:var(--warn)"></span>🟡 有关联但薄弱 / 不一致 / 两套路径</div>
+        <div><span class="dot" style="background:var(--p0)"></span>🔴 应有却缺失 / 错配（闭环断点）</div>
+        <div><span class="dot" style="background:#cbd5e1"></span>⚪ 无直接表单级关联</div>
+        <div><span class="dot" style="background:var(--info)"></span>🔵 模块内自引 / 父子闭环</div>
+      </div>
+      <div class="matrix-wrap">
+      <svg viewBox="0 0 820 800" width="100%" style="min-width:760px;background:#fff;border:1px solid var(--border);border-radius:10px">
+        <!-- 列标签（顶部，旋转 -45） -->
+        <g font-size="12" fill="var(--muted)" text-anchor="start">
+          <text x="108" y="74" transform="rotate(-45 108 74)">主数据</text>
+          <text x="168" y="74" transform="rotate(-45 168 74)">价格</text>
+          <text x="228" y="74" transform="rotate(-45 228 74)">销售</text>
+          <text x="288" y="74" transform="rotate(-45 288 74)">采购</text>
+          <text x="348" y="74" transform="rotate(-45 348 74)">仓储</text>
+          <text x="408" y="74" transform="rotate(-45 408 74)">生产</text>
+          <text x="468" y="74" transform="rotate(-45 468 74)">质量</text>
+          <text x="528" y="74" transform="rotate(-45 528 74)">财务</text>
+          <text x="588" y="74" transform="rotate(-45 588 74)">报表</text>
+          <text x="648" y="74" transform="rotate(-45 648 74)">系统设置</text>
+        </g>
+        <!-- 行标签（左侧） -->
+        <g font-size="12" fill="var(--text)" text-anchor="end">
+          <text x="88" y="130">主数据</text>
+          <text x="88" y="190">价格</text>
+          <text x="88" y="250">销售</text>
+          <text x="88" y="310">采购</text>
+          <text x="88" y="370">仓储</text>
+          <text x="88" y="430">生产</text>
+          <text x="88" y="490">质量</text>
+          <text x="88" y="550">财务</text>
+          <text x="88" y="610">报表</text>
+          <text x="88" y="670">系统设置</text>
+        </g>
+        <!-- 网格 10x10，cell=60，x0=95 y0=95 -->
+        <g stroke="#fff" stroke-width="2">
+          <!-- 行1 主数据: B W W W W Y W W W W -->
+          <rect x="95" y="95" width="60" height="60" fill="#3b82f6"/>
+          <rect x="155" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="275" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="335" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="395" y="95" width="60" height="60" fill="#eab308"/>
+          <rect x="455" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="515" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="575" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="95" width="60" height="60" fill="#e5e7eb"/>
+          <!-- 行2 价格: G B W W W W W W W W -->
+          <rect x="95" y="155" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="155" width="60" height="60" fill="#3b82f6"/>
+          <rect x="215" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="275" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="335" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="395" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="455" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="515" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="575" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="155" width="60" height="60" fill="#e5e7eb"/>
+          <!-- 行3 销售: G G B G G G G G W G -->
+          <rect x="95" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="215" y="215" width="60" height="60" fill="#3b82f6"/>
+          <rect x="275" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="215" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="215" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行4 采购: G G G B G G R G W G -->
+          <rect x="95" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="215" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="275" y="275" width="60" height="60" fill="#3b82f6"/>
+          <rect x="335" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="275" width="60" height="60" fill="#e5484d"/>
+          <rect x="515" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="275" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="275" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行5 仓储: G W G G B G G Y W G -->
+          <rect x="95" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="335" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="275" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="335" width="60" height="60" fill="#3b82f6"/>
+          <rect x="395" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="335" width="60" height="60" fill="#eab308"/>
+          <rect x="575" y="335" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="335" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行6 生产: G W W G G B G G W G -->
+          <rect x="95" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="395" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="395" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="275" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="395" width="60" height="60" fill="#3b82f6"/>
+          <rect x="455" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="395" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="395" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行7 质量: G W G G G G B G W G -->
+          <rect x="95" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="455" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="275" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="455" width="60" height="60" fill="#3b82f6"/>
+          <rect x="515" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="455" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="635" y="455" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行8 财务: G W G G Y G G B G G -->
+          <rect x="95" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="515" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="275" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="515" width="60" height="60" fill="#eab308"/>
+          <rect x="395" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="515" width="60" height="60" fill="#3b82f6"/>
+          <rect x="575" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="635" y="515" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行9 报表: G W G G G G G G B G -->
+          <rect x="95" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="575" width="60" height="60" fill="#e5e7eb"/>
+          <rect x="215" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="275" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="335" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="455" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="575" width="60" height="60" fill="#3b82f6"/>
+          <rect x="635" y="575" width="60" height="60" fill="#1a9e6f"/>
+          <!-- 行10 系统设置: G G Y Y G Y G G G B -->
+          <rect x="95" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="155" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="215" y="635" width="60" height="60" fill="#eab308"/>
+          <rect x="275" y="635" width="60" height="60" fill="#eab308"/>
+          <rect x="335" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="395" y="635" width="60" height="60" fill="#eab308"/>
+          <rect x="455" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="515" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="575" y="635" width="60" height="60" fill="#1a9e6f"/>
+          <rect x="635" y="635" width="60" height="60" fill="#3b82f6"/>
+        </g>
+        <!-- 关键断点标注 -->
+        <g font-size="11" fill="var(--muted)">
+          <text x="455" y="92" text-anchor="middle" fill="var(--p0)">采购退货↔质量🔴</text>
+          <text x="395" y="332" text-anchor="middle" fill="var(--p1)">两套凭证🟡</text>
+          <text x="335" y="552" text-anchor="middle" fill="var(--p1)">两套凭证🟡</text>
+          <text x="575" y="632" text-anchor="middle" fill="var(--p1)">审批module串🟡</text>
+          <text x="155" y="150" text-anchor="middle" fill="var(--p1)">workCenter无表</text>
+        </g>
+        <text x="410" y="720" text-anchor="middle" font-size="12" fill="var(--muted)">读图：主数据是被引用最多的「叶子/基准」模块（行几乎全灰，列多绿）；🔴 仅 1 处（采购退货未回流质量）；🟡 6 处薄弱待收口</text>
+      </svg>
+      </div>
+      <div class="callout">
+        <strong>矩阵速读：</strong>主数据（物料/客户/供应商/组织/用户/单位/字典）是绝大多数表单的外键基座——它本身几乎不向外引用（行 1 全灰），但被销售/采购/生产/质量/财务/仓储大量引用（列 1 多绿）。
+        红色仅 1 格：<b>采购退货 → 质量</b>（应有来料质量 NCR 回流却缺失）。黄色 6 格集中在：设备→工作中心无独立表单、仓库/财务调整单两套凭证路径、系统设置→销售/采购/生产的审批 module 串不一致。
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: 各模块表单清单与关联总览 -->
+  <section>
+    <h2>2. 十模块表单清单与核心外链总览</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:12%">模块</th><th style="width:10%">表单数</th><th style="width:30%">代表表单（store 实体）</th><th style="width:48%">核心外链（字段 → 目标表单）</th></tr></thead>
+        <tbody>
+          <tr><td>主数据</td><td>11</td><td>物料 / 客户 / 供应商 / 仓库·库位 / 设备 / 组织 / 用户 / 单位换算 / 数据字典 / 物料扩展 / 自定义字段</td><td>物料→供应商(defaultVendorId)；仓库→组织(orgId)；设备→工作中心(字符串,无表)；组织自引(parentOrgId)；用户→角色；物料扩展→物料</td></tr>
+          <tr><td>价格管理</td><td>3</td><td>询价/报价/比价/审批/价目表(price) / 销售价格(salesPrice) / 条件技术(condition)</td><td>price→供应商,物料；salesPrice→客户,物料,条件；condition→供应商,物料（询价→报价→比价→审批→价目表仅共享 vendor/material，无 parentId 串联）</td></tr>
+          <tr><td>销售</td><td>7</td><td>销售订单 / 报价·发票(salesAdvanced·Blob) / 销售退货 / 销售合同 / 三方销售(Blob) / 寄售(Blob) / 返利</td><td>SO→客户,项目,合同,供应商(directShip),MES工单；退货→SO,仓库,财务红冲,质量NCR,溯源供应商；合同→客户,物料；返利→客户,物料,规则</td></tr>
+          <tr><td>采购</td><td>4</td><td>采购申请/订单/报价 / 框架协议 / 采购退货 / 采购信息记录(Blob)</td><td>PR→来源单(SO/工单/MRP),物料；PO→PR,供应商,项目；框架协议→供应商,物料,PO(release)；退货→PO,仓库,供应商,财务；信息记录→供应商,物料</td></tr>
+          <tr><td>仓储物流</td><td>3</td><td>入库/出库/盘点/库存/批次/产成品 / 转储·调整·序列号·质检扣留 / 波次·RFID</td><td>仓库→PO,SO,物料,组织,供应商(信用)，回写采购/销售；转储/调整→仓库,财务(凭证),物料；波次独立无 FK</td></tr>
+          <tr><td>生产管理</td><td>10</td><td>工单/MRP/工艺路线 / 工序报工 / 排程锁 / 生产版本·ECN / 重复制造 / 委外 / BOM / MES / ECN(Blob) / SOP</td><td>工单→物料,仓库(领料/完工)；工序→工单；版本→物料,BOM,工艺路线；委外→仓库,物料,供应商,工单；BOM→物料(隐式)；MES 独立</td></tr>
+          <tr><td>质量管理</td><td>5</td><td>检验任务/标准/NCR/PDCA / 检验批·COQ·QM反馈 / 质量扩展 / FMEA / COA</td><td>质量→仓库,财务(凭证),物料,供应商绩效,系统设置(检验标准)；检验批→仓库,质检扣留,采购,价格；COA→检验任务；FMEA→物料(可选)</td></tr>
+          <tr><td>财务</td><td>10</td><td>发票/付款/凭证/总账/税务/项目核算/科目 / 固定资产·期间 / 财务扩展(汇率·成本中心·预算) / 应收应付(arap·Blob) / 验票 / 汇率(fx) / 资金 / 凭证模板 / COPA / ESG</td><td>财务→会计期间,供应商(信用)；财务扩展→成本中心,科目,项目；应收应付→客户,供应商,发票(纯Blob无D1)；资金→账户；凭证模板独立</td></tr>
+          <tr><td>报表</td><td>4</td><td>分析(analytics) / BI / 报表权限 / 呆滞·处置</td><td>呆滞→物料；分析聚合各业务模块；BI 接外部平台；报表权限→reportId(字符串,无对应表单)</td></tr>
+          <tr><td>系统设置</td><td>16</td><td>设置 / 审批流 / 审批实例 / 工作流 / 流程(供应商协同单) / 编号 / 打印模板 / 认证 / 数据权限 / 集成 / 同步状态 / 消息 / 通知 / 告警 / 低代码 / AI</td><td>审批流→组织,用户,角色,module(字符串)；审批实例→审批流,用户,实体；认证→组织；数据权限→模块,角色；消息→用户,角色；集成→webhook(自引)；低代码→表单(自引)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S3: P0 关联断裂 -->
+  <section>
+    <h2>3. P0 关联断裂 —— 闭环缺角（最优先）</h2>
+    <div class="content">
+      <div class="issue">
+        <div class="t">✅ P0-1 采购退货 ↔ 质量 闭环不对称（已修复·V3.71.0，见 §7）</div>
+        <div class="d">
+          销售退货已打通：质量原因退货 → 建客户侧 NCR + 溯源「最近采购订单供应商」→ 供应商门户 issue(customer_return) + 绩效扣分（坐实良好）。
+          但<b>采购退货（purchaseReturnStore）只做供应商信用回占 + 财务红冲，未建来料质量 NCR</b>。
+          后果：来料质量缺陷无法回流到质量 NCR / 供应商绩效，质量闭环在生产侧完整、采购侧缺角，供应商绩效少了一类关键扣分项。<br>
+          <b>定位：</b>purchaseReturnStore 质量原因退货时，补建来料 NCR（source=inbound）+ 门户 issue(inbound_return) + 供应商绩效扣分，与销售退货对称。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">✅ P0-2 销售合同 ↔ 销售订单 双向断裂（已修复·V3.71.0，见 §7）</div>
+        <div class="d">
+          销售订单 <code>salesStore</code> 已有 <code>contractId</code>（订单→合同，单向），但 <code>salesContractStore</code>
+          <b>既无 →SO 字段、也无「合同下推生成订单」逻辑</b>。后果：合同履约进度/执行率只能从订单侧反推，合同侧看不到已执行订单行与剩余量，合同行与订单行对不齐。<br>
+          <b>定位：</b>销售合同头/行增加 <code>linkedOrderNos</code>（或订单侧 contractId 反向聚合到合同详情），并补「合同→订单」下推入口。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">✅ P0-3 检验批 ↔ 检验任务 平行无互引（已修复·V3.71.0，见 §7）</div>
+        <div class="d">
+          V3.66 已把 <code>inspectionLots</code> 关系化到 D1（解决「Blob 台账 vs D1 拦截不同源」），但
+          <code>qualityAdvancedStore.inspectionLots</code>（采购入库自动建批）与 <code>qualityStore.inspectionTasks</code>（手工建任务）
+          <b>两线仍无互引字段</b>：检验批没有 <code>inspectionTaskId</code>，检验任务也不反引批号。
+          后果：来料检「自动建批」与「手工建任务」的结果无法对齐——哪个批对应哪个任务不清，质量追溯链断在批/任务接缝。<br>
+          <b>定位：</b>inspectionLots 加 <code>inspectionTaskId</code>（自动建批时回写对应任务），任务侧聚合批列表。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">🔴 P0-4 工程变更 ECN 双源不一致（并入 B 类破坏性项，待拍板弃源/迁移方向）</div>
+        <div class="d">
+          <code>ecnStore.ECN</code>（无 bomId、仍 Blob）与 <code>productionVersionStore.ecns</code>（含 bomId/routeId、已迁 D1）字段不一致、并存。
+          后果：工程变更源头不唯一，BOM 版本联动（releaseECN→updateBOM）易错乱，改一个 ECN 另一个不知道。<br>
+          <b>定位：</b>废弃 ecnStore 独立 ECN，统一到 productionVersion 的 ecns（迁 D1、含 bomId/routeId），旧 Blob 数据一次性迁并。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: P1 关联薄弱/不一致 -->
+  <section>
+    <h2>4. P1 关联薄弱 / 不一致 —— 一致性风险（16 项）</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:6%">#</th><th style="width:20%">关联点</th><th style="width:30%">现状</th><th style="width:11%">状态</th><th style="width:33%">影响 / 定位</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>应收应付双源</td><td>arapStore（纯 Blob、无 D1、不联动凭证与信用）与 financeStore 的 invoices/paymentPlans 平行存在</td><td><span class="badge b-p1">🟡</span></td><td>两套应收应付互不校验、账实分家；合并或明确主从 + 关系化到 D1</td></tr>
+          <tr><td>2</td><td>汇率两套</td><td>fxStore 与 financeExtension.exchangeRates 并存不联动</td><td><span class="badge b-p1">🟡</span></td><td>期末汇兑损益取数口径不清；统一到单一汇率源</td></tr>
+          <tr><td>3</td><td>工单 ↔ BOM 无 id 级关联</td><td>productionStore 工单仅按 productCode 文本反查物料/BOM，无显式 bomId</td><td><span class="badge b-p1">🟡</span></td><td>BOM 展开落点漂移风险；工单加 bomId 外键</td></tr>
+          <tr><td>4</td><td>审批 module 命名不一致</td><td>approvalInstanceStore.MODULE_BY_APPROVAL_TYPE（material_application/vendor_profile/sales_order）与 approvalFlowStore 默认 module（material/vendor_register/sales_order）对不上</td><td><span class="badge b-p1">🟡</span></td><td>物料/供应商提交可能找不到对应审批流；统一 module 枚举</td></tr>
+          <tr><td>5</td><td>仍走 Blob 未关系化</td><td>salesAdvanced(报价/发票)、consignment(寄售)、purchaseInfoRecord(采购信息记录) 仍 Blob</td><td><span class="badge b-p1">🟡</span></td><td>财务/退货无法按行引用；与已迁 D1 趋势不一致，需补齐</td></tr>
+          <tr><td>6</td><td>FK 强度不足（仅名/码无 ID）</td><td>tripartySale（无 materialId/warehouseId/orderId）、Quotation/Invoice（仅 customerName/Code）、Project（仅 customerName）、Shipment/Project 的 project 关联混用 name/no</td><td><span class="badge b-p1">🟡</span></td><td>跨表单按 ID 追溯不可靠；补 ID 级外键</td></tr>
+          <tr><td>7</td><td>硬编码仓库 wh-001</td><td>销售/采购退货 warehouseId 写死 wh-001，未引用真实仓库主数据</td><td><span class="badge b-p1">🟡</span></td><td>多仓场景错账；改为引用 warehouseMaster 实际仓库</td></tr>
+          <tr><td>8</td><td>凭证反向导航缺失</td><td>财务凭证 source/sourceNo 指向来源单据号，但凭证详情无法跳回来源单据</td><td><span class="badge b-p1">🟡</span></td><td>对账需手工查；凭证详情加来源单据跳转</td></tr>
+          <tr><td>9</td><td>仓库调整单两套凭证路径</td><td>warehouseAdvanced 调整单前端调 addAccountEntry 生成存货凭证；warehouseStore 出入库已改服务端 inventoryPosting 权威生成</td><td><span class="badge b-p1">🟡</span></td><td>同源业务两套凭证路径，需核对是否重复记账</td></tr>
+          <tr><td>10</td><td>委外 → 工单单向</td><td>subcontract.sourceWorkOrderId 引用工单，工单侧无反向引用，委外收货不回写工单</td><td><span class="badge b-p1">🟡</span></td><td>委外进度/收货不回写工单；工单侧聚合委外单</td></tr>
+          <tr><td>11</td><td>报表权限 reportId 无对应表单</td><td>reportPermissionStore 的 reportId（rp-1 等）与订阅无对应真实报表页/表单</td><td><span class="badge b-p1">🟡</span></td><td>权限/订阅无法跳转到具体报表；reportId 关联真实报表实体</td></tr>
+          <tr><td>12</td><td>多组织隔离不全</td><td>arap/fx/coa/esg/copa/invoiceVerify/qualityExt/fmea 等表单无 orgId</td><td><span class="badge b-p1">🟡</span></td><td>依赖后端 RLS，前端一致性需运行验证；评估补 orgId 或确认 RLS 覆盖</td></tr>
+          <tr><td>13</td><td>MES-WIP ↔ 工单脱节</td><td>mesStore.wips 是否承载 workOrderId 未在 store 体现</td><td><span class="badge b-p1">🟡</span></td><td>MES 执行层与工单脱节；wips 加 workOrderId</td></tr>
+          <tr><td>14</td><td>价格链路无 parentId 串联</td><td>询价→报价→比价→审批→价目表仅共享 vendor/material 扁平数组，无 parentId</td><td><span class="badge b-p1">🟡</span></td><td>链路追溯弱；补 parentId 串联五态</td></tr>
+          <tr><td>15</td><td>采购信息记录 vendorId 疑似错配</td><td>purchaseInfoRecordStore 种子 vendorId='cus-001/002/003'（客户编码）当供应商引用</td><td><span class="badge b-p1">🟡</span></td><td>FK 语义错配；核实并改为真实 vendor 编码</td></tr>
+          <tr><td>16</td><td>物料扩展变更日志无反查</td><td>materialExtensionStore 记 materialId→Material 变更日志，materialStore 无回查入口</td><td><span class="badge b-p1">🟡</span></td><td>物料详情看不到变更历史；物料页聚合变更日志</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S5: 已正确实现的关联 -->
+  <section>
+    <h2>5. 已正确实现、无需动的关联（坐实 ✅）</h2>
+    <div class="content">
+      <div class="callout ok">
+        以下跨表单关联经实读坐实、闭环正确，<b>不建议回改</b>（多为前面几轮真 bug 换来的闭环）：
+        <ul style="margin:8px 0 0 18px;font-size:13px">
+          <li><b>销售侧最全</b>：销售退货→SO/仓库/财务红冲/质量 NCR/溯源供应商（与采购对称链路的一半已通）；SO→客户/项目/合同/供应商(directShip)/MES 工单。</li>
+          <li><b>采购侧主流</b>：PR→来源单(SO/工单/MRP)；PO→PR/供应商/项目；框架协议→PO(release)；采购退货→PO/仓库/供应商信用/财务。</li>
+          <li><b>仓库回写</b>：仓库→PO/SO 已交量/发货回写（幂等）；BOM→物料；工单→物料/仓库(领料/完工)；委外→仓库/物料/供应商/工单。</li>
+          <li><b>质量闭环（不含 P0-1 缺角）</b>：质量→仓库拦截/财务 COQ 凭证/物料/供应商绩效/检验标准配置引擎；检验批已关系化到 D1（V3.66）。</li>
+          <li><b>模块内父子对称</b>：组织树自引、审批实例→流→动作、webhook→log、低代码定义→记录、工作流定义→实例、报价/发票/合同/退货 行→头。</li>
+          <li><b>V3.66 关系化已落地</b>：编号/模板/字典、排程锁、返利/合同、检验批 均已迁 D1，与本次审计无冲突。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- S6: 修复回顾 + 路线图 -->
+  <section>
+    <h2>6. V3.66 修复回顾 + 本轮新增 + 修复优先级路线图</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:24%">审计项（来自 V3.65）</th><th style="width:14%">V3.66 结果</th><th style="width:62%">本轮复核</th></tr></thead>
+        <tbody>
+          <tr><td>检验批台账 vs 拦截不同源</td><td><span class="badge b-ok">✅ 已修</span></td><td>关系化到 D1 坐实；但<b>批/任务互引</b>（P0-3）为本次新增发现，未覆盖</td></tr>
+          <tr><td>编号/模板/字典 Blob 化</td><td><span class="badge b-ok">✅ 已修</span></td><td>关系化坐实，无回归</td></tr>
+          <tr><td>生产投诉/客户退货追责链</td><td><span class="badge b-ok">✅ 已修</span></td><td>客户退货→供应商门户坐实；<b>采购退货来料 NCR 仍缺</b>（P0-1）本次发现</td></tr>
+          <tr><td>批次/成本口径</td><td><span class="badge b-ok">✅ 入库口径</span></td><td>无新增关联问题</td></tr>
+          <tr><td>排程/返利/合同 Blob</td><td><span class="badge b-ok">✅ 已修</span></td><td>坐实；但销售报价/发票、寄售、采购信息记录仍 Blob（P1-5 残余）</td></tr>
+          <tr><td>配置「建了不消费」</td><td><span class="badge b-info">⚪ 无需改</span></td><td>本次未推翻；报表权限 reportId 无对应表单（P1-11）为边界新增</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <b>修复优先级路线图（先闭环后一致）：</b>
+        ① <b>P0 闭环断点</b>：<s>P0-1 采购退货建来料 NCR</s> / <s>P0-2 合同↔SO 双向</s> / <s>P0-3 批↔任务互引</s> —— <b>三项已于 V3.71.0 修复并部署（见 §7）</b>；P0-4 ECN 并源因属破坏性（废弃 ecnStore 独立 ECN + 旧 Blob 数据一次性迁并），<b>并入 B 类待拍板</b>，不阻断本次部署。
+        ② <b>P1 一致性</b>（应收应付/汇率并源、工单 bomId、审批 module 枚举统一、Blob 残余补齐、FK 强度补 ID、硬编码仓库、凭证反向导航、委外回写、MES-WIP、价格 parentId、reportId 关联、信息记录 vendorId 校正、物料变更反查）；
+        ③ <b>每步</b> <code>npm run check -- --no-probe</code> 门禁 + 生产 E2E 回归，避免回归。
+      </div>
+
+      <div class="callout">
+        <b>诚实边界：</b>本报告基于 80+ store 实读 + V3.65/V3.66 历史结论复核，数据流方向靠 store 外键字段坐实；标注「需运行验证」项（多组织 RLS 隔离、MES-WIP、并发读旧值窗口）为<b>静态推断</b>，未在运行态逐一验证。
+        未逐一打开每个表单页做像素级走查，按「外键字段 + 父子结构 + 导航可达性」三条主线索定位关联问题，装饰/报表页仅确认存储层已关系化、未深究其业务消费面。
+      </div>
+    </div>
+  </section>
+
+    <!-- S7: 本轮修复落地 -->
+  <section>
+    <h2>7. 本轮修复落地（V3.71.0 部署生产）</h2>
+    <div class="content">
+      <div class="callout ok">
+        <b>已修复并部署（P0 三项闭环）：</b>
+        <ul style="margin:8px 0 0 18px;font-size:13px">
+          <li><b>P0-1 采购退货→来料 NCR</b>：purchaseReturnStore.completeReturn 在「质量原因退货」（正则命中「质量/不合格/缺陷/不良/损坏/变质/残次/不符/劣质/瑕疵」且带 vendorId）时，补建来料 NCR（UnqualifiedItem.source 新增枚举值 <code>inbound</code>）+ 供应商绩效扣分 recordQualityIncident，与销售退货对称闭环。改动：src/types/quality.ts（source 联合类型 +'inbound'）、src/stores/purchaseReturnStore.ts、src/stores/qualityStore.ts（addUnqualifiedItem）。</li>
+          <li><b>P0-2 合同↔SO 双向</b>：SalesContract 加 linkedOrderNos[]；salesContractStore 新增 linkOrder/unlinkOrder 并落 extraJson；salesStore 在订单增改删回调回写合同（单向 import 规避循环依赖）。改动：src/types/sales.ts、src/stores/salesContractStore.ts、src/stores/salesStore.ts。</li>
+          <li><b>P0-3 批↔任务互引</b>：InspectionLot.inspectionTaskId? + InspectionTask.inspectionLotId? 双向 id 互引；覆盖两条路径——建批侧(qualityAdvancedStore.autoCreateLotsFromInbound)与建任务侧(qualityStore.addInspectionTask，动态 import 破循环依赖)。改动：src/types/supplyChain.ts、src/types/quality.ts、src/stores/qualityAdvancedStore.ts、src/stores/qualityStore.ts。</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <b>配套 by_name（记录留痕，本版不补 userId+姓名到业务表，仅留姓名快照）：</b>
+        迁移 0099 给 ~80 张业务表加 created_by_name / updated_by_name（存量回填）；functions/_shared/entities.ts 加 fail-safe 助手 stampByName，6 个建单专家端点(materials/work-orders/sales-orders/purchase-orders/inbound/outbound) + 通用实体路由 + 父子/daInsert/daBulk/erpSync 全链路挂接，界面直接展示「谁建/谁改」。
+      </div>
+      <div class="callout warn">
+        <b>部署与回归：</b>V3.71.0 已于 2026-10-12 部署生产（迁移 0099 幂等应用 310 commands ✅ + pages deploy ✅，生产 ssa-erp.pages.dev 可达 HTTP 200）；**全量 45 套件生产 E2E 回归 PASS 1585 / FAIL 0 / WARN 14（exit 0，940s），零回归**，与 V3.70 基线一致。
+      </div>
+      <div class="callout">
+        <b>诚实边界与待办：</b>
+        ① 第 1 节关联矩阵图为审计当时（修复前）快照，P0-1/2/3 现已修复，矩阵单元格健康度未回绘（避免误改 SVG）；
+        ② <b>P0-4 ECN 并源</b> + P1 中 B 类破坏性项（应收应付/汇率/审批枚举/Blob 残余/两套凭证/多组织 orgId）需用户拍板弃源/迁移方向后再做，<b>不阻断本次部署</b>；
+        ③ P1 中 A 类剩余项（FK 补 ID / 凭证反导航 / 委外回写 / reportId / MES-WIP / 价格 parentId / 物料变更反查）逐条核实后再修；
+        ④ 审计为静态实读，多组织 RLS 隔离 / MES-WIP / 并发窗口为静态推断，运行态验证见 E2E 回归与后续专项。
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>8. 本轮修复落地（V3.72.0 A 类关联补强）</h2>
+    <div class="content">
+      <div class="callout ok">
+        <b>已修复（A 类 4 项，纯前端类型层 + store 补强，零迁移、向后兼容）：</b>
+        <ul style="margin:8px 0 0 18px;font-size:13px">
+          <li><b>P1-6 客户外键补齐</b>：三方销售 TripartySale / 销售报价 Quotation / 项目 Project 三处类型加 <code>customerId?</code>，与 SalesOrder/SalesContract 口径一致（此前仅存客户名/客户编码，下游无法按客户主数据关联）。store 均透传/展开整个对象，前端选客户处回带 customerId 即落库。改动：src/types/tripartySales.ts、src/types/supplyChain.ts、src/types/sales.ts。</li>
+          <li><b>P1-10 委外回写父工单</b>：WorkOrder 加 <code>outsourcedQty?</code>，subcontractStore.receiveSubcontract 收货成功后按 sourceWorkOrderId 累加回写父工单，补齐「委外单边流转、父工单看不到委外进度」断点。改动：src/types/production.ts、src/stores/subcontractStore.ts。</li>
+          <li><b>P1-14 价目表版本层级链</b>：PriceListItem 加 <code>parentId?</code>，priceStore.approvePriceApproval 生成新价目表项时指向上一版同物料 active 项，支持历史价/协议价追溯；销售价 SalesPriceListItem 同步加 parentId 预留。改动：src/types/price.ts、src/types/sales.ts、src/stores/priceStore.ts。</li>
+          <li><b>P1-16 物料变更反查</b>：MaterialChangeDoc 加 <code>affectedObjects?</code>，materialExtensionStore.logMaterialChange 按 materialId 反查该物料作为子件出现的 BOM，提供「变更记录 → 受影响 BOM」反查入口。改动：src/types/supplyChain.ts、src/stores/materialExtensionStore.ts。</li>
+        </ul>
+      </div>
+      <div class="callout">
+        <b>核实为误报/边界（不改，附证据）：</b>
+        <ul style="margin:8px 0 0 18px;font-size:13px">
+          <li><b>P1-8 凭证反导航</b>：Voucher 已有 <code>source</code>（VoucherSource 枚举）+ <code>sourceNo</code>，且发票/付款自动生成凭证时显式填充（financeStore.ts:918-919），反查来源业务单已可用。</li>
+          <li><b>P1-13 MES-WIP 关联</b>：WipTrack 已含 <code>workOrderId</code> + <code>workOrderNo</code>（types/mes.ts:32-33），与工单可双向对应。</li>
+          <li><b>P1-11 reportId</b>：ReportPermission.reportId 与 reportName 成对，系统无动态报表配置实体，属自洽逻辑键、非缺失外键。</li>
+          <li><b>P1-9 两套凭证</b>：旧「vouchers vs fin_account_entries 两套账」已由 #8 改造消除（accountEntries 由 vouchers 派生），当前多触发入口共写同一 vouchers 表、口径一致，薄封装非必须、不做。</li>
+        </ul>
+      </div>
+      <div class="callout warn">
+        <b>B 类破坏性项（待强哥拍板弃源/迁移方向，本轮未动）：</b>
+        <ul style="margin:8px 0 0 18px;font-size:13px">
+          <li><b>P0-4 工程变更 ECN 双源</b>：ecnStore（EngineeringChange）与 productionVersionStore（ECN）两套数据 + 两套类型 + 两个入口，种子 id <code>ecn-001</code> 同号异义。需定权威源（合并成一个 store/表 or 保留双源加双向引用）。</li>
+          <li><b>P1-1 应收应付并源</b>：arapStore 账龄台账 vs financeStore 发票/付款计划/凭证，部分重叠（供应商应付）+ 部分独有（客户应收在 financeStore 无对应）。需定账龄口径与是否并源。</li>
+          <li><b>P1-2 汇率 / P1-12 fxStore 隔离</b>：fxStore 纯 localStorage、不落云、不带 org_id（同浏览器多组织共享一份），后端已有 fx_rates 表且已 org 隔离。需定是否弃用前端源、改走 /api/fx。</li>
+          <li><b>P1-5 Blob 残余</b>：寄售 / 采购信息记录 / 销售报价仍 persist(backendStorage) Blob（发票已迁 D1）。需定是否按 C1 样板迁关系表、旧 Blob 是否清退。</li>
+          <li><b>P1-4 审批枚举</b>：枚举散 4 处（含 approvalFlowStore 内定义），纯类型收敛零数据影响；是否统一各模块状态词汇（中等破坏性）待定。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+<footer>SSA ERP · 表单关联审计（十模块 · 表单级）· V3.72.0 审计基准 · 依据实读 80+ store · 对照 V3.65 / V3.71 / V3.72 修复落地 · 交付物归档 ima「强哥的知识库」erp开发项目</footer>
+</div>
+</body>
+</html>

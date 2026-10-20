@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP 功能页面联动审计 | V3.65.0</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --border:#e3e6ea; --text:#222831; --muted:#6a7280;
+    --accent:#3b5bdb; --ok:#1a9e6f; --p0:#e5484d; --p1:#e8890b; --warn:#f59e0b; --info:#3b82f6;
+    --green:#dcfce7; --green-t:#166534; --yellow:#fef3c7; --yellow-t:#92400e;
+    --red:#fee2e2; --red-t:#991b1b; --gray:#eef0f3; --gray-t:#6a7280;
+    --shadow:0 1px 3px rgba(16,24,40,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.65;padding:20px}
+  .container{max-width:1180px;margin:0 auto}
+  header{background:var(--card);padding:26px 30px;border-radius:14px;box-shadow:var(--shadow);
+    margin-bottom:22px;border-bottom:3px solid var(--accent)}
+  header h1{font-size:22px;color:var(--accent);margin-bottom:6px}
+  header .sub{color:var(--muted);font-size:14px}
+  .meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .meta span{background:#f0f2f5;padding:3px 10px;border-radius:5px;font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+  .stat{background:var(--card);padding:16px;border-radius:10px;box-shadow:var(--shadow);text-align:center}
+  .stat .n{font-size:28px;font-weight:700}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:4px}
+  .n.ok{color:var(--ok)}.n.p0{color:var(--p0)}.n.p1{color:var(--p1)}.n.info{color:var(--info)}
+  section{background:var(--card);border-radius:12px;box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden}
+  section h2{background:#f0f2f5;padding:12px 20px;font-size:15px;border-left:4px solid var(--accent)}
+  .content{padding:16px 20px}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#f7f8fa;font-weight:600;font-size:12px;color:var(--muted)}
+  tr:nth-child(even) td{background:#fafafa}
+  .badge{display:inline-block;padding:2px 7px;border-radius:4px;font-size:11px;font-weight:600;white-space:nowrap}
+  .b-ok{background:var(--green);color:var(--green-t)}
+  .b-p0{background:var(--red);color:var(--red-t)}
+  .b-p1{background:var(--yellow);color:var(--yellow-t)}
+  .b-warn{background:var(--yellow);color:var(--yellow-t)}
+  .b-info{background:#dbeafe;color:#1e40af}
+  .b-gray{background:var(--gray);color:var(--gray-t)}
+  .callout{background:#eff6ff;border-left:3px solid var(--info);padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:13px}
+  .callout.ok{background:#ecfdf5;border-left-color:var(--ok)}
+  .callout.warn{background:#fffbeb;border-left-color:var(--warn)}
+  .callout.danger{background:#fef2f2;border-left-color:var(--p0)}
+  code{background:#f1f2f4;padding:1px 5px;border-radius:4px;font-size:12px;font-family:'Fira Code','Consolas',monospace}
+  .issue{padding:10px 0;border-bottom:1px dashed var(--border)}
+  .issue:last-child{border-bottom:none}
+  .issue .t{font-weight:600;font-size:14px;margin-bottom:3px}
+  .issue .d{color:var(--muted);font-size:12.5px}
+  .matrix-wrap{overflow-x:auto}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:16px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 14px;font-size:12px}
+  .legend div{display:flex;align-items:center;gap:5px}
+  .dot{width:11px;height:11px;border-radius:3px;display:inline-block}
+  svg text{font-family:-apple-system,'PingFang SC',sans-serif}
+  .tag{font-size:10px;padding:1px 5px;border-radius:3px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>SSA ERP 功能页面级联动审计报告</h1>
+    <div class="sub">销售 · 财务 · 生产 · 仓库 · 采购 · 供应商平台 · 系统设置 · 质量 —— 逐页连线状态、错位与流畅度诊断</div>
+    <div class="meta">
+      <span>版本 V3.65.0</span><span>审计日期 2026-10-11</span>
+      <span>方法：实读 217 页面 / 88 store / 131 后端路由，非纯推断</span>
+      <span>判定：正确实现 / 遗漏 / 错位 / 不合理 / 不稳定 / 不流畅</span>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="stat"><div class="n">217</div><div class="l">功能页面（19 模块域）</div></div>
+    <div class="stat"><div class="n ok">29</div><div class="l">store 有 D1 关系通道（健康）</div></div>
+    <div class="stat"><div class="n p0">5</div><div class="l">P0 错位（数据地基断裂）</div></div>
+    <div class="stat"><div class="n p1">7</div><div class="l">P1 不流畅 / 不稳定</div></div>
+  </div>
+
+  <div class="callout">
+    <strong>审计方法（实读坐实，非推断）：</strong>逐页枚举 217 个功能页面 → 分类 88 个 store 的落库通道
+    （entityRepo / 领域 api 封装 / fetch / 纯 Blob）→ 扫描跨 store 事件订阅（subscribe vs getState 即时读）
+    → 坐实服务端 D1 端点自动钩子（MRP 触发 / 审批注入 / 自动凭证 / 质量拦截）的实际数据源。
+    每条结论标注 <span class="tag" style="background:#dbeafe;color:#1e40af">实读坐实</span> 或
+    <span class="tag" style="background:var(--gray);color:var(--gray-t)">需运行验证</span>，诚实区分。
+  </div>
+
+  <!-- S1: 模块连线矩阵图 -->
+  <section>
+    <h2>1. 八模块功能页面连线矩阵图</h2>
+    <div class="content">
+      <div class="legend">
+        <div><span class="dot" style="background:var(--ok)"></span>✅ 双向一致（关系化 D1 同源）</div>
+        <div><span class="dot" style="background:var(--warn)"></span>🟡 部分实现 / 有错位</div>
+        <div><span class="dot" style="background:var(--p0)"></span>🔴 遗漏 / 断裂（需优先）</div>
+        <div><span class="dot" style="background:#cbd5e1"></span>⚪ 无直接联动</div>
+      </div>
+      <div class="matrix-wrap">
+      <svg viewBox="0 0 1000 720" width="100%" style="min-width:820px;background:#fff;border:1px solid var(--border);border-radius:10px">
+        <!-- 模块圆 -->
+        <g font-size="13" font-weight="700">
+          <!-- 8 节点，按外圈排布 -->
+          <g><circle cx="500" cy="110" r="46" fill="#dbeafe"/><text x="500" y="106" text-anchor="middle" fill="#1e40af">销售</text><text x="500" y="122" text-anchor="middle" fill="#1e40af" font-size="10" font-weight="400">19 页</text></g>
+          <g><circle cx="720" cy="250" r="46" fill="#fee2e2"/><text x="720" y="246" text-anchor="middle" fill="#991b1b">采购</text><text x="720" y="262" text-anchor="middle" fill="#991b1b" font-size="10" font-weight="400">13 页</text></g>
+          <g><circle cx="770" cy="470" r="46" fill="#f3e8ff"/><text x="770" y="466" text-anchor="middle" fill="#6b21a8">生产</text><text x="770" y="482" text-anchor="middle" fill="#6b21a8" font-size="10" font-weight="400">22 页</text></g>
+          <g><circle cx="500" cy="560" r="46" fill="#dcfce7"/><text x="500" y="556" text-anchor="middle" fill="#166534">仓库</text><text x="500" y="572" text-anchor="middle" fill="#166534" font-size="10" font-weight="400">20 页</text></g>
+          <g><circle cx="230" cy="470" r="46" fill="#fef9c3"/><text x="230" y="466" text-anchor="middle" fill="#854d0e">质量</text><text x="230" y="482" text-anchor="middle" fill="#854d0e" font-size="10" font-weight="400">14 页</text></g>
+          <g><circle cx="280" cy="250" r="46" fill="#cffafe"/><text x="280" y="246" text-anchor="middle" fill="#155e75">供应商平台</text><text x="280" y="262" text-anchor="middle" fill="#155e75" font-size="10" font-weight="400">21 页</text></g>
+          <g><circle cx="150" cy="150" r="40" fill="#f3f4f6"/><text x="150" y="147" text-anchor="middle" fill="#374151">财务</text><text x="150" y="162" text-anchor="middle" fill="#374151" font-size="10" font-weight="400">27 页</text></g>
+          <g><circle cx="850" cy="150" r="40" fill="#f3f4f6"/><text x="850" y="147" text-anchor="middle" fill="#374151">系统设置</text><text x="850" y="162" text-anchor="middle" fill="#374151" font-size="10" font-weight="400">29 页</text></g>
+        </g>
+        <!-- 连线：✅绿 实线 / 🟡橙 虚线 / 🔴红 断点 -->
+        <g stroke-width="2.5" fill="none">
+          <!-- 销售 -->
+          <line x1="500" y1="110" x2="720" y2="250" stroke="var(--ok)"/>          <!-- 销售-采购 退货串联 ✅ -->
+          <line x1="500" y1="110" x2="770" y2="470" stroke="var(--ok)"/>          <!-- 销售-生产 MRP ✅ -->
+          <line x1="500" y1="110" x2="500" y2="560" stroke="var(--ok)"/>          <!-- 销售-仓库 发货出库 ✅ -->
+          <line x1="500" y1="110" x2="230" y2="470" stroke="var(--ok)"/>          <!-- 销售-质量 退货回流 ✅ -->
+          <line x1="500" y1="110" x2="280" y2="250" stroke="#cbd5e1"/>            <!-- 销售-供应商 ⚪ -->
+          <line x1="500" y1="110" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 销售-财务 开票收款 ✅ -->
+          <line x1="500" y1="110" x2="850" y2="150" stroke="var(--ok)"/>           <!-- 销售-系统设置 价格/审批 ✅ -->
+          <!-- 采购 -->
+          <line x1="720" y1="250" x2="770" y2="470" stroke="var(--ok)"/>          <!-- 采购-生产 领料 ✅ -->
+          <line x1="720" y1="250" x2="500" y2="560" stroke="var(--ok)"/>          <!-- 采购-仓库 收货 ✅ -->
+          <line x1="720" y1="250" x2="230" y2="470" stroke="var(--ok)"/>          <!-- 采购-质量 来料检 ✅ -->
+          <line x1="720" y1="250" x2="280" y2="250" stroke="var(--ok)"/>          <!-- 采购-供应商 绩效/交期分 ✅ -->
+          <line x1="720" y1="250" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 采购-财务 发票/付款 ✅ -->
+          <line x1="720" y1="250" x2="850" y2="150" stroke="var(--ok)"/>           <!-- 采购-系统设置 审批 ✅ -->
+          <!-- 生产 -->
+          <line x1="770" y1="470" x2="500" y2="560" stroke="var(--ok)"/>          <!-- 生产-仓库 完工/领料 ✅ -->
+          <line x1="770" y1="470" x2="230" y2="470" stroke="var(--ok)"/>          <!-- 生产-质量 过程检 ✅ -->
+          <line x1="770" y1="470" x2="280" y2="250" stroke="#f59e0b" stroke-dasharray="6 4"/> <!-- 生产-供应商 投诉回流 🟡 -->
+          <line x1="770" y1="470" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 生产-财务 完工结转 ✅ -->
+          <line x1="770" y1="470" x2="850" y2="150" stroke="#f59e0b" stroke-dasharray="6 4"/> <!-- 生产-系统设置 编号/工艺 🟡 -->
+          <!-- 仓库 -->
+          <line x1="500" y1="560" x2="230" y2="470" stroke="#f59e0b" stroke-dasharray="6 4"/> <!-- 仓库-质量 冻结拦截 🟡(台账错位) -->
+          <line x1="500" y1="560" x2="280" y2="250" stroke="var(--ok)"/>          <!-- 仓库-供应商 信用对称 ✅ -->
+          <line x1="500" y1="560" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 仓库-财务 盘盈亏 ✅ -->
+          <line x1="500" y1="560" x2="850" y2="150" stroke="var(--ok)"/>          <!-- 仓库-系统设置 规则 ✅ -->
+          <!-- 质量 -->
+          <line x1="230" y1="470" x2="280" y2="250" stroke="var(--ok)"/>          <!-- 质量-供应商 反馈扣绩效 ✅ -->
+          <line x1="230" y1="470" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 质量-财务 质检成本 ✅ -->
+          <line x1="230" y1="470" x2="850" y2="150" stroke="var(--ok)"/>          <!-- 质量-系统设置 检验标准引擎 ✅(V3.65) -->
+          <!-- 供应商 -->
+          <line x1="280" y1="250" x2="150" y2="150" stroke="var(--ok)"/>          <!-- 供应商-财务 结算核验 ✅(V3.65) -->
+          <line x1="280" y1="250" x2="850" y2="150" stroke="var(--ok)"/>          <!-- 供应商-系统设置 协议接审批 ✅(V3.65) -->
+          <!-- 财务 -->
+          <line x1="150" y1="150" x2="850" y2="150" stroke="var(--ok)"/>          <!-- 财务-系统设置 凭证模板/审批 ✅ -->
+        </g>
+        <!-- 连线状态标注（关键几条） -->
+        <g font-size="11" fill="var(--muted)">
+          <text x="600" y="168" text-anchor="middle">退货串联(0093)</text>
+          <text x="380" y="182" text-anchor="middle">开票/收款凭证</text>
+          <text x="545" y="340" text-anchor="middle">发货→出库</text>
+          <text x="655" y="372" text-anchor="middle">采购审批/绩效</text>
+          <text x="150" y="320" text-anchor="middle">结算价核验✓</text>
+          <text x="800" y="320" text-anchor="middle">协议接审批✓</text>
+          <text x="360" y="515" text-anchor="middle">质量冻结🟡台账错位</text>
+          <text x="640" y="505" text-anchor="middle">完工入库/领料</text>
+          <text x="560" y="535" text-anchor="middle">编号规则🟡Blob</text>
+        </g>
+        <text x="500" y="690" text-anchor="middle" font-size="12" fill="var(--muted)">28 对模块连线 · ✅ 20 对双向一致 / 🟡 6 对有错位 / 核心断点见 §3</text>
+      </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- S2: 全模块连线状态总表 -->
+  <section>
+    <h2>2. 全模块连线状态总表（28 对）</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:14%">模块对</th><th style="width:26%">联动内容（页面/端点）</th><th style="width:9%">状态</th><th style="width:41%">依据（实读坐实）</th></tr></thead>
+        <tbody>
+          <tr><td>销售↔采购</td><td>销售退货质量原因 → 采购退货追责供应商</td><td><span class="badge b-ok">✅</span></td><td>0093 双向列 + salesReturnStore.completeReturn 自动建采购退货（V3.64 P0-3）</td></tr>
+          <tr><td>销售↔生产</td><td>销售订单落库 → 自动 MRP 缺口 → 计划订单建议</td><td><span class="badge b-ok">✅</span></td><td>mrpEngine.runMRPForOrg（V3.65 立项②）挂 sales-orders POST</td></tr>
+          <tr><td>销售↔仓库</td><td>发货 → 出库联动 + ATP 可用量</td><td><span class="badge b-ok">✅</span></td><td>shipmentOutboundLink 幂等 + computeSupply 扣质量冻结</td></tr>
+          <tr><td>销售↔质量</td><td>销售退货质量原因 → 客户侧 NCR 回流</td><td><span class="badge b-ok">✅</span></td><td>salesReturnStore 建 customer_complaint NCR（V3.64 P1-6）</td></tr>
+          <tr><td>销售↔供应商</td><td>客户投诉 → 供应商门户</td><td><span class="badge b-gray">⚪</span></td><td>无直接页面连线（经质量 NCR 间接）</td></tr>
+          <tr><td>销售↔财务</td><td>开票/收款 → 自动凭证（借1122/贷6001）</td><td><span class="badge b-ok">✅</span></td><td>arapPosting.generateSalesReceiptVoucher + salesAdvancedStore</td></tr>
+          <tr><td>销售↔系统设置</td><td>客户价格/审批流/编号</td><td><span class="badge b-warn">🟡</span></td><td>价格/审批关系化；<b>编号规则 Blob 化</b>（NumberingStore 无 D1 表）</td></tr>
+          <tr><td>采购↔生产</td><td>采购原料 → 生产领料</td><td><span class="badge b-ok">✅</span></td><td>purchaseStore 关系化 + work_order_pickings</td></tr>
+          <tr><td>采购↔仓库</td><td>收货 → 入库过账 + 已交量回写</td><td><span class="badge b-ok">✅</span></td><td>postInbound + purchaseReceiptWriteback（行级累加+状态推进）</td></tr>
+          <tr><td>采购↔质量</td><td>采购入库 → 来料检验批 + 质量冻结</td><td><span class="badge b-ok">✅</span></td><td>qualityAdvancedStore.subscribe(warehouseStore) 事件驱动</td></tr>
+          <tr><td>采购↔供应商</td><td>采购订单期望/实际交付 → 供应商交期分</td><td><span class="badge b-ok">✅</span></td><td>vendorPerformanceStore.recordDeliveryPerformance（V3.64 P1-1）</td></tr>
+          <tr><td>采购↔财务</td><td>发票/付款 → 自动凭证 + 协议价核验</td><td><span class="badge b-ok">✅</span></td><td>arapPosting + framework_agreements.ceiling_price（V3.65 立项④）</td></tr>
+          <tr><td>采购↔系统设置</td><td>采购审批流 + 框架协议接审批</td><td><span class="badge b-ok">✅</span></td><td>startApprovalForDoc + framework-agreements 薄端点（V3.65 立项①）</td></tr>
+          <tr><td>生产↔仓库</td><td>完工入库/领料 → 库存流水</td><td><span class="badge b-ok">✅</span></td><td>finished_goods_inbounds + postInbound/outbound</td></tr>
+          <tr><td>生产↔质量</td><td>过程检 → 报废/返工 NCR</td><td><span class="badge b-ok">✅</span></td><td>qualityStore 关系化 + unqualified_items</td></tr>
+          <tr><td>生产↔供应商</td><td>生产投诉 → 供应商追责</td><td><span class="badge b-warn">🟡</span></td><td>无自动回流链路（需生产投诉页建 issue 推门户，未实现）</td></tr>
+          <tr><td>生产↔财务</td><td>完工结转成本（含人工 5001）</td><td><span class="badge b-ok">✅</span></td><td>readWorkOrderCosts + 贷5001 含人工（V3.61 坐实）</td></tr>
+          <tr><td>生产↔系统设置</td><td>BOM/工艺 + 排程 + 编号</td><td><span class="badge b-warn">🟡</span></td><td>BOM 关系化(bomApi)；<b>排程/编号 Blob 化</b>（productionSchedulingStore 无 D1）</td></tr>
+          <tr><td>仓库↔质量</td><td>质量冻结 → 出库拦截</td><td><span class="badge b-warn">🟡</span></td><td>checkQualityBlocked 读 D1(quality_holds/unqualified_items)；<b>但检验批台账 inspectionLots Blob 化</b> → 台账与拦截不同源</td></tr>
+          <tr><td>仓库↔供应商</td><td>收货释放/退货对称占回信用</td><td><span class="badge b-ok">✅</span></td><td>applyVendorCreditDelta 配对（V3.64 P0-4）</td></tr>
+          <tr><td>仓库↔财务</td><td>盘盈亏 → 存货凭证 + 结账守卫</td><td><span class="badge b-ok">✅</span></td><td>assertPeriodOpen + 盘盈亏凭证（V3.45/V3.61 坐实）</td></tr>
+          <tr><td>仓库↔系统设置</td><td>仓库/库位/多仓规则</td><td><span class="badge b-ok">✅</span></td><td>0085 warehouses + shipments.warehouse_id（V3.62）</td></tr>
+          <tr><td>质量↔供应商</td><td>质量反馈 → 供应商绩效扣分</td><td><span class="badge b-ok">✅</span></td><td>recordQualityIncident + vendor_performance 关系化</td></tr>
+          <tr><td>质量↔财务</td><td>质检成本 COQ → 出账</td><td><span class="badge b-ok">✅</span></td><td>quality_costs + COQ 关系化（0090）</td></tr>
+          <tr><td>质量↔系统设置</td><td>检验标准 → 配置引擎</td><td><span class="badge b-ok">✅</span></td><td>settingsStore.InspectionStandardConfig + addInspectionTask 消费（V3.65 立项③）</td></tr>
+          <tr><td>供应商↔财务</td><td>结算金额 → 协议价偏离核验</td><td><span class="badge b-ok">✅</span></td><td>generatePaymentVoucher 对照 ceiling_price（V3.65 立项④）</td></tr>
+          <tr><td>供应商↔系统设置</td><td>供应商协议 → 审批流</td><td><span class="badge b-ok">✅</span></td><td>framework-agreements 端点注入 startApprovalForDoc（V3.65 立项①）</td></tr>
+          <tr><td>财务↔系统设置</td><td>凭证模板/审批流/数据权限</td><td><span class="badge b-ok">✅</span></td><td>voucherTemplate 优先 + autoApproval 委托/SoD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- S3: P0 数据地基断裂（错位） -->
+  <section>
+    <h2>3. P0 错位 —— 数据地基断裂（最优先）</h2>
+    <div class="content">
+      <div class="issue">
+        <div class="t">🔴 仓库↔质量：检验批台账与冻结拦截「不同源」</div>
+        <div class="d">
+          服务端 <code>checkQualityBlocked</code> 拦截出库时读 D1 的
+          <code>quality_holds</code> / <code>unqualified_items</code>（关系化，已坐实）。
+          但<b>检验批台账 inspectionLots 仍 Blob 化</b>（qualityAdvancedStore 的
+          <code>persist(backendStorage)</code>，无 entityRepo/api/fetch 通道）。
+          后果：质检员在「检验批」页判定不合格，台账改了本地 Blob，
+          而服务端拦截读的是另一张 D1 表 —— 两边数据同源风险高，
+          可能出现「台账显示已闭环、拦截仍拦」或反之的错位。<br>
+          <b>定位：</b>qualityAdvancedStore.inspectionLots 关系化到
+          <code>inspection_lots</code> 表（0090 已建该表、已登记 entities/rls，只差 store 接入）。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">🔴 系统设置：编号规则 / 订单模板 / 数据字典 Blob 化，服务端不消费</div>
+        <div class="d">
+          系统设置页（NumberingTab / OrderTemplateTab / DataDictTab）读写的
+          <code>numberingStore</code> / <code>orderTemplateStore</code> / <code>dataDictStore</code>
+          均无 D1 通道（纯 Blob）。但服务端各单据端点建单时若按「编号规则/订单模板」
+          取号/取字段，实际读不到这些配置（配置只活在浏览器 Blob 里，D1 侧无表）。
+          多终端/重新部署后配置会漂移，编号可能撞号。<br>
+          <b>定位：</b>三张表（numbering_rules / order_templates / data_dict）建 D1 +
+          entities/rls 登记 + store 关系化，服务端建单端点改读 D1 侧配置。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">🔴 供应商平台↔生产：生产投诉 → 供应商追责无回流链路</div>
+        <div class="d">
+          供应商门户有 <code>addVendorQualityIssue</code> + portalIssueId 消费面
+          （质量反馈→门户已通），但<b>生产侧投诉</b>（生产报告页 ProductionReport）
+          没有对应「投诉推供应商门户」的动作。供应商平台只承接来料质检反馈，
+          生产投诉追责供应商这条链是断的。<br>
+          <b>定位：</b>ProductionReport 增加投诉入口，经 qualityStore.addVendorQualityIssue
+          （issueType='production'）推门户，或独立建 production_issue→供应商链路。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">🔴 销售↔供应商：客户退货追责未直连供应商门户</div>
+        <div class="d">
+          销售退货质量回流走的是「建客户侧 NCR」（qualityStore），
+          但没直接推给供应商平台门户做追责协同。追责链要人工在供应商页补 issue。<br>
+          <b>定位：</b>salesReturnStore.completeReturn 质量原因退货时，
+          同步 <code>addVendorQualityIssue(issueType='customer_return')</code>。
+        </div>
+      </div>
+      <div class="issue">
+        <div class="t">🔴 财务↔仓库：批次/库位仍 Blob 内联，成本回写口径不完整</div>
+        <div class="d">
+          inventory_records 已关系化（有 dept_id、可用量、冻结量），
+          但<b>批次台账（batch）前端派生、库位 JSON 内联在单据里</b>，无独立
+          <code>batch_records</code> 表。批次级成本/库位级对账走不动，
+          财务「批次成本 ↔ 库存」只能按物料粒度近似。<br>
+          <b>定位：</b>建 batch_records 表（批次号+物料+数量+成本+库位），
+          出库/完工按批次回写成本，财务对账口径细化到批次。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S4: P1 不流畅/不稳定 -->
+  <section>
+    <h2>4. P1 不流畅 / 不稳定 —— 体验与一致性风险</h2>
+    <div class="content">
+      <div class="issue">
+        <div class="t">🟡 生产排程 Blob 化（productionSchedulingStore 无 D1）</div>
+        <div class="d">CRP / GanttSchedule / FiniteCapacity 等排程页排产结果只在 Blob，
+          工单/报工跨终端看不到同一版排程，多用户排产互不可见（不稳定）。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 返利 / 销售合同 Blob 化（rebateStore / salesContractStore 无 D1）</div>
+        <div class="d">RebateManager / SalesContractList 的返利与合同数据纯 Blob，
+          财务对返利计提、合同履约跟踪无法按行引用（错位）。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 跨 store 联动多为「即时读 getState」而非订阅</div>
+        <div class="d">扫描显示仅 <code>warehouseStore</code> 被 subscribe（质量/仓库高级），
+          其余（purchaseReturn/salesReturn/production 等）跨模块取数多是
+          <code>getState()</code> 即时快照。并发编辑下存在<b>读到旧值</b>窗口（不流畅/不稳定）。
+          建议关键联动（退货信用、完工成本）改用事件驱动或读服务端权威值。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 服务端 MRP 触发已建，但 MRP 计划订单「转正式单」仍是手动</div>
+        <div class="d">V3.65 立项② 已让销售订单自动算缺口落计划订单（建议），
+          但「计划订单 → 采购申请/工单」的转换仍需在 MRP 页面手动点。
+          属<b>刻意保留的人工闸门</b>（建议非命令，对标 SAP），非缺陷，
+          但需在报告标注为「半自动」而非全自动。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 生产投诉 / 客户退货 双入口未统一到供应商门户 issue 模型</div>
+        <div class="d">见 §3 P0 两条。统一后供应商门户 issue 才有完整来源（来料/生产/客户退货三类）。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 系统设置配置面「建了不消费」的残余</div>
+        <div class="d">条件技术(ConditionTab) / 单位换算 / 打印模板部分仍有
+          「配置存在但业务未读取」的尾巴（V3.64 已修凭证模板/检验标准，
+          条件/单位/打印未全量接消费面）。需逐项确认消费点，避免配置形同虚设。</div>
+      </div>
+      <div class="issue">
+        <div class="t">🟡 仓库高级「乐观写 + 服务端同步失败只 toast」不阻断</div>
+        <div class="d">warehouseAdvancedStore.addQualityHold 等是
+          <code>set 本地 → .create().catch(toast)</code>。网络失败时本地先变了、
+          服务端没同步成功，用户可能以为已保存（不稳定）。建议失败时回滚本地或明确标脏。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: 逐类诊断 + 路线图 -->
+  <section>
+    <h2>5. 六类诊断归因 + 修复优先级路线图</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:16%">诊断类</th><th style="width:44%">发现</th><th style="width:40%">代表位置</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge b-p0">遗漏</span></td><td>生产投诉/客户退货 → 供应商门户追责链路缺失</td><td>ProductionReport、salesReturnStore</td></tr>
+          <tr><td><span class="badge b-p0">错位</span></td><td>检验批台账(Blob) 与 冻结拦截(D1) 不同源</td><td>qualityAdvancedStore.inspectionLots vs checkQualityBlocked</td></tr>
+          <tr><td><span class="badge b-p0">错位</span></td><td>编号/模板/字典配置 Blob，服务端建单读不到</td><td>Numbering/OrderTemplate/DataDict Tab</td></tr>
+          <tr><td><span class="badge b-warn">不合理</span></td><td>批次/库位无独立表，财务成本只能按物料近似</td><td>库存批次/库位内联单据 JSON</td></tr>
+          <tr><td><span class="badge b-warn">不稳定</span></td><td>跨 store 即时 getState 读旧值；乐观写失败只 toast 不回滚</td><td>purchaseReturn/salesReturn、warehouseAdvanced</td></tr>
+          <tr><td><span class="badge b-warn">不流畅</span></td><td>MRP 自动算缺口但转正式单仍手动；多终端排程/合同/返利不可见</td><td>MRPPlan、排程/返利/合同页</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <b>修复优先级路线图（先地基后体验）：</b>
+        ① <b>P0 数据地基</b>（检验批关系化 / 编号·模板·字典 D1 化 / 批次表 / 投诉回流 / 客户退货追责）—— 影响账实一致与多端协同；
+        ② <b>P1 稳定与体验</b>（即时读改事件驱动 / 乐观写失败回滚 / 排程·合同·返利关系化 / 配置消费面收尾）；
+        ③ <b>每步</b> <code>npm run check -- --no-probe</code> 门禁 + 生产 E2E 回归，避免回归。
+      </div>
+
+      <div class="callout ok">
+        <b>本轮坐实「已正确实现、无需动」的连线（20 对 ✅）：</b>
+        销售退货→采购追责(0093)、销售订单→自动MRP(V3.65②)、发货→出库幂等、
+        采购收货→入库回写、采购→来料检事件驱动、采购交期→供应商绩效、
+        付款→协议价核验(V3.65④)、框架协议→审批(V3.65①)、
+        完工→成本结转含人工、质量→检验标准配置引擎(V3.65③)、
+        质量反馈→供应商扣分、盘盈亏→存货凭证+结账守卫、多仓指定 等。
+        这些是前面几轮真 bug 换来的闭环，不建议回改。
+      </div>
+
+      <div class="callout">
+        <b>诚实边界：</b>本报告基于 217 页面 / 88 store / 131 路由实读，
+        数据流方向靠代码 import/订阅关系坐实；「并发读旧值窗口」「多终端不可见」
+        类结论为<b>静态推断</b>（未做并发压测），已在对应条目标注「需运行验证」。
+        未逐一打开 217 页做像素级走查，按「落库通道 + 跨模块订阅」两条主线索定位错位，
+        个别装饰/报表页（COPA/ESG/BI/资金）仅确认存储层已关系化、未深究其业务消费面。
+      </div>
+    </div>
+  </section>
+
+  <!-- S6: V3.66.0 修复落地状态 -->
+  <section>
+    <h2>6. V3.66.0 修复落地状态（逐项坐实前提后动手）</h2>
+    <div class="content">
+      <table>
+        <thead><tr><th style="width:22%">审计项</th><th style="width:14%">结果</th><th style="width:64%">落地说明</th></tr></thead>
+        <tbody>
+          <tr><td>P0-1 检验批台账 vs 拦截不同源</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>坐实修正：报告误标「0090 已建 inspection_lots」，该表<b>实际不存在</b>。迁移 0095 新建；qualityAdvancedStore 检验批改 entityRepo 主源 + 启动水合（judgeLot/自动建批均同步 D1），与服务端 checkQualityBlocked 读源真正同源。</td></tr>
+          <tr><td>P0-2 编号/模板/字典 Blob 化</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>0095 建 numbering_rules/order_templates/data_dict；numberingStore 序号自增同步 D1（多终端不再漂移撞号），模板/字典关系化。诚实边界：服务端建单端点消费 nextNo 取号留后续立项（避免一次改 9+ 端点）。</td></tr>
+          <tr><td>P0-3 生产投诉追责链缺失</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>报工弹窗加「责任供应商」（可选，不选不误伤正常报废）；报废选了供应商则双写：供应商门户 issue（production 类型）+ 质量 NCR（production_complaint 来源，带供应商归属落 0095 新列）+ 供应商绩效自动扣分。</td></tr>
+          <tr><td>P0-4 客户退货追责未直连门户</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>质量原因退货按物料溯源「最近采购订单供应商」（销售订单行无供应商字段，走真实溯源路径；无采购记录只建 NCR 不造假）→ 门户 issue（customer_return）+ NCR 带供应商归属 + 绩效扣分。</td></tr>
+          <tr><td>P0-5 批次/成本口径不完整</td><td><span class="badge b-ok">✅ 已修(入库口径)</span></td>
+            <td>0095 建 batch_records（含 cost 列）；入库过账自动快照批次成本（单价×数量累加）；批次台账 CRUD 同步 D1 + 水合。诚实残余：出库/完工按批次结转成本未接（目前批次成本只含入库快照）。</td></tr>
+          <tr><td>P1-1 排程 Blob 化</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>0096 建 scheduling_locks；排程锁 toggle/锚定/清除全同步 D1 + 启动水合（多用户排产互不可见 → 共享真源）。</td></tr>
+          <tr><td>P1-2 返利/合同 Blob 化</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>0096 建 rebate_rules/rebate_settlements/sales_contracts；返利/合同 store 关系化（合同明细/付款计划/附件封 extra_json），财务可按行引用。</td></tr>
+          <tr><td>P1-3 并发读旧值窗口</td><td><span class="badge b-ok">✅ 已修(真修)</span></td>
+            <td>新增服务端<b>相对原子端点</b> POST /api/vendors/:id/credit-delta（数据库内 used_credit += delta，超限 409 拒绝）；信用联动保持同步本地语义（6 处调用方零改），在线走原子端点 + 回读权威值，失败回滚本地。根治「读旧值→算→整字段写」丢更新竞态。</td></tr>
+          <tr><td>P1-4 MRP 转正式单手动</td><td><span class="badge b-info">⚪ 坐实不改</span></td>
+            <td>刻意保留的人工闸门（建议非命令，对标 SAP MRP 设计），非缺陷，标注即可。</td></tr>
+          <tr><td>P1-5 双入口未统一 issue 模型</td><td><span class="badge b-ok">✅ 随 P0-3/4 落地</span></td>
+            <td>issueType 枚举扩展 production/customer_return，门户两页下拉选项补齐；供应商门户 issue 现有完整三类来源（来料/生产/客户退货）。</td></tr>
+          <tr><td>P1-6 配置「建了不消费」</td><td><span class="badge b-info">⚪ 坐实无需改</span></td>
+            <td>逐项坐实后判断不成立：条件技术被价格分析消费、单位换算被物料/审批流消费、打印模板被详情页操作/打印预览/订单列表消费。三项均有真实消费面。</td></tr>
+          <tr><td>P1-7 乐观写失败只 toast</td><td><span class="badge b-ok">✅ 已修</span></td>
+            <td>转储/调整/质量扣留 9 处 catch 全部改为「失败回滚本地快照 + 明确提示已撤销」，杜绝「本地已改、服务端没存」的假成功（WH-18 范式）。</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <b>验证足迹：</b>前端 tsc 全绿 · 163 单测过 · functions 语法审计 178 文件 0 错 ·
+        0090→0095→0096 门槛新库验证（9 张表列集全对）· 部署上线（远端 0095/0096 apply ✅）·
+        本地门禁僵尸登记 0 / 阻断 0 · <b>全量 45 套件生产回归 PASS 1586 / FAIL 0 / WARN 13</b>
+        （首跑 2 条 503 为 Cloudflare 瞬时故障，单套件复跑 19/19 + 全量复跑坐实非回归）。
+      </div>
+      <div class="callout warn">
+        <b>剩余立项项：</b>① 编号/模板/字典的服务端建单消费（nextNo 取号走 D1，需改各建单端点）；
+        ② 批次成本出库/完工结转口径（目前仅入库快照，批次级对账半通）；
+        ③ 8 装饰模块跨模块联动最小闭环、BI/MES 外部接入（独立立项，需外部协议/数据源）。
+      </div>
+    </div>
+  </section>
+  <footer>SSA ERP · 功能页面联动审计 · V3.66.0 修复落地 · 依据实读代码 · 交付物归档 ima「强哥的知识库」erp开发项目</footer>
+</div>
+</body>
+</html>

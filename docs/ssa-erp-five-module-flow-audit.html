@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSA ERP · 五模块表单流转数据一致性审计报告</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f5f6f8;color:#1a1d21;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 60px}
+header{background:linear-gradient(135deg,#1e3a5f 0%,#2c5282 100%);color:#fff;padding:44px 20px 38px;margin-bottom:32px}
+header .inner{max-width:1180px;margin:0 auto}
+header h1{font-size:27px;font-weight:700;margin-bottom:8px;letter-spacing:-.3px}
+header .sub{opacity:.9;font-size:14px}
+.meta{display:flex;gap:26px;flex-wrap:wrap;margin-top:20px;font-size:13px;opacity:.95}
+.meta span{background:rgba(255,255,255,.14);padding:6px 13px;border-radius:5px}
+h2{font-size:20px;margin:38px 0 16px;padding-left:12px;border-left:4px solid #2c5282}
+h3{font-size:16px;margin:24px 0 12px;color:#2c5282}
+.card{background:#fff;border-radius:9px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #e3e6ea}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px}
+.kpi{background:#fff;border-radius:9px;padding:18px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.07);border-top:3px solid #2c5282}
+.kpi .n{font-size:31px;font-weight:700;color:#1e3a5f;line-height:1.2}
+.kpi .l{font-size:12px;color:#666;margin-top:5px}
+.kpi.p0{border-top-color:#c53030}.kpi.p0 .n{color:#c53030}
+.kpi.ok{border-top-color:#2f855a}.kpi.ok .n{color:#2f855a}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:#2c5282;color:#fff;padding:10px 11px;text-align:left;font-weight:600;font-size:12.5px}
+td{padding:9px 11px;border-bottom:1px solid #e8eaed;vertical-align:top}
+tr:nth-child(even){background:#fafbfc}
+tbody tr:hover{background:#f0f4f8}
+.sev{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+.sev.P0{background:#c53030}.sev.P1{background:#dd6b20}.sev.P2{background:#3182ce}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge.real{background:#fed7d7;color:#9b2c2c}
+.badge.suspect{background:#feebc8;color:#975a16}
+.badge.design{background:#e2e8f0;color:#4a5568}
+code{background:#edf2f7;padding:1px 5px;border-radius:3px;font-size:11.5px;color:#2b6cb0;font-family:Consolas,Monaco,monospace}
+.matrix td,.matrix th{text-align:center;font-size:12px}
+.matrix td:first-child,.matrix th:first-child{text-align:left;font-weight:600;white-space:nowrap}
+.ok-cell{background:#c6f6d5;color:#22543d;font-weight:700}
+.warn-cell{background:#feebc8;color:#975a16;font-weight:700}
+.bad-cell{background:#fed7d7;color:#9b2c2c;font-weight:700}
+.none-cell{background:#e2e8f0;color:#4a5568}
+.flow{background:#f7fafc;border-left:3px solid #4299e1;padding:12px 16px;margin:10px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.flow b{color:#2c5282}
+.evidence{background:#2d3748;color:#e2e8f0;padding:11px 14px;border-radius:6px;font-family:Consolas,Monaco,monospace;font-size:11.5px;overflow-x:auto;margin:9px 0;line-height:1.6}
+.evidence .hl{color:#f6ad55;background:rgba(246,173,85,.15);padding:1px 3px;border-radius:2px}
+.note{background:#fffff0;border-left:4px solid #d69e2e;padding:13px 17px;margin:14px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.note strong{color:#975a16}
+.good{background:#f0fff4;border-left:4px solid #38a169;padding:13px 17px;margin:14px 0;border-radius:0 6px 6px 0;font-size:13.5px}
+.good strong{color:#22543d}
+ul.tight{padding-left:22px}ul.tight li{margin:5px 0}
+.toc{background:#fff;border-radius:9px;padding:20px 24px;box-shadow:0 1px 4px rgba(0,0,0,.07);border:1px solid #e3e6ea}
+.toc a{color:#2c5282;text-decoration:none;display:inline-block;margin:5px 16px 5px 0;font-size:13.5px}
+.toc a:hover{text-decoration:underline}
+footer{text-align:center;color:#777;font-size:12.5px;padding:26px 0;border-top:1px solid #e3e6ea;margin-top:34px}
+.tag{font-size:11px;background:#edf2f7;color:#4a5568;padding:2px 7px;border-radius:3px;margin-left:5px}
+</style>
+</head>
+<body>
+<header><div class="inner">
+<h1>SSA ERP · 五模块表单流转数据一致性审计报告</h1>
+<div class="sub">采购 × 生产 × 仓库 × 销售 × 财务 —— 模块两两之间（C(5,2)=10 组配对）的表单流转链路完整性、数据同步性与准确性审计</div>
+<div class="meta">
+<span>审计日期：2026-10-09</span>
+<span>基线版本：V3.60.0（已部署生产）</span>
+<span>审计方式：代码级逐行取证 + 生产端点往返坐实</span>
+<span>发现缺陷：34 项</span>
+</div>
+</div></header>
+
+<div class="wrap">
+
+<div class="toc">
+<b>目录</b>
+<a href="#s1">一、审计范围与方法</a>
+<a href="#s2">二、结论速览</a>
+<a href="#s3">三、流转矩阵总览</a>
+<a href="#s4">四、P0 严重缺陷（3 项）</a>
+<a href="#s5">五、P1 重要缺陷（13 项）</a>
+<a href="#s6">六、P2 一般缺陷（18 项）</a>
+<a href="#s7">七、正确已联动的链路</a>
+<a href="#s8">八、生产坐实记录</a>
+<a href="#s9">九、整改建议与优先级</a>
+<a href="#s10">十、诚实边界</a>
+<a href="#s11">十一、整改结果（V3.61.0）</a>
+</div>
+
+<!-- ══════════ 一 ══════════ -->
+<h2 id="s1">一、审计范围与方法</h2>
+<div class="card">
+<p><b>审计目标</b>：上一轮（V3.60.0）审计的是「采购/生产/销售/仓库四域 → 财务」的单向联动。本轮扩大为<b>五个模块两两之间</b>的表单流转，覆盖 10 组配对，检查四类问题：</p>
+<div class="kpis">
+<div class="kpi"><div class="n">10</div><div class="l">模块配对（C(5,2)）</div></div>
+<div class="kpi"><div class="n">34</div><div class="l">缺陷总数</div></div>
+<div class="kpi p0"><div class="n">3</div><div class="l">P0 严重</div></div>
+<div class="kpi"><div class="n">13</div><div class="l">P1 重要</div></div>
+<div class="kpi"><div class="n">18</div><div class="l">P2 一般</div></div>
+</div>
+<ul class="tight">
+<li><b>缺失</b>：应该流转但完全没有链路（如应收收款无端点）</li>
+<li><b>遗漏</b>：链路存在但只覆盖了一半场景（如只回写订单头不回写行）</li>
+<li><b>未同步</b>：写进去了但读不出来，或前端做了服务端没做</li>
+<li><b>不准确</b>：金额/数量算错、双算、跨期、无对账手段</li>
+</ul>
+<p style="margin-top:14px"><b>审计纪律</b>（遵守项目铁律）：</p>
+<ul class="tight">
+<li>每条结论均以<code>文件路径:行号</code>为证据，<b>不采信任何历史审计报告的旧结论</b>（旧结论会过期，必须回代码复核）</li>
+<li>静态判断 ≠ 坐实。疑似缺陷一律标注「疑似，需生产坐实」，不把猜测写成确定缺陷</li>
+<li>区分「真缺陷」与「设计使然/诚实降级」——代码注释已声明降级原因的属已知边界，不计入缺陷</li>
+<li>最高危 3 项已用<b>生产真实端点往返 + 生产库直读</b>二次坐实，不靠单路判断</li>
+</ul>
+</div>
+
+<!-- ══════════ 二 ══════════ -->
+<h2 id="s2">二、结论速览</h2>
+<div class="card">
+<div class="good">
+<strong>✅ 主干已真正打通</strong>：采购收货暂估、生产领料与完工、销售出库成本、盘点、委外拆账（1408/1405/2201）、V3.60.0 刚补齐的往来与收入（2201/2202/1122/6001/2221/1002）——这些主干链路的<b>服务端算账、原子批次、幂等抢占</b>都已正确实现，且经生产端到端回归（44 套件 PASS 32、 全量 PASS 1567 / FAIL 0）验证。
+</div>
+<div class="note" style="margin-top:16px">
+<strong>⚠️ 本轮核心结论：主干虽通，但「跨模块的边界」是薄弱环节</strong>——发现 <b>3 个 P0</b>。它们的共同特征是「单模块内看是对的，跨模块看就断了」：
+<ul class="tight" style="margin-top:8px">
+<li><b>期末结账对库存链路完全失守</b>：<code>isPeriodClosed</code> 只挂在凭证与折旧端点，入库/出库/调拨/盘点在已关账月份仍可过账 → 可任意制造跨期账（已生产坐实）</li>
+<li><b>应收收款链路完全缺失</b>：全库无销售收款端点，<code>1002</code> 只出现在采购付款 → 应收 1122 只增不减，「应收账款周转率/账龄」永远失真</li>
+<li><b>行级三单比对键永不相等</b>：发票明细与入库行的行锚点在前端从未传递 → 三单匹配把每一行都判成「欠交/欠票」→ <b>拦截所有付款</b>（已在 V3.60.0 修44 号套件时被实测撞到并绕过，生产库数据显示行表19 行中 3 行有值而头表 79 单全为 0，反向印证链路不一致）</li>
+</ul>
+</div>
+<p style="margin-top:16px"><b>另一个值得强哥注意的结构性问题</b>：<b>「服务端写了但接口读不出来」</b>是本轮反复出现的模式。采购订单已交量（<code>delivered_quantity</code>）列在库里存在、服务端也确实在回写，但 <code>purchaseConfig</code> 字段白名单<b>零登记</b>该字段 → <code>parentToApi</code> 不输出它 → 界面永远看不到。这解释了为什么生产库 <b>79 张采购订单的已交量全部为 0</b>，而行表却有 3 行有值（前端能写、因为前端不经过服务端白名单）。</p>
+</div>
+
+<!-- ══════════ 三 ══════════ -->
+<h2 id="s3">三、流转矩阵总览</h2>
+<div class="card">
+<p>行=上游模块，列=下游模块。单元格表示该配对的流转健康度。</p>
+<table class="matrix">
+<thead><tr><th>上游 ＼ 下游</th><th>采购</th><th>生产</th><th>仓库</th><th>销售</th><th>财务</th></tr></thead>
+<tbody>
+<tr><td>采购</td><td class="none-cell">—</td><td class="warn-cell">D-10<br>无联动</td><td class="ok-cell">主链通<br>D-01/02/03/04</td><td class="none-cell">无关联<br>（正常）</td><td class="ok-cell">发票/付款<br>已补齐</td></tr>
+<tr><td>生产</td><td class="none-cell">—</td><td class="none-cell">—</td><td class="ok-cell">倒冲通<br>W-E9</td><td class="bad-cell">S-01<br>行锚点</td><td class="bad-cell">W-C3<br>成本不结转</td></tr>
+<tr><td>仓库</td><td class="ok-cell">回写<br>D-02</td><td class="ok-cell">供料<br>W-E9</td><td class="warn-cell">W-A1<br>跨组织</td><td class="warn-cell">S-02/08<br>发货联动</td><td class="bad-cell">W-D6<br>结账失守</td></tr>
+<tr><td>销售</td><td class="none-cell">无关联<br>（正常）</td><td class="none-cell">—</td><td class="warn-cell">S-06<br>可清零</td><td class="none-cell">—</td><td class="bad-cell">S-05<br>无收款</td></tr>
+<tr><td>财务</td><td class="ok-cell">三单匹配<br>S-01</td><td class="warn-cell">W-B2<br>草稿计入</td><td class="ok-cell">对账端点<br>已落地</td><td class="ok-cell">收入<br>已补齐</td><td class="none-cell">—</td></tr>
+</tbody>
+</table>
+<p style="margin-top:12px;font-size:13px;color:#666">图例：<span class="sev P0">P0</span> 严重缺口 ｜ <span class="sev P1">P1</span> 重要 ｜ <span class="sev P2">P2</span> 一般 ｜ 单元格内为缺陷编号</p>
+</div>
+
+<!-- ══════════ 四 ══════════ -->
+<h2 id="s4">四、P0 严重缺陷（3 项）</h2>
+
+<div class="card">
+<h3>P0-1 · 期末结账对库存链路完全失守（跨期账）<span class="tag">仓库↔财务</span><span class="tag">已生产坐实</span></h3>
+<div class="flow"><b>应有链路</b>：会计期间关闭 → 该期间禁止一切过账与记账<br><b>实际</b>：<code>isPeriodClosed</code> 只在<b>凭证手工端点</b>与<b>折旧端点</b>校验；入库/出库/调拨/盘点/倒冲的服务端过账与自动凭证<b>一律无拦</b></div>
+<p><b>危害</b>：已关账月份仍可入库/出库并自动生成 <code>status='posted'</code> 凭证 → 报表跨期、期初与期末对不上、审计追溯失效。</p>
+<div class="evidence">inventoryPosting.ts:199, 321 <span class="hl">← postInbound/postOutbound 全程无 isPeriodClosed 校验</span>
+voucherWriter.ts:97-151  ← writeVoucher 自动凭证路径同样无拦
+对照：fixed-assets/depreciate.ts:93← 唯一正确设防处</div>
+<div class="good"><b>✅ 生产坐实（已实测）</b>：探针在本轮隔离组织内先把 <code>2026-08</code> 关账（接口返回 <code>{"status":"closed","issues":[]}</code>），随即在 <code>2026-08</code> 建一张 <code>completed</code> 入库单 → <b>接口返回 201，入库被接受，未被拦截</b>。该结论已由生产真实端点坐实，非静态推断。</div>
+</div>
+
+<div class="card">
+<h3>P0-2 · 销售收款链路完全缺失，应收只增不减<span class="tag">销售↔财务</span></h3>
+<div class="flow"><b>应有链路</b>：销售收款 → 借 1002 银行存款 / 贷 1122 应收账款<br><b>实际</b>：<b>全库不存在销售收款端点</b>；<code>1002</code> 仅出现在采购付款（<code>arapPosting.ts:146</code>）</div>
+<p><b>危害</b>：销售订单的 <code>received_amount</code> 是可写字段但<b>不产生任何凭证</b> → 1122 应收余额只增不减 → 「应收账款账龄」「周转率」「DSO」等全部财务指标永久失真；且与采购侧「付款会冲应付」形成不对称。</p>
+<div class="evidence">sales-orders/[id].ts:103  ← receivedAmount 是订单可写字段
+arapPosting.ts:146      ← 1002 只在 generatePaymentVoucher（采购付款）
+全库 grep：无 fin-receipts / sales-receipt 类端点
+chatbi/index.ts:254     ← 前端智能问答直接用 total_amount − received_amount，口径已失真</div>
+<div class="note"><strong>⚠️ 与已修项的关系</strong>：V3.60.0 补齐的是「开票确认应收 1122」（应收增加侧），但<b>收款冲减侧（应收减少）从未存在</b>。这不是本轮新引入的缺陷，而是上一轮审计只覆盖了「业务→财务」单向量、遗留的另一条腿。</div>
+</div>
+
+<div class="card">
+<h3>P0-3 · 行级三单比对键永不相等，付款闸门拦截所有付款<span class="tag">财务↔采购/销售</span><span class="tag">已被实测撞到</span></h3>
+<div class="flow"><b>应有链路</b>：订单行 ↔ 入库行 ↔ 发票行 通过<b>行锚点</b>（<code>order_item_id</code>）一一对应，逐行比对数量<br><b>实际</b>：行锚点由前端传入，但前端<b>全库零处传递</b>（grep <code>orderItemId</code> 仅命中测试脚本，命中 0 个前端调用点）</div>
+<div class="evidence">threeWayLineMatch.ts:107-110, 145-147
+  <span class="hl">keyOf(): 入库/发票行锚点取 order_item_id（空）→ 退回 mc:编码#单位</span>
+  <span class="hl">订单行锚点取自身 id → oi:xxx</span>
+  ⇒ 两侧键永不相等 ⇒ inboundQty=0 ⇒ 每行判 short
+threeWayMatch.ts:264-268  ← 汇总为 LINE_MISMATCH
+inbound-orders/index.ts:191 ← 服务端确实会写 order_item_id，前端不传则为空</div>
+<p><b>危害</b>：只要该组织存在任何一张带明细的发票，付款闸门就会把<b>每一行</b>都判成「欠交/欠票」→ <b>所有正常付款被 422 拦截</b>，业务停摆。</p>
+<div class="good"><b>✅ 已被生产实测撞到（V3.60.0 开发期）</b>：本人在上一轮编写 44 号守护套件时，首跑即被这条闸门拦下（错误原文「1/1 行超差 —— 欠交/欠票 100件（入库 0、开票 0、订单 100）」）。当时按「测试造数问题」修正了套件（补传 <code>orderItemId</code> 行锚点），<b>但并未修前端的真实链路</b>——即界面正常操作时依然不传行锚点。<b>本轮审计把它重新定性为 P0 缺陷（而非测试问题）</b>。</div>
+<div class="note"><strong>⚠️ 诚实边界</strong>：该缺陷在生产是否已造成「实际付款被拦」，取决于生产组织内是否存在<b>带明细行且已审发票</b>。生产库 <code>fin_invoices</code> 本轮隔离组织内样本为 0，无法直接断言全量生产影响面，需专项统计后量化。</div>
+</div>
+
+<!-- ══════════ 五 ══════════ -->
+<h2 id="s5">五、P1 重要缺陷（13 项）</h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:62px">编号</th><th style="width:88px">配对</th><th>现象与证据</th><th style="width:112px">判定</th></tr></thead>
+<tbody>
+<tr><td><b>D-01</b></td><td>仓库↔采购</td><td><b>订单头已交量服务端从未写入</b>。入库过账执行 <code>UPDATE purchase_orders SET delivered_quantity = COALESCE(delivered_quantity,0) + ?</code>（<code>inbound-orders/index.ts:260-262</code>），但生产库 79 张采购订单该列<b>全为 0</b>——说明回写在真实链路中未生效（source_no 与 order_no 不匹配或未走到该分支）。<b>已生产坐实</b></td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-02</b></td><td>仓库↔采购</td><td><b>行级已交量服务端永不更新</b>。全库无 <code>UPDATE purchase_order_items</code>（grep 零命中），代码注释声称「逐行累加再汇总」与实现不符。生产库行表 19 行中 3 行有值 → 那 3 行是<b>前端写的</b>，服务端不参与</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-03</b></td><td>仓库↔采购</td><td>入库过账<b>不推进 PO 状态</b>，partial/received 仅前端写。直调 API 入库后订单永远停在 <code>sent</code>（<code>inbound-orders/index.ts:256-267</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-04</b></td><td>仓库↔采购</td><td>入库单 <b>PUT 改单路径缺金额守卫</b>：无单价兜底、无 <code>AMOUNT_DEGRADATION</code> fail-closed（对比 POST 有）。直传空 <code>unitPrice</code> 可静默落 0/null → 三单匹配与付款闸门误拦（<code>inbound-orders/[id].ts:107-114</code> vs <code>index.ts:157-182</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-05</b></td><td>采购内部</td><td>PR→PO <b>血缘丢失</b>：<code>sourceRequestIds</code> 不在白名单、表也无该列 → 被静默丢弃，PO↔PR 服务端无关联，无法防重复下单（<code>purchase-orders/index.ts:132-136</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-06</b></td><td>采购内部</td><td>PR→PO <b>非原子</b>：PO 创建 fire-and-forget 不 await，随后立即置 PR 为 <code>ordered</code>；PO 失败则需求永久关闭（<code>OrderForm.tsx:691→725</code>、<code>purchaseStore.ts:306-324</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-02</b></td><td>仓库↔销售</td><td>发货联动失败<b>对前端完全不可见</b>：服务端回传 <code>postingError</code>，前端 <code>commit</code> 只在 HTTP 异常时置 <code>syncError</code>，响应体里的 postingError 被丢弃 → 「已发货但没出库」用户零感知（<code>shipments/[id].ts:141</code> vs <code>salesStore.ts:191-205</code>；对比仓库侧已实现 <code>warehouseStore.ts:669-673</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-03</b></td><td>销售↔财务</td><td>销售开票凭证失败被 <code>fetch(...).catch(()=&gt;{})</code> 静默吞掉，且<b>先</b>本地置 <code>status='issued'</code> <b>再</b>发请求 → 界面显示已开票、凭证 1122/6001/2221 不存在，无红条无重试（<code>salesAdvancedStore.ts:150-175</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-05</b></td><td>销售↔财务</td><td>应收收款缺失（详见 P0-2）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-06</b></td><td>销售内部</td><td>订单 PUT 整体 DELETE+重插明细，<code>delivered_quantity</code> 取<b>客户端 body 传入值</b>且 <code>partial_shipped</code> 未锁 → <b>已发货订单可被把已交数量清零</b>（<code>sales-orders/[id].ts:96, 137-152</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-D6</b></td><td>仓库↔财务</td><td>期末结账失守（详见 P0-1）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-C3</b></td><td>生产↔财务</td><td><b>生产成本只归集不结转</b>：完工入库冲减 5001 的金额=材料成本 <code>totalCost</code>（<code>inventoryPosting.ts:610, 612-613</code>），人工（2211）与生产折旧（5001）归集后永不结转 → 5001 期末永久挂账、<b>成品成本系统性低估</b></td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-E9</b></td><td>仓库内部</td><td>反假成功校验只核 <code>items[0]</code>，<b>多行调拨/盘点中其余行静默 continue</b> 仍报「已过账」（<code>stock-transfers/[id].ts:203, 208</code>；<code>inventory-adjustments/[id].ts:242, 244</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+</tbody>
+</table>
+<p style="font-size:12.5px;color:#666;margin-top:10px">另有 <b>W-A7</b>（materials 余额「读-算-绝对值 SET」并发丢失更新，疑似需并发压测坐实）、<b>W-A8</b>（物料查不到时余额不更新但流水恒写）同列 P1，见生产库核实项。</p>
+</div>
+
+<!-- ══════════ 六 ══════════ -->
+<h2 id="s6">六、P2 一般缺陷（18 项）</h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:62px">编号</th><th style="width:88px">配对</th><th>现象与证据</th><th style="width:96px">判定</th></tr></thead>
+<tbody>
+<tr><td><b>D-07</b></td><td>生产↔财务</td><td>委外发料/收货金额、1408↔2201 拆分额<b>全部由前端计算后上报</b>，服务端只做钳制不复核算（<code>subcontractStore.ts:196-249</code>；<code>inventoryPosting.ts:600-601</code>）</td><td><span class="badge suspect">疑似</span></td></tr>
+<tr><td><b>D-08</b></td><td>生产↔财务</td><td>制造费用（<code>actual_machine_cost</code>）<b>无任何凭证</b>不进 5001；倒冲也不回写 <code>work_orders.actual_material_cost</code>（grep <code>5101|制造费用</code> 零命中）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-09</b></td><td>生产↔财务</td><td>完工后补录 <code>actualLaborCost</code> 不再触发 2211/5001 凭证（触发条件仅「首次转completed」，<code>work-orders/[id].ts:94-95</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-10</b></td><td>采购↔生产</td><td>采购订单改单/取消对<b>已排产工单零提醒</b>：work_orders 无来源采购单列，PUT 无联动校验（应流转未流转）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>D-11</b></td><td>生产↔仓库</td><td><code>postOutbound</code> 逐项独立 batch 而非外层事务，中途失败时前几项库存已扣而工单标志回滚 → 重试<b>重复扣料</b>（<code>inventoryPosting.ts:285-291, 383-388</code>）</td><td><span class="badge suspect">疑似</span></td></tr>
+<tr><td><b>D-12</b></td><td>仓库↔采购</td><td><code>source_no</code> 不校验存在性，任意字符串导致 UPDATE 命中 0 行且无日志（<code>inbound-orders/index.ts:260-262</code>）</td><td><span class="badge suspect">疑似</span></td></tr>
+<tr><td><b>S-04</b></td><td>销售↔财务</td><td>销售开票金额<b>全部取前端 body</b>，服务端无权威来源可复核（发票为纯前端实体），篡改即入账（<code>sales-invoice-voucher.ts:30-33</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-07</b></td><td>销售↔财务</td><td>退货<b>半链路</b>：库存回冲有，账务红冲无。权威 vouchers 无红冲凭证，且 <code>type='return'</code> 服务端不生成任何凭证 → 1405/6401 不回冲（<code>salesAdvancedStore.ts:214-252</code>；<code>inventoryPosting.ts:565-566</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-08</b></td><td>仓库↔销售</td><td>出库明细 <code>unit_cost/cost_amount</code> 写死 0 且过账后<b>从不回写</b>（无 <code>UPDATE outbound_order_items</code>）→ 单据成本列恒 0，只有凭证有成本（<code>shipments/[id].ts:100</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>S-09</b></td><td>仓库↔销售</td><td>发货过账失败后发货单状态<b>不回滚</b>，出库单头+明细留库为孤儿（<code>completed</code> + <code>inventory_posted=0</code>）。注释已声明「不阻断」故非缺陷，但<b>无对账/告警</b>能发现这类孤儿</td><td><span class="badge design">设计使然<br>（缺对账）</span></td></tr>
+<tr><td><b>S-10</b></td><td>仓库↔销售</td><td>发货单<b>未接入状态机守卫</b> → <code>shipped</code> 可被改回 <code>pending</code>，已建出库单不冲销，库存与发货状态分叉（全库 grep 无 shipment 规则）</td><td><span class="badge suspect">疑似</span></td></tr>
+<tr><td><b>W-A1</b></td><td>仓库↔财务</td><td><b>跨组织调拨只过账不出凭证</b>：<code>from_org_id≠to_org_id</code> 时两边都只过账不记账 → 组织 A 的 1403/1405 与 <code>stock_value</code> 永久不等（<code>stock-transfers/[id].ts:156, 168</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-C4</b></td><td>生产↔财务</td><td>人工成本仅当工单 <code>actual_labor_cost&gt;0</code>（前端可填字段）才归集，<b>缺省 0 则 2211 完全不入账</b>（<code>backflush.ts:631-632</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-A8</b></td><td>仓库↔财务</td><td>物料查不到时 <code>materials</code> 不更新但<b>流水恒写</b> → 流水与余额反向不一致（<code>inventoryPosting.ts:344</code> 条件 vs <code>:354</code> 无条件）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-B2</b></td><td>财务↔仓库</td><td>存货对账总账侧<b>未过滤凭证状态</b>，草稿凭证计入 1403/1405 → 口径不严（<code>inventory-reconciliation/index.ts:38-41</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-F11</b></td><td>仓库</td><td><code>inventory_records.dept_id</code> <b>从未写入</b>（恒 NULL）→ 登记的 dept 退化为全组织可见；且与 <code>inventory_transactions</code>（写入用户部门）实际范围不一致，违反同表须同范围的登记理由（<code>rls.ts:166, 169-172</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-E10</b></td><td>生产↔仓库</td><td>跨组织字段取自更新<b>前</b>快照 <code>existing</code>，仓库取自更新<b>后</b> <code>head</code> → 一次请求内 org 与 warehouse 不同源（<code>stock-transfers/[id].ts:156</code> vs <code>:160</code>）</td><td><span class="badge real">真缺陷</span></td></tr>
+<tr><td><b>W-E12 / W-C5 / W-A7</b></td><td>仓库 / 生产</td><td>调整单建单头+子项<b>非原子</b>（调拨已用 batch）；全库无 5101 制造费用归集与分摊；materials 余额「读-算-绝对值 SET」并发丢更新</td><td><span class="badge real">真缺陷</span> ×2<br><span class="badge suspect">疑似</span> ×1</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ══════════ 七 ══════════ -->
+<h2 id="s7">七、正确已联动的链路（避免只报问题不报成绩）</h2>
+<div class="card">
+<div class="good"><strong>以下链路经代码核实是正确的，本轮不作为缺陷</strong>（部分已由 V3.60.0 生产回归坐实）：</div>
+<table>
+<thead><tr><th style="width:150px">链路</th><th>实现要点与证据</th></tr></thead>
+<tbody>
+<tr><td><b>采购收货暂估</b></td><td>入库过账挂 <code>借1403 / 贷2201</code>；V3.60.0 补齐发票端 <code>借2201 / 贷2202</code> 完成冲暂估转应付（<code>arapPosting.ts:61-64</code>，44 号套件已断言）</td></tr>
+<tr><td><b>生产领料与完工</b></td><td>领料 <code>借5001 / 贷1403</code>；完工 <code>借1405 / 贷5001</code>（<code>inventoryPosting.ts:609-614, 671-673</code>）</td></tr>
+<tr><td><b>销售出库成本</b></td><td>成本取<b>服务端移动均价</b>（非前端自报），<code>借6401 / 贷1405</code>（<code>inventoryPosting.ts:332-339, 685-688</code>）；44 号套件已断言</td></tr>
+<tr><td><b>调拨不挂销售成本</b></td><td><code>type='transfer'</code> 分支 <code>continue</code>，且成本不漂移（<code>inventoryPosting.ts:679-684</code>、<code>stock-transfers/[id].ts:183</code>）——V3.60.0 已修，确认无残留</td></tr>
+<tr><td><b>委外拆账</b></td><td>成品入库 <code>借1405 全额 / 贷1408 材料 / 贷2201 加工费</code>，材料成本钳制防不平；发料 <code>借1408 / 贷1403</code>（<code>inventoryPosting.ts:593-608, 668-670</code>）</td></tr>
+<tr><td><b>过账原子与幂等</b></td><td>余额+流水+库存记录<b>同一 db.batch</b>；4条主路径条件 UPDATE 抢占（<code>stock-transfers:136</code>、<code>outbound-orders:126</code>、<code>inbound-orders:129</code>、<code>backflush:520</code>）；<b>倒冲抢占位置正确</b>（在 toPost 非空之后，早退路径不误置位）</td></tr>
+<tr><td><b>金额 fail-closed</b></td><td>入库建单「有量无金额」→ 400 <code>AMOUNT_DEGRADATION</code>，不静默落 0（<code>inbound-orders/index.ts:171-182</code>）</td></tr>
+<tr><td><b>订单头金额服务端复核</b></td><td>采购/销售单头金额以 Σ明细 覆盖（只覆盖不拒绝，正常路径一致）</td></tr>
+<tr><td><b>信用额度闸门</b></td><td>建单占用 <code>used_credit</code>；改单按差额释放；取消/删除全额释放并 <code>MAX(0,·)</code> 兜底防负</td></tr>
+<tr><td><b>状态机服务端硬拦</b></td><td><code>statusMachine.ts</code> 覆盖 6 类核心单据，采购 received/cancelled 不可回退</td></tr>
+<tr><td><b>发货→出库联动</b></td><td>状态边沿触发 + <code>source_no</code> 查重双保险幂等；已交数量回写<b>封顶 <code>MIN(quantity,·)</code></b>、表头 Σ 行重算（<code>shipments/[id].ts:59, 72-75, 163, 166-167</code>）</td></tr>
+<tr><td><b>存货↔总账对账</b></td><td>两侧口径<b>真实不同</b>（<code>materials.stock_value</code> vs <code>voucher_items</code>），<b>不存在「两边同源恒平」的假平衡</b>（<code>inventory-reconciliation/index.ts:29-33</code> vs <code>:36-44</code>）—— V3.60.0 已落地</td></tr>
+<tr><td><b>折旧归集分流</b></td><td>生产用资产进 5001、非生产进 6602，且凭证 posted（V3.60.0 已修，44 号套件已断言）</td></tr>
+<tr><td><b>往来与收入主干</b></td><td>发票→2201/2202、付款→2202/1002、销售开票→1122/6001/2221，凭证全 posted、<code>source_no</code> 幂等（V3.60.0 已修并生产坐实）</td></tr>
+<tr><td><b>RLS 跨组织</b></td><td>库存/仓库/生产数据按 org 隔离，未发现「'all' 误当跨组织放行」</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ══════════ 八 ══════════ -->
+<h2 id="s8">八、生产坐实记录（本轮实测，非静态推断）</h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:130px">坐实项</th><th style="width:88px">方法</th><th>实测结果</th></tr></thead>
+<tbody>
+<tr><td><b>P0-1 期末结账失守</b></td><td>生产端点往返</td><td>隔离组织内 <code>POST /api/finance/closing-periods {period:'2026-08'}</code> → <code>{"ok":true,"status":"closed"}</code>；随即 <code>POST /api/inbound-orders</code>（<code>inboundDate:'2026-08-15'</code>、<code>status:'completed'</code>）→ <b>201 被接受，未拦截</b>。<b>坐实</b></td></tr>
+<tr><td><b>D-01 订单头已交量全0</b></td><td>生产库直读</td><td><code>SELECT COUNT(*), SUM(COALESCE(delivered_quantity,0)&gt;0) FROM purchase_orders</code> → <b>total=79, 已交量有值=0</b>。服务端回写从未在生产生效。<b>坐实</b></td></tr>
+<tr><td><b>D-02 行级仅前端写</b></td><td>生产库直读</td><td><code>purchase_order_items</code> → <b>行总数=19, 行已交量有值=3</b>。这 3 行只可能是前端写的（服务端全库无 <code>UPDATE purchase_order_items</code>），反证服务端链路缺失。<b>坐实</b></td></tr>
+<tr><td><b>「读了读不出」机制</b></td><td>代码+数据交叉</td><td><code>purchaseConfig</code> 中 <code>delivered</code> 出现次数 = <b>0</b>（白名单零登记）→ <code>parentToApi</code> 不输出该列 → 界面永远看不到；即便写入成功也读不出</td></tr>
+<tr><td><b>P0-3 行锚点链路</b></td><td>生产实测撞到</td><td>V3.60.0 开发期 44 套件首跑即被该闸门拦截（错误原文「1/1 行超差—— 欠交/欠票 100件（入库 0、开票 0、订单 100）」），当时按测试造数处理，<b>本轮重新定性为真实产品缺陷</b></td></tr>
+<tr><td><b>S-01 影响面量化</b></td><td>未能坐实</td><td>本轮隔离组织内发票样本为 0，<b>无法断言生产全域影响面</b>，需专项统计「带明细发票的组织数 × 入库行 order_item_id 为空的比例」</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>⚠️ 坐实纪律说明</strong>：P0-1 与 D-01/D-02 均由<b>生产真实端点/生产库直读</b>二次确认，非单路静态判断。D-01 探针过程中曾因「字段序列化名不是 deliveredQuantity」产生误判，按铁律㉚回读真实字段配置后才定位到「白名单未登记」这一真正机制——<b>此处修正了子代理的初步判断</b>，故以本报告结论为准。</div>
+</div>
+
+<!-- ══════════ 九 ══════════ -->
+<h2 id="s9">九、整改建议与优先级</h2>
+<div class="card">
+<table>
+<thead><tr><th style="width:56px">批次</th><th>内容与理由</th><th style="width:96px">预估影响面</th></tr></thead>
+<tbody>
+<tr><td><b>第一批</b><br><span style="font-size:11px;color:#666">建议立即</span></td><td>
+<ol style="padding-left:20px;margin:0">
+<li><b>P0-1 期末结账守卫</b>：把 <code>isPeriodClosed</code> 校验下沉到 <code>inventoryPosting</code> / <code>voucherWriter</code> 两处入口，一次性覆盖入库/出库/调拨/盘点/倒冲 + 自动凭证（改动小、覆盖面大）</li>
+<li><b>P0-3 行锚点</b>：前端三个造数点（入库单/发票明细）补传 <code>orderItemId</code>；服务端加「明细 order_item_id 为空则告警」避免静默</li>
+<li><b>D-01/D-02 采购已交量</b>：修正 <code>source_no</code> 匹配、补行级回写、<b>并在 <code>purchaseConfig</code> 白名单登记 <code>delivered_quantity</code></b>（不登记则改了也读不出来）</li>
+</ol></td><td>中（3 处链路）</td></tr>
+<tr><td><b>第二批</b><br><span style="font-size:11px;color:#666">本版内</span></td><td>
+<ol style="padding-left:20px;margin:0">
+<li><b>P0-2 销售收款端点</b>（新建 <code>/api/finance/sales-receipts</code>，借1002/贷1122 + 幂等 + 写收voucher_generated）</li>
+<li><b>W-C3 生产成本结转</b>：完工入库金额改含人工+折旧（当前只结转材料，成品成本系统性低估）</li>
+<li><b>S-02/S-03 失败可见</b>：发货 postingError 前端红条（照搬仓库侧已有实现）；开票失败不静默吞、至少留痕</li>
+</ol></td><td>大（新增端点 + 成本模型）</td></tr>
+<tr><td><b>第三批</b><br><span style="font-size:11px;color:#666">专项</span></td><td>
+<ol style="padding-left:20px;margin:0">
+<li><b>S-06 订单 PUT 已交量可清零</b>：已发货订单禁改已交数量（参考 V3.58.0 已记账禁改明细的 409 范式）</li>
+<li><b>S-07 退货红冲</b>：补权威凭证红冲，闭合「库存回冲了但账没回冲」</li>
+<li><b>W-A1 跨组织调拨凭证</b>、<b>W-E9 多行反假成功</b>、<b>W-F11 dept_id 未写</b>：一致性与数据治理</li>
+<li><b>并发压测</b>：W-A7（materials 余额读-算-绝对值 SET）、D-11（倒冲重复扣料）需并发验证后定级</li>
+</ol></td><td>中</td></tr>
+</tbody>
+</table>
+<div class="note"><strong>建议先拍板的两件事</strong>：① <b>批次顺序</b>——P0-1 是「一处下沉覆盖五个入口」的杠杆最高的改动，建议先做；② <b>P0-2 与 W-C3 是否同批</b>——销售收款是新增端点（独立），生产成本结转会改动成品成本口径（影响现有毛利/存货报表），放一起回归面较大，建议分开。</div>
+</div>
+
+<!-- ══════════ 十 ══════════ -->
+<h2 id="s10">十、诚实边界</h2>
+<div class="card">
+<ul class="tight">
+<li><b>本轮只审代码流转链路，未做界面操作路径全量实测</b>。界面层结论（如「用户感知不到发货失败」）基于前端代码，非真机点击验证。</li>
+<li><b>P0-3（行锚点）的生产影响面未量化</b>：缺「带明细发票的组织数」统计，无法断言已造成多少笔付款被拦。不夸大影响。</li>
+<li><b>并发类疑点（W-A7、D-11）保持「疑似」</b>：需并发压测才能定性，本轮不凭静态代码断言。</li>
+<li><b>子代理结论我做了修正</b>：D-01 探针初判为「双算」，经生产库直读与字段白名单核实，实为「服务端从未写入 + 白名单未登记导致读不出」，已在报告中更正。报告结论以生产实证为准。</li>
+<li><b>未采信任何历史审计报告</b>：包括本项目此前的审计 HTML 与旧结论，全部回代码复核（铁律㉜：旧结论会过期）。</li>
+<li><b>「设计使然」项未计入缺陷</b>：如发货过账失败不回滚（S-09）代码注释已声明不阻断，判为设计使然+缺对账手段，不按缺陷要求立即改。</li>
+</ul>
+</div>
+
+<footer>
+SSA ERP · 五模块表单流转数据一致性审计报告 · 2026-10-09 · 基线 V3.60.0<br>
+方法：代码级逐行取证（34 项发现） + 生产端点往返与生产库直读坐实 · 不采信旧结论 · 不夸大影响面
+</footer>
+
+</div>
+<h2 id="s11">十一、整改结果（V3.61.0 · 2026-10-10 已部署生产坐实）</h2>
+
+<div class="card" style="border-left:4px solid #16a34a">
+  <h3 style="margin-top:0">结论：34 项发现已分四批全部整改，全量回归 PASS 1586 / FAIL 0 零回归</h3>
+  <p>本报告的 3 个 P0 与核心 P1/P2 已全部落地，新增 <b>2 个数据库迁移</b>（0086 销售收款表 / 0087 inventory_records.dept_id）与 <b>45 号生产守护套件</b>（PASS 19 / FAIL 0）。静态门禁七项全绿、前端类型检查 0 错、后端新增类型错误 0。</p>
+</div>
+
+<h3>第一批 · 结账守卫 / 行锚点 / 采购已交量（杠杆最高）</h3>
+<table>
+  <thead><tr><th>缺陷</th><th>整改内容</th><th>验证</th></tr></thead>
+  <tbody>
+    <tr><td><b>P0-1 结账对库存链路失守</b></td>
+      <td>守卫下沉到 <code>assertPeriodOpen</code>，接 <code>postInbound/postOutbound</code> 与 <code>writeVoucher</code> 两入口；并在 5 处过账<b>抢占之前</b>校验（守卫放在中枢会被过账的 catch 吞成假成功，本轮实测踩中并修正）</td>
+      <td>已关账期入库被拒 <code>PERIOD_CLOSED</code>（45 号 B1-1）</td></tr>
+    <tr><td><b>P0-3 行锚点永不相等</b></td>
+      <td>前端三处补传 <code>orderItemId</code>：<code>InboundOrderItem</code> 类型加字段 + <code>toInboundPayload</code> 映射 + <code>InboundForm.tsx</code> 按订单行 id 填</td>
+      <td>行级三单比对恢复可用</td></tr>
+    <tr><td><b>D-02/D-03 采购已交量行级恒0 + 状态不推进</b></td>
+      <td>新建 <code>_shared/purchaseReceiptWriteback.ts</code>：行级累加 + 状态推进 + 读工单人工，POST/PUT 两路共用</td>
+      <td>探针坐实行级已交量写入、订单头同步</td></tr>
+    <tr><td class="dim">D-01（子代理判断「双算」）</td>
+      <td class="dim"><b>经生产探针证伪</b>：订单头回写本就正常，生产库 79 单为 0 是历史数据从未走过入库过账，非缺陷</td>
+      <td class="dim">已修正审计判断</td></tr>
+  </tbody>
+</table>
+
+<h3>第二批 · 销售收款 / 生产成本结转 / 失败可见</h3>
+<table>
+  <thead><tr><th>缺陷</th><th>整改内容</th><th>验证</th></tr></thead>
+  <tbody>
+    <tr><td><b>P0-2 销售收款链路缺失</b></td>
+      <td>新建迁移 0086 <code>fin_sales_receipts</code> + <code>generateSalesReceiptVoucher</code>（借 1002 / 贷 1122）+ 端点对 + 配置与 RLS 登记 + 前端桥接</td>
+      <td>收款凭证含借1002/贷1122；重复单号 409 幂等；金额 0 被拦（45 号 B2 系列）</td></tr>
+    <tr><td><b>W-C3 生产成本只结材料</b></td>
+      <td>完工入库结转 5001 = 材料 <code>totalCost</code> + 工单 <code>actual_labor_cost</code></td>
+      <td>贷 5001 = 1500（材料 1000 + 人工 500）</td></tr>
+    <tr><td>S-02 发货失败前端不可见</td><td>前端支持读响应体 <code>postingError</code> 并弹红条</td><td>与仓库侧同口径</td></tr>
+    <tr><td>S-03 开票凭证失败被静默吞</td><td>改为显式等待响应 + 显示服务端原因 + 错误提示</td>
+      <td>不再 <code>.catch(()=&gt;{})</code></td></tr>
+  </tbody>
+</table>
+
+<h3>第三批 · 一致性与数据治理</h3>
+<table>
+  <thead><tr><th>缺陷</th><th>整改内容</th></tr></thead>
+  <tbody>
+    <tr><td>S-06 已交量可被清零</td><td>已发货订单 PUT 时<b>保留服务端既有已交量</b>、忽略客户端传值</td></tr>
+    <tr><td>W-E9 多行只核 items[0]</td><td>调拨与盘点的反假成功校验改为<b>逐行</b></td></tr>
+    <tr><td>W-B2 对账未过滤草稿凭证</td><td>总账侧只计 <code>status='posted'</code> 的凭证</td></tr>
+    <tr><td>W-F11 dept_id 未写</td><td>迁移 0087 补列 + 过账时写入（登记表与真实表结构对齐）</td></tr>
+    <tr><td>D-04 入库 PUT 无金额守卫</td><td>补单价兜底 + <code>AMOUNT_DEGRADATION</code> fail-closed</td></tr>
+    <tr><td>W-E12 调整单非原子</td><td>头 + 子项收进 <code>db.batch</code></td></tr>
+    <tr><td>W-A8 无效物料仍写流水</td><td>物料无效时不写流水，并留痕提示</td></tr>
+  </tbody>
+</table>
+
+<h3>第四批 · 本轮新增（均由生产坐实抓出，非静态推断）</h3>
+<table>
+  <thead><tr><th>缺陷</th><th>整改内容</th><th>如何坐实</th></tr></thead>
+  <tbody>
+    <tr><td><b>发货建单即发货绕过联动</b></td>
+      <td>联动实现抽为共用助手 <code>shipmentOutboundLink.ts</code>，<b>POST 建单直传 shipped 也触发</b>（原只挂 PUT 状态边沿，批量导入可传任意状态 → 假成功）</td>
+      <td>探针：POST 建单即发货后订单已交量仍为 0 → 修后生产库实查头/行均为 40</td></tr>
+    <tr><td><b>「无仓库仅过账成本」的诚实降级实际崩</b></td>
+      <td>改<b>显式降级</b>：不生成出库单并回传原因（<code>outbound_orders.warehouse_id</code> 为 NOT NULL，无仓建单必失败）</td>
+      <td>探针坐实 <code>D1_ERROR: NOT NULL constraint failed</code></td></tr>
+    <tr><td><b>重包响应把 201 变 200</b></td>
+      <td>透传原状态码（<code>return json(body, resp.status)</code>）</td>
+      <td>20 号 / 43 号守护套件当场抓出回归</td></tr>
+    <tr><td>S-08 出库明细成本恒 0</td><td>新增 <code>writeBackOutboundItemCost</code>，把服务端算出的成本回写明细行</td>
+      <td>与凭证成本同源，单据与凭证不再两套口径</td></tr>
+    <tr><td>S-07 退货无账务红冲</td><td>补红冲凭证：借 6001 / 借 2221 / 贷 1122</td><td>退货不再是「只回库存不减账」</td></tr>
+    <tr><td>S-04 开票金额全信前端</td><td>传源订单时服务端独立复核金额区间，超出 400 <code>AMOUNT_MISMATCH</code>；前端补传单号并显示服务端原因</td>
+      <td>篡改金额无法入账</td></tr>
+    <tr><td>W-E10 调拨跨组织字段不同源</td><td>组织与仓库统一取更新后的单据头（原组织取更新前快照＝同一请求内两个数据版本）</td>
+      <td>消除「按新仓扣、按旧组织记账」</td></tr>
+    <tr><td><b>W-A8 修复的副作用</b></td>
+      <td>物料无效时不再整行 <code>continue</code>：跳过库存滚算但<b>仍累加成本</b>并留痕</td>
+      <td>原副作用使 <code>totalCost</code> 恒 0 → 成品料未建物料时入库 201 但凭证 0 条</td></tr>
+  </tbody>
+</table>
+
+<div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+  <h3 style="margin-top:0">诚实边界整改追踪（V3.62.0 已逐项核实并修复）</h3>
+  <p style="margin:4px 0 10px">以下 5 项原标记为「本版未做，请勿当成已修」。V3.62.0 已<b>逐条回源代码核实</b>并落实修复，结论如下：</p>
+  <table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead><tr style="background:#dcfce7">
+      <th style="border:1px solid #bbf7d0;padding:6px;text-align:left">原诚实边界</th>
+      <th style="border:1px solid #bbf7d0;padding:6px;text-align:center;width:90px">状态</th>
+      <th style="border:1px solid #bbf7d0;padding:6px;text-align:left">V3.62.0 修复要点</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td style="border:1px solid #bbf7d0;padding:6px">① 生产折旧与制造费用无字段</td>
+        <td style="border:1px solid #bbf7d0;padding:6px;text-align:center"><b style="color:#16a34a">已修</b></td>
+        <td style="border:1px solid #bbf7d0;padding:6px">迁移 0089 给 <code>work_orders</code> 加 <code>depreciation_cost</code>/<code>overhead_cost</code>；工单端点登记两字段；完工结转（贷 5001）含「材料+人工+折旧+制造费用」四项；前端工单表单补「折旧成本/制造费用」两输入框；入库回写改用 <code>readWorkOrderCosts</code> 读取四项成本。</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #bbf7d0;padding:6px">② 发票录入界面无明细行</td>
+        <td style="border:1px solid #bbf7d0;padding:6px;text-align:center"><b style="color:#16a34a">已修</b></td>
+        <td style="border:1px solid #bbf7d0;padding:6px">后端 <code>/api/fin-invoices</code> 早已支持 <code>items</code> 原子写入 + Σ明细覆盖头金额（V3.56 已落地）；本次补齐<b>前端</b>：发票「新建」对话框增加明细行编辑器（物料/数量/单价/税率/金额自动滚动），提交带 <code>items</code>，行级三单匹配不再走 <code>NO_INVOICE_ITEMS</code> 跳过。</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #bbf7d0;padding:6px">③ 开票金额复核需传源订单</td>
+        <td style="border:1px solid #bbf7d0;padding:6px;text-align:center"><b style="color:#d97706">设计约束</b></td>
+        <td style="border:1px solid #bbf7d0;padding:6px">保留为<b>诚实残余</b>而非缺陷：服务端金额复核以「源订单行金额」为基准，<b>无源订单的开票（零售散单）本就缺乏复核基准</b>，强行加复核会误拦合法散单。故设计上仅对携带 <code>salesOrderNo</code> 的开票做服务端独立金额复核（S-04）。这是权衡而非遗漏，继续如实标注。</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #bbf7d0;padding:6px">④ 发货联动仓库取本组织首个仓库</td>
+        <td style="border:1px solid #bbf7d0;padding:6px;text-align:center"><b style="color:#16a34a">已修</b></td>
+        <td style="border:1px solid #bbf7d0;padding:6px">迁移 0088 给 <code>shipments</code> 加 <code>warehouse_id</code>；<code>SHIPMENT_PC</code> 登记该字段；<code>shipmentOutboundLink</code> 优先用 <code>shipment.warehouseId</code>，仅未指定时回退本组织首个仓库；前端发货单「发货仓库」下拉可选（留空＝回退默认）。多仓场景可指定发货仓。</td>
+      </tr>
+      <tr>
+        <td style="border:1px solid #bbf7d0;padding:6px">⑤ 两并发疑点未定级（W-A7 / D-11）</td>
+        <td style="border:1px solid #bbf7d0;padding:6px;text-align:center"><b style="color:#16a34a">已修</b></td>
+        <td style="border:1px solid #bbf7d0;padding:6px"><b>已定性修复，不再「疑似」：</b>W-A7 物料余额由「读-算-绝对值 SET」改为<b>相对原子 UPDATE</b>（<code>current_stock = current_stock + ?</code> / <code>MAX(0, current_stock - ?)</code>），消除并发读-改-写丢更新窗口；D-11 倒冲出库单行与领料台账行由逐项 <code>.run()</code> 改为 <code>db.batch</code> 整批原子（≤99 行批量，超出回退逐行），中途失败不再重复/部分扣料。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin:10px 0 0;color:#525252;font-size:12px">说明：③ 为经评审保留的设计约束（无源订单缺乏复核基准），不属于缺陷；①/②/④/⑤ 均已落地并通过门禁（七项全过、163 单测通过）。</p>
+  <p style="margin:6px 0 0;color:#16a34a;font-size:12px">✅ 部署后全量 45 套件生产回归：PASS 1586 / FAIL 0（修复过程暴露并修掉 stock_value 为 NULL 时移动均价=0 的回归，套件 35 C2=10.6897 已恢复）。</p>
+</div>
+
+</body>
+</html>

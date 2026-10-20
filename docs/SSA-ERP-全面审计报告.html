@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SSA ERP 全面审计报告</title>
+<style>
+  :root{
+    --ink:#1f2329; --sub:#5b6470; --line:#e6e9ee; --bg:#f7f8fa; --card:#ffffff;
+    --p0:#c62828; --p0bg:#fdecea; --p1:#e07b00; --p1bg:#fff5e6; --p2:#1565c0; --p2bg:#eaf3fd;
+    --ok:#1b7f4b; --okbg:#e8f6ee;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",Arial,sans-serif;
+    font-size:15px;line-height:1.75;}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px;}
+  header.cover{background:linear-gradient(135deg,#1e3a5f,#2b5c8a);color:#fff;border-radius:14px;
+    padding:36px 34px;margin-bottom:26px;box-shadow:0 8px 26px rgba(20,40,70,.18);}
+  header.cover h1{margin:0 0 8px;font-size:27px;letter-spacing:.5px;}
+  header.cover .sub{opacity:.9;font-size:14px;}
+  header.cover .meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;}
+  header.cover .meta span{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+    border-radius:999px;padding:4px 13px;font-size:13px;}
+  h2{font-size:20px;margin:38px 0 6px;padding-left:12px;border-left:5px solid #2b5c8a;}
+  h3{font-size:16px;margin:24px 0 8px;color:#243b53;}
+  p{margin:8px 0;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:14px 0;
+    box-shadow:0 1px 3px rgba(20,40,70,.05);}
+  .lead{font-size:15.5px;}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;background:#fff;}
+  th,td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left;}
+  th{background:#f0f3f7;color:#33475b;font-weight:600;white-space:nowrap;}
+  code{background:#f1f3f6;border:1px solid #e3e7ec;border-radius:4px;padding:1px 5px;
+    font-family:Consolas,"Courier New",monospace;font-size:12.5px;color:#b5305a;word-break:break-all;}
+  .tag{display:inline-block;border-radius:5px;padding:1px 8px;font-size:12px;font-weight:700;white-space:nowrap;}
+  .p0{background:var(--p0bg);color:var(--p0);border:1px solid #f3c2bd;}
+  .p1{background:var(--p1bg);color:var(--p1);border:1px solid #f6d9a8;}
+  .p2{background:var(--p2bg);color:var(--p2);border:1px solid #bfdaf5;}
+  .ok{background:var(--okbg);color:var(--ok);border:1px solid #b9e3ca;}
+  .stat{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0;}
+  .stat .box{flex:1;min-width:150px;background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:16px;text-align:center;}
+  .stat .box .n{font-size:28px;font-weight:800;color:#2b5c8a;line-height:1.2;}
+  .stat .box .l{font-size:13px;color:var(--sub);margin-top:4px;}
+  .note{background:#fffbea;border:1px solid #f2e2a8;border-radius:10px;padding:14px 16px;font-size:14px;}
+  .good{background:var(--okbg);border:1px solid #b9e3ca;border-radius:10px;padding:14px 16px;font-size:14px;}
+  ul,ol{margin:8px 0;padding-left:22px;}
+  li{margin:5px 0;}
+  .path{color:#33475b;font-family:Consolas,monospace;font-size:12.5px;}
+  footer{margin-top:48px;color:var(--sub);font-size:12.5px;text-align:center;border-top:1px dashed var(--line);padding-top:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <h1>SSA ERP 系统全面审计报告</h1>
+    <div class="sub">面向非技术视角 · 只看代码·表单·页面，不依赖项目文档</div>
+    <div class="meta">
+      <span>版本 V3.91.0（2026-10-16 构建）</span>
+      <span>审计日期 2026-10-19</span>
+      <span>范围 219 个页面 / 100 个后端接口</span>
+      <span>方法 代码通读 + 表单/页面实测取证</span>
+    </div>
+  </header>
+
+  <div class="card lead">
+    <p><b>一句话结论：</b>系统的「骨架」是可靠的——权限隔离（RLS）做得相当扎实、后端异常有兜底、发布流程规范；
+    但「血肉」里混进了大量<b>演示数据、写死的假值、以及点了没真正保存的假按钮</b>。目前最需要警惕的不是系统崩溃，
+    而是<b>它会在你没察觉的时候，给你看一份"看起来对、其实不真"的数据</b>。</p>
+  </div>
+
+  <h2>一、总体问题分级</h2>
+  <div class="stat">
+    <div class="box"><div class="n" style="color:#c62828">4</div><div class="l">严重问题（P0）<br>数据失真 / 假保存 / 死链</div></div>
+    <div class="box"><div class="n" style="color:#e07b00">6</div><div class="l">重要问题（P1）<br>体验割裂 / 模拟冒充</div></div>
+    <div class="box"><div class="n" style="color:#1565c0">5</div><div class="l">一般问题（P2）<br>一致性 / 打磨</div></div>
+    <div class="box"><div class="n" style="color:#1b7f4b">3</div><div class="l">做得好的地方<br>权限 / 兜底 / 发布</div></div>
+  </div>
+
+  <h3>问题清单总表</h3>
+  <table>
+    <thead>
+      <tr><th>编号</th><th>维度</th><th>等级</th><th>位置（证据）</th><th>问题现象</th><th>影响</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>P0-1</td><td>数据不准确</td><td><span class="tag p0">严重</span></td>
+        <td class="path">BOM/BOMDetail.tsx:81-101</td>
+        <td>物料需求（MRP）计算时，现有库存、安全库存、在途数量<b>全部写死为 0</b>，建议采购量直接等于需求量。</td>
+        <td>采购建议失真，可能重复采购或漏采购。</td></tr>
+      <tr><td>P0-2</td><td>使用不方便</td><td><span class="tag p0">严重</span></td>
+        <td class="path">Warehouse/InspectionNotice.tsx:364、Vendor/VendorRegister.tsx:289、Vendor/VendorProfilePage.tsx:288、Quality/UnqualifiedList.tsx:142、Vendor/VendorQuotation.tsx:575</td>
+        <td>多个「暂存 / 保存」按钮实际只弹出「已暂存（演示模式）」提示，<b>数据并未写入系统</b>。</td>
+        <td>用户以为已保存，刷新后数据消失，造成返工和信任受损。</td></tr>
+      <tr><td>P0-3</td><td>数据不准确</td><td><span class="tag p0">严重</span></td>
+        <td class="path">Dashboard/Dashboard.tsx:148-187、203</td>
+        <td>首页的趋势箭头（涨跌百分比）、待我审批、待办事项、最近动态、三张图表（月度采购/质量合格率/库存结构）<b>全部是写死的演示数组</b>；页头日期写死为「2026年6月23日」。</td>
+        <td>管理者首屏看到的不是真实经营数据，决策被误导。</td></tr>
+      <tr><td>P0-4</td><td>页面不合理</td><td><span class="tag p0">严重</span></td>
+        <td class="path">Dashboard/Dashboard.tsx 中 KPI 路径 '/purchase/list'；App.tsx 无该路由</td>
+        <td>首页「采购申请数」卡片点击后跳转到一个<b>不存在的路由</b>，页面空白。</td>
+        <td>核心入口点不动，用户以为系统坏了。</td></tr>
+
+      <tr><td>P1-1</td><td>使用不方便</td><td><span class="tag p1">重要</span></td>
+        <td class="path">约 40 处页面 + DataTable.tsx:604/610/667/674/735 + pdfExport.ts:24/158/164；confirm 见 VoucherTemplateList.tsx:73、CustomFieldTab.tsx:85/92 等</td>
+        <td>大量使用浏览器原生 alert / confirm 弹窗，与系统内统一的轻提示风格不一致，且会阻断操作、样式老旧。</td>
+        <td>体验割裂，像"半成品"；部分弹窗还夹带金额/授信等敏感信息。</td></tr>
+      <tr><td>P1-2</td><td>数据不准确</td><td><span class="tag p1">重要</span></td>
+        <td class="path">Vendor/VendorFinancePage.tsx、Vendor/VendorProfilePage.tsx 等</td>
+        <td>缺省供应商被写死为固定名字与固定编号（如「上海宝钢…」、<code>ven-001</code>）。</td>
+        <td>异常或未登录时会展示"假主体"，误导经办人。</td></tr>
+      <tr><td>P1-3</td><td>数据不准确</td><td><span class="tag p1">重要</span></td>
+        <td class="path">FlowSelfTest / 多处演示填充逻辑，写入 SO-DEMO-*、示例客户名、示例金额</td>
+        <td>自检/演示按钮会把假数据写进真实数据仓库。</td>
+        <td>污染真实台账，报表口径被污染且难以清理。</td></tr>
+      <tr><td>P1-4</td><td>页面不合理</td><td><span class="tag p1">重要</span></td>
+        <td class="path">IntegrationTab.tsx:84、MesIntegrationList.tsx:164/172、LogisticsWaybill、WaveRfidList.tsx:163、CashFlowStatement、GanttSchedule.tsx:26、Price/InquiryForm.tsx:47/203</td>
+        <td>部分功能为"模拟/开发中"实现，但界面上未充分明确标注。</td>
+        <td>用户误当成可用功能，产生错误预期。</td></tr>
+      <tr><td>P1-5</td><td>表单不联动</td><td><span class="tag p1">重要</span></td>
+        <td class="path">Sales/SalesOrderForm.tsx、Purchase/OrderForm.tsx:627/733/742/756/777</td>
+        <td>表单校验方式不统一：有的用内联红字、有的用 alert 弹多行错误；销售订单选客户不会自动带出项目、销售员默认写死「陈伟」。</td>
+        <td>操作路径不顺畅，容易漏填、重复填。</td></tr>
+      <tr><td>P1-6</td><td>数据不准确</td><td><span class="tag p1">重要</span></td>
+        <td class="path">src/config/recordSources.ts（部分数据源缺 loadedGate/ensureLoaded）</td>
+        <td>全局搜索的部分台账源未做"加载闸门"，可能把本地种子数据搜出来。</td>
+        <td>搜索结果真假混杂。</td></tr>
+
+      <tr><td>P2-1</td><td>页面不合理</td><td><span class="tag p2">一般</span></td>
+        <td class="path">Dashboard 各图表组件</td>
+        <td>图表缺少"无数据"空状态与时间范围筛选。</td>
+        <td>数据为空时显示异常，影响观感。</td></tr>
+      <tr><td>P2-2</td><td>使用不方便</td><td><span class="tag p2">一般</span></td>
+        <td class="path">各"演示模式"横幅/按钮</td>
+        <td>演示提示文案冗长，占用版面。</td>
+        <td>干扰真实操作视线。</td></tr>
+      <tr><td>P2-3</td><td>数据不准确</td><td><span class="tag p2">一般</span></td>
+        <td class="path">各 store 中大量 <code>Math.random()</code> / <code>Date.now()</code> 生成编号</td>
+        <td>单据编号本地随机生成，而非后端统一发号。</td>
+        <td>多端并发时可能重号，编号不可追溯。</td></tr>
+      <tr><td>P2-4</td><td>表单不联动</td><td><span class="tag p2">一般</span></td>
+        <td class="path">Purchase/OrderForm.tsx 前段、SalesOrderForm.tsx</td>
+        <td>供应商/客户选择后的联动（黑名单、授信、价格）实现分散，规则不集中。</td>
+        <td>后续新增校验易遗漏。</td></tr>
+      <tr><td>P2-5</td><td>使用不方便</td><td><span class="tag p2">一般</span></td>
+        <td class="path">全局</td>
+        <td>错误提示多为一次性弹窗，缺少可回溯的历史/日志入口。</td>
+        <td>问题发生后难以复盘。</td></tr>
+    </tbody>
+  </table>
+
+  <h2>二、按四个维度详解</h2>
+
+  <h3>1）数据不准确 —— 最需要优先处理</h3>
+  <div class="card">
+    <p><b>典型证据一：BOM 详情里的物料需求运算。</b>在 <code>BOM/BOMDetail.tsx:81-101</code> 中，运算用的
+    "现有库存 / 安全库存 / 在途数量"三个关键量都被写成了 0，于是"建议采购量"就等于"需求量"。这等于把这套
+    运算的意义抹掉了——只要实际仓里还有货、还有在途货，系统给出的采购建议就是偏大的。</p>
+    <p><b>典型证据二：首页数据。</b><code>Dashboard/Dashboard.tsx</code> 里，趋势数字（如 12、5、3）、
+    待审批列表、待办、最近动态、三张统计图的数据数组、页头日期，全部是写死的。也就是说，当前首页更像一张
+    "效果图"，不是实时看板。</p>
+    <p><b>典型证据三：假主体。</b>供应商相关页面把默认供应商写死成固定名称和 <code>ven-001</code>，一旦
+    上下文缺失就会显示这家"假公司"。</p>
+    <p><b>典型证据四：演示数据回流。</b>自检/一键演示逻辑会往真实仓库写入 <code>SO-DEMO-*</code> 之类的
+    假单据和假金额，属于"污染源"。</p>
+  </div>
+
+  <h3>2）表单不联动 —— 操作不顺、规则分散</h3>
+  <div class="card">
+    <ul>
+      <li><b>选择动作不自动带值：</b>销售订单里选了客户，不会自动带出所属项目；反向选了项目才带客户。而销售员字段干脆默认写死「陈伟」。</li>
+      <li><b>校验风格打架：</b>采购订单用浏览器 <code>alert</code> 一次弹出多行错误（黑名单、授信、必填），销售订单则混用内联提示。用户面对的是"同一类错误、不同种提示"。</li>
+      <li><b>规则不成体系：</b>黑名单、授信、价格这些联动逻辑散落在各表单里，没有统一入口，日后加规则容易漏。</li>
+    </ul>
+  </div>
+
+  <h3>3）页面不合理 —— 死链与"看起来能用其实不能用"</h3>
+  <div class="card">
+    <p><b>死链：</b>首页「采购申请数」卡片的跳转地址是 <code>/purchase/list</code>，而路由表
+    <code>src/App.tsx</code> 里根本没有这个路径（采购只有 <code>/purchase/requests</code> 等），点击后落在空白页。</p>
+    <p><b>模拟功能未标明：</b>外部对接、制造执行同步、物流运单取号/轨迹、电子标签扫描、现金流量表的投资/筹资
+    段、生产甘特图、客户询价等，均为模拟或"开发中"，但界面标注不足，容易被误认为真实可用。</p>
+    <p><b>演示横幅过多：</b>个别页面的"演示模式"提示占用大量版面。</p>
+  </div>
+
+  <h3>4）使用不方便 —— 假按钮与原生弹窗最伤体验</h3>
+  <div class="card">
+    <p><b>假保存：</b>至少 5 处"暂存/保存"按钮只弹提示不落库。这是最伤用户信任的问题——因为它让人
+    "以为做完了"。</p>
+    <p><b>原生弹窗泛滥：</b>约 40 处页面在使用浏览器 <code>alert/confirm</code>，包括公共组件
+    <code>DataTable.tsx</code> 和导出工具 <code>pdfExport.ts</code>，等于把这个坏习惯传染到了所有表格页。</p>
+    <p><b>错误无痕迹：</b>提示一闪而过，没有集中的错误日志入口可回查。</p>
+  </div>
+
+  <h2>三、做得好的地方（保持）</h2>
+  <div class="good">
+    <ul>
+      <li><b>权限隔离扎实：</b><code>functions/_shared/rls.ts</code> 做到了全量登记、显式豁免、未登记默认拒绝（<code>1=0</code>），并带一致性自检函数。这块可以放心。</li>
+      <li><b>后端有兜底：</b><code>functions/_middleware.ts</code> 对 /api 做了统一异常返回，并保留后台任务心跳兜底。</li>
+      <li><b>发布规范：</b>先构建后部署、版本三处同步、E2E 回归，流程是规范的。</li>
+    </ul>
+  </div>
+
+  <h2>四、整改建议与优先级路线</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>内容</th><th>对应问题</th><th>预期效果</th></tr></thead>
+    <tbody>
+      <tr><td>第一步<br>（立刻）</td><td>修首页死链；BOM 运算接入真实库存；把"假保存"改成真落库或明确禁用并标注。</td><td>P0-1、P0-2、P0-4</td><td>阻止"数据骗人"和"点了没反应"。</td></tr>
+      <tr><td>第二步<br>（近期）</td><td>首页看板接真实数据（趋势/图表/待办/动态/日期）；清除硬编码供应商与默认人名。</td><td>P0-3、P1-2</td><td>首屏可信，主体正确。</td></tr>
+      <tr><td>第三步<br>（近期）</td><td>原生 alert/confirm 全量替换为系统内轻提示；演示/自检数据隔离到独立命名空间，禁止写入真实台账。</td><td>P1-1、P1-3</td><td>体验统一，台账干净。</td></tr>
+      <tr><td>第四步<br>（持续）</td><td>统一表单联动与校验框架；给所有"模拟/开发中"功能加显式标识；补图表空状态与筛选。</td><td>P1-4、P1-5、P2-1、P2-4</td><td>规则集中、预期清晰。</td></tr>
+      <tr><td>第五步<br>（持续）</td><td>单据编号改后端统一发号；全局搜索补齐加载闸门；增加错误日志入口。</td><td>P2-3、P1-6、P2-5</td><td>编号可追溯，搜索可信，问题可复盘。</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>给强哥的通俗提醒：</b>当前系统可以正常使用，但请把首页看板当作"示意效果"，不要据此做经营判断；
+    凡涉及"暂存/保存"而只弹提示的页面，请勿视为已保存。建议先按"第一步"三个问题发一轮修复，这几项改动小、
+    见效快、风险低。
+  </div>
+
+  <footer>
+    本报告由代码与页面实测证据生成，未引用项目文档。证据均标注「文件:行号」以便复核。<br>
+    SSA ERP · 审计报告 · 2026-10-19
+  </footer>
+
+</div>
+</body>
+</html>

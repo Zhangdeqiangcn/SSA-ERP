@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP 电商化 P1 执行进展（B 路线）</title>
+<style>
+  :root { --green:#16a34a; --gray:#94a3b8; --blue:#2563eb; --bg:#f8fafc; --card:#fff; --line:#e2e8f0; --txt:#0f172a; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--txt); line-height:1.6; }
+  .wrap { max-width:960px; margin:0 auto; padding:32px 24px 64px; }
+  h1 { font-size:24px; margin:0 0 4px; }
+  h2 { font-size:18px; margin:32px 0 12px; border-left:4px solid var(--blue); padding-left:10px; }
+  .sub { color:#64748b; margin:0 0 24px; }
+  .verdict { background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:16px 20px; font-size:15px; }
+  .ok { color:var(--green); font-weight:700; }
+  .pending { color:var(--gray); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px 20px; margin:12px 0; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+  th { background:#f1f5f9; font-weight:600; }
+  code { background:#f1f5f9; padding:1px 6px; border-radius:4px; font-size:13px; }
+  .tag { display:inline-block; font-size:12px; padding:2px 8px; border-radius:999px; }
+  .tag.ok { background:#dcfce7; color:#166534; }
+  .tag.pen { background:#f1f5f9; color:#64748b; }
+  svg { width:100%; height:auto; }
+  .note { background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; font-size:13px; color:#92400e; }
+  .step { font-size:14px; margin:6px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP 电商化 · P1 执行进展</h1>
+  <p class="sub">路线：B 路线（自建电商前端，对标吉客云「工贸一体」） · 阶段：第一阶段地基已落地并验证</p>
+
+  <div class="verdict">
+    <strong>结论：</strong>P1 第一阶段地基已搭好并通过验证——<span class="ok">平台连接器抽象层 + 订单中台 + 边缘函数接入 + 契约测试门禁</span>全部就位，抖音/拼多多适配器骨架完成（归一化逻辑已测通）。新增<span class="ok">「登录即连接」OAuth 配置界面</span>（系统设置 → 集成与开发 → 电商平台连接），未配密钥时走<b>模拟授权</b>（界面与流程全真、令牌标"模拟"），待强哥在开放平台注册应用并填入密钥即自动切真实 OAuth。当前状态是「<b>框架就位、配置界面已交付、待接真实平台密钥</b>」。
+  </div>
+
+  <h2>一、架构分层（绿=已建，灰=待建）</h2>
+  <div class="card">
+    <svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="13">
+      <defs>
+        <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#475569"/>
+        </marker>
+      </defs>
+      <!-- 电商平台 -->
+      <rect x="20" y="20" width="150" height="60" rx="8" fill="#e0f2fe" stroke="#0284c7"/>
+      <text x="95" y="44" text-anchor="middle" fill="#075985" font-weight="bold">抖音 / 拼多多</text>
+      <text x="95" y="62" text-anchor="middle" fill="#075985">等电商平台</text>
+      <!-- 连接器层 -->
+      <rect x="210" y="20" width="170" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+      <text x="295" y="40" text-anchor="middle" fill="#14532d" font-weight="bold">① 平台连接器层</text>
+      <text x="295" y="58" text-anchor="middle" fill="#14532d">Adapter（已建）</text>
+      <!-- 订单中台 -->
+      <rect x="420" y="20" width="170" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+      <text x="505" y="40" text-anchor="middle" fill="#14532d" font-weight="bold">② 订单中台</text>
+      <text x="505" y="58" text-anchor="middle" fill="#14532d">Order Hub（已建）</text>
+      <!-- 仓储执行 -->
+      <rect x="420" y="100" width="170" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+      <text x="505" y="120" text-anchor="middle" fill="#14532d" font-weight="bold">③ 仓储执行层</text>
+      <text x="505" y="138" text-anchor="middle" fill="#14532d">WMS（已建 P1-5）</text>
+      <!-- 物流面单 -->
+      <rect x="420" y="180" width="170" height="60" rx="8" fill="#dcfce7" stroke="#16a34a"/>
+      <text x="505" y="200" text-anchor="middle" fill="#14532d" font-weight="bold">④ 物流面单</text>
+      <text x="505" y="218" text-anchor="middle" fill="#14532d">Logistics（已建 P1-6）</text>
+      <!-- SSA 制造后端 -->
+      <rect x="620" y="100" width="120" height="60" rx="8" fill="#ede9fe" stroke="#7c3aed"/>
+      <text x="680" y="120" text-anchor="middle" fill="#5b21b6" font-weight="bold">SSA 制造后端</text>
+      <text x="680" y="138" text-anchor="middle" fill="#5b21b6">BOM/MRP/质量</text>
+      <!-- 连线 -->
+      <line x1="170" y1="50" x2="208" y2="50" stroke="#475569" marker-end="url(#ar)"/>
+      <line x1="380" y1="50" x2="418" y2="50" stroke="#475569" marker-end="url(#ar)"/>
+      <line x1="505" y1="80" x2="505" y2="98" stroke="#475569" marker-end="url(#ar)"/>
+      <line x1="505" y1="160" x2="505" y2="178" stroke="#475569" marker-end="url(#ar)"/>
+      <line x1="590" y1="130" x2="618" y2="130" stroke="#475569" marker-end="url(#ar)"/>
+    </svg>
+  </div>
+
+  <h2>二、本次交付（已验证）</h2>
+  <div class="card">
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 主类型检查（tsc）：0 错误</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 契约测试：5/5（抖音/拼多多归一化、分→元、含税拆税、结构一致、异常不静默）</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 边缘函数类型检查：0 错误</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> P1-5 回归：11/11（波次聚合 / 拣货 / 发货校验各路径）；全量单测 199 全过无回归</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 一致性门禁：全绿（8 张 P1 表已上云，僵尸登记 0）</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 生产构建：成功</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> P1-6 回归：13/13（运单校验 / 轨迹去重排序 / 状态推导 / 承运商适配器 Mock）；全量单测 212 全过无回归</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> P1-7 电商平台「登录即连接」OAuth 配置界面：8/8 单测全过；全量单测 220 全过无回归</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 状态色收敛门禁：0 违例（新增 PLATFORM_COLORS 平台品牌色已加 status-color-exception 豁免，业务状态色仍收敛到 StatusBadge）</p>
+    <p style="margin:4px 0"><span class="tag ok">通过</span> 一致性门禁（npm run check）：全绿（阻断项 0 失败）</p>
+  </div>
+
+  <h2>三、文件清单</h2>
+  <table>
+    <thead><tr><th>层</th><th>文件</th><th>作用</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td>前端·类型</td><td><code>src/services/channels/types.ts</code></td><td>共享类型 + 金额工具（含税价↔税额）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·适配器</td><td><code>src/services/channels/douyin.ts</code> / <code>pinduoduo.ts</code></td><td>平台归一化 + 调后端</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·注册表</td><td><code>src/services/channels/index.ts</code></td><td>新增平台即登记一行</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·接口</td><td><code>src/services/channelApi.ts</code></td><td>前端→后端封装</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·store</td><td><code>src/stores/orderHubStore.ts</code></td><td>订单中台 store（复用 createEntityStore 工厂）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>后端</td><td><code>functions/api/order-hub/index.ts</code></td><td>订单中台 CRUD（org 隔离+审计）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>后端</td><td><code>functions/api/channels/[platform].ts</code></td><td>渠道通道（密钥后端持有）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>数据库</td><td><code>migrations/0101_p1_ecommerce.sql</code></td><td>4 张新表（order_hub / 凭证 / 店铺绑定 / 同步日志）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>测试</td><td><code>test/unit/channel-contract.test.ts</code></td><td>契约门禁（防假接入）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>仓储·服务</td><td><code>src/services/fulfillment.ts</code> / <code>fulfillmentApi.ts</code></td><td>波次聚合 / 拣货 / 发货校验纯域逻辑 + 接口封装</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>仓储·store</td><td><code>src/stores/fulfillmentStore.ts</code></td><td>复用 <code>createEntityStore</code> 工厂（wave + pickTask/packRecord/shipCheck）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>仓储·后端</td><td><code>functions/api/fulfillment/{index,[id],pick,pack,ship-check}.ts</code></td><td>建波次按 SKU 聚合拣货；拣货拒超额；发货校验不静默放行</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>数据库</td><td><code>migrations/0102_p1_fulfillment.sql</code></td><td>4 张新表（waves / pick_tasks / pack_records / ship_checks）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>测试</td><td><code>test/unit/fulfillment.test.ts</code></td><td>P1-5 回归（11 例）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>物流·服务</td><td><code>src/services/logistics.ts</code> / <code>logisticsProviders.ts</code></td><td>运单校验 / 轨迹去重排序 / 状态推导 + 承运商适配器（抖音/拼多多/快递鸟 Mock）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>物流·store</td><td><code>src/stores/logisticsStore.ts</code></td><td>复用 <code>createEntityStore</code> 工厂（waybill + track）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>物流·后端</td><td><code>functions/api/logistics/{index,providers,track}.ts</code></td><td>建单取号 / 承运商列表 / 轨迹回写（去重幂等 + 状态推导）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>数据库</td><td><code>migrations/0106_p1_logistics.sql</code></td><td>2 张新表（waybills / logistics_tracks）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>测试</td><td><code>test/unit/logistics.test.ts</code></td><td>P1-6 回归（13 例）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>物流·UI</td><td><code>src/pages/Warehouse/LogisticsWaybill.tsx</code></td><td>面单打印（列表+预览+打印）+ 轨迹看板（时间线+模拟推送演示）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>数据库</td><td><code>migrations/0107_p1_channel_oauth.sql</code></td><td>channel_credentials 补 OAuth 字段（refresh_token / scope / auth_mode / status / shop_id / shop_name / is_mock，已上云）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>后端·助手</td><td><code>functions/_shared/channelOAuth.ts</code></td><td>平台 OAuth 元数据 + 授权 URL/令牌交换/刷新/Mock/凭据读写（抖音 client_key、拼多多 client_id 字段差异已处理）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>后端·端点</td><td><code>functions/api/channels/oauth/{start,mock,callback,status,app,manual,disconnect}.ts</code></td><td>7 个 OAuth 端点：start 下发授权 URL+state 防 CSRF；mock 模拟登录页；callback 校验 state 换令牌回写；status 状态查询；app 存密钥；manual 手动令牌；disconnect 断开</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·界面</td><td><code>src/pages/Settings/ChannelAuthTab.tsx</code></td><td>系统设置 → 集成与开发 → 电商平台连接：OAuth 登录即连接 + 模拟模式 + 手动令牌 + 配置密钥（密钥仅存服务端提示）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·注册</td><td><code>src/pages/Settings/Settings.tsx</code></td><td>集成与开发分组新增「电商平台连接」入口（adminOnly）</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>前端·接口</td><td><code>src/services/channelApi.ts</code></td><td>新增 oauthStatus / oauthStart / oauthSaveApp / oauthSaveManual / oauthDisconnect</td><td><span class="tag ok">已建</span></td></tr>
+      <tr><td>测试</td><td><code>test/unit/channelOAuth.test.ts</code></td><td>P1-7 回归（8 例：provider / 授权 URL 字段差异 / state / mock / 过期 / 令牌解析）</td><td><span class="tag ok">已建</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>四、关键设计决策</h2>
+  <div class="card">
+    <p class="step"><b>① 密钥安全：</b>电商平台 AppKey/AppSecret 只在后端（Functions）持有，前端只调 SSA 自有接口 <code>/api/channels/&lt;平台&gt;</code>——杜绝密钥泄露到浏览器。</p>
+    <p class="step"><b>② 复用优先：</b>订单中台 store 直接复用 SSA 已有的 <code>createEntityStore</code> 工厂，调用方零改动；4 张新表沿用既有 org 隔离 + 审计列范式。</p>
+    <p class="step"><b>③ 诚实降级：</b>未配置渠道凭证时后端返回明确错误（「未配置凭证」），<b>不静默假成功</b>。</p>
+    <p class="step"><b>④ 参考开源：</b>适配器采用 OpenLinker 的 Port/Adapter 模式；契约测试参考 TORGNEXA 的 connector 能力清单门禁；OAuth 流程参考 Shopify 连接应用、抖音/拼多多开放平台授权码标准。</p>
+    <p class="step"><b>⑤ 登录即连接（OAuth 2.0 授权码）</b>：start 下发平台授权 URL + state 防 CSRF Cookie；callback 校验 state 后用 code 换令牌并仅存后端（D1）；未配真实密钥时走<b>模拟授权</b>（界面与流程全真、令牌标"模拟"，绝不冒充真实平台）；AppKey/AppSecret/access_token <b>仅存服务端，前端永不接触</b>。配置界面内置「配置应用（密钥）」「手动填令牌」「断开」三种模式，覆盖真实 OAuth / 临时调试 / 解绑全场景。</p>
+  </div>
+
+  <h2>五、下一步（需强哥配合）</h2>
+  <div class="note">
+    <p style="margin:0 0 6px"><b>1. 开放平台注册应用 + 填密钥（最关键）</b>：在抖音/拼多多开放平台注册「自用型应用」拿到 AppKey/AppSecret，于系统设置 → 集成与开发 → 电商平台连接 点「配置应用」填入（<b>仅存后端 D1，前端不可见</b>）；并把回调地址配为 <code>https://ssa-erp.pages.dev/api/channels/oauth/callback</code>。配好后点「连接」即走真实 OAuth 授权码登录。若暂拿不到 AppSecret，可用「手动填令牌」先联调（access_token 同样仅存后端）。</p>
+    <p style="margin:0 0 6px"><b>2. 本地联调</b>：执行迁移 <code>wrangler d1 migrations apply ssa-erp-db --local</code> 建表，跑通「拉单→订单中台→仓储→面单→轨迹回写」全链路（UI/后端/store/服务/测试均已就位，<code>/warehouse/waybill</code> 与 <code>/settings?tab=channel-auth</code> 即可访问）。</p>
+    <p style="margin:0"><b>3. 已知技术债（独立专项）</b>：functions 严格类型检查有 59 处历史遗留错误（跨凭证/工单/财务等老模块），属独立"functions 类型收口"项，不在 P1-7 范围，本次 P1-7 代码零错误。</p>
+  </div>
+
+  <p style="margin-top:28px; color:#94a3b8; font-size:13px">生成于 2026-10-19 · SSA ERP P1 四层全落地（连接器 / 订单中台 / 仓储执行 / 物流面单）+ P1-7 电商平台「登录即连接」OAuth 配置界面</p>
+</div>
+</body>
+</html>

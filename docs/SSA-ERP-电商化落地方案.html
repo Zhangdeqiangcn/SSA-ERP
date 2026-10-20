@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP 电商化落地方案（对标聚水潭 / 吉客云 主要功能实现）</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2733; --sub:#5b6b7f;
+    --line:#e3e8ef; --brand:#1f6feb; --brand2:#0f9d8a; --warn:#d97706;
+    --danger:#dc2626; --ok:#15803d; --p0:#dc2626; --p1:#d97706; --p2:#2563eb;
+    --chip:#eef3fb;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 80px}
+  header.top{background:linear-gradient(120deg,#0f2a52,#1f6feb);color:#fff;border-radius:16px;padding:26px 30px;margin-bottom:22px}
+  header.top h1{margin:0 0 6px;font-size:25px}
+  header.top .meta{opacity:.9;font-size:13px}
+  .lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin-bottom:22px}
+  .lead h2{margin:0 0 12px;font-size:18px;color:var(--brand)}
+  .concl{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .concl .c{background:var(--chip);border-radius:10px;padding:14px 16px;border-left:4px solid var(--brand)}
+  .concl .c b{display:block;font-size:15px;margin-bottom:4px}
+  .concl .c span{font-size:13px;color:var(--sub)}
+  section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 26px;margin-bottom:20px}
+  section h2{font-size:19px;margin:0 0 14px;color:var(--brand);border-bottom:2px solid var(--line);padding-bottom:8px}
+  section h3{font-size:15px;margin:18px 0 8px;color:var(--ink)}
+  p{margin:8px 0;font-size:14px;color:#2b3645}
+  .muted{color:var(--sub);font-size:13px}
+  svg{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--line);border-radius:12px;margin:10px 0}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:10px 0}
+  th,td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+  th{background:#f0f4fa;color:#243044;font-weight:600}
+  tr:nth-child(even) td{background:#fafcff}
+  .tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:600;color:#fff}
+  .t-p0{background:var(--p0)} .t-p1{background:var(--p1)} .t-p2{background:var(--p2)}
+  .t-new{background:var(--brand2)} .t-reuse{background:#6b7280} .t-ref{background:#7c3aed}
+  .pill{display:inline-block;padding:2px 9px;border-radius:6px;background:var(--chip);color:#243044;font-size:12px;margin:2px 3px 0 0}
+  .gantt{display:grid;grid-template-columns:220px repeat(12,1fr);gap:0;font-size:12px}
+  .gantt .h{background:#243044;color:#fff;padding:6px 4px;text-align:center;font-weight:600}
+  .gantt .lab{background:#f0f4fa;padding:7px 8px;font-weight:600;border:1px solid var(--line)}
+  .gantt .cell{border:1px solid var(--line);min-height:30px;position:relative}
+  .bar{position:absolute;top:6px;height:16px;border-radius:4px}
+  .b-p0{background:var(--p0)} .b-p1{background:var(--p1)} .b-p2{background:var(--p2)}
+  .note{border-left:4px solid var(--warn);background:#fff8ec;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:10px 0}
+  .ok{border-left-color:var(--ok);background:#effaf1}
+  .risk{border-left:4px solid var(--danger);background:#fef2f2;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin:8px 0}
+  code{background:#eef1f5;padding:1px 5px;border-radius:4px;font-size:12px;color:#0f2a52}
+  ul{margin:8px 0;padding-left:20px;font-size:13.5px}
+  li{margin:4px 0}
+  .foot{text-align:center;color:var(--sub);font-size:12px;margin-top:30px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:860px){.concl,.two{grid-template-columns:1fr}.gantt{grid-template-columns:140px repeat(12,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>SSA ERP 电商化落地方案</h1>
+  <div class="meta">对标对象：聚水潭（电商履约型企业管理软件）/ 吉客云（业财+产供销一体型企业资源管理软件）　|　承接文档：《SSA-ERP-对标-吉客云聚水潭-分析报告》　|　日期：2026-10-16　|　版本：V1.0（实施蓝图）</div>
+</header>
+
+<!-- 一、结论先行 -->
+<div class="lead">
+  <h2>一、结论先行（强哥先看这里）</h2>
+  <p class="muted">先给判断，不绕弯子。本方案不是重写 SSA，而是在你现有的「制造后端」上，<b>叠加一层「电商前台」</b>，把聚水潭、吉客云的核心能力补齐。</p>
+  <div class="concl">
+    <div class="c"><b>① 复用大于新建</b><span>SSA 已有 85 个状态仓库、通用仓储工厂 createEntityStore、边缘函数接口层、Cloudflare 云数据库。新增电商域直接套用工厂，<b>调用方零改动</b>。</span></div>
+    <div class="c"><b>② 三层补位即可对标</b><span>补「平台连接器层 + 订单中台 + 仓储执行层（含物流面单）」三块，就能覆盖聚水潭/吉客云 80% 高频功能。</span></div>
+    <div class="c"><b>③ 先还自家债再接电商</b><span>SSA 现有「凭证无借贷平衡、采购无税价拆分、成本未闭环、退货税额写死 0」四笔账不先还，接电商只会把错账放大十倍。<b>P0 必须先做</b>。</span></div>
+  </div>
+  <div class="note ok" style="margin-top:14px">
+    <b>一句话路线图：</b>先还 P0 地基正确性四笔债 → 用开源 Port/Adapter（端口/适配器）模式搭 P1 电商接入框架（抖音/拼多多试点）→ 在 waveRfidStore + warehouseStore 骨架上补 P1 仓储执行（波次/拣货/面单）→ P2 做产供销一体深化、跨境、AI 经营助手、多租户软件即服务化。
+  </div>
+</div>
+
+<!-- 二、总体架构 -->
+<section>
+  <h2>二、总体架构（在 SSA 现有架构上叠加电商层）</h2>
+  <p>下图自上而下是「数据流入 → 业务处理 → 履约执行」链路。灰色虚线框是 SSA <b>已有</b>能力，蓝色实线框是 <b>本次新增</b>。所有新增域都复用底部通用仓储工厂与云数据库，不另起炉灶。</p>
+  <svg viewBox="0 0 960 560" role="img" aria-label="SSA 电商化总体架构图">
+    <defs>
+      <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+      </marker>
+      <style>
+        .t{font-size:13px;fill:#1f2733;font-family:"Microsoft YaHei",sans-serif}
+        .th{font-size:14px;fill:#fff;font-weight:700;font-family:"Microsoft YaHei",sans-serif}
+        .ts{font-size:11px;fill:#475569;font-family:"Microsoft YaHei",sans-serif}
+        .box{fill:#fff;stroke:#94a3b8;stroke-width:1.5}
+        .new{fill:#eef6ff;stroke:#1f6feb;stroke-width:2}
+        .old{fill:#f1f5f9;stroke:#94a3b8;stroke-width:1.5;stroke-dasharray:5 4}
+        .hd{fill:#1f6feb}
+        .hdg{fill:#0f2a52}
+        .hdn{fill:#0f9d8a}
+      </style>
+    </defs>
+
+    <!-- 标题带 -->
+    <rect x="0" y="0" width="960" height="34" fill="#0f2a52"/>
+    <text x="20" y="22" class="th">SSA ERP 电商化分层架构（虚线=已有 · 实蓝线=新增）</text>
+
+    <!-- 平台连接器层 -->
+    <rect x="40" y="56" width="880" height="86" rx="10" class="new"/>
+    <rect x="40" y="56" width="880" height="26" rx="10" class="hdn"/>
+    <text x="52" y="74" class="th">① 平台连接器层（Channel Adapters）— 借鉴 OpenLinker 端口模式 + TORGNEXA 能力清单</text>
+    <rect x="60" y="92" width="150" height="38" rx="6" class="box"/><text x="70" y="115" class="t">抖音电商</text>
+    <rect x="226" y="92" width="150" height="38" rx="6" class="box"/><text x="236" y="115" class="t">拼多多</text>
+    <rect x="392" y="92" width="150" height="38" rx="6" class="box"/><text x="402" y="115" class="t">淘宝/天猫</text>
+    <rect x="558" y="92" width="150" height="38" rx="6" class="box"/><text x="568" y="115" class="t">京东</text>
+    <rect x="724" y="92" width="150" height="38" rx="6" class="box"/><text x="734" y="115" class="t">快手小店（试点）</text>
+
+    <!-- 订单中台 -->
+    <rect x="40" y="160" width="880" height="78" rx="10" class="new"/>
+    <rect x="40" y="160" width="880" height="26" rx="10" class="hd"/>
+    <text x="52" y="178" class="th">② 订单中台（Order Hub）— 借鉴 lorinyo 统一订单+来源跟踪+状态机</text>
+    <rect x="60" y="196" width="200" height="32" rx="6" class="box"/><text x="70" y="217" class="t">统一订单模型（跨平台归一）</text>
+    <rect x="280" y="196" width="170" height="32" rx="6" class="box"/><text x="290" y="217" class="t">来源跟踪 / 状态机</text>
+    <rect x="470" y="196" width="170" height="32" rx="6" class="box"/><text x="480" y="217" class="t">退款/退货（RMA）</text>
+    <rect x="660" y="196" width="220" height="32" rx="6" class="box"/><text x="670" y="217" class="t">审单 / 拆单 / 合单 / 预售</text>
+
+    <!-- 仓储执行层 -->
+    <rect x="40" y="256" width="880" height="78" rx="10" class="new"/>
+    <rect x="40" y="256" width="880" height="26" rx="10" class="hd"/>
+    <text x="52" y="274" class="th">③ 仓储执行层（WMS）— 复用 waveRfidStore + warehouseStore，借鉴 open-wms 作业流</text>
+    <rect x="60" y="292" width="170" height="32" rx="6" class="box"/><text x="70" y="313" class="t">波次生成 / 拣货任务</text>
+    <rect x="246" y="292" width="170" height="32" rx="6" class="box"/><text x="256" y="313" class="t">PDA 扫码校验</text>
+    <rect x="432" y="292" width="170" height="32" rx="6" class="box"/><text x="442" y="313" class="t">配货 / 打包校验</text>
+    <rect x="618" y="292" width="150" height="32" rx="6" class="box"/><text x="628" y="313" class="t">库存占位锁</text>
+    <rect x="784" y="292" width="110" height="32" rx="6" class="box"/><text x="794" y="313" class="t">盘点盈亏</text>
+
+    <!-- 物流面单层 -->
+    <rect x="40" y="352" width="880" height="60" rx="10" class="new"/>
+    <rect x="40" y="352" width="880" height="26" rx="10" class="hdn"/>
+    <text x="52" y="370" class="th">④ 物流面单层（Logistics）— 借鉴 lorinyo 货代适配器：电子面单 / 轨迹回写</text>
+    <rect x="60" y="386" width="260" height="30" rx="6" class="box"/><text x="70" y="406" class="t">快递鸟/菜鸟 电子面单打印</text>
+    <rect x="340" y="386" width="260" height="30" rx="6" class="box"/><text x="350" y="406" class="t">运单号 + 物流轨迹回写</text>
+    <rect x="620" y="386" width="280" height="30" rx="6" class="box"/><text x="630" y="406" class="t">多物流商适配（顺丰/中通/京东）</text>
+
+    <!-- 已有核心层 -->
+    <rect x="40" y="430" width="880" height="110" rx="10" class="old"/>
+    <rect x="40" y="430" width="880" height="24" rx="10" fill="#475569"/>
+    <text x="52" y="447" class="th" style="fill:#fff">▼ SSA 已有核心层（直接复用，不重写）</text>
+    <rect x="58" y="464" width="200" height="30" rx="6" class="box"/><text x="68" y="484" class="t">制造 BOM/MRP/委外</text>
+    <rect x="270" y="464" width="180" height="30" rx="6" class="box"/><text x="280" y="484" class="t">质量闭环</text>
+    <rect x="462" y="464" width="180" height="30" rx="6" class="box"/><text x="472" y="484" class="t">成本卷积</text>
+    <rect x="654" y="464" width="240" height="30" rx="6" class="box"/><text x="664" y="484" class="t">财务/会计/应收应付</text>
+    <rect x="58" y="500" width="200" height="30" rx="6" class="box"/><text x="68" y="520" class="t">采购/销售/库存</text>
+    <rect x="270" y="500" width="180" height="30" rx="6" class="box"/><text x="280" y="520" class="t">客户/供应商</text>
+    <rect x="462" y="500" width="180" height="30" rx="6" class="box"/><text x="472" y="520" class="t">审批/权限</text>
+    <rect x="654" y="500" width="240" height="30" rx="6" class="box"/><text x="664" y="520" class="t">分析/AI（ChatBI）</text>
+
+    <!-- 底部复用层 -->
+    <rect x="40" y="552" width="880" height="0" />
+
+    <!-- 箭头 -->
+    <line x1="480" y1="142" x2="480" y2="158" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="480" y1="238" x2="480" y2="254" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="480" y1="334" x2="480" y2="350" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="480" y1="412" x2="480" y2="428" stroke="#334155" stroke-width="1.5" marker-end="url(#arr)"/>
+  </svg>
+  <p class="muted">说明：新增 4 层全部走 SSA 现有的「通用仓储工厂 + 边缘函数接口 + 云数据库」三件套。平台适配器是<b>边界隔离</b>的——某一家平台接口变更，只改对应适配器，不影响中台与其它平台（这正是 OpenLinker / TORGNEXA 的成熟做法）。</p>
+</section>
+
+<!-- 三、GitHub 开源参考映射 -->
+<section>
+  <h2>三、GitHub 开源参考映射（多抄成熟架构，少造轮子）</h2>
+  <p>本轮方案重点参考 7 个高相关开源项目。它们覆盖了「订单中台、多平台接入、仓储执行、产供销闭环、headless 引擎分层」五大成熟范式。下表说明各自借鉴点与落点。</p>
+  <table>
+    <thead>
+      <tr><th style="width:16%">开源项目（授权）</th><th style="width:12%">技术栈 / Star</th><th style="width:30%">可借鉴的核心范式</th><th style="width:26%">映射到 SSA 的落点</th><th style="width:16%">借鉴度</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>OpenLinker</b><br/>Apache-2.0</td>
+        <td>TypeScript<br/>~217 forks</td>
+        <td><b>端口/适配器（Port &amp; Adapter）</b>：OrderSourcePort、ProductMasterPort、InventoryMasterPort、ShippingProviderManagerPort；双向库存同步、游标断点续传、加密凭据、Webhook 回写。</td>
+        <td>作为<b>主参考</b>：SSA 新增 <code>channelStore</code> 直接套其 Port 契约（拉单/推库存/回写物流），每个平台一个 Adapter 文件。</td>
+        <td><span class="tag t-ref">最高</span></td>
+      </tr>
+      <tr>
+        <td><b>TORGNEXA</b><br/>自托管</td>
+        <td>Go<br/>活跃</td>
+        <td><b>Connector 能力清单 + 契约一致性测试</b>：每个平台声明「能做什么」，通用契约（contract）做确定性验证，避免把某平台当成全功能。</td>
+        <td>借鉴其 <b>能力矩阵 + 契约测试门禁</b>：新增平台须过 <code>channel-contract.test</code> 才能合并（防假接入）。</td>
+        <td><span class="tag t-ref">高</span></td>
+      </tr>
+      <tr>
+        <td><b>lorinyo</b><br/>私有</td>
+        <td>NestJS+Next.js<br/>TypeScript</td>
+        <td><b>适配器模式 + 统一订单来源跟踪 + 状态机</b>：Trendyol/Hepsiburada 等平台适配，订单带 Source 标记，货代适配器生成面单/条码。</td>
+        <td>借鉴其 <b>统一订单模型（含来源字段）+ 货代适配器</b>：映射到 SSA 的 <code>orderHubStore</code> 与 <code>logisticsStore</code>。</td>
+        <td><span class="tag t-ref">高</span></td>
+      </tr>
+      <tr>
+        <td><b>open-wms</b><br/>易软通 WMS</td>
+        <td>C#/Vue<br/>Apache-2.0</td>
+        <td><b>仓储作业流</b>：波次查询、拣货下架、灯光校验、按单/批量配货、打包校验、发货校验、库存占位、货位转移、盘点盈亏单。</td>
+        <td>作为 WMS 执行层<b>作业模型蓝本</b>：在 <code>waveRfidStore</code> + <code>warehouseStore</code> 上实现波次/拣货/面单作业。</td>
+        <td><span class="tag t-ref">高</span></td>
+      </tr>
+      <tr>
+        <td><b>ERPNext</b><br/>GPL-3.0</td>
+        <td>Python<br/>5万+ Star</td>
+        <td><b>产供销+会计+库存全闭环且全免费</b>：批次/序列号追溯、质量检验、委外、多仓、订单到现金/采购到付款完整流。</td>
+        <td>借鉴其 <b>会计/税务/库存账簿模型</b>：反哺 SSA 的 P0 地基（借贷平衡、税价拆分）。</td>
+        <td><span class="tag t-ref">中</span></td>
+      </tr>
+      <tr>
+        <td><b>Odoo</b><br/>社区版开源</td>
+        <td>Python<br/>极大生态</td>
+        <td><b>模块化应用 + 库存路由（跨仓调拨/直发）+ 条码应用</b>：每个业务是一个可装卸模块。</td>
+        <td>借鉴其 <b>模块化装配思路</b>：电商层做成可独立开关的「域模块」，不影响制造核心。</td>
+        <td><span class="tag t-ref">中</span></td>
+      </tr>
+      <tr>
+        <td><b>Medusa</b><br/>MIT</td>
+        <td>Node.js/TS<br/>3万+ Star</td>
+        <td><b>headless 引擎分层纪律</b>：模块→工作流（Workflow）→接口路由，变更必须走工作流；有官方 MCP/Agent 工具。</td>
+        <td>借鉴其 <b>「变更走工作流」纪律 + AI 接口化</b>：为 SSA 现有事件驱动补一道「工作流门禁」，并预留 AI 经营助手接口。</td>
+        <td><span class="tag t-ref">中</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note"><b>选型判断：</b>SSA 是 TypeScript 栈（React + 云函数），所以 <b>OpenLinker（纯 TS）与 lorinyo（TS 模块化）的范式可直接借鉴</b>，不需引入 Python/Go 运行时；TORGNEXA 的「能力清单+契约测试」是方法论，跨语言可抄。仓储执行直接学 open-wms 的作业流，比自己拍脑袋设计更稳。</div>
+</section>
+
+<!-- 四、功能逐项实现表 -->
+<section>
+  <h2>四、聚水潭 / 吉客云主要功能 → SSA 实现逐项表</h2>
+  <p>对照对标报告的 13 个业务域，挑出聚水潭/吉客云高频功能，给出「复用 / 新建 / 开源参考 / 优先级」。标记为<span class="tag t-reuse">复用</span>的，SSA 已有基础只需扩展；<span class="tag t-new">新建</span>的，本次方案核心。</p>
+  <table>
+    <thead>
+      <tr><th style="width:14%">业务域</th><th style="width:24%">聚水潭/吉客云功能点</th><th style="width:12%">实现方式</th><th style="width:22%">开源参考 / 落点</th><th style="width:8%">优先级</th><th style="width:20%">说明</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>全渠道订单中台</td><td>多平台订单归集、审单、拆/合单、预售</td><td><span class="tag t-new">新建</span></td><td>lorinyo 统一订单模型 → <code>orderHubStore</code></td><td><span class="tag t-p1">P1</span></td><td>SSA 当前订单中台≈0，这是电商化的第一块基石</td></tr>
+      <tr><td>平台连接器</td><td>抖音/拼多多/淘宝/京东/快手接口对接</td><td><span class="tag t-new">新建</span></td><td>OpenLinker Port 模式 → <code>functions/api/channels/&lt;平台&gt;</code></td><td><span class="tag t-p1">P1</span></td><td>先抖音+拼多多试点，每平台一个适配器，边界隔离</td></tr>
+      <tr><td>库存同步</td><td>多平台库存实时/定时同步、超卖防护</td><td><span class="tag t-reuse">复用+</span></td><td>OpenLinker 双向同步 → warehouseStore 扩展</td><td><span class="tag t-p1">P1</span></td><td>复用现有库存表，加「渠道占用/占位锁」字段</td></tr>
+      <tr><td>仓储执行 WMS</td><td>波次拣货、PDA 扫码、配货打包、发货校验</td><td><span class="tag t-reuse">复用+</span></td><td>open-wms 作业流 → waveRfidStore 扩展</td><td><span class="tag t-p1">P1</span></td><td>已有波次/RFID 雏形，补齐作业动作即可</td></tr>
+      <tr><td>物流面单</td><td>电子面单打印、运单号、轨迹回写</td><td><span class="tag t-new">新建</span></td><td>lorinyo 货代适配器 → <code>logisticsStore</code></td><td><span class="tag t-p1">P1</span></td><td>对接快递鸟/菜鸟开放平台（需申请资质）</td></tr>
+      <tr><td>售后退款 RMA</td><td>退款、退货入库、平台对账</td><td><span class="tag t-new">新建</span></td><td>OpenLinker RMA Port → orderHubStore 扩展</td><td><span class="tag t-p1">P1</span></td><td>退款须回写财务（接 P0 的退货税额修复）</td></tr>
+      <tr><td>业财一体</td><td>订单自动生成凭证、收款核销</td><td><span class="tag t-reuse">复用+</span></td><td>ERPNext 会计模型 → financeStore 扩展</td><td><span class="tag t-p0">P0</span></td><td>先修 P0 借贷平衡，再让订单自动过账</td></tr>
+      <tr><td>采购税价</td><td>含税/不含税价拆分、进项税</td><td><span class="tag t-reuse">复用+</span></td><td>ERPNext 税务 → purchaseStore 扩展</td><td><span class="tag t-p0">P0</span></td><td>SSA 当前采购单无税价拆分，须先还债</td></tr>
+      <tr><td>成本核算</td><td>订单/商品成本归集、毛利实时</td><td><span class="tag t-reuse">复用+</span></td><td>ERPNext 成本 → cost 模块扩展</td><td><span class="tag t-p0">P0</span></td><td>SSA 成本未闭环，电商毛利算不准</td></tr>
+      <tr><td>会计期间</td><td>结账、期间锁定、跨期管控</td><td><span class="tag t-new">新建</span></td><td>Odoo 期间模型 → financeStore</td><td><span class="tag t-p0">P0</span></td><td>当前无会计期间主数据，是正确性前提</td></tr>
+      <tr><td>分销/代发</td><td>一件代发、分销订单流转</td><td><span class="tag t-new">新建</span></td><td>lorinyo 货源路由 → orderHubStore</td><td><span class="tag t-p2">P2</span></td><td>电商进阶玩法，P1 跑通后再做</td></tr>
+      <tr><td>跨境</td><td>多币种、报关、海外仓</td><td><span class="tag t-new">新建</span></td><td>TORGNEXA 跨境接入 → channel 扩展</td><td><span class="tag t-p2">P2</span></td><td>复用 SSA 已有 fxStore 多币种基础</td></tr>
+      <tr><td>AI 经营助手</td><td>智能选品、经营看板、异常预警</td><td><span class="tag t-reuse">复用+</span></td><td>Medusa AI 接口化 → aiStore/ChatBI</td><td><span class="tag t-p2">P2</span></td><td>复用 SSA 已有 ChatBI/分析能力</td></tr>
+      <tr><td>多租户 SaaS</td><td>多商户、组织隔离、分账</td><td><span class="tag t-new">新建</span></td><td>Odoo 多公司 + SSA 的 rls 隔离</td><td><span class="tag t-p2">P2</span></td><td>当前单租户，需改造数据权限隔离层</td></tr>
+    </tbody>
+  </table>
+  <div class="note"><b>覆盖率判断：</b>前列 9 项（到会计期间）覆盖聚水潭/吉客云约 80% 高频功能；后 5 项（P2）是差异化与进阶，不阻塞主链路。P0 四项虽不「性感」，却是电商数据能正确入账的<b>地基</b>。</div>
+</section>
+
+<!-- 五、里程碑 -->
+<section>
+  <h2>五、分阶段里程碑（P0 / P1 / P2 甘特）</h2>
+  <p class="muted">横轴为迭代周（W1–W12，按 2 周一个迭代节奏估算）。条带颜色：<span class="t-p0">红=P0</span> <span class="t-p1">橙=P1</span> <span class="t-p2">蓝=P2</span>。工期为经验估算，强哥可按资源松紧缩放。</p>
+  <div class="gantt">
+    <div class="h" style="grid-column:1">阶段 / 任务</div>
+    <div class="h">W1</div><div class="h">W2</div><div class="h">W3</div><div class="h">W4</div><div class="h">W5</div><div class="h">W6</div><div class="h">W7</div><div class="h">W8</div><div class="h">W9</div><div class="h">W10</div><div class="h">W11</div><div class="h">W12</div>
+
+    <div class="lab">P0-1 凭证借贷平衡</div>
+    <div class="cell"></div><div class="cell" style="grid-column:2/4"><div class="bar b-p0" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P0-2 采购税价拆分</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:3/5"><div class="bar b-p0" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P0-3 成本核算闭环</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:4/6"><div class="bar b-p0" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P0-4 退货税额+期间</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:5/7"><div class="bar b-p0" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P1-1 平台适配器框架</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:6/9"><div class="bar b-p1" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P1-2 抖音+拼多多试点</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:7/10"><div class="bar b-p1" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P1-3 订单中台</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:8/11"><div class="bar b-p1" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P1-4 仓储执行层</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:9/12"><div class="bar b-p1" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P1-5 物流面单+退款</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:10/12"><div class="bar b-p1" style="left:2px;right:2px"></div></div><div class="cell"></div><div class="cell"></div>
+
+    <div class="lab">P2-1 产供销一体深化</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:11/13"><div class="bar b-p2" style="left:2px;right:2px"></div></div><div class="cell"></div>
+
+    <div class="lab">P2-2 跨境/AI/多租户</div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell" style="grid-column:12/13"><div class="bar b-p2" style="left:2px;right:2px"></div></div>
+  </div>
+
+  <h3>各阶段交付与验证标准</h3>
+  <table>
+    <thead><tr><th style="width:14%">阶段</th><th style="width:42%">交付物</th><th style="width:44%">验证标准（门禁）</th></tr></thead>
+    <tbody>
+      <tr><td><b>P0 地基</b><br/><span class="muted">W1–W6</span></td><td>凭证借贷平衡校验、采购含税/不含税双价、成本卷积闭环、退货税额修复、会计期间主数据；全部走现有 financeStore/purchaseStore。</td><td>① 任意凭证借贷必须平衡，不平衡拒绝过账；② 采购单金额=含税=不含税+税，可回溯；③ 订单成本能归集到商品并算毛利；④ 单测 + 现有端到端测试 1650 套件零回归。</td></tr>
+      <tr><td><b>P1 电商接入</b><br/><span class="muted">W6–W12</span></td><td>平台适配器框架（Port 契约+契约测试门禁）、抖音+拼多多试点适配器、订单中台（orderHubStore）、仓储执行（波次/拣货/面单）、物流面单（logisticsStore）、退款 RMA。</td><td>① 抖音/拼多多订单能自动归集到中台并带来源标记；② 库存同步不超卖（占位锁生效）；③ 一波次拣货→配货→打包→面单打印→发货校验全链路打通；④ 每个新平台必须过 <code>channel-contract.test</code> 才能合入。</td></tr>
+      <tr><td><b>P2 深化</b><br/><span class="muted">W12+</span></td><td>产供销一体（订单驱动 MRP/生产）、分销代发、跨境多币种、AI 经营助手接口、多租户隔离改造。</td><td>① 电商订单可一键转生产计划/采购建议；② 跨境订单走多币种+报关字段；③ AI 助手能基于订单/库存给经营预警；④ 多租户数据经 rls 严格隔离，互不可见。</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 六、技术落地扩展点 -->
+<section>
+  <h2>六、技术落地扩展点（落到 SSA 具体目录 / 文件）</h2>
+  <p>下面把「新建什么」落到 SSA 现有工程结构，强哥可据此派活。所有新增域 <b>复用 createEntityStore 工厂</b>，不重写数据层。</p>
+
+  <h3>6.1 新增前端状态仓库（src/stores/）</h3>
+  <table>
+    <thead><tr><th style="width:22%">新文件</th><th style="width:30%">作用</th><th style="width:30%">复用/参考</th><th style="width:18%">优先级</th></tr></thead>
+    <tbody>
+      <tr><td><code>channelStore.ts</code></td><td>平台连接器注册、凭据管理、能力清单、同步状态</td><td>套 createEntityStore；参考 OpenLinker Port</td><td><span class="tag t-p1">P1</span></td></tr>
+      <tr><td><code>orderHubStore.ts</code></td><td>统一订单模型、来源跟踪、审单/拆合单/状态机、RMA</td><td>套 createEntityStore；参考 lorinyo 统一订单</td><td><span class="tag t-p1">P1</span></td></tr>
+      <tr><td><code>fulfillmentStore.ts</code></td><td>波次、拣货任务、配货、打包、发货校验</td><td>扩展 waveRfidStore + warehouseStore；参考 open-wms</td><td><span class="tag t-p1">P1</span></td></tr>
+      <tr><td><code>logisticsStore.ts</code></td><td>电子面单、运单号、物流轨迹回写</td><td>套 createEntityStore；参考 lorinyo 货代适配器</td><td><span class="tag t-p1">P1</span></td></tr>
+      <tr><td><code>periodStore.ts</code></td><td>会计期间主数据、结账、期间锁定</td><td>套 createEntityStore；参考 Odoo 期间</td><td><span class="tag t-p0">P0</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.2 新增边缘函数（functions/api/）</h3>
+  <table>
+    <thead><tr><th style="width:26%">新目录</th><th style="width:46%">端点职责</th><th style="width:28%">参考范式</th></tr></thead>
+    <tbody>
+      <tr><td><code>functions/api/channels/&lt;平台&gt;/</code></td><td>每平台一个：拉单、推库存、回写物流单号、接收 Webhook（网络回调）</td><td>OpenLinker Adapter + TORGNEXA connector</td></tr>
+      <tr><td><code>functions/api/order-hub/</code></td><td>订单归一、审单、拆合单、状态流转、退款</td><td>lorinyo 统一订单</td></tr>
+      <tr><td><code>functions/api/fulfillment/</code></td><td>波次生成、拣货任务下发、扫码校验、发货校验</td><td>open-wms 作业流</td></tr>
+      <tr><td><code>functions/api/logistics/</code></td><td>面单申请、运单查询、轨迹回写</td><td>lorinyo 货代适配器</td></tr>
+    </tbody>
+  </table>
+
+  <h3>6.3 契约测试门禁（借鉴 TORGNEXA）</h3>
+  <p>新增 <code>scripts/channel-contract.test.mjs</code>：定义平台适配器的统一契约（拉单/推库存/回写三件套必须实现且返回结构一致），CI 合入前强制跑。这能杜绝「声称接了某平台实际只接了一半」的假接入——正是对标报告里点名的 SSA 历史债务（局部更新误拦）同类风险。</p>
+
+  <h3>6.4 数据库扩展（Cloudflare D1 云数据库）</h3>
+  <p>复用现有迁移链：新增表 <code>channels</code>（平台注册/凭据/能力）、<code>order_hub</code>（统一订单/来源/状态）、<code>fulfillment_waves</code>（波次/任务）、<code>logistics_waybills</code>（面单/运单）、<code>account_periods</code>（会计期间）。全部走 <code>wrangler d1 migrations</code>，与现有 177 表同链。</p>
+
+  <div class="note"><b>工程纪律提醒（来自 SSA 历史踩坑）：</b>① 新增迁移前先用 <code>HAVING COUNT&gt;1</code> 查重，避免唯一约束失败；② 改公共助手先全项目搜旧消费方；③ 重包响应必带状态码；④ 造数对齐契约（订单 completed 才过账）。这些在后端硬规矩里已编号，照做即可少踩坑。</div>
+</section>
+
+<!-- 七、风险 -->
+<section>
+  <h2>七、风险与对策</h2>
+  <div class="risk"><b>风险 1：国内平台接口闭源且需资质。</b>抖音/拼多多/淘宝/京东开放平台都要企业资质审核、有调用配额与签名规则，不是想接就能接。<br/><b>对策：</b>先用 Mock 适配器 + 契约测试把中台和仓储跑通（不依赖真实接口），再逐个申请资质接真实。抖音+拼多多作为首批试点（门槛相对低、文档全）。</div>
+  <div class="risk"><b>风险 2：P0 地基不先做，电商只会放大错账。</b>凭证无借贷平衡、采购无税价、成本未闭环，接电商后订单量放大，错账指数级增长。<br/><b>对策：</b>P0 是硬前置，W1 即启动，不与 P1 并行抢资源；P0 完成且端到端测试零回归，才放 P1 试点订单真实入账。</div>
+  <div class="risk"><b>风险 3：单租户架构难支撑多商户。</b>SSA 当前是自用单租户，跨境/多商户需数据隔离。<br/><b>对策：</b>P2 才做；改造复用现有 <code>rls.ts</code> 行级隔离（组织隔离已成熟），加租户维度即可，不推倒重来。</div>
+  <div class="risk"><b>风险 4：平台限流/接口变更。</b>电商大促期间平台接口易限流、字段易变。<br/><b>对策：</b>适配器边界隔离 + 游标断点续传（抄 OpenLinker）+ 失败退避重试；某平台变更只改对应适配器。</div>
+  <div class="risk"><b>风险 5：仓储执行需硬件（PDA/打印机）。</b>扫码、面单打印依赖实体设备与内网。<br/><b>对策：</b>先做成「网页端可操作 + 开放接口」形态，PDA 用浏览器/小程序壳即可，不绑死硬件；面单对接快递鸟/菜鸟云打印，无需本地驱动。</div>
+</section>
+
+<!-- 八、下一步 -->
+<section>
+  <h2>八、下一步行动（请强哥拍板）</h2>
+  <div class="two">
+    <div>
+      <h3>需要强哥决策的 3 件事</h3>
+      <ul>
+        <li><b>路线 A：当聚水潭/吉客云的「制造后端」</b>——只做生产对接模块，让它们当电商前台。投入小、见效快。</li>
+        <li><b>路线 B：自建电商前端（对标吉客云工贸一体）</b>——按本方案 P1 全做。掌控力强、但投入大。</li>
+        <li><b>决策：首批试点平台</b>——建议抖音+拼多多（门槛低），是否同意？</li>
+        <li><b>决策：P0 资源投入</b>——是否立即开工还四笔自家债？</li>
+      </ul>
+    </div>
+    <div>
+      <h3>我可立即开工的子任务</h3>
+      <ul>
+        <li>把 P0 四项拆成具体开发任务清单（带验收口径）。</li>
+        <li>起草 <code>channelStore</code> + 抖音适配器 Port 契约骨架（含契约测试）。</li>
+        <li>设计 <code>order_hub</code> / <code>account_periods</code> 表结构草稿（D1 迁移脚本）。</li>
+        <li>拉一个「电商化」Git 分支与里程碑看板，按周同步进度。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note ok"><b>建议节奏：</b>强哥拍板路线与试点平台后，我先从 P0-1（凭证借贷平衡）和 P1-1（适配器框架）两头同时起，P0 给地基、P1 给骨架，第 6 周两条线在「抖音试点订单正确入账」处汇合，作为第一个可演示里程碑。</div>
+</section>
+
+<div class="foot">SSA ERP 开发组 · 电商化落地方案 V1.0 · 承接《SSA-ERP-对标-吉客云聚水潭-分析报告》 · 2026-10-16</div>
+
+</div>
+</body>
+</html>

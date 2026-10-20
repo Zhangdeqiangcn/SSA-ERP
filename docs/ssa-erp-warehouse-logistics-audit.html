@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP · 仓库物流模块审计报告（V3.56.0 基线）</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#fff; --ink:#1f2733; --sub:#5b6b7f; --line:#e3e8ef;
+    --crit:#c0392b; --high:#e67e22; --med:#d4a017; --low:#2980b9; --ok:#27ae60;
+    --accent:#2c3e50;
+  }
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;margin:0;padding:0;}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 24px 80px;}
+  header{background:linear-gradient(135deg,#2c3e50,#34495e);color:#fff;border-radius:14px;padding:28px 30px;margin-bottom:24px;box-shadow:0 6px 20px rgba(0,0,0,.12);}
+  header h1{margin:0 0 8px;font-size:26px;letter-spacing:.5px;}
+  header .meta{opacity:.85;font-size:13px;margin-top:6px;}
+  header .tag{display:inline-block;background:rgba(255,255,255,.16);border-radius:20px;padding:3px 12px;font-size:12px;margin-right:8px;margin-top:10px;}
+  h2{font-size:20px;margin:34px 0 14px;padding-left:12px;border-left:5px solid var(--accent);}
+  h3{font-size:16px;margin:22px 0 8px;color:var(--accent);}
+  p{margin:8px 0;}
+  .lead{color:var(--sub);font-size:14px;}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0 8px;}
+  .sumbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .sumbox .n{font-size:30px;font-weight:700;line-height:1.1;}
+  .sumbox .l{font-size:12px;color:var(--sub);margin-top:4px;}
+  .sumbox.crit .n{color:var(--crit);} .sumbox.high .n{color:var(--high);}
+  .sumbox.med .n{color:var(--med);} .sumbox.low .n{color:var(--low);}
+  .sumbox.ok .n{color:var(--ok);}
+  table{width:100%;border-collapse:collapse;margin:14px 0;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.04);font-size:14px;}
+  th,td{border-bottom:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+  th{background:#eef2f7;font-weight:600;color:var(--accent);}
+  tr:last-child td{border-bottom:none;}
+  .badge{display:inline-block;border-radius:6px;padding:2px 9px;font-size:12px;font-weight:600;color:#fff;white-space:nowrap;}
+  .b-crit{background:var(--crit);} .b-high{background:var(--high);} .b-med{background:var(--med);} .b-low{background:var(--low);} .b-ok{background:var(--ok);}
+  .card{background:var(--card);border:1px solid var(--line);border-left-width:6px;border-radius:10px;padding:16px 18px;margin:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .card.crit{border-left-color:var(--crit);} .card.high{border-left-color:var(--high);}
+  .card.med{border-left-color:var(--med);} .card.low{border-left-color:var(--low);} .card.ok{border-left-color:var(--ok);}
+  .card .h{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .card .h .id{font-weight:700;font-size:15px;}
+  .card .h .sev{margin-left:auto;}
+  code{background:#f1f4f8;border-radius:4px;padding:1px 6px;font-size:12.5px;font-family:"SF Mono",Consolas,monospace;color:#c0392b;}
+  .loc{color:var(--sub);font-size:13px;margin:6px 0;}
+  .loc b{color:var(--ink);}
+  ul{margin:6px 0 6px 20px;padding:0;}
+  li{margin:4px 0;}
+  .note{background:#fff8e6;border:1px solid #f1d99b;border-radius:8px;padding:10px 14px;font-size:13px;color:#7a5b12;margin:10px 0;}
+  .oknote{background:#eafaf1;border:1px solid #b8e6c8;border-radius:8px;padding:10px 14px;font-size:13px;color:#1d6b3a;margin:10px 0;}
+  .foot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12.5px;}
+  .toc a{color:var(--accent);text-decoration:none;} .toc a:hover{text-decoration:underline;}
+  .pill{display:inline-block;background:#eef2f7;border-radius:20px;padding:2px 10px;font-size:12px;color:var(--sub);margin:2px 4px 2px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>仓库物流模块审计报告</h1>
+  <div class="meta">SSA ERP · 基线版本 V3.56.0 · 审计日期 2026-10-08 · 审计方法：回代码走查 + 全量 E2E 坐实</div>
+  <div>
+    <span class="tag">范围：库存管理 + 物料移动</span>
+    <span class="tag">维度：一致性 / 缺失项 / 不准确 / 对不准 / 逻辑错位</span>
+    <span class="tag">不涉及采购财务（见 41 号套件）</span>
+  </div>
+</header>
+
+<p class="lead">
+本审计依据项目既定方法论执行：<b>不靠记忆与历史结论，逐项回读后端函数、前端 store、字段门禁与过账权威，并以全量生产 E2E（42 套件 0 FAIL）佐证既有过账核心无崩溃</b>。
+审计范围覆盖入库、出库、库存调拨、库存调整、库存盘点、序列号、批次、库存流水/台账、库存查询、库存过账中枢，以及仓库主数据与物料主数据。
+已坐实扎实的部分与已暴露的问题一并列出，便于强哥判断修复优先级。
+</p>
+
+<h2>一、审计结论摘要</h2>
+<div class="summary">
+  <div class="sumbox crit"><div class="n">1</div><div class="l">严重 (CRITICAL)</div></div>
+  <div class="sumbox high"><div class="n">3</div><div class="l">高 (HIGH)</div></div>
+  <div class="sumbox med"><div class="n">4</div><div class="l">中 (MEDIUM)</div></div>
+  <div class="sumbox low"><div class="n">2</div><div class="l">低 (LOW)</div></div>
+  <div class="sumbox ok"><div class="n">已扎实</div><div class="l">过账权威 / 四端点</div></div>
+</div>
+<p class="lead">
+最严重的问题集中在<b>「库存账的权威源」与「前端派生库存」双轨并存且互不收敛</b>：盘点的差异调整只改浏览器内存数组、永远不落后端库存账（W1）；物料余额字段可被直接改写绕过过账（W2）；调拨跨组织过账用错组织隔离键（W3）；仓库主数据根本没有后端（W4）。这四类均直接威胁账实一致，建议优先修复。
+</p>
+
+<h2>二、问题清单（按严重度）</h2>
+<table>
+  <thead><tr><th>编号</th><th>类别</th><th>严重度</th><th>一句话结论</th></tr></thead>
+  <tbody>
+    <tr><td>W1</td><td>逻辑错位 / 不准确</td><td><span class="badge b-crit">CRITICAL</span></td><td>盘点过账是纯前端假动作，差异永远不进后端库存账</td></tr>
+    <tr><td>W2</td><td>不准确 / 账实分叉</td><td><span class="badge b-high">HIGH</span></td><td>物料余额字段可直接改写，绕过唯一过账权威</td></tr>
+    <tr><td>W3</td><td>逻辑错位 / 对不准</td><td><span class="badge b-high">HIGH</span></td><td>调拨跨组织过账两条腿都用错组织隔离键</td></tr>
+    <tr><td>W4</td><td>一致性 / 缺失项</td><td><span class="badge b-high">HIGH</span></td><td>仓库主数据纯前端，零后端 / 零 RLS / 零守卫</td></tr>
+    <tr><td>W5</td><td>对不准 / 契约不符</td><td><span class="badge b-med">MEDIUM</span></td><td>库存查询接口仅支持 keyword，忽略 materialId / warehouseId</td></tr>
+    <tr><td>W6</td><td>一致性 / 逻辑错位</td><td><span class="badge b-med">MEDIUM</span></td><td>前端双轨派生库存与后端权威账并存且天然分叉</td></tr>
+    <tr><td>W7</td><td>缺失项</td><td><span class="badge b-med">MEDIUM</span></td><td>批次无独立实体 / 端点，仅作单据列承载</td></tr>
+    <tr><td>W8</td><td>缺失项</td><td><span class="badge b-med">MEDIUM</span></td><td>销售出库→COGS→财务对账端到端守护偏弱</td></tr>
+    <tr><td>W9</td><td>缺失项 / 整洁</td><td><span class="badge b-low">LOW</span></td><td>死代码 <code>src/services/warehouse.ts</code> 路径全对不上真实后端</td></tr>
+    <tr><td>W10</td><td>不准确</td><td><span class="badge b-low">LOW</span></td><td>前端派生库存只数入/出库，漏调拨/调整/生产</td></tr>
+  </tbody>
+</table>
+
+<h2>三、逐项发现（含证据与修复建议）</h2>
+
+<div class="card crit">
+  <div class="h"><span class="id">W1 · 盘点过账是纯前端假动作</span><span class="sev"><span class="badge b-crit">CRITICAL</span></span></div>
+  <div class="loc"><b>类别：</b>逻辑错位 / 不准确 &nbsp;|&nbsp; <b>代码位置：</b><code>src/stores/warehouseStore.ts</code> <code>postCheckAdjustment</code> 第 803–865 行</div>
+  <p><b>现象：</b>「库存盘点」完成后，系统显示库存已按差异调整，但<b>真实后端库存账（inventory_records / materials / inventory_transactions）完全未变</b>，也不生成任何库存调整单与凭证。</p>
+  <p><b>证据（回代码走查）：</b><code>postCheckAdjustment</code> 只做两件事——① 在浏览器内存里直接改写 <code>state.inventoryRecords</code> 数组（第 816–850 行，纯前端数学加减）；② 把盘点任务状态 <code>status:'completed'</code> 通过 <code>entityRepo.update('checkTask', …)</code> 写回 D1（第 859–863 行）。<b>全程没有任何一步调用后端库存过账接口</b>：不调 <code>/api/inventory-adjustments</code>（而该端点本身已有完整的盘盈入/盘亏出 + 凭证过账逻辑），也不调 <code>inventoryPosting.postInbound/postOutbound</code>。</p>
+  <p><b>影响：</b>盘点本是企业用来「修正账实差异」的核心动作，在此实现下它只改了一个浏览器内存投影，刷新页面或从库存查询接口（W5 指向的后端 <code>inventory_records</code>）取数，差异立即消失。等于「盘点功能形同虚设」，且因为不生成调整单/凭证，连审计线索都没有。<b>这是本模块最严重的逻辑错位。</b></p>
+  <p><b>修复建议：</b>盘点完成后应改为调用后端 <code>POST /api/inventory-adjustments</code> 创建调整单并 <code>PUT …/completed</code> 触发 <code>inventoryPosting</code> 真实过账（该端点的盘盈/盘亏/凭证逻辑已就绪，可复用）；前端只保留「派发差异 → 展示回执」的薄层，不再自行改库存数组。同时补齐一条 E2E 守护「盘点→调整单→库存_records 真的变」。</p>
+</div>
+
+<div class="card high">
+  <div class="h"><span class="id">W2 · 物料余额字段可直接改写，绕过过账权威</span><span class="sev"><span class="badge b-high">HIGH</span></span></div>
+  <div class="loc"><b>类别：</b>不准确 / 账实分叉 &nbsp;|&nbsp; <b>代码位置：</b><code>functions/api/materials/[id].ts</code> 第 109、114 行；<code>functions/_shared/fieldAccess.ts</code> 第 164–169、254–255 行</div>
+  <p><b>现象：</b><code>PUT /api/materials/:id</code> 用 <code>current_stock = COALESCE(?, current_stock)</code>、<code>stock_value = COALESCE(?, stock_value)</code> 直接写余额字段，<b>任何拥有物料写权的角色都能绕过唯一过账权威 inventoryPosting，手工改库存余额</b>。</p>
+  <p><b>证据（回代码走查）：</b>物料字段级门禁 <code>findForbiddenFieldWrites</code> 仅拦截「隐藏集合内且值有变化」的字段。而隐藏集合对模块 <code>material</code> 只登记了 <code>standardPrice</code> / <code>movingAvgPrice</code>（成本价）。<b><code>currentStock</code>（current_stock）与 <code>stockValue</code>（stock_value）根本不在隐藏集合里</b>——前者是库存数量、后者虽在列映射中却未进默认策略。于是任何有 <code>material.update</code> 写权的角色都能在 PUT 体里带 <code>currentStock</code> 直接改写库存数量，造成 <code>materials.current_stock</code> 与 <code>inventory_records</code> / <code>inventory_transactions</code> 账实分叉。</p>
+  <p><b>影响：</b>这是「账实分叉」的高危面。过账权威精心维护的库存余额，可被一个 PUT 请求静默推翻，且字段门禁对此毫无察觉（它只挡成本价）。</p>
+  <p><b>修复建议：</b>在物料 PUT 中<b>彻底移除 <code>current_stock</code> / <code>stock_value</code> / <code>moving_avg_price</code> 的可写性</b>，余额只能由 <code>inventoryPosting</code> 过账产生；即便要保留「期初建账」入口，也应走独立、带审计的初始化端点而非通用 PUT。并把这些余额字段加入字段级隐藏集合（至少非特权角色不可见、不可写）。</p>
+</div>
+
+<div class="card high">
+  <div class="h"><span class="id">W3 · 调拨跨组织过账用错组织隔离键</span><span class="sev"><span class="badge b-high">HIGH</span></span></div>
+  <div class="loc"><b>类别：</b>逻辑错位 / 对不准 &nbsp;|&nbsp; <b>代码位置：</b><code>functions/api/stock-transfers/[id].ts</code> 第 156、168 行</div>
+  <p><b>现象：</b>库存调拨（stock-transfer）的「调出过账」与「调入过账」两条腿<b>都使用 <code>user.org_id</code> 作为库存记录的组织键</b>，完全忽略单据头上的 <code>to_org_id</code>。</p>
+  <p><b>证据（回代码走查）：</b>第 156 行 <code>postOutbound(db, user.org_id, …)</code> 与第 168 行 <code>postInbound(db, user.org_id, …)</code> 均传入 <code>user.org_id</code>。而 <code>inventory_records</code> / <code>inventory_transactions</code> / <code>materials</code> 均按 <code>org_id</code> 隔离（<code>rlsCondition</code> 用 <code>org_id = ?</code>）。当 <code>from_org_id ≠ to_org_id</code> 时，调入仓的库存被记到调出方组织下，<b>接收组织（to_org）永远看不到这批货</b>，造成跨组织库存对不准。</p>
+  <p><b>影响：</b>同组织内调拨正确（两仓同 org）；但跨组织调拨会让调入方库存「消失在错误的组织里」。种子数据里已有 <code>ORG-001</code> 与 <code>ORG-002</code>（wh-201 属 ORG-002），该路径一旦被使用即产生组织间账实错位。</p>
+  <p><b>修复建议：</b>调入腿应改用 <code>to_org_id</code> 作为组织键（<code>postInbound(db, head.to_org_id, …)</code>）；并明确「跨组织调拨是否允许、以及是否需要组织间往来凭证」的产品口径，再补一条跨组织调拨 E2E。</p>
+</div>
+
+<div class="card high">
+  <div class="h"><span class="id">W4 · 仓库主数据纯前端，零后端 / 零 RLS / 零守卫</span><span class="sev"><span class="badge b-high">HIGH</span></span></div>
+  <div class="loc"><b>类别：</b>一致性 / 缺失项 &nbsp;|&nbsp; <b>代码位置：</b><code>src/stores/warehouseMasterStore.ts</code> 全文；后端 <code>functions/api/</code> 无 warehouse 相关目录</div>
+  <p><b>现象：</b>仓库与库位主数据（wh-001 主仓库、wh-002 辅料仓、wh-003 成品仓、wh-201 华东原料库）是<b>纯前端 zustand persist 字典，只存在浏览器 localStorage</b>，没有后端表、没有 RLS 行级隔离、没有操作守卫、没有审计、没有并发保护。</p>
+  <p><b>证据（回代码走查）：</b>① <code>warehouseMasterStore.ts</code> 用 <code>persist(…, { storage: backendStorage, name: 'ssa-erp-warehouse-master' })</code>，种子数据硬编码在文件里（第 35–107 行）；② 后端 <code>functions/api/</code> 下无任何 <code>warehouse*</code> 端点目录（已用 GLOB 确认）；③ 仓库的 <code>orgId</code> 仅是前端字段，跨组织可见性仅由前端 <code>selectWarehousesByOrg</code>（第 217 行）过滤，后端 <code>rlsCondition</code> 对仓库维度无约束点；④ 入库/出库/调拨单据引用的 <code>from_warehouse_id</code> / <code>to_warehouse_id</code> 是前端生成的 <code>wh-*</code>，后端无任何参照完整性校验。</p>
+  <p><b>影响：</b>① 仓库定义不共享、不权威——不同浏览器/用户各自一套，清空浏览器存储即丢失；② 后端无法对「仓库」维度做隔离或审计，调拨/入库引用了一个不存在或属于别组织的仓库也不报错；③ 仓库增删改零审计，舞弊风险高。</p>
+  <p><b>修复建议：</b>将仓库主数据下沉为后端实体（建表 + 端点 + RLS + 守卫 + 审计），至少保证仓库编码/组织归属的权威与参照完整性；前端字典改为从后端拉取。这是多组织正确性的基础，建议与 W3 一并立项。</p>
+</div>
+
+<div class="card med">
+  <div class="h"><span class="id">W5 · 库存查询接口仅支持 keyword</span><span class="sev"><span class="badge b-med">MEDIUM</span></span></div>
+  <div class="loc"><b>类别：</b>对不准 / 契约不符 &nbsp;|&nbsp; <b>代码位置：</b><code>functions/api/inventory-records/index.ts</code> 第 12–14、25–28 行</div>
+  <p><b>现象：</b>库存查询接口 <code>GET /api/inventory-records</code> 只读 <code>page</code> / <code>pageSize</code> / <code>keyword</code> 三个参数，<b>完全忽略 <code>materialId</code> / <code>warehouseId</code></b>。</p>
+  <p><b>证据（回代码走查）：</b>第 12–14 行仅解析这三个参数；SQL 的过滤条件只有 <code>org_id</code> + 可选的 <code>material_code/name LIKE</code>（第 18–28 行）。任何调用方传入 <code>materialId</code> / <code>warehouseId</code> 都会被静默忽略、返回该组织全量记录。旧前端 <code>src/services/warehouse.ts</code> 的 <code>getInventory</code> 就传了这两个参数（W9 指出该文件是死代码，但接口契约缺口本身独立于调用方）。</p>
+  <p><b>影响：</b>物料多、仓库多的组织无法在后端按物料或仓库过滤库存，只能全量拉回前端再筛（性能与带宽浪费），或误以为已过滤实则拿到全量。属于「接口契约与前端预期对不准」。</p>
+  <p><b>修复建议：</b>在后端接口补 <code>materialId</code> / <code>warehouseId</code>（及 <code>locationId</code> / <code>batchNo</code>）服务端过滤参数；可一并补齐批次维度查询（见 W7）。</p>
+</div>
+
+<div class="card med">
+  <div class="h"><span class="id">W6 · 前端双轨派生库存与后端权威账并存且分叉</span><span class="sev"><span class="badge b-med">MEDIUM</span></span></div>
+  <div class="loc"><b>类别：</b>一致性 / 逻辑错位 &nbsp;|&nbsp; <b>代码位置：</b><code>src/stores/warehouseStore.ts</code> <code>postInboundToInventory</code>(104) / <code>postOutboundToInventory</code>(191) / <code>recomputeInventoryFromOrders</code>(442)，调用点 696 / 738 / 947</div>
+  <p><b>现象：</b>前端保留了一套在浏览器里用纯函数重算库存的逻辑，与后端 <code>inventoryPosting</code> 维护的权威库存账是<b>双轨</b>，二者没有收敛断言。</p>
+  <p><b>证据（回代码走查）：</b>① <code>recomputeInventoryFromOrders</code>（第 442–460 行）仅遍历 <code>inbounds</code> / <code>outbounds</code> 两个数组做加减，<b>未纳入 stock_transfers（调拨）、inventory_adjustments（盘点/调整）、production（生产入库）</b>；② 该派生数组被 <code>loadWarehouseOrders</code>（第 947 行）当作「库存」展示；③ W1 的盘点假过账正是建立在这套派生之上——改它而不改后端。<b>结果：前端展示的库存（只含入/出库）与后端权威账（含调拨/调整/生产）在存在这些业务时必然不一致。</b></p>
+  <p><b>影响：</b>用户看到的库存数字与库存查询接口（后端 inventory_records）可能不同；盘点又只改前端这套，进一步加剧分叉。这是 W1 能「假成功」的结构性根因。</p>
+  <p><b>修复建议：</b>前端库存展示<b>直接消费后端 <code>inventory_records</code></b>，下线浏览器内的 <code>recomputeInventoryFromOrders</code> 双轨（或仅作为离线兜底且明确标注「非权威」）；W1 修复后此双轨即无存在必要。</p>
+</div>
+
+<div class="card med">
+  <div class="h"><span class="id">W7 · 批次无独立实体 / 端点</span><span class="sev"><span class="badge b-med">MEDIUM</span></span></div>
+  <div class="loc"><b>类别：</b>缺失项 &nbsp;|&nbsp; <b>代码位置：</b>批次仅作列承载于 <code>inbound_order_items</code> / <code>outbound_order_items</code> / <code>stock_transfer_items</code> 的 <code>batch_no</code> / <code>location_id</code></div>
+  <p><b>现象：</b>批次（lot/batch）不是独立实体，只是各单据上的列，<b>没有批次台账查询端点</b>，也没有批次维度余额重建 / 批次级成本滚动的专门守护。</p>
+  <p><b>证据（回代码走查）：</b>① 无 <code>batch</code> 表与端点（GLOB 已确认）；② 过账时批次随单据写入 <code>inventory_records.batch_no</code> 与 <code>inventory_transactions.batch_no</code>（数据层有批次维度），但没有任何后端接口按批次聚合查询；③ 批次追溯（<code>TraceBatch.tsx</code>）依赖前端从单据重算，已核实为「真数据上的真计算」，但无后端批次账支撑，且前端派生与后端权威账同样有 W6 的分叉风险。</p>
+  <p><b>影响：</b>按批次查库存、批次级成本追溯、批次效期管理等制造业高频场景缺乏后端能力；批次数据散落在各单据明细，难以做批次维度的对账与召回。</p>
+  <p><b>修复建议：</b>提供批次维度查询接口（可复用 W5 的过滤扩展，按 <code>batch_no</code> 聚合 inventory_records）；并补一条批次级余额重建的 E2E，与流水底座对账。</p>
+</div>
+
+<div class="card med">
+  <div class="h"><span class="id">W8 · 销售出库→COGS→财务对账端到端守护偏弱</span><span class="sev"><span class="badge b-med">MEDIUM</span></span></div>
+  <div class="loc"><b>类别：</b>缺失项 &nbsp;|&nbsp; <b>代码位置：</b><code>functions/_shared/inventoryPosting.ts</code> <code>generateOutboundVouchers</code> 第 645–704 行</div>
+  <p><b>现象：</b>出库过账已正确生成 COGS 凭证（借 6401 主营业务成本 / 贷 1405 库存商品，按服务端 unitCost×qty），但<b>「销售出库→成本结转→财务对账」全链路缺乏专门 E2E 守护</b>，仅由 19/41 套件间接覆盖。</p>
+  <p><b>证据（回代码走查）：</b>凭证逻辑本身完整且幂等（source_no 查重）；但现有守护套件未端到端断言「一笔销售出库后，对应 COGS 凭证金额 = 库存减少金额 × 移动均价」。这是财务与库存对账的关键闭环，目前靠间接覆盖，回归时易被漏。</p>
+  <p><b>影响：</b>库存模块与财务模块的数据对齐（成本口径）缺少机器护栏，未来改动过账逻辑可能 silently 破坏对账而未被发现。</p>
+  <p><b>修复建议：</b>新增一条 E2E，创建销售出库→completed→断言 inventory_transactions 的出库 value_delta 绝对值 = 对应 OUT- 凭证的借贷合计；纳入 41 号审计套件或独立守护。</p>
+</div>
+
+<div class="card low">
+  <div class="h"><span class="id">W9 · 死代码 <code>src/services/warehouse.ts</code></span><span class="sev"><span class="badge b-low">LOW</span></span></div>
+  <div class="loc"><b>类别：</b>缺失项 / 整洁 &nbsp;|&nbsp; <b>代码位置：</b><code>src/services/warehouse.ts</code> 全文</div>
+  <p><b>现象：</b>该文件仅被 <code>services/index.ts</code> 桶导出，全工程无实际调用方；其请求路径（<code>/inventory</code>、<code>/inventory/alerts</code>、<code>/:id/complete</code>、<code>/check-tasks</code>）与真实后端（<code>/inventory-records</code>、complete 在 inbound/outbound 端点下、checkTask 走 entities 或前端）全对不上，属实质死代码。</p>
+  <p><b>影响：</b>误导维护者、增加阅读成本；其「传 materialId/warehouseId」的契约（W5 相关）是陈旧假设。</p>
+  <p><b>修复建议：</b>确认无调用方后删除该文件及其桶导出项；如确有按维度过滤库存的需求，改在 W5 的真实接口上实现。</p>
+</div>
+
+<div class="card low">
+  <div class="h"><span class="id">W10 · 前端派生库存漏算调拨/调整/生产</span><span class="sev"><span class="badge b-low">LOW</span></span></div>
+  <div class="loc"><b>类别：</b>不准确 &nbsp;|&nbsp; <b>代码位置：</b><code>src/stores/warehouseStore.ts</code> <code>recomputeInventoryFromOrders</code> 第 442–460 行</div>
+  <p><b>现象：</b>前端派生库存函数只遍历入/出库单据，未纳入调拨、库存调整、生产入库等会改变库存的来源。</p>
+  <p><b>证据（回代码走查）：</b>第 445–457 行仅对 <code>inbounds</code> / <code>outbounds</code> 循环重算。在有调拨/调整/生产业务的组织里，前端展示的库存天然与后端权威账不符（详见 W6）。</p>
+  <p><b>影响：</b>与 W6 同源，是双轨分叉的具体表现之一；单独列出以便修复时一并处理。</p>
+  <p><b>修复建议：</b>随 W6 一并下线前端双轨；若需离线兜底，必须把调拨/调整/生产来源也纳入重算口径。</p>
+</div>
+
+<h2>四、已坐实扎实的部分（正面确认）</h2>
+<div class="oknote">
+以下部分经走查确认实现正确、与全量 E2E 全绿（42 套件 0 FAIL）一致，不属于问题，仅供参考与信心建立：
+</div>
+<ul>
+  <li><b>过账权威 <code>inventoryPosting.ts</code>：</b>入/出库过账为「物料余额 + 库存流水 + 库存记录」三句 <code>db.batch</code> 原子提交；移动均价口径统一（移动均价 &gt; 标准价 &gt; 采购价）；超发两账本 <code>Math.max(0,…)</code> 卡 0；凭证按 <code>source_no</code> 幂等查重。</li>
+  <li><b>调拨过账：</b>双过账 + <code>costPriceOverride</code> 防成本漂移 + 反假成功回读校验 + 并发条件 UPDATE 抢占（杜绝双过账），逻辑严密（仅 W3 的跨组织组织键需修）。</li>
+  <li><b>库存调整过账：</b>盘盈 <code>postInbound</code> / 盘亏 <code>postOutbound</code> + 盘盈盘亏凭证 + 反假成功校验，逻辑完整（仅入口未被盘点链路调用，见 W1）。</li>
+  <li><b>序列号管理：</b>状态枚举统一（in_stock/shipped/scrapped/in_transit），出库前校验「在库 + 同物料」防重复发货与串号，符合 SAP/金蝶对标。</li>
+  <li><b>四端点守卫到位：</b>入库/出库/调拨/调整在 <code>completed</code> 时正确触发服务端过账；操作权限守卫（<code>guardOperation</code>）、状态机（<code>guardStatusTransition</code>）、乐观锁（<code>withVersionGuard</code>）均已接入。</li>
+  <li><b>既有 E2E 守护：</b>07-rls（库存记录隔离）、09-audit-match（入库三单匹配）、30/31/32/33/34/35/39 等已覆盖入出库/序列号/过账权威，且全量回归零失败。</li>
+</ul>
+
+<h2>五、修复优先级建议</h2>
+<table>
+  <thead><tr><th>优先级</th><th>项</th><th>理由</th></tr></thead>
+  <tbody>
+    <tr><td><b>P0</b></td><td>W1 盘点真过账</td><td>核心功能形同虚设，账实差异无法纠正，且无审计线索</td></tr>
+    <tr><td><b>P0</b></td><td>W2 物料余额字段去可写</td><td>账实分叉高危面，一个 PUT 即可推翻权威库存</td></tr>
+    <tr><td><b>P1</b></td><td>W3 调拨跨组织 org_id</td><td>跨组织业务一旦使用即产生组织间错位，且与 W4 强相关</td></tr>
+    <tr><td><b>P1</b></td><td>W4 仓库主数据后端化</td><td>多组织正确性与参照完整性的基础</td></tr>
+    <tr><td><b>P1</b></td><td>W6 下线前端双轨</td><td>消除展示库存与权威账的分叉，W1 修复后双轨即无必要</td></tr>
+    <tr><td><b>P2</b></td><td>W5 / W7 库存与批次查询扩展</td><td>提升查询能力与批次追溯，属能力补全</td></tr>
+    <tr><td><b>P2</b></td><td>W8 销售出库→COGS 对账 E2E</td><td>财务与库存对账闭环的机器护栏</td></tr>
+    <tr><td><b>P3</b></td><td>W9 删死代码 / W10 随 W6 处理</td><td>整洁度，低风险</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+<b>诚实边界：</b>① 本审计以回代码走查为主、全量 E2E 全绿佐证核心无崩溃；W1–W4 等设计层缺口由代码直接确证，未逐项打真实生产接口复现（它们属「接口/字段本就不该存在该能力」的设计缺失，打接口只会得到「按设计行为」的结果）。如需对 W1/W2 打实时生产接口坐实「盘点不动账 / PUT 改余额生效」，可加一条针对性 E2E，已在 P0 修复时一并补齐。② 仓库物流与采购/财务的对齐（如入库→三单匹配、出库→COGS）属跨模块，已在本报告与 41 号采购财务审计套件的交叉处说明，不重复计为仓库模块独立缺陷。
+</div>
+
+<div class="foot">
+  SSA ERP · 仓库物流模块审计报告 · 基线 V3.56.0 · 2026-10-08<br/>
+  审计方法：回代码走查（后端 functions / 前端 store / 字段门禁 / 过账权威）+ 全量生产 E2E（42 套件 0 FAIL）佐证核心无崩溃。<br/>
+  交付物：本 HTML + <code>scripts/prod-e2e/suites/</code> 既有守护套件（W1/W2/W3/W8 修复时补针对性 E2E）。
+</div>
+
+</div>
+</body>
+</html>
