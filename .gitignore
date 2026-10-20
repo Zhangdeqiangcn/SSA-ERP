@@ -74,3 +74,25 @@ tmp/
 
 # 本地知识库暂存（ima 归档前的分类暂存，不进版本库）
 强哥知识库/
+
+# ===== 本地杂音（构建备份/临时库/审计产物/测试残留，绝不进版本库） =====
+# 构建备份目录（deploy/build 过程产生的 dist 快照）
+dist.bak*
+dist_trash_bak*
+_dist_trash*
+# 构建日志
+build-output.txt
+build-errors.txt
+# 临时 SQLite 测试库
+_tmp_*.sqlite
+# 审计产物目录
+_audit_*/
+# 探针临时产物
+src/_probe_tmp.txt
+# 根目录散落的测试截图与个人分析产物（已归档 ima 或属个人暂存）
+approval-center-test.png
+审批报告-*.md
+强面一致性审计报告.md
+# WorkBuddy agent 工作区产物（memory 已单独忽略）
+.workbuddy/artifacts/
+.workbuddy/audit/

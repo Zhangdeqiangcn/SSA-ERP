@@ -1,7 +1,7 @@
 {
   "name": "ssa-erp",
   "private": true,
-  "version": "3.46.0",
+  "version": "3.93.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,8 @@
     "check:api": "node scripts/_sweep_api_live.mjs",
     "check:escape": "node scripts/check-search-escape.mjs",
     "check:field-policy": "node scripts/check-field-policy.mjs",
+    "check:status-colors": "node scripts/check-status-colors.mjs",
+    "check:put-partial": "node scripts/check-put-partial.mjs",
     "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
@@ -34,7 +36,9 @@
     "@tiptap/extension-color": "^3.31.3",
     "@tiptap/extension-image": "^3.31.3",
     "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/extension-table": "^3.31.3",
     "@tiptap/extension-text-align": "^3.31.3",
+    "@tiptap/extension-text-style": "^3.31.3",
     "@tiptap/extension-underline": "^3.31.3",
     "@tiptap/pm": "^3.31.3",
     "@tiptap/react": "^3.31.3",
