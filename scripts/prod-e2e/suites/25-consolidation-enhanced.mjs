@@ -43,15 +43,35 @@ export default async function run(ctx, s) {
   s.expectStatus('未登录访问账簿被拒 401', anon, 401);
 
   const st = stamp();
-  const lbLegal = await req('POST', '/api/entities/ledgerBook', {
-    token, body: { ledgerCode: '0000', name: `法定账套-${st}`, type: 'legal', baseCurrency: 'CNY' },
-  });
-  s.expectStatus('创建法定账套返回 201', lbLegal, 201);
+  // ★ 幂等复用固定账套编号（0000 法定 / 1000 管理）：
+  //   唯一约束 (org_id, ledger_code)，且账套无删除端点。同进程内 24 号先建过这两个编号，
+  //   本套件若盲目再 POST 必撞 DATA_UNIQUE 400。改为「先查、查到即复用、查不到才建」，
+  //   使本套件可独立跑、也可在 24 之后跑（全量回归场景）。
+  //   注：通用实体 GET 只支持 keyword 过滤（?ledgerCode= 不生效），故拉全量列表再按编号精确匹配；
+  //       字段名兼容蛇形/驼峰（SELECT * 透传 ledger_code，读侧可能补 camelCase）。
+  const ledgerExists = async (code) => {
+    const r = await req('GET', '/api/entities/ledgerBook?pageSize=100', { token });
+    return (r.data?.data || []).some((b) => b?.ledgerCode === code || b?.ledger_code === code);
+  };
+  let lbLegal;
+  if (await ledgerExists('0000')) {
+    lbLegal = { status: 200, data: { reused: true } };
+  } else {
+    lbLegal = await req('POST', '/api/entities/ledgerBook', {
+      token, body: { ledgerCode: '0000', name: `法定账套-${st}`, type: 'legal', baseCurrency: 'CNY' },
+    });
+  }
+  s.expectStatus('创建法定账套返回 201（或已存在则幂等复用）', lbLegal, [200, 201]);
 
-  const lbMgmt = await req('POST', '/api/entities/ledgerBook', {
-    token, body: { ledgerCode: '1000', name: `管理账套-${st}`, type: 'management', baseCurrency: 'CNY' },
-  });
-  s.expectStatus('创建管理账套返回 201', lbMgmt, 201);
+  let lbMgmt;
+  if (await ledgerExists('1000')) {
+    lbMgmt = { status: 200, data: { reused: true } };
+  } else {
+    lbMgmt = await req('POST', '/api/entities/ledgerBook', {
+      token, body: { ledgerCode: '1000', name: `管理账套-${st}`, type: 'management', baseCurrency: 'CNY' },
+    });
+  }
+  s.expectStatus('创建管理账套返回 201（或已存在则幂等复用）', lbMgmt, [200, 201]);
 
   // 抵消规则：应收账款 vs 应付账款（标准科目 1122 vs 2202）
   const rule = await req('POST', '/api/entities/eliminationRule', {

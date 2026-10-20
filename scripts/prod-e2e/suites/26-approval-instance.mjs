@@ -47,24 +47,40 @@ export default async function run(ctx, s) {
   s.expectTrue('同组织注册第二个用户（供委托路由验证）', !!peer?.id, `id=${peer?.id} role=${peer?.role}`);
 
   // ── 5) 正例：登记一次提交 ──────────────────────────────────────
+  // ★ V3.51.0 对标 SoD（制单与审核分离）：提交人 me 不得审批自己单据，
+  //   故正例的 approverId 必须用他人 peer，否则新 SoD 闸会拦 403。
   const entityId = `appr-suite-${stamp}`;
   const created = await req('POST', '/api/approval-instances', {
     token,
     body: {
       module: MODULE, entityId, entityNo: `APPR-${stamp}`, title: '套件用测试单据',
       totalNodes: 2, nodeOrder: 1, nodeName: '部门主管',
-      approverId: me.id, approverName: me.name,
+      approverId: peer.id, approverName: peer.user?.name || peer.username,
     },
   });
-  s.expectStatus('提交审批实例 201', created, 201);
+  s.expectStatus('提交审批实例 201（审批人=他人，SoD 通过）', created, 201);
   const instId = created.data?.data?.id;
   s.expectTrue('返回实例 id', !!instId, `id=${instId}`);
   if (!instId) return;
 
-  s.expectStatus('同一单据重复提交 → 409',
+  s.expectStatus('同一单据重复提交 → 409（审批人=他人，SoD 先放行再撞 409）',
     await req('POST', '/api/approval-instances', {
-      token, body: { module: MODULE, entityId, entityNo: `APPR-${stamp}`, approverId: me.id },
+      token, body: { module: MODULE, entityId, entityNo: `APPR-${stamp}`, approverId: peer.id },
     }), 409);
+
+  // ── 5.1) SoD（制单与审核分离）端到端：提交人审批自己 → 403 ────────
+  //   这条在 SoD 上线前（旧生产）会返回 201 而红，上线后 403 通过——
+  //   正是「加闸门要真打一次接口」的坐实断言（铁律㊹ 成对：合法他人审 201 + 非法自审 403）。
+  const sodSelf = await req('POST', '/api/approval-instances', {
+    token,
+    body: {
+      module: MODULE, entityId: `${entityId}-SOD`, entityNo: `APPR-SOD-${stamp}`,
+      title: '自审应被 SoD 拦', totalNodes: 1, nodeOrder: 1,
+      approverId: me.id, approverName: me.name,   // 提交人=me，审批人=me → SoD 拦截
+    },
+  });
+  s.expectStatus('自审提交被 SoD 拦 → 403', sodSelf, 403);
+  s.expectEq('SoD 错误码为 SOD_SELF_APPROVAL', sodSelf.data?.code, 'SOD_SELF_APPROVAL');
 
   // ── 6) 详情与动作流水 ─────────────────────────────────────────
   const detail = await req('GET', `/api/approval-instances/${instId}`, { token });
@@ -122,11 +138,11 @@ export default async function run(ctx, s) {
     token,
     body: {
       module: MODULE, entityId: prId, entityNo: `APPR-PR-${stamp}`, title: '套件用采购申请（可删）',
-      totalNodes: 1, nodeOrder: 1, nodeName: '部门主管', approverId: me.id, approverName: me.name,
+      totalNodes: 1, nodeOrder: 1, nodeName: '部门主管', approverId: peer.id, approverName: peer.user?.name || peer.username,
     },
   });
   const prInstId = prInst.data?.data?.id;
-  s.expectTrue('为真实采购申请登记审批实例', !!prInstId, `status=${prInst.status} id=${prInstId}`);
+  s.expectTrue('为真实采购申请登记审批实例（审批人=他人，SoD 通过）', !!prInstId, `status=${prInst.status} id=${prInstId}`);
   if (prInstId) {
     const wd = await req('PUT', `/api/approval-instances/${prInstId}`, {
       token, body: { action: 'withdraw', comment: '提交有误' },
@@ -140,7 +156,7 @@ export default async function run(ctx, s) {
       token,
       body: {
         module: MODULE, entityId: prId, entityNo: `APPR-PR-${stamp}`, title: '重新提交',
-        totalNodes: 1, nodeOrder: 1, approverId: me.id, approverName: me.name,
+        totalNodes: 1, nodeOrder: 1, approverId: peer.id, approverName: peer.user?.name || peer.username,
       },
     });
     s.expectTrue('撤回后同单据可重新提交（复用实例行）',

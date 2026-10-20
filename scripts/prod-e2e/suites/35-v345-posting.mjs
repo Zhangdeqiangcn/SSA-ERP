@@ -57,7 +57,7 @@ export default async function run(ctx, s) {
   const mat = await req('POST', '/api/materials', {
     token: admin,
     body: {
-      code: MAT, name: '过账守护物料', spec: 'E2E', unit: '个', category: '原材料',
+      code: MAT, name: '过账守护物料', specification: 'E2E', unit: '个', category: '原材料',
       price: 10, standardPrice: 10, currentStock: 0, status: 'active',
     },
   });

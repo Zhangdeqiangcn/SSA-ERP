@@ -64,9 +64,10 @@ export default async function run(ctx, s) {
   }
   if (chat.status === 200) {
     s.pass('AI 对话真实响应（已配置可用模型）', JSON.stringify(chat.data)?.slice(0, 140));
-  } else if ([400, 402, 403, 404, 424, 500, 501, 503].includes(chat.status) || chat.status === 0) {
-    // 未配置模型/额度不足属环境配置问题，不是代码回归
-    s.warn('AI 对话未返回成功（大概率未配置模型或外部额度问题）',
+  } else if ([400, 402, 403, 404, 424, 429, 500, 501, 503].includes(chat.status) || chat.status === 0) {
+    // 未配置模型/额度不足/限流属环境配置问题，不是代码回归。
+    // 429 = 外部 LLM 服务商（Agnes）限流，body 的 error code 1015 亦是额度/限流类 —— 与本行 WARN 口径一致。
+    s.warn('AI 对话未返回成功（大概率未配置模型/外部额度/限流问题）',
       `status=${chat.status} body=${JSON.stringify(chat.data)?.slice(0, 160)}`);
   } else {
     s.fail('AI 对话异常状态', `status=${chat.status} body=${JSON.stringify(chat.data)?.slice(0, 160)}`);

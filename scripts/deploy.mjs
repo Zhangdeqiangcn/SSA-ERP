@@ -16,7 +16,7 @@
 // 前置：dist/ 已构建（先 npm run build）；根目录 .env.local 含 CLOUDFLARE_API_TOKEN。
 // ============================================================
 import { readFileSync, existsSync } from 'node:fs';
-import { spawnSync } from 'node:child_process';
+import { spawnSync, execSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,11 +24,23 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const NODE = process.execPath;
 const localWrangler = resolve(root, 'node_modules/wrangler/bin/wrangler.js');
-// wrangler 不在项目本地 node_modules 时：优先读环境变量 WRANGLER_BIN，
-// 否则回退到本机隔离 workspace 的安装。强哥机器若路径不同，请设 WRANGLER_BIN
-// 指向你的 wrangler.js，或先 `npm i -D wrangler` 让本地 node_modules 可用。
+const localBinWrangler = resolve(root, 'node_modules/.bin/wrangler');
+// 最后兜底：强哥本机隔离 workspace 的安装（其他机器请设 WRANGLER_BIN 或先 npm i -D wrangler）。
+// 注意：本路径**不再是唯一兜底**——优先顺序见 resolveWrangler()。
 const FALLBACK_WRANGLER = 'C:/Users/zhangdeqiang/.workbuddy/binaries/node/workspace/node_modules/wrangler/bin/wrangler.js';
-const WRANGLER = process.env.WRANGLER_BIN || (existsSync(localWrangler) ? localWrangler : FALLBACK_WRANGLER);
+
+// wrangler 解析优先级（去硬编码，跨机器可移植）：
+//   ① 环境变量 WRANGLER_BIN（且文件存在）→ ② 项目本地 node_modules/wrangler
+//   → ③ 项目本地 .bin/wrangler → ④ 系统 PATH 上的 wrangler（已全局安装）
+//   → ⑤ 本机隔离 workspace 兜底（仅在以上皆不可用时）
+function resolveWrangler() {
+  if (process.env.WRANGLER_BIN && existsSync(process.env.WRANGLER_BIN)) return process.env.WRANGLER_BIN;
+  if (existsSync(localWrangler)) return localWrangler;
+  if (existsSync(localBinWrangler)) return localBinWrangler;
+  try { execSync('wrangler --version', { stdio: 'ignore' }); return 'wrangler'; } catch { /* PATH 上无 wrangler */ }
+  return FALLBACK_WRANGLER;
+}
+const WRANGLER = resolveWrangler();
 const DB = 'ssa-erp-db';
 
 // 1) 注入 .env.local（wrangler 不自动读取，非交互环境必须）
@@ -45,6 +57,21 @@ if (existsSync(envPath)) {
   console.warn('⚠️ 未找到 .env.local，CLOUDFLARE_API_TOKEN 可能缺失（非交互环境会失败）');
 }
 
+// 1.5) 凭据预检：缺失则**提前**失败，避免「迁移 apply 一半 / 部署中途」才暴露，
+//      也避免误把生产库结构改了却部署不上去的半吊子状态。
+if (!process.env.CLOUDFLARE_API_TOKEN) {
+  console.error('❌ 缺少 CLOUDFLARE_API_TOKEN：未设环境变量且 .env.local 未提供。');
+  console.error('   请在 .env.local 写入 CLOUDFLARE_API_TOKEN=...，或先 `export CLOUDFLARE_API_TOKEN=...` 再部署。');
+  process.exit(2);
+}
+
+// 部署模式开关（纯附加，不改变默认 `npm run deploy` 行为）：
+//   --dry     仅 apply 远程 D1 迁移、跳过 pages deploy（验证迁移是否成功用）
+//   --preview 发到预览分支（不影响生产主域，面板确认后再手动 promote）
+const cliArgs = process.argv.slice(2);
+const DRY = cliArgs.includes('--dry');
+const PREVIEW = cliArgs.includes('--preview');
+
 function run(args) {
   console.log(`\n▶ wrangler ${args.join(' ')}`);
   const r = spawnSync(NODE, [WRANGLER, ...args], { stdio: 'inherit', env: process.env, cwd: root });
@@ -58,6 +85,15 @@ function run(args) {
 run(['d1', 'migrations', 'apply', DB, '--remote']);
 
 // 3) 部署前端 + Functions
-run(['pages', 'deploy', 'dist', '--project-name', 'ssa-erp']);
-
-console.log('\n✅ 部署完成：远程 D1 迁移已 apply（幂等）+ 前端/函数已部署。');
+if (DRY) {
+  console.log('\n⏭️  --dry：已 apply 远程迁移，按要求跳过 pages deploy（仅用于验证迁移是否成功）。');
+} else if (PREVIEW) {
+  const branch = `preview-${Date.now()}`;
+  run(['pages', 'deploy', 'dist', '--project-name', 'ssa-erp', '--branch', branch]);
+  console.log(`\n🔍 预览部署已发起到分支 ${branch}（不影响生产主域 ssa-erp.pages.dev）。`);
+  console.log('   确认无误后在生产面板 promote 该部署，或用 `wrangler pages deployment promote <id>` 转正。');
+  console.log('   回滚：先 `wrangler pages deployment list --project-name ssa-erp` 查历史部署 id，再 promote 旧 id 即可。');
+} else {
+  run(['pages', 'deploy', 'dist', '--project-name', 'ssa-erp']);
+  console.log('\n✅ 部署完成：远程 D1 迁移已 apply（幂等）+ 前端/函数已部署到生产主域。');
+}

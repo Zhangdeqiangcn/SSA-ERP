@@ -29,7 +29,7 @@ export default async function run(ctx, s) {
     token: admin,
     body: {
       id: `mat-sn-${stamp}`, code: matSn, name: '序列号守护物料',
-      unit: '个', spec: 'SN-E2E', price: 100, currentStock: 0, safetyStock: 0,
+      unit: '个', specification: 'SN-E2E', price: 100, currentStock: 0, safetyStock: 0,
     },
   });
   s.expectTrue('★ A0 建物料', matCreate.status === 200 || matCreate.status === 201,

@@ -35,23 +35,28 @@ export default async function run(ctx, s) {
   const tag = `${runId}-${Date.now().toString().slice(-6)}`;
 
   // ══════════════════════════════════════════════════════════════
-  // ① 空载荷：五个写端点一律 400，且原因点名缺哪个字段
+  // ① 空载荷：五个写端点一律 400（不是 500），且给出可读的「请填写…」原因
+  //    （不是笼统的「处理失败」）。
+  //    注：V3.47.0 起，入库/出库/采购/销售等端点在「单号必填」之前还有一层
+  //    核心必填校验（供应商/客户等），故「第一个被点名的字段」不再固定是单号——
+  //    断言只锁定「返回 400 且是可读的必填守卫（含『请填写』），而非笼统处理失败」，
+  //    与核心必填字段的登记顺序解耦（顺序变化不应让本套件红）。
   // ══════════════════════════════════════════════════════════════
   const emptyCases = [
-    ['入库单', '/api/inbound-orders', '入库单号'],
-    ['出库单', '/api/outbound-orders', '出库单号'],
-    ['委外订单', '/api/subcontracts', '委外订单号'],
-    ['序列号', '/api/serial-numbers', '序列号'],
-    ['工单领料', '/api/work-orders/picking', '工单'],
+    ['入库单', '/api/inbound-orders'],
+    ['出库单', '/api/outbound-orders'],
+    ['委外订单', '/api/subcontracts'],
+    ['序列号', '/api/serial-numbers'],
+    ['工单领料', '/api/work-orders/picking'],
   ];
 
-  for (const [label, path, fieldName] of emptyCases) {
+  for (const [label, path] of emptyCases) {
     const r = await P(path, {});
     s.expectStatus(`① ${label}：空载荷返回 400（修复前是 500）`, r, [400],
       r.status !== 400 ? `实得 ${r.status}：${JSON.stringify(r.data).slice(0, 160)}` : '');
-    s.expectTrue(`① ${label}：原因点名「${fieldName}」`,
-      String(r.data?.error || '').includes(fieldName),
-      `实际原因：${r.data?.error || '(无)'}`);
+    s.expectTrue(`① ${label}：原因是可读的必填守卫（点名缺什么，含「请填写」）`,
+      String(r.data?.error || '').includes('请填写'),
+      `实际原因：${r.data?.error || '(无)'} code=${r.data?.code}`);
     s.expectTrue(`① ${label}：不再返回笼统的「处理失败」`,
       !String(r.data?.error || '').includes('请求处理失败'),
       `实际原因：${r.data?.error || '(无)'}`);
@@ -98,13 +103,13 @@ export default async function run(ctx, s) {
   // ══════════════════════════════════════════════════════════════
   const normalCases = [
     ['入库单', '/api/inbound-orders', 'inbound-order', {
-      inboundNo: `E2EIN-${tag}`, type: 'purchase', vendorName: 'E2E 供应商',
+      inboundNo: `E2EIN-${tag}`, type: 'purchase', vendorId: 'vnd-e2e', vendorName: 'E2E 供应商',
       warehouseId: 'wh-001', warehouseName: '主仓库', operator: 'E2E 套件31',
       inboundDate: '2026-09-23',
       items: [{ materialCode: 'E2EMAT', materialName: 'E2E 验证物料', actualQuantity: 1, unitPrice: 1 }],
     }],
     ['出库单', '/api/outbound-orders', 'outbound-order', {
-      outboundNo: `E2EOUT-${tag}`, type: 'sale', customerName: 'E2E 客户',
+      outboundNo: `E2EOUT-${tag}`, type: 'sale', customerId: 'cust-e2e', customerName: 'E2E 客户',
       warehouseId: 'wh-001', warehouseName: '主仓库', operator: 'E2E 套件31',
       outboundDate: '2026-09-23',
       items: [{ materialCode: 'E2EMAT', materialName: 'E2E 验证物料', quantity: 1 }],

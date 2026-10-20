@@ -238,7 +238,7 @@ export default async function run(ctx, s) {
   const mat = await req('POST', '/api/materials', {
     token: admin,
     body: {
-      id: 'mat-e2e-1', code: 'MAT-E2E-1', name: '测试物料A', spec: 'E2E规格', unit: '个',
+      id: 'mat-e2e-1', code: 'MAT-E2E-1', name: '测试物料A', specification: 'E2E规格', unit: '个',
       category: '原材料', price: 11.3, standardPrice: 11.3, currentStock: 0, status: 'active',
     },
   });

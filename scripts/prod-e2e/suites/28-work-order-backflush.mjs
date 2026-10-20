@@ -50,6 +50,7 @@ export default async function run(ctx, s) {
     const res = await P('/api/materials', {
       code: r.code,
       name: r.name,
+      specification: 'E2E-SPEC',
       unit: '件',
       status: 'active',
       currentStock: r.stock,
@@ -129,6 +130,7 @@ export default async function run(ctx, s) {
     productCode: prodCode,
     productName: 'E2E 主产品',
     bomNo: bomMainNo,
+    materialId: matId[matRows[0].code],
     plannedQuantity: 10,
     completedQuantity: 0,
     scrapQuantity: 0,
@@ -226,7 +228,7 @@ export default async function run(ctx, s) {
   const woNo2 = codeOf('WO', 'PARTIAL');
   const wo2 = await P('/api/work-orders', {
     orderNo: woNo2, status: 'in_progress', productCode: prodCode, productName: 'E2E 主产品',
-    bomNo: bomMainNo, plannedQuantity: 10, completedQuantity: 0, scrapQuantity: 0,
+    bomNo: bomMainNo, materialId: matId[matRows[0].code], plannedQuantity: 10, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -261,7 +263,7 @@ export default async function run(ctx, s) {
   const woNo3 = codeOf('WO', 'COVERED');
   const wo3 = await P('/api/work-orders', {
     orderNo: woNo3, status: 'in_progress', productCode: prodCode, productName: 'E2E 主产品',
-    bomNo: bomMainNo, plannedQuantity: 10, completedQuantity: 0, scrapQuantity: 0,
+    bomNo: bomMainNo, materialId: matId[matRows[0].code], plannedQuantity: 10, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -290,7 +292,7 @@ export default async function run(ctx, s) {
   const woNo4 = codeOf('WO', 'NOBOM');
   const wo4 = await P('/api/work-orders', {
     orderNo: woNo4, status: 'in_progress', productCode: `${prodCode}-NOBOM`, productName: 'E2E 无清单产品',
-    plannedQuantity: 5, completedQuantity: 0, scrapQuantity: 0,
+    materialId: matId[matRows[0].code], plannedQuantity: 5, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -311,7 +313,7 @@ export default async function run(ctx, s) {
   const stockA7 = await stockOf(matRows[0].code);
   const wo5 = await P('/api/work-orders', {
     orderNo: woNo5, status: 'completed', productCode: prodCode, productName: 'E2E 主产品',
-    bomNo: bomMainNo, plannedQuantity: 5, completedQuantity: 5, qualifiedQuantity: 5, scrapQuantity: 0,
+    bomNo: bomMainNo, materialId: matId[matRows[0].code], plannedQuantity: 5, completedQuantity: 5, qualifiedQuantity: 5, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -328,7 +330,7 @@ export default async function run(ctx, s) {
   const woNo6 = codeOf('WO', 'DRAFT');
   const wo6 = await P('/api/work-orders', {
     orderNo: woNo6, status: 'draft', productCode: prodCode, productName: 'E2E 主产品',
-    bomNo: bomMainNo, plannedQuantity: 3, completedQuantity: 0, scrapQuantity: 0,
+    bomNo: bomMainNo, materialId: matId[matRows[0].code], plannedQuantity: 3, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -354,7 +356,7 @@ export default async function run(ctx, s) {
   const woNo7 = codeOf('WO', 'MISSING');
   const wo7 = await P('/api/work-orders', {
     orderNo: woNo7, status: 'in_progress', productCode: `${prodCode}-MISS`, productName: 'E2E 缺料产品',
-    bomNo: bomMissNo, plannedQuantity: 2, completedQuantity: 0, scrapQuantity: 0,
+    bomNo: bomMissNo, materialId: matId[matRows[0].code], plannedQuantity: 2, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });
@@ -391,7 +393,7 @@ export default async function run(ctx, s) {
   const woNo8 = codeOf('WO', 'ORPHAN');
   const wo8 = await P('/api/work-orders', {
     orderNo: woNo8, status: 'in_progress', productCode: `${prodCode}-ORPHAN`, productName: 'E2E 孤立子装配产品',
-    bomNo: bomOrphanNo, plannedQuantity: 4, completedQuantity: 0, scrapQuantity: 0,
+    bomNo: bomOrphanNo, materialId: matId[matRows[0].code], plannedQuantity: 4, completedQuantity: 0, scrapQuantity: 0,
     plannedStartDate: '2026-09-01', plannedEndDate: '2026-09-10', priority: 'normal',
     workshop: 'E2E 车间', supervisor: 'E2E 主管',
   });

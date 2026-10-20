@@ -39,8 +39,17 @@ export default async function run(ctx, s) {
   }
 
   // ==================== 三单匹配 ====================
+  // ★ V3.45 起 three-way-match/create 改为「真正执行匹配判定」：PO 查不到时不再按参数错 400，
+  //   而是落一条 matchStatus=discrepancy + blocked=true 的匹配结论（付款闸门据此拦付款）。
+  //   旧断言「缺 poId → 400」是 V3.45 前契约，已随端点语义升级过时。
+  //   ★ 防假修复（铁律㊹）：不能只断言「不 500/不 400」，必须断言它**确实执行了判定**并给出
+  //     匹配结论（blocked=true / PO_NOT_FOUND），否则端点可能静默空 200 却什么都没判。
   const badBody = await req('POST', '/api/three-way-match/create', { token, body: { poNo: 'PO-NO-ID' } });
-  s.expectStatus('POST /api/three-way-match/create 缺 poId 返回 400', badBody, 400);
+  s.expectStatus('POST /api/three-way-match/create 缺 poId 正常执行判定（不 500/不 400）', badBody, 200,
+    `status=${badBody.status}：${JSON.stringify(badBody.data ?? '(无响应体)').slice(0, 160)}`);
+  s.expectTrue('   PO 查不到时结论为「匹配不过 + 留痕」（blocked=true 或 PO_NOT_FOUND，非静默空返回）',
+    badBody.data?.blocked === true || badBody.data?.code === 'PO_NOT_FOUND',
+    `code=${badBody.data?.code} blocked=${badBody.data?.blocked}`);
 
   // 完全一致 → 应判定 matched
   const matched = await req('POST', '/api/three-way-match/create', {

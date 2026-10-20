@@ -27,6 +27,11 @@
 //   npm run check -- --live        # 追加 ④ 后端端点全量真实巡检（会写线上测试数据并自动清理）
 //   npm run check:smoke            # 只跑 ③ 端点探针
 //   npm run check:api              # 只跑 ④ 后端端点全量巡检
+//   npm run check:status-colors    # 只跑 ⑨ 状态色收敛门禁（界面一致性 P0 防复发）
+//
+// ⑤~⑨ 为后续追加的"成对/唯一真源"约定门禁，全部纯本地、无副作用、无网络依赖：
+//   ⑤ LIKE 转义一致性      ⑥ 字段权限矩阵一致性    ⑦ 前端白盒单测
+//   ⑧ 操作权限矩阵一致性    ⑨ 状态色收敛（禁本地 hex 副本）
 // ============================================================
 import { spawnSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';
@@ -53,6 +58,15 @@ const steps = [
   // V3.44.0 新增：⑦ 前端白盒单测（FE-001）。纯本地、无副作用、无网络依赖，
   // 因此即使 --no-probe（构建门槛）也跑；任一用例失败即阻断，防回归成"静默放行"。
   { name: '⑦ 前端白盒单测', file: '_audit_unit_tests.mjs', blocking: true },
+  // V3.55.0 新增：⑧ 操作权限默认矩阵一致性（前端 defaultRoleModuleOps ↔ 后端 BUILTIN_ROLE_OPS
+  // 逐条核对，纯本地文本解析、无副作用，与 ⑥ 字段矩阵同范式；防"改一处忘改另一处"漂移（坑㉛）。
+  { name: '⑧ 操作权限矩阵一致性', file: 'check-op-matrix.mjs', blocking: true },
+  // 界面一致性审计 P0 防复发：状态色必须收敛到 StatusBadge.statusConfig，
+  // 页面不得再写"活着"的本地 hex 状态色副本（图表等例外须加 status-color-exception 注释）。
+  { name: '⑨ 状态色收敛（禁本地 hex 副本）', file: 'check-status-colors.mjs', blocking: true },
+  // P0-2 防回归：所有含必填校验的 PUT 端点必须传 { partial: true }，
+  // 否则局部更新会被必填埋（V3.86 曾因此 E2E 全线红）。纯本地静态扫描，无副作用。
+  { name: '⑩ PUT 必填 partial 语义', file: 'check-put-partial.mjs', blocking: true },
 ];
 
 const W = 26;

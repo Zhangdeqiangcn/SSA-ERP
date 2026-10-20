@@ -135,17 +135,27 @@ export default async function run(ctx, s) {
     createRes.status !== 201 ? JSON.stringify(createRes.data).slice(0, 120) : '');
   if (createOk) created.push(bomId);
 
+  // V3.46.0 起读侧 headerToApi 返回「嵌套树」（顶层 items + 各自 children），不再返回摊平数组，
+  // 故所有行数/层级/叶子断言必须**递归展开 children** 再算，否则「顶层 2 项」会被误判成「只有 2 行」（口径过时的假红）。
+  const flatAll = (arr) => {
+    const out = [];
+    const walk = (list) => { for (const it of list || []) { out.push(it); if (Array.isArray(it?.children) && it.children.length) walk(it.children); } };
+    walk(arr || []);
+    return out;
+  };
+
   // ★ 关键断言：嵌套子树没有被丢掉
   if (createOk && createRes.data) {
     const items = createRes.data.items || [];
-    s.expectEq('★ 创建回执：嵌套摊平后 5 行（2 顶层 + 1 二级 + 2 三级）', items.length, 5, '明细行数');
+    const all = flatAll(items);
+    s.expectEq('★ 创建回执：嵌套摊平后 5 行（2 顶层 + 1 二级 + 2 三级）', all.length, 5, '明细行数');
 
-    const levels = [...new Set(items.map((i) => Number(i.level)))].sort((a, b) => a - b);
+    const levels = [...new Set(all.map((i) => Number(i.level)))].sort((a, b) => a - b);
     s.expectTrue('★ 层级展开出 1/2/3 三档（未被压成单层）',
       levels.join(',') === '1,2,3',
       `实际层级=[${levels.join(',')}]`);
 
-    const leaf = items.find((i) => i.materialCode === `E2E-LEAF-A-${stamp}`);
+    const leaf = all.find((i) => i.materialCode === `E2E-LEAF-A-${stamp}`);
     s.expectTrue('★ 三级叶子件存在（子树的子树被写入）', !!leaf,
       leaf ? `level=${leaf.level} parent=${leaf.parentItemId}` : '未找到');
 
@@ -156,7 +166,7 @@ export default async function run(ctx, s) {
         `parentItemId=${leaf.parentItemId}`);
     }
 
-    const top = items.find((i) => i.materialCode === `E2E-TOP-${stamp}`);
+    const top = all.find((i) => i.materialCode === `E2E-TOP-${stamp}`);
     s.expectTrue('  顶层件层级 = 1 且无父引用',
       top && Number(top.level) === 1 && !top.parentItemId,
       top ? `level=${top.level} parent=${top.parentItemId}` : '未找到');
@@ -166,7 +176,7 @@ export default async function run(ctx, s) {
   const got = await req('GET', `/api/bom/${bomId}`, { token });
   const getOk = s.expectStatus('GET /api/bom/:id 读回 200', got, 200);
   if (getOk && got.data) {
-    s.expectEq('★ 从 D1 读回仍是 5 行（写入未丢行）', (got.data.items || []).length, 5, '明细行数');
+    s.expectEq('★ 从 D1 读回仍是 5 行（写入未丢行）', flatAll(got.data.items).length, 5, '明细行数');
     s.expectEq('  读回的表头编号一致', got.data.bomNo, payload.bomNo);
     s.expectEq('  读回的产品编码一致', got.data.productCode, payload.productCode);
   }
@@ -208,7 +218,7 @@ export default async function run(ctx, s) {
   if (updOk && upd.data) {
     s.expectEq('  更新后状态已变', upd.data.status, 'released');
     s.expectEq('★ 更新后明细仍是 5 行（未传 items 时不得清空）',
-      (upd.data.items || []).length, 5, '明细行数');
+      flatAll(upd.data.items).length, 5, '明细行数');
     s.expectEq('  更新后产品名称未被清空（只改传了的字段）',
       upd.data.productName, payload.productName);
   }
@@ -220,7 +230,7 @@ export default async function run(ctx, s) {
   });
   const repOk = s.expectStatus('PUT 显式传 items 返回 200', replace, 200);
   if (repOk && replace.data) {
-    s.expectEq('  显式传 items 时按整体替换（1 行）', (replace.data.items || []).length, 1, '明细行数');
+    s.expectEq('  显式传 items 时按整体替换（1 行）', flatAll(replace.data.items).length, 1, '明细行数');
   }
 
   // ── 9. 删除：连带明细（不留孤儿行，否则会污染按子件反查）──────

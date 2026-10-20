@@ -49,6 +49,7 @@ export default async function run(ctx, s) {
     outboundNo: longNo,
     type: 'pick',
     status: 'draft', // draft：不触发库存过账，避免副作用
+    customerId: 'cust-e2e',
     warehouseId: 'wh-001',
     warehouseName: '主仓库-A区',
     operator: 'E2E 关键词套件',
@@ -169,7 +170,7 @@ export default async function run(ctx, s) {
   const wcStamp = Date.now();
   const mkMat = async (suffix, name) => {
     const code = `M-E2E-WC-${suffix}-${runId}`;
-    const r = await req('POST', '/api/materials', { token, body: { code, name, unit: '个' } });
+    const r = await req('POST', '/api/materials', { token, body: { code, name, specification: 'E2E-SPEC', unit: '个' } });
     if (r.data?.id) ctx.track('material', r.data.id);
     return { res: r, code, id: r.data?.id };
   };

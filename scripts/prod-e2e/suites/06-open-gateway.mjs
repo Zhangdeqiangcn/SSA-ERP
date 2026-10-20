@@ -105,7 +105,7 @@ export default async function run(ctx, s) {
     const mcode = `E2E-GW-${runId}`;
     const gwCreate = await req('POST', '/api/open/materials', {
       apiKey: writeKey,
-      body: { code: mcode, name: 'E2E 网关物料', unit: 'pcs', status: 'active', price: 12.34, remarks: 'E2E 常驻套件' },
+      body: { code: mcode, name: 'E2E 网关物料', specification: 'E2E 网关规格', unit: 'pcs', status: 'active', price: 12.34, remarks: 'E2E 常驻套件' },
     });
     s.expectStatus('POST /api/open/materials 网关创建（201）', gwCreate, 201);
     const gwId = gwCreate.data?.id;
