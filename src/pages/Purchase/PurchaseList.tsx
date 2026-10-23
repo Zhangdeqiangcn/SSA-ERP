@@ -82,7 +82,8 @@ const PurchaseList: React.FC = () => {
       meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
-    { accessorKey: 'expectedDate', header: '期望日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDate) },
+    // V3.102.0 表头「期望日期」已改为「申请日期」（期望交货语义由明细行交期接管）；
+    // 原 expectedDate 展示列对新单恒为「-」，移除以免误导；导出/导入映射保留供历史数据。
     // V3.102.0 申请日期（提交时自动拉取当天；历史单兜底创建日期）
     {
       accessorKey: 'applicationDate',

@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { Add, Visibility, Edit, Delete, PlayCircle, ViewTimeline } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable, StatusBadge, FilterBar } from '@/components/common';
+import { DataTable, StatusBadge, FilterBar, DetailSection } from '@/components/common';
 import { useRepetitiveMfgStore } from '@/stores/repetitiveMfgStore';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { notifyWarning } from '@/utils/notify';
@@ -246,6 +246,22 @@ const RepetitiveMfgList: React.FC = () => {
       <Dialog open={!!bfDetail} onClose={() => setBfDetail(null)} maxWidth="md" fullWidth>
         <DialogTitle>物料倒冲明细 · {bfDetail?.periodNo}</DialogTitle>
         <DialogContent>
+          {bfDetail && (
+            <DetailSection
+              title="周期信息"
+              columns={2}
+              fields={[
+                { label: '周期号', value: bfDetail.periodNo },
+                { label: '生产线', value: `${bfDetail.lineNo} · ${bfDetail.lineName}` },
+                { label: '产出物料', value: `${bfDetail.materialCode} · ${bfDetail.materialName}` },
+                { label: '周期区间', value: `${bfDetail.startDate} ~ ${bfDetail.endDate}` },
+                { label: '计划产量', value: bfDetail.plannedQty },
+                { label: '已产 / 报废', value: `${bfDetail.producedQty} / ${bfDetail.scrapQty}` },
+                { label: '状态', value: <StatusBadge status={PERIOD_STATUS_KEY[bfDetail.status]} /> },
+                { label: '备注', value: bfDetail.note || '-' },
+              ]}
+            />
+          )}
           <Table size="small" sx={{ mt: 1 }}>
             <TableHead>
               <TableRow><TableCell>物料编码</TableCell><TableCell>物料名称</TableCell><TableCell>单位</TableCell><TableCell>单件标准</TableCell><TableCell>已倒冲累计</TableCell></TableRow>

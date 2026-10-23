@@ -15,6 +15,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import { FlowTracker, ConfirmDialog, DetailActions, DetailSection, StatusBadge } from '@/components/common';
 import { ObjectPage } from '@/components/layout';
 import { useProductionStore, CompleteWorkOrderResult } from '@/stores/productionStore';
+import { useProductionOperationStore } from '@/stores/productionOperationStore';
 import { notifyError, notifySuccess } from '@/utils/notify';
 import { resolveBOM, topLevelItems } from '@/utils/bomResolver';
 import { useBOMStore } from '@/stores/bomStore';
@@ -88,6 +89,12 @@ export default function WorkOrderDetail() {
   const deleteWorkOrder = useProductionStore(s => s.deleteWorkOrder);
   const completeWorkOrder = useProductionStore(s => s.completeWorkOrder);
   const issueMaterials = useProductionStore(s => s.issueMaterials);
+  // 本工单的报工记录（车间工序报工：合格/报废/操作工/工时）
+  const allReports = useProductionOperationStore(s => s.operationReports);
+  const myReports = useMemo(
+    () => allReports.filter((r) => r.workOrderId === id).sort((a, b) => (a.reportedAt || '').localeCompare(b.reportedAt || '')),
+    [allReports, id],
+  );
   const { bomList, bomTreeData } = useBOMStore();
   const { addOutboundOrder } = useWarehouseStore();
   const wo = workOrders.find(w => w.id === id);
@@ -374,6 +381,74 @@ export default function WorkOrderDetail() {
             </Paper>
           ),
         },
+        // ── 已领料明细（工单领料后回写 issuedMaterials）──
+        ...(wo.issuedMaterials && wo.issuedMaterials.length > 0 ? [{
+          id: 'issued',
+          title: '已领料明细',
+          content: (
+            <Paper variant="outlined" sx={{ p: 3 }}>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>物料编码</TableCell>
+                      <TableCell>物料名称</TableCell>
+                      <TableCell align="right">领料数量</TableCell>
+                      <TableCell>出库单号</TableCell>
+                      <TableCell>领料时间</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {wo.issuedMaterials.map((m, i) => (
+                      <TableRow key={m.id || i}>
+                        <TableCell>{m.materialCode}</TableCell>
+                        <TableCell>{m.materialName}</TableCell>
+                        <TableCell align="right">{m.quantity}</TableCell>
+                        <TableCell>{m.outboundNo || '—'}</TableCell>
+                        <TableCell>{m.issuedAt ? new Date(m.issuedAt).toLocaleString('zh-CN') : '—'}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          ),
+        }] : []),
+        // ── 报工记录（本工单的车间工序报工）──
+        ...(myReports.length > 0 ? [{
+          id: 'reports',
+          title: '报工记录',
+          content: (
+            <Paper variant="outlined" sx={{ p: 3 }}>
+              <TableContainer>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>工序</TableCell>
+                      <TableCell>工作中心</TableCell>
+                      <TableCell>操作工</TableCell>
+                      <TableCell align="right">合格</TableCell>
+                      <TableCell align="right">报废</TableCell>
+                      <TableCell>报工时间</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {myReports.map((r) => (
+                      <TableRow key={r.id}>
+                        <TableCell>{r.operationName}</TableCell>
+                        <TableCell>{r.workCenter || '—'}</TableCell>
+                        <TableCell>{r.operator || '—'}</TableCell>
+                        <TableCell align="right">{r.goodQuantity}</TableCell>
+                        <TableCell align="right">{r.scrapQuantity || 0}</TableCell>
+                        <TableCell>{r.reportedAt ? new Date(r.reportedAt).toLocaleString('zh-CN') : '—'}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          ),
+        }] : []),
         // ── 原料倒冲发料（完工自动扣料）──
         ...(backflush ? [{
           id: 'backflush',

@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useEquipmentStore } from '@/stores/equipmentStore';
 import { useProductionOperationStore } from '@/stores/productionOperationStore';
 import { Equipment, EquipmentCategory, EquipmentStatus, MaintenanceOrder } from '@/types/production';
+import { todayLocal } from '@/utils/format';
 
 const CAT_LABEL: Record<EquipmentCategory, string> = { machine: '设备', tool: '工装', mold: '模具' };
 const STATUS_LABEL: Record<EquipmentStatus, string> = { in_use: '在用', idle: '闲置', scrapped: '报废' };
@@ -20,7 +21,7 @@ export default function EquipmentPage() {
   const [eqForm, setEqForm] = useState({
     code: '', name: '', category: 'machine' as EquipmentCategory, workCenterId: '', status: 'in_use' as EquipmentStatus, nextMaintenanceDate: '2026-08-01',
   });
-  const [moForm, setMoForm] = useState({ equipmentId: '', type: '日常保养', date: '2026-07-20', cost: 0 });
+  const [moForm, setMoForm] = useState({ equipmentId: '', type: '日常保养', date: todayLocal(), cost: 0 });
 
   const eqRows = useMemo(() => equipments, [equipments]);
   const moRows = useMemo(() => maintenanceOrders, [maintenanceOrders]);
@@ -53,7 +54,7 @@ export default function EquipmentPage() {
       equipmentName: eq?.name ?? '',
       equipmentCode: eq?.code ?? '',
       type: moForm.type,
-      date: moForm.date,
+      date: todayLocal(),
       cost: moForm.cost,
       status: 'done',
       createdAt: new Date().toISOString(),
@@ -63,7 +64,7 @@ export default function EquipmentPage() {
     };
     addMaintenance(m);
     setOpenMo(false);
-    setMoForm({ equipmentId: '', type: '日常保养', date: '2026-07-20', cost: 0 });
+    setMoForm({ equipmentId: '', type: '日常保养', date: todayLocal(), cost: 0 });
   };
 
   return (
@@ -165,7 +166,7 @@ export default function EquipmentPage() {
             {equipments.map((e) => <MenuItem key={e.id} value={e.id}>{e.name}（{e.code}）</MenuItem>)}
           </TextField>
           <TextField fullWidth margin="dense" label="保养类型" value={moForm.type} onChange={(e) => setMoForm({ ...moForm, type: e.target.value })} />
-          <TextField fullWidth margin="dense" label="日期" type="date" value={moForm.date} onChange={(e) => setMoForm({ ...moForm, date: e.target.value })} InputLabelProps={{ shrink: true }} />
+          <TextField fullWidth margin="dense" label="日期" type="date" value={moForm.date} onChange={(e) => setMoForm({ ...moForm, date: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
           <TextField fullWidth margin="dense" label="费用" type="number" value={moForm.cost} onChange={(e) => setMoForm({ ...moForm, cost: Number(e.target.value) })} />
         </DialogContent>
         <DialogActions>

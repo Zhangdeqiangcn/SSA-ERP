@@ -11,8 +11,9 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { useCashMgmtStore } from '@/stores/cashMgmtStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { CashFlowDirection, CASH_FLOW_LABELS } from '@/types/cashMgmt';
+import { todayLocal } from '@/utils/format';
 
-const todayStr = () => new Date().toISOString().slice(0, 10);
+const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
 
 export default function CashMgmtList() {
@@ -208,7 +209,7 @@ export default function CashMgmtList() {
             <TextField label="往来方" value={flowCounterparty} onChange={(e) => setFlowCounterparty(e.target.value)} fullWidth />
             <Stack direction="row" spacing={2}>
               <TextField label="金额" type="number" value={flowAmount} onChange={(e) => setFlowAmount(e.target.value)} fullWidth />
-              <TextField label="日期" type="date" value={flowDate} onChange={(e) => setFlowDate(e.target.value)} InputLabelProps={{ shrink: true }} fullWidth />
+              <TextField label="日期" type="date" value={flowDate} onChange={(e) => setFlowDate(e.target.value)} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} fullWidth />
             </Stack>
             <TextField label="关联单号" value={flowDoc} onChange={(e) => setFlowDoc(e.target.value)} fullWidth />
             <TextField label="备注" value={flowRemark} onChange={(e) => setFlowRemark(e.target.value)} fullWidth />

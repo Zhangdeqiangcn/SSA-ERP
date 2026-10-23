@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import {
-  Box, Typography, Paper, Grid, Chip, Button, Divider, Table, TableBody,
-  TableCell, TableContainer, TableHead, TableRow, TextField,
+  Box, Typography, Paper, Grid, Chip, Button,
+  TextField,
   Stepper, Step, StepLabel, Alert, Snackbar,
 } from '@mui/material';
 import { ArrowBack, Save, CheckCircle, Cancel, Warning } from '@mui/icons-material';
@@ -10,6 +10,7 @@ import { FlowTracker } from '@/components/common';
 import ResponsiblePersons from '@/components/common/ResponsiblePersons';
 import { useQualityStore } from '@/stores/qualityStore';
 import { useMaterialStore } from '@/stores';
+import MaterialLineItemsGrid, { GridColumn } from '@/components/common/MaterialLineItemsGrid';
 
 const InspectionTask: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +32,42 @@ const InspectionTask: React.FC = () => {
   const [conclusion, setConclusion] = useState<'passed' | 'failed' | 'conditional_pass' | ''>('');
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState('');
+
+  // 检验项目明细行（行由检验标准模板固定生成，不可增删；对齐采购域 MaterialLineItemsGrid 风格）
+  const inspectionRows = useMemo(
+    () => (standard?.inspectionItems || []).map((item) => ({
+      id: item.id,
+      itemName: item.name,
+      method: item.method,
+      spec: item.spec,
+      isCritical: item.isCritical,
+      actualValue: results[item.id] || '',
+    })),
+    [standard, results],
+  );
+  const handleInspectionRows = (rows: Record<string, any>[]) => {
+    const next: Record<string, string> = {};
+    rows.forEach((r) => { next[r.id] = r.actualValue ?? ''; });
+    setResults(next);
+  };
+  const inspectionColumns: GridColumn[] = [
+    { key: 'itemName', label: '检验项目', width: 150, editable: false, fixed: true },
+    { key: 'method', label: '检验方法', width: 130, editable: false },
+    { key: 'spec', label: '规格要求', width: 150, editable: false },
+    {
+      key: 'isCritical', label: '是否关键', width: 90, editable: false, align: 'center',
+      renderCell: (row) => (row.isCritical
+        ? <Chip label="关键" size="small" sx={{ bgcolor: '#FEF2F2', color: '#EF4444', fontSize: '0.6875rem' }} />
+        : <Chip label="一般" size="small" sx={{ bgcolor: '#F8FAFC', color: '#94A3B8', fontSize: '0.6875rem' }} />),
+    },
+    { key: 'actualValue', label: '实测值/结果', width: 150, required: true, placeholder: '填入实测值' },
+    {
+      key: 'judgment', label: '判定', width: 80, editable: false, align: 'center',
+      renderCell: (row) => (row.actualValue
+        ? <Chip label="填写" size="small" sx={{ bgcolor: '#EFF6FF', color: '#3B82F6', fontSize: '0.6875rem' }} />
+        : <Typography variant="caption" sx={{ color: '#CBD5E1' }}>待填</Typography>),
+    },
+  ];
 
   const steps = ['接收任务', '准备样品', '执行检验', '填写结论', '提交审批'];
   const activeStep = task.status === 'pending' ? 0 : task.status === 'in_progress' ? 2 : 4;
@@ -160,50 +197,16 @@ const InspectionTask: React.FC = () => {
           <Paper sx={{ p: 3, borderRadius: 3, mb: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>检验项目记录</Typography>
             {standard ? (
-              <TableContainer>
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>检验项目</TableCell>
-                      <TableCell>检验方法</TableCell>
-                      <TableCell>规格要求</TableCell>
-                      <TableCell>是否关键</TableCell>
-                      <TableCell>实测值/结果</TableCell>
-                      <TableCell>判定</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {standard.inspectionItems.map((item) => (
-                      <TableRow key={item.id}>
-                        <TableCell><Typography variant="body2" sx={{ fontWeight: 500 }}>{item.name}</Typography></TableCell>
-                        <TableCell><Typography variant="body2" sx={{ color: '#64748B' }}>{item.method}</Typography></TableCell>
-                        <TableCell><Typography variant="body2">{item.spec}</Typography></TableCell>
-                        <TableCell>
-                          {item.isCritical
-                            ? <Chip label="关键" size="small" sx={{ bgcolor: '#FEF2F2', color: '#EF4444', fontSize: '0.6875rem' }} />
-                            : <Chip label="一般" size="small" sx={{ bgcolor: '#F8FAFC', color: '#94A3B8', fontSize: '0.6875rem' }} />}
-                        </TableCell>
-                        <TableCell sx={{ width: 140 }}>
-                          <TextField
-                            size="small"
-                            placeholder="填入实测值"
-                            value={results[item.id] || ''}
-                            onChange={(e) => setResults(prev => ({ ...prev, [item.id]: e.target.value }))}
-                            sx={{ width: '100%' }}
-                          />
-                        </TableCell>
-                        <TableCell sx={{ width: 80 }}>
-                          {results[item.id] ? (
-                            <Chip label="填写" size="small" sx={{ bgcolor: '#EFF6FF', color: '#3B82F6', fontSize: '0.6875rem' }} />
-                          ) : (
-                            <Typography variant="caption" sx={{ color: '#CBD5E1' }}>待填</Typography>
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <MaterialLineItemsGrid
+                title="检验项目记录"
+                columns={inspectionColumns}
+                value={inspectionRows}
+                onChange={handleInspectionRows}
+                rowIdKey="id"
+                removable={false}
+                showAdd={false}
+                testIdPrefix="inspect-item"
+              />
             ) : (
               <Typography variant="body2" color="text.secondary">暂无检验标准</Typography>
             )}

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Box, Button, Stack, Dialog, DialogTitle, DialogContent, MenuItem, FormControl, InputLabel, Select,
-  Typography, Snackbar, Alert, LinearProgress, Divider, Collapse, Grid, Paper,
+  Typography, Snackbar, Alert, LinearProgress, Collapse, Grid, Paper, Chip,
 } from '@mui/material';
 import {
   Add, Print as PrintIcon, EditNote, DeleteOutline,
@@ -12,7 +12,7 @@ import {
 import { PageWrapper } from '@/components/layout';
 import {
   DataTable, FilterBar, StatusBadge, FlowTracker, PrintPreview,
-  ConfirmDialog, BatchEditDialog, KpiStrip, DetailDrawer, DetailSection,
+  ConfirmDialog, BatchEditDialog, KpiStrip, DetailDrawer, DetailSection, SecureField,
   type BatchAction, type BatchEditField, type KpiItem,
 } from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -71,7 +71,8 @@ const ORDER_BATCH_FIELDS: BatchEditField[] = [
 
 /**
  * PoQuickView —— 采购订单「抽屉速览」内容（放进 DetailDrawer，就地看核心信息不跳页）。
- * 只放高频信息：关键信息字段 + 物料明细 + 收货进度；深层操作（变更/版本/删除/审批）走抽屉右上角「打开完整详情」逃生舱。
+ * 结构与采购申请详情页保持一致：两列 label/value 表头信息区（DetailSection）+ 物料明细表（DataTable），
+ * 外加收货进度条；深层操作（变更/版本/删除/审批）走抽屉右上角「打开完整详情」逃生舱。
  */
 const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
   const currency = order.currency || 'CNY';
@@ -86,29 +87,27 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
   const quickFields = [
     { label: '供应商', value: order.vendorName || '-' },
     { label: '订单状态', value: <StatusBadge status={order.status} /> },
+    { label: '联系人', value: order.contact || '-' },
+    { label: '联系电话', value: order.phone || '-' },
     { label: '下单日期', value: formatDate(order.orderDate) },
     { label: '预计交货', value: formatDate(order.expectedDeliveryDate) },
     { label: '实际交货', value: order.actualDeliveryDate ? formatDate(order.actualDeliveryDate) : '-' },
     { label: '付款条款', value: order.paymentTerms || '-' },
     { label: '贸易条件', value: order.tradeTerms || '-' },
+    { label: '币种', value: <Chip label={currency} size="small" sx={{ fontFamily: 'monospace', bgcolor: '#F1F5F9', color: '#334155' }} /> },
+    { label: '价格类型', value: order.taxIncluded ? '含税价' : '未税价' },
+    { label: '收货地址', value: order.deliveryAddress || '-' },
+    { label: '关联项目', value: order.projectName ? `${order.projectNo} - ${order.projectName}` : '-' },
     { label: '未税总额', value: formatCurrency(netTotal, currency) },
     { label: '税额', value: formatCurrency(taxTotal, currency) },
     { label: '价税合计', value: <strong style={{ color: '#1D4ED8' }}>{formatCurrency(grandTotal, currency)}</strong> },
+    { label: '备注', value: order.remarks || '-' },
   ];
 
   return (
     <Stack spacing={2}>
-      {/* 关键信息（4 列密集网格，一屏看全） */}
-      <Grid container spacing={1.5}>
-        {quickFields.map((f) => (
-          <Grid item key={f.label} xs={6} sm={3}>
-            <Typography variant="caption" color="text.secondary" display="block" noWrap>
-              {f.label}
-            </Typography>
-            <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.2 }}>{f.value}</Typography>
-          </Grid>
-        ))}
-      </Grid>
+      {/* 表头信息区：两列 label/value（与采购申请详情 DetailSection 同结构） */}
+      <DetailSection columns={2} fields={quickFields} />
 
       {/* 收货进度 */}
       <Box>
@@ -125,29 +124,73 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
         />
       </Box>
 
-      {/* 物料明细 */}
-      <Box>
-        <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
-          物料明细（{order.items?.length ?? 0} 项）
-        </Typography>
-        <Divider sx={{ mb: 1 }} />
-        <Stack spacing={0.5}>
-          {(order.items || []).map((i) => (
-            <Box key={i.id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, fontSize: '0.8125rem' }}>
-              <Box sx={{ flex: 1, minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                <span style={{ fontFamily: 'monospace', color: '#1D4ED8' }}>{i.materialCode}</span>
-                {' '}{i.materialName}
-              </Box>
-              <Box sx={{ color: 'text.secondary', flexShrink: 0 }}>
-                {i.orderedQuantity} × {formatCurrency(i.unitPrice, currency)}
-              </Box>
-              <Box sx={{ fontWeight: 600, color: '#1D4ED8', flexShrink: 0, minWidth: 70, textAlign: 'right' }}>
-                {formatCurrency(i.amount ?? 0, currency)}
-              </Box>
-            </Box>
-          ))}
-        </Stack>
-      </Box>
+      {/* 物料明细表：与采购申请详情同款 DataTable（sapStyle） */}
+      <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+        <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid', borderColor: 'divider', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="subtitle2" fontWeight={600}>订单物料明细（{order.items?.length ?? 0} 项）</Typography>
+          <Typography variant="caption" color="text.secondary">
+            价税合计：<strong style={{ color: '#1D4ED8' }}>{formatCurrency(grandTotal, currency)}</strong>
+          </Typography>
+        </Box>
+        <DataTable
+          data={order.items}
+          enablePagination={false}
+          enableRowSelection={false}
+          sapStyle
+          columns={[
+            {
+              id: 'materialCode', header: '物料编码',
+              cell: ({ row }) => (
+                <Chip label={row.original.materialCode} size="small"
+                  sx={{ fontSize: '0.75rem', bgcolor: '#EFF6FF', color: '#1D4ED8', fontFamily: 'monospace' }} />
+              ),
+            },
+            {
+              id: 'materialName', header: '物料名称', accessorKey: 'materialName',
+              cell: ({ row }) => <Box sx={{ fontWeight: 500 }}>{row.original.materialName}</Box>,
+            },
+            {
+              id: 'specification', header: '规格型号', accessorKey: 'specification',
+              cell: ({ row }) => <Box sx={{ color: '#64748B', fontSize: '0.8125rem' }}>{row.original.specification}</Box>,
+            },
+            {
+              id: 'unit', header: '单位', accessorKey: 'unit',
+              cell: ({ row }) => <Box sx={{ textAlign: 'center' }}>{row.original.unit}</Box>,
+            },
+            {
+              id: 'orderedQuantity', header: '订购数量', accessorKey: 'orderedQuantity',
+              cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 500 }}>{row.original.orderedQuantity.toLocaleString()}</Box>,
+            },
+            {
+              id: 'deliveredQuantity', header: '已收数量', accessorKey: 'deliveredQuantity',
+              cell: ({ row }) => (
+                <Box sx={{ textAlign: 'right' }}>
+                  <Typography variant="body2" color={row.original.deliveredQuantity === row.original.orderedQuantity ? 'success.main' : 'text.primary'}>
+                    {row.original.deliveredQuantity.toLocaleString()}
+                  </Typography>
+                </Box>
+              ),
+            },
+            {
+              id: 'unitPrice', header: '未税单价', accessorKey: 'unitPrice',
+              cell: ({ row }) => (
+                <SecureField module="purchase" fieldName="unitPrice">
+                  <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.unitPrice, currency)}</Box>
+                </SecureField>
+              ),
+            },
+            {
+              id: 'amountWithTax', header: '价税合计',
+              cell: ({ row }) => {
+                const lineRate = row.original.taxRate ?? 13;
+                const lineTax = row.original.taxAmount ?? round2((row.original.amount * lineRate) / 100);
+                const lineGrand = row.original.amountWithTax ?? round2(row.original.amount + lineTax);
+                return <Box sx={{ textAlign: 'right', fontWeight: 600, color: '#1D4ED8' }}>{formatCurrency(lineGrand, currency)}</Box>;
+              },
+            },
+          ]}
+        />
+      </Paper>
     </Stack>
   );
 };

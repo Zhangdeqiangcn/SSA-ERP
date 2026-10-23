@@ -18,7 +18,7 @@ import { useSalesPriceStore } from '@/stores/salesPriceStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { Customer, type SalesOrder } from '@/types';
 import type { ShippingMode } from '@/types/sales';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, todayLocal } from '@/utils/format';
 import { notifyError } from '@/utils/notify';
 
 interface OrderItem {
@@ -61,7 +61,7 @@ const SalesOrderForm: React.FC = () => {
   const [contactName, setContactName] = useState(existingOrder?.contactName || '');
   const [contactPhone, setContactPhone] = useState(existingOrder?.contactPhone || '');
   const [orderType, setOrderType] = useState<string>(existingOrder?.type || 'standard');
-  const [orderDate, setOrderDate] = useState(existingOrder?.orderDate || new Date().toISOString().split('T')[0]);
+  const [orderDate, setOrderDate] = useState(existingOrder?.orderDate || todayLocal());
   const [expectedDeliveryDate, setExpectedDeliveryDate] = useState(existingOrder?.expectedDeliveryDate || '');
   const [paymentTerms, setPaymentTerms] = useState(existingOrder?.paymentTerms || '预付30%，货到60%，验收后10%');
   const [deliveryAddress, setDeliveryAddress] = useState(existingOrder?.deliveryAddress || '');
@@ -362,7 +362,7 @@ const SalesOrderForm: React.FC = () => {
           </Grid>
           <Grid item xs={12} sm={3}>
             <TextField fullWidth label="订单日期" type="date" value={orderDate}
-              onChange={e => setOrderDate(e.target.value)} InputLabelProps={{ shrink: true }} />
+              onChange={e => setOrderDate(e.target.value)} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <Autocomplete

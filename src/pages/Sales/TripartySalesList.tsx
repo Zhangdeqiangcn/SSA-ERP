@@ -9,8 +9,9 @@ import { StatusBadge } from '@/components/common';
 import { useTripartySalesStore } from '@/stores/tripartySalesStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { TripartySale, TripartySettleStatus, TRIPARTY_SETTLE_LABELS } from '@/types/tripartySales';
+import { todayLocal } from '@/utils/format';
 
-const todayStr = () => new Date().toISOString().slice(0, 10);
+const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
 
 export default function TripartySalesList() {
@@ -63,7 +64,7 @@ export default function TripartySalesList() {
     const base = {
       docNo, partyCode, partyName, customerName, warehouse, materialCode, materialName, spec,
       quantity: q, unit, settlePrice: p, amount, settleStatus, orderDate,
-      settleDate: settleDate || undefined, remark: remark || undefined, updatedAt: nowStr(), updatedBy: 'admin',
+      settleDate: settleDate || todayLocal(), remark: remark || undefined, updatedAt: nowStr(), updatedBy: 'admin',
     };
     if (editId) updateSale(editId, base);
     else addSale({ ...base, id: `tps-${Date.now()}`, createdAt: nowStr(), createdBy: 'admin' } as TripartySale);
@@ -114,7 +115,7 @@ export default function TripartySalesList() {
           <Stack spacing={2} sx={{ mt: 1 }}>
             <Stack direction="row" spacing={2}>
               <TextField label="单据号" value={docNo} onChange={(e) => setDocNo(e.target.value)} fullWidth disabled />
-              <TextField label="业务日期" type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} InputLabelProps={{ shrink: true }} fullWidth />
+              <TextField label="业务日期" type="date" value={orderDate} onChange={(e) => setOrderDate(e.target.value)} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} fullWidth />
             </Stack>
             <Stack direction="row" spacing={2}>
               <TextField label="三方/经销商编码" value={partyCode} onChange={(e) => setPartyCode(e.target.value)} fullWidth />
@@ -136,7 +137,7 @@ export default function TripartySalesList() {
               <TextField select label="结算状态" value={settleStatus} onChange={(e) => setSettleStatus(e.target.value as TripartySettleStatus)} fullWidth>
                 {(['pending', 'partial', 'settled'] as TripartySettleStatus[]).map((s) => (<MenuItem key={s} value={s}>{TRIPARTY_SETTLE_LABELS[s]}</MenuItem>))}
               </TextField>
-              <TextField label="结算日期" type="date" value={settleDate} onChange={(e) => setSettleDate(e.target.value)} InputLabelProps={{ shrink: true }} fullWidth />
+              <TextField label="结算日期" type="date" value={settleDate} onChange={(e) => setSettleDate(e.target.value)} InputProps={{ readOnly: true }} helperText="结算时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} fullWidth />
             </Stack>
             <TextField label="备注" value={remark} onChange={(e) => setRemark(e.target.value)} fullWidth multiline minRows={2} />
           </Stack>

@@ -26,7 +26,7 @@ import { notifyError } from '@/utils/notify';
 import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehouseMasterStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { useMaterialStore } from '@/stores';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, todayLocal, formatDate } from '@/utils/format';
 import ResponsiblePersons from '@/components/common/ResponsiblePersons';
 
 const InboundForm: React.FC = () => {
@@ -81,7 +81,7 @@ const InboundForm: React.FC = () => {
     if (serialErrs.length) { notifyError('序列号校验未通过：\n' + serialErrs.join('\n')); return; }
     const now = new Date().toISOString();
     const id = `inbound-${Date.now()}`;
-    const inboundNo = `IB${new Date().toISOString().slice(0, 10).replace(/-/g, '')}${String(Date.now()).slice(-4)}`;
+    const inboundNo = `IB${todayLocal().replace(/-/g, '')}${String(Date.now()).slice(-4)}`;
     const wh = selectedWarehouse;
     addInboundOrder({
       id,
@@ -95,7 +95,7 @@ const InboundForm: React.FC = () => {
       warehouseName: wh?.name || '主仓库',
       orgId: currentOrgId,
       operator: '当前用户',
-      inboundDate: now.slice(0, 10),
+      inboundDate: todayLocal(),
       items: selectedOrder.items.map(item => {
         const locId = itemLocations[item.id] || '';
         const loc = wh?.locations.find(l => l.id === locId);
@@ -107,7 +107,7 @@ const InboundForm: React.FC = () => {
         if (prodDate && material?.shelfLifeDays && material.shelfLifeDays > 0) {
           const d = new Date(prodDate);
           d.setDate(d.getDate() + material.shelfLifeDays);
-          expiryDate = d.toISOString().slice(0, 10);
+          expiryDate = formatDate(d);
         }
         // ★ V3.45.0 补单价/金额：原映射**只传数量、完全没有 unitPrice/amount**，
         //   而服务端 `Number(item.amount) || 0` 完全依赖前端 → 入库金额列恒为 0
@@ -340,7 +340,7 @@ const InboundForm: React.FC = () => {
                           if (!material?.shelfLifeDays || material.shelfLifeDays <= 0) return <Typography variant="caption" color="text.secondary">无保质期</Typography>;
                           const d = new Date(prodDate);
                           d.setDate(d.getDate() + material.shelfLifeDays);
-                          return <Typography variant="caption">{d.toISOString().slice(0, 10)}</Typography>;
+                          return <Typography variant="caption">{formatDate(d)}</Typography>;
                         })()}
                       </TableCell>
                     </TableRow>

@@ -407,8 +407,10 @@ const PurchaseForm: React.FC = () => {
     return { estimatedPrice: mat.price || 0 };
   };
 
-  /** 数量/单价任一变化 → 重算预估金额（保留原 updateItem 的逻辑） */
+  /** 数量/单价任一变化 → 重算预估金额（保留原 updateItem 的逻辑）。
+   *  ⚠️ 契约：computeRow 须返回整行（其余 5 张单据均如此）；只返回派生字段会把整行其他字段丢光。 */
   const computePRRow = (row: any): Record<string, any> => ({
+    ...row,
     estimatedAmount: (row.quantity || 0) * (row.estimatedPrice || 0),
   });
 

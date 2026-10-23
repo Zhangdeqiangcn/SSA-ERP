@@ -70,6 +70,10 @@ export interface MaterialLineItemsGridProps {
   addLabel?: string;
   showRowNumber?: boolean;
   removable?: boolean;
+  /** 是否显示「添加行」按钮（固定行型的明细表如检验项目=传 false）；默认 true */
+  showAdd?: boolean;
+  /** 明细表标题（默认「物料明细」；不同域可自定义如「工序列表」「检验项目记录」） */
+  title?: string;
   /** 底部汇总区（如金额合计） */
   footer?: React.ReactNode;
   emptyHint?: string;
@@ -107,6 +111,53 @@ const buildMaterialPatch = (
   });
   return patch;
 };
+
+/** 清除某行物料相关列（用户清空物料编码/名称时，派生字段同步清空，避免残留旧值误导） */
+const buildMaterialClearPatch = (cols: GridColumn[]): Record<string, any> => {
+  const patch: Record<string, any> = { materialId: '' };
+  cols.forEach((c) => {
+    if (c.fillFromMaterial) patch[c.key] = '';
+  });
+  return patch;
+};
+
+/**
+ * 物料查找列的选项过滤（纯函数，可单测）：
+ * 精确编码 > 精确名称 > 编码模糊 > 名称模糊，保证「敲完编码直接回车/点别处」时
+ * autoHighlight 高亮的就是用户要的那一个（autoSelect 提交）。
+ */
+export const filterMaterialOptions = (
+  optsList: MaterialLite[],
+  query: string,
+): MaterialLite[] => {
+  const q = query.trim().toLowerCase();
+  if (!q) return optsList;
+  const rank = (m: MaterialLite): number => {
+    const code = m.code.toLowerCase();
+    const name = (m.name || '').toLowerCase();
+    if (code === q) return 0;
+    if (name === q) return 1;
+    if (code.includes(q)) return 2;
+    if (name.includes(q)) return 3;
+    return 9;
+  };
+  return optsList
+    .filter((m) => rank(m) < 9)
+    .sort((a, b) => rank(a) - rank(b));
+};
+
+/**
+ * 应用调用方的 computeRow 派生计算（纯函数，可单测）。
+ * ⚠️ 关键修复（V3.103.1）：以「合并」而非「替换」方式应用返回值——
+ * 契约允许 computeRow 返回整行或仅返回派生字段补丁（如 { estimatedAmount }），
+ * 若用返回值直接替换整行，部分补丁会把 materialId/名称/规格/单位等全部字段丢光，
+ * 导致「选中物料后不回填」的严重缺陷（采购申请表单曾因此中招）。
+ */
+export const applyComputeRow = (
+  row: Record<string, any>,
+  computeRow?: (row: Record<string, any>) => Record<string, any>,
+): Record<string, any> =>
+  computeRow ? { ...row, ...(computeRow(row) || {}) } : row;
 
 /** 判断某行在「必填列」上是否缺失（必填为显式开启：required === true 才校验，避免误伤未标注必填的列） */
 const rowMissingRequired = (
@@ -154,6 +205,8 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
   addLabel = '添加行',
   showRowNumber = true,
   removable = true,
+  showAdd = true,
+  title = '物料明细',
   footer,
   emptyHint = '请从下方「添加行」录入，或直接从 Excel 复制多行后粘贴到任意单元格。',
   testIdPrefix = 'grid',
@@ -323,7 +376,7 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
     const next = value.map((r) => {
       if (r[rowIdKey] !== rowId) return r;
       let merged = { ...r, ...patch };
-      if (computeRow) merged = computeRow(merged);
+      merged = applyComputeRow(merged, computeRow);
       return merged;
     });
     onChange(next);
@@ -337,7 +390,8 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
 
   const handleMaterialSelect = (rowId: string, role: 'code' | 'name', material: MaterialLite | null) => {
     if (!material) {
-      updateRow(rowId, { materialId: '' });
+      // 清空物料：派生列（名称/规格/单位/价格等）同步清空，避免残留旧值
+      updateRow(rowId, buildMaterialClearPatch(columns));
       return;
     }
     const patch = buildMaterialPatch(columns, material);
@@ -349,8 +403,7 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
 
   const handleAddRow = () => {
     const base = withId(newRow ? newRow() : {});
-    let row = base;
-    if (computeRow) row = computeRow(row);
+    const row = applyComputeRow(base, computeRow);
     onChange([...value, row]);
   };
 
@@ -408,7 +461,7 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
         const extra = onMaterialChange?.(base[rowIdKey], resolvedMaterial.id);
         base = { ...base, ...(extra || {}) };
       }
-      if (computeRow) base = computeRow(base);
+      base = applyComputeRow(base, computeRow);
       next[targetIndex] = base;
     });
     onChange(next);
@@ -435,12 +488,13 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
           options={opts}
           getOptionLabel={(m) => getLabel(m)}
           value={current}
+          // 手敲物料编码/名称后「回车」或「点别处（失焦）」自动提交：
+          // autoHighlight 输入时自动高亮第一个匹配项，autoSelect 在回车/失焦时提交高亮项。
+          autoHighlight
+          autoSelect
+          isOptionEqualToValue={(o, v) => o.id === v.id}
           onChange={(_, v) => handleMaterialSelect(rowId, col.materialRole!, v)}
-          filterOptions={(optsList, state) => {
-            const q = state.inputValue.trim().toLowerCase();
-            if (!q) return optsList;
-            return optsList.filter((m) => m.code.toLowerCase().includes(q) || m.name.toLowerCase().includes(q));
-          }}
+          filterOptions={(optsList, state) => filterMaterialOptions(optsList, state.inputValue)}
           renderOption={(props, m) => (
             <li {...props} key={m.id}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -551,7 +605,7 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
     >
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={0.75}>
         <Typography variant="subtitle2" fontWeight={700} sx={{ pl: 0.5 }}>
-          物料明细
+          {title}
         </Typography>
         <Stack direction="row" spacing={0.5}>
           <Tooltip title="配置显示列">
@@ -563,16 +617,18 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
               <ViewColumnIcon sx={{ fontSize: 16 }} />
             </IconButton>
           </Tooltip>
-          <Button
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon sx={{ fontSize: 16 }} />}
-            onClick={handleAddRow}
-            data-testid={`${testIdPrefix}-add`}
-            sx={{ fontSize: 12, py: 0.5 }}
-          >
-            {addLabel}
-          </Button>
+          {showAdd && (
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+              onClick={handleAddRow}
+              data-testid={`${testIdPrefix}-add`}
+              sx={{ fontSize: 12, py: 0.5 }}
+            >
+              {addLabel}
+            </Button>
+          )}
         </Stack>
       </Stack>
 

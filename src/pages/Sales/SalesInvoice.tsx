@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useSalesAdvancedStore } from '@/stores/salesAdvancedStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { SalesInvoice } from '@/types';
+import { todayLocal } from '@/utils/format';
 
 const STATUS_LABEL: Record<SalesInvoice['status'], string> = {
   draft: '草稿', issued: '已开票', cancelled: '已作废',
@@ -16,7 +17,7 @@ export default function SalesInvoicePage() {
   const { salesInvoices, addInvoice, issueInvoice } = useSalesAdvancedStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ salesOrderNo: '', invoiceDate: '2026-07-15' });
+  const [form, setForm] = useState({ salesOrderNo: '', invoiceDate: todayLocal() });
 
   const selectedSO = useMemo(
     () => salesOrders.find((o) => o.orderNo === form.salesOrderNo),
@@ -43,7 +44,7 @@ export default function SalesInvoicePage() {
       salesOrderNo: selectedSO.orderNo,
       customerName: selectedSO.customerName,
       status: 'draft',
-      invoiceDate: form.invoiceDate,
+      invoiceDate: todayLocal(),
       currency: 'CNY',
       items,
       amount, taxAmount, totalAmount: amount + taxAmount,
@@ -51,7 +52,7 @@ export default function SalesInvoicePage() {
     };
     addInvoice(inv);
     setOpen(false);
-    setForm({ salesOrderNo: '', invoiceDate: '2026-07-15' });
+    setForm({ salesOrderNo: '', invoiceDate: todayLocal() });
   };
 
   return (
@@ -109,7 +110,7 @@ export default function SalesInvoicePage() {
             </Alert>
           )}
           <TextField fullWidth margin="dense" label="开票日期" type="date" value={form.invoiceDate}
-            onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} InputLabelProps={{ shrink: true }} />
+            onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>取消</Button>

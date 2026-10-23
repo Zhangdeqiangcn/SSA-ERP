@@ -39,6 +39,11 @@ export const TRADE_TERM_OPTIONS: string[] = [
   'DDP（完税后交货）', 'DAP（目的地交货）', 'FCA（货交承运人）',
 ];
 
+/** V3.104.0 交付条件（采购订单表头下拉；数据字典 deliveryTerms 分类的出厂种子，设置页可维护） */
+export const DELIVERY_TERM_OPTIONS: string[] = [
+  '含运费到厂', '送货上门', '需方自提', '供方代办运输', '物流代发', '包邮到厂', '自提或代发物流',
+];
+
 /** A2 币种（采购/销售/财务共用，与 financeExtensionStore 汇率表口径一致） */
 export const CURRENCY_OPTIONS: { value: string; label: string }[] = [
   { value: 'CNY', label: 'CNY 人民币' },

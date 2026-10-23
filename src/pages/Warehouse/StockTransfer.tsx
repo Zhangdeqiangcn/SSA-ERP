@@ -9,6 +9,7 @@ import { useWarehouseMasterStore } from '@/stores/warehouseMasterStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { StockTransfer } from '@/types';
+import { todayLocal } from '@/utils/format';
 
 const STATUS_LABEL: Record<StockTransfer['status'], string> = {
   draft: '草稿', shipped: '已发出', received: '已收货', completed: '已完成', cancelled: '已取消',
@@ -21,7 +22,7 @@ export default function StockTransferPage() {
   const { organizations } = useOrgStore();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    fromWarehouseId: 'wh-001', toWarehouseId: 'wh-002', transferDate: '2026-07-15', materialId: '', quantity: 500,
+    fromWarehouseId: 'wh-001', toWarehouseId: 'wh-002', transferDate: todayLocal(), materialId: '', quantity: 500,
   });
 
   const fromWh = warehouses.find((w) => w.id === form.fromWarehouseId);
@@ -43,7 +44,7 @@ export default function StockTransferPage() {
       fromOrgId: orgIdOf(form.fromWarehouseId),
       toOrgId: orgIdOf(form.toWarehouseId),
       status: 'draft',
-      transferDate: form.transferDate,
+      transferDate: todayLocal(),
       items: [{
         id: `sti-${Date.now()}`, materialId: selMat.id, materialCode: selMat.code, materialName: selMat.name,
         unit: selMat.unit, quantity: Number(form.quantity),
@@ -117,7 +118,7 @@ export default function StockTransferPage() {
           <TextField fullWidth margin="dense" label="数量" type="number" value={form.quantity}
             onChange={(e) => setForm({ ...form, quantity: Number(e.target.value) })} />
           <TextField fullWidth margin="dense" label="转储日期" type="date" value={form.transferDate}
-            onChange={(e) => setForm({ ...form, transferDate: e.target.value })} InputLabelProps={{ shrink: true }} />
+            onChange={(e) => setForm({ ...form, transferDate: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
           {fromWh && toWh && fromWh.orgId !== toWh.orgId && (
             <Alert severity="warning" sx={{ mt: 1 }}>跨组织转储：{fromWh.orgId} → {toWh.orgId}</Alert>
           )}

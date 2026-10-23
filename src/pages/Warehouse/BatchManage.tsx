@@ -12,6 +12,7 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { useWarehouseMasterStore, selectWarehousesByOrg } from '@/stores/warehouseMasterStore';
 import { useOrgStore } from '@/stores/orgStore';
 import { BatchRecord, BatchStatus, matchOrg } from '@/types';
+import { todayLocal } from '@/utils/format';
 import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
 
@@ -52,13 +53,13 @@ const BatchManage: React.FC = () => {
 
   const [form, setForm] = useState<Partial<BatchRecord>>({
     batchNo: '', materialCode: '', materialName: '', warehouseId: visibleWarehouses[0]?.id || 'wh-001', warehouseName: visibleWarehouses[0]?.name || '主仓库',
-    quantity: 0, productionDate: '', expiryDate: '', inboundNo: '', inboundDate: new Date().toISOString().slice(0, 10),
+    quantity: 0, productionDate: '', expiryDate: '', inboundNo: '', inboundDate: todayLocal(),
     supplierName: '', status: 'normal',
   });
 
   const refDate = useMemo(() => {
     const dates = batchRecords.map((b) => b.inboundDate).filter(Boolean) as string[];
-    return dates.length ? dates.sort().slice(-1)[0] : new Date().toISOString().slice(0, 10);
+    return dates.length ? dates.sort().slice(-1)[0] : todayLocal();
   }, [batchRecords]);
 
   const columns: ColumnDef<BatchRecord, unknown>[] = [
@@ -104,7 +105,7 @@ const BatchManage: React.FC = () => {
     setEditing(null);
     setForm({
       batchNo: '', materialCode: '', materialName: '', warehouseId: visibleWarehouses[0]?.id || 'wh-001', warehouseName: visibleWarehouses[0]?.name || '主仓库',
-      quantity: 0, productionDate: '', expiryDate: '', inboundNo: '', inboundDate: new Date().toISOString().slice(0, 10),
+      quantity: 0, productionDate: '', expiryDate: '', inboundNo: '', inboundDate: todayLocal(),
       supplierName: '', status: 'normal',
     });
     setDialogOpen(true);
@@ -259,7 +260,7 @@ const BatchManage: React.FC = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField fullWidth size="small" label="入库日期" type="date" value={form.inboundDate || ''}
-                onChange={(e) => setForm((f) => ({ ...f, inboundDate: e.target.value }))} InputLabelProps={{ shrink: true }} />
+                onChange={(e) => setForm((f) => ({ ...f, inboundDate: e.target.value }))} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
             </Grid>
           </Grid>
         </DialogContent>

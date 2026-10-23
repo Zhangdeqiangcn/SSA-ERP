@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { usePurchaseReturnStore } from '@/stores/purchaseReturnStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PurchaseReturn } from '@/types';
+import { todayLocal } from '@/utils/format';
 
 const STATUS_LABEL: Record<PurchaseReturn['status'], string> = {
   draft: '草稿', approved: '已审批', completed: '已完成', cancelled: '已作废',
@@ -16,7 +17,7 @@ export default function PurchaseReturnPage() {
   const { purchaseReturns, addReturn, completeReturn } = usePurchaseReturnStore();
   const { purchaseOrders } = usePurchaseStore();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ purchaseOrderNo: '', returnDate: '2026-07-20', reason: '质量不合格' });
+  const [form, setForm] = useState({ purchaseOrderNo: '', returnDate: todayLocal(), reason: '质量不合格' });
 
   const selectedPO = useMemo(
     () => purchaseOrders.find((o) => o.orderNo === form.purchaseOrderNo),
@@ -38,7 +39,7 @@ export default function PurchaseReturnPage() {
       vendorId: selectedPO.vendorId,
       vendorName: selectedPO.vendorName || '',
       status: 'draft',
-      returnDate: form.returnDate,
+      returnDate: todayLocal(),
       reason: form.reason,
       items,
       totalAmount: total,
@@ -46,7 +47,7 @@ export default function PurchaseReturnPage() {
     };
     addReturn(r);
     setOpen(false);
-    setForm({ purchaseOrderNo: '', returnDate: '2026-07-20', reason: '质量不合格' });
+    setForm({ purchaseOrderNo: '', returnDate: todayLocal(), reason: '质量不合格' });
   };
 
   return (
@@ -97,7 +98,7 @@ export default function PurchaseReturnPage() {
             ))}
           </TextField>
           <TextField fullWidth margin="dense" label="退货日期" type="date" value={form.returnDate}
-            onChange={(e) => setForm({ ...form, returnDate: e.target.value })} InputLabelProps={{ shrink: true }} />
+            onChange={(e) => setForm({ ...form, returnDate: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
           <TextField fullWidth margin="dense" label="退货原因" value={form.reason}
             onChange={(e) => setForm({ ...form, reason: e.target.value })} />
         </DialogContent>

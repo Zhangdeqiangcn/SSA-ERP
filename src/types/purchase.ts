@@ -94,6 +94,14 @@ export interface PurchaseOrderItem {
   priceWithTax?: number;
   /** A2 税价拆分：价税合计 = amount + taxAmount */
   amountWithTax?: number;
+  /** V3.104.0 行级供应商（迁移 0118 起落库；与表头主供应商二选一） */
+  vendorId?: string;
+  vendorName?: string;
+  /** V3.104.0 行级预计交货日期（迁移 0118 起落库） */
+  expectedDeliveryDate?: string;
+  /** V3.104.0 行级关联项目（迁移 0118 起落库；从采购申请自动带入，行内可改） */
+  projectNo?: string;
+  projectName?: string;
 }
 
 export interface PurchaseOrder extends BaseEntity {
@@ -125,6 +133,8 @@ export interface PurchaseOrder extends BaseEntity {
   grandTotal?: number;
   paymentTerms?: string;
   tradeTerms?: string;
+  /** V3.104.0 交付条件（迁移 0118 起落库；此前表单有输入框但未持久化） */
+  deliveryTerms?: string;
   deliveryAddress?: string;
   remarks?: string;
   projectNo?: string;

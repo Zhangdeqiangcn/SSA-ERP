@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert, Stack,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSubcontractStore } from '@/stores/subcontractStore';
 import { useVendorStore } from '@/stores/vendorStore';
@@ -11,7 +12,7 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { SubcontractOrder, SubcontractType, SubcontractStatus } from '@/types/production';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { notifyError } from '@/utils/notify';
-import { FilterBar } from '@/components/common';
+import { FilterBar, DetailSection } from '@/components/common';
 
 const STATUS_LABEL: Record<SubcontractStatus, string> = {
   draft: '草稿', issued: '已发料', received: '已收货', returned: '已回收', closed: '已关闭',
@@ -22,6 +23,7 @@ export default function Subcontract() {
   const { vendors } = useVendorStore();
   const { materials } = useMaterialStore();
   const [open, setOpen] = useState(false);
+  const [viewOrder, setViewOrder] = useState<SubcontractOrder | null>(null);
   const [form, setForm] = useState({
     type: 'process' as SubcontractType,
     materialId: 'mat-001',
@@ -150,6 +152,7 @@ export default function Subcontract() {
                 </TableCell>
                 <TableCell><Chip size="small" label={STATUS_LABEL[o.status]} color={o.status === 'closed' ? 'default' : o.status === 'received' ? 'success' : 'primary'} variant={o.status === 'draft' ? 'outlined' : 'filled'} /></TableCell>
                 <TableCell>
+                  <Button size="small" startIcon={<VisibilityIcon />} onClick={() => setViewOrder(o)} data-testid="sub-view">查看</Button>
                   {o.status === 'draft' && (
                     <Button size="small" data-testid="sub-issue" onClick={() => handleIssue(o)}>发料</Button>
                   )}
@@ -214,6 +217,71 @@ export default function Subcontract() {
         <DialogActions>
           <Button onClick={() => setOpen(false)}>取消</Button>
           <Button variant="contained" data-testid="sub-add-confirm" onClick={handleAdd}>保存</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* 委外单详情：表头信息区 + 发料明细表 + 收货单号（对齐采购订单详情风格） */}
+      <Dialog open={!!viewOrder} onClose={() => setViewOrder(null)} maxWidth="md" fullWidth>
+        <DialogTitle>委外单详情 · {viewOrder?.orderNo}</DialogTitle>
+        <DialogContent>
+          {viewOrder && (
+            <>
+              <DetailSection
+                title="基本信息"
+                fields={[
+                  { label: '委外单号', value: viewOrder.orderNo },
+                  { label: '委外类型', value: viewOrder.type === 'process' ? '工序委外' : '整体委外' },
+                  { label: '委外物料', value: `${viewOrder.materialCode} · ${viewOrder.materialName}` },
+                  { label: '委外方', value: viewOrder.vendorName },
+                  { label: '委外数量', value: viewOrder.qty },
+                  { label: '已收 / 应收', value: `${viewOrder.receivedQty || 0} / ${viewOrder.qty}` },
+                  { label: '加工费单价', value: viewOrder.processFee ? `¥${viewOrder.processFee}` : '—' },
+                  { label: '计划日期', value: viewOrder.planDate },
+                  { label: '状态', value: STATUS_LABEL[viewOrder.status] },
+                  { label: '创建时间', value: viewOrder.createdAt?.slice(0, 10) },
+                ]}
+              />
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>发料明细</Typography>
+              <TableContainer component={Paper} variant="outlined" sx={{ mb: 2 }}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>物料编码</TableCell>
+                      <TableCell>物料名称</TableCell>
+                      <TableCell>单位</TableCell>
+                      <TableCell align="right">发料数量</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(viewOrder.issueItems || []).map((it, i) => (
+                      <TableRow key={it.materialId || i}>
+                        <TableCell>{it.materialCode}</TableCell>
+                        <TableCell>{it.materialName}</TableCell>
+                        <TableCell>{it.unit}</TableCell>
+                        <TableCell align="right">{it.qty}</TableCell>
+                      </TableRow>
+                    ))}
+                    {(!viewOrder.issueItems || viewOrder.issueItems.length === 0) && (
+                      <TableRow><TableCell colSpan={4}><Typography variant="body2" color="text.secondary">尚未发料</Typography></TableCell></TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>关联单据</Typography>
+              <Stack spacing={0.5}>
+                {viewOrder.issueOutboundNo ? <Typography variant="body2">委外出库单：{viewOrder.issueOutboundNo}</Typography> : null}
+                {(viewOrder.receiptInboundNos || []).map((n) => (
+                  <Typography key={n} variant="body2">委外入库单：{n}</Typography>
+                ))}
+                {!viewOrder.issueOutboundNo && !(viewOrder.receiptInboundNos || []).length ? (
+                  <Typography variant="body2" color="text.secondary">暂无关联出入库单</Typography>
+                ) : null}
+              </Stack>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setViewOrder(null)}>关闭</Button>
         </DialogActions>
       </Dialog>
     </Box>

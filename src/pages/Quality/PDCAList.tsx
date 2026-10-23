@@ -4,10 +4,11 @@ import {
   Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, Snackbar,
   Tabs, Tab,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 import { Add, Edit, Link as LinkIcon } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable, FilterBar, StatusBadge } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge, DetailSection } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { PDCARecord, PDCAStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
@@ -372,24 +373,37 @@ const PDCAList: React.FC = () => {
       />
 
       {/* 展开详情（点击行展开）*/}
-      {expandedRecord && (
+      {expandedRecord && (() => {
+        const linkedNcr = expandedRecord.relatedItemId
+          ? unqualifiedItems.find(u => u.id === expandedRecord.relatedItemId)
+          : undefined;
+        return (
         <Paper sx={{ borderRadius: 3, overflow: 'hidden', mt: 2 }}>
           <Box sx={{ p: 2.5 }}>
-            <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center', flexWrap: 'wrap', mb: 1 }}>
-              <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: 'monospace', color: '#94A3B8' }}>{expandedRecord.pdcaNo}</Typography>
-              <StatusBadge status={PDCA_KEY[expandedRecord.status]} />
-              <StatusBadge status={expandedRecord.priority} />
-              {expandedRecord.relatedItemId && (() => {
-                const linkedNcr = unqualifiedItems.find(u => u.id === expandedRecord.relatedItemId);
-                return linkedNcr ? (
-                  <Chip label={`关联NCR: ${linkedNcr.itemNo}`} size="small" icon={<LinkIcon sx={{ fontSize: 14 }} />}
-                    sx={{ bgcolor: '#ECFDF5', color: '#10B981', fontWeight: 500 }} />
-                ) : null;
-              })()}
-              {isCapaRecord(expandedRecord) && (
-                <Chip label="CAPA" size="small" sx={{ bgcolor: '#EFF6FF', color: '#3B82F6', fontWeight: 600, fontFamily: 'monospace', fontSize: '0.65rem' }} />
-              )}
-            </Box>
+            {/* 表头信息区（两列 label/value，对齐采购/质量详情风格） */}
+            <DetailSection
+              title="基本信息"
+              columns={2}
+              fields={[
+                {
+                  label: '编号',
+                  value: (
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: 'monospace', color: '#94A3B8' }}>{expandedRecord.pdcaNo}</Typography>
+                      <StatusBadge status={PDCA_KEY[expandedRecord.status]} />
+                      {isCapaRecord(expandedRecord) && (
+                        <Chip label="CAPA" size="small" sx={{ bgcolor: '#EFF6FF', color: '#3B82F6', fontWeight: 600, fontFamily: 'monospace', fontSize: '0.65rem' }} />
+                      )}
+                    </Box>
+                  ),
+                },
+                { label: '优先级', value: PRIORITY_LABELS[expandedRecord.priority] || expandedRecord.priority },
+                { label: '来源', value: SOURCE_LABELS[expandedRecord.source] || expandedRecord.source },
+                { label: '关联NCR', value: linkedNcr ? linkedNcr.itemNo : '-' },
+                { label: '负责人', value: expandedRecord.owner },
+                { label: '目标日期', value: expandedRecord.targetDate },
+              ]}
+            />
             <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1E293B', mb: 0.5 }}>{expandedRecord.title}</Typography>
             <Typography variant="body2" sx={{ color: '#64748B', mb: 1.5 }}>{expandedRecord.problemDescription}</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -404,12 +418,6 @@ const PDCAList: React.FC = () => {
                   sx={{ height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_TOKEN[expandedRecord.status], borderRadius: 3 } }}
                 />
               </Box>
-              <Typography variant="body2" sx={{ color: '#64748B', whiteSpace: 'nowrap' }}>
-                负责人: {expandedRecord.owner}
-              </Typography>
-              <Typography variant="body2" sx={{ color: '#94A3B8', whiteSpace: 'nowrap' }}>
-                目标: {expandedRecord.targetDate}
-              </Typography>
             </Box>
 
             <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #F1F5F9' }}>
@@ -434,23 +442,38 @@ const PDCAList: React.FC = () => {
               {expandedRecord.actionItems && expandedRecord.actionItems.length > 0 && (
                 <>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5, color: '#1E293B' }}>行动计划</Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    {expandedRecord.actionItems.map((action) => (
-                      <Box key={action.id} sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 1.5, borderRadius: 2, bgcolor: '#F8FAFC' }}>
-                        <Chip
-                          label={action.status === 'completed' ? '已完成' : action.status === 'in_progress' ? '进行中' : '待开始'}
-                          size="small"
-                          sx={{
-                            bgcolor: action.status === 'completed' ? '#ECFDF5' : action.status === 'in_progress' ? '#EFF6FF' : '#F8FAFC',
-                            color: action.status === 'completed' ? '#10B981' : action.status === 'in_progress' ? '#3B82F6' : '#94A3B8',
-                            fontWeight: 500, minWidth: 60,
-                          }}
-                        />
-                        <Typography variant="body2" sx={{ flex: 1 }}>{action.description}</Typography>
-                        <Typography variant="caption" sx={{ color: '#94A3B8', whiteSpace: 'nowrap' }}>{action.owner} / {action.dueDate}</Typography>
-                      </Box>
-                    ))}
-                  </Box>
+                  <TableContainer component={Paper} variant="outlined">
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>行动计划</TableCell>
+                          <TableCell>负责人</TableCell>
+                          <TableCell>完成日期</TableCell>
+                          <TableCell align="center">状态</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {expandedRecord.actionItems.map((action) => (
+                          <TableRow key={action.id}>
+                            <TableCell>{action.description}</TableCell>
+                            <TableCell>{action.owner}</TableCell>
+                            <TableCell>{action.dueDate}</TableCell>
+                            <TableCell align="center">
+                              <Chip
+                                label={action.status === 'completed' ? '已完成' : action.status === 'in_progress' ? '进行中' : '待开始'}
+                                size="small"
+                                sx={{
+                                  bgcolor: action.status === 'completed' ? '#ECFDF5' : action.status === 'in_progress' ? '#EFF6FF' : '#F8FAFC',
+                                  color: action.status === 'completed' ? '#10B981' : action.status === 'in_progress' ? '#3B82F6' : '#94A3B8',
+                                  fontWeight: 500,
+                                }}
+                              />
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 </>
               )}
               {expandedRecord.rootCause && (
@@ -462,7 +485,8 @@ const PDCAList: React.FC = () => {
             </Box>
           </Box>
         </Paper>
-      )}
+        );
+      })()}
 
       {/* 新建对话框 */}
       <Dialog open={dialog} onClose={() => setDialog(false)} maxWidth="sm" fullWidth>

@@ -8,6 +8,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import { useFinanceLedgerStore } from '@/stores/financeLedgerStore';
 import { useFinanceStore } from '@/stores/financeStore';
 import { FixedAsset, FixedAssetStatus } from '@/types/finance';
+import { todayLocal } from '@/utils/format';
 
 const fmt = (n: number) => '¥' + Number(n).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const STATUS_LABEL: Record<FixedAssetStatus, { label: string; color: 'success' | 'default' | 'error' }> = {
@@ -21,7 +22,7 @@ export default function FixedAssets() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     assetCode: '', assetName: '', category: '生产设备', originalValue: '', residualRate: '0.05',
-    usefulLifeMonths: '120', startDate: '2026-01-01',
+    usefulLifeMonths: '120', startDate: todayLocal(),
   });
   const [error, setError] = useState('');
   const [snack, setSnack] = useState('');
@@ -57,7 +58,7 @@ export default function FixedAssets() {
     };
     await addFixedAsset(asset);
     setOpen(false);
-    setForm({ assetCode: '', assetName: '', category: '生产设备', originalValue: '', residualRate: '0.05', usefulLifeMonths: '120', startDate: '2026-01-01' });
+    setForm({ assetCode: '', assetName: '', category: '生产设备', originalValue: '', residualRate: '0.05', usefulLifeMonths: '120', startDate: todayLocal() });
     setError('');
     setSnack('固定资产已新增');
   };
@@ -78,7 +79,7 @@ export default function FixedAssets() {
   };
 
   const handleScrap = async (id: string) => {
-    await scrapFixedAsset(id, new Date().toISOString().slice(0, 10));
+    await scrapFixedAsset(id, todayLocal());
     setSnack('资产已报废');
   };
 

@@ -92,7 +92,6 @@ const PurchaseDetail: React.FC = () => {
     { label: '部门', value: request.department },
     { label: '申请类型', value: request.type === 'material' ? '物料采购' : '服务采购' },
     { label: '优先级', value: <StatusBadge status={request.priority} /> },
-    { label: '期望日期', value: formatDate(request.expectedDate) },
     { label: '申请日期', value: formatDate(request.applicationDate || localDateOf(request.createdAt)) },
     { label: '状态', value: <StatusBadge status={request.status} /> },
     { label: '申请原因', value: request.reason },
@@ -123,7 +122,6 @@ const PurchaseDetail: React.FC = () => {
           { label: '申请人', value: request.applicant },
           { label: '部门', value: request.department },
           { label: '优先级', value: <StatusBadge status={request.priority} /> },
-          { label: '期望日期', value: formatDate(request.expectedDate) },
           { label: '申请日期', value: formatDate(request.applicationDate || localDateOf(request.createdAt)) },
           { label: '预估金额', value: formatCurrency(request.totalAmount) },
         ]}
@@ -156,6 +154,7 @@ const PurchaseDetail: React.FC = () => {
                 items: request.items.map((i: any) => ({
                   materialCode: i.materialCode, materialName: i.materialName, specification: i.specification,
                   unit: i.unit, quantity: i.quantity, unitPrice: i.estimatedPrice, amount: i.estimatedAmount,
+                  deliveryDate: i.deliveryDate,
                 })),
               }}
               showBoth
@@ -214,6 +213,11 @@ const PurchaseDetail: React.FC = () => {
                     {
                       id: 'quantity', header: '申请数量', accessorKey: 'quantity',
                       cell: ({ row }) => <Box sx={{ textAlign: 'right', fontWeight: 500 }}>{row.original.quantity.toLocaleString()}</Box>,
+                    },
+                    {
+                      // V3.98.0 起期望交货语义由明细行 delivery_date 接管（表头不再有期望日期）
+                      id: 'deliveryDate', header: '期望到货日期',
+                      cell: ({ row }) => <Box sx={{ textAlign: 'center' }}>{formatDate(row.original.deliveryDate)}</Box>,
                     },
                     {
                       id: 'estimatedPrice', header: '预估单价', accessorKey: 'estimatedPrice',

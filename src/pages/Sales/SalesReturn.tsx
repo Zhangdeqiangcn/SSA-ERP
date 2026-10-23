@@ -7,6 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useSalesReturnStore } from '@/stores/salesReturnStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { SalesReturn } from '@/types';
+import { todayLocal } from '@/utils/format';
 
 const STATUS_LABEL: Record<SalesReturn['status'], string> = {
   draft: '草稿', approved: '已审批', completed: '已完成', cancelled: '已作废',
@@ -16,7 +17,7 @@ export default function SalesReturnPage() {
   const { salesReturns, addReturn, completeReturn } = useSalesReturnStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ salesOrderNo: '', returnDate: '2026-07-20', reason: '质量异议' });
+  const [form, setForm] = useState({ salesOrderNo: '', returnDate: todayLocal(), reason: '质量异议' });
 
   const selectedSO = useMemo(
     () => salesOrders.find((o) => o.orderNo === form.salesOrderNo),
@@ -37,7 +38,7 @@ export default function SalesReturnPage() {
       salesOrderNo: selectedSO.orderNo,
       customerName: selectedSO.customerName,
       status: 'draft',
-      returnDate: form.returnDate,
+      returnDate: todayLocal(),
       reason: form.reason,
       items,
       totalAmount: total,
@@ -45,7 +46,7 @@ export default function SalesReturnPage() {
     };
     addReturn(r);
     setOpen(false);
-    setForm({ salesOrderNo: '', returnDate: '2026-07-20', reason: '质量异议' });
+    setForm({ salesOrderNo: '', returnDate: todayLocal(), reason: '质量异议' });
   };
 
   return (
@@ -98,7 +99,7 @@ export default function SalesReturnPage() {
             ))}
           </TextField>
           <TextField fullWidth margin="dense" label="退货日期" type="date" value={form.returnDate}
-            onChange={(e) => setForm({ ...form, returnDate: e.target.value })} InputLabelProps={{ shrink: true }} />
+            onChange={(e) => setForm({ ...form, returnDate: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} />
           <TextField fullWidth margin="dense" label="退货原因" value={form.reason}
             onChange={(e) => setForm({ ...form, reason: e.target.value })} />
         </DialogContent>

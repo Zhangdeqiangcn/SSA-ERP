@@ -14,6 +14,7 @@ import { applyColumnFilters } from '@/utils/listSearch';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
 import { Invoice, InvoiceItem } from '@/types/finance';
+import { todayLocal } from '@/utils/format';
 
 // 发票状态 → 集中 statusConfig key（draft / paid 复用通用 key）
 const INV_STATUS_KEY: Record<string, string> = {
@@ -40,7 +41,7 @@ export default function InvoiceList() {
   const [createOpen, setCreateOpen] = useState(false);
   const [form, setForm] = useState({
     invoiceNo: '', invoiceType: 'vat_special', vendorName: '', vendorTaxNo: '',
-    purchaseOrderNo: '', invoiceDate: new Date().toISOString().split('T')[0],
+    purchaseOrderNo: '', invoiceDate: todayLocal(),
     amount: 0, taxRate: 13, status: 'submitted',
   });
   const [items, setItems] = useState<InvoiceItem[]>([]);
@@ -243,7 +244,7 @@ export default function InvoiceList() {
             const amount = Number(r['不含税金额'] || 0);
             const taxRate = Number(r['税率'] || 0);
             const totalAmount = Number(r['含税总额'] || (amount * (1 + taxRate / 100)));
-            const now = new Date().toISOString();
+            const now = todayLocal();
             addInvoice({
               id: `inv-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
               invoiceNo: r['发票号'] || `INV${Date.now()}`,
@@ -346,8 +347,8 @@ export default function InvoiceList() {
                 onChange={(e) => setForm({ ...form, purchaseOrderNo: e.target.value })} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth size="small" label="发票日期" type="date" InputLabelProps={{ shrink: true }}
-                value={form.invoiceDate} onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} />
+                <TextField fullWidth size="small" label="发票日期" type="date" InputLabelProps={{ shrink: true }}
+                value={form.invoiceDate} onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" />
             </Grid>
           </Grid>
 
@@ -439,7 +440,7 @@ export default function InvoiceList() {
               vendorName: form.vendorName,
               vendorTaxNo: form.vendorTaxNo,
               purchaseOrderNo: form.purchaseOrderNo,
-              invoiceDate: form.invoiceDate,
+              invoiceDate: todayLocal(),
               receivedDate: form.invoiceDate,
               amount: Math.round(headerAmount * 100) / 100,
               taxRate: form.taxRate,

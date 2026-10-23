@@ -12,6 +12,7 @@ import { useFinanceStore } from '@/stores/financeStore';
 import { useVoucherTemplateStore } from '@/stores/voucherTemplateStore';
 import type { Voucher, VoucherItem } from '@/types/finance';
 import { calcVoucherTotals, emptyVoucherItem, nextVoucherNo, round2, validateVoucher } from '@/utils/voucher';
+import { todayLocal } from '@/utils/format';
 import { SecureField } from '@/components/common';
 
 interface Props {
@@ -27,7 +28,7 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
   const { chartOfAccounts, createVoucher, updateVoucher, vouchers } = useFinanceStore();
   const { templates, loaded: tplLoaded, load: loadTpl } = useVoucherTemplateStore();
   const [templateId, setTemplateId] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(todayLocal());
   const [voucherType, setVoucherType] = useState('记');
   const [attachmentCount, setAttachmentCount] = useState(0);
   const [remark, setRemark] = useState('');
@@ -47,7 +48,7 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
       setRemark(voucher.remark || '');
       setItems(voucher.items.map((it) => ({ ...it })));
     } else {
-      setDate(new Date().toISOString().slice(0, 10));
+      setDate(todayLocal());
       setVoucherType('记');
       setAttachmentCount(0);
       setRemark('');

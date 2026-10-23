@@ -9,6 +9,7 @@ import {
   Box, Typography, Paper, Chip, Button, IconButton, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, MenuItem, Select, FormControl,
   InputLabel, Snackbar, Alert, Divider, Grid, Stack, Tooltip,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import {
@@ -17,7 +18,7 @@ import {
   AutoFixHigh,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { DataTable, FilterBar, StatusBadge } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge, DetailSection } from '@/components/common';
 import { ColumnDef } from '@tanstack/react-table';
 import { useQualityStore } from '@/stores/qualityStore';
 import { UnqualifiedDisposition, UnqualifiedStatus } from '@/types/quality';
@@ -595,32 +596,60 @@ const UnqualifiedList: React.FC = () => {
           </DialogTitle>
           <Divider />
           <DialogContent sx={{ pt: 2 }}>
-            {/* 基本信息 */}
+            {/* 基本信息（表头信息区：两列 label/value，对齐采购订单详情风格） */}
             <Paper sx={{ p: 2, mb: 2, bgcolor: '#FEF2F2', borderRadius: 2, border: '1px solid #FECACA' }}>
-              <Stack direction="row" spacing={2} flexWrap="wrap">
-                <Box>
-                  <Typography variant="caption" color="text.secondary">不合格品记录号</Typography>
-                  <Typography variant="body2" fontWeight={600} fontFamily="monospace">{liveItem.itemNo}</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="caption" color="text.secondary">物料</Typography>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <Chip label={liveItem.materialCode} size="small"
-                      sx={{ bgcolor: '#EFF6FF', color: '#1D4ED8', fontFamily: 'monospace', fontSize: '0.7rem' }} />
-                    <Typography variant="caption">{liveItem.materialName}</Typography>
-                  </Stack>
-                </Box>
-                <Box>
-                  <Typography variant="caption" color="text.secondary">不合格数量</Typography>
-                  <Typography variant="body2" fontWeight={600} color="error">{liveItem.defectQuantity} 件</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="caption" color="text.secondary">闭环状态</Typography>
-                  <StatusBadge status={`unq_${liveItem.status || 'open'}`} />
-                </Box>
-              </Stack>
+              <DetailSection
+                columns={2}
+                fields={[
+                  { label: '记录号', value: <Typography variant="body2" fontWeight={600} fontFamily="monospace">{liveItem.itemNo}</Typography> },
+                  { label: '物料', value: `${liveItem.materialCode} · ${liveItem.materialName}` },
+                  { label: '批次号', value: liveItem.batchNo },
+                  { label: '不合格数量', value: <Typography variant="body2" fontWeight={600} color="error">{liveItem.defectQuantity} 件</Typography> },
+                  { label: '来源任务', value: liveItem.inspectionTaskNo || '-' },
+                  { label: '处置方式', value: liveItem.disposition },
+                  { label: '处置进度', value: liveItem.dispositionStatus },
+                  { label: '负责人', value: liveItem.responsiblePerson },
+                  { label: '截止日期', value: liveItem.dueDate },
+                  { label: '闭环状态', value: <StatusBadge status={`unq_${liveItem.status || 'open'}`} /> },
+                ]}
+              />
               <Typography variant="body2" sx={{ mt: 1, color: '#92400E' }}>缺陷描述：{liveItem.defectDescription}</Typography>
             </Paper>
+
+            {/* 审批记录（NCR 处置审批痕迹，有数据才显示） */}
+            {liveItem.approvalRecords && liveItem.approvalRecords.length > 0 && (
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>审批记录</Typography>
+                <TableContainer component={Paper} variant="outlined">
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>节点</TableCell>
+                        <TableCell>审批人</TableCell>
+                        <TableCell>结论</TableCell>
+                        <TableCell>意见</TableCell>
+                        <TableCell>时间</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {liveItem.approvalRecords.map((ar) => (
+                        <TableRow key={ar.id}>
+                          <TableCell>{ar.nodeName || '—'}</TableCell>
+                          <TableCell>{ar.approver}</TableCell>
+                          <TableCell>
+                            {ar.action === 'approve'
+                              ? <Chip label="通过" size="small" color="success" variant="outlined" />
+                              : <Chip label="驳回" size="small" color="error" variant="outlined" />}
+                          </TableCell>
+                          <TableCell>{ar.comments || '—'}</TableCell>
+                          <TableCell>{ar.operatedAt ? new Date(ar.operatedAt).toLocaleString('zh-CN') : '—'}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            )}
 
             {/* 关联 CAPA / PDCA 列表 */}
             <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>关联的 CAPA / PDCA 纠正措施</Typography>

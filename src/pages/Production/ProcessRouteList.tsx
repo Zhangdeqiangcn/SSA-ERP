@@ -4,7 +4,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions, Stack, TextField, MenuItem,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
-import { Add, Visibility, Edit, PlayArrow, Close, Delete } from '@mui/icons-material';
+import { Add, Visibility, Edit, PlayArrow, Close } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { StatusBadge, FilterBar } from '@/components/common';
@@ -13,6 +13,7 @@ import { ActionBar } from '@/components/common';
 import { useProductionStore } from '@/stores/productionStore';
 import { ProcessRoute, ProcessRouteStatus, Operation } from '@/types/production';
 import { applyColumnFilters } from '@/utils/listSearch';
+import MaterialLineItemsGrid, { GridColumn } from '@/components/common/MaterialLineItemsGrid';
 
 const STATUS_LABELS: Record<ProcessRouteStatus, string> = {
   draft: '草稿',
@@ -27,11 +28,13 @@ const ROUTE_STATUS_KEY: Record<ProcessRouteStatus, string> = {
 };
 
 interface OpForm {
+  id: string;
   operationName: string;
   workCenter: string;
   runTime: string;
 }
-const emptyOp: OpForm = { operationName: '', workCenter: '', runTime: '0' };
+const genOpId = () => `op-${Date.now()}-${Math.floor(Math.random() * 1e6)}`;
+const emptyOp: OpForm = { id: genOpId(), operationName: '', workCenter: '', runTime: '0' };
 
 const genRouteNo = () => {
   const d = new Date();
@@ -91,15 +94,17 @@ const nowStr = () => {
     setProductName(route.productName); setVersion(route.version); setStatus(route.status);
     setTotalLeadTime(String(route.totalLeadTime));
     setOps(route.operations.length
-      ? route.operations.map(o => ({ operationName: o.operationName, workCenter: o.workCenter, runTime: String(o.runTime) }))
+      ? route.operations.map(o => ({ id: genOpId(), operationName: o.operationName, workCenter: o.workCenter, runTime: String(o.runTime) }))
       : [{ ...emptyOp }]);
     setOpen(true);
   };
 
-  const setOp = (i: number, k: keyof OpForm, v: string) =>
-    setOps(prev => prev.map((o, idx) => idx === i ? { ...o, [k]: v } : o));
-  const addOp = () => setOps(prev => [...prev, { ...emptyOp }]);
-  const removeOp = (i: number) => setOps(prev => prev.filter((_, idx) => idx !== i));
+  // 工序明细列（对齐采购域 MaterialLineItemsGrid 风格：排序/检索/Excel粘贴/列显隐）
+  const opColumns: GridColumn[] = [
+    { key: 'operationName', label: '工序名称', width: 160, required: true },
+    { key: 'workCenter', label: '工作中心', width: 160 },
+    { key: 'runTime', label: '工时(分/件)', type: 'number', width: 120, align: 'right' },
+  ];
 
   const handleSave = () => {
     const ts = nowStr();
@@ -216,20 +221,16 @@ const nowStr = () => {
             </Stack>
 
             <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>工序列表</Typography>
-            {ops.map((op, i) => (
-              <Stack key={i} direction="row" spacing={1} alignItems="center">
-                <TextField label="工序名称" value={op.operationName}
-                  onChange={e => setOp(i, 'operationName', e.target.value)} sx={{ flex: 2 }} />
-                <TextField label="工作中心" value={op.workCenter}
-                  onChange={e => setOp(i, 'workCenter', e.target.value)} sx={{ flex: 2 }} />
-                <TextField label="工时(分/件)" type="number" value={op.runTime}
-                  onChange={e => setOp(i, 'runTime', e.target.value)} sx={{ flex: 1 }} />
-                <IconButton onClick={() => removeOp(i)} disabled={ops.length === 1} size="small">
-                  <Delete fontSize="small" />
-                </IconButton>
-              </Stack>
-            ))}
-            <Button startIcon={<Add />} onClick={addOp} sx={{ alignSelf: 'flex-start' }}>添加工序</Button>
+            <MaterialLineItemsGrid
+              title="工序列表"
+              columns={opColumns}
+              value={ops}
+              onChange={(rows) => setOps(rows as unknown as OpForm[])}
+              rowIdKey="id"
+              addLabel="添加工序"
+              removable={ops.length > 1}
+              testIdPrefix="route-op"
+            />
           </Stack>
         </DialogContent>
         <DialogActions>

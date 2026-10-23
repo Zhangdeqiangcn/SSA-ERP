@@ -6,12 +6,13 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useFinanceStore } from '@/stores/financeStore';
+import { todayLocal } from '@/utils/format';
 
 export default function AccountingEntries() {
   const { accountEntries, addAccountEntry } = useFinanceStore();
   const [createOpen, setCreateOpen] = useState(false);
   const [form, setForm] = useState({
-    entryNo: '', date: new Date().toISOString().split('T')[0], description: '',
+    entryNo: '', date: todayLocal(), description: '',
     debitAccount: '', creditAccount: '', amount: 0, currency: 'CNY',
     voucherNo: '', createdBy: '当前用户',
   });

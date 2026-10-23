@@ -16,6 +16,7 @@ const CATEGORY_ORDER: DataDictCategory[] = [
   'paymentMethods',
   'paymentTerms',
   'tradeTerms',
+  'deliveryTerms',
   'currencies',
   'languages',
   'jobRoles',

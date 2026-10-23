@@ -15,7 +15,7 @@ import { DataTable, FilterBar, ActionBar, FlowTracker } from '@/components/commo
 import { useFlowStore } from '@/stores/flowStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import type { DeliveryShipment } from '@/types';
-import { formatDate } from '@/utils/format';
+import { formatDate, todayLocal } from '@/utils/format';
 import { notifyError } from '@/utils/notify';
 import DemoBanner from '@/components/common/DemoBanner';
 import { getVendorPortalIdentity } from '@/utils/vendorPortalIdentity';
@@ -26,7 +26,7 @@ const nowStr = () => {
   const p = (n: number) => String(n).padStart(2, '0');
   return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
 };
-const todayStr = () => new Date().toISOString().slice(0, 10);
+const todayStr = () => todayLocal();
 const dateCode = () => {
   const d = new Date();
   const p = (n: number) => String(n).padStart(2, '0');
@@ -303,7 +303,7 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
       logisticsCompany: form.logisticsCompany,
       trackingNo: form.trackingNo,
       shipper: DEFAULT_VENDOR_NAME,
-      shipDate: form.shipDate,
+      shipDate: todayLocal(),
       estimatedArrival: form.estimatedArrival,
       status: 'shipped',
       items: validItems.map((it, idx) => ({
@@ -375,7 +375,7 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
           <Grid item xs={12}><TextField fullWidth size="small" label="关联采购订单号 *" value={form.purchaseOrderNo} onChange={(e) => setForm({ ...form, purchaseOrderNo: e.target.value })} /></Grid>
           <Grid item xs={6}><TextField fullWidth size="small" label="物流公司 *" value={form.logisticsCompany} onChange={(e) => setForm({ ...form, logisticsCompany: e.target.value })} /></Grid>
           <Grid item xs={6}><TextField fullWidth size="small" label="运单号 *" value={form.trackingNo} onChange={(e) => setForm({ ...form, trackingNo: e.target.value })} /></Grid>
-          <Grid item xs={6}><TextField fullWidth size="small" label="发货日期 *" type="date" InputLabelProps={{ shrink: true }} value={form.shipDate} onChange={(e) => setForm({ ...form, shipDate: e.target.value })} /></Grid>
+          <Grid item xs={6}><TextField fullWidth size="small" label="发货日期 *" type="date" InputLabelProps={{ shrink: true }} value={form.shipDate} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" onChange={(e) => setForm({ ...form, shipDate: e.target.value })} /></Grid>
           <Grid item xs={6}><TextField fullWidth size="small" label="预计到达日期" type="date" InputLabelProps={{ shrink: true }} value={form.estimatedArrival} onChange={(e) => setForm({ ...form, estimatedArrival: e.target.value })} /></Grid>
           <Grid item xs={12}><TextField fullWidth size="small" label="备注" multiline rows={2} value={form.remarks} onChange={(e) => setForm({ ...form, remarks: e.target.value })} /></Grid>
         </Grid>

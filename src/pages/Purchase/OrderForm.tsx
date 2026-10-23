@@ -56,6 +56,9 @@ interface OrderItem {
   sourceInfoRecordId?: string;
   leadTime?: number;
   expectedDeliveryDate?: string;
+  /** V3.104.0 行级关联项目（从采购申请自动带入，行内可改；迁移 0118 起落库） */
+  projectNo?: string;
+  projectName?: string;
 }
 
 /** A2：按当前含税/未税模式重算单行税价字段 */
@@ -152,13 +155,14 @@ const OrderForm: React.FC = () => {
   });
   const [paymentTerms, setPaymentTerms] = useState(existingOrder?.paymentTerms || '');
   const [tradeTerms, setTradeTerms] = useState(existingOrder?.tradeTerms || '');
+  // V3.104.0 交付条件：改为数据字典下拉（可选项选择），并修复此前未落库的问题（迁移 0118）
+  const [deliveryTerms, setDeliveryTerms] = useState(existingOrder?.deliveryTerms || '');
   // A2 税价拆分：表头币种 / 价格类型 / 默认税率
   const [currency, setCurrency] = useState(existingOrder?.currency || 'CNY');
   const [taxIncluded, setTaxIncluded] = useState<boolean>(existingOrder?.taxIncluded ?? false);
   const [headerTaxRate, setHeaderTaxRate] = useState<number>(
     existingOrder?.items?.[0]?.taxRate ?? DEFAULT_TAX_RATE
   );
-  const [deliveryTerms, setDeliveryTerms] = useState('');
   const [expectedDeliveryDate, setExpectedDeliveryDate] = useState(() => {
     if (existingOrder?.expectedDeliveryDate) return existingOrder.expectedDeliveryDate;
     if (isConvertMode) {
@@ -175,16 +179,8 @@ const OrderForm: React.FC = () => {
     if (isConvertMode) return sourceRequests[0]?.reason || '';
     return '';
   });
-  const [projectNo, setProjectNo] = useState(() => {
-    if (existingOrder?.projectNo) return existingOrder.projectNo;
-    if (isConvertMode) return sourceRequests[0]?.projectNo || '';
-    return '';
-  });
-  const [projectName, setProjectName] = useState(() => {
-    if (existingOrder?.projectName) return existingOrder.projectName;
-    if (isConvertMode) return sourceRequests[0]?.projectName || '';
-    return '';
-  });
+  // V3.104.0：关联项目移入明细行（转单时从采购申请自动带入行内），表头不再单独维护。
+  // 表头 projectNo/projectName 保留为派生值（取第一个带项目的行），供落库/打印/列表下游兼容。
   // 获取某一物料在价目表中的所有有效报价（供初始化函数使用）
   const getPriceOptions = (materialId: string) => {
     return priceList.filter(p =>
@@ -232,6 +228,9 @@ const OrderForm: React.FC = () => {
             vendorName: '',
             sourcePriceItemId: priceOpts.length > 0 ? priceOpts[0].id : undefined,
             expectedDeliveryDate: reqItem.deliveryDate || '',
+            // V3.104.0：关联项目从采购申请表头自动带入行内（申请无则留空）
+            projectNo: req.projectNo || '',
+            projectName: req.projectName || '',
           });
           itemIdx++;
         });
@@ -265,6 +264,22 @@ const OrderForm: React.FC = () => {
 
   // 读取贸易条款配置（数据字典单一数据源）
   const tradeTermOptions = useDataDictStore((s) => s.tradeTerms);
+  // V3.104.0 付款条件/交付条件改为可选项选择（数据字典单一数据源，设置页「数据字典」可维护）
+  const paymentTermOptions = useDataDictStore((s) => s.paymentTerms);
+  const deliveryTermOptions = useDataDictStore((s) => s.deliveryTerms);
+
+  // ── V3.104.0 主供应商与明细行供应商「二选一」派生 ──
+  // 表头主供应商未填时，取第一个已指定供应商的明细行作为主供应商
+  // （落库 / 信用占用 / 黑名单 / 自动取价 / 打印全部按它走，后端 vendorId 必填约束不变）。
+  const effVendorId = vendorId || items.find((it) => it.vendorId)?.vendorId || '';
+  const effVendorName =
+    (effVendorId ? vendors.find((v) => v.id === effVendorId)?.name : '') ||
+    items.find((it) => it.vendorId)?.vendorName ||
+    '';
+  // 关联项目派生：行级优先，编辑老单兜底表头历史值（老单项目在表头，行级为空）
+  const effProjectRow = items.find((it) => it.projectNo);
+  const effProjectNo = effProjectRow?.projectNo || (isEditMode ? existingOrder?.projectNo || '' : '');
+  const effProjectName = effProjectRow?.projectName || (isEditMode ? existingOrder?.projectName || '' : '');
 
   // A2：币种对本位币汇率（CNY=1，其余取汇率管理表）
   const exchangeRates = useFinanceExtensionStore((s) => s.exchangeRates);
@@ -314,20 +329,26 @@ const OrderForm: React.FC = () => {
     return { vendorId: existingOrder.vendorId, amount: existingOrder.creditAmount ?? 0 };
   }, [isEditMode, existingOrder]);
 
-  /** B6：当前选中供应商的黑名单画像（实时预警 + 提交前硬拦截共用） */
-  const blacklistInfo = useMemo(() => {
-    if (!vendorId) return null;
-    const bl = checkVendorBlacklist(vendorId);
-    return bl.blacklisted ? bl : null;
+  /** B6 V3.104.0：本单涉及的全部供应商（表头派生 + 行级去重）的黑名单画像（实时预警 + 提交前硬拦截共用）。
+   *  行级供应商二选一放开后，一张单可能涉及多家供应商，黑名单必须逐家检查、不能只看表头。 */
+  const involvedVendorIds = useMemo(() => {
+    const ids = new Set<string>();
+    if (effVendorId) ids.add(effVendorId);
+    items.forEach((it) => { if (it.vendorId) ids.add(it.vendorId); });
+    return [...ids];
+  }, [effVendorId, items]);
+  const blacklistedVendors = useMemo(
+    () => involvedVendorIds.map((id) => checkVendorBlacklist(id)).filter((bl) => bl.blacklisted),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vendorId, vendors]);
+    [involvedVendorIds, vendors],
+  );
 
-  /** B1：当前选中供应商的信用画像（实时展示 + 提交前预检共用） */
+  /** B1：当前生效供应商（表头或行派生）的信用画像（实时展示 + 提交前预检共用） */
   const creditInfo = useMemo(() => {
-    if (!vendorId) return null;
-    const v = vendors.find((x) => x.id === vendorId);
+    if (!effVendorId) return null;
+    const v = vendors.find((x) => x.id === effVendorId);
     if (!v) return null;
-    const offset = prevCredit.vendorId === vendorId ? prevCredit.amount : 0;
+    const offset = prevCredit.vendorId === effVendorId ? prevCredit.amount : 0;
     const used = Math.max(0, (v.usedCredit ?? 0) - offset);
     const limit = v.creditLimit ?? null;
     const available = limit == null ? Infinity : limit - used;
@@ -338,20 +359,20 @@ const OrderForm: React.FC = () => {
       available,
       willExceed: limit != null && creditAmount > available,
     };
-  }, [vendorId, vendors, prevCredit, creditAmount]);
+  }, [effVendorId, vendors, prevCredit, creditAmount]);
 
   // P0-06：选中供应商的货源清单推荐物料（前5条 生效且在有效期内，按优先级升序）
   // 统一走 store 派生 selector，保证与货源清单联动口径一致
   const sourceChips = useMemo(() => {
-    if (!vendorId) return [];
-    return getActiveSourcesByVendor(vendorId)
+    if (!effVendorId) return [];
+    return getActiveSourcesByVendor(effVendorId)
       .slice(0, 5)
       .map((s) => {
         const mat = materials.find((m) => m.id === s.materialId);
         return { ...s, material: mat };
       })
       .filter((s) => s.material);
-  }, [vendorId, materials]);
+  }, [effVendorId, materials]);
 
   const handleAddItem = () => {
     setItems(prev => [...prev, {
@@ -363,8 +384,11 @@ const OrderForm: React.FC = () => {
       unit: '件',
       quantity: 1,
       ...buildLineFromNetPrice(1, 0, headerTaxRate),
-      vendorId: vendorId,
-      vendorName: vendorOptions.find(v => v.id === vendorId)?.name || '',
+      // V3.104.0：新行默认带生效供应商（表头或行派生），行内可改
+      vendorId: effVendorId,
+      vendorName: effVendorName,
+      projectNo: '',
+      projectName: '',
     }]);
   };
 
@@ -380,8 +404,10 @@ const OrderForm: React.FC = () => {
       unit: chip.material?.unit || '件',
       quantity: 1,
       ...buildLineFromNetPrice(1, 0, headerTaxRate),
-      vendorId: vendorId,
+      vendorId: effVendorId,
       vendorName: chip.vendorName,
+      projectNo: '',
+      projectName: '',
     } as OrderItem]);
     // 添加后再触发自动取价
     setTimeout(() => handleMaterialChange(newId, chip.materialId), 0);
@@ -455,9 +481,9 @@ const OrderForm: React.FC = () => {
     id: m.id, code: m.code, name: m.name, specification: m.specification || '', unit: m.unit, price: m.price,
   }));
 
-  // 选中物料时按当前主供应商自动取价
+  // 选中物料时按当前生效供应商（表头或行派生）自动取价
   const handlePOMaterialPricing = (rowId: string, materialId: string): Record<string, any> =>
-    buildPOMaterialPatch(materialId, vendorId, items.find(i => i.id === rowId)?.quantity || 1);
+    buildPOMaterialPatch(materialId, effVendorId, items.find(i => i.id === rowId)?.quantity || 1);
 
   // 单价/数量/税率任一变化 → 重算单行税价（与表头含税口径一致）
   const computePORow = (row: any): Record<string, any> => recalcLine(row as OrderItem, taxIncluded);
@@ -505,7 +531,7 @@ const OrderForm: React.FC = () => {
             />
             {row.sourceInfoRecordId && (() => {
               const irs = usePurchaseInfoRecordStore.getState().records
-                .filter(r => r.vendorId === vendorId && r.materialId === row.materialId && r.status === 'active')
+                .filter(r => r.vendorId === (row.vendorId || effVendorId) && r.materialId === row.materialId && r.status === 'active')
                 .sort((a, b) => a.unitPrice - b.unitPrice);
               if (!irs.length) return null;
               const min = irs[0].unitPrice, max = irs[irs.length - 1].unitPrice;
@@ -519,12 +545,36 @@ const OrderForm: React.FC = () => {
             <Tooltip title="从价目表/信息记录抓取最新价格">
               <span>
                 <IconButton size="small" color="success" onClick={() => handleFetchPrice(row.id)}
-                  disabled={!row.materialId || (getPriceOptions(row.materialId).length === 0 && usePurchaseInfoRecordStore.getState().records.filter(r => r.vendorId === vendorId && r.materialId === row.materialId && r.status === 'active').length === 0)}>
+                  disabled={!row.materialId || (getPriceOptions(row.materialId).length === 0 && usePurchaseInfoRecordStore.getState().records.filter(r => r.vendorId === (row.vendorId || effVendorId) && r.materialId === row.materialId && r.status === 'active').length === 0)}>
                   <AutoAwesome fontSize="small" />
                 </IconButton>
               </span>
             </Tooltip>
           </Box>
+        );
+      },
+    },
+    // V3.104.0：关联项目移入明细行（转单时从采购申请自动带入，行内可改；表头不再单独维护）
+    {
+      key: 'projectNo', label: '关联项目', width: 200, hideable: true,
+      renderCell: (row) => {
+        const cur = projects.find((p: any) => p.projectNo === row.projectNo) || null;
+        return (
+          <Autocomplete
+            size="small"
+            options={projects as any[]}
+            getOptionLabel={(o: any) => `${o.projectName} (${o.projectNo})`}
+            value={cur}
+            onChange={(_, v: any) => {
+              setItems(prev => prev.map(it => (it.id === row.id
+                ? { ...it, projectNo: v?.projectNo || '', projectName: v?.projectName || '' }
+                : it)));
+            }}
+            renderInput={(params) => <TextField {...params} placeholder="选择项目" />}
+            isOptionEqualToValue={(o: any, v: any) => o.id === v.id}
+            noOptionsText="未找到匹配项目"
+            sx={{ minWidth: 170 }}
+          />
         );
       },
     },
@@ -534,14 +584,15 @@ const OrderForm: React.FC = () => {
   const makePORow = () => ({
     id: '', materialId: '', materialCode: '', materialName: '', specification: '', unit: '件',
     quantity: 1, ...buildLineFromNetPrice(1, 0, headerTaxRate),
-    vendorId: vendorId, vendorName: vendorOptions.find(v => v.id === vendorId)?.name || '',
+    vendorId: effVendorId, vendorName: effVendorName,
     expectedDeliveryDate: '',
+    projectNo: '', projectName: '',
   });
 
   const handleMaterialChange = (itemId: string, materialId: string, overrideVendorId?: string) => {
     const material = materials.find(m => m.id === materialId);
     if (!material) return;
-    const effectiveVendorId = overrideVendorId ?? vendorId;
+    const effectiveVendorId = overrideVendorId ?? effVendorId;
     const qty = items.find(i => i.id === itemId)?.quantity || 1;
     const patch = buildPOMaterialPatch(materialId, effectiveVendorId, qty);
     setItems(prev => prev.map(item => (item.id !== itemId ? item : { ...item, ...patch })));
@@ -568,9 +619,10 @@ const OrderForm: React.FC = () => {
   const handleFetchPrice = (itemId: string) => {
     setItems(prev => prev.map(item => {
       if (item.id !== itemId) return item;
-      // 优先查信息记录
+      // 优先查信息记录（按行供应商优先，兜底生效供应商）
+      const lookupVendorId = item.vendorId || effVendorId;
       const infoRecords = usePurchaseInfoRecordStore.getState().records
-        .filter(r => r.vendorId === vendorId && r.materialId === item.materialId && r.status === 'active')
+        .filter(r => r.vendorId === lookupVendorId && r.materialId === item.materialId && r.status === 'active')
         .sort((a, b) => a.unitPrice - b.unitPrice);
       if (infoRecords.length > 0) {
         const best = infoRecords[0];
@@ -611,7 +663,15 @@ const OrderForm: React.FC = () => {
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
     if (!title.trim()) newErrors.title = '请输入订单标题';
-    if (!vendorId) newErrors.vendorId = '请选择供应商';
+    // V3.104.0 主供应商与明细行供应商「二选一」：表头未填时，须为全部明细行指定供应商
+    if (!vendorId) {
+      const rowsWithoutVendor = items.filter(it => !it.vendorId).length;
+      if (items.length === 0 || rowsWithoutVendor > 0) {
+        newErrors.vendorId = items.length === 0
+          ? '请选择供应商'
+          : `主供应商与明细行「供应商」二选一：表头未填时须为全部明细行指定供应商（还有 ${rowsWithoutVendor} 行未指定）`;
+      }
+    }
     if (items.length === 0) newErrors.items = '请添加至少一项物料';
     items.forEach(item => {
       if (!item.materialId) newErrors[`item_${item.id}_material`] = '请选择物料';
@@ -623,19 +683,17 @@ const OrderForm: React.FC = () => {
   };
 
   /**
-   * B6 黑名单硬卡点：选中供应商处于黑名单时阻断落库（暂存与提交共用）。
-   * 返回 true 表示已被拦截，调用方须立即 return。
+   * B6 黑名单硬卡点 V3.104.0：本单涉及的全部供应商（表头派生 + 行级去重）逐家检查，
+   * 任一家在黑名单即阻断落库（暂存与提交共用）。返回 true 表示已被拦截，调用方须立即 return。
    */
   const blockedByBlacklist = (): boolean => {
-    if (!vendorId) return false;
-    const bl = checkVendorBlacklist(vendorId);
-    if (!bl.blacklisted) return false;
+    if (blacklistedVendors.length === 0) return false;
+    const lines = blacklistedVendors.map((bl) =>
+      `供应商：${bl.vendorName || '（未知）'}｜拉黑时间：${bl.blacklistedAt || '—'}｜原因：${bl.reason || '未填写'}`
+    ).join('\n');
     notifyError(
-      `供应商已列入黑名单，采购订单无法保存：\n` +
-        `供应商：${bl.vendorName || vendorId}\n` +
-        `拉黑原因：${bl.reason || '未填写'}\n` +
-        `拉黑时间：${bl.blacklistedAt || '—'}\n\n` +
-        `请更换合格供应商，或由采购部在「供应商管理 → 黑名单管理」解除黑名单后重试。`
+      `以下供应商已列入黑名单，采购订单无法保存：\n${lines}\n\n` +
+      `请更换合格供应商，或由采购部在「供应商管理 → 黑名单管理」解除黑名单后重试。`
     );
     return true;
   };
@@ -664,11 +722,18 @@ const OrderForm: React.FC = () => {
       taxAmount: item.taxAmount,
       priceWithTax: item.priceWithTax,
       amountWithTax: item.amountWithTax,
+      // V3.104.0 行级供应商/预计交货/关联项目落库（迁移 0118）
+      vendorId: item.vendorId,
+      vendorName: item.vendorName,
+      expectedDeliveryDate: item.expectedDeliveryDate,
+      projectNo: item.projectNo || '',
+      projectName: item.projectName || '',
     }));
 
     if (isEditMode && existingOrder) {
       updatePurchaseOrder(id!, {
-        vendorId,
+        vendorId: effVendorId,
+        vendorName: effVendorName,
         status: 'created',
         purchaseType,
         orderMode,
@@ -681,10 +746,11 @@ const OrderForm: React.FC = () => {
         grandTotal,
         paymentTerms,
         tradeTerms,
+        deliveryTerms,
         expectedDeliveryDate,
         remarks: isServiceOrder ? serviceDescription : remarks,
-        projectNo: projectNo || undefined,
-        projectName: projectName || undefined,
+        projectNo: effProjectNo || undefined,
+        projectName: effProjectName || undefined,
         updatedAt: now,
         customFields,
         updatedBy: '当前用户',
@@ -697,8 +763,8 @@ const OrderForm: React.FC = () => {
       addPurchaseOrder({
         id: `po-${Date.now()}`,
         orderNo,
-        vendorId,
-        vendorName: vendors.find(v => v.id === vendorId)?.name || '',
+        vendorId: effVendorId,
+        vendorName: effVendorName,
         status: 'created',
         purchaseType,
         orderMode,
@@ -714,10 +780,11 @@ const OrderForm: React.FC = () => {
         grandTotal,
         paymentTerms,
         tradeTerms,
+        deliveryTerms,
         deliveryAddress: '',
         remarks: isServiceOrder ? serviceDescription : remarks,
-        projectNo: projectNo || undefined,
-        projectName: projectName || undefined,
+        projectNo: effProjectNo || undefined,
+        projectName: effProjectName || undefined,
         createdAt: now,
         updatedAt: now,
         createdBy: '当前用户',
@@ -756,12 +823,13 @@ const OrderForm: React.FC = () => {
     const now = new Date().toISOString();
 
     // ===== B1 信用卡点：提交前预检 → 释放旧占用 → 占用新额度（失败即回滚并阻断） =====
-    const offset = prevCredit.vendorId === vendorId ? prevCredit.amount : 0;
-    const chk = checkVendorCredit(vendorId, creditAmount - offset);
+    // V3.104.0：信用按「生效供应商」（表头或行派生）口径占用，与落库主供应商一致
+    const offset = prevCredit.vendorId === effVendorId ? prevCredit.amount : 0;
+    const chk = checkVendorCredit(effVendorId, creditAmount - offset);
     if (!chk.ok) {
       notifyError(
         `供应商信用额度不足，订单无法提交：\n` +
-          `供应商：${chk.vendorName || vendorId}\n` +
+          `供应商：${chk.vendorName || effVendorId}\n` +
           `授信额度：${formatCurrency(chk.limit ?? 0, currency)}\n` +
           `已占用：${formatCurrency(Math.max(0, chk.used - offset), currency)}\n` +
           `本单需占用：${formatCurrency(creditAmount, currency)}\n` +
@@ -774,7 +842,7 @@ const OrderForm: React.FC = () => {
     if (prevCredit.vendorId) {
       applyVendorCreditDelta(prevCredit.vendorId, -prevCredit.amount);
     }
-    const occupied = applyVendorCreditDelta(vendorId, creditAmount);
+    const occupied = applyVendorCreditDelta(effVendorId, creditAmount);
     if (!occupied) {
       // 占用失败 → 回滚旧占用，保持数据一致
       if (prevCredit.vendorId) {
@@ -800,12 +868,18 @@ const OrderForm: React.FC = () => {
       taxAmount: item.taxAmount,
       priceWithTax: item.priceWithTax,
       amountWithTax: item.amountWithTax,
+      // V3.104.0 行级供应商/预计交货/关联项目落库（迁移 0118）
+      vendorId: item.vendorId,
+      vendorName: item.vendorName,
+      expectedDeliveryDate: item.expectedDeliveryDate,
+      projectNo: item.projectNo || '',
+      projectName: item.projectName || '',
     }));
 
     if (isEditMode && existingOrder) {
       updatePurchaseOrder(id!, {
-        vendorId,
-        vendorName: vendors.find(v => v.id === vendorId)?.name || existingOrder.vendorName,
+        vendorId: effVendorId,
+        vendorName: effVendorName || existingOrder.vendorName,
         status: 'created',
         orderMode,
         items: orderItems,
@@ -817,10 +891,11 @@ const OrderForm: React.FC = () => {
         grandTotal,
         paymentTerms,
         tradeTerms,
+        deliveryTerms,
         expectedDeliveryDate,
         remarks,
-        projectNo: projectNo || undefined,
-        projectName: projectName || undefined,
+        projectNo: effProjectNo || undefined,
+        projectName: effProjectName || undefined,
         updatedAt: now,
         customFields,
         updatedBy: '当前用户',
@@ -833,8 +908,8 @@ const OrderForm: React.FC = () => {
       addPurchaseOrder({
         id: `po-${Date.now()}`,
         orderNo,
-        vendorId,
-        vendorName: vendors.find(v => v.id === vendorId)?.name || '',
+        vendorId: effVendorId,
+        vendorName: effVendorName,
         status: 'created',
         orderMode,
         sourceRequestIds: fromRequestIds,
@@ -849,10 +924,11 @@ const OrderForm: React.FC = () => {
         grandTotal,
         paymentTerms,
         tradeTerms,
+        deliveryTerms,
         deliveryAddress: '',
         remarks,
-        projectNo: projectNo || undefined,
-        projectName: projectName || undefined,
+        projectNo: effProjectNo || undefined,
+        projectName: effProjectName || undefined,
         createdAt: now,
         updatedAt: now,
         createdBy: '当前用户',
@@ -879,8 +955,8 @@ const OrderForm: React.FC = () => {
       paymentTerms,
       tradeTerms,
       currency,
-      projectName,
-      projectNo,
+      projectName: effProjectName,
+      projectNo: effProjectNo,
       remarks,
       items: items.map((it: OrderItem) => ({
         materialCode: it.materialCode,
@@ -1020,19 +1096,20 @@ const OrderForm: React.FC = () => {
                 }
               }}
               renderInput={(params) => (
-                <TextField {...params} label="主供应商" error={!!errors.vendorId} helperText={errors.vendorId} required />
+                <TextField {...params} label="主供应商" error={!!errors.vendorId}
+                  helperText={errors.vendorId || '与明细行「供应商」二选一：此处留空时需为每一行指定供应商'} />
               )}
             />
           </Grid2>
-          {/* B6 黑名单卡点：选中黑名单供应商即时预警，提交/暂存均会被阻断 */}
-          {blacklistInfo && (
-            <Grid2 xs={12}>
+          {/* B6 黑名单卡点：选中黑名单供应商即时预警，提交/暂存均会被阻断（支持表头+行级多家） */}
+          {blacklistedVendors.map((bl) => (
+            <Grid2 xs={12} key={bl.vendorName}>
               <Alert severity="error" data-testid="po-vendor-blacklist" sx={{ py: 0.5 }}>
-                供应商「{blacklistInfo.vendorName}」已列入黑名单（{blacklistInfo.blacklistedAt || '—'}）：
-                {blacklistInfo.reason || '未填写原因'} —— 本单无法提交或暂存，请更换供应商。
+                供应商「{bl.vendorName}」已列入黑名单（{bl.blacklistedAt || '—'}）：
+                {bl.reason || '未填写原因'} —— 本单无法提交或暂存，请更换供应商。
               </Alert>
             </Grid2>
-          )}
+          ))}
           {/* B1 信用卡点：选中供应商后实时展示授信画像与超额预警 */}
           {creditInfo && (
             <Grid2 xs={12}>
@@ -1056,9 +1133,16 @@ const OrderForm: React.FC = () => {
             </Grid2>
           )}
           <Grid2 xs={12} sm={6}>
-            <TextField fullWidth label="付款条件" value={paymentTerms}
+            <TextField
+              select fullWidth label="付款条件" value={paymentTerms}
               onChange={e => setPaymentTerms(e.target.value)}
-              placeholder="如：货到验收后30天付清" />
+              data-testid="po-payment-terms"
+              helperText="从数据字典维护（设置→数据字典）"
+            >
+              {paymentTermOptions.map(opt => (
+                <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+              ))}
+            </TextField>
           </Grid2>
           <Grid2 xs={12} sm={6}>
             <Autocomplete
@@ -1073,9 +1157,16 @@ const OrderForm: React.FC = () => {
             />
           </Grid2>
           <Grid2 xs={12} sm={6}>
-            <TextField fullWidth label="交付条件" value={deliveryTerms}
+            <TextField
+              select fullWidth label="交付条件" value={deliveryTerms}
               onChange={e => setDeliveryTerms(e.target.value)}
-              placeholder="如：含运费到厂" />
+              data-testid="po-delivery-terms"
+              helperText="从数据字典维护（设置→数据字典）"
+            >
+              {deliveryTermOptions.map(opt => (
+                <MenuItem key={opt} value={opt}>{opt}</MenuItem>
+              ))}
+            </TextField>
           </Grid2>
           {/* A2 税价拆分：币种 / 价格类型 / 默认税率 */}
           <Grid2 xs={12} sm={4}>
@@ -1121,20 +1212,6 @@ const OrderForm: React.FC = () => {
           <Grid2 xs={12}>
             <TextField fullWidth label="备注" value={remarks} onChange={e => setRemarks(e.target.value)}
               multiline rows={2} />
-          </Grid2>
-          <Grid2 xs={12} sm={6}>
-            <Autocomplete
-              size="small"
-              options={projects}
-              getOptionLabel={(opt) => `${opt.projectName} (${opt.projectNo})`}
-              value={null}
-              onChange={(_, v) => {/* mock */}}
-              renderInput={(params) => (
-                <TextField {...params} label="关联项目（编号+名称）" placeholder="选择或搜索项目" />
-              )}
-              noOptionsText="未找到匹配项目"
-              isOptionEqualToValue={(o, v) => o.id === v.id}
-            />
           </Grid2>
         </Grid2>
       </Paper>
