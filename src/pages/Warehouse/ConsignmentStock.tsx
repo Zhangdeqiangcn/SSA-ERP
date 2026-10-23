@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, Button, IconButton,
   Dialog, DialogTitle, DialogContent, DialogActions, TextField,
   Tooltip, Chip, Alert, Grid,
 } from '@mui/material';
-import { Payment, Calculate } from '@mui/icons-material';
+import { Payment, Calculate, Visibility } from '@mui/icons-material';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -16,6 +17,7 @@ import { notifySuccess } from '@/utils/notify';
 const genId = () => `cs-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
 const ConsignmentStockPage: React.FC = () => {
+  const navigate = useNavigate();
   const inventoryRecords = useWarehouseStore((s) => s.inventoryRecords);
   const vendors = useVendorStore((s) => s.vendors);
   const { addPurchaseOrder } = usePurchaseStore();
@@ -151,6 +153,11 @@ const ConsignmentStockPage: React.FC = () => {
                   </TableCell>
                   <TableCell>{record.warehouseName || '-'}</TableCell>
                   <TableCell>
+                    <Tooltip title="查看详情">
+                      <IconButton size="small" aria-label="查看寄售库存详情" onClick={() => navigate(`/warehouse/consignment/${record.id}`)}>
+                        <Visibility fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="消耗结算：消耗数量 × 约定单价 → 生成采购订单">
                       <Button
                         size="small"

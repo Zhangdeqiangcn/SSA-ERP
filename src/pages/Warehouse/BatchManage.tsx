@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Button, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow, IconButton, TextField, Dialog,
@@ -39,6 +40,7 @@ const computeStatus = (b: Partial<BatchRecord>, refDate: string): BatchStatus =>
 };
 
 const BatchManage: React.FC = () => {
+  const navigate = useNavigate();
   const { batchRecords, addBatchRecord, updateBatchRecord, deleteBatchRecord } = useWarehouseStore();
   const materials = useMaterialStore((s) => s.materials);
   const warehouses = useWarehouseMasterStore((s) => s.warehouses);
@@ -192,6 +194,7 @@ const BatchManage: React.FC = () => {
                     <StatusBadge status={BATCH_STATUS_KEY[b.status]} />
                   </TableCell>
                   <TableCell align="right">
+                    <Tooltip title="查看"><IconButton size="small" aria-label="查看批次详情" onClick={() => navigate(`/warehouse/batch/${b.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
                     <Tooltip title="编辑"><IconButton size="small" onClick={() => openEdit(b)}><Edit fontSize="small" /></IconButton></Tooltip>
                     <Tooltip title="删除"><IconButton size="small" color="error" onClick={() => setDeleteTarget(b)}><Delete fontSize="small" /></IconButton></Tooltip>
                   </TableCell>

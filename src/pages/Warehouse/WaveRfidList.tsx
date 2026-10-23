@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
   TableCell, TableHead, TableRow, IconButton, Tooltip, Alert,
 } from '@mui/material';
-import { Add, Visibility, Edit, Delete, QrCode2, PlayCircle } from '@mui/icons-material';
+import { Add, Visibility, Edit, Delete, QrCode2 } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, StatusBadge } from '@/components/common';
 import { useWaveRfidStore } from '@/stores/waveRfidStore';
 import {
-  WaveRfid, RfidEvent, WaveLine, WAVE_STATUS_LABELS, WAVE_STRATEGY_LABELS,
+  WaveRfid, RfidEvent, WaveLine, WAVE_STRATEGY_LABELS,
   RFID_OP_LABELS, WaveStatus, WaveStrategy, RfidOpType,
 } from '@/types';
 
@@ -20,6 +21,7 @@ const seqNo = (prefix: string, count: number) =>
   `${prefix}-${new Date().getFullYear()}-${String(count + 1).padStart(4, '0')}`;
 
 const WaveRfidList: React.FC = () => {
+  const navigate = useNavigate();
   const { waves, rfidEvents, addWave, updateWave, deleteWave, addRfidEvent, deleteRfidEvent } = useWaveRfidStore();
   const load = useWaveRfidStore((s) => s.load);
   const [tab, setTab] = useState<'wave' | 'rfid'>('wave');
@@ -39,9 +41,6 @@ const WaveRfidList: React.FC = () => {
   const [plannedDate, setPlannedDate] = useState(todayStr());
   const [note, setNote] = useState('');
   const [lines, setLines] = useState<WaveLine[]>([]);
-
-  // 波次明细
-  const [detail, setDetail] = useState<WaveRfid | null>(null);
 
   // RFID 事件 新建
   const [rfOpen, setRfOpen] = useState(false);
@@ -156,7 +155,7 @@ const WaveRfidList: React.FC = () => {
       {tab === 'wave' && (
         <DataTable
           data={waves} columns={waveColumns}
-          onView={(r) => setDetail(r)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteWave(r.id)}
+          onView={(r) => navigate(`/warehouse/wave-rfid/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteWave(r.id)}
           enableExport enableColumnFilter sapStyle columnConfigKey="wave-rfid-list"
         />
       )}
@@ -230,34 +229,7 @@ const WaveRfidList: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      {/* 波次明细 */}
-      <Dialog open={!!detail} onClose={() => setDetail(null)} maxWidth="md" fullWidth>
-        <DialogTitle>波次明细 · {detail?.waveNo}</DialogTitle>
-        <DialogContent>
-          {detail && (
-            <Stack spacing={1.5} sx={{ mt: 1 }}>
-              <Typography variant="body2">名称：{detail.name}　策略：{WAVE_STRATEGY_LABELS[detail.strategy]}　状态：{WAVE_STATUS_LABELS[detail.status]}　仓库：{detail.warehouseName}</Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow><TableCell>订单号</TableCell><TableCell>物料编码</TableCell><TableCell>物料名称</TableCell><TableCell>需求</TableCell><TableCell>已拣</TableCell><TableCell>货位</TableCell></TableRow>
-                </TableHead>
-                <TableBody>
-                  {detail.lines.map((l) => (
-                    <TableRow key={l.id}>
-                      <TableCell>{l.orderNo}</TableCell><TableCell>{l.materialCode}</TableCell><TableCell>{l.materialName}</TableCell>
-                      <TableCell>{l.quantity}</TableCell><TableCell>{l.pickedQty}</TableCell><TableCell>{l.location}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Stack>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" startIcon={<PlayCircle />} onClick={() => { if (detail) updateWave(detail.id, { status: 'in_progress', releasedAt: nowStr(), updatedAt: nowStr() }); setDetail(null); }}>下达并拣货</Button>
-          <Button onClick={() => setDetail(null)}>关闭</Button>
-        </DialogActions>
-      </Dialog>
+      {/* 波次明细已改版为独立详情页 /warehouse/wave-rfid/:id，「下达并拣货」动作迁至详情页 actions 区 */}
 
       {/* RFID 事件 新建 */}
       <Dialog open={rfOpen} onClose={() => setRfOpen(false)} maxWidth="sm" fullWidth>

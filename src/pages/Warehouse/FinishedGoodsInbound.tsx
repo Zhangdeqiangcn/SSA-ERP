@@ -19,7 +19,7 @@ import { applyColumnFilters } from '@/utils/listSearch';
 
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
   pending:    { label: '待入库', color: 'warning' },
-  inspecting: { label: '质检中', color: 'info' },
+  inspecting: { label: '检验中', color: 'info' },
   completed:  { label: '已完成', color: 'success' },
   partial:    { label: '部分入库', color: 'warning' },
 };
@@ -252,7 +252,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       options: [
         { value: '', label: '全部' },
         { value: 'pending', label: '待入库' },
-        { value: 'inspecting', label: '质检中' },
+        { value: 'inspecting', label: '检验中' },
         { value: 'completed', label: '已完成' },
         { value: 'partial', label: '部分入库' },
       ],
@@ -277,6 +277,8 @@ const FinishedGoodsInboundList: React.FC = () => {
         enablePagination
         enableExport
         codeColumnId="inboundNo"
+        onView={(r) => navigate(`/warehouse/fg-inbound/${r.id}`)}
+        onRowClick={(r) => navigate(`/warehouse/fg-inbound/${r.id}`)}
       />
       <NewFGInboundDialog open={newOpen} onClose={() => setNewOpen(false)} />
     </PageWrapper>

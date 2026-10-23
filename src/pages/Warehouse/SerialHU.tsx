@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert, IconButton, Tooltip,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Visibility } from '@mui/icons-material';
 import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { SerialMaster } from '@/types';
@@ -18,6 +20,7 @@ const MOVE_LABEL: Record<string, string> = {
 };
 
 export default function SerialHUPage() {
+  const navigate = useNavigate();
   const { serialMasters, addSerialMaster, updateSerialMaster } = useWarehouseAdvancedStore();
   const { materials } = useMaterialStore();
   const [open, setOpen] = useState(false);
@@ -89,6 +92,11 @@ export default function SerialHUPage() {
                       ))}
                 </TableCell>
                 <TableCell>
+                  <Tooltip title="查看">
+                    <IconButton size="small" aria-label="查看序列号详情" onClick={() => navigate(`/warehouse/serial/${s.id}`)}>
+                      <Visibility fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
                   {s.status === 'in_stock' && (
                     <Button size="small" data-testid="sm-ship" onClick={() => handleShip(s)}>发货</Button>
                   )}

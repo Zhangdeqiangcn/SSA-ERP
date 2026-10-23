@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert, Stack, IconButton,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Visibility } from '@mui/icons-material';
 import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -15,6 +17,7 @@ const STATUS_LABEL: Record<InventoryAdjustment['status'], string> = {
 };
 
 export default function InventoryAdjustmentPage() {
+  const navigate = useNavigate();
   const { inventoryAdjustments, addInventoryAdjustment, postAdjustment } = useWarehouseAdvancedStore();
   const { inventoryRecords } = useWarehouseStore();
   const { materials } = useMaterialStore();
@@ -85,9 +88,14 @@ export default function InventoryAdjustmentPage() {
                 <TableCell><Chip size="small" label={STATUS_LABEL[adj.status]} color={adj.status === 'posted' ? 'success' : 'default'} /></TableCell>
                 <TableCell>{adj.voucherNo || '—'}</TableCell>
                 <TableCell>
-                  {adj.status === 'draft' && (
-                    <Button size="small" data-testid="ia-post" onClick={() => postAdjustment(adj.id)}>过账</Button>
-                  )}
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <IconButton size="small" aria-label="查看调整详情" onClick={() => navigate(`/warehouse/adjustment/${adj.id}`)}>
+                      <Visibility fontSize="small" />
+                    </IconButton>
+                    {adj.status === 'draft' && (
+                      <Button size="small" data-testid="ia-post" onClick={() => postAdjustment(adj.id)}>过账</Button>
+                    )}
+                  </Stack>
                 </TableCell>
               </TableRow>
             ))}

@@ -1,9 +1,11 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
+  Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert, Stack, IconButton,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { Visibility } from '@mui/icons-material';
 import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
 import { useWarehouseMasterStore } from '@/stores/warehouseMasterStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -16,6 +18,7 @@ const STATUS_LABEL: Record<StockTransfer['status'], string> = {
 };
 
 export default function StockTransferPage() {
+  const navigate = useNavigate();
   const { stockTransfers, addStockTransfer, confirmTransfer } = useWarehouseAdvancedStore();
   const { warehouses } = useWarehouseMasterStore();
   const { materials } = useMaterialStore();
@@ -84,9 +87,14 @@ export default function StockTransferPage() {
                 <TableCell>{t.items.reduce((s, i) => s + i.quantity, 0)}</TableCell>
                 <TableCell><Chip size="small" label={STATUS_LABEL[t.status]} color={t.status === 'completed' ? 'success' : 'default'} /></TableCell>
                 <TableCell>
-                  {t.status === 'draft' && (
-                    <Button size="small" data-testid="st-confirm" onClick={() => confirmTransfer(t.id)}>确认转储</Button>
-                  )}
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <IconButton size="small" aria-label="查看转储详情" onClick={() => navigate(`/warehouse/transfer/${t.id}`)}>
+                      <Visibility fontSize="small" />
+                    </IconButton>
+                    {t.status === 'draft' && (
+                      <Button size="small" data-testid="st-confirm" onClick={() => confirmTransfer(t.id)}>确认转储</Button>
+                    )}
+                  </Stack>
                 </TableCell>
               </TableRow>
             ))}

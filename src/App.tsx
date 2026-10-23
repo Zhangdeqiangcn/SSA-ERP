@@ -90,6 +90,7 @@ const PriceListPage = lazy(() => import('./pages/Price/PriceList'));
 // 仓储物流
 const InboundList = lazy(() => import('./pages/Warehouse/InboundList'));
 const InboundForm = lazy(() => import('./pages/Warehouse/InboundForm'));
+const InboundDetail = lazy(() => import('./pages/Warehouse/InboundDetail'));
 const OutboundList = lazy(() => import('./pages/Warehouse/OutboundList'));
 const OutboundForm = lazy(() => import('./pages/Warehouse/OutboundForm'));
 const OutboundDetail = lazy(() => import('./pages/Warehouse/OutboundDetail'));
@@ -108,6 +109,15 @@ const InventoryAdjustment = lazy(() => import('./pages/Warehouse/InventoryAdjust
 const SerialHU = lazy(() => import('./pages/Warehouse/SerialHU'));
 // C1 批次正反向追溯穿透视图
 const TraceBatch = lazy(() => import('./pages/Warehouse/TraceBatch'));
+// V3.108.0 仓库域单据详情页（布局参照采购申请详情页）
+const InspectionNoticeDetail = lazy(() => import('./pages/Warehouse/InspectionNoticeDetail'));
+const StockTransferDetail = lazy(() => import('./pages/Warehouse/StockTransferDetail'));
+const InventoryAdjustmentDetail = lazy(() => import('./pages/Warehouse/InventoryAdjustmentDetail'));
+const FinishedGoodsInboundDetail = lazy(() => import('./pages/Warehouse/FinishedGoodsInboundDetail'));
+const SerialHUDetail = lazy(() => import('./pages/Warehouse/SerialHUDetail'));
+const ConsignmentStockDetail = lazy(() => import('./pages/Warehouse/ConsignmentStockDetail'));
+const BatchDetail = lazy(() => import('./pages/Warehouse/BatchDetail'));
+const WaveRfidDetail = lazy(() => import('./pages/Warehouse/WaveRfidDetail'));
 // 设置
 const Settings = lazy(() => import('./pages/Settings/Settings'));
 // 质量
@@ -442,27 +452,35 @@ function App() {
         {/* 仓储物流（含报检单）*/}
         <Route path="warehouse" element={<Navigate to="/warehouse/inbound" replace />} />
         <Route path="warehouse/inspection-notice" element={<InspectionNoticeWarehouse />} />  {/* ← 报检单在此 */}
+        <Route path="warehouse/inspection-notice/:id" element={<InspectionNoticeDetail />} />
         <Route path="warehouse/inbound" element={<InboundList />} />
         <Route path="warehouse/inbound/create" element={<InboundForm />} />
+        <Route path="warehouse/inbound/:id" element={<InboundDetail />} />
         <Route path="warehouse/outbound" element={<OutboundList />} />
         <Route path="warehouse/outbound/create" element={<OutboundForm />} />
         <Route path="warehouse/outbound/:id" element={<OutboundDetail />} />
         <Route path="warehouse/fg-inbound" element={<FinishedGoodsInbound />} />
+        <Route path="warehouse/fg-inbound/:id" element={<FinishedGoodsInboundDetail />} />
         <Route path="warehouse/check" element={<CheckList />} />
         <Route path="warehouse/check/:id" element={<CheckTask />} />
         <Route path="warehouse/inventory" element={<Inventory />} />
         <Route path="warehouse/batch" element={<BatchManage />} />
+        <Route path="warehouse/batch/:id" element={<BatchDetail />} />
         <Route path="warehouse/aging" element={<InventoryAging />} />
         <Route path="warehouse/barcode" element={<BarcodePrint />} />
         <Route path="warehouse/master" element={<WarehouseMaster />} />
         {/* 供应链深化（P3-3）：跨组织转储/库存调整/序列号HU */}
         <Route path="warehouse/transfer" element={<StockTransfer />} />
+        <Route path="warehouse/transfer/:id" element={<StockTransferDetail />} />
         <Route path="warehouse/adjustment" element={<InventoryAdjustment />} />
+        <Route path="warehouse/adjustment/:id" element={<InventoryAdjustmentDetail />} />
         <Route path="warehouse/serial" element={<SerialHU />} />
+        <Route path="warehouse/serial/:id" element={<SerialHUDetail />} />
         {/* C1 批次正反向追溯穿透视图 */}
         <Route path="warehouse/trace" element={<TraceBatch />} />
         {/* P2-06 寄售采购 */}
         <Route path="warehouse/consignment" element={<ConsignmentStock />} />
+        <Route path="warehouse/consignment/:id" element={<ConsignmentStockDetail />} />
         {/* 质量管理（检验任务从仓库报检流入，不含报检单）*/}
         <Route path="quality" element={<Navigate to="/quality/inspection" replace />} />
         <Route path="quality/inspection" element={<InspectionList />} />
@@ -547,6 +565,7 @@ function App() {
         <Route path="production/gantt" element={<GanttSchedule />} />
         {/* 整页补齐 A 轮（P2-07/08/09） */}
         <Route path="warehouse/wave-rfid" element={<WaveRfidList />} />
+        <Route path="warehouse/wave-rfid/:id" element={<WaveRfidDetail />} />
         {/* P1-6 电商物流面单 / 轨迹看板 */}
         <Route path="warehouse/waybill" element={<LogisticsWaybill />} />
         <Route path="production/repetitive" element={<RepetitiveMfgList />} />

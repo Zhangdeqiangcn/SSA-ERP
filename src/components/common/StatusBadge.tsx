@@ -114,6 +114,11 @@ export const statusConfig: Record<string, { color: 'default' | 'primary' | 'seco
   ob_completed: { color: 'success', label: '已完成' },
   ob_cancelled: { color: 'error', label: '已取消' },
 
+  // 报检单专属标签（InspectionNotice 详情页；passed/failed 复用通用 key）
+  qn_pending: { color: 'default', label: '待报检' },
+  qn_inspecting: { color: 'info', label: '检验中' },
+  qn_partial: { color: 'warning', label: '部分合格' },
+
   // ── 质量检验 ──
   qualified: { color: 'success', label: '合格' },
   unqualified: { color: 'error', label: '不合格' },
@@ -228,6 +233,19 @@ export const statusConfig: Record<string, { color: 'default' | 'primary' | 'seco
   wave_pick: { color: 'warning', label: '拣货' },
   wave_transfer: { color: 'primary', label: '转储' },
   wave_count: { color: 'secondary', label: '盘点' },
+
+  // ── 跨组织转储（StockTransferDetail 专属；draft/completed/cancelled 语义与通用键一致但标签按模块口径统一登记）──
+  st_draft: { color: 'default', label: '草稿' },
+  st_shipped: { color: 'info', label: '已发出' },
+  st_received: { color: 'primary', label: '已收货' },
+  st_completed: { color: 'success', label: '已完成' },
+  st_cancelled: { color: 'error', label: '已取消' },
+
+  // ── 成品入库（FinishedGoodsInboundDetail 专属；completed 复用通用 key）──
+  fin_pending: { color: 'warning', label: '待入库' },
+  fin_inspecting: { color: 'info', label: '检验中' },
+  fin_completed: { color: 'success', label: '已完成' },
+  fin_partial: { color: 'warning', label: '部分入库' },
 
   // ── 电子面单 / 物流轨迹（LogisticsWaybill 专属）──
   waybill_created: { color: 'default', label: '已创建' },
