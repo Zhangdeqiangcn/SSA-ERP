@@ -161,7 +161,12 @@ const OrderForm: React.FC = () => {
   const [deliveryTerms, setDeliveryTerms] = useState('');
   const [expectedDeliveryDate, setExpectedDeliveryDate] = useState(() => {
     if (existingOrder?.expectedDeliveryDate) return existingOrder.expectedDeliveryDate;
-    if (isConvertMode) return sourceRequests[0]?.expectedDate || '';
+    if (isConvertMode) {
+      // V3.102.0：新申请单不再填表头期望日期（期望交货已下沉明细行 delivery_date），
+      // 转单时期望交货优先取明细行第一项的期望交货时间，历史单兜底表头 expectedDate
+      const src = sourceRequests[0];
+      return src?.items?.[0]?.deliveryDate || src?.expectedDate || '';
+    }
     return '';
   });
   const [remarks, setRemarks] = useState(existingOrder?.remarks || '');

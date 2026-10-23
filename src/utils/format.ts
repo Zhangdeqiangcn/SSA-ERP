@@ -5,6 +5,13 @@ export const formatDate = (date: string | Date | undefined | null, format = 'YYY
   return dayjs(date).format(format);
 };
 
+/** 本地时区当天日期 yyyy-mm-dd（dayjs 走本地时间；切勿用 toISOString——UTC 会把 UTC+8 的凌晨算成前一天） */
+export const todayLocal = (): string => dayjs().format('YYYY-MM-DD');
+
+/** 从 ISO 时间串取本地日期部分（yyyy-mm-dd）；空值兜底为当天 */
+export const localDateOf = (iso: string | Date | undefined | null): string =>
+  iso ? dayjs(iso).format('YYYY-MM-DD') : todayLocal();
+
 export const formatDateTime = (date: string | Date | undefined | null): string => {
   if (!date) return '-';
   return dayjs(date).format('YYYY-MM-DD HH:mm:ss');

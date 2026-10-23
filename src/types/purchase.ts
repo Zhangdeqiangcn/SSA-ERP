@@ -29,6 +29,8 @@ export interface PurchaseRequest extends BaseEntity {
   /** 采购申请备注（补充说明，区别于申请理由 reason） */
   remarks?: string;
   expectedDate: string;
+  /** V3.102.0 申请日期（yyyy-mm-dd）：表头「期望日期」改为「申请日期」，提交/暂存时由前端实时拉取当天；历史单为空时兜底 createdAt 日期 */
+  applicationDate?: string;
   status: PurchaseRequestStatus;
   items: PurchaseRequestItem[];
   approvalRecords?: ApprovalRecord[];

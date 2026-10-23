@@ -15,7 +15,7 @@ import { DataTable, FilterBar, ActionBar, StatusBadge, FlowTracker, ConfirmDialo
 import type { BatchAction } from '@/components/common/DataTable';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PurchaseRequest, PurchaseRequestStatus, Priority } from '@/types';
-import { formatDate, formatCurrency } from '@/utils/format';
+import { formatDate, formatCurrency, todayLocal, localDateOf } from '@/utils/format';
 import { approvalStatusOptions } from '@/constants/approvalEnums';
 import { applyColumnFilters } from '@/utils/listSearch';
 
@@ -83,6 +83,13 @@ const PurchaseList: React.FC = () => {
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     { accessorKey: 'expectedDate', header: '期望日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDate) },
+    // V3.102.0 申请日期（提交时自动拉取当天；历史单兜底创建日期）
+    {
+      accessorKey: 'applicationDate',
+      header: '申请日期',
+      meta: { searchable: true },
+      cell: ({ row }) => formatDate(row.original.applicationDate || localDateOf(row.original.createdAt)),
+    },
     {
       accessorKey: 'totalAmount',
       header: '预估金额',
@@ -191,6 +198,8 @@ const PurchaseList: React.FC = () => {
       '优先级': r.priority,
       '状态': r.status,
       '期望日期': r.expectedDate,
+      // V3.102.0 申请日期（提交时自动拉取当天；历史单兜底创建日期）
+      '申请日期': r.applicationDate || localDateOf(r.createdAt),
       '预估金额': r.totalAmount,
       '项目编号': r.projectNo || '',
       '项目名称': r.projectName || '',
@@ -255,7 +264,9 @@ const PurchaseList: React.FC = () => {
         type: 'material' as const,
         priority: (row['优先级'] as Priority) || 'normal',
         reason: (row['申请原因'] as string) || '',
-        expectedDate: (row['期望日期'] as string) || new Date().toISOString().split('T')[0],
+        expectedDate: (row['期望日期'] as string) || todayLocal(),
+        // V3.102.0 申请日期：导入即按当天记录（与表单提交同口径）
+        applicationDate: todayLocal(),
         status: 'draft',
         items: [],
         totalAmount: Number(row['预估金额']) || 0,

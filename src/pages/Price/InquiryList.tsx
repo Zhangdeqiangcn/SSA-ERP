@@ -195,7 +195,8 @@ const InquiryList: React.FC = () => {
               ...item,
               sourceRequestId: request.id,
               sourceRequestNo: request.requestNo,
-              requiredDate: request.expectedDate || '',
+              // V3.102.0：需求日期优先取明细行期望交货时间（新申请单表头不再填期望日期），历史单兜底表头 expectedDate
+              requiredDate: item.deliveryDate || request.expectedDate || '',
               id: '',
             });
           });

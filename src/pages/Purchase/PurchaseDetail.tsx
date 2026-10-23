@@ -12,7 +12,7 @@ import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, FlowTracker, PrintPreviewButton, DataTable } from '@/components/common';
 import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { usePurchaseStore } from '@/stores/purchaseStore';
-import { formatDate, formatCurrency } from '@/utils/format';
+import { formatDate, formatCurrency, localDateOf } from '@/utils/format';
 
 const buildApprovalNodes = (status: string): ApprovalNode[] => [
   { id: 'n1', role: '申请人提交', approver: '王晓明', status: 'approved', time: '2024-05-10 09:15', comment: '正常采购申请' },
@@ -93,6 +93,7 @@ const PurchaseDetail: React.FC = () => {
     { label: '申请类型', value: request.type === 'material' ? '物料采购' : '服务采购' },
     { label: '优先级', value: <StatusBadge status={request.priority} /> },
     { label: '期望日期', value: formatDate(request.expectedDate) },
+    { label: '申请日期', value: formatDate(request.applicationDate || localDateOf(request.createdAt)) },
     { label: '状态', value: <StatusBadge status={request.status} /> },
     { label: '申请原因', value: request.reason },
     { label: '创建时间', value: formatDate(request.createdAt) },
@@ -123,6 +124,7 @@ const PurchaseDetail: React.FC = () => {
           { label: '部门', value: request.department },
           { label: '优先级', value: <StatusBadge status={request.priority} /> },
           { label: '期望日期', value: formatDate(request.expectedDate) },
+          { label: '申请日期', value: formatDate(request.applicationDate || localDateOf(request.createdAt)) },
           { label: '预估金额', value: formatCurrency(request.totalAmount) },
         ]}
         actions={

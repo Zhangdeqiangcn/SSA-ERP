@@ -41,7 +41,7 @@ import { useCustomFields } from '@/stores/customFieldStore';
 // V3.95.0 自动化设置中心：自动通知/自动询价改为按「按物料分类」开关门控（不发起则静默跳过）
 import { useAutomationStore } from '@/stores/automationStore';
 import { isStageActive } from '@/types/automation';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, todayLocal, localDateOf } from '@/utils/format';
 import { generatePurchaseRequestNo } from '@/utils/codeGenerator';
 
 const purchaseSchema = z.object({
@@ -51,6 +51,8 @@ const purchaseSchema = z.object({
   department: z.string().min(1, '请输入部门'),
   // 期望交货时间已下沉到明细行（物料明细表必填列），表头不再强制
   expectedDate: z.string().optional(),
+  // V3.102.0 申请日期：自动拉取提交当时的时间，用户不可填（仅回显）
+  applicationDate: z.string().optional(),
   reason: z.string().min(1, '请输入申请原因'),
 });
 
@@ -100,7 +102,7 @@ const PurchaseForm: React.FC = () => {
   // 查找已有采购申请数据（编辑模式）
   const existingRequest = isEdit ? purchaseRequests.find(r => r.id === id) : undefined;
 
-  const { control, handleSubmit, reset, watch, formState: { errors } } = useForm<PurchaseFormData>({
+  const { control, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<PurchaseFormData>({
     resolver: zodResolver(purchaseSchema),
     defaultValues: {
       title: '',
@@ -108,6 +110,7 @@ const PurchaseForm: React.FC = () => {
       priority: 'normal',
       department: '',
       expectedDate: '',
+      applicationDate: todayLocal(),
       reason: '',
     },
   });
@@ -144,6 +147,8 @@ const PurchaseForm: React.FC = () => {
         priority: existingRequest.priority,
         department: existingRequest.department,
         expectedDate: existingRequest.expectedDate,
+        // 申请日期：历史单优先原值，无则兜底创建日期（申请日期本质=创建日期）
+        applicationDate: existingRequest.applicationDate || localDateOf(existingRequest.createdAt),
         reason: existingRequest.reason || '',
       });
       setRequestNo(existingRequest.requestNo);
@@ -521,6 +526,9 @@ const PurchaseForm: React.FC = () => {
     }
     const now = new Date().toISOString();
     const no = ensureRequestNo(data.department);
+    // V3.102.0 申请日期：提交瞬间实时取当天（用户可能隔夜提交，落库以提交时刻为准，同步刷新表单回显值）
+    const applicationDate = todayLocal();
+    setValue('applicationDate', applicationDate);
     const requestItems = items.map(item => ({
       id: item.id,
       materialId: item.materialId,
@@ -541,6 +549,8 @@ const PurchaseForm: React.FC = () => {
         priority: data.priority as any,
         department: data.department,
         expectedDate: data.expectedDate,
+        // V3.102.0 申请日期：提交瞬间实时拉取（见上方 applicationDate 变量）
+        applicationDate,
         reason: data.reason,
         remarks: data.type === 'service' ? serviceDescription : undefined,
         items: requestItems,
@@ -565,6 +575,8 @@ const PurchaseForm: React.FC = () => {
         reason: data.reason,
         remarks: data.type === 'service' ? serviceDescription : undefined,
         expectedDate: data.expectedDate || '',
+        // V3.102.0 申请日期：提交瞬间实时拉取（见上方 applicationDate 变量）
+        applicationDate,
         status: 'pending',
         sourceType,
         sourceNo: sourceDoc ? (sourceDoc.orderNo || sourceDoc.id) : undefined,
@@ -658,6 +670,8 @@ const PurchaseForm: React.FC = () => {
         reason: '',
         remarks: control._formValues.type === 'service' ? serviceDescription : undefined,
         expectedDate: '',
+        // V3.102.0 申请日期：暂存时刻即记录（最终提交时会刷新为提交当天）
+        applicationDate: todayLocal(),
         status: 'draft',
         sourceType,
         sourceNo: sourceDoc ? (sourceDoc.orderNo || sourceDoc.id) : undefined,
@@ -767,10 +781,18 @@ const PurchaseForm: React.FC = () => {
           </Grid>
           <Grid item xs={12} md={6}>
             <Controller
-              name="expectedDate"
+              name="applicationDate"
               control={control}
               render={({ field }) => (
-                <TextField {...field} type="date" label="期望日期" fullWidth InputLabelProps={{ shrink: true }} error={!!errors.expectedDate} helperText={errors.expectedDate?.message} />
+                <TextField
+                  {...field}
+                  type="date"
+                  label="申请日期"
+                  fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  InputProps={{ readOnly: true }}
+                  helperText="提交时自动记录当天时间，无需填写"
+                />
               )}
             />
           </Grid>
