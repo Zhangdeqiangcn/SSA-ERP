@@ -26,3 +26,4 @@ export * from './cashMgmt';
 export * from './sop';
 export * from './bi';
 export * from './esg';
+export * from './automation';

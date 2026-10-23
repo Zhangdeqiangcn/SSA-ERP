@@ -5,6 +5,7 @@ import type { LinearProgressProps } from '@mui/material';
 import { Share } from '@mui/icons-material';
 import { PageWrapper, ObjectPage } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, FileUpload, ConfirmDialog, DetailActions, SecureField } from '@/components/common';
+import CustomFieldsSection from '@/components/common/CustomFieldsSection';
 import { useVendorStore } from '@/stores/vendorStore';
 import { notifyError } from '@/utils/notify';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -37,6 +38,7 @@ const VendorDetail: React.FC = () => {
     salesOrg: '',
     reconciliationAccount: '',
     taxCode: '',
+    customFields: {} as Record<string, unknown>,
   });
 
   if (!vendor) {
@@ -78,6 +80,7 @@ const VendorDetail: React.FC = () => {
       salesOrg: vendor.salesOrg || '',
       reconciliationAccount: vendor.reconciliationAccount || '',
       taxCode: vendor.taxCode || '',
+      customFields: { ...(vendor.customFields || {}) },
     });
     setEditOpen(true);
   };
@@ -346,6 +349,12 @@ const VendorDetail: React.FC = () => {
             <Grid item xs={4}><TextField fullWidth size="small" label="统驭科目" value={editForm.reconciliationAccount} onChange={(e) => setEditForm({ ...editForm, reconciliationAccount: e.target.value })} /></Grid>
             <Grid item xs={4}><TextField fullWidth size="small" label="税码" value={editForm.taxCode} onChange={(e) => setEditForm({ ...editForm, taxCode: e.target.value })} /></Grid>
           </Grid>
+          {/* V3.94.0 供应商自配置字段：管理员在「设置→自定义字段（实体=供应商）」自助加列后，这里动态渲染并随供应商落库 */}
+          <CustomFieldsSection
+            entity="vendor"
+            value={editForm.customFields}
+            onChange={(v) => setEditForm({ ...editForm, customFields: v })}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setEditOpen(false)}>取消</Button>

@@ -27,12 +27,20 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { PageWrapper } from '@/components/layout';
-import { FlowTracker, MaterialLineItemsGrid, GridColumn } from '@/components/common';
+import { FlowTracker, MaterialLineItemsGrid, GridColumn, findMissingRequired } from '@/components/common';
 import ResponsiblePersons from '@/components/common/ResponsiblePersons';
-import { useMaterialStore } from '@/stores/materialStore';
+import { useMaterialStore, findCategoryById } from '@/stores/materialStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { useProductionStore } from '@/stores/productionStore';
+import { useVendorStore } from '@/stores/vendorStore';
+import { useUserStore } from '@/stores/userStore';
+import { useMessageStore } from '@/stores/messageStore';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+import { useCustomFields } from '@/stores/customFieldStore';
+// V3.95.0 自动化设置中心：自动通知/自动询价改为按「按物料分类」开关门控（不发起则静默跳过）
+import { useAutomationStore } from '@/stores/automationStore';
+import { isStageActive } from '@/types/automation';
 import { formatCurrency } from '@/utils/format';
 import { generatePurchaseRequestNo } from '@/utils/codeGenerator';
 
@@ -41,7 +49,8 @@ const purchaseSchema = z.object({
   type: z.string().min(1, '请选择类型'),
   priority: z.string().min(1, '请选择优先级'),
   department: z.string().min(1, '请输入部门'),
-  expectedDate: z.string().min(1, '请选择期望日期'),
+  // 期望交货时间已下沉到明细行（物料明细表必填列），表头不再强制
+  expectedDate: z.string().optional(),
   reason: z.string().min(1, '请输入申请原因'),
 });
 
@@ -67,6 +76,8 @@ interface ItemRow {
   quantity: number;
   estimatedPrice: number;
   estimatedAmount: number;
+  /** 本行期望交货时间（明细级必填，区别于表头的整单期望日期） */
+  deliveryDate: string;
 }
 
 const PurchaseForm: React.FC = () => {
@@ -76,7 +87,15 @@ const PurchaseForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
   const materials = useMaterialStore(s => s.materials);
-  const { purchaseRequests, addPurchaseRequest, updatePurchaseRequest } = usePurchaseStore();
+  const categories = useMaterialStore(s => s.categories);
+  const vendors = useVendorStore(s => s.vendors);
+  const users = useUserStore(s => s.users);
+  const { purchaseRequests, addPurchaseRequest, updatePurchaseRequest, addVendorQuote } = usePurchaseStore();
+  // V3.94.0 自配置字段定义：分类上的「供应商类别」、供应商上的「供应商类别」用于示例 B 自动询价匹配
+  const categoryFieldDefs = useCustomFields('category');
+  const vendorFieldDefs = useCustomFields('vendor');
+  // V3.95.0 自动化设置中心：自动通知/询价按「按物料分类」开关门控
+  const autoConfig = useAutomationStore(s => s.config);
 
   // 查找已有采购申请数据（编辑模式）
   const existingRequest = isEdit ? purchaseRequests.find(r => r.id === id) : undefined;
@@ -143,6 +162,7 @@ const PurchaseForm: React.FC = () => {
         quantity: item.quantity,
         estimatedPrice: item.estimatedPrice || 0,
         estimatedAmount: item.estimatedAmount || 0,
+        deliveryDate: item.deliveryDate || '',
       }));
       setItems(filledItems);
       // 回填项目（如有）
@@ -176,6 +196,7 @@ const PurchaseForm: React.FC = () => {
       quantity: row?.quantity ?? 1,
       estimatedPrice: row?.estimatedPrice ?? 0,
       estimatedAmount: row?.estimatedAmount ?? 0,
+      deliveryDate: row?.deliveryDate || '',
     };
     setItems(prev => [...prev, newItem]);
   };
@@ -285,6 +306,7 @@ const PurchaseForm: React.FC = () => {
             quantity: oi.quantity ?? 1,
             estimatedPrice: oi.unitPrice || mat?.price || 0,
             estimatedAmount: (oi.quantity ?? 1) * (oi.unitPrice || mat?.price || 0),
+            deliveryDate: (oi as any).deliveryDate || (oi as any).expectedDeliveryDate || '',
           };
         });
         break;
@@ -307,6 +329,7 @@ const PurchaseForm: React.FC = () => {
             quantity: wm.requiredQty ?? 1,
             estimatedPrice: mat?.price || 0,
             estimatedAmount: (wm.requiredQty ?? 1) * (mat?.price || 0),
+            deliveryDate: (wm as any).requiredDate || '',
           };
         });
         break;
@@ -325,6 +348,7 @@ const PurchaseForm: React.FC = () => {
           quantity: rec.suggestedOrderQty || 1,
           estimatedPrice: mat?.price || 0,
           estimatedAmount: (rec.suggestedOrderQty || 1) * (mat?.price || 0),
+          deliveryDate: (rec as any).requiredDate || (rec as any).deliveryDate || '',
         }];
         break;
       }
@@ -391,18 +415,110 @@ const PurchaseForm: React.FC = () => {
     { key: 'quantity', label: '数量', type: 'number', align: 'right', width: 80, min: 1, step: 1 },
     { key: 'estimatedPrice', label: '预估单价', type: 'number', align: 'right', width: 110, min: 0, step: 0.01, fillFromMaterial: 'price' },
     { key: 'estimatedAmount', label: '预估金额', type: 'readonly', align: 'right', width: 110 },
+    { key: 'deliveryDate', label: '期望交货时间', type: 'date', width: 150, hideable: false, required: true },
   ];
 
   const makePRRow = (): ItemRow => ({
     id: `item-${Date.now()}-${Math.floor(Math.random() * 1e6)}`,
     materialCode: '', materialId: '', materialName: '',
     specification: '', unit: '', quantity: 1,
-    estimatedPrice: 0, estimatedAmount: 0,
+    estimatedPrice: 0, estimatedAmount: 0, deliveryDate: '',
   });
 
   // ======================== 提交 / 暂存 ========================
 
+  // ── V3.94.0 自动化联动 + V3.95.0 自动化设置中心门控：由物料所属分类反查采购员 / 供应商类别 ──
+  // 示例A：归集本单所有物料所属分类挂的「采购员」。V3.95.0：仅对「采购需求/通知采购员」段
+  //   在该分类下已发起（isStageActive）的分类才归集；未开启的分类静默跳过（不通知、不筛选），
+  //   但 buyerIds/buyerNames 字段仍全量记录（仅影响下游自动通知是否发，不影响数据落地）。
+  const resolveBuyers = (): { ids: string[]; names: string; activeCatCount: number } => {
+    const ids: string[] = [];
+    const seen = new Set<string>();
+    let activeCatCount = 0;
+    const seenCat = new Set<string>();
+    items.forEach((it) => {
+      if (!it.materialId) return;
+      const m = materials.find((mm) => mm.id === it.materialId);
+      if (!m?.categoryId) return;
+      // V3.95.0 门控：该分类的「采购需求/通知采购员」段是否发起（分类覆盖 > 全局）
+      if (!isStageActive(autoConfig, m.categoryId, 'purchase_request')) return;
+      if (!seenCat.has(m.categoryId)) { seenCat.add(m.categoryId); activeCatCount += 1; }
+      const cat = findCategoryById(categories, m.categoryId);
+      const buyers = (cat?.responsiblePersons?.buyer as string[] | undefined) || [];
+      buyers.forEach((b) => { if (!seen.has(b)) { seen.add(b); ids.push(b); } });
+    });
+    const names = ids.map((id) => users.find((u) => u.id === id)?.name || id).join('、');
+    return { ids, names, activeCatCount };
+  };
+
+  // 示例B：归集本单物料分类上「供应商类别」字段值，匹配供应商同名字段，自动发起询价。
+  // V3.95.0 门控：仅对「询价比价」段在该分类下已发起的分类才收集 wanted（未开启的分类不询价）。
+  const autoInquiryByVendorCategory = (prId: string, prNo: string, prTitle: string) => {
+    const catDef = categoryFieldDefs.find((d) => d.label.includes('供应商类别'));
+    const vendorDef = vendorFieldDefs.find((d) => d.label.includes('供应商类别'));
+    if (!catDef || !vendorDef) return;
+    const wanted = new Set<string>();
+    items.forEach((it) => {
+      if (!it.materialId) return;
+      const m = materials.find((mm) => mm.id === it.materialId);
+      if (!m?.categoryId) return;
+      // V3.95.0 门控：该分类的「询价比价」段是否发起
+      if (!isStageActive(autoConfig, m.categoryId, 'inquiry_compare')) return;
+      const cat = findCategoryById(categories, m.categoryId);
+      const val = cat?.attributes?.[catDef.key];
+      if (val != null && val !== '') wanted.add(String(val));
+    });
+    if (wanted.size === 0) return;
+    const matched = vendors.filter((v) => {
+      const vc = v.customFields?.[vendorDef.key];
+      return vc != null && wanted.has(String(vc));
+    });
+    if (matched.length === 0) return;
+    const quoteItems = items.map((it) => ({
+      materialId: it.materialId,
+      materialName: it.materialName,
+      quantity: it.quantity,
+      unitPrice: it.estimatedPrice || 0,
+      amount: it.estimatedAmount || (it.quantity * (it.estimatedPrice || 0)),
+    }));
+    matched.forEach((v) => {
+      addVendorQuote({
+        id: `vq-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+        requestId: prId,
+        vendorId: v.id,
+        vendorName: v.name,
+        items: quoteItems,
+        totalAmount,
+        validUntil: '',
+        remarks: `由采购申请 ${prNo}（${prTitle}）按物料分类「供应商类别」自动发起询价`,
+        submittedAt: new Date().toISOString(),
+      } as any);
+    });
+    useGlobalToastStore.getState().show(`已按供应商类别向 ${matched.length} 家供应商自动发起询价`, 'success');
+    // V3.95.0 记自动化运行日志（询价比价段；取本单第一个带分类的物料作代表）
+    const repMat = items.find((it) => it.materialId && materials.find((mm) => mm.id === it.materialId)?.categoryId);
+    const repCatId = repMat?.materialId ? materials.find((mm) => mm.id === repMat.materialId)?.categoryId || '' : '';
+    useAutomationStore.getState().log({
+      stage: 'inquiry_compare',
+      categoryId: repCatId,
+      actor: '当前用户',
+      action: `采购申请 ${prNo}（${prTitle}）按物料分类「供应商类别」自动向 ${matched.length} 家供应商发起询价`,
+      result: 'success',
+    });
+  };
+
   const onSubmit = (data: PurchaseFormData) => {
+    // 物料采购：明细「期望交货时间」为必填，逐行校验，缺则拦截提交并定位到缺失行/列
+    if (data.type === 'material') {
+      const missing = findMissingRequired(items, prColumns);
+      if (missing.length > 0) {
+        useGlobalToastStore.getState().show(
+          `物料明细必填项不完整，无法提交：第 ${missing.map((m) => m.index).join('、')} 行缺少 ${missing[0].missing.join('、')}`,
+          'error',
+        );
+        return;
+      }
+    }
     const now = new Date().toISOString();
     const no = ensureRequestNo(data.department);
     const requestItems = items.map(item => ({
@@ -415,6 +531,7 @@ const PurchaseForm: React.FC = () => {
       quantity: item.quantity,
       estimatedPrice: item.estimatedPrice,
       estimatedAmount: item.estimatedAmount,
+      deliveryDate: item.deliveryDate,
     }));
 
     if (isEdit && existingRequest) {
@@ -434,8 +551,11 @@ const PurchaseForm: React.FC = () => {
         updatedBy: '当前用户',
       });
     } else {
+      const prId = `pr-${Date.now()}`;
+      // 示例A：由物料分类反查归属采购员（V3.95.0：仅归集「采购需求」段已开启的分类）
+      const { ids: buyerIds, names: buyerNames, activeCatCount } = resolveBuyers();
       addPurchaseRequest({
-        id: `pr-${Date.now()}`,
+        id: prId,
         requestNo: no,
         title: data.title,
         applicant: '当前用户',
@@ -444,7 +564,7 @@ const PurchaseForm: React.FC = () => {
         priority: data.priority as any,
         reason: data.reason,
         remarks: data.type === 'service' ? serviceDescription : undefined,
-        expectedDate: data.expectedDate,
+        expectedDate: data.expectedDate || '',
         status: 'pending',
         sourceType,
         sourceNo: sourceDoc ? (sourceDoc.orderNo || sourceDoc.id) : undefined,
@@ -453,11 +573,45 @@ const PurchaseForm: React.FC = () => {
         totalAmount,
         projectNo: selectedProject?.projectNo,
         projectName: selectedProject?.projectName,
+        buyerIds,
+        buyerNames,
         createdAt: now,
         updatedAt: now,
         createdBy: '当前用户',
         updatedBy: '当前用户',
       });
+      // 示例A：自动通知归属采购员办理（V3.95.0：仅当本单确有分类开启了「采购需求」段）
+      if (buyerIds.length) {
+        buyerIds.forEach((bid) => {
+          void useMessageStore.getState().send({
+            title: '新的采购申请待办理',
+            body: `您负责的采购申请「${data.title}」(${no}) 已提交，请及时处理。`,
+            type: 'announce',
+            recipientId: bid,
+            refModule: 'purchase-request',
+            refId: prId,
+          });
+        });
+        useGlobalToastStore.getState().show(`已通知 ${buyerIds.length} 名采购员办理`, 'success');
+        useAutomationStore.getState().log({
+          stage: 'purchase_request',
+          categoryId: '',
+          actor: '当前用户',
+          action: `采购申请 ${no}（${data.title}）按物料分类自动通知 ${buyerIds.length} 名采购员办理`,
+          result: 'success',
+        });
+      } else if (activeCatCount > 0) {
+        // 开启了采购需求段的分类存在，但那些分类上没挂采购员 → 提示寻源/异常（sourcing 段）
+        useAutomationStore.getState().log({
+          stage: 'sourcing',
+          categoryId: '',
+          actor: '当前用户',
+          action: `采购申请 ${no} 已开启采购需求但「未维护采购员」，请对应采购员寻源/处理异常`,
+          result: 'skipped',
+        });
+      }
+      // 示例B：按物料分类「供应商类别」自动向匹配供应商发起询价
+      autoInquiryByVendorCategory(prId, no, data.title);
     }
     navigate('/purchase/requests');
   };
@@ -476,6 +630,7 @@ const PurchaseForm: React.FC = () => {
       quantity: item.quantity,
       estimatedPrice: item.estimatedPrice,
       estimatedAmount: item.estimatedAmount,
+      deliveryDate: item.deliveryDate,
     }));
 
     if (isEdit && existingRequest) {
@@ -492,7 +647,7 @@ const PurchaseForm: React.FC = () => {
         updatedBy: '当前用户',
       });
     } else {
-      addPurchaseRequest({
+        addPurchaseRequest({
         id: `pr-${Date.now()}`,
         requestNo: no,
         title: '草稿 - 采购申请',
@@ -509,6 +664,11 @@ const PurchaseForm: React.FC = () => {
         sourceName: sourceDoc ? getSourceOptionLabel(sourceDoc) : undefined,
         items: requestItems,
         totalAmount,
+        // 草稿亦反查采购员（V3.95.0：仅归集「采购需求」段已开启的分类；便于后续提交即通知，不在此处发消息）
+        ...(() => {
+          const rb = resolveBuyers();
+          return { buyerIds: rb.ids, buyerNames: rb.names };
+        })(),
         createdAt: now,
         updatedAt: now,
         createdBy: '当前用户',

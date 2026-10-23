@@ -234,21 +234,16 @@ const VendorRegister: React.FC = () => {
                 </Grid>
                 <Divider sx={{ my: 2 }} />
                 <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1.5 }}>组织与会计</Typography>
+                <Alert severity="info" sx={{ mb: 1.5, fontSize: '0.8125rem' }}>
+                  「采购组织」可在此填写，用于把申请路由到对应采购条线；
+                  「统驭科目」「税码」是甲方财务视角信息，供应商通常不了解，
+                  由采购/财务在审批环节从主数据里选择，这里无需填写。
+                </Alert>
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <TextField fullWidth size="small" label="采购组织" value={form.salesOrg}
                       onChange={(e) => update('salesOrg', e.target.value)}
                       inputProps={{ 'data-testid': 'vr-sales-org' }} />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField fullWidth size="small" label="统驭科目" value={form.reconciliationAccount}
-                      onChange={(e) => update('reconciliationAccount', e.target.value)}
-                      inputProps={{ 'data-testid': 'vr-recon-account' }} />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField fullWidth size="small" label="税码" value={form.taxCode}
-                      onChange={(e) => update('taxCode', e.target.value)}
-                      inputProps={{ 'data-testid': 'vr-tax-code' }} />
                   </Grid>
                 </Grid>
               </>

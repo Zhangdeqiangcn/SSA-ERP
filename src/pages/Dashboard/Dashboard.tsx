@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Grid, Paper, Chip, Divider, List, ListItem,
   ListItemIcon, ListItemText, Avatar, Button, Tabs, Tab, LinearProgress,
-  IconButton, Tooltip,
+  IconButton, Tooltip, Collapse,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -13,6 +13,7 @@ import {
   ShoppingCart, PointOfSale, VerifiedUser, Engineering,
   RateReview, TaskAlt, ReportProblem, GroupAdd,
   MoveToInbox, Outbox, CalendarMonth, Assessment,
+  ExpandMore, ExpandLess,
 } from '@mui/icons-material';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { LineChart } from '@mui/x-charts/LineChart';
@@ -76,21 +77,31 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [bottomTab, setBottomTab] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  // 一页化：核心指标默认只显示前 8 个磁贴，其余折叠（点「展开更多」铺开），压缩纵向长度
+  const [kpiExpanded, setKpiExpanded] = useState(false);
 
-  // ── Store 数据 ──
-  const materials = useMaterialStore(s => s.materials);
-  const vendors = useVendorStore(s => s.vendors);
-  const purchaseRequests = usePurchaseStore(s => s.purchaseRequests);
-  const purchaseOrders = usePurchaseStore(s => s.purchaseOrders);
-  const inboundOrders = useWarehouseStore(s => s.inboundOrders);
-  const outboundOrders = useWarehouseStore(s => s.outboundOrders);
-  const inventoryAlerts = useWarehouseStore(s => s.inventoryAlerts);
-  const inspectionTasks = useQualityStore(s => s.inspectionTasks);
-  const unqualifiedItems = useQualityStore(s => s.unqualifiedItems);
-  const workOrders = useProductionStore(s => s.workOrders);
-  const salesOrders = useSalesStore(s => s.salesOrders);
-  const customers = useCustomerStore(s => s.customers);
-  const vouchers = useFinanceStore(s => s.vouchers);
+  // ── 数据健壮性守卫：各 store 切片在登录态水合中间态 / 后端异常帧下可能是非数组
+  //    （null / undefined / 包裹对象）。统一用 asArr 归一化为数组，非数组降级为 []，
+  //    保证下方 KPI 的 countTrend/amountTrend（对 rows 调 .filter）与待办/动态/图表
+  //    绝不因某一份数据脏而白屏崩溃（对标 SAP/金蝶「数据异常降级、页面仍可用」纪律）。
+  // 泛型以「整个数组」为单元（而非元素）：store 切片本就返回 T[]，若写成 <T>(x:T[]) 会把 T 推成 T[]，
+  //   导致 asArr 返回 T[][]（嵌套），下游 .filter(o => o.xxx) 全部报「属性不存在于 T[]」。改为以数组本身为 A。
+  const asArr = <A,>(x: A | null | undefined): A => (Array.isArray(x) ? x : ([] as unknown as A));
+
+  // ── Store 数据（全部经 asArr 归一化）──
+  const materials = asArr(useMaterialStore(s => s.materials));
+  const vendors = asArr(useVendorStore(s => s.vendors));
+  const purchaseRequests = asArr(usePurchaseStore(s => s.purchaseRequests));
+  const purchaseOrders = asArr(usePurchaseStore(s => s.purchaseOrders));
+  const inboundOrders = asArr(useWarehouseStore(s => s.inboundOrders));
+  const outboundOrders = asArr(useWarehouseStore(s => s.outboundOrders));
+  const inventoryAlerts = asArr(useWarehouseStore(s => s.inventoryAlerts));
+  const inspectionTasks = asArr(useQualityStore(s => s.inspectionTasks));
+  const unqualifiedItems = asArr(useQualityStore(s => s.unqualifiedItems));
+  const workOrders = asArr(useProductionStore(s => s.workOrders));
+  const salesOrders = asArr(useSalesStore(s => s.salesOrders));
+  const customers = asArr(useCustomerStore(s => s.customers));
+  const vouchers = asArr(useFinanceStore(s => s.vouchers));
   const currentOrgId = useOrgStore(s => s.currentOrgId);
 
   const todayStr = new Date().toISOString().slice(0, 7);
@@ -215,6 +226,9 @@ const Dashboard: React.FC = () => {
   }, [materials, vendors, purchaseRequests, purchaseOrders, inboundOrders, outboundOrders,
       inventoryAlerts, inspectionTasks, unqualifiedItems, workOrders, salesOrders,
       customers, vouchers, todayStr]);
+
+  // 一页化：默认只显示前 8 个核心磁贴（kpiData 已按重要性排过序），其余折叠
+  const kpiShown = kpiExpanded ? kpiData.length : 8;
 
   // ── 待我审批 / 待办事项 / 最近动态：全部由真实台账推导（原为写死演示数组）──
   const nowDate = new Date().toISOString().slice(0, 10);
@@ -426,14 +440,24 @@ const Dashboard: React.FC = () => {
         </Box>
       </Box>
 
-      {/* ── KPI 卡片 ── */}
-      <Box sx={{ mb: 0.5 }}>
-        <Typography variant="caption" sx={{ fontWeight: 600, color: '#94A3B8', letterSpacing: '.06em', textTransform: 'uppercase', fontSize: '0.6875rem', mb: 1, display: 'block' }}>
+      {/* ── KPI 卡片（一页化：默认 8 磁贴一屏，其余折叠） ── */}
+      <Box sx={{ mb: 0.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Typography variant="caption" sx={{ fontWeight: 600, color: '#94A3B8', letterSpacing: '.06em', textTransform: 'uppercase', fontSize: '0.6875rem' }}>
           核心指标
         </Typography>
+        {kpiData.length > 8 && (
+          <Button
+            size="small"
+            startIcon={kpiExpanded ? <ExpandLess sx={{ fontSize: 15 }} /> : <ExpandMore sx={{ fontSize: 15 }} />}
+            onClick={() => setKpiExpanded((v) => !v)}
+            sx={{ fontSize: '0.7rem', py: 0.25, color: '#64748B' }}
+          >
+            {kpiExpanded ? '收起指标' : `展开全部（${kpiData.length} 项）`}
+          </Button>
+        )}
       </Box>
       <Grid container spacing={2} sx={{ mb: 3 }}>
-        {kpiData.map((kpi) => (
+        {kpiData.slice(0, kpiShown).map((kpi) => (
           <Grid item xs={6} sm={4} md={3} key={kpi.title}
             onClick={() => navigate(kpi.path)}
             sx={{ cursor: 'pointer' }}

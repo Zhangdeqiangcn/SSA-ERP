@@ -44,6 +44,8 @@ const VendorDetail = lazy(() => import('./pages/Vendor/VendorDetail'));
 const Blacklist = lazy(() => import('./pages/Vendor/Blacklist'));
 const Rating = lazy(() => import('./pages/Vendor/Rating'));
 const ApprovalQueue = lazy(() => import('./pages/Vendor/ApprovalQueue'));
+// V3.100.0 采购员定向邀请供应商注册
+const BuyerInvite = lazy(() => import('./pages/Vendor/BuyerInvite'));
 const VendorPerformance = lazy(() => import('./pages/Vendor/VendorPerformance'));
 // P2-22 供应商风险评分卡
 const VendorRisk = lazy(() => import('./pages/Vendor/VendorRisk'));
@@ -190,6 +192,7 @@ const PaymentPlanPage = lazy(() => import('./pages/Finance/PaymentPlan'));
 const AccountingEntries = lazy(() => import('./pages/Finance/AccountingEntries'));
 const TrialBalance = lazy(() => import('./pages/Finance/TrialBalance'));
 const ChartOfAccounts = lazy(() => import('./pages/Finance/ChartOfAccounts'));
+const TaxCodeMaster = lazy(() => import('./pages/Finance/TaxCodeMaster'));
 const VoucherList = lazy(() => import('./pages/Finance/VoucherList'));
 const VoucherTemplateList = lazy(() => import('./pages/Finance/VoucherTemplateList'));
 const ThreeWayMatch = lazy(() => import('./pages/Finance/ThreeWayMatch'));
@@ -405,6 +408,7 @@ function App() {
         <Route path="vendor/performance" element={<VendorPerformance />} />
         <Route path="vendor/risk" element={<VendorRisk />} />
         <Route path="vendor/approvals" element={<ApprovalQueue />} />
+        <Route path="vendor/invite" element={<BuyerInvite />} />
         {/* 采购管理 */}
         <Route path="purchase" element={<Navigate to="/purchase/requests" replace />} />
         <Route path="purchase/requests" element={<PurchaseList />} />
@@ -555,6 +559,7 @@ function App() {
         <Route path="finance/entries" element={<AccountingEntries />} />
         <Route path="finance/trial-balance" element={<TrialBalance />} />
         <Route path="finance/chart-accounts" element={<ChartOfAccounts />} />
+        <Route path="finance/tax-codes" element={<TaxCodeMaster />} />
         <Route path="finance/vouchers" element={<VoucherList />} />
         <Route path="finance/voucher-templates" element={<VoucherTemplateList />} />
         <Route path="finance/three-way" element={<ThreeWayMatch />} />

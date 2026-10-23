@@ -3,13 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import {
   Box, Button, Stack, Dialog, DialogTitle, DialogContent, MenuItem, FormControl, InputLabel, Select,
-  Typography, Paper, Grid, Snackbar, Alert,
+  Typography, Snackbar, Alert, LinearProgress, Divider, Collapse, Grid, Paper,
 } from '@mui/material';
-import { Add, Print as PrintIcon, TrendingUp, EditNote, DeleteOutline } from '@mui/icons-material';
+import {
+  Add, Print as PrintIcon, EditNote, DeleteOutline,
+  Layers, Assignment, Alarm, Payments, TrendingUp, ExpandMore, ExpandLess,
+} from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import {
   DataTable, FilterBar, StatusBadge, FlowTracker, PrintPreview,
-  ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
+  ConfirmDialog, BatchEditDialog, KpiStrip, DetailDrawer, DetailSection,
+  type BatchAction, type BatchEditField, type KpiItem,
 } from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { usePrintTemplateStore } from '@/stores/printTemplateStore';
@@ -65,6 +69,89 @@ const ORDER_BATCH_FIELDS: BatchEditField[] = [
   { key: 'remarks', label: '备注', type: 'text' },
 ];
 
+/**
+ * PoQuickView —— 采购订单「抽屉速览」内容（放进 DetailDrawer，就地看核心信息不跳页）。
+ * 只放高频信息：关键信息字段 + 物料明细 + 收货进度；深层操作（变更/版本/删除/审批）走抽屉右上角「打开完整详情」逃生舱。
+ */
+const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
+  const currency = order.currency || 'CNY';
+  const totals = calcTaxTotals(order.items || []);
+  const netTotal = order.totalAmount ?? totals.totalAmount;
+  const taxTotal = order.totalTaxAmount ?? totals.totalTaxAmount;
+  const grandTotal = order.grandTotal ?? round2(netTotal + taxTotal);
+  const totalOrdered = order.items.reduce((s, i) => s + (i.orderedQuantity || 0), 0);
+  const totalDelivered = order.items.reduce((s, i) => s + (i.deliveredQuantity || 0), 0);
+  const progress = totalOrdered > 0 ? Math.round((totalDelivered / totalOrdered) * 100) : 0;
+
+  const quickFields = [
+    { label: '供应商', value: order.vendorName || '-' },
+    { label: '订单状态', value: <StatusBadge status={order.status} /> },
+    { label: '下单日期', value: formatDate(order.orderDate) },
+    { label: '预计交货', value: formatDate(order.expectedDeliveryDate) },
+    { label: '实际交货', value: order.actualDeliveryDate ? formatDate(order.actualDeliveryDate) : '-' },
+    { label: '付款条款', value: order.paymentTerms || '-' },
+    { label: '贸易条件', value: order.tradeTerms || '-' },
+    { label: '未税总额', value: formatCurrency(netTotal, currency) },
+    { label: '税额', value: formatCurrency(taxTotal, currency) },
+    { label: '价税合计', value: <strong style={{ color: '#1D4ED8' }}>{formatCurrency(grandTotal, currency)}</strong> },
+  ];
+
+  return (
+    <Stack spacing={2}>
+      {/* 关键信息（4 列密集网格，一屏看全） */}
+      <Grid container spacing={1.5}>
+        {quickFields.map((f) => (
+          <Grid item key={f.label} xs={6} sm={3}>
+            <Typography variant="caption" color="text.secondary" display="block" noWrap>
+              {f.label}
+            </Typography>
+            <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.2 }}>{f.value}</Typography>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* 收货进度 */}
+      <Box>
+        <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
+          <Typography variant="subtitle2" fontWeight={600}>收货进度</Typography>
+          <Typography variant="caption" color="text.secondary">
+            已收 {totalDelivered} / 订购 {totalOrdered}（{progress}%）
+          </Typography>
+        </Stack>
+        <LinearProgress
+          variant="determinate" value={progress}
+          color={progress === 100 ? 'success' : 'primary'}
+          sx={{ height: 6, borderRadius: 3 }}
+        />
+      </Box>
+
+      {/* 物料明细 */}
+      <Box>
+        <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
+          物料明细（{order.items?.length ?? 0} 项）
+        </Typography>
+        <Divider sx={{ mb: 1 }} />
+        <Stack spacing={0.5}>
+          {(order.items || []).map((i) => (
+            <Box key={i.id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, fontSize: '0.8125rem' }}>
+              <Box sx={{ flex: 1, minWidth: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span style={{ fontFamily: 'monospace', color: '#1D4ED8' }}>{i.materialCode}</span>
+                {' '}{i.materialName}
+              </Box>
+              <Box sx={{ color: 'text.secondary', flexShrink: 0 }}>
+                {i.orderedQuantity} × {formatCurrency(i.unitPrice, currency)}
+              </Box>
+              <Box sx={{ fontWeight: 600, color: '#1D4ED8', flexShrink: 0, minWidth: 70, textAlign: 'right' }}>
+                {formatCurrency(i.amount ?? 0, currency)}
+              </Box>
+            </Box>
+          ))}
+        </Stack>
+      </Box>
+    </Stack>
+  );
+};
+
 const OrderList: React.FC = () => {
   const hydrating = useCloudHydrating();
   const navigate = useNavigate();
@@ -85,6 +172,9 @@ const OrderList: React.FC = () => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' | 'info' }>({
     open: false, message: '', severity: 'info',
   });
+  // ── 一页化：行内右侧抽屉速览（就地看详情不跳页）＋扩展分析折叠 ──
+  const [drawerOrder, setDrawerOrder] = useState<PurchaseOrder | null>(null);
+  const [analyticsOpen, setAnalyticsOpen] = useState(false);
 
   const columns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(() => [
     { accessorKey: 'orderNo', header: '订单号', meta: { searchable: true } },
@@ -263,6 +353,24 @@ const OrderList: React.FC = () => {
     return { monthAmount, last6Months, maxAmt, top5Vendors, top5Total, vendorColors };
   }, [purchaseOrders]);
 
+  // ── 一页化：KPI 统计条数值（扫一眼看全貌，减少翻表算数） ──
+  const stats = useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    const total = purchaseOrders.length;
+    const inProgress = purchaseOrders.filter(o => ['created', 'sent', 'confirmed', 'partial'].includes(o.status)).length;
+    // 逾期未交：预计交货日已过、且尚未完成收货（已收货/已关闭/已取消 不算逾期）
+    const overdue = purchaseOrders.filter(o => !['received', 'closed', 'cancelled'].includes(o.status)
+      && o.expectedDeliveryDate && o.expectedDeliveryDate < today).length;
+    return { total, inProgress, overdue };
+  }, [purchaseOrders]);
+
+  const kpis: KpiItem[] = [
+    { key: 'total', label: '订单总数', value: stats.total.toLocaleString(), color: 'primary', icon: <Layers sx={{ fontSize: 16 }} /> },
+    { key: 'inprog', label: '进行中', value: stats.inProgress.toLocaleString(), color: 'warning', icon: <Assignment sx={{ fontSize: 16 }} /> },
+    { key: 'overdue', label: '逾期未交', value: stats.overdue.toLocaleString(), color: stats.overdue > 0 ? 'error' : 'success', icon: <Alarm sx={{ fontSize: 16 }} />, hint: '预计交货已过' },
+    { key: 'month', label: '本月采购金额', value: formatCurrency(analytics.monthAmount), color: 'success', icon: <Payments sx={{ fontSize: 16 }} /> },
+  ];
+
   return (
     <PageWrapper
       title="采购订单"
@@ -278,89 +386,92 @@ const OrderList: React.FC = () => {
         </Stack>
       }
     >
-      {/* ── 嵌入式分析卡片 ── */}
-      <Grid container spacing={2} sx={{ mb: 2.5 }}>
-        {/* 本月采购金额 */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2.5, borderRadius: 3, bgcolor: '#EFF6FF' }}>
-            <Typography variant="caption" color="text.secondary">本月采购金额</Typography>
-            <Typography variant="h5" fontWeight={700} color="#1D4ED8">
-              {new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY', minimumFractionDigits: 0 }).format(analytics.monthAmount)}
-            </Typography>
-          </Paper>
-        </Grid>
-
-        {/* 趋势迷你图 */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2.5, borderRadius: 3 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-              <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>近6月采购趋势</Typography>
-              <TrendingUp sx={{ fontSize: 14, color: '#10B981' }} />
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: '8%', height: 70, px: 1 }}>
-              {analytics.last6Months.map((m, i) => (
-                <Box key={m.month} sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Box sx={{
-                    width: '100%', maxWidth: 32,
-                    height: `${Math.max(4, (m.amount / analytics.maxAmt) * 56)}px`,
-                    bgcolor: '#3B82F6', borderRadius: '4px 4px 0 0',
-                    transition: 'height 0.3s',
-                  }} />
-                  <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, fontSize: '0.6rem' }}>
-                    {m.month}
-                  </Typography>
+      {/* ── 一页化：KPI 统计条（常驻一屏）＋ 扩展分析折叠（默认收起，给紧凑表格留纵向空间） ── */}
+      <Box sx={{ mb: 1.5 }}>
+        <KpiStrip items={kpis} density="compact" testId="po-kpi-strip" />
+        {/* 扩展分析折叠：趋势 + Top5 供应商（点击展开，不占常驻纵向空间） */}
+        <Button
+          size="small"
+          startIcon={analyticsOpen ? <ExpandLess sx={{ fontSize: 15 }} /> : <ExpandMore sx={{ fontSize: 15 }} />}
+          onClick={() => setAnalyticsOpen((v) => !v)}
+          sx={{ mt: 0.5 }}
+        >
+          {analyticsOpen ? '收起扩展分析' : '展开扩展分析（近6月趋势 / Top5 供应商）'}
+        </Button>
+        <Collapse in={analyticsOpen}>
+          <Grid container spacing={2} sx={{ mt: 1 }}>
+            {/* 趋势迷你图 */}
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 2, borderRadius: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="caption" color="text.secondary" sx={{ flex: 1 }}>近6月采购趋势</Typography>
+                  <TrendingUp sx={{ fontSize: 14, color: '#10B981' }} />
                 </Box>
-              ))}
-            </Box>
-          </Paper>
-        </Grid>
+                <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: '8%', height: 70, px: 1 }}>
+                  {analytics.last6Months.map((m) => (
+                    <Box key={m.month} sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <Box sx={{
+                        width: '100%', maxWidth: 32,
+                        height: `${Math.max(4, (m.amount / analytics.maxAmt) * 56)}px`,
+                        bgcolor: '#3B82F6', borderRadius: '4px 4px 0 0',
+                        transition: 'height 0.3s',
+                      }} />
+                      <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, fontSize: '0.6rem' }}>
+                        {m.month}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              </Paper>
+            </Grid>
 
-        {/* Top5 供应商饼图 */}
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2.5, borderRadius: 3 }}>
-            <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>Top5供应商</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              {/* 简化饼图 */}
-              <Box sx={{ position: 'relative', width: 70, height: 70, flexShrink: 0 }}>
-                <svg viewBox="0 0 36 36" width="70" height="70">
-                  {analytics.top5Vendors.map(([, val], i) => {
-                    const ratio = val / analytics.top5Total;
-                    const startAngle = analytics.top5Vendors.slice(0, i).reduce((s, [, v]) => s + (v / analytics.top5Total) * 360, 0);
-                    const endAngle = startAngle + ratio * 360;
-                    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
-                    const r = 15.9;
-                    const cx = 18, cy = 18;
-                    const x1 = cx + r * Math.cos((startAngle - 90) * Math.PI / 180);
-                    const y1 = cy + r * Math.sin((startAngle - 90) * Math.PI / 180);
-                    const x2 = cx + r * Math.cos((endAngle - 90) * Math.PI / 180);
-                    const y2 = cy + r * Math.sin((endAngle - 90) * Math.PI / 180);
-                    return (
-                      <path
-                        key={i}
-                        d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`}
-                        fill={analytics.vendorColors[i]}
-                      />
-                    );
-                  })}
-                </svg>
-              </Box>
-              <Box sx={{ flex: 1 }}>
-                {analytics.top5Vendors.map(([name, val], i) => (
-                  <Box key={name} sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.3 }}>
-                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: analytics.vendorColors[i], flexShrink: 0 }} />
-                    <Typography variant="caption" sx={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '0.65rem' }}>
-                      {name}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>
-                      {Math.round((val / analytics.top5Total) * 100)}%
-                    </Typography>
+            {/* Top5 供应商饼图 */}
+            <Grid item xs={12} md={6}>
+              <Paper sx={{ p: 2, borderRadius: 2 }}>
+                <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>Top5供应商</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ position: 'relative', width: 70, height: 70, flexShrink: 0 }}>
+                    <svg viewBox="0 0 36 36" width="70" height="70">
+                      {analytics.top5Vendors.map(([, val], i) => {
+                        const ratio = val / analytics.top5Total;
+                        const startAngle = analytics.top5Vendors.slice(0, i).reduce((s, [, v]) => s + (v / analytics.top5Total) * 360, 0);
+                        const endAngle = startAngle + ratio * 360;
+                        const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+                        const r = 15.9;
+                        const cx = 18, cy = 18;
+                        const x1 = cx + r * Math.cos((startAngle - 90) * Math.PI / 180);
+                        const y1 = cy + r * Math.sin((startAngle - 90) * Math.PI / 180);
+                        const x2 = cx + r * Math.cos((endAngle - 90) * Math.PI / 180);
+                        const y2 = cy + r * Math.sin((endAngle - 90) * Math.PI / 180);
+                        return (
+                          <path
+                            key={i}
+                            d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`}
+                            fill={analytics.vendorColors[i]}
+                          />
+                        );
+                      })}
+                    </svg>
                   </Box>
-                ))}
-              </Box>
-            </Box>
-          </Paper>
-        </Grid>
-      </Grid>
+                  <Box sx={{ flex: 1 }}>
+                    {analytics.top5Vendors.map(([name, val], i) => (
+                      <Box key={name} sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.3 }}>
+                        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: analytics.vendorColors[i], flexShrink: 0 }} />
+                        <Typography variant="caption" sx={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontSize: '0.65rem' }}>
+                          {name}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.65rem' }}>
+                          {Math.round((val / analytics.top5Total) * 100)}%
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Collapse>
+      </Box>
       <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} listKey="purchase-order-list" columnConfigKey="purchase-order-list" />
       <DataTable
         data={filteredData}
@@ -372,14 +483,30 @@ const OrderList: React.FC = () => {
         enableExport
         columnConfigKey="purchase-order-list"
         codeColumnId="orderNo"
-        onRowClick={(row) => navigate(`/purchase/orders/${row.id}`)}
-        onView={(row) => navigate(`/purchase/orders/${row.id}`)}
+        onRowClick={(row) => setDrawerOrder(row)}
+        onView={(row) => setDrawerOrder(row)}
         onDelete={(row) => { setDeleteTargets([row]); setDeleteOpen(true); }}
         batchActions={batchActions}
         enableImport
         importLabel="采购订单"
         onImport={handleImport}
       />
+
+      {/* ── 一页化：右侧抽屉就地速览（不跳页）＋ 完整详情逃生舱 ── */}
+      <DetailDrawer
+        open={!!drawerOrder}
+        onClose={() => setDrawerOrder(null)}
+        title={drawerOrder?.orderNo}
+        subtitle={drawerOrder?.vendorName}
+        status={drawerOrder ? <StatusBadge status={drawerOrder.status} /> : undefined}
+        onOpenFull={() => {
+          const id = drawerOrder?.id;
+          setDrawerOrder(null);
+          if (id) navigate(`/purchase/orders/${id}`);
+        }}
+      >
+        {drawerOrder && <PoQuickView order={drawerOrder} />}
+      </DetailDrawer>
 
       <Dialog open={printOpen} onClose={() => setPrintOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle sx={{ fontWeight: 600 }}>打印采购订单</DialogTitle>

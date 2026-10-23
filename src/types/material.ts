@@ -9,6 +9,10 @@ export interface MaterialCategory extends BaseEntity {
   sequenceLength?: number;
   /** 按职能维护的责任人员：role -> 用户 id 列表（如采购员/SQE/工艺工程师/研发工程师等），平时隐藏、按需维护 */
   responsiblePersons?: Record<string, string[]>;
+  /** V3.95.0 默认供应商：该物料分类下采购时默认询价/下单的供应商 id 列表（供应商为外部主体，独立于内部责任人） */
+  defaultVendors?: string[];
+  /** V3.94.0 自配置字段值：key 为自定义字段标识，value 为字段值（由设置页「自定义字段（实体=物料分类）」定义） */
+  attributes?: Record<string, unknown>;
   description?: string;
   sortOrder: number;
   level?: number;

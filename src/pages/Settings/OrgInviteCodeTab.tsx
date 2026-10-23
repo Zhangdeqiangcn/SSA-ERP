@@ -95,10 +95,14 @@ const OrgInviteCodeTab: React.FC = () => {
 
   // 超管才有必要拉公司清单（管理员被后端锁定为只能管本公司）
   const loadOrgs = useCallback(async () => {
-    if (!token || !isSuper) return;
+    if (!isSuper) return;
     try {
+      // V3.96.0：生产刷新后内存 token 为空，同域请求自动带 HttpOnly Cookie 兜底鉴权；
+      // 不再因 token 缺失而直接短路，仅当后端真正 401 才退化为空清单。
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch('/api/orgs?limit=1000', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
         cache: 'no-store',
       });
       const data = await res.json().catch(() => ({}));
@@ -119,22 +123,27 @@ const OrgInviteCodeTab: React.FC = () => {
   }, [loadOrgs]);
 
   const load = useCallback(async () => {
-    if (!token) {
-      setError('未登录或无法连接服务器，本页需要登录后使用');
-      setState(null);
-      return;
-    }
+    // V3.96.0：生产刷新后内存 token 为空，同域请求自动带 HttpOnly Cookie 兜底鉴权；
+    // 旧逻辑「token 为空即判未登录、清空本页」会让管理员/超管刷新后看不到邀请码与可管公司。
+    // 现改为始终发请求（token 空则不带 Authorization 头，靠 Cookie 兜底），仅当后端真返回 401 才提示未登录。
     // 超管等公司清单就绪后再拉（否则会先按自己公司拉一次，造成闪烁与误判）
     if (isSuper && !viewOrgId) return;
     setLoading(true);
     setError(null);
     try {
       const qs = isSuper && viewOrgId ? `?orgId=${encodeURIComponent(viewOrgId)}` : '';
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`/api/orgs/company-code${qs}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
         cache: 'no-store',
       });
       const data = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        setError('未登录或无法连接服务器，本页需要登录后使用');
+        setState(null);
+        return;
+      }
       if (!res.ok) {
         setError(data?.error || `加载失败，请稍后重试（HTTP ${res.status}）`);
         setState(null);
@@ -161,13 +170,15 @@ const OrgInviteCodeTab: React.FC = () => {
   /** 统一的 PUT 调用 */
   const patch = useCallback(
     async (body: Record<string, unknown>, okMsg: string): Promise<boolean> => {
-      if (!token) return false;
       setActing(true);
       try {
         const qs = isSuper && viewOrgId ? `?orgId=${encodeURIComponent(viewOrgId)}` : '';
+        // V3.96.0：token 为空（生产刷新后）不带 Authorization 头，由 HttpOnly Cookie 兜底。
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
         const res = await fetch(`/api/orgs/company-code${qs}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          headers,
           body: JSON.stringify(body),
         });
         const data = await res.json().catch(() => ({}));

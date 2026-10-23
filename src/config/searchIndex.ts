@@ -44,6 +44,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '绩效考核', path: '/vendor/performance', module: '主数据', group: '供应商管理', keywords: ['performance', '绩效', '考核'], desc: '供应商绩效' },
   { label: '风险评分', path: '/vendor/risk', module: '主数据', group: '供应商管理', keywords: ['risk', '风险', '评分卡'], desc: '供应商风险评分卡' },
   { label: '供应商门户', path: '/vendor-portal/login', module: '主数据', group: '供应商管理', keywords: ['portal', '门户', '协同'], desc: '供应商协同平台' },
+  { label: '采购员邀请', path: '/vendor/invite', module: '主数据', group: '供应商管理', keywords: ['invite', '邀请', '邀请码', '定向邀请', '供应商注册', '采购员邀请'], desc: '采购员生成邀请链接定向邀请供应商注册' },
 
   // ── 供应链 · 采购 ──
   { label: '采购申请', path: '/purchase/requests', module: '供应链', group: '采购管理', keywords: ['pr', 'purchase request', '请购', '采购需求'], desc: '采购需求申请 PR' },
@@ -141,6 +142,7 @@ export const searchIndex: SearchEntry[] = [
   { label: '会计分录', path: '/finance/entries', module: '财务与报表', group: '财务管理', keywords: ['entry', '分录', '记账'], desc: '会计分录' },
   { label: '科目余额表', path: '/finance/trial-balance', module: '财务与报表', group: '财务管理', keywords: ['trial balance', '余额', '科目余额'], desc: '科目余额' },
   { label: '科目表', path: '/finance/chart-accounts', module: '财务与报表', group: '财务管理', keywords: ['chart of accounts', '科目', '会计科目'], desc: '会计科目表' },
+  { label: '税码主数据', path: '/finance/tax-codes', module: '财务与报表', group: '财务管理', keywords: ['tax code', '税码', '进项抵扣', '统驭科目'], desc: '税码主数据（供应商审批时选择税码）' },
   { label: '凭证列表', path: '/finance/vouchers', module: '财务与报表', group: '财务管理', keywords: ['voucher', '凭证', '会计凭证'], desc: '会计凭证' },
   { label: '凭证模板', path: '/finance/voucher-templates', module: '财务与报表', group: '财务管理', keywords: ['voucher template', '凭证模板', '常用凭证', '套用模板'], desc: '凭证模板（常用凭证）管理与套用' },
   { label: '三单匹配', path: '/finance/three-way', module: '财务与报表', group: '财务管理', keywords: ['three way', '三单匹配', '订单收货发票'], desc: '订单/收货/发票匹配' },

@@ -107,6 +107,20 @@ export interface ChartAccount {
   section?: string;                  // 报表内分组（如 流动资产/非流动资产/流动负债/所有者权益/营业收入/营业成本/期间费用）
 }
 
+// ==================== 税码主数据（V3.96.0）====================
+// 供应商「组织与会计」整改：税码此前无独立维护入口（仅注册表单写死的税率下拉）。
+// 现落 D1 主数据（迁移 0114 fin_tax_codes），供采购/财务在审批供应商时从下拉选择。
+export interface TaxCode {
+  id: string;
+  code: string;            // 税码编码（V13/V9/V6/V3/V0 等）
+  name: string;            // 税码名称（含税率与发票性质描述）
+  taxRate: number;         // 税率数值（0-100，与百分比数值一致）
+  deductible?: boolean;    // 进项是否可抵扣（缺省视为可抵扣）
+  remark?: string;         // 说明/适用场景
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // ==================== 固定资产 ====================
 export type FixedAssetStatus = 'in_use' | 'idle' | 'scrapped';
 

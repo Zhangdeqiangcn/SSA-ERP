@@ -4,6 +4,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, Divider, Table, TableHead, TableRow, TableCell,
   TableBody, TableContainer, Alert, Tabs, Tab,
+  FormControl, InputLabel, Select, MenuItem,
 } from '@mui/material';
 import {
   CheckCircle, Cancel, Business, ContactPage,
@@ -15,6 +16,7 @@ import { DataTable, FilterBar, FlowTracker } from '@/components/common';
 import { useFlowStore } from '@/stores/flowStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useAuthStore } from '@/stores/authStore';
+import { useFinanceStore } from '@/stores/financeStore';
 import { getApprovalSteps, resolveApprovalAdvance } from '@/data/approvalFlowConfig';
 import type { VendorApplication, Vendor } from '@/types';
 import { formatDate } from '@/utils/format';
@@ -47,6 +49,9 @@ const ApprovalDialog: React.FC<{
   const [comment, setComment] = useState('');
   const [tab, setTab] = useState(0);
   const [editValues, setEditValues] = useState<Record<string, unknown>>({});
+  // V3.96.0 组织与会计：统驭科目/税码是财务视角信息，供应商不了解，改由采购/财务审批时从主数据指定
+  const { chartOfAccounts, taxCodes } = useFinanceStore();
+  const [acct, setAcct] = useState({ salesOrg: '', reconciliationAccount: '', taxCode: '' });
 
   // 注意：所有 hooks 必须无条件调用（不能放在条件 return 之后），否则会在 app 由 null 变为有值时触发
   // "Rendered more hooks than during the previous render" 白屏。下方统一用可选链取值，末尾再 return null。
@@ -63,6 +68,8 @@ const ApprovalDialog: React.FC<{
       init[f] = Array.isArray(raw) ? raw.join('、') : (raw ?? '');
     });
     setEditValues(init);
+    // 组织与会计预填：已指定过则回填，未指定则留空待审批人选择
+    setAcct({ salesOrg: a.salesOrg || '', reconciliationAccount: a.reconciliationAccount || '', taxCode: a.taxCode || '' });
   };
 
   // 切换申请时初始化可编辑字段
@@ -86,6 +93,10 @@ const ApprovalDialog: React.FC<{
         ? v.split('、').map((s) => s.trim()).filter(Boolean)
         : v;
     });
+    // V3.96.0：把组织与会计的指定值合并进 edited（审批环节写入申请单，终审随档案落库）
+    edited.salesOrg = acct.salesOrg;
+    edited.reconciliationAccount = acct.reconciliationAccount;
+    edited.taxCode = acct.taxCode;
     onAdvance(comment, edited);
     onClose();
   };
@@ -104,6 +115,14 @@ const ApprovalDialog: React.FC<{
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ p: 0 }}>
+        {/* V3.100.0 定向邀请来源横幅：邀请注册的申请显式标注邀请采购员 */}
+        {app.buyerId && (
+          <Box sx={{ px: 3, pt: 2 }}>
+            <Alert severity="info" sx={{ fontSize: '0.8125rem' }}>
+              该申请由采购员「{app.buyerName || app.buyerId}」邀请注册{app.salesOrg ? `（采购组织：${app.salesOrg}）` : ''}，请由对应采购员审核。
+            </Alert>
+          </Box>
+        )}
         {/* 流程追踪（配置驱动） */}
         <Box sx={{ px: 3, pt: 2, pb: 1 }}>
           <FlowTracker
@@ -227,6 +246,55 @@ const ApprovalDialog: React.FC<{
                 本步骤（{step?.name}）无可编辑字段，仅作审批判定。
               </Typography>
             )}
+            {/* V3.96.0 组织与会计：统驭科目/税码是财务视角信息，供应商不了解，
+                改由采购/财务在审批环节从主数据里【选择】，不再让供应商注册时填 */}
+            <Box sx={{ mt: 1.5, p: 2, bgcolor: '#F8FAFC', border: '1px solid rgba(226,232,240,.8)', borderRadius: 2 }}>
+              <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>
+                组织与会计（采购/财务指定，注册后供应商无法再改）
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" sx={{ bgcolor: '#fff' }}>
+                    <InputLabel>采购组织</InputLabel>
+                    <Select value={acct.salesOrg} label="采购组织"
+                      onChange={(e) => setAcct({ ...acct, salesOrg: e.target.value })}>
+                      <MenuItem value="">（未指定）</MenuItem>
+                      <MenuItem value="采购部">采购部</MenuItem>
+                      <MenuItem value="制造采购部">制造采购部</MenuItem>
+                      <MenuItem value="设备采购部">设备采购部</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" sx={{ bgcolor: '#fff' }}>
+                    <InputLabel>统驭科目</InputLabel>
+                    <Select value={acct.reconciliationAccount} label="统驭科目"
+                      onChange={(e) => setAcct({ ...acct, reconciliationAccount: e.target.value })}
+                      inputProps={{ 'data-testid': 'approval-recon-account' }}>
+                      <MenuItem value="">（未指定）</MenuItem>
+                      {chartOfAccounts
+                        .filter((a) => a.type === 'liability' || a.code === '2202')
+                        .map((a) => (
+                          <MenuItem key={a.id} value={a.code}>{a.code} {a.name}</MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <FormControl fullWidth size="small" sx={{ bgcolor: '#fff' }}>
+                    <InputLabel>税码</InputLabel>
+                    <Select value={acct.taxCode} label="税码"
+                      onChange={(e) => setAcct({ ...acct, taxCode: e.target.value })}
+                      inputProps={{ 'data-testid': 'approval-tax-code' }}>
+                      <MenuItem value="">（未指定）</MenuItem>
+                      {taxCodes.map((t) => (
+                        <MenuItem key={t.id} value={t.code}>{t.code} {t.name}（{t.taxRate}%）</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Box>
             {!isLastStep ? (
               <Button variant="contained" startIcon={<CheckCircle />}
                 data-testid="vendor-approve-btn" onClick={handleAdvance}>
@@ -278,9 +346,21 @@ const ApprovalQueue: React.FC = () => {
     );
   }, [selected, steps, currentUser]);
 
-  const buildVendorFromApp = (app: VendorApplication): Vendor => {
+  // V3.100.0 弱定向：是否特权（管理员/超管/有 vendor.approve 权限）—— 可看可审全部
+  const isPrivileged = useMemo(() => {
+    if (!currentUser) return false;
+    return currentUser.role === 'admin' || currentUser.role === 'super_admin' ||
+      useAuthStore.getState().hasPermission('vendor.approve');
+  }, [currentUser]);
+
+  const buildVendorFromApp = (app: VendorApplication, extra?: Record<string, unknown>): Vendor => {
     const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    // V3.96.0：组织与会计（采购组织/统驭科目/税码）由采购/财务在审批环节指定，
+    //   优先取审批人本次指定的 extra，其次取申请单里已有值，最终写入供应商档案
+    const org = (extra?.salesOrg as string) || app.salesOrg || undefined;
+    const recon = (extra?.reconciliationAccount as string) || app.reconciliationAccount || undefined;
+    const tax = (extra?.taxCode as string) || app.taxCode || undefined;
     return {
       id: `ven-${app.id}`,
       code: `V${dateStr}${Math.floor(Math.random() * 900 + 100)}`,
@@ -298,6 +378,9 @@ const ApprovalQueue: React.FC = () => {
       updatedAt: now,
       createdBy: 'approval',
       updatedBy: 'approval',
+      salesOrg: org,
+      reconciliationAccount: recon,
+      taxCode: tax,
     };
   };
 
@@ -348,7 +431,7 @@ const ApprovalQueue: React.FC = () => {
       });
       const vendors = useVendorStore.getState().vendors;
       if (!vendors.some((v) => v.id === `ven-${selected.id}`)) {
-        useVendorStore.getState().addVendor(buildVendorFromApp(selected));
+        useVendorStore.getState().addVendor(buildVendorFromApp(selected, edited));
       }
     }
   };
@@ -401,6 +484,13 @@ const ApprovalQueue: React.FC = () => {
           <Typography variant="body2" fontWeight={500}>{row.original.companyName}</Typography>
         </Stack>
       ),
+    },
+    { accessorKey: 'source', header: '来源',
+      cell: ({ row }) => row.original.buyerId
+        ? <Chip size="small" color="primary" variant="outlined"
+            label={row.original.buyerName ? `由 ${row.original.buyerName} 邀请` : '邀请注册'}
+            sx={{ fontSize: '0.7rem' }} />
+        : <Chip size="small" variant="outlined" label="自主注册" sx={{ fontSize: '0.7rem' }} />,
     },
     { accessorKey: 'contact', header: '联系人',
       cell: ({ row }) => (
@@ -464,11 +554,16 @@ const ApprovalQueue: React.FC = () => {
 
   const filteredData = useMemo(() => {
     let data = [...vendorApplications];
+    // V3.100.0 弱定向：普通采购员仅看「自己邀请的」+ 历史未归属（自由注册）申请；
+    //   管理员/超管/有 vendor.approve 权限者看全部。
+    if (currentUser?.role === 'buyer' && !isPrivileged) {
+      data = data.filter((d) => !d.buyerId || d.buyerId === currentUser.id);
+    }
     if (filterData.companyName) data = data.filter(d => d.companyName.includes(filterData.companyName as string));
     if (filterData.status) data = data.filter(d => d.status === filterData.status);
     return data;
     // vendorApplications 必须进入依赖：审批推进后队列需即时反映最新步骤/状态
-  }, [filterData, vendorApplications]);
+  }, [filterData, vendorApplications, currentUser, isPrivileged]);
 
   // 统计
   const stats = useMemo(() => ({

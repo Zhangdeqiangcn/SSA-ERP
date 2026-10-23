@@ -30,6 +30,8 @@ import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useWarehouseAdvancedStore } from '@/stores/warehouseAdvancedStore';
 import type { InventoryRecord } from '@/types/warehouse';
 import type { QualityHold } from '@/types/supplyChain';
+// V3.96.0 自动流转：按物料类别分工 + 货源清单配额，把 MRP 结果一键流转成采购单/询价/工单/领料
+import { runDemandAutomation, DemandRow, AutomationReport } from '@/utils/automation/execute';
 
 const PRIORITY_CONFIG: Record<string, { label: string; color: 'error' | 'warning' | 'default' }> = {
   urgent: { label: '紧急', color: 'error' },
@@ -412,6 +414,47 @@ export default function MRPPlan() {
   const [persisting, setPersisting] = useState(false);
   const [lastPersistInfo, setLastPersistInfo] = useState<string>('');
 
+  // V3.96.0 自动流转：一键把「有净需求」的 MRP 结果按物料类别分工 + 货源清单配额流转成单据
+  const [autoReport, setAutoReport] = useState<AutomationReport | null>(null);
+  const [autoRunning, setAutoRunning] = useState(false);
+
+  /** 把净需求结果转成自动流转输入行（喂给 execute 引擎） */
+  const runAutoFlow = () => {
+    const { materials } = useMaterialStore.getState();
+    const rows: DemandRow[] = mrpResult
+      .filter((r) => r.planned > 0 || r.net > 0)
+      .map((r) => {
+        const mat = materials.find((m) => m.id === r.materialId);
+        const isMake = mat?.makeOrBuy === 'make';
+        return {
+          key: `mrp-${mrpRunId || 'run'}-${r.materialId}`,
+          materialId: r.materialId,
+          materialCode: r.materialCode,
+          materialName: r.materialName,
+          unit: r.unit,
+          requiredQty: r.planned || r.net,
+          makeOrBuy: isMake ? 'make' : 'buy',
+          categoryId: mat?.categoryId,
+        };
+      });
+    if (rows.length === 0) {
+      setSnackbar('没有可流转的净需求行（请先计算并选中/落库）');
+      return;
+    }
+    setAutoRunning(true);
+    // 轻微延时避免与点击态抢渲染；引擎是同步副作用，但读 store 已最新
+    setTimeout(() => {
+      const report = runDemandAutomation(rows);
+      setAutoReport(report);
+      setAutoRunning(false);
+      if (report.errors.length > 0) {
+        setSnackbar(`自动流转完成：${report.counts.blocked} 行因「货源清单与默认供应商不一致/无货源」被拦截，已只存草稿，请查看下方报错。`);
+      } else {
+        setSnackbar(`自动流转完成：采购 ${report.counts.purchased} / 询价 ${report.counts.inquired} / 工单 ${report.counts.workOrders} / 领料 ${report.counts.pickings}，无一致性拦截。`);
+      }
+    }, 60);
+  };
+
 
   // ── 计算净需求（真实 MRP 运算）──
   const handleCompute = () => {
@@ -695,6 +738,19 @@ export default function MRPPlan() {
         >
           {persisting ? '落库中...' : '落库为计划订单'}
         </Button>
+        {/* V3.96.0 自动流转：按物料类别分工 + 货源清单配额，一键流转成采购单/询价/工单/领料 */}
+        <Button
+          variant="outlined"
+          color="secondary"
+          data-testid="mrp-auto-flow"
+          startIcon={<AddShoppingCartIcon />}
+          onClick={runAutoFlow}
+          disabled={!hasComputed || autoRunning || mrpResult.filter((r) => r.planned > 0 || r.net > 0).length === 0}
+          size="small"
+          sx={{ borderColor: '#7b1fa2', color: '#7b1fa2' }}
+        >
+          {autoRunning ? '流转中...' : '一键自动流转'}
+        </Button>
       </Box>
 
       {loading && <LinearProgress sx={{ mb: 2 }} />}
@@ -733,6 +789,86 @@ export default function MRPPlan() {
         <Alert severity="warning" sx={{ mb: 2 }}>
           发现 <b>{urgentCount}</b> 条紧急物料需求，请尽快处理！
         </Alert>
+      )}
+
+      {/* V3.96.0 自动流转回执：不一致/无货源的拦截行用红色报错置顶，其余给汇总 */}
+      {autoReport && (
+        <Paper sx={{ mb: 3 }} data-testid="mrp-auto-report">
+          <Box sx={{ p: 2, display: 'flex', alignItems: 'center' }}>
+            <Typography variant="subtitle1" fontWeight={600}>自动流转回执</Typography>
+            <Box flex={1} />
+            <Typography variant="caption" color="text.secondary">
+              按物料类别分工 + 货源清单配额执行；到步深度由「设置 → 自动化设置中心」控制
+            </Typography>
+            <Button size="small" onClick={() => setAutoReport(null)} sx={{ ml: 1 }}>关闭</Button>
+          </Box>
+
+          {/* ★ 一致性拦截 = 红色报错（强哥第 2 条：不一致时页面报错、只存草稿、不提交下一环节） */}
+          {autoReport.errors.length > 0 ? (
+            <Alert severity="error" sx={{ mx: 2, mt: 1 }} data-testid="mrp-auto-errors">
+              <b>{autoReport.errors.length} 行被「货源清单 / 默认供应商 一致性」拦截，已只存草稿、未提交到下一环节：</b>
+              <Box component="ul" sx={{ my: 0.5, ml: 2, pl: 1 }} data-testid="mrp-auto-error-list">
+                {autoReport.errors.map((l) => (
+                  <Box component="li" key={l.key}>
+                    <b>{l.materialName || l.materialCode}</b>：
+                    {l.consistencyIssues.length > 0
+                      ? l.consistencyIssues.join('；')
+                      : l.note}
+                  </Box>
+                ))}
+              </Box>
+            </Alert>
+          ) : (
+            <Alert severity="success" sx={{ mx: 2, mt: 1 }} data-testid="mrp-auto-ok">
+              全部流转通过一致性校验。
+            </Alert>
+          )}
+
+          <Box sx={{ p: 2 }}>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              采购下单 <b>{autoReport.counts.purchased}</b> · 询价比价 <b>{autoReport.counts.inquired}</b> ·
+              寻源提示 <b>{autoReport.counts.sourcingAlert}</b> · 生产工单 <b>{autoReport.counts.workOrders}</b> ·
+              领料 <b>{autoReport.counts.pickings}</b> · 一致性拦截 <b color="error.main">{autoReport.counts.blocked}</b>
+            </Typography>
+            <TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600 }}>物料</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>段落</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>执行步（实际）</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>状态</TableCell>
+                    <TableCell sx={{ fontWeight: 600 }}>说明 / 单据号</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {autoReport.lines.map((l) => (
+                    <TableRow key={l.key} sx={{ bgcolor: l.blockedByInconsistency ? 'error.50' : 'inherit' }}>
+                      <TableCell><Typography variant="body2">{l.materialName || l.materialCode}</Typography></TableCell>
+                      <TableCell><Typography variant="body2">{l.stage === 'work_order' ? '生产工单/领料' : l.stage === 'po_place' ? '采购下单' : l.stage === 'sourcing' ? '寻源' : '询价'}</Typography></TableCell>
+                      <TableCell>
+                        <Chip size="small" variant="outlined" label={{ off: '不发起', suggest: '仅建议', draft: '草稿待确认', post: '已生效推进' }[l.effectiveStep]} />
+                      </TableCell>
+                      <TableCell>
+                        {l.blockedByInconsistency
+                          ? <Chip size="small" color="error" label="一致性拦截" />
+                          : l.produced
+                            ? <Chip size="small" color="success" label="已生成" />
+                            : <Chip size="small" variant="outlined" label="跳过/建议" />}
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="caption" color="text.secondary">{l.note}</Typography>
+                        {l.producedNos.length > 0 && (
+                          <Typography variant="caption" sx={{ display: 'block' }} color="primary.main">{l.producedNos.join('、')}</Typography>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+        </Paper>
       )}
 
       {/* 净需求计算结果（真实 MRP 运算） */}

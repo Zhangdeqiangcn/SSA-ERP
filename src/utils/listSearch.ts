@@ -90,6 +90,13 @@ export function applyColumnFilters<T>(
   values: Record<string, unknown>,
   opts?: { module?: string }
 ): T[] {
+  // 数据源守卫：上游 store 若因水合中间态 / 包裹对象 / null 把主数组设成非数组，
+  // 直接安全返回空数组，绝不把非数组透传给表格（否则 TanStack 内部 rows.filter 崩、整页白屏）。
+  if (!Array.isArray(data)) {
+    // eslint-disable-next-line no-console
+    console.warn('[applyColumnFilters] 数据源不是数组，已降级为空表。请定位脏数据来源。', data);
+    return [];
+  }
   const role = currentRole();
   let result = data;
   for (const col of columns) {

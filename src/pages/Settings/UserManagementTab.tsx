@@ -121,12 +121,11 @@ const UserManagementTab: React.FC = () => {
   );
 
   const load = useCallback(async () => {
-    if (!token) {
-      setError('未登录或无法连接服务器，用户管理需要登录后使用');
-      setUsers([]);
-      setTotal(0);
-      return;
-    }
+    // V3.96.0 修复：生产态令牌只存 HttpOnly Cookie（V3.91.0 起），刷新后内存 token 为空，
+    // 但同域请求仍会自动携带 Cookie 完成鉴权。旧逻辑「token 为空即判未登录、直接退化成 0 人」
+    // 会让超级管理员刷新后进入本页时恒为空、看不到任何待审批。现改为：始终发请求
+    // （token 为空时不带 Authorization 头，由 HttpOnly Cookie 兜底），仅当后端真正返回 401
+    // 才提示「未登录」。
     setLoading(true);
     setError(null);
     try {
@@ -136,8 +135,10 @@ const UserManagementTab: React.FC = () => {
       if (orphanOnly) qs.set('orphan', '1');
       qs.set('page', '1');
       qs.set('pageSize', '200');
+      const headers: Record<string, string> = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`; // token 空 → 不带头，靠 HttpOnly Cookie
       const res = await fetch(`/api/users?${qs.toString()}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers,
         cache: 'no-store',
       });
       if (!res.ok) {
@@ -176,12 +177,15 @@ const UserManagementTab: React.FC = () => {
   /** 调用 PUT /api/users/:id 执行审批或改角色 */
   const patchUser = useCallback(
     async (id: string, body: { action?: 'approve' | 'reject'; role?: string }) => {
-      if (!token) return false;
       setActingId(id);
       try {
+        // V3.96.0：token 为空（生产刷新后）不带 Authorization 头，由 HttpOnly Cookie 兜底，
+        // 不再因内存 token 缺失而直接失败。
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
         const res = await fetch(`/api/users/${id}`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          headers,
           body: JSON.stringify(body),
         });
         const data = await res.json().catch(() => ({}));

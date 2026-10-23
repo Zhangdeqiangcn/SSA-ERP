@@ -9,6 +9,7 @@ import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { useBOMStore } from '@/stores/bomStore';
 import { BOMType, BOMStatus, BOMHeader } from '@/types/bom';
+import { BOMImportPanel } from '@/pages/BOM/BOMImport';
 
 // BOM 类型 → MUI 语义色令牌（EBOM=设计蓝 / MBOM=制造绿），替代原 hex 硬编码
 const TYPE_TOKEN: Record<BOMType, 'primary' | 'success'> = {
@@ -46,7 +47,6 @@ const BOMList: React.FC = () => {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const bomList = useBOMStore(s => s.bomList);
-  const addBOM = useBOMStore(s => s.addBOM);
   const load = useBOMStore(s => s.load);
   const loaded = useBOMStore(s => s.loaded);
   const syncError = useBOMStore(s => s.syncError);
@@ -71,28 +71,6 @@ const BOMList: React.FC = () => {
     });
     return rows;
   }, [grouped]);
-
-  const mapImportRow = (r: Record<string, string>, _headers: string[]): BOMHeader => {
-    const typeMap: Record<string, BOMType> = { EBOM: 'EBOM', MBOM: 'MBOM' };
-    const statusMap: Record<string, BOMStatus> = { 草稿: 'draft', 已发布: 'released', 已废弃: 'obsolete' };
-    return {
-      id: `bom-imp-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-      bomNo: r['BOM编号'] || `BOM-IMP-${Date.now()}`,
-      name: r['名称'] || r['BOM编号'] || '',
-      type: typeMap[r['类型']] || 'EBOM',
-      status: statusMap[r['状态']] || 'draft',
-      productId: r['成品ID'] || '',
-      productCode: r['成品编码'] || '',
-      productName: r['成品名称'] || '',
-      version: r['版本'] || 'V1.0',
-      effectiveDate: r['生效日期'] || '',
-      currency: 'CNY',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      createdBy: 'admin',
-      updatedBy: 'admin',
-    };
-  };
 
   const columns: ColumnDef<BOMHeader, unknown>[] = [
     {
@@ -247,9 +225,13 @@ const BOMList: React.FC = () => {
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, color: '#1E293B' }}>BOM 管理</Typography>
-        <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/bom/create')}>
-          新建 BOM
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* V3.97.0 Excel 导入：下载模板 + 导入（必填项校验 + 逐行失败原因） */}
+          <BOMImportPanel />
+          <Button variant="contained" startIcon={<Add />} onClick={() => navigate('/bom/create')} data-testid="bom-create-btn">
+            新建 BOM
+          </Button>
+        </Box>
       </Box>
 
       {/* 同步异常提示（V3.6.0 C1）：BOM 主源已迁 D1，读不到时必须如实说明，
@@ -298,8 +280,6 @@ const BOMList: React.FC = () => {
           enableBlockSelect={true}
           enableExport={true}
           exportFormat="xlsx"
-          enableImport={true}
-          onImport={(rows, headers) => rows.forEach(r => addBOM(mapImportRow(r, headers)))}
           columnConfigKey="bom-bom-list"
         />
       ) : (

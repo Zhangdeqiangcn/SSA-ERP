@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   Box, Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Paper, Chip, Typography, Stack, Tooltip, Autocomplete, Collapse,
+  TextField, Paper, Chip, Typography, Stack, Tooltip, Autocomplete, Collapse, Alert,
 } from '@mui/material';
 import {
   Add, Edit, Delete, SubdirectoryArrowRight, ExpandMore, ExpandLess, ChevronRight,
@@ -10,11 +10,12 @@ import { PageWrapper } from '@/components/layout';
 import { ConfirmDialog } from '@/components/common';
 import { DataTable } from '@/components/common';
 import { ColumnDef } from '@tanstack/react-table';
-import { useMaterialStore } from '@/stores';
+import { useMaterialStore, useVendorStore } from '@/stores';
 import { useUserStore, type SystemUser } from '@/stores/userStore';
-import { MaterialCategory } from '@/types';
+import { MaterialCategory, Vendor } from '@/types';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { UserRole, ROLE_NAMES } from '@/types/settings';
+import CustomFieldsSection from '@/components/common/CustomFieldsSection';
 
 type CatRow = MaterialCategory & { _indent: number };
 
@@ -36,14 +37,16 @@ const countDescendants = (node: MaterialCategory): number => {
   return node.children.length + node.children.reduce((sum, c) => sum + countDescendants(c), 0);
 };
 
-// 按职能维护责任人员时涉及的角色（采购员 / SQE / 工艺工程师 / 研发工程师等），可在此扩展
+// 按职能维护责任人员时涉及的角色（采购员 / SQE / 工艺工程师 / 研发工程师 / 生产主管 / 库管员 / 会计），可在此扩展。
+// V3.95.0：补 accountant（会计），凑齐强哥点名的 7 类内部角色；「供应商」为外部主体，不进此表，走 attributes.defaultVendors。
 export const CATEGORY_RESPONSIBLE_ROLES: UserRole[] = [
   'buyer',            // 采购员
   'qa_engineer',      // SQE / 质量工程师
-  'process_engineer', // 工艺工程师
+  'process_engineer', // 工艺工程师（≈技术员）
   'rd_engineer',      // 研发工程师
-  'prod_manager',     // 生产主管
-  'warehouse_keeper', // 库管员
+  'prod_manager',     // 生产主管（≈生产计划）
+  'warehouse_keeper', // 库管员（≈仓库管理员）
+  'accountant',       // 会计（V3.95.0 新增）
 ];
 
 // 构建分类树下拉选项（用于父级选择）
@@ -68,9 +71,9 @@ const buildTreeOptions = (
 };
 
 const CategoryList: React.FC = () => {
-  const { categories: storeCategories } = useMaterialStore();
+  const { categories, addCategory, updateCategory, removeCategory, loadCategories } = useMaterialStore();
   const users = useUserStore((s) => s.users);
-  const [categories, setCategories] = useState<MaterialCategory[]>(storeCategories);
+  const vendors = useVendorStore((s) => s.vendors);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editCategory, setEditCategory] = useState<MaterialCategory | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<MaterialCategory | null>(null);
@@ -90,7 +93,18 @@ const CategoryList: React.FC = () => {
     sortOrder: 0,
     sequenceLength: 3,
     responsiblePersons: {} as Record<string, string[]>,
+    defaultVendors: [] as string[],
+    attributes: {} as Record<string, unknown>,
   });
+
+  // 挂载时从 D1 拉取分类（首次空库回填 mock 演示态）；离线/异常自动回退内存态。
+  const loadedRef = useRef(false);
+  useEffect(() => {
+    if (!loadedRef.current) {
+      loadedRef.current = true;
+      void loadCategories();
+    }
+  }, [loadCategories]);
 
   // 用户 id -> 姓名（用于表格中展示责任人员）
   const nameById = useMemo(() => {
@@ -160,6 +174,8 @@ const CategoryList: React.FC = () => {
         sortOrder: editingCat.sortOrder,
         sequenceLength: editingCat.sequenceLength ?? 3,
         responsiblePersons: { ...(editingCat.responsiblePersons || {}) },
+        defaultVendors: [...(editingCat.defaultVendors || [])],
+        attributes: { ...(editingCat.attributes || {}) },
       });
       setParentId(editingCat.parentId || '');
     } else {
@@ -173,6 +189,8 @@ const CategoryList: React.FC = () => {
         sortOrder: 0,
         sequenceLength: 3,
         responsiblePersons: {},
+        defaultVendors: [],
+        attributes: {},
       });
       setParentId(parentCat ? parentCat.id : '');
     }
@@ -180,87 +198,64 @@ const CategoryList: React.FC = () => {
     setDialogOpen(true);
   };
 
-  // 保存
+  // 供应商 id -> 名称
+  const vendorNameById = useMemo(() => {
+    const m: Record<string, string> = {};
+    vendors.forEach((v) => { m[v.id] = v.name; });
+    return m;
+  }, [vendors]);
+
+  /**
+   * V3.95.0 角色硬校验（强哥明确要求）：责任人员列按职能分工，
+   * 某列里填的人必须具备该列对应的角色，否则「按物料类别分工」失真、后续自动化取人会错。
+   * 返回违规清单；非空即禁用保存并点名提示（谁 / 期望角色 / 实际角色）。
+   */
+  const roleMismatch = useMemo(() => {
+    const issues: { name: string; expected: UserRole; actual: UserRole | string }[] = [];
+    CATEGORY_RESPONSIBLE_ROLES.forEach((role) => {
+      const ids = formData.responsiblePersons[role] || [];
+      ids.forEach((uid) => {
+        const u = users.find((x) => x.id === uid);
+        if (!u) return;
+        if (u.role !== role) {
+          issues.push({ name: u.name, expected: role, actual: u.role });
+        }
+      });
+    });
+    return issues;
+  }, [formData.responsiblePersons, users]);
+
+  // 保存（V3.94.0：改为调用 store 真实 CRUD，落库 D1 并级联写回自定义字段值 attributes）
+  // V3.95.0：保存前做角色硬校验——责任人角色不符时禁用，杜绝"采购员列填库管员"导致分工失真。
   const handleSave = () => {
+    if (roleMismatch.length > 0) return;
+    const basePatch = {
+      code: formData.code,
+      name: formData.name,
+      description: formData.description,
+      sortOrder: Number(formData.sortOrder),
+      sequenceLength: Number(formData.sequenceLength) || 3,
+      responsiblePersons: formData.responsiblePersons,
+      defaultVendors: formData.defaultVendors,
+      attributes: formData.attributes,
+      parentId: parentId || null,
+    };
     if (editCategory) {
-      // 编辑模式：原地更新
-      const updateNode = (nodes: MaterialCategory[]): MaterialCategory[] => {
-        return nodes.map(n => {
-          if (n.id === editCategory.id) {
-            return {
-              ...n, ...formData,
-              sequenceLength: Number(formData.sequenceLength) || 3,
-              parentId: parentId || null,
-              updatedAt: new Date().toISOString(),
-            };
-          }
-          if (n.children) return { ...n, children: updateNode(n.children) };
-          return n;
-        });
-      };
-      setCategories(updateNode(categories));
+      updateCategory(editCategory.id, basePatch);
     } else {
-      // 新增模式
       const parent = parentId ? findCategory(categories, parentId) : null;
       const level = parent ? ((parent.level || 1) + 1) : 1;
-      const newCategory: MaterialCategory = {
-        id: `cat-${Date.now()}`,
-        ...formData,
-        sequenceLength: Number(formData.sequenceLength) || 3,
-        parentId: parentId || null,
-        level,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        createdBy: 'admin',
-        updatedBy: 'admin',
-      };
-
-      if (parent) {
-        // 添加为子节点
-        const addToParent = (nodes: MaterialCategory[]): MaterialCategory[] => {
-          return nodes.map(n => {
-            if (n.id === parentId) {
-              return { ...n, children: [...(n.children || []), newCategory] };
-            }
-            if (n.children) return { ...n, children: addToParent(n.children) };
-            return n;
-          });
-        };
-        setCategories(addToParent(categories));
-      } else {
-        setCategories([...categories, newCategory]);
-      }
+      addCategory({ ...basePatch, level });
     }
     setDialogOpen(false);
   };
 
-  // 删除
+  // 删除（含子孙级联，由 store 负责落库）
   const handleDelete = () => {
     if (!deleteConfirm) return;
-    const removeNode = (nodes: MaterialCategory[]): MaterialCategory[] => {
-      return nodes
-        .filter(n => n.id !== deleteConfirm.id)
-        .map(n => n.children ? { ...n, children: removeNode(n.children) } : n);
-    };
-    setCategories(removeNode(categories));
+    removeCategory(deleteConfirm.id);
     setDeleteConfirm(null);
   };
-
-  const mapImportRow = (r: Record<string, string>, _headers: string[]): MaterialCategory => ({
-    id: `cat-imp-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-    parentId: '',
-    name: r['分类名称'] || '未命名分类',
-    code: r['分类编码'] || '',
-    description: r['描述'] || '',
-    sortOrder: Number(r['排序']) || 0,
-    level: 1,
-    responsiblePersons: {},
-    children: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    createdBy: 'admin',
-    updatedBy: 'admin',
-  });
 
   const columns: ColumnDef<CatRow, unknown>[] = useMemo(
     () => [
@@ -409,7 +404,17 @@ const CategoryList: React.FC = () => {
           enableExport={true}
           exportFormat="xlsx"
           enableImport={true}
-          onImport={(rows, headers) => rows.forEach(r => setCategories(prev => [...prev, mapImportRow(r, headers)]))}
+          onImport={(rows) => rows.forEach((r) =>
+            addCategory({
+              name: (r['分类名称'] as string) || '未命名分类',
+              code: (r['分类编码'] as string) || '',
+              description: (r['描述'] as string) || '',
+              sortOrder: Number(r['排序']) || 0,
+              level: 1,
+              responsiblePersons: {},
+              attributes: {},
+            }),
+          )}
           columnConfigKey="material-category-list"
           hiddenColumns={['responsiblePersons']}
         />
@@ -527,14 +532,60 @@ const CategoryList: React.FC = () => {
                     );
                   })}
                 </Stack>
+                {/* V3.95.0 角色硬校验提示：责任人角色不符时红字点名，保存被禁用（按物料类别分工失真防护） */}
+                {roleMismatch.length > 0 && (
+                  <Alert severity="error" sx={{ fontSize: '0.8rem', whiteSpace: 'pre-line' }}>
+                    {`下列人员角色与所分配列不匹配，请先修正（在用户管理中调整其角色，或改投到对应列）：\n` +
+                      roleMismatch.map((i) => `· ${i.name}：${ROLE_NAMES[i.expected]}列 需要「${ROLE_NAMES[i.expected]}」，但当前角色是「${ROLE_NAMES[i.actual as UserRole] || i.actual}」`).join('\n')}
+                  </Alert>
+                )}
               </Collapse>
             </Box>
+
+            {/* V3.95.0 默认供应商列：该分类下采购时默认询价/下单的供应商（外部主体，独立于内部责任人；值随分类落库 default_vendors） */}
+            <Box sx={{ mt: 1, borderTop: '1px dashed', borderColor: 'divider', pt: 1.5 }}>
+              <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
+                默认供应商（该物料类别下采购默认向其询价/下单；可选多个，采购自动化将据此匹配）
+              </Typography>
+              <Autocomplete<Vendor, true>
+                multiple
+                size="small"
+                disabled={vendors.length === 0}
+                options={vendors.filter((v) => v.status !== 'blacklisted' && v.status !== 'rejected')}
+                getOptionLabel={(o) => o.name || o.id}
+                value={formData.defaultVendors.map((id) => vendors.find((v) => v.id === id)).filter(Boolean) as Vendor[]}
+                onChange={(_, vals) => setFormData({ ...formData, defaultVendors: (vals as Vendor[]).map((v) => v.id) })}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="默认供应商"
+                    placeholder={vendors.length === 0 ? '暂无可用供应商' : '选择默认供应商'}
+                  />
+                )}
+              />
+              {formData.defaultVendors.length > 0 && (
+                <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
+                  已选 {formData.defaultVendors.length} 家：{formData.defaultVendors.map((id) => vendorNameById[id] || id).join('、')}
+                </Typography>
+              )}
+            </Box>
+
+            {/* V3.94.0 自配置字段区：管理员在「设置→自定义字段（实体=物料分类）」自助加列后，这里动态渲染并随分类落库 */}
+            <CustomFieldsSection
+              entity="category"
+              value={formData.attributes}
+              onChange={(v) => setFormData({ ...formData, attributes: v })}
+            />
           </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)}>取消</Button>
-          <Button onClick={handleSave} variant="contained" disabled={!formData.code || !formData.name}>
-            保存
+          <Button
+            onClick={handleSave}
+            variant="contained"
+            disabled={!formData.code || !formData.name || roleMismatch.length > 0}
+          >
+            {roleMismatch.length > 0 ? `有 ${roleMismatch.length} 处角色不符，无法保存` : '保存'}
           </Button>
         </DialogActions>
       </Dialog>

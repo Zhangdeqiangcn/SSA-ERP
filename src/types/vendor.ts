@@ -35,6 +35,8 @@ export interface Vendor extends BaseEntity {
   salesOrg?: string;             // 采购组织
   reconciliationAccount?: string; // 统驭科目
   taxCode?: string;              // 税码
+  /** V3.94.0 自定义字段（按设置的字段定义动态扩展，如「供应商类别」用于采购申请自动询价匹配），key 为字段标识 */
+  customFields?: Record<string, unknown>;
 }
 
 export interface BlacklistHistory {
@@ -79,6 +81,14 @@ export interface VendorApplication {
   taxId?: string;                  // 纳税人识别号
   taxRate?: string;                // 增值税税率
   qualificationExpiry?: string;    // 资质有效期
+  // ── 组织与会计（V3.96.0 调整：注册时不再由供应商填，改由采购/财务在审批环节指定）──
+  salesOrg?: string;              // 采购组织（供应商可在注册时填，用于把申请路由到对应采购条线）
+  reconciliationAccount?: string; // 统驭科目（财务视角，供应商不了解，由采购/财务审批时从会计科目表选择）
+  taxCode?: string;               // 税码（财务视角，供应商不了解，由采购/财务审批时从税码主数据选择）
+  // ── 定向邀请（V3.100.0）：供应商经采购员邀请链接注册，自动归属 ──
+  inviteCode?: string;            // 邀请码
+  buyerId?: string;               // 邀请/归属采购员 id（服务端权威，弱定向审核依据）
+  buyerName?: string;             // 邀请采购员姓名（冗余快照）
   attachments: { name: string; url: string; type: string }[];
   status: ApplicationStatus;
   reviewerId?: string;

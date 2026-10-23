@@ -344,8 +344,28 @@ export function DataTable<T>({
 
   // 若调用方已自定义 id==='actions' 列（如供应商对账单/开票申请、报检单），不再追加默认操作列，避免重复 key 告警
   const hasCustomActions = normalizedColumns.some((c) => (c as ColumnDef<T, unknown>).id === 'actions');
+
+  // ── 数据源守卫：TanStack 要求 data 必为数组，否则内部 rows.filter 直接崩（整页白屏）。
+  //    上游 store / applyColumnFilters 若因登录态 hydrate、包裹对象、null 等把主数组设成非数组，
+  //    这里统一降级为 []，让表格显示「暂无数据」而非崩掉整页，并在控制台告警便于定位脏数据来源。
+  //    （防御层：根治脏源在数据层；本层保证任何单一数据源异常都不会拖垮整个页面。）
+  const safeData: T[] = useMemo(() => {
+    if (Array.isArray(data)) return data;
+    // 兼容「误传了 { data: [...] } 包裹对象」的形态，尝试解包一次
+    const wrapped = (data as unknown as { data?: unknown })?.data;
+    if (Array.isArray(wrapped)) {
+      // eslint-disable-next-line no-console
+      console.warn('[DataTable] data 收到包裹对象 {data:[...]}，已解包为数组。请检查上游数据源。');
+      return wrapped as T[];
+    }
+    // eslint-disable-next-line no-console
+    console.warn(`[DataTable] data 不是数组（实际类型 ${Object.prototype.toString.call(data)}），已降级为空表。请定位脏数据来源。`, data);
+    return [];
+    // 仅当 data 引用变化时重算；非数组时每次调用都告警一次是可接受的（开发期定位友好）
+  }, [data]);
+
   const table = useReactTable({
-    data,
+    data: safeData,
     columns: (hasCustomActions ? normalizedColumns : [...normalizedColumns, actionColumn]) as ColumnDef<unknown, any>[],
     state: { sorting, columnFilters, rowSelection, columnVisibility },
     onSortingChange: setSorting,

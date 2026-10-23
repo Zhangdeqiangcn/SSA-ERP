@@ -29,6 +29,8 @@ export interface GridColumn {
   hideable?: boolean;
   /** 固定列：不参与列显隐配置，始终显示 */
   fixed?: boolean;
+  /** 必填列：表头显示红色 *，提交/保存前须校验（配合 findMissingRequired） */
+  required?: boolean;
   /** 物料查找列：code=按编码查找，name=按名称查找 */
   materialRole?: 'code' | 'name';
   /** 物料选中后，用物料对象的该字段填充本列（如 'code'|'name'|'specification'|'unit'|'price'） */
@@ -104,6 +106,36 @@ const buildMaterialPatch = (
     }
   });
   return patch;
+};
+
+/** 判断某行在「必填列」上是否缺失（必填为显式开启：required === true 才校验，避免误伤未标注必填的列） */
+const rowMissingRequired = (
+  row: Record<string, any>,
+  cols: GridColumn[],
+): string[] => {
+  const missing: string[] = [];
+  cols.forEach((c) => {
+    if (c.required !== true) return; // 未显式标注必填的列一律不校验
+    if (c.type === 'readonly') return; // 只读派生列（如金额）不作必填
+    const v = row[c.key];
+    const isEmpty = v == null || v === '' || (Array.isArray(v) && v.length === 0);
+    if (isEmpty) missing.push(c.label);
+  });
+  return missing;
+};
+
+/** 收集所有明细行中「必填列缺失」的情况，返回 [{ rowId, 序号(1-based), 缺失列名[] }]（供调用方弹错误提示） */
+export const findMissingRequired = (
+  rows: Record<string, any>[],
+  cols: GridColumn[],
+  rowIdKey = 'id',
+): Array<{ rowId: string; index: number; missing: string[] }> => {
+  const out: Array<{ rowId: string; index: number; missing: string[] }> = [];
+  rows.forEach((row, i) => {
+    const missing = rowMissingRequired(row, cols);
+    if (missing.length > 0) out.push({ rowId: row[rowIdKey], index: i + 1, missing });
+  });
+  return out;
 };
 
 // ------------------------------------------------------------
@@ -656,7 +688,10 @@ const MaterialLineItemsGrid: React.FC<MaterialLineItemsGridProps> = ({
                           justifyContent: col.align === 'right' ? 'flex-end' : 'flex-start',
                         }}
                       >
-                        <span>{col.label}</span>
+                        <span>
+                          {col.label}
+                          {col.required && <span style={{ color: '#d32f2f', marginLeft: 2 }}>*</span>}
+                        </span>
                         {sorted && (sort.dir === 'asc'
                           ? <ArrowUpIcon sx={{ fontSize: 14 }} />
                           : <ArrowDownIcon sx={{ fontSize: 14 }} />)}

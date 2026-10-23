@@ -159,14 +159,22 @@ const MaterialDetail: React.FC = () => {
   const purchaseState = usePurchaseStore.getState();
   const qualityState = useQualityStore.getState();
 
-  const bomCount = bomState.bomList.filter((b) =>
+  // ── 数据健壮性守卫：跨域数据（BOM/采购/质量）在非后端在线态（本地演示/未登录/接口 500）下
+  //    某帧可能是非数组（null / undefined / 包裹对象）。展开（[...x]）与 .filter 前统一归一化为数组，
+  //    保证即便数据脏也只是统计为 0，绝不白屏崩溃（对标 SAP/金蝶的「数据异常降级」纪律）。
+  const safeBomList = Array.isArray(bomState.bomList) ? bomState.bomList : [];
+  const safePurchaseRequests = Array.isArray(purchaseState.purchaseRequests) ? purchaseState.purchaseRequests : [];
+  const safePurchaseOrders = Array.isArray(purchaseState.purchaseOrders) ? purchaseState.purchaseOrders : [];
+  const safeInspectionTasks = Array.isArray(qualityState.inspectionTasks) ? qualityState.inspectionTasks : [];
+
+  const bomCount = safeBomList.filter((b) =>
     (b.items ?? []).some((it) => it.materialId === material.id)
   ).length;
-  const purchaseCount = [...purchaseState.purchaseRequests, ...purchaseState.purchaseOrders].reduce(
+  const purchaseCount = [...safePurchaseRequests, ...safePurchaseOrders].reduce(
     (acc, doc) => acc + (doc.items ?? []).filter((it) => it.materialId === material.id).length,
     0
   );
-  const matInspections = qualityState.inspectionTasks.filter((t) => t.materialId === material.id);
+  const matInspections = safeInspectionTasks.filter((t) => t.materialId === material.id);
   const qualityPassRate =
     matInspections.length === 0
       ? null
@@ -465,10 +473,15 @@ const MaterialDetail: React.FC = () => {
       status={<StatusBadge status={material.status} />}
       headerFields={[
         { label: '分类', value: material.categoryName },
+        { label: '规格型号', value: material.specification || '—' },
         { label: '单位', value: material.unit },
-        { label: '当前库存', value: `${material.currentStock} ${material.unit}` },
-        { label: '单价', value: formatCurrency(material.price) },
-        { label: '安全库存', value: material.safetyStock },
+        { label: '当前库存', value: <strong>{material.currentStock} {material.unit}</strong> },
+        { label: '安全库存', value: material.safetyStock ?? '—' },
+        { label: '最低库存', value: material.minStock ?? '—' },
+        { label: '最高库存', value: material.maxStock ?? '—' },
+        { label: '单价', value: <strong style={{ color: '#1D4ED8' }}>{formatCurrency(material.price)}</strong> },
+        { label: '采购提前期', value: material.leadTime !== undefined ? `${material.leadTime} 天` : '—' },
+        { label: '默认供应商', value: material.defaultVendorName || '—' },
       ]}
       actions={
         <DetailActions

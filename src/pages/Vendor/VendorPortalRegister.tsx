@@ -4,8 +4,8 @@
  * 独立页面，不在 VendorPortalLayout 内（未注册用户无登录态）
  * 提交后写入 flowStore.vendorApplications → 进入审批流程
  */
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
   Box, Paper, TextField, Button, Typography, Stepper, Step, StepLabel,
   Grid, Chip, FormControl, InputLabel, Select, MenuItem, ToggleButton, ToggleButtonGroup,
@@ -17,6 +17,7 @@ import {
   Visibility, VisibilityOff, HowToReg,
 } from '@mui/icons-material';
 import { useFlowStore } from '@/stores/flowStore';
+import { fetchInvitePublic, submitPublicApplication } from '@/services/inviteApi';
 
 const REG_STEPS = [
   { label: '企业基本信息', icon: <Business /> },
@@ -51,6 +52,25 @@ const darkFieldSx = {
 const VendorPortalRegister: React.FC = () => {
   const navigate = useNavigate();
   const addVendorApp = useFlowStore((s) => s.addVendorApplication);
+  const [searchParams] = useSearchParams();
+  const inviteCode = searchParams.get('invite');
+
+  // V3.100.0 定向邀请：带 ?invite= 时校验邀请码，回填邀请人/采购组织横幅
+  const [inviteInfo, setInviteInfo] = useState<{ valid: boolean; buyerName?: string; salesOrg?: string; reason?: string } | null>(null);
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+
+  useEffect(() => {
+    if (!inviteCode) return;
+    let cancelled = false;
+    setInviteLoading(true);
+    fetchInvitePublic(inviteCode).then((info) => {
+      if (cancelled) return;
+      setInviteInfo(info);
+      setInviteLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, [inviteCode]);
 
   const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -122,10 +142,48 @@ const VendorPortalRegister: React.FC = () => {
     setErrors({});
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateStep()) return;
+    setSubmitError('');
     setLoading(true);
-    // 模拟异步提交
+
+    // V3.100.0 定向邀请：携带有效邀请码时，走公开接口（服务端权威填充 buyerId/salesOrg，
+    // 跨设备可用、防伪造归属）；无有效邀请时维持原本地注册流程。
+    if (inviteCode && inviteInfo?.valid) {
+      const payload = {
+        inviteCode,
+        companyName: form.companyName.trim(),
+        unifiedCode: form.unifiedCode.trim(),
+        businessLicense: form.businessLicense.trim(),
+        legalRepresentative: form.legalRepresentative.trim(),
+        registeredCapital: form.registeredCapital,
+        address: form.address.trim(),
+        contact: form.contact.trim(),
+        contactPhone: form.contactPhone.trim(),
+        contactEmail: form.contactEmail.trim(),
+        supplyCategories: form.supplyCategories,
+        mainProducts: form.mainProducts.trim(),
+        annualRevenue: form.annualRevenue,
+        certifications: form.certifications,
+        bankName: form.bankName.trim(),
+        bankAccount: form.bankAccount.trim(),
+        bankAccountName: form.bankAccountName.trim(),
+        taxId: form.taxId.trim(),
+        taxRate: form.taxRate,
+        remarks: form.remarks,
+      };
+      const res = await submitPublicApplication(payload);
+      setLoading(false);
+      if (!res.ok) {
+        setSubmitError(res.error || '提交失败，请稍后重试');
+        return;
+      }
+      setAppNo(res.applicationNo || '');
+      setSubmitted(true);
+      return;
+    }
+
+    // 原本地注册流程（未带有效邀请）
     setTimeout(() => {
       const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
       const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -309,6 +367,23 @@ const VendorPortalRegister: React.FC = () => {
           </Typography>
         </Box>
 
+        {/* V3.100.0 定向邀请横幅：带有效邀请码时回显邀请人/采购组织 */}
+        {inviteLoading && (
+          <Alert severity="info" sx={{ mb: 2, fontSize: '0.8125rem', bgcolor: 'rgba(59,130,246,0.12)', color: '#CBD5E1', '& .MuiAlert-icon': { color: '#3B82F6' } }}>
+            正在校验邀请链接…
+          </Alert>
+        )}
+        {!inviteLoading && inviteInfo?.valid && (
+          <Alert severity="success" sx={{ mb: 2, fontSize: '0.8125rem', bgcolor: 'rgba(16,185,129,0.12)', color: '#E2E8F0', '& .MuiAlert-icon': { color: '#10B981' } }}>
+            您由采购员「{inviteInfo.buyerName || '—'}」{inviteInfo.salesOrg ? `（采购组织：${inviteInfo.salesOrg}）` : ''} 邀请注册。提交后申请将定向归属到该采购员审核。
+          </Alert>
+        )}
+        {!inviteLoading && inviteInfo && !inviteInfo.valid && (
+          <Alert severity="warning" sx={{ mb: 2, fontSize: '0.8125rem', bgcolor: 'rgba(245,158,11,0.12)', color: '#E2E8F0', '& .MuiAlert-icon': { color: '#F59E0B' } }}>
+            {inviteInfo.reason || '邀请链接无效或已失效'}，您仍可按普通方式提交注册申请。
+          </Alert>
+        )}
+
         <Grid container spacing={2.5}>
           {/* 左侧步骤条 */}
           <Grid item xs={12} md={3}>
@@ -482,6 +557,9 @@ const VendorPortalRegister: React.FC = () => {
                   >{loading ? '提交中...' : '提交注册申请'}</Button>
                 )}
               </Box>
+              {submitError && (
+                <Alert severity="error" sx={{ mt: 2, fontSize: '0.8125rem' }}>{submitError}</Alert>
+              )}
             </Paper>
           </Grid>
         </Grid>

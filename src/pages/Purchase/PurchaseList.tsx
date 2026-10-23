@@ -68,6 +68,7 @@ const PurchaseList: React.FC = () => {
     { accessorKey: 'requestNo', header: '申请单号', meta: { searchable: true } },
     { accessorKey: 'title', header: '标题', meta: { searchable: true } },
     { accessorKey: 'applicant', header: '申请人', meta: { searchable: true } },
+    { accessorKey: 'buyerNames', header: '负责采购员', meta: { searchable: true }, cell: ({ row }) => row.original.buyerNames || '-' },
     { accessorKey: 'department', header: '部门', meta: { searchable: true } },
     {
       accessorKey: 'priority',
@@ -93,6 +94,7 @@ const PurchaseList: React.FC = () => {
   const filterFields = [
     { name: 'requestNo', label: '申请单号', type: 'text' as const },
     { name: 'title', label: '标题', type: 'text' as const },
+    { name: 'buyerNames', label: '负责采购员', type: 'text' as const },
     {
       name: 'status',
       label: '状态',

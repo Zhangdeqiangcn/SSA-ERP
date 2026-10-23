@@ -45,6 +45,10 @@ export interface PurchaseRequest extends BaseEntity {
   sourceName?: string;
   /** 自定义字段 */
   customFields?: Record<string, unknown>;
+  /** V3.94.0 归属采购员 id 列表：由物料所属分类的「采购员」责任自动归集（JSON 数组，可能多名） */
+  buyerIds?: string[];
+  /** V3.94.0 归属采购员姓名（逗号拼接，用于列表展示与按姓名模糊筛选） */
+  buyerNames?: string;
 }
 
 /** B10 订单变更：历史版本快照（记录变更前的关键字段，支持差异对比） */

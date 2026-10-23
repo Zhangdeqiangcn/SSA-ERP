@@ -50,6 +50,7 @@ import FieldPermissions from '@/pages/Platform/FieldPermissions';
 import I18nSettings from '@/pages/Platform/I18nSettings';
 import AIConfigPage from '@/pages/Settings/AIConfig/AIConfigPage';
 import ChannelAuthTab from '@/pages/Settings/ChannelAuthTab';
+import AutomationTab from '@/pages/Settings/AutomationTab';
 import TaxConfigPage from '@/pages/Settings/TaxConfig/TaxConfigPage';
 import UserManagementTab from './UserManagementTab';
 import OrgInviteCodeTab from './OrgInviteCodeTab';
@@ -572,6 +573,7 @@ const Settings: React.FC = () => {
       id: 'supply', label: '供应链策略', icon: <Inventory2 fontSize="small" />,
       items: [
         { id: 'purchase', label: '采购策略', icon: <ShoppingCart fontSize="small" />, render: renderProcurementStrategy },
+        { id: 'automation', label: '自动化设置中心', icon: <Assessment fontSize="small" />, adminOnly: true, render: () => <AutomationTab /> },
         { id: 'salesprice', label: '销售价目表', icon: <ShoppingCart fontSize="small" />, render: () => <SalesPriceTab /> },
         { id: 'unit', label: '单位换算', icon: <SwapHoriz fontSize="small" />, render: () => <UnitConversionTab /> },
         { id: 'vendorportal', label: '供应商门户', icon: <Storefront fontSize="small" />, render: () => <VendorPortalConfigTab /> },
