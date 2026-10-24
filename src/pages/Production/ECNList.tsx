@@ -2,10 +2,11 @@ import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
-  Select, InputLabel, FormControl, Checkbox, List, ListItem, ListItemText, ListItemButton,
+  Select, InputLabel, FormControl, Checkbox, List, ListItem, ListItemText, ListItemButton, IconButton,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LinkIcon from '@mui/icons-material/Link';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { useECNStore } from '@/stores/ecnStore';
@@ -243,6 +244,9 @@ export default function ECNList() {
         const e = row.original;
         return (
           <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+            <IconButton size="small" title="查看详情" aria-label="查看详情" onClick={() => navigate(`/production/ecn/${e.id}`)}>
+              <VisibilityIcon fontSize="small" />
+            </IconButton>
             <Button size="small" variant="outlined" startIcon={<LinkIcon />} onClick={() => openLinkDialog(e.id)}>关联生产ECN</Button>
             {e.status === 'draft' && (
               <>

@@ -154,7 +154,7 @@ const nowStr = () => {
               </Box>
               <Box sx={{ display: 'flex', gap: 0.5 }}>
                 <Tooltip title="查看详情">
-                  <IconButton size="small" onClick={() => openEdit(route)}><Visibility fontSize="small" /></IconButton>
+                  <IconButton size="small" onClick={() => navigate(`/production/routes/${route.id}`)}><Visibility fontSize="small" /></IconButton>
                 </Tooltip>
                 <Tooltip title="编辑">
                   <IconButton size="small" onClick={() => openEdit(route)}><Edit fontSize="small" /></IconButton>

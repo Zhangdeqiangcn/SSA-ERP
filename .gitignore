@@ -33,6 +33,8 @@ playwright-report
 blob-report
 .pw-*
 coverage
+# 详情页视觉验证脚本产物（临时截图，不进版本库）
+screenshots/
 
 # 日志
 *.log

@@ -180,6 +180,14 @@ const TripartySalesList = lazy(() => import('./pages/Sales/TripartySalesList'));
 const WorkOrderList = lazy(() => import('./pages/Production/WorkOrderList'));
 const WorkOrderDetail = lazy(() => import('./pages/Production/WorkOrderDetail'));
 const ProcessRouteList = lazy(() => import('./pages/Production/ProcessRouteList'));
+const ProcessRouteDetail = lazy(() => import('./pages/Production/ProcessRouteDetail'));
+// V3.110.0 生产域「列表→独立详情页」改造（与 ProcessRouteDetail 同款五件套形态）
+const ProductionVersionDetail = lazy(() => import('./pages/Production/ProductionVersionDetail'));
+const SubcontractDetail = lazy(() => import('./pages/Production/SubcontractDetail'));
+const RepPeriodDetail = lazy(() => import('./pages/Production/RepPeriodDetail'));
+const SopPlanDetail = lazy(() => import('./pages/Production/SopPlanDetail'));
+const EcnDetail = lazy(() => import('./pages/Production/EcnDetail'));
+const MaintenanceOrderDetail = lazy(() => import('./pages/Production/MaintenanceOrderDetail'));
 const MRPPlan = lazy(() => import('./pages/Production/MRPPlan'));
 const ProductionReport = lazy(() => import('./pages/Production/ProductionReport'));
 const CapacityScheduling = lazy(() => import('./pages/Production/CapacityScheduling'));
@@ -561,6 +569,7 @@ function App() {
         <Route path="production/orders" element={<WorkOrderList />} />
         <Route path="production/orders/:id" element={<WorkOrderDetail />} />
         <Route path="production/routes" element={<ProcessRouteList />} />
+        <Route path="production/routes/:id" element={<ProcessRouteDetail />} />
         <Route path="production/mrp" element={<MRPPlan />} />
         <Route path="production/report" element={<ProductionReport />} />
         <Route path="production/capacity" element={<CapacityScheduling />} />
@@ -587,6 +596,13 @@ function App() {
         <Route path="production/repetitive" element={<RepetitiveMfgList />} />
         <Route path="production/mes" element={<MesIntegrationList />} />
         <Route path="production/sop" element={<SopPlan />} />
+        {/* V3.110.0 生产域「列表→独立详情页」改造（repetitive/period 路径与 RepetitiveMfgList 跳转一致） */}
+        <Route path="production/versions/:id" element={<ProductionVersionDetail />} />
+        <Route path="production/subcontract/:id" element={<SubcontractDetail />} />
+        <Route path="production/repetitive/period/:id" element={<RepPeriodDetail />} />
+        <Route path="production/sop/:id" element={<SopPlanDetail />} />
+        <Route path="production/ecn/:id" element={<EcnDetail />} />
+        <Route path="production/equipment/maintenance/:id" element={<MaintenanceOrderDetail />} />
         {/* 财务管理 */}
         <Route path="finance" element={<Navigate to="/finance/invoices" replace />} />
         <Route path="finance/invoices" element={<InvoiceList />} />

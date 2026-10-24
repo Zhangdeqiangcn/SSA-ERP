@@ -84,6 +84,7 @@ export const statusConfig: Record<string, { color: 'default' | 'primary' | 'seco
   in_use: { color: 'success', label: '使用中' },
   scrapped: { color: 'error', label: '报废' },
   balanced: { color: 'info', label: '平衡' },
+  planned: { color: 'info', label: '计划中' }, // 保养工单（MaintenanceOrder.status）
 
   // ── 出入库 / 仓储作业 ──
   processing: { color: 'warning', label: '处理中' },

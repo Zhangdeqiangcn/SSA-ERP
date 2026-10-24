@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -22,6 +23,7 @@ const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
 
 export default function SopPlan() {
+  const navigate = useNavigate();
   const list = useSopStore((s) => s.items);
   const load = useSopStore((s) => s.load);
   const addPlan = useSopStore((s) => s.add);
@@ -120,7 +122,7 @@ export default function SopPlan() {
       <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="sop-plans" />
       <DataTable
         data={applyColumnFilters(list, columns, filterData, { module: 'production' })} columns={columns}
-        onView={(r) => openEdit(r)} onEdit={(r) => openEdit(r)} onDelete={(r) => deletePlan(r.id)}
+        onView={(r) => navigate(`/production/sop/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deletePlan(r.id)}
         enableExport enableColumnFilter sapStyle columnConfigKey="sop-plans" codeColumnId="planNo"
       />
 

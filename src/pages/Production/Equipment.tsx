@@ -1,9 +1,12 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert, Tabs, Tab,
+  IconButton, Tooltip,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import Visibility from '@mui/icons-material/Visibility';
 import { useEquipmentStore } from '@/stores/equipmentStore';
 import { useProductionOperationStore } from '@/stores/productionOperationStore';
 import { Equipment, EquipmentCategory, EquipmentStatus, MaintenanceOrder } from '@/types/production';
@@ -15,6 +18,7 @@ const STATUS_LABEL: Record<EquipmentStatus, string> = { in_use: '在用', idle: 
 export default function EquipmentPage() {
   const { equipments, maintenanceOrders, addEquipment, addMaintenance, deleteEquipment } = useEquipmentStore();
   const { workCenters } = useProductionOperationStore();
+  const navigate = useNavigate();
   const [tab, setTab] = useState(0);
   const [openEq, setOpenEq] = useState(false);
   const [openMo, setOpenMo] = useState(false);
@@ -117,7 +121,7 @@ export default function EquipmentPage() {
               <TableHead>
                 <TableRow>
                   <TableCell>设备</TableCell><TableCell>类型</TableCell><TableCell>日期</TableCell>
-                  <TableCell>费用</TableCell><TableCell>状态</TableCell>
+                  <TableCell>费用</TableCell><TableCell>状态</TableCell><TableCell>操作</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -128,6 +132,9 @@ export default function EquipmentPage() {
                     <TableCell>{m.date}</TableCell>
                     <TableCell>¥{m.cost.toLocaleString('zh-CN')}</TableCell>
                     <TableCell><Chip size="small" label={m.status === 'done' ? '已完成' : '计划中'} color={m.status === 'done' ? 'success' : 'warning'} /></TableCell>
+                    <TableCell>
+                      <Tooltip title="查看详情"><IconButton size="small" aria-label="查看保养工单详情" onClick={() => navigate(`/production/equipment/maintenance/${m.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

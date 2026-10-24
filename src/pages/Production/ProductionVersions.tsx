@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
-  Checkbox, List, ListItem, ListItemText, ListItemButton,
+  Checkbox, List, ListItem, ListItemText, ListItemButton, IconButton, Tooltip,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import LinkIcon from '@mui/icons-material/Link';
 import PublishIcon from '@mui/icons-material/Publish';
+import Visibility from '@mui/icons-material/Visibility';
 import { useProductionVersionStore } from '@/stores/productionVersionStore';
 import { useECNStore } from '@/stores/ecnStore';
 import { ProductionVersion, ProductionVersionStatus, ECN, ECNStatus } from '@/types/production';
@@ -108,7 +109,10 @@ export default function ProductionVersions() {
                 <TableCell>{v.effectiveDate}</TableCell>
                 <TableCell><Chip size="small" label={STATUS_LABEL[v.status]} color={v.status === 'active' ? 'success' : 'default'} /></TableCell>
                 <TableCell>
-                  <Button size="small" color="error" onClick={() => deleteVersion(v.id)}>删除</Button>
+                  <Box sx={{ display: 'flex', gap: 0.5 }}>
+                    <Tooltip title="查看详情"><IconButton size="small" aria-label="查看生产版本详情" onClick={() => navigate(`/production/versions/${v.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
+                    <Button size="small" color="error" onClick={() => deleteVersion(v.id)}>删除</Button>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

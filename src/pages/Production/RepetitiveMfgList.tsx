@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent,
   DialogActions, Stack, TextField, MenuItem, Tabs, Tab, Table, TableBody,
@@ -34,6 +35,7 @@ const PERIOD_STATUS_KEY: Record<RepPeriodStatus, string> = {
 const RepetitiveMfgList: React.FC = () => {
   const { lines, periods, addLine, updateLine, deleteLine, addPeriod, updatePeriod, deletePeriod, reportProduction, load } = useRepetitiveMfgStore();
   const [tab, setTab] = useState<'line' | 'period'>('line');
+  const navigate = useNavigate();
   useEffect(() => { load(); }, [load]);
 
   // 生产线 新建/编辑
@@ -160,6 +162,7 @@ const RepetitiveMfgList: React.FC = () => {
           <FilterBar columns={periodColumns} module="production" onSearch={setFilterData} listKey="rep-periods" />
           <DataTable
             data={applyColumnFilters(periods, periodColumns, filterData, { module: 'production' })} columns={periodColumns}
+            onView={(r) => navigate(`/production/repetitive/period/${r.id}`)}
             onEdit={(r) => openPeriodEdit(r)}
             onDelete={(r) => deletePeriod(r.id)}
             enableRowSelection
