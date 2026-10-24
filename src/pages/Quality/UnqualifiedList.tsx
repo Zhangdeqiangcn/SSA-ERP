@@ -9,7 +9,6 @@ import {
   Box, Typography, Paper, Chip, Button, IconButton, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, MenuItem, Select, FormControl,
   InputLabel, Snackbar, Alert, Divider, Grid, Stack, Tooltip,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import {
@@ -18,7 +17,7 @@ import {
   AutoFixHigh,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { DataTable, FilterBar, StatusBadge, DetailSection } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { ColumnDef } from '@tanstack/react-table';
 import { useQualityStore } from '@/stores/qualityStore';
 import { UnqualifiedDisposition, UnqualifiedStatus } from '@/types/quality';
@@ -157,8 +156,6 @@ const UnqualifiedList: React.FC = () => {
   const navigate = useNavigate();
   const [newDialog, setNewDialog] = useState(false);
   const [disposalTarget, setDisposalTarget] = useState<typeof unqualifiedItems[0] | null>(null);
-  const [detailItem, setDetailItem] = useState<typeof unqualifiedItems[0] | null>(null);
-  const [capaSuccess, setCapaSuccess] = useState('');
   const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
   const [capaDialogOpen, setCapaDialogOpen] = useState(false);
   const [capaTarget, setCapaTarget] = useState<typeof unqualifiedItems[0] | null>(null);
@@ -186,7 +183,6 @@ const UnqualifiedList: React.FC = () => {
       updatedBy: 'admin',
     });
     updateUnqualifiedItem(item.id, { status: 'capa_raised' as UnqualifiedStatus });
-    setCapaSuccess(`已为 NCR ${item.itemNo} 生成 CAPA ${pdcaNo}，NCR 状态已更新为「已发起CAPA」。`);
   };
   const [newItem, setNewItem] = useState({
     relateNo: '', materialCode: '', materialName: '', batchNo: '',
@@ -384,7 +380,7 @@ const UnqualifiedList: React.FC = () => {
               </Button>
             )}
             <IconButton size="small" aria-label="查看不合格品详情"
-              onClick={() => { setDetailItem(item); setCapaSuccess(''); }}>
+              onClick={() => navigate(`/quality/unqualified/${item.id}`)}>
               <Visibility fontSize="small" />
             </IconButton>
           </Stack>
@@ -585,108 +581,6 @@ const UnqualifiedList: React.FC = () => {
           }}
         />
       )}
-
-      {/* NCR 详情 + 关联 CAPA */}
-      {detailItem && (() => {
-        const liveItem = unqualifiedItems.find(i => i.id === detailItem.id) || detailItem;
-        return (
-        <Dialog open={!!detailItem} onClose={() => setDetailItem(null)} maxWidth="md" fullWidth>
-          <DialogTitle sx={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Warning color="error" /> 不合格品详情（NCR）
-          </DialogTitle>
-          <Divider />
-          <DialogContent sx={{ pt: 2 }}>
-            {/* 基本信息（表头信息区：两列 label/value，对齐采购订单详情风格） */}
-            <Paper sx={{ p: 2, mb: 2, bgcolor: '#FEF2F2', borderRadius: 2, border: '1px solid #FECACA' }}>
-              <DetailSection
-                columns={2}
-                fields={[
-                  { label: '记录号', value: <Typography variant="body2" fontWeight={600} fontFamily="monospace">{liveItem.itemNo}</Typography> },
-                  { label: '物料', value: `${liveItem.materialCode} · ${liveItem.materialName}` },
-                  { label: '批次号', value: liveItem.batchNo },
-                  { label: '不合格数量', value: <Typography variant="body2" fontWeight={600} color="error">{liveItem.defectQuantity} 件</Typography> },
-                  { label: '来源任务', value: liveItem.inspectionTaskNo || '-' },
-                  { label: '处置方式', value: liveItem.disposition },
-                  { label: '处置进度', value: liveItem.dispositionStatus },
-                  { label: '负责人', value: liveItem.responsiblePerson },
-                  { label: '截止日期', value: liveItem.dueDate },
-                  { label: '闭环状态', value: <StatusBadge status={`unq_${liveItem.status || 'open'}`} /> },
-                ]}
-              />
-              <Typography variant="body2" sx={{ mt: 1, color: '#92400E' }}>缺陷描述：{liveItem.defectDescription}</Typography>
-            </Paper>
-
-            {/* 审批记录（NCR 处置审批痕迹，有数据才显示） */}
-            {liveItem.approvalRecords && liveItem.approvalRecords.length > 0 && (
-              <Box sx={{ mb: 2 }}>
-                <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>审批记录</Typography>
-                <TableContainer component={Paper} variant="outlined">
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>节点</TableCell>
-                        <TableCell>审批人</TableCell>
-                        <TableCell>结论</TableCell>
-                        <TableCell>意见</TableCell>
-                        <TableCell>时间</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {liveItem.approvalRecords.map((ar) => (
-                        <TableRow key={ar.id}>
-                          <TableCell>{ar.nodeName || '—'}</TableCell>
-                          <TableCell>{ar.approver}</TableCell>
-                          <TableCell>
-                            {ar.action === 'approve'
-                              ? <Chip label="通过" size="small" color="success" variant="outlined" />
-                              : <Chip label="驳回" size="small" color="error" variant="outlined" />}
-                          </TableCell>
-                          <TableCell>{ar.comments || '—'}</TableCell>
-                          <TableCell>{ar.operatedAt ? new Date(ar.operatedAt).toLocaleString('zh-CN') : '—'}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Box>
-            )}
-
-            {/* 关联 CAPA / PDCA 列表 */}
-            <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>关联的 CAPA / PDCA 纠正措施</Typography>
-            {pdcaRecords.filter(r => r.relatedItemId === detailItem.id).length === 0 ? (
-              <Alert severity="info" sx={{ mb: 2 }}>该 NCR 尚未关联 CAPA，点击下方按钮生成纠正措施。</Alert>
-            ) : (
-              <Stack spacing={1} sx={{ mb: 2 }}>
-                {pdcaRecords
-                  .filter(r => r.relatedItemId === detailItem.id)
-                  .map(r => (
-                    <Paper key={r.id} variant="outlined" sx={{ p: 1.5, borderRadius: 2, borderColor: '#93C5FD' }}>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Chip label={r.pdcaNo} size="small" sx={{ bgcolor: '#3B82F6', color: '#fff', fontFamily: 'monospace' }} />
-                        <Typography variant="body2" fontWeight={600}>{r.title}</Typography>
-                      </Stack>
-                      <Typography variant="caption" color="text.secondary">状态：{r.status.toUpperCase()} · 负责人：{r.owner} · 目标：{r.targetDate}</Typography>
-                    </Paper>
-                  ))}
-              </Stack>
-            )}
-
-            {capaSuccess && (
-              <Alert severity="success" sx={{ mb: 2 }} onClose={() => setCapaSuccess('')}>{capaSuccess}</Alert>
-            )}
-          </DialogContent>
-          <Divider />
-          <DialogActions sx={{ p: 2, gap: 1 }}>
-            <Button onClick={() => setDetailItem(null)} startIcon={<ArrowBack />}>关闭</Button>
-            <Button variant="contained" color="primary" data-testid="ncr-to-capa"
-              sx={{ bgcolor: '#3B82F6' }}
-              onClick={() => handleGenerateCapa(detailItem)}>
-              生成 CAPA
-            </Button>
-          </DialogActions>
-        </Dialog>
-        );
-      })()}
 
       {/* CAPA 创建对话框 */}
       <Dialog open={capaDialogOpen} onClose={() => setCapaDialogOpen(false)} maxWidth="sm" fullWidth>

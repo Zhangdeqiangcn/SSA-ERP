@@ -1,14 +1,14 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Box, Typography, Paper, Chip, Button, IconButton, LinearProgress,
+  Box, Typography, Paper, Button, IconButton, LinearProgress,
   Dialog, DialogTitle, DialogContent,
   DialogActions, TextField, FormControl, InputLabel, Select, MenuItem, Snackbar,
   Tabs, Tab,
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 import { Add, Edit, Link as LinkIcon } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
-import { DataTable, FilterBar, StatusBadge, DetailSection } from '@/components/common';
+import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { PDCARecord, PDCAStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
@@ -35,7 +35,6 @@ const PDCA_TOKEN: Record<PDCAStatus, string> = {
   plan: 'primary.main', do: 'warning.main', check: 'secondary.main', act: 'success.main',
   closed: 'grey.400', open: 'error.main', in_progress: 'primary.main', verified: 'success.main',
 };
-const PRIORITY_LABELS: Record<string, string> = { high: '高', medium: '中', low: '低' };
 const SOURCE_LABELS: Record<string, string> = {
   inspection: '检验发现',
   customer_complaint: '客户投诉',
@@ -47,13 +46,13 @@ const TAB_VALUE = { all: 'all', open: 'open', in_progress: 'in_progress', comple
 
 const PDCAList: React.FC = () => {
   const { pdcaRecords, unqualifiedItems, addPdcaRecord, updatePdcaRecord, updateUnqualifiedItem } = useQualityStore();
+  const navigate = useNavigate();
   const [tab, setTab] = useState<string>(TAB_VALUE.all);
   const [dialog, setDialog] = useState(false);
   const [editDialog, setEditDialog] = useState(false);
   const [editingRecord, setEditingRecord] = useState<PDCARecord | null>(null);
   const [snackbar, setSnackbar] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState('');
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // 新建表单
@@ -325,8 +324,6 @@ const PDCAList: React.FC = () => {
     rows.forEach(r => addPdcaRecord(mapPdcaRow(r, headers)));
   };
 
-  const expandedRecord = expandedId ? filteredRecords.find(r => r.id === expandedId) || null : null;
-
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -369,124 +366,8 @@ const PDCAList: React.FC = () => {
         columnConfigKey="quality-pdca-list"
         onImport={handleImport}
         codeColumnId="pdcaNo"
-        onRowClick={(row) => setExpandedId(expandedId === row.id ? null : row.id)}
+        onRowClick={(row) => navigate(`/quality/pdca/${row.id}`)}
       />
-
-      {/* 展开详情（点击行展开）*/}
-      {expandedRecord && (() => {
-        const linkedNcr = expandedRecord.relatedItemId
-          ? unqualifiedItems.find(u => u.id === expandedRecord.relatedItemId)
-          : undefined;
-        return (
-        <Paper sx={{ borderRadius: 3, overflow: 'hidden', mt: 2 }}>
-          <Box sx={{ p: 2.5 }}>
-            {/* 表头信息区（两列 label/value，对齐采购/质量详情风格） */}
-            <DetailSection
-              title="基本信息"
-              columns={2}
-              fields={[
-                {
-                  label: '编号',
-                  value: (
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" sx={{ fontWeight: 600, fontFamily: 'monospace', color: '#94A3B8' }}>{expandedRecord.pdcaNo}</Typography>
-                      <StatusBadge status={PDCA_KEY[expandedRecord.status]} />
-                      {isCapaRecord(expandedRecord) && (
-                        <Chip label="CAPA" size="small" sx={{ bgcolor: '#EFF6FF', color: '#3B82F6', fontWeight: 600, fontFamily: 'monospace', fontSize: '0.65rem' }} />
-                      )}
-                    </Box>
-                  ),
-                },
-                { label: '优先级', value: PRIORITY_LABELS[expandedRecord.priority] || expandedRecord.priority },
-                { label: '来源', value: SOURCE_LABELS[expandedRecord.source] || expandedRecord.source },
-                { label: '关联NCR', value: linkedNcr ? linkedNcr.itemNo : '-' },
-                { label: '负责人', value: expandedRecord.owner },
-                { label: '目标日期', value: expandedRecord.targetDate },
-              ]}
-            />
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, color: '#1E293B', mb: 0.5 }}>{expandedRecord.title}</Typography>
-            <Typography variant="body2" sx={{ color: '#64748B', mb: 1.5 }}>{expandedRecord.problemDescription}</Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-              <Box sx={{ flex: 1 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                  <Typography variant="caption" sx={{ color: '#94A3B8' }}>进度</Typography>
-                  <Typography variant="caption" sx={{ color: '#64748B', fontWeight: 500 }}>{getProgress(expandedRecord)}%</Typography>
-                </Box>
-                <LinearProgress
-                  variant="determinate"
-                  value={getProgress(expandedRecord)}
-                  sx={{ height: 6, borderRadius: 3, bgcolor: '#F1F5F9', '& .MuiLinearProgress-bar': { bgcolor: PDCA_TOKEN[expandedRecord.status], borderRadius: 3 } }}
-                />
-              </Box>
-            </Box>
-
-            <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid #F1F5F9' }}>
-              {expandedRecord.correctiveAction && (
-                <Box sx={{ mb: 2, p: 2, borderRadius: 2, bgcolor: '#EFF6FF', border: '1px solid #BFDBFE' }}>
-                  <Typography variant="caption" sx={{ color: '#1D4ED8', fontWeight: 600 }}>纠正措施：</Typography>
-                  <Typography variant="body2" sx={{ color: '#1E40AF', mt: 0.5 }}>{expandedRecord.correctiveAction}</Typography>
-                </Box>
-              )}
-              {expandedRecord.preventiveAction && (
-                <Box sx={{ mb: 2, p: 2, borderRadius: 2, bgcolor: '#F0FDF4', border: '1px solid #BBF7D0' }}>
-                  <Typography variant="caption" sx={{ color: '#15803D', fontWeight: 600 }}>预防措施：</Typography>
-                  <Typography variant="body2" sx={{ color: '#166534', mt: 0.5 }}>{expandedRecord.preventiveAction}</Typography>
-                </Box>
-              )}
-              {expandedRecord.verificationResult && (
-                <Box sx={{ mb: 2, p: 2, borderRadius: 2, bgcolor: '#FFF7ED', border: '1px solid #FDE68A' }}>
-                  <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 600 }}>验证结果：</Typography>
-                  <Typography variant="body2" sx={{ color: '#92400E', mt: 0.5 }}>{expandedRecord.verificationResult}</Typography>
-                </Box>
-              )}
-              {expandedRecord.actionItems && expandedRecord.actionItems.length > 0 && (
-                <>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5, color: '#1E293B' }}>行动计划</Typography>
-                  <TableContainer component={Paper} variant="outlined">
-                    <Table size="small">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>行动计划</TableCell>
-                          <TableCell>负责人</TableCell>
-                          <TableCell>完成日期</TableCell>
-                          <TableCell align="center">状态</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {expandedRecord.actionItems.map((action) => (
-                          <TableRow key={action.id}>
-                            <TableCell>{action.description}</TableCell>
-                            <TableCell>{action.owner}</TableCell>
-                            <TableCell>{action.dueDate}</TableCell>
-                            <TableCell align="center">
-                              <Chip
-                                label={action.status === 'completed' ? '已完成' : action.status === 'in_progress' ? '进行中' : '待开始'}
-                                size="small"
-                                sx={{
-                                  bgcolor: action.status === 'completed' ? '#ECFDF5' : action.status === 'in_progress' ? '#EFF6FF' : '#F8FAFC',
-                                  color: action.status === 'completed' ? '#10B981' : action.status === 'in_progress' ? '#3B82F6' : '#94A3B8',
-                                  fontWeight: 500,
-                                }}
-                              />
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </>
-              )}
-              {expandedRecord.rootCause && (
-                <Box sx={{ mt: 2, p: 2, borderRadius: 2, bgcolor: '#FFF7ED', border: '1px solid #FDE68A' }}>
-                  <Typography variant="caption" sx={{ color: '#D97706', fontWeight: 600 }}>根本原因分析：</Typography>
-                  <Typography variant="body2" sx={{ color: '#92400E', mt: 0.5 }}>{expandedRecord.rootCause}</Typography>
-                </Box>
-              )}
-            </Box>
-          </Box>
-        </Paper>
-        );
-      })()}
 
       {/* 新建对话框 */}
       <Dialog open={dialog} onClose={() => setDialog(false)} maxWidth="sm" fullWidth>

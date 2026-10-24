@@ -4,7 +4,7 @@ import {
   TableContainer, TableHead, TableRow, IconButton, Dialog, DialogTitle,
   DialogContent, DialogActions, TextField, Switch, FormControlLabel, Snackbar,
 } from '@mui/material';
-import { Add, Edit, Visibility } from '@mui/icons-material';
+import { Add, Visibility } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useQualityStore } from '@/stores/qualityStore';
 
@@ -84,8 +84,9 @@ const InspectionStandard: React.FC = () => {
                     />
                   </TableCell>
                   <TableCell align="right">
-                    <IconButton size="small"><Visibility fontSize="small" /></IconButton>
-                    <IconButton size="small"><Edit fontSize="small" /></IconButton>
+                    <IconButton size="small" title="查看详情" onClick={() => navigate(`/quality/standards/${std.id}`)}>
+                      <Visibility fontSize="small" />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Chip, Alert, Tabs, Tab, TextField, MenuItem, Grid,
+  Button, Chip, Alert, Tabs, Tab, TextField, MenuItem, Grid, IconButton, Tooltip,
 } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
 import { useQualityAdvancedStore } from '@/stores/qualityAdvancedStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useQualityStore } from '@/stores/qualityStore';
@@ -24,6 +26,7 @@ export default function InspectionLotPage() {
   const { batchRecords } = useWarehouseStore();
   const { inspectionTasks } = useQualityStore();
   const { vendors } = useVendorStore();
+  const navigate = useNavigate();
   const [tab, setTab] = useState(0);
   const [vendorId, setVendorId] = useState('');
 
@@ -77,6 +80,7 @@ export default function InspectionLotPage() {
                   <TableCell>{l.quantity}</TableCell>
                   <TableCell><Chip size="small" label={LOT_STATUS_LABEL[l.status]} color={l.status === 'failed' ? 'error' : l.status === 'passed' ? 'success' : 'default'} /></TableCell>
                   <TableCell>
+                    <Tooltip title="查看详情"><IconButton size="small" aria-label="查看检验批详情" data-testid="lot-detail" onClick={() => navigate(`/quality/inspection-lot/${l.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
                     {l.status === 'pending' && <Button size="small" data-testid="lot-start" onClick={() => judgeLot(l.id, 'in_inspection')}>开始检验</Button>}
                     {l.status === 'in_inspection' && (
                       <Box component="span">

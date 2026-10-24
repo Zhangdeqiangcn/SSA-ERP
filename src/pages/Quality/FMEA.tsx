@@ -4,7 +4,8 @@ import {
   Button, Chip, Dialog, DialogTitle, DialogContent, DialogActions, TextField,
   MenuItem, Grid, IconButton, Alert, FormControl, InputLabel, Select,
 } from '@mui/material';
-import { Add, Edit, Delete, Link } from '@mui/icons-material';
+import { Add, Edit, Delete, Link, Visibility } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { PageWrapper } from '@/components/layout';
 import { useFMEAStore, FMEA, FMEAStatus } from '@/stores/fmeaStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -41,6 +42,7 @@ const emptyForm: Partial<FMEA> = {
 const FMEAPage: React.FC = () => {
   const { items, addItem, updateItem, deleteItem } = useFMEAStore();
   const { materials } = useMaterialStore();
+  const navigate = useNavigate();
   const [materialFilter, setMaterialFilter] = useState<string>('');
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -250,6 +252,9 @@ const FMEAPage: React.FC = () => {
                   />
                 </TableCell>
                 <TableCell>
+                  <IconButton size="small" title="查看详情" onClick={() => navigate(`/quality/fmea/${fmea.id}`)} data-testid="fmea-view">
+                    <Visibility fontSize="small" />
+                  </IconButton>
                   <IconButton size="small" onClick={() => openEdit(fmea)} data-testid="fmea-edit">
                     <Edit fontSize="small" />
                   </IconButton>

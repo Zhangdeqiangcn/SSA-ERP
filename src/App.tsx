@@ -122,7 +122,15 @@ const WaveRfidDetail = lazy(() => import('./pages/Warehouse/WaveRfidDetail'));
 const Settings = lazy(() => import('./pages/Settings/Settings'));
 // 质量
 const InspectionList = lazy(() => import('./pages/Quality/InspectionList'));
+const InspectionTaskDetail = lazy(() => import('./pages/Quality/InspectionTaskDetail'));
 const InspectionTask = lazy(() => import('./pages/Quality/InspectionTask'));
+const UnqualifiedDetail = lazy(() => import('./pages/Quality/UnqualifiedDetail'));
+const PDCADetail = lazy(() => import('./pages/Quality/PDCADetail'));
+const LotDetail = lazy(() => import('./pages/Quality/LotDetail'));
+const EightDDetail = lazy(() => import('./pages/Quality/EightDDetail'));
+const LabEquipmentDetail = lazy(() => import('./pages/Quality/LabEquipmentDetail'));
+const FMEADetail = lazy(() => import('./pages/Quality/FMEADetail'));
+const InspectionStandardDetail = lazy(() => import('./pages/Quality/InspectionStandardDetail'));
 const UnqualifiedList = lazy(() => import('./pages/Quality/UnqualifiedList'));
 const PDCAList = lazy(() => import('./pages/Quality/PDCAList'));
 const QualityReport = lazy(() => import('./pages/Quality/QualityReport'));
@@ -484,21 +492,29 @@ function App() {
         {/* 质量管理（检验任务从仓库报检流入，不含报检单）*/}
         <Route path="quality" element={<Navigate to="/quality/inspection" replace />} />
         <Route path="quality/inspection" element={<InspectionList />} />
-        <Route path="quality/inspection/:id" element={<InspectionTask />} />
+        {/* V3.109.0：:id 为只读详情页，:id/execute 为检验执行台（数据录入保持原位） */}
+        <Route path="quality/inspection/:id" element={<InspectionTaskDetail />} />
         <Route path="quality/inspection/:id/execute" element={<InspectionTask />} />
         <Route path="quality/unqualified" element={<UnqualifiedList />} />
+        <Route path="quality/unqualified/:id" element={<UnqualifiedDetail />} />
         <Route path="quality/pdca" element={<PDCAList />} />
+        <Route path="quality/pdca/:id" element={<PDCADetail />} />
         <Route path="quality/report" element={<QualityReport />} />
         <Route path="quality/standards" element={<InspectionStandard />} />
+        <Route path="quality/standards/:id" element={<InspectionStandardDetail />} />
         <Route path="quality/aql" element={<AqlSampling />} />
         {/* 供应链深化（P3-3）：检验批/COQ/批次追溯/QM评级回流 */}
         <Route path="quality/inspection-lot" element={<InspectionLot />} />
+        <Route path="quality/inspection-lot/:id" element={<LotDetail />} />
         {/* 质量深化（P3-4）：8D / SPC 控制图 / 实验室设备 */}
         <Route path="quality/8d" element={<EightD />} />
+        <Route path="quality/8d/:id" element={<EightDDetail />} />
         <Route path="quality/spc" element={<SPCChartPage />} />
         <Route path="quality/lab" element={<LabEquipment />} />
+        <Route path="quality/lab/:id" element={<LabEquipmentDetail />} />
         {/* P2-15 FMEA 分析 */}
         <Route path="quality/fmea" element={<FMEA />} />
+        <Route path="quality/fmea/:id" element={<FMEADetail />} />
         {/* P2-17 COA 产品合格证 */}
         <Route path="quality/coa" element={<COAGenerator />} />
         {/* BOM */}

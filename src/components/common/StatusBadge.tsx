@@ -24,6 +24,7 @@ interface StatusBadgeProps {
 export const statusConfig: Record<string, { color: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'; label: string }> = {
   // ── 通用生命周期 ──
   draft: { color: 'default', label: '草稿' },
+  reviewed: { color: 'warning', label: '已评审' },
   active: { color: 'success', label: '启用' },
   inactive: { color: 'default', label: '停用' },
   pending: { color: 'warning', label: '待处理' },

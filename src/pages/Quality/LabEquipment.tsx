@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Chip, Alert, TextField, MenuItem, Grid,
+  Button, Chip, Alert, TextField, MenuItem, Grid, IconButton, Tooltip,
 } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
 import { useQualityExtensionStore } from '@/stores/qualityExtensionStore';
 import { LabEquipment, LabEquipmentStatus, LabEquipmentType } from '@/types';
 
@@ -26,6 +28,7 @@ const dayDiff = (target: string) => {
 
 export default function LabEquipmentPage() {
   const { labEquipments, addLabEquipment, calibrateEquipment } = useQualityExtensionStore();
+  const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
   const [equipmentNo, setEquipmentNo] = useState('');
   const [name, setName] = useState('');
@@ -152,6 +155,7 @@ export default function LabEquipmentPage() {
                         : <Chip size="small" label="正常" color="success" />}
                   </TableCell>
                   <TableCell>
+                    <Tooltip title="查看详情"><IconButton size="small" aria-label="查看设备详情" data-testid="lab-detail" onClick={() => navigate(`/quality/lab/${e.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
                     <Button size="small" data-testid="lab-calibrate" onClick={() => calibrateEquipment(e.id, today())}>校准</Button>
                   </TableCell>
                 </TableRow>

@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Button, Chip, Alert, TextField, MenuItem, Grid,
+  Button, Chip, Alert, TextField, MenuItem, Grid, IconButton, Tooltip,
 } from '@mui/material';
+import { Visibility } from '@mui/icons-material';
 import { useQualityExtensionStore } from '@/stores/qualityExtensionStore';
 import { EightDRecord, EightDStatus } from '@/types';
 
@@ -14,6 +16,7 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 export default function EightDPage() {
   const { eightDRecords, addEightD, closeEightD, deleteEightD } = useQualityExtensionStore();
+  const navigate = useNavigate();
   const [adding, setAdding] = useState(false);
   const [code, setCode] = useState('');
   const [title, setTitle] = useState('');
@@ -79,6 +82,7 @@ export default function EightDPage() {
                 <TableCell>{r.owner}</TableCell>
                 <TableCell><Chip size="small" label={STATUS_LABEL[r.status]} color={r.status === 'closed' ? 'success' : r.status === 'in_progress' ? 'warning' : 'default'} /></TableCell>
                 <TableCell>
+                  <Tooltip title="查看详情"><IconButton size="small" aria-label="查看 8D 详情" data-testid="d8-detail" onClick={() => navigate(`/quality/8d/${r.id}`)}><Visibility fontSize="small" /></IconButton></Tooltip>
                   {r.status !== 'closed' && <Button size="small" color="success" data-testid="d8-close" onClick={() => closeEightD(r.id)}>关闭</Button>}
                   <Button size="small" color="error" data-testid="d8-delete" onClick={() => deleteEightD(r.id)}>删除</Button>
                 </TableCell>

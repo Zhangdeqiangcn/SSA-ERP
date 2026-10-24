@@ -16,15 +16,17 @@ const InspectionTask: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { inspectionTasks, updateInspectionTask, inspectionStandards, addUnqualifiedItem } = useQualityStore();
-  const task = inspectionTasks.find((t) => t.id === id) || inspectionTasks[2];
-  const standard = inspectionStandards.find((s) => s.id === task.inspectionStandardId);
+  // V3.109.0：移除原 `|| inspectionTasks[2]` 掩盖性兜底——id 查不到时报不存在，
+  // 避免错误 id（如历史坏链传报检单 id）静默落到无关任务上继续录入
+  const task = inspectionTasks.find((t) => t.id === id);
+  const standard = task ? inspectionStandards.find((s) => s.id === task.inspectionStandardId) : undefined;
   const materials = useMaterialStore(s => s.materials);
   // 物料 -> 分类 -> 用于展示物料责任人（质量视角：SQE / 质量工程师）
   const taskCategoryId = useMemo(() => {
-    if (!task.materialId) return '';
+    if (!task?.materialId) return '';
     const m = materials.find((mm) => mm.id === task.materialId);
     return m?.categoryId ?? '';
-  }, [task.materialId, materials]);
+  }, [task?.materialId, materials]);
 
   const [results, setResults] = useState<Record<string, string>>(
     Object.fromEntries(standard?.inspectionItems.map(i => [i.id, '']) || [])
@@ -70,7 +72,7 @@ const InspectionTask: React.FC = () => {
   ];
 
   const steps = ['接收任务', '准备样品', '执行检验', '填写结论', '提交审批'];
-  const activeStep = task.status === 'pending' ? 0 : task.status === 'in_progress' ? 2 : 4;
+  const activeStep = task?.status === 'pending' ? 0 : task?.status === 'in_progress' ? 2 : 4;
 
   const statusToFlowMap: Record<string, string> = {
     pending: 'it_received',
@@ -79,7 +81,7 @@ const InspectionTask: React.FC = () => {
     failed: 'it_result',
     conditional_pass: 'it_approved',
   };
-  const flowStatus = statusToFlowMap[task.status] || task.status;
+  const flowStatus = (task ? statusToFlowMap[task.status] : '') || task?.status || '';
 
   const handleDraft = () => {
     if (!id) return;
@@ -89,7 +91,7 @@ const InspectionTask: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    if (!conclusion || !id) return;
+    if (!conclusion || !id || !task) return;
     const formResults = { conclusion };
     updateInspectionTask(id, {
       status: conclusion,
@@ -122,6 +124,15 @@ const InspectionTask: React.FC = () => {
     }
     navigate('/quality/inspection');
   };
+
+  if (!task) {
+    return (
+      <Box>
+        <Alert severity="warning">检验任务不存在或链接已失效，请返回列表重新选择。</Alert>
+        <Button startIcon={<ArrowBack />} onClick={() => navigate('/quality/inspection')} sx={{ mt: 2 }}>返回检验列表</Button>
+      </Box>
+    );
+  }
 
   return (
     <Box>
