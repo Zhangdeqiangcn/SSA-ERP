@@ -1070,6 +1070,23 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31120',
+        title: 'V3.112.0（2026-10-24）｜销售发票持久化（D1 落地，打通详情页死路）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**强哥"补全发票持久化"——修复 V3.111.0 暴露的历史缺陷：销售发票从不接后端，列表永远空、新建的发票详情页成为死路。本版把销售发票落 D1 关系表，与已迁 D1 的报价单同款范式。**
+
+· 数据地基：迁移 0119 新建 \`sales_invoices\` 表（克隆 \`sales_quotations\` 范式，items 明细封 extra_json、头部金额列直查）；\`functions/_shared/entities.ts\` 注册 \`salesInvoice\` 资源；\`functions/_shared/rls.ts\` 登记 \`sales_invoices: 'all'\`（组织内共享单据，隔离靠 org_id）。
+· store：\`salesAdvancedStore\` 新增 \`hydrateInvoices\`（登录态从 D1 水合、D1 空回填内存存量、之后纯 D1）；\`addInvoice\`/\`updateInvoice\`/\`deleteInvoice\`/\`issueInvoice\` 改走 \`entityRepo\` 写穿（本地乐观 + 登录态 fire-and-forget + 失败入队自动重放），保留原有 AR 凭证通道。
+· 页面：\`SalesInvoice.tsx\` 挂载调 \`hydrateInvoices\`；\`SalesInvoiceDetail.tsx\` 详情页也调 \`hydrateInvoices\`（直链进入可拉取），V3.111.0 的发票详情页死路打通。
+· 说明：原 \`fin_invoices\` 表是采购发票（vendor_name/purchase_order_no 等采购字段），与销售发票无关，本版不动它。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么单独建销售发票表而非复用采购发票**：销售发票承载应收(AR)确认与销项税，与采购发票（应付账款/进项税）业务语义与字段完全不同；此前项目无销售发票实体，\`salesInvoices\` 仅是前端内存态，刷新即丢、列表从不加载。克隆已验证的报价单范式（D1 表 + entities 注册 + rls 登记 + entityRepo 水合写穿）是最小改动、最一致的修复路径。` },
+          { kind: 'notes', title: '使用提示', text: `· 销售开票页基于销售订单开票，列表现在从 D1 读取，刷新后仍在；点"查看"进入统一详情页。
+· 开票后仍自动生成应收凭证（借应收账款/贷主营业务收入/贷销项税），通道不变。
+· 本版为后端数据地基变更（新增表 + 迁移 0119），首次部署会建表，无需手动操作。
+· 注：初版水合因本地会话标记判断过严，偶发「发票列表为空、点详情报不存在」；已改为以登录 Cookie 鉴权为准，发票列表/详情加载更稳，与退货单同源。` },
+        ],
+      },
+      {
         id: 'v31110',
         title: 'V3.111.0（2026-10-24）｜销售域 6 张单据「列表→独立详情页」全量落地',
         blocks: [

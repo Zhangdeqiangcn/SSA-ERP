@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Button, Paper, Typography, Chip, Stack, Divider, Alert,
@@ -14,6 +14,8 @@ const SalesInvoiceDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const salesInvoices = useSalesAdvancedStore((s) => s.salesInvoices);
+  const hydrateInvoices = useSalesAdvancedStore((s) => s.hydrateInvoices);
+  useEffect(() => { hydrateInvoices(); }, [hydrateInvoices]);
   const invoice = salesInvoices.find((x) => x.id === id) as SalesInvoice | undefined;
 
   if (!invoice) {

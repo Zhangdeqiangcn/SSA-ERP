@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
@@ -16,10 +16,13 @@ const STATUS_LABEL: Record<SalesInvoice['status'], string> = {
 
 export default function SalesInvoicePage() {
   const navigate = useNavigate();
-  const { salesInvoices, addInvoice, issueInvoice } = useSalesAdvancedStore();
+  const { salesInvoices, addInvoice, issueInvoice, hydrateInvoices } = useSalesAdvancedStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ salesOrderNo: '', invoiceDate: todayLocal() });
+
+  // V3.112.0：挂载即从 D1 水合销售发票，列表不再永远是空（原缺陷导致详情页死路）
+  useEffect(() => { hydrateInvoices(); }, [hydrateInvoices]);
 
   const selectedSO = useMemo(
     () => salesOrders.find((o) => o.orderNo === form.salesOrderNo),

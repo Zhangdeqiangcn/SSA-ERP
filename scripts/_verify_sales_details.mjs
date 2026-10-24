@@ -6,13 +6,13 @@ import { mkdirSync } from 'fs';
 const BASE = 'http://127.0.0.1:8799';
 const OUT = 'screenshots/v3-111-verify';
 mkdirSync(OUT, { recursive: true });
-const CRED = { username: 'e2e_admin_261021073145-tmlc', password: 'E2eProd!2026' };
+const CRED = { username: 'e2e_supervisor', password: 'E2e-de5e1cd55c024c488214!A9k' };
 // RequireAuth 只认 zustand 持久化登录态（auth-storage）；API 登录后再注入本地态，刷新不跳登录页
 const AUTH_STORAGE = JSON.stringify({
   state: {
     currentUser: {
-      id: 'user_e2e_admin_tmlc', name: 'E2E 管理员', role: 'admin', department: 'QA',
-      username: 'e2e_admin_261021073145-tmlc', org_id: 'org_6786e87f81b04a3180dd9d388b062ca1',
+      id: 'user_e2e_supervisor', name: 'E2E 测试超管', role: 'super_admin', department: null,
+      username: 'e2e_supervisor', org_id: 'org_e2e_sandbox',
     },
     isAuthenticated: true,
   },
@@ -44,7 +44,11 @@ console.log('✅ 登录成功');
 const page = await context.newPage();
 // 每个文档加载前写入持久化登录态（addInitScript 在页面脚本前执行）
 await page.addInitScript((value) => {
-  try { window.localStorage.setItem('auth-storage', value); } catch { /* ignore */ }
+  try {
+    window.localStorage.setItem('auth-storage', value);
+    // V3.112.0：同步注入会话标记（真实登录会写 ssa-erp-session），使 isAuthed() 类守卫与真实态一致
+    window.localStorage.setItem('ssa-erp-session', '1');
+  } catch { /* ignore */ }
 }, AUTH_STORAGE);
 const consoleErrors = [];
 page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 160)); });
