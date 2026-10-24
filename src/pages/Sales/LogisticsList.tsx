@@ -2,12 +2,13 @@ import React, { useState, useMemo } from 'react';
 import {
   Box, Typography, Paper, Chip, Button, IconButton, TextField, Stack,
   Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Grid,
-  Stepper, Step, StepLabel, Alert, MenuItem,
+  Alert, MenuItem,
 } from '@mui/material';
 import {
-  Add, Visibility, LocalShipping, Close, FlightTakeoff,
+  Add, Visibility, LocalShipping, FlightTakeoff,
   DirectionsBoat, DirectionsRailway, DirectionsCar,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import { useSalesStore } from '@/stores/salesStore';
 import { useWarehouseMasterStore } from '@/stores/warehouseMasterStore';
@@ -37,9 +38,6 @@ const TRANSPORT_ICONS: Record<TransportMode, React.ReactNode> = {
   sea: <DirectionsBoat fontSize="small" />, air: <FlightTakeoff fontSize="small" />,
   express: <LocalShipping fontSize="small" />,
 };
-
-const SHIPMENT_STEPS = ['pending', 'picked', 'packed', 'shipped', 'in_transit', 'delivered'];
-const getActiveStep = (status: ShipmentStatus) => Math.max(0, SHIPMENT_STEPS.indexOf(status));
 
 const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ open, onClose }) => {
   const { salesOrders, addShipment } = useSalesStore();
@@ -207,10 +205,9 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
 };
 
 const LogisticsList: React.FC = () => {
+  const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
-  const [detailOpen, setDetailOpen] = useState(false);
   const [newOpen, setNewOpen] = useState(false);
-  const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
   const shipments = useSalesStore(s => s.shipments);
   const addShipment = useSalesStore(s => s.addShipment);
 
@@ -355,7 +352,7 @@ const LogisticsList: React.FC = () => {
       cell: ({ row }) => (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Tooltip title="查看详情">
-            <IconButton size="small" onClick={() => { setSelectedShipment(row.original); setDetailOpen(true); }}>
+            <IconButton size="small" onClick={() => navigate(`/sales/logistics/${row.original.id}`)}>
               <Visibility fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -448,61 +445,6 @@ const LogisticsList: React.FC = () => {
           onImport={handleImport}
         />
       </Paper>
-
-      {/* 详情弹窗 */}
-      <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} maxWidth="md" fullWidth>
-        <DialogTitle>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            发货详情 — {selectedShipment?.shipmentNo}
-            <IconButton onClick={() => setDetailOpen(false)} size="small"><Close /></IconButton>
-          </Stack>
-        </DialogTitle>
-        <DialogContent>
-          {selectedShipment && (
-            <Stack spacing={2}>
-              <Box sx={{ mb: 2, mt: 1 }}>
-                <Stepper activeStep={getActiveStep(selectedShipment.status)} alternativeLabel>
-                  {['待发货', '已拣货', '已打包', '已出库', '运输中', '已签收'].map((label, idx) => (
-                    <Step key={idx}><StepLabel>{label}</StepLabel></Step>
-                  ))}
-                </Stepper>
-              </Box>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Paper sx={{ p: 2, bgcolor: '#F8FAFC' }}>
-                    <Typography variant="subtitle2" gutterBottom>物流信息</Typography>
-                    <Typography variant="body2">承运商：{selectedShipment.carrier}</Typography>
-                    <Typography variant="body2">运单号：{selectedShipment.trackingNo || '-'}</Typography>
-                    <Typography variant="body2">司机：{selectedShipment.driverName || '-'}</Typography>
-                    <Typography variant="body2">车牌：{selectedShipment.vehicleNo || '-'}</Typography>
-                    <Typography variant="body2">件数：{selectedShipment.packageCount} 件</Typography>
-                    {selectedShipment.totalWeight && <Typography variant="body2">重量：{selectedShipment.totalWeight} 吨</Typography>}
-                  </Paper>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Paper sx={{ p: 2, bgcolor: '#F8FAFC' }}>
-                    <Typography variant="subtitle2" gutterBottom>收发信息</Typography>
-                    <Typography variant="body2">起运地：{selectedShipment.originAddress}</Typography>
-                    <Typography variant="body2">目的地：{selectedShipment.destinationAddress}</Typography>
-                    <Typography variant="body2">预计提货：{selectedShipment.estimatedPickupDate}</Typography>
-                    {selectedShipment.actualPickupDate && <Typography variant="body2">实际提货：{selectedShipment.actualPickupDate}</Typography>}
-                    {selectedShipment.actualDeliveryDate && <Typography variant="body2" color="#10B981">实际签收：{selectedShipment.actualDeliveryDate}</Typography>}
-                  </Paper>
-                </Grid>
-              </Grid>
-              {selectedShipment.freight && (
-                <Alert severity="info">
-                  运费：{formatCurrency(selectedShipment.freight)}
-                  {selectedShipment.insurance && ` | 保险费：${formatCurrency(selectedShipment.insurance)}`}
-                </Alert>
-              )}
-            </Stack>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setDetailOpen(false)}>关闭</Button>
-        </DialogActions>
-      </Dialog>
 
       <NewShipmentDialog open={newOpen} onClose={() => setNewOpen(false)} />
     </PageWrapper>

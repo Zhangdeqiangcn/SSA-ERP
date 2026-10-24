@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
   TextField, MenuItem, Paper, Chip,
@@ -15,6 +16,7 @@ const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
 
 export default function TripartySalesList() {
+  const navigate = useNavigate();
   const list = useTripartySalesStore((s) => s.list);
   const addSale = useTripartySalesStore((s) => s.addSale);
   const updateSale = useTripartySalesStore((s) => s.updateSale);
@@ -105,7 +107,7 @@ export default function TripartySalesList() {
 
       <DataTable
         data={list} columns={columns}
-        onView={(r) => openEdit(r)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteSale(r.id)}
+        onView={(r) => navigate(`/sales/triparty/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteSale(r.id)}
         enableExport enableColumnFilter sapStyle columnConfigKey="triparty-sales"
       />
 

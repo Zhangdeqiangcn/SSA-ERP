@@ -1070,6 +1070,37 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31110',
+        title: 'V3.111.0（2026-10-24）｜销售域 6 张单据「列表→独立详情页」全量落地',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: `**强哥"销售模块的也要参照统一"——仓库/质量/生产/销售四域「列表→独立详情页」改造的最后一批：销售域。本版交付 6 个详情页，布局与采购申请详情页完全一致。**
+
+**一、6 张单据全部有了独立详情页**
+
+统一形态：ObjectPage 外壳（面包屑 + 状态徽章 + 头部字段区 + 操作按钮）+ 两列 label/value 表头信息区 + DataTable 明细表 + OperationTimeline 合成操作历史。
+
+· 物流发货（LogisticsDetail，样板）：六步 Stepper 物流进度（待发货→已拣货→已打包→已出库→运输中→已签收）+ 基本信息（16 字段）+ 收发信息 + 发货明细表；
+· 商机/意向客户（ProspectDetail）：基本信息（17 字段）+ 意向产品 Chip 列表 + 跟进记录表 + 操作历史；
+· 三方代销结算单（TripartySalesDetail）：基本信息（15 字段）+ 结算状态；
+· 销售报价单（QuotationDetail）：基本信息 + 金额汇总 + 报价明细表；
+· 销售发票（SalesInvoiceDetail）：基本信息 + 金额汇总 + 发票明细表；
+· 销售退货（SalesReturnDetail）：基本信息 + 金额汇总 + 退货明细表 + 完成退货操作历史。
+
+**二、细节统一**
+
+· StatusBadge 销售相关状态键（settle_*/ship_*/lead_*/new/contacted/negotiating/quoted/won/lost/convert 及通用 draft/issued/approved/completed/cancelled）经探查已全部存在，本版无需补键；
+· 6 条详情路由注册（sales/logistics、sales/prospects、sales/triparty、sales/quotation、sales/invoices、sales/returns 各加 :id）；
+· 6 个列表页完成"查看"接线：LogisticsList 原 Dialog 快速预览改跳详情页（删死代码 Dialog）、ProspectList 加"查看"图标、TripartySalesList 的 onView 改跳详情页（保留 onEdit 编辑）、Quotation/SalesInvoice/SalesReturn 三个页内表格行加"查看"按钮。
+
+本版为纯前端界面整改，无数据库迁移、不改任何后端接口。` },
+          { kind: 'why', title: '为什么这样做', text: `**为什么这是四域改造的最后一批**：仓库域（11 张）、质量域（8 张）、生产域（7 张）已先后落地，销售域补齐后，全系统"先列表、后详情"的交互范式在四域完全统一——销售域此前已有销售订单/销售合同/项目/客户 4 个详情页，本次再补 6 个，销售模块共 10 个单据类全部覆盖。用户点任意单据的"查看"都能进入一致布局的详情页，查看与录入（执行台）彻底分离。` },
+          { kind: 'notes', title: '使用提示', text: `· 销售域任意列表（物流发货、意向客户、三方代销、报价单、销售开票、销售退货）点"查看"或单据编号，即进入统一详情页；面包屑可一键返回列表。
+· 物流发货详情页的六步 Stepper 直观展示当前物流进度。
+· 销售退货详情页完成退货后，操作历史会显示"完成退货（红字入库 + 红冲应收 + 红字发票）"记录。
+· 本版为纯前端界面整改，无数据库迁移。` },
+        ],
+      },
+      {
         id: 'v31090',
         title: 'V3.109.0（2026-10-24）｜质量域 8 张单据「列表→独立详情页」全量落地·报检单死链清理',
         blocks: [

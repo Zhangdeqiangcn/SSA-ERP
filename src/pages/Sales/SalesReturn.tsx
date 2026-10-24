@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
@@ -14,6 +15,7 @@ const STATUS_LABEL: Record<SalesReturn['status'], string> = {
 };
 
 export default function SalesReturnPage() {
+  const navigate = useNavigate();
   const { salesReturns, addReturn, completeReturn } = useSalesReturnStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
@@ -79,6 +81,7 @@ export default function SalesReturnPage() {
                 <TableCell><Chip size="small" label={STATUS_LABEL[r.status]} color={r.status === 'completed' ? 'success' : 'default'} /></TableCell>
                 <TableCell>{r.creditNoteNo || '—'}</TableCell>
                 <TableCell>
+                  <Button size="small" onClick={() => navigate(`/sales/returns/${r.id}`)}>查看</Button>
                   {r.status === 'draft' && (
                     <Button size="small" data-testid="return-complete" onClick={() => completeReturn(r.id)}>完成退货</Button>
                   )}

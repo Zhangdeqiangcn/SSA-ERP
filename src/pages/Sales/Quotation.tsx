@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
@@ -14,6 +15,7 @@ const STATUS_LABEL: Record<Quotation['status'], string> = {
 };
 
 export default function QuotationPage() {
+  const navigate = useNavigate();
   const { quotations, addQuotation, convertQuotationToSO, hydrateQuotations } = useSalesAdvancedStore();
   const { materials } = useMaterialStore();
   const { salesOrders } = useSalesStore();
@@ -96,6 +98,7 @@ export default function QuotationPage() {
                 <TableCell>{q.validUntil}</TableCell>
                 <TableCell><Chip size="small" label={STATUS_LABEL[q.status]} color={q.status === 'converted' ? 'success' : 'default'} /></TableCell>
                 <TableCell>
+                  <Button size="small" onClick={() => navigate(`/sales/quotation/${q.id}`)}>查看</Button>
                   {q.status !== 'converted' && (
                     <Button size="small" data-testid="quotation-convert" onClick={() => handleConvert(q)}>转销售订单</Button>
                   )}

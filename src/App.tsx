@@ -176,6 +176,13 @@ const SalesFunnel = lazy(() => import('./pages/Sales/SalesFunnel'));
 const LogisticsList = lazy(() => import('./pages/Sales/LogisticsList'));
 // 整页补齐 B 轮（P2-12 三方销售）
 const TripartySalesList = lazy(() => import('./pages/Sales/TripartySalesList'));
+// V3.111.0 销售域「列表→独立详情页」改造（与 SalesOrderDetail 同款五件套形态）
+const LogisticsDetail = lazy(() => import('./pages/Sales/LogisticsDetail'));
+const ProspectDetail = lazy(() => import('./pages/Sales/ProspectDetail'));
+const TripartySalesDetail = lazy(() => import('./pages/Sales/TripartySalesDetail'));
+const QuotationDetail = lazy(() => import('./pages/Sales/QuotationDetail'));
+const SalesInvoiceDetail = lazy(() => import('./pages/Sales/SalesInvoiceDetail'));
+const SalesReturnDetail = lazy(() => import('./pages/Sales/SalesReturnDetail'));
 // 生产
 const WorkOrderList = lazy(() => import('./pages/Production/WorkOrderList'));
 const WorkOrderDetail = lazy(() => import('./pages/Production/WorkOrderDetail'));
@@ -535,6 +542,7 @@ function App() {
         {/* 销售管理 */}
         <Route path="sales" element={<Navigate to="/sales/prospects" replace />} />
         <Route path="sales/prospects" element={<ProspectList />} />
+        <Route path="sales/prospects/:id" element={<ProspectDetail />} />
         <Route path="sales/customers" element={<CustomerList />} />
         <Route path="sales/customers/create" element={<CustomerForm />} />
         <Route path="sales/customers/:id/edit" element={<CustomerForm />} />
@@ -548,10 +556,14 @@ function App() {
         <Route path="sales/projects" element={<ProjectList />} />
         <Route path="sales/projects/:id" element={<ProjectDetail />} />
         <Route path="sales/logistics" element={<LogisticsList />} />
+        <Route path="sales/logistics/:id" element={<LogisticsDetail />} />
         {/* 供应链深化（P3-3）：报价/开票/退货/ATP */}
         <Route path="sales/quotation" element={<Quotation />} />
+        <Route path="sales/quotation/:id" element={<QuotationDetail />} />
         <Route path="sales/invoices" element={<SalesInvoicePage />} />
+        <Route path="sales/invoices/:id" element={<SalesInvoiceDetail />} />
         <Route path="sales/returns" element={<SalesReturnPage />} />
+        <Route path="sales/returns/:id" element={<SalesReturnDetail />} />
         <Route path="sales/atp" element={<ATPPage />} />
         {/* 销售合同管理（P1-13） */}
         <Route path="sales/contracts" element={<SalesContractList />} />
@@ -564,6 +576,7 @@ function App() {
         <Route path="sales/customer-abc" element={<CustomerABC />} />
         {/* 整页补齐 B 轮（P2-12 三方销售） */}
         <Route path="sales/triparty" element={<TripartySalesList />} />
+        <Route path="sales/triparty/:id" element={<TripartySalesDetail />} />
         {/* 生产管理 */}
         <Route path="production" element={<Navigate to="/production/orders" replace />} />
         <Route path="production/orders" element={<WorkOrderList />} />

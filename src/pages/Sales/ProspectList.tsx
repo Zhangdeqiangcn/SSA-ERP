@@ -8,6 +8,7 @@ import {
   Add, Visibility, Edit, EventNote, Close, Notes,
 } from '@mui/icons-material';
 import { ColumnDef } from '@tanstack/react-table';
+import { useNavigate } from 'react-router-dom';
 import { useSalesStore } from '@/stores/salesStore';
 import { Prospect, ProspectStatus, ProspectSource, FollowupRecord } from '@/types';
 import { PageWrapper } from '@/components/layout';
@@ -82,6 +83,7 @@ const toForm = (p: Prospect): FormState => ({
 });
 
 const ProspectList: React.FC = () => {
+  const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [statusFilter, setStatusFilter] = useState<ProspectStatus | ''>('');
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
@@ -311,6 +313,11 @@ const ProspectList: React.FC = () => {
         const p = row.original;
         return (
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 0.5 }}>
+            <Tooltip title="查看详情">
+              <IconButton size="small" onClick={() => navigate(`/sales/prospects/${p.id}`)}>
+                <Visibility fontSize="small" />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="查看跟进记录">
               <IconButton size="small" onClick={() => { setSelectedProspect(p); setFollowupOpen(true); }}>
                 <Notes fontSize="small" />

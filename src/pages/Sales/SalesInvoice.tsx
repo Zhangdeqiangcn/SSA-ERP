@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Chip, Alert,
@@ -14,6 +15,7 @@ const STATUS_LABEL: Record<SalesInvoice['status'], string> = {
 };
 
 export default function SalesInvoicePage() {
+  const navigate = useNavigate();
   const { salesInvoices, addInvoice, issueInvoice } = useSalesAdvancedStore();
   const { salesOrders } = useSalesStore();
   const [open, setOpen] = useState(false);
@@ -85,6 +87,7 @@ export default function SalesInvoicePage() {
                 <TableCell><Chip size="small" label={STATUS_LABEL[inv.status]} color={inv.status === 'issued' ? 'success' : 'default'} /></TableCell>
                 <TableCell>{inv.voucherNo || '—'}</TableCell>
                 <TableCell>
+                  <Button size="small" onClick={() => navigate(`/sales/invoices/${inv.id}`)}>查看</Button>
                   {inv.status === 'draft' && (
                     <Button size="small" data-testid="invoice-issue" onClick={() => issueInvoice(inv.id)}>开票</Button>
                   )}
