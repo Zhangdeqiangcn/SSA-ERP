@@ -134,7 +134,7 @@ const LogisticsDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="salesLogistics" entity={shipment}
       title={shipment.shipmentNo}
       subtitle={shipment.customerName}
       breadcrumbs={[{ label: '物流发货列表', path: '/sales/logistics' }]}

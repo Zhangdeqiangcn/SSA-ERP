@@ -236,7 +236,7 @@ export default function WorkOrderDetail() {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="workOrder" entity={wo}
       title={wo.orderNo}
       subtitle={wo.productName}
       breadcrumbs={[{ label: '生产工单', path: '/production/orders' }]}

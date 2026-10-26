@@ -9,6 +9,9 @@ import { Add, Edit, Block, Close } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ActionBar, FlowTracker, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceListItem } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
@@ -30,6 +33,7 @@ const todayStr = () => new Date().toISOString().slice(0, 10);
 
 const PriceList: React.FC = () => {
   const { priceList, addPriceListItem, updatePriceListItem } = usePriceStore();
+  useEnsureRelatedStores('priceList');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   const [open, setOpen] = useState(false);
@@ -103,10 +107,13 @@ const PriceList: React.FC = () => {
     { accessorKey: 'paymentTerms', header: '付款条件', meta: { searchable: true }, cell: ({ row }) => row.original.paymentTerms || '-' },
     { accessorKey: 'deliveryDays', header: '交期(天)', cell: ({ row }) => `${row.original.deliveryDays}天` },
     { accessorKey: 'sourceApprovalNo', header: '来源审批单', size: 150, meta: { searchable: true } },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PriceListItem, unknown>[]),
   ], []);
 
   const filteredData = useMemo(
-    () => applyColumnFilters(priceList, columns, filterData, { module: 'price' }),
+    () => applyColumnFilters(withRelatedDocNos('priceList', priceList), columns, filterData, { module: 'price' }),
     [priceList, columns, filterData]
   );
 
@@ -182,6 +189,8 @@ const PriceList: React.FC = () => {
         enablePagination
         pageSize={15}
         enableExport
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="price-list"
         onView={(row) => openEdit(row as PriceListItem)}
         onEdit={(row) => openEdit(row as PriceListItem)}
       />

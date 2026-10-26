@@ -18,6 +18,9 @@ import { PurchaseRequest, PurchaseRequestStatus, Priority } from '@/types';
 import { formatDate, formatCurrency, todayLocal, localDateOf } from '@/utils/format';
 import { approvalStatusOptions } from '@/constants/approvalEnums';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const PR_STATUS_OPTIONS = approvalStatusOptions('purchase_request');
 
@@ -31,6 +34,7 @@ interface BatchEditValues {
 const PurchaseList: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEnsureRelatedStores('purchaseRequest');
   const {
     purchaseRequests,
     addPurchaseRequest,
@@ -97,6 +101,9 @@ const PurchaseList: React.FC = () => {
       meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalAmount),
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PurchaseRequest, unknown>[]),
   ], []);
 
   const filterFields = [
@@ -129,7 +136,7 @@ const PurchaseList: React.FC = () => {
   // 通用列检索：覆盖全部声明了 meta.searchable 的列（编号/标题/申请人/部门/优先级/状态/期望日期/预估金额），
   // 并按字段权限门控。默认显 5 项、其余『更多筛选』可展开（由 FilterBar 内置）。
   const filteredData = useMemo(
-    () => applyColumnFilters(purchaseRequests, columns, filterData, { module: 'purchase' }),
+    () => applyColumnFilters(withRelatedDocNos('purchaseRequest', purchaseRequests), columns, filterData, { module: 'purchase' }),
     [purchaseRequests, filterData, columns]
   );
 
@@ -347,6 +354,8 @@ const PurchaseList: React.FC = () => {
         enableRowSelection
         enablePagination
         enableExport={false}
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="purchase-request-list"
         onRowClick={(row) => navigate(`/purchase/${row.id}`)}
         onView={(row) => navigate(`/purchase/${row.id}`)}
         onEdit={(row) => navigate(`/purchase/${row.id}`)}

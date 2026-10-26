@@ -13,10 +13,14 @@ import { PriceApproval } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { notify } from '@/utils/notify';
 import { approvalStatusColor, approvalStatusLabel, approvalStatusOptions } from '@/constants/approvalEnums';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const ApprovalList: React.FC = () => {
   const { priceApprovals, updatePriceApproval, deletePriceApproval } = usePriceStore();
   const navigate = useNavigate();
+  useEnsureRelatedStores('priceApproval');
   // ── 删除 / 批量修改 / 提示 ──
   const [deleteTargets, setDeleteTargets] = useState<PriceApproval[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -46,6 +50,9 @@ const ApprovalList: React.FC = () => {
           color={approvalStatusColor('price_approval', row.original.status)} />
       ),
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PriceApproval, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -157,13 +164,15 @@ const ApprovalList: React.FC = () => {
       }
     >
       <DataTable<PriceApproval>
-        data={priceApprovals}
+        data={withRelatedDocNos('priceApproval', priceApprovals)}
         columns={columns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="审批单"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="price-approval-list"
         codeColumnId="approvalNo"
         onImport={handleImport}
         onRowClick={(row) => navigate(`/price/approval/${row.id}`)}

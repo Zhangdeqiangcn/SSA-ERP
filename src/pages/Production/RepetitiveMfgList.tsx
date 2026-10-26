@@ -10,6 +10,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, StatusBadge, FilterBar, DetailSection } from '@/components/common';
 import { useRepetitiveMfgStore } from '@/stores/repetitiveMfgStore';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { notifyWarning } from '@/utils/notify';
 import {
   ProductionLine, RepetitiveMfgPeriod, BackflushItem, REP_LINE_STATUS_LABELS,
@@ -36,6 +39,7 @@ const RepetitiveMfgList: React.FC = () => {
   const { lines, periods, addLine, updateLine, deleteLine, addPeriod, updatePeriod, deletePeriod, reportProduction, load } = useRepetitiveMfgStore();
   const [tab, setTab] = useState<'line' | 'period'>('line');
   const navigate = useNavigate();
+  useEnsureRelatedStores('repetitiveMfg');
   useEffect(() => { load(); }, [load]);
 
   // 生产线 新建/编辑
@@ -125,6 +129,7 @@ const RepetitiveMfgList: React.FC = () => {
     { accessorKey: 'status', header: '状态', meta: { searchable: true, filterType: 'select', filterOptions: (['running', 'idle', 'maintenance'] as RepLineStatus[]).map((s) => ({ value: s, label: REP_LINE_STATUS_LABELS[s] })) }, cell: (c) => { const v = c.getValue() as RepLineStatus; return <StatusBadge status={LINE_STATUS_KEY[v]} />; } },
     { accessorKey: 'dailyCapacity', header: '日产能', meta: { searchable: true } },
     { accessorKey: 'note', header: '备注', meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<ProductionLine, unknown>[]),
   ];
 
   const periodColumns: ColumnDef<RepetitiveMfgPeriod>[] = [
@@ -137,6 +142,7 @@ const RepetitiveMfgList: React.FC = () => {
     { accessorKey: 'producedQty', header: '已产', meta: { searchable: true } },
     { accessorKey: 'scrapQty', header: '报废', meta: { searchable: true } },
     { accessorKey: 'status', header: '状态', meta: { searchable: true, filterType: 'select', filterOptions: (['active', 'closed'] as RepPeriodStatus[]).map((s) => ({ value: s, label: REP_PERIOD_STATUS_LABELS[s] })) }, cell: (c) => { const v = c.getValue() as RepPeriodStatus; return <StatusBadge status={PERIOD_STATUS_KEY[v]} />; } },
+    ...(buildRelatedColumns() as ColumnDef<RepetitiveMfgPeriod, unknown>[]),
   ];
 
   return (
@@ -154,14 +160,14 @@ const RepetitiveMfgList: React.FC = () => {
       {tab === 'line' && (
         <>
           <FilterBar columns={lineColumns} module="production" onSearch={setFilterData} listKey="rep-lines" />
-          <DataTable data={applyColumnFilters(lines, lineColumns, filterData, { module: 'production' })} columns={lineColumns} onView={(r) => openLineEdit(r)} onEdit={(r) => openLineEdit(r)} onDelete={(r) => deleteLine(r.id)} enableExport enableColumnFilter sapStyle columnConfigKey="rep-lines" codeColumnId="lineNo" />
+          <DataTable data={applyColumnFilters(withRelatedDocNos('repetitiveMfg', lines), lineColumns, filterData, { module: 'production' })} columns={lineColumns} onView={(r) => openLineEdit(r)} onEdit={(r) => openLineEdit(r)} onDelete={(r) => deleteLine(r.id)} enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="rep-lines" codeColumnId="lineNo" />
         </>
       )}
       {tab === 'period' && (
         <>
           <FilterBar columns={periodColumns} module="production" onSearch={setFilterData} listKey="rep-periods" />
           <DataTable
-            data={applyColumnFilters(periods, periodColumns, filterData, { module: 'production' })} columns={periodColumns}
+            data={applyColumnFilters(withRelatedDocNos('repetitiveMfg', periods), periodColumns, filterData, { module: 'production' })} columns={periodColumns}
             onView={(r) => navigate(`/production/repetitive/period/${r.id}`)}
             onEdit={(r) => openPeriodEdit(r)}
             onDelete={(r) => deletePeriod(r.id)}
@@ -170,7 +176,7 @@ const RepetitiveMfgList: React.FC = () => {
               { label: '产量报工', icon: <PlayCircle />, color: 'primary', testId: 'rep-report-production', onClick: (rows: RepetitiveMfgPeriod[]) => setReport(rows[0]) },
               { label: '倒冲明细', icon: <ViewTimeline />, color: 'primary', testId: 'rep-backflush-detail', onClick: (rows: RepetitiveMfgPeriod[]) => setBfDetail(rows[0]) },
             ]}
-            enableExport enableColumnFilter sapStyle columnConfigKey="rep-periods" codeColumnId="periodNo"
+            enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="rep-periods" codeColumnId="periodNo"
           />
         </>
       )}

@@ -13,6 +13,9 @@ import { useMaterialStore } from '@/stores/materialStore';
 import { PurchaseInfoRecord } from '@/types';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABEL: Record<PurchaseInfoRecord['status'], string> = {
   active: '生效中',
@@ -34,6 +37,7 @@ const InfoRecordList: React.FC = () => {
 
   // V3.76.0：采购信息记录迁 D1（purchase_info_records）——页面挂载从权威源水合（未登录自动跳过）
   useEffect(() => { void hydrateInfoRecords(); }, [hydrateInfoRecords]);
+  useEnsureRelatedStores('infoRecord');
 
   // 筛选
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
@@ -97,6 +101,9 @@ const InfoRecordList: React.FC = () => {
       meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PurchaseInfoRecord, unknown>[]),
   ], []);
 
   // 筛选字段（状态保留为显式 select；其余列由 FilterBar 依据列 meta.searchable 自动派生）
@@ -111,7 +118,7 @@ const InfoRecordList: React.FC = () => {
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列（物料编码/供应商/物料/规格…），并按字段权限门控。
   const filteredData = useMemo(
-    () => applyColumnFilters(records, columns, filterData, { module: 'purchase' }),
+    () => applyColumnFilters(withRelatedDocNos('infoRecord', records), columns, filterData, { module: 'purchase' }),
     [records, filterData, columns]
   );
 
@@ -243,6 +250,8 @@ const InfoRecordList: React.FC = () => {
         data={filteredData}
         columns={columns}
         enablePagination
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="purchase-info-record-list"
         onEdit={handleEdit}
         onDelete={handleDelete}
       />

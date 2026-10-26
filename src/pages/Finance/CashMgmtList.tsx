@@ -12,6 +12,9 @@ import { useCashMgmtStore } from '@/stores/cashMgmtStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { CashFlowDirection, CASH_FLOW_LABELS } from '@/types/cashMgmt';
 import { todayLocal } from '@/utils/format';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
@@ -28,6 +31,7 @@ export default function CashMgmtList() {
   const nextNo = useNumberingStore((s) => s.nextNo);
   const load = useCashMgmtStore((s) => s.load);
   useEffect(() => { load(); }, [load]);
+  useEnsureRelatedStores('cashMgmt');
 
   const [tab, setTab] = useState<'acc' | 'flow'>('acc');
   const [accOpen, setAccOpen] = useState(false);
@@ -121,6 +125,7 @@ export default function CashMgmtList() {
     { accessorKey: 'amount', header: '金额', meta: { searchable: true }, cell: (c: any) => `¥${c.getValue().toLocaleString()}` },
     { accessorKey: 'flowDate', header: '日期', meta: { searchable: true } },
     { accessorKey: 'relatedDoc', header: '关联单号', meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<any, unknown>[]),
   ];
 
   // 列驱动统一检索（默认显前 5 项，其余「更多筛选」展开；可按字段权限门控）
@@ -129,7 +134,7 @@ export default function CashMgmtList() {
     [accounts, accColumns, accFilter]
   );
   const filteredFlows = useMemo(
-    () => applyColumnFilters(flows, flowColumns, flowFilter, { module: 'finance' }),
+    () => applyColumnFilters(withRelatedDocNos('cashMgmt', flows), flowColumns, flowFilter, { module: 'finance' }),
     [flows, flowColumns, flowFilter]
   );
 
@@ -168,7 +173,7 @@ export default function CashMgmtList() {
           <DataTable
             data={filteredFlows} columns={flowColumns}
             onView={(r) => openFlowEdit(r)} onEdit={(r) => openFlowEdit(r)} onDelete={(r) => deleteFlow(r.id)}
-            enableExport enableColumnFilter sapStyle columnConfigKey="cash-flows"
+            enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="cash-flows"
           />
         </>
       )}

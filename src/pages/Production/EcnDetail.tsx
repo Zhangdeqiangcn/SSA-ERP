@@ -74,7 +74,7 @@ const EcnDetail: React.FC = () => {
   const hasVersionChange = Boolean(ecn.fromVersion || ecn.toVersion);
 
   return (
-    <ObjectPage
+    <ObjectPage docType="ecn" entity={ecn}
       title={ecn.changeNo}
       subtitle={ecn.title}
       breadcrumbs={[{ label: '工程变更', path: '/production/ecn' }]}

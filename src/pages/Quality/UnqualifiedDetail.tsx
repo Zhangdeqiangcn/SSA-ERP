@@ -118,7 +118,7 @@ const UnqualifiedDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="unqualified" entity={item}
       title={item.itemNo}
       subtitle="不合格品报告（NCR）"
       breadcrumbs={[{ label: '不合格品管理', path: '/quality/unqualified' }]}

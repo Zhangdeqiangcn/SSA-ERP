@@ -421,7 +421,7 @@ const SalesOrderDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="salesOrder" entity={order}
         title={order.orderNo}
         subtitle={order.customerName}
         breadcrumbs={[{ label: '销售订单列表', path: '/sales/orders' }]}

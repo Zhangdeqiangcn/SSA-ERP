@@ -18,6 +18,9 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<ShipmentStatus, string> = {
   pending: '待发货', picked: '已拣货', packed: '已打包', shipped: '已出库',
@@ -206,6 +209,7 @@ const NewShipmentDialog: React.FC<{ open: boolean; onClose: () => void }> = ({ o
 
 const LogisticsList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('salesLogistics');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [newOpen, setNewOpen] = useState(false);
   const shipments = useSalesStore(s => s.shipments);
@@ -359,10 +363,11 @@ const LogisticsList: React.FC = () => {
         </Box>
       ),
     },
+    ...(buildRelatedColumns() as ColumnDef<Shipment, unknown>[]),
   ];
 
   const filtered = useMemo(
-    () => applyColumnFilters(shipments, columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(withRelatedDocNos('salesLogistics', shipments), columns, filterData, { module: 'sales' }),
     [shipments, columns, filterData]
   );
 
@@ -439,6 +444,7 @@ const LogisticsList: React.FC = () => {
         <DataTable<Shipment>
           data={filtered}
           columns={columns}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           enableExport
           enableImport
           columnConfigKey="sales-logistics-list"

@@ -112,7 +112,7 @@ const LotDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="lot" entity={lot}
       title={lot.lotNo}
       subtitle={`${lot.materialCode} · ${lot.materialName}`}
       breadcrumbs={[{ label: '检验批', path: '/quality/inspection-lot' }, { label: lot.lotNo, path: '' }]}

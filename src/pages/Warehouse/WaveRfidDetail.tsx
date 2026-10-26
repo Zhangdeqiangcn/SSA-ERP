@@ -67,7 +67,7 @@ const WaveRfidDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="waveRfid" entity={wave}
         title={wave.waveNo}
         subtitle={wave.name}
         breadcrumbs={[{ label: '波次RFID', path: '/warehouse/wave-rfid' }]}

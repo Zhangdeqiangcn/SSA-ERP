@@ -13,6 +13,9 @@ import {
   WaveRfid, RfidEvent, WaveLine, WAVE_STRATEGY_LABELS,
   RFID_OP_LABELS, WaveStatus, WaveStrategy, RfidOpType,
 } from '@/types';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 const nowStr = () => new Date().toISOString();
@@ -30,6 +33,7 @@ const WaveRfidList: React.FC = () => {
   useEffect(() => {
     load();
   }, [load]);
+  useEnsureRelatedStores('waveRfid');
 
   // 波次 新建/编辑
   const [open, setOpen] = useState(false);
@@ -116,6 +120,7 @@ const WaveRfidList: React.FC = () => {
     { accessorKey: 'orderCount', header: '订单数' },
     { accessorKey: 'lineCount', header: '行数' },
     { accessorKey: 'plannedDate', header: '计划日' },
+    ...(buildRelatedColumns() as ColumnDef<WaveRfid>[]),
   ];
 
   const rfColumns: ColumnDef<RfidEvent>[] = [
@@ -154,9 +159,9 @@ const WaveRfidList: React.FC = () => {
 
       {tab === 'wave' && (
         <DataTable
-          data={waves} columns={waveColumns}
+          data={withRelatedDocNos('waveRfid', waves)} columns={waveColumns}
           onView={(r) => navigate(`/warehouse/wave-rfid/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteWave(r.id)}
-          enableExport enableColumnFilter sapStyle columnConfigKey="wave-rfid-list"
+          enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="wave-rfid-list"
         />
       )}
       {tab === 'rfid' && (

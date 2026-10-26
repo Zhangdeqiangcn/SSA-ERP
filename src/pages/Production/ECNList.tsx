@@ -11,6 +11,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { useECNStore } from '@/stores/ecnStore';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useProductionVersionStore } from '@/stores/productionVersionStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { EngineeringChange, EngineeringChangeType, ECMStatus } from '@/types/material';
@@ -26,6 +29,7 @@ export default function ECNList() {
   const prodEcns = useProductionVersionStore((s) => s.ecns);
   const materials = useMaterialStore((s) => s.materials);
   const navigate = useNavigate();
+  useEnsureRelatedStores('ecn');
 
   const [open, setOpen] = useState(false);
   // P0-4（V3.74.0）：关联生产域 ECN 的对话框状态（changeId=正在维护关联的物料域变更）
@@ -264,11 +268,12 @@ export default function ECNList() {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<EngineeringChange, unknown>[]),
   ];
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控（置于 columns 声明之后）
   const rows = useMemo(
-    () => applyColumnFilters(ecns, columns, filterData, { module: 'production' }),
+    () => applyColumnFilters(withRelatedDocNos('ecn', ecns), columns, filterData, { module: 'production' }),
     [ecns, columns, filterData]
   );
 
@@ -296,6 +301,7 @@ export default function ECNList() {
         enableSorting={true}
         enableColumnFilter={true}
         enableBlockSelect={true}
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         enableExport={true}
         exportFormat="xlsx"
         codeColumnId="changeNo"

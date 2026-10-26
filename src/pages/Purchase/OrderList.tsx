@@ -22,6 +22,9 @@ import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 /** 批量导入：表头 → 字段 别名映射（中英文均可） */
 const ORDER_IMPORT_ALIASES: Record<string, string> = {
@@ -198,6 +201,7 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
 const OrderList: React.FC = () => {
   const hydrating = useCloudHydrating();
   const navigate = useNavigate();
+  useEnsureRelatedStores('purchaseOrder');
   const purchaseOrders = usePurchaseStore(s => s.purchaseOrders);
   const updatePurchaseOrder = usePurchaseStore(s => s.updatePurchaseOrder);
   const deletePurchaseOrder = usePurchaseStore(s => s.deletePurchaseOrder);
@@ -264,6 +268,9 @@ const OrderList: React.FC = () => {
     { accessorKey: 'orderDate', header: '下单日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.orderDate) },
     { accessorKey: 'expectedDeliveryDate', header: '预计交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDeliveryDate) },
     { accessorKey: 'actualDeliveryDate', header: '实际交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.actualDeliveryDate) },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PurchaseOrder, unknown>[]),
   ], []);
 
   const filterFields = [
@@ -288,7 +295,7 @@ const OrderList: React.FC = () => {
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控。
   const filteredData = useMemo(
-    () => applyColumnFilters(purchaseOrders, columns, filterData, { module: 'purchase' }),
+    () => applyColumnFilters(withRelatedDocNos('purchaseOrder', purchaseOrders), columns, filterData, { module: 'purchase' }),
     [filterData, purchaseOrders, columns]
   );
 
@@ -524,6 +531,7 @@ const OrderList: React.FC = () => {
         enableRowSelection
         enablePagination
         enableExport
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         columnConfigKey="purchase-order-list"
         codeColumnId="orderNo"
         onRowClick={(row) => setDrawerOrder(row)}

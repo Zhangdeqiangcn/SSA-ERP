@@ -8,6 +8,8 @@ import {
 import { ArrowBack, CompareArrows, Add, PlayArrow, Edit, Delete, Share } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, FlowTracker, ConfirmDialog, PrintPreviewButton, DataTable } from '@/components/common';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 import type { TimelineEvent } from '@/components/common/OperationTimeline';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -34,6 +36,7 @@ const InquiryDetail: React.FC = () => {
   const [snackbarMsg, setSnackbarMsg] = useState('分享内容已复制到剪贴板');
 
   const inquiry = priceInquiries.find(i => i.id === id);
+  const rel = useRelatedDocs('priceInquiry', inquiry);
   const purchaseRequests = usePurchaseStore(s => s.purchaseRequests);
   if (!inquiry) {
     return (
@@ -60,6 +63,8 @@ const InquiryDetail: React.FC = () => {
     { label: '目标供应商', value: inquiry.targetVendorNames.join('、') },
     { label: '预估总金额', value: formatCurrency(inquiry.totalEstimatedAmount) },
     { label: '备注', value: inquiry.remarks || '-' },
+    { label: '上游单号', value: <RelatedDocLinks docs={rel?.upstreamDocs} /> },
+    { label: '下游单号', value: <RelatedDocLinks docs={rel?.downstreamDocs} /> },
   ];
 
   const handleGenerateComparison = () => {

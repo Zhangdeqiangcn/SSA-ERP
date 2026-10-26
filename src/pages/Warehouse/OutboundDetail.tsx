@@ -168,7 +168,7 @@ const OutboundDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="outbound" entity={order}
         title={order.outboundNo}
         subtitle={order.customerName || order.vendorName || '出库单'}
         breadcrumbs={[{ label: '出库管理', path: '/warehouse/outbound' }]}

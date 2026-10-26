@@ -109,7 +109,7 @@ const QuotationDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="salesQuotation" entity={quotation}
       title={quotation.quotationNo}
       subtitle={quotation.customerName}
       breadcrumbs={[{ label: '销售报价单', path: '/sales/quotation' }]}

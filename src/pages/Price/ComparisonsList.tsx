@@ -11,6 +11,9 @@ import {
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceComparison } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 比价单状态 → 集中 statusConfig key（selected 复用通用 key）
 const PR_STATUS_KEY: Record<string, string> = {
@@ -23,6 +26,7 @@ const PR_STATUS_KEY: Record<string, string> = {
 const ComparisonsList: React.FC = () => {
   const { priceComparisons, updatePriceComparison, deletePriceComparison } = usePriceStore();
   const navigate = useNavigate();
+  useEnsureRelatedStores('priceComparison');
   // ── 删除 / 批量修改 / 提示 ──
   const [deleteTargets, setDeleteTargets] = useState<PriceComparison[]>([]);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -71,6 +75,9 @@ const ComparisonsList: React.FC = () => {
       header: '状态',
       cell: ({ row }) => <StatusBadge status={PR_STATUS_KEY[row.original.status]} />,
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PriceComparison, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -183,13 +190,15 @@ const ComparisonsList: React.FC = () => {
       }
     >
       <DataTable<PriceComparison>
-        data={priceComparisons}
+        data={withRelatedDocNos('priceComparison', priceComparisons)}
         columns={columns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="比价单"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="price-comparison-list"
         codeColumnId="comparisonNo"
         onImport={handleImport}
         onRowClick={(row) => navigate(`/price/comparison/${row.id}`)}

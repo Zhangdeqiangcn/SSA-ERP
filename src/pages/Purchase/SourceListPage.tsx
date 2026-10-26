@@ -8,6 +8,9 @@ import { Add } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ActionBar, StatusBadge, ConfirmDialog } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useSourceListStore } from '@/stores/sourceListStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -28,6 +31,7 @@ const SourceListPage: React.FC = () => {
   const { items, addItem, updateItem, deleteItem } = useSourceListStore();
   const { vendors } = useVendorStore();
   const { materials } = useMaterialStore();
+  useEnsureRelatedStores('sourceList');
 
   // 筛选
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
@@ -108,11 +112,14 @@ const SourceListPage: React.FC = () => {
       },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<SourceListItem, unknown>[]),
   ], []);
 
   // 数据筛选：统一列检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）
   const filteredData = useMemo(
-    () => applyColumnFilters(items, columns, filterData, { module: 'purchase' }),
+    () => applyColumnFilters(withRelatedDocNos('sourceList', items), columns, filterData, { module: 'purchase' }),
     [items, columns, filterData]
   );
 
@@ -234,6 +241,8 @@ const SourceListPage: React.FC = () => {
         data={filteredData}
         columns={columns}
         enablePagination
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="source-list"
         onEdit={handleEdit}
         onDelete={handleDelete}
       />

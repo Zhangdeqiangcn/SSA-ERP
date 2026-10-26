@@ -12,6 +12,9 @@ import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { PDCARecord, PDCAStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const PDCA_STEPS: PDCAStatus[] = ['plan', 'do', 'check', 'act', 'closed'];
 const CAPA_STEPS: PDCAStatus[] = ['open', 'in_progress', 'verified', 'closed'];
@@ -47,6 +50,7 @@ const TAB_VALUE = { all: 'all', open: 'open', in_progress: 'in_progress', comple
 const PDCAList: React.FC = () => {
   const { pdcaRecords, unqualifiedItems, addPdcaRecord, updatePdcaRecord, updateUnqualifiedItem } = useQualityStore();
   const navigate = useNavigate();
+  useEnsureRelatedStores('pdca');
   const [tab, setTab] = useState<string>(TAB_VALUE.all);
   const [dialog, setDialog] = useState(false);
   const [editDialog, setEditDialog] = useState(false);
@@ -278,11 +282,12 @@ const PDCAList: React.FC = () => {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<PDCARecord, unknown>[]),
   ];
 
   // 通用列检索：在标签筛选结果上叠加，覆盖全部声明了 meta.searchable 的列，并按字段权限门控（置于 columns 声明之后）
   const filtered = useMemo(
-    () => applyColumnFilters(filteredRecords, columns, filterData, { module: 'quality' }),
+    () => applyColumnFilters(withRelatedDocNos('pdca', filteredRecords), columns, filterData, { module: 'quality' }),
     [filteredRecords, columns, filterData]
   );
 
@@ -363,7 +368,8 @@ const PDCAList: React.FC = () => {
         enablePagination
         enableExport
         enableImport
-        columnConfigKey="quality-pdca-list"
+        columnConfigKey="pdca-list"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         onImport={handleImport}
         codeColumnId="pdcaNo"
         onRowClick={(row) => navigate(`/quality/pdca/${row.id}`)}

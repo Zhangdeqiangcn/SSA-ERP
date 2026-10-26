@@ -120,7 +120,7 @@ const InspectionTaskDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="inspectionTask" entity={task}
       title={task.taskNo}
       subtitle={TYPE_MAP[task.type] || task.type}
       breadcrumbs={[{ label: '质量检验', path: '/quality/inspection' }, { label: task.taskNo, path: '' }]}

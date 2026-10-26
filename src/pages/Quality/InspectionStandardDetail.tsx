@@ -58,7 +58,7 @@ const InspectionStandardDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="inspectionStandard" entity={standard}
       title={standard.standardNo}
       subtitle={standard.name}
       breadcrumbs={[{ label: '检验标准', path: '/quality/standards' }, { label: standard.standardNo, path: '' }]}

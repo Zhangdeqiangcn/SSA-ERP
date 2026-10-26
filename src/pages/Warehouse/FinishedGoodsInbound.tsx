@@ -16,6 +16,9 @@ import { useOrgStore } from '@/stores/orgStore';
 import type { FinishedGoodsInbound } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
   pending:    { label: '待入库', color: 'warning' },
@@ -169,6 +172,7 @@ const FinishedGoodsInboundList: React.FC = () => {
   const { finishedGoodsInbounds } = useWarehouseStore();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [newOpen, setNewOpen] = useState(false);
+  useEnsureRelatedStores('finishedGoodsInbound');
 
   const columns: ColumnDef<FinishedGoodsInbound, unknown>[] = useMemo(() => [
     { accessorKey: 'inboundNo', header: '入库单号',
@@ -241,6 +245,7 @@ const FinishedGoodsInboundList: React.FC = () => {
       },
     },
     { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate), meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<FinishedGoodsInbound, unknown>[]),
   ], []);
 
   const filterFields = [
@@ -260,8 +265,8 @@ const FinishedGoodsInboundList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    // 通用列检索：覆盖全部声明了 meta.searchable 的列（入库单号/生产工单/成品编码/规格/数量/批次/仓库/状态/日期），并按字段权限门控
-    return applyColumnFilters(finishedGoodsInbounds, columns, filterData, { module: 'warehouse' });
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
+    return applyColumnFilters(withRelatedDocNos('finishedGoodsInbound', finishedGoodsInbounds), columns, filterData, { module: 'warehouse' });
   }, [filterData, finishedGoodsInbounds, columns]);
 
   return (
@@ -276,6 +281,8 @@ const FinishedGoodsInboundList: React.FC = () => {
         enableRowSelection
         enablePagination
         enableExport
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="finished-goods-inbound-list"
         codeColumnId="inboundNo"
         onView={(r) => navigate(`/warehouse/fg-inbound/${r.id}`)}
         onRowClick={(r) => navigate(`/warehouse/fg-inbound/${r.id}`)}

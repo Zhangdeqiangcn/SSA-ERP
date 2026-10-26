@@ -11,12 +11,17 @@ import { useTripartySalesStore } from '@/stores/tripartySalesStore';
 import { useNumberingStore } from '@/stores/numberingStore';
 import { TripartySale, TripartySettleStatus, TRIPARTY_SETTLE_LABELS } from '@/types/tripartySales';
 import { todayLocal } from '@/utils/format';
+import { ColumnDef } from '@tanstack/react-table';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
 
 export default function TripartySalesList() {
   const navigate = useNavigate();
+  useEnsureRelatedStores('tripartySales');
   const list = useTripartySalesStore((s) => s.list);
   const addSale = useTripartySalesStore((s) => s.addSale);
   const updateSale = useTripartySalesStore((s) => s.updateSale);
@@ -77,7 +82,7 @@ export default function TripartySalesList() {
   const pendingAmt = list.filter((r) => r.settleStatus === 'pending').reduce((a, r) => a + r.amount, 0);
   const settledAmt = list.filter((r) => r.settleStatus === 'settled').reduce((a, r) => a + r.amount, 0);
 
-  const columns = [
+  const columns: ColumnDef<TripartySale, unknown>[] = [
     { accessorKey: 'docNo', header: '单据号' },
     { accessorKey: 'partyName', header: '三方/经销商' },
     { accessorKey: 'customerName', header: '终端客户' },
@@ -90,6 +95,7 @@ export default function TripartySalesList() {
       cell: (c: any) => <StatusBadge status={`settle_${c.getValue() as TripartySettleStatus}`} />,
     },
     { accessorKey: 'orderDate', header: '业务日期' },
+    ...(buildRelatedColumns() as ColumnDef<TripartySale, unknown>[]),
   ];
 
   return (
@@ -106,9 +112,10 @@ export default function TripartySalesList() {
       </Stack>
 
       <DataTable
-        data={list} columns={columns}
+        data={withRelatedDocNos('tripartySales', list)} columns={columns}
         onView={(r) => navigate(`/sales/triparty/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteSale(r.id)}
         enableExport enableColumnFilter sapStyle columnConfigKey="triparty-sales"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
       />
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>

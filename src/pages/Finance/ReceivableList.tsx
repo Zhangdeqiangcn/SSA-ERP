@@ -7,6 +7,9 @@ import { PageWrapper } from '@/components/layout';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useArapStore } from '@/stores/arapStore';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import type { Receivable, AgingBucket } from '@/types';
 
 const AGING_LABELS: Record<AgingBucket, { label: string; color: 'success' | 'warning' | 'info' | 'error' | 'default' }> = {
@@ -37,6 +40,7 @@ const STATUS_COLOR: Record<string, 'error' | 'success' | 'default'> = {
 };
 
 export default function ReceivableList() {
+  useEnsureRelatedStores('receivable');
   const { receivables, addReceivable, hydrateArap } = useArapStore();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
@@ -132,11 +136,13 @@ export default function ReceivableList() {
       accessorFn: () => '',
       cell: ({ row }) => <Typography variant="body2">{row.original.remarks || dunningAdvice(row.original)}</Typography>,
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放
+    ...(buildRelatedColumns() as ColumnDef<Receivable, unknown>[]),
   ];
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
   const filtered = useMemo(
-    () => applyColumnFilters(receivables, columns, filterData, { module: 'finance' }),
+    () => applyColumnFilters(withRelatedDocNos('receivable', receivables), columns, filterData, { module: 'finance' }),
     [receivables, columns, filterData]
   );
 
@@ -198,6 +204,7 @@ export default function ReceivableList() {
             });
           });
         }}
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         columnConfigKey="receivable-list"
       />
     </PageWrapper>

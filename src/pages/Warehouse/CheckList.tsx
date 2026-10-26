@@ -15,6 +15,9 @@ import { useWarehouseStore } from '@/stores/warehouseStore';
 import { CheckTask, CheckTaskItem, CyclePlanItem, AbcClass, CycleFrequency } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const nowStr = () => {
   const d = new Date();
@@ -57,6 +60,7 @@ function generateCyclePlan(): CyclePlanItem[] {
 
 const CheckList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('checkTask');
   const checkTasks = useWarehouseStore(s => s.checkTasks);
   const inventoryRecords = useWarehouseStore(s => s.inventoryRecords);
   const addCheckTask = useWarehouseStore(s => s.addCheckTask);
@@ -160,6 +164,7 @@ const CheckList: React.FC = () => {
     { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
     { accessorKey: 'startDate', header: '开始日期', cell: ({ row }) => formatDate(row.original.startDate), meta: { searchable: true } },
     { accessorKey: 'endDate', header: '结束日期', cell: ({ row }) => formatDate(row.original.endDate), meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<CheckTask, unknown>[]),
   ], []);
 
   // 循环盘点计划列（只读）
@@ -201,7 +206,7 @@ const CheckList: React.FC = () => {
 
   const filteredData = useMemo(() => {
     // 通用列检索：覆盖全部声明了 meta.searchable 的列（盘点单号/仓库/类型/状态/盲盘/操作员/日期），并按字段权限门控
-    return applyColumnFilters(checkTasks, columns, filterData, { module: 'warehouse' });
+    return applyColumnFilters(withRelatedDocNos('checkTask', checkTasks), columns, filterData, { module: 'warehouse' });
   }, [filterData, checkTasks, columns]);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -391,6 +396,7 @@ const CheckList: React.FC = () => {
         enableExport
         enableImport
         importLabel="盘点单"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         columnConfigKey="warehouse-check-list"
         codeColumnId="taskNo"
         onImport={handleImport}

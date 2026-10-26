@@ -11,6 +11,9 @@ import { useFinanceStore } from '@/stores/financeStore';
 import type { Voucher, VoucherItem } from '@/types/finance';
 import { VOUCHER_STATUS_COLOR, VOUCHER_STATUS_LABEL } from '@/utils/voucher';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import VoucherForm from './VoucherForm';
 
 const STATUS_OPTIONS: { value: Voucher['status'] | 'all'; label: string }[] = [
@@ -25,6 +28,7 @@ export default function VoucherList() {
   const {
     vouchers, createVoucher, reviewVoucher, unreviewVoucher, postVoucher, reverseVoucher, deleteVoucher,
   } = useFinanceStore();
+  useEnsureRelatedStores('voucher');
 
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [formOpen, setFormOpen] = useState(false);
@@ -211,12 +215,13 @@ export default function VoucherList() {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<Voucher, unknown>[]),
   ];
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   // （置于 columns 声明之后，避免『used before declaration』类型错误）
   const filtered = useMemo(
-    () => applyColumnFilters(vouchers, columns, filterData, { module: 'finance' }),
+    () => applyColumnFilters(withRelatedDocNos('voucher', vouchers), columns, filterData, { module: 'finance' }),
     [vouchers, columns, filterData]
   );
 
@@ -271,6 +276,7 @@ export default function VoucherList() {
         codeColumnId="voucherNo"
         enableImport
         onImport={handleImportVouchers}
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         columnConfigKey="voucher-list"
       />
 

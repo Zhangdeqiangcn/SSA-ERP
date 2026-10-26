@@ -210,7 +210,7 @@ const PDCADetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="pdca" entity={record}
         title={record.pdcaNo}
         subtitle={record.title}
         breadcrumbs={[{ label: 'PDCA 质量改进 / CAPA', path: '/quality/pdca' }]}

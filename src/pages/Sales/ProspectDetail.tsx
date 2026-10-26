@@ -114,7 +114,7 @@ const ProspectDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="salesOpportunity" entity={prospect}
       title={prospect.prospectNo}
       subtitle={prospect.companyName}
       breadcrumbs={[{ label: '商机列表', path: '/sales/prospects' }]}

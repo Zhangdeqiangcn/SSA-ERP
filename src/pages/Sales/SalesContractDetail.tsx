@@ -7,6 +7,8 @@ import {
 import { ArrowBack, Edit, Delete, Share, Add } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DetailSection, StatusBadge, OperationTimeline, ConfirmDialog, PrintPreviewButton, DataTable } from '@/components/common';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 import { useSalesContractStore } from '@/stores/salesContractStore';
 import { useSalesStore } from '@/stores/salesStore';
 import { ContractStatus } from '@/types';
@@ -32,6 +34,7 @@ const SalesContractDetail: React.FC = () => {
   const salesOrders = useSalesStore((s) => s.salesOrders);
   const addSalesOrder = useSalesStore((s) => s.addSalesOrder);
   const contract = contracts.find((c) => c.id === id);
+  const rel = useRelatedDocs('salesContract', contract);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
 
@@ -130,6 +133,8 @@ const SalesContractDetail: React.FC = () => {
     { label: '备注', value: contract.remarks || '-' },
     { label: '创建时间', value: formatDate(contract.createdAt) },
     { label: '更新时间', value: formatDate(contract.updatedAt) },
+    { label: '上游单号', value: <RelatedDocLinks docs={rel?.upstreamDocs} /> },
+    { label: '下游单号', value: <RelatedDocLinks docs={rel?.downstreamDocs} /> },
   ];
 
   // 状态流转时间线

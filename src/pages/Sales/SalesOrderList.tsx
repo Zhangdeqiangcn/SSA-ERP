@@ -11,6 +11,9 @@ import { SalesOrder, SalesOrderStatus, SalesOrderType } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, FlowTracker, SecureField, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { formatCurrency } from '@/utils/format';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
 
@@ -32,6 +35,7 @@ const SO_STATUS_KEY: Record<SalesOrderStatus, string> = {
 const SalesOrderList: React.FC = () => {
   const hydrating = useCloudHydrating();
   const navigate = useNavigate();
+  useEnsureRelatedStores('salesOrder');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const salesOrders = useSalesStore(s => s.salesOrders);
   const addSalesOrder = useSalesStore(s => s.addSalesOrder);
@@ -245,11 +249,12 @@ const SalesOrderList: React.FC = () => {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<SalesOrder, unknown>[]),
   ];
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
   const filtered = useMemo(
-    () => applyColumnFilters(salesOrders, columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(withRelatedDocNos('salesOrder', salesOrders), columns, filterData, { module: 'sales' }),
     [salesOrders, columns, filterData]
   );
 
@@ -406,6 +411,7 @@ const SalesOrderList: React.FC = () => {
         <DataTable<SalesOrder>
           data={filtered}
           columns={columns}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           loading={hydrating && filtered.length === 0}
           emptyText="暂无销售订单，可点击「新增」创建第一张订单"
           enableExport

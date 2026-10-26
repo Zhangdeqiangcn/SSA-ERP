@@ -15,6 +15,9 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, statusTokenPath, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const SOURCE_LABELS: Record<ProspectSource, string> = {
   web: '网络', exhibition: '展会', referral: '介绍', cold_call: '电话', advertise: '广告', other: '其他',
@@ -84,6 +87,7 @@ const toForm = (p: Prospect): FormState => ({
 
 const ProspectList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('salesOpportunity');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [statusFilter, setStatusFilter] = useState<ProspectStatus | ''>('');
   const [selectedProspect, setSelectedProspect] = useState<Prospect | null>(null);
@@ -330,11 +334,12 @@ const ProspectList: React.FC = () => {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<Prospect, unknown>[]),
   ];
 
   const filtered = useMemo(
     () => {
-      const base = applyColumnFilters(prospects, columns, filterData, { module: 'sales' });
+      const base = applyColumnFilters(withRelatedDocNos('salesOpportunity', prospects), columns, filterData, { module: 'sales' });
       return statusFilter ? base.filter(p => p.status === statusFilter) : base;
     },
     [prospects, columns, filterData, statusFilter]
@@ -412,6 +417,7 @@ const ProspectList: React.FC = () => {
         <DataTable<Prospect>
           data={filtered}
           columns={columns}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           enableExport
           enableImport
           columnConfigKey="sales-prospect-list"

@@ -28,6 +28,9 @@ import { useOrgStore } from '@/stores/orgStore';
 import type { UnqualifiedDisposition } from '@/types/quality';
 import type { InspectionNotice } from '@/types';
 import { formatDate } from '@/utils/format';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { applyColumnFilters } from '@/utils/listSearch';
 import DemoBanner from '@/components/common/DemoBanner';
 
@@ -387,6 +390,7 @@ const InspectionNoticeWarehouse: React.FC = () => {
   const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string; severity: 'success' | 'warning' }>({
     open: false, msg: '', severity: 'success',
   });
+  useEnsureRelatedStores('inspectionNotice');
 
   const columns: ColumnDef<InspectionNotice, unknown>[] = useMemo(() => [
     {
@@ -473,6 +477,7 @@ const InspectionNoticeWarehouse: React.FC = () => {
         return null;
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<InspectionNotice, unknown>[]),
   ], [navigate]);
 
   const filterFields = [
@@ -496,8 +501,8 @@ const InspectionNoticeWarehouse: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    // 通用列检索：覆盖全部声明了 meta.searchable 的列（报检单号/来源/来源单号/物料/数量/批次/状态/仓库），并按字段权限门控
-    return applyColumnFilters(inspectionNotices, columns, filterData, { module: 'warehouse' });
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
+    return applyColumnFilters(withRelatedDocNos('inspectionNotice', inspectionNotices), columns, filterData, { module: 'warehouse' });
   }, [filterData, inspectionNotices, columns]);
 
   // 统计卡
@@ -545,6 +550,8 @@ const InspectionNoticeWarehouse: React.FC = () => {
       <DataTable
         data={filteredData}
         columns={columns}
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="inspection-notice-list"
         codeColumnId="noticeNo"
         onView={(row) => navigate(`/warehouse/inspection-notice/${row.id}`)}
       />

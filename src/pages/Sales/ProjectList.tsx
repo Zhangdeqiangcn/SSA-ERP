@@ -11,6 +11,9 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<ProjectStatus, string> = {
   planning: '规划中', in_progress: '执行中', pending: '暂停', at_risk: '风险', completed: '已完成', closed: '已关闭',
@@ -28,6 +31,7 @@ const PROJ_STATUS_KEY: Record<ProjectStatus, string> = {
 const ProjectList: React.FC = () => {
   const { projects, addProject } = useSalesStore();
   const navigate = useNavigate();
+  useEnsureRelatedStores('project');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
 
   // ── 列定义（驱动 DataTable）──
@@ -146,10 +150,11 @@ const ProjectList: React.FC = () => {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<Project, unknown>[]),
   ];
 
   const filtered = useMemo(
-    () => applyColumnFilters(projects, columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(withRelatedDocNos('project', projects), columns, filterData, { module: 'sales' }),
     [projects, columns, filterData]
   );
 
@@ -224,6 +229,7 @@ const ProjectList: React.FC = () => {
         <DataTable<Project>
           data={filtered}
           columns={columns}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           enableExport
           enableImport
           columnConfigKey="sales-project-list"

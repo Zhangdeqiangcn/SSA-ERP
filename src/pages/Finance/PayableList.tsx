@@ -7,6 +7,9 @@ import { PageWrapper } from '@/components/layout';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useArapStore } from '@/stores/arapStore';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import type { Payable, AgingBucket } from '@/types';
 
 const AGING_LABELS: Record<AgingBucket, { label: string; color: 'success' | 'warning' | 'info' | 'error' | 'default' }> = {
@@ -46,6 +49,7 @@ export default function PayableList() {
 
   // V3.76.0：应付台账迁 D1（fin_payables）——页面挂载从权威源水合（未登录自动跳过）
   useEffect(() => { void hydrateArap(); }, [hydrateArap]);
+  useEnsureRelatedStores('payable');
 
   // 付款建议
   const payAdvice = (p: Payable): string => {
@@ -145,11 +149,13 @@ export default function PayableList() {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<Payable, unknown>[]),
   ];
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
+  // 注：上方 columns 已并入「上游单号 / 下游单号」两列（默认隐藏、可筛选、详情页可点跳转）
   const filtered = useMemo(
-    () => applyColumnFilters(payables, columns, filterData, { module: 'finance' }),
+    () => applyColumnFilters(withRelatedDocNos('payable', payables), columns, filterData, { module: 'finance' }),
     [payables, columns, filterData]
   );
 
@@ -193,6 +199,7 @@ export default function PayableList() {
         enableExport
         exportFormat="xlsx"
         enableImport
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         onImport={(rows) => {
           rows.forEach((r) => {
             const now = new Date().toISOString();

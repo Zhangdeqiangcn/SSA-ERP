@@ -105,7 +105,7 @@ const InspectionNoticeDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="inspectionNotice" entity={notice}
         title={notice.noticeNo}
         subtitle={`${sourceLabel}报检 · ${notice.materialName}`}
         breadcrumbs={[{ label: '报检单', path: '/warehouse/inspection-notice' }]}

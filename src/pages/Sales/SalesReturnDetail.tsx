@@ -107,7 +107,7 @@ const SalesReturnDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="salesReturn" entity={ret}
       title={ret.returnNo}
       subtitle={ret.customerName}
       breadcrumbs={[{ label: '销售退货', path: '/sales/returns' }]}

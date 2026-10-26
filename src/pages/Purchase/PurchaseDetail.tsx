@@ -113,7 +113,7 @@ const PurchaseDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="purchaseRequest" entity={request}
         title={request.requestNo}
         subtitle={request.title}
         breadcrumbs={[{ label: '采购申请', path: '/purchase/requests' }]}

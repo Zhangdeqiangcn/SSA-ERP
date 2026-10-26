@@ -1087,6 +1087,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31130',
+        title: 'V3.113.0（2026-10-25）｜全交易单据「上游/下游关联单号」列（默认隐藏、可筛选、详情可点）',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '强哥需求：所有交易单据列表要有上游和下游关联单号两列，默认不显示但筛选能查到，且详情页可点跳转。基础设施：documentRelations.ts 纯逻辑预计算每行 upstreamNo/upstreamDocs/downstreamNo/downstreamDocs；docSources.ts 与 relations.ts 运行时填充约 60 种单据的 getDocs、编号字段、上下游链路与详情路由；RelatedDocLinks.tsx 蓝色可点链接；relatedColumns.tsx 生成上游/下游两列默认隐藏且可搜索；useEnsureRelatedStores.ts 挂载触发填充。列表页统一 5 处零侵入改造，覆盖采购、销售、仓库、质量、生产、财务、价格约 40 个交易单据列表。下游单号由反向查询实时算出，无存储字段。同时修复 429 代理遗留缺陷与 23 处筛选顺序写反。详情页可点跳转：新增 useRelatedDocs hook；39 个 ObjectPage 详情页传入 docType/entity 自动渲染关联单据区块；销售合同、询价、项目 3 个非 ObjectPage 详情页注入可点链接；共覆盖 26 个交易单据详情页。验证：tsc 0 错、单测 304 全过、build 过。' },
+          { kind: 'why', title: '为什么这样做', text: '默认隐藏但能筛选：上游/下游单号是辅助追溯信息，常驻会挤占主表宽度，故用 hiddenColumns 默认隐藏、列设置可释放，同时 meta.searchable 使其进入筛选条。先 enrich 再 filter：applyColumnFilters 按真实字段取值，若先 filter 再 enrich 则字段尚未计算导致筛不到，调换顺序后生效。零侵入：下游无存储字段改为每行派生计算，不碰数据结构与筛选代码。' },
+        ],
+      },
+      {
         id: 'v31110',
         title: 'V3.111.0（2026-10-24）｜销售域 6 张单据「列表→独立详情页」全量落地',
         blocks: [

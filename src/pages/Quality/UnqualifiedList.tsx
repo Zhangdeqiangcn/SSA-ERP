@@ -22,6 +22,9 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useQualityStore } from '@/stores/qualityStore';
 import { UnqualifiedDisposition, UnqualifiedStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 扩展处置方式（兼容旧4种 + 新5种枚举）
 type DisposalMethod = 'return' | 'concession' | 'discount' | 'isolate' | 'rework' | 'scrap' | 'other';
@@ -154,6 +157,7 @@ const DisposalDialog: React.FC<{
 const UnqualifiedList: React.FC = () => {
   const { unqualifiedItems, addUnqualifiedItem, pdcaRecords, addPdcaRecord, updateUnqualifiedItem, disposeUnqualified } = useQualityStore();
   const navigate = useNavigate();
+  useEnsureRelatedStores('unqualified');
   const [newDialog, setNewDialog] = useState(false);
   const [disposalTarget, setDisposalTarget] = useState<typeof unqualifiedItems[0] | null>(null);
   const [snackbar, setSnackbar] = useState<{ open: boolean; msg: string }>({ open: false, msg: '' });
@@ -387,11 +391,12 @@ const UnqualifiedList: React.FC = () => {
         );
       },
     },
+    ...(buildRelatedColumns() as ColumnDef<typeof unqualifiedItems[0], unknown>[]),
   ];
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   const filtered = useMemo(
-    () => applyColumnFilters(unqualifiedItems, columns, filterData, { module: 'quality' }),
+    () => applyColumnFilters(withRelatedDocNos('unqualified', unqualifiedItems), columns, filterData, { module: 'quality' }),
     [unqualifiedItems, columns, filterData]
   );
 
@@ -456,7 +461,8 @@ const UnqualifiedList: React.FC = () => {
           codeColumnId="itemNo"
           enableImport={true}
           onImport={(rows, headers) => rows.forEach(r => addUnqualifiedItem(mapImportRow(r, headers)))}
-          columnConfigKey="quality-unqualified-list"
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columnConfigKey="unqualified-list"
         />
       </Paper>
 

@@ -70,7 +70,7 @@ const FinishedGoodsInboundDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="finishedGoodsInbound" entity={inbound}
         title={inbound.inboundNo}
         subtitle={`${inbound.productName}${inbound.specification ? ` · ${inbound.specification}` : ''}`}
         breadcrumbs={[{ label: '成品入库', path: '/warehouse/fg-inbound' }]}

@@ -13,6 +13,9 @@ import {
   ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
 } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { PriceInquiry, PriceInquiryItem } from '@/types';
@@ -29,6 +32,7 @@ const PR_STATUS_KEY: Record<string, string> = {
 
 const InquiryList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('priceInquiry');
   const priceInquiries = usePriceStore(s => s.priceInquiries);
   const updatePriceInquiry = usePriceStore(s => s.updatePriceInquiry);
   const deletePriceInquiry = usePriceStore(s => s.deletePriceInquiry);
@@ -84,6 +88,9 @@ const InquiryList: React.FC = () => {
         <Box sx={{ textAlign: 'right' }}>{formatCurrency(row.original.totalEstimatedAmount)}</Box>
       ),
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PriceInquiry, unknown>[]),
   ], []);
 
   // ── 弹窗内「采购申请物料明细」列（带勾选）──
@@ -147,7 +154,7 @@ const InquiryList: React.FC = () => {
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   const filteredData = useMemo(
-    () => applyColumnFilters(priceInquiries, columns, filterData, { module: 'price' }),
+    () => applyColumnFilters(withRelatedDocNos('priceInquiry', priceInquiries), columns, filterData, { module: 'price' }),
     [filterData, priceInquiries, columns]
   );
 
@@ -337,6 +344,7 @@ const InquiryList: React.FC = () => {
         enableExport
         enableImport
         importLabel="询价单"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
         columnConfigKey="price-inquiry-list"
         codeColumnId="inquiryNo"
         onImport={handleImport}

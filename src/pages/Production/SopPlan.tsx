@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -13,6 +13,9 @@ import { useNumberingStore } from '@/stores/numberingStore';
 import type { SopPlan } from '@/types/sop';
 import { SopStatus, SOP_STATUS_LABELS } from '@/types/sop';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 状态展示统一走 StatusBadge（审计报告 P0 整改：删本地 hex 副本）
 // draft / approved 复用通用 key；balanced / executing 用 sop_ 前缀专属 key
@@ -24,6 +27,7 @@ const nowStr = () => new Date().toISOString();
 
 export default function SopPlan() {
   const navigate = useNavigate();
+  useEnsureRelatedStores('sopPlan');
   const list = useSopStore((s) => s.items);
   const load = useSopStore((s) => s.load);
   const addPlan = useSopStore((s) => s.add);
@@ -103,7 +107,13 @@ export default function SopPlan() {
       },
     },
     { accessorKey: 'owner', header: '责任人', meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<SopPlan, unknown>[]),
   ];
+
+  const filteredData = useMemo(
+    () => applyColumnFilters(withRelatedDocNos('sopPlan', list), columns, filterData, { module: 'production' }),
+    [list, columns, filterData]
+  );
 
   return (
     <Box sx={{ p: 2 }}>
@@ -121,9 +131,9 @@ export default function SopPlan() {
 
       <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="sop-plans" />
       <DataTable
-        data={applyColumnFilters(list, columns, filterData, { module: 'production' })} columns={columns}
+        data={filteredData} columns={columns}
         onView={(r) => navigate(`/production/sop/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deletePlan(r.id)}
-        enableExport enableColumnFilter sapStyle columnConfigKey="sop-plans" codeColumnId="planNo"
+        enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="sop-plans" codeColumnId="planNo"
       />
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>

@@ -90,7 +90,7 @@ const EightDDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="eightD" entity={record}
       title={record.code}
       subtitle={record.title}
       breadcrumbs={[{ label: '8D 问题求解', path: '/quality/8d' }, { label: record.code, path: '' }]}

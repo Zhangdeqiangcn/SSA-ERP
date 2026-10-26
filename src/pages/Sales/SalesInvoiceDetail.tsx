@@ -109,7 +109,7 @@ const SalesInvoiceDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="salesInvoice" entity={invoice}
       title={invoice.invoiceNo}
       subtitle={invoice.customerName}
       breadcrumbs={[{ label: '销售发票', path: '/sales/invoices' }]}

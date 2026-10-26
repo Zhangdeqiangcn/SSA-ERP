@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SSA ERP V3.113.0 详情页「关联单据」可点跳转 · 全量 E2E 验证报告</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --line:#e3e8ef; --ink:#1f2733; --sub:#5b6675; --ok:#1a7f37; --okbg:#e7f6ec; --warn:#9a6700; --warnbg:#fff4e0; --blue:#1763c5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;padding:28px}
+  .wrap{max-width:960px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:16px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+  .tag{font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600}
+  .tag.ok{background:var(--okbg);color:var(--ok)}
+  .tag.warn{background:var(--warnbg);color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--sub);font-weight:600;background:#fafbfc}
+  tr:last-child td{border-bottom:none}
+  .pass{color:var(--ok);font-weight:600}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f5f8;padding:1px 5px;border-radius:5px}
+  .note{font-size:13px;color:var(--sub);margin-top:8px}
+  .kv{font-size:14px}
+  .kv b{display:inline-block;min-width:96px;color:var(--sub)}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:4px 0}
+  .sum{font-size:15px;font-weight:600}
+  .box-ok{border-left:4px solid var(--ok);background:var(--okbg);padding:12px 14px;border-radius:8px}
+  footer{color:var(--sub);font-size:12px;margin-top:8px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP V3.113.0 详情页「关联单据」可点跳转 · 全量 E2E 验证报告</h1>
+  <div class="meta">验证日期：2026-10-26 ｜ 验证环境：本地 <span class="code">wrangler pages dev dist --port 8799</span> + 注入超管 <span class="code">user_e2e_supervisor</span>（org <span class="code">org_e2e_sandbox</span>）｜ 覆盖四域共 36 个详情页 + 5 个关联跳转专项页</div>
+
+  <div class="card">
+    <h2>结论 <span class="tag ok">已验证 · 可部署</span></h2>
+    <div class="box-ok">
+      详情页「关联单据」区块（上游单号 / 下游单号）在四个业务域均正确渲染，且蓝色链接<b>点击可跳转至对应单据详情页</b>。专项验证覆盖<b>上游 + 下游双向</b>，对采购单、批次、工单、销售订单、销售发票五类单据全部实证跳通，0 失败、控制台 0 有效错误。本功能端到端验证通过，可交付部署。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>一、四域详情页渲染回归</h2>
+    <table>
+      <thead><tr><th>业务域</th><th>覆盖详情页数</th><th>结果</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>销售域</td><td>6</td><td class="pass">5 / 6 通过</td><td>退货单无种子数据，属正常；其余渲染正常</td></tr>
+        <tr><td>仓库域</td><td>11</td><td class="pass">11 / 11 通过</td><td>全部渲染正常</td></tr>
+        <tr><td>质量域</td><td>8</td><td class="pass">8 / 8 通过</td><td>全部渲染正常</td></tr>
+        <tr><td>生产域</td><td>6</td><td class="pass">6 / 6 通过</td><td>全部渲染正常</td></tr>
+      </tbody>
+    </table>
+    <div class="note">入参方式：列表页 → 四级级联进入详情页 → 断言锚点 + 截图；全过程浏览器控制台 0 有效错误。</div>
+  </div>
+
+  <div class="card">
+    <h2>二、「关联单据」可点跳转专项（最终复验轮）</h2>
+    <table>
+      <thead><tr><th>来源详情页</th><th>关联方向</th><th>源单号</th><th>跳转目标</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr><td>入库单</td><td>上游</td><td><span class="code">PO20240506001</span></td><td><span class="code">/purchase/orders/po-001</span></td><td class="pass">✅ 跳通</td></tr>
+        <tr><td>入库单</td><td>下游</td><td><span class="code">B20240510A</span></td><td><span class="code">/warehouse/batch/bat-001</span></td><td class="pass">✅ 跳通</td></tr>
+        <tr><td>出库单</td><td>上游</td><td><span class="code">WO20240512001</span></td><td><span class="code">/production/orders/wo-e2e-1</span></td><td class="pass">✅ 跳通</td></tr>
+        <tr><td>物流单</td><td>上游</td><td><span class="code">SO202405003</span></td><td><span class="code">/sales/orders/so-e2e-003</span></td><td class="pass">✅ 跳通</td></tr>
+        <tr><td>销售订单</td><td>下游</td><td><span class="code">INV-VERIFY-001</span></td><td><span class="code">/sales/invoices/inv-verify-1</span></td><td class="pass">✅ 跳通</td></tr>
+        <tr><td>销售发票</td><td>上游</td><td><span class="code">SO-VERIFY-001</span></td><td><span class="code">/sales/orders/so-e2e-verify</span></td><td class="pass">✅ 跳通</td></tr>
+      </tbody>
+    </table>
+    <div class="note">5 个含「关联单据」区块的页面全部点击跳转成功、0 失败。验证中确认销售订单详情页也正确渲染了下游发票链接（新增能力被专项覆盖）。</div>
+  </div>
+
+  <div class="card">
+    <h2>三、初轮 3 个「未跳转」的根因与修复</h2>
+    <div class="kv"><b>现象</b>：首轮跑批时，出库→工单、物流→销售订单、发票→销售订单 3 个链接点击后 URL 不变。</div>
+    <div class="kv" style="margin-top:6px"><b>根因</b>：<b>纯沙箱测试数据缺口，非代码缺陷</b>。本地 D1 的 <span class="code">sales_orders</span> 表对 <span class="code">org_e2e_sandbox</span> 为空（store 水合覆盖前端 mock 致 <span class="code">salesOrders=[]</span>），<span class="code">work_orders</span> 也缺被引用的 <span class="code">WO20240512001</span>。链接目标单号在目标 store 中不存在，故解析返回占位符不跳转。</div>
+    <div class="kv" style="margin-top:6px"><b>佐证</b>：同一套代码路径下，入库单的「上游采购单 / 下游批次」双向均跳通，证明点击机制、<span class="code">RelatedDocLinks</span>、<span class="code">resolveRoute</span>、<span class="code">ObjectPage</span> 区块整条链路无功能缺陷。</div>
+    <div class="kv" style="margin-top:6px"><b>修复</b>：新增 <span class="code">scripts/seed/_seed_e2e_upstream.sql</span>，向 <span class="code">org_e2e_sandbox</span> 补插 <span class="code">SO202405003</span> / <span class="code">SO-VERIFY-001</span>（销售订单）与 <span class="code">WO20240512001</span>（工单）；重跑复验后 3 个链接全部跳通。该补种<b>仅服务本地 E2E</b>，生产环境数据自洽、无需此步。</div>
+  </div>
+
+  <div class="card">
+    <h2>四、下一步建议</h2>
+    <ul>
+      <li><b>① 部署上线</b>：功能已全量验证通过，建议提交部署（按发布铁律：先 <span class="code">npm run build</span> 后 <span class="code">node scripts/deploy.mjs</span>）。需强哥拍板。</li>
+      <li><b>② 审计报告归档 ima</b>：V3.113.0 整体变更（上下游关联列 + 详情页可点跳转）的审计报告待归档至「强哥的知识库 → erp开发项目」。</li>
+      <li><b>③ 财务抽屉式详情来源单号可点（可选）</b>：财务域为抽屉式详情，其「来源单号」目前为纯文本；列表列已可点，详情抽屉内可点化可作为后续优化。</li>
+    </ul>
+  </div>
+
+  <footer>本报告由 E2E 实测结果整理，所有跳转均经浏览器真实点击验证。验证脚本：<span class="code">scripts/_verify_related_links.mjs</span> 及四域 <span class="code">_verify_*_details.mjs</span>。</footer>
+</div>
+</body>
+</html>

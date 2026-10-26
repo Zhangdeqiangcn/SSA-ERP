@@ -102,7 +102,7 @@ const SubcontractDetail: React.FC = () => {
   ];
 
   return (
-    <ObjectPage
+    <ObjectPage docType="subcontract" entity={order}
       title={order.orderNo}
       subtitle={`${SUBCONTRACT_TYPE_MAP[order.type] || order.type} · ${order.materialName}`}
       breadcrumbs={[{ label: '委外加工', path: '/production/subcontract' }]}

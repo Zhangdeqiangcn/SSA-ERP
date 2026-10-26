@@ -15,6 +15,9 @@ import { useOrgStore, useCurrentOrg } from '@/stores/orgStore';
 import { useDataPermissionStore, passDataPermission } from '@/stores/dataPermissionStore';
 import { WorkOrder, WorkOrderStatus } from '@/types/production';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<WorkOrderStatus, string> = {
   draft: '草稿',
@@ -44,6 +47,7 @@ const nowStr = () => {
 
 const WorkOrderList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('workOrder');
   const [tabValue, setTabValue] = useState<'all' | WorkOrderStatus>('all');
   const { workOrders, addWorkOrder } = useProductionStore();
   const nextNo = useNumberingStore((s) => s.nextNo);
@@ -284,11 +288,12 @@ const WorkOrderList: React.FC = () => {
         </Box>
       ),
     },
+    ...(buildRelatedColumns() as ColumnDef<WorkOrder, unknown>[]),
   ];
 
   // 列表检索：在「状态 Tab + 字段权限」已过滤后的数据上，再用通用列检索覆盖全部声明了 meta.searchable 的列（工单编号/产品/优先级/数量/计划日期/车间/状态），并按字段权限门控
   const filteredData = useMemo(
-    () => applyColumnFilters(filtered, columns, filterData, { module: 'production' }),
+    () => applyColumnFilters(withRelatedDocNos('workOrder', filtered), columns, filterData, { module: 'production' }),
     [filterData, filtered, columns]
   );
 
@@ -433,6 +438,7 @@ const WorkOrderList: React.FC = () => {
           enableSorting={true}
           enableColumnFilter={true}
           enableBlockSelect={true}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           enableExport={true}
           exportFormat="xlsx"
           codeColumnId="orderNo"

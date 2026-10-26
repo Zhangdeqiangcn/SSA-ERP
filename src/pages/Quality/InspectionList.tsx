@@ -15,6 +15,9 @@ import { useQualityStore } from '@/stores/qualityStore';
 import { InspectionStatus, InspectionType, InspectionTask } from '@/types/quality';
 import { computeAqlPlan, LEVELS, AQLS } from '@/utils/aql';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const TYPE_LABELS: Record<InspectionType, string> = {
   incoming: '来料检验',
@@ -35,6 +38,7 @@ const INSP_STATUS_KEY: Record<InspectionStatus, string> = {
 
 const InspectionList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('inspectionTask');
   const [tabValue, setTabValue] = useState<'all' | InspectionType>('all');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const { inspectionTasks, addInspectionTask, inspectionStandards } = useQualityStore();
@@ -212,12 +216,13 @@ const InspectionList: React.FC = () => {
         </Box>
       ),
     },
+    ...(buildRelatedColumns() as ColumnDef<InspectionTask, unknown>[]),
   ], []);
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   // （置于 columns 声明之后，避免『used before declaration』类型错误）
   const filtered = useMemo(
-    () => applyColumnFilters(tabFiltered, columns, filterData, { module: 'quality' }),
+    () => applyColumnFilters(withRelatedDocNos('inspectionTask', tabFiltered), columns, filterData, { module: 'quality' }),
     [tabFiltered, columns, filterData]
   );
 
@@ -284,7 +289,8 @@ const InspectionList: React.FC = () => {
           enableImport={true}
           codeColumnId="taskNo"
           onImport={(rows, headers) => rows.forEach(r => addInspectionTask(mapImportRow(r, headers)))}
-          columnConfigKey="quality-inspection-list"
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columnConfigKey="inspection-task-list"
         />
       </Paper>
 

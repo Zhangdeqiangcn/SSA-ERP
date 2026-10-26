@@ -11,6 +11,9 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { FlowTracker, DataTable, StatusBadge, FilterBar } from '@/components/common';
 import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
 import { Invoice, InvoiceItem } from '@/types/finance';
@@ -32,6 +35,7 @@ const TYPE_CONFIG: Record<string, string> = {
 };
 
 export default function InvoiceList() {
+  useEnsureRelatedStores('finInvoice');
   const { invoices, financeStats, addInvoice, generateVoucherFromInvoice } = useFinanceStore();
   const { exchangeRates } = useFinanceExtensionStore();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
@@ -186,10 +190,13 @@ export default function InvoiceList() {
         </Box>
       ),
     },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<Invoice, unknown>[]),
   ];
 
   const filtered = useMemo(
-    () => applyColumnFilters(invoices, columns, filterData, { module: 'finance' }),
+    () => applyColumnFilters(withRelatedDocNos('finInvoice', invoices), columns, filterData, { module: 'finance' }),
     [invoices, columns, filterData]
   );
 
@@ -267,7 +274,8 @@ export default function InvoiceList() {
             });
           });
         }}
-        columnConfigKey="invoice-list"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="fin-invoice-list"
       />
 
       {/* 详情弹框 */}

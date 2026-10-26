@@ -84,7 +84,7 @@ const InboundDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="inbound" entity={order}
         title={order.inboundNo}
         subtitle={INBOUND_TYPE_MAP[order.type] || order.type}
         breadcrumbs={[{ label: '采购入库', path: '/warehouse/inbound' }]}

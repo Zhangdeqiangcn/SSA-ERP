@@ -77,7 +77,7 @@ const BatchDetail: React.FC = () => {
 
   return (
     <>
-      <ObjectPage
+      <ObjectPage docType="batch" entity={batch}
         title={batch.batchNo}
         subtitle={batch.materialName}
         breadcrumbs={[{ label: '批次管理', path: '/warehouse/batch' }]}

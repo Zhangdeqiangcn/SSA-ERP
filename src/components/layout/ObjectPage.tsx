@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Paper, Stack, Breadcrumbs, Link, Chip, Divider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 
 export interface ObjectPageSection {
   /** 锚点唯一 id（用于滚动定位与导航） */
@@ -33,6 +35,10 @@ interface ObjectPageProps {
   sections: ObjectPageSection[];
   /** 页头额外内容（自定义，置于关键字段下方） */
   headerContent?: React.ReactNode;
+  /** 关联单据：本单据 docType（对应关系登记表 key），用于自动渲染上下游可点链接 */
+  docType?: string;
+  /** 关联单据：当前单据数据对象（含编号字段），用于计算上下游 */
+  entity?: Record<string, any>;
 }
 
 const ANCHOR_OFFSET = 88; // 锚点定位时预留的吸顶高度（应用栏+TabBar+锚点条）
@@ -46,13 +52,39 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
   actions,
   sections,
   headerContent,
+  docType,
+  entity,
 }) => {
-  const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? '');
+  const rel = useRelatedDocs(docType ?? '', entity);
+  const relatedSection: ObjectPageSection = {
+    id: 'related-docs',
+    title: '关联单据',
+    content: (
+      <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+        <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          <Box>
+            <Typography variant="body2" color="text.secondary">上游单号</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.upstreamDocs} /></Box>
+          </Box>
+          <Box>
+            <Typography variant="body2" color="text.secondary">下游单号</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.downstreamDocs} /></Box>
+          </Box>
+        </Box>
+      </Paper>
+    ),
+  };
+  const displaySections =
+    rel && (rel.upstreamDocs.length > 0 || rel.downstreamDocs.length > 0)
+      ? [...sections, relatedSection]
+      : sections;
+
+  const [activeId, setActiveId] = useState<string>(displaySections[0]?.id ?? '');
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // 滚动监听：通过 IntersectionObserver 实现滚动高亮（对标 SAP Object Page 锚点联动）
   useEffect(() => {
-    if (sections.length === 0) return;
+    if (displaySections.length === 0) return;
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -67,7 +99,7 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
     );
     Object.values(sectionRefs.current).forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
-  }, [sections]);
+  }, [displaySections]);
 
   const handleAnchorClick = (id: string) => {
     const el = sectionRefs.current[id];
@@ -171,7 +203,7 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
         }}
       >
         <Stack direction="row" spacing={0.5} sx={{ px: 2, py: 1 }}>
-          {sections.map((s) => {
+          {displaySections.map((s) => {
             const active = s.id === activeId;
             return (
               <Box
@@ -204,7 +236,7 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
 
       {/* 分区内容 */}
       <Box sx={{ pt: 3 }}>
-        {sections.map((s) => (
+        {displaySections.map((s) => (
           <Box
             key={s.id}
             id={s.id}

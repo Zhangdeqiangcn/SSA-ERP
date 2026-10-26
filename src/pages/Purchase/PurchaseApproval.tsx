@@ -10,7 +10,11 @@ import {
 } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, FlowTracker } from '@/components/common';
+import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useAuthStore } from '@/stores/authStore';
 import { getApprovalSteps, resolveApprovalAdvance, type ApprovalFlowNode } from '@/data/approvalFlowConfig';
@@ -151,6 +155,7 @@ const PurchaseApproval: React.FC = () => {
   const { purchaseRequests, updatePurchaseRequest } = usePurchaseStore();
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [selected, setSelected] = useState<PurchaseRequest | null>(null);
+  useEnsureRelatedStores('purchaseRequest');
 
   const steps = useMemo<ApprovalFlowNode[]>(() => {
     const cfg = getApprovalSteps(PURCHASE_MODULE);
@@ -231,6 +236,9 @@ const PurchaseApproval: React.FC = () => {
         return <Chip label={s?.label} size="small" color={s?.color || 'default'} />;
       } },
     { accessorKey: 'expectedDate', header: '需求日期', meta: { searchable: true }, cell: ({ row }: { row: { original: PurchaseRequest } }) => formatDate(row.original.expectedDate) },
+    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
+    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
+    ...(buildRelatedColumns() as ColumnDef<PurchaseRequest, unknown>[]),
   ], [steps]);
 
   const filterFields = [
@@ -247,7 +255,7 @@ const PurchaseApproval: React.FC = () => {
   // 业务预过滤（仅待审批/审核中）+ 通用列检索（覆盖全部 meta.searchable 列，按字段权限门控）
   const filteredData = useMemo(() => {
     const base = purchaseRequests.filter((r) => ['pending', 'reviewing'].includes(r.status));
-    return applyColumnFilters(base, columns, filterData, { module: 'purchase' });
+    return applyColumnFilters(withRelatedDocNos('purchaseRequest', base), columns, filterData, { module: 'purchase' });
   }, [filterData, purchaseRequests, columns]);
 
   return (
@@ -269,6 +277,8 @@ const PurchaseApproval: React.FC = () => {
 
       <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} />
       <DataTable data={filteredData} columns={columns} enablePagination enableExport
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="purchase-approval-list"
         onView={(row: PurchaseRequest) => setSelected(row)} onEdit={(row: PurchaseRequest) => setSelected(row)} />
       <ApprovalDialog open={Boolean(selected)} req={selected} steps={steps} canAct={canAct}
         onClose={() => setSelected(null)} onAdvance={handleAdvance} onReject={handleReject} />

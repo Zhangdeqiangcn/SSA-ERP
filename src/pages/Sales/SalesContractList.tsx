@@ -10,6 +10,9 @@ import { SalesContract, ContractStatus } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ConfirmDialog, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { formatCurrency } from '@/utils/format';
 
 const STATUS_LABELS: Record<ContractStatus, string> = {
@@ -27,6 +30,7 @@ const SC_STATUS_KEY: Record<ContractStatus, string> = {
 
 const SalesContractList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('salesContract');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const contracts = useSalesContractStore((s) => s.contracts);
   const addContract = useSalesContractStore((s) => s.addContract);
@@ -101,11 +105,12 @@ const SalesContractList: React.FC = () => {
       accessorFn: (c) => STATUS_LABELS[c.status],
       cell: ({ row }) => <StatusBadge status={SC_STATUS_KEY[row.original.status]} />,
     },
+    ...(buildRelatedColumns() as ColumnDef<SalesContract, unknown>[]),
   ];
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
   const filtered = useMemo(
-    () => applyColumnFilters(contracts, columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(withRelatedDocNos('salesContract', contracts), columns, filterData, { module: 'sales' }),
     [contracts, columns, filterData]
   );
 
@@ -176,6 +181,7 @@ const SalesContractList: React.FC = () => {
         <DataTable<SalesContract>
           data={filtered}
           columns={columns}
+          hiddenColumns={['upstreamNo', 'downstreamNo']}
           enableExport
           enableImport
           columnConfigKey="sales-contract-list"

@@ -13,9 +13,13 @@ import { useOrgStore } from '@/stores/orgStore';
 import { OutboundOrder, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const OutboundList: React.FC = () => {
   const navigate = useNavigate();
+  useEnsureRelatedStores('outbound');
   const outboundOrders = useWarehouseStore(s => s.outboundOrders);
   const updateOutboundOrder = useWarehouseStore(s => s.updateOutboundOrder);
   const deleteOutboundOrder = useWarehouseStore(s => s.deleteOutboundOrder);
@@ -66,6 +70,7 @@ const OutboundList: React.FC = () => {
     },
     { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
     { accessorKey: 'outboundDate', header: '出库日期', cell: ({ row }) => formatDate(row.original.outboundDate), meta: { searchable: true } },
+    ...(buildRelatedColumns() as ColumnDef<OutboundOrder, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -204,9 +209,9 @@ const OutboundList: React.FC = () => {
 
   const filteredData = useMemo(() => {
     let data = outboundOrders.filter(r => matchOrg(r, currentOrgId));
-    // 通用列检索：覆盖全部声明了 meta.searchable 的列（出库单号/类型/客户/状态/操作员/出库日期），并按字段权限门控
-    data = applyColumnFilters(data, columns, filterData, { module: 'warehouse' });
-    return data;
+    // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
+    const enhanced = withRelatedDocNos('outbound', data);
+    return applyColumnFilters(enhanced, columns, filterData, { module: 'warehouse' });
   }, [filterData, outboundOrders, columns, currentOrgId]);
 
   return (
@@ -227,6 +232,8 @@ const OutboundList: React.FC = () => {
         enableExport
         enableImport
         importLabel="出库单"
+        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columnConfigKey="outbound-list"
         codeColumnId="outboundNo"
         onImport={handleImport}
         onRowClick={(row) => navigate(`/warehouse/outbound/${row.id}`)}

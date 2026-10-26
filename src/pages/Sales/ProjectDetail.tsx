@@ -13,6 +13,8 @@ import { useAuthStore } from '@/stores/authStore';
 import { ProjectException, ExceptionSeverity } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { ConfirmDialog, DetailActions, StatusBadge } from '@/components/common';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 import { formatCurrency } from '@/utils/format';
 import DemoBanner from '@/components/common/DemoBanner';
 
@@ -32,6 +34,7 @@ const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const project = projects.find(p => p.id === id);
+  const rel = useRelatedDocs('project', project);
 
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
@@ -128,6 +131,21 @@ const ProjectDetail: React.FC = () => {
             </Paper>
           </Grid>
         </Grid>
+      </Paper>
+
+      {/* 关联单据 */}
+      <Paper variant="outlined" sx={{ p: 2, mb: 3 }}>
+        <Typography variant="subtitle2" fontWeight={600} mb={1.5}>关联单据</Typography>
+        <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          <Box>
+            <Typography variant="body2" color="text.secondary">上游单号</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.upstreamDocs} /></Box>
+          </Box>
+          <Box>
+            <Typography variant="body2" color="text.secondary">下游单号</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.downstreamDocs} /></Box>
+          </Box>
+        </Box>
       </Paper>
 
       {/* KPI */}
