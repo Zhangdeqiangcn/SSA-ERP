@@ -594,3 +594,40 @@ const ROUTES: Record<string, (id: string) => string> = {
 Object.assign(DOC_SOURCES, SOURCES);
 Object.assign(DOC_RELATIONS, RELS);
 Object.assign(DOC_ROUTES, ROUTES);
+
+// ─────────────────────────────────────────────────────────────
+// 关系源 store 清单 + 目标类型推导（V3.113.1）
+// 用途：详情页在「关联源 store 水合完成」时重算上下游，避免残留基于 mock 的死链。
+// 说明：本文件已集中 import 全部业务 store，直接复用这份清单即可，
+//      无需从 '@/stores' 总出口反查（避免重复打包与循环依赖）。
+// ─────────────────────────────────────────────────────────────
+
+/** 参与关联计算的业务 store（用于订阅数据变化） */
+export const RELATION_STORES: Array<{ getState: () => unknown; subscribe: (fn: () => void) => () => void }> = [
+  usePurchaseStore, usePurchaseAdvancedStore, usePurchaseInfoRecordStore, usePurchaseReturnStore,
+  useSalesStore, useSalesAdvancedStore, useSalesContractStore, useSalesReturnStore, useConsignmentStore,
+  useTripartySalesStore, useSourceListStore, useFlowStore,
+  useWarehouseStore, useWarehouseAdvancedStore, useWaveRfidStore,
+  useQualityStore, useQualityAdvancedStore, useQualityExtensionStore, useFMEAStore,
+  useProductionStore, useProductionVersionStore, useRepetitiveMfgStore, useSubcontractStore, useSopStore, useECNStore,
+  useFinanceStore, useArapStore, useCashMgmtStore, usePriceStore,
+  useMaterialStore, useVendorStore, useCustomerStore,
+] as never;
+
+/**
+ * 推导某单据类型「关联计算会用到的全部源类型」。
+ * 含：本单自身 + 简单上游目标 + 全部下游目标；
+ * 若本单用 upstreamResolver（其指向随行内字段动态决定，可能引用任意类型），
+ * 则保守纳入全部已登记源类型，避免漏判导致重算不及时。
+ */
+export function getRelationTargetTypes(docType: string): string[] {
+  const rel = DOC_RELATIONS[docType];
+  const set = new Set<string>();
+  if (docType) set.add(docType);
+  if (rel?.upstream?.target) set.add(rel.upstream.target);
+  for (const d of rel?.downstream ?? []) set.add(d.target);
+  if (rel?.upstreamResolver) {
+    for (const t of Object.keys(DOC_SOURCES)) set.add(t);
+  }
+  return Array.from(set);
+}

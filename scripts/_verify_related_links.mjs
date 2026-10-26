@@ -1,10 +1,13 @@
-// V3.113.0 详情页「关联单据」可点跳转专项视觉验证（本地 8799）
+// V3.113.0 详情页「关联单据」可点跳转专项视觉验证
 // 流程：API 登录 → 逐列表页点首行进详情 → 断言 #related-docs 区块 → 提取上下游链接 → 实际点击验证跳转
+// 用法：BASE=http://127.0.0.1:8799 node scripts/_verify_related_links.mjs   （本地）
+//      BASE=https://ssa-erp.pages.dev node scripts/_verify_related_links.mjs （生产）
 import { chromium } from 'playwright';
 import { mkdirSync } from 'fs';
 
-const BASE = 'http://127.0.0.1:8799';
-const OUT = 'screenshots/v3-113-related';
+const BASE = process.env.BASE || 'http://127.0.0.1:8799';
+const TAG = BASE.includes('127.0.0.1') ? 'v3-113-related' : 'v3-113-related-prod';
+const OUT = `screenshots/${TAG}`;
 mkdirSync(OUT, { recursive: true });
 const CRED = { username: 'e2e_supervisor', password: 'E2e-de5e1cd55c024c488214!A9k' };
 const AUTH_STORAGE = JSON.stringify({

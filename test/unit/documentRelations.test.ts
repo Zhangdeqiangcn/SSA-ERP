@@ -5,6 +5,7 @@ import {
   DOC_ROUTES,
   withRelatedDocNos,
   resolveRoute,
+  getSourcesSignature,
 } from '@/utils/relations/documentRelations';
 import { DOC_SOURCES, registerDocSource } from '@/utils/relations/docSources';
 
@@ -96,5 +97,29 @@ describe('resolveRoute', () => {
   });
   it('编号不存在时兜底返回 #', () => {
     expect(resolveRoute('purchaseOrder', 'PO-999')).toBe('#');
+  });
+});
+
+// ★ V3.113.1：关联源数据版本追踪（修复「store 水合后详情页不重算 → 残留 mock 死链」）
+describe('getSourcesSignature', () => {
+  it('同一份数据引用 → 签名稳定', () => {
+    const a = getSourcesSignature(['purchaseOrder', 'inbound']);
+    const b = getSourcesSignature(['purchaseOrder', 'inbound']);
+    expect(a).toBe(b);
+    expect(a.length).toBeGreaterThan(0);
+  });
+
+  it('数据被整体替换（模拟水合完成）→ 签名变化', () => {
+    let docs = [...ORD];
+    registerDocSource('sigProbe', { getDocs: () => docs, numberField: 'orderNo' });
+    const before = getSourcesSignature(['sigProbe']);
+    docs = [...ORD, { id: 'o4', orderNo: 'PO-4' }]; // store 水合：换成新数组引用
+    const after = getSourcesSignature(['sigProbe']);
+    expect(after).not.toBe(before);
+  });
+
+  it('未登记的类型不报错、签名稳定', () => {
+    expect(() => getSourcesSignature(['neverRegisteredType'])).not.toThrow();
+    expect(getSourcesSignature(['neverRegisteredType'])).toBe(getSourcesSignature(['neverRegisteredType']));
   });
 });

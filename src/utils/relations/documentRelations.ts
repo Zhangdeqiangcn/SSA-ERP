@@ -38,6 +38,49 @@ export const DOC_RELATIONS: Record<string, DocRelation> = {};
 /** 各单据类型 → 详情页路由（由 relations.ts 运行时填充） */
 export const DOC_ROUTES: Record<string, (id: string) => string> = {};
 
+// ─────────────────────────────────────────────────────────────
+// 关系源数据版本签名（V3.113.1）
+// 背景：store 未水合时先用前端 mock 初始值算关联，水合完成后若不重算，
+//       详情页会残留"基于 mock 的失效单号"，点击 resolveRoute 解析不到 → 死链。
+// 方案：给每个关系源的数据数组分配稳定版本号（数组引用被替换 → 版本号变化），
+//       签名变化即代表关联数据已更新，驱动详情页重算上下游。
+// 纯逻辑实现（不依赖 React / store），便于单测。
+// ─────────────────────────────────────────────────────────────
+
+/** 数据数组引用 → 稳定版本号（同一引用恒定同号，被替换后换号） */
+const sourceVersionMap = new WeakMap<object, number>();
+let sourceVersionSeq = 0;
+
+function versionOf(value: unknown): number {
+  if (value == null || typeof value !== 'object') return 0;
+  const hit = sourceVersionMap.get(value as object);
+  if (hit != null) return hit;
+  const next = ++sourceVersionSeq;
+  sourceVersionMap.set(value as object, next);
+  return next;
+}
+
+/**
+ * 取一组关系源类型的数据版本签名。
+ * @param types 需要纳入的类型（一般为本单类型 + 其上下游目标类型）
+ * @returns 字符串签名；签名变化 ⇔ 关联源数据被替换（水合/刷新）
+ */
+export function getSourcesSignature(types: string[]): string {
+  let sig = '';
+  for (const t of types) {
+    const src = DOC_SOURCES[t];
+    if (!src) continue;
+    let docs: unknown;
+    try {
+      docs = src.getDocs();
+    } catch {
+      docs = null;
+    }
+    sig += `${t}:${versionOf(docs)};`;
+  }
+  return sig;
+}
+
 /** 把「单据编号」解析成「详情页路由」；找不到则返回 '#' */
 export function resolveRoute(type: string, no: string): string {
   const src = DOC_SOURCES[type];
