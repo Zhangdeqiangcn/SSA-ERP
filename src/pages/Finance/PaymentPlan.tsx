@@ -21,6 +21,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { withRelatedDocNos } from '@/utils/relations/documentRelations';
 import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 付款计划状态 → 集中 statusConfig key（overdue 复用通用 key）
 const PP_STATUS_KEY: Record<string, string> = {
@@ -49,6 +50,9 @@ export default function PaymentPlan() {
   } = useFinanceStore();
   const { vendors } = useVendorStore();
   const { exchangeRates } = useFinanceExtensionStore();
+  // V3.113.2：挂载时确保关联源 store（采购订单/发票）已加载并订阅，
+  // 否则详情弹窗里的「关联采购单」「关联发票」会因源数据未加载而渲染为空。
+  useEnsureRelatedStores('paymentPlan');
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [createOpen, setCreateOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -454,8 +458,14 @@ export default function PaymentPlan() {
                 { label: '供应商', value: selectedPlan.vendorName },
                 {
                   label: '关联采购单',
-                  // V3.113.2：来源单号由纯文本改为可点链接（上游 = 采购订单）
-                  value: <RelatedSourceField docType="paymentPlan" entity={selectedPlan} />,
+                  // V3.113.2：来源单号由纯文本改为可点链接（仅取上游中的采购订单分量）
+                  value: (
+                    <RelatedSourceField
+                      docType="paymentPlan"
+                      entity={selectedPlan}
+                      filterType="purchaseOrder"
+                    />
+                  ),
                 },
                 {
                   label: '关联发票',

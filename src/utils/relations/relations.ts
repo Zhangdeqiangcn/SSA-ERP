@@ -60,34 +60,64 @@ const toRef = (type: string, no: string | null | undefined): RelatedDocRef[] =>
 
 // ───────────────────────────── 数据源登记 ─────────────────────────────
 const SOURCES: Record<string, any> = {
-  purchaseRequest: { getDocs: () => safe(() => usePurchaseStore.getState().purchaseRequests, []), numberField: 'requestNo' },
-  purchaseOrder: { getDocs: () => safe(() => usePurchaseStore.getState().purchaseOrders, []), numberField: 'orderNo' },
+  purchaseRequest: {
+    getDocs: () => safe(() => usePurchaseStore.getState().purchaseRequests, []),
+    numberField: 'requestNo',
+    ensureLoaded: () => { const s: any = usePurchaseStore.getState(); s.load?.(); },
+  },
+  purchaseOrder: {
+    getDocs: () => safe(() => usePurchaseStore.getState().purchaseOrders, []),
+    numberField: 'orderNo',
+    // V3.113.2：补 ensureLoaded —— 缺它时采购订单数据在财务页不会加载，
+    // 财务域的「关联采购单」因解析不到目标而被死链防线丢弃 → 链接渲染为空。
+    ensureLoaded: () => { const s: any = usePurchaseStore.getState(); s.load?.(); },
+  },
   finInvoice: {
     getDocs: () => safe(() => useFinanceStore.getState().invoices, []),
     numberField: 'invoiceNo',
     ensureLoaded: () => { const s: any = useFinanceStore.getState(); s.load?.(); },
   },
-  sourceList: { getDocs: () => safe(() => useSourceListStore.getState().items, []), numberField: 'id' },
-  infoRecord: { getDocs: () => safe(() => usePurchaseInfoRecordStore.getState().records, []), numberField: 'id' },
+  sourceList: {
+    getDocs: () => safe(() => useSourceListStore.getState().items, []),
+    numberField: 'id',
+    ensureLoaded: () => { const s: any = useSourceListStore.getState(); s.hydrateSourceList?.(); },
+  },
+  infoRecord: {
+    getDocs: () => safe(() => usePurchaseInfoRecordStore.getState().records, []),
+    numberField: 'id',
+    ensureLoaded: () => { const s: any = usePurchaseInfoRecordStore.getState(); s.hydrateInfoRecords?.(); },
+  },
   frameworkAgreement: {
     getDocs: () => safe(() => usePurchaseAdvancedStore.getState().frameworkAgreements, []),
     numberField: 'agreementNo',
-    ensureLoaded: () => { const s: any = usePurchaseAdvancedStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = usePurchaseAdvancedStore.getState(); s.hydrate?.() },
   },
   purchaseReturn: {
     getDocs: () => safe(() => usePurchaseReturnStore.getState().purchaseReturns, []),
     numberField: 'returnNo',
-    ensureLoaded: () => { const s: any = usePurchaseReturnStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = usePurchaseReturnStore.getState(); s.hydrate?.() },
   },
 
-  salesOpportunity: { getDocs: () => safe(() => useSalesStore.getState().prospects, []), numberField: 'prospectNo' },
+  salesOpportunity: {
+    getDocs: () => safe(() => useSalesStore.getState().prospects, []),
+    numberField: 'prospectNo',
+    ensureLoaded: () => { const s: any = useSalesStore.getState(); s.load?.(); },
+  },
   salesQuotation: {
     getDocs: () => safe(() => useSalesAdvancedStore.getState().quotations, []),
     numberField: 'quotationNo',
     ensureLoaded: () => { const s: any = useSalesAdvancedStore.getState(); s.hydrateQuotations?.(); },
   },
-  salesOrder: { getDocs: () => safe(() => useSalesStore.getState().salesOrders, []), numberField: 'orderNo' },
-  salesLogistics: { getDocs: () => safe(() => useSalesStore.getState().shipments, []), numberField: 'shipmentNo' },
+  salesOrder: {
+    getDocs: () => safe(() => useSalesStore.getState().salesOrders, []),
+    numberField: 'orderNo',
+    ensureLoaded: () => { const s: any = useSalesStore.getState(); s.load?.(); },
+  },
+  salesLogistics: {
+    getDocs: () => safe(() => useSalesStore.getState().shipments, []),
+    numberField: 'shipmentNo',
+    ensureLoaded: () => { const s: any = useSalesStore.getState(); s.load?.(); },
+  },
   salesInvoice: {
     getDocs: () => safe(() => useSalesAdvancedStore.getState().salesInvoices, []),
     numberField: 'invoiceNo',
@@ -96,7 +126,7 @@ const SOURCES: Record<string, any> = {
   salesReturn: {
     getDocs: () => safe(() => useSalesReturnStore.getState().salesReturns, []),
     numberField: 'returnNo',
-    ensureLoaded: () => { const s: any = useSalesReturnStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useSalesReturnStore.getState(); s.hydrate?.() },
   },
   tripartySales: {
     getDocs: () => safe(() => useTripartySalesStore.getState().list, []),
@@ -106,15 +136,39 @@ const SOURCES: Record<string, any> = {
   salesContract: {
     getDocs: () => safe(() => useSalesContractStore.getState().contracts, []),
     numberField: 'contractNo',
-    ensureLoaded: () => { const s: any = useSalesContractStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useSalesContractStore.getState(); s.hydrateContracts?.() },
   },
-  project: { getDocs: () => safe(() => useSalesStore.getState().projects, []), numberField: 'projectNo' },
+  project: {
+    getDocs: () => safe(() => useSalesStore.getState().projects, []),
+    numberField: 'projectNo',
+    ensureLoaded: () => { const s: any = useSalesStore.getState(); s.load?.(); },
+  },
 
-  inbound: { getDocs: () => safe(() => useWarehouseStore.getState().inboundOrders, []), numberField: 'inboundNo' },
-  outbound: { getDocs: () => safe(() => useWarehouseStore.getState().outboundOrders, []), numberField: 'outboundNo' },
-  checkTask: { getDocs: () => safe(() => useWarehouseStore.getState().checkTasks, []), numberField: 'taskNo' },
-  stockTransfer: { getDocs: () => safe(() => useWarehouseAdvancedStore.getState().stockTransfers, []), numberField: 'transferNo' },
-  inventoryAdjustment: { getDocs: () => safe(() => useWarehouseAdvancedStore.getState().inventoryAdjustments, []), numberField: 'adjustmentNo' },
+  inbound: {
+    getDocs: () => safe(() => useWarehouseStore.getState().inboundOrders, []),
+    numberField: 'inboundNo',
+    ensureLoaded: () => { const s: any = useWarehouseStore.getState(); s.loadWarehouseOrders?.(); },
+  },
+  outbound: {
+    getDocs: () => safe(() => useWarehouseStore.getState().outboundOrders, []),
+    numberField: 'outboundNo',
+    ensureLoaded: () => { const s: any = useWarehouseStore.getState(); s.loadWarehouseOrders?.(); },
+  },
+  checkTask: {
+    getDocs: () => safe(() => useWarehouseStore.getState().checkTasks, []),
+    numberField: 'taskNo',
+    ensureLoaded: () => { const s: any = useWarehouseStore.getState(); s.loadCheckTasks?.(); },
+  },
+  stockTransfer: {
+    getDocs: () => safe(() => useWarehouseAdvancedStore.getState().stockTransfers, []),
+    numberField: 'transferNo',
+    ensureLoaded: () => { const s: any = useWarehouseAdvancedStore.getState(); s.loadWarehouseAdvanced?.(); },
+  },
+  inventoryAdjustment: {
+    getDocs: () => safe(() => useWarehouseAdvancedStore.getState().inventoryAdjustments, []),
+    numberField: 'adjustmentNo',
+    ensureLoaded: () => { const s: any = useWarehouseAdvancedStore.getState(); s.loadWarehouseAdvanced?.(); },
+  },
   waveRfid: {
     getDocs: () => safe(() => useWaveRfidStore.getState().waves, []),
     numberField: 'waveNo',
@@ -123,11 +177,23 @@ const SOURCES: Record<string, any> = {
   inspectionNotice: {
     getDocs: () => safe(() => useFlowStore.getState().inspectionNotices, []),
     numberField: 'noticeNo',
-    ensureLoaded: () => { const s: any = useFlowStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useFlowStore.getState(); s.hydrateFlow?.() },
   },
-  finishedGoodsInbound: { getDocs: () => safe(() => useWarehouseStore.getState().finishedGoodsInbounds, []), numberField: 'inboundNo' },
-  batch: { getDocs: () => safe(() => useWarehouseStore.getState().batchRecords, []), numberField: 'batchNo' },
-  serialHU: { getDocs: () => safe(() => useWarehouseAdvancedStore.getState().serialMasters, []), numberField: 'serialNo' },
+  finishedGoodsInbound: {
+    getDocs: () => safe(() => useWarehouseStore.getState().finishedGoodsInbounds, []),
+    numberField: 'inboundNo',
+    ensureLoaded: () => { const s: any = useWarehouseStore.getState(); s.loadFinishedGoodsInbounds?.(); },
+  },
+  batch: {
+    getDocs: () => safe(() => useWarehouseStore.getState().batchRecords, []),
+    numberField: 'batchNo',
+    ensureLoaded: () => { const s: any = useWarehouseStore.getState(); s.loadBatchRecords?.(); },
+  },
+  serialHU: {
+    getDocs: () => safe(() => useWarehouseAdvancedStore.getState().serialMasters, []),
+    numberField: 'serialNo',
+    ensureLoaded: () => { const s: any = useWarehouseAdvancedStore.getState(); s.loadSerialMasters?.(); },
+  },
   consignmentStock: {
     getDocs: () => safe(() => useConsignmentStore.getState().records, []),
     numberField: 'id',
@@ -137,47 +203,59 @@ const SOURCES: Record<string, any> = {
   inspectionTask: {
     getDocs: () => safe(() => useQualityStore.getState().inspectionTasks, []),
     numberField: 'taskNo',
-    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.hydrate?.() },
   },
   unqualified: {
     getDocs: () => safe(() => useQualityStore.getState().unqualifiedItems, []),
     numberField: 'itemNo',
-    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.hydrate?.() },
   },
   pdca: {
     getDocs: () => safe(() => useQualityStore.getState().pdcaRecords, []),
     numberField: 'pdcaNo',
-    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.hydrate?.() },
   },
   lot: {
     getDocs: () => safe(() => useQualityAdvancedStore.getState().inspectionLots, []),
     numberField: 'lotNo',
-    ensureLoaded: () => { const s: any = useQualityAdvancedStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityAdvancedStore.getState(); s.hydrateLots?.() },
   },
   eightD: {
     getDocs: () => safe(() => useQualityExtensionStore.getState().eightDRecords, []),
     numberField: 'code',
-    ensureLoaded: () => { const s: any = useQualityExtensionStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityExtensionStore.getState(); s.hydrateQualityExtension?.() },
   },
   inspectionStandard: {
     getDocs: () => safe(() => useQualityStore.getState().inspectionStandards, []),
     numberField: 'standardNo',
-    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityStore.getState(); s.hydrate?.() },
   },
   fmea: {
     getDocs: () => safe(() => useFMEAStore.getState().items, []),
     numberField: 'number',
-    ensureLoaded: () => { const s: any = useFMEAStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useFMEAStore.getState(); s.hydrateFMEA?.() },
   },
   labEquipment: {
     getDocs: () => safe(() => useQualityExtensionStore.getState().labEquipments, []),
     numberField: 'equipmentNo',
-    ensureLoaded: () => { const s: any = useQualityExtensionStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = useQualityExtensionStore.getState(); s.hydrateQualityExtension?.() },
   },
 
-  workOrder: { getDocs: () => safe(() => useProductionStore.getState().workOrders, []), numberField: 'orderNo' },
-  processRoute: { getDocs: () => safe(() => useProductionStore.getState().processRoutes, []), numberField: 'routeNo' },
-  subcontract: { getDocs: () => safe(() => useSubcontractStore.getState().orders, []), numberField: 'orderNo' },
+  workOrder: {
+    getDocs: () => safe(() => useProductionStore.getState().workOrders, []),
+    numberField: 'orderNo',
+    ensureLoaded: () => { const s: any = useProductionStore.getState(); s.load?.(); },
+  },
+  processRoute: {
+    getDocs: () => safe(() => useProductionStore.getState().processRoutes, []),
+    numberField: 'routeNo',
+    ensureLoaded: () => { const s: any = useProductionStore.getState(); s.load?.(); },
+  },
+  subcontract: {
+    getDocs: () => safe(() => useSubcontractStore.getState().orders, []),
+    numberField: 'orderNo',
+    ensureLoaded: () => { const s: any = useSubcontractStore.getState(); s.loadOrders?.() },
+  },
   repetitiveMfg: {
     getDocs: () => safe(() => useRepetitiveMfgStore.getState().periods, []),
     numberField: 'periodNo',
@@ -186,12 +264,12 @@ const SOURCES: Record<string, any> = {
   ecn: {
     getDocs: () => safe(() => useECNStore.getState().ecns, []),
     numberField: 'changeNo',
-    ensureLoaded: () => { const s: any = useECNStore.getState(); s.load?.(); },
+    ensureLoaded: () => { const s: any = useECNStore.getState(); s.hydrateECN?.() },
   },
   productionVersion: {
     getDocs: () => safe(() => useProductionVersionStore.getState().versions, []),
     numberField: 'id',
-    ensureLoaded: () => { const s: any = useProductionVersionStore.getState(); s.load?.(); },
+    ensureLoaded: () => { const s: any = useProductionVersionStore.getState(); s.hydrateProductionVersion?.() },
   },
   sopPlan: {
     getDocs: () => safe(() => useSopStore.getState().items, []),
@@ -202,19 +280,23 @@ const SOURCES: Record<string, any> = {
   priceInquiry: {
     getDocs: () => safe(() => usePriceStore.getState().priceInquiries, []),
     numberField: 'inquiryNo',
-    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.hydratePrice?.() },
   },
   priceComparison: {
     getDocs: () => safe(() => usePriceStore.getState().priceComparisons, []),
     numberField: 'comparisonNo',
-    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.hydratePrice?.() },
   },
   priceApproval: {
     getDocs: () => safe(() => usePriceStore.getState().priceApprovals, []),
     numberField: 'approvalNo',
-    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.load?.(); s.hydrate?.(); },
+    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.hydratePrice?.() },
   },
-  priceList: { getDocs: () => safe(() => usePriceStore.getState().priceList, []), numberField: 'id' },
+  priceList: {
+    getDocs: () => safe(() => usePriceStore.getState().priceList, []),
+    numberField: 'id',
+    ensureLoaded: () => { const s: any = usePriceStore.getState(); s.hydratePrice?.() },
+  },
 
   receivable: {
     getDocs: () => safe(() => useArapStore.getState().receivables, []),
@@ -232,12 +314,34 @@ const SOURCES: Record<string, any> = {
     numberField: 'id',
     ensureLoaded: () => { const s: any = useCashMgmtStore.getState(); s.load?.(); },
   },
-  voucher: { getDocs: () => safe(() => useFinanceStore.getState().vouchers, []), numberField: 'voucherNo' },
-  paymentPlan: { getDocs: () => safe(() => useFinanceStore.getState().paymentPlans, []), numberField: 'planNo' },
+  voucher: {
+    getDocs: () => safe(() => useFinanceStore.getState().vouchers, []),
+    numberField: 'voucherNo',
+    // V3.113.2：补 ensureLoaded —— 否则凭证页进入时凭证数据可能尚未拉取，
+    // 「来源单据」行的上游链接会因源数据为空而渲染不出。
+    ensureLoaded: () => { const s: any = useFinanceStore.getState(); s.load?.(); },
+  },
+  paymentPlan: {
+    getDocs: () => safe(() => useFinanceStore.getState().paymentPlans, []),
+    numberField: 'planNo',
+    ensureLoaded: () => { const s: any = useFinanceStore.getState(); s.load?.(); },
+  },
 
-  vendor: { getDocs: () => safe(() => useVendorStore.getState().vendors, []), numberField: 'vendorCode' },
-  material: { getDocs: () => safe(() => useMaterialStore.getState().materials, []), numberField: 'materialCode' },
-  customer: { getDocs: () => safe(() => useCustomerStore.getState().customers, []), numberField: 'customerCode' },
+  vendor: {
+    getDocs: () => safe(() => useVendorStore.getState().vendors, []),
+    numberField: 'vendorCode',
+    ensureLoaded: () => { const s: any = useVendorStore.getState(); s.loadVendors?.(); },
+  },
+  material: {
+    getDocs: () => safe(() => useMaterialStore.getState().materials, []),
+    numberField: 'materialCode',
+    ensureLoaded: () => { const s: any = useMaterialStore.getState(); s.loadMaterials?.(); },
+  },
+  customer: {
+    getDocs: () => safe(() => useCustomerStore.getState().customers, []),
+    numberField: 'customerCode',
+    ensureLoaded: () => { const s: any = useCustomerStore.getState(); s.loadCustomers?.(); },
+  },
 };
 
 // ───────────────────────────── 上下游关系登记 ─────────────────────────────
