@@ -35,7 +35,7 @@ import { usePurchaseAdvancedStore } from '@/stores/purchaseAdvancedStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import { useMaterialStore } from '@/stores/materialStore';
 import { useCustomerStore } from '@/stores/customerStore';
-import { DOC_SOURCES, DOC_RELATIONS, DOC_ROUTES, type RelatedDocRef } from './documentRelations';
+import { DOC_SOURCES, DOC_RELATIONS, DOC_ROUTES, pickExistingRefs, type RelatedDocRef } from './documentRelations';
 
 // ───────────────────────────── 工具 ─────────────────────────────
 const safe = <T,>(getter: () => T | undefined, fallback: T): T => {
@@ -218,12 +218,13 @@ const SOURCES: Record<string, any> = {
 
   receivable: {
     getDocs: () => safe(() => useArapStore.getState().receivables, []),
-    numberField: 'id',
+    // V3.113.2：编号字段用业务发票号（原来用 id，列表「上游/下游单号」列显示的是内部主键）
+    numberField: 'invoiceNo',
     ensureLoaded: () => { const s: any = useArapStore.getState(); s.hydrateArap?.(); },
   },
   payable: {
     getDocs: () => safe(() => useArapStore.getState().payables, []),
-    numberField: 'id',
+    numberField: 'invoiceNo',
     ensureLoaded: () => { const s: any = useArapStore.getState(); s.hydrateArap?.(); },
   },
   cashMgmt: {
@@ -499,20 +500,32 @@ const RELS: Record<string, any> = {
   priceList: { numberField: 'id', upstream: { field: 'sourceApprovalNo', target: 'priceApproval' } },
 
   // ── 财务域 ──
-  receivable: { numberField: 'id', upstream: { field: 'invoiceNo', target: 'salesInvoice' } },
-  payable: { numberField: 'id', upstream: { field: 'invoiceNo', target: 'finInvoice' } },
+  // V3.113.2 修订：财务域的「来源单号」存在跨表编号体系不一致的问题
+  //   - 应收/应收存的 invoiceNo 是业务发票号（SI-* / PI-*），与发票表（INV-*）不同源；
+  //   - 凭证从扁平分录派生时 sourceNo 存的是凭证号自身。
+  // 因此一律经 pickExistingRefs 兜底：解析不到真实目标的引用直接丢弃，绝不给点不动的死链。
+  receivable: {
+    // 编号字段用业务发票号（原来用 id，导致列表「上游/下游单号」列显示的是内部主键）
+    numberField: 'invoiceNo',
+    upstreamResolver: (r: any) => pickExistingRefs(toRef('salesInvoice', r?.invoiceNo)),
+  },
+  payable: {
+    numberField: 'invoiceNo',
+    upstreamResolver: (r: any) => pickExistingRefs(toRef('finInvoice', r?.invoiceNo)),
+  },
   cashMgmt: { numberField: 'id' },
   voucher: {
     numberField: 'voucherNo',
     upstreamResolver: (r: any) => {
-      if (r?.source && r?.sourceNo) {
-        const map: Record<string, string> = {
-          invoice: 'finInvoice', sales: 'salesOrder', inventory: 'inbound', production: 'workOrder',
-          receipt: 'receivable', payment: 'payable', scrap: 'scrap', purchase: 'purchaseOrder',
-        };
-        return toRef(map[r.source] ?? 'finInvoice', r.sourceNo);
-      }
-      return [];
+      if (!r?.source || !r?.sourceNo) return [];
+      const map: Record<string, string> = {
+        invoice: 'finInvoice', sales: 'salesOrder', inventory: 'inbound', production: 'workOrder',
+        receipt: 'receivable', payment: 'paymentPlan', scrap: 'purchaseOrder', purchase: 'purchaseOrder',
+      };
+      const target = map[r.source];
+      if (!target) return [];
+      // 凭证号自身（V-PP-* / V-*）在目标源里查不到 → pickExistingRefs 自动丢弃，不给死链
+      return pickExistingRefs(toRef(target, r.sourceNo));
     },
   },
   paymentPlan: {
@@ -521,7 +534,7 @@ const RELS: Record<string, any> = {
       const refs: RelatedDocRef[] = [];
       if (r?.purchaseOrderNo) refs.push({ type: 'purchaseOrder', no: r.purchaseOrderNo });
       if (r?.invoiceNo) refs.push({ type: 'finInvoice', no: r.invoiceNo });
-      return refs;
+      return pickExistingRefs(refs);
     },
   },
 

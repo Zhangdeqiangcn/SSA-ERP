@@ -6,6 +6,8 @@ import {
   withRelatedDocNos,
   resolveRoute,
   getSourcesSignature,
+  inferRelatedRefByNo,
+  pickExistingRefs,
 } from '@/utils/relations/documentRelations';
 import { DOC_SOURCES, registerDocSource } from '@/utils/relations/docSources';
 
@@ -121,5 +123,54 @@ describe('getSourcesSignature', () => {
   it('未登记的类型不报错、签名稳定', () => {
     expect(() => getSourcesSignature(['neverRegisteredType'])).not.toThrow();
     expect(getSourcesSignature(['neverRegisteredType'])).toBe(getSourcesSignature(['neverRegisteredType']));
+  });
+});
+
+// ★ V3.113.2：财务域来源单号可点化 —— 前缀推断 + 存在性校验（防止给出点不动的死链）
+describe('inferRelatedRefByNo / pickExistingRefs', () => {
+  beforeEach(() => {
+    // 财务域样例数据
+    registerDocSource('finInvoice', {
+      getDocs: () => [{ id: 'fi-1', invoiceNo: 'INV-2024-0501' }],
+      numberField: 'invoiceNo',
+    });
+    registerDocSource('salesInvoice', {
+      getDocs: () => [{ id: 'si-1', invoiceNo: 'SI-2026-0701' }],
+      numberField: 'invoiceNo',
+    });
+    DOC_ROUTES.finInvoice = () => '/finance/invoices';
+    DOC_ROUTES.salesInvoice = (id) => `/sales/invoices/${id}`;
+  });
+
+  it('按前缀命中且目标真实存在 → 给出可点引用', () => {
+    expect(inferRelatedRefByNo('INV-2024-0501')).toEqual([{ type: 'finInvoice', no: 'INV-2024-0501' }]);
+    expect(inferRelatedRefByNo('SI-2026-0701')).toEqual([{ type: 'salesInvoice', no: 'SI-2026-0701' }]);
+  });
+
+  it('前缀命中但目标不存在 → 返回空（宁缺勿死链）', () => {
+    expect(inferRelatedRefByNo('INV-9999-9999')).toEqual([]);
+    expect(inferRelatedRefByNo('PO-NOT-EXIST')).toEqual([]);
+  });
+
+  it('未知前缀 / 空值 → 返回空且不抛错', () => {
+    expect(inferRelatedRefByNo('FR-2026-0092')).toEqual([]); // 运费单无对应详情页
+    expect(inferRelatedRefByNo('')).toEqual([]);
+    expect(inferRelatedRefByNo(null)).toEqual([]);
+    expect(inferRelatedRefByNo(undefined)).toEqual([]);
+  });
+
+  it('pickExistingRefs 丢弃解析不出路由的引用（死链防线）', () => {
+    // 未登记路由的类型 → 解析为 '#' → 必须被丢弃
+    registerDocSource('noRouteType', {
+      getDocs: () => [{ id: 'x1', no: 'X-1' }],
+      numberField: 'no',
+    });
+    const out = pickExistingRefs([
+      { type: 'finInvoice', no: 'INV-2024-0501' },
+      { type: 'noRouteType', no: 'X-1' },
+      { type: 'neverRegistered', no: 'N-1' },
+      { type: 'finInvoice', no: 'INV-DOES-NOT-EXIST' },
+    ]);
+    expect(out).toEqual([{ type: 'finInvoice', no: 'INV-2024-0501' }]);
   });
 });

@@ -15,6 +15,8 @@ import { todayLocal } from '@/utils/format';
 import { withRelatedDocNos } from '@/utils/relations/documentRelations';
 import { buildRelatedColumns } from '@/components/common/relatedColumns';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
+import { inferRelatedRefByNo } from '@/utils/relations/documentRelations';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
 
 const todayStr = () => todayLocal();
 const nowStr = () => new Date().toISOString();
@@ -31,8 +33,9 @@ export default function CashMgmtList() {
   const nextNo = useNumberingStore((s) => s.nextNo);
   const load = useCashMgmtStore((s) => s.load);
   useEffect(() => { load(); }, [load]);
-  useEnsureRelatedStores('cashMgmt');
-
+  // V3.113.2：自由文本「关联单号」→ 目标单据类型推断。
+  // 依赖 relatedTick（关联源 store 水合/刷新时 +1）重算，避免水合前算出空数组后不再刷新。
+  const relatedTick = useEnsureRelatedStores('cashMgmt');
   const [tab, setTab] = useState<'acc' | 'flow'>('acc');
   const [accOpen, setAccOpen] = useState(false);
   const [accEditId, setAccEditId] = useState<string | null>(null);
@@ -53,6 +56,14 @@ export default function CashMgmtList() {
   const [flowDate, setFlowDate] = useState(todayStr());
   const [flowDoc, setFlowDoc] = useState('');
   const [flowRemark, setFlowRemark] = useState('');
+
+  // 自由文本「关联单号」→ 目标单据类型推断（V3.113.2）
+  // 依赖 relatedTick（关联源 store 水合/刷新时 +1）重算，避免水合前算出空数组后不再刷新。
+  const flowDocRefs = useMemo(
+    () => inferRelatedRefByNo(flowDoc),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [flowDoc, relatedTick]
+  );
 
   const resetAcc = () => { setAccEditId(null); setAccNo(''); setAccName(''); setBank(''); setCurrency('CNY'); setOpening(''); setAccRemark(''); };
   const openAccCreate = () => { resetAcc(); setAccNo(nextNo('ACC')); setAccOpen(true); };
@@ -216,7 +227,20 @@ export default function CashMgmtList() {
               <TextField label="金额" type="number" value={flowAmount} onChange={(e) => setFlowAmount(e.target.value)} fullWidth />
               <TextField label="日期" type="date" value={flowDate} onChange={(e) => setFlowDate(e.target.value)} InputProps={{ readOnly: true }} helperText="提交时自动记录当天，无需填写" InputLabelProps={{ shrink: true }} fullWidth />
             </Stack>
-            <TextField label="关联单号" value={flowDoc} onChange={(e) => setFlowDoc(e.target.value)} fullWidth />
+            <TextField label="关联单号" value={flowDoc} onChange={(e) => setFlowDoc(e.target.value)} fullWidth
+              helperText="填已存在的单据编号（如 INV-2026-0815 / PO-2026-0388），下方可点击跳转" />
+            {/* V3.113.2：只读「可点跳转」区（不改动上面的可编辑输入框，避免编辑态被链接化）
+                关联单号语义按前缀判定目标类型：INV→采购发票 / PO→采购订单 / SI→销售发票 / FR→运费单（无对应详情页，仅文本） */}
+            {flowEditId && flowDoc && (
+              <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">查看关联单据</Typography>
+                  <Box sx={{ mt: 0.5 }}>
+                    <RelatedDocLinks docs={flowDocRefs} />
+                  </Box>
+                </Box>
+              </Box>
+            )}
             <TextField label="备注" value={flowRemark} onChange={(e) => setFlowRemark(e.target.value)} fullWidth />
           </Stack>
         </DialogContent>

@@ -13,6 +13,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { withRelatedDocNos } from '@/utils/relations/documentRelations';
 import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { RelatedSourceField, RelatedDocsBlock } from '@/components/common/RelatedSourceField';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
@@ -289,7 +290,11 @@ export default function InvoiceList() {
                 { label: '税号', value: selectedInv.vendorTaxNo },
                 { label: '发票类型', value: TYPE_CONFIG[selectedInv.invoiceType] },
                 { label: '状态', value: <StatusBadge status={INV_STATUS_KEY[selectedInv.status]} /> },
-                { label: '关联采购单', value: selectedInv.purchaseOrderNo },
+                {
+                  label: '关联采购单',
+                  // V3.113.2：来源单号由纯文本改为可点链接（上游 = 采购订单）
+                  value: <RelatedSourceField docType="finInvoice" entity={selectedInv} />,
+                },
                 { label: '发票日期', value: selectedInv.invoiceDate },
                 { label: '收票日期', value: selectedInv.receivedDate },
                 { label: '不含税金额', value: `¥${selectedInv.amount.toLocaleString()}` },
@@ -305,6 +310,8 @@ export default function InvoiceList() {
               ))}
             </Grid>
           )}
+          {/* V3.113.2：关联单据区块（上游=采购订单 / 下游=应收·应付·凭证），与交易单据详情页体验对齐 */}
+          {selectedInv && <RelatedDocsBlock docType="finInvoice" entity={selectedInv} />}
         </DialogContent>
         <DialogActions>
           {voucherMsg && (

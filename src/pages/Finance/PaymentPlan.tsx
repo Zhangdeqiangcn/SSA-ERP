@@ -12,12 +12,15 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FlowTracker, StatusBadge, FilterBar } from '@/components/common';
+import { RelatedSourceField, RelatedDocsBlock } from '@/components/common/RelatedSourceField';
 import { useFinanceStore } from '@/stores/financeStore';
 import { useVendorStore } from '@/stores/vendorStore';
 import type { PaymentInstallment, PaymentInstallmentType } from '@/types/finance';
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
 import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
+import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { buildRelatedColumns } from '@/components/common/relatedColumns';
 
 // 付款计划状态 → 集中 statusConfig key（overdue 复用通用 key）
 const PP_STATUS_KEY: Record<string, string> = {
@@ -117,9 +120,16 @@ export default function PaymentPlan() {
     },
   ];
 
+  // V3.113.2：付款计划补齐「上下游关联单号」列（此前是唯一"已登记关系但列表未接入"的财务单据）
+  const columnsWithRelated: ColumnDef<typeof paymentPlans[number], unknown>[] = [
+    ...columns,
+    ...(buildRelatedColumns() as ColumnDef<typeof paymentPlans[number], unknown>[]),
+  ];
+
   const filtered = useMemo(
-    () => applyColumnFilters(paymentPlans, columns, filterData, { module: 'finance' }),
-    [paymentPlans, columns, filterData]
+    // 顺序关键：先 enhance 再 filter，否则上游/下游列筛不到
+    () => applyColumnFilters(withRelatedDocNos('paymentPlan', paymentPlans), columnsWithRelated, filterData, { module: 'finance' }),
+    [paymentPlans, columnsWithRelated, filterData]
   );
 
   const overdueCount = paymentPlans.filter(p => p.status === 'overdue').length;
@@ -189,7 +199,7 @@ export default function PaymentPlan() {
       </Grid>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="finance-payment-plan" />
+      <FilterBar columns={columnsWithRelated} module="finance" onSearch={setFilterData} listKey="finance-payment-plan" />
 
       <Paper>
         <TableContainer>
@@ -199,6 +209,7 @@ export default function PaymentPlan() {
                 <TableCell sx={{ fontWeight: 600 }}>计划号</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>供应商</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>关联发票</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>关联采购单</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>付款方式</TableCell>
                 <TableCell align="right" sx={{ fontWeight: 600 }}>应付总额</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>币种 / 折合{BASE_CURRENCY_CODE}</TableCell>
@@ -225,7 +236,12 @@ export default function PaymentPlan() {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2" fontFamily="monospace">{p.invoiceNo}</Typography>
+                      {/* V3.113.2：关联发票改为可点链接（跳采购发票列表） */}
+                      <RelatedSourceField docType="paymentPlan" entity={p} filterType="finInvoice" />
+                    </TableCell>
+                    <TableCell>
+                      {/* V3.113.2：补「关联采购单」可点链接 */}
+                      <RelatedSourceField docType="paymentPlan" entity={p} filterType="purchaseOrder" />
                     </TableCell>
                     <TableCell>{p.paymentMethod || '-'}</TableCell>
                     <TableCell align="right">¥{p.totalAmount.toLocaleString()}</TableCell>
@@ -436,8 +452,22 @@ export default function PaymentPlan() {
             <Grid container spacing={2}>
               {[
                 { label: '供应商', value: selectedPlan.vendorName },
-                { label: '关联采购单', value: selectedPlan.purchaseOrderNo },
-                { label: '关联发票', value: selectedPlan.invoiceNo },
+                {
+                  label: '关联采购单',
+                  // V3.113.2：来源单号由纯文本改为可点链接（上游 = 采购订单）
+                  value: <RelatedSourceField docType="paymentPlan" entity={selectedPlan} />,
+                },
+                {
+                  label: '关联发票',
+                  // V3.113.2：关联发票单独指向上游中的 finInvoice 分量
+                  value: (
+                    <RelatedSourceField
+                      docType="paymentPlan"
+                      entity={selectedPlan}
+                      filterType="finInvoice"
+                    />
+                  ),
+                },
                 { label: '付款方式', value: selectedPlan.paymentMethod || '-' },
                 { label: '应付总额', value: `¥${selectedPlan.totalAmount.toLocaleString()}` },
                 { label: '已付金额', value: `¥${selectedPlan.paidAmount.toLocaleString()}` },
@@ -490,6 +520,8 @@ export default function PaymentPlan() {
               </TableContainer>
             </Box>
           )}
+          {/* V3.113.2：关联单据区块（上游=采购订单·发票），与交易单据详情页体验对齐 */}
+          {selectedPlan && <RelatedDocsBlock docType="paymentPlan" entity={selectedPlan} />}
         </DialogContent>
         <DialogActions>
           {voucherMsg && (

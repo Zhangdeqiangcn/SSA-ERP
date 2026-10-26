@@ -14,6 +14,24 @@ import type { Voucher, VoucherItem } from '@/types/finance';
 import { calcVoucherTotals, emptyVoucherItem, nextVoucherNo, round2, validateVoucher } from '@/utils/voucher';
 import { todayLocal } from '@/utils/format';
 import { SecureField } from '@/components/common';
+import { RelatedSourceField } from '@/components/common/RelatedSourceField';
+
+/** 凭证来源类型 → 中文标签（V3.113.2） */
+const VOUCHER_SOURCE_LABEL: Record<string, string> = {
+  manual: '手工制单',
+  invoice: '采购发票',
+  payment: '付款',
+  receipt: '收款',
+  sales: '销售出库/开票',
+  inventory: '库存',
+  production: '生产',
+  scrap: '报废',
+  purchase: '采购',
+  asset: '资产',
+  closing: '期末结转',
+  ocr: 'OCR识别',
+  reversal: '红字冲销',
+};
 
 interface Props {
   open: boolean;
@@ -177,6 +195,16 @@ export default function VoucherForm({ open, onClose, voucher, onSaved }: Props) 
               onChange={(e) => setRemark(e.target.value)} />
           </Grid>
         </Grid>
+
+        {/* V3.113.2：来源单据（sourceNo）此前有数据但界面完全不渲染，这里补为只读可点链接 */}
+        {voucher && voucher.sourceNo && (
+          <Box sx={{ mb: 1, p: 1, border: '1px dashed', borderColor: 'divider', borderRadius: 1 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ mr: 1 }}>
+              来源单据（{VOUCHER_SOURCE_LABEL[voucher.source] ?? voucher.source}）
+            </Typography>
+            <RelatedSourceField docType="voucher" entity={voucher as unknown as Record<string, any>} />
+          </Box>
+        )}
 
         <TableContainer component={Paper} variant="outlined">
           <Table size="small">

@@ -92,6 +92,74 @@ export function resolveRoute(type: string, no: string): string {
   return '#';
 }
 
+// ─────────────────────────────────────────────────────────────
+// 弱语义来源单号 → 目标单据类型推断（V3.113.2）
+// 背景：财务域部分字段（如资金流水的 relatedDoc）是"自由文本单号"，
+//       前缀混用（INV-/PO-/SI-/FR-），无法从字段名直接得知目标类型。
+//       本函数按前缀推断候选类型，并且**必须能在该类型的真实数据里查到该单号**，
+//       否则返回空数组 —— 宁可不给链接，也不给点不动的死链。
+// ─────────────────────────────────────────────────────────────
+
+/** 自由文本单号前缀 → 候选目标单据类型（按优先级排列） */
+const PREFIX_TARGETS: Array<{ prefix: string; types: string[] }> = [
+  { prefix: 'INV', types: ['finInvoice', 'salesInvoice'] },
+  { prefix: 'SI', types: ['salesInvoice'] },
+  { prefix: 'FP', types: ['salesInvoice'] },
+  { prefix: 'PO', types: ['purchaseOrder'] },
+  { prefix: 'PI', types: ['finInvoice'] },
+  { prefix: 'AR', types: ['receivable'] },
+  { prefix: 'AP', types: ['payable'] },
+  { prefix: 'SO', types: ['salesOrder'] },
+  { prefix: 'IN', types: ['inbound'] },
+  { prefix: 'OUT', types: ['outbound'] },
+];
+
+/**
+ * 推断自由文本单号指向的目标单据类型，并校验该单号在目标源里真实存在。
+ * @returns 命中且能解析出路由的引用；无命中返回空数组（避免死链）
+ */
+export function inferRelatedRefByNo(no: string | null | undefined): RelatedDocRef[] {
+  const raw = String(no ?? '').trim();
+  if (!raw) return [];
+  const upper = raw.toUpperCase();
+  for (const rule of PREFIX_TARGETS) {
+    if (!upper.startsWith(rule.prefix)) continue;
+    for (const type of rule.types) {
+      const src = DOC_SOURCES[type];
+      if (!src) continue;
+      const hit = src.getDocs().find((d) => String(d[src.numberField]) === raw);
+      if (!hit) continue;
+      // 必须能解析出真实路由，否则是死链 → 跳过
+      if (resolveRoute(type, raw) === '#') continue;
+      return [{ type, no: raw }];
+    }
+  }
+  return [];
+}
+
+/**
+ * 存在性校验过滤器：只保留「目标单号在目标类型的数据源里真实存在、且能解析出路由」的引用。
+ *
+ * 背景（V3.113.2 实测）：财务域的来源单号并非都指向同一套编号体系 ——
+ *   - 应付/应收存的是业务发票号（PI-* / SI-*），与发票表（INV-*）不同源；
+ *   - 凭证从扁平分录派生时 sourceNo 存的是**凭证号自身**（V-PP-* / V-*）。
+ * 若按映射表"盲指"，点开必然是死链。故统一用本函数兜底：
+ * 解析不出真实目标的引用一律丢弃 —— 宁可少给一个链接，也不给点不动的假链接。
+ */
+export function pickExistingRefs(candidates: RelatedDocRef[]): RelatedDocRef[] {
+  const out: RelatedDocRef[] = [];
+  for (const c of candidates) {
+    if (!c || !c.type || !c.no) continue;
+    const src = DOC_SOURCES[c.type];
+    if (!src) continue;
+    const hit = src.getDocs().find((d) => String(d[src.numberField]) === String(c.no));
+    if (!hit) continue;
+    if (resolveRoute(c.type, String(c.no)) === '#') continue;
+    out.push(c);
+  }
+  return out;
+}
+
 /**
  * 给数据行批量预计算上下游关联单号。
  * 返回原行 + 4 个增强字段：upstreamNo / upstreamDocs / downstreamNo / downstreamDocs。
