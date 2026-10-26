@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026-10-26_V3.113.2_财务域来源单号可点验证报告</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --line:#e3e8ef; --ink:#1f2733; --sub:#5b6675; --ok:#1a7f37; --okbg:#e7f6ec; --warn:#9a6700; --warnbg:#fff4e0; --fix:#6b3fa0; --fixbg:#f1ebfb; --blue:#1763c5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.68;padding:28px}
+  .wrap{max-width:980px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:16px;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600}
+  .tag.ok{background:var(--okbg);color:var(--ok)}
+  .tag.fix{background:var(--fixbg);color:var(--fix)}
+  .tag.warn{background:var(--warnbg);color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;background:#fafbfc}
+  tr:last-child td{border-bottom:none}
+  .pass{color:var(--ok);font-weight:600}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f5f8;padding:1px 5px;border-radius:5px}
+  .note{font-size:13px;color:var(--sub);margin-top:8px}
+  .kv{font-size:14px}
+  .kv b{display:inline-block;min-width:104px;color:var(--sub)}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:5px 0}
+  .box-ok{border-left:4px solid var(--ok);background:var(--okbg);padding:12px 14px;border-radius:8px}
+  .box-fix{border-left:4px solid var(--fix);background:var(--fixbg);padding:12px 14px;border-radius:8px}
+  footer{color:var(--sub);font-size:12px;margin-top:8px;text-align:center}
+  .muted{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP 财务域「来源单号」可点跳转 · 验证报告</h1>
+  <div class="meta">版本 V3.113.2 ｜ 验证日期 2026-10-26 ｜ 生产环境 <span class="code">https://ssa-erp.pages.dev</span>（主包 <span class="code">index-suns-Pv0.js</span>，与本地 dist 哈希完全一致 <span class="code">d93484e4f35b6f92d58fc53764102ad0</span>）｜ 本地 5/5 + 生产 4/4 + 死链降级实证</div>
+
+  <div class="card">
+    <h2>结论 <span class="tag ok">已上线 · 已验证</span> <span class="tag fix">死链防线三层</span></h2>
+    <div class="box-ok">
+      财务域弹窗式详情里的「关联采购单」「关联发票」「来源单据」全部改为<b>蓝色可点链接</b>，点击真实跳转到对应单据详情页。生产环境真实登录后实证：发票详情点击 <span class="code">PO20240506001</span> 跳到 <span class="code">/purchase/orders/po_a7043d4aa68e47ffb88531134a33106a</span>（生产库真实订单 ID）；付款计划弹窗 4 个可点链接且采购单号与发票号<b>分列不混显</b>；凭证编辑弹窗「来源单据」行已渲染。功能已上线生产，页面 0 未捕获异常。
+    </div>
+    <div class="box-fix" style="margin-top:12px">
+      本版同时建立<b>死链防线三层</b>：① 按单号前缀推断目标类型（<span class="code">inferRelatedRefByNo</span>）；② 存在性校验（<span class="code">pickExistingRefs</span>，解析不出真实目标的引用一律丢弃）；③ <b>视觉降级</b>——<span class="code">RelatedDocLinks</span> 解析不到路由时渲染为灰色纯文本（<span class="code">text.disabled</span> + 悬浮提示「目标单据不存在或尚未加载」），<b>不再伪装成点不动的蓝色假链接</b>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>一、探查结论（先查清再动手）</h2>
+    <div class="kv">
+      <p><b>详情形态</b>　财务域详情实为<b>居中弹窗 Dialog</b>，不是右侧抽屉（全仓 <span class="code">Drawer</span> 仅命中采购域专用 <span class="code">DetailDrawer.tsx</span>，<span class="code">src/pages/Finance/</span> 下零命中）。</p>
+      <p><b>字段名</b>　字面「来源单号」在财务域<b>零命中</b>，实际对应物是「关联采购单」「关联发票」「关联单号」。</p>
+      <p><b>最大缺口</b>　凭证<b>有</b> <span class="code">source</span> 与 <span class="code">sourceNo</span> 数据，但界面<b>完全不渲染</b>。</p>
+      <p><b>编号体系</b>　应付应收存业务发票号（<span class="code">PI-*</span> / <span class="code">SI-*</span>），发票表存 <span class="code">INV-*</span>，凭证从扁平分录派生时 <span class="code">sourceNo</span> 存<b>凭证号自身</b>——三套体系不通，按映射表盲指必然死链。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>二、改造范围</h2>
+    <table>
+      <thead><tr><th style="width:20%">位置</th><th style="width:34%">改造前</th><th>改造后</th></tr></thead>
+      <tbody>
+        <tr><td>发票详情弹窗</td><td>「关联采购单」纯文本</td><td>蓝色可点链接 + 新增「关联单据」区块（上游=采购订单）</td></tr>
+        <tr><td>付款计划详情弹窗</td><td>「关联采购单」「关联发票」纯文本</td><td>两者<b>分别</b>可点（<span class="code">filterType</span> 分流，不混显）+ 新增关联区块</td></tr>
+        <tr><td>付款计划列表</td><td>唯一「关系已登记但列表未接入」的财务单据</td><td>补齐上下游关联列；列表「关联发票」列改可点 + 补「关联采购单」列</td></tr>
+        <tr><td>资金流水弹窗</td><td>「关联单号」可编辑输入框</td><td>保留输入框（新建/编辑复用同一弹窗，链接化会破坏编辑）+ 另加只读「查看关联单据」可点区</td></tr>
+        <tr><td>凭证编辑弹窗</td><td>来源单据<b>完全不渲染</b></td><td>新增「来源单据」只读可点行（含来源类型中文标签）</td></tr>
+      </tbody>
+    </table>
+    <div class="note">新增可复用件 <span class="code">components/common/RelatedSourceField.tsx</span>：<span class="code">RelatedSourceField</span>（单字段可点，支持按目标类型过滤）+ <span class="code">RelatedDocsBlock</span>（整块关联区块，样式与 ObjectPage 一致）。内部复用 <span class="code">useRelatedDocs</span>，因而同样享有 V3.113.1 的「水合后重算」能力。</div>
+  </div>
+
+  <div class="card">
+    <h2>三、验证结果</h2>
+    <table>
+      <thead><tr><th style="width:12%">环境</th><th style="width:26%">场景</th><th style="width:26%">断言</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr><td>本地</td><td>发票详情 · 关联采购单</td><td>点击 <span class="code">PO20240506001</span> 跳转 <span class="code">/purchase/orders/po-001</span></td><td class="pass">✅</td></tr>
+        <tr><td>本地</td><td>付款计划详情 · 来源单号</td><td>弹窗 4 个可点链接；采购单号与发票号分列不混显</td><td class="pass">✅</td></tr>
+        <tr><td>本地</td><td>付款计划列表关联列</td><td>列表可点链接 2 个，点击跳 <span class="code">/finance/invoices</span></td><td class="pass">✅</td></tr>
+        <tr><td>本地</td><td>凭证 · 来源单据行</td><td>弹窗含「来源单据」行 + 1 个可点链接</td><td class="pass">✅</td></tr>
+        <tr><td>本地</td><td>死链降级</td><td>假单号 <span class="code">PO-2024-0330</span> 显示为灰色纯文本，<b>不是</b>链接</td><td class="pass">✅</td></tr>
+        <tr style="background:#fafbfc"><td><b>生产</b></td><td>发票详情 · 关联采购单</td><td>点击跳 <span class="code">/purchase/orders/po_a7043d4aa68e47ffb88531134a33106a</span></td><td class="pass">✅</td></tr>
+        <tr style="background:#fafbfc"><td><b>生产</b></td><td>付款计划详情 · 来源单号</td><td>4 个可点链接，采购单号/发票号分列</td><td class="pass">✅</td></tr>
+        <tr style="background:#fafbfc"><td><b>生产</b></td><td>付款计划列表关联列</td><td>点击跳 <span class="code">/finance/invoices</span></td><td class="pass">✅</td></tr>
+        <tr style="background:#fafbfc"><td><b>生产</b></td><td>凭证 · 来源单据行</td><td>已渲染（1 个可点链接）</td><td class="pass">✅</td></tr>
+        <tr style="background:#fafbfc"><td><b>生产</b></td><td>死链降级</td><td>假单号渲染为灰色纯文本</td><td class="pass">✅</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      本地 <span class="code">scripts/_verify_finance_related.mjs</span> 5/5 通过（0 控制台异常）；生产 <span class="code">scripts/_probe_prod_finance_related.mjs</span> 4/4 通过 + <span class="code">scripts/_probe_prod_deadlink.mjs</span> 死链降级通过（0 页面异常）。<br />
+      类型检查 <span class="code">tsc</span> 0 错；单元测试 <b>314 全过</b>（27 个测试文件）；构建通过；生产主包与本地 <span class="code">dist</span> 哈希一致。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>四、连带根修：ensureLoaded 全量补齐</h2>
+    <div class="box-fix">
+      关联关系是<b>派生数据</b>——目标源没被拉取时，根本无从判定单号是否存在，链接会<b>静默变成空</b>。这类「看起来什么都没发生」的缺陷比报错更难查，必须在源头补齐。
+    </div>
+    <table style="margin-top:12px">
+      <thead><tr><th style="width:26%">项目</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td>补齐前</td><td>DOC_SOURCES 共 <b>54</b> 个关系源，仅 <b>30</b> 个有 <span class="code">ensureLoaded</span>，<b>24 个缺失</b>（如 <span class="code">purchaseOrder</span> 缺 → 财务页不加载采购订单 → 引用被丢弃 → 链接渲染为空）</td></tr>
+        <tr><td>补齐后</td><td><b>54 / 54 全覆盖</b>，脚本校验 54 处调用全部命中真实方法</td></tr>
+        <tr><td>顺手根修</td><td><b>20 处「调用了 store 上并不存在的方法」</b>的既有隐患——因可选调用 <span class="code">?.()</span> 静默不报错，长期未暴露：<span class="code">hydrateContracts / hydrateFlow / hydrateLots / hydrateQualityExtension / hydrateFMEA / loadOrders / hydrateECN / hydrateProductionVersion / hydratePrice / loadVendors / loadMaterials / loadCustomers / hydrateSourceList / hydrateInfoRecords / loadWarehouseOrders / loadWarehouseAdvanced</span> 等</td></tr>
+        <tr><td>另修</td><td>凭证上游映射（<span class="code">payment</span>→<span class="code">paymentPlan</span>、<span class="code">scrap</span>→<span class="code">purchaseOrder</span>）；应收应付编号字段由内部主键 <span class="code">id</span> 改为业务发票号 <span class="code">invoiceNo</span>（列表关联列显示业务编号而非内部主键）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>五、验证数据说明</h2>
+    <ul>
+      <li>生产库 <span class="code">fin_invoices</span> 13 行、<span class="code">fin_payment_plans</span> 10 行<b>分布在 5 个组织</b>，而 E2E 超管属 <span class="code">org_e2e_sandbox</span>（原本 0 行）→ 探针最初报「列表无数据」是<b>数据缺口，非代码缺陷</b>。</li>
+      <li>已在<b>专用 E2E 沙箱租户</b> <span class="code">org_e2e_sandbox</span> 造 4 条验证数据，全部带 <span class="code">V31132</span> 标识、可一键回滚（脚本 <span class="code">scripts/seed/_seed_prod_finance_related.sql</span>）：</li>
+    </ul>
+    <table>
+      <thead><tr><th>单据</th><th>单号</th><th>指向</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>采购发票</td><td><span class="code">INV-V31132-001</span></td><td><span class="code">PO20240506001</span>（真实存在）</td><td>发票「关联采购单」可点</td></tr>
+        <tr><td>付款计划</td><td><span class="code">PP-V31132-001</span></td><td>采购订单 + 发票</td><td>「关联采购单」「关联发票」分别可点</td></tr>
+        <tr><td>草稿凭证</td><td><span class="code">V-V31132-001</span></td><td><span class="code">source=invoice</span></td><td>凭证「来源单据」可点</td></tr>
+        <tr><td>采购发票</td><td><span class="code">INV-V31132-DEAD</span></td><td><span class="code">PO-2024-0330</span>（<b>不存在</b>）</td><td>死链视觉降级</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>六、探针坑位（避免重复踩坑，已写入脚本注释）</h2>
+    <table>
+      <thead><tr><th style="width:44%">坑</th><th>正解</th></tr></thead>
+      <tbody>
+        <tr><td>MUI 的 <span class="code">&lt;Link component="button"&gt;</span> 实际渲染为 <span class="code">&lt;button class="MuiLink-root"&gt;</span>，既不是 <span class="code">&lt;a&gt;</span> 也不是 <span class="code">button.component-link</span></td><td>选择器用 <span class="code">button.MuiLink-root, a.MuiLink-root</span></td></tr>
+        <tr><td>MUI Dialog 关闭后 <b>DOM 仍保留</b>，<span class="code">getByRole('dialog').last()</span> 会命中空的残留节点 → 弹窗正文为空、链接数 0 的<b>假失败</b></td><td>按弹窗标题文本筛选：<span class="code">locator('[role="dialog"]').filter({ hasText: '付款详情' }).last()</span></td></tr>
+        <tr><td>新用户引导是 MUI 模态 Dialog，打开时给 <span class="code">#root</span> 加 <span class="code">aria-hidden="true"</span> → Playwright <span class="code">getByRole()</span> <b>全局失配</b>（<span class="code">getByText</span> 不受影响）</td><td>每次导航后都调 <span class="code">dismissOnboarding()</span>；且只点「跳过/知道了」，<b>绝不匹配「关闭」</b>（「关闭」是详情弹窗的按钮名，误点会关掉刚打开的弹窗）</td></tr>
+        <tr><td>列表多行时 <span class="code">getByRole('button',{name:'详情'}).first()</span> 会命中错误行</td><td>按数据行内文本定位行号后再取行内按钮</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>七、提交与发布</h2>
+    <div class="kv">
+      <p><b>git 提交</b>　<span class="code">20a6c20 V3.113.2 收口：财务域来源单号可点 + 死链视觉降级 + ensureLoaded 全量补齐</span>（11 个文件，+892 / -70）；前序 <span class="code">0900532</span>（V3.113.2 首轮）、<span class="code">de1b807</span>（V3.113.1）、<span class="code">687e2cc</span>（V3.113.0）。</p>
+      <p><b>生产部署</b>　远程 D1 迁移「No migrations to apply」（本版无表结构变更）+ 前端/函数已部署到生产主域，主包哈希与本地一致。</p>
+      <p><b>版本五处同步</b>　<span class="code">src/version.ts</span>、<span class="code">package.json</span>、<span class="code">docs/ssa-erp-master-plan.md</span>、<span class="code">src/content/manual.tsx</span>、<span class="code">.workbuddy/memory/MEMORY.md</span> 均为 V3.113.2。</p>
+    </div>
+  </div>
+
+  <footer>SSA ERP · V3.113.2 财务域「来源单号」可点跳转验证报告 · 生成于 2026-10-26</footer>
+</div>
+</body>
+</html>
