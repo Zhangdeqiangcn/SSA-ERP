@@ -55,7 +55,7 @@
 <div class="wrap">
   <h1>SSA ERP 对标 SAP / 用友 / 金蝶 · 差距评审报告与开发计划</h1>
   <div style="background:#fff7e6;border:1px solid #ffd591;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px">
-    <b>📌 本报告含 V3.113.3 实测复验修订（2026-10-27）。</b>第 0 期 4 条 P0 结论原基于静态代码检索推断，已逐条做端到端实测：<b class="up">P0-1 委外发料不过账 —— 结论已推翻</b>（链路本已通账，降级 P2-6）；<b class="pass">P0-2 / P0-3 / P0-4 —— 已修复并通过端到端验证（30/30 断言）</b>，其中 P0-3 另发现「判不合格未处置仍可出库」的更深漏洞、P0-4 实际缺陷比原报告更严重。修订详情见第二节顶部「实测复验修正」框。
+    <b>📌 本报告含 V3.113.3 实测复验修订（2026-10-27）。</b>第 0 期 4 条 P0 结论原基于静态代码检索推断，已逐条做端到端实测（<b>本地 + 生产各一轮，均 31/31 断言全通过</b>）：<b class="up">P0-1 委外发料不过账 —— 结论已推翻</b>（链路本已通账，降级 P2-6）；<b class="pass">P0-2 / P0-3 / P0-4 —— 已修复并通过端到端验证（30/30 断言）</b>，其中 P0-3 另发现「判不合格未处置仍可出库」的更深漏洞、P0-4 实际缺陷比原报告更严重。修订详情见第二节顶部「实测复验修正」框。
   </div>
   <div class="meta">
     被测版本 <b>V3.113.2</b>（2026-10-26）｜ 评审日期 2026-10-27 ｜ 竞品基线 SAP S/4HANA Cloud 2608 · 用友 U9 cloud 2026 / BIP 6 · 金蝶AI星空 V9.1 / 灵基 Lingee
@@ -136,7 +136,8 @@
           </tr>
         </tbody>
       </table>
-      <p style="margin:10px 0 0;font-size:13px"><b>端到端验证结果：30/30 断言全通过</b>（P0-2 合并账簿 7 项、P0-3 质量冻结 11 项、P0-4 门户激活 12 项），脚本见 <span class="code">scripts/_verify_p0_fixes.mjs</span>。</p>
+      <p style="margin:10px 0 0;font-size:13px"><b>端到端验证结果：31/31 断言全通过</b>（P0-2 合并账簿 7 项、P0-3 质量冻结 11 项、P0-4 门户激活 12 项、归属歧义守卫 1 项），脚本见 <span class="code">scripts/_verify_p0_fixes.mjs</span>。<b>本地与生产各跑一轮，均 31/31 通过。</b></p>
+      <p style="margin:8px 0 0;font-size:13px;background:#fff1f0;padding:8px 10px;border-radius:4px"><b>★ 另一条可复用教训（生产复验才暴露）：本地全绿 ≠ 生产正确。</b>P0-4 首轮修复后<b>本地 31/31 全绿，部署到生产只有 21/30</b> —— 差异点是注册端点的组织归属：它靠「公司码前 3 位 <span class="code">LIKE</span> 匹配 + <span class="code">LIMIT 1</span>」猜组织，而<b>生产同前缀组织有 762 个</b>（本地仅 58 个），<span class="code">LIMIT 1</span> 在本地恰好挑中正确组织、在生产则静默落错 → 申请进了别的组织，管理端永远看不到 → 症状与「审核端点缺失」一模一样，却完全是另一个根因。<b>测试环境的规模差异会系统性地掩盖这类缺陷</b>，故凡涉及「按某字段查唯一记录」的逻辑，必须在生产数据规模下复跑一次。</p>
     </div>
 
     <div class="scroll">
