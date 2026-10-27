@@ -222,7 +222,15 @@ export interface QualityHold {
   warehouseName?: string;
   batchNo?: string;
   quantity: number;
-  status: 'pending' | 'passed' | 'rejected';
+  /**
+   * ★ V3.113.3 P0-3 统一状态词表（此前前端用 pending/passed/rejected，
+   *   后端 D1 用 pending/active/released —— **两套名字**：
+   *   前端把后端的 'released'（已放行）当成了「非 passed」→ 继续扣留，
+   *   物料被永久锁死；后端又把前端的 'passed' 视为非生效态 → 冻结量不回冲）。
+   *   现统一为后端口径：pending（待放行）/ active（生效中）/ released（已放行），
+   *   并保留 passed/rejected 作为历史值兼容（见 isHoldActive 的映射）。
+   */
+  status: 'pending' | 'active' | 'released' | 'passed' | 'rejected';
   sourceInboundNo?: string;
   holdDate: string;
   releaseDate?: string;

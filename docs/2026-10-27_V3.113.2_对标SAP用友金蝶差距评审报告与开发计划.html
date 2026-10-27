@@ -27,6 +27,8 @@
   tr:last-child td{border-bottom:none}
   .pass{color:var(--ok);font-weight:600}
   .fail{color:var(--p0);font-weight:600}
+  /* V3.113.3 新增：实测复验修正标注（橙色警示，用于标记「结论已被实测推翻/细化」） */
+  .up{color:#d46b08;font-weight:600}
   .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f5f8;padding:1px 5px;border-radius:5px}
   .note{font-size:13px;color:var(--sub);margin-top:8px}
   .kv{font-size:14px}
@@ -52,6 +54,9 @@
 <body>
 <div class="wrap">
   <h1>SSA ERP 对标 SAP / 用友 / 金蝶 · 差距评审报告与开发计划</h1>
+  <div style="background:#fff7e6;border:1px solid #ffd591;border-radius:6px;padding:10px 14px;margin:10px 0;font-size:13.5px">
+    <b>📌 本报告含 V3.113.3 实测复验修订（2026-10-27）。</b>第 0 期 4 条 P0 结论原基于静态代码检索推断，已逐条做端到端实测：<b class="up">P0-1 委外发料不过账 —— 结论已推翻</b>（链路本已通账，降级 P2-6）；<b class="pass">P0-2 / P0-3 / P0-4 —— 已修复并通过端到端验证（30/30 断言）</b>，其中 P0-3 另发现「判不合格未处置仍可出库」的更深漏洞、P0-4 实际缺陷比原报告更严重。修订详情见第二节顶部「实测复验修正」框。
+  </div>
   <div class="meta">
     被测版本 <b>V3.113.2</b>（2026-10-26）｜ 评审日期 2026-10-27 ｜ 竞品基线 SAP S/4HANA Cloud 2608 · 用友 U9 cloud 2026 / BIP 6 · 金蝶AI星空 V9.1 / 灵基 Lingee
     ｜ 证据基线：253 个页面 · 158 个后端端点 · 195 张 D1 表 · 120 个迁移 · 96 个 store
@@ -60,7 +65,7 @@
   <div class="card">
     <h2>结论先行 <span class="tag ok">三句话</span></h2>
     <div class="box-ok">
-      <b>① 差距不在「功能清单」，在「账实相符」。</b>与三家标杆逐项比对后，SSA 在 MRP、有限产能排程、成本卷积、期末结账三闸、凭证自动生成、预算硬闸门、审批流、批次追溯、条码作业这些<strong>核心引擎</strong>上已达到「可演示、可运行、有真实运算」的水准，其中审批流与编码规则甚至优于国产三家。<strong>但仍有 4 个 P0 级断链让账实对不上</strong>：委外发料不写库存（1408 借方永不发生、借贷必不平）、合并报表无账簿条件（法定账套与管理账套凭证混算）、质量扣留不写冻结量（判不合格的料可出库）、供应商门户无审核激活入口（功能做了 95%，剩 5% 让整模块归零）。这四条是<strong>「差最后一公里」而非「差一代半」</strong>，修完账才敢谈生产可用。
+      <b>① 差距不在「功能清单」，在「账实相符」。</b>与三家标杆逐项比对后，SSA 在 MRP、有限产能排程、成本卷积、期末结账三闸、凭证自动生成、预算硬闸门、审批流、批次追溯、条码作业这些<strong>核心引擎</strong>上已达到「可演示、可运行、有真实运算」的水准，其中审批流与编码规则甚至优于国产三家。<strong>曾识别 4 个 P0 级断链让账实对不上</strong>：委外发料不写库存（1408 借方永不发生、借贷必不平）、合并报表无账簿条件（法定账套与管理账套凭证混算）、质量扣留不写冻结量（判不合格的料可出库）、供应商门户无审核激活入口（功能做了 95%，剩 5% 让整模块归零）。这四条是<strong>「差最后一公里」而非「差一代半」</strong>，修完账才敢谈生产可用。<br><br><b class="up">【V3.113.3 更新 · 实测复验】</b>这 4 条 P0 结论基于静态代码检索推断，端到端实测后：<b>委外发料链路本就通账（结论推翻，降级为 P2-6 可追溯性）</b>；合并账簿口径与质量冻结量<b>已修复并验证</b>（其中发现既有质量拦截漏掉「判不合格未处置」这一真漏洞，已补）；供应商门户审核链路<b>已修复并验证</b>（实际缺陷比原报告更严重：6 个端点缺失 + 双供应商表零匹配 + 注册只写单表）。<b>端到端验证 30/30 断言全通过。</b>
     </div>
     <div class="box-warn" style="margin-top:10px">
       <b>② 智能化的真实差距是「两代」，但原因不是模型。</b>SAP 已部署 50+ 个 Joule 助手编排 200+ 个专职智能体、用友 YonClaw 可执行端到端流程、金蝶灵基配 70 个 ERP 连接器与 1127 个工具并有 3706 家付费用户。SSA 已有<b>真大模型调用</b>（<span class="code">functions/api/ai/chat.ts</span> 直连 <span class="code">chat/completions</span>，含服务商/模型/字符量审计）且 ChatBI 已是<b>工具调用式</b>（<span class="code">tool.run</span> 路由 <b>9 个真实只读 SQL 工具</b>，非写死假对话）。<strong>缺的不是业务逻辑，而是「把业务逻辑暴露成智能体可调用工具」的那一层编排 + 治理</strong>。三家都在补的「AI 排产」也都建立在 APS + 工序数据之上——SSA 的底座不差。
@@ -87,7 +92,7 @@
       <thead><tr><th style="width:14%">口径</th><th style="width:12%">V2.56 旧值</th><th style="width:12%">V3.113.2</th><th>依据与变化说明</th></tr></thead>
       <tbody>
         <tr><td><b>名义覆盖率</b><br><span class="muted">清单里有</span></td><td>85%</td><td><b>约 92%</b></td><td>21 个业务域、253 页面；旧版「货源清单是壳、合并报表未实现、ChatBI 是假对话、客户主数据缺失、PO 无币种税率」五项已全部落地</td></tr>
-        <tr><td><b>实质覆盖率</b><br><span class="muted">有真实运算</span></td><td>65%</td><td><b>约 80%</b></td><td>MRP 双引擎、期末结账三闸、预算 fail-closed 硬闸门、行级三单匹配、GB/T 2828.1 AQL、质量冻结硬拦截、APS 有限产能排程、真实大模型调用与工具化 ChatBI 均为「有运算函数」；扣减项：委外不过账、电商空壳、循环盘点硬编码、银行对账为零、批次无差异分析</td></tr>
+        <tr><td><b>实质覆盖率</b><br><span class="muted">有真实运算</span></td><td>65%<br><span class="pass">→ V3.113.3 后约 72%</span></td><td><b>约 80%</b></td><td>MRP 双引擎、期末结账三闸、预算 fail-closed 硬闸门、行级三单匹配、GB/T 2828.1 AQL、质量冻结硬拦截、APS 有限产能排程、真实大模型调用与工具化 ChatBI 均为「有运算函数」；<b class="up">V3.113.3 已修复：合并报表账簿口径分裂、质量冻结量不落台账（含 rejected 漏网）、供应商门户审核激活全断链</b>；剩余扣减项：电商空壳、循环盘点硬编码、银行对账为零、批次无差异分析、委外凭证可追溯性</td></tr>
         <tr><td><b>生产可用率</b><br><span class="muted">敢上生产</span></td><td>40%</td><td><b>约 62%</b></td><td>↑ 明显改善（服务端化 158 端点、199 表、事务与幂等已成体系、审计与权限就位）；↓ 但 4 个 P0 断链未清，且缺银行对账/银企直连/PLM/薪资等整域能力，故不给更高</td></tr>
       </tbody>
     </table>
@@ -97,32 +102,69 @@
   <div class="card">
     <h2>二、P0 级断链（我亲自复验，仍存在）<span class="tag p0">账实不符</span></h2>
     <p class="muted" style="margin-top:0">这四条是本次评审最重要的产出。它们共同特征是：<strong>界面有、数据有、按钮能点，但动作没有落到该落的地方</strong>——不报错、不提示，用户以为成功了。</p>
+
+    <div style="background:#fff7e6;border-left:5px solid #fa8c16;padding:14px 18px;margin:16px 0;border-radius:4px">
+      <div style="font-weight:700;font-size:15px;margin-bottom:8px">⚠️ V3.113.3 实测复验修正（2026-10-27）· 本节结论已修订</div>
+      <p style="margin:0 0 8px">上表四条 P0 结论最初基于<b>静态代码检索（grep）</b>推断。V3.113.3 逐条做<b>端到端实测</b>后，结果为：<b>1 条被推翻、1 条比原结论更严重、2 条属实但需细化范围</b>。</p>
+      <p style="margin:0 0 8px"><b>方法论教训</b>：任何基于单点 grep 的「断链」结论，必须端到端实测后才能写进计划 —— P0-1 正是「只 grep 了 <span class="code">functions/api/subcontracts/*.ts</span>、没追通用出库端点」导致的误判。</p>
+      <table style="margin:8px 0 0;background:#fff">
+        <thead><tr><th style="width:6%">#</th><th style="width:20%">原结论</th><th style="width:46%">实测结果</th><th>修正动作</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>P0-1</b></td>
+            <td>委外发料<b>不过账</b>，库存不减、借贷必不平</td>
+            <td><b class="up">结论推翻</b>。实测链路：<span class="code">subcontractStore.issueMaterials</span> → 通用出库端点 <span class="code">POST /api/outbound-orders</span>（type=subcontract）→ 服务端扣库存 + 写流水 + 生成凭证 <span class="code">OUT-{outboundNo}</span>，<b>借 1408 委托加工物资 / 贷 1403 原材料</b>。<b>7/7 断言全过</b>（库存 100→60、存货价值 0→600、凭证借贷平衡）。</td>
+            <td>降级为 <b>P2-6 可追溯性增强</b>：当前凭证 <span class="code">source='inventory'</span>、无委外单号回溯标记；委外单与过账无强绑定（子单据可被单独删改）。<b>不需要重写过账链路</b>。</td>
+          </tr>
+          <tr>
+            <td><b>P0-2</b></td>
+            <td>合并报表无账簿条件，两套账混算</td>
+            <td><b>属实，需细化</b>。<span class="code">vouchers.ledger_book</span> / <span class="code">voucher_items.ledger_book</span> 列<b>本就存在</b>（迁移 0065 加、0068 重建保留），生产实测每组织确有 0000 法定 + 1000 管理两套账。真实缺陷是<b>聚合 SQL 抹平了账簿维度</b>（GROUP BY 不含 ledger_book）+ 抵消跨账簿进行。</td>
+            <td>✅ 已修：聚合按账簿分组、抵消只在同账簿内、账簿白名单入参、结果带账簿清单；前端账簿多选 + 分列 + 账套切换 + 导出带账套列。</td>
+          </tr>
+          <tr>
+            <td><b>P0-3</b></td>
+            <td>质量扣留不写冻结量，判废的料可出库</td>
+            <td><b>属实，且发现更深层漏洞</b>。① <span class="code">frozen_quantity</span> 全链路无人写无人读；② <b>既有质量拦截（V3.63.0）只查 <span class="code">status IN ('pending','active')</span>，漏掉 <span class="code">rejected</span></b> → 「已判不合格但尚未报废/返工/退货」的料照样能出库（这才是真漏洞）；③ 前后端状态词表分裂（前端把后端 <span class="code">released</span> 当扣留中 → 物料永久锁死）。</td>
+            <td>✅ 已修：冻结量落台账 + 同步扣 <span class="code">available_quantity</span>；放行/删除回冲（实际解冻量防虚增）；出库按可用量硬拦截；词表前后端统一为共享模块 <span class="code">qualityHoldStatus.ts</span>；<b>拦截补上 rejected</b>。</td>
+          </tr>
+          <tr>
+            <td><b>P0-4</b></td>
+            <td>供应商门户无审核激活入口，整模块归零</td>
+            <td><b>属实，且比原报告更严重</b>。除缺审核端点外，实测发现三处额外断裂：① 前端调用的 6 个端点（<span class="code">pending-approvals</span>/<span class="code">approve</span>/<span class="code">reject</span>/<span class="code">blacklist</span>/<span class="code">unblacklist</span>/<span class="code">ratings</span>）<b>后端全部不存在</b>；② <b>双供应商表断裂</b>——<span class="code">vendors</span>（门户账号表）与 <span class="code">vendor_master</span>（主数据表）生产实测各 15 / 90 行，按 id 与 vendor_code <b>均零匹配</b>，审核写主数据表、登录读账号表，状态永不同步；③ 自助注册只写账号表 → 管理端根本看不到申请。</td>
+            <td>✅ 已修：补齐 7 个端点；新增共享 <span class="code">vendorApproval.ts</span> 做两表状态同步与状态归一（<span class="code">active</span> → <span class="code">approved</span> 幂等自愈）；注册同时双写两表；评级落 <span class="code">vendor_performance</span> 并还原前端契约。</td>
+          </tr>
+        </tbody>
+      </table>
+      <p style="margin:10px 0 0;font-size:13px"><b>端到端验证结果：30/30 断言全通过</b>（P0-2 合并账簿 7 项、P0-3 质量冻结 11 项、P0-4 门户激活 12 项），脚本见 <span class="code">scripts/_verify_p0_fixes.mjs</span>。</p>
+    </div>
+
     <div class="scroll">
     <table>
       <thead><tr><th style="width:5%">#</th><th style="width:17%">断链</th><th style="width:38%">实测证据</th><th>后果与三家对标</th></tr></thead>
       <tbody>
-        <tr>
+        <tr style="background:#f6ffed">
           <td><b>P0-1</b></td>
-          <td><b>委外发料不过账</b><br><span class="muted">借贷必不平</span></td>
-          <td><span class="code">functions/api/subcontracts/*.ts</span> 全文 <b>0</b> 命中 <span class="code">postOutbound / postInbound / inventory_posted</span>。发出 1000 元原材料，<b>库存不减</b>；收货时却按 1408 凭记忆结转 → 1408 借方永不发生、贷方凭空结转。</td>
-          <td>三家均要求委外发料生成真实出库并挂 1408 在外物资。用友 U9 cloud 已把委外与主机厂 JIT 协同；金蝶 V9.1 明确「质量与委外协同增强」。<b>这是账实不符，会直接让存货与成本同时虚高</b>。</td>
+          <td><b>委外发料不过账</b><br><span class="muted">借贷必不平</span><br><span class="pass">★ 已推翻</span></td>
+          <td><span class="code">functions/api/subcontracts/*.ts</span> 全文 <b>0</b> 命中 <span class="code">postOutbound / postInbound / inventory_posted</span>。发出 1000 元原材料，<b>库存不减</b>；收货时却按 1408 凭记忆结转 → 1408 借方永不发生、贷方凭空结转。<br><br><b class="up">【V3.113.3 复验修正】</b>该结论基于 grep 推断，<b>实测不成立</b>：委外发料实际走通用出库端点 <span class="code">POST /api/outbound-orders</span>（type=subcontract），服务端<b>确实</b>扣库存、写流水、生成凭证（借 1408 / 贷 1403）。探针 <span class="code">scripts/_probe_p0_subcontract_posting.mjs</span> <b>7/7 通过</b>。原结论根因：只 grep 了委外专属目录，未追通用出库端点。</td>
+          <td>三家均要求委外发料生成真实出库并挂 1408 在外物资。用友 U9 cloud 已把委外与主机厂 JIT 协同；金蝶 V9.1 明确「质量与委外协同增强」。<b>这是账实不符，会直接让存货与成本同时虚高</b>。<br><br><b class="up">修正后</b>：过账链路本身无缺陷，降级为 P2-6「凭证可追溯性 + 委外单与过账强绑定」（凭证 <span class="code">source='inventory'</span> 缺委外单号回溯标记）。</td>
         </tr>
-        <tr>
+        <tr style="background:#f6ffed">
           <td><b>P0-2</b></td>
-          <td><b>合并报表无账簿条件</b><br><span class="muted">两套账混算</span></td>
-          <td><span class="code">functions/api/consolidation/index.ts:58</span> 注释白纸黑字：「同组织跨账簿：组织集合只有当前组织，<b>账簿不限（含全部 ledger_book）</b>」→ 法定账套与管理账套凭证被加进同一张试算平衡表。</td>
+          <td><b>合并报表无账簿条件</b><br><span class="muted">两套账混算</span><br><span class="pass">★ 已修复</span></td>
+          <td><span class="code">functions/api/consolidation/index.ts:58</span> 注释白纸黑字：「同组织跨账簿：组织集合只有当前组织，<b>账簿不限（含全部 ledger_book）</b>」→ 法定账套与管理账套凭证被加进同一张试算平衡表。<br><br><b class="up">【V3.113.3 复验细化】</b>列本身存在，缺陷在聚合 SQL 抹平维度 + 抵消跨账簿。已修并验证：同科目在两套账簿分行展示、账簿白名单生效。</td>
           <td>SAP 集团合并是独立产品线（2502→2608 七个版本持续交付），用友 BIP 6 并行 HKFRS/IFRS/CAS，金蝶全球化为多准则 + 出海套件。<b>口径错误的合并报表，等于没有</b>。</td>
         </tr>
-        <tr>
+        <tr style="background:#f6ffed">
           <td><b>P0-3</b></td>
-          <td><b>质量扣留不写冻结量</b><br><span class="muted">判废的料可出库</span></td>
-          <td><span class="code">functions/_shared/inventoryPosting.ts:355</span> INSERT 时 <span class="code">frozen_quantity</span> <b>写死 0</b>；<span class="code">frozen_quantity</span> 全库仅 4 处命中，无一处写入实际扣留数。扣留后冻结量仍为 0。</td>
+          <td><b>质量扣留不写冻结量</b><br><span class="muted">判废的料可出库</span><br><span class="pass">★ 已修复</span></td>
+          <td><span class="code">functions/_shared/inventoryPosting.ts:355</span> INSERT 时 <span class="code">frozen_quantity</span> <b>写死 0</b>；<span class="code">frozen_quantity</span> 全库仅 4 处命中，无一处写入实际扣留数。扣留后冻结量仍为 0。<br><br><b class="up">【V3.113.3 复验深化】</b>除台账不写外，另发现既有拦截 <span class="code">status IN ('pending','active')</span> <b>漏掉 rejected</b>，以及前后端状态词表分裂。均已修复并验证。</td>
           <td>三家均把「可用量 = 现有量 − 冻结量 − 占用量」作为硬口径并在 ATP / MRP / 出库三处统一。SSA 侧 ATP 前端单独减扣留、出库后端查冻结表 → <b>界面说扣了、后台没扣</b>，是典型的口径分裂。</td>
         </tr>
-        <tr>
+        <tr style="background:#f6ffed">
           <td><b>P0-4</b></td>
-          <td><b>供应商门户无审核激活入口</b><br><span class="muted">整模块归零</span></td>
-          <td><span class="code">functions/api/vendor/</span> 下只有 <span class="code">login.ts</span> 与 <span class="code">register.ts</span>，<b>无任何管理端审核/激活端点</b>；注册写死 <span class="code">status='pending'</span>，而登录要求 active → <b>注册后永久无法登录</b>。</td>
+          <td><b>供应商门户无审核激活入口</b><br><span class="muted">整模块归零</span><br><span class="pass">★ 已修复</span></td>
+          <td><span class="code">functions/api/vendor/</span> 下只有 <span class="code">login.ts</span> 与 <span class="code">register.ts</span>，<b>无任何管理端审核/激活端点</b>；注册写死 <span class="code">status='pending'</span>，而登录要求 active → <b>注册后永久无法登录</b>。<br><br><b class="up">【V3.113.3 复验升级】</b>实际比原报告更严重：前端 6 个端点后端全缺、<b>双供应商表零匹配</b>（15 vs 90 行）、注册只写单表。已全部修复并验证全链路闭环。</td>
           <td>「功能做了 95%，剩下 5% 让整个模块归零」。SAP 用供应商门户做协同采购；用友 AI 采购助理覆盖招标/合同/执行/分析/供应商五模块。<b>修一条审批链路即可激活整个门户</b>，投入产出比最高。</td>
         </tr>
       </tbody>
@@ -276,10 +318,10 @@
       <table>
         <thead><tr><th style="width:16%">项</th><th style="width:40%">内容</th><th style="width:12%">工作量</th><th>验收口径（可测）</th></tr></thead>
         <tbody>
-          <tr><td><b>P0-1 委外过账</b></td><td>委外发料生成出库单并写 1408 在外物资；回收生成退料入库单；移动均价取自凭证而非内存数组</td><td>L（5–7 天）</td><td>发出 1000 元料 → 库存<b>实减</b>、1408 借方发生、回收后退料入库单生成；跨设备打开成本仍正确</td></tr>
-          <tr><td><b>P0-2 合并账簿</b></td><td>合并报表加 <span class="code">ledger_book</span> 条件；账簿与组织两个维度独立；结果存期间/账簿/规则版本快照</td><td>M（3 天）</td><td>同组织两套账簿合并 → 试算平衡表<b>不混算</b>，法定账套与管理账套分列</td></tr>
-          <tr><td><b>P0-3 冻结量</b></td><td>质量扣留写真实 <span class="code">frozen_quantity</span>；解冻回冲；ATP / MRP / 出库三处<b>统一可用量口径</b></td><td>S（2 天）</td><td>扣留 100 件后 <span class="code">frozen_quantity=100</span>，出库 100 件被拒；MRP 净需求同步扣减</td></tr>
-          <tr><td><b>P0-4 门户激活</b></td><td>管理端审核 pending→active 端点 + 页面 + 审计 + 邮件通知</td><td>S（1–2 天）</td><td>注册→审核→登录<b>全链路通</b>；未激活登录仍 403</td></tr>
+          <tr style="background:#f6ffed"><td><b>P0-1 委外过账</b><br><span class="pass">★ 结论已推翻 → 降级 P2-6</span></td><td><s>委外发料生成出库单并写 1408 在外物资；回收生成退料入库单；移动均价取自凭证而非内存数组</s><br><b>实测链路本已通账</b>，V3.113.3 仅补「凭证可追溯性 + 委外单与过账强绑定」</td><td>~~L（5–7 天）~~<br>→ S（1 天，可追溯性）</td><td>凭证 <span class="code">source_no</span> 可回溯到委外单号；委外单被删/改时过账留痕报警</td></tr>
+          <tr style="background:#f6ffed"><td><b>P0-2 合并账簿</b><br><span class="pass">★ 已完成</span></td><td>合并报表加 <span class="code">ledger_book</span> 条件；账簿与组织两个维度独立；结果存期间/账簿/规则版本快照</td><td>M（3 天）<br>→ 实耗 1 天</td><td>同组织两套账簿合并 → 试算平衡表<b>不混算</b>，法定账套与管理账套分列 <span class="pass">✅ 7/7 通过</span></td></tr>
+          <tr style="background:#f6ffed"><td><b>P0-3 冻结量</b><br><span class="pass">★ 已完成</span></td><td>质量扣留写真实 <span class="code">frozen_quantity</span>；解冻回冲；ATP / MRP / 出库三处<b>统一可用量口径</b>；<b>补 rejected 漏网</b></td><td>S（2 天）<br>→ 实耗 1 天</td><td>扣留 100 件后 <span class="code">frozen_quantity=100</span>，出库 100 件被拒；MRP 净需求同步扣减 <span class="pass">✅ 11/11 通过</span></td></tr>
+          <tr style="background:#f6ffed"><td><b>P0-4 门户激活</b><br><span class="pass">★ 已完成</span></td><td>管理端审核 pending→active 端点 + 页面 + 审计 + 邮件通知；<b>补 7 个缺失端点 + 双表状态同步 + 注册双写</b></td><td>S（1–2 天）<br>→ 实耗 1 天</td><td>注册→审核→登录<b>全链路通</b>；未激活登录仍 403 <span class="pass">✅ 12/12 通过</span></td></tr>
           <tr><td><b>P1-5 序列号枚举</b></td><td>统一状态枚举（含迁移）；出库/查询/FIFO 选号三处对齐</td><td>S（1 天）</td><td>出库后序列号在批次台账中<b>可查且状态正确</b>，FIFO 能选中</td></tr>
           <tr><td><b>P1-3 循环盘点</b></td><td>盘点计划落表 + 按 ABC 自动生成 + 执行闭环接 <span class="code">check_tasks</span></td><td>M（3 天）</td><td>刷新页面计划<b>不丢</b>；盲盘可执行并回写</td></tr>
           <tr><td><b>补 1 处注释与代码不符</b></td><td>统一库存可用量口径的注释与实现；<span class="code">inventoryPosting.ts</span> 状态注释订正</td><td>XS（0.5 天）</td><td>注释与代码一致（避免下一轮评审再踩）</td></tr>
@@ -362,7 +404,7 @@
         <tr><td>ChatBI 是写死的假对话</td><td>P0</td><td><span class="pass">已修复</span></td><td>已为 <b>工具调用式</b>（<span class="code">tool.run</span> 路由真实 SQL 工具）</td></tr>
         <tr><td>合并报表未实现</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">consolidation/</span> 已建（但见 P0-2 账簿口径缺陷）</td></tr>
         <tr><td>质量扣留不写 frozen_quantity</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">inventoryPosting.ts:355</span> 写死 0 —— <b>本轮复验确认</b></td></tr>
-        <tr><td>委外发料无库存过账（1408 借方永不发生）</td><td>P1</td><td><span class="fail">仍存在</span></td><td><span class="code">subcontracts/*.ts</span> 0 命中过账 —— <b>本轮复验确认</b></td></tr>
+        <tr><td>委外发料无库存过账（1408 借方永不发生）</td><td>P1</td><td><span class="pass">已推翻</span></td><td><s><span class="code">subcontracts/*.ts</span> 0 命中过账 —— 本轮复验确认</s><br><b class="up">V3.113.3 端到端复验：委外发料走通用出库端点，<b>库存实减、1408 借方发生、借贷平衡（7/7）</b>；降级为 P2-6「凭证可追溯性」</b></td></tr>
         <tr><td>合并报表无 ledger_book 条件</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">consolidation/index.ts:58</span> 注释自认 —— <b>本轮复验确认</b></td></tr>
         <tr><td>供应商门户无激活入口</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">api/vendor/</span> 仅 login + register —— <b>本轮复验确认</b></td></tr>
         <tr><td>电商拉单/推库存/回写物流为空</td><td>P1</td><td><span class="fail">仍存在</span></td><td><span class="code">channels/[platform].ts:30,35,40</span> —— <b>本轮复验确认</b></td></tr>

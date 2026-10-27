@@ -22,15 +22,18 @@ import { type ExportSheet } from '@/utils/exportUtils';
 
 interface TrialRow {
   code: string; name: string; debit: number; credit: number; ending: number;
+  ledgerBook?: string; ledgerBookName?: string;
 }
 interface Elimination {
   ruleCode: string; ruleName: string; receivableAccount: string;
-  payableAccount: string; amount: number;
+  payableAccount: string; amount: number; ledgerBook?: string; ledgerBookName?: string;
 }
 interface ConsolidationResult {
   runId?: string; scope: string; period: string | null; baseCurrency: string;
   trialBalance: TrialRow[]; eliminations: Elimination[];
   totals: { debit: number; credit: number }; generatedAt: string;
+  /** V3.113.3 P0-2：本次实际纳入合并的账簿清单 */
+  ledgerBooks?: { code: string; name: string }[];
 }
 interface NamedItem { id: string; name: string; [k: string]: any; }
 
@@ -83,6 +86,9 @@ export default function ConsolidatedReport() {
   const [books, setBooks] = useState<NamedItem[]>([]);
   const [groups, setGroups] = useState<NamedItem[]>([]);
   const [rules, setRules] = useState<NamedItem[]>([]);
+  // ★ V3.113.3 P0-2：参与合并的账簿白名单（空 = 全部账簿）。
+  //   此前账簿列表只用于「账簿数」概览，从未参与合并 → 法定账套与管理账套被压进同一张表。
+  const [selectedBooks, setSelectedBooks] = useState<string[]>([]);
 
   // 加载配置（账簿/合并范围/抵消规则）
   const loadConfig = useCallback(async () => {
@@ -107,6 +113,8 @@ export default function ConsolidatedReport() {
     try {
       const body: any = { scope, period: period || undefined };
       if (scope === 'group') body.groupId = groupId || undefined;
+      // 账簿白名单（空数组 = 全部账簿，后端按全部处理）
+      if (selectedBooks.length > 0) body.ledgerBooks = selectedBooks;
       const r = await api<ConsolidationResult>('/api/consolidation', token, {
         method: 'POST', body: JSON.stringify(body),
       });
@@ -117,69 +125,130 @@ export default function ConsolidatedReport() {
     } finally {
       setLoading(false);
     }
-  }, [scope, period, groupId, token]);
+  }, [scope, period, groupId, selectedBooks, token]);
 
   const totalDebit = useMemo(() => result ? result.totals.debit : 0, [result]);
   const totalCredit = useMemo(() => result ? result.totals.credit : 0, [result]);
   const balanced = Math.abs(totalDebit - totalCredit) < 0.01;
 
   // 资产负债表结构
-  const bs = useMemo(() => {
+  // ★ V3.113.3 P0-2：**按账套分组**，每个账套各出一套平衡表。
+  //   旧实现把所有账套的科目汇到一起算「资产 = 负债 + 权益」——
+  //   但法定账套与管理账套是两套独立口径，相加后「凑平」是假象（实际是两套各自的差额抵消）。
+  //   分账套后，每套账自己平不平，一眼可见。
+  const bsGroups = useMemo(() => {
     if (!result) return null;
-    const byClass: Record<string, TrialRow[]> = {
-      asset: [], liability: [], equity: [], revenue: [], expense: [],
-    };
+    const groups = new Map<string, TrialRow[]>();
     for (const r of result.trialBalance) {
-      const cls = classifyAccount(r.code);
-      byClass[cls].push(r);
+      const key = r.ledgerBook || '0000';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(r);
     }
-    // 资产列：借方余额为正，贷方余额为负（备抵）
-    const assets = byClass.asset.map((r) => ({
-      code: r.code, name: r.name, section: '资产', amount: r.ending,
-    }));
-    const totalAssets = assets.reduce((s, r) => s + r.amount, 0);
-    // 负债
-    const liabilities = byClass.liability.map((r) => ({
-      code: r.code, name: r.name, section: '负债', amount: r.ending,
-    }));
-    const totalLiabilities = liabilities.reduce((s, r) => s + r.amount, 0);
-    // 权益（不含收入/费用，待加净利润）
-    const equityBase = byClass.equity.map((r) => ({
-      code: r.code, name: r.name, section: '所有者权益', amount: r.ending,
-    }));
-    const totalEquityBase = equityBase.reduce((s, r) => s + r.amount, 0);
-    // 净利润（收入-费用）
-    const totalRevenue = byClass.revenue.reduce((s, r) => s + r.ending, 0);
-    const totalExpense = byClass.expense.reduce((s, r) => s + r.ending, 0);
-    const netProfit = totalRevenue - totalExpense;
-    const totalEquity = totalEquityBase + netProfit;
-    return {
-      assets, totalAssets,
-      liabilities, totalLiabilities,
-      equity: [...equityBase, { code: '3103', name: '本年利润（本期净利）', section: '所有者权益', amount: netProfit }],
-      totalEquity,
-      netProfit,
-      balanced: Math.abs(totalAssets - (totalLiabilities + totalEquity)) < 0.01,
-    };
+    const out: {
+      ledgerBook: string;
+      ledgerBookName: string;
+      assets: { code: string; name: string; section: string; amount: number }[];
+      totalAssets: number;
+      liabilities: { code: string; name: string; section: string; amount: number }[];
+      totalLiabilities: number;
+      equity: { code: string; name: string; section: string; amount: number }[];
+      totalEquity: number;
+      netProfit: number;
+      balanced: boolean;
+    }[] = [];
+    for (const [lb, rows] of groups) {
+      const byClass: Record<string, TrialRow[]> = {
+        asset: [], liability: [], equity: [], revenue: [], expense: [],
+      };
+      for (const r of rows) byClass[classifyAccount(r.code)].push(r);
+      const assets = byClass.asset.map((r) => ({
+        code: r.code, name: r.name, section: '资产', amount: r.ending,
+      }));
+      const totalAssets = assets.reduce((s, r) => s + r.amount, 0);
+      const liabilities = byClass.liability.map((r) => ({
+        code: r.code, name: r.name, section: '负债', amount: r.ending,
+      }));
+      const totalLiabilities = liabilities.reduce((s, r) => s + r.amount, 0);
+      const equityBase = byClass.equity.map((r) => ({
+        code: r.code, name: r.name, section: '所有者权益', amount: r.ending,
+      }));
+      const totalEquityBase = equityBase.reduce((s, r) => s + r.amount, 0);
+      const totalRevenue = byClass.revenue.reduce((s, r) => s + r.ending, 0);
+      const totalExpense = byClass.expense.reduce((s, r) => s + r.ending, 0);
+      const netProfit = totalRevenue - totalExpense;
+      const totalEquity = totalEquityBase + netProfit;
+      out.push({
+        ledgerBook: lb,
+        ledgerBookName: rows[0]?.ledgerBookName || lb,
+        assets, totalAssets, liabilities, totalLiabilities,
+        equity: [...equityBase, { code: '3103', name: '本年利润（本期净利）', section: '所有者权益', amount: netProfit }],
+        totalEquity, netProfit,
+        balanced: Math.abs(totalAssets - (totalLiabilities + totalEquity)) < 0.01,
+      });
+    }
+    return out;
   }, [result]);
 
-  // 利润表结构
-  const is = useMemo(() => {
+  // 兼容旧引用：取第一个账套组（单账套场景与旧行为一致）
+  const bs = bsGroups && bsGroups.length > 0 ? bsGroups[0] : null;
+
+  // 利润表结构（★ P0-2：同样按账套分组）
+  const isGroups = useMemo(() => {
     if (!result) return null;
-    const revenueRows = result.trialBalance
-      .filter((r) => classifyAccount(r.code) === 'revenue')
-      .map((r) => ({ code: r.code, name: r.name, section: '营业收入', amount: r.ending }));
-    const expenseRows = result.trialBalance
-      .filter((r) => classifyAccount(r.code) === 'expense')
-      .map((r) => ({ code: r.code, name: r.name, section: '费用', amount: r.ending }));
-    const totalRevenue = revenueRows.reduce((s, r) => s + r.amount, 0);
-    const totalExpense = expenseRows.reduce((s, r) => s + r.amount, 0);
-    return { revenue: revenueRows, totalRevenue, expense: expenseRows, totalExpense, netProfit: totalRevenue - totalExpense };
+    const groups = new Map<string, TrialRow[]>();
+    for (const r of result.trialBalance) {
+      const key = r.ledgerBook || '0000';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(r);
+    }
+    const out: {
+      ledgerBook: string; ledgerBookName: string;
+      revenue: { code: string; name: string; section: string; amount: number }[];
+      totalRevenue: number;
+      expense: { code: string; name: string; section: string; amount: number }[];
+      totalExpense: number;
+      netProfit: number;
+    }[] = [];
+    for (const [lb, rows] of groups) {
+      const revenueRows = rows
+        .filter((r) => classifyAccount(r.code) === 'revenue')
+        .map((r) => ({ code: r.code, name: r.name, section: '营业收入', amount: r.ending }));
+      const expenseRows = rows
+        .filter((r) => classifyAccount(r.code) === 'expense')
+        .map((r) => ({ code: r.code, name: r.name, section: '费用', amount: r.ending }));
+      const totalRevenue = revenueRows.reduce((s, r) => s + r.amount, 0);
+      const totalExpense = expenseRows.reduce((s, r) => s + r.amount, 0);
+      out.push({
+        ledgerBook: lb,
+        ledgerBookName: rows[0]?.ledgerBookName || lb,
+        revenue: revenueRows, totalRevenue, expense: expenseRows, totalExpense,
+        netProfit: totalRevenue - totalExpense,
+      });
+    }
+    return out;
   }, [result]);
+
+  const is = isGroups && isGroups.length > 0 ? isGroups[0] : null;
+
+  // ★ P0-2：资产负债表/利润表按账套切换查看（多账套时逐套看，各自平不平一目了然）
+  const [activeBook, setActiveBook] = useState<string>('');
+  useEffect(() => {
+    if (!bsGroups || bsGroups.length === 0) { setActiveBook(''); return; }
+    if (!bsGroups.some((g) => g.ledgerBook === activeBook)) setActiveBook(bsGroups[0].ledgerBook);
+  }, [bsGroups, activeBook]);
+  const bsActive = bsGroups && bsGroups.length > 0
+    ? (bsGroups.find((g) => g.ledgerBook === activeBook) || bsGroups[0])
+    : null;
+  const isActive = isGroups && isGroups.length > 0
+    ? (isGroups.find((g) => g.ledgerBook === activeBook) || isGroups[0])
+    : null;
 
   // 试算平衡表 → 导出数据（V3.14.4 修正：改为 ExportSheet 标准契约 columns+rows）
+  // ★ P0-2：导出必须带「账套」列 —— 否则导出的表又变成两套账混在一起的口径，
+  //   用户拿去做审计/汇报时口径已丢失，缺陷在系统外复发。
   const trialExport = useMemo<ExportSheet>(() => {
     const columns = [
+      { key: 'ledgerBookName', label: '账套' },
       { key: 'code', label: '科目编码' },
       { key: 'name', label: '科目名称' },
       { key: 'debit', label: '借方', format: (r: TrialRow) => fmt(r.debit) },
@@ -252,6 +321,26 @@ export default function ConsolidatedReport() {
           </Select>
         )}
         <TextField size="small" label="会计期间（可空）" value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="如 2026-09" sx={{ minWidth: 160 }} />
+        {/* ★ V3.113.3 P0-2：账簿多选（不选 = 全部账簿）。
+            此前账簿维度完全不可选，法定账套与管理账套的凭证被压进同一行 —— 口径混算。 */}
+        <Select
+          size="small"
+          multiple
+          value={selectedBooks}
+          onChange={(e) => {
+            const v = e.target.value;
+            setSelectedBooks(typeof v === 'string' ? v.split(',') : v);
+          }}
+          renderValue={(v) => (v as string[]).length === 0 ? '全部账簿' : (v as string[]).join('、')}
+          displayEmpty
+          sx={{ minWidth: 220 }}
+        >
+          {books.map((b) => (
+            <MenuItem key={b.id} value={String(b.ledgerCode ?? b.code ?? b.id)}>
+              {b.name || b.ledgerCode || b.id}
+            </MenuItem>
+          ))}
+        </Select>
         <Button variant="contained" onClick={run} disabled={loading || (scope === 'group' && !groupId)}>
           {loading ? <CircularProgress size={18} /> : '执行合并'}
         </Button>
@@ -275,6 +364,23 @@ export default function ConsolidatedReport() {
             <Tab label="合并资产负债表" />
             <Tab label="合并利润表" />
           </Tabs>
+
+          {/* ★ P0-2：账套切换（多账套时逐套查看报表，各自平不平一目了然） */}
+          {(tab === 1 || tab === 2) && bsGroups && bsGroups.length > 1 && (
+            <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} flexWrap="wrap" gap={1}>
+              {bsGroups.map((g) => (
+                <Button
+                  key={g.ledgerBook}
+                  size="small"
+                  variant={g.ledgerBook === activeBook ? 'contained' : 'outlined'}
+                  onClick={() => setActiveBook(g.ledgerBook)}
+                >
+                  {g.ledgerBookName}
+                  {tab === 1 ? (g.balanced ? '（平衡）' : '（不平衡）') : ''}
+                </Button>
+              ))}
+            </Stack>
+          )}
 
           {/* Tab 0: 试算平衡表 */}
           {tab === 0 && (
@@ -300,14 +406,21 @@ export default function ConsolidatedReport() {
               <Table size="small">
                 <TableHead>
                   <TableRow>
+                    {/* ★ P0-2：新增「账套」列 —— 法定账套与管理账套的同科目分行展示，口径可见可核对 */}
+                    <TableCell>账套</TableCell>
                     <TableCell>科目编码</TableCell><TableCell>科目名称</TableCell>
                     <TableCell align="right">借方</TableCell><TableCell align="right">贷方</TableCell>
                     <TableCell align="right">余额</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {result.trialBalance.map((r) => (
-                    <TableRow key={r.code}>
+                  {result.trialBalance.map((r, i) => (
+                    <TableRow key={`${r.ledgerBook || '0000'}-${r.code}-${i}`}>
+                      <TableCell>
+                        <Typography variant="caption" color="text.secondary">
+                          {r.ledgerBookName || r.ledgerBook || '0000'}
+                        </Typography>
+                      </TableCell>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{r.code}</Typography></TableCell>
                       <TableCell>{r.name}</TableCell>
                       <TableCell align="right">{fmt(r.debit)}</TableCell>
@@ -316,7 +429,7 @@ export default function ConsolidatedReport() {
                     </TableRow>
                   ))}
                   {result.trialBalance.length === 0 && (
-                    <TableRow><TableCell colSpan={5} align="center" sx={{ py: 3, color: 'text.secondary' }}>
+                    <TableRow><TableCell colSpan={6} align="center" sx={{ py: 3, color: 'text.secondary' }}>
                       暂无凭证数据，请先录入凭证并指定账套
                     </TableCell></TableRow>
                   )}
@@ -328,7 +441,7 @@ export default function ConsolidatedReport() {
                   <Table size="small">
                     <TableHead>
                       <TableRow>
-                        <TableCell>规则</TableCell><TableCell>应收科目</TableCell><TableCell>应付科目</TableCell>
+                        <TableCell>规则</TableCell><TableCell>账套</TableCell><TableCell>应收科目</TableCell><TableCell>应付科目</TableCell>
                         <TableCell align="right">抵消金额</TableCell>
                       </TableRow>
                     </TableHead>
@@ -336,6 +449,7 @@ export default function ConsolidatedReport() {
                       {result.eliminations.map((e, i) => (
                         <TableRow key={i}>
                           <TableCell>{e.ruleName}（{e.ruleCode}）</TableCell>
+                          <TableCell><Typography variant="caption" color="text.secondary">{e.ledgerBookName || e.ledgerBook || '-'}</Typography></TableCell>
                           <TableCell>{e.receivableAccount}</TableCell>
                           <TableCell>{e.payableAccount}</TableCell>
                           <TableCell align="right">{fmt(e.amount)}</TableCell>
@@ -349,7 +463,7 @@ export default function ConsolidatedReport() {
           )}
 
           {/* Tab 1: 合并资产负债表 */}
-          {tab === 1 && bs && (
+          {tab === 1 && bsActive && (
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
                 <Typography variant="h6">合并资产负债表</Typography>
@@ -357,9 +471,9 @@ export default function ConsolidatedReport() {
                   范围={result.scope} · 期间={result.period || '全部'}
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
-                <Alert severity={bs.balanced ? 'success' : 'warning'} sx={{ py: 0 }}>
-                  资产合计 {fmt(bs.totalAssets)} = 负债 {fmt(bs.totalLiabilities)} + 权益 {fmt(bs.totalEquity)}
-                  {bs.balanced ? '（平衡）' : '（不平衡！）'}
+                <Alert severity={bsActive.balanced ? 'success' : 'warning'} sx={{ py: 0 }}>
+                  资产合计 {fmt(bsActive.totalAssets)} = 负债 {fmt(bsActive.totalLiabilities)} + 权益 {fmt(bsActive.totalEquity)}
+                  {bsActive.balanced ? '（平衡）' : '（不平衡！）'}
                 </Alert>
                 {bsExport.rows.length > 0 && (
                   <ExportMenu
@@ -381,7 +495,7 @@ export default function ConsolidatedReport() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {bs.assets.map((a) => (
+                  {bsActive.assets.map((a) => (
                     <TableRow key={a.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{a.code}</Typography></TableCell>
                       <TableCell>{a.name}</TableCell>
@@ -390,7 +504,7 @@ export default function ConsolidatedReport() {
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
                     <TableCell colSpan={2} sx={{ fontWeight: 700 }}>资产合计</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalAssets)}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bsActive.totalAssets)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -405,7 +519,7 @@ export default function ConsolidatedReport() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {bs.liabilities.map((l) => (
+                  {bsActive.liabilities.map((l) => (
                     <TableRow key={l.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{l.code}</Typography></TableCell>
                       <TableCell>{l.name}</TableCell>
@@ -414,7 +528,7 @@ export default function ConsolidatedReport() {
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
                     <TableCell colSpan={2} sx={{ fontWeight: 700 }}>负债合计</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalLiabilities)}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bsActive.totalLiabilities)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -429,7 +543,7 @@ export default function ConsolidatedReport() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {bs.equity.map((e) => (
+                  {bsActive.equity.map((e) => (
                     <TableRow key={e.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
                       <TableCell>{e.name}</TableCell>
@@ -438,7 +552,7 @@ export default function ConsolidatedReport() {
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
                     <TableCell colSpan={2} sx={{ fontWeight: 700 }}>所有者权益合计</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bs.totalEquity)}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(bsActive.totalEquity)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -446,7 +560,7 @@ export default function ConsolidatedReport() {
           )}
 
           {/* Tab 2: 合并利润表 */}
-          {tab === 2 && is && (
+          {tab === 2 && isActive && (
             <Paper sx={{ p: 2 }}>
               <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 1, flexWrap: 'wrap', gap: 1 }}>
                 <Typography variant="h6">合并利润表</Typography>
@@ -455,7 +569,7 @@ export default function ConsolidatedReport() {
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
                 <Alert severity="info" sx={{ py: 0 }}>
-                  净利润：{is.netProfit >= 0 ? '+' : ''}{fmt(is.netProfit)}
+                  净利润：{isActive.netProfit >= 0 ? '+' : ''}{fmt(isActive.netProfit)}
                 </Alert>
                 {isExport.rows.length > 0 && (
                   <ExportMenu
@@ -477,7 +591,7 @@ export default function ConsolidatedReport() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {is.revenue.map((r) => (
+                  {isActive.revenue.map((r) => (
                     <TableRow key={r.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{r.code}</Typography></TableCell>
                       <TableCell>{r.name}</TableCell>
@@ -486,7 +600,7 @@ export default function ConsolidatedReport() {
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
                     <TableCell colSpan={2} sx={{ fontWeight: 700 }}>营业收入合计</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(is.totalRevenue)}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(isActive.totalRevenue)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -501,7 +615,7 @@ export default function ConsolidatedReport() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {is.expense.map((e) => (
+                  {isActive.expense.map((e) => (
                     <TableRow key={e.code}>
                       <TableCell><Typography variant="body2" fontFamily="monospace">{e.code}</Typography></TableCell>
                       <TableCell>{e.name}</TableCell>
@@ -510,7 +624,7 @@ export default function ConsolidatedReport() {
                   ))}
                   <TableRow sx={{ bgcolor: 'grey.100' }}>
                     <TableCell colSpan={2} sx={{ fontWeight: 700 }}>费用合计</TableCell>
-                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(is.totalExpense)}</TableCell>
+                    <TableCell align="right" sx={{ fontWeight: 700 }}>{fmt(isActive.totalExpense)}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -518,8 +632,8 @@ export default function ConsolidatedReport() {
               <Box sx={{ mt: 3, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
                 <Stack direction="row" justifyContent="space-between" alignItems="center">
                   <Typography variant="subtitle1" fontWeight={700}>净利润（收入 - 费用）</Typography>
-                  <Typography variant="h6" fontWeight={700} color={is.netProfit >= 0 ? 'success.main' : 'error.main'}>
-                    {is.netProfit >= 0 ? '+' : ''}{fmt(is.netProfit)}
+                  <Typography variant="h6" fontWeight={700} color={isActive.netProfit >= 0 ? 'success.main' : 'error.main'}>
+                    {isActive.netProfit >= 0 ? '+' : ''}{fmt(isActive.netProfit)}
                   </Typography>
                 </Stack>
               </Box>

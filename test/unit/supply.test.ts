@@ -134,3 +134,52 @@ describe('computeATP：可承诺量 = 可用量 − 销售承诺（ATP 专有）
     expect(s.availableQty).toBe(100); // 供应量里没有"承诺"这个概念
   });
 });
+
+/**
+ * ★ V3.113.3 P0-3：质量冻结量统一到库存台账后的口径守护。
+ *
+ * 背景：旧版 frozen_quantity 全链路无人写、无人读，导致两套口径分裂 ——
+ *   ATP 页用「前端扣留数组」算可用量，库存台账 frozen_quantity 恒为 0，
+ *   界面「库存查询」的冻结数量列永远显示 0，审计对不上。
+ * 修复后：后端把冻结量落到 inventory_records.frozen_quantity，
+ *   前端可用量优先取台账冻结量，并与扣留数组取较大者（任一来源显示有扣留都不可当可用）。
+ */
+describe('V3.113.3 P0-3 冻结量口径统一', () => {
+  it('台账 frozen_quantity 优先：台账有冻结时按台账扣', () => {
+    const r = computeSupply({
+      material: { id: 'm1', currentStock: 100 } as any,
+      // 台账已有冻结 30（后端 P0-3 写入），扣留数组此刻为空（前端未水合）
+      inventoryRecords: [{ materialId: 'm1', quantity: 100, frozenQuantity: 30 } as any],
+      qualityHolds: [],
+    });
+    expect(r.holdQty).toBe(30);
+    expect(r.availableQty).toBe(70);
+  });
+
+  it('台账与扣留数组取较大者（任一来源显示有扣留都不可当可用）', () => {
+    const r = computeSupply({
+      material: { id: 'm1', currentStock: 100 } as any,
+      inventoryRecords: [{ materialId: 'm1', quantity: 100, frozenQuantity: 10 } as any],
+      qualityHolds: [hold('m1', 25, 'pending')],
+    });
+    expect(r.holdQty).toBe(25);
+    expect(r.availableQty).toBe(75);
+  });
+
+  it('released（后端放行口径）释放可用量 —— 与前端旧状态名 passed 等价', () => {
+    expect(isHoldActive({ status: 'released' })).toBe(false);
+    expect(isHoldActive({ status: 'passed' })).toBe(false);
+    expect(isHoldActive({ status: 'active' })).toBe(true);
+    expect(isHoldActive({ status: 'pending' })).toBe(true);
+  });
+
+  it('放行后可用量恢复', () => {
+    const r = computeSupply({
+      material: { id: 'm1', currentStock: 100 } as any,
+      inventoryRecords: [{ materialId: 'm1', quantity: 100, frozenQuantity: 0 } as any],
+      qualityHolds: [hold('m1', 20, 'released')],
+    });
+    expect(r.holdQty).toBe(0);
+    expect(r.availableQty).toBe(100);
+  });
+});

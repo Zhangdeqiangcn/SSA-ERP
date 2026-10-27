@@ -60,14 +60,29 @@ const num = (v: unknown): number => {
 /**
  * 占用可用量的扣留状态。
  *
- * ★ 与既有 `utils/atp.ts` 严格对齐（`status !== 'passed'` 即视为占用）：
- *   类型定义 QualityHold.status = 'pending' | 'passed' | 'rejected'
- *   —— 'rejected'（判定不合格）同样占着实物库存、同样不能用于生产，
- *   所以只有 'passed'（已放行）才释放。若这里按"另一套状态名"判定，
- *   ATP 与 MRP 就会各扣各的，恰好重演本函数要解决的口径分裂。
+ * ★ V3.113.3 P0-3：统一状态词表。
+ *   此前前端用 { pending, passed, rejected }、后端 D1 用 { pending, active, released }，
+ *   两套名字导致两处都错：
+ *     · 前端 `status !== 'passed'` → 后端写入的 'released'（已放行）被当成「仍在扣留」
+ *       → 物料被永久锁死，可用量回不来；
+ *     · 后端只认 { pending, active } → 前端的 'passed'（已放行）不触发冻结回冲
+ *       → 冻结量只增不减。
+ *
+ *   语义边界（重要）：**判定不合格 ≠ 已处理**。
+ *     · released / passed —— 已放行，可用量释放；
+ *     · rejected —— 判定不合格但**尚未处置**（还没报废/返工/退货），实物仍占库、仍不可用
+ *       → 继续占用可用量。
+ *     · pending / active / open / inspecting —— 扣留生效中，占用。
  */
-export const isHoldActive = (h: { status?: string } | null | undefined): boolean =>
-  !!h && String(h.status || '').toLowerCase() !== 'passed';
+export const isHoldActive = (h: { status?: string } | null | undefined): boolean => {
+  if (!h) return false;
+  const s = String(h.status || '').trim().toLowerCase();
+  if (!s) return true; // 状态缺失 → 保守按占用处理（宁可少算可用，不可多算）
+  // 已放行 → 释放
+  if (s === 'released' || s === 'passed') return false;
+  // 其余（pending / active / open / inspecting / rejected / 未知值）→ 占用
+  return true;
+};
 
 /**
  * 计算物料的供应量（MRP / ATP / 缺料预警的唯一口径）
@@ -86,8 +101,17 @@ export function computeSupply(input: SupplyInput): SupplyResult {
     ? round2(mine.reduce((s, r) => s + num((r as any).quantity), 0))
     : round2(num(input.material?.currentStock));
 
+  // ★ V3.113.3 P0-3：冻结量优先取**库存台账的 frozen_quantity**（与后端同源，权威），
+  //   无台账数据时才退回前端扣留单数组重算。
+  //   为什么优先台账：后端 P0-3 已把冻结量落到 inventory_records.frozen_quantity，
+  //   出库校验也用这一列。若前端仍用「本地扣留数组」另算一套，两边迟早漂移
+  //   （实测旧版正是这样：ATP 扣了、库存台账显示 0）。
+  const ledgerFrozen = fromRecords
+    ? round2(mine.reduce((s, r) => s + num((r as any).frozenQuantity ?? (r as any).frozen_quantity), 0))
+    : 0;
+
   const holds = Array.isArray(input.qualityHolds) ? input.qualityHolds : [];
-  const holdQty = round2(
+  const arrFrozen = round2(
     holds
       .filter((h) => isHoldActive(h as any))
       .filter((h) => !matId || String((h as any).materialId ?? (h as any).material_id ?? '') === String(matId))
@@ -97,6 +121,10 @@ export function computeSupply(input: SupplyInput): SupplyResult {
         return s + (q > 0 ? q : num((h as any).holdQty));
       }, 0)
   );
+
+  // 台账冻结量与扣留单数组取**较大者**：任一来源显示有扣留，都不能当作可用
+  // （取小者会让已冻结的料在 ATP 里显示为可用 → 计划员误判 → 领料时才被拒）
+  const holdQty = fromRecords ? round2(Math.max(ledgerFrozen, arrFrozen)) : arrFrozen;
 
   return {
     onHand,
