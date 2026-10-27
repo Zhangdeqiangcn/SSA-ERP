@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026-10-27_V3.113.3_对标第0期P0断链修复验证报告</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --line:#e3e8ef; --ink:#1f2733; --sub:#5b6675; --ok:#1a7f37; --okbg:#e7f6ec; --warn:#9a6700; --warnbg:#fff4e0; --p0:#c2410c; --p0bg:#fff1e8; --fix:#6b3fa0; --fixbg:#f1ebfb; --blue:#1763c5; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.68;padding:28px}
+  .wrap{max-width:1000px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:16px;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600}
+  .tag.ok{background:var(--okbg);color:var(--ok)}
+  .tag.fix{background:var(--fixbg);color:var(--fix)}
+  .tag.warn{background:var(--warnbg);color:var(--warn)}
+  .tag.p0{background:var(--p0bg);color:var(--p0)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;background:#fafbfc}
+  tr:last-child td{border-bottom:none}
+  .pass{color:var(--ok);font-weight:600}
+  .fail{color:var(--p0);font-weight:600}
+  .up{color:#d46b08;font-weight:600}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f5f8;padding:1px 5px;border-radius:5px}
+  .note{font-size:13px;color:var(--sub);margin-top:8px}
+  .kv{font-size:14px}
+  .kv b{display:inline-block;min-width:110px;color:var(--sub)}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:5px 0}
+  .box-ok{border-left:4px solid var(--ok);background:var(--okbg);padding:12px 14px;border-radius:8px}
+  .box-warn{border-left:4px solid var(--warn);background:var(--warnbg);padding:12px 14px;border-radius:8px}
+  .box-fix{border-left:4px solid var(--fix);background:var(--fixbg);padding:12px 14px;border-radius:8px}
+  .box-p0{border-left:4px solid var(--p0);background:var(--p0bg);padding:12px 14px;border-radius:8px}
+  .scroll{overflow-x:auto}
+  footer{color:var(--sub);font-size:12px;margin-top:8px;text-align:center}
+  .muted{color:var(--sub)}
+  .big{font-size:26px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP 对标第 0 期 P0 断链修复 · 验证报告</h1>
+  <div class="meta">版本 V3.113.3 ｜ 验证日期 2026-10-27 ｜ 生产环境 <span class="code">https://ssa-erp.pages.dev</span>（主包 <span class="code">index-BGCsui5H.js</span>，本地 = 生产哈希一致）｜ 本地 31/31 + <b>生产 31/31</b> 端到端断言全通过</div>
+
+  <div class="card">
+    <h2>结论先行 <span class="tag ok">31/31 生产通过</span></h2>
+    <div class="box-ok">
+      <b>第 0 期 4 条 P0 全部收口，但结论与上一轮评审报告并不相同 —— 因为这一轮全部改成了端到端实测，不再靠 grep 推断。</b><br>
+      上一轮基于静态代码检索给出的 4 条 P0 结论，逐条实测后：<b class="up">1 条被推翻</b>（委外发料本就通账）、<b>1 条比原报告更严重</b>（供应商门户实际有四处断裂）、<b>2 条属实但范围需细化</b>（合并账簿的列本就存在，缺陷在聚合维度；质量冻结的真漏洞不是台账不写，而是拦截漏了一个状态）。
+    </div>
+    <div class="box-warn" style="margin-top:10px">
+      <b>★ 本轮最可复用的两条教训：</b><br>
+      ① <b>静态检索只能告诉你「某处没有这个字符串」，不能告诉你「链路是断的」。</b>P0-1 若照原结论去改，最坏结果是把一条本来正确的过账链路重写一遍、改坏了反而更难查。<br>
+      ② <b>本地全绿 ≠ 生产正确。</b>P0-4 首轮修复后本地 31/31 全绿，部署到生产只有 21/30 —— 差异点是注册端点靠「公司码前 3 位 LIKE + LIMIT 1」猜组织，而生产同前缀组织有 <b>762 个</b>（本地仅 58 个），LIMIT 1 在本地恰好挑中正确组织、在生产则静默落错。<b>测试环境的规模差异会系统性地掩盖这类缺陷。</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>一、四条 P0 的实测复验结论 <span class="tag p0">对照原报告</span></h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:6%">#</th><th style="width:19%">原报告结论</th><th style="width:44%">实测结果</th><th>本次动作</th></tr></thead>
+      <tbody>
+        <tr style="background:#f6ffed">
+          <td><b>P0-1</b></td>
+          <td><b>委外发料不过账</b><br><span class="muted">库存不减、1408 借方永不发生、借贷必不平</span></td>
+          <td><b class="fail">结论推翻。</b>探针 <span class="code">scripts/_probe_p0_subcontract_posting.mjs</span> <b>7/7 全过</b>：委外发料走<b>通用出库端点</b> <span class="code">POST /api/outbound-orders</span>（type=subcontract）→ 服务端扣库存 + 写流水 + 生成凭证 <span class="code">OUT-{outboundNo}</span>，<b>借 1408 委托加工物资 / 贷 1403 原材料</b>，库存 100→60、存货价值 0→600、借贷平衡。<br><span class="up">原报告根因</span>：只 grep 了 <span class="code">functions/api/subcontracts/*.ts</span>，未追通用出库端点。</td>
+          <td>降级为 <b>P2-6 凭证可追溯性增强</b>（凭证 <span class="code">source='inventory'</span> 缺委外单号回溯标记；委外单与过账无强绑定）。<b>不需重写过账链路。</b></td>
+        </tr>
+        <tr style="background:#f6ffed">
+          <td><b>P0-2</b></td>
+          <td><b>合并报表无账簿条件</b><br><span class="muted">两套账混算</span></td>
+          <td><b>属实，但需细化。</b><span class="code">vouchers.ledger_book</span> / <span class="code">voucher_items.ledger_book</span> 列<b>本就存在</b>（迁移 0065 加、0068 重建保留）；生产实测每组织确有 <b>0000 法定 + 1000 管理</b>两套账。真实缺陷是<b>聚合 SQL 抹平了账簿维度</b>（GROUP BY 不含 ledger_book）+ 抵消跨账簿进行。</td>
+          <td><span class="pass">✅ 已修</span>：聚合按账簿分组、抵消只在同账簿内、账簿白名单入参、结果带账簿清单；前端账簿多选 + 账套列 + 按账套分组切换 + 导出带账套列。</td>
+        </tr>
+        <tr style="background:#f6ffed">
+          <td><b>P0-3</b></td>
+          <td><b>质量扣留不写冻结量</b><br><span class="muted">判废的料可出库</span></td>
+          <td><b>属实，且发现更深漏洞。</b>① <span class="code">frozen_quantity</span> 全链路无人写无人读；② <b>既有质量拦截（V3.63.0）只查 <span class="code">status IN ('pending','active')</span>，漏掉 <span class="code">rejected</span></b> → 「已判不合格但尚未报废/返工/退货」的料实物仍在库却能出库，<b>这才是真漏洞</b>；③ 前后端状态词表分裂（前端把后端 <span class="code">released</span> 当扣留中 → 物料永久锁死）。</td>
+          <td><span class="pass">✅ 已修</span>：冻结量落台账 + 同步扣 <span class="code">available_quantity</span>；放行/删除回冲（实际解冻量封顶防虚增）；出库按可用量硬拦截并留痕；<b>新增共享状态词表</b> <span class="code">functions/_shared/qualityHoldStatus.ts</span> 前后端统一；<b>拦截补上 rejected</b>。</td>
+        </tr>
+        <tr style="background:#f6ffed">
+          <td><b>P0-4</b></td>
+          <td><b>供应商门户无审核激活入口</b><br><span class="muted">整模块归零</span></td>
+          <td><b>属实，实际比原报告更严重 —— 实测共四处断裂。</b>① 前端调用的 6 个端点（待审/审核/拒绝/拉黑/解黑/评级）<b>后端全部不存在</b>；② <b>双供应商表断裂</b>：<span class="code">vendors</span>（门户账号表）15 行 vs <span class="code">vendor_master</span>（主数据表）90 行，按 id 与 vendor_code <b>均零匹配</b> —— 审核写主数据表、登录读账号表，状态永不同步；③ 自助注册只写账号表 → 管理端根本看不到申请；④ <b>生产复验新发现</b>：注册端点靠「公司码前 3 位 LIKE + LIMIT 1」猜组织，生产同前缀组织 762 个 → 供应商静默落到别的组织，管理端永远查不到。</td>
+          <td><span class="pass">✅ 已修</span>：补齐 7 个端点；新增共享 <span class="code">functions/_shared/vendorApproval.ts</span> 做两表状态同步与状态归一（存量 <span class="code">active</span> 幂等自愈为 <span class="code">approved</span>）；注册双表写入；<b>新增归属歧义守卫</b>（多候选 409 明确拒绝）。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>二、逐项验证断言 <span class="tag ok">本地 31/31</span> <span class="tag ok">生产 31/31</span></h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:14%">分组</th><th style="width:9%">项数</th><th>验证内容</th></tr></thead>
+      <tbody>
+        <tr><td><b>P0-2 合并账簿</b></td><td>7</td><td>同科目在两套账簿<b>分行展示</b>（不再混算）；法定 0000 / 管理 1000 各自成行；每套账金额独立（各 1000，未被加成 2000）；结果带账簿清单；账簿白名单生效（只合并指定账簿）。</td></tr>
+        <tr><td><b>P0-3 质量冻结</b></td><td>11</td><td>扣留单创建成功且 <span class="code">frozenApplied=true</span>；<span class="code">frozen_quantity</span> 0→100 写入台账；<span class="code">available_quantity</span> 100→0 同步扣减；出库 50 件被拒并留痕；被拒后库存未被动；被拒行未生成出库凭证（账实一致）；放行后冻结量回冲为 0；可用量恢复 0→100；放行后出库正常（100→50）；<b>判不合格（rejected）同样冻结实物</b>；<b>判不合格未处置的料被拦截不得出库</b>。</td></tr>
+        <tr><td><b>P0-4 门户激活</b></td><td>12</td><td>归属歧义被拒（生产 762 个同前缀组织 → 409 明确拒绝，不静默落错组织）；自助注册成功；待审列表可见该申请；未审核登录被拒 403；审核通过且 <span class="code">syncedTables=[vendor_master, vendors]</span>；门户账号表状态同步为 approved；审核后门户登录成功；拉黑成功；黑名单后登录被拒；黑名单列表可见；解黑成功；解黑后登录恢复。</td></tr>
+        <tr><td><b>评级</b></td><td>（含于上）</td><td>评级写入成功（综合 4.3）；评级记录可读回。</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="box-fix" style="margin-top:12px">
+      <b>关键实现要点（供后续维护参考）：</b>
+      <ul>
+        <li><b>共享状态词表</b> <span class="code">functions/_shared/qualityHoldStatus.ts</span>：<span class="code">HOLD_OCCUPYING_STATUSES</span> = pending / active / <b>rejected</b> / open / inspecting。后端三处（扣留创建、扣留 PUT、扣留 DELETE）与库存拦截统一引用，前端 <span class="code">utils/supply.ts</span> 的 <span class="code">isHoldActive</span> 语义对齐（状态缺失 → 保守占用）。<b>三处各写一份清单就一定会分叉，合并才防复发。</b></li>
+        <li><b>共享双表同步</b> <span class="code">functions/_shared/vendorApproval.ts</span>：<span class="code">syncVendorStatus</span> 先按 id 定位两表、再按 vendor_code 跨表兜底，状态变更必须经它，避免「审核一百次、账号状态永不变」。</li>
+        <li><b>路径纪律</b>：前端调 <span class="code">POST /vendors/:id/rate</span>（单数，写评级）与 <span class="code">GET /vendors/:id/ratings</span>（复数，读记录）—— 必须分两个文件，否则会出现 405。</li>
+        <li><b>归属判定</b>：<span class="code">body.orgId</span> 精确 → <span class="code">body.companyCode</span> 精确 → 前缀匹配<b>仅唯一命中才接受</b>，多候选 409 拒绝。保留 V3.21.0 的 <span class="code">likePrefix</span> 转义（用户输入前 3 位不能当通配符）。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>三、改动清单 <span class="tag fix">代码</span></h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:34%">文件</th><th style="width:12%">类型</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><span class="code">functions/api/consolidation/index.ts</span></td><td>改</td><td>聚合加 <span class="code">COALESCE(vi.ledger_book, v.ledger_book, '0000')</span> 分组；accounts 键改 <span class="code">${lb}|${code}</span>；抵消只在同一账簿内循环；新增 <span class="code">ledgerBooks</span> 白名单入参；结果带账簿清单与账簿名映射。</td></tr>
+        <tr><td><span class="code">functions/_shared/inventoryPosting.ts</span></td><td>改</td><td>新增 <span class="code">adjustFrozenQuantity</span> / <span class="code">getFrozenQuantity</span>；出库扣减处按 <span class="code">available_quantity</span> 硬拦截并写入 <span class="code">voucherIssues</span>；<span class="code">checkQualityBlocked</span> 改用共享词表（补上 rejected）。</td></tr>
+        <tr><td><span class="code">functions/_shared/qualityHoldStatus.ts</span></td><td><b>新增</b></td><td>扣留「占用实物」状态词表唯一来源（<span class="code">HOLD_OCCUPYING_STATUSES</span> + <span class="code">holdOccupiesStock</span>）。</td></tr>
+        <tr><td><span class="code">functions/api/quality-holds/index.ts</span> / <span class="code">[id].ts</span></td><td>改</td><td>创建扣留写冻结量并回传 <span class="code">frozenApplied</span>；PUT 按状态流转回冲/重冻/差额调整；DELETE 回冲冻结量。</td></tr>
+        <tr><td><span class="code">functions/_shared/vendorApproval.ts</span></td><td><b>新增</b></td><td>双表状态同步 <span class="code">syncVendorStatus</span>、状态归一 <span class="code">normalizeVendorStatus</span>、行格式化 <span class="code">formatVendorRow</span>、登录放行状态集。</td></tr>
+        <tr><td><span class="code">functions/api/vendors/pending-approvals.ts</span></td><td><b>新增</b></td><td>合并两表待审申请（按 vendor_code 去重，主数据表优先），门户注册行加 <span class="code">__source</span> 标记。</td></tr>
+        <tr><td><span class="code">functions/api/vendors/[id]/approve.ts</span> / <span class="code">reject.ts</span></td><td><b>新增</b></td><td>审核通过/拒绝（拒绝必填 reason），均经 <span class="code">syncVendorStatus</span> 同步两表。</td></tr>
+        <tr><td><span class="code">functions/api/vendors/[id]/blacklist.ts</span> / <span class="code">unblacklist.ts</span></td><td><b>新增</b></td><td>拉黑（原因追加进 <span class="code">blacklist_reason_history</span>，合规留痕）/ 解黑（恢复 approved，原因历史保留）。</td></tr>
+        <tr><td><span class="code">functions/api/vendors/[id]/rate.ts</span> / <span class="code">ratings.ts</span></td><td><b>新增</b></td><td>评级写 <span class="code">vendor_performance</span> 并同步主数据 <span class="code">rating</span>；读记录还原前端契约（criteria 存 remarks JSON）。</td></tr>
+        <tr><td><span class="code">functions/api/vendors/blacklist.ts</span> / <span class="code">ratings.ts</span></td><td><b>新增</b></td><td>黑名单列表、全量评级记录。</td></tr>
+        <tr><td><span class="code">functions/api/vendor/login.ts</span></td><td>改</td><td>放行 <span class="code">['approved','active']</span>，并把存量 <span class="code">active</span> 幂等归一为 <span class="code">approved</span>（避免改代码后存量供应商突然登不进去）。</td></tr>
+        <tr><td><span class="code">functions/api/vendor/register.ts</span></td><td>改</td><td>注册同时双写两表（同 id 同 vendor_code）；新增<b>组织归属歧义守卫</b>（orgId / companyCode 精确优先，前缀多候选 409 拒绝）。</td></tr>
+        <tr><td><span class="code">src/pages/Finance/ConsolidatedReport.tsx</span></td><td>改</td><td>账簿多选、试算平衡表与抵消明细加「账套」列、资产负债表/利润表按账套分组可切换、导出带账套列。</td></tr>
+        <tr><td><span class="code">src/utils/supply.ts</span> / <span class="code">src/types/supplyChain.ts</span></td><td>改</td><td><span class="code">isHoldActive</span> 统一状态词表并保留「判不合格仍占实物」语义；<span class="code">computeSupply</span> 冻结量取台账与扣留数组的<b>较大者</b>。</td></tr>
+        <tr><td><span class="code">test/unit/supply.test.ts</span></td><td>改</td><td>新增 4 条冻结量口径用例（台账优先、取较大者、released 释放、放行恢复）。</td></tr>
+        <tr><td><span class="code">scripts/_probe_p0_subcontract_posting.mjs</span> / <span class="code">scripts/_verify_p0_fixes.mjs</span></td><td><b>新增</b></td><td>委外过账专项探针（7 项断言）+ 三条 P0 端到端验证脚本（31 项断言，支持 <span class="code">D1_MODE=remote</span> 跑生产）。</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>四、验证与发布 <span class="tag ok">全部通过</span></h2>
+    <div class="kv">
+      <b>类型检查</b>src <span class="code">tsc --noEmit</span> 0 错；functions <span class="code">tsc -p tsconfig.functions.json</span> 0 错<br />
+      <b>单元测试</b>27 文件 / <b>318 全过</b>（原 314 + 新增 4 条冻结量口径用例）<br />
+      <b>构建</b><span class="code">npm run build</span> 成功，主包 <span class="code">dist/assets/index-BGCsui5H.js</span><br />
+      <b>本地端到端</b><span class="code">scripts/_verify_p0_fixes.mjs</span> → <b>31/31 通过</b><br />
+      <b>生产端到端</b><span class="code">BASE=https://ssa-erp.pages.dev D1_MODE=remote</span> → <b>31/31 通过</b><br />
+      <b>主包比对</b>本地 = 生产 = <span class="code">index-BGCsui5H.js</span>（哈希一致）<br />
+      <b>生产端点探活</b><span class="code">/vendors/pending-approvals</span>、<span class="code">/vendors/blacklist</span>、<span class="code">/vendors/ratings</span> → 401（存在且鉴权生效）；<span class="code">POST /vendors/:id/rate</span> → 401（POST 存在）；<span class="code">POST /vendors/:id/ratings</span> → 405（只注册 GET，符合设计）<br />
+      <b>提交</b><span class="code">05d4cd9</span> V3.113.3 主修复 · <span class="code">30e0577</span> 组织归属歧义守卫 · <span class="code">9ff22e7</span> 文档补记
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>五、遗留与下一步 <span class="tag warn">待强哥拍板</span></h2>
+    <ul>
+      <li><b>P2-6 委外凭证可追溯性</b>（本轮从 P0 降级）：凭证 <span class="code">source='inventory'</span>、<span class="code">source_no=OB-SUB-*</span>，无标记可回溯来源委外单；委外单与过账无强绑定，子单据可被单独删改。建议在凭证上加 <span class="code">source_type='subcontract'</span> + 委外单号，并让委外单删除时校验是否已过账。</li>
+      <li><b>生产脏数据待清理</b>：验证过程在生产 <span class="code">org_e2e_sandbox</span> 留下测试物料/库存行/扣留单/供应商若干（含 1 条归属歧义探针注册）。是否清理、留多少，请示下。</li>
+      <li><b>第 0 期剩余两项</b>：P1-5 序列号枚举统一、P1-3 循环盘点落表，均未开工。</li>
+      <li><b>第 1 期前置</b>：M-1 工序级成本依赖 P0-1（委外过账）与 P0-3（冻结量）先落地 —— 前者实测已通、后者本轮已完成，<b>依赖已解除</b>，可进入第 1 期。</li>
+    </ul>
+  </div>
+
+  <footer>SSA ERP V3.113.3 · 对标第 0 期 P0 断链修复验证报告 · 2026-10-27 · 本地与生产各跑一轮，均 31/31 断言全通过</footer>
+</div>
+</body>
+</html>
