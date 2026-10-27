@@ -41,8 +41,11 @@ const WRANGLER_CLI = [
 
 function d1(sql) {
   if (!WRANGLER_CLI) throw new Error('未找到 wrangler cli.js');
+  // D1_MODE=remote 时查/写生产库（默认 local）。
+  // ⚠️ 生产复验会往 org_e2e_sandbox 写测试数据，脚本自身带清理逻辑。
+  const remote = process.env.D1_MODE === 'remote';
   const out = execFileSync(
-    process.execPath, [WRANGLER_CLI, 'd1', 'execute', 'ssa-erp-db', '--local', '--command', sql],
+    process.execPath, [WRANGLER_CLI, 'd1', 'execute', 'ssa-erp-db', ...(remote ? ['--remote'] : ['--local']), '--command', sql],
     { cwd: ROOT, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 }
   );
   const start = out.indexOf('[');
@@ -275,12 +278,35 @@ section('P0-4 供应商审核激活（注册→待审→审核→登录 / 黑名
   // 找组织 company_code 前缀
   const org = d1(`SELECT id, company_code FROM orgs WHERE id='${ORG}'`)[0];
   const prefix = String(org?.company_code || 'E2E').slice(0, 3);
+  const VC = prefix + VCODE;
 
-  // ① 注册（自助注册走 vendor/register）
+  // ⓪ 归属歧义守卫：生产同前缀组织有 30+ 个，注册端点必须**拒绝**而非静默落错组织
+  //    （V3.113.3 生产复验发现的真实缺陷）
+  const samePrefix = d1(`SELECT COUNT(*) AS c FROM orgs WHERE company_code LIKE '${prefix}%'`)[0];
+  const samePrefixN = Number(samePrefix?.c || 0);
+  const regAmb = curl('POST', '/api/vendor/register', {
+    body: {
+      vendorCode: VC + 'X', companyName: 'P0-4 歧义探针', contactName: '测试联系人',
+      contactPhone: '13800000000', contactEmail: 'p04x@example.com', password: VPWD,
+    },
+  });
+  if (samePrefixN > 1) {
+    if (regAmb.status === 409 && /ORG_AMBIGUOUS|多个企业/.test(regAmb.text)) {
+      ok(`归属歧义被拒（${samePrefixN} 个同前缀组织 → 409 明确拒绝，不静默落错组织）`);
+    } else {
+      bad(`同前缀多组织时未拒绝：HTTP ${regAmb.status} ${regAmb.text?.slice(0, 160)}`);
+    }
+  } else {
+    ok(`同前缀组织唯一（${samePrefixN} 个），归属歧义分支不适用`);
+  }
+
+  // ① 注册（自助注册走 vendor/register，显式传 orgId 精确归属 —— 与生产真实场景一致：
+  //    管理员邀请供应商时知道归属组织；这也避开了「靠公司码前缀猜组织」的脆弱设计）
   const reg = curl('POST', '/api/vendor/register', {
     body: {
-      vendorCode: prefix + VCODE, companyName: 'P0-4 测试供应商', contactName: '测试联系人',
+      vendorCode: VC, companyName: 'P0-4 测试供应商', contactName: '测试联系人',
       contactPhone: '13800000000', contactEmail: 'p04@example.com', password: VPWD,
+      orgId: ORG,
     },
   });
   console.log(`  POST /api/vendor/register → HTTP ${reg.status}`);
@@ -290,13 +316,13 @@ section('P0-4 供应商审核激活（注册→待审→审核→登录 / 黑名
   // ② 待审列表应能看到（含两表合并）
   const pend = curl('GET', '/api/vendors/pending-approvals', { token });
   console.log(`  GET /api/vendors/pending-approvals → HTTP ${pend.status}，返回 ${Array.isArray(pend.data) ? pend.data.length : 'N/A'} 条`);
-  const pendItem = (pend.data || []).find((x) => x.code === prefix + VCODE);
+  const pendItem = (pend.data || []).find((x) => x.code === VC);
   if (pend.status === 200 && pendItem) ok('待审列表可见该注册申请（注册→审核链路打通）');
   else bad(`待审列表未见该申请：${JSON.stringify((pend.data || []).map((x) => x.code))}`);
 
   // ③ 未审核时门户登录应被拒
   const loginBefore = curl('POST', '/api/vendor/login', {
-    body: { vendorCode: prefix + VCODE, password: VPWD },
+    body: { vendorCode: VC, password: VPWD },
   });
   if (loginBefore.status === 403) ok('未审核登录被拒（403，语义正确）');
   else bad(`未审核登录未被拒：HTTP ${loginBefore.status}`);
@@ -314,7 +340,7 @@ section('P0-4 供应商审核激活（注册→待审→审核→登录 / 黑名
 
   // ⑤ 审核后门户登录应成功
   const loginAfter = curl('POST', '/api/vendor/login', {
-    body: { vendorCode: prefix + VCODE, password: VPWD },
+    body: { vendorCode: VC, password: VPWD },
   });
   if (loginAfter.status === 200 && loginAfter.data?.token) ok('审核后门户登录成功（整条链路通）');
   else bad(`审核后仍登不了：HTTP ${loginAfter.status} ${loginAfter.text?.slice(0, 150)}`);
@@ -322,15 +348,15 @@ section('P0-4 供应商审核激活（注册→待审→审核→登录 / 黑名
   // ⑥ 黑名单 → 登录被拒 → 解黑 → 可登录
   const blk = curl('POST', `/api/vendors/${pendItem?.id}/blacklist`, { token, body: { reason: 'P0-4 验证拉黑' } });
   if (blk.status === 200) ok('拉黑成功'); else bad(`拉黑失败：${blk.status} ${blk.text?.slice(0, 150)}`);
-  const loginBlk = curl('POST', '/api/vendor/login', { body: { vendorCode: prefix + VCODE, password: VPWD } });
+  const loginBlk = curl('POST', '/api/vendor/login', { body: { vendorCode: VC, password: VPWD } });
   if (loginBlk.status === 403) ok('黑名单后登录被拒（403）');
   else bad(`黑名单后仍能登录：HTTP ${loginBlk.status}`);
   const blkList = curl('GET', '/api/vendors/blacklist', { token });
-  if (blkList.status === 200 && (blkList.data || []).some((x) => x.code === prefix + VCODE)) ok('黑名单列表可见');
+  if (blkList.status === 200 && (blkList.data || []).some((x) => x.code === VC)) ok('黑名单列表可见');
   else bad(`黑名单列表未见：${JSON.stringify((blkList.data || []).map((x) => x.code))}`);
   const unblk = curl('POST', `/api/vendors/${pendItem?.id}/unblacklist`, { token });
   if (unblk.status === 200) ok('解黑成功'); else bad(`解黑失败：${unblk.status}`);
-  const loginUnblk = curl('POST', '/api/vendor/login', { body: { vendorCode: prefix + VCODE, password: VPWD } });
+  const loginUnblk = curl('POST', '/api/vendor/login', { body: { vendorCode: VC, password: VPWD } });
   if (loginUnblk.status === 200) ok('解黑后登录恢复');
   else bad(`解黑后仍登不了：HTTP ${loginUnblk.status}`);
 
