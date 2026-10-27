@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>2026-10-27_V3.113.2_对标SAP用友金蝶差距评审报告与开发计划</title>
+<style>
+  :root{ --bg:#f5f7fa; --card:#fff; --line:#e3e8ef; --ink:#1f2733; --sub:#5b6675; --ok:#1a7f37; --okbg:#e7f6ec; --warn:#9a6700; --warnbg:#fff4e0; --fix:#6b3fa0; --fixbg:#f1ebfb; --blue:#1763c5; --p0:#b42318; --p0bg:#fdeceb; --p1:#b54708; --p1bg:#fff4e6; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;background:var(--bg);color:var(--ink);line-height:1.68;padding:28px}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:23px;margin:0 0 4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:17px;margin:0 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  h3{font-size:14.5px;margin:16px 0 8px;color:#2c3644}
+  .tag{font-size:12px;padding:2px 9px;border-radius:999px;font-weight:600;white-space:nowrap}
+  .tag.ok{background:var(--okbg);color:var(--ok)}
+  .tag.fix{background:var(--fixbg);color:var(--fix)}
+  .tag.warn{background:var(--warnbg);color:var(--warn)}
+  .tag.p0{background:var(--p0bg);color:var(--p0)}
+  .tag.p1{background:var(--p1bg);color:var(--p1)}
+  .tag.blue{background:#e7f0fb;color:var(--blue)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:8px 0}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--sub);font-weight:600;background:#fafbfc}
+  tr:last-child td{border-bottom:none}
+  .pass{color:var(--ok);font-weight:600}
+  .fail{color:var(--p0);font-weight:600}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#f3f5f8;padding:1px 5px;border-radius:5px}
+  .note{font-size:13px;color:var(--sub);margin-top:8px}
+  .kv{font-size:14px}
+  .kv b{display:inline-block;min-width:110px;color:var(--sub)}
+  ul{margin:8px 0;padding-left:20px}
+  li{margin:5px 0}
+  .box-ok{border-left:4px solid var(--ok);background:var(--okbg);padding:12px 14px;border-radius:8px}
+  .box-fix{border-left:4px solid var(--fix);background:var(--fixbg);padding:12px 14px;border-radius:8px}
+  .box-warn{border-left:4px solid var(--warn);background:var(--warnbg);padding:12px 14px;border-radius:8px}
+  .box-p0{border-left:4px solid var(--p0);background:var(--p0bg);padding:12px 14px;border-radius:8px}
+  footer{color:var(--sub);font-size:12px;margin-top:8px;text-align:center}
+  .muted{color:var(--sub)}
+  .bar{height:9px;border-radius:5px;background:#e9edf2;overflow:hidden;min-width:74px;display:inline-block;vertical-align:middle}
+  .bar i{display:block;height:100%;border-radius:5px}
+  .scroll{overflow-x:auto}
+  .src{font-size:12px;color:var(--sub)}
+  a{color:var(--blue)}
+  .phase{border-left:4px solid var(--blue);background:#f2f7fd;padding:11px 14px;border-radius:8px;margin:10px 0}
+  .phase.p0{border-color:var(--p0);background:var(--p0bg)}
+  .phase.p1{border-color:var(--p1);background:var(--p1bg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SSA ERP 对标 SAP / 用友 / 金蝶 · 差距评审报告与开发计划</h1>
+  <div class="meta">
+    被测版本 <b>V3.113.2</b>（2026-10-26）｜ 评审日期 2026-10-27 ｜ 竞品基线 SAP S/4HANA Cloud 2608 · 用友 U9 cloud 2026 / BIP 6 · 金蝶AI星空 V9.1 / 灵基 Lingee
+    ｜ 证据基线：253 个页面 · 158 个后端端点 · 195 张 D1 表 · 120 个迁移 · 96 个 store
+  </div>
+
+  <div class="card">
+    <h2>结论先行 <span class="tag ok">三句话</span></h2>
+    <div class="box-ok">
+      <b>① 差距不在「功能清单」，在「账实相符」。</b>与三家标杆逐项比对后，SSA 在 MRP、有限产能排程、成本卷积、期末结账三闸、凭证自动生成、预算硬闸门、审批流、批次追溯、条码作业这些<strong>核心引擎</strong>上已达到「可演示、可运行、有真实运算」的水准，其中审批流与编码规则甚至优于国产三家。<strong>但仍有 4 个 P0 级断链让账实对不上</strong>：委外发料不写库存（1408 借方永不发生、借贷必不平）、合并报表无账簿条件（法定账套与管理账套凭证混算）、质量扣留不写冻结量（判不合格的料可出库）、供应商门户无审核激活入口（功能做了 95%，剩 5% 让整模块归零）。这四条是<strong>「差最后一公里」而非「差一代半」</strong>，修完账才敢谈生产可用。
+    </div>
+    <div class="box-warn" style="margin-top:10px">
+      <b>② 智能化的真实差距是「两代」，但原因不是模型。</b>SAP 已部署 50+ 个 Joule 助手编排 200+ 个专职智能体、用友 YonClaw 可执行端到端流程、金蝶灵基配 70 个 ERP 连接器与 1127 个工具并有 3706 家付费用户。SSA 已有<b>真大模型调用</b>（<span class="code">functions/api/ai/chat.ts</span> 直连 <span class="code">chat/completions</span>，含服务商/模型/字符量审计）且 ChatBI 已是<b>工具调用式</b>（<span class="code">tool.run</span> 路由 <b>9 个真实只读 SQL 工具</b>，非写死假对话）。<strong>缺的不是业务逻辑，而是「把业务逻辑暴露成智能体可调用工具」的那一层编排 + 治理</strong>。三家都在补的「AI 排产」也都建立在 APS + 工序数据之上——SSA 的底座不差。
+    </div>
+    <div class="box-fix" style="margin-top:10px">
+      <b>③ 战略上不该跟 SAP 比平台，该跟用友比工艺。</b>10–50 人制造区间，SAP 根本不是有效选项（S/4HANA 公有云首年 150–300 万、实施 3–6 个月，且<strong>中国区私有云路线图上要到 2026 Q3 才落地阿里云</strong>）；真实对手是用友系与金蝶系。SSA 唯一可防守的差异化战场是：<strong>云原生零升级 + 国产化开箱即用 + 制造工艺可计算</strong>。最该对标的不是金蝶的「小K 超级入口」叙事，而是用友 U9 cloud 2026 的<strong>智能裁切 + 工序级成本 + 废品成本多算法分摊</strong>——这三样都是可验收的具体工艺能力，而非平台叙事。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>诚实边界（先说清这份报告能信到什么程度）</h2>
+    <div class="kv">
+      <p><b>SSA 侧</b>　全部结论来自本机<strong>源码逐行核查 + 命令行检索</strong>，每条给出文件路径与行号，可复验。9 条 P0/P1 缺陷由我<strong>亲自二次复验</strong>（不采信子代理单方结论），复验命令与输出见附录 A。</p>
+      <p><b>竞品侧</b>　基于厂商<strong>官方新闻稿、官方博客、官方帮助文档、投资者关系公告</strong>与权威媒体；每条附来源与可靠性标注。<strong>三家产品均未实测</strong>，一律视为「官方宣称」。</p>
+      <p><b>时点声明</b>　竞品基线截至 <strong>2026-10</strong>。SAP Agent 能力多数仍为 Beta 或受限可用；YonClaw 处于邀请码体验/预售；金蝶灵基 2026-05 才发布、尚无规模化案例。<strong>不把路线图当现有功能</strong>——这是本报告与旧版对标报告最重要的口径修正。</p>
+      <p><b>本报告取代</b>　<span class="code">SSA-ERP-对标金蝶用友SAP深度审计报告-V3.44.0.html</span>（2026-10-04，落后约 70 个迁移）、<span class="code">benchmark-deep-per-module.md</span>（V2.29，落后 90+ 迁移）、<span class="code">SSA-ERP-全维度对标报告-V2.50.md</span>、<span class="code">SSA-ERP-V2.56-对标测试与改善建议报告.md</span>。旧报告的结论已按「已修复 / 仍存在 / 需复验」三态重判，<strong>不再沿用其计数</strong>（旧报告存在 KPI 数字与正文条目自相矛盾的问题）。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>一、覆盖率三口径 <span class="tag blue">量化锚点</span></h2>
+    <p class="muted" style="margin-top:0">单一百分比会骗人，故用三个口径分别回答三个问题：功能清单上有没有？实现到能演示吗？敢不敢真的上生产用？</p>
+    <table>
+      <thead><tr><th style="width:14%">口径</th><th style="width:12%">V2.56 旧值</th><th style="width:12%">V3.113.2</th><th>依据与变化说明</th></tr></thead>
+      <tbody>
+        <tr><td><b>名义覆盖率</b><br><span class="muted">清单里有</span></td><td>85%</td><td><b>约 92%</b></td><td>21 个业务域、253 页面；旧版「货源清单是壳、合并报表未实现、ChatBI 是假对话、客户主数据缺失、PO 无币种税率」五项已全部落地</td></tr>
+        <tr><td><b>实质覆盖率</b><br><span class="muted">有真实运算</span></td><td>65%</td><td><b>约 80%</b></td><td>MRP 双引擎、期末结账三闸、预算 fail-closed 硬闸门、行级三单匹配、GB/T 2828.1 AQL、质量冻结硬拦截、APS 有限产能排程、真实大模型调用与工具化 ChatBI 均为「有运算函数」；扣减项：委外不过账、电商空壳、循环盘点硬编码、银行对账为零、批次无差异分析</td></tr>
+        <tr><td><b>生产可用率</b><br><span class="muted">敢上生产</span></td><td>40%</td><td><b>约 62%</b></td><td>↑ 明显改善（服务端化 158 端点、199 表、事务与幂等已成体系、审计与权限就位）；↓ 但 4 个 P0 断链未清，且缺银行对账/银企直连/PLM/薪资等整域能力，故不给更高</td></tr>
+      </tbody>
+    </table>
+    <div class="note">评分卡（11 维，5 分制）：<b>财务严谨度 3.6</b>｜<b>供应链完整度 3.5</b>｜<b>生产制造深度 3.8</b>｜<b>质量管控 4.2</b>（强于国产三家均值）｜<b>平台与权限 3.4</b>｜<b>报表与分析 3.3</b>｜<b>智能化 2.2</b>（最弱）｜<b>合规与国产化 2.4</b>｜<b>多组织与合并 2.9</b>｜<b>移动与 PDA 3.1</b>｜<b>开放性 3.0</b>。</div>
+  </div>
+
+  <div class="card">
+    <h2>二、P0 级断链（我亲自复验，仍存在）<span class="tag p0">账实不符</span></h2>
+    <p class="muted" style="margin-top:0">这四条是本次评审最重要的产出。它们共同特征是：<strong>界面有、数据有、按钮能点，但动作没有落到该落的地方</strong>——不报错、不提示，用户以为成功了。</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:5%">#</th><th style="width:17%">断链</th><th style="width:38%">实测证据</th><th>后果与三家对标</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>P0-1</b></td>
+          <td><b>委外发料不过账</b><br><span class="muted">借贷必不平</span></td>
+          <td><span class="code">functions/api/subcontracts/*.ts</span> 全文 <b>0</b> 命中 <span class="code">postOutbound / postInbound / inventory_posted</span>。发出 1000 元原材料，<b>库存不减</b>；收货时却按 1408 凭记忆结转 → 1408 借方永不发生、贷方凭空结转。</td>
+          <td>三家均要求委外发料生成真实出库并挂 1408 在外物资。用友 U9 cloud 已把委外与主机厂 JIT 协同；金蝶 V9.1 明确「质量与委外协同增强」。<b>这是账实不符，会直接让存货与成本同时虚高</b>。</td>
+        </tr>
+        <tr>
+          <td><b>P0-2</b></td>
+          <td><b>合并报表无账簿条件</b><br><span class="muted">两套账混算</span></td>
+          <td><span class="code">functions/api/consolidation/index.ts:58</span> 注释白纸黑字：「同组织跨账簿：组织集合只有当前组织，<b>账簿不限（含全部 ledger_book）</b>」→ 法定账套与管理账套凭证被加进同一张试算平衡表。</td>
+          <td>SAP 集团合并是独立产品线（2502→2608 七个版本持续交付），用友 BIP 6 并行 HKFRS/IFRS/CAS，金蝶全球化为多准则 + 出海套件。<b>口径错误的合并报表，等于没有</b>。</td>
+        </tr>
+        <tr>
+          <td><b>P0-3</b></td>
+          <td><b>质量扣留不写冻结量</b><br><span class="muted">判废的料可出库</span></td>
+          <td><span class="code">functions/_shared/inventoryPosting.ts:355</span> INSERT 时 <span class="code">frozen_quantity</span> <b>写死 0</b>；<span class="code">frozen_quantity</span> 全库仅 4 处命中，无一处写入实际扣留数。扣留后冻结量仍为 0。</td>
+          <td>三家均把「可用量 = 现有量 − 冻结量 − 占用量」作为硬口径并在 ATP / MRP / 出库三处统一。SSA 侧 ATP 前端单独减扣留、出库后端查冻结表 → <b>界面说扣了、后台没扣</b>，是典型的口径分裂。</td>
+        </tr>
+        <tr>
+          <td><b>P0-4</b></td>
+          <td><b>供应商门户无审核激活入口</b><br><span class="muted">整模块归零</span></td>
+          <td><span class="code">functions/api/vendor/</span> 下只有 <span class="code">login.ts</span> 与 <span class="code">register.ts</span>，<b>无任何管理端审核/激活端点</b>；注册写死 <span class="code">status='pending'</span>，而登录要求 active → <b>注册后永久无法登录</b>。</td>
+          <td>「功能做了 95%，剩下 5% 让整个模块归零」。SAP 用供应商门户做协同采购；用友 AI 采购助理覆盖招标/合同/执行/分析/供应商五模块。<b>修一条审批链路即可激活整个门户</b>，投入产出比最高。</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>三、P1 级差距（含复验结论）</h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:5%">#</th><th style="width:19%">差距项</th><th style="width:34%">实测证据</th><th>对标与建议</th></tr></thead>
+      <tbody>
+        <tr><td><b>P1-1</b></td><td><b>银行对账完全为零</b></td><td>全库检索「银行对账 / bankReconcil / bankStatement / 流水导入」<b>0 命中</b>。只有 <span class="code">CashMgmtList</span> 的资金账户与流水手工台账，无流水导入、无自动匹配、无未达账项调节。</td><td>三家全有；用友司库对接 <b>2500+ 境内银行、120+ 国家</b>，金蝶有司库智能分析与流动性预测。<b>国内资金管理的入场券</b>，建议 P1 首位。</td></tr>
+        <tr><td><b>P1-2</b></td><td><b>电商渠道业务为空壳</b></td><td><span class="code">functions/api/channels/[platform].ts:30</span> 拉单 <span class="code">return []</span>；:35 推库存、:40 回写物流均返回「待接入」假成功。仅 OAuth 授权流程（抖音/拼多多真实端点）是真的。</td><td>表结构齐备（order_hub / channel_bindings / channel_sync_logs）。<b>「OAuth 真、业务假」</b>——要么接真接口，要么在选型材料中明确降级为「渠道已预留未启用」。</td></tr>
+        <tr><td><b>P1-3</b></td><td><b>循环盘点是硬编码常量</b></td><td><span class="code">src/pages/Warehouse/CheckList.tsx:45</span> <span class="code">generateCyclePlan()</span> 返回 <b>6 条写死数据</b>（冷轧板/热轧卷/不锈钢板…），:85 用 <span class="code">useState(generateCyclePlan)</span> 初始化、非持久化，注释自认「本地状态，非持久化」。</td><td>三家均有循环盘点计划 + 盲盘模式。金蝶与 SAP 支持按 ABC 分类自动生成循环盘点计划。<b>数据模型已有 check_tasks 表，缺的是计划生成与执行</b>。</td></tr>
+        <tr><td><b>P1-4</b></td><td><b>工单成本差异分析口径结构性失效</b></td><td><span class="code">src/pages/Production/CostCollection.tsx:75</span> <span class="code">actMaterial = unitMaterial × completedQuantity</span> → 实际材料成本 = 标准单位成本 × 完成量，<b>结构上不可能产生材料差异</b>（采购价差/领料量差/损耗全部体现不出）。</td><td>SAP 生产订单实际成本由领料 + 收货 + 报工 + 差异过账四类真实凭证汇总；用友 U9 cloud 2026 已能区分「上序转入」与「本序投入」并在工序级核算。<b>应从凭证派生实际成本</b>。</td></tr>
+        <tr><td><b>P1-5</b></td><td><b>序列号状态词表分裂</b></td><td><span class="code">inventoryPosting.ts:555-559</span> 注释仍描述「出库写 out_stock，但前端枚举里没有这个值」；但 :622 注释又称「状态用统一枚举（原先写 active）」→ <b>注释与代码不一致，需实测跑一次出库确认</b>。另 :230 查询用 <span class="code">status IN ('pending','active')</span>，与枚举 <span class="code">in_stock/shipped/scrapped/in_transit</span> 仍是两套。</td><td>三家均单一状态机 + 正反向追溯。SSA 已有 serial_masters + serial_movements 双表底座，<b>统一枚举是低成本高收益项</b>。</td></tr>
+        <tr><td><b>P1-6</b></td><td><b>数电票只有查验没有开具</b></td><td><span class="code">functions/api/tax-gateway/verify.ts</span> 是验票（第三方通道），<b>无开具/红冲/蓝票接口</b>。</td><td><b>2026 年中国市场的硬约束</b>：九部委 2026 全面推开电子凭证，GB/T 46971-2026 已实施。SAP 侧数电票入账/抵扣/红字仍需二开（第三方成本 40–400 万）→ <b>这是国产最实的一个反超窗口</b>。</td></tr>
+        <tr><td><b>P1-7</b></td><td><b>多币种报表折算缺失</b></td><td>有汇率主数据（fx_rates + effective_date）与期末汇兑损益结转，但<b>无多币种报表折算</b>（合并报表单一本位币）。</td><td>SAP 2608 有平行货币最新估值（Standard/Management/Remeasurement 三路径）；金蝶 GlobalEase 12 语言 + 属地税务直连。<b>出海客户的硬门槛</b>。</td></tr>
+        <tr><td><b>P1-8</b></td><td><b>MRP 供应侧不完整</b></td><td>供应侧仅采购在途；<b>在制工单与计划订单未计入</b> → 自制件在制 100 件仍会再建议生产 100 件。另 MRP 不扣质量冻结，与 ATP 的「现有量」定义不一致。</td><td>用友 U9 cloud 2026 需求计划「偏差率降低 30%、并行计算效率提升 50%」（厂商口径）；SAP IBP 每日运行 2 万个预测算法。<b>补供应侧是纯逻辑活</b>。</td></tr>
+        <tr><td><b>P1-9</b></td><td><b>批次无成本差异分析</b></td><td>batch_records 有成本快照 + FIFO 结转，但<b>批次层面无标准 vs 实际差异分析</b>（差异分析只在 BOM 层做）。</td><td>批次成本差异是食品、医药、危化品行业的报价与追溯基础。</td></tr>
+        <tr><td><b>P1-10</b></td><td><b>组织间交易仅标志位</b></td><td>migrations 全目录检索 <span class="code">intercompany</span> <b>0 命中</b> → <span class="code">intercompanyEnabled</span> 只是个开关，无组织间交易生成逻辑。</td><td>用友 BIP 6 全球合并 + 智能重分类引擎 + 集团成本还原；金蝶「人财物客项」十大域打通。<b>多组织客户的硬需求</b>。</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>四、整域空白 <span class="tag warn">检索命中数 = 0</span></h2>
+    <p class="muted" style="margin-top:0">以下能力在 pages / stores / utils / types / api / migrations 全域检索<b>零命中</b>，确认完全无实现（非「半实现」）：</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:20%">空白域</th><th style="width:26%">三家对标</th><th style="width:12%">建议批次</th><th>判断</th></tr></thead>
+      <tbody>
+        <tr><td><b>银行对账 + 银企直联</b></td><td>用友司库：2500+ 境内银行、120+ 国家、票据全流程</td><td>P1-1</td><td>资金管理入场券，三家都有</td></tr>
+        <tr><td><b>PLM 图纸管理</b></td><td>金蝶机械装备 PLM+ERP+MES 一体；用友项目制造闭环</td><td>P2</td><td>装备制造行业强需求；图表纸目前仅作销售附件</td></tr>
+        <tr><td><b>薪资 / 社保 / 工资核算</b></td><td>用友 YonSuite 人力云；金蝶 AI HR</td><td>P3</td><td>整域空白，非核心制造业可暂缓</td></tr>
+        <tr><td><b>关税 / 报关 / 贸易合规</b></td><td>金蝶 GlobalEase 贸易许可与保税管理</td><td>P3</td><td>进出口企业刚需，但非通用</td></tr>
+        <tr><td><b>渠道分销 / 多级分销</b></td><td>三家均有完整分销网络（现仅电商店铺绑定）</td><td>P3</td><td>快消/品牌商必需</td></tr>
+        <tr><td><b>集装箱 / 危险品管理</b></td><td>SAP 2608 新增危险化学品库存应用</td><td>P3</td><td>特定行业</td></tr>
+        <tr><td><b>索赔 / 合同变更索赔</b></td><td>用友项目型合同闭环</td><td>P2</td><td>项目型制造场景</td></tr>
+        <tr><td><b>预算下达 / 弹性预算</b></td><td>用友「四流合一」资金预算（刚性+柔性）</td><td>P2</td><td>现仅期间预算表，集团预算体系缺失</td></tr>
+        <tr><td><b>优化排程（遗传/退火等求解器）</b></td><td>金蝶 AI 增强 APS 为「基于目标的优化」</td><td>P2</td><td>现为前推式贪心；可后置</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>五、智能化差距：两代，但缺的不是模型 <span class="tag fix">核心判断</span></h2>
+    <table>
+      <thead><tr><th style="width:13%">维度</th><th style="width:20%">SAP</th><th style="width:20%">用友</th><th style="width:20%">金蝶</th><th style="width:27%">SSA ERP（实测）</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>AI 底座</b></td>
+          <td>Business Data Cloud + Knowledge Graph + SAP-RPT-1 关系型基础模型</td>
+          <td>YonLOM 本体大模型（19 个专业任务集，图推理）</td>
+          <td>灵基 Lingee 六层架构，企业上下文 3 万业务对象 / 80 万字段语义</td>
+          <td><b>❌ 无本体、无知识图谱</b>，只有函数式 <span class="code">functions/api/ai/chat.ts</span> 直连模型</td>
+        </tr>
+        <tr>
+          <td><b>智能体编排</b></td>
+          <td>Autonomous Suite：50+ 助手编排 200+ 专职智能体；Joule Studio / Agent Builder</td>
+          <td>YonClaw 两种任务模型（开放目标 + 端到端流程）；BIP 6 智能双模 + Agent Builder</td>
+          <td>灵基 Build 模式低代码建智能体；苍穹 Agent 平台 2.0 支持 MCP / A2A</td>
+          <td><b>❌ 无编排层</b>，<b>✅ 但已有工具</b>：ChatBI 的 <span class="code">tool.run</span> 路由 9 个真实只读 SQL 工具</td>
+        </tr>
+        <tr>
+          <td><b>治理</b></td>
+          <td>SAP for Me 治理 + 租户级状态核对（GA 自 2026-10 起）</td>
+          <td>YonAIG 智能体治理（身份/权限/调用轨迹/执行成本/评测/审计）</td>
+          <td>灵基治理与可信层；Lingee Bench 1400+ 题评测基准</td>
+          <td><b>⚠️ 有审计无治理</b>：AI 调用已记服务商/模型/字符量（不记正文，隐私正确），但无调用成本核算、无效果评测</td>
+        </tr>
+        <tr>
+          <td><b>制造侧 AI 落点</b></td>
+          <td>Joule Release 批量发布约 20 张生产订单 + 组件可用性/产能校验 + 重排程建议</td>
+          <td><b>智能裁切</b>（一维/二维最优母材切割）、智能对账、智能巡检六场景</td>
+          <td>小K 日排产（效率 +60%）、插单模拟（CTP 有限产能，+80%）、质量 8D（+75%）、呆滞料 90 天预警</td>
+          <td><b>✅ 底座齐</b>：APS 有限产能排程 + 需求预测（移动平均 + 安全库存 z=1.65 + ROP）已可产出；<b>❌ 缺行业 AI 模型</b>（裁切/排产优化求解）</td>
+        </tr>
+        <tr>
+          <td><b>实际可用性</b></td>
+          <td>多数 Agent 仍 Beta；结账编排 Agent 2026-09-30 才 GA；AP/现金匹配 Agent 要等 Q4</td>
+          <td>YonClaw 2026-04-28 发布，仍在邀请码体验 / 预售（6 月开售）</td>
+          <td>灵基 2026-05-20 发布，付费用户 3706 家（体量最小），ERP 连接器刚上线</td>
+          <td><b>—</b>（本栏不适用）</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="box-fix" style="margin-top:12px">
+      <b>差距量级判定（与旧版口径一致，且经本次复验仍成立）</b>：规则引擎 <b>持平</b>｜统计算法 <b>持平</b>｜大模型问答 <b>一代</b>｜大模型 + 业务上下文 <b>一代</b>｜智能体自主执行业务动作 <b>两代</b>｜智能体编排平台 <b>两代</b>。<br>
+      <b>但关键洞察变了</b>：旧版说「缺的是把业务逻辑暴露成工具的那一层」——这一层 SSA <b>现在其实已经有了雏形</b>（ChatBI 的 <span class="code">tool.run</span> + 9 个只读 SQL 工具 + AI 审计）。真正缺的是<b>「业务本体 + 编排 + 治理」三件套</b>，以及<b>把 AI 落到制造工艺的算法</b>。这比旧版判断的追赶成本要低，但要求对<b>工具层做治理化封装</b>（统一鉴权、幂等、可回溯、可评测），而不是继续堆页面。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>六、已具备的强项（勿破坏 · 对标确认）</h2>
+    <div class="box-ok">
+      以下能力经源码级核查确认<b>有真实运算、不是页面壳</b>，且在对应维度<b>不弱于三家标杆</b>，整改时不要误伤：
+    </div>
+    <ul>
+      <li><b>审批流引擎</b>　<span class="code">approvalFlowStore.ts</span> 773 行，含条件组求值；服务端 <span class="code">approvalInstance.ts</span> 支持<b>委托路由 + 职责分离（SoD）</b>、撤回、自动发起。深度接近 SAP Flexible Workflow，<b>三家国产产品均未达到</b>。</li>
+      <li><b>编码规则引擎</b>　编号规则中心化配置 + 前后缀 + 断号检查，<b>领先于三家</b>（三家均有编号规则，但国产两家多为简单流水）。</li>
+      <li><b>质量域纵深</b>　GB/T 2828.1 AQL 抽样（样本量 n / 接收数 Ac / 拒收数 Re 全部真算）、检验标准版本化、缺陷分级、NCR→CAPA（8D / PDCA）闭环、<b>质量冻结在过账层硬拦截</b>（<span class="code">checkQualityBlocked</span>）、FMEA、SPC、COA。<b>深度超过一般国产中型 ERP</b>。</li>
+      <li><b>期末结账三闸</b>　试算平衡 + 跨期凭证 + 折旧未计提；反结账需更高权限 + 强制填原因（≥4 字）+ 审计；<b>三态（开账 / 损益已结 / 已结账）</b>。金蝶与用友的智能结账编排（可视化定义月结步骤 + 账证/账账/账实三一致 AI 校验 + 多组织多账簿并行结账）是<b>值得抄的形态</b>，但底座 SSA 已有。</li>
+      <li><b>预算硬闸门</b>　<span class="code">paymentGate.ts</span> 服务端 fail-closed，读取失败按超预算拦截，超预算 422 拒写，管理员 override 留痕。旧版「假管控」已闭环。</li>
+      <li><b>凭证四路自动生成</b>　采购确认 / 付款 / 销售收款 / 库存入出库，服务端生成 + 金额复核 + 幂等键。旧版「业财一体化是打补丁」的判断已被推翻——<b>单账套 R2R 闭环是真实的</b>。</li>
+      <li><b>批次正反向追溯</b>　纯函数 <span class="code">buildTrace</span>，上游可追到供应商、下游可追到客户，跨多层 BOM 与工单。<b>三家都有，但金蝶/用友多数只在批次级</b>。</li>
+      <li><b>条码与扫码</b>　自实现 Code39 编码 + 条形绘制 + 二维码；<span class="code">BarcodeScanner</span> 用 zxing + 摄像头<b>真实解码</b>（旧版判定的「PDA 扫码是壳」已不成立）。</li>
+      <li><b>真实大模型调用与 AI 审计</b>　<span class="code">functions/api/ai/chat.ts</span> 直连 <span class="code">chat/completions</span>，审计记服务商 / 模型 / 消息条数 / 字符总量，<b>刻意不记对话正文</b>（数据出境合规的正确做法）。</li>
+      <li><b>领域宽度</b>　21 个业务域、253 页，覆盖三大标杆的绝大多数功能面且含 <b>ESG、COPA、SOP、WIP、设备保养、寄售、三方代销、电商、售后</b> 等长尾场景。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>七、战略选择：三个战场，SSA 该打哪个 <span class="tag blue">取舍</span></h2>
+    <table>
+      <thead><tr><th style="width:16%">战场</th><th style="width:28%">说明</th><th style="width:30%">SSA 现状</th><th>建议</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>① 本地财税与合规</b><br><span class="muted">开箱即用</span></td>
+          <td>数电票全流程、电子凭证（GB/T 46971-2026）、电子会计档案、多准则合并。<b>SAP 在中国这一线普遍需二开（第三方 40–400 万）</b>，国产三家开箱即用。</td>
+          <td>有查验通道，<b>无开具/红冲/归档</b>；电子档案为 0。</td>
+          <td><b>最高优先级战场。</b>窗口期 2026–2027，SAP 与 Oracle 在此最弱。补电子凭证全流程（接收→解析→验签→入账→归档）可直接写进选型验收条款。</td>
+        </tr>
+        <tr>
+          <td><b>② 制造工艺可计算</b><br><span class="muted">对标用友</span></td>
+          <td>用友 U9 cloud 2026：智能裁切（一维/二维）、工序级成本 + 废品多算法分摊 + 上序转入/本序投入区分（客户案例核算周期 5 天→0.5 天）。<b>全是可验收的具体工艺能力</b>。</td>
+          <td>APS 有限产能排程 + 需求预测 + BOM 多级卷积 + 标准成本差异<b>底座已齐</b>；<b>缺工序级成本与废品分摊算法</b>。</td>
+          <td><b>第二战场。</b>把「工序级成本 + 废品成本多算法分摊」做实，比追任何智能体叙事都更能赢得制造客户。顺带修 P1-4（实际成本改由凭证派生）。</td>
+        </tr>
+        <tr>
+          <td><b>③ 智能体直接调业务</b><br><span class="muted">对标金蝶</span></td>
+          <td>金蝶灵基 ERP 连接器：<b>70 个连接器、1127 个 Tool</b>，智能体直接调 ERP 业务能力。</td>
+          <td>ChatBI 已是工具调用式（<span class="code">tool.run</span>），但<b>只服务 ChatBI 一个页面，未平台化</b>，无鉴权/幂等/成本治理/评测。</td>
+          <td><b>第三战场，中期投入。</b>把现有工具层治理化抽成「统一工具注册表 + 调用审计 + 成本核算 + 评测基线」，即可复用到 20+ 业务场景。抄金蝶的「连接器 + Tool」形态，不抄它的平台叙事。</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><b>明确不打的仗</b>：不追 SAP 的平台化叙事（Business Data Cloud / Knowledge Graph / 200+ 智能体）——那是它在中国也最弱、最水土不服的一层（私有云路线图 2026 Q3 才上阿里云，公共云强制半年升级不可延期，公有云 Costing Variants 不可自定义）；不追超大型集团的全球多准则合并深度（SAP 仍领先但对 10–50 人区间杀鸡用牛刀）。</div>
+  </div>
+
+  <div class="card">
+    <h2>八、开发计划（按投入产出排序 · 四期）</h2>
+    <div class="note" style="margin-top:0">排序原则：<b>先修「账实不符」（不改就不能上生产）→ 再补「可验收的制造工艺能力」（决定能否赢单）→ 再补「合规入场券」（决定能否进候选名单）→ 最后做「智能体平台化」（决定能否讲长期故事）</b>。每期均带验收口径，不验收不进入下一期。</div>
+
+    <div class="phase p0">
+      <b>第 0 期 · 止血（1–2 周 · 4 项 P0 + 3 项低成本 P1）</b>　<span class="tag p0">不做完不叫生产可用</span>
+      <table>
+        <thead><tr><th style="width:16%">项</th><th style="width:40%">内容</th><th style="width:12%">工作量</th><th>验收口径（可测）</th></tr></thead>
+        <tbody>
+          <tr><td><b>P0-1 委外过账</b></td><td>委外发料生成出库单并写 1408 在外物资；回收生成退料入库单；移动均价取自凭证而非内存数组</td><td>L（5–7 天）</td><td>发出 1000 元料 → 库存<b>实减</b>、1408 借方发生、回收后退料入库单生成；跨设备打开成本仍正确</td></tr>
+          <tr><td><b>P0-2 合并账簿</b></td><td>合并报表加 <span class="code">ledger_book</span> 条件；账簿与组织两个维度独立；结果存期间/账簿/规则版本快照</td><td>M（3 天）</td><td>同组织两套账簿合并 → 试算平衡表<b>不混算</b>，法定账套与管理账套分列</td></tr>
+          <tr><td><b>P0-3 冻结量</b></td><td>质量扣留写真实 <span class="code">frozen_quantity</span>；解冻回冲；ATP / MRP / 出库三处<b>统一可用量口径</b></td><td>S（2 天）</td><td>扣留 100 件后 <span class="code">frozen_quantity=100</span>，出库 100 件被拒；MRP 净需求同步扣减</td></tr>
+          <tr><td><b>P0-4 门户激活</b></td><td>管理端审核 pending→active 端点 + 页面 + 审计 + 邮件通知</td><td>S（1–2 天）</td><td>注册→审核→登录<b>全链路通</b>；未激活登录仍 403</td></tr>
+          <tr><td><b>P1-5 序列号枚举</b></td><td>统一状态枚举（含迁移）；出库/查询/FIFO 选号三处对齐</td><td>S（1 天）</td><td>出库后序列号在批次台账中<b>可查且状态正确</b>，FIFO 能选中</td></tr>
+          <tr><td><b>P1-3 循环盘点</b></td><td>盘点计划落表 + 按 ABC 自动生成 + 执行闭环接 <span class="code">check_tasks</span></td><td>M（3 天）</td><td>刷新页面计划<b>不丢</b>；盲盘可执行并回写</td></tr>
+          <tr><td><b>补 1 处注释与代码不符</b></td><td>统一库存可用量口径的注释与实现；<span class="code">inventoryPosting.ts</span> 状态注释订正</td><td>XS（0.5 天）</td><td>注释与代码一致（避免下一轮评审再踩）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase p1">
+      <b>第 1 期 · 制造工艺可计算（3–5 周 · 决定能否赢单）</b>　<span class="tag p1">对标用友 U9 cloud 2026</span>
+      <table>
+        <thead><tr><th style="width:16%">项</th><th style="width:40%">内容</th><th style="width:12%">工作量</th><th>验收口径</th></tr></thead>
+        <tbody>
+          <tr><td><b>工序级成本</b></td><td>区分「上序转入」与「本序投入」；工序表加在制结转字段；工单实际成本由<b>凭证派生</b>（领料 + 收货 + 报工 + 差异过账）</td><td>L（8–10 天）</td><td>多工序工单：材料差异能被<b>拆出价差与量差</b>，不与标准成本重复计算</td></tr>
+          <tr><td><b>废品成本多算法分摊</b></td><td>按数量 / 金额 / 工时 / 固定比例四种分摊，可配置；废料入库与损耗差异分开</td><td>M（4 天）</td><td>同一工单换分摊算法 → 总成本<b>恒等不变</b>，仅科目间结构变化</td></tr>
+          <tr><td><b>MRP 供应侧补全</b></td><td>在制工单 / 计划订单 / 委外在制纳入供应；统一现有量口径（扣冻结）；独立需求 vs 相关需求标记</td><td>M（4 天）</td><td>自制件在制 100 件 → <b>不再建议再生产 100 件</b></td></tr>
+          <tr><td><b>批次成本差异</b></td><td>批次层标准 vs 实际差异分析</td><td>M（3 天）</td><td>某批次出库能回溯到该批次<b>自身</b>的标准与实际成本</td></tr>
+          <tr><td><b>智能裁切（一维）</b></td><td>余料最少化的一维裁切算法（条料排布），输出母材需求与切割方案</td><td>M–L（5–7 天）</td><td>给定订单长度组合 → 利用率<b>优于贪心顺序排布</b>，且母材需求与实际出库量一致</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase">
+      <b>第 2 期 · 合规与资金（4–6 周 · 进候选名单的门票）</b>　<span class="tag blue">对标国产开箱即用优势</span>
+      <table>
+        <thead><tr><th style="width:16%">项</th><th style="width:40%">内容</th><th style="width:12%">工作量</th><th>验收口径</th></tr></thead>
+        <tbody>
+          <tr><td><b>电子凭证全流程</b></td><td>接收 → 解析 → 验签 → 入账 → 归档；支持 GB/T 46971-2026 与 GB/T 25500（XBRL）</td><td>L（8–10 天）</td><td>银行电子对账单自动下载、验签、入账、归档<b>全通</b>，可过财政部应用验证自检</td></tr>
+          <tr><td><b>数电票开具与红冲</b></td><td>对接第三方通道的蓝票开具 / 红冲 / 作废</td><td>M（4–5 天）</td><td>业务单据可开票，红冲生成反向凭证</td></tr>
+          <tr><td><b>银行对账</b></td><td>流水导入（CSV/OFX）+ 自动匹配 + 未达账项调节 + 余额由凭证派生</td><td>L（8–10 天）</td><td>导入 3 个月流水 → 未达账<b>全部自动匹配或有据可查</b>；余额不可手工改</td></tr>
+          <tr><td><b>电子会计档案</b></td><td>凭证 / 发票 / 附件归档与检索、影像关联</td><td>M（4 天）</td><td>2026 已全面普及，缺此项在国企/上市客户直接出局</td></tr>
+          <tr><td><b>多币种报表折算</b></td><td>三路径（标准 / 管理 / 重估），与期末汇兑损益一致</td><td>M（4 天）</td><td>外币资产负债按指定路径折算，<b>与汇兑损益结转金额自洽</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="phase">
+      <b>第 3 期 · 智能体平台化（6–8 周 · 讲长期故事）</b>　<span class="tag fix">对标金蝶灵基连接器形态</span>
+      <table>
+        <thead><tr><th style="width:16%">项</th><th style="width:40%">内容</th><th style="width:12%">工作量</th><th>验收口径</th></tr></thead>
+        <tbody>
+          <tr><td><b>统一工具注册表</b></td><td>把 ChatBI 现有 9 个只读 SQL 工具 + 关键业务动作（建单、审批、过账、发运）抽成<b>治理化工具层</b>：统一鉴权、参数校验、幂等键、可回溯</td><td>L（8 天）</td><td>任一业务动作可被工具调用，<b>且不绕过既有权限与审计</b></td></tr>
+          <tr><td><b>业务本体</b></td><td>关键实体 / 关系 / 指标口径的结构化定义（物料、客户、供应商、单据、成本要素）</td><td>L（10 天）</td><td>智能体问「本月各客户毛利」→ 口径<b>与报表页一致</b>（同一指标注册表）</td></tr>
+          <tr><td><b>调用治理与成本核算</b></td><td>每工具调用记 token / 时长 / 成本 / 成功率；按用户与场景归集</td><td>M（4 天）</td><td>能出「本月 AI 调用账单」</td></tr>
+          <tr><td><b>效果评测基线</b></td><td>照抄金蝶 Lingee Bench 范式：财务 / 供应链 / 制造三套题集，回归每次改动</td><td>M（4 天）</td><td>每次发布跑分，<b>智能体改动有量化回归保护</b></td></tr>
+          <tr><td><b>制造 AI 场景落地</b></td><td>在已具备的 APS / 预测 / AQL / 成本数据之上做插单模拟、排产建议、呆滞预警</td><td>L（8 天）</td><td>插单模拟给出<b>延误天数与瓶颈工序</b>，与实际排程结果偏差可解释</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="background:#fbfcfe">
+      <h3>资源与节奏建议</h3>
+      <ul>
+        <li><b>总量估算</b>　第 0 期约 13–18 人天；第 1 期约 25–32 人天；第 2 期约 30–40 人天；第 3 期约 34–44 人天。合计约 <b>102–134 人天</b>（单人全职口径）。</li>
+        <li><b>建议节奏</b>　第 0 期 1.5 周、第 1 期 4 周、第 2 期 5 周、第 3 期 7 周，可并行推进第 1 与第 2 期（财务与制造互不冲突），<b>总历时约 4 个月</b>（两人并行）或 5.5 个月（单人串行）。</li>
+        <li><b>取舍建议</b>　若资源只够做一件事 → 做第 0 期（17 人天，直接把生产可用率从 62% 推到约 75%）。若目标是赢单而非自用 → 加第 1 期的「工序级成本 + 废品分摊 + 智能裁切」三件套（合计约 17–21 人天）。</li>
+        <li><b>不推荐</b>　不建议在本轮追第 3 期的平台化叙事。理由：智能化差距虽是两代，但本项目的瓶颈是<b>生产可用率与制造工艺深度</b>；先让系统敢上生产、能在制造客户现场算出准确成本，再谈智能体。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>九、与旧版对标报告的差异（已修复 / 仍存在 / 需复验）</h2>
+    <p class="muted" style="margin-top:0">旧报告距今 60+ 个版本，直接复用会误导。下表是逐条重判结果。</p>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:30%">旧版结论（V2.29–V3.44.0）</th><th style="width:12%">旧级别</th><th style="width:14%">V3.113.2 状态</th><th>证据</th></tr></thead>
+      <tbody>
+        <tr><td>凭证空分录清空全部分录</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">voucherGuard.ts:98</span> 已改为拒绝分支</td></tr>
+        <tr><td>凭证行多币种/汇率/成本中心被写死</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">voucherWriter.ts:134</span> INSERT 已含 4 列</td></tr>
+        <tr><td>报表按科目名称匹配（改名即丢数）</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">financialStatements.ts:88</span> 优先按 code 精确匹配</td></tr>
+        <tr><td>入库单金额恒为 0</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">inbound-orders/index.ts:161-190</span> 已带出单价与金额</td></tr>
+        <tr><td>结账状态可覆写 / fail-open</td><td>P0</td><td><span class="pass">已修复</span></td><td>已迁 <span class="code">fin_closing_periods</span> 关系表 + fail-closed</td></tr>
+        <tr><td>无库存变动流水表</td><td>P1</td><td><span class="pass">已修复</span></td><td>迁移 0080 + <span class="code">inventory-transactions/</span></td></tr>
+        <tr><td>调拨不写库存（空壳）</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">stock-transfers/[id].ts:114</span> 双向过账</td></tr>
+        <tr><td>多层 BOM 嵌套被压平</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">bom/index.ts:92</span> <span class="code">nestItems</span> 重建嵌套树</td></tr>
+        <tr><td>折旧无到期判断（提满仍计提）</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">depreciate.ts:26-38</span> 到期自动停提</td></tr>
+        <tr><td>应收应付是孤儿数据</td><td>P0</td><td><span class="pass">已修复</span></td><td>迁移 0100 blob → D1</td></tr>
+        <tr><td>客户主数据缺失 / PO 无币种税率</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">types/customer.ts</span>、<span class="code">types/purchase.ts:90-125</span></td></tr>
+        <tr><td>6 个浏览器大对象 store（价格/合同/寄售等）</td><td>P2</td><td><span class="pass">已修复</span></td><td>迁移 0103 / 0108 / 0109 三批下沉</td></tr>
+        <tr><td>ChatBI 是写死的假对话</td><td>P0</td><td><span class="pass">已修复</span></td><td>已为 <b>工具调用式</b>（<span class="code">tool.run</span> 路由真实 SQL 工具）</td></tr>
+        <tr><td>合并报表未实现</td><td>P0</td><td><span class="pass">已修复</span></td><td><span class="code">consolidation/</span> 已建（但见 P0-2 账簿口径缺陷）</td></tr>
+        <tr><td>质量扣留不写 frozen_quantity</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">inventoryPosting.ts:355</span> 写死 0 —— <b>本轮复验确认</b></td></tr>
+        <tr><td>委外发料无库存过账（1408 借方永不发生）</td><td>P1</td><td><span class="fail">仍存在</span></td><td><span class="code">subcontracts/*.ts</span> 0 命中过账 —— <b>本轮复验确认</b></td></tr>
+        <tr><td>合并报表无 ledger_book 条件</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">consolidation/index.ts:58</span> 注释自认 —— <b>本轮复验确认</b></td></tr>
+        <tr><td>供应商门户无激活入口</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">api/vendor/</span> 仅 login + register —— <b>本轮复验确认</b></td></tr>
+        <tr><td>电商拉单/推库存/回写物流为空</td><td>P1</td><td><span class="fail">仍存在</span></td><td><span class="code">channels/[platform].ts:30,35,40</span> —— <b>本轮复验确认</b></td></tr>
+        <tr><td>循环盘点是硬编码</td><td>—</td><td><span class="fail">仍存在</span></td><td><span class="code">CheckList.tsx:45</span> 6 条常量 —— <b>本轮复验确认</b></td></tr>
+        <tr><td>序列号状态词表分裂</td><td>P1</td><td><span class="tag warn">需复验</span></td><td>注释与代码不一致（:555 称分裂、:622 称已统一）—— 需跑一次出库实测</td></tr>
+        <tr><td>MRP 供应侧不含在制工单</td><td>P1</td><td><span class="fail">仍存在</span></td><td>本轮代码走查未见供应侧纳入在制</td></tr>
+        <tr><td>实际成本 = 标准单位成本 × 完成量</td><td>P0</td><td><span class="fail">仍存在</span></td><td><span class="code">CostCollection.tsx:75</span> —— <b>本轮复验确认</b></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">另有 2 项本轮新发现、旧版从未记录的差距：<b>银行对账完全为零</b>（全域 0 命中）、<b>多币种报表折算缺失</b>。前者是资金管理入场券，后者是出海门槛。</div>
+  </div>
+
+  <div class="card">
+    <h2>附录 A · 我的复验命令与原始输出</h2>
+    <p class="muted" style="margin-top:0">以下为本次评审亲自执行的核查，可原样复跑。9 条 P0/P1 结论不采信任何单方来源。</p>
+    <div class="code" style="display:block;padding:12px;white-space:pre-wrap;font-size:12px;line-height:1.6">
+# 1 质量扣留是否写 frozen_quantity
+grep -rn "frozen_quantity" functions/ src/stores/
+→ inventoryPosting.ts:355 INSERT ... VALUES (..., 0, ...)   ← 写死 0
+→ 全库仅 4 处命中，无一处写入实际扣留数
+
+# 2 委外发料是否过账
+grep -n "postOutbound|inventory_posted|postInbound" functions/api/subcontracts/*.ts
+→ (无输出)  ← 完全不过账
+
+# 3 合并报表 ledger_book 条件
+grep -n "ledger_book" functions/api/consolidation/index.ts
+→ 58: // 同组织跨账簿：组织集合只有当前组织，账簿不限（含全部 ledger_book）
+
+# 4 供应商门户激活入口
+ls functions/api/vendor/   →  login.ts  register.ts
+grep -rln "activate|approve" functions/api/vendor/   →  (仅 login.ts 命中，无激活端点)
+
+# 5 电商拉单是否空壳
+grep -n "return \[\]|待接入|TODO" functions/api/channels/*.ts
+→ [platform].ts:30  return [];
+→ [platform].ts:35  return { success: true, message: '库存推送接口待接入…' };
+→ [platform].ts:40  return { success: true, message: '物流回写接口待接入…' };
+
+# 6 循环盘点是否硬编码
+grep -n "generateCyclePlan" -A 12 src/pages/Warehouse/CheckList.tsx
+→ 45: return [ { id: 'cp-A-01', materialCategory: '冷轧板', abcClass: 'A', … }, … ]  ← 6 条常量
+→ 85: const [cyclePlans] = useState<CyclePlanItem[]>(generateCyclePlan);  ← 非持久化
+
+# 7 ChatBI 是否真调大模型
+grep -n "chat/completions|MOCK" functions/api/chatbi/index.ts   →  (无命中)
+grep -n "chat/completions" functions/api/ai/chat.ts
+→ 57: const response = await fetch(`${config.baseUrl}/chat/completions`, {
+→ 93: `调用大模型（服务商：…；模型：…）`  ← 真实调用 + 审计
+→ chatbi/index.ts:351  const result = await tool.run(db, user, query);  ← 工具调用式
+
+# 8 银行对账
+grep -rn "银行对账|bankReconcil|bankStatement" src/ functions/   →  (无输出)  ← 完全为零
+
+# 9 成本归集 actMaterial 口径
+grep -n "actMaterial" src/pages/Production/CostCollection.tsx
+→ 75: const actMaterial = roundAmount(unitMaterial * wo.completedQuantity);
+</div>
+  </div>
+
+  <div class="card">
+    <h2>附录 B · 竞品信息源与可靠性标注</h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th style="width:14%">厂商</th><th style="width:30%">关键事实</th><th style="width:12%">来源类型</th><th>链接</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">SAP</td><td>2608（2026-08）Joule Work、Easy Fill GA、AR/AP Clearing Agent、Journal Entry Agent</td><td>官方博客</td><td><a href="https://community.sap.com/t5/enterprise-resource-planning-blog-posts-by-sap/what-s-new-in-sap-s-4hana-cloud-public-edition-2608-release/ba-p/14438491">community.sap.com</a></td></tr>
+        <tr><td>Financial Closing Orchestration Agent 2026-09-30 GA；Accounting Accruals Agent 2026-09 受限可用</td><td>伙伴解读</td><td><a href="https://ibagroupit.com/insights/sap-news-september-2026/">ibagroupit.com</a></td></tr>
+        <tr><td>公有云 Costing Variants（如生产订单 PYR1）不可自定义，需向 SAP 提 ticket</td><td>官方社区问答</td><td><a href="https://community.sap.com/t5/enterprise-resource-planning-q-a/how-can-we-review-costing-variants-pyr1-actual-costing-in-sap-s-4hana-cloud/qaq-p/14287368">community.sap.com</a></td></tr>
+        <tr><td>中国区四方案分批落地阿里云：BTP 已上线、Cloud ERP 公有云 2026 Q1、Private 2026 Q3</td><td>权威媒体转述官方</td><td><a href="https://www.stcn.com/article/detail/3369326.html">证券时报</a></td></tr>
+        <tr><td rowspan="3">用友</td><td>YonClaw 企业超级智能体 2026-04-28 发布；5-20 开放邀请码体验；6-10 开启预售</td><td>官方</td><td><a href="https://yonyou.com/news/5314">yonyou.com</a></td></tr>
+        <tr><td>U9 cloud 2026：智能裁切、工序级成本、废品多算法分摊、需求计划偏差率降 30%</td><td>官方公众号</td><td><a href="http://mp.weixin.qq.com/s?__biz=MzkxNzI1Mjk5Mw==&amp;mid=2247531144">用友官方</a></td></tr>
+        <tr><td>YonSuite 智能结账：可视化月结步骤 + 账证/账账/账实三一致 AI 校验 + 并行结账</td><td>官方</td><td><a href="https://www.yonsuite.com/hangyezx/7274.html">yonsuite.com</a></td></tr>
+        <tr><td rowspan="3">金蝶</td><td>灵基 Lingee 企业 AI 操作系统 2026-05-20 发布（六层架构、Chat/Work/Build 三模式）</td><td>官方</td><td><a href="https://www.kingdee.com/article/2059457854972203009.html">kingdee.com</a></td></tr>
+        <tr><td>2026-10-23 升级：70 个 ERP 连接器、1127 个 Tool、企业上下文 3 万业务对象、付费用户 3706 家、Lingee Bench 1400+ 题</td><td>官方 + 权威媒体</td><td><a href="https://www.kingdee.com/resources/articles/1563275842476208481">kingdee.com</a> ／ <a href="https://www.jjckb.cn/20261024/81513fcee7004651b8d504fe0a2601dd/c.html">经济参考网</a></td></tr>
+        <tr><td>2025 年报：总收入 70.06 亿 +12.0%、云订阅 35.56 亿 +20.9%、经调整净利 2.32 亿首度扭亏、AI 合同 3.56 亿</td><td>官方（港交所公告）</td><td><a href="https://investor.kingdee.com/">investor.kingdee.com</a></td></tr>
+        <tr><td rowspan="2">行业/合规</td><td>GB/T 46971-2026《电子凭证会计数据标准·银行电子对账单》2026-01-28 实施</td><td>标准数据库</td><td><a href="https://plusstd.com/standard/1699863093/gb-t-46971-2026">plusstd.com</a></td></tr>
+        <tr><td>2025 中国 ERP 市场 545.3 亿元；用友约 18% 第一、金蝶约 15% 第二；国产份额 68.2%</td><td>报告转述（口径已标注）</td><td><a href="https://www.sgpjbg.com.cn/searchtag/26702791.html">赛迪顾问转述</a></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note"><b>已核实的口径冲突（报告中未采信单方）</b>：① 用友「累计替换 270 余家」（官方）vs「160 多家」（券商）→ 报告采用区间表述；② SAP 2602 的 AI Agent 清单，伙伴页与官方 What's New 有出入 → 采用官方与 IBA 口径；③ 2026 离散制造 ERP 各家份额多源矛盾 → 只引赛迪相对自洽口径并注明为报告转述。<br>
+    <b>未查到可靠公开资料（已在正文标注为待核）</b>：SAP IBP 中 Joule 规划能力的 GA 时点（仅见第三方）；财政部《管理会计应用指引第 804 号》原文（仅见行业资讯转述）；SAP「中国信创适配伙伴计划」官方公告。</div>
+  </div>
+
+  <footer>SSA ERP 对标评审报告 · 被测版本 V3.113.2 · 生成日期 2026-10-27 · SSA 侧结论均可按附录 A 命令复验 · 竞品侧为官方宣称，未实测</footer>
+</div>
+</body>
+</html>
