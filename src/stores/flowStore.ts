@@ -1,169 +1,183 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import {
+  InspectionNotice, VendorApplication, VendorOrderConfirm, DeliveryShipment,
+  VendorQualityIssue, VendorImprovementReport, VendorStatement, VendorInvoiceRequest,
+} from '@/types';
+import {
+  inspectionNotices as mockInspectionNotices,
+  vendorApplications as mockVendorApplications,
+  vendorOrderConfirms as mockVendorOrderConfirms,
+  deliveryShipments as mockDeliveryShipments,
+  vendorQualityIssues as mockVendorQualityIssues,
+  vendorImprovementReports as mockVendorImprovementReports,
+  vendorStatements as mockVendorStatements,
+  vendorInvoiceRequests as mockVendorInvoiceRequests,
+} from '@/mocks/data/flowData';
+
+interface FlowState {
+  inspectionNotices: InspectionNotice[];
+  vendorApplications: VendorApplication[];
+  vendorOrderConfirms: VendorOrderConfirm[];
+  deliveryShipments: DeliveryShipment[];
+  vendorQualityIssues: VendorQualityIssue[];
+  vendorImprovementReports: VendorImprovementReport[];
+  vendorStatements: VendorStatement[];
+  vendorInvoiceRequests: VendorInvoiceRequest[];
+
+  // InspectionNotice
+  addInspectionNotice: (n: InspectionNotice) => void;
+  updateInspectionNotice: (id: string, updates: Partial<InspectionNotice>) => void;
+  deleteInspectionNotice: (id: string) => void;
+
+  // VendorApplication
+  addVendorApplication: (a: VendorApplication) => void;
+  updateVendorApplication: (id: string, updates: Partial<VendorApplication>) => void;
+  deleteVendorApplication: (id: string) => void;
+
+  // VendorOrderConfirm
+  addVendorOrderConfirm: (c: VendorOrderConfirm) => void;
+  updateVendorOrderConfirm: (id: string, updates: Partial<VendorOrderConfirm>) => void;
+  deleteVendorOrderConfirm: (id: string) => void;
+
+  // DeliveryShipment
+  addDeliveryShipment: (s: DeliveryShipment) => void;
+  updateDeliveryShipment: (id: string, updates: Partial<DeliveryShipment>) => void;
+  deleteDeliveryShipment: (id: string) => void;
+
+  // VendorQualityIssue
+  addVendorQualityIssue: (i: VendorQualityIssue) => void;
+  updateVendorQualityIssue: (id: string, updates: Partial<VendorQualityIssue>) => void;
+  deleteVendorQualityIssue: (id: string) => void;
+
+  // VendorImprovementReport
+  addVendorImprovementReport: (r: VendorImprovementReport) => void;
+  updateVendorImprovementReport: (id: string, updates: Partial<VendorImprovementReport>) => void;
+  deleteVendorImprovementReport: (id: string) => void;
+
+  // VendorStatement
+  addVendorStatement: (s: VendorStatement) => void;
+  updateVendorStatement: (id: string, updates: Partial<VendorStatement>) => void;
+  deleteVendorStatement: (id: string) => void;
+
+  // VendorInvoiceRequest
+  addVendorInvoiceRequest: (r: VendorInvoiceRequest) => void;
+  updateVendorInvoiceRequest: (id: string, updates: Partial<VendorInvoiceRequest>) => void;
+  deleteVendorInvoiceRequest: (id: string) => void;
+
+  /** V3.80.0：从 D1 水合 8 切片 */
+  hydrateFlow: () => Promise<void>;
+}
+
+// V3.80.0：8 切片共用一张 flow_shared 表（__kind 标记分流），行主键 = 各对象 id。
+const RES = 'flowShared';
+
+/** 通用切片 CRUD：add/update/delete 均本地乐观更新 + 登录态写穿 D1（带 __kind） */
+const sliceOps =
+  <T extends { id: string }>(key: keyof FlowState, kind: string) =>
+  (set: (fn: (s: FlowState) => Partial<FlowState>) => void, get: () => FlowState) => ({
+    add: (item: T) => {
+      set((s) => ({ [key]: [...(s[key] as unknown as T[]), item] } as unknown as Partial<FlowState>));
+      if (isAuthed()) writeRow(RES, item.id, withKind(kind, item));
+    },
+    update: (id: string, u: Partial<T>) => {
+      set((s) => ({ [key]: (s[key] as unknown as T[]).map((x) => (x.id === id ? { ...x, ...u } : x)) } as unknown as Partial<FlowState>));
+      const merged = get()[key] as unknown as T[];
+      const cur = merged.find((x) => x.id === id);
+      if (cur && isAuthed()) writeRow(RES, id, withKind(kind, cur));
+    },
+    delete: (id: string) => {
+      set((s) => ({ [key]: (s[key] as unknown as T[]).filter((x) => x.id !== id) } as unknown as Partial<FlowState>));
+      if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+    },
+  });
+
+export const useFlowStore = create<FlowState>()((set, get) => {
+  // 8 切片各走 sliceOps（__kind 标记 + 登录态写穿 D1 + 本地乐观更新）
+  const insp = sliceOps<InspectionNotice>('inspectionNotices', 'inspectionNotice')(set, get);
+  const va = sliceOps<VendorApplication>('vendorApplications', 'vendorApplication')(set, get);
+  const voc = sliceOps<VendorOrderConfirm>('vendorOrderConfirms', 'vendorOrderConfirm')(set, get);
+  const ds = sliceOps<DeliveryShipment>('deliveryShipments', 'deliveryShipment')(set, get);
+  const vqi = sliceOps<VendorQualityIssue>('vendorQualityIssues', 'vendorQualityIssue')(set, get);
+  const vir = sliceOps<VendorImprovementReport>('vendorImprovementReports', 'vendorImprovementReport')(set, get);
+  const vs = sliceOps<VendorStatement>('vendorStatements', 'vendorStatement')(set, get);
+  const virr = sliceOps<VendorInvoiceRequest>('vendorInvoiceRequests', 'vendorInvoiceRequest')(set, get);
+
+  return {
+    inspectionNotices: [...mockInspectionNotices],
+    vendorApplications: [...mockVendorApplications],
+    vendorOrderConfirms: [...mockVendorOrderConfirms],
+    deliveryShipments: [...mockDeliveryShipments],
+    vendorQualityIssues: [...mockVendorQualityIssues],
+    vendorImprovementReports: [...mockVendorImprovementReports],
+    vendorStatements: [...mockVendorStatements],
+    vendorInvoiceRequests: [...mockVendorInvoiceRequests],
+
+    // InspectionNotice
+    addInspectionNotice: insp.add,
+    updateInspectionNotice: insp.update,
+    deleteInspectionNotice: insp.delete,
+
+    // VendorApplication
+    addVendorApplication: va.add,
+    updateVendorApplication: va.update,
+    deleteVendorApplication: va.delete,
+
+    // VendorOrderConfirm
+    addVendorOrderConfirm: voc.add,
+    updateVendorOrderConfirm: voc.update,
+    deleteVendorOrderConfirm: voc.delete,
+
+    // DeliveryShipment
+    addDeliveryShipment: ds.add,
+    updateDeliveryShipment: ds.update,
+    deleteDeliveryShipment: ds.delete,
+
+    // VendorQualityIssue
+    addVendorQualityIssue: vqi.add,
+    updateVendorQualityIssue: vqi.update,
+    deleteVendorQualityIssue: vqi.delete,
+
+    // VendorImprovementReport
+    addVendorImprovementReport: vir.add,
+    updateVendorImprovementReport: vir.update,
+    deleteVendorImprovementReport: vir.delete,
+
+    // VendorStatement
+    addVendorStatement: vs.add,
+    updateVendorStatement: vs.update,
+    deleteVendorStatement: vs.delete,
+
+    // VendorInvoiceRequest
+    addVendorInvoiceRequest: virr.add,
+    updateVendorInvoiceRequest: virr.update,
+    deleteVendorInvoiceRequest: virr.delete,
+
+    hydrateFlow: async () => {
+      if (!isAuthed()) return;
+      try {
+        const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+        const rows = parsePayload(res?.data || []);
+        if (rows.length) {
+          set({
+            inspectionNotices: splitByKind<InspectionNotice>(rows, 'inspectionNotice'),
+            vendorApplications: splitByKind<VendorApplication>(rows, 'vendorApplication'),
+            vendorOrderConfirms: splitByKind<VendorOrderConfirm>(rows, 'vendorOrderConfirm'),
+            deliveryShipments: splitByKind<DeliveryShipment>(rows, 'deliveryShipment'),
+            vendorQualityIssues: splitByKind<VendorQualityIssue>(rows, 'vendorQualityIssue'),
+            vendorImprovementReports: splitByKind<VendorImprovementReport>(rows, 'vendorImprovementReport'),
+            vendorStatements: splitByKind<VendorStatement>(rows, 'vendorStatement'),
+            vendorInvoiceRequests: splitByKind<VendorInvoiceRequest>(rows, 'vendorInvoiceRequest'),
+          });
+        }
+      } catch {
+        // 离线/异常：保留本地态（含种子）
+      }
+    },
+  };
+});
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useFlowStore.getState().hydrateFlow();

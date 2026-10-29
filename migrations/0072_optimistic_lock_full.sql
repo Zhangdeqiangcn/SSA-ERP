@@ -1,81 +1,56 @@
-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
+-- 0072: 乐观锁全量铺开（缺陷台账 #10 完整范围）——核心业务单据表补 version 列
+--
+-- 背景：乐观锁（optimisticLock.withVersionGuard）此前仅接在 采购单/销售单/入库单/出库单/工单
+--       五个端点（迁移 0020 / 0045 / 0071）。其余核心单据并发编辑同一条记录时，后提交者会
+--       **静默覆盖**先提交者的改动，且没有任何提示。
+-- 方案：给下列表统一补 version 列（模式同 0045 / 0071：ADD COLUMN + 存量回填 1）。
+--       写入侧：单表单据在各 [id].ts 的 PUT 接入 withVersionGuard；通用父子框架在
+--       parentChild.pcUpdate 内接入（一次覆盖 8 个父表）。
+-- 兼容：前端不传 version 时保持原行为（不加锁），老客户端不受影响。
+--
+-- ★ 故意【不】加 version 的两张表（同名冲突，加了会破坏业务语义）：
+--   - bom_headers.version     是 TEXT，表示「BOM 版本号」（0051_bom.sql:80）
+--   - process_routes.version  是 TEXT，表示「工艺路线版本号」（0061_production_domain.sql:118）
+--   这两处 version 是**业务字段**，不是并发锁版本，绝不能被当成锁覆盖或自增。
+
+-- ── 一、单表单据端点（10 张）────────────────────────────────────
+ALTER TABLE subcontract_orders ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE vouchers ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE stock_transfers ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE inventory_adjustments ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE quality_holds ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE serial_masters ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE materials ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE customers ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE vendor_master ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE work_order_pickings ADD COLUMN version INTEGER DEFAULT 1;
+
+-- ── 二、通用父子框架父表（8 张，parentChild.pcUpdate 一次覆盖）────
+ALTER TABLE purchase_requests ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE vendor_quotes ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE projects ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE shipments ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE sales_prospects ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE fin_payment_plans ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE fin_project_accounts ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE approval_flows ADD COLUMN version INTEGER DEFAULT 1;
+
+-- ── 三、存量行回填（ADD COLUMN 带 DEFAULT 时新行为 1，此处兜底历史 NULL）──
+UPDATE subcontract_orders SET version = 1 WHERE version IS NULL;
+UPDATE vouchers SET version = 1 WHERE version IS NULL;
+UPDATE stock_transfers SET version = 1 WHERE version IS NULL;
+UPDATE inventory_adjustments SET version = 1 WHERE version IS NULL;
+UPDATE quality_holds SET version = 1 WHERE version IS NULL;
+UPDATE serial_masters SET version = 1 WHERE version IS NULL;
+UPDATE materials SET version = 1 WHERE version IS NULL;
+UPDATE customers SET version = 1 WHERE version IS NULL;
+UPDATE vendor_master SET version = 1 WHERE version IS NULL;
+UPDATE work_order_pickings SET version = 1 WHERE version IS NULL;
+UPDATE purchase_requests SET version = 1 WHERE version IS NULL;
+UPDATE vendor_quotes SET version = 1 WHERE version IS NULL;
+UPDATE projects SET version = 1 WHERE version IS NULL;
+UPDATE shipments SET version = 1 WHERE version IS NULL;
+UPDATE sales_prospects SET version = 1 WHERE version IS NULL;
+UPDATE fin_payment_plans SET version = 1 WHERE version IS NULL;
+UPDATE fin_project_accounts SET version = 1 WHERE version IS NULL;
+UPDATE approval_flows SET version = 1 WHERE version IS NULL;

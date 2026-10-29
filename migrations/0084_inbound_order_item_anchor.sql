@@ -1,50 +1,30 @@
-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
+-- ─────────────────────────────────────────────────────────────
+-- 迁移 0084：入库明细补「订单行锚点」列（V3.47.0 第3批 3-05 补漏）
+--
+-- ═══════════════ 为什么需要单独一个迁移 ═════════════════════════
+-- 0083 里已写了同一句 ALTER TABLE，但**0083 在追加这句之前就已经 apply 过**，
+-- D1 的 schema_migrations 记录版本号、不会重跑同一版本 ⇒ 那句永不执行。
+-- 表现（生产守护套件 39 实测）：带 orderItemId 的入库返回
+--   400 SCHEMA_MISMATCH「提交的数据包含系统无法识别的字段」
+-- 而错误映射把 `no such column` 归到 SCHEMA_MISMATCH，报文说的是"字段无法识别"，
+-- 业务人员会以为是自己填错了字段，方向完全错。
+--
+-- 教训：迁移一旦 apply 过就视为不可变；后续补充的 DDL 必须**新建迁移版本**，
+--   不能往已 apply 的文件里追加（追加等于没写，且没有任何报错提示）。
+--
+-- ═══════════════ 列的用途 ═══════════════���══════════════════════
+-- 行级三单匹配需要把「入库行」对到「采购订单行」。入库明细原先只有
+-- source_no 指到订单头，没有行级锚点；同一物料在一个订单里可能有多行
+-- （不同单价/交期），此时按物料编码匹配会把多行并成一行，比对结果失真。
+--
+-- 兼容：历史行该列为 NULL，行级比对自动退回「物料编码+单位」匹配
+--   （见 threeWayLineMatch.keyOf），不报错也不误拦。
+
+-- ⚠️ 索引**不带 org_id**：`inbound_order_items` 是子表，**没有 org_id 列**
+--   （组织隔离靠父表 inbound_orders.org_id，见 0005 建表说明）。
+--   我首版按常规写成 (org_id, order_item_id)，apply 时报
+--   「no such column: org_id at offset 76」—— 子表加不存在��列是常见坑。
+ALTER TABLE inbound_order_items ADD COLUMN order_item_id TEXT;
+
+CREATE INDEX IF NOT EXISTS idx_in_items_order_item
+  ON inbound_order_items(order_item_id);

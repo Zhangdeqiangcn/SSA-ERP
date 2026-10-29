@@ -1,116 +1,153 @@
-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
+// 物流面单 · 运单 CRUD（GET 列表 / POST 建单取号）
+// 遵循后端硬规矩：getUserFromRequest / json / rlsCondition / audit / guardOperation / SQL 参数绑定防注入
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+const TABLE = 'waybills';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const carrier = url.searchParams.get('carrier');
+
+  const rls = rlsCondition(user, TABLE);
+  let sql = `SELECT * FROM ${TABLE} WHERE org_id = ?`;
+  const params: any[] = [user.org_id];
+  if (rls.clause !== '1=1') {
+    sql += ' AND ' + rls.clause;
+    params.push(...rls.params);
+  }
+  if (carrier) {
+    sql += ' AND carrier = ?';
+    params.push(carrier);
+  }
+  sql += ' ORDER BY created_at DESC LIMIT 200';
+
+  const rows = await env.DB.prepare(sql).bind(...params).all();
+  return json({ data: (rows.results || []).map(formatRow) });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'logistics', 'create', env.DB, user.org_id);
+  if (_g) return _g;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const {
+    carrier, orderHubId, packNo, waveId,
+    receiverName, receiverPhone, receiverAddress, weight,
+  } = body;
+  if (!carrier || !orderHubId || !packNo) {
+    return json({ error: '承运商 / 订单 / 包裹号必填' }, 400);
+  }
+
+  // 查订单中台取收件人（参数绑定防注入）
+  const rls = rlsCondition(user, 'order_hub');
+  let where = 'id = ? AND org_id = ?';
+  const oparams: any[] = [orderHubId, user.org_id];
+  if (rls.clause !== '1=1') {
+    where += ' AND ' + rls.clause;
+    oparams.push(...rls.params);
+  }
+  const order: any = await env.DB
+    .prepare(`SELECT receiver_name, receiver_phone, receiver_address, province, city, district FROM order_hub WHERE ${where}`)
+    .bind(...oparams)
+    .first();
+  if (!order) return json({ error: '订单不存在' }, 404);
+
+  // 校验包裹号归属本组织
+  const pack = await env.DB
+    .prepare(`SELECT id FROM pack_records WHERE org_id = ? AND pack_no = ?`)
+    .bind(user.org_id, packNo)
+    .first();
+  if (!pack) return json({ error: '包裹号不存在：' + packNo }, 400);
+
+  // 是否配置真实承运商凭证（channel_credentials 有非空 access_token）
+  const cred = await env.DB
+    .prepare(`SELECT id FROM channel_credentials WHERE org_id = ? AND platform = ? AND access_token IS NOT NULL AND access_token <> ''`)
+    .bind(user.org_id, carrier)
+    .first();
+
+  const now = new Date().toISOString();
+  let waybillNo: string;
+  let labelUrl: string;
+  let mock: boolean;
+
+  if (cred) {
+    // 真实承运商对接入口：OAuth/签名调用待强哥提供密钥后由后端发起（诚实提示，不假装成功）
+    return json(
+      { error: '真实承运商对接尚未启用：请确认密钥配置，后端将以服务端签名方式调用（待接入）', code: 'CARRIER_NOT_IMPLEMENTED' },
+      501
+    );
+  }
+  // 诚实降级：未接真实承运商，生成 Mock 面单（明确标注 mock，绝不静默冒充真实）
+  waybillNo = `${carrier.toUpperCase()}${Date.now()}${Math.floor(Math.random() * 9000 + 1000)}`;
+  labelUrl = `/labels/${waybillNo}.html`;
+  mock = true;
+
+  const id = uid('wb');
+  try {
+    await env.DB
+      .prepare(
+        `INSERT INTO waybills (id, org_id, carrier, waybill_no, order_hub_id, pack_no, wave_id,
+           receiver_name, receiver_phone, receiver_address, province, city, district, weight, label_url, status, mock,
+           created_at, updated_at, created_by, updated_by, created_by_name, updated_by_name)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
+      .bind(
+        id, user.org_id, carrier, waybillNo, orderHubId, packNo, waveId ?? null,
+        receiverName ?? order.receiver_name ?? null,
+        receiverPhone ?? order.receiver_phone ?? null,
+        receiverAddress ?? order.receiver_address ?? null,
+        order.province ?? null, order.city ?? null, order.district ?? null,
+        weight ?? null, labelUrl, 'created', mock ? 1 : 0,
+        now, now, user.id, user.id, user.name ?? user.username, user.name ?? user.username
+      )
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '创建运单');
+  }
+
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'logistics',
+    'create',
+    `生成运单 ${waybillNo}（${mock ? 'Mock' : '真实'}）：订单 ${orderHubId} / 包裹 ${packNo}`
+  );
+  return json({ id, waybillNo, labelUrl, mock, status: 'created' }, 201);
+}
+
+function formatRow(r: any) {
+  return {
+    id: r.id,
+    carrier: r.carrier,
+    waybillNo: r.waybill_no,
+    orderHubId: r.order_hub_id,
+    packNo: r.pack_no,
+    waveId: r.wave_id,
+    receiverName: r.receiver_name,
+    receiverPhone: r.receiver_phone,
+    receiverAddress: r.receiver_address,
+    weight: r.weight,
+    labelUrl: r.label_url,
+    status: r.status,
+    mock: !!r.mock,
+    createdAt: r.created_at,
+  };
+}

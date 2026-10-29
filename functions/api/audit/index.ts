@@ -1,58 +1,63 @@
-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
+// GET /api/audit — 分页查询审计日志（按 org_id 隔离 + 按角色收敛可见范围）
+// V2.98.0（评测 M-10）：原实现只要登录就能读全组织审计轨迹，普通成员可借此
+//   窥探他人操作记录。现改为：管理员/超管看全组织；其余角色只能看自己的记录。
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { isRlsPrivileged } from '../../_shared/rls';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const canSeeAll = isRlsPrivileged(user.role);
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(url.searchParams.get('pageSize') || '50', 10);
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const action = url.searchParams.get('action') || '';
+  const entity = url.searchParams.get('entity') || '';
+  const offset = (page - 1) * pageSize;
+
+  // V2.98.0（评测 M-01 同款）：列表与总数共用同一套过滤条件，
+  //   原实现的 COUNT 既漏了关键字也漏了角色收敛，页数会虚高。
+  const where: string[] = ['org_id = ?'];
+  const wparams: any[] = [user.org_id];
+  // 非管理员：只返回本人产生的记录（自己的操作轨迹本就知情，不构成泄露）
+  if (!canSeeAll) {
+    where.push('user_id = ?');
+    wparams.push(user.id);
+  }
+  if (keyword) {
+    where.push(`(summary LIKE ? ESCAPE '\\' OR user_name LIKE ? ESCAPE '\\')`);
+    wparams.push(likePattern(keyword), likePattern(keyword));
+  }
+  if (action) {
+    where.push(`action = ?`);
+    wparams.push(action);
+  }
+  if (entity) {
+    where.push(`entity = ?`);
+    wparams.push(entity);
+  }
+  const whereSql = where.join(' AND ');
+
+  const results = await db.prepare(
+    `SELECT * FROM audit_logs WHERE ${whereSql} ORDER BY created_at DESC LIMIT ? OFFSET ?`
+  ).bind(...wparams, pageSize, offset).all();
+  const count = await db.prepare(
+    `SELECT COUNT(*) as cnt FROM audit_logs WHERE ${whereSql}`
+  ).bind(...wparams).first();
+
+  return json({
+    scope: canSeeAll ? 'org' : 'self',
+    data: (results.results || []).map(r => ({
+      id: r.id, entity: r.entity, entityId: r.entity_id, action: r.action,
+      summary: r.summary, userId: r.user_id, userName: r.user_name,
+      createdAt: r.created_at,
+      version: Number(r.version ?? 1),  // V3.83.0：跨端精确回滚（实体维度版本链）
+      diff: r.diff ? JSON.parse(r.diff) : null,
+    })),
+    pagination: { page, pageSize, total: count?.cnt || 0 },
+  });
+}

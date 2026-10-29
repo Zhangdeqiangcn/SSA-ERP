@@ -1,63 +1,64 @@
-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
+// 审批流域数据访问层（C1 关系化 · V3.10.0）
+//
+// ── 本域为什么必须走专用端点，不能走通用实体路由 ──────────────────
+// 通用实体路由 /api/entities/:resource 的前提是「一个资源 = 一张平表」，
+// 它的 pickSnake 只挑已登记列，**嵌套数组会被静默丢弃且返回 201 成功**。
+// 审批流的每个流程带 `nodes: ApprovalNode[]`，而每个 node 自己还带嵌套：
+//   · conditions    : ConditionGroup（对象）
+//   · skipRule      : SkipRule（对象）
+//   · escalation    : EscalationRule（对象）
+//   · approverRoles / approverUserIds / fields（字符串数组）
+// 走通用路由的后果是「设置页显示保存成功、刷新后节点全空」——
+// 比报错难查得多。因此走 `_shared/approvalFlowConfig.ts` +
+// `_shared/parentChild.ts` 驱动的专用端点。
+//
+// 与 financeApi / salesDomainApi 保持**同一组方法名**（list/create/update/remove），
+// 让 store 层不必关心某个切片走哪条通道 —— 将来换通道只改这里一处。
+import { api } from './api';
+import type { PaginatedResponse } from '@/types';
+
+export interface CrudApi<T> {
+  list: (params?: Record<string, unknown>) => Promise<PaginatedResponse<T>>;
+  create: (data: Partial<T>) => Promise<T>;
+  update: (id: string, data: Partial<T>) => Promise<T>;
+  remove: (id: string) => Promise<unknown>;
+}
+
+/** 专用父子表端点通道 */
+function viaEndpoint<T>(base: string): CrudApi<T> {
+  return {
+    list: (params) => api.get<PaginatedResponse<T>>(base, params),
+    create: (data) => api.post<T>(base, data),
+    update: (id, data) => api.put<T>(`${base}/${id}`, data),
+    remove: (id) => api.delete(`${base}/${id}`),
+  };
+}
+
+/**
+ * 审批流定义（父表 approval_flows + 子表 approval_flow_nodes）。
+ *
+ * ★ 本域只有一个资源，因此直接导出 list/create/update/remove 四个方法，
+ *   不再套一层 `{ flows: ... }` 命名空间 —— 与 financeApi / salesDomainApi
+ *   的动作形状保持一致（那里是因为有多个切片才需要分组）。
+ *
+ * ★ 本域的 id 就是业务标识（`sales_order` / `material` / `custom-xxx`），
+ *   **没有独立的「编号」列** —— 因此后端配置里 noSnake/noCamel 都取 `module`，
+ *   409 冲突提示会显示成「审批流编号 sales_order 在本组织已存在」。
+ */
+const flows = viaEndpoint<any>('/approval-flows');
+
+export const approvalFlowDomainApi = {
+  list: flows.list,
+  create: flows.create,
+  update: flows.update,
+  remove: flows.remove,
+};
+
+/**
+ * 拉全量时一页最多取多少条。
+ *
+ * 审批流实测极小（`ssa-erp-approval-flows` 全键 6799 字节、13 条流程，
+ * 上线后按当前代码补齐到 20 条）。每条流程的节点数在 1~3 之间，
+ * 全量一趟取完，无需分页。与 financeApi / salesApi 同值同义。
+ */
+export const APPROVAL_FLOW_PAGE_SIZE = 500;

@@ -1,72 +1,77 @@
-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
+// 审计与行级策略健康度接口（V3.3.0 · 评测 L-04 / L-05 整改）
+//
+//   GET /api/system/audit-health   管理员只读：审计写入降级情况 + 行级策略登记情况
+//
+// 为什么需要这个接口：
+//   L-05 的原状是「审计失败被静默吞掉」——系统看上去一切正常，因为失败不产生任何痕迹。
+//   只把失败记下来还不够，必须有一个**人能看见的入口**，否则等于换个地方静默。
+//   同样地，L-04 的「未登记表被默认拒绝」也需要能被看见，否则表现为「有张表突然查不出数据」
+//   而无人知道原因。
+//
+// 权限：仅 super_admin / admin。降级记录里含实体名、摘要与执行者，属于管理侧信息。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { auditHealth } from '../../_shared/auditLog';
+import { rlsRegistryReport, findUnclassifiedTables, findPlatformTables, findStaleRegistryEntries } from '../../_shared/rls';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (user.role !== 'super_admin' && user.role !== 'admin') {
+    return json({ error: '需要管理员权限' }, 403);
+  }
+
+  // 审计降级统计：super_admin 看全平台，组织管理员看本组织
+  const scopeOrg = user.role === 'super_admin' ? null : user.org_id;
+
+  let audit: any;
+  try {
+    audit = await auditHealth(env.DB, scopeOrg, 20);
+  } catch (e: any) {
+    // 降级表本身读不出来（例如迁移尚未在该库执行）时，不要把管理页整块打挂，
+    // 而是如实回报「无法读取」，避免又变成一处静默。
+    audit = {
+      total: null,
+      last24h: null,
+      recent: [],
+      unavailable: true,
+      error: String(e?.message || e || '未知错误'),
+    };
+  }
+
+  // 用真实数据库表清单核对「行级策略是否全量登记」——L-04 的机器校验闭环。
+  //   拿 sqlite_master 里的真实表逐个比对登记表，任何一张既未登记、也未豁免的表都会被列出。
+  //   查不到时如实回报 unavailable，而不是假装「0 张未登记」。
+  let unclassified: string[] = [];
+  let platformTables: string[] = [];
+  let staleEntries: string[] = [];
+  let tableCount: number | null = null;
+  let unclassifiedUnavailable: any = null;
+  try {
+    const info: any = await env.DB.prepare(
+      `SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name`,
+    ).all();
+    const all = (info?.results || []).map((r: any) => r.name).filter(Boolean);
+    tableCount = all.length;
+    unclassified = findUnclassifiedTables(all);
+    platformTables = findPlatformTables(all);
+    // 「僵尸登记」：登记在案但库里不存在。与漏登记同样如实回报——
+    // 一份含不存在条目的权限清单无法再作为审计依据，必须显式修掉。
+    staleEntries = findStaleRegistryEntries(all);
+  } catch (e: any) {
+    unclassifiedUnavailable = String(e?.message || e || '未知错误');
+  }
+
+  return json({
+    audit,
+    rls: {
+      ...rlsRegistryReport(),
+      tableCount,
+      unclassified,
+      platformTables,
+      staleEntries,
+      unclassifiedUnavailable,
+    },
+    scopeText: { super_admin: '全平台', admin: '本组织' }[user.role as string] || '本组织',
+  });
+}

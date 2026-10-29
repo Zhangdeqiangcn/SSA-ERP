@@ -1,75 +1,115 @@
-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
+-- V3.66.0 页面级联动审计 5 项 P0 数据地基（先坐实前提再建表，铁律㊸）：
+-- ① inspection_lots：检验批台账关系化——服务端 checkQualityBlocked 读 D1 拦截，
+--    台账此前是 qualityAdvancedStore 的 Blob，两边不同源（"台账已闭环、拦截仍拦"错位）。
+--    注：报告误标"0090 已建"，实际 0090 只建了 tasks/standards/unqualified/pdca 四表。
+-- ② numbering_rules：编号规则 D1 化——服务端建单若取号须读组织侧配置，
+--    此前纯浏览器 Blob，多终端/重新部署会漂移撞号。
+-- ③ batch_records：批次台账独立表——批次级成本/库位对账此前只能按物料粒度近似。
+-- ④ unqualified_items 加 vendor_id 列：生产投诉/客户退货追责供应商时，NCR 需带供应商
+--    归属（此前只记 materialCode，追责链断在"该找哪家供应商"）。
+-- 设计取舍：编号/模板/字典三张配置表本轮只做「D1 主源 + 启动水合 + 离线本地兜底」，
+--   服务端建单端点消费（nextNo 服务端取号）留后续独立立项——避免一次改 9+ 建单端点扩大回归面。
+
+CREATE TABLE IF NOT EXISTS inspection_lots (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  lot_no TEXT,
+  source_type TEXT,
+  source_no TEXT,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  batch_no TEXT,
+  quantity REAL DEFAULT 0,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  inspection_task_no TEXT,
+  status TEXT,
+  created_from TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS numbering_rules (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  doc_type TEXT,
+  prefix TEXT,
+  separator TEXT,
+  date_pattern TEXT,
+  seq_length INTEGER DEFAULT 4,
+  current_seq INTEGER DEFAULT 0,
+  label TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS batch_records (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  batch_no TEXT,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  warehouse_id TEXT,
+  warehouse_name TEXT,
+  location_id TEXT,
+  quantity REAL DEFAULT 0,
+  cost REAL,
+  production_date TEXT,
+  expiry_date TEXT,
+  inbound_no TEXT,
+  inbound_date TEXT,
+  supplier_name TEXT,
+  status TEXT,
+  locked INTEGER DEFAULT 0,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+-- ③ order_templates：订单模板 D1 化（采购订单模板，items 明细封 extra_json）
+CREATE TABLE IF NOT EXISTS order_templates (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  name TEXT,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  payment_terms TEXT,
+  trade_terms TEXT,
+  delivery_terms TEXT,
+  remarks TEXT,
+  expected_delivery_date TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+-- ④ data_dict：数据字典 D1 化（每值一行，category + item_value 组织内唯一）
+CREATE TABLE IF NOT EXISTS data_dict (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  category TEXT NOT NULL,
+  item_value TEXT NOT NULL,
+  sort_order INTEGER DEFAULT 0,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE (org_id, category, item_value)
+);
+
+-- 质量追责链补供应商归属（P0-3 生产投诉 / P0-4 客户退货 推供应商门户时锚定 vendor）
+ALTER TABLE unqualified_items ADD COLUMN vendor_id TEXT;
+ALTER TABLE unqualified_items ADD COLUMN vendor_name TEXT;

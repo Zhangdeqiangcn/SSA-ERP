@@ -1,150 +1,186 @@
-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
+/**
+ * 服务端打印模板 HTML 净化器（白名单，纯函数，无 DOM 依赖）。
+ *
+ * 安全目标：在落库前把用户可控的模板 HTML 净化成「再差也只会渲染排版」的片段，
+ * 从写入源头断掉审计报告中 [致命] SEC-001 的存储型 XSS。
+ * 本函数在 Cloudflare Worker（无 DOM）环境下可直接运行——只用正则与字符串解析。
+ *
+ * 净化规则：
+ *   1. 整段删除 <script>/<style> 及其内容；删除 <iframe>/<object>/<embed>/
+ *      <link>/<meta>/<base>/<form>/<svg>/<foreignObject> 等危险标签（含自闭合 / 游离闭合）；
+ *   2. 所有标签仅保留白名单内的属性，事件属性 on* 因此被自然丢弃；
+ *   3. <img> 仅保留 src / alt / width / height / style；其中 src 仅放行
+ *      http/https（以及相对值）与 data:image（非 svg），禁止 javascript: 与危险 data:；
+ *   4. <a>   仅保留 href / target / rel；href 禁止 javascript: 与 data: 协议；
+ *   5. style 值剔除 expression( / url(javascript / @import / javascript: / vbscript:；
+ *   6. 文本节点原样保留；畸形 HTML（未闭合、属性无引号）不抛异常，最坏返回安全片段。
+ */
+export function sanitizeTemplateHtml(dirty: string): string {
+  if (typeof dirty !== 'string') return '';
+  if (dirty === '') return '';
+
+  // ── 第一步：整段删除带内容的危险标签（script/style 必须连内容一起删）──
+  let s = dirty;
+  for (const t of ['script', 'style'] as const) {
+    const re = new RegExp(`<${t}[^>]*>([\\s\\S]*?)<\\/${t}>`, 'gi');
+    s = s.replace(re, '');
+  }
+
+  // ── 第二步：删除其余危险标签（自闭合 / 无闭合）及其游离闭合标签 ──
+  const REMOVE_TAGS = [
+    'iframe', 'object', 'embed', 'link', 'meta', 'base',
+    'form', 'svg', 'foreignobject', 'frame', 'noscript',
+  ];
+  s = s.replace(new RegExp(`<(?:${REMOVE_TAGS.join('|')})\\b[^>]*\\/?>`, 'gi'), '');
+  s = s.replace(new RegExp(`<\\/(?:${REMOVE_TAGS.join('|')})\\s*>`, 'gi'), '');
+
+  // ── 第三步：逐个标签做属性白名单 ──
+  // 仅把 `<字母...>` / `</字母...>` 当作标签处理；形如 `< 2 & 3 >` 的纯文本片段原样保留，
+  // 避免把文本里的尖括号误判为标签而吞掉内容。
+  const re = /<\/?[a-zA-Z][^>]*>/g;
+  let out = '';
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(s)) !== null) {
+    out += s.slice(last, m.index);
+    last = m.index + m[0].length;
+    out += sanitizeTag(m[0]);
+  }
+  out += s.slice(last);
+  return out;
+}
+
+/** 允许出现的标签白名单（排版标签 + img + a） */
+const ALLOWED_TAGS = new Set([
+  'p', 'div', 'span', 'br', 'strong', 'b', 'em', 'i', 'u',
+  'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+  'table', 'thead', 'tbody', 'tr', 'td', 'th', 'hr', 'small',
+  'sub', 'sup', 'section', 'img', 'a',
+]);
+
+/** 通用排版标签允许保留的属性 */
+const GENERIC_SAFE_ATTRS = new Set([
+  'style', 'class', 'align', 'width', 'height', 'border',
+  'cellpadding', 'cellspacing', 'colspan', 'rowspan',
+]);
+
+interface ParsedAttr {
+  name: string;
+  value: string | null;
+}
+
+/** 解析单个标签内的属性（兼容双引号 / 单引号 / 裸值 / 布尔属性） */
+function parseAttributes(tag: string): ParsedAttr[] {
+  const attrs: ParsedAttr[] = [];
+  const re = /\s([a-zA-Z_:][-a-zA-Z0-9_:.]*)(?:\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'>]+)))?/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(tag)) !== null) {
+    const name = m[1].toLowerCase();
+    let value: string | null = null;
+    if (m[2] !== undefined) {
+      value = m[3] !== undefined ? m[3] : m[4] !== undefined ? m[4] : m[5];
+    }
+    attrs.push({ name, value });
+  }
+  return attrs;
+}
+
+/** 属性值转义，保证重新拼回 HTML 属性时安全（浏览器会把 &amp; 还原为 &，URL 不受影响） */
+function escapeAttr(v: string): string {
+  return v
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** 净化 style 值，剔除可执行的危险片段 */
+function cleanStyle(style: string): string {
+  if (!style) return '';
+  return style
+    .replace(/expression\s*\(/gi, '')
+    .replace(/url\s*\(\s*['"]?\s*javascript:/gi, '')
+    .replace(/@import/gi, '')
+    .replace(/javascript:/gi, '')
+    .replace(/vbscript:/gi, '')
+    .trim();
+}
+
+/** img 的 src 是否安全（放行 http/https/相对值 与 data:image 非 svg，禁止 javascript: 与危险 data:） */
+function isSafeImgSrc(v: string | null): boolean {
+  if (v === null) return false;
+  const raw = v.trim();
+  if (raw === '') return false;
+  if (/^javascript:/i.test(raw)) return false;
+  if (/^data:/i.test(raw)) return /^data:image\/(?!svg)/i.test(raw);
+  return true;
+}
+
+/** a 的 href 是否安全（禁止 javascript: 与 data:，其余放行） */
+function isSafeHref(v: string | null): boolean {
+  if (v === null) return false;
+  const raw = v.trim();
+  if (raw === '') return false;
+  if (/^javascript:/i.test(raw)) return false;
+  if (/^data:/i.test(raw)) return false;
+  return true;
+}
+
+/** 对单个标签字符串做白名单净化，返回净化后的标签字符串 */
+function sanitizeTag(tag: string): string {
+  const isClose = /^<\//.test(tag);
+  const nameMatch = /^<\/?([a-zA-Z][a-zA-Z0-9]*)/.exec(tag);
+  if (!nameMatch) return ''; // 无法识别的尖括号片段，直接丢弃
+  const name = nameMatch[1].toLowerCase();
+
+  if (isClose) {
+    return ALLOWED_TAGS.has(name) ? `</${name}>` : '';
+  }
+
+  if (!ALLOWED_TAGS.has(name)) {
+    // 未知标签：丢弃标签本身，其内部文本 / 子标签由文本与后续处理保留
+    return '';
+  }
+
+  const attrs = parseAttributes(tag);
+  const kept: string[] = [];
+
+  if (name === 'img') {
+    for (const a of attrs) {
+      if (a.name === 'src') {
+        if (isSafeImgSrc(a.value)) kept.push(`src="${escapeAttr(a.value ?? '')}"`);
+      } else if (a.name === 'alt' || a.name === 'width' || a.name === 'height') {
+        kept.push(`${a.name}="${escapeAttr(a.value ?? '')}"`);
+      } else if (a.name === 'style') {
+        const clean = cleanStyle(a.value ?? '');
+        if (clean) kept.push(`style="${escapeAttr(clean)}"`);
+      }
+    }
+    return kept.length ? `<img ${kept.join(' ')}>` : '<img>';
+  }
+
+  if (name === 'a') {
+    for (const a of attrs) {
+      if (a.name === 'href') {
+        if (isSafeHref(a.value)) kept.push(`href="${escapeAttr(a.value ?? '')}"`);
+      } else if (a.name === 'target' || a.name === 'rel') {
+        kept.push(`${a.name}="${escapeAttr(a.value ?? '')}"`);
+      }
+    }
+    return kept.length ? `<a ${kept.join(' ')}>` : '<a>';
+  }
+
+  // 通用排版标签：仅保留安全属性，并净化 style
+  for (const a of attrs) {
+    if (!GENERIC_SAFE_ATTRS.has(a.name)) continue;
+    if (a.name === 'style') {
+      const clean = cleanStyle(a.value ?? '');
+      if (clean) kept.push(`style="${escapeAttr(clean)}"`);
+    } else if (a.value === null || a.value === '') {
+      kept.push(a.name);
+    } else {
+      kept.push(`${a.name}="${escapeAttr(a.value)}"`);
+    }
+  }
+  return kept.length ? `<${name} ${kept.join(' ')}>` : `<${name}>`;
+}

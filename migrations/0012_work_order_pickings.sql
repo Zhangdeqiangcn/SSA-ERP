@@ -1,17 +1,27 @@
-U2FsdGVkX1+AE/KFiacONJ6rPI+SsjePpghiBG7LgxGmdFN10FEHb00PXe/hyp2M
-3xuY4rBM9HGySXSPb9dldxjz4XJ+DxQICQhXTi1ttzzDLyeOyjIe50N2jdl9oaPl
-8JMGlOayGgNbzPdk+ytkQ0vD77l233DfB/cD9bVyC1QcJukYrRPX1XrEJ6zcp6be
-f1/1McYdZr5juohXhOoeSAvH6C/CbpN5IxSzYxMxctyTJPifszXXj1Qthq4F5w6H
-+Lmk9Tf0UKEdHL+VYujeUbsVv7IqpAYU2IpOFwuSm1K7qq3XOZw+EwQbOwR+LsNz
-1ZEOXtCLeR8KhmTVnBXdiYlGkSSWFxUrRqcoY85tNhhUU/QXNljzV/pTK0hlr1W4
-hwRk/WYpAax8izaNTOtH06pca96MYl6WA3Pi+TPfK6LactPSwSO6/1j4iWRzr981
-PxlaGVZ3VAxDJE6CXAfL3fP1OF4qChaGrdklmRSud8Q4aboIafILpl20MmTAMPXK
-wWg+oxRgN2kWo3ceFPSiQxWf73yiEemjiOlD8CHNSOMz/sXopX03UwzUiS4WoYdl
-qDc4K5SoLIH79LLOrdtkij98BVf5OC6TamCgs2GBlI8HSHFqRZlq7aHqTCFy887w
-7jn22PFwCRqTeNQPGGO4YpmYPqwIHGP6vioeYLpcrQHKDOjOk0RnWUz57NBa+XxK
-LthQksnQkhVOhBoXV3P6BIQeiZtfJSsTQRIzI1wwcR0PRzTreHQIfGi6fjzNgilI
-Yk5ZFOA0QlE/F57Iwv3oLPKKT4jnTimsZ3F8RsdHK1ZkfRZZ9TQKZ7FC6zgRlFgB
-6zV3GXKIRxXJsQh1aF9rOlm2NiDM1C6I7edmANPTI43NevT252gPRIE6PGlDb6Xj
-hzGm04SmbSXuNk5YPt/Ahq2PEvlKcnjzz79RKzg3LROTLxdCWSa9ILa52K5e5ci2
-MfZB3vaFbN40q00G3FK3uP5rQATW552aKDrz9XjsFHVwkfJg3EerwdW1gUhA9mE0
-SzL0BukCYrLwrw/eG9CgFW6DaPcMiGAw8Ldzms9Vzhg=
+-- B2 三岛：工单领料
+PRAGMA foreign_keys = ON;
+
+-- 1. 工单领料主表
+CREATE TABLE IF NOT EXISTS work_order_pickings (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  work_order_id TEXT NOT NULL,
+  work_order_no TEXT,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  unit TEXT,
+  quantity REAL NOT NULL DEFAULT 0,
+  outbound_no TEXT,
+  issued_at TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE(org_id, work_order_id, material_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_wop_org_wo ON work_order_pickings(org_id, work_order_id);
+
+-- 2. 版本控制
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0012_work_order_pickings', datetime('now')) ON CONFLICT(version) DO NOTHING;

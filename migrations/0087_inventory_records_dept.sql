@@ -1,20 +1,12 @@
-U2FsdGVkX1/eUKxqUAkKvbh4RXGvWp2Qr2lVllKenJ204dUlkdfvk2jZE7OqPmrI
-Qxz/piATFksRqkyM/Z6hpcgH1mez2CF7uzN0iAu7FdDwKTUBFrLhJLalnwhf1whi
-/hdVBCqbVr9wzpsu5s1Q9IOeUnOWyXnhKu8jPSmeK5xK3rUv5I2jeVVYv1sITHhy
-LgFKnk975cvZW9chKKzyx/duWu1r9e2hLhnwi11aUFISR6Ppo648IWgNQT6Cx7wt
-Xai5SA5EdGhmSLf7dOaeULEojgMqZSSimPr6vwB+Gef+aqYjdAVK4yi/8JrBNlts
-W1x21whL/xi2zodrC5U07u7zZUdy7luikd51Eg77kZRQbDH2GSyXgK/J25rWRi26
-QEeImM0l8tikz+KprZXtHCvhlFezVHFyTHQTQPS6EzUXQ7fL70PBsbPsb6ou8g6Q
-fSs9+KAgC4MEn0CrmDkF5olL2z/8/2YTvazvN9hdnJvk9v0n6PXqL+RflmvGlWd8
-M0ZHoMeefTThemTBd+XTFrrjKSmBI9h/9SZvpXKie3Gya/6VHpAejQg3AfxuO0lt
-KCOqPNwB9W22HG8LUs8rRTzWQrKUNK+5Daib1nbc16T0AygiWl8kPkUaht8deMRI
-jGaxsMkX1EJY8o9yAkITcZ5IvboAzzP0PRaW7K0J4DlrrZ1LRWrnONZcVUbSeEUw
-bcZbjRas6eaoSTNKJu5zjnu0g3bDwtpTnHOhmD+hRH+kukJ/TNhLVRTEGM7xsJUu
-Aa9ybW3WG2Zdporu46lFM5l2KSDQGSQ9gx0YSFEUdGnLANSoxnYDzMfHZFalRJQB
-AsY7+csEOZcE5uQrR5n8vcvV9DgKBVvz2ftLhwkkrlg1DM3wlgH5ATWcBwLjpMwH
-qeS5xvu8wwylYRVO9aeZreDpqZQVrPmhM5AxVfjtt4qhtINkxuALHcBrdsnltD1G
-ot+mjFD7bDae1lFIaPqJ1Uwwazb/d36Yb4Kto33qwOfvmrvTJa/k+Ku9F6h+KsBa
-TAF5xHYnqndin1LSbPN/+c+tW8tLG9cRnFHr5TeHclARSP5m/dzb09A2OUTo1oTf
-puOLMhxSzf9rqgSYyysOh9v2y7p+nuyHqp6sKaYNzNoDF1vCsJ1MTYQQHd5YHAOd
-2TZxc4nhnZVH6pRo0smmc0hmaod+CceJIzlJdiqlx4K6evdvcxdIAi+fJ/fQt1fD
-u0MPY/DCrX93ZVJkrmSnWVRvRioBnKzotLCmnCr/jF5P5pQSuOxWG7QflNm3sQRG
+-- V3.61.0 W-F11 · inventory_records 补 dept_id 索引（行级权限登记与真实表结构对齐）
+-- 背景：functions/_shared/rls.ts 按 'dept' 范围给 inventory_records 登记了行级权限，
+--   需 (org_id, dept_id) 复合索引加速行级过滤。
+--
+-- ★ 2026-10-15 修正（全新空库重建断点，生产无碍）：
+--   本迁移原含 `ALTER TABLE inventory_records ADD COLUMN dept_id TEXT;`，
+--   但 0013_rls_row_policy.sql 早已为该表添加同名列 → 全新库按序应用时
+--   必报 duplicate column name: dept_id 而断裂（生产因该列早已存在、
+--   且本迁移已登记于 d1_migrations，功能无害故未暴露）。
+--   现删除重复的 ADD COLUMN，仅保留幂等索引；列的统一来源为 0013。
+--   生产已登记本迁移，不会重跑，本次修改对生产零影响。
+CREATE INDEX IF NOT EXISTS idx_inv_dept ON inventory_records(org_id, dept_id);

@@ -1,24 +1,23 @@
-U2FsdGVkX19+ys8k7+/plBanP7mUikL5o9nMXKB6r4dpsneAuYoubGp12tC5Ls+U
-ysIuOI6qGKOvB5pN7TNsVQCNbQOvlslCOLv+mnO+UNPpuo/R+lMO2YhOT3HffzRF
-lsXnE83O5XEWX1CQPOQwJn/cTYpe9x3FBbxq+6TWFQzVHi62u05X5oppCaBo1nH1
-1GaLQYZYeD/kY7maWJYWCSlFAZ93QEC646e3BYMwvt/MPGlQiW2WQwD192pLp9k4
-6POiph5+be1wYBjpCIVwPf0kKbRs+++5fvLjAk3bwaW26aryM3YDfOpo4NLuzDN6
-6gg1fWrCI8i9STNigTQNxXFc27GNNfV7i8AfTAKH5x4vD+2cn8RAXU/5Yepj7e7V
-JuazAhUDBlut/ZMdq83GuUeIiQtcP4vBlqB70+NAKZpBEGBM8MQiiRxkqyRL3iEQ
-gnih5hk5ol2LPEAB4Qu8Y4CglZtAgYDHbHhe6SCGYPZ+Ib6wfLewm6q6pi02Y5j1
-9+Z+rnZbmLMG6hd62M1MvlOfdNwYm/OrGrib1c68a1X+eWGqOtnuRC0J0DARY4di
-Hq+auFUbfea4XNLHS7IG3MXeyQGLrKTH6CGlIOoy2Sjbt+50u2x4Jyif+8ouArWI
-+vFlxSTYRxplc8x7LGVhj/i7r8ZNzhDgIb7aXKq+axj5mgctw9mFHYrrkVV6VWoS
-oB6sS7Iz/Qhl58DNePhNQjam2J1afH37zrI9N8ZRBz0s98qKzGSh7P3E0PTO+QCF
-McMoIkskO5Gn4sTdeJm+eXRcn3AtpYakvQ+CNcF4Yna0rNPZRviZ/QecruQJEzW4
-WerCHne06ybJ4/oYj19+eMoyJvEpvv4Zo9MBQ0Pg8nynNWrx4QfLmiyEr6Jqn8mk
-H4kJEJaJM3b6SGbHrQ2edLMG/GrIKt3AkkTau+kn0NqJQFka7ANxTTcMZgycyT2h
-5Y1QsbIFXMpVE9o2VJstApywZSwc6hnP7fZr90Aq05b9CGT+1LgDcYpLbUR5/Eyn
-Yo+5j0uHjQf8oaRFsRj1CS3UfU7Yrjfoy9FvPKq53fEKoyVYaWT77qY4/ThTN7IS
-eMLwDzvCj5togGU4/TfnLLOhp2K3vwaPav2D2HsKuoBsvkCIAEFqlZ8i94zqYu7K
-jYixee6O9QHQyAyqTW89Js9DlA8tzYO2csJfeLZv8u2pvgf1Ik7MLDvIAzj5wqaK
-3agRfhofSCFpFn9qYADHVKTJqsmdTYHRaH3bRknlwC/XS5ZC2PBvWd6znEGhN6lX
-RtmA/d4UJSDX7vFjdZePBrIEvCBzuLmnx8v6msvJmMh2YaWaQzRo5bprRkECmGBk
-p8S8xAmMr9evpJTRA469F9g66K/Y7pvsF7BpMiv6ZuM71EVLLCcHkA2LXBcx0fmg
-YFggWDZYqD/THqh0eL9tPst6oqZoIkNTVXLUrJK0bC5MN/okLi+sUmWxriB/jVDr
-ZMCt++sXHHTUE4K0qpSptU1AqucSLJ0+IE7Gi93RIQI=
+// 外部 ERP 同步 · 连通性测试
+//   POST /api/system/erp-sync/:id/test   对 base_url 发一次探测，返回可达性与状态码。
+import { resolveDataRequester, requesterHasScope } from '../../../../_shared/dataAccess';
+import { testConnection, SyncConnection } from '../../../../_shared/erpSync';
+import { json } from '../../../../_shared/auth';
+import { errorResponse } from '../../../../_shared/errors';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'read')) return json({ error: 'API Key 缺 read 权限' }, 403);
+  try {
+    const id = context.params.id;
+    const conn = await env.DB.prepare(`SELECT * FROM erp_sync_connections WHERE id = ? AND org_id = ?`).bind(id, r.org_id).first();
+    if (!conn) return json({ error: '连接不存在' }, 404);
+
+    const res = await testConnection(conn as SyncConnection);
+    return json(res, res.ok ? 200 : 502);
+  } catch (e: any) {
+    return errorResponse(e, '测试连接');
+  }
+}

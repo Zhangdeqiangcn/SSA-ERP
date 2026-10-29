@@ -1,29 +1,29 @@
-U2FsdGVkX1/tzsL2L4uIVbGbaJnl6oN3se+/JZg3CFJSTYb4A41iBVaU82SLYGpf
-Q3Nk2kPSHwb9S/1td1+yPp5iGBDWBfyclNh6wyBiHfKzcYDt5M/o+NFtiTbwuqio
-srGeqRm6VuiqTU83lV3bdHz9pLTvY1lzit0JQFZWT+aW2/cP8l+a/IPjMXK0fNk2
-Oj8LWA3tElQ5oTftLSrV/r47WyZjSL4zVtDM/SKi8QRDC6ADsQWSjmT0iqH3eYgj
-QZ+gNvFdOYmNKhqTFLQ+NuzACTc5DJG98N35337Z7Ac1E5All1VBe/rokHWn4PH9
-3ROWhMKuzRql7qHqKzsx6nQ9LiOQZyfcD/0DLXOLdPoEd36fl15Jn/gdCj96YoD9
-kA58mCd7SHsceNzM+K5lswTsjYlCNLGWY2CaV61o8NtPr8j/2BF9QvObErp0m4eD
-GHz6BnnschTyMaVLcCGf/Zm85UTENLJpLAGMsChDwZM76wW3QCGujj1HcxtUwVuC
-fDG2bc9l5tbuHnjZl4NxUNDKG96ps7PfaiTMrp3dMAdo1Gy5tht258yIbG0AqZEY
-QlcQhgAqV/NN88QBAwt8a5FPV0VGRKj/QJNgNUUHX1rTY7tOz80OwiL1ygew9ofO
-QZ+52ASPHZE0zBwHKnPNblOiND06uTvYZO4izZ3rJFuzxMj9BdU0KUKgc+bZHEi/
-3cWRsMA8AAcysVQfa5XBiYxUaMymCkL4hOjnWHRbtYIXwpp34xyTgH8iEHQEgOnP
-mJCyUDU1adFFE78dmu2Bu54RH9/KxsyADRD5fHwpoEzYy51OgQoeKo67iLVlvT5i
-ZUq+ezvFJ910rRpuXJsGQaXbvwqTW8GV9A/aXP6ZC0H8dy72tRQnGhzzaoOJ7Ury
-rvkETgwcqFWHQDup/BMJUmcBIV/SRlPvsi3g2TWr+IglUmW8+qGkiu1U/hhhpqpo
-0IW/Zm3iVOYTrXTi/gE0mekDigN1lYH47+WA6rVXAMTb5cunda3/G9h9IUv0CkO8
-Wm45QF345T0I7zwPVBw2QNanNOzvRuES9E43iXE7u2CAcyRre0xhZD4MVngtfPNG
-Ar6Ja3b1+cfrx8V89UT8OwJQHkForGH3IbpVvIo47duIME9Kr0/uJsRo85vVojH2
-JzpNZtwN0/TJK/Cd7ffSaFItVgcaKweiwPQW7wAsBD5r6asWgciy5bOsReJBuL4j
-ElI4dKGQc3WzZpfQQtPc5EWMiJ3kIFBX/f8nOVfH3yfF8loh5gF0iU9MGVqO2CYR
-mlNQ2P9Gnu3VrXBq4TMCksjLVQIAjf8DueXlV8kjOBapsfVgkOK84DmpLpZY/36H
-Cy+whHOr9DiWjRCL7bOQZFjR5zO09S04nTeRqFvCNi1bsxZfZKSyoH9vEJSuLszv
-zjJxBytyY7HaFOA24RQmPooY3i00TrtjtuUjYJ4ZDs7ENuvxhphzMV2TbPugS8rj
-BYhpcu67WSKEav+YRprW1ZOx04glHY1K1JXMugaEyvYpJ1adc/znUaGkLT+QaYAE
-lcgo+KrYGu49V+0NFcfoJCDYPOT6xrmiI6R3PubEzjDrA/z4wuq9Vm/CO8B1mF2W
-+OjGLZA5SmuDrZ6iITaODlyoBDcDonyBF/N2F6yeGCaxteOwlm8R3m7135LbcID8
-K7b7sYnhQfTk3DXU+RAkQA6q+cPpBrFLdvP+fmlZ+Gsio51FvqeEhsvDKsvPZzJE
-1LC88JoFGTm8n3myuxTZPong5Mm8JPbntjkDmxDvY9poj2Q+kBIKR1nobSTFUAp9
-5pLQWjSXzoKCoXTfsutH/oVcbWIE4vSNAMNw75zAHu0GOIGqspK3rhYf+sehZ4VK
+-- V2.93.0 审计日志 D1 真实落库（含 diff 字段）
+-- 为 audit_logs 表新增 diff 列，支持变更记录前后快照
+--
+-- 【V2.96.2 修复】audit_logs 表及其索引此前只存在于生产库（历史手工建表），
+--   迁移脚本链中从未包含建表语句，导致「从零重建」执行到本文件时必然失败：
+--     X [ERROR] no such table: audit_logs: SQLITE_ERROR
+--   现补建该表与全部索引（结构与生产库逐列、逐索引完全一致；共 9 列，
+--   diff 列仍由下方 ALTER 追加，以保持与生产库相同的列顺序）。
+--   CREATE ... IF NOT EXISTS 保证两种情形都安全：
+--     · 全新库：正常建表建索引 → 再由下方 ALTER 追加 diff 列；
+--     · 生产库：本迁移已登记于 d1_migrations、永不重放，零影响。
+
+CREATE TABLE IF NOT EXISTS audit_logs (
+  id         TEXT PRIMARY KEY,
+  org_id     TEXT NOT NULL,
+  user_id    TEXT,
+  user_name  TEXT,
+  action     TEXT NOT NULL,
+  entity     TEXT,
+  entity_id  TEXT,
+  summary    TEXT,
+  created_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_org    ON audit_logs(org_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_action ON audit_logs(org_id, action);
+CREATE INDEX IF NOT EXISTS idx_audit_entity ON audit_logs(org_id, entity, entity_id);
+
+ALTER TABLE audit_logs ADD COLUMN diff TEXT;

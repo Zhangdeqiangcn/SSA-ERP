@@ -1,265 +1,315 @@
-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
-vAdQbiJeAKAuPqW4nieaEQ==
+// 共享鉴权逻辑（被各 /api 路由复用）
+// 在 Cloudflare Pages Functions 运行时中执行
+
+export interface SessionUser {
+  id: string;
+  org_id: string;
+  username: string;
+  name: string;
+  role: string;
+  department?: string;
+  /** V3.15.0：把用户资料字段一并带出，避免各端点重复查库 */
+  email?: string | null;
+  alt_email?: string | null;
+  phone?: string | null;
+  status?: string;
+}
+
+/**
+ * V3.15.0：把用户行规范化为「前端消费的客户端用户对象」。
+ * 背景：此前登录接口只回 {id, org_id, username, name, role} 五个字段，
+ *   导致个人中心把「部门」显示成"未设置"、「邮箱」显示成"未绑定"——
+ *   并非数据没存，而是前端压根拿不到。此函数统一出口，login / me / profile 共用，
+ *   字段名统一 camelCase（alt_email → altEmail），杜绝各处手写漏字段。
+ */
+export function toClientUser(u: any) {
+  return {
+    id: u?.id,
+    org_id: u?.org_id,
+    username: u?.username,
+    name: u?.name,
+    role: u?.role,
+    department: u?.department ?? null,
+    email: u?.email ?? null,
+    altEmail: u?.alt_email ?? u?.altEmail ?? null,
+    phone: u?.phone ?? null,
+  };
+}
+
+// 会话 Cookie 名称（HttpOnly，JavaScript 读取不到 → 抗 XSS 窃取明文令牌）
+export const AUTH_COOKIE_NAME = 'ssa-erp-auth';
+/** 会话有效期（秒）：与登录签发时写入 sessions.expires_at 的 30 天保持一致 */
+const AUTH_COOKIE_MAX_AGE = 30 * 24 * 60 * 60;
+
+/**
+ * 从请求 Cookie 中取出会话令牌。
+ * 仅读取本系统专用的 HttpOnly Cookie；其它站点注入的 Cookie 一律忽略。
+ */
+function parseAuthCookie(request: Request): string | null {
+  const header = request.headers.get('Cookie');
+  if (!header) return null;
+  for (const part of header.split(';')) {
+    const seg = part.trim();
+    if (!seg) continue;
+    const eq = seg.indexOf('=');
+    if (eq <= 0) continue;
+    const k = seg.slice(0, eq);
+    const v = seg.slice(eq + 1);
+    if (k === AUTH_COOKIE_NAME) return decodeURIComponent(v);
+  }
+  return null;
+}
+
+/**
+ * 构造 Set-Cookie 头内容。
+ * - 种 Cookie：HttpOnly + Secure + SameSite=Strict，JS 读取不到，且不会被跨站请求携带；
+ * - 清除 Cookie：Max-Age=0，浏览器收到即删除。
+ * 注意：Secure 属性使「开发态 http://localhost」下浏览器拒绝存储该 Cookie，
+ *   于是 dev 跨域代理场景天然回退到 Authorization 头（由前端内存令牌提供），无需特殊处理。
+ */
+export function buildAuthCookie(token: string, clear = false): string {
+  const attrs = [
+    `${AUTH_COOKIE_NAME}=${clear ? '' : encodeURIComponent(token)}`,
+    'Path=/',
+    'HttpOnly',
+    'SameSite=Strict',
+    'Secure',
+    clear ? 'Max-Age=0' : `Max-Age=${AUTH_COOKIE_MAX_AGE}`,
+  ];
+  return attrs.join('; ');
+}
+
+// 从请求头 / Cookie 取出当前登录用户（校验 Bearer token 或 HttpOnly 会话 Cookie + 会话有效期）
+//
+// V3.91.0 安全整改：优先读取 HttpOnly Cookie `ssa-erp-auth`（生产态浏览器自动携带、
+// JavaScript 读取不到 → 即使发生 XSS 也无法窃取明文令牌），仅当无 Cookie 时回退到
+// Authorization 头（兼容 API 客户端、E2E 脚本、dev 跨域代理等不发 Cookie 的场景）。
+export async function getUserFromRequest(
+  request: Request,
+  DB: any
+): Promise<SessionUser | null> {
+  const cookieToken = parseAuthCookie(request);
+  const auth = request.headers.get('Authorization');
+  const headerToken =
+    auth && auth.startsWith('Bearer ') ? auth.slice(7).trim() : null;
+
+  // 按「Cookie 优先 → 头部兜底」的顺序校验会话有效性，取第一个有效令牌
+  const candidates = [cookieToken, headerToken].filter(
+    (t): t is string => typeof t === 'string' && t.length > 0
+  );
+  let userId: any = null;
+  for (const token of candidates) {
+    const sess: any = await DB.prepare(
+      'SELECT user_id, expires_at FROM sessions WHERE token = ?'
+    )
+      .bind(token)
+      .first();
+    if (sess) {
+      const exp = new Date(sess.expires_at);
+      if (exp.getTime() >= Date.now()) {
+        userId = sess.user_id;
+        break;
+      }
+    }
+  }
+  if (!userId) return null;
+
+  // 账号信息 + 组织状态一次查出（JOIN 避免每请求多一次数据库往返）
+  let user: any;
+  try {
+    user = await DB.prepare(
+      `SELECT u.id, u.org_id, u.username, u.name, u.role, u.department, u.status,
+              u.email, u.alt_email, u.phone,
+              o.id AS org_found, IFNULL(o.status, 'active') AS org_status
+         FROM users u
+         LEFT JOIN orgs o ON o.id = u.org_id
+        WHERE u.id = ?`
+    )
+      .bind(userId)
+      .first();
+  } catch {
+    // 极老环境（尚未应用迁移 0041，orgs 表无 status 列）：退化为不含组织信息的查询。
+    // 目的是「新增闸门不得把鉴权整体打挂」——宁可暂时跳过组织校验，也不能全站 500。
+    user = await DB.prepare(
+      'SELECT id, org_id, username, name, role, department, status FROM users WHERE id = ?'
+    )
+      .bind(userId)
+      .first();
+    if (user) (user as any).org_found = undefined; // undefined = 无法判定 → 跳过组织闸门
+  }
+  if (!user) return null;
+
+  // 账号状态闸门（V2.97.0 修复 · 安全审计 A1）
+  // 此前只在「登录那一刻」校验账号状态，会话一经签发便不再过问，
+  // 导致账号被停用/驳回后，其既有会话在 30 天有效期内依然畅通无阻。
+  // 现将状态校验放到每次请求：待审批 / 已驳回 的账号，既有会话立即失效。
+  // 兼容性：历史账号状态为 'active'（迁移 0040 默认值），不受影响；
+  //         状态为空的历史数据按「正常」处理，避免误封锁。
+  const status = String((user as any).status ?? '').trim();
+  if (status === 'pending' || status === 'rejected') return null;
+
+  // 供应商门户会话隔离（V2.97.0 修复 · 安全审计 A2）
+  // 背景：/api/vendor/login 会把供应商账号以 role='vendor' 写进同一张 users 表，
+  //   并往同一张 sessions 表签发会话——与内部员工共用同一套 Bearer 鉴权入口。
+  //   此前该会话可畅通访问全部内部接口（叠加 C1 甚至能改写组织级权限矩阵），
+  //   等于把内部系统整体暴露给任一已批准的供应商。
+  // 判定依据：role='vendor' 不属于内部角色集合（见 src/types/settings.ts 的 Role 联合类型），
+  //   且供应商门户登录后不再调用任何内部接口——门户令牌存于 sessionStorage.vendorPortalToken，
+  //   与内部令牌键（localStorage.ssa-erp-auth-token）完全不同，二者本已天然分域。
+  // 影响面：门户自身不受影响（其唯一后端调用 /api/vendor/login 不经过本函数）。
+  if (String((user as any).role ?? '').trim() === 'vendor') return null;
+
+  // 组织准入闸门（V3.2.0 修复 · 评测 L-03 整改）
+  // 背景：此前只校验「账号」自身状态，从不校验其归属的「公司（组织）」，于是出现两类漏网：
+  //   ① 组织已被删除/清空，成员账号仍在 —— 一批无人管理却持有有效会话的孤儿账号；
+  //   ② 组织被停用（如欠费、违规、审批被撤销），成员既有会话照旧畅通。
+  // 现在把组织状态也纳入「每次请求校验」，与账号状态闸门（V2.97.0 · A1）同一思路：
+  //   只有「账号正常 + 公司正常」才放行。
+  // 判定说明：org_found 为 undefined = 无法判定（老库降级），跳过而不误伤；
+  //   为 null = 组织确实不存在 → 拒绝。
+  // 豁免：super_admin 属平台级运维角色，必须在任一公司异常时仍能进入系统处置，
+  //   否则一旦唯一的超管所在组织被停用，将无人能修复（属于「自锁」风险）。
+  if ((user as any).org_found !== undefined && String((user as any).role ?? '').trim() !== 'super_admin') {
+    if ((user as any).org_found === null) return null;
+    const orgStatus = String((user as any).org_status ?? 'active').trim();
+    if (orgStatus !== 'active') return null;
+  }
+
+  return {
+    id: (user as any).id,
+    org_id: (user as any).org_id,
+    username: (user as any).username,
+    name: (user as any).name,
+    role: (user as any).role,
+    department: (user as any).department,
+    email: (user as any).email ?? null,
+    alt_email: (user as any).alt_email ?? null,
+    phone: (user as any).phone ?? null,
+    status: (user as any).status ?? 'active',
+  } as SessionUser;
+}
+
+// SHA-256 + 盐 密码哈希（旧格式，仅用于兼容存量账号的登录校验）
+export async function hashPassword(password: string, salt: string): Promise<string> {
+  const data = new TextEncoder().encode(salt + ':' + password);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+// 新格式：PBKDF2-HMAC-SHA-256（带随机盐 + 10 万次迭代），抗彩虹表/暴力破解
+// 存储格式：pbkdf2$<iterations>$<saltHex>$<hashHex>
+export const PBKDF2_ITERATIONS = 100000;
+
+export async function hashPasswordPbkdf2(password: string, salt: string): Promise<string> {
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    enc.encode(password),
+    { name: 'PBKDF2' },
+    false,
+    ['deriveBits']
+  );
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      salt: enc.encode(salt),
+      iterations: PBKDF2_ITERATIONS,
+      hash: 'SHA-256',
+    },
+    keyMaterial,
+    256
+  );
+  const hashHex = Array.from(new Uint8Array(bits))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+  return `pbkdf2$${PBKDF2_ITERATIONS}$${salt}$${hashHex}`;
+}
+
+// 兼容验证：自动识别新/旧哈希格式，存量账号无需重设密码即可平滑迁移
+export async function verifyPassword(
+  password: string,
+  passwordHash: string,
+  salt: string
+): Promise<boolean> {
+  if (passwordHash.startsWith('pbkdf2$')) {
+    const parts = passwordHash.split('$');
+    const iter = parseInt(parts[1], 10);
+    const s = parts[2];
+    const expected = parts[3];
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw',
+      enc.encode(password),
+      { name: 'PBKDF2' },
+      false,
+      ['deriveBits']
+    );
+    const bits = await crypto.subtle.deriveBits(
+      {
+        name: 'PBKDF2',
+        salt: enc.encode(s),
+        iterations: iter,
+        hash: 'SHA-256',
+      },
+      keyMaterial,
+      256
+    );
+    const hashHex = Array.from(new Uint8Array(bits))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+    return hashHex === expected;
+  }
+  // 旧 SHA-256(salt:password)
+  const old = await hashPassword(password, salt);
+  return old === passwordHash;
+}
+
+export function makeSalt(): string {
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr)
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+export function makeToken(): string {
+  return crypto.randomUUID().replace(/-/g, '') + Date.now().toString(16);
+}
+
+/**
+ * 统一 JSON 响应构造。
+ *
+ * V3.91.0 安全整改 —— 自动处置会话 Cookie：
+ *   · 响应体含 `token` 字段（登录 / 注册 / 激活成功）→ 自动种 HttpOnly Cookie，
+ *     浏览器后续请求自动携带，前端 JS 读不到明文令牌；
+ *   · 响应体含 `clearAuth: true`（登出 / 下线全部设备）→ 清除该 Cookie；
+ *   · 允许 `cookie` 参数显式追加自定义 Set-Cookie（如自定义过期策略）。
+ * 其余接口不返回这些字段，不受影响。
+ */
+export function json(data: any, status = 200, cookie?: string): Response {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json; charset=utf-8',
+  };
+  const setCookies: string[] = [];
+
+  if (data && typeof data === 'object') {
+    // 登录/注册/激活：响应体带回 token → 种 HttpOnly Cookie
+    if (typeof data.token === 'string' && data.token.length > 0) {
+      setCookies.push(buildAuthCookie(data.token));
+    }
+    // 登出/下线：显式清 Cookie
+    if (data.clearAuth) {
+      setCookies.push(buildAuthCookie('', true));
+    }
+  }
+  if (cookie) setCookies.push(cookie);
+  if (setCookies.length) headers['Set-Cookie'] = setCookies.join(', ');
+
+  return new Response(JSON.stringify(data), { status, headers });
+}
+
+export function uid(prefix: string): string {
+  return prefix + '_' + crypto.randomUUID().replace(/-/g, '');
+}

@@ -1,27 +1,30 @@
-U2FsdGVkX1+pGXuJYoic05KU4x+yhHo3o1IeE60MaI0dEzxAkL68irg30pStgFS5
-6CEi9uL1WHvVNVadMDLm4eysAcSq9DuXQXk8abzs0rfQwle6xHmWhyddX9EIYz17
-qgck1cQknSNzIuHUrW2D33KC2II5FKgVMN7yLHKkuz/vaGJHlZMTgLPp1/mE36Ap
-qywXhK8VUwX6J3ARGl0d/orP2SRfLtbEjWuxX1elQcImq4uNxxpvJ9sj34qNe0KS
-28n4aRcEmkuSAw4BwVKzgyfrTbhsJTJnnz+gJ46r3PDMGOW0hLJyKU5a9pVeihQe
-IIMY0aqC/lpmU16g2JCEDISIltDgqJUbtmLfGCsGOlcC9ObChuJ66bD+w+ToYRSW
-1rDKAXwiV79srVAWUfOdCzdpEQe7kF0d7yGSjvoRbGtwwNbl/8L3KS6Nxy9vazH3
-ifsmT4ys0ZRX1A6hGbeMi40szqmtQfY04SNJxxmd/wlPYomH7S5ZbUiwOq8x7YaE
-TOuPTA6P/h9Uo91hN3Z6qZ7dad7Q5Rz0G/G+MHwQyuFcb5Yq3PKyQ5JhANRVro2M
-k0Fp7xVVlEClmQL+Kr3Ny99ffnaPSzod/IMfkuhsFjuP4wLGkcK58lJVSPTBBjiB
-t84a8qCocgIqCiIn3l3Tyfi5aaxl4dNdmp/M1hu31xiByKziRbpzxRUgCebXDEZS
-6ZZzSQ04D7R+YWmrX3evfT2FAbncY5fp20xaHSVuMCTU/qVWmtp6quGf2CztkTqW
-1rXr1UNCqayw0L4lE4MdjNdnxMvdl2ZlKebK/qCGg66e3li2wGS8yxyFULLja8KS
-Ngt0xRqaG1AWWDPXqtc+kCWBm3xBsUSFVxkZic2cnEP1aGwp41rVgaHhQUf7gI91
-Z1d8F8HfXzDJ/eaYTy5bSf6n//T3HF9ZzUv7TkkMCljlaP9SpBjFqu5vYFkT/eDN
-T1xWIKhpbN3tqzW57cten5DZAIdNy7IrIeziHcEr5GOAu5TL9d9IEzQ8UD6ZMrGl
-gOMMiZVIMQLRsS+ntKDDm6KGCGdH0Yq4LTefAaazpkcNlojyQ+XH1jrwnRzsx2Ov
-DXQguVWwm6dDawNkjKqjuvrzGCrJYM4aANhkwqZ9UC5S7gGiVJr52fSsBJS2FW65
-y2L/52Adb58XeoWw6+uAC+IdssK48+YohZCj5wSOF6lzrZtZ3N58kYd59t1MDnMO
-dFT5rUJuaezYStCDFksvRweHSf8YOVq4VaPVGUhkqAUuNyhz6jIwLBfby9oJlEkH
-nJ964GwTfLgcfwhfHFHLV4HO08sxDOrluRqpQf/cAAIggMAbh3jR7megMqOKp6m+
-EulDPc+7adRTcNHO/5YtZ0u8JCIG4RIsxGUUr+1v2lyd3KFewQznY84vq6yP2dFy
-vErDlF1bJd1ga2RUSdYawIfryGJfrvrhrc4llQIB9qt+9KveYfcN9sseGcx9GCzF
-RAQ29w2qACa9FufAEOIsdK+UGCTE0oR4bD7yGDbEKquQj3hX47FzPTVtmbdEpOBM
-VXKaQybDnbhMM8iFFhNm0A0EuwFPaNhWn/NJNmF80zbxb5ABkJrHxWQlY8mDJaMp
-6D792OUd6UCqCb4nJT59DKKetRxq/7nuHFXTRVAs3dL4unZyhROYXexHppHj04c+
-Nyn3tr2Y62XoDYEPpvAZIjHm1lMtRbCPm7jAyan2qya1wkXxHofX+Hv8HUJuzqug
+import { createEntityStore } from './createEntityStore';
+import { CopaRecord } from '@/types/copa';
+import { copaRecords } from '@/mocks/data/copa';
+import { UseBoundStore, StoreApi } from 'zustand';
+
+// V2.80.0 W1：COPA 获利分析迁真实 D1（根治双通道）。
+// V3.90.0：以上 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到通用工厂
+//   createEntityStore（entityRepo 主源），本文件仅保留领域接口名（addRecord/updateRecord/...），调用方零改动。
+
+interface CopaState {
+  list: CopaRecord[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addRecord: (r: CopaRecord) => Promise<void>;
+  updateRecord: (id: string, u: Partial<CopaRecord>) => Promise<void>;
+  deleteRecord: (id: string) => Promise<void>;
+}
+
+export const useCopaStore = createEntityStore<CopaRecord>({
+  resource: 'copa',
+  seed: [...copaRecords],
+  stateKey: 'list',
+  backfillKey: 'ssa-erp-backfilled-copa',
+  // 领域接口名委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    addRecord: (r: any) => ctx.primary.add(r),
+    updateRecord: (id: any, u: any) => ctx.primary.update(id, u),
+    deleteRecord: (id: any) => ctx.primary.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<CopaState>>;

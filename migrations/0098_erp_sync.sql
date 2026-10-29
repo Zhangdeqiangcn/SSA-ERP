@@ -1,100 +1,72 @@
-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
-7kCMNWuP/Cd1ZhPKjeWI5w==
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 0098 外部 ERP 数据同步：连接配置 + 运行历史 + 逐行结果
+-- ───────────────────────────────────────────────────────────────────────────
+-- 背景（V3.68.0）：补齐「对接其他 ERP 进行数据同步备份」能力。
+--   ① 统一数据 API（functions/api/data）已能对任意业务表读/写/改，本迁移提供
+--      同步机制的「配置与账本」：连接配置描述「对方是谁、怎么鉴权、字段怎么对」，
+--      运行历史与逐行结果让每一次同步都可审计、可复盘。
+--   ② 引擎 erpSync.ts 是通用可配置 REST 适配器：不绑定任何品牌（金蝶/用友/SAP/
+--      自建系统皆可），字段映射模板驱动，支持「推送（本系统→外部）」与
+--      「拉取（外部→本系统，等效互备）」双向，增量游标 + 幂等 + 失败聚合不中断。
+--   ③ 三张表均为组织级共享配置/账本，登记 rls.ts 的 RLS_SCOPE 为 'all'（与
+--      backupSchema 的 discoverTables 同口径：排除系统表，仅业务表可同步）。
+--
+-- 设计取舍：
+--   · auth_config / mapping_profile 用 TEXT 存 JSON（extra_json 范式，与本项目
+--     框架协议/合同明细一致），避免为每家 ERP 的字段差异建死表结构。
+--   · direction 单字段（push|pull|both）覆盖「备份方向」；增量游标用
+--     last_synced_at（连接级，足够 v1；按表细粒度可在 run_items 推算）。
+--   · run_items 落逐行结果，便于「哪一行推失败、为什么」精确复盘。
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- ① 连接配置：描述一个外部 ERP 目标
+CREATE TABLE IF NOT EXISTS erp_sync_connections (
+  id              TEXT PRIMARY KEY,
+  org_id          TEXT NOT NULL,
+  name            TEXT NOT NULL,
+  enabled         INTEGER NOT NULL DEFAULT 1,          -- 0 停用 / 1 启用
+  target_type     TEXT NOT NULL DEFAULT 'rest',        -- 当前仅 'rest'（可扩展 odata/soap）
+  base_url        TEXT NOT NULL,                       -- 对方 REST 基址，如 https://erp-b.example.com/api
+  auth_type       TEXT NOT NULL DEFAULT 'bearer',      -- bearer | basic | apikey | none
+  auth_config     TEXT,                                -- JSON: {token} | {username,password} | {header_name,header_value}
+  mapping_profile TEXT,                                -- JSON: { tables: { 本地表: { resource, idField, fields:{本地列:对方列} } }, pullTables?: {...} }
+  direction       TEXT NOT NULL DEFAULT 'push',        -- push | pull | both
+  schedule_cron   TEXT,                                -- 可选定时（cron 表达式），由外部调度触发 /run
+  last_synced_at  TEXT,                                -- 增量游标：上次成功推送的最大 updated_at
+  created_at      TEXT,
+  updated_at      TEXT,
+  created_by      TEXT,
+  updated_by      TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_erpsync_conn_org ON erp_sync_connections(org_id);
+
+-- ② 运行历史：每次触发同步记一笔
+CREATE TABLE IF NOT EXISTS erp_sync_runs (
+  id           TEXT PRIMARY KEY,
+  org_id       TEXT NOT NULL,
+  connection_id TEXT NOT NULL,
+  direction    TEXT NOT NULL,                          -- push | pull
+  status       TEXT NOT NULL,                          -- running | success | partial | failed
+  started_at   TEXT NOT NULL,
+  finished_at  TEXT,
+  totals       TEXT,                                   -- JSON: { pushed, pulled, errors }
+  summary      TEXT,
+  created_at   TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_erpsync_run_conn ON erp_sync_runs(connection_id);
+
+-- ③ 逐行结果：哪一行成功/失败，便于精确复盘
+CREATE TABLE IF NOT EXISTS erp_sync_run_items (
+  id            TEXT PRIMARY KEY,
+  org_id        TEXT NOT NULL,
+  run_id        TEXT NOT NULL,
+  connection_id TEXT NOT NULL,
+  table_name    TEXT NOT NULL,
+  direction     TEXT NOT NULL,                          -- push | pull
+  local_id      TEXT,
+  remote_id     TEXT,
+  status        TEXT NOT NULL,                          -- ok | error | skipped
+  message       TEXT,
+  created_at    TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_erpsync_item_run ON erp_sync_run_items(run_id);

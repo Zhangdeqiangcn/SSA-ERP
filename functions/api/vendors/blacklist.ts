@@ -1,21 +1,21 @@
-U2FsdGVkX18hwmvaoV2LGvNU27WQhf19iCQw/cuiRabc98lmJNzNU/+wVLnQxdPk
-/Pz5zaA5m/x04aRlQJpujMiTr9eTLvfi+NSpnfmDzgCG1qnRQFQqmxHWrUlHsYCQ
-BPWdUt5EEDsuhPMIgHLcIO6tsATsQohAz5bLagqAFog3YsbdkPtLvAKiO6UgRyFj
-bkYTS2y0mn368t7f2uhBAlwprxwoh+OFtTc3FjjkHBiS4StDpDbsK7V2NYLN9wf6
-IPTbQHzLPlwMNBMmd/X9VUcXuR+UgMA+qOBpePR0sBH/UDXvb6CMeMMO2NuZp7ng
-Yw5yl/Km/fhBbuJfFeZ41BOEqgP2EEa1Gp3T6ynm4fXBtz0ztqRpwbNHJSvzRwY4
-Qg4LJE4ByTTdDuK1IR/FKXSc1Zr6ReRpd1/O1zXN5yja2AP8RXWhmjITk9eEu7wv
-lKCCBgXFD+GPLHLGDdGAhI7cO056Y6js6FU2jL836B0+s/8pUtauhpI/1/pF3ye5
-j72yO0p8uaU6zchW6h/rReCE0RhptOLPLA0XcPin4NHZL3TT4jeE0+aKCSJ52Lnr
-f6O29kI+o1YAkaDiwryp0VSbHjtUP2R1RdTY+Spx/p9o1IMVm1SPQuFPUSVXGxqS
-mQyqV9jsx+9Evev+BUIwy8ow/Xc+2UzJKXAa2ArjnhjzE310bpBN1mwSMETgHQr8
-bpPAMlW51mIsXjIX1xvlHo17e9rfhBoog7uLaKhAx31Q2YXCywQi5mKb8Cw+EesK
-KH/+ymq8R+IC+B3T8kJhEedqXbaXegKasZs0bQnOczGtHSjYQmMrHs+gsWGwhNs4
-uxaQfHrxWF/CBxqie0iK+YdGbMpmORyBAMmF6EPbkwueOdC3d01Y7pcMbw+fB11h
-qKpF55+59xp3TC8Izwj97TuxW9vNAa1gqWr5yOiBXjoi0Czsss6BcR0Ykd4lmk8a
-6uQZKDVR8byvmA5kHMwch2ghw/S3EfUGt14heSWoOy92icaRsc8dEtdCkChqSZuF
-sgvcjLH1KcAPN0MWQhpPWYN50y0fSyvT+B2tqGkviuX2AtjCz65HV0Yu1bHgixur
-nopGe0GpurBhm9iEDawSdEFTIMRQMnQbq6Tz4tOHMFNM5NQci+k9/i+0U7by2ueb
-XzLbBKUEWCk9FVT1SEmnfgY1g4EvEdFQCZsJSxvYCM8q0NzyNQj+EPPoSiFUXt84
-zL+0O/wE4qAll61x02EnsZVl/OWdRl6T11JbCruhazerFrMfMf9+XGCoUkzDZXWb
-JQRX3sOOCWUPxJYufa2gXYvTQk7IrjqtCwmG5V6YvB4=
+// GET /api/vendors/blacklist — 黑名单供应商列表
+//
+// P0-4（V3.113.3）：前端 getBlacklistedVendors() 一直调用本端点，后端从未实现 → 404。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardOperation } from '../../_shared/operationGuard';
+import { formatVendorRow } from '../../_shared/vendorApproval';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'read', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  const rows = await env.DB.prepare(
+    `SELECT * FROM vendor_master WHERE org_id = ? AND status = 'blacklisted' ORDER BY blacklisted_at DESC, updated_at DESC`
+  ).bind(user.org_id).all();
+
+  return json((rows.results || []).map((r: any) => formatVendorRow(r)));
+}

@@ -1,90 +1,88 @@
-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
+// 付款计划单条端点
+// GET    /api/fin-payment-plans/:id   读取（计划 + 分期明细）
+// PUT    /api/fin-payment-plans/:id   更新（不传 installments = 分期保持原样；传 [] = 清空）
+// DELETE /api/fin-payment-plans/:id   删除（连带删除分期）
+//
+// 「不传」与「传空数组」必须区分（见 _shared/parentChild.ts 文件头不变量 ③）：
+// 付款计划的典型操作是「只把状态改成已付清」，若把「不传 installments」当成清空，
+// 一次状态变更会把全部分期删掉 —— 已付记录随之消失，对账无从查起。
+//
+// ── V3.19.0：付款闸门（三单匹配）────────────────────────────────────
+// 本端点是**真正掏钱**的位置：逐期付款会把 paid_amount 加上去、
+// 付清会把 status 改成 paid。因此这里必须拦。
+//
+// 但本端点同时承担日常编辑（改备注、改到期日），一律拦截会让用户
+// 很快要求关掉这个功能，所以先判断「是否属于付款动作」：
+//   · status 由非 paid 变为 paid
+//   · paid_amount 增加
+// 只有命中这两种才算付款，才走闸门；改备注、改到期日完全不受影响。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PAYMENT_PLAN_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardPaymentRow } from '../../_shared/paymentGate';
+import { generatePaymentVoucher } from '../../_shared/arapPosting';
+import { roundAmount } from '../../_shared/money';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PAYMENT_PLAN_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // 取当前库中状态：判断「是否付款动作」必须与库里的真实值比，
+  // 不能信任前端传来的旧值（前端可能带着过期的 paid_amount 提交）。
+  const existing: any = await env.DB.prepare(
+    `SELECT * FROM ${PAYMENT_PLAN_PC.parentTable} WHERE id = ? AND org_id = ?`,
+  )
+    .bind(params.id, user.org_id)
+    .first();
+  if (!existing) return json({ error: '付款计划不存在' }, 404);
+
+  const body: any = await request
+    .clone()
+    .json()
+    .catch(() => ({}));
+
+  // 四个写入点共用同一个守卫：判断「是否付款动作 + 本次付多少 + 该不该拦」都在里面
+  const blocked = await guardPaymentRow(env.DB, user, body, existing);
+  if (blocked) return blocked;
+
+  const res = await pcUpdate(PAYMENT_PLAN_PC, context);
+
+  // ★ V3.60.0 P0-2/P2-3：付款（实付金额增加）时自动记账
+  //   （借 2202 应付账款 / 贷 1002 银行存款），并写回 voucher_generated 标记位。后置非阻断。
+  try {
+    const updated = await env.DB
+      .prepare(`SELECT * FROM fin_payment_plans WHERE org_id = ? AND id = ?`)
+      .bind(user.org_id, params.id)
+      .first();
+    if (updated) {
+      const oldPaid = roundAmount(Number(existing.paid_amount) || 0);
+      const newPaid = roundAmount(Number(updated.paid_amount) || 0);
+      const delta = roundAmount(newPaid - oldPaid);
+      if (delta > 0) {
+        const vid = await generatePaymentVoucher(env.DB, user.org_id, user, updated, delta, newPaid);
+        if (vid) {
+          // ★ 只写 fin_payment_plans 真实存在的列（迁移 0053）：该表无 updated_by
+          //   （框架 parentChild.auditCols 早有同结论）。写不存在的列会抛
+          //   no such column 被外层 catch 吞掉 → 标记位永远不回写的假成功。
+          await env.DB
+            .prepare(`UPDATE fin_payment_plans SET voucher_generated = 1, updated_at = ? WHERE id = ? AND org_id = ?`)
+            .bind(new Date().toISOString(), params.id, user.org_id)
+            .run();
+        }
+      }
+    }
+  } catch (e: any) {
+    console.error('[fin-payment-plans PUT] 付款入账后置处理失败（非阻断）：', e?.message || e);
+  }
+
+  return res;
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PAYMENT_PLAN_PC, context);
+}

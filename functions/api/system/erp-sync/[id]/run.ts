@@ -1,39 +1,43 @@
-U2FsdGVkX182C6ueKrCn2z0iKYpziyAwKM+eXIfFfWbyChjSXX6wPB6b18Fq2xIE
-NAojXRYngRV4szvQ7+Zr1VN6L7I710mZHGx6erf5FScv+7uR+S1V4c81PPfr/U3L
-13vdfWclSCEFbaB6to8YBWwspHhPVwIZ56dzo7AE8RZAW9qqfuBMCDLs2dFT8rIP
-Utw/VpfsSHKroJa3IrN4ev8NkrfNtZlBkay6dRv6lrT4Ob24pY0bJzwXBHS423M1
-dHPkJgBjsTdAESf0/zrLMWkm0VgdUyA8PStvmp6IbJK82qAmyJH0MWVx9ebBDcXM
-25ZMf9ij+IeS6clHdQrj4OZ6ah1gb7CJAHyl+WlTG7k0bNn8VwWDHL4+7SxIE2sr
-4pX+trg3uctcg5o85AENYihnP11+c7+RC3BRtOhcm9aXH0jn1QIpCUGrge9XoYtn
-WNfyuSSfUNVTxuyOrVES93pyiCpxYhEXSzNweDiJqXc0WljBlo7hKEknuWGBR87r
-VnlaigdNG0O054dLYIa1c6OtuYaiFAH4tuMOfe7eA5lVQuHi9YeOZ2lCZ1fcQsqP
-T6/uen3l+x6Kc/aiNDwSapg4xThs6I3AqpAjBurooutN5XwXfvCqDrb0C5KQUyA4
-Yy4wUwJ7OFq4DfjMNLuh1EFSAhy1CKiXxZsBjsPlTtiF9KcvPeX1TrvPR7EITkNZ
-HT6K64xvRARNcaUDtFe8JM0VsY7dkQiZr/G9eVl98sYGNNoHhWtaBqmIq9Z727wN
-daVgo2PjZFHUEruOSSeY58BhsXtOdswGEHDTIyFzMHMtCRCT+A8TOuWwPPa7pk45
-ZgEtL/S+WnW5/Z3Rk/d7oGki8Xr6SOjOQPFLFef/IGQKifJGiCHFbScW4j92xmRi
-ZsyatwwtZLC1u4rL0ZHstrceLiP3ev+bPISteKWe3q6fK5Tm0b+Cds8Csc0+e66H
-IhmUlK2P2tx7mUS05bUlRyldLOXDEgnpdAvpO8OHJEIkOmiNeg+RL0mAjPRyUnrA
-QwYVeS4CaxOrm8y2Tot3WlCoX2f9EIbzFdyc1+7dNkpi4oymhSH26G+ns3/kJ/On
-5FchnU9lXqcoy8/z5PUqiuM8rgLYou94motHN5Q8N9bsaq2gPILrc7/d6o8zGWCz
-soK7wNMyzFADHaCyCkHqvCPLpt1UVV2oxUvz9E2yg3KoMdg+sWt6yRJuia+dfNcb
-OgD5GkTFPEu2Z/28qUqmOYGaYjFGT0rQhr6ShZOixCMOS1KMW9ysAoX2zaMdhu2b
-FAWKyUXT/f1fZ6okzPkPNOew4n7PFTCtJZ3NnuH9YC/sOn7B/TTM9Tfbp52qxMg6
-QOEhi4YFakhjWwAu9Pf1L8SX/ruCEA6oPQdV+/o5f7bLW/sojFm/fO298M1ZazyH
-rYBKCROWjS1MZgNndPMGFdUIgtTxMyuOcC/79iPSl52VlZ65nvnbsj0QrjCtHe5M
-rRrZkgHp4ZMiRfaH8w/QhIG3n4snjE5Q2sy5AdLDPRoI02rdwymNNu/Qsq153cIy
-NHxpn6h2SzKtVyme7G+bjDyqlsYK1xyrJpdWi5YGhl5WUb8OFiXzwp8y3W1yn6n2
-FJZbj/itj7XUfMbUyYxonXj3Kfbzrz1x3iAk8Ef8ARXWHqxLVBJ1P9fo8YK5XHCk
-tyC9lxejHmYCqfuDEpIS82XigcGjHgCnR9sOuYE1XNc3NwU8MSHbxatIw6FL7R0f
-s6PBEJ6JYEvNaExrguw4nmvU6QqyLEyBLAh2PU3N3I+Khf5HYEdEdCL1q4lA3moJ
-MwAUJ3BBNkkdZbc04uKWFyVJaQgSK7nhGHELBNCHLNSD1ZfOlcwPgZ+XwsD2Rq4b
-gRb7ViRI1MPYnFimKxbTJPGlKi6KGZCsYVz2P+7NwON7GYukWoWymbvHFFGV2Q85
-SE7RtiRa12Ms50Pxu1MtMCJPSDkLoJNE1BdZs01cx4KG2bHkwHu/LYZw6Th0X6lX
-2uDOESRmGxPBHIaomtnMciZGQCLvdnUWtZYHt+N0DxEe48jbnFA68driAykgWfKZ
-3Jchn7BN/3rzpdsYyut5HWG1dz4G7sXQuHhKOJzAKWjP1zR1n5XUIT1zGgHSaOfZ
-VnQ2pMscjQmjJYVPPHG/cDd8WCk+TJtkBCTWzN7SvS52tnb8dGODiw4GSW8SkBQ7
-lw6LKDES9adrXZH17GNXX2Z1XadtIGP0s9T2L2CfKcIJ8SBd6ECFzaUFS7VOhKeB
-Q8UQk3wKNJWDL2bm/NcjBVhpsjT3xZ3uvjKIfk/ybkh5YPi3fj9piDvAgikeQSYX
-zY+ntoMWdZ6t23iolEiwLVD2uxJyCy3tPJzx66j2ZdJyZw8KEJaUTtlgK0iBsY87
-7tpTMlH3rRzNwozMjXhCQjNiWRU3FnMpbFUh29iIBUMC7JjcEvEVvmGiL8DpWizV
-pVtO4J5HM5sARePK1bs60pNEH5wcsieNAlLmn0G6zN8=
+// 外部 ERP 同步 · 触发一次运行
+//   POST /api/system/erp-sync/:id/run   { direction?, full? }
+//     direction 覆盖连接配置（push/pull/both）；full=true 忽略增量游标做全量。
+import { resolveDataRequester, requesterHasScope } from '../../../../_shared/dataAccess';
+import { runSync, SyncConnection } from '../../../../_shared/erpSync';
+import { json } from '../../../../_shared/auth';
+import { errorResponse } from '../../../../_shared/errors';
+import { writeAudit } from '../../../../_shared/auditLog';
+
+const DIRECTIONS = ['push', 'pull', 'both'];
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const id = context.params.id;
+    const conn = await env.DB.prepare(`SELECT * FROM erp_sync_connections WHERE id = ? AND org_id = ?`).bind(id, r.org_id).first();
+    if (!conn) return json({ error: '连接不存在' }, 404);
+
+    const body = await request.json().catch(() => ({}));
+    let direction = body.direction || conn.direction;
+    const dirMsg = 'direction 必须是 ' + DIRECTIONS.join('/');
+    if (!DIRECTIONS.includes(direction)) return json({ error: dirMsg }, 400);
+    const full = !!body.full;
+
+    const result = await runSync(env, conn as SyncConnection, { direction, full });
+
+    await writeAudit(env.DB, {
+      orgId: r.org_id,
+      actor: { id: r.actorId, name: r.actorName },
+      entity: 'erp_sync',
+      action: 'run',
+      entityId: id,
+      summary: `触发同步「${conn.name}」（${direction}）：${result.summary}`,
+    });
+
+    return json(result, 200);
+  } catch (e: any) {
+    return errorResponse(e, '执行同步');
+  }
+}

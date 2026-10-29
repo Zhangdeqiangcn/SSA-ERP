@@ -1,99 +1,107 @@
-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
+// 统一错误出口（V2.98.0 · 独立评测 M-02 / L-01）
+// 目的：把「用户输入/数据问题」与「系统故障」分成两类返回，且任何情况下都
+//   不再把数据库原始报错（表结构、列名、约束定义）回显给调用方。
+//   —— 约束类错误 → 400 + 中文友好提示（用户能自己改对）
+//   —— 其余       → 500 + 错误编号（原文只进服务端日志，供排障）
+import { json } from './auth';
+
+export interface ClassifiedError {
+  status: number;
+  code: string;
+  message: string;
+  errorId: string;
+}
+
+// 约束/数据类错误识别：D1 的报错形如
+//   "D1_ERROR: UNIQUE constraint failed: vendor_master.vendor_code: SQLITE_CONSTRAINT"
+const RULES: Array<{ test: RegExp; code: string; message: string }> = [
+  {
+    test: /UNIQUE\s+constraint\s+failed/i,
+    code: 'DATA_UNIQUE',
+    message: '该编号或名称已存在，请勿重复提交',
+  },
+  {
+    test: /CHECK\s+constraint\s+failed/i,
+    code: 'DATA_CHECK',
+    message: '提交的数据不符合业务规则（请检查状态、类型等取值是否合法）',
+  },
+  {
+    test: /NOT\s+NULL\s+constraint\s+failed/i,
+    code: 'DATA_REQUIRED',
+    message: '必填字段不能为空，请补全后重试',
+  },
+  {
+    test: /FOREIGN\s+KEY\s+constraint\s+failed/i,
+    code: 'DATA_REFERENCE',
+    message: '关联的数据不存在（可能引用的客户/供应商/物料已被删除）',
+  },
+  {
+    test: /datatype\s+mismatch|could\s+not\s+convert|cannot\s+store/i,
+    code: 'DATA_TYPE',
+    message: '字段类型不正确（金额请填数字、日期请填合法日期）',
+  },
+  {
+    // ★ 措辞修正（V3.47.0）：原提示「提交的数据包含系统无法识别的字段，请刷新页面
+    //   后重试」会把用户引向错误方向 —— 实际是**服务端数据库缺列**（迁移没执行），
+    //   用户刷新一万次也没用，还会以为是自己的字段填错了。
+    //   实测经过：带 orderItemId 的入库报此错，真因是迁移 0083 已 apply 过、
+    //   追加的 ALTER 永不执行，生产库缺 inbound_order_items.order_item_id。
+    //   现在措辞直接指向"数据库结构未升级"，并保留排障编号供开发定位。
+    test: /no\s+such\s+column|no\s+such\s+table|duplicate\s+column\s+name|has\s+no\s+column/i,
+    code: 'SCHEMA_MISMATCH',
+    message: '数据库结构未升级（缺少必要的数据表或字段），请联系管理员执行数据库迁移后重试。刷新页面无效。',
+  },
+];
+
+/** 生成一次性的排障编号（时间戳 + 随机段），用于把用户反馈与服务端日志对上 */
+export function newErrorId(): string {
+  return (
+    'ERR-' +
+    Date.now().toString(36).toUpperCase() +
+    '-' +
+    Math.random().toString(36).slice(2, 6).toUpperCase()
+  );
+}
+
+/** 判定并翻译异常；不泄漏任何数据库原文 */
+export function classifyError(e: any, action = '操作'): ClassifiedError {
+  const raw = String(e?.message || e || '');
+  const errId = newErrorId();
+
+  for (const rule of RULES) {
+    if (rule.test.test(raw)) {
+      // 用户输入/数据问题：400。原文进日志，正文只给可执行提示。
+      console.error(`[${errId}] ${action}失败（数据类 ${rule.code}）: ${raw}`);
+      return { status: 400, code: rule.code, message: rule.message, errorId: errId };
+    }
+  }
+
+  // 系统故障：500。不回显原文，仅给编号，便于用户报障时定位日志。
+  console.error(`[${errId}] ${action}失败（系统故障）: ${raw}`);
+  return {
+    status: 500,
+    code: 'INTERNAL',
+    message: `${action}失败，请稍后重试；若持续出现请联系管理员并提供错误编号 ${errId}`,
+    errorId: errId,
+  };
+}
+
+/** 在 catch 中直接返回：区分 400/500 且不回显数据库原文 */
+export function errorResponse(e: any, action = '操作'): Response {
+  const c = classifyError(e, action);
+  return json({ error: c.message, code: c.code, errorId: c.errorId }, c.status);
+}
+
+/**
+ * 需要把异常文字放进「业务结果体」而非 HTTP 错误体的场景（如批量子项结果）。
+ * 规则：命中数据库内部特征 → 替换为脱敏文案；否则保留原文（网络超时等对用户有用）。
+ */
+export function sanitizeMessage(e: any, fallback = '处理失败'): string {
+  const raw = String(e?.message || e || '');
+  if (!raw) return fallback;
+  for (const rule of RULES) {
+    if (rule.test.test(raw)) return rule.message;
+  }
+  if (/D1_ERROR|SQLITE_|sqlite|prepare\(|bind\(/i.test(raw)) return fallback;
+  return raw;
+}

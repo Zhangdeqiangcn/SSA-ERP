@@ -1,362 +1,434 @@
-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
+// 打印模板域集合端点（C1 数据关系化 · 第二个域）
+// GET  /api/print-templates        列表（全量，模板是少量基础配置；带图片资源）
+// POST /api/print-templates        创建或整条保存（正文图片自动外置到资源表）
+//
+// ── 这个域与前一个域（BOM）的根本区别 ──────────────────────────────
+// BOM 的问题是「数据存在 JSON 里，查不动」。打印模板的问题更深一层：
+// **一半是数据、一半是文件，被混在同一个 JSON 字段里**。
+//
+// 实测：生产库该域 404.3 KB，其中 397.5 KB（98.3%）是页眉页脚里内嵌的
+// base64 图片，且同一张 Logo 被存了两遍（各 203.5 KB）。所以本端点的核心
+// 不是「把 JSON 拆成表」，而是**把文件夹带出来**：
+//
+//   写入时 stripAssets()：正文里 `<img src="data:image/png;base64,AAA...">`
+//                        → 二进制存入 print_template_assets，正文留
+//                          `<img src="{{asset:<id>}}">`
+//   读取时 restoreAssets()：`{{asset:<id>}}` → 还原成 data URL
+//
+// 两个方向都在**服务端**完成，前端拿到的对象形状与改造前完全一致
+// （`headerConfig.html` 里照样是可直接渲染的 data URL）。
+// 这样 6 个消费方一行不用改，而库里存的是关系行 + 二进制资源。
+//
+// ── 为什么 blob 存原始字节而不是 base64 ────────────────────────────
+// base64 每 3 字节膨胀为 4 个字符，体积多约 33%。存原始字节后，
+// 取用时再编码回 base64 —— 存储省 1/4，代价只有取用时的编码开销。
+//
+// ── 去重（content_hash）────────────────────────────────────────────
+// 同一张图被页眉、页脚、多个模板引用时只存一条。旧实现里「页眉页脚贴同一张
+// Logo」就会存两份，正是 203.5 KB 冗余的来源。现在按内容指纹查重，
+// 命中即复用已有资源行，不再重复占空间。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition, RLS_PRIVILEGED } from '../../_shared/rls';
+import { writeAudit } from '../../_shared/auditLog';
+import { sanitizeTemplateHtml } from '../../_shared/templateSanitize';
+import { requireByRegistry } from '../../_shared/validate';
+
+/**
+ * 图片二进制的分片大小。
+ *
+ * 为什么必须分片存储（这是实测逼出来的，不是设计洁癖）：
+ *   D1 单条语句长度有硬上限 —— 实测 BLOB 字面量 48 KB 可写、64 KB 直接失败。
+ *   页眉 Logo 是 149 KB，一条 INSERT 写不进去。
+ *   而「zeroblob 占位 + 分块 UPDATE 拼接」实测会**静默损坏**（152658 字节最后只剩 784），
+ *   详见迁移 0052 里 print_template_asset_chunks 的注释。
+ *   所以采用「一个图片 = 多行分片」，每片 ≤ 16 KB，写入互不依赖。
+ */
+const ASSET_CHUNK_BYTES = 16 * 1024;
+
+/** 模板业务列：snake（库）× camel（前端），嵌套字段单独处理 */
+const TPL_COLS: Array<[string, string]> = [
+  ['name', 'name'],
+  ['entity', 'entity'],
+  ['title', 'title'],
+  ['paper_size', 'paperSize'],
+  ['orientation', 'orientation'],
+  ['description', 'description'],
+  ['sort_order', 'sortOrder'],
+];
+
+/** data URL → { mime, bytes }；非 data URL 返回 null */
+function parseDataUrl(src: string): { mime: string; bytes: Uint8Array } | null {
+  const m = /^data:([\w/+.-]+);base64,([A-Za-z0-9+/=]+)$/.exec(src);
+  if (!m) return null;
+  const bin = atob(m[2]);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return { mime: m[1], bytes };
+}
+
+/** Uint8Array → base64（分块，避免超长参数栈溢出） */
+function bytesToBase64(bytes: Uint8Array): string {
+  let out = '';
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    out += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(out);
+}
+
+/** 内容指纹：FNV-1a 32 位（无需加密强度，只要碰撞率足够低即可做去重判据） */
+function hashOf(bytes: Uint8Array, mime: string): string {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < bytes.length; i++) {
+    h ^= bytes[i];
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return `${mime}:${bytes.length}:${h.toString(16)}`;
+}
+
+/**
+ * 正文里的 base64 图片 → 资源行。
+ * 返回改写后的 HTML（图片变占位符）与待写入的资源清单。
+ * 同一张图在正文出现多次只产出**一条**资源记录（按 content_hash 去重），
+ * 所有出现位置改写为同一个占位符 —— 这是消除 203 KB 冗余的关键。
+ */
+function stripAssets(html: string, templateId: string) {
+  const assets: Array<{ id: string; mime: string; bytes: Uint8Array; hash: string }> = [];
+  const byHash = new Map<string, string>(); // hash → assetId
+  if (!html) return { html: '', assets };
+
+  const out = html.replace(
+    /src="(data:[\w/+.-]+;base64,[A-Za-z0-9+/=]+)"/g,
+    (_full, dataUrl: string) => {
+      const parsed = parseDataUrl(dataUrl);
+      if (!parsed) return _full; // 认不出来就原样保留，绝不吞内容
+      const hash = hashOf(parsed.bytes, parsed.mime);
+      let assetId = byHash.get(hash);
+      if (!assetId) {
+        assetId = `pta-${templateId}-${assets.length + 1}`;
+        byHash.set(hash, assetId);
+        assets.push({ id: assetId, mime: parsed.mime, bytes: parsed.bytes, hash });
+      }
+      return `src="{{asset:${assetId}}}"`;
+    }
+  );
+  return { html: out, assets };
+}
+
+/** 占位符 → data URL 还原（渲染前调用，前端拿到即可直接放进 img src） */
+function restoreAssets(html: string, assetMap: Map<string, { mime: string; base64: string }>): string {
+  if (!html) return '';
+  return html.replace(/\{\{asset:([\w-]+)\}\}/g, (full, id: string) => {
+    const a = assetMap.get(id);
+    if (!a) return full; // 资源缺失时保留占位符，页面能看出异常而不是静默空白
+    return `data:${a.mime};base64,${a.base64}`;
+  });
+}
+
+/**
+ * 写图片分片：一个图片写成 N 行，每行 ≤ ASSET_CHUNK_BYTES。
+ * 每行是独立 INSERT，彼此无依赖 —— 这是关键，避开「分块 UPDATE 拼接」的静默损坏。
+ */
+function chunkStatements(DB: any, assetId: string, bytes: Uint8Array): any[] {
+  const stmts: any[] = [];
+  let idx = 0;
+  for (let off = 0; off < bytes.length; off += ASSET_CHUNK_BYTES) {
+    const slice = bytes.subarray(off, Math.min(off + ASSET_CHUNK_BYTES, bytes.length));
+    stmts.push(
+      DB.prepare(
+        'INSERT INTO print_template_asset_chunks (asset_id, chunk_index, chunk) VALUES (?,?,?)'
+      ).bind(assetId, idx, slice)
+    );
+    idx++;
+  }
+  // 空图片（0 字节）也要留一行，否则「有资源但零分片」会成为另一种异常态
+  if (idx === 0) {
+    stmts.push(
+      DB.prepare(
+        'INSERT INTO print_template_asset_chunks (asset_id, chunk_index, chunk) VALUES (?,?,?)'
+      ).bind(assetId, 0, new Uint8Array(0))
+    );
+  }
+  return stmts;
+}
+
+/**
+ * 读图片：把某模板下全部资源的分片按 chunk_index 拼回完整二进制。
+ * 一次查询取回（按 asset_id, chunk_index 排序），不在 JS 里做二次排序。
+ */
+async function loadAssets(
+  DB: any,
+  templateIds: string[]
+): Promise<Map<string, { mime: string; base64: string }>> {
+  const map = new Map<string, { mime: string; base64: string }>();
+  if (templateIds.length === 0) return map;
+  const ph = templateIds.map(() => '?').join(',');
+  const res = await DB.prepare(
+    `SELECT a.id AS aid, a.mime AS mime, c.chunk AS chunk
+       FROM print_template_assets a
+       JOIN print_template_asset_chunks c ON c.asset_id = a.id
+      WHERE a.template_id IN (${ph})
+      ORDER BY a.id ASC, c.chunk_index ASC`
+  )
+    .bind(...templateIds)
+    .all();
+
+  const buffers = new Map<string, { mime: string; parts: Uint8Array[] }>();
+  for (const r of res.results || []) {
+    let e = buffers.get(r.aid);
+    if (!e) {
+      e = { mime: r.mime, parts: [] };
+      buffers.set(r.aid, e);
+    }
+    e.parts.push(new Uint8Array(r.chunk));
+  }
+  for (const [aid, e] of buffers) {
+    const total = e.parts.reduce((a, p) => a + p.length, 0);
+    const all = new Uint8Array(total);
+    let off = 0;
+    for (const p of e.parts) {
+      all.set(p, off);
+      off += p.length;
+    }
+    map.set(aid, { mime: e.mime, base64: bytesToBase64(all) });
+  }
+  return map;
+}
+
+/** 库行 → 前端 PrintTemplate（含图片还原） */
+function rowToApi(row: any, assetMap: Map<string, { mime: string; base64: string }>) {
+  const parseJson = (s: any, dflt: any) => {
+    if (s == null || s === '') return dflt;
+    try {
+      return JSON.parse(s);
+    } catch {
+      return dflt;
+    }
+  };
+  const extra = parseJson(row.extra_options, {});
+  return {
+    id: row.id,
+    name: row.name,
+    entity: row.entity,
+    title: row.title || '',
+    paperSize: row.paper_size || 'A4',
+    orientation: row.orientation || 'portrait',
+    // 兼容字段：旧版本用纯文本 headerText/footerText，保留但不再写入
+    headerText: '',
+    footerText: '',
+    headerConfig: {
+      html: restoreAssets(row.header_html || '', assetMap),
+      showDate: !!row.header_show_date,
+    },
+    footerConfig: {
+      html: restoreAssets(row.footer_html || '', assetMap),
+      showDate: !!row.footer_show_date,
+    },
+    fieldKeys: parseJson(row.field_keys, []),
+    extraOptions: extra,
+    description: row.description || '',
+    createdAt: row.created_at || undefined,
+    updatedAt: row.updated_at || undefined,
+  };
+}
+
+/** 前端 PrintTemplate → 库值（图片外置在此发生） */
+function pickTemplate(body: any, templateId: string) {
+  const cols: Record<string, any> = {};
+  for (const [snake, camel] of TPL_COLS) {
+    if (body[camel] !== undefined) cols[snake] = body[camel];
+  }
+  if (body.headerConfig !== undefined) {
+    // P0 修复：入库前净化页眉 HTML，从写入源头断掉存储型 XSS（SEC-001）
+    cols.header_html = sanitizeTemplateHtml(body.headerConfig?.html ?? '');
+    cols.header_show_date = body.headerConfig?.showDate ? 1 : 0;
+  }
+  if (body.footerConfig !== undefined) {
+    // P0 修复：入库前净化页脚 HTML，从写入源头断掉存储型 XSS（SEC-001）
+    cols.footer_html = sanitizeTemplateHtml(body.footerConfig?.html ?? '');
+    cols.footer_show_date = body.footerConfig?.showDate ? 1 : 0;
+  }
+  if (body.fieldKeys !== undefined) cols.field_keys = JSON.stringify(body.fieldKeys || []);
+  if (body.extraOptions !== undefined) cols.extra_options = JSON.stringify(body.extraOptions || {});
+
+  // 正文里的图片剥出来（页眉 + 页脚一起处理，跨两段去重）
+  const allAssets: Array<{ id: string; mime: string; bytes: Uint8Array; hash: string }> = [];
+  const byHash = new Map<string, string>();
+  for (const key of ['header_html', 'footer_html'] as const) {
+    if (cols[key] === undefined) continue;
+    const { html, assets } = stripAssets(cols[key], templateId);
+    // 跨页眉页脚再合并一次：同一张 Logo 出现在两处时复用同一资源 id
+    let merged = html;
+    for (const a of assets) {
+      const exist = byHash.get(a.hash);
+      if (exist) {
+        merged = merged.split(`{{asset:${a.id}}}`).join(`{{asset:${exist}}}`);
+      } else {
+        byHash.set(a.hash, a.id);
+        allAssets.push(a);
+      }
+    }
+    cols[key] = merged;
+  }
+  return { cols, assets: allAssets };
+}
+
+export async function onRequestGet(context: any) {
+  const { env, request } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const entity = url.searchParams.get('entity');
+
+  // ★ rlsCondition 返回的是 { clause, params }，必须取 .clause 拼进 SQL
+  //   （直接拼对象会得到字面量 "object Object"，D1 报 no such column: object Object）
+  const rls = rlsCondition(user, 'print_templates');
+  let sql = `SELECT * FROM print_templates WHERE ${rls.clause}`;
+  const binds: any[] = [...rls.params];
+  if (entity) {
+    sql += ' AND entity = ?';
+    binds.push(entity);
+  }
+  sql += ' ORDER BY entity ASC, is_default DESC, sort_order ASC, name ASC';
+
+  const res = await env.DB.prepare(sql).bind(...binds).all();
+  const rows = res.results || [];
+
+  // 一次取回全部图片（模板是少量基础配置，全量比 N+1 更划算）
+  const assetMap = await loadAssets(
+    env.DB,
+    rows.map((r: any) => r.id)
+  );
+
+  const templates = rows.map((r: any) => rowToApi(r, assetMap));
+  return json({ success: true, templates, total: templates.length, assetCount: assetMap.size });
+}
+
+export async function onRequestPost(context: any) {
+  const { env, request } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // P0 修复：仅管理员可管理打印模板，否则任意登录用户都能注入恶意模板（SEC-001 存储型 XSS）
+  if (!RLS_PRIVILEGED.has(user.role)) {
+    return json({ error: '权限不足：仅管理员可管理打印模板' }, 403);
+  }
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求体不是合法 JSON' }, 400);
+  }
+  if (!body || typeof body !== 'object') return json({ error: '请求体为空' }, 400);
+  // ★ V3.87.0 扩面：收口到集中必填登记表（单一真相，不造双源）
+  const _reqCore = requireByRegistry('print_templates', body);
+  if (_reqCore) return _reqCore;
+
+  const now = new Date().toISOString();
+  const templateId: string = body.id ? String(body.id) : uid('tpl');
+  const { cols, assets } = pickTemplate(body, templateId);
+
+  // 已存在则视为整条更新（模板编辑器每次保存整份配置）
+  const existing = await env.DB.prepare('SELECT id FROM print_templates WHERE id = ?')
+    .bind(templateId)
+    .first();
+  const isCreate = !existing;
+
+  const stmts: any[] = [];
+  if (isCreate) {
+    const keys = ['id', 'org_id', 'created_at', 'updated_at', ...Object.keys(cols)];
+    const vals = [templateId, user.org_id || null, now, now, ...Object.values(cols)];
+    stmts.push(
+      env.DB.prepare(
+        `INSERT INTO print_templates (${keys.join(',')}) VALUES (${keys.map(() => '?').join(',')})`
+      ).bind(...vals)
+    );
+  } else {
+    const setCols = Object.keys(cols);
+    if (setCols.length > 0) {
+      stmts.push(
+        env.DB.prepare(
+          `UPDATE print_templates SET ${setCols.map((c) => `${c}=?`).join(',')}, updated_at=? WHERE id=?`
+        ).bind(...[...Object.values(cols), now, templateId])
+      );
+    } else {
+      stmts.push(
+        env.DB.prepare('UPDATE print_templates SET updated_at=? WHERE id=?').bind(now, templateId)
+      );
+    }
+    // 图片资源整体重建：模板保存是「整份替换」语义，旧资源一并清掉
+    stmts.push(
+      env.DB.prepare(
+        'DELETE FROM print_template_asset_chunks WHERE asset_id IN (SELECT id FROM print_template_assets WHERE template_id = ?)'
+      ).bind(templateId)
+    );
+    stmts.push(
+      env.DB.prepare('DELETE FROM print_template_assets WHERE template_id = ?').bind(templateId)
+    );
+  }
+
+  // 写入图片资源（跨页眉页脚已去重，同一张图只写一条；二进制按 16 KB 分片）
+  for (const a of assets) {
+    stmts.push(
+      env.DB.prepare(
+        `INSERT INTO print_template_assets
+         (id, template_id, kind, mime, file_name, byte_size, content_hash, placeholder, created_at)
+         VALUES (?,?,?,?,?,?,?,?,?)`
+      ).bind(
+        a.id,
+        templateId,
+        'image',
+        a.mime,
+        null,
+        a.bytes.length,
+        a.hash,
+        `{{asset:${a.id}}}`,
+        now
+      )
+    );
+    stmts.push(...chunkStatements(env.DB, a.id, a.bytes));
+  }
+
+  try {
+    await env.DB.batch(stmts);
+  } catch (e: any) {
+    const msg = String(e?.message || e);
+    if (/UNIQUE/i.test(msg)) {
+      return json({ error: '同名模板已存在，请换一个名称' }, 409);
+    }
+    return json({ error: `保存失败：${msg}` }, 500);
+  }
+
+  const savedBytes = assets.reduce((a, x) => a + x.bytes.length, 0);
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'print_templates',
+    action: isCreate ? 'create' : 'update',
+    entityId: templateId,
+    summary: `${isCreate ? '新建' : '保存'}打印模板「${body.name}」（适用于${
+      body.entity
+    }），正文图片外置 ${assets.length} 个资源、占用 ${(savedBytes / 1024).toFixed(1)} KB（列表查询不再搬运图片）`,
+  });
+
+  // 从库里重新读回（保证回执内容就是落库内容，而不是内存里的中间态）
+  const row = await env.DB.prepare('SELECT * FROM print_templates WHERE id = ?')
+    .bind(templateId)
+    .first();
+  const assetMap = await loadAssets(env.DB, [templateId]);
+  return json({ success: true, template: rowToApi(row, assetMap), assets: assets.length }, isCreate ? 201 : 200);
+}
+
+export {
+  bytesToBase64,
+  parseDataUrl,
+  hashOf,
+  stripAssets,
+  restoreAssets,
+  rowToApi,
+  pickTemplate,
+  chunkStatements,
+  loadAssets,
+};

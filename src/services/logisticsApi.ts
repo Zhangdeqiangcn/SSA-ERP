@@ -1,18 +1,17 @@
-U2FsdGVkX19OjNV3v/HQnpdcfijfGgpU+YB1SRpbhXXX3TWaT4pRm6y6Wc5zQ5KV
-u5pXbAubw9Ym768b0bEGg8NkflW9c0SN7YbaM1IZnkfO3XxQnWT7AVAPgIX5z47G
-XvxcfeEnu2jfAT3emP2dqpFjb+Ww4n2LASogbG7m6v0NDKtVqYeQGPbfST+EKXjK
-KVmY7N8qcRd6thm/d603LarXSdAz5yrbWwoOoXWPK6OA9t4BEKUqVwapqW73PVh+
-4URlk0tPJEftx/8Nc/Yj0tE7WYyIeztG7g1uTC7QaN1boovL7sB6exsXV9xpNjou
-3ZncXYa0ajKcSVhMO2ZpXrsoaKkr7YsMRZkF3bVsLuuLHDza111jM5CqWcTLZEPH
-AyEDVgE9O4hPjJZpkX5DeNCAiwYu6FySVRxqzTmxZ1S9mLVKrR2CpcN9DoPP7DXE
-Crt/idIbDhYn2ekRWrJreAAzyLd3YI/d+x0fyLS5D/c/z/NQLf10qb82L0gblxYx
-AdEZTcFg7raU2PHOG46QOaH+4P6DE0gUy7SyqW13dX/IT/2NOhu3COxFq04GC3hi
-4VAcOi4tt+i8RxMZGJMf2eArMnMNEWFK9Wz8ZXmuQmum3P0K3vpqqy0Q6Fgxw8QA
-l10xkHMxLh0lcODQ9798AKOYuFkPMhhghccJ/c7etuq3u0DF+pFa6+ZLEQ0xZKXc
-2a2YXr3lPi/0ca4acz2gFHLaIX6loIYFFdQTIC2myDCIxNnqmUjm0gvLH1s4WgRq
-oosfaDV7Tq9A5C9EW24rZivnmsNg3F2fnOcJnx9vnA1sWtT+1Wa1D7a9e+ZT6Gg8
-JSmaRhMIAxdlpdAEasjZgFAaaImgfsZmGl0CrBGuYuvmMaXub1irWZ2VgqMPfKss
-PE1oIvs0lRkB4syRwD5vTmgbYLmHOm01eqB9k4QRS1nnSeoRRnR1aFgUrczkmk8b
-0yAxjDHfHKxi4fb6mmf+vOFwdBZI7SPHs2I53II5PFe+Dw2GtmV8DXePeGfNT4d/
-FQ95Qs83kjaSi03YDV8vZ9lDVjJds5qoImTE8o/xtOwGlrxHgYW/rZn0KjBXloxP
-5N1g93SS5yKSf1dpsZO8pwOhGgHzBRXRzxqCKgjnuVgJqB8dbhjumS9xsq5g59QP
+import { api } from './api';
+
+// 前端 → SSA 后端物流面单接口（建单取号 / 列表 / 轨迹查询 / 轨迹回写 / 承运商列表）
+// 约定：GET /api/logistics 列表；POST /api/logistics 建单；
+//      GET /api/logistics/providers 承运商；POST /api/logistics/track 轨迹回写。
+export const logisticsApi = {
+  listProviders: () =>
+    api.get('/logistics/providers').then((r: any) => r?.data ?? r ?? []),
+  createWaybill: (payload: any) => api.post('/logistics', payload),
+  listWaybills: (params?: any) =>
+    api.get('/logistics', params || {}).then((r: any) => r?.data ?? r ?? []),
+  getTrack: (waybillNo: string) =>
+    api.get('/logistics/track', { waybillNo }).then((r: any) => r?.data ?? r ?? []),
+  pushTrack: (payload: any) => api.post('/logistics/track', payload),
+};
+
+export default logisticsApi;

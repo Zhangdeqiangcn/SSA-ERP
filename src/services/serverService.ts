@@ -1,59 +1,84 @@
-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
-CykKRTJeU2WBMtATCFQoww==
+import { recordAudit, type AuditAction } from '@/stores/auditStore';
+import { currentUser } from '@/stores/sessionStore';
+
+/**
+ * C7 服务端化雏形 · 持久化抽象层
+ * ------------------------------------------------------------
+ * 当前后端 = 浏览器 localStorage（driver: 'local'）。
+ * 所有写操作统一从这里走，好处有两点：
+ *   1. 写操作自动落审计（谁在什么时候改了什么）；
+ *   2. 将来接真实数据库/HTTP API 时，只需把 driver 换成 'remote'，
+ *      页面与 store 侧调用方式不用动。
+ *
+ * 之所以不直接改 zustand persist：现有 200+ 条 E2E 依赖 localStorage 行为，
+ * 抽象层采取「叠加而非替换」策略，保证零回归。
+ */
+
+export type StorageDriver = 'local' | 'remote';
+
+const STORAGE_PREFIX = 'ssa-erp-';
+
+let driver: StorageDriver = 'local';
+
+export const getDriver = (): StorageDriver => driver;
+export const setDriver = (d: StorageDriver) => {
+  driver = d;
+};
+
+/** 当前"服务端"里属于本系统的数据表数量（localStorage key 数） */
+export const listCollections = (): string[] => {
+  if (typeof localStorage === 'undefined') return [];
+  return Object.keys(localStorage).filter((k) => k.startsWith(STORAGE_PREFIX)).sort();
+};
+
+/** 估算已用存储体积（KB），给运维面板看 */
+export const estimateStorageKB = (): number => {
+  if (typeof localStorage === 'undefined') return 0;
+  const bytes = listCollections().reduce((sum, k) => sum + (localStorage.getItem(k)?.length || 0), 0);
+  return Math.round((bytes / 1024) * 10) / 10;
+};
+
+/** 读取一张"表" */
+export const readCollection = <T>(name: string, fallback: T): T => {
+  if (typeof localStorage === 'undefined') return fallback;
+  const raw = localStorage.getItem(`${STORAGE_PREFIX}${name}`);
+  if (!raw) return fallback;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+};
+
+/**
+ * 带审计的写操作包装：业务侧传入真正的写函数，这里负责记审计。
+ * 用法：withAudit({ entity: 'salesPrice', action: 'create', summary: '新增价目表项 钢板' }, () => addPriceItem(x))
+ */
+export const withAudit = <T>(
+  meta: { entity: string; entityId: string; action: AuditAction; summary: string },
+  mutate: () => T
+): T => {
+  const result = mutate();
+  recordAudit(meta);
+  return result;
+};
+
+/** 服务端状态摘要，供设置页面板展示 */
+export interface ServerStatus {
+  driver: StorageDriver;
+  collections: number;
+  storageKB: number;
+  user: string;
+  token: string;
+}
+
+export const getServerStatus = (): ServerStatus => {
+  const u = currentUser();
+  return {
+    driver,
+    collections: listCollections().length,
+    storageKB: estimateStorageKB(),
+    user: u.userName,
+    token: u.token,
+  };
+};

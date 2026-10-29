@@ -1,32 +1,45 @@
-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
+-- W2 收尾：库存调整单 inventory_adjustments + inventory_adjustment_items
+-- 根治双通道：warehouseAdvancedStore.inventoryAdjustments 切片由 app_state Blob 迁真实 D1。
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS inventory_adjustments (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  adjustment_no TEXT NOT NULL,
+  warehouse_id TEXT,
+  warehouse_name TEXT,
+  status TEXT NOT NULL DEFAULT 'draft',
+  reason TEXT,
+  date TEXT,
+  total_delta_qty REAL DEFAULT 0,
+  voucher_no TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE(org_id, adjustment_no)
+);
+
+CREATE INDEX IF NOT EXISTS idx_inventory_adjustment_org ON inventory_adjustments(org_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_adjustment_status ON inventory_adjustments(org_id, status);
+
+CREATE TABLE IF NOT EXISTS inventory_adjustment_items (
+  id TEXT PRIMARY KEY,
+  inventory_adjustment_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  unit TEXT,
+  location_id TEXT,
+  book_qty REAL DEFAULT 0,
+  actual_qty REAL DEFAULT 0,
+  delta_qty REAL DEFAULT 0,
+  reason TEXT,
+  FOREIGN KEY (inventory_adjustment_id) REFERENCES inventory_adjustments(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_inventory_adjustment_item_order ON inventory_adjustment_items(inventory_adjustment_id);
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0024_inventory_adjustments', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,92 +1,118 @@
-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
+import { createEntityStore } from './createEntityStore';
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { fulfillmentApi } from '@/services/fulfillmentApi';
+import { applyPick, type PickTask } from '@/services/fulfillment';
+
+export interface Wave {
+  id: string;
+  waveNo: string;
+  status: string; // draft/released/picking/picked/packed/shipped
+  orderIds: string[];
+  remark?: string;
+  createdAt?: string;
+  createdBy?: string;
+}
+export interface PackRecord {
+  id: string;
+  waveId?: string;
+  orderHubId?: string;
+  packNo: string;
+  weight?: number;
+  status?: string;
+}
+export interface ShipCheck {
+  id: string;
+  orderHubId: string;
+  packNo?: string;
+  pass: boolean;
+  detail?: any;
+}
+
+interface FulfillmentState {
+  waves: Wave[];
+  pickTasks: PickTask[];
+  packRecords: PackRecord[];
+  shipChecks: ShipCheck[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  createWaveFromOrders: (orderIds: string[], remark?: string) => Promise<any>;
+  confirmPick: (taskId: string, scannedQty: number, barcode?: string) => Promise<void>;
+  packOrder: (payload: { waveId: string; orderHubId: string; packNo: string; weight?: number }) => Promise<any>;
+  checkShip: (payload: { orderHubId: string; packNo?: string; scanList: any[] }) => Promise<any>;
+}
+
+// order_ids 列（JSON 字符串）↔ 数组
+const parseWave = (w: any): Wave => ({
+  ...w,
+  orderIds: typeof w.orderIds === 'string' ? (() => { try { return JSON.parse(w.orderIds); } catch { return []; } })() : w.orderIds || [],
+});
+
+// 仓储执行层：复用通用仓储工厂，主资源 wave + 三附属资源（拣货/打包/发货校验）。
+// 波次/拣货/配货状态机与强校验逻辑走后端权威执行，前端 extend 方法负责编排与本地预校验。
+export const useFulfillmentStore = createEntityStore<Wave>({
+  resource: 'wave',
+  seed: [],
+  stateKey: 'waves',
+  parse: parseWave,
+  backend: {
+    list: () => fulfillmentApi.listWaves(),
+    create: (item) => fulfillmentApi.createWave(item),
+    update: (id, patch) => fulfillmentApi.updateWave(id, patch),
+    remove: () => Promise.reject(new Error('波次不支持删除')),
+  },
+  extraResources: [
+    {
+      resource: 'pickTask',
+      seed: [],
+      stateKey: 'pickTasks',
+      backend: {
+        list: (p?: any) => fulfillmentApi.listPickTasks(p?.waveId),
+        update: (id, patch) =>
+          fulfillmentApi.confirmPick({ taskId: id, ...(patch as any) }).then((r: any) => r?.data ?? r),
+      },
+    },
+    {
+      resource: 'packRecord',
+      seed: [],
+      stateKey: 'packRecords',
+      backend: { list: (p?: any) => fulfillmentApi.listPackRecords(p?.waveId) },
+    },
+    {
+      resource: 'shipCheck',
+      seed: [],
+      stateKey: 'shipChecks',
+      backend: { list: () => fulfillmentApi.listShipChecks() },
+    },
+  ],
+  extend: (ctx) => ({
+    loadFulfillment: async () => {
+      await ctx.get().load();
+    },
+    // 从订单中台选单生成波次（后端负责拆拣货任务 + 库存可用性预检）
+    createWaveFromOrders: async (orderIds: string[], remark?: string) => {
+      const w = await fulfillmentApi.createWave({ orderIds, remark });
+      await ctx.get().load();
+      return w;
+    },
+    // 拣货确认：本地先用纯函数预校验（条码/数量），失败直接拦截，不触网
+    confirmPick: async (taskId: string, scannedQty: number, barcode?: string) => {
+      const task = (ctx.get().pickTasks as PickTask[]).find((t) => t.id === taskId);
+      if (!task) throw new Error('拣货任务不存在');
+      const r = applyPick(task, scannedQty, barcode);
+      if (!r.ok) throw new Error(r.error);
+      await ctx.extras.pickTasks.update(taskId, { pickedQty: r.task.pickedQty, status: r.task.status });
+    },
+    packOrder: async (payload: { waveId: string; orderHubId: string; packNo: string; weight?: number }) => {
+      const rec: any = await fulfillmentApi.packOrder(payload);
+      const packs = await fulfillmentApi.listPackRecords(payload.waveId);
+      ctx.set({ packRecords: packs });
+      return rec;
+    },
+    checkShip: async (payload: { orderHubId: string; packNo?: string; scanList: any[] }) => {
+      const res: any = await fulfillmentApi.checkShip(payload);
+      const checks = await fulfillmentApi.listShipChecks();
+      ctx.set({ shipChecks: checks });
+      return res;
+    },
+  }),
+}) as unknown as UseBoundStore<StoreApi<FulfillmentState>>;

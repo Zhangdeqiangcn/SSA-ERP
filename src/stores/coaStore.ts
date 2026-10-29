@@ -1,40 +1,70 @@
-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
-PyZMMlNhFdUq820bDHyv8w==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+export interface COAItem {
+  inspectionItem: string;
+  standard: string;
+  result: string;
+  unit: string;
+  conclusion: 'pass' | 'fail';
+}
+
+export interface COARecord {
+  id: string;
+  taskId: string;
+  taskNo: string;
+  productName: string;
+  batchNo: string;
+  standardName: string;
+  items: COAItem[];
+  overallConclusion: string;
+  generatedDate: string;
+  inspector: string;
+  /** 自定义抬头信息（模板可配置） */
+  companyName?: string;
+  disclaimer?: string;
+}
+
+interface COAState {
+  records: COARecord[];
+  saveCoa: (coa: COARecord) => void;
+  removeCoa: (id: string) => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateCOA: () => Promise<void>;
+}
+
+const RES = 'coaReport';
+
+export const useCOAStore = create<COAState>()((set, get) => ({
+  records: [],
+
+  saveCoa: (coa) => {
+    const rec = { ...coa, id: coa.id || `COA-${Date.now()}` };
+    set((s) => {
+      const others = s.records.filter((r) => r.taskId !== rec.taskId);
+      return { records: [rec, ...others] };
+    });
+    if (isAuthed()) writeRow(RES, rec.id, rec);
+  },
+
+  removeCoa: (id) => {
+    set((s) => ({ records: s.records.filter((r) => r.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  hydrateCOA: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<COARecord>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<COARecord>(res?.data || []);
+      if (rows.length) set({ records: rows });
+    } catch {
+      // 离线/异常：保留本地态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useCOAStore.getState().hydrateCOA();

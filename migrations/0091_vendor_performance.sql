@@ -1,15 +1,23 @@
-U2FsdGVkX19WlF9Tw03Ogkg9ZajIJck6gll8uzLChsR/JksuxejqLH9/tfDeFmG0
-HTC0/eVY9lGp5Hzi7w/LHdfBjPgogHsCbXqiYEcu7LoPiKryWxCb7fgfQJjG4KS5
-ftV4dn52d6779BPG1/m7/90Zr/irzkzFmzSbSna0aQBWMSNM+Ssdqa9GxJhT1aHw
-lxg3UIVJ/r5tRAuUd/NZbRzGUPyz7Z0GngKNLPo8yQrExL6ywx68sy2ZdAKOCaAw
-wYsV5WRrRMCzSNhjtNasvYz7MrvtwmFJno0frVn+3l6E7IRsclePmmbTyIv7ZwLE
-La/8JJDspuBZnz6bm/1kw5NlNcqBCrVBSmFOhUFSj630LrKa8X2SszU3j60YNpZ5
-02Eq0GBJMCkb5ohw3vww3HrZcl879He8vVLsJ4hU116mtzVcmOWtuRguYcq2GsT9
-jN5cEICpw8X4VecI3nAK0NaoQUxbIigW9vJ55zvTWObcdoyeYw4y6RhbxBfivV+o
-x0XXN61I8O2zoG4yi97ctLTMwExLobLtqvs4VnYlK5lEyhVPr2dsxKBTA75ndRor
-F0PtWoPLi4hUvW/guy6CLgoyk7NhRkrC3MnDp6X34I77ic+p5n0Ne4iPUH0x+Ep5
-0qQA8XrfcXtHG830/w5Ry4Kq1MXi5iv9BgMVGczWyzK4xcdY/EvhdlAMgaiSI3Cw
-TgqljUmGf7L+gs/2y7piKoZej5YRHRyoUn4KbV7YgjnmygORNJQLJYvMZ1SizNHW
-8jgQaigWCeM+tLIkhal1WzdUmrfUS6hnJj31LTQtUXtmbGzGIHcOAf7sIt5yNAhS
-CEPROX5ySupmdcBDOMjoZ5AfT24dPkTYwemuYK8Ksgktrzz2svH6GQz0wCd1x1uy
-eVmpIGC5HxRbAQQwJGM29RK9gO/WpswQB0qmlPGfdHc=
+-- V3.63.0 供应商绩效关系化（根治审计 P1-VP-1 零后端孤岛）：
+-- 把供应商绩效从 app_state Blob 迁为真实 D1 关系表，使采购评标/质量反馈可回写评级。
+CREATE TABLE IF NOT EXISTS vendor_performance (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  vendor_code TEXT,
+  period TEXT,
+  quality_score REAL DEFAULT 0,
+  delivery_score REAL DEFAULT 0,
+  price_score REAL DEFAULT 0,
+  service_score REAL DEFAULT 0,
+  total_score REAL DEFAULT 0,
+  ranking TEXT,
+  remarks TEXT,
+  evaluated_by TEXT,
+  evaluated_at TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);

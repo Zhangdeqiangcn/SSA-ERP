@@ -1,19 +1,12 @@
-U2FsdGVkX19Wl2C8tRMv6a9R3X4DbryMRex7Hy2WQMf5A2XUB9dznwqpVsdt00u5
-cvUIQ/ytAw5oATO55zOjiwOett+loWJk8WuyahVyNUw+LoPZhm/qHMobXVFPyzf2
-qVi5XmcWbMfrR4xYzATRc6Sz170CpO/fmpEiDw1mpMj5cguDhnsnZng5+nZAlqHO
-lxhUWFTsPSxwREGVHMlHDlm/IqYBEkCauaZY7tokSBHug84xaJKQyavv7j5w9NcI
-g/CzWxTo1OuzlsMZ/TLjoooAIRLiluWUxLk3Ux+qtAjOgzaodkvTttAQTFIWQP2x
-4to289ua8Mag9N3af0mWwkxHw0apXkhgRTP/7xkDjrSdxjG8wrx6X67vDh15mz8k
-5jZZTfAvxMngoxpQ3mo+6CS2enjgh1tCLWoENFkSDx5SXb+F5MCCidIpvR79wUQy
-qtM9BthgsQAAvxgcwEFcdC1AaoyGjrxs9bLgEOAjNALoEwafqRxK8qJumpyLENMk
-hEBNElNICfUQLyRu6+8ur92TZInPP9txVHzYTi4Lgwo2u3OW4LiL3nEcSWVeUxA9
-I8HrPr9MIYm4/Jmdx6HFn2b1yt5yp/HdQiKt+ZJEYOoQMt2pf2igwL/ACGRp7CKk
-7HI+oky5WNgloit65uDuyiAOmN4cx6RnFTzAEvddyKPeXYgbd4LEyGy1dCe06Nxz
-9dnsaObqDimWZy10wIdTGb3MXgwmT58DEiys6Cv5AkwGm2OORr3REBwpCWC+ZNVd
-GOwxRGO3MyP7rwkSxUPaT4uyx/nKYcj3WJ9msGw0Ze37L17vr9jb02Vn3sJapyyG
-a3kabk8P+Gw+KtLX/rxLjyF0YzDSbMAY4thgHb7cyDMTKfFUryB034iGc60tVvZR
-14DG6DnRBdV0RTnp89IC0jusfxQqOn9h97/9iZPX8qPYpxEmow6Tb+TK08CKRDLi
-jT4Fzm5sha/1OSUoK7f4w0oxaMMtXbpFqgNlgNaheWDuLdPudcdfL05upEACuQtu
-mBYO+GP9aTgEHSEjJFAHq2zo5fne5bud9XW08SVSqzxLDPmZnfPicb1IPmEiEhI3
-+RJKPB4MoVgCLkNt1VuaLEpvN2jH/aCWOzKI+G9huqb+QzLOH4tgOqvQlZ1BVwDE
-C4qFP21rqiBYceuYLXVo24mVOd11Es/CI7xVczc+E4RGdVs4n90BIVU7c4/bfkGA
+-- W1 根治双通道：凭证表扩展，支撑 financeStore 的 vouchers 切片直连真实 D1 vouchers 表
+-- 现有 vouchers 表缺前端 Voucher 业务字段（voucherType/period/currency/reversed/reversalVoucherNo/attachmentCount/sourceNo），
+-- 不扩展则「根治」会丢凭证类型/会计期间/红冲关联等业务信息。
+PRAGMA foreign_keys = ON;
+ALTER TABLE vouchers ADD COLUMN voucher_type TEXT;
+ALTER TABLE vouchers ADD COLUMN period TEXT;
+ALTER TABLE vouchers ADD COLUMN attachment_count INTEGER DEFAULT 0;
+ALTER TABLE vouchers ADD COLUMN source_no TEXT;
+ALTER TABLE vouchers ADD COLUMN currency TEXT DEFAULT 'CNY';
+ALTER TABLE vouchers ADD COLUMN reversed INTEGER DEFAULT 0;
+ALTER TABLE vouchers ADD COLUMN reversal_voucher_no TEXT;
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0021_vouchers_ext', datetime('now')) ON CONFLICT(version) DO NOTHING;

@@ -1,309 +1,243 @@
-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
+/**
+ * 操作权限服务端守卫（V3.24.0 新增）
+ *
+ * 强哥决策：接入 hasOperation 服务端拦截
+ *
+ * 逻辑：
+ *   · 特权角色（super_admin / admin）豁免所有检查
+ *   · app_state 中 roleModuleOps 缺失/损坏时回退内置默认矩阵，零破坏
+ *   · 按「角色 × 模块 × 操作」校验，不通过返回 403 + OPERATION_FORBIDDEN
+ *
+ * ★ 接口约定为「函数式」（传入 user+roleOps），不自己做鉴权——
+ *   端点已拿过 user，避免重复查库。
+ */
+import { json } from './auth';
+import { PRIVILEGED_ROLES } from './fieldAccess';
+
+// E2E 测试账号：全权限（test 环境专用，不影响生产逻辑）
+export const TEST_SUPERVISOR_ROLES = ['e2e_supervisor'];
+
+export type OperationType = 'create' | 'read' | 'update' | 'delete';
+export type ModuleType =
+  | 'material' | 'vendor' | 'customer' | 'purchase' | 'sales'
+  | 'warehouse' | 'quality' | 'production' | 'finance'
+  // ★ V3.45.0 新增：序列号与采购申请作为独立模块，便于分别授权
+  //   （序列号归仓储序列号管理员，采购申请归采购员，避免给整个 warehouse/purchase 全量写权）
+  | 'serial' | 'purchase-request'
+  // ★ V3.48.0 止血②：审批流定义作为「公司级公共配置」独立成模块（RLS=all，组织内协作维护），
+  //   与 '*'（全模块兜底）区分开——用 '*' 做业务模块会把协作写误指向"只有特权角色"，
+  //   打断同组织他人改公共配置的既定语义（守护套件 21 的跨用户可见/可改断言）。
+  | 'approval'
+  | 'orderHub' | 'channel' | 'fulfillment' | 'logistics' // V3.92.0 P1 电商化：订单中台 / 渠道通道 / 仓储执行 / 物流面单
+  | '*';
+
+export interface RoleModuleOperation {
+  role: string;
+  module: string;
+  operations: {
+    create: boolean;
+    read: boolean;
+    update: boolean;
+    delete: boolean;
+  };
+}
+
+/**
+ * 模块名映射：API 路径 -> 业务模块。
+ * ★ V3.45.0 补齐 7 条此前缺失的映射（这张表此前"定义了却无人使用"，
+ *   守卫调用点全是硬编码字符串，导致下列端点**零操作守卫**）：
+ *   调拨 / 库存调整 / 序列号 —— 这三个**直接决定库存数字**，
+ *   此前任何登录用户（含只读 user 角色）都能改；单位换算 / 采购申请 /
+ *   供应商报价 / 三单匹配 —— 属采购与财务基础数据，同样无门槛。
+ *   配套：`parentChild` 的 pcCreate/pcUpdate/pcRemove 增加 cfg.module 统一守卫，
+ *   以及 BUILTIN_ROLE_OPS 补齐对应角色权限（否则合法使用者会被 ?? false 兜底误拒）。
+ */
+export const API_TO_MODULE: Record<string, ModuleType> = {
+  'materials': 'material',
+  'vendors': 'vendor',
+  'customers': 'customer',
+  'purchase-orders': 'purchase',
+  'purchase-requests': 'purchase',
+  'vendor-quotes': 'purchase',
+  'sales-orders': 'sales',
+  'inbound-orders': 'warehouse',
+  'outbound-orders': 'warehouse',
+  'stock-transfers': 'warehouse',
+  'inventory-adjustments': 'warehouse',
+  'check-tasks': 'warehouse',
+  'serial-numbers': 'warehouse',
+  'work-orders': 'production',
+  'subcontracts': 'production',
+  'process-routes': 'production',
+  'vouchers': 'finance',
+  'three-way-match': 'finance',
+  'fin-payment-plans': 'finance',
+  'fixed-assets': 'finance',
+  'unit-conversions': 'material',
+  'quality-holds': 'quality',
+};
+
+/**
+ * 内置默认矩阵（与 src/stores/dataPermissionStore.ts 的 defaultRoleModuleOps 一致）。
+ * 作为 app_state 读不到时的兜底，fail-safe 宁可多拦。
+ */
+export const BUILTIN_ROLE_OPS: RoleModuleOperation[] = [
+  // 超级管理员 / 系统管理员：全部模块全权限
+  { role: 'super_admin', module: '*', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'admin', module: '*', operations: { create: true, read: true, update: true, delete: true } },
+  // 普通用户：只读
+  { role: 'user', module: '*', operations: { create: false, read: true, update: false, delete: false } },
+  // 采购员：采购模块有写权限
+  { role: 'buyer', module: 'purchase', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'buyer', module: 'vendor', operations: { create: false, read: true, update: true, delete: false } },
+  // 库管：仓储模块有写权限
+  { role: 'warehouse_keeper', module: 'warehouse', operations: { create: true, read: true, update: true, delete: false } },
+  { role: 'warehouse_keeper', module: 'material', operations: { create: false, read: true, update: true, delete: false } },
+  // ★ V3.45.0 配套：调拨/库存调整/序列号现在接入 warehouse 模块守卫，
+  //   而 checkOperation 的兜底是 `?? false`（默认拒绝）—— 若不在此显式给权限，
+  //   **库管会被自己的日常操作挡在门外**（合法使用者被误拒，属另一种故障）。
+  //   调拨/调整属仓库日常作业，给到 update（可改单，不可删历史单据）。
+  { role: 'warehouse_keeper', module: 'serial', operations: { create: true, read: true, update: true, delete: false } },
+  // 采购员补：采购申请与供应商报价（V3.45.0 接入守卫）
+  { role: 'buyer', module: 'purchase-request', operations: { create: true, read: true, update: true, delete: true } },
+  // 质检：质量模块有写权限
+  { role: 'qa_inspector', module: 'quality', operations: { create: true, read: true, update: true, delete: false } },
+  { role: 'qa_inspector', module: 'warehouse', operations: { create: false, read: true, update: false, delete: false } },
+  // 生产班长：生产模块有写权限
+  { role: 'prod_leader', module: 'production', operations: { create: true, read: true, update: true, delete: false } },
+  { role: 'prod_leader', module: 'purchase', operations: { create: false, read: true, update: false, delete: false } },
+  // 物流：只读
+  { role: 'logistics', module: 'purchase', operations: { create: false, read: true, update: false, delete: false } },
+  { role: 'logistics', module: 'sales', operations: { create: false, read: true, update: false, delete: false } },
+  { role: 'logistics', module: 'warehouse', operations: { create: false, read: true, update: false, delete: false } },
+  // 研发工程师：只读
+  { role: 'rd_engineer', module: '*', operations: { create: false, read: true, update: false, delete: false } },
+  { role: 'process_engineer', module: '*', operations: { create: false, read: true, update: false, delete: false } },
+  // ★ V3.51.0 与菜单权限对齐，修「能创建却被拒」（P1）：
+  //   菜单给生产主管/工艺工程师 production.create/edit，但矩阵此前无对应写条目
+  //   （prod_manager 甚至完全没有 `*` 兜底行，落 ?? false 全零权限）→ 点「新建工单」403。
+  //   现补精确 production 写权（create/update、不可删），精确匹配优先于 `*` 兜底。
+  { role: 'prod_manager', module: 'production', operations: { create: true, read: true, update: true, delete: false } },
+  { role: 'process_engineer', module: 'production', operations: { create: true, read: true, update: true, delete: false } },
+  { role: 'prod_manager', module: '*', operations: { create: false, read: true, update: false, delete: false } },
+  { role: 'qa_engineer', module: '*', operations: { create: false, read: true, update: false, delete: false } },
+  // 财务主管 / 会计：财务模块有写权限（其他默认只读）
+  { role: 'finance_manager', module: 'finance', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'accountant', module: 'finance', operations: { create: true, read: true, update: true, delete: true } },
+  // ★ V3.51.0 对标三大 ERP「财务是资金最终闸门」：财务主管/会计放开采购/销售写权，
+  //   让财务真正管到资金流出（采购付款计划）与资金流入（销售收款计划），消除监督失效。
+  //   供应商建档权一并给到财务（门户申请→财务建档，与采购员"选商/下单"分离）。
+  //   ⚠ 已知副作用：采购单/供应商/销售单在 RLS 里是 'own'（按负责人隔离）档，财务只拿到
+  //   「操作权限」不等于「数据可见性」——财务主管可能"有写权却看不到采购员名下单据"。
+  //   该可见性错配是行级权限（rls.ts own 档）层面的问题，留待强哥二次确认是否给财务
+  //   加采购/销售域全组织可见性（见 ssa-erp-role-permission-audit.html 决策点 2）。
+  { role: 'finance_manager', module: 'purchase', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'finance_manager', module: 'sales', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'finance_manager', module: 'vendor', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'accountant', module: 'purchase', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'accountant', module: 'sales', operations: { create: true, read: true, update: true, delete: true } },
+  { role: 'accountant', module: 'vendor', operations: { create: true, read: true, update: true, delete: true } },
+  // 供应商：可改自身资质 + 读自己的数据（V3.51.0 对标三大 ERP 修"门户倒挂"——
+  //   此前 vendor 对 vendor 模块连 update 都没有，供应商改自己资质反而要等特权角色代管）。
+  //   create/delete 保持 false：新建供应商主数据走「门户申请 → 财务/管理员建档」，
+  //   删供应商档案不归外部供应商。RLS own 档保证 update 只能改 owner_id=本人的记录。
+  { role: 'vendor', module: 'vendor', operations: { create: false, read: true, update: true, delete: false } },
+  // 销售管理员：销售模块全权限
+  { role: 'sales_manager', module: 'sales', operations: { create: true, read: true, update: true, delete: true } },
+  // 销售员：可开单 / 改单，不可删除（V3.28.0 补齐销售模块写角色，消除 P0 守卫缺口）
+  { role: 'salesperson', module: 'sales', operations: { create: true, read: true, update: true, delete: false } },
+  // ★ V3.48.0 止血②：审批流定义 = 公司级公共配置（RLS='all'），组织内业务运维角色可「协作维护」（读+改），
+  //   但「新建 / 删除审批流」仍归管理员（create/delete=false），纯只读角色（user，走 '*' 兜底只读）保持锁死。
+  //   这样既恢复 21 套件「同组织 buyer 可改公共审批流」的协作语义，又不放宽到只读角色能写。
+  { role: 'buyer', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+  { role: 'warehouse_keeper', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+  { role: 'prod_leader', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+  { role: 'sales_manager', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+  { role: 'finance_manager', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+  { role: 'qa_inspector', module: 'approval', operations: { create: false, read: true, update: true, delete: false } },
+];
+
+/** 从 app_state 加载角色操作权限配置 */
+export async function loadRoleOps(db: any, orgId: string): Promise<RoleModuleOperation[]> {
+  try {
+    const row: any = await db
+      .prepare('SELECT value FROM app_state WHERE org_id = ? AND key = ?')
+      .bind(orgId, 'ssa-erp-data-permission')
+      .first();
+    if (!row?.value) return BUILTIN_ROLE_OPS;
+    const parsed = JSON.parse(String(row.value));
+    const list = parsed?.state?.roleModuleOps;
+    if (Array.isArray(list) && list.length > 0) return list;
+  } catch {
+    // 降级到内置默认
+  }
+  return BUILTIN_ROLE_OPS;
+}
+
+/**
+ * 检查指定角色是否有权对指定模块执行指定操作。
+ * @returns true 表示有权限，false 表示无权限
+ */
+export function checkOperation(
+  role: string,
+  module: ModuleType,
+  operation: OperationType,
+  roleOps: RoleModuleOperation[]
+): boolean {
+  if (PRIVILEGED_ROLES.includes(role)) return true;
+  if (TEST_SUPERVISOR_ROLES.includes(role)) return true;
+  const exact = roleOps.find((r) => r.role === role && r.module === module);
+  if (exact?.operations[operation] !== undefined) return exact.operations[operation];
+  const wildcard = roleOps.find((r) => r.role === role && r.module === '*');
+  return wildcard?.operations[operation] ?? false;
+}
+
+/**
+ * 操作守卫中间件：在写入端点入口处调用。
+ *
+ * ★ 设计为「函数式」而非直接包一层中间件：
+ *   端点已经拿过 user，再调 getUserFromRequest 会重复查库。
+ *   这里只负责「按规则校验 + 返回 403 或 null」。
+ *
+ * @param user          已鉴权的用户对象 { id, role, org_id, name }
+ * @param module        业务模块
+ * @param operation     操作类型
+ * @param db            D1 绑定
+ * @param orgId         当前组织 id（从 user.org_id 取也可，这里显式传入便于测试）
+ */
+export async function guardOperation(
+  user: { id: string; role: string; org_id: string; name: string },
+  module: ModuleType,
+  operation: OperationType,
+  db: any,
+  orgId: string
+): Promise<Response | null> {
+  const roleOps = await loadRoleOps(db, orgId);
+  const allowed = checkOperation(user.role, module, operation, roleOps);
+  if (allowed) return null;
+
+  const opLabel: Record<OperationType, string> = {
+    create: '创建',
+    read: '查看',
+    update: '修改',
+    delete: '删除',
+  };
+  const moduleName: Record<ModuleType, string> = {
+    material: '物料', vendor: '供应商', customer: '客户',
+    purchase: '采购', sales: '销售',
+    warehouse: '仓储', quality: '质量', production: '生产', finance: '财务',
+    // ★ V3.45.0 新增两模块的中文名（否则越权提示会直接显示英文 module 名）
+    serial: '序列号', 'purchase-request': '采购申请',
+    approval: '审批流',
+    // V3.92.0 P1 电商化：订单中台 / 渠道通道 / 仓储执行 / 物流面单
+    orderHub: '订单中台', channel: '渠道', fulfillment: '仓储执行', logistics: '物流',
+    '*': '全部模块',
+  };
+  return json({
+    error: '无权' + opLabel[operation] + (moduleName[module] || module) + '数据',
+    code: 'OPERATION_FORBIDDEN',
+    operation,
+    module,
+    role: user.role,
+  }, 403);
+}

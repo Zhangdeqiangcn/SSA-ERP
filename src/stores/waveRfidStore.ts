@@ -1,45 +1,50 @@
-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
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { WaveRfid, RfidEvent } from '@/types/waveRfid';
+import { waveRfids, rfidEvents } from '@/mocks/data/waveRfid';
+import { createEntityStore } from './createEntityStore';
+
+// 迁统一仓储工厂（V2）：双资源 waveRfid/waveRfidTag，云端数据库主源 + 模拟兜底 + 空库回填。
+// 波次明细 lines（WaveLine[]）经 parse/serialize 与 JSON 字符串互转；保留既有
+// waves/rfidEvents/addWave/updateWave/addRfidEvent… 接口，调用页面无需改动；回填标记沿用旧键。
+interface WaveRfidState {
+  waves: WaveRfid[];
+  rfidEvents: RfidEvent[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addWave: (w: WaveRfid) => Promise<void>;
+  updateWave: (id: string, u: Partial<WaveRfid>) => Promise<void>;
+  deleteWave: (id: string) => Promise<void>;
+  addRfidEvent: (e: RfidEvent) => Promise<void>;
+  deleteRfidEvent: (id: string) => Promise<void>;
+}
+
+// lines（WaveLine[]）嵌套对象 ↔ JSON 列
+const parseWave = (w: any): WaveRfid => ({
+  ...w,
+  lines:
+    typeof w.lines === 'string'
+      ? (() => { try { return JSON.parse(w.lines); } catch { return []; } })()
+      : (w.lines || []),
+});
+const toWaveRow = (w: Partial<WaveRfid>): any => {
+  const out: any = { ...w };
+  if (Array.isArray((w as any).lines)) out.lines = JSON.stringify((w as any).lines);
+  return out;
+};
+
+export const useWaveRfidStore = createEntityStore<WaveRfid>({
+  resource: 'waveRfid',
+  seed: [...waveRfids],
+  stateKey: 'waves',
+  parse: parseWave,
+  serialize: toWaveRow,
+  extraResources: [{ resource: 'waveRfidTag', seed: [...rfidEvents], stateKey: 'rfidEvents', pageSize: 500 }],
+  backfillKey: 'ssa-erp-backfilled-waveRfid',
+  extend: (ctx) => ({
+    addWave: (w: WaveRfid) => ctx.primary.add(w),
+    updateWave: (id: string, u: Partial<WaveRfid>) => ctx.primary.update(id, u),
+    deleteWave: (id: string) => ctx.primary.remove(id),
+    addRfidEvent: (e: RfidEvent) => ctx.extras.rfidEvents.add(e),
+    deleteRfidEvent: (id: string) => ctx.extras.rfidEvents.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<WaveRfidState>>;

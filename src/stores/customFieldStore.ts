@@ -1,115 +1,171 @@
-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
-5IhWzlh5X/xLLzfmMTaonA==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeConfig } from './entityBackedShared';
+
+/**
+ * 自定义字段（P2-1 剩余）
+ * ------------------------------------------------------------
+ * 允许管理员为指定业务实体（物料/采购订单/采购申请）动态配置扩展字段，
+ * 无需改代码即可在对应表单上渲染并随主数据一起持久化。
+ * 字段定义存于唯一 store（ssa-erp-customfield），各表单通过 useCustomFields
+ * 读取当前实体的字段定义，用 <CustomFieldsSection> 统一渲染与收集值。
+ */
+
+export type CustomFieldEntity = 'material' | 'purchaseOrder' | 'purchaseRequest' | 'category' | 'vendor';
+
+export type CustomFieldType = 'text' | 'number' | 'date' | 'select' | 'textarea' | 'checkbox';
+
+export interface CustomFieldDef {
+  /** 字段唯一标识（同一实体内唯一） */
+  key: string;
+  /** 显示名称 */
+  label: string;
+  /** 字段类型 */
+  type: CustomFieldType;
+  /** select 类型的可选项 */
+  options?: string[];
+  /** 是否必填 */
+  required?: boolean;
+  /** 输入占位提示 */
+  placeholder?: string;
+}
+
+export const CUSTOM_FIELD_ENTITY_LABELS: Record<CustomFieldEntity, string> = {
+  material: '物料',
+  purchaseOrder: '采购订单',
+  purchaseRequest: '采购申请',
+  category: '物料分类',
+  vendor: '供应商',
+};
+
+export const CUSTOM_FIELD_TYPE_LABELS: Record<CustomFieldType, string> = {
+  text: '文本',
+  number: '数字',
+  date: '日期',
+  select: '下拉选择',
+  textarea: '多行文本',
+  checkbox: '勾选框',
+};
+
+type EntityFields = Record<CustomFieldEntity, CustomFieldDef[]>;
+
+export interface CustomFieldState {
+  fields: EntityFields;
+  addField: (entity: CustomFieldEntity, def: CustomFieldDef) => void;
+  updateField: (entity: CustomFieldEntity, key: string, patch: Partial<CustomFieldDef>) => void;
+  removeField: (entity: CustomFieldEntity, key: string) => void;
+  moveField: (entity: CustomFieldEntity, key: string, dir: -1 | 1) => void;
+  resetEntity: (entity: CustomFieldEntity) => void;
+  resetAll: () => void;
+}
+
+const EMPTY: EntityFields = {
+  material: [],
+  purchaseOrder: [],
+  purchaseRequest: [],
+  category: [],
+  vendor: [],
+};
+
+/** 工厂：生成唯一字段 key */
+export const makeFieldKey = (label: string): string => {
+  const slug = label
+    .trim()
+    .replace(/[^\w一-龥]/g, '')
+    .slice(0, 12);
+  const rand = Math.random().toString(36).slice(2, 6);
+  return `cf_${slug || 'field'}_${rand}`;
+};
+
+export const useCustomFieldStore = create<CustomFieldState>()(
+    (set) => ({
+      fields: { ...EMPTY },
+
+      addField: (entity, def) =>
+        set((state) => ({
+          fields: {
+            ...state.fields,
+            [entity]: [...state.fields[entity], def],
+          },
+        })),
+
+      updateField: (entity, key, patch) =>
+        set((state) => ({
+          fields: {
+            ...state.fields,
+            [entity]: state.fields[entity].map((f) =>
+              f.key === key ? { ...f, ...patch } : f
+            ),
+          },
+        })),
+
+      removeField: (entity, key) =>
+        set((state) => ({
+          fields: {
+            ...state.fields,
+            [entity]: state.fields[entity].filter((f) => f.key !== key),
+          },
+        })),
+
+      moveField: (entity, key, dir) =>
+        set((state) => {
+          const list = [...state.fields[entity]];
+          const idx = list.findIndex((f) => f.key === key);
+          if (idx < 0) return state;
+          const next = idx + dir;
+          if (next < 0 || next >= list.length) return state;
+          [list[idx], list[next]] = [list[next], list[idx]];
+          return { fields: { ...state.fields, [entity]: list } };
+        }),
+
+      resetEntity: (entity) =>
+        set((state) => ({
+          fields: { ...state.fields, [entity]: [] },
+        })),
+
+      resetAll: () => set({ fields: { ...EMPTY } }),
+    }),
+);
+
+// ── V3.81.0 D1 同步层（组织共享配置，整块 EntityFields 单行，避免各终端配置漂移）──
+const RES = 'customFields';
+const CFG_ID = 'custom-field-defs';
+
+function snapshotFields(s: CustomFieldState) {
+  return { fields: s.fields };
+}
+
+let hydrating = false;
+async function hydrateCustomFields() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 50 });
+    const rows = parsePayload<{ id?: string; fields?: EntityFields }>(res?.data || []);
+    const cfg = rows.find((r) => r?.id === CFG_ID);
+    if (cfg?.fields) {
+      useCustomFieldStore.setState({ fields: cfg.fields });
+    } else {
+      // 首跑：把当前（含旧 blob 迁移来的）配置写回 D1
+      writeConfig(RES, CFG_ID, { id: CFG_ID, ...snapshotFields(useCustomFieldStore.getState()) });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+// 任何字段定义变更 → 写穿 D1（hydrate 自身 set 不触发）
+useCustomFieldStore.subscribe((s) => {
+  if (hydrating) return;
+  if (isAuthed()) writeConfig(RES, CFG_ID, { id: CFG_ID, ...snapshotFields(s) });
+});
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void hydrateCustomFields();
+
+/** 便捷 hook：读取某实体的字段定义 */
+export const useCustomFields = (entity: CustomFieldEntity): CustomFieldDef[] =>
+  useCustomFieldStore((s) => s.fields[entity] || []);

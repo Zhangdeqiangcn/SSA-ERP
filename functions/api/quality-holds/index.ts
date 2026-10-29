@@ -1,135 +1,117 @@
-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
-MHXBrwnfI76rlCMkewwXsw==
+// GET /api/quality-holds — 分页查询质检扣留（按 org_id 隔离）
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardOperation } from '../../_shared/operationGuard';
+import { validateOrReject, requireFields } from '../../_shared/validate';
+import { resolveIdemKey, findIdem, saveIdem } from '../../_shared/idempotency';
+
+import { audit } from '../../_shared/auditLog';
+// ★ V3.113.3 P0-3：质检扣留必须把冻结量落到库存台账（inventory_records.frozen_quantity），
+//   否则「ATP 说扣了、库存台账说没扣」，两套口径分裂、审计对不上。
+import { adjustFrozenQuantity } from '../../_shared/inventoryPosting';
+import { HOLD_OCCUPYING_STATUSES } from '../../_shared/qualityHoldStatus';
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = Math.min(parseInt(url.searchParams.get('pageSize') || '20', 10), 100);
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const status = url.searchParams.get('status') || undefined;
+
+  const db = context.env.DB;
+  let where = `WHERE qh.org_id = ?`;
+  const params = [user.org_id];
+
+  if (keyword) {
+    where += ` AND (qh.material_code LIKE ? ESCAPE '\\' OR qh.material_name LIKE ? ESCAPE '\\' OR qh.warehouse_name LIKE ? ESCAPE '\\' OR qh.batch_no LIKE ? ESCAPE '\\')`;
+    const kw = likePattern(keyword);
+    params.push(kw, kw, kw, kw);
+  }
+  if (status) {
+    where += ` AND qh.status = ?`;
+    params.push(status);
+  }
+
+  const offset = (page - 1) * pageSize;
+  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM quality_holds qh ${where}`).bind(...params).first();
+  const rows = await db.prepare(`SELECT * FROM quality_holds qh ${where} ORDER BY qh.hold_date DESC, qh.created_at DESC LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
+
+  return json({
+    data: rows.results || [],
+    total: totalRows?.cnt || 0,
+    page,
+    pageSize,
+  });
+}
+
+// POST /api/quality-holds — 创建质检扣留
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  // V3.28.0: 操作权限服务端守卫（质量模块 — 质检可建扣留，越权返回 403 + OPERATION_FORBIDDEN）
+  const _opGuard = await guardOperation(user, 'quality', 'create', db, user.org_id);
+  if (_opGuard) return _opGuard;
+  const _invalid = validateOrReject('quality_holds', body);
+  if (_invalid) return _invalid;
+
+  // #10 防重复建单：质检扣留单没有业务单号，走 Idempotency-Key 幂等键——
+  // 客户端带 `Idempotency-Key` 请求头（或 body.idempotencyKey）时，重复提交回传上次结果。
+  const _idemKey = resolveIdemKey(context.request, body);
+  if (_idemKey) {
+    const _hit = await findIdem(context.env.DB, user.org_id, _idemKey);
+    if (_hit) {
+      const _prev = await context.env.DB.prepare(`SELECT * FROM quality_holds WHERE id = ? AND org_id = ?`).bind(_hit.resultId, user.org_id).first().catch(() => null);
+      if (_prev) return json({ ...(_prev as any), idempotentReplay: true }, 200);
+    }
+  }
+
+  // 必填守卫（V3.16.1 · 缺陷 #11）：扣留单必须指向具体物料并写明原因，否则生成全空记录
+  const _req = requireFields(body, ['materialCode', 'reason'], { materialCode: '物料编码', reason: '扣留原因' });
+  if (_req) return _req;
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const id = 'qh-' + crypto.randomUUID();
+  const holdQty = Number(body.quantity) || 0;
+  const holdStatus = body.status || 'pending';
+  await db.prepare(`INSERT INTO quality_holds (id, org_id, material_id, material_code, material_name, warehouse_id, warehouse_name, batch_no, quantity, status, source_inbound_no, hold_date, release_date, inspector, reason, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+    id, user.org_id, body.materialId || null, body.materialCode || null, body.materialName || null, body.warehouseId || null, body.warehouseName || null,
+    body.batchNo || null, holdQty, holdStatus, body.sourceInboundNo || null, body.holdDate || null, body.releaseDate || null,
+    body.inspector || null, body.reason || null, now, now, user.name, user.name
+  ).run();
+
+  // ★ V3.113.3 P0-3：同步冻结量到库存台账（可用量 = 现有量 − 冻结量）。
+  //   仅「占用实物」的扣留才冻结：pending/active/rejected/open/inspecting。
+  //   rejected（判不合格但未处置）同样占着实物 → 同样冻结（与前端 isHoldActive 对齐）。
+  //   注意：materialId 缺失时无法定位库存行 —— 此时只扣 quality_holds 表（既有行为），
+  //   并回传提示让用户知道冻结量未落到台账（不静默）。
+  const OCCUPYING_STATUSES = HOLD_OCCUPYING_STATUSES;
+  let frozenApplied = false;
+  let frozenNote = '';
+  if (holdQty > 0 && body.materialId && OCCUPYING_STATUSES.includes(String(holdStatus))) {
+    const fr = await adjustFrozenQuantity(db, user.org_id, user, {
+      materialId: String(body.materialId),
+      warehouseId: body.warehouseId || null,
+      delta: holdQty,
+      reason: `质检扣留 ${id}`,
+    });
+    frozenApplied = fr.ok;
+    if (!fr.ok) frozenNote = fr.message || '冻结量未写入库存台账';
+  } else if (holdQty > 0 && !body.materialId) {
+    frozenNote = '扣留单未指定物料 ID，冻结量无法写入库存台账（仅登记扣留记录）';
+  }
+
+  // #10 幂等键登记：建单成功后把 (组织, 键) → 结果 id 记下来，供后续重复提交命中回放
+  if (_idemKey) await saveIdem(db, user.org_id, _idemKey, 'quality_holds', id);
+  const row = await db.prepare(`SELECT * FROM quality_holds WHERE id = ?`).bind(id).first();
+  await audit(db, user.org_id, user, 'quality_holds', 'create', `创建质量扣留 ${row?.hold_no || id}`);
+  return json({
+    ...row,
+    frozenApplied,
+    ...(frozenNote ? { warning: frozenNote } : {}),
+  });
+}

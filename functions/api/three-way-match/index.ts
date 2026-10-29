@@ -1,73 +1,92 @@
-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
+// GET /api/three-way-match — 三单匹配留档记录（付款闸门历次判定的台账）
+//
+// 【为什么要有这个端点】
+// V3.18.0 复核时发现：本目录此前**只有 create.ts，没有任何 GET**，
+// 而老的用户手册里却写着「新增 /api/three-way-match（GET 分页查询 + POST 创建）」——
+// 手册描述了一个不存在的接口。付款闸门留档的数据因此只有写、没有读，
+// 出了问题无法在界面上追溯「当时是谁、依据什么、判成什么样」。
+// 本文件补齐读路径。
+//
+// 同时这也解释了另一个长期疑点：前端为什么从来不调用这个域？
+// 因为按手册去调，GET 拿到的是 404 / POST 拿到的是 405（路径少了 /create 后缀）。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { TWM_TOLERANCE } from '../../_shared/threeWayMatch';
+
+/** 库行 → 前端 camelCase（只暴露业务关心的字段，不整行透传） */
+function toApi(r: any) {
+  return {
+    id: r.id,
+    poId: r.po_id,
+    poNo: r.po_no,
+    invoiceNo: r.invoice_no,
+    matchStatus: r.match_status,
+    poQuantity: r.po_quantity,
+    inboundQuantity: r.inbound_quantity,
+    qtyVariance: r.qty_variance,
+    qtyMatch: !!r.qty_match,
+    poUnitPrice: r.po_unit_price,
+    invoiceUnitPrice: r.invoice_unit_price,
+    priceVariance: r.price_variance,
+    priceMatch: !!r.price_match,
+    poAmount: r.po_amount,
+    inboundAmount: r.inbound_amount,
+    invoiceAmount: r.invoice_amount,
+    amountVariance: r.amount_variance,
+    amountMatch: !!r.amount_match,
+    matchedBy: r.matched_by,
+    matchedAt: r.matched_at,
+    discrepancy: r.discrepancy,
+    remarks: r.remarks,
+    createdAt: r.created_at,
+  };
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+  const pageSize = Math.min(200, Math.max(1, parseInt(url.searchParams.get('pageSize') || '50', 10)));
+  const offset = (page - 1) * pageSize;
+  const poNo = (url.searchParams.get('poNo') || '').trim();
+  const matchStatus = (url.searchParams.get('status') || '').trim();
+
+  const where: string[] = ['org_id = ?'];
+  const args: any[] = [user.org_id];
+  const rls = rlsCondition(user, 'three_way_match');
+  if (rls.clause !== '1=1') {
+    where.push(rls.clause);
+    args.push(...rls.params);
+  }
+  if (poNo) {
+    where.push('po_no = ?');
+    args.push(poNo);
+  }
+  if (matchStatus) {
+    where.push('match_status = ?');
+    args.push(matchStatus);
+  }
+  const clause = where.join(' AND ');
+
+  const rows = await env.DB.prepare(
+    `SELECT * FROM three_way_match WHERE ${clause} ORDER BY created_at DESC LIMIT ? OFFSET ?`,
+  )
+    .bind(...args, pageSize, offset)
+    .all();
+  const cnt: any = await env.DB.prepare(`SELECT COUNT(*) as cnt FROM three_way_match WHERE ${clause}`)
+    .bind(...args)
+    .first();
+
+  return json({
+    data: (rows.results || []).map(toApi),
+    total: cnt?.cnt || 0,
+    page,
+    pageSize,
+    // 把判定口径随列表一起回给前端：界面上要注明「按什么标准判的」，
+    // 否则用户看到「差异 120 元却判为通过」会以为是 Bug（实际是 1% 容差内）。
+    tolerance: TWM_TOLERANCE,
+  });
+}

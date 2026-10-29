@@ -1,72 +1,75 @@
-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
+// GET /api/finance/inventory-reconciliation — 存货价值与总账对账（P2-2 · V3.60.0）
+// ───────────────────────────────────────────────────────────────
+// 审计发现：此前没有任何"存货价值 ↔ 总账"的对账手段，库存模块与财务总账
+// 一旦因"只动账不记账 / 只记账不动账"的断点而分叉，无从发现（见审计报告 P2-2）。
+//
+// 本端点提供只读对账视图：
+//   ① materials.stock_value 汇总 = 库存模块权威存货价值（移动均价滚动）
+//   ② 总账存货科目余额 = 1403 原材料 + 1405 库存商品 的借贷净额
+//      （来自所有业务凭证：收货/领料/完工/销售出库/盘点/调拨/报废…）
+//   gap = ① − ②；|gap| ≤ 容差即认为对账一致。
+//
+// 不改任何数据，仅读取。权限沿用登录用户 org_id 隔离。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { roundAmount } from '../../../_shared/money';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = env.DB;
+  const orgId = user.org_id;
+
+  const num = (v: any): number => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  // ① 库存模块存货价值（物料主数据移动均价滚动汇总）
+  const matRow = await db
+    .prepare(`SELECT COALESCE(SUM(stock_value), 0) AS v FROM materials WHERE org_id = ?`)
+    .bind(orgId)
+    .first();
+  const materialStockValue = roundAmount(num(matRow?.v));
+
+  // ② 总账存货科目余额（1403 + 1405 借贷净额）
+  //★ V3.61.0 W-B2：只统计**已过账**凭证（status='posted'）。
+  //   此前不过滤 v.status，草稿凭证（status='draft'）也会计入总账侧 → 对账把
+  //   「未过账的账」当成真实余额，口径不严、gap 失真。对标收入/费用类报表口径：
+  //   只有 posted 凭证才算账。
+  const ledgerRows = await db
+    .prepare(
+      `SELECT vi.account_code AS code, COALESCE(SUM(vi.debit), 0) AS d, COALESCE(SUM(vi.credit), 0) AS c
+         FROM voucher_items vi JOIN vouchers v ON vi.voucher_id = v.id
+         WHERE v.org_id = ? AND vi.account_code IN ('1403', '1405')
+           AND COALESCE(v.status, 'posted') = 'posted'
+         GROUP BY vi.account_code`
+    )
+    .bind(orgId)
+    .all();
+  const byCode: Record<string, { debit: number; credit: number; net: number }> = {};
+  for (const r of (ledgerRows.results || []) as any[]) {
+    const d = num(r.d);
+    const c = num(r.c);
+    byCode[String(r.code)] = { debit: d, credit: c, net: roundAmount(d - c) };
+  }
+  const raw1403 = byCode['1403'] || { debit: 0, credit: 0, net: 0 };
+  const raw1405 = byCode['1405'] || { debit: 0, credit: 0, net: 0 };
+  const inventoryLedgerTotal = roundAmount(raw1403.net + raw1405.net);
+
+  const gap = roundAmount(materialStockValue - inventoryLedgerTotal);
+  const tolerance = 0.01;
+  const reconciled = Math.abs(gap) <= tolerance;
+
+  return json({
+    materialStockValue,
+    inventoryLedger: {
+      '1403': raw1403,
+      '1405': raw1405,
+      total: inventoryLedgerTotal,
+    },
+    gap,
+    reconciled,
+    generatedAt: new Date().toISOString(),
+  });
+}

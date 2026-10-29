@@ -1,67 +1,82 @@
-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
+// /api/open/keys — API Key 管理（session 管理员鉴权，明文 key 仅返回一次）
+//
+// 【V3.2.0 变更 · 评测 M-12 / L-02 整改】
+//   - 创建时支持指定有效期（expiresInDays；不传 = 默认 90 天，显式传 null = 永久）；
+//   - 列表返回 expires_at / rotated_at，供前端展示「有效 / 即将到期 / 已过期」；
+//   - 明文密钥生成收敛到 _shared/apiKey.ts 的 generateApiKey()，与轮换接口同源，
+//     避免两处各写一份随机数逻辑（历史教训：同一逻辑两份实现必然漂移）。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import {
+  sha256,
+  generateApiKey,
+  normalizeExpiresDays,
+  expiresAtFromDays,
+  DEFAULT_EXPIRES_DAYS,
+} from '../../_shared/apiKey';
+
+import { audit } from '../../_shared/auditLog';
+function isAdmin(user: any): boolean {
+  // super_admin 为新增平台超管，需一并纳入，避免超管无法管理 API Key
+  return ['super_admin', 'admin'].includes(user.role);
+}
+
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
+
+  const rows = await context.env.DB.prepare(
+    `SELECT id, label, scopes, created_by, revoked, rate_limit, created_at, revoked_at,
+            expires_at, rotated_at
+     FROM api_keys WHERE org_id = ? ORDER BY created_at DESC`
+  )
+    .bind(user.org_id)
+    .all();
+  return json({
+    data: rows.results || [],
+    defaultExpiresDays: DEFAULT_EXPIRES_DAYS,
+    now: new Date().toISOString(),
+  });
+}
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (!isAdmin(user)) return json({ error: '需管理员权限' }, 403);
+
+  const body = await context.request.json().catch(() => ({}));
+  const label = body.label || '未命名';
+  const scopes = body.scopes || 'read';
+
+  // 未显式给出有效期字段 → 采用默认（90 天）；显式给 null/'forever' → 永久。
+  const hasExpiry = Object.prototype.hasOwnProperty.call(body, 'expiresInDays');
+  const days = hasExpiry ? normalizeExpiresDays(body.expiresInDays) : DEFAULT_EXPIRES_DAYS;
+  const expiresAt = expiresAtFromDays(days);
+
+  const plain = generateApiKey();
+  const hash = await sha256(plain);
+  const now = new Date().toISOString();
+  const keyId = uid('ak');
+
+  await context.env.DB.prepare(
+    `INSERT INTO api_keys (id, org_id, key_hash, label, scopes, created_by, revoked, rate_limit, created_at, expires_at)
+     VALUES (?, ?, ?, ?, ?, ?, 0, 60, ?, ?)`
+  )
+    .bind(keyId, user.org_id, hash, label, scopes, user.username, now, expiresAt)
+    .run();
+
+  await audit(context.env.DB, user.org_id, user, 'api_keys', 'create', `创建开放接口密钥「${label}」，有效期 ${days ?? '永久'} 天`);
+  return json(
+    {
+      ok: true,
+      id: keyId,
+      plainKey: plain,
+      label,
+      scopes,
+      createdAt: now,
+      expiresAt,
+      expiresInDays: days,
+    },
+    201
+  );
+}

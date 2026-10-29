@@ -1,115 +1,157 @@
-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
-Yqac1Grppf8wPTpnqdsgeg==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+/** 供应商门户用户（可持久化的业务数据，替代原页面内 MOCK_USERS） */
+export interface VendorUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  roleId: string;
+  roleName: string;
+  status: 'active' | 'inactive';
+  lastLogin?: string;
+}
+
+/** 供应商门户角色（icon 为 UI 静态资源，存于页面，store 仅持久化可序列化字段） */
+export interface VendorRole {
+  id: string;
+  name: string;
+  code: string;
+  description: string;
+  color: string;
+  permissions: Record<string, string[]>;
+}
+
+const seedUsers: VendorUser[] = [
+  { id: 'vu-001', name: '张建国', email: 'zhangjg@shbaosteel.com', phone: '13800138001', roleId: 'vr-admin', roleName: '管理员', status: 'active', lastLogin: '2024-06-20 09:15:00' },
+  { id: 'vu-002', name: '李明辉', email: 'limh@shbaosteel.com', phone: '13800138002', roleId: 'vr-business', roleName: '业务员', status: 'active', lastLogin: '2024-06-20 14:30:00' },
+  { id: 'vu-003', name: '王会计', email: 'wangac@shbaosteel.com', phone: '13800138003', roleId: 'vr-finance', roleName: '财务', status: 'active', lastLogin: '2024-06-19 16:00:00' },
+  { id: 'vu-004', name: '赵质检', email: 'zhaozj@shbaosteel.com', phone: '13800138004', roleId: 'vr-quality', roleName: '质量员', status: 'inactive', lastLogin: '2024-06-15 10:00:00' },
+];
+
+const seedRoles: VendorRole[] = [
+  {
+    id: 'vr-admin',
+    name: '管理员',
+    code: 'admin',
+    description: '供应商门户全部功能管理权限',
+    color: '#6366F1',
+    permissions: {
+      orders: ['view', 'edit', 'confirm', 'reject'],
+      shipments: ['view', 'create', 'edit'],
+      quality: ['view', 'respond', 'submit_report', 'close'],
+      finance: ['view', 'confirm', 'submit_invoice', 'dispute'],
+      profile: ['view', 'edit', 'manage_certs'],
+      permissions: ['view', 'edit', 'create_user', 'delete_user'],
+    },
+  },
+  {
+    id: 'vr-business',
+    name: '业务员',
+    code: 'business',
+    description: '负责订单确认、发货、质量响应等业务操作',
+    color: '#3B82F6',
+    permissions: {
+      orders: ['view', 'edit', 'confirm'],
+      shipments: ['view', 'create', 'edit'],
+      quality: ['view', 'respond'],
+      finance: ['view'],
+      profile: ['view'],
+      permissions: ['view'],
+    },
+  },
+  {
+    id: 'vr-finance',
+    name: '财务',
+    code: 'finance',
+    description: '负责对账、开票、付款计划查询等财务操作',
+    color: '#10B981',
+    permissions: {
+      orders: ['view'],
+      shipments: ['view'],
+      quality: ['view'],
+      finance: ['view', 'confirm', 'submit_invoice', 'dispute'],
+      profile: ['view', 'edit'],
+      permissions: ['view'],
+    },
+  },
+  {
+    id: 'vr-quality',
+    name: '质量员',
+    code: 'quality',
+    description: '负责质量问题响应、8D报告提交等质量管理',
+    color: '#F59E0B',
+    permissions: {
+      orders: ['view'],
+      shipments: ['view'],
+      quality: ['view', 'respond', 'submit_report'],
+      finance: ['view'],
+      profile: ['view'],
+      permissions: ['view'],
+    },
+  },
+];
+
+interface VendorPortalState {
+  portalUsers: VendorUser[];
+  roles: VendorRole[];
+  addPortalUser: (u: VendorUser) => void;
+  updatePortalUser: (id: string, updates: Partial<VendorUser>) => void;
+  deletePortalUser: (id: string) => void;
+  updateRolePermissions: (id: string, permissions: Record<string, string[]>) => void;
+  /** V3.77.0：从 D1 水合（仅 portalUsers，roles 为静态配置保持本地） */
+  hydrateVendorPortal: () => Promise<void>;
+}
+
+const RES = 'vendorPortal';
+
+export const useVendorPortalStore = create<VendorPortalState>()((set) => ({
+  portalUsers: [...seedUsers],
+  roles: [...seedRoles],
+
+  addPortalUser: (u) => {
+    set((s) => ({ portalUsers: [...s.portalUsers, u] }));
+    if (isAuthed()) writeRow(RES, u.id, u);
+  },
+  updatePortalUser: (id, updates) => {
+    let updated: VendorUser | undefined;
+    set((s) => ({
+      portalUsers: s.portalUsers.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...updates };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, updated);
+  },
+  deletePortalUser: (id) => {
+    set((s) => ({ portalUsers: s.portalUsers.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+  updateRolePermissions: (id, permissions) =>
+    set((s) => ({ roles: s.roles.map((r) => (r.id === id ? { ...r, permissions } : r)) })),
+
+  hydrateVendorPortal: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<VendorUser>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<VendorUser>(res?.data || []);
+      if (rows.length === 0) {
+        for (const u of seedUsers) writeRow(RES, u.id, u);
+        const rf = await entityRepo.list<VendorUser>(RES, { page: 1, pageSize: 500 });
+        const r2 = parsePayload<VendorUser>(rf?.data || []);
+        if (r2.length) set({ portalUsers: r2 });
+        return;
+      }
+      set({ portalUsers: rows });
+    } catch {
+      // 离线/异常：保留本地种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useVendorPortalStore.getState().hydrateVendorPortal();

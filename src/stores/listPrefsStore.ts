@@ -1,65 +1,79 @@
-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
-I+KInL+9X4GGzbrq8CetSw==
+// P4-3 全局列表参数体系：查询方案 / 列方案（用户级记忆，按 listKey 区分）
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+
+export interface QueryScheme {
+  id: string;
+  name: string;
+  filters: Record<string, unknown>;
+}
+
+export interface ColumnScheme {
+  id: string;
+  name: string;
+  hidden: string[]; // 隐藏的列 id 列表（与 DataTable 存储格式一致）
+}
+
+interface ListPrefsState {
+  querySchemes: Record<string, QueryScheme[]>;
+  columnSchemes: Record<string, ColumnScheme[]>;
+  /** 检索栏字段显隐偏好：每个 listKey 记录用户勾选显示的 filter field name 列表 */
+  filterFieldPrefs: Record<string, string[]>;
+  saveQueryScheme: (listKey: string, name: string, filters: Record<string, unknown>) => void;
+  deleteQueryScheme: (listKey: string, id: string) => void;
+  saveColumnScheme: (listKey: string, name: string, hidden: string[]) => void;
+  deleteColumnScheme: (listKey: string, id: string) => void;
+  /** 保存某列表的检索字段显隐偏好 */
+  setFilterFieldPrefs: (listKey: string, names: string[]) => void;
+  /** 重置某列表的检索字段显隐偏好（回到默认前 N 项） */
+  resetFilterFieldPrefs: (listKey: string) => void;
+}
+
+export const useListPrefsStore = create<ListPrefsState>()(
+  persist(
+    (set) => ({
+      querySchemes: {},
+      columnSchemes: {},
+      filterFieldPrefs: {},
+      saveQueryScheme: (listKey, name, filters) =>
+        set((s) => {
+          const list = s.querySchemes[listKey] ?? [];
+          const scheme: QueryScheme = { id: `qs-${Date.now()}`, name, filters };
+          return { querySchemes: { ...s.querySchemes, [listKey]: [...list, scheme] } };
+        }),
+      deleteQueryScheme: (listKey, id) =>
+        set((s) => ({
+          querySchemes: {
+            ...s.querySchemes,
+            [listKey]: (s.querySchemes[listKey] ?? []).filter((q) => q.id !== id),
+          },
+        })),
+      saveColumnScheme: (listKey, name, hidden) =>
+        set((s) => {
+          const list = s.columnSchemes[listKey] ?? [];
+          const scheme: ColumnScheme = { id: `cs-${Date.now()}`, name, hidden };
+          return { columnSchemes: { ...s.columnSchemes, [listKey]: [...list, scheme] } };
+        }),
+      deleteColumnScheme: (listKey, id) =>
+        set((s) => ({
+          columnSchemes: {
+            ...s.columnSchemes,
+            [listKey]: (s.columnSchemes[listKey] ?? []).filter((c) => c.id !== id),
+          },
+        })),
+      setFilterFieldPrefs: (listKey, names) =>
+        set((s) => ({
+          filterFieldPrefs: { ...s.filterFieldPrefs, [listKey]: [...names] },
+        })),
+      resetFilterFieldPrefs: (listKey) =>
+        set((s) => {
+          const next = { ...s.filterFieldPrefs };
+          delete next[listKey];
+          return { filterFieldPrefs: next };
+        }),
+    }),
+    { storage: backendStorage,
+     name: 'ssa-erp-listprefs' }
+  )
+);

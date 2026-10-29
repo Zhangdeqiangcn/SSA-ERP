@@ -1,225 +1,260 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { api } from '@/services/api';
+import { Receivable, Payable, AgingBucket } from '@/types';
+
+/**
+ * 应收/应付台账 store（V3.76.0 P1-1：Blob → D1 关系表）
+ *
+ * 迁移前：整状态 JSON 走 backendStorage（persist name 'ssa-erp-arap'）——
+ *   服务端应收应付只到凭证科目层（arapPosting.ts 写 2202 应付 / 1122 应收），
+ *   前台另有一份手工台账 Blob，两处对不上账（审计 P1-1「应收应付双源」）。
+ * 迁移后：台账落 D1 关系表 fin_receivables / fin_payables（迁移 0100，
+ *   entities.ts 注册 receivable / payable，rls.ts 组织共享 'all'），
+ *   与凭证同库同 org，invoice_no 与凭证 source_no（INV-<invoice_no>）同键可对。
+ *
+ * 数据流：
+ *   · 登录态：D1 为权威源；页面挂载时 hydrate（D1 非空即覆盖本地）；
+ *   · 一次性回填：D1 两表皆空时，把旧 Blob 数据（本地 localStorage 优先、
+ *     其次云端 /api/state/ssa-erp-arap）或种子写入 D1，之后纯 D1；
+ *   · 未登录：本地种子兜底（离线可用，不发任何云端请求）；
+ *   · CRUD：本地即时 + 登录态写穿 D1（失败不阻断界面，与家族范式一致）。
+ * 旧 Blob 键 'ssa-erp-arap' 回填后原样保留不删（回滚安全垫，非破坏迁移）。
+ */
+
+/** 根据 dueDate 和 today 自动计算账龄桶 */
+export function computeAging(dueDate: string, refDate?: string): AgingBucket {
+  const ref = refDate ? new Date(refDate) : new Date();
+  const due = new Date(dueDate);
+  const diffDays = Math.floor((ref.getTime() - due.getTime()) / (1000 * 60 * 60 * 24));
+  if (diffDays <= 0) return 'current';
+  if (diffDays <= 30) return '1-30';
+  if (diffDays <= 60) return '31-60';
+  if (diffDays <= 90) return '61-90';
+  return '90+';
+}
+
+// 种子数据：4 应收 + 4 应付（与迁移前一致，仅作空库回填/未登录兜底）
+const seedReceivables: Receivable[] = [
+  {
+    id: 'ar-seed-1', customerId: 'cust-001', customerName: '宝钢建筑科技',
+    invoiceNo: 'SI-2026-0701', amount: 180000, paidAmount: 100000, balance: 80000,
+    dueDate: '2026-07-31', agingBucket: computeAging('2026-07-31'),
+    status: 'partial', remarks: '30%预付款已收',
+  },
+  {
+    id: 'ar-seed-2', customerId: 'cust-002', customerName: '华建集团',
+    invoiceNo: 'SI-2026-0715', amount: 240000, paidAmount: 120000, balance: 120000,
+    dueDate: '2026-07-15', agingBucket: computeAging('2026-07-15'),
+    status: 'partial',
+  },
+  {
+    id: 'ar-seed-3', customerId: 'cust-003', customerName: '中钢设备',
+    invoiceNo: 'SI-2026-0605', amount: 320000, paidAmount: 50000, balance: 270000,
+    dueDate: '2026-06-05', agingBucket: computeAging('2026-06-05'),
+    status: 'partial',
+  },
+  {
+    id: 'ar-seed-4', customerId: 'cust-004', customerName: '东方电机',
+    invoiceNo: 'SI-2026-0520', amount: 95000, paidAmount: 0, balance: 95000,
+    dueDate: '2026-05-20', agingBucket: computeAging('2026-05-20'),
+    status: 'overdue', remarks: '已发催款函',
+  },
+];
+
+const seedPayables: Payable[] = [
+  {
+    id: 'ap-seed-1', vendorId: 'vend-001', vendorName: '鞍钢股份',
+    invoiceNo: 'PI-2026-0801', amount: 420000, paidAmount: 0, balance: 420000,
+    dueDate: '2026-09-30', agingBucket: computeAging('2026-09-30'),
+    status: 'open',
+  },
+  {
+    id: 'ap-seed-2', vendorId: 'vend-002', vendorName: '马钢集团',
+    invoiceNo: 'PI-2026-0701', amount: 185000, paidAmount: 80000, balance: 105000,
+    dueDate: '2026-07-31', agingBucket: computeAging('2026-07-31'),
+    status: 'partial',
+  },
+  {
+    id: 'ap-seed-3', vendorId: 'vend-003', vendorName: '首钢京唐',
+    invoiceNo: 'PI-2026-0725', amount: 290000, paidAmount: 200000, balance: 90000,
+    dueDate: '2026-08-31', agingBucket: computeAging('2026-08-31'),
+    status: 'partial',
+  },
+  {
+    id: 'ap-seed-4', vendorId: 'vend-004', vendorName: '河钢邯钢',
+    invoiceNo: 'PI-2026-0601', amount: 130000, paidAmount: 0, balance: 130000,
+    dueDate: '2026-06-01', agingBucket: computeAging('2026-06-01'),
+    status: 'overdue', remarks: '供应商已催款',
+  },
+];
+
+/** 旧 Blob 持久化键（zustand persist 格式 { state: { receivables, payables }, version }） */
+const LEGACY_BLOB_KEY = 'ssa-erp-arap';
+
+interface LegacyArap { receivables: Receivable[]; payables: Payable[] }
+
+/** 读本地旧 Blob（迁移前 backendStorage 会在 localStorage 留镜像） */
+function readLegacyLocal(): LegacyArap | null {
+  try {
+    const raw = window.localStorage.getItem(LEGACY_BLOB_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.receivables) || Array.isArray(st?.payables)) {
+      return { receivables: st.receivables || [], payables: st.payables || [] };
+    }
+  } catch {
+    /* 损坏的旧数据忽略，走种子 */
+  }
+  return null;
+}
+
+/** 读云端旧 Blob（换设备场景：本地无镜像时从 app_state 捞） */
+async function readLegacyCloud(): Promise<LegacyArap | null> {
+  try {
+    const res = await readLegacyState(LEGACY_BLOB_KEY);
+    const value = res?.value;
+    if (typeof value !== 'string' || !value) return null;
+    const parsed = JSON.parse(value);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.receivables) || Array.isArray(st?.payables)) {
+      return { receivables: st.receivables || [], payables: st.payables || [] };
+    }
+  } catch {
+    /* 云端无旧数据或网络异常：忽略 */
+  }
+  return null;
+}
+
+// 经统一 api 客户端读 /api/state/<key>（带登录令牌；401 由客户端统一处理）
+async function readLegacyState(key: string): Promise<{ value?: string } | null> {
+  return api.get<{ value?: string }>(`/state/${encodeURIComponent(key)}`);
+}
+
+interface ArapState {
+  receivables: Receivable[];
+  payables: Payable[];
+
+  // 应收 CRUD
+  addReceivable: (r: Receivable) => void;
+  updateReceivable: (id: string, u: Partial<Receivable>) => void;
+  deleteReceivable: (id: string) => void;
+
+  // 应付 CRUD
+  addPayable: (p: Payable) => void;
+  updatePayable: (id: string, u: Partial<Payable>) => void;
+  deletePayable: (id: string) => void;
+
+  // 刷新所有账龄
+  refreshAging: () => void;
+
+  /** V3.76.0：从 D1 水合（页面挂载调用；D1 空且本地/云端有旧 Blob 数据时一次性回填） */
+  hydrateArap: () => Promise<void>;
+}
+
+export const useArapStore = create<ArapState>()((set, get) => ({
+  receivables: [...seedReceivables],
+  payables: [...seedPayables],
+
+  addReceivable: (r) => {
+    const row = { ...r, agingBucket: computeAging(r.dueDate) };
+    set((s) => ({ receivables: [...s.receivables, row] }));
+    if (isAuthed()) void entityRepo.create('receivable', row as any).catch(() => {});
+  },
+  updateReceivable: (id, u) => {
+    let updated: Receivable | undefined;
+    set((s) => ({
+      receivables: s.receivables.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, agingBucket: computeAging(u.dueDate ?? x.dueDate) };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update('receivable', id, updated as any).catch(() => {});
+  },
+  deleteReceivable: (id) => {
+    set((s) => ({ receivables: s.receivables.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove('receivable', id).catch(() => {});
+  },
+
+  addPayable: (p) => {
+    const row = { ...p, agingBucket: computeAging(p.dueDate) };
+    set((s) => ({ payables: [...s.payables, row] }));
+    if (isAuthed()) void entityRepo.create('payable', row as any).catch(() => {});
+  },
+  updatePayable: (id, u) => {
+    let updated: Payable | undefined;
+    set((s) => ({
+      payables: s.payables.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, agingBucket: computeAging(u.dueDate ?? x.dueDate) };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update('payable', id, updated as any).catch(() => {});
+  },
+  deletePayable: (id) => {
+    set((s) => ({ payables: s.payables.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove('payable', id).catch(() => {});
+  },
+
+  refreshAging: () =>
+    set((s) => ({
+      receivables: s.receivables.map((x) => ({ ...x, agingBucket: computeAging(x.dueDate) })),
+      payables: s.payables.map((x) => ({ ...x, agingBucket: computeAging(x.dueDate) })),
+    })),
+
+  hydrateArap: async () => {
+    if (!isAuthed()) return; // 未登录：本地种子兜底，不发云端请求
+    try {
+      const [arRes, apRes] = await Promise.all([
+        entityRepo.list<Receivable>('receivable', { page: 1, pageSize: 500 }),
+        entityRepo.list<Payable>('payable', { page: 1, pageSize: 500 }),
+      ]);
+      const arRows = arRes?.data || [];
+      const apRows = apRes?.data || [];
+
+      if (arRows.length === 0 && apRows.length === 0) {
+        // ── 一次性回填：D1 空 → 旧 Blob（本地优先、云端兜底）或种子 ──
+        const legacy = readLegacyLocal() || (await readLegacyCloud());
+        const srcAr = legacy?.receivables?.length ? legacy.receivables : seedReceivables;
+        const srcAp = legacy?.payables?.length ? legacy.payables : seedPayables;
+        for (const r of srcAr) {
+          try { await entityRepo.create('receivable', r as any); } catch { /* 冲突忽略 */ }
+        }
+        for (const p of srcAp) {
+          try { await entityRepo.create('payable', p as any); } catch { /* 冲突忽略 */ }
+        }
+        const [ar2, ap2] = await Promise.all([
+          entityRepo.list<Receivable>('receivable', { page: 1, pageSize: 500 }),
+          entityRepo.list<Payable>('payable', { page: 1, pageSize: 500 }),
+        ]);
+        set({
+          receivables: (ar2?.data || []).map(normalizeAr),
+          payables: (ap2?.data || []).map(normalizeAp),
+        });
+        return;
+      }
+
+      // D1 有数据：以 D1 为准覆盖本地（账龄按当前日期重算，展示派生值）
+      set({
+        receivables: arRows.map(normalizeAr),
+        payables: apRows.map(normalizeAp),
+      });
+    } catch {
+      // 离线或后端异常：保留本地种子态，不阻断界面
+    }
+  },
+}));
+
+/** D1 行 → 前端类型（账龄是展示派生值，按当前日期重算而非信任库内旧桶） */
+function normalizeAr(row: any): Receivable {
+  const dueDate = row.dueDate || row.due_date || '';
+  return { ...row, dueDate, agingBucket: computeAging(dueDate) } as Receivable;
+}
+function normalizeAp(row: any): Payable {
+  const dueDate = row.dueDate || row.due_date || '';
+  return { ...row, dueDate, agingBucket: computeAging(dueDate) } as Payable;
+}

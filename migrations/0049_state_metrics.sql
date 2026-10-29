@@ -1,47 +1,34 @@
-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
+-- 迁移 0049：大对象键体积指标表（A5 数据底座可观测性）
+-- 整改版本：V3.4.0
+--
+-- 背景与设计取舍：
+--   60 个业务域目前以「一个键 = 一整个 JSON 大对象」的形式存在 app_state 表。
+--   这种形态下「某个域悄悄涨到写不进去」是必然会发生的，而现状是静默的：
+--   前端 persistStorage 吞掉失败、用户看到「保存成功」、刷新后数据回滚、无人知晓。
+--
+--   本表不解决大对象架构本身（那要靠主计划 C1 逐域迁关系表），
+--   它解决的是「把静默的、未来的故障，变成显式的、提前可见的故障」：
+--     记录每个键的当前体积、历史峰值、累计写入次数、最后写入时间，
+--     管理端据此可以回答两个以前回答不了的问题：
+--       ① 现在哪个业务域的体积最接近危险线？（提前几周预警，而不是爆了才知道）
+--       ② 哪个域增长最快？（根据 writes 与 bytes/peak_bytes 判断谁该先迁）
+--
+--   为什么按 (org_id, key) 唯一、只留最新值而不是追加流水：
+--     如果每次写入都插一行，这张「用来观测大对象膨胀的表」自己会膨胀成新的大对象问题——
+--     用观测手段制造新的观测负担是荒谬的。故采用 upsert 覆盖 + writes 累加 + peak 取最大，
+--     表行数恒等于「组织数 × 键数」，天然有界。
+--
+--   为什么带 org_id：数据按组织隔离是本系统的既有约定（app_state 也是按 org_id 分片的），
+--     不同组织的同名业务域体积可能差异极大，混在一起统计会失真。
+CREATE TABLE IF NOT EXISTS app_state_metrics (
+  org_id     TEXT NOT NULL,
+  key        TEXT NOT NULL,
+  bytes      INTEGER NOT NULL DEFAULT 0,  -- 最近一次写入的 UTF-8 字节数
+  peak_bytes INTEGER NOT NULL DEFAULT 0,  -- 历史峰值（判断增长趋势用）
+  writes     INTEGER NOT NULL DEFAULT 0,  -- 累计写入次数（判断活跃度用）
+  updated_at TEXT,
+  PRIMARY KEY (org_id, key)
+);
+
+-- 管理端「体积排行 / 逼近危险线清单」按体积倒序查询
+CREATE INDEX IF NOT EXISTS idx_app_state_metrics_bytes ON app_state_metrics(bytes DESC);

@@ -1,56 +1,74 @@
-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
+// GET /api/unit-conversions/:id — 查询单条规则
+// PUT /api/unit-conversions/:id — 更新规则
+// DELETE /api/unit-conversions/:id — 删除规则
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+  const rule = await db.prepare('SELECT * FROM unit_conversions WHERE id = ?').bind(id).first();
+  if (!rule) return json({ error: '不存在' }, 404);
+  return json({ ok: true, data: rule });
+}
+
+export async function onRequestPut(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+  const body = await context.request.json().catch(() => ({}));
+  const { fromUnit, toUnit, factor } = body;
+
+  const existing = await db.prepare('SELECT * FROM unit_conversions WHERE id = ?').bind(id).first();
+  if (!existing) return json({ error: '不存在' }, 404);
+
+  try {
+    await db.prepare(
+      `UPDATE unit_conversions SET from_unit = ?, to_unit = ?, factor = ?, updated_at = ? WHERE id = ?`
+    ).bind(fromUnit, toUnit, Number(factor), new Date().toISOString(), id).run();
+
+    await writeAudit(db, {
+      orgId: user.org_id,
+      actor: { id: user.id, name: user.name },
+      entity: 'unit_conversion',
+      action: 'update',
+      entityId: id,
+      summary: `更新单位换算：${fromUnit} → ${toUnit}`,
+    });
+
+    return json({ ok: true });
+  } catch (e: any) {
+    if (e.message?.includes('UNIQUE constraint')) {
+      return json({ error: '该换算规则已存在' }, 409);
+    }
+    return json({ error: e.message || '更新失败' }, 500);
+  }
+}
+
+export async function onRequestDelete(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+  const existing = await db.prepare('SELECT * FROM unit_conversions WHERE id = ?').bind(id).first();
+  if (!existing) return json({ error: '不存在' }, 404);
+
+  await db.prepare('DELETE FROM unit_conversions WHERE id = ?').bind(id).run();
+
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'unit_conversion',
+    action: 'delete',
+    entityId: id,
+    summary: '删除单位换算规则',
+  });
+
+  return json({ ok: true });
+}

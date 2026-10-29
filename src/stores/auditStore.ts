@@ -1,180 +1,205 @@
-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
+import { create } from 'zustand';
+import { currentUser } from './sessionStore';
+import { authHeaders } from '@/utils/authHeaders';
+import { isAuthed } from '@/services/b2Api';
+
+/**
+ * 审计日志 v2 · 支持 diff 记录 + 回滚 + 版本历史
+ * ------------------------------------------------------------
+ * - oldValue / newValue: JSON 格式的变更前后快照（用于回滚）
+ * - rollbackTo(entityId, targetVersion): 回滚到指定历史版本
+ * - getVersionHistory(entity, entityId): 获取某实体的完整变更历史
+ * - MAX_RECORDS 提升至 10000 条
+ */
+
+export type AuditAction = 'create' | 'update' | 'delete' | 'restore' | 'login' | 'export' | 'approve';
+
+export interface AuditDiff {
+  /** 变更前的字段值快照（update/delete 时记录） */
+  oldValue?: Record<string, any>;
+  /** 变更后的字段值快照（update/create 时记录） */
+  newValue?: Record<string, any>;
+  /** 变更字段列表（用于快速展示 diff） */
+  changedFields?: string[];
+}
+
+export interface AuditRecord {
+  id: string;
+  version: number;           // 该实体的第几次变更（从 1 开始）
+  /** 实体名，如 vendor / material / purchaseOrder */
+  entity: string;
+  entityId: string;          // 实体 ID（必填）
+  action: AuditAction;
+  /** 人类可读摘要 */
+  summary: string;
+  /** diff 快照（update 时记录 oldValue/newValue，便于回滚） */
+  diff?: AuditDiff;
+  userId: string;
+  userName: string;
+  createdAt: string;
+}
+
+export const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {
+  create: '新增',
+  update: '修改',
+  delete: '删除',
+  restore: '恢复',
+  login: '登录',
+  export: '导出',
+  approve: '审批',
+};
+
+const MAX_RECORDS = 10000;
+
+interface AuditState {
+  records: AuditRecord[];
+  /** 记录审计（支持 diff） */
+  recordAudit: (input: {
+    entity: string;
+    entityId: string;
+    action: AuditAction;
+    summary: string;
+    diff?: AuditDiff;
+  }) => AuditRecord;
+  /** 获取某实体的完整变更历史（按时间倒序） */
+  getVersionHistory: (entity: string, entityId: string) => AuditRecord[];
+  /** V3.83.0 跨端：从服务端拉某实体的版本链（按 version 正序，多人/换端/刷新后仍可见） */
+  getServerVersionHistory: (entity: string, entityId: string) => Promise<AuditRecord[]>;
+  /** 回滚到指定版本（恢复该版本的 newValue 到 store） */
+  rollbackTo: (entity: string, entityId: string, targetVersion: number) => boolean;
+  clearAudit: () => void;
+}
+
+/** 工具：计算两个对象的 diff */
+export const computeDiff = (oldObj: Record<string, any>, newObj: Record<string, any>): AuditDiff => {
+  const changedFields: string[] = [];
+  const allKeys = new Set([...Object.keys(oldObj ?? {}), ...Object.keys(newObj ?? {})]);
+  for (const key of allKeys) {
+    if (JSON.stringify(oldObj?.[key]) !== JSON.stringify(newObj?.[key])) {
+      changedFields.push(key);
+    }
+  }
+  return { oldValue: oldObj, newValue: newObj, changedFields };
+};
+
+export const useAuditStore = create<AuditState>()(
+    (set, get) => ({
+      // V3.82.0 去双源：records 不再整块 blob 共享（根治多人 409 / 换端看不到别人审计），
+      // 改纯内存会话态；recordAudit 每次仍双写服务端 /api/audit/logs（权威、org 隔离），
+      // 本地 records 只承载当前会话内「版本历史 + 回滚」的即时能力（刷新即清，不影响服务端留痕）。
+      records: [],
+      recordAudit: ({ entity, entityId, action, summary, diff }) => {
+        const u = currentUser();
+        // 计算该实体的最新版本号
+        const existing = get().records.filter((r) => r.entity === entity && r.entityId === entityId);
+        const nextVersion = existing.length + 1;
+        const rec: AuditRecord = {
+          id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          version: nextVersion,
+          entity,
+          entityId,
+          action,
+          summary,
+          diff,
+          userId: u.userId,
+          userName: u.userName,
+          createdAt: new Date().toISOString(),
+        };
+        set((state) => ({ records: [rec, ...state.records].slice(0, MAX_RECORDS) }));
+        // 同步到 D1 后端（静默失败）
+        // ★ 必须带登录令牌：后端 /api/audit/logs 走 getUserFromRequest，无 Bearer 直接 401。
+        //   此前只传 Content-Type，请求被后端拒绝、又被下面的 .catch 吞掉 ——
+        //   表现为「本地版本历史看得见、服务端审计日志永远空」。见 utils/authHeaders.ts。
+        try {
+          fetch('/api/audit/logs', {
+            method: 'POST',
+            headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({ entity, entityId, action, summary, diff }),
+          }).catch(() => { /* 离线/超时不影响本地记录 */ });
+        } catch { /* ignore */ }
+        return rec;
+      },
+      getVersionHistory: (entity, entityId) => {
+        return get().records
+          .filter((r) => r.entity === entity && r.entityId === entityId)
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      },
+      // V3.83.0 跨端精确回滚地基：从服务端拉某实体的版本链（按 version 正序）。
+      //   服务端 audit_logs 已加 version 列（0104）+ GET 返回 version，故他人/换端/刷新后
+      //   留下的变更也能看到并据此回滚。非管理员只回收到本人记录（沿用 GET 端点的 RLS 口径）。
+      //   未登录/离线返回空数组（调用方回落本地 getVersionHistory）。
+      getServerVersionHistory: async (entity, entityId) => {
+        if (!isAuthed()) return [];
+        try {
+          // GET /api/audit 按 entity 过滤（entityId 在端点不支持，客户端二次过滤）
+          const url = `/api/audit?entity=${encodeURIComponent(entity)}&pageSize=200`;
+          const res = await fetch(url, { headers: authHeaders() });
+          if (!res.ok) return [];
+          const r = await res.json();
+          const rows: any[] = Array.isArray(r?.data) ? r.data : [];
+          return rows
+            .filter((x) => x?.entityId === entityId)
+            .map((x) => ({
+              id: x.id,
+              version: Number(x.version ?? 1),
+              entity: x.entity,
+              entityId: x.entityId,
+              action: x.action as AuditAction,
+              summary: x.summary,
+              diff: x.diff ?? undefined,
+              userId: x.userId ?? '',
+              userName: x.userName ?? '',
+              createdAt: x.createdAt,
+            }))
+            .sort((a, b) => a.version - b.version);
+        } catch {
+          return [];
+        }
+      },
+      rollbackTo: (entity, entityId, targetVersion) => {
+        const history = get().getVersionHistory(entity, entityId);
+        const target = history.find((r) => r.version === targetVersion);
+        if (!target || !target.diff?.newValue) return false;
+        // 记录回滚操作，同时返回是否成功
+        const u = currentUser();
+        const rollbackRecord: AuditRecord = {
+          id: `audit-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          version: history.length + 1,
+          entity,
+          entityId,
+          action: 'restore',
+          summary: `回滚到版本 ${targetVersion}（由 ${u.userName} 操作）`,
+          diff: { oldValue: target.diff.newValue, newValue: target.diff.oldValue },
+          userId: u.userId,
+          userName: u.userName,
+          createdAt: new Date().toISOString(),
+        };
+        set((state) => ({ records: [rollbackRecord, ...state.records].slice(0, MAX_RECORDS) }));
+        // V3.83.0 跨端：回滚动作双写服务端（留痕，他端/刷新后可见该次 restore）
+        try {
+          fetch('/api/audit/logs', {
+            method: 'POST',
+            headers: authHeaders({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify({
+              entity,
+              entityId,
+              action: 'restore',
+              summary: rollbackRecord.summary,
+              diff: rollbackRecord.diff,
+            }),
+          }).catch(() => { /* 离线不影响本地回滚记录 */ });
+        } catch { /* ignore */ }
+        return true;
+      },
+      clearAudit: () => set({ records: [] }),
+    }),
+);
+
+/** 非 React 环境调用入口 */
+export const recordAudit = (input: {
+  entity: string;
+  entityId: string;
+  action: AuditAction;
+  summary: string;
+  diff?: AuditDiff;
+}) => useAuditStore.getState().recordAudit(input);

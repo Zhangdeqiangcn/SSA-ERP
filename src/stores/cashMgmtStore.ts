@@ -1,57 +1,55 @@
-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
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { CashAccount, CashFlow } from '@/types/cashMgmt';
+import { cashAccounts, cashFlows } from '@/mocks/data/cashMgmt';
+import { createEntityStore } from './createEntityStore';
+
+// 迁统一仓储工厂（V2）：双资源 cashAccount/cashFlow，云端数据库主源 + 模拟兜底 + 空库回填。
+// 余额联动在本地乐观计算并写回账户 currentBalance（跨资源逻辑放 extend 钩子，复用工厂回滚）。
+// 保留既有 accounts/flows/addAccount/addFlow… 接口，调用页面无需改动；回填标记沿用旧键。
+interface CashMgmtState {
+  accounts: CashAccount[];
+  flows: CashFlow[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addAccount: (a: CashAccount) => Promise<void>;
+  updateAccount: (id: string, u: Partial<CashAccount>) => Promise<void>;
+  deleteAccount: (id: string) => Promise<void>;
+  addFlow: (f: CashFlow) => Promise<void>;
+  updateFlow: (id: string, u: Partial<CashFlow>) => Promise<void>;
+  deleteFlow: (id: string) => Promise<void>;
+}
+
+export const useCashMgmtStore = createEntityStore<CashAccount>({
+  resource: 'cashAccount',
+  seed: [...cashAccounts],
+  stateKey: 'accounts',
+  extraResources: [{ resource: 'cashFlow', seed: [...cashFlows], stateKey: 'flows', pageSize: 500 }],
+  backfillKey: 'ssa-erp-backfilled-cashMgmt',
+  extend: (ctx) => ({
+    addAccount: (a: CashAccount) => ctx.primary.add(a),
+    updateAccount: (id: string, u: Partial<CashAccount>) => ctx.primary.update(id, u),
+    deleteAccount: (id: string) => ctx.primary.remove(id),
+    // 记一笔流水：本地乐观更新流水 + 联动账户余额，失败整体回滚
+    addFlow: async (f: CashFlow) => {
+      const snap = { accounts: [...ctx.get().accounts], flows: [...ctx.get().flows] };
+      ctx.set((s: any) => {
+        const delta = f.direction === 'in' ? f.amount : -f.amount;
+        const accounts = s.accounts.map((a: CashAccount) =>
+          a.id === f.accountId
+            ? { ...a, currentBalance: Math.round((a.currentBalance + delta) * 100) / 100, updatedAt: new Date().toISOString() }
+            : a
+        );
+        return { flows: [...s.flows, f], accounts };
+      });
+      try {
+        await ctx.extras.flows.add(f);
+        const acc = ctx.get().accounts.find((a: CashAccount) => a.id === f.accountId);
+        if (acc) await ctx.primary.update(acc.id, { currentBalance: acc.currentBalance, updatedAt: acc.updatedAt });
+      } catch {
+        ctx.set(snap);
+      }
+    },
+    updateFlow: (id: string, u: Partial<CashFlow>) => ctx.extras.flows.update(id, u),
+    deleteFlow: (id: string) => ctx.extras.flows.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<CashMgmtState>>;

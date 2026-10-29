@@ -1,116 +1,99 @@
-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
+// 生产域父子表配置（C1 · V3.12.0）
+//
+// 本文件只描述**有嵌套的那个切片**（工艺路线）。同 store 的
+// `mrpRecommendations` 是平表，走通用实体路由 `/api/entities/mrpRecommendation`
+// （登记在 `_shared/entities.ts`），**不在这里、也不需要端点**。
+//
+// ── ★ 本域最容易搞错的一件事：它是「半迁移」状态 ──────────────────
+// `useProductionStore` 有三个切片，但**只有两个还在 Blob 里**：
+//   · workOrders        —— W1（V2.75.x）已直连 D1 `work_orders`，
+//                          partialize 早已不写它。**本轮不碰。**
+//   · processRoutes     —— 有嵌套（operations[]）→ 本配置，走 parentChild。
+//   · mrpRecommendations—— 平表 → 通用实体路由。
+// 若照着「生产域 3.7 KB / 消费方 25」就动手建工单表，会做出一张
+// **与 work_orders 重复、且没有任何写入方**的死表。
+//   → 记住：**「域有多大」和「域里还剩什么没迁」是两件事**，
+//     后者只能读 store 的 `partialize` —— 那才是「现在还往 Blob 写什么」的唯一事实。
+//
+// ── 列名来源（硬纪律）────────────────────────────────────────────
+// 全部列名由 `src/types/production.ts` 的
+//   ProcessRoute (extends BaseEntity) / Operation
+// 逐一反推为 snake_case，**不按「工艺路线应该长什么样」推断**。
+// 这条纪律来自 0053 的教训（按会计常识推列名 → 表与前端契约全对不上，
+// 而通用路由的 pickSnake 会静默丢弃未登记字段且返回 201）。
+//
+// ── 迁移前已用脚本逐字段比对（非目测）─────────────────────────────
+// `scripts/_cmp_production.mjs` 结论：route-001 / route-002 与代码默认值
+// **逐字段完全一致**（零用户改动），operations 行数 6 / 4。
+// 因此不存在「拿默认值覆盖用户改动」的风险；但这不能反推成以后不用比对。
+//
+// ── skills 为什么是子表的 jsonCols、不建第三张表 ──────────────────
+// `Operation.skills: string[]` 是子表**行内**的嵌套。
+// 为它建表只会得到「每行一个技能名」的空壳（无 id、无属性、不参与 SQL 统计）。
+// 判据是「将来会不会需要按内部字段做 SQL 统计」，不是「它是不是数组」。
+// ★ 编解码统一走 `toJsonValue` / `parseJsonValue`（V3.11.0 起父子两端已统一，
+//   不再有「父表 toJsonText 会把非数组压成 []」那个分叉）。
+import type { ParentChildConfig } from './parentChild';
+
+/**
+ * 工艺路线：父 process_routes + 子 process_route_operations
+ *
+ * ★ noCamel 取 `routeNo`：UNIQUE 约束落在业务单号上（RT-2024-001 这种），
+ *   撞号提示里必须显示人看得懂的编号。
+ *   **规则：取「撞了之后人用来辨认记录的那个字段」，不是主键本身。**
+ *
+ * ★★ 与 0058 采购域不同：本轮的唯一约束 `uniq_process_routes_no`
+ *    **在建表的同一个迁移（0061）里就建好了**，没有留到事后补。
+ *    （0058 漏建 → 0060 才补，而本文件这类注释与 parentChild 的 409 分支
+ *     都假定约束存在 → 分支永不触发。这个错不该再犯第三次。）
+ */
+export const PROCESS_ROUTE_PC: ParentChildConfig = {
+  parentTable: 'process_routes',
+  module: 'production', // P0-1：prod_leader 在 BUILTIN_ROLE_OPS 已有 production 写权限
+  children: [
+    {
+      childTable: 'process_route_operations',
+      childFkCol: 'route_id',
+      // ★ 前端字段名是 `operations`，**不是** items。
+      //   validate.ts 的 CHILD_BY_FIELD 必须同步登记这个名字，
+      //   否则整层工序校验都不会执行（两道门，只开一道等于没开）。
+      childField: 'operations',
+      childCols: [
+        // ★ Operation **自带 id**（op-001…）→ parentChild 的
+        //   `item.id ? String(item.id) : uid('ci')` 会直接用前端 id。
+        ['sequence', 'sequence'],
+        ['operation_code', 'operationCode'],
+        ['operation_name', 'operationName'],
+        ['work_center', 'workCenter'],
+        ['setup_time', 'setupTime'],
+        ['run_time', 'runTime'],
+        ['wait_time', 'waitTime'],
+        ['description', 'description'],
+      ],
+      // ★ 排序用 `seq`（插入顺序）而不是 `sequence`（业务序号）：
+      //   sequence 是 10/20/30 这种带间隔的编号，允许中间插工序；
+      //   但「读回顺序」必须与「写入顺序」一致，否则编辑后工序会乱序。
+      //   seq 由 parentChild 按数组下标写入，是唯一稳定的还原依据。
+      childOrder: 'seq ASC',
+      // 行内字符串数组 → JSON 文本列（见文件头）
+      jsonCols: [['skills', 'skills']],
+    },
+  ],
+  parentCols: [
+    ['route_no', 'routeNo'],
+    ['name', 'name'],
+    ['product_code', 'productCode'],
+    ['product_name', 'productName'],
+    ['version', 'version'],
+    ['status', 'status'],
+    ['total_lead_time', 'totalLeadTime'],
+    // BaseEntity 四件套
+    ['created_at', 'createdAt'],
+    ['updated_at', 'updatedAt'],
+    ['created_by', 'createdBy'],
+    ['updated_by', 'updatedBy'],
+  ],
+  label: '工艺路线',
+  noSnake: 'route_no',
+  noCamel: 'routeNo',
+};

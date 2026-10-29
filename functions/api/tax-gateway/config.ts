@@ -1,34 +1,25 @@
-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
-a5XEBk2J2OZZMNxiewVSSw==
+/**
+ * GET/POST/DELETE /api/tax-gateway/config —— 金税网关配置管理
+ *
+ * ★ 为什么会有这个文件（V3.11.2 修复）：
+ * 前端 `src/pages/Settings/TaxConfig/TaxConfigPage.tsx` 三处调用的完整路径是
+ * `/api/tax-gateway/config`，而逻辑写在 `./index.ts` 里。
+ * Cloudflare Pages Functions 的路由规则是：**`index.ts` 里的 `onRequestGet/Post/Delete`
+ * 只匹配精确根路径 `/api/tax-gateway`**，子路径 `/config` 必须有对应的文件才会被路由命中，
+ * 否则请求会落到 SPA 回退 —— 返回 `200 text/html`（首页 HTML），前端 `resp.json()` 直接抛错。
+ *
+ * 实测（生产环境，2026-09-16）：
+ *   GET /api/tax-gateway/config  → 200 text/html   ❌ 落到回退，端点等于不存在
+ *   GET /api/tax-gateway         → 401 application/json ✅ 根路径正常
+ *   GET /api/tax-gateway/verify  → 200 application/json ✅ 因为有 verify.ts
+ * 表现：税务配置页「加载/保存/清除配置」三个操作**在生产全部失败**，且不报有意义的错。
+ *
+ * ★ 为什么是「建文件」而不是「前端改路径」：
+ *   1. 旁边 `verify.ts` 就是这个模式，保持一致；
+ *   2. 前端零改动，避免漏改某处；
+ *   3. 路径语义更清楚（`/config` 表达"配置"这个资源）。
+ *   逻辑只在 `./index.ts` 一处，本文件仅转发 —— 绝不做第二份实现，避免改一处漏一处。
+ */
+import { onRequestGet, onRequestPost, onRequestDelete } from './index';
+
+export { onRequestGet, onRequestPost, onRequestDelete };

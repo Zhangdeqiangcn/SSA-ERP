@@ -1,41 +1,58 @@
-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
+// 查询各平台连接状态（前端卡片渲染用；不含任何密钥）
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { OAUTH_PROVIDERS } from '../../../_shared/channelOAuth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const rows: any[] =
+    (
+      await env.DB.prepare(
+        `SELECT platform, status, auth_mode, token_expire, shop_name, is_mock
+         FROM channel_credentials WHERE org_id = ?`
+      )
+        .bind(user.org_id)
+        .all()
+    ).results || [];
+
+  const map = new Map(rows.map((r) => [r.platform, r]));
+  const now = Date.now();
+
+  const platforms = Object.keys(OAUTH_PROVIDERS).map((p) => {
+    const row = map.get(p);
+    let status = 'disconnected';
+    if (row?.status === 'connected') {
+      status =
+        row.token_expire && new Date(String(row.token_expire)).getTime() < now ? 'expired' : 'connected';
+    }
+    return {
+      platform: p,
+      label: OAUTH_PROVIDERS[p].label,
+      status,
+      authMode: row?.auth_mode || null,
+      tokenExpire: row?.token_expire || null,
+      shopName: row?.shop_name || null,
+      isMock: !!row?.is_mock,
+      hasApp: false, // 由前端另查/或这里补：是否配置了应用密钥（不含密钥值）
+    };
+  });
+
+  // 标记是否已配置应用密钥（仅布尔，不返回密钥）
+  for (const pf of platforms) {
+    const row = map.get(pf.platform);
+    pf.hasApp = !!(row && (await hasApp(env.DB, user.org_id, pf.platform)));
+  }
+
+  return json({ platforms });
+}
+
+async function hasApp(DB: any, orgId: string, platform: string): Promise<boolean> {
+  const r = await DB.prepare(
+    'SELECT app_key FROM channel_credentials WHERE org_id = ? AND platform = ? AND app_key IS NOT NULL LIMIT 1'
+  )
+    .bind(orgId, platform)
+    .first();
+  return !!r;
+}

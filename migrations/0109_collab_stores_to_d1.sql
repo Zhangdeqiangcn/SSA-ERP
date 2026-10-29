@@ -1,65 +1,85 @@
-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
+-- 迁移 0102（强协作型本地 blob store 迁 D1 · V3.80.0 数据地基）
+-- 背景：backendStorage 通道把整个 store 状态打成「一整块 blob」按组织上云（/api/state/:key），
+--   多人同时改里面不同记录会触发整块版本冲突（409）/互相覆盖/413 体积上限。
+--   本批 6 个 store 存的都是「多人各写各的共享业务数据」，是最强协作痛点，优先迁 D1 行级。
+-- 范式（沿用 V3.77 payload 列范式）：整对象 JSON 落 payload 列；多切片同表用 __kind 标记在 payload 内分流；
+--   后端通用实体路由 /api/entities/<resource> 提供 CRUD + org 隔离 + RLS + 审计；
+--   前端 store 保留原方法名，内部改走 entityRepo（本地乐观更新 + 登录态写穿 + 未登录/离线种子兜底 + 挂载水合）。
+
+-- flow_shared（flowStore 8 切片：报检/供应商申请/订单确认/发货/质量问题/改进报告/对账/发票申请，__kind 分流）
+CREATE TABLE IF NOT EXISTS flow_shared (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（含 __kind 标记）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- equipment_ledger（equipmentStore 双切片：设备台账 equipments + 保养工单 maintenanceOrders，__kind 分流）
+CREATE TABLE IF NOT EXISTS equipment_ledger (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- invoice_verification（invoiceVerificationStore：数电票核验批次台账，行主键 = 批次 id）
+CREATE TABLE IF NOT EXISTS invoice_verification (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- purchase_conditions（conditionStore：采购价格/折扣/运费条款，行主键 = 条款 id）
+CREATE TABLE IF NOT EXISTS purchase_conditions (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- source_lists（sourceListStore：货源清单，行主键 = 货源 id）
+CREATE TABLE IF NOT EXISTS source_lists (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- slow_moving_disposals（slowMovingStore：呆滞物料处置决策，行主键 = materialId，天然一物料一行）
+CREATE TABLE IF NOT EXISTS slow_moving_disposals (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);

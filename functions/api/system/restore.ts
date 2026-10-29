@@ -1,143 +1,153 @@
-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
+// POST /api/system/restore — 由备份文件恢复本组织业务数据
+//
+// 安全约束（逐条对应评测发现的隐患）：
+//   1. 仅管理员可执行；
+//   2. 备份包的组织编号必须与当前登录者一致，否则拒绝 —— 防止把 A 公司数据灌进 B 公司；
+//   3. 写入前强制把每一行的 org_id 改写为当前组织，即便文件被篡改也不会越界；
+//   4. 列名以数据库真实结构为准做交集过滤，文件里的未知列直接丢弃 —— 防注入与脏列；
+//   5. 先提供 dry-run 预演，确认行数与冲突后再真正写入，避免「一恢复就覆盖」。
+//
+// body: { payload: <备份JSON>, mode: 'dry-run' | 'merge' | 'replace', tables?: string[] }
+//   merge   —— 按主键覆盖写入，已存在则替换，不存在则新增（推荐，风险最低）
+//   replace —— 先清空本组织该表全部数据再写入（危险，仅用于整体回滚）
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { errorResponse } from '../../_shared/errors';
+import { writeAudit } from '../../_shared/auditLog';
+import { discoverTables, tableColumns, assertSafeTable, ORG_TABLE } from '../../_shared/backupSchema';
+
+const MAX_ROWS = 50000;   // 单次恢复行数上限，防止超大请求打爆数据库
+const BATCH = 40;         // 每批提交条数
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (!['super_admin', 'admin'].includes(user.role)) {
+    return json({ error: '需管理员权限' }, 403);
+  }
+
+  try {
+    const body = await request.json().catch(() => ({}));
+    const payload = body.payload;
+    const mode = body.mode || 'dry-run';
+
+    if (!payload || typeof payload !== 'object') {
+      return json({ error: '请提供备份文件内容（payload）' }, 400);
+    }
+    if (payload.schema !== 'ssa-erp-d1-backup') {
+      return json({ error: '不是有效的备份文件（schema 标识不匹配）' }, 400);
+    }
+    if (!['dry-run', 'merge', 'replace'].includes(mode)) {
+      return json({ error: '恢复模式只能是 dry-run / merge / replace' }, 400);
+    }
+    // 归属校验：只允许恢复本组织的数据
+    if (payload.orgId && payload.orgId !== user.org_id) {
+      return json({ error: '备份文件属于其它组织，不能在本组织恢复' }, 400);
+    }
+
+    const { parents, children } = await discoverTables(env);
+    const childDefs = new Map(children.map((c) => [c.table, c]));
+
+    const entries = Object.entries(payload.tables || {}).filter(([t]) =>
+      assertSafeTable(t, parents, children)
+    );
+    if (!entries.length) return json({ error: '备份文件中没有可恢复的数据表' }, 400);
+
+    // 指定表时只恢复这些表
+    const only: string[] | null = Array.isArray(body.tables) && body.tables.length
+      ? body.tables.filter((t: string) => assertSafeTable(t, parents, children))
+      : null;
+
+    const report: any[] = [];
+    let totalPlanned = 0;
+
+    for (const [table, pack] of entries) {
+      if (only && !only.includes(table)) continue;
+      const rows: any[] = (pack && Array.isArray((pack as any).data)) ? (pack as any).data : [];
+      if (!rows.length) { report.push({ table, planned: 0, skipped: 0, note: '空表，跳过' }); continue; }
+
+      // 列名取「文件列 ∩ 数据库真实列」，未知列丢弃
+      const realCols = await tableColumns(env, table);
+      const hasOrg = realCols.includes('org_id');
+      const cols = realCols.filter((c) => rows.some((r) => r && r[c] !== undefined));
+
+      // 明细表不写 org_id（结构上就没有），主表强制写当前组织
+      const writeCols = hasOrg ? (cols.includes('org_id') ? cols : [...cols, 'org_id']) : cols;
+      if (!writeCols.includes('id')) {
+        report.push({ table, planned: 0, skipped: rows.length, note: '缺主键 id，整表跳过' });
+        continue;
+      }
+
+      let planned = 0;
+      let skipped = 0;
+      const stmts: any[] = [];
+      const push = async (force: boolean) => {
+        if (!stmts.length) return;
+        if (mode !== 'dry-run' || force) await env.DB.batch(stmts);
+        stmts.length = 0;
+      };
+
+      for (const r of rows) {
+        if (!r || typeof r !== 'object' || !r.id) { skipped++; continue; }
+        if (totalPlanned + planned >= MAX_ROWS) { skipped++; continue; }
+        const vals = writeCols.map((c) => {
+          if (c === 'org_id') return user.org_id;     // 强制归属，即便文件被改过
+          const v = r[c];
+          if (v !== null && typeof v === 'object') return JSON.stringify(v);
+          return v === undefined ? null : v;
+        });
+        const ph = writeCols.map(() => '?').join(',');
+        stmts.push(
+          env.DB.prepare(`INSERT OR REPLACE INTO ${table} (${writeCols.join(',')}) VALUES (${ph})`).bind(...vals)
+        );
+        planned++;
+        if (stmts.length >= BATCH) await push(false);
+      }
+
+      if (mode === 'replace' && hasOrg && table !== ORG_TABLE && planned > 0) {
+        await env.DB.prepare(`DELETE FROM ${table} WHERE org_id = ?`).bind(user.org_id).run();
+      }
+      await push(false);
+
+      totalPlanned += planned;
+      const isChild = childDefs.has(table);
+      report.push({
+        table,
+        planned,
+        skipped,
+        written: mode === 'dry-run' ? 0 : planned,
+        kind: isChild ? '明细表' : '主表',
+      });
+    }
+
+    // 审计：恢复是高风险操作，必须留痕
+    // V3.3.0（评测 L-05）：原先直插且不带 try/catch —— 一旦审计写入失败，
+    //   数据其实已经写进去了，接口却因为审计异常返回 500，操作者会误以为恢复未执行
+    //   而重复执行，属于「状态与反馈不一致」。改走 writeAudit 后，审计失败只降级留痕，
+    //   不会让一个已完成的恢复动作在界面上表现为失败。
+    if (mode !== 'dry-run') {
+      await writeAudit(env.DB, {
+        orgId: user.org_id,
+        actor: { id: user.id, name: user.name || user.username || null },
+        entity: 'system',
+        action: 'restore',
+        entityId: user.org_id,
+        summary: `执行数据恢复（模式=${mode}），共写入 ${totalPlanned} 行`,
+      });
+    }
+
+    return json({
+      ok: true,
+      mode,
+      orgId: user.org_id,
+      restoredAt: mode === 'dry-run' ? null : new Date().toISOString(),
+      totalPlanned,
+      report,
+      message: mode === 'dry-run'
+        ? `预演完成：将写入 ${totalPlanned} 行，未改动任何数据。确认无误后以 merge 模式执行。`
+        : `恢复完成：已写入 ${totalPlanned} 行。`,
+    });
+  } catch (e: any) {
+    return errorResponse(e, '数据恢复');
+  }
+}

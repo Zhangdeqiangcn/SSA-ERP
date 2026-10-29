@@ -1,96 +1,75 @@
-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
+-- V3.1.0 ① 前端持久化可感知失败与冲突检测  ② 后台任务可靠调度
+--
+-- 来源：《SSA ERP 稳定性·可靠性·安全性深度评测报告》遗留两项架构级问题
+--   H-02 云端写入失败被静默吞掉，用户以为是「保存成功」，实际改动丢失；
+--   M-13 状态值按「键」整块覆盖，多端并发互相覆盖且无任何提示；
+--   H-04 后台任务（安全邮箱延时投递）依赖「恰好有人访问」才顺带触发，
+--        投递时间不可控，且过程无留痕、失败无法观测与重放。
+--
+-- 本迁移只做「数据结构的支撑」：
+--   1) app_state 增加版本号，供前端写入时做乐观并发比对（冲突 → 409 提示，而非静默覆盖）；
+--   2) 新建两张留痕表，让任务执行「可观测、可统计、可重放」；
+--   3) 登记外部调度所需的配置项（令牌 / 周期 / 开关），运维可在库中直接调整。
+--
+-- 说明：D1(SQLite) 不支持 ADD COLUMN IF NOT EXISTS；本迁移由 wrangler 按文件名登记，
+--   成功后自动跳过，重复 apply 不会重复执行。
+
+-- ── 1) 业务状态键值：增加版本号（乐观并发控制）──────────────────
+-- version 语义：每次成功写入 +1。前端写入时带上「上次读到的版本号」，
+--   若库中版本已变，说明期间有别人改动过，返回 409 让前端提示，而不是直接覆盖。
+--   历史行统一从 1 开始（默认值），不影响既有读取。
+ALTER TABLE app_state ADD COLUMN version INTEGER NOT NULL DEFAULT 1;
+ALTER TABLE app_state ADD COLUMN updated_by TEXT;
+
+-- ── 2) 任务推进留痕：每一次「推进动作」一行 ────────────────────
+-- 用途：回答「后台任务到底有没有被触发过、什么时候、结果如何」。
+--   source=scheduler  外部定时调度（推荐的主要触发方式）
+--   source=middleware 任意接口请求顺带触发（兜底）
+--   source=manual     管理员在安全中心手动点「立即推进」
+--   source=login      登录时触发（保证用户主动来查时功能不失效）
+CREATE TABLE IF NOT EXISTS job_ticks (
+  id          TEXT PRIMARY KEY,
+  source      TEXT NOT NULL,
+  status      TEXT NOT NULL,          -- ok | failed
+  processed   INTEGER NOT NULL DEFAULT 0,
+  sent        INTEGER NOT NULL DEFAULT 0,
+  failed      INTEGER NOT NULL DEFAULT 0,
+  duration_ms INTEGER,
+  error       TEXT,
+  started_at  TEXT NOT NULL,
+  finished_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_job_ticks_started ON job_ticks(started_at);
+
+-- ── 3) 任务尝试留痕：每一次真实执行一行（支持重放与排障）────────
+CREATE TABLE IF NOT EXISTS job_runs (
+  id          TEXT PRIMARY KEY,
+  job_type    TEXT NOT NULL,          -- security_mail（安全邮箱延时投递）
+  ref_id      TEXT NOT NULL,          -- 对应 security_mail_queue.id
+  attempt     INTEGER NOT NULL,       -- 第几次尝试
+  status      TEXT NOT NULL,          -- ok | failed
+  target      TEXT,                   -- 收件方（脱敏前的投递目标，排障用）
+  error       TEXT,
+  started_at  TEXT NOT NULL,
+  finished_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_job_runs_ref ON job_runs(job_type, ref_id, attempt);
+
+-- ── 4) 外部调度配置（运维可在数据库直接调整，无需重新部署）──────
+-- jobs.tick_token        外部调度令牌：定时任务在请求头带 X-Job-Token 调用推进接口。
+--                        首次部署时若不存在，用随机值自动生成（32 位十六进制）。
+-- jobs.tick_interval_min 建议的调度周期（分钟），仅作为提示与脚本默认值，不强制。
+-- jobs.tick_enabled      是否允许外部调度触发（置 0 可一键停用外部调度）。
+INSERT INTO system_config (key, value, updated_at)
+SELECT 'jobs.tick_token', lower(hex(randomblob(16))), datetime('now')
+WHERE NOT EXISTS (SELECT 1 FROM system_config WHERE key = 'jobs.tick_token');
+
+INSERT INTO system_config (key, value, updated_at) VALUES
+  ('jobs.tick_interval_min', '10', datetime('now')),
+  ('jobs.tick_enabled',      '1',  datetime('now'))
+ON CONFLICT(key) DO NOTHING;
+
+-- ── 5) 幂等守卫（业务版本登记）──────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0046_v310_sync_and_jobs', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

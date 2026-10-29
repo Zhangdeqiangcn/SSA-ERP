@@ -1,20 +1,19 @@
-U2FsdGVkX18ZcLxByHB1fp08nK4KllDE4OXhdzFMsWYEiesjncuQStMhkLI8ssAe
-TbhHnf7FhCbLuvJE88V4uSujCiM8J44ZZPF3tjpmgmX+xr/rdPB3EXSAXTY+m5Op
-suIdu9hxKTmh8pPH8pTxhDGRdChkCamA0Neny8E71qxI84Okoa1cvjbh48GwdRjH
-Gif7qsnmDAmivP+7m7HpZRlSyowBiEqTSlfV0sZTemvTpT1vpgDj8C8QM1SU0G14
-GGk9/n16So1lJNScHfDn5+ipFqxSruqUDLaWvPMEBkgZ2Dil2r/TXQoFGzWBMcbu
-C0mt+ZdPB7+i8lhr76ZiUX4NMGTN2gkfPUaOErirDVN+mX/56vAEzoukiWzif2ZS
-xx7qQQk+1NVmm6RT8EE+kRS5iyhFx+1oYBfNjDFGNrEayacdcyJJAcc3OG1zGn5I
-D/yNh5ecp1yhRKfUAtofb6AshCgW7QxoWHKVHWVop8MTZZN5G6TBt88QycfWuEJ3
-8DfN59lSQMQ6dS3rMJi1GTNURvi8osQnLP06Wfmip/zI4rdSgUklVvYDWK3RSoav
-oIkg8eSegZwo0O+R6hku1gyKsda7OZ4moYLWi4vjJtGP4pRb9cBODDiZoNM1EdFJ
-3GtWr7QTlqjYdg4yNPgAT7DjwG59unoAyhUkl9zX3I/Y84mbVjxeX9pvEs9HLyLy
-Fch6NE05BPrf+zDtudLiGcXifjwDNbH5srIDYd25JZ04hJzL/TTZHrKls0Rps63f
-d3Cz1pIO25HzoYzNQ4Xt+xU6N0qhYudORagWuk7o8m/All4BdbCecapGlHT6Wd2i
-TiC2UOUpW20FokmvtXt/F/ZBZZnAiicQXO369pdEo0PdCX2jzriIT9dCGJfjr/8w
-S0NlTKli252zMOph9zJJgXcdEhpKerEFa31Y7rLE4Dt/spRsj8bTMGlRMWD1wsuV
-EWQiLcrhosg1DpAtVer1e8NFj+MsjayJpocp4OkU4wzODhuyMAm5JBmPtxttbWm7
-2Xle9rGO23XZXdOlOK5y3rgwPTan/hYj0gc4Cp4IEGgk3NkteZ/OTcc5jnonq2j2
-LQSHp8m7BSriAGFF62hKIHeRRE3p9ySIuGBLqATfKuk4T0q7V6LOQnb2XFOSdWoo
-daKOL95SQ1KR6zdukUVUYCcKNsr6EBfSH4uJzBRGSS/Wg+rY7jhf+zeJb3I+fEOQ
-/dTdHYtE7fyTZUW/X0vwPdaNlBI+44KtB83vD9UnCyxzI3jpC9akHbTN/ncYhX0P
+/**
+ * POST /api/chatbi/analyze —— 自然语言查询分析
+ *
+ * ★ 为什么会有这个文件（V3.11.2 修复）：
+ * 前端 `src/pages/Analytics/ChatBI.tsx` 调用 `POST /api/chatbi/analyze`，
+ * 逻辑写在 `./index.ts` 的 `onRequest` 里。但 Pages Functions 的 `index.ts`
+ * 只匹配精确根路径 `/api/chatbi`；子路径 `/analyze` 没有对应文件 → 请求被路由层
+ * 拒为 **405 Method Not Allowed**（不是回退 HTML，所以更容易被误判成"鉴权问题"）。
+ *
+ * 实测（生产环境，2026-09-16）：
+ *   POST /api/chatbi/analyze → 405（空响应体） ❌
+ *   POST /api/chatbi         → 401 {"error":"未登录"} ✅ 根路径正常
+ * 表现：ChatBI 页面任何提问都失败，前端 catch 后只显示「请求失败」，看不出是路由问题。
+ *
+ * 逻辑只在 `./index.ts` 一处，本文件仅转发。
+ */
+import { onRequest } from './index';
+
+export { onRequest };

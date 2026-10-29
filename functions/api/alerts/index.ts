@@ -1,134 +1,152 @@
-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
+// GET /api/alerts — 获取四类异常预警数据
+import { getUserFromRequest, json } from '../../_shared/auth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = env.DB;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayStr = today.toISOString().split('T')[0];
+  const threshold30 = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  const threshold7 = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+  // 1. 低库存预警（可用量 < 安全库存）
+  const lowStockRows = await db.prepare(`
+    SELECT m.code as material_code, m.name as material_name,
+           COALESCE(i.quantity, 0) as available_qty,
+           COALESCE(i.quantity, 0) as total_qty,
+           COALESCE(m.safety_stock, 100) as safety_stock,
+           i.warehouse_name as warehouse_name
+    FROM materials m
+    LEFT JOIN inventory_records i ON m.id = i.material_id AND i.org_id = ?
+    WHERE m.org_id = ? AND m.status = 'active'
+      AND COALESCE(i.quantity, 0) < COALESCE(m.safety_stock, 100)
+    ORDER BY available_qty ASC
+    LIMIT 20
+  `).bind(user.org_id, user.org_id).all();
+
+  // V2.73：下发结构化数值，供前端规则阈值二次过滤（不再依赖文本解析）
+  const lowStockAlerts = (lowStockRows.results || []).map((r: any) => {
+    const qty = Number(r.available_qty) || 0;
+    const safety = Number(r.safety_stock) || 0;
+    return {
+      id: r.material_code,
+      label: `${r.material_name} (${r.material_code})`,
+      value: `可用 ${qty} / 安全库存 ${safety}`,
+      extra: r.warehouse_name || '-',
+      metrics: { qty, safetyStock: safety, ratioPct: safety > 0 ? (qty / safety) * 100 : 0 },
+    };
+  });
+
+  // 2. 逾期采购订单
+  const poOverdueRows = await db.prepare(`
+    SELECT order_no, vendor_name, expected_delivery_date, status
+    FROM purchase_orders
+    WHERE org_id = ? AND expected_delivery_date < ?
+      AND status NOT IN ('completed', 'cancelled')
+    ORDER BY expected_delivery_date ASC
+    LIMIT 10
+  `).bind(user.org_id, todayStr).all();
+
+  const poOverdue = (poOverdueRows.results || []).map((r: any) => {
+    const days = Math.floor((today.getTime() - new Date(r.expected_delivery_date).getTime()) / (1000 * 60 * 60 * 24));
+    return {
+      id: r.order_no,
+      label: `${r.order_no} - ${r.vendor_name}`,
+      value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`,
+      extra: r.status,
+      metrics: { overdueDays: days },
+    };
+  });
+
+  // 3. 逾期销售订单
+  const soOverdueRows = await db.prepare(`
+    SELECT order_no, customer_name, expected_delivery_date, status
+    FROM sales_orders
+    WHERE org_id = ? AND expected_delivery_date < ?
+      AND status NOT IN ('completed', 'cancelled')
+    ORDER BY expected_delivery_date ASC
+    LIMIT 10
+  `).bind(user.org_id, todayStr).all();
+
+  const soOverdue = (soOverdueRows.results || []).map((r: any) => {
+    const days = Math.floor((today.getTime() - new Date(r.expected_delivery_date).getTime()) / (1000 * 60 * 60 * 24));
+    return {
+      id: r.order_no,
+      label: `${r.order_no} - ${r.customer_name}`,
+      value: `期望 ${r.expected_delivery_date}，逾期 ${days} 天`,
+      extra: r.status,
+      metrics: { overdueDays: days },
+    };
+  });
+
+  // 4. 临期物料（shelf_life_status = 'expiring' 或 'expired'）
+  const expiringRows = await db.prepare(`
+    SELECT material_code, material_name, quantity as quantity_on_hand, shelf_life_status
+    FROM inventory_records
+    WHERE org_id = ? AND shelf_life_status IN ('expiring', 'expired') AND quantity > 0
+    ORDER BY updated_at DESC
+    LIMIT 20
+  `).bind(user.org_id).all();
+
+  const expiringBatches = (expiringRows.results || []).map((r: any) => ({
+    id: r.material_code,
+    label: `${r.material_name} (${r.material_code})`,
+    value: `状态: ${r.shelf_life_status === 'expiring' ? '临期' : '过期'}`,
+    // V2.73 修复：原引用 r.quantity，但 SELECT 的是 quantity_on_hand，导致显示 undefined
+    extra: `库存 ${r.quantity_on_hand}`,
+    metrics: { expired: r.shelf_life_status === 'expired', qty: Number(r.quantity_on_hand) || 0 },
+  }));
+
+  // 5. 信用超额客户
+  const creditRows = await db.prepare(`
+    SELECT code, name, credit_limit, used_credit
+    FROM customers
+    WHERE org_id = ? AND credit_limit > 0 AND used_credit > credit_limit
+    ORDER BY used_credit DESC
+    LIMIT 10
+  `).bind(user.org_id).all();
+
+  const creditOverdue = (creditRows.results || []).map((r: any) => {
+    const limit = Number(r.credit_limit) || 0;
+    const used = Number(r.used_credit) || 0;
+    return {
+      id: r.code,
+      label: r.name,
+      value: `已用 ¥${used.toLocaleString()} / 授信 ¥${limit.toLocaleString()}`,
+      extra: `超出 ¥${(used - limit).toLocaleString()}`,
+      metrics: { overRatePct: limit > 0 ? ((used - limit) / limit) * 100 : 0 },
+    };
+  });
+
+  // 6. 待审批单据
+  // V2.73 修复：原口径用 status='pending'，但该值不在订单状态枚举内（采购默认 'draft'），
+  // 导致三项计数恒为 0。改为与前端一致的真实待处理状态集：
+  //   采购 created/sent（已下单待供应商确认）、销售 draft、工单 draft
+  const pendingPO = await db
+    .prepare(`SELECT COUNT(*) as cnt FROM purchase_orders WHERE org_id = ? AND status IN ('created','sent')`)
+    .bind(user.org_id)
+    .first();
+  const pendingSO = await db.prepare(`SELECT COUNT(*) as cnt FROM sales_orders WHERE org_id = ? AND status = 'draft'`).bind(user.org_id).first();
+  const pendingWO = await db.prepare(`SELECT COUNT(*) as cnt FROM work_orders WHERE org_id = ? AND status = 'draft'`).bind(user.org_id).first();
+
+  return json({
+    lowStock: lowStockAlerts,
+    overduePO: poOverdue,
+    overdueSO: soOverdue,
+    expiringBatches: expiringBatches,
+    creditOverdue: creditOverdue,
+    pendingApprovals: {
+      purchaseOrders: Number(pendingPO?.cnt) || 0,
+      salesOrders: Number(pendingSO?.cnt) || 0,
+      workOrders: Number(pendingWO?.cnt) || 0,
+    },
+    summary: {
+      total: lowStockAlerts.length + poOverdue.length + soOverdue.length + expiringBatches.length + creditOverdue.length,
+      critical: poOverdue.length + soOverdue.length + creditOverdue.length,
+    },
+  });
+}

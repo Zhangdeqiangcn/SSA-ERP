@@ -1,237 +1,279 @@
-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
-tr9Av3OP4AHWR+stVCD3bw==
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeConfig } from './entityBackedShared';
+
+export interface MaterialRatingWeights {
+  bomUsage: number;     // 更多 BOM 使用
+  purchaseFreq: number; // 采购频次高
+  shortLead: number;    // 交货期短
+  lowMoq: number;       // 起订量低
+  goodQuality: number;  // 质量好
+}
+
+export interface MaterialRatingConfig {
+  enabled: boolean;
+  weights: MaterialRatingWeights;
+  thresholds: { A: number; B: number; C: number };
+}
+
+export interface VendorRatingWeights {
+  quality: number;  // 质量合格率（来料检验通过率 / NCR）
+  delivery: number; // 交期达成率（按约交付）
+  price: number;    // 价格竞争力（对比价目表基准）
+}
+
+export interface VendorRatingConfig {
+  enabled: boolean;
+  weights: VendorRatingWeights;
+  thresholds: { A: number; B: number; C: number };
+}
+
+/** 对接通道（原 IntegrationTab 的 localStorage `ssa-erp-integrations`） */
+export type IntType = 'WMS' | 'TMS' | 'MES' | 'PLM' | 'SRM' | 'FINANCE';
+export type IntStatus = 'connected' | 'disconnected' | 'testing';
+
+export interface Integration {
+  id: string;
+  name: string;
+  type: IntType;
+  url: string;
+  enabled: boolean;
+  frequency: string;
+  status: IntStatus;
+}
+
+/** 移动端 / PDA 配置（原 MobileTab 的 localStorage `ssa-erp-mobile-config`） */
+export interface MobileConfig {
+  enabled: boolean;
+  accessUrl: string;
+}
+
+/** V3.65.0 立项③：检验标准配置引擎（根治 P1-5「检验标准未纳入配置引擎统一管理」）
+ *  此前质量模块建检验任务时 aql/检验水平要么写死 'N/A'、要么逐单手填，跨组织标准不一致。
+ *  现在把「默认抽样方案 + 按物料类别的 AQL/检验水平覆盖」收进系统设置配置引擎，
+ *  质量模块建任务时经 resolveInspectionConfig 消费：命中类别用类别值，否则用默认；
+ *  配置停用或缺失时回退既有默认（绝不卡业务）——与凭证模板「未命中回退内置」同口径。 */
+export interface InspectionStandardConfig {
+  enabled: boolean;
+  /** 默认 AQL（接收质量限 %），未命中类别时套用 */
+  defaultAql: number;
+  /** 默认检验水平（S-1..S-4 / I / II / III），未命中类别时套用 */
+  defaultLevel: string;
+  /** 按物料类别的覆盖：key=类别名，命中优先于默认 */
+  perCategory: Record<string, { aql: number; level: string }>;
+}
+
+/** 菜单配置（原 MenuConfigTab 的 localStorage `ssa-menu-config`）——仅存顺序 + 可见性（按路由 path） */
+export interface MenuConfigShape {
+  order: Record<string, number>;
+  visible: Record<string, boolean>;
+}
+
+/** 供应商门户配置（系统设置 → 供应商门户配置 Tab） */
+export type InquiryAttachmentPolicy = 'always' | 'timed' | 'viewOnly';
+export interface VendorPortalConfig {
+  /** 订单确认默认时限（小时）：超过后系统自动确认，默认 24 */
+  vendorOrderAutoConfirmHours: number;
+  /** 询价附件下载策略：一直允许 / 限时允许 / 仅在线查看 */
+  inquiryAttachmentPolicy: InquiryAttachmentPolicy;
+  /** 限时允许下载的小时数（inquiryAttachmentPolicy==='timed' 时生效） */
+  inquiryAttachmentDownloadHours: number;
+}
+
+export const DEFAULT_INTEGRATIONS: Integration[] = [
+  { id: 'i1', name: '立体库 WMS', type: 'WMS', url: 'https://wms.ssa.com/api/v1', enabled: true, frequency: '实时', status: 'connected' },
+  { id: 'i2', name: '干线运输 TMS', type: 'TMS', url: 'https://tms.ssa.com/api/v1', enabled: true, frequency: '每 15 分钟', status: 'connected' },
+  { id: 'i3', name: '车间 MES', type: 'MES', url: 'https://mes.ssa.com/api/v2', enabled: false, frequency: '每 5 分钟', status: 'disconnected' },
+  { id: 'i4', name: '用友 U9 财务', type: 'FINANCE', url: 'https://u9.ssa.com/integration', enabled: true, frequency: '每日', status: 'connected' },
+];
+
+export const DEFAULT_MOBILE_CONFIG: MobileConfig = {
+  enabled: true,
+  accessUrl: 'http://erp.ssa.com/m',
+};
+
+/** V3.65.0 立项③ 检验标准配置默认值（与质量模块既有默认抽样口径一致） */
+export const DEFAULT_INSPECTION_STANDARD_CONFIG: InspectionStandardConfig = {
+  enabled: true,
+  defaultAql: 1.0,        // AQL 1.0 为制造业来料检通用抽样限（GB/T 2828.1 常规 II 级）
+  defaultLevel: 'II',     // 检验水平 II（常规水平）
+  perCategory: {
+    // 关键件（安全/功能）从紧：AQL 0.65、水平 III
+    '关键件': { aql: 0.65, level: 'III' },
+    // 外观件从宽：AQL 4.0、水平 II
+    '外观件': { aql: 4.0, level: 'II' },
+    // 标准件（螺栓/轴承等）：AQL 1.0、水平 I（大量检验从轻抽）
+    '标准件': { aql: 1.0, level: 'I' },
+  },
+};
+
+/** V3.65.0 立项③：解析某物料类别应套用的检验抽样配置（供质量模块建检验任务时调用）。
+ *  返回 { aql, level, fromConfig }：fromConfig=true 表示来自配置引擎；
+ *  配置停用/无对应类别时返回默认抽样口径，fromConfig=false（诚实降级，绝不卡业务）。 */
+export function resolveInspectionConfig(
+  cfg: InspectionStandardConfig | undefined,
+  materialCategory?: string
+): { aql: number; level: string; fromConfig: boolean } {
+  const fallback = { aql: DEFAULT_INSPECTION_STANDARD_CONFIG.defaultAql, level: DEFAULT_INSPECTION_STANDARD_CONFIG.defaultLevel, fromConfig: false };
+  if (!cfg || !cfg.enabled) return fallback;
+  // 命中类别覆盖 → 用类别值
+  if (materialCategory && cfg.perCategory && cfg.perCategory[materialCategory]) {
+    const c = cfg.perCategory[materialCategory];
+    if (c && Number.isFinite(c.aql) && c.aql > 0 && c.level) {
+      return { aql: c.aql, level: c.level, fromConfig: true };
+    }
+  }
+  // 未命中类别 → 用配置的默认值（配置启用时默认值也是「配置」的一部分）
+  if (Number.isFinite(cfg.defaultAql) && cfg.defaultAql > 0 && cfg.defaultLevel) {
+    return { aql: cfg.defaultAql, level: cfg.defaultLevel, fromConfig: true };
+  }
+  return fallback; // 配置数据残缺 → 回退安全默认
+}
+
+const seedIntegrations = (): Integration[] => {
+  try {
+    const raw = localStorage.getItem('ssa-erp-integrations');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        localStorage.removeItem('ssa-erp-integrations');
+        return parsed as Integration[];
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return DEFAULT_INTEGRATIONS.map((i) => ({ ...i }));
+};
+
+const seedMobileConfig = (): MobileConfig => {
+  try {
+    const raw = localStorage.getItem('ssa-erp-mobile-config');
+    if (raw) {
+      const parsed = JSON.parse(raw) as MobileConfig;
+      localStorage.removeItem('ssa-erp-mobile-config');
+      return parsed;
+    }
+  } catch {
+    /* ignore */
+  }
+  return { ...DEFAULT_MOBILE_CONFIG };
+};
+
+const seedMenuConfig = (): MenuConfigShape => {
+  try {
+    const raw = localStorage.getItem('ssa-menu-config');
+    if (raw) {
+      const parsed = JSON.parse(raw) as { order?: Record<string, number>; visible?: Record<string, boolean> };
+      if (parsed && (parsed.order || parsed.visible)) {
+        localStorage.removeItem('ssa-menu-config');
+        return { order: parsed.order || {}, visible: parsed.visible || {} };
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return { order: {}, visible: {} };
+};
+
+interface SettingsState {
+  materialRatingConfig: MaterialRatingConfig;
+  vendorRatingConfig: VendorRatingConfig;
+  integrations: Integration[];
+  mobileConfig: MobileConfig;
+  menuConfig: MenuConfigShape;
+  vendorPortalConfig: VendorPortalConfig;
+  inspectionStandardConfig: InspectionStandardConfig;
+  setMaterialRatingConfig: (c: MaterialRatingConfig) => void;
+  setVendorRatingConfig: (c: VendorRatingConfig) => void;
+  setIntegrations: (items: Integration[]) => void;
+  setMobileConfig: (c: MobileConfig) => void;
+  setMenuConfig: (c: MenuConfigShape) => void;
+  setVendorPortalConfig: (c: VendorPortalConfig) => void;
+  setInspectionStandardConfig: (c: InspectionStandardConfig) => void;
+}
+
+const RES = 'systemSetting';
+const CFG_ID = 'app-config';
+
+// V3.77.0：本地 persist 保留作离线缓存；同时经 D1 关系表 system_settings 作组织共享权威源。
+export const useSettingsStore = create<SettingsState>()(
+  persist(
+    (set) => ({
+      materialRatingConfig: {
+        enabled: true,
+        weights: { bomUsage: 25, purchaseFreq: 25, shortLead: 20, lowMoq: 15, goodQuality: 15 },
+        thresholds: { A: 80, B: 60, C: 40 },
+      },
+      vendorRatingConfig: {
+        enabled: true,
+        weights: { quality: 40, delivery: 35, price: 25 },
+        thresholds: { A: 80, B: 60, C: 40 },
+      },
+      integrations: seedIntegrations(),
+      mobileConfig: seedMobileConfig(),
+      menuConfig: seedMenuConfig(),
+      vendorPortalConfig: {
+        vendorOrderAutoConfirmHours: 24,
+        inquiryAttachmentPolicy: 'viewOnly',
+        inquiryAttachmentDownloadHours: 24,
+      },
+      inspectionStandardConfig: { ...DEFAULT_INSPECTION_STANDARD_CONFIG, perCategory: { ...DEFAULT_INSPECTION_STANDARD_CONFIG.perCategory } },
+      setMaterialRatingConfig: (c) => set({ materialRatingConfig: c }),
+      setVendorRatingConfig: (c) => set({ vendorRatingConfig: c }),
+      setIntegrations: (items) => set({ integrations: items }),
+      setMobileConfig: (c) => set({ mobileConfig: c }),
+      setMenuConfig: (c) => set({ menuConfig: c }),
+      setVendorPortalConfig: (c) => set({ vendorPortalConfig: c }),
+      setInspectionStandardConfig: (c) => set({ inspectionStandardConfig: c }),
+    }),
+    { storage: backendStorage, name: 'ssa-erp-settings', version: 1 }
+  )
+);
+
+// ── V3.77.0 D1 同步层（组织共享配置，避免各终端配置漂移）──
+function snapshotConfig(s: SettingsState) {
+  return {
+    materialRatingConfig: s.materialRatingConfig,
+    vendorRatingConfig: s.vendorRatingConfig,
+    integrations: s.integrations,
+    mobileConfig: s.mobileConfig,
+    menuConfig: s.menuConfig,
+    vendorPortalConfig: s.vendorPortalConfig,
+    inspectionStandardConfig: s.inspectionStandardConfig,
+  };
+}
+
+let hydrating = false;
+export const hydrateSettings = async () => {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 50 });
+    const rows = parsePayload(res?.data || []);
+    const cfg = rows.find((r) => r.id === CFG_ID);
+    if (cfg) {
+      const { id: _i, ...rest } = cfg as any;
+      useSettingsStore.setState(rest);
+    } else {
+      // 首跑：把当前（含旧 localStorage 迁移来的）配置写回 D1
+      writeConfig(RES, CFG_ID, { id: CFG_ID, ...snapshotConfig(useSettingsStore.getState()) });
+    }
+  } catch {
+    /* 离线/异常：保留本地缓存 */
+  } finally {
+    hydrating = false;
+  }
+};
+
+// 任何配置变更 → 写穿 D1（hydrate 自身 set 不触发）
+useSettingsStore.subscribe((s) => {
+  if (hydrating) return;
+  if (isAuthed()) writeConfig(RES, CFG_ID, { id: CFG_ID, ...snapshotConfig(s) });
+});
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void hydrateSettings();

@@ -1,135 +1,130 @@
-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
+// GET/PUT/DELETE /api/serial-numbers/:id
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { insertSerialMovement } from '../../_shared/serial';
+import { validateOrReject } from '../../_shared/validate';
+// V3.5.0 B6：补齐写审计（序列号是单件追溯的最后一道证据链）
+import { writeAudit } from '../../_shared/auditLog';
+// ★ V3.45.0 操作权限服务端守卫：此前该端点零守卫（任何登录用户均可写）。
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  const row = await db.prepare(`SELECT * FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!row) return json({ error: '序列号不存在' }, 404);
+
+  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
+
+  return json({
+    ...row,
+    movements: movements.results || [],
+  });
+}
+
+export async function onRequestPut(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+
+  // V3.45.0：写端点服务端硬拦，越权返回 403 OPERATION_FORBIDDEN（绕开界面亦生效）。
+  const _opGuard = await guardOperation(user, 'serial', 'update', db, user.org_id);
+  if (_opGuard) return _opGuard;
+  const id = context.params.id;
+
+  const existing = await db.prepare(`SELECT id, serial_no, material_code, status, customer_name FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!existing) return json({ error: '序列号不存在' }, 404);
+
+  const body = await context.request.json().catch(() => ({}));
+  const _invalid = validateOrReject('serial_masters', body, { partial: true });
+  if (_invalid) return _invalid;
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const fields = ['serialNo', 'materialId', 'materialCode', 'materialName', 'batchNo', 'warehouseId', 'huId', 'status', 'inboundDate', 'outboundDate', 'customerName', 'remarks'];
+  const setClauses: string[] = [];
+  const values: (string | number)[] = [];
+  for (const f of fields) {
+    if (body[f] !== undefined) {
+      const col = f === 'serialNo' ? 'serial_no' : f === 'materialId' ? 'material_id' : f === 'materialCode' ? 'material_code' :
+        f === 'materialName' ? 'material_name' : f === 'warehouseId' ? 'warehouse_id' : f === 'huId' ? 'hu_id' :
+        f === 'inboundDate' ? 'inbound_date' : f === 'outboundDate' ? 'outbound_date' : f === 'customerName' ? 'customer_name' :
+        f.toLowerCase();
+      setClauses.push(`${col} = ?`);
+      values.push(body[f]);
+    }
+  }
+  setClauses.push('updated_at = ?', 'updated_by = ?');
+  values.push(now, user.name);
+
+  await db.prepare(`UPDATE serial_masters SET ${setClauses.join(', ')} WHERE id = ?`).bind(...values, id).run();
+
+  // 流转记录：状态变更 / 显式传入 movement 时落 serial_movements，保留全生命周期轨迹
+  if (body.movement && typeof body.movement === 'object') {
+    await insertSerialMovement(db, id, body.movement, user, now);
+  }
+
+  const updated = await db.prepare(`SELECT * FROM serial_masters WHERE id = ?`).bind(id).first();
+  const movements = await db.prepare(`SELECT * FROM serial_movements WHERE serial_master_id = ?`).bind(id).all();
+
+  // B6 审计：序列号用于单件级追溯（哪一台设备发给了哪个客户、何时进的库）。
+  //   一旦序列号状态被改（在库 → 已出库），售后退换货与质量召回的判定基础就变了，
+  //   因此状态流转与客户指向必须逐个留痕。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'serial_masters',
+    entityId: id,
+    action: 'update',
+    summary:
+      `更新序列号 ${(existing as any).serial_no || id}` +
+      `（物料：${body.materialCode ?? (existing as any).material_code ?? '-'}）` +
+      `（状态：${(existing as any).status || '-'} → ${(body.status ?? (existing as any).status) || '-'}）` +
+      ((existing as any).customer_name !== (body.customerName ?? (existing as any).customer_name)
+        ? `（客户：${(existing as any).customer_name || '-'} → ${body.customerName ?? '-'}）`
+        : '') +
+      `（流转记录：${body.movement ? '本次新增一条' : '未新增'}）`,
+  });
+
+  return json({ ...updated, movements: movements.results || [] });
+}
+
+export async function onRequestDelete(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  // V3.45.0 操作权限服务端守卫（此前该端点零守卫，任何登录用户都能删序列号主档 → 追溯链断裂）
+  const _opGuard = await guardOperation(user, 'serial', 'delete', db, user.org_id);
+  if (_opGuard) return _opGuard;
+
+  const row = await db.prepare(`SELECT id, serial_no, material_code, status, customer_name FROM serial_masters WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!row) return json({ error: '序列号不存在' }, 404);
+
+  await db.prepare(`DELETE FROM serial_masters WHERE id = ?`).bind(id).run();
+  await db.prepare(`DELETE FROM serial_movements WHERE serial_master_id = ?`).bind(id).run();
+
+  // B6 审计：删除序列号 = 抹掉该单件的全部流转轨迹（含已发货给客户的记录）。
+  //   已出库的序列号被删除后，客户端的设备将无法在系统内追溯到来源，故单独告警。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'serial_masters',
+    entityId: id,
+    action: 'delete',
+    summary:
+      `删除序列号 ${(row as any).serial_no || id}` +
+      `（物料：${(row as any).material_code || '-'}；状态：${(row as any).status || '-'}）` +
+      `（原客户：${(row as any).customer_name || '-'}）` +
+      ((row as any).customer_name || (row as any).status === 'shipped'
+        ? '【注意：该序列号已指向客户，删除后单件追溯链断裂，售后与召回将无法定位】'
+        : ''),
+  });
+
+  return json({ success: true });
+}

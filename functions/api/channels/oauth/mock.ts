@@ -1,50 +1,40 @@
-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
-2LzaOr89psmeg1PZJUGvXQ==
+// 模拟登录授权页（仅用于未配置真实应用密钥时演示完整 OAuth 流程）
+// 渲染一个极简 HTML「登录并授权」页，点击后带模拟 code 跳回 callback。
+import { getProvider } from '../../../_shared/channelOAuth';
+
+function html(label: string, cb: string): string {
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>模拟授权 - ${label}</title>
+<style>
+ body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#F1F5F9;display:flex;align-items:center;justify-content:center;height:100vh}
+ .card{background:#fff;border-radius:16px;padding:32px;width:360px;box-shadow:0 8px 30px rgba(15,23,42,.08);text-align:center}
+ h2{margin:0 0 6px;color:#0F172A}.sub{color:#64748B;font-size:13px;margin-bottom:20px}
+ .badge{display:inline-block;background:#FEF3C7;color:#92400E;font-size:12px;padding:3px 10px;border-radius:999px;margin-bottom:16px}
+ button{background:#2563EB;color:#fff;border:0;padding:11px 18px;border-radius:10px;font-size:15px;cursor:pointer;width:100%}
+ button:hover{background:#1D4ED8}
+ .note{color:#94A3B8;font-size:12px;margin-top:16px}
+</style></head><body><div class="card">
+ <div class="badge">模拟环境 · 非真实平台</div>
+ <h2>${label} 授权</h2>
+ <div class="sub">这是本地模拟登录页，用于演示「登录即连接」完整流程。<br/>真实接入请在开放平台注册应用后配置密钥。</div>
+ <a href="${cb}"><button>登录并授权（模拟）</button></a>
+ <div class="note">点击后将生成模拟令牌并写回系统，状态标记为「模拟」。</div>
+</div></body></html>`;
+}
+
+export async function onRequestGet(context: any) {
+  const url = new URL(context.request.url);
+  const platform = url.searchParams.get('platform') || '';
+  const state = url.searchParams.get('state') || '';
+  const provider = getProvider(platform);
+  const label = provider?.label || platform || '未知平台';
+  const cb =
+    `${url.origin}/api/channels/oauth/callback` +
+    `?platform=${encodeURIComponent(platform)}` +
+    `&code=mock_${platform}_${Date.now()}` +
+    `&state=${encodeURIComponent(state)}`;
+  return new Response(html(label, cb), {
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  });
+}

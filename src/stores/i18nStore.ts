@@ -1,47 +1,63 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import {
+  setOverrideReader,
+  setRuntimeLocale,
+  translate as translateRaw,
+  CATALOG_SIZE,
+} from '@/i18n';
+import type { Locale } from '@/i18n';
+
+// 兼容旧引用：旧的 I18N_DICT 常量已被 src/i18n/catalog.ts 的词条注册表取代。
+// 保留这个别名，避免历史代码 import 报错。
+export { I18N_CATALOG as I18N_DICT } from '@/i18n/catalog';
+
+interface I18nState {
+  locale: Locale;
+  /** 管理员在「多语言」页补录的词条：key → 文本（对当前语言生效） */
+  customTranslations: Record<string, string>;
+  setLocale: (locale: Locale) => void;
+  setCustom: (key: string, value: string) => void;
+  removeCustom: (key: string) => void;
+}
+
+export const useI18nStore = create<I18nState>()(
+  persist(
+    (set) => ({
+      locale: 'zh-CN',
+      customTranslations: {},
+      setLocale: (locale) => {
+        setRuntimeLocale(locale);
+        set({ locale });
+      },
+      setCustom: (key, value) =>
+        set((s) => ({ customTranslations: { ...s.customTranslations, [key]: value } })),
+      removeCustom: (key) =>
+        set((s) => {
+          const next = { ...s.customTranslations };
+          delete next[key];
+          return { customTranslations: next };
+        }),
+    }),
+    { storage: backendStorage,
+     name: 'ssa-erp-i18n' },
+  ),
+);
+
+// 把持久化状态与语言切换接到运行时。
+// persist 是异步回填的（云端拉取），所以既订阅未来变化，也立刻用当前值同步一次。
+setOverrideReader((key) => useI18nStore.getState().customTranslations[key]);
+setRuntimeLocale(useI18nStore.getState().locale);
+useI18nStore.subscribe((s) => setRuntimeLocale(s.locale));
+
+/**
+ * 翻译函数（向后兼容旧签名 translate(key, locale)）。
+ * 新代码建议直接用 `useTranslation()`，可传中文原文兜底，避免界面出现裸 key。
+ */
+export function translate(key: string, locale?: Locale): string {
+  return translateRaw(key, undefined, locale ?? useI18nStore.getState().locale);
+}
+
+/** 词条总量（「多语言」设置页展示用） */
+export const dictionarySize = CATALOG_SIZE;

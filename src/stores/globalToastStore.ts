@@ -1,42 +1,42 @@
-U2FsdGVkX1+ekrledgwGK5GoS9uZtjLUf9MWsSxTL5lD9fmjCCsiWnEq3vDH2tWj
-7Otj5ZaruFhprDw3CSnVZZUlKYOjZesspBeebNu06pfb9ylVlzMPg6n5e8dBE8qq
-BYYja9j/GYo854onZiJJzhw8llcaPoch+cehzdTfAaYTASL9aClVVckL2eUPeQK/
-eY0ZA1mF8MSiK/DmKQnAGs0y709rhDHvxNKlHyppYdLRQeRZ1R+/tt3wAZEqIvUp
-lLH6bzew1+YlzWldwFYUbXmwWHqzh9aaMXjZPDPpcjnWH6V3h9dNandznBteBiDP
-ZzOohVpmEhpfA0vAtmyUXCXju0Br3KrCqoyQPZSo6mxLgtEFqaZvxMVBp+OfPp5J
-rPZrhlN4Zy2m7qV00rxBY3uDN6pXEKxQGjTM4qXlHptRzuCTs/ltc81Vcp6dn+He
-V0k2WQD2lPV7UoRjg4eKV2HL7lTgLVzlrIL/ASbYQ0jIYN5VR++GMzwRSTk1kGGQ
-P5uqzTINBe/wkYmzBFCBHYgL4ZOBDjrY4dUt5NDi5BEObBqmIjVWCbRgAbNTYc7B
-vQCrHBv+8wAiyh0aKBMc/gH7lFcLF5bzWhlw6ehDFYzdetU2XWFK3tSDdE6tw5hK
-evEtH4uHEXrf6D4HJPKSxWl0WivzS/4c++noccar8qqtITIMUhTRUnDa3AuInrM1
-xsqUFXGYUEEC7ovIwfnWiWX7cGhDQvZJ0/EpCdVuZZGjJJJyaGhg7OyknCDF2rHx
-D673JZuDecWGOX1NkXRiULpjHEDy99o8cirK9DvWGPQSGEH0jcInQOhOqCTknJ5N
-07k524ue2+O0jOqm+tFl/M6EhucHicmCuld1G0IV6cq6jy4SPcqxBoRL9k16AA2d
-7qjEOX0//TjMwLR2wxhyeBU4Gj0facF7VRLTRrnUcLZI+ymxb6FKKrwWuXMLlqFS
-hSNTVBYQ7crwxFx1Yt4chm2YpaqPFkgIRMU3gzGoyYMKaKjZrYaGnD97gcau12fZ
-NGmERjde+XmOmr35RJHF/C+h4xz5fhrZvIK0hpjmZvFHYL64EOzjkgMdJg7ao3Nj
-DjodlOB7sEb2jqbwCXrhPBDZZ0HWXaDju4vGLCNZqjKb5BhJgDvpZ/2y3RYlS2Tv
-VfXl3xkbmm/r42rPb395fTE3vlgk7VGdjWv48gLC+bfaCtTYd8Eykx/fUI8CFfFM
-0qivPDCAMJWYA8zheSXIwdqPysnUfiYhsUOXgn+iAsaq5adLLpuPE0xhju6P4Mf5
-F5Xnz6vjQgHHV3JI6rAUH0CElfRdDZ9z8RAZvmXQRA2lt3GgWVFEfBPZcYpsUxhB
-CIe+pRJXl1cXmy0ZaoQEz+hvaEeW3EYhzmc3dyZcJ7HlF+zVrkMGZJGdtUyBAl4X
-06HmdKNLtRPDdsTbB037bLMWXEqPunM/3YvgaEs2P24wIkMdHaSBRLX/VDuxkgsE
-ZReAsHtjVL4+MIQVFElUfnt4jE8aOr5fdrgupJ+iMQUiGcf/t9lWYsVCB//yMf67
-7pVpjH5fOrcBWe/JDyFFCYYuebjVBUGqlb5A4/3+hL1gp2kQtJttbz0X7wD2yH3f
-w6yKmePGgFCd4rFZlij8BBfItTiWyKGZf7fC3H+5JvN5K1l4uCTWQsFxQ8ONpITE
-GB/DAb9z8gkoV2KoFo+CDMZ5wLwkuwhiMQV06IHVSf1l0ERZUY9rH9uVtwOQC6sd
-fA/nplPxlt7Wix73FYIEt3wPwhNUFBayiB8lcvNDxl/WyWzL2DNmtJJhkxP7JFyS
-zTwXI71vJGvr+eD9yyEYe6bqLevhpw4efUqk1yQYmpq4DVfOjdfDYobogeYxGAzC
-p/nsroL7mpC+v5v4giriyXFHjcdF4Nc9Xp/4/b+uNydZi6OivkoR9cA5Vbil0QQC
-xsdb0Bnhn2cV2yZ/GBILfHBhpEyueP9RPdkVpHXi4D7jtHPBI+EcRApkbNWotmom
-mUpkCuIHiJ9vaEHszZjNWp5WYWWz1V5IfuDojvI0qCFdZHWiFl6tmIM2Gb4ib0RY
-+w/EaPHA9Emij12UybO/sW4c5NTMktM7i9ds3/pR6WutUQp08N977qvADMdu4GVT
-91qrywMk3h3qz3bSe1mFRPmwaLI2wXHk/eV78gZsC9DADNi003Dmgz72esCruLMq
-VC+Nl04tNwl+NXs4ZlvuautDcCLlELraVS8YIpsAJWWbJ8GESvhPThW7jCHDKty4
-u+zHaREOu8Fxy5pn7m93eDbiuHcKUrWjiiOJvKOUWEAvl6l5HtedGfg3j3OnNQZk
-afYlXtCik2dCGqTIDHY04MK9w9HIS21/n2inA5jIJcJAaaxm5hnZWLaf5qyNj4fm
-M7nTj+W9x3cExO90XjBaVtjM5x3d4bGU8SMT+33hNlmT4H9E7s5nU4GyCvdcdwr2
-7eQKn6JTgEA4j2WCNufEuRXDgCICR+HLrVLXuYyV0Bi3CAakuhv1vgom+lSKGzTd
-1N9alRloLt5FG4d0n09heTElZrjt9biyayoU9yUIO9noqy3bZORtrakqJrr5CIpf
-TDfO7OgIftNrXBCQhfW45Ur3n+KL8xWcpGg6n1uReMMHLFtqwASIwnyiSJcWoKq0
-vVSh9Le+nMQc+kLB96RYQB719JiUeksEDKvV31g4B7k=
+// 全局提示出口（V3.23.0 起为「唯一一处」全局出口；V3.92.0 扩展为四级通用提示）
+//
+// 背景：中央请求封装 api.ts 在响应拦截器里只处理 401（跳登录），
+// 其余错误虽 Promise.reject，却被各 store 的 .catch 静默吞掉 ——
+// 写操作失败时用户既看不到提示、本地状态又与数据库真值永久分歧（最危险的架构隐患）。
+//
+// V3.92.0 起本 store 不再只服务错误：全站替换浏览器原生 alert/confirm 弹窗
+// （原生弹窗样式与全站割裂、会阻塞整页操作、校验提示一闪即逝无法回查），
+// 统一改走本出口。支持四种级别：success 成功 / info 提示 / warning 警告 / error 错误。
+import { create } from 'zustand';
+
+export type ToastSeverity = 'success' | 'info' | 'warning' | 'error';
+
+interface GlobalToastState {
+  open: boolean;
+  message: string;
+  /** 提示级别（默认 error，保持历史调用方行为不变） */
+  severity: ToastSeverity;
+  /** 上一次弹出的时间戳，用于同消息防抖 */
+  lastShownAt: number;
+  /** 弹出一条提示（自动去重，4 秒内同消息不重复弹） */
+  show: (message: string, severity?: ToastSeverity) => void;
+  /** 弹出一条错误提示（show 的 error 快捷方式，历史调用方零改动） */
+  showError: (message: string) => void;
+  /** 关闭（Snackbar 自动消失或用户手动关闭时调用） */
+  close: () => void;
+}
+
+export const useGlobalToastStore = create<GlobalToastState>((set, get) => ({
+  open: false,
+  message: '',
+  severity: 'error',
+  lastShownAt: 0,
+  show: (message, severity = 'error') => {
+    if (!message) return;
+    const now = Date.now();
+    if (get().message === message && get().severity === severity && now - get().lastShownAt < 4000) return;
+    set({ open: true, message, severity, lastShownAt: now });
+  },
+  showError: (message) => get().show(message, 'error'),
+  close: () => set({ open: false }),
+}));

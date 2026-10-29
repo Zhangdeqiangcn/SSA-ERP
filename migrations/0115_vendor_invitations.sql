@@ -1,61 +1,39 @@
-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
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 0115 采购员定向邀请供应商注册（V3.100.0）
+-- ───────────────────────────────────────────────────────────────────────────
+-- 背景（强哥诉求）：让采购员生成专属邀请链接，供应商凭链接注册后自动归属到
+--   该采购员，并由其审核（定向邀请 + 弱定向审核）。
+-- 设计：
+--   · vendor_invitations：邀请记录表。owner_id = 发起采购员 id（RLS 'own'，
+--     保证采购员只看见自己发的邀请；admin/super 特权绕过看全部）。
+--   · buyer_id / buyer_name：冗余记录发起采购员，注册落库时作为定向归属依据。
+--   · code：全局唯一的邀请码（公开链接用，无需登录即可凭码查询/注册）。
+--   · status：active / used / revoked；used_at 标记被消费；expires_at 可空=永久。
+--   · 范式沿用 0109 flow_shared 审计列（created_at/created_by/...）。
+-- 幂等：CREATE TABLE / 唯一索引均带 IF NOT EXISTS，重复执行安全。
+-- ═══════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS vendor_invitations (
+  id              TEXT PRIMARY KEY,
+  org_id          TEXT NOT NULL DEFAULT 'default',
+  code            TEXT NOT NULL,                     -- 邀请码（公开链接用，全局唯一）
+  buyer_id        TEXT,                              -- 发起邀请的采购员 id
+  buyer_name      TEXT,                              -- 发起邀请的采购员姓名（冗余快照）
+  sales_org       TEXT,                              -- 采购组织（邀请时指定，注册申请路由到该条线）
+  status          TEXT DEFAULT 'active',             -- active / used / revoked
+  expires_at      TEXT,                              -- 过期时间（NULL=永久有效）
+  used_at         TEXT,                              -- 使用时间（被注册消费时写）
+  owner_id        TEXT,                              -- 行级归属（RLS 'own' 用，= buyer_id）
+  created_at      TEXT,
+  updated_at      TEXT,
+  created_by      TEXT,
+  updated_by      TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_vendor_invitations_code ON vendor_invitations(code);
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0115_vendor_invitations', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

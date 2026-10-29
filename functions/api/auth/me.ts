@@ -1,14 +1,11 @@
-U2FsdGVkX18A4To5o1Jz8OPFA/1Ur5umA8dO//Ir51X7Yn5VrHAzecXDakLu8Ln1
-w/4vmMjsL6+or3Aw1oIfc6sAEuPBV0wYf0cib1+fZ6ErGYK5wnfxkkROnPfxHTek
-TyUP6MsPal91x/cXBDBKqBGJp4c/5RF/oIoPwr9fLlA2nOK1XOJuAvWK81zOYGhj
-2dnTeYawr/6b/OCR/axBXoRY1w+rpjaJxjNLop2KJYuoH7BVhogfOrJUTTC04vOh
-Xi2pDcbpJwmw/bKffSI+Eo074ooUfmUaURt09iChah/9lEXjF7A/3gJfcgBNcQkp
-dpq+MjpZemFyb3M+JIHzUv4vHlRtJbUua9YROIS/9dRVoHjf16n/KN21TuuITFdL
-8avr05alIYUW/rE7Uy55bPtoETnewB9I0e4fpdQmYpZlMKcS/L0Sb9k/8xwkIMoc
-NCWW2I3O5BFzwtY4sW39uwEAkwSfW88KX5LJAIVxPBMl/1fn8aykb3PRHJvM8vnx
-INZB5+DVfR9liMN71DqLxSKcVzRtya4jZfYKq38iiTB3oS3psMTZPUruNpH6kGML
-y6FP0XiTcU2fbTym0uss13oNh3ZQNztWewVtUKJxPGwXg/OIm6n5IDAnK4FrubGh
-zfvwSCmGYLoKE+J2n+9ZQBEqmzc9TxshqYfl6XpPlsxZnIx0tqE7i1/tBYWvZE6R
-p4plL7oJ4M9InocLkYIMLvLRKQcwYLqfFhaEJxJrDB2q/E1DaIZFql0LAV+9aDTe
-NKAmuhrl/zn33TzvGtazOaOf84b/17AhX6h3mI5RdW+KltMc/eHM9DJwxx/Edl7Y
-0dQaZKlllpEDOyWr0Ox4uFtcqgLKaL59P5aEMlJPPmc=
+// 当前登录用户（用于刷新页面后恢复会话 / 应用启动时刷新资料）
+// V3.15.0：返回规范化客户端用户对象（toClientUser），字段与登录接口保持一致
+//   （含 department / email / altEmail / phone），供个人中心展示与编辑资料后刷新使用。
+import { getUserFromRequest, json, toClientUser } from '../../_shared/auth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  return json({ user: toClientUser(user) });
+}

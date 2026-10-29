@@ -1,85 +1,120 @@
-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
+import {
+  ChannelAdapter,
+  ChannelPlatform,
+  NormalizedOrder,
+  NormalizedOrderLine,
+  PushInventoryInput,
+  PushLogisticsInput,
+  ChannelResult,
+  OrderStatus,
+  splitPrice,
+  round2,
+} from './types';
+// channelApi 在方法内按需动态导入：避免契约测试加载浏览器端依赖链（normalizeOrder 为纯函数，不依赖网络）
+
+// 拼多多开放平台订单原始结构（精简字段，实际对接以开放平台文档为准）
+interface PddRawGoods {
+  sku_id?: string;
+  goods_id?: string;
+  goods_name?: string;
+  goods_number?: number; // 数量
+  goods_price?: number; // 单价（分）
+  goods_tax_rate?: number; // 税率（0~1）
+}
+interface PddRawOrder {
+  order_sn?: string;
+  receiver_name?: string;
+  receiver_phone?: string;
+  receiver_address?: string;
+  province?: string;
+  city?: string;
+  town?: string;
+  pay_time?: string;
+  order_status?: number; // 1待付款 2待发货 3待收货 4待评价 5完成 6退款/取消
+  postage?: number; // 运费（分）
+  discount_fee?: number; // 优惠（分）
+  goods_list?: PddRawGoods[];
+}
+
+const STATUS_MAP: Record<number, OrderStatus> = {
+  1: 'pending',
+  2: 'paid',
+  3: 'shipped',
+  4: 'shipped',
+  5: 'completed',
+  6: 'refunded',
+};
+
+export class PinduoduoAdapter implements ChannelAdapter {
+  readonly platform: ChannelPlatform = 'pinduoduo';
+
+  async pullOrders(params?: { since?: string; page?: number }): Promise<NormalizedOrder[]> {
+    const { channelApi } = await import('@/services/channelApi');
+    const raw = await channelApi.pullOrders(this.platform, params);
+    return raw.map((r: any) => this.normalizeOrder(r));
+  }
+
+  async pushInventory(items: PushInventoryInput[]): Promise<ChannelResult> {
+    const { channelApi } = await import('@/services/channelApi');
+    return channelApi.pushInventory(this.platform, items);
+  }
+
+  async pushLogistics(input: PushLogisticsInput): Promise<ChannelResult> {
+    const { channelApi } = await import('@/services/channelApi');
+    return channelApi.pushLogistics(this.platform, input);
+  }
+
+  // 纯函数：拼多多订单 → 归一化订单
+  normalizeOrder(raw: unknown): NormalizedOrder {
+    const o = (raw || {}) as PddRawOrder;
+    const orderId = String(o.order_sn ?? '');
+    const taxRate = round2(o.goods_list?.[0]?.goods_tax_rate ?? 0);
+    const lines: NormalizedOrderLine[] = (o.goods_list || []).map((g, i) => {
+      const qty = Number(g.goods_number ?? 1);
+      const priceFen = Number(g.goods_price ?? 0);
+      const priceWithTax = round2(priceFen / 100); // 分→元（视为含税）
+      const { net, tax } = splitPrice(priceWithTax, taxRate);
+      const amount = round2(net * qty);
+      const lineTax = round2(tax * qty);
+      return {
+        lineNo: String(g.sku_id ?? i + 1),
+        platformSku: String(g.sku_id ?? ''),
+        sku: String(g.goods_id ?? ''),
+        name: String(g.goods_name ?? ''),
+        quantity: qty,
+        unitPrice: net,
+        taxRate,
+        taxAmount: lineTax,
+        amount,
+        totalAmount: round2(amount + lineTax),
+        discountAmount: 0,
+      };
+    });
+    const freight = round2(Number(o.postage ?? 0) / 100);
+    const discount = round2(Number(o.discount_fee ?? 0) / 100);
+    const totalTax = round2(lines.reduce((s, l) => s + l.taxAmount, 0));
+    const totalNet = round2(lines.reduce((s, l) => s + l.amount, 0));
+    return {
+      id: `pdd-${orderId}`,
+      platform: 'pinduoduo',
+      platformOrderId: orderId,
+      orderStatus: STATUS_MAP[o.order_status ?? 1] ?? 'pending',
+      buyerName: String(o.receiver_name ?? ''),
+      receiverName: o.receiver_name,
+      receiverPhone: o.receiver_phone,
+      receiverAddress: o.receiver_address,
+      province: o.province,
+      city: o.city,
+      district: o.town,
+      payTime: o.pay_time,
+      createdAt: o.pay_time ?? new Date().toISOString(),
+      totalAmount: round2(totalNet + totalTax + freight - discount),
+      taxAmount: totalTax,
+      discountAmount: discount,
+      freight,
+      currency: 'CNY',
+      lines,
+      rawPayload: o,
+    };
+  }
+}

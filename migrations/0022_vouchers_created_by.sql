@@ -1,14 +1,12 @@
-U2FsdGVkX19fQQc8HDefJHg9zR0sZp9FphlgyG3adRJjVE7FiP6Lys3GuhujKqFX
-6ooYA+UCOujLG2Wy4Fu33HuqBnBfng5Qhkgs57qTxqUs4D5MHQuiGLBcw8DUlme/
-wk9FSBZ9jIM7UEkRpyogNP2pGdx/PhI+s1yMwniBJVMhm1g2P2C47ScpZiTOxv5l
-FmYgaHC1Z69a59jXz7L3EN4enmwoo7A271YAfuvUAzCDZrRGyXVxH0X6502xA3Qw
-atvloW8WuyBJ6IoJ7s5WklnMQ9/jupgTGFQ7eX/k8eTJ45qcH/SofylNmFEhYUmv
-zedjc9B7q4sjdJ1e3U+/XMx8ghRFvmgc6AIx6SrgtxVanuUriDtp6U7dfeESeHlq
-yyIM/E0ZMPIU5QTdtjjgECQhj8FoEYdw2L6nqP5rwVF120bP6sDZziQ5Kmh4LKxj
-OVxPXVb8DOxRFWe4zksTdpUlPU5XQ0QQu1ON83sfG/dRpIi9iI5vyaBL+XpzEu1y
-EFZlU1HSX+hAeh4VP+Iv+PceKnXPACBQ/gOXZfutnxoogioLpgk9Js9ygwssPUlC
-EW9QE7CwOXmQyI10l5iywQpcOGx3QgUPZvD719Idh2EZ09njpTogF3xsUi/yi4Ou
-5xD2I6mWl4QuDsCt5GAXkbbjtZBxubxnf2Sj0W2gVQoJKxPUgCRimDVQkxPIKyuy
-S4RUxT+XcVRmQ02FxC1ekzUuTPoeIU6WJImdPGKDxreYada/FApUqMQU/RbTwTMb
-y+btJmNy+meipsf1d1CDHd9Ev+ivleIRMcbgahESETIjz42sZ/DXB3vI2xYoiEI6
-6E4+3xOJCz+9swQBNjPY6g==
+-- W1 根治双通道：vouchers 表补 created_by 审计列
+-- 原 0007_p1_phase5.sql 的 vouchers DDL 仅含 created_at/updated_at/updated_by，
+-- 缺 created_by；而 vouchers POST 端点（functions/api/vouchers/index.ts）写入
+-- created_by / updated_by，导致 INSERT 500。本迁移补齐该列，与 purchase_orders /
+-- sales_orders / work_orders 保持一致（均为可空 TEXT）。
+PRAGMA foreign_keys = ON;
+
+ALTER TABLE vouchers ADD COLUMN created_by TEXT;
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0022_vouchers_created_by', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

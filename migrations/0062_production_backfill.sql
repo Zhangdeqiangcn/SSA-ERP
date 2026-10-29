@@ -1,157 +1,149 @@
-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
+-- 迁移 0062：生产域存量回填（V3.12.0 · C1 第七域）
+--
+-- ═══════════════ 搬什么（实测精确数量，非估算）══════════════
+--   工艺路线 2 条 / 工序 10 行 / MRP 建议 4 条
+--   来源：app_state['ssa-erp-production']（3775 字节，包裹层 {"state":{...}}）
+--
+-- ═══════════════ ★★ org_id 怎么定：本轮纠正了 0057/0059 的做法 ═══════════════
+--
+-- 【旧做法（0057 审批流 / 0059 采购域）】
+--   SELECT org_id FROM users GROUP BY org_id
+--   ORDER BY COUNT(*) DESC, MIN(created_at) ASC LIMIT 1
+--   注释里写的前提是：「app_state 是全局单份历史配置表，**本身不带 org_id**」。
+--
+-- 【★ 这个前提是错的 —— 本轮实测坐实】
+--   生产库 app_state 的真实 DDL：
+--     CREATE TABLE app_state (
+--       org_id      TEXT NOT NULL,
+--       key         TEXT NOT NULL,
+--       value       TEXT NOT NULL,
+--       updated_at  TEXT NOT NULL, version INTEGER, updated_by TEXT,
+--       PRIMARY KEY (org_id, key))
+--   **它带 org_id，而且是主键的一部分。**
+--
+-- 【后果：那两轮换填落错了组织】
+--   · app_state 里 ssa-erp-purchase / ssa-erp-approval-flows 的 org_id
+--     = org_d213a257563c40cca55551781cef67f9（公司码 CY03Z「创业三人组」）
+--   · 而 0057/0059 回填进去的行落在
+--     org_04d67b437bf24a5db3d4aa2fc756b45d（公司码 xinguang「新光专用汽车」）
+--   · 实测：`purchase_requests` 5 条在 xinguang、CY03Z 为 0；
+--           `approval_flows`  13 条在 xinguang、CY03Z 为 0。
+--   → **真正的所有者打开页面看到的是空列表**（RLS 按 org_id 隔离）。
+--     这是「静默失效」里最难发现的一类：迁移执行成功、行数对得上、
+--     门禁全绿，但**用户就是看不到**。
+--
+-- 【★ 更糟的是：0059 用来「确认」的那条旁证，指向的正是被污染的那份数据】
+--   0059 注释写：「追加一条独立旁证 —— SELECT org_id,COUNT(*) FROM purchase_orders
+--   GROUP BY org_id → org_04d6… 有 3 条真实采购订单」。
+--   但项目记忆明确记载：2026-08-28 seed 污染事故往生产库灌了
+--   **供应商 12 / 客户 5 / 采购订单 3 / 销售订单 3 / 工单 3 条**。
+--   本轮实测 xinguang 各表计数：vendor_master 12? / customers 5 / purchase_orders 3 /
+--   sales_orders 3 / work_orders 3 —— **与污染记录逐项吻合**。
+--   也就是说「旁证」确认的是一个**被污染组织**，两条证据同时指错。
+--
+-- 【★ 决定性证据：账号归属】
+--   强哥的账号 zhangdeqiang（张德强 / super_admin）在 **CY03Z**。
+--   Blob 是登录用户写进去的 → app_state 行的 org_id 就是其所属组织。
+--   **一手证据（表自己的 org_id）> 推导（谁用户多）> 旁证（哪张表数据多）。**
+--   当三者冲突时，取一手证据。
+--
+-- 【本迁移的做法】
+--   直接用 `a.org_id`（app_state 行自带的组织），不推导、不旁证。
+--   这条规则应当成为后续所有域回填的**默认写法**：
+--     FROM app_state a, json_each(a.value, '$.state.<切片>') r
+--     WHERE a.key = 'ssa-erp-xxx'  -- org_id 取 a.org_id
+--
+-- ═══════════════ SQL 写法要点（沿用 0059 的两条）══════════════
+-- 1. 展开子表时父 id 取**外层展开项** r.value ->> 'id'。
+-- 2. JSON 列（skills）用 json_extract 原样取，**不能再套 json_quote**
+--    （会多包一层引号，读回时形状全变 —— 数组会变成字符串）。
+--
+-- ═══════════════ 幂等 ═══════════════
+-- 全部 INSERT 用 WHERE NOT EXISTS 守卫，重复执行不产生重复行。
+
+-- ═══════════════ 1. 工艺路线（父表）═══════════════
+INSERT INTO process_routes (
+  id, org_id, route_no, name, product_code, product_name, version, status,
+  total_lead_time, created_at, updated_at, created_by, updated_by
+)
+SELECT
+  r.value ->> 'id',
+  a.org_id,                             -- ★ 一手证据：Blob 行自带的组织
+  r.value ->> 'routeNo',
+  r.value ->> 'name',
+  r.value ->> 'productCode',
+  r.value ->> 'productName',
+  r.value ->> 'version',
+  r.value ->> 'status',
+  json_extract(r.value, '$.totalLeadTime'),
+  r.value ->> 'createdAt',
+  r.value ->> 'updatedAt',
+  r.value ->> 'createdBy',
+  r.value ->> 'updatedBy'
+FROM app_state a, json_each(a.value, '$.state.processRoutes') r
+WHERE a.key = 'ssa-erp-production'
+  AND r.value ->> 'id' IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM process_routes p WHERE p.id = r.value ->> 'id');
+
+-- ═══════════════ 2. 工艺路线工序（子表）═══════════════
+-- ★ Operation 自带 id（op-001…）→ 主键直接用它，不走 uid 生成。
+-- ★ 父 id 取外层展开项 r.value ->> 'id'，不是子项里的字段。
+-- ★ seq 用数组下标（json_each 的 key）作为稳定插入顺序。
+INSERT INTO process_route_operations (
+  id, route_id, seq, sequence, operation_code, operation_name, work_center,
+  setup_time, run_time, wait_time, description, skills, created_at, updated_at
+)
+SELECT
+  op.value ->> 'id',
+  r.value ->> 'id',
+  CAST(op.key AS INTEGER),
+  json_extract(op.value, '$.sequence'),
+  op.value ->> 'operationCode',
+  op.value ->> 'operationName',
+  op.value ->> 'workCenter',
+  json_extract(op.value, '$.setupTime'),
+  json_extract(op.value, '$.runTime'),
+  json_extract(op.value, '$.waitTime'),
+  op.value ->> 'description',
+  json_extract(op.value, '$.skills'),   -- JSON 数组原样写入 TEXT 列
+  NULL,
+  NULL
+FROM app_state a,
+     json_each(a.value, '$.state.processRoutes') r,
+     json_each(r.value, '$.operations') op
+WHERE a.key = 'ssa-erp-production'
+  AND op.value ->> 'id' IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM process_route_operations x WHERE x.id = op.value ->> 'id');
+
+-- ═══════════════ 3. MRP 建议（平表）═══════════════
+INSERT INTO mrp_recommendations (
+  id, org_id, material_code, material_name, current_stock, safety_stock,
+  required_quantity, on_order_quantity, suggested_quantity, unit,
+  suggested_date, reason, type, priority, created_at, updated_at
+)
+SELECT
+  m.value ->> 'id',
+  a.org_id,
+  m.value ->> 'materialCode',
+  m.value ->> 'materialName',
+  json_extract(m.value, '$.currentStock'),
+  json_extract(m.value, '$.safetyStock'),
+  json_extract(m.value, '$.requiredQuantity'),
+  json_extract(m.value, '$.onOrderQuantity'),
+  json_extract(m.value, '$.suggestedQuantity'),
+  m.value ->> 'unit',
+  m.value ->> 'suggestedDate',
+  m.value ->> 'reason',
+  m.value ->> 'type',
+  m.value ->> 'priority',
+  NULL,
+  NULL
+FROM app_state a, json_each(a.value, '$.state.mrpRecommendations') m
+WHERE a.key = 'ssa-erp-production'
+  AND m.value ->> 'id' IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM mrp_recommendations x WHERE x.id = m.value ->> 'id');
+
+-- ── 幂等守卫 ────────────────────────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0062_production_backfill', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

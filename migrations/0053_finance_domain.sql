@@ -1,181 +1,212 @@
-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
+-- 迁移 0053：财务域剩余切片关系化 —— C1 第三个域（V3.7.0）
+--
+-- ── 背景：这个域是「迁了一半」的典型 ──────────────────────────────
+-- 财务域的**凭证**部分（vouchers / voucher_items）在 V3.x 的「W1 根治双通道」
+-- 中已经迁到真实 D1 表，`partialize` 也把 vouchers 排除在 Blob 之外。
+-- 但**其余 7 个切片仍在 app_state 的 JSON 大对象里**：
+--
+--   invoices 1.80 KB / paymentPlans 1.49 KB / accountEntries 4.04 KB /
+--   financeStats 0.12 KB / taxRecords 1.46 KB / projectAccounts 2.88 KB /
+--   chartOfAccounts 3.04 KB     合计 15.0 KB
+--
+-- 这个「一半在表、一半在 Blob」的状态比全在 Blob 更危险：
+--   ① 凭证已按行存储，但**发票还在 Blob**，于是「发票 → 凭证」的关联
+--      一头是关系、一头是 JSON，外键约束加不上，级联删除做不了。
+--   ② 排查问题时无法判断「这条发票到底在库里还是在浏览器里」。
+--   ③ `loadVouchers()` 已经会从 D1 拉数据，而发票不会 —— 换台电脑打开，
+--      凭证还在、发票没了，且没有任何报错。
+--
+-- ── 本迁移的范围与取舍 ─────────────────────────────────────────
+-- 一次把 7 个切片全部关系化。它们都是**平表结构**（无嵌套），
+-- 相比 BOM 的三层嵌套、打印模板的图片外置，这是最简单的形态。
+--
+-- 两个特例单独说明：
+--   · `chartOfAccounts`（会计科目表）是**主数据**（21 条），
+--     有 `parentCode` 自引用形成科目树，但树只有两级，用物化列即可，
+--     不需要递归 CTE。
+--   · `accountEntries`（分录）在 `vouchers` 迁移后语义上已**被凭证行取代**，
+--     保留它是因为 `vouchers` 是由分录派生的、且老数据需要可追溯。
+--     这里仍建表并回填，标记为 `legacy` 来源，不做删除 —— 删数据的风险
+--     远大于多留一张表的成本。
+--
+-- ── 组织归属 ──────────────────────────────────────────────────
+-- 全部带 `org_id`（财务数据是强组织隔离的，跨组织可见属于严重问题）。
+-- 子表（如 payment_plan_installments）通过父表 id 从属，不重复存 org_id。
+
+-- ==================== 发票 ====================
+CREATE TABLE IF NOT EXISTS fin_invoices (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  invoice_no TEXT NOT NULL,
+  invoice_type TEXT,                  -- vat_special | vat_normal | receipt
+  status TEXT,                        -- draft | submitted | verified | paid | cancelled
+  vendor_name TEXT,
+  vendor_tax_no TEXT,
+  purchase_order_no TEXT,
+  invoice_date TEXT,
+  received_date TEXT,
+  amount REAL DEFAULT 0,              -- 不含税金额
+  tax_rate REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  total_amount REAL DEFAULT 0,
+  currency TEXT DEFAULT 'CNY',
+  exchange_rate REAL DEFAULT 1,
+  verified_by TEXT,
+  verified_at TEXT,
+  note TEXT,
+  voucher_generated INTEGER DEFAULT 0,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT,
+  UNIQUE (org_id, invoice_no)
+);
+CREATE INDEX IF NOT EXISTS idx_fin_invoice_no ON fin_invoices(org_id, invoice_no);
+CREATE INDEX IF NOT EXISTS idx_fin_invoice_status ON fin_invoices(org_id, status, invoice_date);
+CREATE INDEX IF NOT EXISTS idx_fin_invoice_po ON fin_invoices(org_id, purchase_order_no);
+CREATE INDEX IF NOT EXISTS idx_fin_invoice_vendor ON fin_invoices(org_id, vendor_name);
+
+-- ==================== 付款计划（含多期） ====================
+CREATE TABLE IF NOT EXISTS fin_payment_plans (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  plan_no TEXT NOT NULL,
+  vendor_name TEXT,
+  vendor_id TEXT,
+  purchase_order_no TEXT,
+  invoice_no TEXT,
+  total_amount REAL DEFAULT 0,
+  paid_amount REAL DEFAULT 0,
+  status TEXT,                        -- pending | partial | paid | overdue
+  due_date TEXT,
+  paid_date TEXT,
+  payment_method TEXT,
+  bank_account TEXT,
+  note TEXT,
+  voucher_generated INTEGER DEFAULT 0,
+  advance_amount REAL DEFAULT 0,
+  advance_occupied INTEGER DEFAULT 0,
+  currency TEXT DEFAULT 'CNY',
+  exchange_rate REAL DEFAULT 1,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT,
+  UNIQUE (org_id, plan_no)
+);
+CREATE INDEX IF NOT EXISTS idx_fin_plan_no ON fin_payment_plans(org_id, plan_no);
+CREATE INDEX IF NOT EXISTS idx_fin_plan_due ON fin_payment_plans(org_id, status, due_date);
+CREATE INDEX IF NOT EXISTS idx_fin_plan_po ON fin_payment_plans(org_id, purchase_order_no);
+
+-- 多期付款明细：一期一行。原实现把它放在父对象的 installments 数组里，
+-- 后果是「某期付款了没」无法用 SQL 统计（要拉全部计划再在前端数）。
+CREATE TABLE IF NOT EXISTS fin_payment_plan_installments (
+  id TEXT PRIMARY KEY,
+  plan_id TEXT NOT NULL,              -- 从属计划，不重复存 org_id
+  seq INTEGER DEFAULT 0,
+  type TEXT,                          -- advance | progress | final | lump
+  label TEXT,
+  amount REAL DEFAULT 0,
+  due_date TEXT,
+  status TEXT,
+  paid_date TEXT,
+  note TEXT,
+  FOREIGN KEY (plan_id) REFERENCES fin_payment_plans(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_fin_install_plan ON fin_payment_plan_installments(plan_id, seq);
+CREATE INDEX IF NOT EXISTS idx_fin_install_due ON fin_payment_plan_installments(status, due_date);
+
+-- ==================== 会计分录（legacy 来源） ====================
+CREATE TABLE IF NOT EXISTS fin_account_entries (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  entry_no TEXT,
+  entry_date TEXT,
+  period TEXT,
+  summary TEXT,
+  account_code TEXT,
+  account_name TEXT,
+  debit REAL DEFAULT 0,
+  credit REAL DEFAULT 0,
+  currency TEXT DEFAULT 'CNY',
+  voucher_no TEXT,
+  source TEXT DEFAULT 'legacy',
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_date ON fin_account_entries(org_id, entry_date);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_period ON fin_account_entries(org_id, period);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_account ON fin_account_entries(org_id, account_code);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_voucher ON fin_account_entries(org_id, voucher_no);
+
+-- ==================== 税务记录 ====================
+CREATE TABLE IF NOT EXISTS fin_tax_records (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  period TEXT,
+  tax_type TEXT,
+  taxable_amount REAL DEFAULT 0,
+  tax_rate REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  status TEXT,
+  declared_at TEXT,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_tax_period ON fin_tax_records(org_id, period, tax_type);
+
+-- ==================== 项目核算 ====================
+CREATE TABLE IF NOT EXISTS fin_project_accounts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  project_no TEXT,
+  project_name TEXT,
+  customer_name TEXT,
+  budget_amount REAL DEFAULT 0,
+  actual_amount REAL DEFAULT 0,
+  revenue REAL DEFAULT 0,
+  cost REAL DEFAULT 0,
+  profit REAL DEFAULT 0,
+  status TEXT,
+  start_date TEXT,
+  end_date TEXT,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_project_no ON fin_project_accounts(org_id, project_no);
+
+-- ==================== 会计科目（主数据，两级树） ====================
+CREATE TABLE IF NOT EXISTS fin_chart_of_accounts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  type TEXT,                          -- asset | liability | equity | revenue | expense
+  parent_code TEXT,                   -- 自引用形成科目树；仅两级，物化列足够
+  is_leaf INTEGER DEFAULT 1,
+  balance REAL DEFAULT 0,
+  normal_side TEXT,                   -- debit | credit
+  statement TEXT,                     -- BS | IS | CF
+  section TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT,
+  UNIQUE (org_id, code)
+);
+CREATE INDEX IF NOT EXISTS idx_fin_coa_code ON fin_chart_of_accounts(org_id, code);
+CREATE INDEX IF NOT EXISTS idx_fin_coa_parent ON fin_chart_of_accounts(org_id, parent_code);
+CREATE INDEX IF NOT EXISTS idx_fin_coa_stmt ON fin_chart_of_accounts(org_id, statement, section);
+
+-- 幂等守卫（业务版本登记）
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0053_finance_domain', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

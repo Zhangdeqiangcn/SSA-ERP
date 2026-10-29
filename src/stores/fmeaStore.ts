@@ -1,75 +1,125 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+export type FMEAStatus = 'draft' | 'reviewed' | 'approved';
+
+export interface FMEA {
+  id: string;
+  number: string;
+  item: string;
+  function: string;
+  failureMode: string;
+  effect: string;
+  severity: number;
+  cause: string;
+  occurrence: number;
+  currentControl: string;
+  detection: number;
+  rpn: number;
+  recommendedAction?: string;
+  status: FMEAStatus;
+  /** P2-15 关联物料主数据 */
+  materialId?: string;
+  materialName?: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  updatedBy: string;
+}
+
+const now = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+const seedFMEA: FMEA[] = [
+  {
+    id: uid('fmea'),
+    number: 'FMEA-2026-001',
+    item: '缸体铸造',
+    function: '提供发动机缸体毛坯',
+    failureMode: '气孔缺陷',
+    effect: '缸体强度不足，可能导致发动机漏油',
+    severity: 9,
+    cause: '浇注温度偏低，排气不畅',
+    occurrence: 5,
+    currentControl: 'X光探伤抽检',
+    detection: 6,
+    rpn: 270,
+    recommendedAction: '优化浇注系统排气设计，提高浇注温度监控',
+    status: 'reviewed',
+    createdAt: now(),
+    updatedAt: now(),
+    createdBy: '质量部',
+    updatedBy: '质量部',
+  },
+  {
+    id: uid('fmea'),
+    number: 'FMEA-2026-002',
+    item: '钢板剪裁',
+    function: '按规格尺寸剪裁钢板',
+    failureMode: '尺寸超差',
+    effect: '后续焊接装配困难，影响产品合格率',
+    severity: 7,
+    cause: '剪板机刀具磨损',
+    occurrence: 4,
+    currentControl: '首件检验+巡检',
+    detection: 3,
+    rpn: 84,
+    status: 'draft',
+    createdAt: now(),
+    updatedAt: now(),
+    createdBy: '质量部',
+    updatedBy: '质量部',
+  },
+];
+
+interface FMEAState {
+  items: FMEA[];
+  addItem: (item: FMEA) => void;
+  updateItem: (id: string, updates: Partial<FMEA>) => void;
+  deleteItem: (id: string) => void;
+  /** V3.81.0：从 D1 水合 */
+  hydrateFMEA: () => Promise<void>;
+}
+
+const RES = 'fmeaItem';
+
+export const useFMEAStore = create<FMEAState>()(
+    (set) => ({
+      items: [...seedFMEA],
+
+      addItem: (item) => {
+        set((s) => ({ items: [...s.items, item] }));
+        if (isAuthed()) writeRow(RES, item.id, item);
+      },
+      updateItem: (id, updates) => {
+        let updated: FMEA | undefined;
+        set((s) => ({
+          items: s.items.map((x) => {
+            if (x.id !== id) return x;
+            updated = { ...x, ...updates, updatedAt: now(), updatedBy: '当前用户' };
+            return updated;
+          }),
+        }));
+        if (updated && isAuthed()) writeRow(RES, id, updated);
+      },
+      deleteItem: (id) => {
+        set((s) => ({ items: s.items.filter((x) => x.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+      hydrateFMEA: async () => {
+        if (!isAuthed()) return;
+        try {
+          const res = await entityRepo.list<FMEA>(RES, { page: 1, pageSize: 500 });
+          const rows = parsePayload<FMEA>(res?.data || []);
+          if (rows.length) set({ items: rows });
+        } catch {
+          // 离线/异常：保留本地态（含种子）
+        }
+      },
+    }),
+);
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useFMEAStore.getState().hydrateFMEA();

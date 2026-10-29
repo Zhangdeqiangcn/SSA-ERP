@@ -1,86 +1,77 @@
-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
-GZO42Op78ILK+r98A4Diy/F8ZKThXMIQPvaCKtlq1fzEGJHx9kOr1+/c8uLKhTX9
-3Rv+SgNhUiNySH4UxHud0a9Hw4DcQ2wDXqjhOtXBjufS0sli1OZ2ZwwMisXz8K64
-IFAXxGUheo4IgwEsCmOVKd244MaIuq2jpbElweqJIYhg92ShSWdq8odP4MpBtugp
-1/dn8uz3rh6qdv6j/lnCu0eX9RmYcyZUCL3DP4xKG4wyHpU3fy0t7oc2HlT9BfUn
-F1ZA3MOBFvkBgaryNg0a5ZNvokzFU38idf5JpxBeYHpZ5RDUIKkVCUwjkU6atvqF
-dFVu626xe801XA0Dt2NEL2NASy+X0YANTlnxvzJQGPpTbhkuUqMmHBl1OykPhgD7
-5A1FmS0MU9uDspns+k7rA3/9dCMvHr2pA47jWdc7ixoidWRA3VrJW0XINo+Qmw73
-GXkAp0QzF85GQJWZdx3Pl9tCpXXziglBPF3IuNGb3SQzsQrWLW3i4Xu3XVzpmoz+
-5uCKrGD6kUkbubHqh+KA5WkDuubYdv0P0zEP1jdoFKRaXG60Ko+P+ttBU2UqxSFN
-fwQk3ATNl6KGXKsSMtQBswvNkSw+CofaYBSM7R51E3kd7k1HYlt5eSFVq+IxaeUr
+// 销售收款单端点（V3.61.0 · P0-2 · 补齐应收账款冲减侧）
+// GET    /api/fin-sales-receipts        列表（分页 / keyword / RLS）
+// POST   /api/fin-sales-receipts        创建（自动生成收款凭证：借1002 银行存款 / 贷1122 应收账款）
+// GET    /api/fin-sales-receipts/:id    单条读取
+// DELETE /api/fin-sales-receipts/:id    删除（连带删除其凭证，避免账实不符）
+//
+// ── 为什么必须有这个端点 ───────────────────────────────────────────
+// V3.60.0 补齐了「销售开票确认应收」（借1122/贷6001/贷2221，即应收**增加**侧），
+//   但**收款冲减侧从未存在**：全库无销售收款端点，1002 只出现在采购付款里。
+//   后果：应收 1122 只增不减 → 应收账龄/周转率/DSO 永久失真；
+//   且与采购侧不对称（供应商付款会冲应付，客户收款不会冲应收）。
+//   本端点把「客户收款」这一业务动作接上权威凭证通道，与采购付款同范式。
+//
+// ── 会计口径（对标金蝶/用友/SAP）────────────────────────────────
+//   借 1002 银行存款 [收款额] /贷 1122 应收账款 [收款额]
+//   借贷平衡由 writeVoucher 最后一道闸兜底（Σ借=Σ贷 容差 0.005）。
+//
+// ── 幂等 ─────────────────────────────────────────────────────────
+// 以 source='sales-receipt' + source_no=`RCPT-<receiptNo>` 查重，重复提交不双记银行存款。
+import { pcList, pcCreate, pcGet, pcRemove } from '../../_shared/parentChild';
+import { SALES_RECEIPT_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { generateSalesReceiptVoucher } from '../../_shared/arapPosting';
+import { roundAmount } from '../../_shared/money';
+
+export async function onRequestGet(context: any) {
+  return pcList(SALES_RECEIPT_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const body: any = await request.json().catch(() => ({}));
+
+  // 金额服务端规范化：2 位小数、> 0 才能记账（与发票/付款同口径）
+  body.amount = roundAmount(Number(body.amount) || 0);
+  if (body.amount <= 0) {
+    return json({ error: '收款金额必须大于 0', code: 'INVALID_AMOUNT' }, 400);
+  }
+  // 默认状态posted：收款是既成事实（草稿态不记账，与付款计划 pending 语义一致）
+  if (!body.status) body.status = 'posted';
+
+  const newRequest = new Request(request.url, {
+    method: request.method,
+    headers: request.headers,
+    body: JSON.stringify(body),
+  });
+
+  const res = await pcCreate(SALES_RECEIPT_PC, { ...context, request: newRequest });
+
+  // 自动记账（后置非阻断，与发票/付款同范式）
+  try {
+    const payload: any = await res.clone().json().catch(() => null);
+    if (payload && payload.id) {
+      const rc: any = await env.DB
+        .prepare(`SELECT * FROM fin_sales_receipts WHERE org_id = ? AND id = ?`)
+        .bind(user.org_id, payload.id)
+        .first();
+      if (rc && String(rc.status) !== 'cancelled') {
+        const vid = await generateSalesReceiptVoucher(env.DB, user.org_id, user, rc);
+        if (vid) {
+          // 回写标记位（只写真实存在的列：fin_sales_receipts 与发票/付款计划同构，无 updated_by）
+          await env.DB
+            .prepare(`UPDATE fin_sales_receipts SET voucher_generated = 1, updated_at = ? WHERE id = ? AND org_id = ?`)
+            .bind(new Date().toISOString(), payload.id, user.org_id)
+            .run();
+        }
+      }
+    }
+  } catch (e: any) {
+    console.error('[fin-sales-receipts POST] 收款入账后置处理失败（非阻断）：', e?.message || e);
+  }
+
+  return res;
+}

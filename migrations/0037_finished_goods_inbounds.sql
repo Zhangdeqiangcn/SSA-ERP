@@ -1,27 +1,38 @@
-U2FsdGVkX1/MHH9j3HbCLW/krnxQAAg9/1l5tRf8zXahSA0shPSk7UgpkhRLjtrz
-L2ooy042iPYWoRRJrVva+NPXzk+NKNn7ds9GUcG21oDd5fkEV97aBcNKjC1qsMh3
-1lmIDQBhD8Sn1SExi1KrKjWLpQAunkCtqQCsu4jODC/v5S8pa1d7WgDIrtFkueO0
-JF1EAS0FwNYnPMFqG1YauLK+ZW/Z5LupDCVOgDIRiQR27zZ1PcFtn1kvZlrNq3BS
-qhAKSiXiiSKxHlfi4D9eyyAYuDlHA7drKbGTs6iSgeFuer3N/d0rKACaylV91mSG
-zmkm6PFzWICgqZ5PISgK2+ZK4QF6+Ze0vKrHnXCQh2R8Wi17Q0FdHNQUJTFyUvDX
-rHLY66ZF96MJt36a5FhB6uo821E2/jeQYbqnB00kh+oPyhYaELTcovsn3XXD//js
-s2YmlZ3hv0sgn6eZPSs7IAowloeZ6EivMH07baJtHo5oM3nwmJb5wZ1EART+Rtnz
-/yp/G6EPZCD+JhaPoIq1EUBkWdrOYyTPEo4YdBzlDRFtIm26jCv60gzcwDcRX9bt
-ptZVWn+7Sje4AXGJJGrxRWe/NLPUaTnJWLI5aVR+6UNk+LViqu/XSaW8NJTXxcol
-vyf1b1OOpi7OfHs3f7qDIluH3ueDmH2OW1m9eA9swueFbsaDiY6BJ5MqfH8oZL7H
-MU4icplkG7F2GCcIITrisA5RgJZqA7FBMbdtqryzNErFkTMU05FmNVt8gH3vBCcB
-EtlzamOBNeUEsZXO46/IBXX2it5XxalNeVNAOcH2n8PKQjp6e72jUU6YmixT9FJG
-75tvJdjsKbw/f42ZZAQIzEA2bai6kgBhaOOQxsaUJ/fiynZ3HMEezoyxfJlvxsud
-vn6JBGe1+zwESi1guGX0VRm1kQjIDPxvDPIKYj6C+ufuVhUQDqR1Th+76wgGyFSd
-P4zakRR2PQW41Gu1rmlryuW2mwXa+4RFTn5AqujSywZ9HatiGX/R4hNCUNolZFVJ
-4q8NWpicmKrytirTn1x+6lXLG3nCga7ZaWcUAGlvpfi8QHpkeivS4pt8c5AEQ9y5
-DyfTp31r6Q7E1LIUXfmL3RGjBHZ+vVgtWScEcwgRUbgklfguQQOrWOz0xjF7hibb
-AzHkbSdvMbE283bfuSO11BzeDWIDfIaVI9QRlJYzdtOD/+Cq4vk3MXf9lsBen1Rv
-v5S9EyZrWLE47etvEw3upgTK0C1QVNJ6tqC+cVveSvr9djf/ZbyXuoBLfRmMT2Z2
-DmWMzhP0TFC9gIAmPeTEmWzSlvm7CblwzpBeIcdlnyC7arvkpqpPViGchVKi8F0s
-5wpVUHlMj14WytuaFJZ+vztEc3Lbzs5BCQsRT68JkkPna1rXAA76nKs8RuzSCMci
-kfFqntXz9zYFAVyfUiBFTTXMexdK4VdmQeATK1PQI5sKp4eKOQhw6VO1U8R3a9OJ
-2w4DdDvQG0BrJyGGsh5eOeDipBoXnJ2T+rEMAuPJ5lMTeaK+L6DytZ09VePHw6g2
-zmJGATFOyNiJ/T1sliyekZtmPjYo0hTmy8V1/0HLMDu+48PcAyTh779WDCVdxyUd
-/xJlBMsgvP2pEWNTK4Nelb/IdD7Y6V4x3qxWLaawySVg3n2sADk51Uz3ic8FnmUQ
-7VK6mEOFytEPyuHC/bfyiBxbhdvpeNMPEYQJho93TTq6gZsXz1MjU8guiR9mzfZS
+-- V2.82.0 产成品入库迁真实 D1（根治 Blob 双通道最后一块，对齐实体范式）
+-- 前端 warehouseStore.loadFinishedGoodsInbounds 经 /api/entities/finishedGoodsInbound 读写；
+-- 字段全为标量（无嵌套 JSON），camel↔snake 在 functions/_shared/entities.ts 注册。
+-- 与 ENTITY_RESOURCES.finishedGoodsInbound 同源。
+CREATE TABLE IF NOT EXISTS finished_goods_inbounds (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  inbound_no TEXT NOT NULL,
+  work_order_id TEXT,
+  work_order_no TEXT,
+  product_id TEXT,
+  product_code TEXT,
+  product_name TEXT,
+  specification TEXT,
+  unit TEXT,
+  planned_qty REAL DEFAULT 0,
+  actual_qty REAL DEFAULT 0,
+  qualified_qty REAL DEFAULT 0,
+  rejected_qty REAL DEFAULT 0,
+  batch_no TEXT,
+  warehouse_id TEXT,
+  warehouse_name TEXT,
+  location_id TEXT,
+  location_name TEXT,
+  inspection_task_id TEXT,
+  status TEXT DEFAULT 'pending',
+  operator TEXT,
+  inbound_date TEXT,
+  remarks TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_finished_goods_inbounds_org ON finished_goods_inbounds(org_id);
+
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0037_finished_goods_inbounds', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

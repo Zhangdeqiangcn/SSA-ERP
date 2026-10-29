@@ -1,55 +1,68 @@
-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
-nKYXg4Wzwv0J4cfj+ISAMA==
+// 凭证模板状态管理（V3.26.0 常用凭证）
+// ------------------------------------------------------------------
+// 独立的轻量 store，避免触碰 financeStore（该 store 有 33 个同步消费方，回归风险高）。
+// 模板是组织级基础配置，不做乐观回滚——保存失败直接提示，不影响凭证录入主流程。
+import { create } from 'zustand';
+import { financeApi } from '@/services/financeApi';
+import type { VoucherTemplate } from '@/types/finance';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+
+interface VoucherTemplateState {
+  templates: VoucherTemplate[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  create: (t: Partial<VoucherTemplate>) => Promise<{ ok: boolean; message: string }>;
+  update: (id: string, t: Partial<VoucherTemplate>) => Promise<{ ok: boolean; message: string }>;
+  remove: (id: string) => Promise<{ ok: boolean; message: string }>;
+}
+
+export const useVoucherTemplateStore = create<VoucherTemplateState>((set, get) => ({
+  templates: [],
+  loaded: false,
+
+  load: async () => {
+    try {
+      const res = await financeApi.voucherTemplates.list({ pageSize: 200 });
+      set({ templates: (res.data || []) as VoucherTemplate[], loaded: true });
+    } catch (e) {
+      // 模板加载失败不阻塞凭证录入：仅标记已加载，界面静默降级（无模板可选）
+      set({ loaded: true });
+    }
+  },
+
+  create: async (t) => {
+    try {
+      await financeApi.voucherTemplates.create(t as Partial<VoucherTemplate>);
+      await get().load();
+      return { ok: true, message: '凭证模板已保存' };
+    } catch (e: any) {
+      const msg = e?.response?.data?.error || '保存失败';
+      useGlobalToastStore.getState().showError?.(msg);
+      return { ok: false, message: msg };
+    }
+  },
+
+  update: async (id, t) => {
+    try {
+      await financeApi.voucherTemplates.update(id, t as Partial<VoucherTemplate>);
+      await get().load();
+      return { ok: true, message: '凭证模板已更新' };
+    } catch (e: any) {
+      const msg = e?.response?.data?.error || '更新失败';
+      useGlobalToastStore.getState().showError?.(msg);
+      return { ok: false, message: msg };
+    }
+  },
+
+  remove: async (id) => {
+    try {
+      await financeApi.voucherTemplates.remove(id);
+      await get().load();
+      return { ok: true, message: '凭证模板已删除' };
+    } catch (e: any) {
+      const msg = e?.response?.data?.error || '删除失败';
+      useGlobalToastStore.getState().showError?.(msg);
+      return { ok: false, message: msg };
+    }
+  },
+}));

@@ -1,30 +1,45 @@
-U2FsdGVkX18fMQG/BbLE2E0OBDE45Du6HX6z2VK0vP/NJk7byHVPNHvV8OeODrtZ
-51vwBKuP8gGA22j4zprxxTYb+5se02EzcN/Win+d2nYvjbY6TSFJO7mLPNkeI376
-2v9T7N3ITQGPrkEJIw8ULkzUsrez61UcsAS2jlGxV5uIU8dpoVICWjttP9zZLAxv
-9MKd+hQeElnGgHMhMju2/dK2/skSkVzP4gjcIWRq71o9GGm+RoPFgz+bHLWFKP+M
-hYMzMDlgWgOTmYlTg70HKfVAq8WWKmZ91Txzg4m/p+g8C722kSLWrvAsIFqP/ft8
-HIIgwkQ0/pmtnMo/SXIna/yrsCRFdRMe3cnlPY07PssqAj3U+0kx5uz3pbHqQYSx
-gK1UNRXKXFvhJMh0MM7FQGg713m5qv7jfkpsrzUB0X617aXzUYrKocVCyxySh2TQ
-z1h/IxoUXmH9I2mxucKU5xZTR95j65JyRnst+yTEiFx+88jtIifOJhZ2fQcjotPD
-oL7oeb6CHID58Get7Vqex0eEfhybpLJZHm8P9txWlVYRNu+5CkHGSDtO8/SC/Wc1
-CA9kEWFLr9IKcr0U8Uq+I6V9PH2kQNVy7O1qD9K2sVsh06Fk7TJefCXEbGDTPNMy
-kCHyLitAIJvzbap5DUR6LZvuCrfEeco3/1deujrBn5797XPLXQJTFUPrQK7KFJC+
-g5axdMTmjrGtSn0rLyfAl6R59pTrMHzm9SX1VAJcAheE+NZmeIivJxXQ0QxxCQfP
-APZT4yR8aQ47WGV6IhVhCFk2ZLwTeb+rqEEKXQaOpABuYtYWpzBWDnt5iPUtvwn6
-yqSM7+ZdSiEgAn47awYP2uXBXl3O9ygA7UOmf5vIr2WFOF9yEjZ0wdq3+ISsvKHO
-NKs4vKcG+7RZTDPZsP8e4ycC0b4boCBOeZmc6wWVDkgfvPy9YsturRFD3LnB/GFk
-i4Hr7jAQG6WMTCLyhBvYYp5QuzSTabS/KgSH+UQmGHyexMpBM1iII4lI/Mf4UFgK
-PpQeDwiFy7j82r93+cVsISPvLKBFq63OSs081rMlyrkHmQX8nIKsifuWfj5xFOQK
-duLUVRfpQV3+1HldfY15Kmi4thLxc8JOsKJn2avjaInZmlWwoT0ClIwpraOQ3EBg
-FEBOfUK4SxnkonxLd3tOoY38odPUd602+092UTjo+V+R0UjfU5f7HOyg9NS6GCg+
-jkK8fvsLzPbQEtgP4cDgG60xS2zDfoGoB99LF2DYwjM5f5qufesm1tEgjx2+n4/d
-D5uXOrsohVIHUWdRVVU9rEnYkYxC9qIgn/euV7DdzIRKCZZS9yVw8i0nVFhu3LmM
-VvajqE/m0oIb6wdbwvh3fMfJurZZjv2xuoy5EeETXoGkleTYJuzxj9qQ6edDd2tz
-VZiowpdkU9pGpwJBx09HHbkx/ro/Ms7jrDdhKeNnDQNi2P/yKdTjLzQSANt5E1rp
-5cth409Fm5RAnSDakLEERhQQi2RLbNfx2thN5Sd9HFaE6p9+rjLLA7YIUWVc0epd
-LQx/Veek+HXRioqOK4Z5muF/rHVqTkDtX9xNRXgokJiuULZ5A1cRvoc2jkyaPapO
-XddJyEl8hXmN4D4PzBraLJau7JyWmbUTl2MwmrtjcZf8v007KUlC0nVqRbBk0BxO
-u06YMRaxi4c5oDmVhspbH3eCJyesKhIASzXwTv2gOFs8/WibGkaSalDFhAZgMU/+
-DZgmxmipbFv0NpL9jR5kc5+kQN96lR1tGnpCMPu/1tF/CFqrNdLHCrEpV0KfC2aQ
-Ygjjpe2M5kUK0FTSM/1Yta6zRX5AFBr7ikPWxLmr5tV/7QSo+aAqB3i1JKa56FFQ
-hpmYwl8bX+CBRIUtKjVCu/z40gQR/x/eRPvwb19rjtlgSNF+YQ47qJ1PJl+cDRdJ
+-- SSA ERP 后端初始化
+-- 作用域：业务数据按「组织 org_id」共享，同一公司所有人看同一份
+-- 账号：按人区分（真实注册/登录/密码哈希/角色）
+
+-- 组织（公司）
+CREATE TABLE IF NOT EXISTS orgs (
+  id            TEXT PRIMARY KEY,
+  name          TEXT NOT NULL,
+  company_code  TEXT NOT NULL UNIQUE,   -- 注册时填写，相同 code 即加入同一组织
+  created_at    TEXT NOT NULL
+);
+
+-- 用户
+CREATE TABLE IF NOT EXISTS users (
+  id            TEXT PRIMARY KEY,
+  org_id        TEXT NOT NULL,
+  username      TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  salt          TEXT NOT NULL,
+  name          TEXT NOT NULL,
+  role          TEXT NOT NULL DEFAULT 'user',
+  department    TEXT,
+  created_at    TEXT NOT NULL,
+  FOREIGN KEY (org_id) REFERENCES orgs(id)
+);
+
+-- 登录会话
+CREATE TABLE IF NOT EXISTS sessions (
+  token       TEXT PRIMARY KEY,
+  user_id     TEXT NOT NULL,
+  expires_at  TEXT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- 业务状态（各 store 的持久化数据，按组织共享）
+CREATE TABLE IF NOT EXISTS app_state (
+  org_id      TEXT NOT NULL,
+  key         TEXT NOT NULL,
+  value       TEXT NOT NULL,
+  updated_at  TEXT NOT NULL,
+  PRIMARY KEY (org_id, key)
+);
+
+CREATE INDEX IF NOT EXISTS idx_app_state_org ON app_state(org_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);

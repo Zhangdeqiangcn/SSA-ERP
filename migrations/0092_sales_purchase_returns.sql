@@ -1,25 +1,40 @@
-U2FsdGVkX19tdGIUzHpWyLXs7rCQwtsJfxFEmErIF7lAMkhGmyefVFfJuiPn7Gne
-vIXrNqZpkSfEDg5Zvu3XIECgxaFcXslm1Z9hfj0ZoSQaVNUcSglf9CbbujGAZtg/
-sd2wFfu8Y5xZPZtDJBE0cqLpD8+ZoQuSfyg9g5QAtNPa87Wv0r/PgZYT2My/ia4G
-U0cXMZZT3jjC9PFU4D9IgWvhItdrWjKhmmESLBMJiO4+IrqXc0R/KzkwCwx+YXFt
-OS6A/ZANOP9NoYMHlczuAyZ/NUqQupBc1ALIBbSl6wjqvxWEa7UCTPQvOu9paXmJ
-KFhSHsVeWbT4q2iuqZEtoSFtzvqXfKEEyscki3+o7NmKGkS9QqelB/C6PUC4nfPQ
-uixTPY5DLW1mTPReTVf3a8GwBCqjwwC3ZvCFDuybbpccLS1rYwjyzoMnVWYgf/dw
-5Lxg8UxKLYup5efauGIUxFHwD/VPxk5smLWivFW63uzdo9l5IGS6xjSYV6R0jUM7
-fEDrFvGtfUNH29w+8lldJ4S8rciIcPvmaHwUUc/4ClJCLpm6DyQZNUcnMdQGJaxV
-ZK40jT1DNH4zkItssj4Cg6XgH5CbwkDdmSvRk1Jkk481k/O4qSDQroPbVUTIbzSr
-pptH998Q72eXwJZkfYo4STpcs+5hj+YHCxKVCvAomeSpbq28nMqy1gW14q1XGmrp
-ZGHqkhu51ry67cXKENWw4v9upbgm0SVOIMIj3F0bHrvEeeExHj6zXqN17Ort9Cc9
-y2Ln42LATp4H7ON5a/HXlOwLk8RlFNwE2srCecvImeEHBza1YmQL+8fPOKtNq/JX
-W5/lDtPNE1z+2sQLCiHS6suVEnpEqXnkt0Y1VEBHuZapL8WvPkjh62PIKGF0VbJZ
-Rlal923VTEyAKugaXQ9FuQZEuGq9N70niW+k2aVP9fbuk3h2nleD/mCYVOAGNcIX
-eZrT4Q8WEIJSYZGAEotRAvS0MzkiRxZ5Ri3IcwmbNUjOno3x1uJSFYECZol3a66x
-GT8WY0hJss4uw7I62DGvBMvdWTTpO4IFdZEJ+QoOl8Bg+zYa/rRnGJdSWpk+aw3y
-e7m37uKlzuJsYPSM9TAgStgMw+9+gNJzwXJARm7ZJAXg0q03eXHoSlur9okxPXhK
-WE94ODr/Wt8BHdDxwgF7TliOkAFRjzZODwkFXMAnqwFxGd7v1IzpLstkWKdigXIo
-+N46/ae23ssbwYOMdnj1r0zlkWPD2kOnnN2EDUFbh/KupF4BTA/g2aa0EZWtOj7y
-DF8DZuoxrWrvtw6iZldOtH4y5B4NQnb39klGXUtvAzr5YkeusXSFU5COsNMOoZKV
-TB6lla5p+bBFcXAMG2T1y99fA73K6fkLlRzvK9iibyMAUPOKHwPs2YdOfxs37otp
-p5KZhhhW9NrFApplOrFZ58oWrcoIO8nPvDh8rrSCw+dcgXu6XSBOfQoMbMiM4Je5
-H3Lcafs7n1JuzNbSkrYi3WNoEeo36LJVmQl6DZaSFA7DVIWq0ekRn7sEZjyqePwA
-ESG1jgL942PWDUgaz7Bpj1w2I7rDAZpfGbAR84cdzLA5jD7ThW0ydIOfBnejgxTO
+-- V3.63.0 退货独立单据关系化（根治审计 P1-VP-2 无独立后端单据）：
+-- 此前销售/采购退货单据嵌在 salesAdvancedStore/purchaseAdvancedStore 的 app_state Blob 里，
+-- 无独立关系表，无法被财务/供应商按行引用。现迁为 sales_returns / purchase_returns 两张真实表，
+-- 行项目（items）封进 extra_json。completeReturn 的财务红冲逻辑保留（已存在），仅改为关系化落库。
+CREATE TABLE IF NOT EXISTS sales_returns (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  return_no TEXT,
+  sales_order_no TEXT,
+  customer_name TEXT,
+  status TEXT,
+  return_date TEXT,
+  reason TEXT,
+  total_amount REAL DEFAULT 0,
+  credit_note_no TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS purchase_returns (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  return_no TEXT,
+  purchase_order_no TEXT,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  status TEXT,
+  return_date TEXT,
+  reason TEXT,
+  total_amount REAL DEFAULT 0,
+  voucher_no TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);

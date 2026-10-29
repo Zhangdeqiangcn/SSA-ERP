@@ -1,89 +1,116 @@
-U2FsdGVkX190z2Z/oUmTUXZ8jzwNy8GpARkHQAIAAKvfgf5uTd0UXQ77tL9CFxwb
-yeFd5c6lWa6jRLvHnQNp13hDNwdDXeHn21TSnWL0XrNcRz2/pqHh4lW7FxvSPC5N
-JuOhKh33CcWDzn6J9B8zP3CTXNb/KrAThb3LT2RPl69VPWjLXOLCQK8YNoGyuhr0
-b//59vbAxgmESw7/RrzU43kz0g0ML7rqInMCAyVC+VnFNY8bPW0cYmvua/98RTu3
-OMJ4CbJrAl+3PNbug4s0jQYpMlKZxtUxydEWmoVx9d4bOcvEk/em6SsgOZol2hBu
-0jAziLzRqf0Ta8Jdmn+yJWy3TZ3lqndzeU3poip5x417lugDXZkhB2YRFtFV6ooW
-JcJ97KDzl1UCKcldj67mkVQTvqA0ylFEERDQdwSs/lL2roxmpq5mFM79uGZcR0Ai
-QiqZJdc3Sey1p0OUP1AmYjFA6PSGAoDJKpFAc4IeXHIPPDcMyBxoyl+R7r5CvkNU
-byryh3ZqSS3aH1uY2YQpwAMdmPUcyh5oC4vpwv9XBZ/onKhh7r9anOUh30h9Zn07
-kOjxeR8AmxVwBpLLCH1hNdwsCAEZYFOJs46iJo5N53ewib1oOHAoXg1h5EvWvSMB
-AZGMq/a7QFs+gXbHLzm7cb3XKkxg2KSRGnfCPV7yTVCGSPCplygvhJ518WmJJqPZ
-k2LCeDsxrKN0YRsRg0fUJmORrH84K9iLGZoRO/0oIqOLod/jtjs2ZuBEmdH4+0Vi
-GFwcbQMO8s28IQnuFzS7lKJTPnXLkxp/zJpjjnaHkaY96gfNucTkFi183kOYCzvB
-R+OU7v7jsnvYOHROXeV6mEcdlpMtKeVnfadSAFAeyNagI/KzpLDkR4qkLHd6ct/D
-AVZW94mfGioXn2EHSNgKrjff/vzUIBnwJ32+pKFJzGC/MowEiMqKCxjKJ64h9si9
-nayP7AdWNm40UUXkyWPO+R3708QOzDXXO4s0vWSGSSEqYXlxsc31Mhfv1+IMRB2V
-eq36F1azkuVedO+RT8tmG8Kq8sDVzKukWME9ZuCUlWI0VPduM6moHiU7onkMeV2r
-tdXDfjwatL1Z2BiwwR1lloBPmNs+aRWqPIUJwhVrbMrLZ6FOZ+wO7hc6Gj/KPKzJ
-XY8JVcUEbTlCJ0gagyrYvr65fc56QWEUZ9PCK21P7706VR5LYNMps/1yvDsknDhv
-Y5xldsonWVNuPk6bKIiLc7mkBgJ0uRFE4ghtZXRynQoi/xAt2wADcYJq+RcqA3oH
-CvZTs/5qAqPkbXkszBfqD02Qrpqjox1NLiKkp+Bt3qfDnMN0TxKebyiv/NXfhTcw
-mYtHrQjQfuX/tzOgvwunN6A4UgFcnuRJLIk/8VBGmN4tE7TI/5mYkyT/5ilkKSzq
-K2q9sWz1XgIlUsu25LYKdZrqUKAEH49rVZs64nLh05bQtrwp5500QGINhxm15C0H
-mFDaDcU7IEtA6/xxsOn8sHLRLXRSBEtxGJHJrC0adWiPaqC4wAb4v92YYCo7fYKf
-uDUaUmt2hGHlaTcX7z2P2S73+eDMStRXfyezAKcGyXm1mXh9jTmeSu1NxbyQayaA
-gXt84Pj5lA5D6t/Ya3GtxT+8ActZCkSPzaWMO6xQhdRxltN2I/qTU1SwtYPbUA+m
-h51UCnieY8Cfo/SaJC7UeFlwrTL90xz+2auTyfUm2H4NKwL46jWkDcp1Cb+Ruy0Q
-aIUldUbXzKCVgnad1bFpRRW01KbTY27/ziV0ONjhaT6WNtIKAowpc1VkNcVVIWGl
-RqFsGKH/n27Rp6t2YmP0BuR6AifHrnZ/ypvanIGazj3pkHkP8T9nUg22cgjAW6iW
-0rJ999ReAC37ujrgpMOyxw9pCZmgh/G7DS6nG43IiA7+FcaX+aLqC3mSaeEQr+Jl
-mCG6WP8Fz/Xbh9Q5ZeYUH15/ZpElxQa7bf7THyrKy9azAAle1B2mwMTXxkyGRmSL
-1K+f1nXjUkd/r5UjVFdFgEtzeUNj/pbtI+L1HvxnPJ9DX+aBQWWxJO/C9VN4xR2L
-ppyaoTYAitRY0wdUElF1HjTszPAoHI7M2MrPOwB5EApDJfif6Is9UinSug0thsqj
-fZS4B+RaW/TliiX3/ipNOWJdiHu0T77msT6NGvlpgJfaAyu7Dg9t3KDyu8Cz3ZQ4
-qYEqMmStRL6uNJU/wduZbJsFgi2cu3UOSrvDABh9Bn3/X1k4tNlZee27Qu3TUFkK
-PEeRgxpdnBVYopjlgK1VQI1IWSs3fjVAnhSvx8s2T6zejps3kEPMjbx68rmlQfLW
-gWQJpvj+o7spIX5i8fBwbZYb8LBj6h+7sydY5TzPz0ZExBuEUqpiGBLoCMpOTxSl
-Jelj1CjunHqgPGwwPOiP28IyhuroPzu/+uWY+UAr9iSDmRZPeb99LQ2J6ufxe7Ts
-C4Z6e+HptEDC4R686ILVI1BCcLqz8sSR7xk6XIQcPhT3mGTCgvfIFqclC3sLM9/d
-YyT68ycdvJhYCs2Z2ZziKnTbUMsuVuJGaSHSn++MW8z7NZ/hAO4MVU3gf+fUZCKC
-Fru121DW77IixIzT8vFH1+NMt8DBAMd4Jxb/PcYVgbrAWF3E2m68CHqUf7W1n4/3
-Xx76GGZSwS0qB935KceCk8NU3sUCgZd7HxKDiIevmFAQFYjuPu3ERLDtxbeI1/9j
-yzFF8eceIVMsZWhn5PJObR4NCjCC9zEMiM4u6twPlLG62wmqAhwRDEOO8BqBC6uo
-eBV7t93KckKwvNeoJD7nD4I9aWQwPV8QQD9P/D/5PepY8xpxa1ScZebRxLW/ouze
-qUmntCAnUnAUhYrsodf4RLAPsx0j7jdzVE2ZkD1RssYPxxVhYVjkFPpFKmv7sG5q
-oWvaOqVXvW2+OyuuH+gykvD54lYymYq4qssfOj7j3/jIvyxPPRAh5gst+Q1yHDcK
-AiNWayZHt4Afbmal9x9pd9xz3AWh2EyFl+V4K4mD9IoKkowqZQjiYDUymC3w09RI
-McNn4lqOSsjPpnv6K2gr1RN7Dk9rt4aOc9LejH/wLYc60I9Ecjqa5Oe9Dh2Ue4Dv
-n3bPQmZJG134FPqzxMU15IPQ9rDIUbM4KBUBMMUM3+gIUHb0Bl9TlQXl/pmWWCw2
-qXUQWLrLysN0NXYjNiac9pPvidSuTuq4sXjktH8pIMAGRLIhZz0KB7Hw2bWYGjB1
-ukN1ZBioQjupn5B+spzBQ9zfOIoIIg769cMwQkOPP57NXw+9a8XK23fx1GW192y1
-I1gDgqmysxBZoRF1w1anL8Qit1w5hFAuI+kbPOXa9EcRpzD7Sz5kDNWkEINsikTM
-jZ94DTN2Xz/dxj01/vfDP6zvu3veyGCbahgdv7bFCAM8tE7j9cFRV7H8GRWFrru1
-eJTUzVkwM6yQ/oeL0kwIGh8cJMftGC39ZCppJtVKWVa4IDqbknh9aSPG10fvfg+p
-RAKOBhnigq3y1v9Yeq23UVyZ8ymzrMjZEWAVvOutKLRf3Lk5uJrRdUlprD/i3CO+
-7JthJncugXDbn7zk86U4y30QmQr7CthJwHI59Q0pCF9Go8u5YsY5fHYceRB3BY58
-vN+zOEygPxcrVa9rALXOVjTPnOyJYzTu7/nG9qZl4AdWPz6aJs0aT8jQPk53D01i
-5puS1Zur/bUf4lwMZh9broMvqN/NFd1qq54dZfLX3cY65LQ4lQ5CemdIWEmGyUlv
-B4ghSDTRB0dP/1FzXZWVR/XQrR2gNrQNKOouM+MqscOcsVH/vcXGhhiKF4ApN8Jd
-4+LiYSOWSzoBCbZZd/MyUCSIGS36gTnl78LVI+QeMthiZ4WgFABlZQA/Jl1/TdZ1
-+og+eKZ8JV8kPYkpHkN52TSBEcJh6xUnUMcqwQ9hShYC09baV/mWbvJheRG18TGN
-9RX6ZG839HYR19KhL3r9SEzWNWFHMPGNVJEtzhS5UsUxO0ix1oHZqgafQY+yP+k7
-5vEte6nO2m5lv478A6T690FuwBExE3C/+4gUw49HeBqGPpBuPQltJj1axF2R1fvB
-SdhYI5XRfLKmYfUtL0hqk9aa5tZe4tOc2wT55uMvyNrT389AHe3TPr1neaopt6zq
-Jmlo5nKbVL7jQqNp3ayPiUzLSsQ7GJ5U94s9dpdRGQ1qel++zwWQbLI+dKSFl3WN
-ISA5fJ4W0bynYLD6xmKVcBnqntRorVXFUN+5ZPsFcdY4dv7oLi941o2p5UvjPntM
-4/uunu4UYi+XP3y5Sx3qNKBBZbSurl0RPDMLWjDey2sVSMPMfObXuFoizPIwq9+B
-ncDhHHijkNiYAUyt9PyUrVxIcNRSk+8Ry1Ov+N6hkde7BBOlNcA64RzN+T/1qLgT
-Xa+uctQHsTm6FD0/ICInGzMcQ6Yrx552+DCrLUiJcOThJD8bBAx4n64GBD88qUPE
-zGYGM+8sf9Tf/MdBFt3+KkUP82bR1+7VUcX/H1jNvjIkoGDcYprO9DQ4Np7coll0
-gojT+NbM0SNWKkwTb5Z1xsAIZF8f0B08HtTQzyXTjFRsBfkGwBQl6XiZdKhnsSBd
-blXX9oKtIlLImDegO3ZxjTrll9JoLOUj4+0AcQZZmktblUBQX/c5ujBsDzo04k++
-QwQIbwzRqQTuKEp6zxRmyRSD5fv7xhW3l4RDVggW9lD0ljumzXVDjqV8BcBmLgxQ
-D/SuM9zdF13tUzKAOw1UExgMGd3ZtxqvmRPOCQkt5UqDFvMGYMb+ZsZtSMm/BTxA
-Voi7LmSoTfbX/ebxd69X7wTUOpHXnaImTYpBUawlHq/gL1mZJ4BWRO/tZx5PoRIh
-BmxHJQSLD17IdnfKv5Fy+RmC9lVfvV913Rj4rNdUxfQOYRA2GbK0N7vKRKlqv90K
-XS7yceMZHcOJZPZOHfjUxnHm5PUg8hZuCtmdTygzfTjyfn8gSo69qKRnh1cxnFPT
-SLY4231PknEkdgV4ArP6dxuMStbDe3yTzLbVrekSIreBnpSdjkD6xRFWMUK/Lw43
-GRnLZbHgXqChqGuiOLDcbjxMk00gkBIh8r8/7JevDVcJ2Nic4Xih6KY995HtAzWY
-vahB+Y7iUsdjmND6nfXvX6oOEgpNJ7J0omAG8c99debGC/LFqNj6vF1LqeVVbffc
-4olSzr6Y9ZBAgd7Trqcjeps7Y1qcmagBugfTClfyQjoMexXrhBVqQVMhGFnos5OV
-6TVAvhizh2zT8yA8oBLf9ZUgPNmNMYrcfLyFP3YLQjhXXKiKT0cGYaJ4+apAZCxV
-PyyLQZDaK5HkflLpY/dR3sr++J4oaHb0CigEoSDq0gS8u1YEtks1+YZDBJieTimq
-hmD3JY0/Sx8fqkc1AUGL/9q4zkDJIktkT2N0iC8bS/0DMbrfgCoONtcHnMi+Ql6Y
-7kjAQ30tzxxgtG6BEBUkwwxxkM/CMncOWH+rdKXDWZAt00dBXXGHdlb5X23i0qjK
-/y+30SHjRCNj8sxNbve/sy+R+hpiZukjJwv9P7glA/pLvlod5moBW98NVXvEmHI8
-eOlCAFKzseyoaF9PVl7HK7U+3pyhcXtgvKyWxYWIa6+NxK1pH2NJqqqcmsa1hvgm
-2u7NI9fqpZ4X8b0RYNHvs4NyrlhKN9CaGYmuRHXuHYY5MisV55CW9Yybn7Z4mNAY
-wUREi7sRKjvvPcaSLBsZZA==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import type { LowCodeForm, LowCodeRecord, LowCodeField } from '@/types';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const today = () => new Date().toISOString().slice(0, 10);
+
+interface LowCodeState {
+  formDefinitions: LowCodeForm[];
+  formRecords: LowCodeRecord[];
+  addFormDefinition: (form: Omit<LowCodeForm, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  updateFormDefinition: (id: string, patch: Partial<Omit<LowCodeForm, 'id' | 'createdAt'>>) => void;
+  deleteFormDefinition: (id: string) => void;
+  submitForm: (formId: string, data: Record<string, unknown>) => void;
+  deleteRecord: (id: string) => void;
+}
+
+const RES = 'lowCodeShared';
+const KIND_DEF = 'formDefinition';
+const KIND_REC = 'formRecord';
+
+const seedForm: LowCodeForm = {
+  id: 'lc-seed-1',
+  name: '客户回访单',
+  description: '低代码示例：客户回访信息登记',
+  fields: [
+    { key: 'customer', label: '客户名称', type: 'text', required: true },
+    { key: 'score', label: '满意度评分', type: 'select', options: ['1', '2', '3', '4', '5'] },
+    { key: 'visitDate', label: '回访日期', type: 'date' },
+    { key: 'note', label: '备注', type: 'textarea' },
+  ],
+  createdAt: today(),
+  updatedAt: today(),
+};
+
+/** 双切片写穿（__kind 标记，行主键 = 各对象 id） */
+const pushDef = (f: LowCodeForm) => isAuthed() && writeRow(RES, f.id, withKind(KIND_DEF, f));
+const pushRec = (r: LowCodeRecord) => isAuthed() && writeRow(RES, r.id, withKind(KIND_REC, r));
+
+export const useLowCodeStore = create<LowCodeState>()(
+    (set) => ({
+      formDefinitions: [seedForm],
+      formRecords: [
+        {
+          id: 'lcr-seed-1',
+          formId: 'lc-seed-1',
+          formName: '客户回访单',
+          data: { customer: '示例客户A', score: '5', visitDate: today(), note: '满意' },
+          createdAt: today(),
+        },
+      ],
+      addFormDefinition: (form) => {
+        const rec: LowCodeForm = { ...form, id: uid('lc'), createdAt: today(), updatedAt: today() };
+        set((s) => ({ formDefinitions: [...s.formDefinitions, rec] }));
+        pushDef(rec);
+      },
+      updateFormDefinition: (id, patch) => {
+        let updated: LowCodeForm | undefined;
+        set((s) => ({
+          formDefinitions: s.formDefinitions.map((f) => {
+            if (f.id !== id) return f;
+            updated = { ...f, ...patch, updatedAt: today() };
+            return updated;
+          }),
+        }));
+        if (updated) pushDef(updated);
+      },
+      deleteFormDefinition: (id) => {
+        set((s) => ({ formDefinitions: s.formDefinitions.filter((f) => f.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+      submitForm: (formId, data) => {
+        set((s) => {
+          const form = s.formDefinitions.find((f) => f.id === formId);
+          const rec: LowCodeRecord = {
+            id: uid('lcr'),
+            formId,
+            formName: form?.name,
+            data,
+            createdAt: today(),
+          };
+          pushRec(rec);
+          return { formRecords: [...s.formRecords, rec] };
+        });
+      },
+      deleteRecord: (id) => {
+        set((s) => ({ formRecords: s.formRecords.filter((r) => r.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+    }),
+);
+
+// ── V3.81.0 D1 同步层：双切片（formDefinitions + formRecords）挂载水合 ──
+let hydrating = false;
+async function hydrateLowCode() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+    const rows = parsePayload(res?.data || []);
+    if (rows.length) {
+      useLowCodeStore.setState({
+        formDefinitions: splitByKind<LowCodeForm>(rows, KIND_DEF),
+        formRecords: splitByKind<LowCodeRecord>(rows, KIND_REC),
+      });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+void hydrateLowCode();

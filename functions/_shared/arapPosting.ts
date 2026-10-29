@@ -1,309 +1,289 @@
-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
-DModeB9oFqLXKgpZ0x5v4w==
+/**
+ * 往来/收入自动凭证（业务域↔财务联动 · V3.60.0 专项修复）
+ * ------------------------------------------------------------------
+ * 之前：采购发票只落库不记账、付款只改状态不记账、销售只结转成本不确认
+ * 收入与应收 —— 应付账款(2202)/应收账款(1122)/主营业务收入(6001)/银行存款
+ * (1002) 在整个后端完全没有业务单据去写（全局检索零命中）。
+ *
+ * 现在：把"发票审核通过"和"付款"这两个已经存在的业务动作，接上凭证生成，
+ * 复用 inventoryPosting 已在用的 writeVoucher 通道，金额用服务端已落库的
+ * 权威值（invoice.amount / paid_amount），不再信任前端自报。
+ *
+ * 借贷平衡由 writeVoucher 最后一道闸兜底（Σ借=Σ贷 容差 0.005）。
+ *
+ * 会计口径（对标金蝶/用友/SAP 标准）：
+ *   · 采购发票（fin_invoices 表，全部为采购发票管理模块的进项发票）审核通过：
+ *       借 2201 物资采购(GR/IR暂估) [净额] / 贷 2202 应付账款 [净额]
+ *       —— 把收货时挂的暂估（借1403/贷2201）从暂估转入正式应付。
+ *   · 销售发票（独立的销售管理→销售开票前端实体，走 /api/finance/sales-invoice-voucher）：
+ *       借 1122 应收账款 [价税合计] / 贷 6001 主营业务收入 [净额]
+ *       / 贷 2221 应交税费-应交增值税(销项税额) [税额]
+ *   · 付款（付款计划实付金额增加）：
+ *       借 2202 应付账款 [增量] / 贷 1002 银行存款 [增量]
+ *
+ * 幂等：全部以 source + source_no 查重，重复触发（重试/重复提交）不会双记。
+ */
+import { writeVoucher } from './voucherWriter';
+import { roundAmount } from './money';
+// V3.63.0 P0-ST-1：凭证模板优先（根治"模板建了不生效"）——自动凭证先读本组织默认模板分录，未命中回退内置
+import { resolveTemplateVoucher } from './voucherTemplate';
+
+const nowIso = (): string => new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+/**
+ * 采购发票过账：fin_invoices（采购发票管理模块）审核通过(verified)时生成财务凭证。
+ * @param inv 已落库的发票行（snake_case：invoice_no / status /
+ *            amount / vendor_name / invoice_date）
+ * @returns 成功返回凭证 id；不应生成 / 已生成 / 金额非法返回 null
+ */
+export async function generateInvoiceVoucher(
+  db: any,
+  orgId: string,
+  user: any,
+  inv: any
+): Promise<string | null> {
+  const invoiceNo = inv?.invoice_no;
+  if (!invoiceNo) return null; // 无发票号无法定位，跳过
+  const amount = roundAmount(Number(inv.amount) || 0);
+  if (amount <= 0) return null;
+
+  const sourceNo = `INV-${invoiceNo}`;
+  const ex = await db
+    .prepare(`SELECT id FROM vouchers WHERE org_id = ? AND source = 'invoice' AND source_no = ?`)
+    .bind(orgId, sourceNo)
+    .first();
+  if (ex) return null; // 已生成过，跳过
+
+  // ★ 修正（V3.60.0 复审）：fin_invoices 表全部为「采购发票」（采购发票管理模块），
+  //   invoice_type 取值是 vat_special/vat_normal/receipt（发票种类），不存在 purchase/sales 方向。
+  //   销售发票是独立的前端实体，走 /api/finance/sales-invoice-voucher 另一通道。
+  //   故此处统一按采购发票入账：冲暂估 + 确认应付账款（净额）。
+  const date = (inv.invoice_date || '').slice(0, 10) || nowIso().slice(0, 10);
+  const period = date.slice(0, 7);
+  // ★ V3.63.0 P0-ST-1 凭证模板优先：先读本组织默认模板分录，未命中/异常回退内置（绝不卡业务）
+  const invoiceItems: any[] = [
+    { summary: `采购发票入账·冲暂估 ${invoiceNo}`, accountCode: '2201', accountName: '物资采购（GR/IR暂估）', debit: amount, credit: 0 },
+    { summary: `确认应付账款 ${inv.vendor_name || invoiceNo}`, accountCode: '2202', accountName: '应付账款', debit: 0, credit: amount },
+  ];
+  const tv = await resolveTemplateVoucher(db, orgId, 'purchase_invoice', { items: invoiceItems }, amount);
+  const items = tv.items;
+  const totalDebit = tv.totalDebit;
+  const totalCredit = tv.totalCredit;
+  return writeVoucher(db, orgId, user, {
+    voucherNo: `INV-${invoiceNo}`,
+    voucherType: '转',
+    date,
+    period,
+    description: `发票入账 ${invoiceNo}${tv.fromTemplate ? '（凭证模板）' : ''}`,
+    source: 'invoice',
+    sourceNo,
+    status: 'posted',
+    totalDebit,
+    totalCredit,
+    items,
+  });
+}
+
+/**
+ * 发票"审核通过(verified)"时自动入账的封装（供 POST/PUT 端点复用）。
+ * 幂等双重保险：① invoice.voucher_generated=true 直接跳过；② generateInvoiceVoucher
+ *   内部按 source+source_no 查重。生成成功后回写 voucher_generated 标记位（修复 P2-3）。
+ * @returns 是否成功生成了凭证（true=新生成；false=跳过/无需）
+ */
+export async function ensureInvoiceVoucher(
+  db: any,
+  orgId: string,
+  user: any,
+  inv: any
+): Promise<boolean> {
+  if (!inv) return false;
+  if (String(inv.status) !== 'verified') return false;       // 未审核通过，不入账
+  if (inv.voucher_generated) return false;                    // 已入账标记，跳过
+  try {
+    const vid = await generateInvoiceVoucher(db, orgId, user, inv);
+    if (vid) {
+      // ★ 只写 fin_invoices 真实存在的列（迁移 0053）：该表有 voucher_generated /
+      //   updated_at / owner_id，**没有 updated_by**（框架 parentChild.auditCols
+      //   早有同结论，见其 682 行注释）。写不存在的列会抛 no such column 被 catch
+      //   吞掉，导致「凭证已生成但标记位永远不回写」的假成功。
+      await db
+        .prepare(`UPDATE fin_invoices SET voucher_generated = 1, updated_at = ? WHERE id = ? AND org_id = ?`)
+        .bind(new Date().toISOString(), inv.id, orgId)
+        .run();
+      return true;
+    }
+  } catch (e: any) {
+    // 凭证生成失败不阻断发票保存（与库存/折旧"吞错留痕"同策略），仅告警。
+    console.error('[invoice-voucher] 发票入账失败（已留痕，可重试）：', e?.message || e);
+  }
+  return false;
+}
+
+/**
+ * 付款过账：付款计划实付金额增加时生成凭证。
+ * 增量记账：key 含累计付款额，同一累计额只出一张；部分付款每次递增累计额即出新凭证。
+ * @param delta      本次新增实付金额（newPaid − oldPaid）
+ * @param cumulativePaid 付款后累计实付金额（用于幂等 key 与凭证号）
+ */
+export async function generatePaymentVoucher(
+  db: any,
+  orgId: string,
+  user: any,
+  plan: any,
+  delta: number,
+  cumulativePaid: number
+): Promise<string | null> {
+  const d = roundAmount(delta);
+  if (d <= 0) return null;
+  const safeCum = roundAmount(cumulativePaid);
+  const sourceNo = `PAY-${plan.id}-${safeCum}`;
+  const ex = await db
+    .prepare(`SELECT id FROM vouchers WHERE org_id = ? AND source = 'payment' AND source_no = ?`)
+    .bind(orgId, sourceNo)
+    .first();
+  if (ex) return null;
+
+  const date = (plan.paid_date || '').slice(0, 10) || nowIso().slice(0, 10);
+  const period = date.slice(0, 7);
+  // ★ V3.64.0 P1-4 结算偏离核验（诚实最小实现）：累计实付超计划总额时，在凭证摘要留痕告警。
+  //   数据源 = fin_payment_plans.total_amount（真实存在、非造基准）；不阻断业务（超付仍记账，仅留痕）。
+  //   注：完整"协议价浮动区间核验"需供应商框架协议价基准表（vendor_master 当前无价格列，未立项），
+  //   本轮不造假基准，只对有数据的"超计划总额"做留痕——符合"够用"原则。
+  const planTotal = roundAmount(Number(plan.total_amount) || 0);
+  const overpaid = planTotal > 0 && safeCum > planTotal;
+  // ★ V3.65.0 立项④ 协议价偏离核验（升级 P1-4 最小实现为完整基准校验）：
+  //   付款前对照该供应商「生效框架协议」的物料 ceiling_price（协议价上限），
+  //   经付款计划 purchase_order_no → 采购订单明细行单价，逐行判定是否超协议价。
+  //   数据源 = framework_agreement_items.ceiling_price（真实协议价基准，V3.65 立项④ 建表）；
+  //   无协议 / 无采购单号 / 查询失败 → 静默回退（诚实降级，绝不造假基准），仅保留既有累计超付留痕。
+  let frameworkDeviation = '';
+  try {
+    const poNo = plan.purchase_order_no;
+    const vendorId = plan.vendor_id;
+    if (poNo && vendorId) {
+      const poRow: any = await db
+        .prepare(`SELECT id FROM purchase_orders WHERE org_id = ? AND order_no = ?`)
+        .bind(orgId, poNo)
+        .first();
+      if (poRow) {
+        const poItems: any = await db
+          .prepare(`SELECT material_id, material_code, unit_price FROM purchase_order_items WHERE purchase_order_id = ?`)
+          .bind(poRow.id)
+          .all();
+        const poRows = poItems.results || [];
+        // 该供应商生效（active 且未过期）框架协议的物料协议价上限
+        const todayStr = nowIso().slice(0, 10);
+        const faItems: any = await db
+          .prepare(
+            `SELECT i.material_id, i.material_code, i.ceiling_price
+               FROM framework_agreement_items i
+               JOIN framework_agreements f ON f.id = i.agreement_id
+              WHERE f.org_id = ? AND f.vendor_id = ? AND f.status = 'active'
+                AND (f.end_date IS NULL OR f.end_date = '' OR f.end_date >= ?)`
+          )
+          .bind(orgId, vendorId, todayStr)
+          .all();
+        const ceilings = new Map<string, number>();
+        (faItems.results || []).forEach((r: any) => {
+          const cap = Number(r.ceiling_price) || 0;
+          if (cap <= 0) return;
+          const key = r.material_id ? `id:${r.material_id}` : r.material_code ? `code:${r.material_code}` : '';
+          if (key) ceilings.set(key, cap);
+        });
+        const overLines: string[] = [];
+        for (const li of poRows) {
+          const unitPrice = Number(li.unit_price) || 0;
+          if (unitPrice <= 0) continue;
+          const key = li.material_id ? `id:${li.material_id}` : li.material_code ? `code:${li.material_code}` : '';
+          const cap = key ? ceilings.get(key) : undefined;
+          if (cap && unitPrice > cap * 1.0001) {
+            overLines.push(`${li.material_code || li.material_id || '?'} 单价 ${unitPrice} 超协议价 ${cap}`);
+          }
+        }
+        if (overLines.length) frameworkDeviation = overLines.slice(0, 5).join('；') + (overLines.length > 5 ? ` 等${overLines.length}项` : '');
+      }
+    }
+  } catch (e: any) {
+    // 协议价核验失败不阻断付款（与凭证生成吞错同策略），仅回退到累计超付留痕
+    console.error('[payment-framework] 协议价偏离核验失败（已留痕，不阻断）：', e?.message || e);
+  }
+  // ★ V3.63.0 P0-ST-1 凭证模板优先：付款凭证先读本组织默认模板分录，未命中回退内置
+  const payItems: any[] = [
+    { summary: `支付应付账款 ${plan.plan_no || plan.id}`, accountCode: '2202', accountName: '应付账款', debit: d, credit: 0 },
+    { summary: `银行存款支付 ${plan.vendor_name || ''}`, accountCode: '1002', accountName: '银行存款', debit: 0, credit: d },
+  ];
+  const tv = await resolveTemplateVoucher(db, orgId, 'payment', { items: payItems }, d);
+  const payDesc = `付款 ${plan.plan_no || plan.id}${tv.fromTemplate ? '（凭证模板）' : ''}`
+    + (overpaid ? ` ⚠累计实付 ${safeCum} 超计划总额 ${planTotal}（待财务复核）` : '')
+    + (frameworkDeviation ? ` ⚠协议价偏离：${frameworkDeviation}（超供应商生效框架协议 ceiling_price，待财务复核）` : '');
+  return writeVoucher(db, orgId, user, {
+    voucherNo: `PAY-${(plan.plan_no || plan.id)}-${safeCum}`,
+    voucherType: '付',
+    date,
+    period,
+    description: payDesc,
+    source: 'payment',
+    sourceNo,
+    status: 'posted',
+    totalDebit: tv.totalDebit,
+    totalCredit: tv.totalCredit,
+    items: tv.items,
+  });
+}
+
+/**
+ * 销售收款过账（V3.61.0 P0-2）——补齐应收账款的「冲减侧」
+ * ------------------------------------------------------------------
+ * 缺陷背景：V3.60.0 补齐了「销售开票确认应收」（借1122/贷6001/贷2221，即应收**增加**侧），
+ *   但**收款冲减侧从未存在** —— 全库没有销售收款端点，1002 只出现在采购付款里。
+ *   后果：应收 1122 只增不减 → 应收账款账龄/周转率/DSO 永久失真，且与采购侧不对称
+ *   （供应商付款会冲应付，客户收款不会冲应收）。
+ *
+ * 会计口径（对标金蝶/用友/SAP 标准）：
+ *   借 1002 银行存款 [收款额] /贷 1122 应收账款 [收款额]
+ *
+ * 幂等：以 source='sales-receipt' + source_no=`RCPT-<receiptNo>` 查重，重复提交不双记。
+ */
+export async function generateSalesReceiptVoucher(
+  db: any,
+  orgId: string,
+  user: any,
+  receipt: any
+): Promise<string | null> {
+  const receiptNo = receipt?.receipt_no || receipt?.receiptNo;
+  if (!receiptNo) return null;                // 无收款单号无法定位幂等键，跳过
+  const amount = roundAmount(
+    Number(receipt?.amount ?? receipt?.received_amount ?? receipt?.receivedAmount) || 0
+  );
+  if (amount <= 0) return null;               // 金额非法不记账
+
+  const sourceNo = `RCPT-${receiptNo}`;
+  const ex = await db
+    .prepare(`SELECT id FROM vouchers WHERE org_id = ? AND source = 'sales-receipt' AND source_no = ?`)
+    .bind(orgId, sourceNo)
+    .first();
+  if (ex) return null;                        // 已生成过，幂等跳过
+
+  const date = String(receipt?.receipt_date || receipt?.receiptDate || '').slice(0, 10) || nowIso().slice(0, 10);
+  const period = date.slice(0, 7);
+  const customer = receipt?.customer_name || receipt?.customerName || '';
+  // ★ V3.63.0 P0-ST-1 凭证模板优先：销售收款凭证先读本组织默认模板分录，未命中回退内置
+  const rcptItems: any[] = [
+    { summary: `收到客户货款 ${receiptNo}`, accountCode: '1002', accountName: '银行存款', debit: amount, credit: 0 },
+    { summary: `冲减应收账款 ${customer || receiptNo}`, accountCode: '1122', accountName: '应收账款', debit: 0, credit: amount },
+  ];
+  const tv = await resolveTemplateVoucher(db, orgId, 'sales_receipt', { items: rcptItems }, amount);
+  return writeVoucher(db, orgId, user, {
+    voucherNo: `RCPT-${receiptNo}`,
+    voucherType: '收',
+    date,
+    period,
+    description: `销售收款 ${receiptNo}${tv.fromTemplate ? '（凭证模板）' : ''}`,
+    source: 'sales-receipt',
+    sourceNo,
+    status: 'posted',
+    totalDebit: tv.totalDebit,
+    totalCredit: tv.totalCredit,
+    items: tv.items,
+  });
+}

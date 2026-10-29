@@ -1,25 +1,13 @@
-U2FsdGVkX19DDgsAPWgu4oz2AEPeQoLLBfyqE9UbmD8LhVIGze54RygXRY9aWrqB
-vTcToJHAB5KNKmMncWQnt5s6Skve4lRygeBWQALb6C5gc0gz6XmCfFFiXgzuUXgS
-wyY6fmQZ4Ito9DbKoFKYfMf8sAQhp3Tzemw4HjiBNdHKHmlcEXWsSF8ZjErXbc+E
-ynNM4hYUILmMdZKgaFcU2YbPs1YPxToB8DZ7Xd/9ChR6dWb6Ad8MvMKnpkKQGbOD
-gIKZnREI+zH6NnDbVY/2htFAmh659Uv0mX138aUIhcmO5x+dPLN8VmD6039PrJJz
-9njy9pdwu5SsEaJRuQsvOxeso8KkWRXpxaY0jrvKHgPC6kfFWpN/hcvLIUNywMhj
-MQJqmQPnjdyoFvSWJdPlhonaRLWdZ3yAlbKc57IlesfHw5XvveNPVQ/BMzw0Blb1
-/UOVRvCOUd+77/ANhj/j3VI9Pf3lkm05Cc5a6/MZLWuIWMGWHjr/Pm+zsxPJeYPr
-vR9vNdXNU5Gi0k4NFldsoQnhSxicXZkQ+rwv7Kj6E2uEnxrZuJcyytUd5iw6jLAN
-Fb1UvSRKEg9UQiX93+vMDG8UXTC9djYygfgUottGMQxq128DosBZlp7KeaW6ziyp
-F5vZGBOx/U4i+fP/iQqET6sq2kp127iCI6aDzeCq1g6k1yANWoW4eel1aHZI0koA
-Q9Vl6QyPm0lhJokX6GJsefFmLYIXnJOVuqnMLvrJwg7A0Dloregxl0CRBlKlyp0T
-sXKuDyLGJr/9ToZ8ymkeQ0rk1oq2Bx/BCB1V9EiMJhU9s0Oft+fITgTXmdfXSJIM
-NJteezhFLpiRaZUGw3YNMU8SfCE6FFGJuGUwVOAezQYyHFoVn1ipQzH343zXlxZ9
-obSv4hIAjr6GTm57Av1ZElZ1MOsUqs3dAxwDbpiCvFy1eqei58HGgrh9c2o9CGCa
-jS8Md+wUv5ShZ0VR+8We+wE9vdMHUsXK+41IiD+oZRyHLL06WQP8/OATrbwraBZb
-jHILTsftSPzPjPb4LmJuegnm25yPQfht1t1o1J7x8wLB0y+AjoH42iAH2rvVYueH
-NecqUmsyW8atiB1rOpsP4n4GAbSGuur4qgXtkPwuQFhnKwFEzXGSQGp9rwYY6Yh/
-u7fpiF2aQqH/cAEbmlfruVIpJd9d01U+H8nNcjboanSw5egVoI0LNeheewUvR8Lu
-M4HUbdRUKN6BoNzJpZTx9pezOV28Blt6jEKyg1bjGTYv+B/NmNeYf0PBFkkPPzZC
-fwHsgkuh+hW//9Cl14fyiILrpqJ2HAijC7vYjsS/y+vKLpuDhNl6R35n0e7+nfuS
-caBW++23vfYCYihKHe2AorrS09vo9LROzLzs2CxKwIi/42dS2aiCQdMrvlf0+OSR
-VxA6zuL2FSsglG2HRlp4MEyUr3muUpEQ3v7cgK7KV13HLL1C3CLkydzzf4SvBTQt
-o/tqrk7PqwRny5V6xezJhTGm+2hB1Jkg9/bStdlQ2Q9xDA65fe3bGt25bOpab3aj
-r1UhJkXnxIZjr/yIORLVsexA3dhjm3MuPY01mhtvqzo=
+-- V3.104.0：采购订单「行级供应商/预计交货/关联项目」+ 表头「交付条件」落库补列。
+-- ① purchase_orders.delivery_terms：表单早有「交付条件」输入框，但建表（0005）时无此列，
+--    POST/PUT 也未登记 → 用户填了静默丢弃（ship_date 同款「静默丢列」）。本轮一并根治。
+-- ② purchase_order_items 行级 5 列：表单明细行早有供应商（vendorId/vendorName）、
+--    预计交货（expectedDeliveryDate）三列，但 INSERT 固定 16 列不含它们 → 全部落库即丢，
+--    编辑回显时整表被表头供应商覆盖。本轮强哥要求「关联项目放进明细行」，行级项目
+--    （project_no/project_name）与上述三列同批补齐，一次根治。
+ALTER TABLE purchase_orders ADD COLUMN delivery_terms TEXT;
+ALTER TABLE purchase_order_items ADD COLUMN vendor_id TEXT;
+ALTER TABLE purchase_order_items ADD COLUMN vendor_name TEXT;
+ALTER TABLE purchase_order_items ADD COLUMN expected_delivery_date TEXT;
+ALTER TABLE purchase_order_items ADD COLUMN project_no TEXT;
+ALTER TABLE purchase_order_items ADD COLUMN project_name TEXT;

@@ -1,89 +1,101 @@
-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
-pRBHjBW/zzpE8qIGVb1pKQ6VCNYBtzIPaG28ctQjRcbRctEkmGt/K608uJD0RQPT
-FRZFzHizaIkwF8rn/2pXfueNUdiCQ7hUa5bJbgHCZtkBAVNaxgADNtycYXrUF95I
-osrDL7hkWPb8dnuWKVIIyfcAvjygMAz+DcWz2BnTJc02DpSLbaOpc+BMJV/cb224
-FYmBLz/raKo0fiIW8YBHoRk/F3DYXK9nfy/C9mhnfQhxbQ/WmACBZy7iX1b7lVPh
-2qnTx1qFdftCihEf7adhEOMtulMmk/11V27pspOtzmc7Ik6BE7998+DGs+qWuzg7
-5mA4SBXDtirYnVQilp/twV+rjKEwQpdPXHdlmQb13QGq1Id3ZPU07rCWpWeW8G6G
-tY/ekiuNdjNge2+s+VAa0XLny69beuyB+ZQoill8B2G5k17QCQqB0yNh6oFNGMTM
-JBVBkf7n6wl4vJ+JE9NFXXwt3mews33VCq8WbYHUgHghj9NuYabrgCPJGiViRu1f
-dHtvKAuZkhdJzT7LZ/6r0Nj+51CuDehI4Qzv4TOZDgP3ADF+pxlmQMRnC7h7PMk8
-yxfKLSOs03kwFGmaCYY/WEALdE3iV5zcL9Ouv/etKUsUdu7EAPsbUHZh5YESJ57q
-fx6eKI53jDU1jCjlYbZTnzV2OxfWcPbH4RGr0IJdMguuqUV/ElD5QobTb2kfqPR4
-LYBc84yyXDP+CMK7oc1m6sJNpKfnNRKGpwQy8vJt76+VNZWaMPRckxUm6SnLFXtv
-AVIraDMIWHx9Of8Jne7HjngcgqQxD50Me3WxYjMCQFT+pyuUQL84GMJX2wWSVdH6
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import type { ReportPermission, ReportSubscription, ReportRole } from '@/types';
+import { parsePayload, splitByKind, withKind, writeRow } from './entityBackedShared';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const now = () => new Date().toISOString();
+
+interface ReportPermissionState {
+  reportPermissions: ReportPermission[];
+  subscriptions: ReportSubscription[];
+  setReportRoles: (reportId: string, reportName: string, roles: ReportRole[]) => void;
+  addSubscription: (sub: Omit<ReportSubscription, 'id' | 'createdAt'>) => void;
+  updateSubscription: (id: string, patch: Partial<Omit<ReportSubscription, 'id' | 'createdAt'>>) => void;
+  deleteSubscription: (id: string) => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateReportPermission: () => Promise<void>;
+}
+
+const RES = 'reportPermission';
+
+export const useReportPermissionStore = create<ReportPermissionState>()((set, get) => ({
+  reportPermissions: [
+    { reportId: 'rp-1', reportName: '销售汇总报表', allowedRoles: ['admin', 'manager', 'finance'] },
+    { reportId: 'rp-2', reportName: '库存周转报表', allowedRoles: ['admin', 'warehouse'] },
+    { reportId: 'rp-3', reportName: '财务报表数据集', allowedRoles: ['admin', 'finance'] },
+  ],
+  subscriptions: [
+    {
+      id: 'sub-seed-1',
+      reportId: 'rp-1',
+      reportName: '销售汇总报表',
+      frequency: 'weekly',
+      recipients: 'manager@ssa.com',
+      channel: 'email',
+      enabled: true,
+      createdAt: now(),
+    },
+  ],
+
+  setReportRoles: (reportId, reportName, roles) => {
+    set((s) => {
+      const exists = s.reportPermissions.find((r) => r.reportId === reportId);
+      const next = exists
+        ? s.reportPermissions.map((r) => (r.reportId === reportId ? { ...r, allowedRoles: roles } : r))
+        : [...s.reportPermissions, { reportId, reportName, allowedRoles: roles }];
+      return { reportPermissions: next };
+    });
+    const cur = get().reportPermissions.find((r) => r.reportId === reportId);
+    if (cur && isAuthed()) writeRow(RES, cur.reportId, withKind('perm', cur));
+  },
+
+  addSubscription: (sub) => {
+    const item: ReportSubscription = { ...sub, id: uid('sub'), createdAt: now() };
+    set((s) => ({ subscriptions: [...s.subscriptions, item] }));
+    if (isAuthed()) writeRow(RES, item.id, withKind('sub', item));
+  },
+  updateSubscription: (id, patch) => {
+    let updated: ReportSubscription | undefined;
+    set((s) => ({
+      subscriptions: s.subscriptions.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('sub', updated));
+  },
+  deleteSubscription: (id) => {
+    set((s) => ({ subscriptions: s.subscriptions.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  hydrateReportPermission: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload(res?.data || []);
+      const perms = splitByKind<ReportPermission>(rows, 'perm');
+      const subs = splitByKind<ReportSubscription>(rows, 'sub');
+      if (perms.length || subs.length) {
+        set({ reportPermissions: perms.length ? perms : get().reportPermissions, subscriptions: subs.length ? subs : get().subscriptions });
+      } else {
+        for (const p of get().reportPermissions) writeRow(RES, p.reportId, withKind('perm', p));
+        for (const s of get().subscriptions) writeRow(RES, s.id, withKind('sub', s));
+        const rf = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+        const r2 = parsePayload(rf?.data || []);
+        set({
+          reportPermissions: splitByKind<ReportPermission>(r2, 'perm'),
+          subscriptions: splitByKind<ReportSubscription>(r2, 'sub'),
+        });
+      }
+    } catch {
+      // 离线/异常：保留本地种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useReportPermissionStore.getState().hydrateReportPermission();

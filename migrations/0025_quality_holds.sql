@@ -1,20 +1,32 @@
-U2FsdGVkX1+crHWtrInFauZKJytT3NNCdt/WN1HhoJ1zUWJ9iMCTDSQO7Ep/07lA
-XH8HGMXyzI2xtAIySOXmt7p+9qQwghM9HbdLef8Tu+k2L37vp26iiQ235DxjghYH
-bzq7HZjbLR1n0fnLgJ4S/z6CqZIQc1GdxdrTZRbfJSTEupZA9cMuWxYYucM6vw0O
-Qjm4D/Fkch30y5KiYN7NzsJo6qVZi+mPSLtRRVHqTKushdmLc+poH77a9ko3Nxi5
-A0nra8XJBJrKQqhDBYraAJzBWZqpxk+95zvfYtx72cCTWTHVRa0+cFH5BOnbnNDS
-LUpA6iklOrZ4/n3TSR863qe8T5x3+MI4b1O4sAsUTb+MOY+392XtmzfnJzhny0F7
-deNZUPnO3l6dc1i7ZrePPnFSBDN4xwl4QpvMaz1OZX5b7EVqqRb4QVFf5aFdmSwM
-L0Mg/GVhjZPZtmw+DIlt1iTjo5cETg6h1aVILPcJr4hBqrAPZNti9AxaX0kPmqqP
-TIZpr5UcYmOchWRkW1tTyeyDxetHI1nik21ixuQaTejS+0I8QigM5p+I1NkLxW0l
-oSLE8IYlccx0ZttUQN9LDPzF/9L6VvPeA/8Heqo3rWc1oBY4/Wl5H+d11mGECHul
-A789b02pKEIOwE1UySZUDVx17q4oGhkXyaUwN3Lg+SSOvGwQ9HESNb/6WNayPdXC
-GbEy7ucK1a+buWBk8BQn7q0coIAHUJ61gFyRqWb1UzpTURDWTAcuHLwNquD3A8r6
-/CYw/3Obbz/HJaPPZ0jV/gl1uRdieTc7R09nGSrpHvhhgNDqotKLC1EYKs1Bl2re
-B2VBhY9epETmfYzw6ntBfs+wLmpQAQLnFUmR8ScPifLppnrsF/yTRHe5LNkJVJo3
-c6a3ZNR8zyUnPCO0akTqGgcBiWF2T9zbxgqiI1GQ2ebJ8OWmpBVwyruDp8s0U1HQ
-NEfmTqEKLwBCxH0dS/tG+lPgXkQUFROICa2+awKAwCkSY1OaHkmdpcrKwOo4JJqa
-/2RF6CftKM7GxUdcI1Uogsn46OdL3vaHI6cwtaCJVF4mlx8vFutOSot7HdwJMfF2
-p7Le2EYnwcSyh9Dm8DweN+E3uvLj5wuA770CKg/ZUgHAwd0GbueJBVaRxS3VzPv9
-e03DDnLrm9nqVzi0en/dDARLDCDcvfefn2P1i21XAaS/2Zc1JC6sWQ1MuOkFjoCZ
-iiovV6g1R70lhtalKBcso50xs8QblQxt2oabzMtuPactYZ3jOZO6PEBRK6STzW2v
+-- W2 收尾：质检扣留 quality_holds
+-- 根治双通道：warehouseAdvancedStore.qualityHolds 切片由 app_state Blob 迁真实 D1。
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS quality_holds (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  warehouse_id TEXT,
+  warehouse_name TEXT,
+  batch_no TEXT,
+  quantity REAL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'pending',
+  source_inbound_no TEXT,
+  hold_date TEXT,
+  release_date TEXT,
+  inspector TEXT,
+  reason TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_quality_hold_org ON quality_holds(org_id);
+CREATE INDEX IF NOT EXISTS idx_quality_hold_status ON quality_holds(org_id, status);
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0025_quality_holds', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

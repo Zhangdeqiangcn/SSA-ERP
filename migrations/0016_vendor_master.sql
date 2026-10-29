@@ -1,46 +1,53 @@
-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
+-- V2.74.2: 供应商主数据关系表（与门户登录表 vendors 解耦）
+-- 网关 /api/open/vendors 现指向本表，避免误写门户凭据(password_hash/salt NOT NULL) 与 SELECT * 泄露凭据。
+-- 与 materials/customers 同构：org_id 隔离 + 审计列 NOT NULL + owner_id/dept_id（RLS 预留，可空）。
+CREATE TABLE IF NOT EXISTS vendor_master (
+  org_id          TEXT NOT NULL,
+  id              TEXT NOT NULL,
+
+  -- 主数据列（snake_case，对应 src/types/vendor.ts Vendor 业务字段）
+  vendor_code     TEXT,
+  company_name    TEXT,
+  short_name      TEXT,
+  type            TEXT CHECK (type IN ('manufacturer','trader','agent')),
+  contact_name    TEXT,
+  contact_phone   TEXT,
+  contact_email   TEXT,
+  address         TEXT,
+  status          TEXT CHECK (status IN ('registered','pending','approved','rejected','blacklisted')),
+  credit_level    TEXT CHECK (credit_level IN ('AAA','AA','A','B','C')),
+  credit_limit    REAL DEFAULT 0,
+  used_credit     REAL DEFAULT 0,
+  tax_id          TEXT,
+  bank_account    TEXT,
+  sales_org       TEXT,
+  reconciliation_account TEXT,
+  tax_code        TEXT,
+  rating          REAL,
+  blacklist_reason TEXT,
+  blacklisted_at  TEXT,
+  qualification_expiry TEXT,
+  remarks         TEXT,
+
+  -- RLS 预留（V2.74.0 行级策略维度，可空以兼容存量/网关写）
+  owner_id        TEXT,
+  dept_id         TEXT,
+
+  -- 审计列（NOT NULL，网关写操作须补齐，见 presentCols 探测）
+  created_at      TEXT NOT NULL,
+  updated_at      TEXT NOT NULL,
+  created_by      TEXT NOT NULL,
+  updated_by      TEXT NOT NULL,
+
+  PRIMARY KEY (id),
+  UNIQUE(org_id, vendor_code)
+);
+
+CREATE INDEX IF NOT EXISTS idx_vendor_master_org ON vendor_master(org_id);
+CREATE INDEX IF NOT EXISTS idx_vendor_master_code ON vendor_master(vendor_code);
+CREATE INDEX IF NOT EXISTS idx_vendor_master_status ON vendor_master(org_id, status);
+CREATE INDEX IF NOT EXISTS idx_vendor_master_type ON vendor_master(org_id, type);
+
+-- 幂等守卫（version 为 TEXT 主键）
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0016_vendor_master', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

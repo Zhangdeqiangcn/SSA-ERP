@@ -1,56 +1,55 @@
-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
+// 生产域数据访问层（C1 关系化 · V3.12.0）
+//
+// ── ★ 同一个 store、两条不同通道（本域最需要注意的一点）─────────────
+// `useProductionStore` 待迁的两个切片**结构不同，通道也不同**：
+//   · processRoutes      —— 带嵌套 `operations[]`（每行还带 `skills[]`）
+//                           → 专用父子表端点 /api/process-routes
+//   · mrpRecommendations —— 13 个字段全是标量的**平表**
+//                           → 通用实体路由 /api/entities/mrpRecommendation
+//
+// 判据是「**有没有嵌套**」，不是「属不属于同一个域」：
+// 通用路由的 pickSnake 只挑登记过的列，嵌套数组会被**静默丢弃且返回 201**；
+// 而给一张平表再写两个端点文件，等于把同一套逻辑抄第二份。
+//
+// 两条通道对 store 层**暴露同一组方法名**（list/create/update/remove），
+// 让调用方不必关心某个切片走哪条路 —— 将来换通道只改本文件一处。
+//
+// ── 第三个切片 workOrders 不在这里 ────────────────────────────────
+// 它早在 W1（V2.75.x）就直连 D1 了，走 `w1Api.workOrderApi`。
+// 本轮**不碰**（重复建表/建端点 = 双源）。
+import { api } from './api';
+import type { PaginatedResponse } from '@/types';
+
+export interface CrudApi<T> {
+  list: (params?: Record<string, unknown>) => Promise<PaginatedResponse<T>>;
+  create: (data: Partial<T>) => Promise<T>;
+  update: (id: string, data: Partial<T>) => Promise<T>;
+  remove: (id: string) => Promise<unknown>;
+}
+
+/** 专用父子表端点通道（带嵌套数组的切片） */
+function viaEndpoint<T>(base: string): CrudApi<T> {
+  return {
+    list: (params) => api.get<PaginatedResponse<T>>(base, params),
+    create: (data) => api.post<T>(base, data),
+    update: (id, data) => api.put<T>(`${base}/${id}`, data),
+    remove: (id) => api.delete(`${base}/${id}`),
+  };
+}
+
+/** 通用实体路由通道（平表切片，后端零新增代码） */
+function viaEntity<T>(resource: string): CrudApi<T> {
+  return {
+    list: (params) => api.get<PaginatedResponse<T>>(`/entities/${resource}`, params),
+    create: (data) => api.post<T>(`/entities/${resource}`, data),
+    update: (id, data) => api.put<T>(`/entities/${resource}/${id}`, data),
+    remove: (id) => api.delete(`/entities/${resource}/${id}`),
+  };
+}
+
+export const PRODUCTION_PAGE_SIZE = 200;
+
+export const productionDomainApi = {
+  processRoutes: viaEndpoint<any>('/process-routes'),
+  mrpRecommendations: viaEntity<any>('mrpRecommendation'),
+};

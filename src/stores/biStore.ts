@@ -1,34 +1,34 @@
-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
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { BiConnection, BiStatus } from '@/types/bi';
+import { biConnections } from '@/mocks/data/bi';
+import { createEntityStore } from './createEntityStore';
+
+// 迁统一仓储工厂（V2）：单资源 biIntegration，云端数据库主源 + 模拟兜底 + 空库回填。
+// 保留既有 list/addConn/updateConn/deleteConn 接口；自定义 syncConnection 经 extend 钩子
+// 复用工厂的乐观更新 + 失败回滚（置 connected 并记录 lastSyncAt）。调用页面无需改动。
+// 注：工厂返回通用类型，这里用领域接口 + 类型断言还原强类型（运行行为不变）。
+interface BiState {
+  list: BiConnection[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addConn: (c: BiConnection) => Promise<void>;
+  updateConn: (id: string, u: Partial<BiConnection>) => Promise<void>;
+  deleteConn: (id: string) => Promise<void>;
+  syncConnection: (id: string) => Promise<void>;
+}
+
+export const useBiStore = createEntityStore<BiConnection>({
+  resource: 'biIntegration',
+  seed: [...biConnections],
+  stateKey: 'list',
+  backfillKey: 'ssa-erp-backfilled-bi',
+  extend: (ctx) => ({
+    addConn: (c: BiConnection) => ctx.primary.add(c),
+    updateConn: (id: string, u: Partial<BiConnection>) => ctx.primary.update(id, u),
+    deleteConn: (id: string) => ctx.primary.remove(id),
+    syncConnection: async (id: string) => {
+      const patch = { status: 'connected' as BiStatus, lastSyncAt: new Date().toISOString() };
+      await ctx.primary.update(id, patch);
+    },
+  }),
+}) as unknown as UseBoundStore<StoreApi<BiState>>;

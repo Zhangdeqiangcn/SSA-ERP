@@ -1,169 +1,181 @@
-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
-xQm1TbtS8sdEtSELYRCpeQ==
+/**
+ * 凭证直写（服务端权威写入 D1 的 vouchers + voucher_items）
+ * ------------------------------------------------------------------
+ * 单一写入路径，被两处共用：
+ *   ① /api/vouchers POST —— 手工 / 前端生成的凭证（含发票校验、付款等自动凭证）
+ *   ② inventoryPosting —— 入库 / 出库自动业务凭证（采购暂估、出库成本结转）
+ *
+ * 之所以抽成公共函数（而非 inventoryPosting 内联写 SQL）：
+ *   凭证表列集（voucher_no/date/source/total_debit/...）曾多次分叉（见迁移 0068），
+ *   "两处 INSERT 各自拼列" 是经典的漂移坑（N1 硬规矩㉜㉟）。统一到这一处，
+ *   列集只维护一份，手工凭证与业务凭证永远同口径。
+ *
+ * 借贷平衡：本函数**最后一道闸**（与 /api/vouchers 的 guardVoucherItems 双保险）。
+ *   服务端算账的金额（inventoryPosting 反推的 totalCost / unitCost×qty）本应自平，
+ *   但仍强制校验 Σ借 = Σ贷（容差 0.005），不平或空凭证一律拒绝写入，绝不落脏数据。
+ */
+import { VOUCHER_BALANCE_TOLERANCE } from './voucherGuard';
+
+const nowIso = (): string => new Date().toISOString().replace(/\.\d{3}Z$/, '');
+import { roundAmount } from './money';
+// V3.61.0 P0-1：期末结账守卫（凭证侧第二道防线）。appState.ts 零 import，不构成循环依赖。
+import { isPeriodClosed } from './appState';
+
+export interface VoucherItemInput {
+  summary?: string;
+  accountCode?: string;
+  accountName?: string;
+  debit?: number;
+  credit?: number;
+  ledgerBook?: string;
+  /**
+   * V3.45.0 补齐（此前这些字段被**硬编码丢弃**，导致两个下游硬伤）：
+   *   ① currency/exchangeRate —— 原写死 'CNY'/1，多币种折算完全失效；
+   *   ② projectId/costCenterId —— 原写死 null，而 guardBudget 恰恰按
+   *      `SUM(debit) WHERE project_id = ?` 统计项目已发生额 ⇒ 恒为 0 ⇒
+   *      **超预算永不触发**（V3.29.0 声称的"预算硬拦"实为假管控）。
+   * 前端 toVoucherPayload 一直在传这些值，是服务端在丢弃它们。
+   */
+  currency?: string;
+  exchangeRate?: number;
+  projectId?: string;
+  costCenterId?: string;
+  lineNo?: number;
+}
+export interface VoucherInput {
+  voucherNo: string;
+  voucherType?: string;
+  date: string;
+  period?: string;
+  description?: string;
+  source: string;
+  sourceNo?: string;
+  status?: string;
+  totalDebit: number;
+  totalCredit: number;
+  currency?: string;
+  ledgerBook?: string;
+  remark?: string;
+  items: VoucherItemInput[];
+}
+
+// 凭证头字段白名单（只写这些，其余列保持表默认值）。与 /api/vouchers POST 同口径。
+const HEAD_FIELDS = [
+  'voucherNo', 'voucherType', 'date', 'period', 'description',
+  'source', 'status', 'totalDebit', 'totalCredit', 'currency', 'sourceNo', 'ledgerBook', 'remark',
+];
+const headColFor = (f: string): string => {
+  switch (f) {
+    case 'voucherNo': return 'voucher_no';
+    case 'voucherType': return 'voucher_type';
+    case 'date': return 'date';
+    case 'period': return 'period';
+    case 'description': return 'description';
+    case 'source': return 'source';
+    case 'status': return 'status';
+    case 'totalDebit': return 'total_debit';
+    case 'totalCredit': return 'total_credit';
+    case 'currency': return 'currency';
+    case 'sourceNo': return 'source_no';
+    case 'ledgerBook': return 'ledger_book';
+    case 'remark': return 'remarks';
+    default: return f.toLowerCase();
+  }
+};
+
+/**
+ * P0-4：构建「一张凭证」的待执行语句（头 + 分录），**不立即执行**。
+ *
+ * 为什么单拆出来：让调用方能把「同一笔业务的多张写」收进**同一个原子批次**。
+ * 折旧计提原本「先 db.batch(资产台账) 再 writeVoucher(凭证)」两步分离，凭证因
+ * UNIQUE 冲突失败时资产累计折旧已被累加 → 双计提/账实不符。把两者并进一个
+ * `db.batch` 后，凭证头 UNIQUE(org_id, voucher_no) 冲突会**连同资产更新一起回滚**。
+ *
+ * 借贷平衡校验（同 writeVoucher 最后一道闸）：Σ借 = Σ贷（容差内）才产出语句，
+ * 空凭证返回空 stmts（调用方据此判「不写」）。
+ *
+ * @returns { id, stmts } 凭证 id 与待执行语句数组；stmts 为空表示该凭证无效不应写
+ */
+export function buildVoucherStmts(
+  db: any,
+  orgId: string,
+  user: any,
+  payload: VoucherInput,
+  idOverride?: string
+): { id: string | null; stmts: any[] } {
+  const td = roundAmount(payload.totalDebit);
+  const tc = roundAmount(payload.totalCredit);
+  if (td <= 0 && tc <= 0) return { id: null, stmts: [] }; // 空凭证无意义
+  if (Math.abs(td - tc) >= VOUCHER_BALANCE_TOLERANCE) return { id: null, stmts: [] }; // 借贷不平
+
+  const id = idOverride || 'v-' + crypto.randomUUID();
+  const now = nowIso();
+
+  const cols = ['org_id', 'id'];
+  const vals: any[] = [orgId, id];
+  for (const f of HEAD_FIELDS) {
+    const v = (payload as any)[f];
+    if (v === undefined || v === null || v === '') continue;
+    cols.push(headColFor(f));
+    vals.push(f === 'status' ? (v || 'draft') : v);
+  }
+  cols.push('created_at', 'updated_at', 'created_by', 'updated_by');
+  vals.push(now, now, user.id, user.name);
+
+  const headStmt = db
+    .prepare(`INSERT INTO vouchers (${cols.join(',')}) VALUES (${cols.map(() => '?').join(',')})`)
+    .bind(...vals);
+
+  const itemStmts: any[] = [];
+  (payload.items || []).forEach((it, i) => {
+    itemStmts.push(
+      db
+        .prepare(
+          `INSERT INTO voucher_items (id, voucher_id, line_no, summary, account_code, account_name, debit, credit, currency, exchange_rate, cost_center_id, project_id, ledger_book) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+        )
+        .bind(
+          'vi-' + crypto.randomUUID(), id,
+          // 行号用调用方给的 lineNo（业务可读的行序），缺省才回退循环下标 +1（人看的 1-based）
+          it.lineNo != null ? Number(it.lineNo) : i + 1,
+          it.summary || null, it.accountCode || null, it.accountName || null,
+          roundAmount(it.debit || 0), roundAmount(it.credit || 0),
+          // 币种/汇率：行级优先、其次凭证头、最后兜底人民币
+          it.currency || payload.currency || 'CNY',
+          Number(it.exchangeRate) > 0 ? Number(it.exchangeRate) : 1,
+          it.costCenterId || null,
+          it.projectId || null,
+          it.ledgerBook || payload.ledgerBook || '0000'
+        )
+    );
+  });
+
+  return { id, stmts: [headStmt, ...itemStmts] };
+}
+
+/**
+ * 直写一张凭证（头 + 分录，原子批次）。
+ * @returns 成功返回凭证 id；借贷不平 / 空凭证 / 缺少必填返回 null（调用方应视为"不写"）
+ */
+export async function writeVoucher(
+  db: any,
+  orgId: string,
+  user: any,
+  payload: VoucherInput,
+  idOverride?: string
+): Promise<string | null> {
+  // ★ V3.61.0 P0-1 · 期末结账守卫（凭证侧第二道防线）
+  //   库存侧已在 inventoryPosting 的 postInbound/postOutbound 入口拦；此处再拦一次，
+  //   覆盖**非库存来源**的自动凭证（发票/付款/开票/折旧/结转等），一处覆盖全部记账路径。
+  //   口径：结账期一律不写（draft 也不写——已关账月份不该再产生任何新凭证）。
+  //   返回 null 而非抛错：调用方既有范式是「null = 不写」（幂等查重/金额非法也走这里），
+  //   抛错会打破「后置非阻断记账」契约并把正常业务打成 500。
+  const vPeriod = String(payload.period || String(payload.date || '').slice(0, 7) || '').slice(0, 7);
+  if (vPeriod && await isPeriodClosed(db, orgId, vPeriod)) {
+    console.error(`[writeVoucher] 会计期间 ${vPeriod} 已结账，拒绝生成凭证（source=${payload.source || '-'} sourceNo=${payload.sourceNo || '-'}）`);
+    return null;
+  }
+  const { id, stmts } = buildVoucherStmts(db, orgId, user, payload, idOverride);
+  if (stmts.length === 0) return null;
+  await db.batch(stmts);
+  return id;
+}

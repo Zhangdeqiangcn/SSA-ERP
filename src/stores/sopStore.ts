@@ -1,12 +1,11 @@
-U2FsdGVkX1+8xUX9X23avgI2rWj/fQjvgN8eV2ifTze0914FmWn1eFtNpR62um12
-lCv0qV+JzKohEkeORooEMZa07Ggk8AWDMC0lequ7w3PoMEJ+cp6nmdycimWyxmpR
-z0bXqMGAEYy+Q5bh4ZxCNuEX2ja5j4QTky2j/FjTVSSaEXMifzKQoAHRvtOXN0Mn
-Ccrq1uJY4QPCoIGSnmwPhgeg6aTQwFP76Jt1FdS6HnTE16DCYGSBdjRN/Krb5WPW
-He8/e3V6Oy/euHhS5AzRsYLKwrv8mEXM1Qdvux2Ec02g9kFVlXYeeICeO1XRcWZt
-f24yZmUv0TPvhLuPDManniCL7Fe5JQSiTI/WnFEauPvBMZS6ndqp01rTdsHCTDah
-3Gp0sYH5i+0cL3xmf0nQ6Ma4j9GzYzRQybhQqatlTsExE0NhZO0OYt19Zq50i/xx
-VZlW8CjHP1O28ZbOx6GupVDkJWdRXUn4J7aGG9ofUx8c941b+QKFBjQ6dGQ3fBNz
-Ts6bvaRMYPACiJiPJE7p1bc3hMHBXvl7xr7Nx+JY3u+TvyBh5OD48oxHlxzgGbSi
-Pe8lykWIUAx678jetfLkis85dxEWp38e1JdlkuyEFObsCxaDJkxAHzIZ+rUInPik
-KNaEprcyVbfoCYC9NSibLR83ps2uQJ1m/PrXA1n7aNkPwAoyvbWHjKNQF3NZe5mg
-042tevo1R90jWi+870uDwb1fOkLveEqfQmwDCCS6SsM=
+import { SopPlan } from '@/types/sop';
+import { sopPlans } from '@/mocks/data/sop';
+import { createEntityStore } from './createEntityStore';
+
+// V2.75.0 W0：S&OP 计划迁真实 D1（根治双通道参考实现）。
+// 数据主源 = /api/entities/sop（D1 sop_plans 表），移除原 app_state Blob persist(backendStorage)。
+// 离线/Mock 兜底 + 首次空库回填（与 materialStore 同策略，避免存量数据丢失）。
+export const useSopStore = createEntityStore<SopPlan>({
+  resource: 'sop',
+  seed: [...sopPlans],
+});

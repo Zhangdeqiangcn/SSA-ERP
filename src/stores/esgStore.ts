@@ -1,28 +1,29 @@
-U2FsdGVkX18/NFhdcrjFnOs2416Iz/11WEM2m5WxtClQSqVVuacAEPGMNxbDhC3n
-xiM4nPqtznAdjCEH2UalnSjlYwYXyAniWnWYUjlH/JFcTguJT8CnUCeICv1qk6FV
-d8tZ25uVlYrvaAQF7Npwde5Z2VMsi6dYCl6e5DdC5K8ll8lRrb7k0MyoxjpWblfs
-8ADe9q9GBxUjZwet4CYohmtF5rnOvVfzNH+crKj5ttVxLY+76KukEF29KZPOigVI
-lyshLBHCm0SvSHRLzxil7O3YIefL8tVro+9sqPVIOvVAADgJhvH60X0c6KphEJGT
-ZhV5AvMexxvaWoPSReQhUEqE+9KE9Y2D9shfBb/mwXMULDhgNgwN5mEGvFjogQbN
-cIFYemsfaiiLTsuKCsyPd+pc4fRS83rl6PqmFu3SsGoVTHWNQLA1HmPnaUiVjFud
-lf9gfX6MsL/vKN6J47aO7INDijy+3l5r8stZEZ3WNbGtYMajYLXsJq4aSxEmzm6T
-gB25DLUY1r/k8axKczUKVYEwBGSlWcDPlENxPO7vVY9ox8sxJnETJERYkEqjxv2c
-oFgryGwyxOxBD66dk5dD3aJwrpK41d0vRAXOgd1UgfqgUyzLSLIFZ07I4Es+3PJT
-OBTwxUFg5ONGLWQ7Pdwq8DIQ+aFxlZRptSPh8kPSqaESkS42mX/lqX6JlgfvDZF5
-kERH96aU6IMCjPng+UZN0iWbcFdpMLI6poBdMC4flc5DWqpZp0qwb4jnE4RKxb4/
-MGi2O1mh+Nxf4AooV6vvw9INTYb5DZJL+Fnivr77HeShK3qcY2xBJbwtKbvvFmiY
-CG6+lZg6QfjDJl+SGD0lAbI1sDK73ctBO0qhMQBCnqPdZLmgzbjD+RfhtluP/Rx6
-+KEwBj34ujpWQD9ItmfgnOSP7cgE7iaAOQqNmDewmy0tRM2Nwj/+vx0nzX0Yf4ae
-R29+OxJ/aePyVhr7advuauC1eKkUjxBE4Yjx/BuW8jnOtqk0aCkxs3ee7selbaQ0
-hPovkJxww1ltfpD1/y1BafFYGxXRMOfnX9pD6nPKbo6si8Lz6XtJ51heIPhzoBRM
-u50kgJxWEu5JbrK+CRuAN/A4r1qDFf76vZ9lLvZZQASPp4kNArEnEw3Z1X7bjQLI
-+mBf8p3WLXy7jOHnhVwR7Fh1LPFPxlRz1S+H/8PI5Xdb8eoYhig2Gp1HFOsF62iB
-rcfksIG8y2qQbHqhBYTAgAHwxEvaaspxXdk/0yKhb2VJ9AiO8/Xfwv260nVml5cB
-/ZNZANGgAcDLb5wWRwwEcVZF/gITJ6h5Uyozcud7znuk7svlR8QUEAOEyroYuJws
-gyWIGaGJrFLaekUT4zo2htN+rZO32lwpOm/UpI3tl91Bj6SFVpK3AkfI6p30T6pF
-VIB2gCESqUu+v8U/E4PU1e4ZSqBuR1Pd5d9pppN1Vyt60t7nCVB2en6o3EPyGayW
-1XH/PUAmtMDtj0rH8L9fnLhXYgxuAaLNYyPVaXmGVsTRdIxtIIuuR6TuoYjE60Tc
-cgpGFxQs1v2l/crcuMxkiUn02l2fanmuRSeGs6p83ouiN35CMDf7JnANqVJIge6M
-tUp/3cNMxSL41z/yLVYs3mgyWrOrVg/G6WVNEL/04ZZKbkDCJHR8QJPB5SI2qYGS
-HSyWcnVev8MT2ED650wCuCw4NN3CRHU57k3Vz6FSlv1HfkiBG+pznN8BsktqJPD1
-JKm3oNLTW14CcScOaSKls4JLbtDWqD7TBqdJg3hqdbo=
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { EsgReport } from '@/types/esg';
+import { esgReports } from '@/mocks/data/esg';
+import { createEntityStore } from './createEntityStore';
+
+// 迁统一仓储工厂（V2）：单资源 esgReport，云端数据库主源 + 模拟兜底 + 空库回填。
+// 保留既有 list/addReport/updateReport/deleteReport 接口（stateKey + extend），
+// 调用页面无需改动；回填标记沿用旧键，避免重复灌种子。
+// 注：工厂返回通用类型，这里用领域接口 + 类型断言还原强类型（运行行为不变）。
+interface EsgState {
+  list: EsgReport[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addReport: (r: EsgReport) => Promise<void>;
+  updateReport: (id: string, u: Partial<EsgReport>) => Promise<void>;
+  deleteReport: (id: string) => Promise<void>;
+}
+
+export const useEsgStore = createEntityStore<EsgReport>({
+  resource: 'esgReport',
+  seed: [...esgReports],
+  stateKey: 'list',
+  backfillKey: 'ssa-erp-backfilled-esg',
+  extend: (ctx) => ({
+    addReport: (r: EsgReport) => ctx.primary.add(r),
+    updateReport: (id: string, u: Partial<EsgReport>) => ctx.primary.update(id, u),
+    deleteReport: (id: string) => ctx.primary.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<EsgState>>;

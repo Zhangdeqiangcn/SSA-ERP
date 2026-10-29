@@ -1,91 +1,140 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import { Equipment, MaintenanceOrder } from '@/types/production';
+
+const STORE_KEY = 'ssa-erp-equipment';
+
+const seedEquipments: Equipment[] = [
+  {
+    id: 'eq-001',
+    code: 'EQ-CUT-01',
+    name: '激光切割机 #1',
+    category: 'machine',
+    workCenterId: 'wc-cut',
+    workCenterName: '切割中心',
+    status: 'in_use',
+    nextMaintenanceDate: '2026-08-01',
+    createdAt: '2026-01-01T08:00:00.000Z',
+    updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+  {
+    id: 'eq-002',
+    code: 'EQ-MOLD-01',
+    name: '焊接夹具 A型',
+    category: 'mold',
+    workCenterId: 'wc-weld',
+    workCenterName: '焊接中心',
+    status: 'in_use',
+    nextMaintenanceDate: '2026-07-25',
+    createdAt: '2026-01-01T08:00:00.000Z',
+    updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+];
+
+const seedMaintenance: MaintenanceOrder[] = [
+  {
+    id: 'mo-001',
+    equipmentId: 'eq-001',
+    equipmentName: '激光切割机 #1',
+    equipmentCode: 'EQ-CUT-01',
+    type: '日常保养',
+    date: '2026-07-01',
+    cost: 300,
+    status: 'done',
+    createdAt: '2026-07-01T08:00:00.000Z',
+    updatedAt: '2026-07-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+];
+
+interface EquipmentState {
+  equipments: Equipment[];
+  maintenanceOrders: MaintenanceOrder[];
+  addEquipment: (e: Equipment) => void;
+  updateEquipment: (id: string, patch: Partial<Equipment>) => void;
+  deleteEquipment: (id: string) => void;
+  addMaintenance: (m: MaintenanceOrder) => void;
+  updateMaintenance: (id: string, patch: Partial<MaintenanceOrder>) => void;
+  deleteMaintenance: (id: string) => void;
+  /** V3.80.0：从 D1 水合 */
+  hydrateEquipment: () => Promise<void>;
+}
+
+const RES = 'equipmentLedger';
+const KIND_EQ = 'equipment';
+const KIND_MO = 'maintenanceOrder';
+
+/** 写穿某切片某对象（打 __kind 标记落 payload，行主键 = 对象 id） */
+const pushEq = (e: Equipment) => isAuthed() && writeRow(RES, e.id, withKind(KIND_EQ, e));
+const pushMo = (m: MaintenanceOrder) => isAuthed() && writeRow(RES, m.id, withKind(KIND_MO, m));
+
+export const useEquipmentStore = create<EquipmentState>()((set) => ({
+  equipments: seedEquipments.map((e) => ({ ...e })),
+  maintenanceOrders: seedMaintenance.map((m) => ({ ...m })),
+
+  addEquipment: (e) => {
+    set((s) => ({ equipments: [...s.equipments, e] }));
+    pushEq(e);
+  },
+  updateEquipment: (id, patch) => {
+    let updated: Equipment | undefined;
+    set((s) => ({
+      equipments: s.equipments.map((e) => {
+        if (e.id !== id) return e;
+        updated = { ...e, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated) pushEq(updated);
+  },
+  deleteEquipment: (id) => {
+    set((s) => ({ equipments: s.equipments.filter((e) => e.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  addMaintenance: (m) => {
+    set((s) => ({ maintenanceOrders: [...s.maintenanceOrders, m] }));
+    pushMo(m);
+  },
+  updateMaintenance: (id, patch) => {
+    let updated: MaintenanceOrder | undefined;
+    set((s) => ({
+      maintenanceOrders: s.maintenanceOrders.map((m) => {
+        if (m.id !== id) return m;
+        updated = { ...m, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated) pushMo(updated);
+  },
+  deleteMaintenance: (id) => {
+    set((s) => ({ maintenanceOrders: s.maintenanceOrders.filter((m) => m.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  hydrateEquipment: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload(res?.data || []);
+      if (rows.length) {
+        set({
+          equipments: splitByKind<Equipment>(rows, KIND_EQ),
+          maintenanceOrders: splitByKind<MaintenanceOrder>(rows, KIND_MO),
+        });
+      }
+    } catch {
+      // 离线/异常：保留本地态（含种子）
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useEquipmentStore.getState().hydrateEquipment();

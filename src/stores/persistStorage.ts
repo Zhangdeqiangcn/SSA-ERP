@@ -1,302 +1,378 @@
-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
+// 共享存储适配器：登录态建立后，把各 store 的持久化数据代理到后端（按组织共享）
+// 未登录 / 后端不可达时，自动回退到浏览器 localStorage（保证离线可用、本地不丢）
+//
+// ════════════════════════════════════════════════════════════════
+// V3.1.0 重要改造（来源：《稳定性·可靠性·安全性深度评测报告》H-02 / H-03 / M-13）
+// ════════════════════════════════════════════════════════════════
+// 改造前的三个问题：
+//   ① 【静默数据丢失】云端写入失败被 `catch {}` 吞掉，界面照常显示「保存成功」，
+//      但云端仍是旧值；下次读取以云端为准 → 用户改动无声回滚，换台设备看到的还是旧数据。
+//   ② 【停用账号仍读本地】接口返回 401（账号已停用）时，代码直接回退本地缓存，
+//      于是离职员工不重新登录就能看到全量业务数据，还能继续往本地写「影子数据」。
+//   ③ 【多端互相覆盖】状态值按「键」整块覆盖，后写的人无声覆盖先写的人。
+//
+// 改造后的行为：
+//   ① 写入失败 → 记入重试队列（自动退避重试 4 次）并在界面顶部常驻提示，
+//      用户能看见「有 N 项没保存成功」，并可手动立即重试；
+//   ② 401 → 派发会话失效事件，由 authStore 清理本地业务缓存并跳转登录页，
+//      不再回退本地渲染（账号停用因此真正生效到数据层）；
+//   ③ 写入时带上「上次读到的版本号」，云端版本已变 → 返回 409，
+//      此处以云端最新版为准写回本地并提示用户刷新，不再无声覆盖他人改动。
+//
+// 取舍说明：401 不再回退本地，意味着「离线可用」只在「网络不通」时成立，
+//   在「账号已停用」时不再成立——这正是本次要达成的效果。
+import { createJSONStorage, type StateStorage, type PersistStorage } from 'zustand/middleware';
+import { useSyncStatusStore } from './syncStatusStore';
+
+const TOKEN_KEY = 'ssa-erp-auth-token';
+const SESSION_FLAG = 'ssa-erp-session'; // 非敏感布尔标记：仅表示「存在会话，可尝试云端同步」
+const LS = typeof window !== 'undefined' ? window.localStorage : (undefined as any);
+const SS = typeof window !== 'undefined' ? window.sessionStorage : (undefined as any);
+const IS_DEV = import.meta.env.DEV === true;
+
+/** 会话失效事件名：由 authStore 监听并执行清缓存 + 跳转 */
+export const SESSION_EXPIRED_EVENT = 'ssa-erp:session-expired';
+
+/** 自动重试的退避间隔（毫秒）：5s → 15s → 30s → 60s */
+const RETRY_DELAYS_MS = [5000, 15000, 30000, 60000];
+/** 自动重试次数上限；超过后停止自动重试，保留在队列中等待用户手动处理 */
+const MAX_AUTO_ATTEMPTS = RETRY_DELAYS_MS.length;
+
+/**
+ * V3.91.0 安全整改：令牌不再落地明文到 localStorage（避免 XSS 一键窃取）。
+ * 改为：
+ *   · 内存变量 memoryToken —— 当前页面会话内持有，刷新即失；
+ *   · 生产态由后端 HttpOnly Cookie（ssa-erp-auth）持久化，浏览器自动携带、JS 读不到；
+ *   · 开发态（http，Secure Cookie 不被存储）额外镜像到 sessionStorage，保证 dev 跨域代理
+ *     场景下刷新后仍能以 Authorization 头鉴权；
+ *   · 非敏感的 SESSION_FLAG 布尔标记写入 localStorage，供「是否尝试云端同步」判断
+ *     （不含任何机密，XSS 读取无收益）。
+ */
+let memoryToken: string | null = null;
+
+// 由 authStore 在登录/登出时调用，写入/清除令牌与会话标记
+export function setSyncToken(token: string | null) {
+  memoryToken = token ?? null;
+  try {
+    if (memoryToken) {
+      LS.setItem(SESSION_FLAG, '1');
+      if (IS_DEV && SS) SS.setItem(TOKEN_KEY, memoryToken); // dev 仅镜像，便于刷新后回放
+    } else {
+      LS.removeItem(SESSION_FLAG);
+      if (SS) SS.removeItem(TOKEN_KEY);
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
+/** 读取当前令牌（内存优先，dev 回退 sessionStorage）。生产刷新后返回 null，由 HttpOnly Cookie 兜底鉴权 */
+export function getSyncToken(): string | null {
+  if (memoryToken) return memoryToken;
+  if (IS_DEV && SS) {
+    try {
+      return SS.getItem(TOKEN_KEY);
+    } catch {
+      /* ignore */
+    }
+  }
+  return null;
+}
+
+/** 是否存在有效会话（非敏感布尔判断，替代「token 是否非空」的旧逻辑） */
+export function hasSession(): boolean {
+  try {
+    return !!LS.getItem(SESSION_FLAG);
+  } catch {
+    return false;
+  }
+}
+
+/** 清除本地会话态（401 等场景调用） */
+export function clearSession() {
+  setSyncToken(null);
+}
+
+function apiUrl(key: string) {
+  return `/api/state/${encodeURIComponent(key)}`;
+}
+
+function authHeaders(token: string | null): Record<string, string> {
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+/** 各状态键「上次从云端读到的版本号」，用于写入时做冲突比对 */
+const knownVersion = new Map<string, number>();
+
+/** 等待重试的写入：key → { value, attempts } */
+interface PendingWrite {
+  value: string;
+  attempts: number;
+}
+const pendingWrites = new Map<string, PendingWrite>();
+let retryTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** 会话失效后的兜底跳转保护：避免事件未被监听时卡在原地 */
+let expiredHandled = false;
+
+function notify() {
+  return useSyncStatusStore.getState();
+}
+
+/**
+ * 401 处理：账号被停用 / 会话失效。
+ * 派发事件交给 authStore 收拾（清 token、清本地业务缓存、跳登录），
+ * 本处只做兜底跳转，避免循环依赖。
+ */
+function handleUnauthorized() {
+  if (expiredHandled) return;
+  expiredHandled = true;
+  notify().reportExpired();
+  try {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
+    }
+  } catch {
+    /* ignore */
+  }
+  // 兜底：若无人监听事件（极端情况），1 秒后自行跳登录页。
+  // ★ V3.10.1：已在登录页则不跳 —— 否则会整页重载应用、把 expiredHandled 重置为 false，
+  //   在「登录页上仍有未登录请求陆续 401」时形成无限刷新循环（详见 authStore 同处注释）。
+  setTimeout(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.pathname === '/login') return;
+    window.location.href = '/login';
+  }, 1000);
+}
+
+/** 安排下一次自动重试 */
+function scheduleRetry(attempts: number) {
+  if (retryTimer) return;
+  if (!pendingWrites.size) return;
+  if (attempts >= MAX_AUTO_ATTEMPTS) return; // 超出上限：等待用户手动重试
+  const delay = RETRY_DELAYS_MS[Math.min(attempts - 1, RETRY_DELAYS_MS.length - 1)];
+  retryTimer = setTimeout(() => {
+    retryTimer = null;
+    void flushPendingWrites();
+  }, delay);
+}
+
+/** 把队列中的写入重放一遍；成功的出队，失败的按退避策略再排队 */
+export async function flushPendingWrites(): Promise<{ ok: number; failed: number }> {
+  let ok = 0;
+  let failed = 0;
+  const keys = Array.from(pendingWrites.keys());
+  for (const key of keys) {
+    const item = pendingWrites.get(key);
+    if (!item) continue;
+    // 队列里的是「最后一次要保存的值」，期间可能有新值覆盖；直接重放当前值即可
+    const res = await putToCloud(key, item.value, item.attempts + 1);
+    if (res.ok) ok += 1;
+    else failed += 1;
+  }
+  return { ok, failed };
+}
+
+/** 当前是否有未成功保存到云端的改动 */
+export function hasUnsyncedChanges(): boolean {
+  return pendingWrites.size > 0;
+}
+
+interface PutResult {
+  ok: boolean;
+  status?: number;
+  message?: string;
+}
+
+/**
+ * 写入云端（内部统一入口）。
+ * - 带上已知版本号做冲突检测；
+ * - 401 → 会话失效处理；
+ * - 409 → 以云端为准写回本地并提示冲突；
+ * - 其他失败 → 入队 + 界面提示 + 自动重试。
+ */
+async function putToCloud(key: string, value: string, attempt = 1): Promise<PutResult> {
+  if (!hasSession()) return { ok: false, status: 0, message: '未登录' };
+  const token = getSyncToken();
+
+  const body: any = { value };
+  const base = knownVersion.get(key);
+  if (typeof base === 'number') body.baseVersion = base;
+
+  let res: Response;
+  let data: any = {};
+  try {
+    res = await fetch(apiUrl(key), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    const msg = '网络异常，无法连接服务器';
+    pendingWrites.set(key, { value, attempts: attempt });
+    notify().reportFailure(key, msg, attempt);
+    scheduleRetry(attempt);
+    return { ok: false, status: 0, message: msg };
+  }
+
+  try {
+    data = await res.json();
+  } catch {
+    data = {};
+  }
+
+  if (res.status === 401) {
+    handleUnauthorized();
+    return { ok: false, status: 401, message: '登录状态已失效' };
+  }
+
+  if (res.status === 409 || data?.code === 'VERSION_CONFLICT') {
+    // 多端冲突：以云端最新版为准写回本地，并提示用户刷新页面重新载入
+    const cur = data?.current;
+    knownVersion.set(key, Number(cur?.version) || 1);
+    pendingWrites.delete(key);
+    if (cur && cur.value != null) {
+      try {
+        LS.setItem(key, String(cur.value));
+      } catch {
+        /* ignore */
+      }
+    }
+    notify().reportConflict(key);
+    return { ok: false, status: 409, message: data?.error || '数据已被其他设备修改' };
+  }
+
+  if (!res.ok) {
+    const msg = data?.error || `云端保存失败（HTTP ${res.status}）`;
+    pendingWrites.set(key, { value, attempts: attempt });
+    // 权限不足（403）属于「重试也没用」的情况：只提示、不自动重试，避免每 5 秒骚扰一次
+    const isPermission = res.status === 403;
+    // A5：数据域体积超硬上限（413）同样「重试也没用」——
+    // 数据没变小之前重试一万次还是失败，反而是每 5 秒弹一次更烦人。
+    // 这类失败必须显式中断重试并给出可操作说明（导出留底 → 安排迁关系表）。
+    const isTooLarge = res.status === 413 || data?.code === 'STATE_TOO_LARGE';
+    notify().reportFailure(key, msg, attempt, isPermission || isTooLarge ? 'warn' : 'error');
+    if (!isPermission && !isTooLarge && (res.status === 0 || res.status >= 500)) scheduleRetry(attempt);
+    return { ok: false, status: res.status, message: msg };
+  }
+
+  // 成功：更新版本号、出队、清掉界面提示
+  const v = Number(data?.version);
+  if (Number.isFinite(v) && v > 0) knownVersion.set(key, v);
+  pendingWrites.delete(key);
+  notify().clearFailure(key);
+  return { ok: true, status: res.status };
+}
+
+/**
+ * 从云端读取单个持久化键（原 getItem 的方法体，V3.4.0 抽成独立函数，
+ * 只为在外面套一层「拉取中」打点；逻辑一行未改）。
+ */
+async function readFromCloud(name: string, token: string | null): Promise<string | null> {
+  let res: Response;
+  try {
+    res = await fetch(apiUrl(name), { headers: authHeaders(token), cache: 'no-store' });
+  } catch {
+    return LS.getItem(name); // 网络异常 → 本地兜底（离线可用）
+  }
+
+  if (res.status === 401) {
+    // 账号停用 / 会话失效：不再回退本地渲染，交给会话失效流程处理
+    handleUnauthorized();
+    return null;
+  }
+
+  if (res.status === 404) {
+    // 云端尚无此数据：用本地值兜底，并异步把本地数据首次上云（旧数据平滑迁移）
+    const local = LS.getItem(name);
+    if (local) {
+      void putToCloud(name, local).catch(() => {});
+    }
+    return local;
+  }
+
+  let data: any = {};
+  try {
+    data = await res.json();
+  } catch {
+    return LS.getItem(name);
+  }
+  if (res.ok) {
+    const v = Number(data?.version);
+    if (Number.isFinite(v) && v > 0) knownVersion.set(name, v);
+    return data && data.value != null ? String(data.value) : LS.getItem(name);
+  }
+  return LS.getItem(name);
+}
+
+const rawStateStorage: StateStorage = {
+  async getItem(name: string): Promise<string | null> {
+    if (!hasSession()) return LS.getItem(name);
+    const token = getSyncToken();
+
+    // V3.4.0：云端拉取打点，供列表页骨架屏判断「数据是否还在路上」
+    const { beginHydrate, endHydrate } = useSyncStatusStore.getState();
+    beginHydrate(name);
+    try {
+      return await readFromCloud(name, token);
+    } finally {
+      endHydrate(name);
+    }
+  },
+
+  async setItem(name: string, value: string): Promise<void> {
+    // 会话已失效（账号停用等）：本地缓存将被清空，此刻任何写入都不再落盘，
+    // 否则 store 会在清理之后又把数据写回本地，形成「影子数据」。
+    if (expiredHandled) return;
+    if (!hasSession()) {
+      try {
+        LS.setItem(name, value);
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
+    const token = getSyncToken();
+
+    await putToCloud(name, value);
+
+    // 本地始终保留一份（离线兜底 / 未登录时直接使用）
+    try {
+      LS.setItem(name, value);
+    } catch {
+      /* ignore */
+    }
+  },
+
+  async removeItem(name: string): Promise<void> {
+    if (!hasSession()) {
+      try {
+        LS.removeItem(name);
+      } catch {
+        /* ignore */
+      }
+      return;
+    }
+    const token = getSyncToken();
+    try {
+      const res = await fetch(apiUrl(name), { method: 'DELETE', headers: authHeaders(token) });
+      if (res.status === 401) handleUnauthorized();
+    } catch {
+      /* ignore */
+    }
+    pendingWrites.delete(name);
+    knownVersion.delete(name);
+    try {
+      LS.removeItem(name);
+    } catch {
+      /* ignore */
+    }
+  },
+};
+
+// 用 createJSONStorage 把底层 string 型 StateStorage 适配为 zustand v4 要求的 PersistStorage<S>，
+// 这样所有 store 的 `storage: backendStorage` 既通过类型检查，又在运行期正确做 JSON 序列化往返
+// （之前直接传 StateStorage，v4 读取 .state 拿不到值，持久化实际失效）。
+export const backendStorage: PersistStorage<any> = createJSONStorage(
+  () => rawStateStorage
+) as PersistStorage<any>;

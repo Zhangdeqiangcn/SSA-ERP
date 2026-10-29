@@ -1,47 +1,65 @@
-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
-3MFrzVbfqunS7pvphtQY0A==
+// POST /api/auth/reset-password-send — 找回密码：第一步，发送重置验证码到注册邮箱
+// 请求体：{ username }
+//
+// 安全说明：
+//   1) 账号不存在时返回与「未绑定邮箱」相同的通用提示，避免被用来探测账号是否存在；
+//   2) 验证码先落库再发信，即使邮件通道故障也不会把人锁死（但此时会提示联系管理员）；
+//   3) 仅发送给账号注册时填写的主邮箱（user.email），不需要双邮箱。
+import { json } from '../../_shared/auth';
+import { issueResetCode, maskEmail } from '../../_shared/verification';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  if (!username) return json({ error: '请输入用户名' }, 400);
+
+  const u = (await env.DB.prepare('SELECT * FROM users WHERE username = ?').bind(username).first()) as any;
+
+  // 账号不存在：返回通用提示，不暴露账号是否存在
+  if (!u) {
+    return json({
+      ok: true,
+      sent: false,
+      message:
+        '若该账号存在且已绑定邮箱，验证码将发送至您注册时填写的邮箱；如长时间未收到，请联系贵公司管理员协助重置密码。',
+    });
+  }
+
+  const status = String(u.status ?? 'active');
+  if (status === 'pending' || status === 'rejected') {
+    return json({
+      ok: true,
+      sent: false,
+      message: '该账号尚未通过审批，无法自助找回密码，请联系贵公司管理员。',
+    });
+  }
+
+  const email = String(u.email || '').trim();
+  if (!email) {
+    return json({
+      ok: true,
+      sent: false,
+      message: '该账号未绑定邮箱，无法自助找回密码，请联系贵公司管理员重置密码。',
+    });
+  }
+
+  const r = await issueResetCode(env, u);
+  if (!r.ok) {
+    return json({ ok: true, sent: false, message: r.error });
+  }
+
+  return json({
+    ok: true,
+    sent: true,
+    email: (r.sent && r.sent[0]?.email) || maskEmail(email),
+    expiresInSeconds: r.expiresInSeconds,
+  });
+}

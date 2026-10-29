@@ -1,50 +1,78 @@
-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
+-- P1 Phase 4: 销售订单关系化
+-- 新建 sales_orders / sales_order_items 表
+-- D1 无 ALTER TABLE ADD COLUMN（SQLite），需单独执行
+
+PRAGMA foreign_keys = ON;
+
+-- 1. 销售订单主表
+CREATE TABLE IF NOT EXISTS sales_orders (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  order_no TEXT NOT NULL,
+  type TEXT NOT NULL DEFAULT 'standard',
+  status TEXT NOT NULL DEFAULT 'draft',
+  customer_id TEXT,
+  customer_name TEXT NOT NULL,
+  customer_code TEXT,
+  contact_name TEXT,
+  contact_phone TEXT,
+  project_id TEXT,
+  project_no TEXT,
+  project_name TEXT,
+  total_amount REAL NOT NULL DEFAULT 0,
+  tax_rate REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  grand_total REAL DEFAULT 0,
+  order_date TEXT NOT NULL,
+  expected_delivery_date TEXT,
+  actual_delivery_date TEXT,
+  payment_terms TEXT,
+  delivery_address TEXT,
+  sales_person TEXT NOT NULL,
+  trade_terms TEXT,
+  ship_to_address TEXT,
+  remarks TEXT,
+  delivered_quantity REAL DEFAULT 0,
+  received_amount REAL DEFAULT 0,
+  ar_due_date TEXT,
+  credit_occupied BOOLEAN DEFAULT 0,
+  credit_amount REAL DEFAULT 0,
+  shipping_mode TEXT DEFAULT 'standard',
+  direct_ship_vendor_id TEXT,
+  direct_ship_vendor_name TEXT,
+  third_party_company_name TEXT,
+  contract_id TEXT,
+  contract_no TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE(org_id, order_no)
+);
+
+CREATE INDEX IF NOT EXISTS idx_sales_orders_customer ON sales_orders(org_id, customer_id);
+CREATE INDEX IF NOT EXISTS idx_sales_orders_status ON sales_orders(org_id, status);
+CREATE INDEX IF NOT EXISTS idx_sales_orders_order_date ON sales_orders(org_id, order_date DESC);
+
+-- 2. 销售订单行表
+CREATE TABLE IF NOT EXISTS sales_order_items (
+  id TEXT PRIMARY KEY,
+  sales_order_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  specification TEXT,
+  unit TEXT,
+  quantity REAL NOT NULL DEFAULT 0,
+  unit_price REAL NOT NULL DEFAULT 0,
+  amount REAL NOT NULL DEFAULT 0,
+  delivery_date TEXT,
+  remarks TEXT,
+  delivered_quantity REAL DEFAULT 0,
+  FOREIGN KEY (sales_order_id) REFERENCES sales_orders(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_soi_order ON sales_order_items(sales_order_id);
+
+-- 3. 版本控制
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0006_sales_orders', datetime('now')) ON CONFLICT(version) DO NOTHING;

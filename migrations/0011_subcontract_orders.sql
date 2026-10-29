@@ -1,32 +1,49 @@
-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
-RB4F27Tn+ODofNTbJ1udmg==
+-- B2 三岛：委外订单 + 委外发料明细
+PRAGMA foreign_keys = ON;
+
+-- 1. 委外订单主表
+CREATE TABLE IF NOT EXISTS subcontract_orders (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  order_no TEXT NOT NULL,
+  type TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  bom_id TEXT,
+  source_work_order_id TEXT,
+  status TEXT NOT NULL DEFAULT 'draft',
+  qty REAL NOT NULL DEFAULT 0,
+  plan_date TEXT,
+  process_fee REAL DEFAULT 0,
+  received_qty REAL DEFAULT 0,
+  issue_outbound_no TEXT,
+  receipt_inbound_nos TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE(org_id, order_no)
+);
+
+CREATE INDEX IF NOT EXISTS idx_sco_org_status ON subcontract_orders(org_id, status);
+CREATE INDEX IF NOT EXISTS idx_sco_org_vendor ON subcontract_orders(org_id, vendor_id);
+
+-- 2. 委外发料明细（行表）
+CREATE TABLE IF NOT EXISTS subcontract_issue_items (
+  id TEXT PRIMARY KEY,
+  subcontract_order_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  unit TEXT,
+  qty REAL,
+  FOREIGN KEY (subcontract_order_id) REFERENCES subcontract_orders(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_sco_issue_order ON subcontract_issue_items(subcontract_order_id);
+
+-- 3. 版本控制
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0011_subcontract_orders', datetime('now')) ON CONFLICT(version) DO NOTHING;

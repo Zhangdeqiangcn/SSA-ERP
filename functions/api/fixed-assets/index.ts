@@ -1,207 +1,221 @@
-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
+// GET/POST /api/fixed-assets — 固定资产 CRUD（org 隔离，#13 折旧计提服务端化 V3.17.1）
+// 数据权威落在 D1 fixed_assets 表（不再存 app_state KV）。GET 首次访问做 KV→关系表惰性回填。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { audit } from '../../_shared/entities';
+import { getAppStateValue } from '../../_shared/appState';
+
+import { roundAmount } from '../../_shared/money';
+
+/** snake → camel（与前端 @/types/finance FixedAsset 对齐） */
+function rowToFixedAsset(r: any) {
+  if (!r) return null;
+  return {
+    id: r.id,
+    assetCode: r.asset_code,
+    assetName: r.asset_name,
+    category: r.category,
+    originalValue: r.original_value,
+    residualRate: r.residual_rate,
+    usefulLifeMonths: r.useful_life_months,
+    startDate: r.start_date,
+    monthlyDepreciation: r.monthly_depreciation,
+    accumulatedDepreciation: r.accumulated_depreciation,
+    netValue: r.net_value,
+    depreciationMethod: r.depreciation_method,
+    status: r.status,
+    scrapDate: r.scrap_date,
+    lastDepreciationPeriod: r.last_depreciation_period,
+    note: r.note,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}
+
+/**
+ * KV 惰性回填：当组织 D1 中 fixed_assets 计数为 0，且 KV 键 ssa-erp-finance-ledger
+ * 存有历史 fixedAssets 时，批量迁入关系表。幂等（仅当 D1 为空才回填），不重复、不丢数据。
+ * （存量迁移不放在 migration.sql 里，因为 KV 数据按 org 各不相同、可能很大。）
+ */
+async function backfillFromKV(db: any, orgId: string) {
+  const cnt = await db.prepare('SELECT COUNT(*) AS c FROM fixed_assets WHERE org_id = ?').bind(orgId).first();
+  if (cnt && cnt.c > 0) return;
+  const raw = await getAppStateValue(db, orgId, 'ssa-erp-finance-ledger');
+  if (!raw) return;
+  let state: any = null;
+  try {
+    state = JSON.parse(raw);
+  } catch {
+    return;
+  }
+  const list: any[] = Array.isArray(state?.fixedAssets) ? state.fixedAssets : [];
+  if (list.length === 0) return;
+  const now = new Date().toISOString();
+  const stmts = list.map((a: any) =>
+    db
+      .prepare(
+        `INSERT OR IGNORE INTO fixed_assets
+          (id, org_id, asset_code, asset_name, category, original_value, residual_rate, useful_life_months,
+           start_date, monthly_depreciation, accumulated_depreciation, net_value, depreciation_method,
+           status, scrap_date, note, created_at, updated_at, created_by, updated_by)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
+      .bind(
+        a.id || 'fa-' + uid('fa'),
+        orgId,
+        a.assetCode,
+        a.assetName,
+        a.category,
+        Number(a.originalValue) || 0,
+        Number(a.residualRate) || 0,
+        Number(a.usefulLifeMonths) || 0,
+        a.startDate,
+        Number(a.monthlyDepreciation) || 0,
+        Number(a.accumulatedDepreciation) || 0,
+        Number(a.netValue != null ? a.netValue : a.originalValue) || 0,
+        a.depreciationMethod || 'straight_line',
+        a.status || 'in_use',
+        a.scrapDate || null,
+        a.note || null,
+        a.createdAt || now,
+        a.updatedAt || now,
+        a.createdBy || 'KV迁移',
+        a.updatedBy || 'KV迁移'
+      )
+  );
+  if (stmts.length) await db.batch(stmts);
+}
+
+// GET /api/fixed-assets — 列表（含 KV 首次回填）
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  await backfillFromKV(db, user.org_id);
+  const rows = await db
+    .prepare('SELECT * FROM fixed_assets WHERE org_id = ? ORDER BY asset_code')
+    .bind(user.org_id)
+    .all();
+  return json({ data: (rows.results || []).map(rowToFixedAsset) });
+}
+
+// POST /api/fixed-assets — 新增
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  const b = await context.request.json().catch(() => ({}));
+  const assetCode = (b.assetCode || '').trim();
+  const assetName = (b.assetName || '').trim();
+  const originalValue = Number(b.originalValue) || 0;
+  const residualRate = Number(b.residualRate != null ? b.residualRate : 0.05) || 0;
+  const usefulLifeMonths = Number(b.usefulLifeMonths) || 0;
+  const startDate = b.startDate || new Date().toISOString().slice(0, 10);
+  if (!assetCode || !assetName || !originalValue || !usefulLifeMonths) {
+    return json({ error: '资产编码/名称/原值/使用年限为必填' }, 400);
+  }
+  const monthlyDepreciation =
+    b.monthlyDepreciation != null
+      ? Number(b.monthlyDepreciation)
+      : roundAmount((originalValue * (1 - residualRate)) / usefulLifeMonths);
+  const id = b.id || 'fa-' + uid('fa');
+  const now = new Date().toISOString();
+  await db
+    .prepare(
+      `INSERT INTO fixed_assets
+        (id, org_id, asset_code, asset_name, category, original_value, residual_rate, useful_life_months,
+         start_date, monthly_depreciation, accumulated_depreciation, net_value, depreciation_method,
+         status, scrap_date, note, created_at, updated_at, created_by, updated_by)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+    )
+    .bind(
+      id,
+      user.org_id,
+      assetCode,
+      assetName,
+      b.category || '生产设备',
+      originalValue,
+      residualRate,
+      usefulLifeMonths,
+      startDate,
+      monthlyDepreciation,
+      Number(b.accumulatedDepreciation) || 0,
+      b.netValue != null ? Number(b.netValue) : originalValue,
+      b.depreciationMethod || 'straight_line',
+      b.status || 'in_use',
+      b.scrapDate || null,
+      b.note || null,
+      now,
+      now,
+      user.id,
+      user.name
+    )
+    .run();
+  await audit(db, user.org_id, user, 'fixed_assets', 'create', `新增固定资产 ${assetCode} ${assetName}`);
+  const row = await db.prepare('SELECT * FROM fixed_assets WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  return json({ data: rowToFixedAsset(row) }, 201);
+}
+
+// PUT /api/fixed-assets — 更新（任一影响因子变化则重算月折旧，与前端公式一致）
+export async function onRequestPut(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  const b = await context.request.json().catch(() => ({}));
+  const id = b.id;
+  if (!id) return json({ error: '资产 id 必填' }, 400);
+  const existing = await db.prepare('SELECT * FROM fixed_assets WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  if (!existing) return json({ error: '固定资产不存在' }, 404);
+
+  const originalValue = b.originalValue != null ? Number(b.originalValue) : existing.original_value;
+  const residualRate = b.residualRate != null ? Number(b.residualRate) : existing.residual_rate;
+  const usefulLifeMonths = b.usefulLifeMonths != null ? Number(b.usefulLifeMonths) : existing.useful_life_months;
+  let monthlyDepreciation = existing.monthly_depreciation;
+  if (b.monthlyDepreciation != null) monthlyDepreciation = Number(b.monthlyDepreciation);
+  else if (b.originalValue != null || b.residualRate != null || b.usefulLifeMonths != null) {
+    monthlyDepreciation = roundAmount((originalValue * (1 - residualRate)) / usefulLifeMonths);
+  }
+
+  const sets: string[] = [];
+  const params: any[] = [];
+  const set = (col: string, val: any) => {
+    sets.push(`${col} = ?`);
+    params.push(val);
+  };
+  if (b.assetCode != null) set('asset_code', b.assetCode);
+  if (b.assetName != null) set('asset_name', b.assetName);
+  if (b.category != null) set('category', b.category);
+  if (b.originalValue != null) set('original_value', originalValue);
+  if (b.residualRate != null) set('residual_rate', residualRate);
+  if (b.usefulLifeMonths != null) set('useful_life_months', usefulLifeMonths);
+  if (b.startDate != null) set('start_date', b.startDate);
+  set('monthly_depreciation', monthlyDepreciation);
+  if (b.accumulatedDepreciation != null) set('accumulated_depreciation', Number(b.accumulatedDepreciation));
+  if (b.netValue != null) set('net_value', Number(b.netValue));
+  if (b.depreciationMethod != null) set('depreciation_method', b.depreciationMethod);
+  if (b.status != null) set('status', b.status);
+  if (b.scrapDate != null) set('scrap_date', b.scrapDate);
+  if (b.note != null) set('note', b.note);
+  set('updated_at', new Date().toISOString());
+  set('updated_by', user.name);
+  params.push(id, user.org_id);
+  await db.prepare(`UPDATE fixed_assets SET ${sets.join(',')} WHERE id = ? AND org_id = ?`).bind(...params).run();
+  await audit(db, user.org_id, user, 'fixed_assets', 'update', `更新固定资产 ${existing.asset_code}`);
+  const row = await db.prepare('SELECT * FROM fixed_assets WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  return json({ data: rowToFixedAsset(row) });
+}
+
+// DELETE /api/fixed-assets?id=xxx — 删除
+export async function onRequestDelete(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  const id = new URL(context.request.url).searchParams.get('id');
+  if (!id) return json({ error: '资产 id 必填' }, 400);
+  const existing = await db.prepare('SELECT * FROM fixed_assets WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  if (!existing) return json({ error: '固定资产不存在' }, 404);
+  await db.prepare('DELETE FROM fixed_assets WHERE id = ? AND org_id = ?').bind(id, user.org_id).run();
+  await audit(db, user.org_id, user, 'fixed_assets', 'delete', `删除固定资产 ${existing.asset_code}`);
+  return json({ ok: true });
+}

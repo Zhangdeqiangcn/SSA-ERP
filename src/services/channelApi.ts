@@ -1,49 +1,54 @@
-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
+import { api } from './api';
+import type {
+  NormalizedOrder,
+  PushInventoryInput,
+  PushLogisticsInput,
+  ChannelResult,
+} from './channels/types';
+
+// 前端 → SSA 后端边缘函数（平台密钥由后端持有，前端只过 SSA 自有接口）
+// 拉单/推库存/回写物流统一 POST /api/channels/<platform>，由 body.action 区分。
+export const channelApi = {
+  // 拉单：POST /api/channels/<platform> { action: 'pull' }
+  pullOrders: (platform: string, params?: { since?: string; page?: number }) =>
+    api
+      .post<{ data: any[] }>(`/channels/${platform}`, { action: 'pull', ...params })
+      .then((r) => (r as any)?.data ?? []),
+
+  pushInventory: (platform: string, items: PushInventoryInput[]): Promise<ChannelResult> =>
+    api.post(`/channels/${platform}`, { action: 'inventory', items }),
+
+  pushLogistics: (platform: string, input: PushLogisticsInput): Promise<ChannelResult> =>
+    api.post(`/channels/${platform}`, { action: 'logistics', ...input }),
+
+  // 订单中台（order_hub）
+  listOrders: (params?: Record<string, unknown>) => api.get('/order-hub', params),
+  createOrder: (order: NormalizedOrder) => api.post('/order-hub', order),
+  updateOrder: (id: string, patch: Partial<NormalizedOrder>) => api.put(`/order-hub/${id}`, patch),
+
+  // ── 电商平台「登录即连接」OAuth 配置 ──
+  oauthStatus: () => api.get<{ platforms: ChannelOAuthStatus[] }>('/channels/oauth/status'),
+  oauthStart: (platform: string) =>
+    api.get<{ authorizeUrl: string; mock: boolean; platform: string }>('/channels/oauth/start', { platform }),
+  oauthSaveApp: (platform: string, appKey: string, appSecret: string) =>
+    api.post('/channels/oauth/app', { platform, appKey, appSecret }),
+  oauthSaveManual: (
+    platform: string,
+    accessToken: string,
+    opts?: { expiresIn?: number; shopId?: string; shopName?: string }
+  ) => api.post('/channels/oauth/manual', { platform, accessToken, ...opts }),
+  oauthDisconnect: (platform: string) => api.post('/channels/oauth/disconnect', { platform }),
+};
+
+export interface ChannelOAuthStatus {
+  platform: string;
+  label: string;
+  status: 'connected' | 'expired' | 'disconnected' | 'coming';
+  authMode: string | null;
+  tokenExpire: string | null;
+  shopName: string | null;
+  isMock: boolean;
+  hasApp: boolean;
+}
+
+export default channelApi;

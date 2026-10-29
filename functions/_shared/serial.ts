@@ -1,26 +1,39 @@
-U2FsdGVkX19JNAn4z+n4KrkHoXdrqwHeZuBKL/IFIlcd92T+IBQ1aMNhPqmB0pS/
-DCqBoUNZJYyASZsUJxbeqzcydhxbgVBieZiLvZoKw2EDyQPRreS7w1CSZWAE3/ve
-A5cK3j0aSRBZXZbk2MmGb12WZZ3O7jZJAzGpMg9RwlFsxBuO/KajAe5FXXB//JCX
-nsMx4lKE/0V8ThTDh6Y+Ax3v4urPT8c5btOdHrrrX1s/F/mCiLHZ33pbk0l6jXOG
-DKk7VmmL7gZPvpaswxBS4tCbQjdjheqX73qsuODk6QO7CVvExrRvDcOV7xUGNGbs
-nh1gRxoe6dJooysFPEeC40JfxqwdE+gOYHqzgmoZEDEiWQUUXfy3N1BmFhdgDUzB
-uXHct1k/w4SFp6nbx0aBh5hizRHWDoxOWRXPe4n8qR52C6tqnoHgNz+FjEBtWeFW
-ehOv2IZIjaFJ5WWKQjvAj4otARzcNEvyREeDba7Nr68kGiNdwes9LGj+9ACi8skJ
-WWJtGNLt+Ge4e3pWnznpuzDhg5Z7YjtHv5Os65pLPQij80mWfi6PlpWoDZ1sxyxo
-k8CS6U1Xot1PzSz7QRse1JFYRMEHBvixQ5DXkBwTwaejXMzF1tfQvo0D5yxYuV0u
-FRvcSgn0OBX3B7bWOeCPbwLIo+zP0CP5f2y6slqTjqXclYif82JgaHQycLopt26B
-xT+hfp+ZouhDcdDIniGFDQ0ZZjXqn7V2GL+YoczUs9khiQFPp52qIFeje3BW2OA+
-wLE94+ZPARy0dJqMt3YKCIz6cu1Jye2v1Y/P1lB3LWhXL9kcvHVolJgl9b4JHMa2
-ceAnHNE1CTvWGg1eqfM9ify3SD/kZqQtQzkI6pvKfpsPkMy/UMiepDkErlCBZLSO
-PhL5QtmmETwOHppkWeVwxUClhQDB/7K+cpe/7w4nVx6+Nf0OS+ej4OTLqQaXAAAR
-jfUdHoeDZWiRmbDauRU1j5VLD507Sf/mFsbKTGwfMkSRUZfF+Eyk00CxNm5cLgDQ
-cEy2kl8XyhEG2k7DrxE0pJIe8YgflD5sBwCJdkHFsA4bqx8ymwfnODz6Mvmsj0W6
-q1FwRJwep7K47+90fvl0Kr5VgVELaOxt3rWms22M6teI1Iu1JhKMa9j5sRxFvAub
-XSvrc3lp1KGVusUT2ZOKe3UZhW0W9Bk0prxcDrIwp4ozVEJUaSqu0yIsHVGzYasT
-WJfvKXfaMGkZbSGeUS8Q31b4OgFd9l3e0yfDHykiam2qVYwZd0l8jlhFTi6ikoor
-JJa3nvR93fDagk+ZhgUZ67unDZ5g29wH7MxywCZ9cunKTNQnGF+VyLWJCowje7wL
-NzTpKRgyMJP0CA3jRvl/6UJBybMI7rJpSJRL9mAHYsgFcjSC+e9uAp1Eh7Yvvejw
-KGGoel8oWVBw9B+I2J6SlPdQ1MwLfXmPk3X++xaAtDsjiJ10BKXdVDQKnbNvMohG
-mPLdLHEyLv3eaImmr8GYYT9/5CYZbblZx+X0kTVjtBKtmU2RpuSNg+9fgPmopX7X
-GxgY35vcnxFc4dWc7rQ0n5REYyPaHnqOHY10tB4/qaYsfhYukHAw0R6mc9K/STK+
-vG20UrDNveM9OcV2NZqGUyemV/T0cpipkAS64QqHHAU=
+// 序列号流转记录（serial_movements）写入辅助
+// 序列号主档 serial_masters 的流转轨迹（入库/出库/调拨/退货等）需落 serial_movements，
+// 否则去掉 Blob 后历史轨迹会丢失。此处集中实现插入逻辑，供 index/[:id] 复用。
+// 注：与 functions/_shared/auth.ts 保持一致，DB 用 any（Cloudflare Workers 运行时注入，本地不依赖 @cloudflare/workers-types）。
+
+export interface SerialMovementInput {
+  type?: string | null;
+  docNo?: string | null;
+  date?: string | null;
+  status?: string | null;
+  note?: string | null;
+}
+
+export async function insertSerialMovement(
+  db: any,
+  serialMasterId: string,
+  m: SerialMovementInput,
+  user: { name?: string },
+  now: string
+): Promise<void> {
+  const mid = 'smv-' + crypto.randomUUID();
+  await db
+    .prepare(
+      `INSERT INTO serial_movements (id, serial_master_id, type, doc_no, date, status, note, created_at, created_by)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+    .bind(
+      mid,
+      serialMasterId,
+      m.type || null,
+      m.docNo || null,
+      m.date || now,
+      m.status || null,
+      m.note || null,
+      now,
+      user.name || 'system'
+    )
+    .run();
+}

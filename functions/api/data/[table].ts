@@ -1,33 +1,35 @@
-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
+// 统一数据 API · 集合端点
+//   GET  /api/data/:table          列表（分页 + filter 等值 + sort/order）
+//   POST /api/data/:table          新增单条
+//
+// 鉴权：API Key（Bearer sk_，需对应作用域）优先；否则会话（需管理员）。
+// 范围：任意业务主表 / 明细表（系统表被 discoverTables 自动排除）。
+// 返回：数据库原始列名（snake_case）行——面向外部集成/同步引擎。
+import { resolveDataRequester, requesterHasScope, daList, daInsert } from '../../_shared/dataAccess';
+import { errorResponse } from '../../_shared/errors';
+import { json } from '../../_shared/auth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'read')) return json({ error: 'API Key 缺 read 权限' }, 403);
+  try {
+    return await daList(env, r, context.params.table, new URL(request.url));
+  } catch (e: any) {
+    return errorResponse(e, '数据查询');
+  }
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const body = await request.json().catch(() => ({}));
+    return await daInsert(env, r, context.params.table, body);
+  } catch (e: any) {
+    return errorResponse(e, '数据新增');
+  }
+}

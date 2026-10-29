@@ -1,210 +1,189 @@
-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
-g9Kg3wxiDgdVmG9782AqFw==
+// GET /api/users — 用户管理列表（仅超管/管理员可访问）
+// 可见范围：super_admin 全量（可按 orgId 过滤）；admin 仅本组织。
+// V2.96.0 增补：关联 orgs 返回所属公司名称与状态，便于超级管理员识别「新公司待审批」的申请，
+//   并新增 newCompanyCount 供前端显示待批公司角标。
+// V3.15.8 增补：新增「公司是否有管理员」判定与「需超管代管」清单。
+//   背景：V3.15.5 起「建公司者不再自动成为管理员」，若批准时没给他选「管理员」，
+//   该公司就会处于「无管理员」状态——本公司没人能审批成员、没人能管理邀请码。
+//   为此接口补两类信息，让这类申请**自动**浮到超级管理员面前，而不是靠人想起来去翻：
+//     · 逐行 orgHasAdmin  —— 事实字段，前端据此给公司名打「暂无管理员」标记；
+//     · 顶层 orphanOrgs    —— 需代管清单（已生效 + 无启用的管理员 + 有真实成员），
+//                            前端置顶为警示横幅，并可一键「只看需代管」。
+//   判定口径的两个关键取舍（都有生产数据支撑，见 §判定口径）：
+//     ① 用 IFNULL(status,'active') —— users.status 历史上可能为空值（login.ts 亦如此兜底），
+//        直接写 status='active' 会把「状态为空的管理员」漏算，进而把有管理员的公司误报成无主；
+//     ② 只认「已生效(active) 且 有非超管成员」的公司 —— 新公司待批(status=pending)本就有
+//        「新公司待批」角标覆盖，重复计入只会让横幅变成噪音；只有平台超管挂名的空壳公司
+//        也不该算「没人管事」（超管本人即可处置）。
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json } from '../../_shared/auth';
+
+// 可访问用户管理的角色（只读列表与审批均需此权限）
+export const ADMIN_ROLES = new Set(['super_admin', 'admin']);
+
+function toInt(v: string | null, def: number, min: number, max: number): number {
+  const n = parseInt(v || '', 10);
+  if (Number.isNaN(n)) return def;
+  return Math.min(max, Math.max(min, n));
+}
+
+const SELECT_FIELDS = `u.id, u.org_id, u.username, u.name, u.role, u.department, u.status,
+       u.email, u.alt_email, u.phone, u.is_owner, u.created_at,
+       o.name AS org_name, o.status AS org_status, o.company_code AS org_code,
+       IFNULL(adm.cnt, 0) AS org_admin_cnt`;
+
+const JOIN_SQL = ` FROM users u
+       LEFT JOIN orgs o ON o.id = u.org_id
+       LEFT JOIN (
+         SELECT org_id, COUNT(*) AS cnt FROM users
+          WHERE role = 'admin' AND IFNULL(status, 'active') = 'active'
+          GROUP BY org_id
+       ) adm ON adm.org_id = u.org_id`;
+
+/** 需代管公司清单的最大返回条数（前端只需展示前几条 + 总数） */
+const ORPHAN_LIST_LIMIT = 10;
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+  if (!ADMIN_ROLES.has(me.role)) return json({ error: '无权访问用户管理' }, 403);
+
+  const url = new URL(request.url);
+  const page = toInt(url.searchParams.get('page'), 1, 1, Number.MAX_SAFE_INTEGER);
+  const pageSize = toInt(url.searchParams.get('pageSize'), 20, 1, 100);
+  const offset = (page - 1) * pageSize;
+  const status = (url.searchParams.get('status') || '').trim();
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const orgStatus = (url.searchParams.get('orgStatus') || '').trim();
+  // super_admin 可选按组织过滤；admin 强制限定自己组织
+  const orgIdParam = (url.searchParams.get('orgId') || '').trim();
+  const scopeOrgId = me.role === 'super_admin' ? (orgIdParam || null) : me.org_id;
+  // 只看「所在公司暂无管理员」的账号（前端「只看需代管」按钮）
+  const orphanOnly = (url.searchParams.get('orphan') || '').trim() === '1';
+
+  const where: string[] = [];
+  const params: any[] = [];
+  if (scopeOrgId) { where.push('u.org_id = ?'); params.push(scopeOrgId); }
+  if (status) { where.push('u.status = ?'); params.push(status); }
+  if (orgStatus) { where.push("IFNULL(o.status,'active') = ?"); params.push(orgStatus); }
+  // ★ orphan=1 必须与上方横幅（loadOrphanOrgs）**完全同口径**，三条一个都不能少。
+  //   只写第一条（公司无管理员）会漏掉后两条，实测后果：线上「只看需代管」返回 132 条，
+  //   其中 120 条来自「尚未批准的新公司」（各自创建人，本就在「新公司待批」队列里），
+  //   而横幅明明说「有 3 家公司需要您代管」——同一屏两个数字互相打脸，用户会认为功能不准。
+  if (orphanOnly) {
+    where.push('IFNULL(adm.cnt, 0) = 0');
+    where.push("IFNULL(o.status, 'active') = 'active'");
+    where.push('EXISTS (SELECT 1 FROM users s WHERE s.org_id = u.org_id AND s.role <> \'super_admin\')');
+  }
+  if (keyword) {
+    where.push('(u.username LIKE ? ESCAPE \'\\\' OR u.name LIKE ? ESCAPE \'\\\' OR IFNULL(o.name, \'\') LIKE ? ESCAPE \'\\\')');
+    const kw = likePattern(keyword);
+    params.push(kw, kw, kw);
+  }
+  const whereSql = where.length ? ' WHERE ' + where.join(' AND ') : '';
+
+  const rows = await env.DB.prepare(
+    `SELECT ${SELECT_FIELDS}${JOIN_SQL}${whereSql} ORDER BY u.created_at DESC LIMIT ? OFFSET ?`
+  ).bind(...params, pageSize, offset).all();
+  const data = (rows.results || []).map(formatUser);
+
+  const countRow = await env.DB.prepare(`SELECT COUNT(*) AS cnt${JOIN_SQL}${whereSql}`)
+    .bind(...params).first();
+  const total = (countRow as any)?.cnt || 0;
+
+  // pendingCount：可见范围内的待审批账号数（不受 status/keyword 过滤影响，供角标提醒）
+  const pendingWhere: string[] = ["u.status = 'pending'"];
+  const pendingParams: any[] = [];
+  if (scopeOrgId) { pendingWhere.push('u.org_id = ?'); pendingParams.push(scopeOrgId); }
+  const pendingRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS cnt FROM users u WHERE ${pendingWhere.join(' AND ')}`
+  ).bind(...pendingParams).first();
+  const pendingCount = (pendingRow as any)?.cnt || 0;
+
+  // newCompanyCount：可见范围内「尚未批准启用的新公司」数量（组织状态为 pending）
+  const newCompanyWhere: string[] = ["status = 'pending'"];
+  const newCompanyParams: any[] = [];
+  if (scopeOrgId) { newCompanyWhere.push('id = ?'); newCompanyParams.push(scopeOrgId); }
+  const newCompanyRow = await env.DB.prepare(
+    `SELECT COUNT(*) AS cnt FROM orgs WHERE ${newCompanyWhere.join(' AND ')}`
+  ).bind(...newCompanyParams).first();
+  const newCompanyCount = (newCompanyRow as any)?.cnt || 0;
+
+  // 需超管代管：已生效公司中「没有任何启用中的管理员」且「有真实成员（非平台超管）」的。
+  // 仅超级管理员可见——管理员无权处置其它公司，返回给他们只会造成误解。
+  const orphan = me.role === 'super_admin'
+    ? await loadOrphanOrgs(env.DB)
+    : { list: [] as any[], total: 0, pendingTotal: 0 };
+  const orphanOrgs = orphan.list;
+  const orphanCompanyCount = orphan.total;
+  const orphanPendingCount = orphan.pendingTotal;
+
+  return json({
+    data, total, page, pageSize, pendingCount, newCompanyCount,
+    orphanOrgs, orphanCompanyCount, orphanPendingCount,
+  });
+}
+
+/**
+ * 需代管公司清单（按「卡住的程度」排序：待审批人数 → 成员数）
+ * 判定条件（三者同时满足）：
+ *   ① 公司已生效：IFNULL(status,'active') = 'active'（pending 的新公司由「新公司待批」角标覆盖）
+ *   ② 公司内没有任何「启用中的管理员」：NOT EXISTS(... role='admin' AND IFNULL(status,'active')='active')
+ *   ③ 公司内有真实成员：至少一位非 super_admin 的用户（只有平台超管挂名的空壳公司不算——超管本人就能处置）
+ */
+async function loadOrphanOrgs(DB: any) {
+  const rows = await DB.prepare(
+    `SELECT o.id, o.name, o.status,
+            (SELECT COUNT(*) FROM users u WHERE u.org_id = o.id) AS member_count,
+            (SELECT COUNT(*) FROM users u WHERE u.org_id = o.id AND u.status = 'pending') AS pending_count,
+            (SELECT COUNT(*) FROM users u WHERE u.org_id = o.id AND u.role <> 'super_admin') AS staff_count
+       FROM orgs o
+      WHERE IFNULL(o.status, 'active') = 'active'
+        AND NOT EXISTS (
+              SELECT 1 FROM users a
+               WHERE a.org_id = o.id AND a.role = 'admin' AND IFNULL(a.status, 'active') = 'active'
+            )
+      ORDER BY o.created_at`
+  ).all();
+
+  const all = (rows.results || [])
+    .filter((r: any) => (r.staff_count || 0) > 0)
+    .map((r: any) => ({
+      orgId: r.id,
+      orgName: r.name ?? null,
+      orgStatus: r.status ?? 'active',
+      memberCount: r.member_count || 0,
+      pendingCount: r.pending_count || 0,
+    }))
+    .sort((a: any, b: any) => (b.pendingCount - a.pendingCount) || (b.memberCount - a.memberCount));
+
+  return {
+    list: all.slice(0, ORPHAN_LIST_LIMIT),
+    // 总数与待审批合计按**全量**计算，不能被展示用的截断影响（否则横幅数字会假性停在 10）
+    total: all.length,
+    pendingTotal: all.reduce((sum: number, o: any) => sum + o.pendingCount, 0),
+  };
+}
+
+export function formatUser(r: any) {
+  return {
+    id: r.id,
+    username: r.username,
+    name: r.name,
+    role: r.role,
+    department: r.department ?? null,
+    status: r.status ?? 'active',
+    email: r.email ?? null,
+    altEmail: r.alt_email ?? null,
+    phone: r.phone ?? null,
+    isOwner: !!r.is_owner,
+    orgId: r.org_id,
+    orgName: r.org_name ?? null,
+    orgStatus: r.org_status ?? 'active',
+    orgCode: r.org_code ?? null,
+    /** 所属公司是否存在「启用中的管理员」（V3.15.8）；false 表示该公司暂无人能审批成员 / 管邀请码 */
+    orgHasAdmin: (r.org_admin_cnt ?? 0) > 0,
+    createdAt: r.created_at,
+  };
+}

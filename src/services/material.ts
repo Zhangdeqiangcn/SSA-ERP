@@ -1,43 +1,56 @@
-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
+import { api, apiClient } from './api';
+import { Material, MaterialCategory, MaterialFilter, PaginatedResponse } from '@/types';
+
+export const materialApi = {
+  // Material CRUD
+  getMaterials: (params?: MaterialFilter & { page?: number; pageSize?: number }) =>
+    api.get<PaginatedResponse<Material>>('/materials', params),
+
+  getMaterial: (id: string) =>
+    api.get<Material>(`/materials/${id}`),
+
+  createMaterial: (data: Partial<Material>) =>
+    api.post<Material>('/materials', data),
+
+  updateMaterial: (id: string, data: Partial<Material>) =>
+    api.put<Material>(`/materials/${id}`, data),
+
+  deleteMaterial: (id: string) =>
+    api.delete(`/materials/${id}`),
+
+  // Category CRUD
+  getCategories: () =>
+    api.get<MaterialCategory[]>('/material-categories'),
+
+  getCategory: (id: string) =>
+    api.get<MaterialCategory>(`/material-categories/${id}`),
+
+  createCategory: (data: Partial<MaterialCategory>) =>
+    api.post<MaterialCategory>('/material-categories', data),
+
+  updateCategory: (id: string, data: Partial<MaterialCategory>) =>
+    api.put<MaterialCategory>(`/material-categories/${id}`, data),
+
+  deleteCategory: (id: string) =>
+    api.delete(`/material-categories/${id}`),
+
+  // Generate code（按分类层级前缀 + 流水号，由前端 codeGenerator 生成）
+  generateCode: (categoryId: string) =>
+    api.get<{ code: string }>(`/materials/generate-code?categoryId=${categoryId}`),
+
+  // Import/Export
+  importMaterials: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiClient.post<{ success: number; failed: number; errors?: string[] }>(
+      '/materials/import',
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    ).then((res: { data: { success: number; failed: number; errors?: string[] } }) => res.data);
+  },
+
+  exportMaterials: (params?: MaterialFilter) =>
+    api.get<Blob>('/materials/export', { ...params, responseType: 'blob' } as Record<string, unknown>),
+};
+
+export default materialApi;

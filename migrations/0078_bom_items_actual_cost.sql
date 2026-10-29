@@ -1,24 +1,15 @@
-U2FsdGVkX1/SVvj3QIlA7xIo2nqHTwMPmd5rQRDFnLgn2Ct1CxompRrMqvkWELfj
-Gg56vp1BIiV1T45MzEB1qamegC5O+Y86pibeGYbWcZ0Hlflj9MMe3Pe1PDvhPO4M
-AuoSNoO2p2jXnZkcN+ZVIxJeQxSsc4gryF8X2i6u3FKVR6UwdhkW5nkxbbzAuRuo
-umox2KH8o41cepCWWzmzTt+SDOCEBzJTIT4LKPMexnLSMeUY0aya1usV4WSYT88f
-TuNfTlL1ohPHchKPmXmD2/YivBCAGCSDWAg1DXp6s/tpqLDBClTsE8rVmMdFfoFE
-H/mpdOWHM7zP8PrXFHuRY6kTJCAkdR7w+YEmfnlLmUyM9Memmy96YhWkHSQmzk/7
-UW1lGxdkltlXjcT1qelC0MujYV2TXR8XX8YMEtiInOpaODpCM1J7y3+UdMASzM7B
-cyztAPRaFN+aMy4St/eITEwK378mX5KXnisffw8oBcCuKmWey0+/mSCkG5n60r1z
-EQbS5pQBu3cc4LSFo8jIo+meNImo7DyUYyskU/DHZmvilxWWFSk2P9Gdz7NKNDmk
-LcMQOV3bk2Mjj9vFfl4htmGCtMxeUJEE2YZOqvxI4qnt0pMeL+iBOlFgNrHP1oos
-VYXef8okTN1kOBIH6uLkNUEM8uUgZntttVCCdS+0ML/9mzKo/YMX5TYzwVf0au6M
-icj/36pAlRhaHH4dKBNR+hugODzK40C1z4GHww5UQ7mtldrsyHRLuBi9CJ2x4oKl
-RAbCT0mv/pzmfB1kIMizDoIB0tfyswt5DN+A5QI7GQ6+VlPd7dgUyp54ZNLqzU1V
-2oNHMpMUZb9lXyHeN9v5zMltNIhxnTMpWGgA6TmZgvJJ8oxLE/dWtuEmM5X6pCVH
-/Vz+Uk3N8pbOlcJP2jeVoUEaycIztdrFu0zZierZ4Kcpv96vla+walIkLLZJ0Wj0
-rbbcLget+A6LSlBNaYUTvBAPQwwjXyvgtT3gidBkkKluJCPLHrUaTUhBPxYhRcPa
-CpVRoLhlMaKL3ZyclTDzn2XQkjD5oDddaDA3uvNfr31F547Bgk1H6y/9+hq9V3gk
-P5wJMhw+F8VGv/6VlXJKOcVfZEi+4VWXgWHDrWEsfZZEInmQ0z4ZYmIqX/Ce6mwc
-A9orhMccrTRzWK8ND6VVVBPiA0jQ6q3EF/QT/2yNeTDL/YbH+KFoKNZXgCXyWQTA
-y4xMQr6oWrLS765xv0uP+ERd4q31wa2wu9CE1TZjk7eSrHfZgnKhTHupgTAAiogp
-QhVtQZt/V7R0wxaCWBUI1Rvzi0KluWNOMe57TVAgdx1DkUUtRjOI7D3ZWEQ9UYp9
-pl3PSWtEeyMpcACZPwsWQnk1UGPj+JFSCmLV6hqznirs8J5NQRyYpwU2b/1G8Rpu
-m6B/TWAmjSkRg/qQX4SqGutzk3Hlh2d6NbKB+WBGhKuOYNH2qVgJrNR401G29lPV
-2KnpGSfqkPvxymCPSppuram5oPcHhTWA7BRLX3gi1Qo=
+-- 迁移 0078：BOM 子件增加实际单价列（决策 E 后续 · V3.32.0）
+--
+-- ── 为什么加这一列 ──────────────────────────────────────────
+-- 标准成本差异分析（成本卷积页）需要「实际成本」对比「标准单价（unit_cost）」。
+-- 真实来源本应是物料主数据的 moving_avg_price，但 BOM 子件的 materialId 与物料主数据
+-- 存在历史口径错位（同名不同单位、甚至同名不同物），无法可靠关联移动均价。
+-- 为避免「假关联 → 假差异率」，差异分析的「实际成本」改由 BOM 子件自身维护
+-- （actual_unit_cost），与标准单价同单位同口径、由 BOM 维护者填入，诚实不伪造。
+-- 物料移动均价仍作为预埋真实来源（当 materialId 能正确关联同口径物料时自动采用）。
+
+ALTER TABLE bom_items ADD COLUMN actual_unit_cost REAL;
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0078_bom_items_actual_cost', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

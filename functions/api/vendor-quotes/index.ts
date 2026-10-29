@@ -1,39 +1,32 @@
-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
-MSdJECrF6QirlqlC8RCZ4w==
+// 供应商报价集合端点（C1 采购域 · 父子表）
+// GET  /api/vendor-quotes   列表（分页 / RLS，含每条报价的全部物料明细）
+// POST /api/vendor-quotes   创建（报价 + items 一次性写入）
+//
+// ── 关于路径的取舍（为什么不做成 /purchase-requests/:id/quotes）──
+// `src/services/purchase.ts` 里早就声明了 `getQuotes(requestId)` /
+// `submitQuote(requestId, ...)` 指向 `/purchase-requests/:id/quotes`，
+// 但那是**悬空的接口存根**（后端从来没有这个文件）。
+// 本轮选择独立路径 `/api/vendor-quotes`，理由：
+//   1. 报价本身有独立的 id、有效期、提交时间，是**一等业务实体**，
+//      不是「申请单的一个附属视图」；
+//   2. `VendorQuote.requestId` 只是外键，按它过滤是**查询条件**，
+//      不必做成路径层级；
+//   3. 与前面五个域（bom / print-templates / fin-* / sales-* /
+//      approval-flows）全部采用「父表独立路径」的形态一致，
+//      减少一个特例就少一处将来要对齐的地方。
+// 前端 store 里按 requestId 在内存中筛选即可（数据量极小）。
+//
+// ★ vendor_quotes 的 RLS 登记为 `'all'`（公司级公共信息）——
+//   报价是比价依据，采购员与审批人都要看全部报价才能比出最低价。
+//   这与 purchase_requests 的 `'own'`（个人提报单据）刻意不同，
+//   见 _shared/purchaseConfig.ts 文件头说明。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { VENDOR_QUOTE_PC } from '../../_shared/purchaseConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(VENDOR_QUOTE_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(VENDOR_QUOTE_PC, context);
+}

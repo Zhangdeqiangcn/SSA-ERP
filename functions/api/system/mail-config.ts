@@ -1,149 +1,172 @@
-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
+// 邮件服务配置与测试发信（仅超级管理员）
+//   GET  /api/system/mail-config  读取配置（授权码只回传「是否已设置」，绝不回传明文）
+//   PUT  /api/system/mail-config  更新配置（授权码留空表示保持原值不变）
+//   POST /api/system/mail-config  向指定邮箱发送一封测试邮件，用于验证通道是否打通
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { getMailConfig, sendMail, logMail, renderTestEmail } from '../../_shared/mailer';
+import { uid } from '../../_shared/auth';
+// V3.5.0 B6：补齐写审计（改邮件配置 / 发测试邮件都会影响系统对外通信能力）
+import { writeAudit } from '../../_shared/auditLog';
+
+const ALLOWED_SECURE = new Set(['on', 'starttls', 'off']);
+
+async function requireSuperAdmin(context: any) {
+  const { request, env } = context;
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return { error: json({ error: '未登录' }, 401) };
+  if (me.role !== 'super_admin') {
+    return { error: json({ error: '仅超级管理员可管理邮件服务配置' }, 403) };
+  }
+  return { me };
+}
+
+export async function onRequestGet(context: any) {
+  const { env } = context;
+  const guard = await requireSuperAdmin(context);
+  if (guard.error) return guard.error;
+
+  const cfg = await getMailConfig(env.DB);
+  return json({
+    enabled: cfg.enabled,
+    host: cfg.host,
+    port: cfg.port,
+    secure: cfg.secure,
+    user: cfg.user,
+    fromName: cfg.fromName,
+    notifyRecipients: cfg.notifyRecipients,
+    hasPassword: !!cfg.pass,
+    // V2.97.0 修复（安全审计 D1）：不再回传授权码的任何片段——即便只回传前 2 位，
+    //   也属于敏感凭据的部分泄露。前端据 hasPassword 判断「是否已配置」即可
+    //   （SecurityCenterTab 对空值显示为「已配置」，无需改动）。
+    passwordHint: '',
+  });
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const guard = await requireSuperAdmin(context);
+  if (guard.error) return guard.error;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const updates: Array<[string, string]> = [];
+  if (body.enabled !== undefined) {
+    updates.push(['mail.enabled', body.enabled ? '1' : '0']);
+  }
+  if (body.host !== undefined) {
+    updates.push(['mail.smtp_host', String(body.host).trim()]);
+  }
+  if (body.port !== undefined) {
+    const port = parseInt(String(body.port), 10);
+    if (!Number.isFinite(port) || port < 1 || port > 65535) {
+      return json({ error: '端口号无效' }, 400);
+    }
+    updates.push(['mail.smtp_port', String(port)]);
+  }
+  if (body.secure !== undefined) {
+    const s = String(body.secure);
+    updates.push(['mail.smtp_secure', ALLOWED_SECURE.has(s) ? s : 'on']);
+  }
+  if (body.user !== undefined) {
+    updates.push(['mail.smtp_user', String(body.user).trim()]);
+  }
+  // 授权码：留空 = 保持原值（前端回显的是掩码，不能写回数据库）
+  if (body.password !== undefined && String(body.password).trim() !== '') {
+    updates.push(['mail.smtp_pass', String(body.password).trim()]);
+  }
+  if (body.fromName !== undefined) {
+    updates.push(['mail.from_name', String(body.fromName).trim() || 'SSA ERP 系统通知']);
+  }
+  if (body.notifyRecipients !== undefined) {
+    const list = Array.isArray(body.notifyRecipients)
+      ? body.notifyRecipients
+      : String(body.notifyRecipients).split(/[,;\s]+/);
+    updates.push([
+      'mail.notify_recipients',
+      list.map((s: any) => String(s).trim()).filter(Boolean).join(','),
+    ]);
+  }
+
+  if (!updates.length) return json({ error: '没有需要更新的配置项' }, 400);
+
+  const now = new Date().toISOString();
+  for (const [key, value] of updates) {
+    await env.DB.prepare(
+      `INSERT INTO system_config (key, value, updated_at) VALUES (?, ?, ?)
+       ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`
+    )
+      .bind(key, value, now)
+      .run();
+  }
+
+  // B6 审计：改邮件配置会影响「系统还能不能发出通知」——把 host 填错，
+  //   全公司的审批通知、密码重置邮件会一起静默失败。因此这一条必须留痕。
+  //   注意：授权码明文绝不进审计（审计记录对多个角色可见），只记「是否改过授权码」。
+  await writeAudit(env.DB, {
+    orgId: (guard.me as any).org_id ?? null,
+    actor: { id: (guard.me as any).id, name: (guard.me as any).name || (guard.me as any).username },
+    entity: 'system_config',
+    entityId: 'mail',
+    action: 'update',
+    summary:
+      `修改邮件服务配置（共 ${updates.length} 项：${updates.map((u) => u[0]).join('、')}）` +
+      (updates.some((u) => u[0] === 'mail.smtp_pass') ? '（含授权码变更，值不予记录）' : '') +
+      (updates.some((u) => u[0] === 'mail.enabled') ? `（邮件通道：${body.enabled ? '已启用' : '已停用'}）` : ''),
+  });
+
+  return json({ ok: true, updated: updates.map((u) => u[0]) });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const guard = await requireSuperAdmin(context);
+  if (guard.error) return guard.error;
+
+  let body: any = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+
+  const cfg = await getMailConfig(env.DB);
+  const to: string[] = Array.isArray(body.to) && body.to.length
+    ? body.to.map((s: any) => String(s).trim()).filter(Boolean)
+    : (cfg.notifyRecipients.length ? cfg.notifyRecipients : [cfg.user].filter(Boolean));
+
+  if (!to.length) return json({ error: '请先填写收件邮箱' }, 400);
+  if (!cfg.user || !cfg.pass) return json({ error: '请先填写发信账号与授权码' }, 400);
+
+  const tpl = renderTestEmail((guard.me as any).name || (guard.me as any).username || '管理员');
+  const res = await sendMail(cfg, { to, subject: tpl.subject, html: tpl.html, timeoutMs: 25000 });
+
+  await logMail(env.DB, {
+    id: uid('ml'),
+    topic: 'test',
+    toAddr: to.join(','),
+    subject: tpl.subject,
+    status: res.ok ? 'sent' : 'failed',
+    error: res.error,
+  });
+
+  // B6 审计：测试发信会向真实邮箱投递邮件（可能外发给非公司地址），
+  //   属于「以系统名义对外通信」，必须留痕。成功与失败都记 —— 失败的记录
+  //   在排查「为什么通知发不出去」时同样有用。
+  await writeAudit(env.DB, {
+    orgId: (guard.me as any).org_id ?? null,
+    actor: { id: (guard.me as any).id, name: (guard.me as any).name || (guard.me as any).username },
+    entity: 'system_config',
+    entityId: 'mail:test',
+    action: 'send',
+    summary:
+      `发送测试邮件至 ${to.join('、')}：${res.ok ? '发送成功' : `发送失败（${res.error || '未知原因'}）`}`,
+  });
+
+  if (!res.ok) return json({ error: '测试邮件发送失败：' + (res.error || '未知原因'), to }, 502);
+  return json({ ok: true, to, message: '测试邮件已发送，请到对应邮箱（含垃圾箱）确认' });
+}

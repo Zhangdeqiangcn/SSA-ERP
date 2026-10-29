@@ -1,41 +1,32 @@
-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
+-- ─────────────────────────────────────────────────────────────
+-- 迁移 0085：仓库主数据迁真实 D1（W4 整改，根治前端 zustand persist 单人不共享）
+--
+-- ════════════════ 为什么需要单独一张表 ═════════════════════════
+-- 旧实现：仓库/库位主数据存前端 localStorage（key=ssa-erp-warehouse-master），
+--   ① 单人本地、多人不同步（甲改了仓库名，乙看不到）；
+--   ② 与后端库存/入库/出库单的 warehouseId 无统一权威源 —— 前端改个仓库名，
+--      后端 inventory_records.warehouse_name 还是旧名（W4 根因：账面与界面不同源）。
+--   现建 warehouses 表，org 隔离（RLS_SCOPE='all'，仓库主数据是全组织共享基础资料，
+--   与 materials / bom_headers 同属性），locations 以 JSON 文本内联存储
+--   （库位从属仓库、无独立查询维度，内联避免再开子表、也便于随仓库整体读写）。
+--
+-- 口径：新表一律显式登记到 rls.ts 的 RLS_SCOPE（否则 ① 登记表↔库 核对会判漏登记）。
+
+CREATE TABLE IF NOT EXISTS warehouses (
+  id         TEXT PRIMARY KEY,
+  org_id     TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  name       TEXT NOT NULL,
+  type       TEXT NOT NULL DEFAULT 'raw',   -- raw/finished/wip/aux/transit
+  address    TEXT,
+  manager    TEXT,
+  status     TEXT NOT NULL DEFAULT 'active', -- active/disabled
+  locations  TEXT,                          -- JSON 数组：WarehouseLocation[]
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_warehouses_org_code ON warehouses(org_id, code);
+CREATE INDEX IF NOT EXISTS idx_warehouses_org ON warehouses(org_id);

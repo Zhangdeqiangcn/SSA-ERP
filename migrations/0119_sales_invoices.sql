@@ -1,32 +1,33 @@
-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
-fENAne3O9PznTQBUMP+S2A==
+-- V3.112.0：销售发票持久化
+-- 背景：原 salesAdvancedStore.salesInvoices 仅 zustand 内存态（addInvoice 不持久化、store 无 hydrateInvoices、
+--       SalesInvoice.tsx 不触发任何后端加载）→ 列表永远空、V3.111.0 新建的发票详情页成为死路。
+--       项目此前无销售发票专用表，fin_invoices 实为采购发票表（vendor_name/purchase_order_no 等采购字段）。
+-- 方案：克隆 sales_quotations（迁移 0100）范式建销售发票表；items 明细封 extra_json，头部金额列支持列表直查；
+--       组织内共享单据，rls 登 'all'（组织隔离靠 org_id，'all' ≠ 跨组织放行）。
+-- 编号：接在生产已应用的 0118_po_row_vendor_project 之后（本地与远程 d1_migrations 最高均 0118）。
+
+CREATE TABLE IF NOT EXISTS sales_invoices (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  invoice_no TEXT,
+  invoice_type TEXT,
+  sales_order_no TEXT,
+  customer_name TEXT,
+  status TEXT,
+  invoice_date TEXT,
+  currency TEXT,
+  amount REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  total_amount REAL DEFAULT 0,
+  linked_return_no TEXT,
+  voucher_no TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_sales_invoices_org ON sales_invoices(org_id);
+CREATE INDEX IF NOT EXISTS idx_sales_invoices_no ON sales_invoices(org_id, invoice_no);

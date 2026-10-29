@@ -1,28 +1,45 @@
-U2FsdGVkX1+LNTEupJdt2F4JU2y0RALJ8nqhcid2ByPgvyXbClNgetUGDmDPfXvm
-3fRiIGK/HMNpxlIyHFjbvOeBrMeRRvuDa/DFlcyH01JRQvMx/Bcd5ffioglmFFjY
-ktJJ2XdMP7HXp4OZrzfWSt3ozuosfdyNhgXtjTLRA2v73KSUOG+T8SvDWvZDQJW9
-elNtIUw4Xt5CXYbOl3o9pxMw4XkfmIgrTgYy2l6JQnXK6fLVj0gD734+0JO6qPYg
-PKEwlx6DXzC/fv5UkrD26M1NM8bo44pbiPUIhAXh29s654/JOuaz4VfCP0tFD46q
-Gk0a1ajn18RNRZ6JyvJlSy+0mv9Zwy7TAAdjS/4EI5UiZ1Vspj0tcqyt4FJ/WWUg
-ObeBVhuM7Nlu7w8jHofm69GkFWP37h6kk6kPGYdCpSlU1g8mgdwPTQs2psWkWJc4
-ErPOf9sQGPmk7kQYqojKbhjd/MHxYj0FFStr1RdIog4ODtu3Mq4z4dLGFqH7X9Ep
-69LGS2RknQWu16w5/g2EroHgLSAI1hJK5SxqvMKgq9lreCyVgBNNbygF4aHGcb2Z
-TTucTvj2nWMDtv235hQ5eRcrd5I28jFA5jcCBc3mK07oRoKKlZqShLv9vFYi+gfU
-ZTmFvWpZTGPepM/AQ8tr1Z8wL7M7jgvlklU2rbLF8fcpx/Bx1UYNLVzAxWqL5F39
-qrWG6aMomNND/dUX2m8eNnMzw2TdSl7uT0sTzEQfwth7i5SFlSxx5ChQ9dclRmYY
-aN2SFWiZ0i6MOIqUU62FyarXt5e+QqP4ttiCVe23mJwHg8ecTqyKzF2+NIH/gQBb
-f1DX+JGC0B9zgly9lei36khP26OHq/EVX0jnUqPzeH/x3J+qbxA/aOFmq44mR8/3
-p+6lM9g4Rw7dwjEpvSrn3L6zpqLPeWbq9QQ1vjpp+SXo+GCN9QEDf/n/wIgTY9nD
-Fuph+VDv1IrAqEIsFBBfhf0acF/wr2j2SacQUvLNT2RnJsRKlAjb+CNNyPimaMuF
-wt2dfGkriJyawxHDdcxvu1FwmGs/Ng1YFshRDvRtZHg1bPEfJRFohogriASaeg0i
-MDsfVQUGeKsytRUqeb0IK7vU2suclNu/xigriseWSUspHUGVfFi/Wm5PVYRujyhZ
-4t8JhlxghbOAUPNRpna4jkPBj6BOMyy6UbVUviJuiX60T2kGxxJmN9wwEo47C1k5
-M19wQ8mlEqN8jILx9Fr7T3KdtsEd02+HhJda2b4HpQbztU1r6czq9Qno5CvKIUsk
-Wb7Zw2wTbPBEX+6J5eWrpv+Kn8S8YzHHYEFp4y+MrKTzUC2pIN07Z8FlKmjZxHU2
-629N2aLwMYWtCyiQ+BZbsHZTak4zZifQJ8R/Qs385vytNibGho1ptZHAuYsBuHpc
-BtJ10SyaHv3V6eBbdd5fcXJn0BnTxJJU7RLpGAvUDLHasKbrApG+bq1XJth9QWOU
-agh6v0aHxiCv0ffR/qh8Eaj9Po2lgD+3W8+fbNMPeXfp6UDY6JygjK9lf2mphHWA
-OjlK5NS2K1SWuCA8a4iJAQYQGsuSnvnquTWdxQDxe4fwou8RPsTho/GITUOMBFrr
-Ncvf2uZK0BQquU5ebPWySD28MTta1SrCLcYEY7Io60q0HaA/iW05yPQKXClI3zH7
-ieXVwifars0ImPKOMFZoVfETTQKAuyoLZJ+UIDVpY2QS89QzzPBihACvrFCLlqXI
-q6JvH4IgRuxTgaNnqnh/cyRT+lRsN/ZbKc7n1cUOsKA=
+export { api, apiClient } from './api';
+export { materialApi } from './material';
+export { vendorApi } from './vendor';
+export { purchaseApi } from './purchase';
+// 统一 API Facade（桥接 Zustand Store 的 RESTful 风格接口）
+import apiServiceDefault, {
+  materialApi as _materialApi,
+  vendorApi as _vendorApi,
+  customerApi as _customerApi,
+  purchaseApi as _purchaseApi,
+  salesApi as _salesApi,
+  warehouseApi as _warehouseApi,
+  qualityApi as _qualityApi,
+  productionApi as _productionApi,
+  financeApi as _financeApi,
+  priceApi as _priceApi,
+  systemApi as _systemApi,
+} from './apiService';
+
+export {
+  apiServiceDefault as apiService,
+  _materialApi as materialApiService,
+  _vendorApi as vendorApiService,
+  _customerApi as customerApiService,
+  _purchaseApi as purchaseApiService,
+  _salesApi as salesApiService,
+  _warehouseApi as warehouseApiService,
+  _qualityApi as qualityApiService,
+  _productionApi as productionApiService,
+  _financeApi as financeApiService,
+  _priceApi as priceApiService,
+  _systemApi as systemApiService,
+};
+// C7 服务端化雏形：持久化抽象层 + 审计包装
+export {
+  getDriver,
+  setDriver,
+  listCollections,
+  estimateStorageKB,
+  readCollection,
+  withAudit,
+  getServerStatus,
+  type StorageDriver,
+  type ServerStatus,
+} from './serverService';

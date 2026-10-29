@@ -1,101 +1,117 @@
-U2FsdGVkX1+3W1bGzq5mm6QDZYKz/rrmyfruqbuD3fur83EqIgU5c+CsVuzlWNWS
-/2J4qe54IITwoNRNpy8toSlj6Q4c5nunsaiWojMUucDItZYTQQAaQMU4wUkczeOW
-2eLkSvo1qzPFyRSvGDwYFYQupwhGIdQYp1miE5j7IDSNHFis2/MCyai0SyOKvF1N
-6K1hW90YcXcboWMCbS3Ik0UI3cz3Pn2LnY3hPsxhmCXULDAfdbtZMn4oF1g1zhKB
-a+B1rn0GGOVMxC/avr2v4RAAdAnawUT5UlTfiFuZRNYvHxAjji0Og3B3i3Db43PN
-nQMD3kzy1mel6F+Gl0LX7yGh4F/Vt85eO6b59jEdGFi7aIThEX6U40pxBHBP6143
-C+D7t32NW0sAIKuv3rNGyRicCSh/AOXUmNUNXRIHnIc6KMOgSDLLG1cCNz1eXCi7
-Flt8iH+C9wU1BxjH3DNWscYai7VCir3Fjl5w3fGAoI4QinIKb5LMTa9EmCyHuWIf
-DLlwzBWNaraB/cLFnZQ4wliCmF8/x2EJMaxo7zIAVZIBtar7JWHziPJ66DfR+DI/
-LK9CcCw3xju47lDN3ra999yg7QoJeD9hOcUXJ3JtrU1AWB76zCCRDBg+0nAhfY3P
-+riINP5OIfvsgiCLIS6mD4fdW0LYP8YUCytLMQuYEylmTJ4UAIiNhlcdmfXFcGz1
-CBiPo+GBsfvSLgeV87i21yOQOVMsPH8RknmANcdEN+6/pxtrXv/zBg7OS25E+o1h
-dbtiYjpH7ZioSW2aZ6POxM3fI1pmYkuPuYSjDvK97yvcluAoL4nL/C5kFyaTDkTE
-UNgH5yQ4ZbjeQvdkCqn71jFDibF/Ubi35FG5ee9ZTrh88QL3iKfeyNo0wvSFzftO
-QrIUDPDOcn8slMsyQwpa6wJNC21lJ6zno/SWjXkTOxMruXI7VCISmp3XRs7VE5+F
-zPUBhPzje9dbEW62NxHA4SeKfn8ZVsIDbo2SraaD0dDn3Hr51ExxvoSJwqpCakhn
-9kMH/MasjEl7SBuCAyh1cSEuhiY7ty6cZZgAJ4q2kDlywKxJlES/Dc0OgWkFDyu5
-5qHhBc4NMdOe9uRM61wGVRtvwcnn3Z3wZ/xKK7IBxpc0epwvxLfyHWdLInl9F7rr
-F6tQjhxBfqCPUdTCFZqUPfKanSI2ZXw4YrNIHmt5jgjMQ7prLKACLlxFNDvXLuel
-ab+ChXT9LjRfHrrTNyacFXTe0hW7Zy6CCPv96LaYzx+azoViNObV/wgo/FAJkZfx
-cw0EVl1ErUV6T9b0J1D0UzO27aFjkTSHp8f2dkBXfruWxyqn5xaikMtgGaB9uTcg
-lNfWoRYHS3EPsaHws739M8IBuwN17CxhotJJwmlMHTTHxyMqgggaVgAJvdv2TcBg
-eEDx2hwsyTgRDDV2RCplmto0b/dlwukqLazKNQeiw4j4Pzw3/vXMTGapVQluzWju
-Tn0UUR7ZC6nz4QHEmHSL7piFT0g6GlqJGMH6PQvO+G0sbdBf+6BOmpt4mMh4sxtk
-Ob47d8+TOuOOsjXYlPOz/AqYSVPZBKC4CTlxisGpupHyOt41XFGh/ESRHSfal0ZS
-u3GDa14Zbninw4aLxFy52HKYLmENxrr7V9wPaVZoq2sy3GHnCKgcp3qzRQV+Wfzv
-CWXGQZwRC9Qf+S2nHg5s6wMmEgUqH8swa0d3pMVPbsIw1TjL/zmsyfoElY06Uq/7
-7wht7sK/2MJo9JwM7ZEbEomWhPMBJuOzUz3sW2kF9VO5csa72d0ba7FUIfkEcwFv
-+/IeRdL+bNvnNxr39pIRtFoPXWDraYY0/f+imn7VxQ7Z9l52DEbsvaU77FwsRvJl
-aMBvJ+Cca8NXxAIg+ugEERrUwPuENeLWy+YS3jDlifpVMurJhP6oAlw66GiX+RT+
-6WI5eEc5L3kE+X8CvtbGXGmdGGxZi2wRG9wALj4Y7JpXtiK/VTA8mlq/vPw2H7Y6
-ayM1FgSyI9L234tQ8QzTK8ckcto2B2cVwMNpSmawEl4uvBbh5lJoUdN+P7QHbn4M
-lvrTH+KxY5OYhl3VqHcbY/hN1qw8iN3qdD8N/fTrJf+/vi3WvHn8ru2CX5y+Zgaj
-YsjHPS4uHrvqYEhN+0SzwfsewzzBJB/hSdonX5V63WWLbT64FkMAU3VFYsIiDVcX
-nnXb5dbNFLerA6DO4KdBtnMSoDq4GssF6TmQ5uTnYIUqMCKU/fGoChyIjUMrEYuS
-cIhFmOm9XNT56DwJVLTPSjQs7wm/loehhFkaorMl/IvUuu9dVgkeOfFIp1RHXvyi
-9NfRYRhceadTH24Nq2dH3n4QhHNB6ShQHJUFYQiihltEvM/B3DPhve2bcnuKwgxX
-tZL6Ag+oR8glqBfn7zcRIFd9My5K8mduQmx8et6X9U5rODIhH9yMfhvUf3h7+5/+
-xOWaZYkrOzIIC5bhdd/TuDJF4nuwv0pCwS2xaWPHgvhUo19WE9hfRXtIKltzh/l2
-UvWb6BgqRWiiyil5mFutHYLXk9xcfJfJrUpHTUmd5amwCMHpfN+FrBZS4cFrvYD5
-r7iqa3e74fhqytVfOy6uOV1mdHzpsu38PnbGgsGAE+eVTiPKqw1gzSYMGSysRwhm
-sJLk53QKgRmVKzwoOt2qWgejBgfktOWCbT9HqDDBSjkBbdPUuZdUtFtj4Ojobrcb
-UajJO9zC/A230/I0q6BRV/vCO5is7+8eoxq8TIfiU7guU5p7Q/65DHu8IfjpDI36
-GK5YYLoJHov2QsloCkpwlc9s/zGSoKjIaMJQpVkRe6kp6xgV2eIV+6tNvtDVNTNF
-Im3c39CVqY0L+B5/0dlDMfEyIWMs1K+cPzbaHzzokI5aq8dDNJno7z6WcG+WqKsq
-sZwc2bOIM/6DlPUubl4+ozo0kFe0Wcpb3698tshvDhxa2bDbUtIkwau547BO358c
-ILf6MNDcEimpwwu1hx/e0FFLsuvSswo82locJ6xbwRDyS6uris5qeeGrtKdBq+Iv
-jVIXmoYjTyRzlVn93mdZsMj/aKt+U8P+80ZKcGQcCwJxQeEkxPvlGFbzm35Co6uU
-enJHgIX4kP4mGskeYRz9vb4L3+nkAmwmoazMksK7XBPz7yfe4tMa+eteSJSjWUeC
-bpO8RJmBLSnlG7Omx+qXSkpKen3v5jGTrOCwCXTAlsL6hdyxG3HV3tgblC9Vjbko
-yi3hab5XCcTDFvNPsCWjPRdlzcuQBja+Z8gAa8ya1FMmyFIEWXcrIgP7T20Etp/3
-uLTYhuPKeOs9gAkB5QB7HdvVgBHYEEkGj80GDQEpYuwtF0mKx1FMrfKkawFpZ+Mw
-DrKR85Oi+por/yHqWNkCqmf9X5Tdfl0Gnwd5VYv7oSNqKieksjAhpWfEVztt1Aca
-X7qEkLgxMnDFg08lHGCWlR3qgpXCKK+pY362ke8Xww9T5E8xGFTydNu+tmTpggJ4
-au04E/mTpiryhYVvTwICQ90A0kT8LmfIumbdn+r9PIAweQrWAG/7owns1/+S6jpz
-UOy2nhUuVt1k10VHnikDcimw/6nY4vFa12E20/QnR+ZfY3LyLcmuTypocWRy2xtA
-9vvhg4+c/D8uMjLEJxZp7XT0k4kKdDi/uRr4m8j2Y/QUv+c14fKlFC5V3ND7H3D3
-GyXT97hFHfjqEIenlX+bD0jEa2WMWpjm4TIytb2SxLOMpOk2jZdbQMDURRYIIqr7
-gwpJUrZAkHCK0ApVs5YhDvltZfU7sWsU+AfPqfO9+mgWQkEaR1DyqxjgXQK+d7Ii
-EKe7gf1+PXu1gmEzw1mi3I0pcmqwL6R4Rb86c/NBPAhXbxkKCTqbs9eKgBCo8DtB
-mPoB/M6h4k0jvxL/Zk5NzY8j3xSU39+WsxPgvh0fzGSKdjsZzmTeIzxHv+841Xeg
-TfZTz40VdAwaoBxpJkzNmEywdUFWqMlYvdZSceFCD2Y6jkPCkY1BrilQVu0YbOjP
-jD0E+snjJjm8dsnSIKtJ6uPd4Q9igKzPz/7dmMvpZIUSPR2rWul5/mk26vYKWKSO
-lW9Bjy/jUg6pWifIItOBSMNc9ElZD8N6Ot+4cAjEWZgPDoPk3vGHp9w8BH7wE9IO
-7BmAJc7M4doa+yllZJJCvQHDdTHdXrPk5BUdS0/RsLIAizJ0C/V3DJajwVteV+jT
-5TdQmpWealqpCLfDnQBrTrFBdkDly/OuqtHN7q10SKxiyK8o2q1VfVbTLj03vinh
-nWV4SWiATcx6RejVs+T2oXqh0NS79A3Wn6MkpfLct9xueygCLqiqACypieAxg2IY
-GJNbHHOgjpCV4GOxLMNXGgiEn2CZ3MpHeb6jPAjNzR6RIsXlf1F3Ne9gGwVdxns0
-sidRAISTYC8X7wZWGJRgZMtnGtnGHND5uu1q/YqagFn1n0Q0lHdTUdiAekgiZC2r
-qORKwtk8Yjh/yFUJ9SlN9jng4BqjJZwYuyAtQ9vmsuNA8n6AfyJ27iURuF9qoX7D
-u7RlkHEXprCMyjGtYjpkBP9hl+UUFtBVyMf1+JonJBx5jJ5J+EEx7VtluTq5ySYs
-bD87+tKCgQ/b4nKBa1Hxq4Q/cOUyfWvLsypPh7Qnp9qTGLHdDz49WUgIxAXy4eOy
-5oI0y48Vmck52L8IVrrL/k5jcDJJcd7WWJdLUc9KMe+/usFblxvS2tuF5jfBMBWo
-9JUDf3Ml7qNO+dSg8Zgdieu5WvrYVOX0svj3aj+WxCexjYHTx4V7ZyHr1ROV3L1a
-CkId+JWysFDu42AUdRHb0xX5CUQGdQXJriop1N4jbxIxOnltI4nuuVs3909XOxz5
-oXSAr2Yx8B/ifptZ+HwfkGkD9dXNPCa0VMVmphsugJNIABNHncMhMojjGHcO34h6
-FiPyWf+0264DkmDXGS3VL3ClXBg3MVPlMuh8WwKCuty9/Y3W1nQdqCY7NQ43ES/g
-ia9GQgVfxv5jY010sk5vKqUGj2m9OFr/FUDMdlhF0EtHeykJBh55AqHiLqQ/eu1i
-/lkfNHlgCSPYl4kB3niGE0R/hqYJufsmblet8BSNVMqGH1MjUGJgarZ5jiM9rX18
-4jFuFJGmzsBcaPGDBt1fsK9jAAu/badPOg+CGCc1vJ4UanoQVQlh0ccHgkldraFk
-OKedgwsQEhMMukGgmOG5U+KNh69RxiJp4wPRxFuf7Gc593gzv+KJm4FG/EKIMy/J
-hdkxgTEfb94r04CVa6Eomv6xcwxRof7rYSm+0lqDIhbYMfQEAYOTSuvYylTI09V8
-E3xBkdJtYQdgpS5bAUxLCm2oaCnlTfUacKwh/AuqWuavscSWcRXOgLChd3Tzjr2H
-bkelbn4wnm47XeiZ+PLGlcPuDh8Bxxf2b6+Wxf4XRECGgHvHi1aMwXcRsUHJEB2s
-qnBKEDm/pHaVCXGINdHfA7fU0SUV7op7F3tlUpuPJYDOfMe33tYMExSOY4yboJch
-7w3l5ThqRbypJEOb8V5F32jf3txXDvxUPACNK+ZJELCyhcKfXhMhCK6OPWeyM4bf
-rt0SLTFtbJd7KjwGDaNZ/O5Emfnb7enXYAUVI0WMT+v3Ba42fp07DlTl5cNFyEii
-ISbflpvnhz0TC37jJKlKN9tIAWrofC9/7gk52QOUXHHvLJ8FNCZfiEnvg6b00ZjZ
-x6htyB4C8JamzLweax98eoaNWeHXruPeW7p6tfBNZg7PNtt/yFEqAQxRSwznpMsG
-Vx1ySTNbn5jFEYVwQXMDgKJ1CogFFX+eesCDNT8nfCsp0myDClxQ6jyJM9q0MGOx
-k3tMrqr/9P8B+0h0DerDc6TV8/6EBZbP61UcOZEfYVIrmZVbnWeHT5DCmyAKc4FV
-9/qHl1FNMwC1u4izHzopeDRtr4FJoht6KsykbtzpUenI+uwKhpPGbJCf//5R/TMx
-ewR1dAVGTAk2jj/2+vad7exEZtIaDPCHWGFScfcmoOJA35a7ZTdOurYqOtIxtxjx
-rhPcL4ax8hVQOoKvO8bmtR08Cy2j8+RpObiXeaq+PdvBusT0Q3/Uo6Gk268PDO2/
-/hQrQmkS6EGrtpVhcdLtWry5sIM38cE/+tjC48cPkBpL1Q+Iq3x07D4XB3Z8eb/N
-Mttrs49hhGUmG1yTZI1dtiRUq9XybjE0IkjskkTPkhp3JpqZPzuud3PV3bqC1vrX
-xESWhVP0pziFGOyeZcIoV2xnmbDY2a2D6xUnCpB/4IVDKmVMVSH/EFp6xGsdWGZz
-xh03YR7ThPLZpVYJiMF7MQp5Wp2xcTq5cfZfRwN2odHo+mpgxYaMtK/yCX4HfDr9
-hzKyp7KxPjQ0VjF1nk/w4LyzEEsq3OPPp+oXDF8hAvxdLMDOPNBixoCIa/zBgq8s
-9R4EqQ42GbKQDhSEf3bu6+Vuk1+9Vbc3V0K3RsBNxUzvK/GZYu5fmz54jwS9r8v9
-EK+8ZUoN7+pZyZcKX7MP/w==
+// 物流承运商适配器（Port/Adapter 抽象层，沿用 P1-0 渠道连接器模式）
+// 当前为抖音电子面单 / 拼多多电子面单 / 快递鸟（聚合）三家 Mock 实现，
+// 真实 OAuth / 签名对接在 isConfigured() 为 true 时切换——强哥提供凭证后我接入真实链路。
+// 纪律：未配置真实凭证时明确标注 mock，绝不假装已对接真实承运商（诚实降级）。
+import type { TrackEvent, TrackStatus, WaybillRequest, WaybillStatus } from './logistics';
+
+export interface WaybillResult {
+  waybillNo: string;
+  labelUrl: string;
+  mock: boolean; // 是否为 Mock 生成（未接真实承运商）
+}
+
+export interface LogisticsProvider {
+  code: string;
+  label: string;
+  // 是否已配置真实承运商凭证（channel_credentials 里有对应条目即 true）
+  isConfigured: () => boolean;
+  // 向承运商申请电子面单
+  createWaybill: (req: WaybillRequest) => Promise<WaybillResult>;
+  // 解析承运商轨迹回调报文 → 归一化轨迹节点
+  parseTrack: (payload: any) => TrackEvent[];
+}
+
+// 承运商回传的原始轨迹节点 → 归一化状态映射（各平台语义不同，统一收敛）
+const DESC_STATUS_MAP: { kw: string; status: TrackStatus }[] = [
+  { kw: '揽收', status: 'collected' },
+  { kw: '收件', status: 'collected' },
+  { kw: '运输', status: 'intransit' },
+  { kw: '中转', status: 'intransit' },
+  { kw: '离开', status: 'intransit' },
+  { kw: '到达', status: 'intransit' },
+  { kw: '派件', status: 'dispatched' },
+  { kw: '派送', status: 'dispatched' },
+  { kw: '签收', status: 'signed' },
+  { kw: '异常', status: 'exception' },
+  { kw: '问题', status: 'exception' },
+];
+
+function mapStatusFromText(text: string): TrackStatus {
+  for (const m of DESC_STATUS_MAP) if (text.includes(m.kw)) return m.status;
+  return 'intransit';
+}
+
+abstract class BaseMockProvider implements LogisticsProvider {
+  abstract code: string;
+  abstract label: string;
+  isConfigured(): boolean {
+    return false; // Mock 实现：默认未接真实凭证
+  }
+  abstract createWaybill(req: WaybillRequest): Promise<WaybillResult>;
+  parseTrack(payload: any): TrackEvent[] {
+    // 兼容两种入参：① 归一化数组 {eventTime,status,location,description}；② 各平台原始 {traces:[{time,desc,location}]}
+    if (Array.isArray(payload)) return payload as TrackEvent[];
+    const traces = payload?.traces || payload?.data || payload?.list || [];
+    return (traces as any[]).map((t: any) => ({
+      eventTime: t.eventTime || t.time || new Date().toISOString(),
+      status: (t.status as TrackStatus) || mapStatusFromText(t.description || t.desc || ''),
+      location: t.location || t.city || '',
+      description: t.description || t.desc || '',
+    }));
+  }
+}
+
+class MockDouyinProvider extends BaseMockProvider {
+  code = 'douyin';
+  label = '抖音电子面单';
+  async createWaybill(req: WaybillRequest): Promise<WaybillResult> {
+    const no = `DY${Date.now()}${Math.floor(Math.random() * 9000 + 1000)}`;
+    return { waybillNo: no, labelUrl: `/labels/${no}.html`, mock: true };
+  }
+}
+
+class MockPinduoduoProvider extends BaseMockProvider {
+  code = 'pinduoduo';
+  label = '拼多多电子面单';
+  async createWaybill(req: WaybillRequest): Promise<WaybillResult> {
+    const no = `PDD${Date.now()}${Math.floor(Math.random() * 9000 + 1000)}`;
+    return { waybillNo: no, labelUrl: `/labels/${no}.html`, mock: true };
+  }
+}
+
+// 快递鸟：聚合多家快递（顺丰/中通/圆通/韵达…），统一电子面单 + 轨迹查询
+class MockKdniaoProvider extends BaseMockProvider {
+  code = 'kdniao';
+  label = '快递鸟（聚合）';
+  async createWaybill(req: WaybillRequest): Promise<WaybillResult> {
+    const no = `KN${Date.now()}${Math.floor(Math.random() * 9000 + 1000)}`;
+    return { waybillNo: no, labelUrl: `/labels/${no}.html`, mock: true };
+  }
+}
+
+const REGISTRY: Record<string, () => LogisticsProvider> = {
+  douyin: () => new MockDouyinProvider(),
+  pinduoduo: () => new MockPinduoduoProvider(),
+  kdniao: () => new MockKdniaoProvider(),
+};
+
+export const PROVIDER_LABELS: Record<string, string> = {
+  douyin: '抖音电子面单',
+  pinduoduo: '拼多多电子面单',
+  kdniao: '快递鸟（聚合）',
+};
+
+export function getLogisticsProvider(code: string): LogisticsProvider {
+  const factory = REGISTRY[code];
+  if (!factory) throw new Error(`未支持的承运商: ${code}`);
+  return factory();
+}
+
+export function listLogisticsProviders(): { code: string; label: string; isConfigured: boolean }[] {
+  return Object.keys(REGISTRY).map((code) => {
+    const p = REGISTRY[code]();
+    return { code, label: p.label, isConfigured: p.isConfigured() };
+  });
+}
+
+export default { getLogisticsProvider, listLogisticsProviders, PROVIDER_LABELS };

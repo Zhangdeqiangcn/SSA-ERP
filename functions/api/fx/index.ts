@@ -1,68 +1,67 @@
-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
-iUAFUzBSs6PpVsII92VFwA==
+// GET/POST /api/fx — 汇率查询与手动维护（内部 session 鉴权）
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+// V3.5.0 B6：补齐写审计（手工改汇率会直接改变外币单价的折算结果）
+import { writeAudit } from '../../_shared/auditLog';
+import { requireByRegistry } from '../../_shared/validate';
+
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const url = new URL(context.request.url);
+  const base = url.searchParams.get('base') || 'CNY';
+  const rows = await context.env.DB.prepare(
+    'SELECT * FROM fx_rates WHERE org_id = ? AND base_currency = ? ORDER BY quote_currency'
+  ).bind(user.org_id, base).all();
+  return json({
+    data: (rows.results || []).map((r: any) => ({
+      id: r.id, base: r.base_currency, quote: r.quote_currency,
+      rate: r.rate, source: r.source, updatedAt: r.updated_at,
+    })),
+  });
+}
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const body = await context.request.json().catch(() => ({}));
+  const base = body.base || 'CNY';
+  const quote = body.quote;
+  const rate = Number(body.rate);
+  // ★ V3.87.0 扩面：收口到集中必填登记表（表名 fx_rates）
+  const _reqCore = requireByRegistry('fx_rates', body);
+  if (_reqCore) return _reqCore;
+
+  const now = new Date().toISOString();
+  // 审计需要一个「改之前是多少」的对照值，否则只记新值无法判断这次改动的影响幅度。
+  const before: any = await context.env.DB.prepare(
+    'SELECT rate FROM fx_rates WHERE org_id = ? AND base_currency = ? AND quote_currency = ?'
+  ).bind(user.org_id, base, quote).first();
+
+  await context.env.DB.prepare(`
+    INSERT INTO fx_rates (id, org_id, base_currency, quote_currency, rate, source, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(org_id, base_currency, quote_currency)
+    DO UPDATE SET rate = excluded.rate, source = excluded.source, updated_at = excluded.updated_at
+  `).bind(uid('fx'), user.org_id, base, quote, rate, 'manual', now).run();
+
+  // B6 审计：汇率是「价格换算的公共乘数」——一处改动会同时影响所有以该币种计价的
+  //   单据金额。摘要必须写清「币种对 + 旧值 → 新值 + 幅度」，因为事后核查异常报价时，
+  //   第一个要排除的就是「是不是汇率被人改过」。
+  const oldRate = before?.rate == null ? null : Number(before.rate);
+  await writeAudit(context.env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'fx_rates',
+    entityId: `${base}/${quote}`,
+    action: 'update',
+    summary:
+      `手工设置汇率 ${base} → ${quote}：` +
+      (oldRate === null ? `新建为 ${rate}` : `${oldRate} → ${rate}`) +
+      (oldRate && oldRate !== rate
+        ? `（变动 ${(((rate - oldRate) / oldRate) * 100).toFixed(2)}%）`
+        : '') +
+      '（来源：手工维护，非市场行情自动同步）',
+  });
+
+  return json({ ok: true });
+}

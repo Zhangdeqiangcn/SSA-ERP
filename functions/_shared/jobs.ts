@@ -1,183 +1,255 @@
-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
+// 后台任务调度（V3.1.0 · 评测 H-04 整改）
+//
+// 背景：Cloudflare Pages Functions 没有定时任务（Cron Trigger）能力，
+//   V2.96.1 把「安全邮箱延时投递」做成了「任意接口请求顺带触发」（见 _middleware.ts）。
+//   该做法有三个硬伤：
+//     ① 没人访问 → 任务永不触发，8 小时延时可能变成好几天；
+//     ② 节流变量是模块级变量，不跨实例共享，冷启动即重置；
+//     ③ 过程无留痕，失败被 catch 吞掉，完全不可观测、不可重放。
+//
+// 整改思路（对应报告建议 ③）：
+//   · 把「触发」与「执行」解耦：对外只暴露一个推进接口 POST /api/system/jobs，
+//     由**外部定时源**（Windows 计划任务 / 第三方调度）按固定周期调用，
+//     投递时间从「不可控」变成「可预期」；
+//   · 每一次推进写一行 job_ticks、每一次真实投递写一行 job_runs，
+//     失败留 error，管理员在安全中心即可看到「什么时候跑过、跑成什么样」；
+//   · 失败任务支持重放（replay），不需要人工改数据库；
+//   · 中间件「顺带触发」保留但降级为兜底（source=middleware），不再是唯一依靠。
+
+import { json, uid } from './auth';
+import { processSecurityMailQueue } from './verification';
+import { replayDegradedAudit } from './auditLog';
+
+export type TickSource = 'scheduler' | 'middleware' | 'manual' | 'login';
+
+export interface TickResult {
+  ok: boolean;
+  source: string;
+  processed: number;
+  sent: number;
+  failed: number;
+  durationMs: number;
+  /** V3.91.0：本次 tick 回收的审计降级记录数 */
+  auditRecovered?: number;
+  auditFailed?: number;
+  error?: string;
+}
+
+/** 单次推进最多处理的任务数（控制单次请求耗时） */
+export const DEFAULT_TICK_LIMIT = 10;
+
+/** 读取任务调度配置：外部调度令牌、建议周期、是否允许外部调度 */
+export async function getJobConfig(DB: any): Promise<{
+  token: string;
+  intervalMin: number;
+  enabled: boolean;
+}> {
+  let map: Record<string, string> = {};
+  try {
+    const rows = await DB.prepare(
+      `SELECT key, value FROM system_config
+       WHERE key IN ('jobs.tick_token','jobs.tick_interval_min','jobs.tick_enabled')`
+    ).all();
+    for (const r of rows?.results || []) map[(r as any).key] = (r as any).value ?? '';
+  } catch {
+    map = {};
+  }
+  const n = parseInt(String(map['jobs.tick_interval_min'] ?? '').trim(), 10);
+  return {
+    token: String(map['jobs.tick_token'] || '').trim(),
+    intervalMin: Number.isFinite(n) && n > 0 ? n : 10,
+    enabled: String(map['jobs.tick_enabled'] ?? '1').trim() !== '0',
+  };
+}
+
+/**
+ * 生成（或重新生成）外部调度令牌。
+ * 只有管理员可调用；令牌用于定时任务在请求头带 X-Job-Token 触发推进。
+ */
+export async function rotateJobToken(DB: any): Promise<string> {
+  const token = 'jt_' + uid('k') + crypto.randomUUID().replace(/-/g, '');
+  await DB.prepare(
+    `INSERT INTO system_config (key, value, updated_at) VALUES ('jobs.tick_token', ?, datetime('now'))
+     ON CONFLICT(key) DO UPDATE SET value = excluded.value, updated_at = excluded.updated_at`
+  )
+    .bind(token)
+    .run();
+  return token;
+}
+
+/** 外部调度令牌校验（恒定时间比较，避免计时侧信道） */
+export async function verifyJobToken(request: Request, DB: any): Promise<boolean> {
+  const got = String(request.headers.get('X-Job-Token') || '').trim();
+  if (!got) return false;
+  const cfg = await getJobConfig(DB);
+  if (!cfg.enabled || !cfg.token) return false;
+  return timingSafeEqual(got, cfg.token);
+}
+
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+/**
+ * 推进一次后台任务。所有触发路径（外部调度 / 手动 / 中间件 / 登录）都必须走这里，
+ * 保证「任何一次执行都有留痕」。异常被收敛为 failed 记录，绝不影响调用方主流程。
+ */
+export async function runJobTick(
+  env: any,
+  source: TickSource,
+  limit = DEFAULT_TICK_LIMIT
+): Promise<TickResult> {
+  const started = Date.now();
+  const id = uid('jt');
+  const startedAt = new Date(started).toISOString();
+
+  let out = { processed: 0, sent: 0, failed: 0 };
+  let error = '';
+  try {
+    out = await processSecurityMailQueue(env, limit);
+  } catch (e: any) {
+    error = String(e?.message || e || '未知错误');
+    console.error('[jobs] tick failed', source, e);
+  }
+
+  // V3.91.0：每次 tick 顺带回收审计降级记录（主表恢复后自动补写，成功即删降级行）
+  let audit = { recovered: 0, failed: 0 };
+  try {
+    const a = await replayDegradedAudit(env.DB, limit);
+    audit.recovered = a.recovered;
+    audit.failed = a.failed;
+  } catch (e: any) {
+    console.error('[jobs] audit replay failed', source, e);
+  }
+
+  const finished = Date.now();
+  const result: TickResult = {
+    ok: !error,
+    source,
+    processed: out.processed,
+    sent: out.sent,
+    failed: out.failed,
+    durationMs: finished - started,
+    auditRecovered: audit.recovered,
+    auditFailed: audit.failed,
+    error: error || undefined,
+  };
+
+  // 留痕失败不得影响调用方
+  try {
+    await env.DB.prepare(
+      `INSERT INTO job_ticks (id, source, status, processed, sent, failed, duration_ms, error, started_at, finished_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+      .bind(
+        id,
+        source,
+        result.ok ? 'ok' : 'failed',
+        result.processed,
+        result.sent,
+        result.failed,
+        result.durationMs,
+        error || null,
+        startedAt,
+        new Date(finished).toISOString()
+      )
+      .run();
+  } catch {
+    /* 留痕表缺失（迁移未执行）时静默跳过 */
+  }
+
+  return result;
+}
+
+/** 任务队列概览：待投递 / 成功 / 失败数量，最近一次推进，最近失败原因 */
+export async function getJobOverview(DB: any): Promise<{
+  ok: boolean;
+  queue: { pending: number; due: number; done: number; failed: number };
+  ticks: Array<{
+    id: string;
+    source: string;
+    status: string;
+    processed: number;
+    sent: number;
+    failed: number;
+    durationMs: number;
+    error?: string;
+    startedAt: string;
+  }>;
+  lastError?: string;
+}> {
+  const empty = { pending: 0, due: 0, done: 0, failed: 0 };
+  let queue = { ...empty };
+  let ticks: any[] = [];
+
+  try {
+    const rows = await DB.prepare(
+      `SELECT status, COUNT(*) AS n,
+              SUM(CASE WHEN status='pending' AND deliver_at <= ? THEN 1 ELSE 0 END) AS due
+       FROM security_mail_queue GROUP BY status`
+    )
+      .bind(new Date().toISOString())
+      .all();
+    for (const r of (rows?.results || []) as any[]) {
+      const s = String(r.status || '');
+      const n = Number(r.n) || 0;
+      if (s === 'pending') queue.pending = n;
+      else if (s === 'done') queue.done = n;
+      else if (s === 'failed') queue.failed = n;
+    }
+    queue.due = Number(((rows?.results || []) as any[]).reduce((a, r) => a + (Number(r.due) || 0), 0)) || 0;
+  } catch {
+    queue = { ...empty };
+  }
+
+  try {
+    const t = await DB.prepare(
+      `SELECT id, source, status, processed, sent, failed, duration_ms, error, started_at
+       FROM job_ticks ORDER BY started_at DESC LIMIT 10`
+    ).all();
+    ticks = ((t?.results || []) as any[]).map((r) => ({
+      id: String(r.id),
+      source: String(r.source || ''),
+      status: String(r.status || ''),
+      processed: Number(r.processed) || 0,
+      sent: Number(r.sent) || 0,
+      failed: Number(r.failed) || 0,
+      durationMs: Number(r.duration_ms) || 0,
+      error: r.error ? String(r.error) : undefined,
+      startedAt: String(r.started_at || ''),
+    }));
+  } catch {
+    ticks = [];
+  }
+
+  return {
+    ok: true,
+    queue,
+    ticks,
+    lastError: ticks.find((t) => t.status === 'failed')?.error,
+  };
+}
+
+/**
+ * 重放失败任务：把投递失败的任务重新置为待投递，并从现在起尽快再投一次。
+ * 不删除原记录，保留 job_runs 里已有的尝试痕迹，便于排障。
+ */
+export async function replayFailedJobs(DB: any): Promise<{ reset: number }> {
+  const now = new Date().toISOString();
+  const res = await DB.prepare(
+    `UPDATE security_mail_queue
+     SET status = 'pending', attempt = 0, deliver_at = ?, last_error = NULL, updated_at = ?
+     WHERE status = 'failed'`
+  )
+    .bind(now, now)
+    .run();
+  return { reset: res?.meta?.changes ?? 0 };
+}
+
+/** 统一响应：任务接口鉴权失败时复用 */
+export function jobUnauthorized(): Response {
+  return json({ error: '需要管理员权限或有效的调度令牌' }, 401);
+}

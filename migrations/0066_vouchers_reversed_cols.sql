@@ -1,56 +1,34 @@
-U2FsdGVkX18dI8DG7IJYIos0EkEEPzgqaxU0uqY9PHdcCMz96Bx+lil0JU8YugLT
-DWTgS4Y7Spz8BI+HKEHBOa/zpLx3DIQ8tPn45obfQWBQuWL20YuP6SuZCfWaaBgG
-X3J0AnoAaGoqsfkbSjZodIvXTnENvBNJf1119y0ppibvUzEQqLDvCr/V+OqqaPWZ
-ljPz1KfH8GU8pfVvJop3phOfz9fMbEtBbDJCh1oxEOZ7uPPlIVVFxVGcVjdmO2Iw
-/Sd49XNqz86khPCpF+bIS3rR+WIp6Rtd2+7uy3+/RhUgXaRdn7GnQY1oEbc/7XlW
-8XXUBpNM4U9WHsRxN6Srb/0xRLGqLNgT8XSNLjI/QNqWjVSTylxyCblAopKl6ExN
-NiCE/umTBTvBRsm8szytBWxCM+BWbJMYqv5wipFCLleoTI0xLp2ZjEbGtNYK7xgH
-84fG2aDo49elZgferwEM0gc2zyrN7Is70JAgpxr7ShCQ4QX1dsXjtDhnyUY6NvRp
-1w+zc27J8EMkccRzOO7Q/a27nnyPX2V8/dPbg57NXSK5uk3giN5rkKl2hZ4Zrmzk
-q0EvOw2dUfYjxiOQyol8Vjf+Co9zbvvyR2eLGXoDkY+CrCyQkHBgTvpgkGEONl41
-hR5VznsXo0NlfbLYHCDuw7gpja8Rj0AldPA5yfa1bWGfCqxwdWZ3kPAg23k5Y3QQ
-rAHig3qrdy5OSBiP77dfQcTvg8Fb4quhfBKrhssJDMd3gdncvFZ+hvGQkH6W3hS8
-AoFBlWvP9ciSLa0Eh6FZzHh9CsbbpcUuMFsCck1BiofNtexzzQcIjuc5IrMwdCw6
-xDxTQsu7tB6rwdDGU2bZZ6pSW3oKlBqUx8diNtehrGOr0ei0tX8Wq2UbZQKCkpjY
-Bfihew2YyDz2KKLX0gBLZ+8DwPrqSGAzaxMESFu44LN+0+/dET4C5Imghw844yJx
-nyiFbbZ8IvNA7/oYuIi2RhTpfPH7tl0CCW+n8FOrfsdd3g6jBCxaE5/b2o1wl+0m
-6sLv30oNGJynX11AJWTE1yZ9IaFbd5ZuI3dF7tLbXVujkJpNDO4vIVB5lP2IA0Ey
-qGZJFDiIN4BfX/mnw5X2OVoqxB9vph1CYq3zfLPuSIB4QvzMNGqdu7FSlZOo75pO
-15DtHO86WezLy1MT+DuUTiWMXnTCpspd95YivglWYzsmHI8Q/RZ9swF+RiqkSTJQ
-dKmQdfZCbzmM+4UENwcUt1jnTY6t1iD1It3TFHvwNG6/hT5NKs4VNbgwBmdOMwdW
-MQPsZJp+D3RuP9VhydLuXV1Ox3BA5jHiG4xlOVFRQ1YeUHG9ntuk3NjWR8k4NQBx
-lAcGCouA3c5mKKczYNT6UYi9YwSg/VVCQ2/j+7OjqMokZpU1h6Tv5ZD2ljchodah
-A6dEjoWvePqM+nX3D60M7Da2WBvHuQ4wevU4z/h0rd1Y3i85Vj0b8VTetZAzPgb1
-TUsVC55sIjmQqoRw1mEStPpDAQccvR2PoYfHow4BGb6MZz996R4Sfj5q2Xjd2UPM
-xuIapAHy4jGTiyC8wQqZt0yHrZn17FUi6NOu6bRiZp4mgKtqx8malzjtrSdTM9J/
-DD9Xs8IoRc9j2YiBpp/SFuuzPiqkXzyZKBG3ytBMaFPZpQOiyu/H9ttRVtcV2bly
-d8m/X8BUIv+lvcuJ/zzi52z9RKguCKkA2madzQAfkoxPpuZJtbkSCbUVgSQkXmT+
-54V3qfh1v0jZ1hCTXcpT3pJ0vrWw0n+5JLudAnJLotMMTFUONpbW36oZjOYIHUWc
-d+BE3p75ozlhBi+B9Fn4GZeReujFEeHroe941tMtin5LqHcieY/5e3dSb/m5Vtkv
-Cv4ZjSKDOjNO0ZycD46O7ZSn3ZikK66EV6xNpVxJrECHykj0+Hhb7Nd9SsdFfEdx
-Ud/5TFpPPrMoOLfVFLBx5qr0DfPZFfQWNAsYm9xC473Db0JT8ZSy8brzpyggv4WF
-osXnaWsEAdTATIb4DqZGEJAzA2KMlHBXdGTlo22+PR/omn1k35OjEEGoX5cq3URM
-lXEOKFYv0maji0qrT5rmo3H9mQIUmhQ076B0XevtAzUmGg/4y77aNJc7Y+nKc/SW
-6WQXQ9bvSwQgit75KxXrO1+ful961qUS7BNbavDupT7ijYf9nTzX/xpI3WrNofGE
-1zhogYxcIAFcPmXRmzuPz3nZkN7G0r5n8eJs7JVw2PdTI76Wz9QTQxE1qzOdMZ4R
-XA23LXeXCVdzLWhyWiaWRW35HD1x1yvi6GLK/2wCWXhEreBKz590CnudMcMGRF9e
-eZ8Eg2MaMMeZ4o8KTA29jAWBSARAP11nHN9J4ZgaUJZ+9SyDnqy2udpTMgk8tA1D
-dybTEMZq8lCCMpQa30ZZ9VQK0RkmNauxl2f3A8l2ybUEm0zj6BMZDwWv80nrfLav
-X/xerkfnkkDoC9ltStrRAP+JnVlNA5Mc+shdpRf/LHssjUVdd8noxipQ9OlsbOp7
-kiDV73akIi2Qkjd0k5PBA5NbsWu1LtlMipGeLQ04J5op4N5BaX7LUJcOmAD+EsBy
-B6VwwgIaGpR/oIuXo6peFvjMS/oWP3JDL+TvH4tZDK5SzOIk2kc+bDuooRAdxfRH
-xEIUzU+2ir+rAziUGwzYp9xuGkEb4agjwjVHWeuiOJJJXMyphnJ41UKZsjzC4rup
-3Wpw35KyC/7+pGv2jREZRVq8I3XAt4xXJnjx4oRFoTcT4JYAUdtvLdSCCE5Bl5Zg
-sSY6W2UleDRsDvIOUElaAJMIvk3Iz9WPUmnKle1qkGISmgXf9gua4i9LM9wx6nhc
-miy/dWsm6FenxF5STE1QFecT4jjTjO9b3iSq1GoCZw4MLG7Qy+42XjEobgChbk2Y
-8hxT9GuC3lrvOFCU/fP2QbrtJaTOZGV4UReL5q/c1inWsLilt1cedjkSpekg9JdX
-qlXe1I3VSdwzJrBnbH4bmc7MSMxYFdyQ2kzjHJ9KfFI6ophi4pZv1NVAAsZAOV44
-ArPu6wV27BmHiD7OYxriLkUJfEKbTqwD+BR6QppsL2jPe9K/d2QDN6iF5EmXFHzD
-WllDg2rNPxPozdH5wkEcZ/JgNLhe/LrH3zW9MHWI0dyHNcG8/XkEwgpfg3AI6qvD
-X4eDO50L5R13FHG1prHJauYNOI9JufBhGDPsba239oBEJ4PiHr52m0Yc6bDnwqVo
-GCiAkPE6083nRw6LHelg5M0uACLsMJEpez1QMkzg3w634l0bKjCwX/qDruDh0bxh
-TPb2z5R+siFqhGGp1UdR8oGM7gi9WXl5UA4nxGlaqmXDcI+U9Zc7EENn3YtwHS2r
-A0TvkhcV5J4BGmNw8hGVCvx6D16oi+FmEjWG1sLdf9qn9BBM6nQ34+SzFOQZJpOY
-Q2hQcfzjY/YpltGyiJy5Z43to6IoWgKs6fPlRZzsJdDpERjVNT8QKLzOJ1Ses8Y0
-RhPhXdKN/XlAconGv3lU4wOGxDIZ4pzWpZQbvGLZ/2PR6bXbGwA4ulUZDAqmMJVY
-Ls8Rt7VDO+ezpxCKvH8hgQ==
+-- 迁移 0066：凭证红冲蛇形列 reversed_by / reversed_at 确权
+--
+-- ═══════════════ 背景（已据线上真实库澄清，修正审计报告 DB-007 的错误前提）═══════════════
+-- 审计报告 DB-007 原论断：「迁移 0064 误删了蛇形列 reversed_by / reversed_at，
+--   导致红冲流程写这两列时因列不存在而 500，需本迁移补建」。
+--
+-- 线上真实库查证结论（推翻原论断）：
+--   1) 生产 vouchers 表**已存在** snake 列 reversed_by / reversed_at（共 30 列，含该两列）；
+--   2) 迁移 0064 仅 DROP 了 9 个**驼峰坏列**（totalDebit/totalCredit/createdBy/reviewedBy/
+--      reviewedAt/postedBy/postedAt/reversedBy/reversedAt），从未触及 snake 列；
+--   3) snake 列 reversed_by/reversed_at 实际由最早的 0007 建表语句（当时为驼峰写法，
+--      后该建表文件被改写为蛇形，但已落地的生产库保留了蛇形列）遗留并保留至今；
+--   4) 端点 functions/api/vouchers/index.ts 与 [id].ts 的字段映射
+--      reversedBy→reversed_by、reversedAt→reversed_at 均正确，
+--      validateOrReject('vouchers',…) 对该两列放行（reversed_by 未在 FIELD_SCHEMA 登记、
+--      reversed_at 为 date 类型且接受 ISO 时间戳），不会 500。
+--
+-- 因此「红冲因缺列而 500」的根因**不成立**：当前生产库列齐全、映射正确、校验放行，
+--   红冲流程不会再因缺列触发 500。若线上仍能复现 500，需另查（请提供复现步骤）。
+--
+-- ═══════════════ 本迁移的处置 ═══════════════
+-- 原 ALTER TABLE … ADD COLUMN reversed_by / reversed_at 在线上会因「列已存在」直接报错
+--   （duplicate column name: reversed_by），导致 `d1 migrations apply` 中断、连累 0067
+--   唯一索引迁移无法下发。
+-- 既然列已存在、且 0007 建表已保证其存在（对全新库亦如此），本迁移**不再重复建列**，
+--   仅作为「确权/记录」占位，把自身登记进 schema_migrations 以解除部署阻塞，
+--   使后续的 0067 唯一索引迁移得以正常 apply。
+--
+-- 注：本迁移编号取当前最大迁移号 +1（0065 已被 consolidation_multi_ledger 占用）。
+
+-- ── 幂等守卫（仅登记，不做任何 DDL）────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0066_vouchers_reversed_cols', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

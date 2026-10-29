@@ -1,58 +1,63 @@
-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
+// GET /api/vendors/pending-approvals — 待审核供应商列表
+//
+// P0-4（V3.113.3）：前端 src/services/vendor.ts 的 getPendingApprovals() 一直调用本端点，
+//   但后端从未实现 → 界面调用必然 404，供应商审核模块整体不可用。
+//   本端点同时返回**门户账号表**（vendors）里的自助注册申请 —— 那是「注册后无法登录」的根因所在。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardOperation } from '../../_shared/operationGuard';
+import { formatVendorRow, normalizeVendorStatus } from '../../_shared/vendorApproval';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'read', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  const db = env.DB;
+
+  // ① 主数据表：待审核（registered / pending）
+  const masterRows = await db.prepare(
+    `SELECT * FROM vendor_master WHERE org_id = ? AND status IN ('registered','pending') ORDER BY created_at ASC`
+  ).bind(user.org_id).all();
+
+  // ② 门户账号表：自助注册后写死 pending 的申请（两表 id 不一致，按 vendor_code 并入）
+  const accountRows = await db.prepare(
+    `SELECT * FROM vendors WHERE org_id = ? AND status IN ('registered','pending') ORDER BY created_at ASC`
+  ).bind(user.org_id).all();
+
+  const masterCodes = new Set((masterRows.results || []).map((r: any) => r.vendor_code));
+  const merged: any[] = [...(masterRows.results || [])];
+
+  for (const a of (accountRows.results || [])) {
+    // 同一 vendor_code 已在主数据表 → 不重复展示（以主数据行为准）
+    if (masterCodes.has(a.vendor_code)) continue;
+    merged.push({
+      ...a,
+      id: a.id,
+      vendor_code: a.vendor_code,
+      company_name: a.company_name,
+      status: normalizeVendorStatus(a.status),
+      contact_name: a.contact_name,
+      contact_phone: a.contact_phone,
+      contact_email: a.contact_email,
+      address: a.address,
+      created_at: a.created_at,
+      updated_at: a.created_at,
+      // 标记来源，便于界面区分「主数据待审」与「门户自助注册待审」
+      __source: 'vendor_portal_register',
+    });
+  }
+
+  const data = merged.map((r: any) => ({
+    ...formatVendorRow(r),
+    // 门户注册行缺主数据列，给出安全默认值，避免界面 undefined
+    type: r.type || 'trader',
+    creditLimit: r.credit_limit ?? 0,
+    usedCredit: r.used_credit ?? 0,
+    __source: r.__source || 'vendor_master',
+  }));
+
+  return json(data);
+}

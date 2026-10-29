@@ -1,191 +1,283 @@
-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
+-- 迁移 0101（全模块联动审计整改·V3.77 数据地基）
+-- 将审计发现的本地孤岛 store 迁为 D1 关系表（统一 payload 列范式）。
+-- 后端通用实体路由 /api/entities/<resource> 提供 CRUD + org 隔离 + RLS + 审计。
+-- 前端 store 保留原有方法名，内部改走 entityRepo（本地乐观更新 + 登录态写穿 + 未登录种子兜底）。
+
+-- ecns
+CREATE TABLE IF NOT EXISTS ecns (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- production_versions
+CREATE TABLE IF NOT EXISTS production_versions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- production_ecns
+CREATE TABLE IF NOT EXISTS production_ecns (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- price_inquiries
+CREATE TABLE IF NOT EXISTS price_inquiries (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- price_quotations
+CREATE TABLE IF NOT EXISTS price_quotations (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- price_comparisons
+CREATE TABLE IF NOT EXISTS price_comparisons (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- price_approvals
+CREATE TABLE IF NOT EXISTS price_approvals (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- price_lists
+CREATE TABLE IF NOT EXISTS price_lists (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- coa_reports
+CREATE TABLE IF NOT EXISTS coa_reports (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- vendor_portals
+CREATE TABLE IF NOT EXISTS vendor_portals (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- sales_prices
+CREATE TABLE IF NOT EXISTS sales_prices (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- material_extensions
+CREATE TABLE IF NOT EXISTS material_extensions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- quality_extensions
+CREATE TABLE IF NOT EXISTS quality_extensions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- material_approvals
+CREATE TABLE IF NOT EXISTS material_approvals (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- finance_extensions
+CREATE TABLE IF NOT EXISTS finance_extensions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- system_settings
+CREATE TABLE IF NOT EXISTS system_settings (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- report_permissions
+CREATE TABLE IF NOT EXISTS report_permissions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- data_permissions
+CREATE TABLE IF NOT EXISTS data_permissions (
+  -- id/org/审计列（与通用实体端点一致；presentCols 探测写，缺列不 500）
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（根治 Blob 双通道，落真实 D1）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+
+-- system_users（设置侧用户目录，与鉴权 users 表解耦，根治本地孤岛 P0-2）
+CREATE TABLE IF NOT EXISTS system_users (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- system_orgs（设置侧组织目录，与鉴权 orgs 表解耦，根治本地孤岛 P0-2）
+CREATE TABLE IF NOT EXISTS system_orgs (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);

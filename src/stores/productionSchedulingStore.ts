@@ -1,102 +1,116 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import { entityRepo } from '@/services/entityRepo';
+import type { ScheduleLock } from '@/types/production';
+
+const STORE_KEY = 'ssa-erp-scheduling';
+
+export type SchedulingMode = 'forward' | 'backward';
+
+export interface ConflictInfo {
+  workCenter: string;
+  date: string;
+  orderIds: string[];
+  loadPercent: number;
+  suggestionMoveDays: number;
+}
+
+export interface RescheduleResult {
+  timestamp: string;
+  mode: SchedulingMode;
+  resolvedCount: number;
+  remainingConflicts: ConflictInfo[];
+}
+
+interface SchedulingState {
+  locks: Record<string, ScheduleLock>;
+  /** P1-20 排程模式偏好：正排(forward) / 倒排(backward) */
+  schedulingMode: SchedulingMode;
+  /** P1-20 最近一次重排结果 */
+  lastRescheduleResult: RescheduleResult | null;
+  toggleLock: (key: string) => void;
+  setAnchor: (key: string, date: string) => void;
+  clearAnchor: (key: string) => void;
+  setSchedulingMode: (mode: SchedulingMode) => void;
+  setRescheduleResult: (result: RescheduleResult) => void;
+  /** V3.66.0 P1-1：启动时从 D1 scheduling_locks 水合（主源 = D1，多用户排产共享；本地 Blob 降为离线兜底） */
+  hydrateLocks: () => Promise<void>;
+}
+
+// ── V3.66.0 P1-1：排程锁 D1 化（每把锁一行，lock_key = `${workOrderId}:${operationId}` 自然键）──
+const packLockRow = (l: ScheduleLock) => ({ id: l.key, lockKey: l.key, locked: l.locked ? 1 : 0, anchorDate: l.anchorDate });
+const unpackLockRow = (r: any): ScheduleLock => ({ key: r.lockKey || r.id, locked: !!r.locked, anchorDate: r.anchorDate || undefined });
+
+export const useProductionSchedulingStore = create<SchedulingState>()(
+  persist(
+    (set) => ({
+      locks: {},
+      schedulingMode: 'forward',
+      lastRescheduleResult: null,
+
+      toggleLock: (key) =>
+        set((s) => {
+          const existing = s.locks[key];
+          const next: ScheduleLock = existing
+            ? { ...existing, locked: !existing.locked }
+            : { key, locked: true };
+          // V3.66.0 P1-1：排程锁同步 D1（多用户共享；upsert 幂等）
+          entityRepo.update('schedulingLock', key, packLockRow(next)).catch(() => {});
+          return { locks: { ...s.locks, [key]: next } };
+        }),
+      setAnchor: (key, date) =>
+        set((s) => {
+          const existing = s.locks[key];
+          const next: ScheduleLock = existing ? { ...existing, anchorDate: date } : { key, locked: false, anchorDate: date };
+          entityRepo.update('schedulingLock', key, packLockRow(next)).catch(() => {});
+          return { locks: { ...s.locks, [key]: next } };
+        }),
+      clearAnchor: (key) =>
+        set((s) => {
+          const existing = s.locks[key];
+          if (!existing) return s;
+          const { anchorDate: _omit, ...rest } = existing;
+          void _omit;
+          entityRepo.update('schedulingLock', key, { ...packLockRow(rest), anchorDate: null }).catch(() => {});
+          return { locks: { ...s.locks, [key]: rest } };
+        }),
+      setSchedulingMode: (mode) => set({ schedulingMode: mode }),
+      setRescheduleResult: (result) => set({ lastRescheduleResult: result }),
+
+      // V3.66.0 P1-1：排程锁水合（D1 主源；空库回填本地 lock，之后 CRUD 经 D1 同步）
+      hydrateLocks: async () => {
+        try {
+          const res = await entityRepo.list<any>('schedulingLock', { page: 1, pageSize: 500 });
+          const rows: any[] = res?.data || [];
+          if (rows.length === 0) {
+            const local = useProductionSchedulingStore.getState().locks;
+            for (const key of Object.keys(local)) {
+              try { await entityRepo.create('schedulingLock', packLockRow(local[key]) as any); } catch { /* 冲突忽略 */ }
+            }
+            const refreshed = await entityRepo.list<any>('schedulingLock', { page: 1, pageSize: 500 });
+            const r2: any[] = refreshed?.data || [];
+            if (r2.length) set({ locks: Object.fromEntries(r2.map((r) => { const l = unpackLockRow(r); return [l.key, l]; })) });
+            return;
+          }
+          set({ locks: Object.fromEntries(rows.map((r) => { const l = unpackLockRow(r); return [l.key, l]; })) });
+        } catch {
+          /* 离线/异常：保留本地 Blob 副本（persist 水合结果），不阻断 */
+        }
+      },
+    }),
+    { storage: backendStorage,
+
+      name: STORE_KEY,
+      version: 3,
+      partialize: (state) => ({
+        locks: state.locks,
+        schedulingMode: state.schedulingMode,
+        lastRescheduleResult: state.lastRescheduleResult,
+      }),
+    },
+  ),
+);
+
+// ── V3.66.0 P1-1：启动水合排程锁（D1 主源，与 qualityStore 同款顶层触发）──
+void useProductionSchedulingStore.getState().hydrateLocks();

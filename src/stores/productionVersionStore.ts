@@ -1,165 +1,210 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { ProductionVersion, ECN } from '@/types/production';
+import { useBOMStore } from './bomStore';
+
+/**
+ * 生产版本 + 生产域 ECN store（V3.77.0 P0-1：Blob → D1 关系表）
+ *
+ * 整改前：persist(backendStorage, 'ssa-erp-prod-versions') 纯本地。
+ * 整改后：versions → production_versions（资源 productionVersion）；
+ *   ecns（生产域 ECN）→ production_ecns（资源 productionEcn）；
+ *   均迁移 0101、rls 'all'。登录态 D1 权威源 + 水合；未登录种子兜底。
+ *   releaseECN 切换关联 BOM 版本并生效（沿用既有联动）。
+ *   linkChange/unlinkChange 镜像写物料域 EngineeringChange.linkedEcnIds（落 D1）。
+ */
+
+const VER_RES = 'productionVersion';
+const ECN_RES = 'productionEcn';
+
+const seedVersions: ProductionVersion[] = [
+  {
+    id: 'pv-001',
+    version: 'V1.0',
+    materialId: 'mat-001',
+    materialCode: 'PRD-FRAME-001',
+    materialName: '重型钢结构焊接架 H1200',
+    bomId: 'bom-001',
+    bomNo: 'BOM-2024-001',
+    routeId: 'route-001',
+    routeNo: 'R-2024-001',
+    status: 'active',
+    effectiveDate: '2026-01-01',
+    createdAt: '2026-01-01T08:00:00.000Z',
+    updatedAt: '2026-01-01T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+];
+
+const seedECNs: ECN[] = [
+  {
+    id: 'ecn-001',
+    changeNo: 'ECN-2026-001',
+    title: '焊接架结构加强',
+    reason: '客户反馈承重不足，增加加强筋工序',
+    materialId: 'mat-001',
+    materialCode: 'PRD-FRAME-001',
+    materialName: '重型钢结构焊接架 H1200',
+    bomId: 'bom-001',
+    bomNo: 'BOM-2024-001',
+    oldVersion: 'V2.0',
+    newVersion: 'V2.1',
+    effectiveDate: '2026-08-01',
+    status: 'draft',
+    createdAt: '2026-07-10T08:00:00.000Z',
+    updatedAt: '2026-07-10T08:00:00.000Z',
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+];
+
+interface ProductionVersionState {
+  versions: ProductionVersion[];
+  ecns: ECN[];
+  addVersion: (v: ProductionVersion) => void;
+  updateVersion: (id: string, patch: Partial<ProductionVersion>) => void;
+  deleteVersion: (id: string) => void;
+  addECN: (e: ECN) => void;
+  updateECN: (id: string, patch: Partial<ECN>) => void;
+  deleteECN: (id: string) => void;
+  /** 发布 ECN：切换关联 BOM 至新版本并生效 */
+  releaseECN: (id: string) => void;
+  /**
+   * P0-4（V3.74.0）：把生产域 ECN 挂到物料域工程变更上，双向落库。
+   * 与 ecnStore.linkEcn 等价（对侧镜像写 EngineeringChange.linkedEcnIds），任选其一调用即可。
+   */
+  linkChange: (ecnId: string, changeId: string) => Promise<void>;
+  /** P0-4（V3.74.0）：解除上述关联，同样双向生效 */
+  unlinkChange: (ecnId: string, changeId: string) => Promise<void>;
+  /** V3.77.0：从 D1 水合 */
+  hydrateProductionVersion: () => Promise<void>;
+}
+
+function parsePayload<T>(rows: any[]): T[] {
+  return (rows || []).map((r: any) => (typeof r?.payload === 'string' ? JSON.parse(r.payload) : r?.payload)) as T[];
+}
+
+export const useProductionVersionStore = create<ProductionVersionState>()((set, get) => ({
+  versions: seedVersions.map((v) => ({ ...v })),
+  ecns: seedECNs.map((e) => ({ ...e })),
+
+  addVersion: (v) => {
+    set((s) => ({ versions: [...s.versions, v] }));
+    if (isAuthed()) void entityRepo.create(VER_RES, { payload: v } as any).catch(() => {});
+  },
+  updateVersion: (id, patch) => {
+    let updated: ProductionVersion | undefined;
+    set((s) => ({
+      versions: s.versions.map((v) => {
+        if (v.id !== id) return v;
+        updated = { ...v, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update(VER_RES, id, { payload: updated } as any).catch(() => {});
+  },
+  deleteVersion: (id) => {
+    set((s) => ({ versions: s.versions.filter((v) => v.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(VER_RES, id).catch(() => {});
+  },
+
+  addECN: (e) => {
+    set((s) => ({ ecns: [...s.ecns, e] }));
+    if (isAuthed()) void entityRepo.create(ECN_RES, { payload: e } as any).catch(() => {});
+  },
+  updateECN: (id, patch) => {
+    let updated: ECN | undefined;
+    set((s) => ({
+      ecns: s.ecns.map((e) => {
+        if (e.id !== id) return e;
+        updated = { ...e, ...patch, updatedAt: new Date().toISOString() };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update(ECN_RES, id, { payload: updated } as any).catch(() => {});
+  },
+  deleteECN: (id) => {
+    set((s) => ({ ecns: s.ecns.filter((e) => e.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(ECN_RES, id).catch(() => {});
+  },
+
+  releaseECN: (id) => {
+    const ecn = get().ecns.find((e) => e.id === id);
+    if (!ecn) return;
+    // 联动 BOM 版本切换
+    useBOMStore.getState().updateBOM(ecn.bomId, {
+      version: ecn.newVersion,
+      status: 'released',
+      effectiveDate: ecn.effectiveDate,
+    });
+    get().updateECN(id, { status: 'released', releasedAt: new Date().toISOString() } as Partial<ECN>);
+  },
+
+  linkChange: async (ecnId, changeId) => {
+    const peer = get().ecns.find((e) => e.id === ecnId);
+    if (!peer) return;
+    get().updateECN(ecnId, {
+      linkedChangeIds: [...new Set([...(peer.linkedChangeIds || []), changeId])],
+    } as Partial<ECN>);
+    // 镜像对侧（动态 import 打破静态循环；对侧落 D1）
+    const { useECNStore } = await import('./ecnStore');
+    const target = useECNStore.getState().ecns.find((e) => e.id === changeId);
+    if (target && !(target.linkedEcnIds || []).includes(ecnId)) {
+      useECNStore.getState().updateECN(changeId, {
+        linkedEcnIds: [...(target.linkedEcnIds || []), ecnId],
+      });
+    }
+  },
+
+  unlinkChange: async (ecnId, changeId) => {
+    const peer = get().ecns.find((e) => e.id === ecnId);
+    if (peer) {
+      get().updateECN(ecnId, {
+        linkedChangeIds: (peer.linkedChangeIds || []).filter((x) => x !== changeId),
+      } as Partial<ECN>);
+    }
+    const { useECNStore } = await import('./ecnStore');
+    const target = useECNStore.getState().ecns.find((e) => e.id === changeId);
+    if (target) {
+      useECNStore.getState().updateECN(changeId, {
+        linkedEcnIds: (target.linkedEcnIds || []).filter((x) => x !== ecnId),
+      });
+    }
+  },
+
+  hydrateProductionVersion: async () => {
+    if (!isAuthed()) return;
+    try {
+      const vRes = await entityRepo.list<ProductionVersion>(VER_RES, { page: 1, pageSize: 500 });
+      const vRows = parsePayload<ProductionVersion>(vRes?.data || []);
+      const eRes = await entityRepo.list<ECN>(ECN_RES, { page: 1, pageSize: 500 });
+      const eRows = parsePayload<ECN>(eRes?.data || []);
+      // 版本回填
+      if (vRows.length === 0) {
+        for (const v of seedVersions) { try { await entityRepo.create(VER_RES, { payload: v } as any); } catch {} }
+        const rf = await entityRepo.list<ProductionVersion>(VER_RES, { page: 1, pageSize: 500 });
+        const v2 = parsePayload<ProductionVersion>(rf?.data || []);
+        if (v2.length) { /* below set */ } else { /* keep seed */ }
+        if (v2.length) set({ versions: v2 });
+      } else {
+        set({ versions: vRows });
+      }
+      // ECN 回填
+      if (eRows.length === 0) {
+        for (const e of seedECNs) { try { await entityRepo.create(ECN_RES, { payload: e } as any); } catch {} }
+        const rf = await entityRepo.list<ECN>(ECN_RES, { page: 1, pageSize: 500 });
+        const e2 = parsePayload<ECN>(rf?.data || []);
+        if (e2.length) set({ ecns: e2 });
+      } else {
+        set({ ecns: eRows });
+      }
+    } catch {
+      // 离线/异常：保留种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底，登录态从 D1 拉取）
+void useProductionVersionStore.getState().hydrateProductionVersion();

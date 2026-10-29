@@ -1,114 +1,155 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import { entityRepo } from '@/services/entityRepo';
+import { RebateRule, RebateSettlement } from '@/types/sales';
+
+interface RebateState {
+  rules: RebateRule[];
+  settlements: RebateSettlement[];
+
+  // 规则 CRUD
+  addRule: (rule: Omit<RebateRule, 'id'>) => void;
+  updateRule: (id: string, patch: Partial<RebateRule>) => void;
+  deleteRule: (id: string) => void;
+
+  // 结算 CRUD
+  addSettlement: (settlement: Omit<RebateSettlement, 'id'>) => void;
+  updateSettlement: (id: string, patch: Partial<RebateSettlement>) => void;
+  deleteSettlement: (id: string) => void;
+
+  // 计算返利
+  calculateRebate: (ruleId: string, baseAmount: number) => number;
+  /** V3.66.0 P1-2：启动时从 D1 rebate_rules/rebate_settlements 水合（主源 = D1，本地 Blob 降为离线兜底） */
+  hydrateRebate: () => Promise<void>;
+}
+
+const genId = () => `reb-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+const seedRules: RebateRule[] = [
+  {
+    id: 'rule-001',
+    name: '年度返利-宝钢',
+    customerId: 'cust-001',
+    customerName: '上海宝钢商贸',
+    type: 'percent',
+    rate: 3,
+    minAmount: 500000,
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    enabled: true,
+  },
+  {
+    id: 'rule-002',
+    name: '季度返利-鞍钢',
+    customerId: 'cust-002',
+    customerName: '鞍山钢铁贸易',
+    type: 'fixed',
+    rate: 50,
+    minAmount: 200000,
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    enabled: true,
+  },
+  {
+    id: 'rule-003',
+    name: '物料返利-冷轧板',
+    materialId: 'mat-001',
+    materialName: '冷轧板 SPCC 1.0',
+    type: 'percent',
+    rate: 2,
+    minAmount: 100000,
+    validFrom: '2026-07-01',
+    validTo: '2026-12-31',
+    enabled: true,
+  },
+];
+
+export const useRebateStore = create<RebateState>()(
+  persist(
+    (set, get) => ({
+      rules: seedRules,
+      settlements: [],
+
+      addRule: (rule) => {
+        const r = { ...rule, id: genId() };
+        set((s) => ({ rules: [...s.rules, r] }));
+        // V3.66.0 P1-2：返利规则同步 D1（财务返利计提可按行引用；失败静默不阻断）
+        entityRepo.create('rebateRule', { ...r, enabled: r.enabled ? 1 : 0 } as any).catch(() => {});
+      },
+      updateRule: (id, patch) => {
+        set((s) => ({
+          rules: s.rules.map((r) => (r.id === id ? { ...r, ...patch } : r)),
+        }));
+        entityRepo.update('rebateRule', id, patch as any).catch(() => {});
+      },
+      deleteRule: (id) => {
+        set((s) => ({
+          rules: s.rules.filter((r) => r.id !== id),
+        }));
+        entityRepo.remove('rebateRule', id).catch(() => {});
+      },
+
+      addSettlement: (settlement) => {
+        const st = { ...settlement, id: genId() };
+        set((s) => ({ settlements: [...s.settlements, st] }));
+        entityRepo.create('rebateSettlement', st as any).catch(() => {});
+      },
+      updateSettlement: (id, patch) => {
+        set((s) => ({
+          settlements: s.settlements.map((st) => (st.id === id ? { ...st, ...patch } : st)),
+        }));
+        entityRepo.update('rebateSettlement', id, patch as any).catch(() => {});
+      },
+      deleteSettlement: (id) => {
+        set((s) => ({
+          settlements: s.settlements.filter((st) => st.id !== id),
+        }));
+        entityRepo.remove('rebateSettlement', id).catch(() => {});
+      },
+
+      calculateRebate: (ruleId, baseAmount) => {
+        const rule = get().rules.find((r) => r.id === ruleId);
+        if (!rule) return 0;
+        if (rule.minAmount && baseAmount < rule.minAmount) return 0;
+        if (rule.type === 'percent') {
+          return Math.round(baseAmount * rule.rate / 100 * 100) / 100;
+        }
+        return rule.rate;
+      },
+
+      // V3.66.0 P1-2：返利台账水合（D1 主源；空库回填本地 seed，之后 CRUD 经 D1 同步）
+      hydrateRebate: async () => {
+        try {
+          const [ruleRes, stlRes] = await Promise.all([
+            entityRepo.list<any>('rebateRule', { page: 1, pageSize: 500 }),
+            entityRepo.list<any>('rebateSettlement', { page: 1, pageSize: 500 }),
+          ]);
+          const rows: any[] = ruleRes?.data || [];
+          if (rows.length === 0) {
+            // D1 空库：本地 seed 回填一次
+            for (const r of seedRules) {
+              try { await entityRepo.create('rebateRule', { ...r, enabled: r.enabled ? 1 : 0 } as any); } catch { /* 冲突忽略 */ }
+            }
+            const refreshed = await entityRepo.list<any>('rebateRule', { page: 1, pageSize: 500 });
+            set({ rules: ((refreshed?.data || []) as any[]).map((r) => ({ ...r, enabled: !!r.enabled })) });
+            return;
+          }
+          set({
+            rules: rows.map((r) => ({ ...r, enabled: !!r.enabled })),
+            settlements: (stlRes?.data || []) as RebateSettlement[],
+          });
+        } catch {
+          /* 离线/异常：保留本地 Blob 副本（persist 水合结果），不阻断 */
+        }
+      },
+    }),
+    { storage: backendStorage,
+     name: 'ssa-erp-rebate',
+     version: 2,
+     partialize: (state) => ({ rules: state.rules, settlements: state.settlements }) }
+  )
+);
+
+// ── V3.66.0 P1-2：启动水合返利台账（D1 主源，与 qualityStore 同款顶层触发）──
+void useRebateStore.getState().hydrateRebate();

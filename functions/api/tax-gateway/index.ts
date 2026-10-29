@@ -1,141 +1,176 @@
-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
-3BvUE1Q1wrb5xtjeLClNGw==
+// POST /api/tax-gateway/config — 金税系统配置管理
+// GET /api/tax-gateway/config — 获取当前配置（脱敏）
+
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+
+  const config = await env?.TAX_GATEWAY?.get('config');
+  if (!config) return json({ success: true, data: null, message: '未配置' });
+
+  // 脱敏返回
+  const parsed = JSON.parse(config);
+  return json({
+    success: true,
+    data: {
+      provider: parsed.provider || 'manual',
+      providerName: getProviderName(parsed.provider),
+      apiKey: parsed.apiKey ? parsed.apiKey.slice(0, 6) + '****' : '',
+      hasSecret: !!parsed.apiSecret,
+      dailyQuota: parsed.dailyQuota || 0,
+      usedToday: parsed.usedToday || 0,
+      lastCheckAt: parsed.lastCheckAt,
+    },
+  });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ success: false, error: '请求体格式错误' }, 400);
+  }
+
+  const { provider, apiKey, apiSecret, dailyQuota } = body;
+
+  if (!['etoplive', 'lskj', 'manual'].includes(provider)) {
+    return json({ success: false, error: '不支持的查验服务' }, 400);
+  }
+
+  // 保存配置（密钥加密存储）
+  const config = {
+    provider,
+    apiKey: encryptApiKey(apiKey || ''),
+    apiSecret: apiSecret ? encryptApiKey(apiSecret) : '',
+    dailyQuota: dailyQuota || 1000,
+    usedToday: 0,
+    updatedAt: new Date().toISOString(),
+    updatedBy: user.id,
+  };
+
+  // V3.3.0：KV 绑定缺失时给出可读提示，而不是抛 `Cannot read properties of undefined`
+  //   变成原始 500。读路径一直用的是 `env?.TAX_GATEWAY?.get`（安全），
+  //   写路径却直接 `env.TAX_GATEWAY.put`——在「KV 尚未绑定」阶段（数电票真实通道
+  //   待密钥，见主计划 §七）会直接炸成 500，管理员只能看到一句技术错误。
+  if (!env?.TAX_GATEWAY) {
+    return json(
+      {
+        success: false,
+        error: '税务网关存储尚未绑定（KV 命名空间 TAX_GATEWAY），暂时无法保存配置。'
+          + '启用数电票真实核验需先在部署环境绑定该命名空间并填入服务商密钥。',
+        code: 'KV_UNBOUND',
+      },
+      503,
+    );
+  }
+
+  await env.TAX_GATEWAY.put('config', JSON.stringify(config), {
+    expirationTtl: 86400 * 365, // 1年
+  });
+
+  // 审计：税务网关配置变更
+  // V3.3.0（评测 L-05 整改）暴露并修复的真实缺陷：
+  //   原先直插 (operator, details, ip_address) 三列，而这三列在 audit_logs 表中
+  //   并不存在（真实结构见迁移 0039：id/org_id/user_id/user_name/action/entity/
+  //   entity_id/summary/created_at/diff）。因此该语句必然报 no such column: operator；
+  //   又因为此处没有 try/catch，会造成「KV 已写入成功、接口却返回 500」——
+  //   管理员看到保存失败、实际配置已生效，属于典型的「状态与反馈不一致」。
+  //   现统一走 writeAudit：列结构由统一入口保证，失败也走降级通道而非炸掉请求。
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'tax_gateway',
+    action: 'tax_config_update',
+    summary: `更新税务网关配置：服务商=${provider}，日配额=${dailyQuota || 1000}`,
+    diff: {
+      provider,
+      quota: dailyQuota || 1000,
+      ip: request.headers.get('x-forwarded-for') || '',
+    },
+  });
+
+  return json({ success: true, message: '配置已保存' });
+}
+
+export async function onRequestDelete(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  if (user.role !== 'admin') return json({ error: '需要管理员权限' }, 403);
+
+  // V3.3.0：与 POST 同理——KV 未绑定时给出可读提示，而非原始 500
+  if (!env?.TAX_GATEWAY) {
+    return json(
+      {
+        success: false,
+        error: '税务网关存储尚未绑定（KV 命名空间 TAX_GATEWAY），无需清除。',
+        code: 'KV_UNBOUND',
+      },
+      503,
+    );
+  }
+
+  // 清空前先取原服务商（用于审计摘要，绝不取密钥值）
+  const prev = await env?.TAX_GATEWAY?.get('config');
+  let prevProvider = '未配置';
+  try { prevProvider = prev ? String(JSON.parse(prev).provider || '未配置') : '未配置'; } catch {}
+  await env.TAX_GATEWAY.delete('config');
+  // SEC-002 收口：清除税务网关配置（含 apiKey/apiSecret）是凭据销毁动作，必须留痕
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'tax_gateway',
+    action: 'tax_config_delete',
+    summary: `清除税务网关配置（原服务商=${prevProvider}，含 API 密钥一并删除；密钥值不记录）`,
+  });
+  return json({ success: true, message: '配置已清除' });
+}
+
+// GET /api/tax-gateway/quota — 查询今日配额
+export async function onRequestQuota(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const config = await env?.TAX_GATEWAY?.get('config');
+  if (!config) return json({ success: false, error: '未配置金税网关' });
+
+  const parsed = JSON.parse(config);
+  return json({
+    success: true,
+    data: {
+      provider: parsed.provider,
+      dailyQuota: parsed.dailyQuota || 1000,
+      usedToday: parsed.usedToday || 0,
+      remaining: (parsed.dailyQuota || 1000) - (parsed.usedToday || 0),
+      lastCheckAt: parsed.lastCheckAt,
+    },
+  });
+}
+
+function getProviderName(provider: string): string {
+  const names: Record<string, string> = {
+    etoplive: '易通发票查验',
+    lskj: '乐税科技',
+    manual: '手动模式（无API）',
+  };
+  return names[provider] || provider;
+}
+
+// 简单混淆（生产环境应使用真正加密）
+function encryptApiKey(key: string): string {
+  if (!key) return '';
+  // 实际应使用 AES-256 加密，这里仅作演示
+  return btoa(key);
+}

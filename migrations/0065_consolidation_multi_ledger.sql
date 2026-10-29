@@ -1,99 +1,99 @@
-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
+-- V3.13.0 C2 基础：组织集团化 + 多账簿 + 合并报表底座
+-- ── 设计要点 ───────────────────────────────────────────────────────
+-- 合并报表/多账簿的"地基"此前完全缺位：
+--   · orgs 表是扁平单组织（只有 id/name/company_code/created_at），
+--     集团公司-子公司层级只存在于前端 orgStore 的 Blob 种子里，后端无数据。
+--   · 凭证只有 currency，没有"账套/账簿"维度 —— 同一笔业务无法分别记到
+--     法定账套与管理账套。
+-- 本迁移只做"数据底座 + 维度"，不动任何既有业务逻辑：
+--   · orgs 加层级字段（parent_id/org_type/ledger_code/currency/group_id），
+--     并把既有组织归到以其自身 id 命名的默认集团（group_id 兜底），保证不破坏现状。
+--   · vouchers/voucher_items 加 ledger_book（默认 '0000' 法定账套），
+--     既有凭证一律归入法定账套，行为不变。
+--   · 新建 4 张合并域表（账簿定义/合并范围/抵消规则/合并结果快照）。
+-- 列注释统一用 '--'（规则 ⑱：'//' 会让 apply 报 syntax error）。
+
+-- ① orgs 加集团化层级字段（均为可空或带默认值，不破坏既有行）
+ALTER TABLE orgs ADD COLUMN parent_id TEXT;
+ALTER TABLE orgs ADD COLUMN org_type TEXT NOT NULL DEFAULT 'company';
+ALTER TABLE orgs ADD COLUMN ledger_code TEXT;
+ALTER TABLE orgs ADD COLUMN currency TEXT NOT NULL DEFAULT 'CNY';
+ALTER TABLE orgs ADD COLUMN group_id TEXT;
+
+-- 既有组织兜底：group_id 为空的组织归入以其自身 id 命名的默认集团，
+-- ledger_code 取 company_code，便于后续"同集团跨组织合并"直接可用。
+UPDATE orgs SET
+  group_id = 'GRP-' || id,
+  org_type = COALESCE(org_type, 'company'),
+  ledger_code = COALESCE(ledger_code, company_code),
+  currency = COALESCE(currency, 'CNY')
+WHERE group_id IS NULL;
+
+-- ② vouchers / voucher_items 加"账簿(账套)"维度
+ALTER TABLE vouchers ADD COLUMN ledger_book TEXT NOT NULL DEFAULT '0000';
+ALTER TABLE voucher_items ADD COLUMN ledger_book TEXT NOT NULL DEFAULT '0000';
+
+-- ③ 账簿定义表：一个组织可有多套账（法定/管理/税务…）
+CREATE TABLE ledger_books (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  ledger_code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL DEFAULT 'legal',   -- legal=法定 / management=管理 / tax=税务
+  base_currency TEXT NOT NULL DEFAULT 'CNY',
+  description TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE UNIQUE INDEX uniq_ledger_books_org_code ON ledger_books(org_id, ledger_code);
+
+-- ④ 合并范围（集团）：成员组织以 JSON 数组存放于 member_org_ids
+CREATE TABLE consolidation_groups (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  member_org_ids TEXT NOT NULL DEFAULT '[]',   -- JSON 数组，存组织 id
+  base_currency TEXT NOT NULL DEFAULT 'CNY',
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE UNIQUE INDEX uniq_consolidation_groups_org_code ON consolidation_groups(org_id, code);
+
+-- ⑤ 内部交易抵消规则：合并时抵消"应收 vs 应付"等内部往来
+CREATE TABLE elimination_rules (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  description TEXT,
+  receivable_account TEXT NOT NULL,   -- 内部往来资产方科目（如 应收账款）
+  payable_account TEXT NOT NULL,       -- 内部往来负债方科目（如 应付账款）
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE UNIQUE INDEX uniq_elimination_rules_org_code ON elimination_rules(org_id, code);
+
+-- ⑥ 合并结果快照：合并试算平衡 + 抵消明细序列化为 JSON 落库，便于复看
+CREATE TABLE consolidation_runs (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  group_id TEXT NOT NULL,
+  scope TEXT NOT NULL DEFAULT 'books',   -- books=同组织跨账簿 / group=跨组织集团
+  period TEXT,
+  base_currency TEXT NOT NULL DEFAULT 'CNY',
+  generated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  result_json TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX idx_consolidation_runs_org ON consolidation_runs(org_id, group_id, period);

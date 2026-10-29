@@ -1,75 +1,91 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { MaterialChangeDoc, MaterialChangeField, MaterialChangeAffected } from '@/types';
+import { useBOMStore } from './bomStore';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const today = () => new Date().toISOString().slice(0, 10);
+
+interface MaterialExtensionState {
+  changeDocs: MaterialChangeDoc[];
+
+  addChangeDoc: (doc: MaterialChangeDoc) => void;
+  updateChangeDoc: (id: string, u: Partial<MaterialChangeDoc>) => void;
+  deleteChangeDoc: (id: string) => void;
+  // 便捷：记录一次物料变更（评估类/价控/工厂维度等）
+  logMaterialChange: (params: {
+    materialId: string; materialCode: string; materialName: string;
+    changeType: MaterialChangeDoc['changeType']; fields: MaterialChangeField[];
+    reason: string; operator?: string;
+  }) => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateMaterialExtension: () => Promise<void>;
+}
+
+const RES = 'materialExtension';
+
+export const useMaterialExtensionStore = create<MaterialExtensionState>()((set) => ({
+  changeDocs: [],
+
+  addChangeDoc: (doc) => {
+    set((s) => ({ changeDocs: [...s.changeDocs, doc] }));
+    if (isAuthed()) writeRow(RES, doc.id, doc);
+  },
+  updateChangeDoc: (id, u) => {
+    let updated: MaterialChangeDoc | undefined;
+    set((s) => ({
+      changeDocs: s.changeDocs.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, updated);
+  },
+  deleteChangeDoc: (id) => {
+    set((s) => ({ changeDocs: s.changeDocs.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  logMaterialChange: (params) => {
+    set((s) => {
+      const doc: MaterialChangeDoc = {
+        id: uid('mcd'),
+        changeNo: `MCD-${today().replace(/-/g, '')}-${s.changeDocs.length + 1}`,
+        materialId: params.materialId,
+        materialCode: params.materialCode,
+        materialName: params.materialName,
+        changeType: params.changeType,
+        fields: params.fields,
+        reason: params.reason,
+        operator: params.operator || '当前用户',
+        // P1-16 反查：本物料作为子件出现于哪些 BOM（非破坏补强，仅 BOM 维度，供变更记录反查下游）
+        affectedObjects: useBOMStore.getState().bomList
+          .filter((b) => (b.items || []).some((it) => it.materialId === params.materialId))
+          .map((b) => ({ type: 'bom' as const, id: b.id, no: b.bomNo })),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        createdBy: params.operator || '当前用户',
+        updatedBy: params.operator || '当前用户',
+      };
+      if (isAuthed()) writeRow(RES, doc.id, doc);
+      return { changeDocs: [...s.changeDocs, doc] };
+    });
+  },
+
+  hydrateMaterialExtension: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<MaterialChangeDoc>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<MaterialChangeDoc>(res?.data || []);
+      if (rows.length) set({ changeDocs: rows });
+    } catch {
+      // 离线/异常：保留本地态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useMaterialExtensionStore.getState().hydrateMaterialExtension();

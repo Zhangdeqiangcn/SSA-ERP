@@ -1,45 +1,82 @@
-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
+-- V3.66.0 页面级联动审计 P1 关系化（多终端不可见 → 多用户共享真源）：
+-- ① scheduling_locks：详细工序排程锁（工单:工序 维度锁/手工锚定开始日，Record 形式一行一锁）
+-- ② rebate_rules / rebate_settlements：返利规则与结算（财务返利计提可按行引用）
+-- ③ sales_contracts：销售合同（履约跟踪/回款计划；items/付款计划/附件封 extra_json）
+-- 设计取舍：嵌套明细（合同 items/paymentSchedule/附件）封 extra_json（框架自动 JSON 序列化），
+-- 与 V3.63/64 退货/质量/框架协议范式一致，不改框架。
+
+CREATE TABLE IF NOT EXISTS scheduling_locks (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  lock_key TEXT NOT NULL,
+  locked INTEGER DEFAULT 1,
+  anchor_date TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE (org_id, lock_key)
+);
+
+CREATE TABLE IF NOT EXISTS rebate_rules (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  name TEXT,
+  customer_id TEXT,
+  customer_name TEXT,
+  material_id TEXT,
+  material_name TEXT,
+  type TEXT,
+  rate REAL DEFAULT 0,
+  min_amount REAL,
+  valid_from TEXT,
+  valid_to TEXT,
+  enabled INTEGER DEFAULT 1,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS rebate_settlements (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  rule_id TEXT,
+  rule_name TEXT,
+  customer_id TEXT,
+  customer_name TEXT,
+  period TEXT,
+  base_amount REAL DEFAULT 0,
+  rebate_amount REAL DEFAULT 0,
+  status TEXT,
+  settled_at TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS sales_contracts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  contract_no TEXT,
+  name TEXT,
+  customer_id TEXT,
+  customer_name TEXT,
+  customer_code TEXT,
+  sales_person TEXT,
+  amount REAL DEFAULT 0,
+  start_date TEXT,
+  end_date TEXT,
+  status TEXT,
+  terms TEXT,
+  remarks TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);

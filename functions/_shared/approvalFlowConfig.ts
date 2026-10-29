@@ -1,158 +1,125 @@
-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
+// 审批流域父子表配置（C1 · V3.10.0）
+//
+// 一张配置驱动 /api/approval-flows 两个端点，实际 CRUD 逻辑在
+// `_shared/parentChild.ts`（通用父子表助手）。
+//
+// ── 列名来源 ────────────────────────────────────────────────────
+// 全部列名由 `src/stores/approvalFlowStore.ts` 的 ApprovalFlowConfig /
+// ApprovalNode / ConditionGroup / SkipRule / EscalationRule 接口反推
+// （snake_case），**不按「审批流应该长什么样」推断**。
+// 这条纪律来自 0053 的教训：按常识推断列名会让表与前端契约对不上，
+// 而通用路由 pickSnake 会静默丢弃未登记字段、仍返回 201 成功。
+//
+// ── ★ 本域的新问题：子表行内也有嵌套 ────────────────────────────
+// 前四个域里嵌套只在「父表带子数组」这一层。审批流不同：
+// **每个节点（子表的一行）自己还带嵌套对象与字符串数组**。
+//   · conditions      : ConditionGroup（对象：{ logic, conditions[] }，两层）
+//   · skipRule        : SkipRule（对象：{ when: ConditionGroup, action }）
+//   · escalation      : EscalationRule（对象：{ timeout, escalateTo, ... }）
+//   · approverRoles   : UserRole[]（字符串数组）
+//   · approverUserIds : string[]（字符串数组）
+//   · fields          : string[]（该步骤可编辑的业务字段，字符串数组）
+// 全部走**子表 JSON 文本列**（ChildSpec.jsonCols，本版新增能力）。
+//
+// 为什么不给它们建子表：
+//   · conditions 里的 ApprovalCondition[] 是「条件组的内部结构」，
+//     脱离所属节点没有任何意义，建表后每次读取都要按节点再聚合一次，
+//     只是把 JSON 换了张表放，没有带来任何查询能力。
+//   · fields 是「字段名列表」，建表会得到「每行一个字段名」的空壳。
+//
+// ── 为什么 status 与 enabled 必须如实存 ─────────────────────────
+// 实测发现生产库里 13 条流程的 `status` 全是 'system'，而代码默认值里
+// **没有这个字段** —— 它是 persist 的 migrate（v1→v2）补上的标志位。
+// 这提醒一件事：`status` 决定流程是否生效（ACTIVE_STATUSES 白名单），
+// 不能因为「看起来都是 system」就不存。存下来才能让
+// draft / pending / published 三个自定义流程状态真实落地。
+import type { ParentChildConfig } from './parentChild';
+
+/**
+ * 审批流：父 approval_flows + 子 approval_flow_nodes
+ *
+ * ★ 冲突提示字段的取舍（noSnake / noCamel 都取 `module`）：
+ *   本域的 UNIQUE 约束实际落在 `id` 上，而 `id` 就是业务标识
+ *   （默认流程 `sales_order`，自定义流程 `custom-1712345678-123`）。
+ *   提示语里用哪个？
+ *     · 用 `id`   → 自定义流程会显示 `custom-1712345678-123`，人看不懂；
+ *     · 用 `module` → 显示 `sales_order` 或用户填的模块标识，可辨认。
+ *   两者对默认流程恰好同值，对自定义流程 `module` 才是有意义的那一个。
+ *   因此取 `module`：**提示的目标是「让人知道哪条记录撞了」，
+ *   而不是「复述主键」**。`moduleLabel` 看似更友好，但自定义流程允许留空，
+ *   空提示比编号更难用，故不取。
+ */
+export const APPROVAL_FLOW_PC: ParentChildConfig = {
+  parentTable: 'approval_flows',
+  // ★ V3.48.0 止血②：改为独立模块 'approval'（不再用 '*'）。审批流定义是「公司级公共配置」（RLS='all'），
+  //   组织内业务运维角色可协作「改」，但「新建/删除」仍归管理员（BUILTIN_ROLE_OPS 里 approval 只授 read+update），
+  //   纯只读角色保持锁死。此前用 '*' 做业务模块，把协作写误指向"只有特权角色"，
+  //   打断了守护套件 21「同组织他人可改公共审批流」的既定语义（V3.47.0 引入 2 条回归），在此修回。
+  module: 'approval',
+  children: [
+    {
+      childTable: 'approval_flow_nodes',
+      childFkCol: 'flow_id',
+      childField: 'nodes',
+      childCols: [
+        // ★ 这里**刻意没有 `seq` 列**（第一版写过，已删）。
+        //   原因：前端 ApprovalNode 契约里没有 seq 字段（只有 order），
+        //   而 childCols 的取值逻辑是 `obj[camel]` —— 写 ['seq','seq']
+        //   会永远取到 undefined、永远不写入，成为一条「表里有列、
+        //   代码以为在用、实际恒定 0」的死列。更坏的是它会让
+        //   childOrder 看起来像两级排序（seq ASC, node_order ASC），
+        //   让后来的人误以为存在一个前端可控的次级顺序。
+        //   节点的顺序号只有一个来源：node_order。
+        ['name', 'name'],
+        ['role', 'role'],
+        ['role_name', 'roleName'],
+        ['condition', 'condition'],
+        ['timeout', 'timeout'],
+        // ★ 前端字段名就是 `order`，而 order 是 SQL 保留字（ORDER BY），
+        //   直接建列名会到处要加引号。因此列名取 node_order，camel 名保持 order
+        //   —— 接口形状不变是硬要求，改的是存储形态。
+        ['node_order', 'order'],
+        ['approver_type', 'approverType'],
+        ['mode', 'mode'],
+        ['optional', 'optional'],
+      ],
+      // ★ 子表 JSON 列（本版新增能力）：这些字段是节点私有的嵌套结构/数组
+      jsonCols: [
+        ['conditions', 'conditions'],          // ConditionGroup 对象
+        ['skip_rule', 'skipRule'],             // SkipRule 对象（当前数据未用，但用户可配）
+        ['escalation', 'escalation'],          // EscalationRule 对象
+        ['approver_roles', 'approverRoles'],   // UserRole[] 字符串数组
+        ['approver_user_ids', 'approverUserIds'], // string[] 字符串数组
+        ['fields', 'fields'],                  // string[] 字符串数组
+      ],
+      // 按节点顺序读回：审批步骤的先后本身就是业务语义，
+      // 顺序错了「先财务后总经理」会变成「先总经理后财务」。
+      childOrder: 'node_order ASC',
+    },
+  ],
+  parentCols: [
+    ['module', 'module'],
+    ['module_label', 'moduleLabel'],
+    ['enabled', 'enabled'],
+    ['profile', 'profile'],
+    ['status', 'status'],
+    ['created_by', 'createdBy'],
+    // ★ createdAt 必须登记（第一版漏了）——
+    //   `addCustomFlow` 会 `createdAt: new Date().toISOString()`，
+    //   若这里不登记，它既不写库也不回读：自定义流程建完、刷新页面，
+    //   创建时间就变成 undefined。这与 V3.9.0 销售域「字段只进 jsonCols
+    //   没进 parentCols」是同一类错误的另一副面孔 ——
+    //   那次的根因是要求两处手动对齐，这次的根因是「凭印象挑字段」。
+    //   核对方式：把 parentCols 与 ApprovalFlowConfig 的字段名逐个对上，
+    //   而不是凭「哪些看起来重要」来写。
+    ['created_at', 'createdAt'],
+    ['approved_by', 'approvedBy'],
+    ['approved_at', 'approvedAt'],
+    ['description', 'description'],
+  ],
+  // 字符串数组：无 id、无属性、不参与 SQL 统计 → 父表 JSON 文本列
+  jsonCols: [['visible_roles', 'visibleRoles']],
+  label: '审批流',
+  noSnake: 'module',
+  noCamel: 'module',
+};

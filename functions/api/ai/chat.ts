@@ -1,99 +1,131 @@
-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
+// POST /api/ai/chat — AI对话接口
+import { getUserFromRequest, json } from '../../_shared/auth';
+// V3.5.0 B6：补齐写审计。本端点不写业务表，但它会把用户输入**发往公司外部**的
+//   大模型服务 —— 属于「数据出境」行为，从合规角度必须能回答
+//   「谁在什么时候把哪些内容发到了哪个服务商」。故只记元信息，不记对话内容本身
+//   （对话内容可能含商业敏感信息，把它抄进审计表等于又泄露一次）。
+import { writeAudit } from '../../_shared/auditLog';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ success: false, error: '请求格式错误' }, 400);
+  }
+
+  const { messages, modelId, systemPrompt } = body;
+
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return json({ success: false, error: '消息不能为空' }, 400);
+  }
+
+  // 读取模型配置（从KV存储）
+  const modelKey = `ai_model_${modelId || 'default'}`;
+  const modelConfig = await env.AI_MODELS?.get(modelKey);
+  
+  if (!modelConfig) {
+    return json({ 
+      success: false, 
+      error: '模型配置未找到，请先在设置中配置AI模型' 
+    }, 404);
+  }
+
+  let config: any;
+  try {
+    config = JSON.parse(modelConfig);
+  } catch {
+    return json({ success: false, error: '模型配置格式错误' }, 500);
+  }
+
+  // 构建请求体（兼容OpenAI格式）
+  const apiMessages = [
+    { role: 'system', content: systemPrompt || '你是一名专业的ERP系统AI助手。' },
+    ...messages.map((m: any) => ({
+      role: m.role,
+      content: m.content,
+    })),
+  ];
+
+  try {
+    // 调用上游API
+    const response = await fetch(`${config.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${config.apiKey}`,
+      },
+      body: JSON.stringify({
+        model: config.modelId,
+        messages: apiMessages,
+        temperature: 0.7,
+        max_tokens: 2000,
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      return json({ 
+        success: false, 
+        error: `API请求失败: ${response.status} - ${errText}` 
+      }, response.status);
+    }
+
+    const data: any = await response.json();
+
+    // B6 审计：记录「谁把多少内容发给了哪个模型」。刻意不记录对话正文与模型回复 ——
+    //   审计表的读者范围大于一次对话，把正文抄进去会造成二次扩散。
+    //   需要的是可追溯的元信息：发起人、服务商、模型、消息条数、字符总量。
+    const inputChars = apiMessages.reduce(
+      (n: number, m: any) => n + String(m.content ?? '').length, 0);
+    await writeAudit(env.DB, {
+      orgId: user.org_id ?? null,
+      actor: { id: user.id, name: user.name || user.username },
+      entity: 'ai_chat',
+      entityId: config.modelId || 'unknown',
+      action: 'invoke',
+      summary:
+        `调用大模型（服务商：${config.provider || '-'}；模型：${config.modelId || '-'}）：` +
+        `发出 ${apiMessages.length} 条消息、约 ${inputChars} 字` +
+        `（提示：内容已发往公司外部服务，审计仅记录元信息，不记录对话正文）`,
+    });
+
+    return json({
+      success: true,
+      content: data.choices?.[0]?.message?.content || '',
+      usage: data.usage,
+      model: config.modelId,
+    });
+  } catch (error: any) {
+    return json({ 
+      success: false, 
+      error: error.message || '请求失败' 
+    }, 500);
+  }
+}
+
+// GET 返回可用模型列表（不含密钥）
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  // 返回预置模板信息
+  return json({
+    success: true,
+    providers: [
+      { id: 'openai', name: 'OpenAI', examples: ['gpt-4o', 'gpt-4-turbo'] },
+      { id: 'deepseek', name: 'DeepSeek', examples: ['deepseek-chat', 'deepseek-coder'] },
+      { id: 'zhipu', name: '智谱AI', examples: ['glm-4-plus', 'glm-4'] },
+      { id: 'moonshot', name: 'Kimi', examples: ['kimi-k2-turbo-preview'] },
+      { id: 'siliconflow', name: 'SiliconFlow', examples: ['deepseek-ai/DeepSeek-V3'] },
+      { id: 'agnes', name: 'Agnes AI', examples: ['agnes-2.5-flash'] },
+      { id: 'custom', name: '自定义', examples: [] },
+    ],
+  });
+}

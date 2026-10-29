@@ -1,45 +1,50 @@
-U2FsdGVkX1/do6g2C5Wicnd+m2ZeZueVo3qWnBzSdRN0BRQ32Z30GA7JXz+ZMdr4
-GM0GQ8AoLPaquS+Kskw4s8bACpznxhFBLGTnqw0tFL+wJOt6P1l4DE6J2txgcXDL
-EzDdTRYe4zCdMeIhcgJ+zKAjPJ288PrEf/2TMeO81qJEmuqIhbPDa7o6v1Gcezdq
-Dd7bx4PVePJuHKJnETt/HI8rkec8hlefluxx2PXG4usP89WBnBax+ALmEE+yt1Mm
-gQbbP3qJdHUr/e3k4ENildyr+1wpyLkO4F2ajnVhSJp6dFjv92oC5XaGe54b6pcV
-JS5EMXEXgy8ABN3XdCDTn1/oEFPQ36zOuP0Lu7UzgXLANpGO2pviPVFSrKlIN3Dw
-JGCOnMyVDpsw15kXjNOpRdsPZ5K4OeqneklffMW2AT6oVTnRkWfYy6YFjolUOVDg
-2MxClik7sf5UTSgigXHXZgOT7KjYQmGJzX7609TcxToUZZ/iOPtsVQ6631tUIsP/
-+yOiCma+i/86OjeZIdecynLeteBRRhYi7HGEQiN83K2NCXpqREMg7LWparR/Jfyv
-rGT2nhf9PbwHQJc9rNVQ4cJWokT5XYUtFE5mqXTVAetnRmCuJ/kssmeDNeubATrK
-2MBmT+DMS6rsz+qVVmYAzmzXmEKqtL1H8Yr7DhsrEhPdILS1Y9zpZA3pjMzBL4BX
-5RTNkMhPoKVqqSskvugMJ9Dm2Hn2XKdpzAbeNSjmOwlDHvItw59cD3KwNOTl2fTm
-pp8mmezLZ09bvaA1UoQB+t5ouQzB/QMStFCpjDS3LVu3xlkoD4ZiQYpSIeKDrouz
-Eqp6K8ykjPheZ108oDnTRg6P+sAANmWxwfBW0R4+KQUK9kgq1UfMp9tZh+Ewpitl
-1b45NyIGgZlb4KvLK2iB+w/KypelQmaYnqoWOJFlc7T1SyicQBRce3uZ0QtzvsOf
-NlSLI9zb/FyYVTe6+iShKqI4uLM55sp+xJVKURruaWmXjnA9k7fntnAkHcgPbF3j
-u9VfTlIOVrLE3IYzhNtZQonEgqFDL7fXCLa1Vzfwbba1YHM3esmtd8mV5VaHhoZX
-BfGyWosdgT9B68aHc1ucbBjo45k7ViqaDLuV07FYU7xo6MJ2dhaHRA0ZNGhKPLf6
-Ep/4majCvTaaB+WZsZoH50GpDz0QxT9sxvXoWXcjPTkCGQvqevQoP21C93AbHAdp
-ajZCRvVv5KaiDo7MtDPdGxfApUm0ZTjtoyr4tkaQEiF7JFWYrUTRD/PLjWsabYH/
-R19FLtL3b07+GWoNg5qvZDBCKWcmwEACLMp+D5JZpyrBLm3A168TTSdi9WIuVplc
-ZO0yp/700Gl29l6U0DqvRFiwfljlikO9J2X9dXuRSJ4MfvneaT17pupWhermrFSW
-1tCew+6uzEAizchlwUzGQ6P4s20G7y4dvvf11X9pdFU7Ygg5/AkCgK4L+cjkv4lw
-vZ+cqx9DxR2qAd1J8MSJLlUnkpsbrrlTexxGOO/Vbpm2FTy1yakb61xDwW10DCHy
-DsiTPZTZe0Q3vC5Tpt3juoOFApm4MWucSmyG3NcFJt4id8QQOe39v8QHvdW5oqem
-PZQz5UTE4fDGZIbf4tQNxE2dUiXLooFvJfpZ0VA6bEVQ7w46Fu/UKib/RJHYtKkA
-wnMXSFFMft8V4tD6I+m5MEdeNPMU0YiLKtvXzWGfohcYnoUphRe42uD20789729x
-5cE5BYrwyCGhhNkTaop3XPwF/aD4vOcy7TycWI1UhIUqRhgnyFIh3zL00HWx/3av
-/jKZPCOV8V03Tiky/XX1ERPRPuFB0B2eUwNmHQVH+l6ePTaPWkAJIO17MuzfOXNy
-fJ0KHM0baNRg7dFs9qXwZpRU/x9VI4eRD8fEVn3JobUS3Ig1UEPMNg1xaxrE2fok
-2sDzeGiYG64HjUlHYXl/bmdgsS7eKcAT3DOjpvGtK5p6f9SbGZzeJt/SdSlmQF/C
-z7bCvEy9848+A9Mx9zBqtU83U/P5NzwmrUi6rwz6v3tuFZZMCZMYz/ZJ+GUvGV41
-VgFxWLf/5+fmo/2pdA2i8op6adbeXaX8tHhwK2OOTYUF8MioIhlTs/hrRwelI9og
-qp9V6j7dLUbInu5YyvLz1HRatcfpDxbYEaJNf5NObHGYnFMyWDCNtilIQdeNRTY7
-OFesnzhMFwBUkGtQW1GFCVe4IUOFy0C8OxY0LxfizwiZqxtrnZi58ZVXRUjY3s5g
-FJCmJ/sEyb+ovyXL48rQsBfXwoHJFyAosM2YNlo8W/+4T/wgodXjmcR8PPUq6fH6
-glXQzuoT8olmWUKjG4panL+ALyKIvTr6p2y2jLcDg90gu41h2ahyjWmPhLLqqTLF
-f66cPSQFLXWAEsxbc/xnweVrWx3dxHudCFmKac20iqCY9rhkzsQnBi/Y4f5ryljQ
-rNB+6m66bLsP0L446yuiMyCVvuXVdDANALZle7v2XmOvb/Q2y5o8g7rapec4cIBN
-KZ5iQdPqaaraogsd8ZM9TkKUZXiaQc3i3Lz6Lm2+UERG8V+7AP5ew5P9MN5qU7wn
-9CTv6ag9Nf76FecqHq9z3U6UM0pGwOo6sUIVk4tillFWuLi74KgqG7R4CPPN3xbm
-LLYv9kzxFMNmo2kYLxy11okI2GlqVN4uHSakynDUAEHImvMe4efeCa8CoaASEJCw
-QlXEE9XP4fD44FXbCwgrc3AykigNFgmM1+KVAc8F/zzPIV2jG5GzHKldIQw1lDBG
-ewmY0VCMNpqwLd+tTg5Sjq0aAEXZEUeAhG9qq2yE2tM+txfF3GTjBStlRly/ivul
-vzwmsCiCuDigS36cZBNvJA==
+// BOM 域 API 服务层（V3.6.0 C1 数据关系化样板）
+//
+// 为什么单独一个文件而不是塞进 apiService.ts：
+//   apiService.ts 的 BOM 段是「内存 store 的门面」（它读 useBOMStore.getState()），
+//   属于假后端。C1 要让 BOM 的数据主源真正变成 D1，新旧两套语义混在一个文件里
+//   会让「哪一段在说真话」不可判断。故新开文件，并把 apiService.ts 的 BOM 段
+//   改为转发到本模块，使「唯一权威实现」只有一处。
+//
+// 与 plannedOrderApi 同样的温和 401 策略（见 plannedOrderApi 文件头说明）：
+//   api.ts 的响应拦截器在 401 时会强制跳登录页；BOM 页可能正处在编辑中，
+//   强制跳转会丢失用户输入。故这里对失败采取「返回空 / 抛出可读错误」策略，
+//   由 store 层决定回退（本地缓存）还是提示。
+import apiClient from './api';
+import type { BOMHeader, BOMItem } from '@/types/bom';
+
+/** 后端返回的分页信封（与通用实体路由保持一致） */
+export interface BomListResult {
+  data: BOMHeader[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export interface BomListParams {
+  page?: number;
+  pageSize?: number;
+  keyword?: string;
+  productCode?: string;
+  status?: string;
+}
+
+export const bomApi = {
+  /** 列表（表头 + 嵌套明细，后端已组装好 items） */
+  list: (params?: BomListParams) => apiClient.get<BomListResult>('/bom', { params }),
+
+  /** 单条（含明细） */
+  get: (id: string) => apiClient.get<BOMHeader>(`/bom/${id}`),
+
+  /** 创建（表头 + 明细一次性写入） */
+  create: (bom: Partial<BOMHeader> & { items?: BOMItem[] }) =>
+    apiClient.post<BOMHeader>('/bom', bom),
+
+  /** 更新（只改传了的字段；传 items 则整体替换明细，不传则明细不变） */
+  update: (id: string, updates: Partial<BOMHeader>) =>
+    apiClient.put<BOMHeader>(`/bom/${id}`, updates),
+
+  /** 删除（连带明细） */
+  remove: (id: string) => apiClient.delete<{ success: boolean; deletedItems: number }>(`/bom/${id}`),
+};

@@ -1,229 +1,302 @@
-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
-pNIymcrDOmIdj5SwpehHFQ==
+import { create } from 'zustand';
+import { authHeaders } from '@/utils/authHeaders';
+import { hasSession } from '@/stores/persistStorage';
+import type {
+  ApprovalInstance,
+  ApprovalActionRow,
+  ApprovalDelegate,
+} from '@/types/approval';
+
+/**
+ * 审批实例 store（V3.17.9 修复差距 9/10/11）
+ * ------------------------------------------------------------
+ * 数据源：D1（/api/approval-instances、/api/approval-delegates）。
+ * **刻意不用 zustand persist**：审批实例是「跨人的协作数据」，
+ * 放进浏览器本地存储会造成两个后果 ——
+ *   ① 换了设备就看不到别人提交给我审批的单子；
+ *   ② 撤回/催办会产生「本地改了、服务端没改」的分歧。
+ * 这与差距16「数据双通道残留」是同一类问题，新代码不再新增一条通道。
+ *
+ * 未登录时的行为（铁律⑫）：不发起任何业务请求，直接返回空结果。
+ */
+
+const BASE = '/api';
+
+async function req<T>(path: string, init?: RequestInit): Promise<{ ok: boolean; data?: T; error?: string; status: number }> {
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      ...init,
+      headers: authHeaders({
+        ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
+        ...((init?.headers as Record<string, string>) || {}),
+      }),
+    });
+    const text = await res.text();
+    let payload: any = null;
+    try { payload = text ? JSON.parse(text) : null; } catch { payload = null; }
+    if (!res.ok) {
+      return { ok: false, status: res.status, error: payload?.error || `请求失败（HTTP ${res.status}）` };
+    }
+    return { ok: true, status: res.status, data: payload };
+  } catch (e: any) {
+    return { ok: false, status: 0, error: e?.message || '网络异常' };
+  }
+}
+
+/** 服务端下划线字段 → 前端驼峰（新字段只在这两处加，不要散落到组件里） */
+function toInstance(r: any): ApprovalInstance {
+  return {
+    id: r.id,
+    flowId: r.flow_id ?? undefined,
+    module: r.module,
+    entityId: r.entity_id,
+    entityNo: r.entity_no ?? undefined,
+    title: r.title ?? undefined,
+    submitterId: r.submitter_id ?? undefined,
+    submitterName: r.submitter_name ?? undefined,
+    status: r.status,
+    totalNodes: Number(r.total_nodes) || 0,
+    currentNodeOrder: Number(r.current_node_order) || 0,
+    currentNodeName: r.current_node_name ?? undefined,
+    currentApproverId: r.current_approver_id ?? undefined,
+    currentApproverName: r.current_approver_name ?? undefined,
+    originalApproverId: r.original_approver_id ?? undefined,
+    submittedAt: r.submitted_at,
+    finishedAt: r.finished_at ?? undefined,
+    withdrawnAt: r.withdrawn_at ?? undefined,
+    withdrawnBy: r.withdrawn_by ?? undefined,
+    withdrawReason: r.withdraw_reason ?? undefined,
+    urgeCount: Number(r.urge_count) || 0,
+    lastUrgedAt: r.last_urged_at ?? undefined,
+    version: Number(r.version) || 1,
+  };
+}
+
+function toDelegate(r: any): ApprovalDelegate {
+  return {
+    id: r.id,
+    delegatorId: r.delegator_id,
+    delegatorName: r.delegator_name ?? undefined,
+    delegateId: r.delegate_id,
+    delegateName: r.delegate_name ?? undefined,
+    module: r.module ?? null,
+    startDate: r.start_date,
+    endDate: r.end_date,
+    reason: r.reason ?? undefined,
+    active: Number(r.active) || 0,
+    effective: !!r.effective,
+    createdAt: r.created_at,
+  };
+}
+
+function toAction(r: any): ApprovalActionRow {
+  return {
+    id: r.id,
+    instanceId: r.instance_id,
+    action: r.action,
+    nodeOrder: r.node_order ?? undefined,
+    nodeName: r.node_name ?? undefined,
+    actorId: r.actor_id ?? undefined,
+    actorName: r.actor_name ?? undefined,
+    targetId: r.target_id ?? undefined,
+    targetName: r.target_name ?? undefined,
+    comment: r.comment ?? undefined,
+    createdAt: r.created_at,
+  };
+}
+
+interface ActionFeedback {
+  ok: boolean;
+  error?: string;
+}
+
+interface SubmitInput {
+  module: string;
+  entityId: string;
+  entityNo?: string;
+  title?: string;
+  flowId?: string;
+  totalNodes?: number;
+  nodeOrder?: number;
+  nodeName?: string;
+  approverId?: string | null;
+  approverName?: string | null;
+  comment?: string;
+}
+
+interface ApprovalInstanceState {
+  loading: boolean;
+  lastError: string | null;
+  /** 待我处理（含「别人委托给我的」） */
+  pendingForMe: ApprovalInstance[];
+  /** 我提交的（用于撤回 / 催办） */
+  submittedByMe: ApprovalInstance[];
+  /** 走了委托、落到我头上的（界面标注「代 XX 审批」） */
+  delegatedToMe: ApprovalInstance[];
+  /** 我作为受委托人，代理了谁 */
+  delegators: Array<{ delegatorId: string; delegatorName: string; module: string | null }>;
+  /** 我委托出去的 */
+  myDelegates: ApprovalDelegate[];
+  /** 别人委托给我的 */
+  incomingDelegates: ApprovalDelegate[];
+  loadedAt: number | null;
+
+  loadAll: (opts?: { silent?: boolean }) => Promise<void>;
+  /** 按 模块+单据 找到对应实例（用于把业务单据和它的审批过程对上） */
+  byEntity: (module: string, entityId: string) => ApprovalInstance | undefined;
+  fetchActions: (instanceId: string) => Promise<ApprovalActionRow[]>;
+
+  submitApproval: (input: SubmitInput) => Promise<ActionFeedback & { id?: string }>;
+  approve: (id: string, opts?: { comment?: string; nextNodeName?: string; nextApproverId?: string | null; nextApproverName?: string | null; version?: number }) => Promise<ActionFeedback>;
+  reject: (id: string, comment?: string, version?: number) => Promise<ActionFeedback>;
+  withdraw: (id: string, reason?: string, version?: number) => Promise<ActionFeedback>;
+  urge: (id: string, comment?: string) => Promise<ActionFeedback>;
+
+  createDelegate: (input: { delegateId: string; delegateName?: string; module?: string | null; startDate: string; endDate: string; reason?: string }) => Promise<ActionFeedback>;
+  revokeDelegate: (id: string) => Promise<ActionFeedback>;
+  deleteDelegate: (id: string) => Promise<ActionFeedback>;
+}
+
+export const useApprovalInstanceStore = create<ApprovalInstanceState>()((set, get) => ({
+  loading: false,
+  lastError: null,
+  pendingForMe: [],
+  submittedByMe: [],
+  delegatedToMe: [],
+  delegators: [],
+  myDelegates: [],
+  incomingDelegates: [],
+  loadedAt: null,
+
+  loadAll: async (opts) => {
+    // 未登录不发业务请求：审批是私有协作数据，匿名拉取只会得到 401 噪音
+    let hasToken = false;
+    try { hasToken = hasSession(); } catch { /* ignore */ }
+    if (!hasToken) {
+      set({ pendingForMe: [], submittedByMe: [], delegatedToMe: [], delegators: [], myDelegates: [], incomingDelegates: [], loadedAt: Date.now() });
+      return;
+    }
+
+    if (!opts?.silent) set({ loading: true });
+    try {
+      const [pending, submitted, delegated, out, incoming] = await Promise.all([
+        req<any>('/approval-instances?view=pending'),
+        req<any>('/approval-instances?view=submitted'),
+        req<any>('/approval-instances?view=delegated'),
+        req<any>('/approval-delegates?view=out'),
+        req<any>('/approval-delegates?view=in'),
+      ]);
+
+      if (!pending.ok) {
+        set({ lastError: pending.error || '审批实例加载失败', loading: false });
+        return;
+      }
+
+      set({
+        pendingForMe: (pending.data?.data || []).map(toInstance),
+        submittedByMe: (submitted.data?.data || []).map(toInstance),
+        delegatedToMe: (delegated.data?.data || []).map(toInstance),
+        delegators: pending.data?.delegators || [],
+        myDelegates: (out.data?.data || []).map(toDelegate),
+        incomingDelegates: (incoming.data?.data || []).map(toDelegate),
+        lastError: null,
+        loading: false,
+        loadedAt: Date.now(),
+      });
+    } catch (e: any) {
+      set({ lastError: e?.message || '审批实例加载失败', loading: false });
+    }
+  },
+
+  byEntity: (module, entityId) => {
+    const { pendingForMe, submittedByMe, delegatedToMe } = get();
+    return [...pendingForMe, ...submittedByMe, ...delegatedToMe]
+      .find((i) => i.module === module && i.entityId === entityId);
+  },
+
+  fetchActions: async (instanceId) => {
+    const r = await req<any>(`/approval-instances/${instanceId}`);
+    if (!r.ok) return [];
+    return (r.data?.data?.actions || []).map(toAction);
+  },
+
+  submitApproval: async (input) => {
+    const r = await req<any>('/approval-instances', {
+      method: 'POST',
+      body: JSON.stringify(input),
+    });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true, id: r.data?.data?.id };
+  },
+
+  approve: async (id, opts) => {
+    const r = await req<any>(`/approval-instances/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ action: 'approve', ...(opts || {}) }),
+    });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  reject: async (id, comment, version) => {
+    const r = await req<any>(`/approval-instances/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ action: 'reject', comment, version }),
+    });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  withdraw: async (id, reason, version) => {
+    const r = await req<any>(`/approval-instances/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ action: 'withdraw', comment: reason, version }),
+    });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  urge: async (id, comment) => {
+    const r = await req<any>(`/approval-instances/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ action: 'urge', comment }),
+    });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  createDelegate: async (input) => {
+    const r = await req<any>('/approval-delegates', { method: 'POST', body: JSON.stringify(input) });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  revokeDelegate: async (id) => {
+    const r = await req<any>(`/approval-delegates/${id}`, { method: 'PUT', body: JSON.stringify({ active: 0 }) });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+
+  deleteDelegate: async (id) => {
+    const r = await req<any>(`/approval-delegates/${id}`, { method: 'DELETE' });
+    if (!r.ok) return { ok: false, error: r.error };
+    await get().loadAll({ silent: true });
+    return { ok: true };
+  },
+}));
+
+/** 业务侧 module → 审批实例 module 的映射（各页面提交审批时用） */
+export const MODULE_BY_APPROVAL_TYPE: Record<string, string> = {
+  purchase: 'purchase_request',
+  material: 'material_application',
+  vendor: 'vendor_profile',
+  price: 'price_approval',
+  sales: 'sales_order',
+};

@@ -1,16 +1,5 @@
-# ===== SSA ERP 核心源码透明加密 =====
-# 机制：clean 在 git 入库时 AES-256 加密，smudge 在 checkout 时解密。
-# 本地磁盘为明文（正常编辑/构建），GitHub 仓库为密文（无 .git/ssa.key 不可读）。
-# 加密范围：仅核心业务逻辑（前端状态层/服务层 + 后端共享/API 业务 + 数据库迁移）。
-# UI 组件/页面/路由/配置保持明文，保留可运行骨架与项目可读性。
-
-# 前端业务状态层（zustand stores，含成本核算/双写/库存逻辑）
-src/stores/** filter=ssaenc diff=ssaenc
-# 前端业务服务层（entityRepo 等 D1 访问）
-src/services/** filter=ssaenc diff=ssaenc
-# 后端共享业务逻辑（实体注册表/鉴权/工具函数）
-functions/_shared/** filter=ssaenc diff=ssaenc
-# 后端 API 业务处理（各域 CRUD/查询端点）
-functions/api/** filter=ssaenc diff=ssaenc
-# 数据库迁移（表结构/种子数据）
-migrations/** filter=ssaenc diff=ssaenc
+# ===== SSA ERP 透明加密已取消（2026-10-29）=====
+# 此前核心源码经 filter=ssaenc（openssl AES-256 + .git/ssa.key）在入库时加密、
+# 检出时解密，导致 GitHub 仓库内为密文（无密钥不可读）。
+# 现按需求取消加密：核心源码直接以明文入库，方便 GitHub 审阅与协作。
+# 全部 filter=ssaenc 规则已移除；如需重新启用，恢复原始 .gitattributes 与 .git/config 的 [filter "ssaenc"] 段即可。

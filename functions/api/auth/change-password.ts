@@ -1,72 +1,83 @@
-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
+// POST /api/auth/change-password — 修改密码
+//
+// 两种鉴权方式（二选一）：
+//   1) ticket 路径（超级管理员专用）：凭双邮箱验证拿到的一次性凭证改密，
+//      用于「安全中心」在不输入当前密码的情况下改密（原流程，保持兼容）。
+//   2) currentPassword 路径（全角色可用）：已登录用户凭「当前密码 + 新密码」直接改密，
+//      对应个人中心「修改密码」——这是最自然、最安全的自服务改密方式。
+//
+// 改密成功后作废该账号除当前会话外的全部会话（他处登录的设备需重新登录）。
+import {
+  getUserFromRequest,
+  hashPasswordPbkdf2,
+  makeSalt,
+  verifyPassword,
+  json,
+} from '../../_shared/auth';
+import { consumeTicket } from '../../_shared/verification';
+import { writeAudit } from '../../_shared/auditLog';
+
+const MIN_PASSWORD_LENGTH = 8;
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const ticket = String(body.ticket ?? '').trim();
+  const currentPassword = String(body.currentPassword ?? '');
+  const newPassword = String(body.newPassword ?? '');
+
+  if (!ticket && !currentPassword) {
+    return json({ error: '缺少身份验证信息，请先完成身份验证' }, 400);
+  }
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
+    return json({ error: `新密码至少 ${MIN_PASSWORD_LENGTH} 位` }, 400);
+  }
+  if (!/[A-Za-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+    return json({ error: '新密码需同时包含字母和数字' }, 400);
+  }
+
+  // 取账号最新记录（含 password_hash / salt）
+  const user = (await env.DB.prepare('SELECT * FROM users WHERE id = ?').bind(me.id).first()) as any;
+  if (!user) return json({ error: '账号不存在' }, 404);
+
+  // 方式 1：双邮箱凭证（超级管理员「安全中心」）
+  if (ticket) {
+    const valid = await consumeTicket(env, ticket, user.id, 'change_password');
+    if (!valid) {
+      return json({ error: '邮箱验证凭证无效或已过期，请重新获取验证码' }, 400);
+    }
+  } else {
+    // 方式 2：当前密码校验（全角色自服务改密）
+    const ok = await verifyPassword(currentPassword, user.password_hash, user.salt);
+    if (!ok) return json({ error: '当前密码不正确' }, 400);
+  }
+
+  const salt = makeSalt();
+  const passwordHash = await hashPasswordPbkdf2(newPassword, salt);
+  await env.DB.prepare(
+    `UPDATE users SET password_hash = ?, salt = ?, security_initialized = 1 WHERE id = ?`
+  )
+    .bind(passwordHash, salt, user.id)
+    .run();
+
+  // 保留当前会话，注销其他设备的登录态
+  const auth = request.headers.get('Authorization') || '';
+  const currentToken = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
+  await env.DB.prepare('DELETE FROM sessions WHERE user_id = ? AND token != ?')
+    .bind(user.id, currentToken)
+    .run();
+
+  await writeAudit(env.DB, { orgId: user.org_id, actor: { id: user.id, name: user.name }, entity: 'users', action: 'change_password', entityId: user.id, summary: `修改密码 ${user.username}` });
+
+  return json({ ok: true, changedAt: new Date().toISOString() });
+}

@@ -1,133 +1,155 @@
-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
+// 自服务资料更新（登录态，全角色可用）
+// V3.15.0：用户可在「个人中心 → 个人资料」里修改自己的部分信息，
+//   但管理员设置的信息（用户名 / 部门 / 角色 / 状态 / 组织 / 是否负责人）只读、不可经此接口改动。
+//
+// 设计要点：
+//   ① 白名单：仅 name / phone / email / altEmail 可改；其它字段一律 400 拒绝，
+//      防止前端越权把 department / role 等管理员字段一并 POST 上来时悄悄改掉。
+//   ② 校验：name 非空且 ≤50；phone 留空=清空，非空须符合中国大陆手机号；email/altEmail 留空=清空，
+//      非空须符合邮箱格式（与超级管理员双邮箱验证通道共用同一对列，改后下次验证即发往新邮箱）。
+//   ③ 审计：每次成功变更写一条 audit_logs，便于追溯「谁改了自己什么」。
+import { getUserFromRequest, json, toClientUser } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+
+export async function onRequestPatch(context: any) {
+  const { request, env } = context;
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  if (!body || typeof body !== 'object') return json({ error: '请求格式错误' }, 400);
+
+  // ── ① 白名单 + 拒绝受保护字段 ─────────────────────────────
+  const ALLOWED = new Set(['name', 'phone', 'email', 'altEmail']);
+  const PROTECTED = ['username', 'department', 'role', 'status', 'org_id', 'is_owner', 'security_initialized'];
+  for (const k of Object.keys(body)) {
+    if (PROTECTED.includes(k)) {
+      return json({ error: `字段「${k}」由管理员设置，不可自行修改` }, 400);
+    }
+    if (!ALLOWED.has(k)) {
+      return json({ error: `不支持修改字段「${k}」` }, 400);
+    }
+  }
+
+  const setClauses: string[] = [];
+  const setParams: any[] = [];
+  const changes: string[] = [];
+  const before: Record<string, any> = {
+    name: me.name,
+    phone: me.phone ?? null,
+    email: me.email ?? null,
+    altEmail: me.alt_email ?? null,
+  };
+
+  // ── ② name ────────────────────────────────────────────────
+  if (body.name !== undefined) {
+    const nm = String(body.name).trim();
+    if (!nm) return json({ error: '姓名不能为空' }, 400);
+    if (nm.length > 50) return json({ error: '姓名过长（≤50 字）' }, 400);
+    if (nm !== (me.name ?? '')) {
+      setClauses.push('name = ?');
+      setParams.push(nm);
+      changes.push(`姓名：${me.name || '-'} → ${nm}`);
+    }
+  }
+
+  // ── ② phone ───────────────────────────────────────────────
+  if (body.phone !== undefined) {
+    const raw = String(body.phone ?? '').trim();
+    if (raw === '') {
+      // 允许清空
+      if ((me.phone ?? null) !== null) {
+        setClauses.push('phone = ?');
+        setParams.push(null);
+        changes.push('手机号：已清空');
+      }
+    } else {
+      if (!/^1[3-9]\d{9}$/.test(raw)) return json({ error: '手机号格式不正确' }, 400);
+      if (raw !== (me.phone ?? '')) {
+        setClauses.push('phone = ?');
+        setParams.push(raw);
+        changes.push(`手机号：${me.phone || '-'} → ${raw}`);
+      }
+    }
+  }
+
+  // ── ② email / altEmail ────────────────────────────────────
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (body.email !== undefined) {
+    const raw = String(body.email ?? '').trim();
+    if (raw === '') {
+      if ((me.email ?? null) !== null) {
+        setClauses.push('email = ?');
+        setParams.push(null);
+        changes.push('主邮箱：已清空');
+      }
+    } else {
+      if (!emailRe.test(raw)) return json({ error: '主邮箱格式不正确' }, 400);
+      if (raw !== (me.email ?? '')) {
+        setClauses.push('email = ?');
+        setParams.push(raw);
+        changes.push(`主邮箱：${me.email || '-'} → ${raw}`);
+      }
+    }
+  }
+  if (body.altEmail !== undefined) {
+    const raw = String(body.altEmail ?? '').trim();
+    if (raw === '') {
+      if ((me.alt_email ?? null) !== null) {
+        setClauses.push('alt_email = ?');
+        setParams.push(null);
+        changes.push('备用邮箱：已清空');
+      }
+    } else {
+      if (!emailRe.test(raw)) return json({ error: '备用邮箱格式不正确' }, 400);
+      const cur = me.alt_email ?? '';
+      if (raw !== cur) {
+        setClauses.push('alt_email = ?');
+        setParams.push(raw);
+        changes.push(`备用邮箱：${cur || '-'} → ${raw}`);
+      }
+    }
+  }
+
+  if (!setClauses.length) {
+    // 无实际变化：直接返回当前用户，避免无谓写库
+    return json({ success: true, user: toClientUser(me), changed: false });
+  }
+
+  try {
+    await env.DB.prepare(`UPDATE users SET ${setClauses.join(', ')} WHERE id = ?`)
+      .bind(...setParams, me.id)
+      .run();
+  } catch (e: any) {
+    return json({ error: '更新失败：' + (e?.message || '数据库错误') }, 500);
+  }
+
+  // ── ③ 审计留痕 ────────────────────────────────────────────
+  await writeAudit(env.DB, {
+    orgId: me.org_id,
+    actor: { id: me.id, name: me.name },
+    entity: 'users',
+    entityId: me.id,
+    action: 'update_self',
+    summary: `用户「${me.name || me.username}」自行更新个人资料：${changes.join('；')}`,
+    diff: { before, after: body },
+  });
+
+  // 读回最新行并规范化返回
+  const fresh: any = await env.DB.prepare(
+    `SELECT id, org_id, username, name, role, department, status, email, alt_email, phone
+       FROM users WHERE id = ?`
+  ).bind(me.id).first();
+
+  return json({ success: true, user: toClientUser(fresh), changed: true });
+}
+
+// 让不支持 PATCH 的调用方也可用 PUT（语义相同：整体替换可改字段）
+export async function onRequestPut(context: any) {
+  return onRequestPatch(context);
+}

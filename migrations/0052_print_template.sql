@@ -1,174 +1,135 @@
-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
+-- 迁移 0052：打印模板关系化 + 模板图片外置 —— C1 第二个域（V3.7.0）
+--
+-- ── 为什么要做这件事（先算账，不讲概念）──────────────────────────
+-- 生产库 `app_state` 的 `ssa-erp-printtemplate` 键实测 **404.3 KB**，是全部 60 个
+-- 业务键里最大的一份，比第二名（财务 15.0 KB）大 26 倍。拆开看构成：
+--
+--   tpl-po-default 采购订单模板   398.5 KB   ← 占整个域 98.6%
+--   其余 8 个模板                合计 5.8 KB   ← 平均每个 0.7 KB
+--
+-- 采购订单那 398.5 KB 里，**397.5 KB 是图片**（98.3%），而且经字节指纹核验，
+-- 页眉和页脚内嵌的是**同一张 Logo 文件、被存了两遍**（各 203.5 KB）。
+-- 也就是说：全部 404 KB 里，**203.5 KB 是纯冗余**，占总量的 50.3%。
+--
+-- ── 第一性原理：这是「数据」还是「文件」？────────────────────────
+-- 打印模板由两种性质完全不同的东西构成，此前被混在一个 JSON 里：
+--
+--   A. **模板定义**（标题、纸张、页眉页脚 HTML、勾选字段、打印选项）
+--      —— 这是**数据**：有结构、要查询、要按实体索引、要参与权限控制。
+--      「采购订单的模板改了页脚，谁改的、什么时候改的」这种问题必须能查。
+--      → 该进关系表。
+--
+--   B. **图片资源**（公司 Logo、电子印章）
+--      —— 这是**文件**：二进制、无结构、不变、按内容寻址。
+--      把它 base64 塞进 HTML 文本字段里，等于把「文件」伪装成「数据」，
+--      后果是：模板行的正文字段膨胀到 200 KB，任何一次列表查询都会拖着它走；
+--      同一张图改一次要改 N 处；无法做「这张图被哪些模板引用」的查询。
+--      → 该进独立的资源表，模板正文只留引用占位符。
+--
+-- 所以本迁移做了两件事，**都必须做**，只做一件就不成立：
+--   ① 模板定义 → `print_templates` 关系表（可索引、可审计、可查询）
+--   ② 图片资源 → `print_template_assets` 表（去重、按引用占位符取用）
+--
+-- 若只做 ① 不做 ②：404 KB 的正文仍在每次查询里被搬运，只是从一张表挪到另一张表。
+-- 若只做 ② 不做 ①：模板仍无法按实体索引，C1 的目标（可查询）没达成。
+--
+-- ── 占位符协议（模板正文与图片的接缝）──────────────────────────
+-- 正文里原来的 `<img src="data:image/png;base64,iVBOR...">` 会被改写成
+--   `<img src="{{asset:<asset_id>}}">`
+-- 前端渲染模板时把 `{{asset:<id>}}` 换回 data URL；后端只认这个 id。
+-- 好处：模板正文从 203 KB 降到 1~2 KB，图片按 id 单独取、可缓存、可去重。
+--
+-- ── 组织归属 ──────────────────────────────────────────────────
+-- 模板属于组织基础配置（谁都不能看别的组织的模板），故带 `org_id`。
+-- 资源表通过 `template_id` 从属模板，**不重复存 org_id**——与 0051 的
+-- `bom_headers` / `bom_items` 同一原则：两侧都存就有两份归属，
+-- 不一致时以哪个为准会成为长期隐患。
+
+CREATE TABLE IF NOT EXISTS print_templates (
+  id TEXT PRIMARY KEY,
+  org_id TEXT,
+  name TEXT NOT NULL,
+  entity TEXT NOT NULL,                 -- purchaseOrder / salesOrder / ... 与 PrintEntity 枚举一致
+  title TEXT,
+  paper_size TEXT DEFAULT 'A4',         -- A4 | A5
+  orientation TEXT DEFAULT 'portrait',  -- portrait | landscape
+  header_html TEXT DEFAULT '',          -- 富文本 HTML（图片已外置为 {{asset:<id>}} 占位符）
+  header_show_date INTEGER DEFAULT 0,
+  footer_html TEXT DEFAULT '',
+  footer_show_date INTEGER DEFAULT 1,
+  -- V2.89 之前的旧字段（前端类型里标注 @deprecated）。**刻意保留但不再写入**：
+  -- 生产数据里这两个字段曾与 header_config.html 内容完全相同（页眉那张 203 KB 的
+  -- Logo 因此存了两份，是 404 KB 里 199 KB 冗余的来源）。保留列是为了兼容可能
+  -- 存在的老代码读取路径，但回填与运行时都写入空串，确保不再产生重复。
+  header_text TEXT DEFAULT '',
+  footer_text TEXT DEFAULT '',
+  field_keys TEXT,                      -- JSON 数组：勾选要打印的字段
+  extra_options TEXT,                   -- JSON 对象：审批记录/制单人/页码等开关
+  description TEXT,
+  is_default INTEGER DEFAULT 0,         -- 每个 entity 下仅一条默认模板
+  sort_order INTEGER DEFAULT 0,
+  created_by TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  UNIQUE (org_id, id)
+);
+
+-- 一个实体可以有多个模板（标准版/简版/客户专用版），但只有一个默认
+CREATE INDEX IF NOT EXISTS idx_print_tpl_entity ON print_templates(org_id, entity, is_default);
+CREATE INDEX IF NOT EXISTS idx_print_tpl_name ON print_templates(org_id, name);
+
+CREATE TABLE IF NOT EXISTS print_template_assets (
+  id TEXT PRIMARY KEY,
+  template_id TEXT NOT NULL,            -- 从属模板，不重复存 org_id
+  kind TEXT DEFAULT 'image',            -- image | stamp（电子印章）预留扩展
+  mime TEXT NOT NULL,                   -- image/png / image/jpeg / image/svg+xml
+  file_name TEXT,
+  byte_size INTEGER DEFAULT 0,
+  -- 内容指纹：同一张图被多个模板/多个位置引用时只存一条，取用时按 id 查
+  content_hash TEXT,
+  -- 正文中替换后的占位符文本，便于反查「这个资源被哪些模板引用」
+  placeholder TEXT,
+  created_at TEXT,
+  FOREIGN KEY (template_id) REFERENCES print_templates(id) ON DELETE CASCADE
+);
+
+-- ── 图片二进制**分片存储**（这是被实测逼出来的设计，不是过度设计）──────
+--
+-- 为什么不把图片直接放进 print_template_assets.content 一个 BLOB 字段：
+-- D1（SQLite）**单条语句长度有硬上限**，实测 BLOB 字面量 48 KB 可写、64 KB 失败。
+-- 页眉那张 Logo 是 149 KB，一条 INSERT 根本写不进去。
+--
+-- 那能不能「zeroblob 占位 + 分块 UPDATE 拼接」？**实测失败，且是静默损坏**：
+--   分 10 块写入后，实际长度只有 784 字节（正好是最后一块），
+--   而 byte_size 列记录的仍是 152658 —— 数据库里看起来完全正常，
+--   只有逐字节比对才发现图片已被毁掉 99%。
+--   根因：`UPDATE ... SET content = substr(content,1,off) || X'...' || substr(content,off+n+1)`
+--   依赖「上一条 UPDATE 的结果已被持久化」，实际执行中这一条不成立。
+--   这种「不报错的坏数据」比直接失败危险得多，所以方案必须避开它。
+--
+-- 结论：**一个图片 = 多行分片**，每片 ≤ 16 KB（留在 48 KB 上限内）。
+--   写入：N 条独立 INSERT，各自带 `chunk_index`，互不依赖、无顺序要求。
+--   读取：后端按 `chunk_index` 排序后拼接（见 assets 端点的读取逻辑）。
+-- 代价是读取时多一次拼接，换来的是「写入一定正确、且没有任何静默损坏风险」。
+CREATE TABLE IF NOT EXISTS print_template_asset_chunks (
+  asset_id TEXT NOT NULL,
+  chunk_index INTEGER NOT NULL,
+  chunk BLOB NOT NULL,
+  PRIMARY KEY (asset_id, chunk_index),
+  FOREIGN KEY (asset_id) REFERENCES print_template_assets(id) ON DELETE CASCADE
+);
+
+-- 按内容指纹查重：换模板时同一张 Logo 不必重复上传
+CREATE INDEX IF NOT EXISTS idx_print_asset_hash ON print_template_assets(content_hash);
+CREATE INDEX IF NOT EXISTS idx_print_asset_tpl ON print_template_assets(template_id);
+
+-- 行级策略扩展列（与 0051 及库内 0013 迁移保持一致，业务表统一两列）
+ALTER TABLE print_templates        ADD COLUMN owner_id TEXT;
+ALTER TABLE print_templates        ADD COLUMN dept_id  TEXT;
+ALTER TABLE print_template_assets  ADD COLUMN owner_id TEXT;
+ALTER TABLE print_template_assets  ADD COLUMN dept_id  TEXT;
+
+-- 幂等守卫（业务版本登记）
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0052_print_template', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

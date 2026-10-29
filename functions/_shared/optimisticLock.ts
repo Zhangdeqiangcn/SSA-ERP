@@ -1,69 +1,80 @@
-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
+/**
+ * 乐观锁：防止并发修改同一条单据时后提交者静默覆盖先提交者
+ *
+ * 做法：更新语句带上版本条件 `AND version = ?`，用「影响行数是否为 0」判断是否冲突。
+ * 而不是「先查版本号、再比对、再更新」——后者存在一个时间窗，两个请求可能同时通过检查。
+ *
+ * 兼容：客户端不传 version 时保持原有行为（不加锁），老客户端不受影响。
+ */
+import { json } from './auth';
+
+export interface GuardOptions {
+  db: any;
+  table: string;      // 调用方已确保是硬编码表名，不接受外部输入
+  id: string;
+  orgId: string;
+  body: any;
+  /** SET 子句数组，形如 ['order_no = ?', ...]，与 values 严格一一对应（推荐用法） */
+  setClauses?: string[];
+  /** 与 setClauses 严格一一对应的绑定值 */
+  values?: any[];
+  /**
+   * 整段 SET 子句，形如 'code = COALESCE(?, code), name = COALESCE(?, name)'，与 values 一一对应。
+   * 用于 SET 内含表达式（COALESCE 等）、不便拆成数组的场景。
+   * 传了 setClauses 时以 setClauses 为准（两者二选一）。
+   */
+  setSql?: string;
+}
+
+/**
+ * 执行带版本保护的 UPDATE。
+ * @returns 冲突时返回 409 响应（调用方直接 return 即可）；正常时返回 null。
+ */
+export async function withVersionGuard(opts: GuardOptions): Promise<any | null> {
+  const { db, table, id, orgId, body, setSql } = opts;
+
+  // SET 子句规范化：数组优先。数组模式下必须剔除调用方写入的 version = ? ——
+  // 否则「拿着旧版本号还能把自己的旧版本号写回去」，锁就形同虚设。
+  const sc = opts.setClauses ? opts.setClauses.slice() : null;
+  const vs = opts.values ? opts.values.slice() : [];
+  if (sc) {
+    const vi = sc.findIndex((c) => /^version\s*=/i.test(c.trim()));
+    if (vi >= 0) { sc.splice(vi, 1); vs.splice(vi, 1); }
+  }
+  const setOf = (bump: boolean): string => {
+    const base = sc ? sc.join(', ') : (setSql || '');
+    return bump ? `${base}, version = version + 1` : base;
+  };
+
+  const incoming = body?.version;
+  // 未携带版本号（或非数字）：维持旧行为，不做并发保护（保证老客户端兼容）
+  if (incoming === undefined || incoming === null || !Number.isFinite(Number(incoming))) {
+    await db.prepare(`UPDATE ${table} SET ${setOf(false)} WHERE id = ?`)
+      .bind(...vs, id).run();
+    return null;
+  }
+
+  const expected = Number(incoming);
+  const res = await db.prepare(
+    `UPDATE ${table} SET ${setOf(true)} WHERE id = ? AND org_id = ? AND (version = ? OR version IS NULL)`
+  ).bind(...vs, id, orgId, expected).run();
+
+  const changes = (res as any)?.meta?.changes ?? 0;
+  if (changes > 0) return null;
+
+  // 没更新到：要么单据不存在/越权，要么版本已被别人推进
+  const cur = await db.prepare(`SELECT version FROM ${table} WHERE id = ? AND org_id = ?`)
+    .bind(id, orgId).first();
+  if (!cur) {
+    return json({ error: '单据不存在或无权访问', code: 'NOT_FOUND' }, 404);
+  }
+  return json(
+    {
+      error: '该单据已被其他人修改，请刷新后重新编辑',
+      code: 'VERSION_CONFLICT',
+      currentVersion: (cur as any).version ?? 1,
+      yourVersion: expected,
+    },
+    409
+  );
+}

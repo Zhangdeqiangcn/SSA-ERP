@@ -1,116 +1,143 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeConfig, writeRow } from './entityBackedShared';
+import {
+  AutomationConfig,
+  AutomationLogEntry,
+  AutomationStage,
+  StageConfig,
+  DEFAULT_AUTOMATION_CONFIG,
+} from '@/types/automation';
+
+/**
+ * V3.95.0 自动化设置中心 store（组织共享配置，D1 单一权威源）
+ * ------------------------------------------------------------
+ * 范式对齐 settingsStore / customFieldStore（config 类经 entityRepo + writeConfig 写穿 D1，
+ * 整块单行 payload，避免各终端配置漂移）：
+ *   · automation_config  单行（id='automation-config'）：{ global, perCategory }
+ *   · automation_logs    逐行：每次自动化触发记一条（谁/何时/哪段/结果）
+ * resolver 纯函数（resolveAutomation / isStageActive / stageReaches）在 types/automation.ts。
+ * 未登录/离线静默兜底（保留内存默认态），不阻断业务。
+ */
+
+const CFG_RES = 'automationConfig';
+const LOG_RES = 'automationLog';
+const CFG_ID = 'automation-config';
+
+interface AutomationState {
+  config: AutomationConfig;
+  runLogs: AutomationLogEntry[];
+  loaded: boolean;
+  /** 全局某段开关/深度 */
+  setGlobalStage: (stage: AutomationStage, patch: Partial<StageConfig>) => void;
+  /** 按物料分类覆盖某段（categoryId 为空串表示"清除该分类该段覆盖"） */
+  setCategoryStage: (
+    categoryId: string,
+    stage: AutomationStage,
+    patch: Partial<StageConfig> | null,
+  ) => void;
+  /** 清除某分类全部覆盖，回到全局默认 */
+  clearCategory: (categoryId: string) => void;
+  /** 记录一条自动化运行日志（乐观 + 即发即弃写穿 D1，失败不阻断） */
+  log: (entry: Omit<AutomationLogEntry, 'id' | 'at'> & { at?: string }) => void;
+  /** 从 D1 水合配置 + 最近日志；离线/未登录保留内存默认 */
+  load: () => Promise<void>;
+}
+
+function snapshotConfig(s: AutomationState) {
+  return s.config;
+}
+
+let hydrating = false;
+
+export const useAutomationStore = create<AutomationState>()((set, get) => ({
+  config: DEFAULT_AUTOMATION_CONFIG,
+  runLogs: [],
+  loaded: false,
+
+  setGlobalStage: (stage, patch) =>
+    set((s) => ({
+      config: {
+        ...s.config,
+        global: { ...s.config.global, [stage]: { ...s.config.global[stage], ...patch } },
+        updatedAt: new Date().toISOString(),
+      },
+    })),
+
+  setCategoryStage: (categoryId, stage, patch) =>
+    set((s) => {
+      const per = { ...s.config.perCategory };
+      if (patch === null) {
+        // 清除该分类该段覆盖 → 回退全局
+        const next = { ...per[categoryId] };
+        delete next[stage];
+        if (Object.keys(next).length === 0) delete per[categoryId];
+        else per[categoryId] = next;
+      } else {
+        // 覆盖值：以「该段当前生效值（分类覆盖 ?? 全局）」为基底合并 patch，保证 enabled/step 完整
+        const g: StageConfig = s.config.global[stage];
+        const base: StageConfig = { ...(per[categoryId]?.[stage] || g) };
+        per[categoryId] = { ...per[categoryId], [stage]: { ...base, ...patch } };
+      }
+      return {
+        config: { ...s.config, perCategory: per, updatedAt: new Date().toISOString() },
+      };
+    }),
+
+  clearCategory: (categoryId) =>
+    set((s) => {
+      const per = { ...s.config.perCategory };
+      delete per[categoryId];
+      return { config: { ...s.config, perCategory: per, updatedAt: new Date().toISOString() } };
+    }),
+
+  log: (entry) => {
+    const row: AutomationLogEntry = {
+      id: `alog-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
+      at: new Date().toISOString(),
+      ...entry,
+    };
+    set((s) => ({ runLogs: [row, ...s.runLogs].slice(0, 200) })); // 本地仅保留最近 200 条（完整在 D1）
+    if (isAuthed()) writeRow(LOG_RES, row.id, row);
+  },
+
+  load: async () => {
+    if (!isAuthed()) return;
+    hydrating = true;
+    try {
+      const [cfgRes, logRes] = await Promise.all([
+        entityRepo.list<AutomationConfig>(CFG_RES, { page: 1, pageSize: 10 }),
+        entityRepo.list<AutomationLogEntry>(LOG_RES, { page: 1, pageSize: 200 }),
+      ]);
+      const cfgRows = parsePayload<AutomationConfig>(cfgRes?.data || []);
+      // payload 内含 id（writeConfig 把 id 塞进 payload，同 settingsStore 范式）；类型无 id 字段，用宽松判据
+      const cfg = cfgRows.find((r) => (r as unknown as { id?: string })?.id === CFG_ID);
+      if (cfg?.global) {
+        // 归一化：补齐可能缺失的段落（向后兼容旧配置）
+        const normalized: AutomationConfig = {
+          global: { ...DEFAULT_AUTOMATION_CONFIG.global, ...cfg.global },
+          perCategory: cfg.perCategory || {},
+          updatedAt: cfg.updatedAt,
+        };
+        set({ config: normalized });
+      }
+      const logRows = parsePayload<AutomationLogEntry>(logRes?.data || []);
+      if (logRows.length) set({ runLogs: logRows });
+    } catch {
+      /* 离线/异常：保留内存默认态，不阻断 UI */
+    } finally {
+      hydrating = false;
+      set({ loaded: true });
+    }
+  },
+}));
+
+// 任何配置变更 → 写穿 D1（hydrate 自身 set 不触发）
+useAutomationStore.subscribe((s) => {
+  if (hydrating) return;
+  if (isAuthed()) writeConfig(CFG_RES, CFG_ID, { id: CFG_ID, ...snapshotConfig(s) });
+});
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useAutomationStore.getState().load();

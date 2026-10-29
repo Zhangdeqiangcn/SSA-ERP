@@ -1,66 +1,51 @@
-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
+// POST /api/vendors/:id/credit-delta — 供应商已用信用额度相对原子更新（V3.66.0 P1-3）
+//
+// 根因：前端 applyVendorCreditDelta 原为「本地读 usedCredit → 算出 next → 整字段 PUT 回 D1」，
+//   并发两个终端同时占/放信用时存在「读旧值 → 算 → 写」的丢更新竞态（memory 铁律㊳ 同款），
+//   会出现「两边都占了同一份额度」或「释放被后来的占用覆盖」。
+// 改法：数据库内做相对原子更新 used_credit = MAX(0, COALESCE(used_credit,0) + ?)，
+//   服务端是唯一权威计算点，前端拿返回的新值对齐本地；超限（credit_limit）在服务端判定拒绝。
+// 幂等/审计：每次 delta 记一条审计（含 delta 与原因），可回溯。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { assertRlsOwnership } from '../../../_shared/rls';
+import { audit } from '../../../_shared/auditLog';
+import { guardOperation } from '../../../_shared/operationGuard';
+
+export async function onRequestPost(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // 信用额度变更属供应商更新面，过服务端操作守卫（与 PUT 同口径）
+  const opGuard = await guardOperation(user, 'vendor', 'update', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  let body: any;
+  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
+  const delta = Number(body?.delta);
+  if (!Number.isFinite(delta) || delta === 0) return json({ error: 'delta 必须为非 0 数字' }, 400);
+  const reason: string = String(body?.reason || '').slice(0, 200);
+
+  const existing = await env.DB.prepare(
+    'SELECT id, org_id, owner_id, credit_limit, used_credit FROM vendor_master WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!existing) return json({ error: '供应商不存在' }, 404);
+  if (!assertRlsOwnership(user, existing, 'vendor_master')) return json({ error: '无权限修改他人供应商额度' }, 403);
+
+  const used = Number(existing.used_credit) || 0;
+  let next = used + delta;
+  if (next < 0) next = 0; // 释放超额 → 归零（与前端既有语义一致，不阻断）
+  // 授信上限护栏（delta>0 占用时）：超上限拒绝，与服务端 checkVendorCredit 语义一致
+  if (delta > 0 && existing.credit_limit != null && next > Number(existing.credit_limit)) {
+    return json({ error: '超出授信上限', rejected: true, usedCredit: used, creditLimit: Number(existing.credit_limit) }, 409);
+  }
+
+  await env.DB.prepare(
+    'UPDATE vendor_master SET used_credit = ? WHERE id = ? AND org_id = ?'
+  ).bind(next, params.id, user.org_id).run();
+
+  await audit(env.DB, user.org_id, user, 'vendor_master', 'credit_delta',
+    `供应商 ${existing.id} 已用信用 ${used} → ${next}（delta ${delta > 0 ? '+' : ''}${delta}${reason ? `，${reason}` : ''}）`);
+
+  return json({ ok: true, usedCredit: next, creditLimit: existing.credit_limit ?? null, delta });
+}

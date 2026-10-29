@@ -1,36 +1,38 @@
-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
-VYvTAXGcVJcmBO3cDxPQ2A==
+// POST /api/vendors/:id/reject — 审核拒绝供应商
+//
+// P0-4（V3.113.3）：前端 rejectVendor() 一直调用本端点，后端从未实现 → 404。
+//   拒绝后 status='rejected'（门户登录端点只放行 approved，故 rejected 自动无法登录）。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { syncVendorStatus, formatVendorRow } from '../../../_shared/vendorApproval';
+
+export async function onRequestPost(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'update', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  let body: any = {};
+  try { body = await request.json(); } catch { /* 空体由下方校验拦截 */ }
+  const reason = String(body?.reason || '').trim().slice(0, 500);
+  if (!reason) return json({ error: '请填写拒绝原因', code: 'MISSING_REASON' }, 400);
+
+  const res = await syncVendorStatus(
+    env.DB, user.org_id, params.id, 'rejected',
+    { id: user.id, name: user.name },
+    `拒绝原因：${reason}`
+  );
+  if (!res.ok) return json({ error: '供应商不存在' }, 404);
+
+  const row = await env.DB.prepare('SELECT * FROM vendor_master WHERE id = ? AND org_id = ?')
+    .bind(res.id, user.org_id).first();
+
+  return json({
+    ...(row ? formatVendorRow(row) : { id: res.id, code: res.code, status: 'rejected' }),
+    status: 'rejected',
+    reason,
+    syncedTables: res.syncedTables,
+  });
+}

@@ -1,43 +1,51 @@
-U2FsdGVkX1+QajjNe/md5e/0xjJWxBozqZ9yqrzZ/w8aqcFa/XWJLOifgeYmYWd6
-DjQZyWGsF6gU+sLIaU02HFMnHpUmGKCbzc+nK/cx7i33pA1CVXixq+5szAfWEul6
-fy3xRals1dA3AKquCmuCASOs7VEGxWuFVPNgOFOnSHmw0p9ELVvOuNiPhIE62W1R
-UbZvDBrj8cdJQ6WA/TYzFIvqhXWqquZmB3lr4GTLMW9yXhKMYySV9zROQeUBpCeo
-zMpDbayyDbNy0JGPZUKNZb+IyOM5LsrmdibhhPBJ1vQLy3p/R/gW00S0RxZDLqm5
-urvIjiD4kSTgvFwAVQFQI7Ggv6drCI0I2nzGUAZu5/KOdo0ALEzy4wcpw5q1zywV
-clqFMLdxzxefglGZd3MVI6hSDkhas9+pRWJZAGAcUfgaQ18/LnjjWGggF/yNhqLH
-BnqxPU0gXdu1mTH6ib+I2N0Tm/BAf8DpwZVfndjZhD/EclNtsJ93FOJAOeXx1zOA
-jxEo0Kwu7ZZ0q2P2hUjiz+TKF9wzqr2JSkfgSxhKSP4SwmlX/ecG77KEE6KfciQL
-9mcGgukDTjcRcv+la6WHU11C1MlL6M8yZA9CS0E8AqrtQpkGjgChqJKtO9q7QSIs
-wJGuZTglOKf7KKYWUImPWZCUs9CO4vzFk6hOsmNwrm5pITo2sHcY8w+WivBpxcc5
-AvIim+ihIbS26cYsqaDV8aJL0owjaHhOL2Cpp7CAjwC4+IkcE941rw5GtOVf7Gl7
-wJ5ywhIyFDDGXBQyieH0e7d9nOpt9dbl2zTG8edocuG+ZOkuZ5oDCqCAxBG4o3vO
-TXutevn8ArkvFdhf8hEzK76shSNbugLZvk/DFBUiOe7df/nX4Zqro7MDd/LGEf3K
-LgoP4kTJKB8AWxzJLsyy5q929mDkhO4yflVLZ4zvzn0Nlj8qFp7Hkc3bbdHxnf5x
-5oBqPIev6PRNyMl2iDH857s5M3r7G8cnE/x0+YrcT4dprBySZiXlN7ZLDWIgVmTD
-ewHeIOG98z4QdSOfZ1edAHOpfrk/uWyicnbS49ljvn2ltjrG0E7dqw3RfM1u9KdB
-moKPttIpaJP7xmbBgLDbB69UBOITZlTvjNMc1ZXzWkkVbTRsiTDQuufUuRWCKoC8
-XciAW0kJY8bSFwoViNAKT4X/ZeH0A2+2mhmQnWVtmwwUzOplPEDfiu4ikGXBWLN5
-kbXcHUGLglRwOJvBBlpx4N/6Cw81zSB78jIftR08x4320ZeErlbqw/XKqEcGllMF
-38x4wh1BDGgn3a/gluAlF/MoNt4A6CCePGyeu0dMacr038brtyEYKg+wwPcooVue
-o91+ybs62DBePqqQ6JiWxtr3fXtQ3+iAWnt3MSdv08eXLjF4v6tMGkVf5RsuZANV
-tI13aMqqeLzQFwyRZOZKd0/LQB/a/90haTSePZ/bvLIlgDqs+FAW5LnSDXUn9WfJ
-UhDu+9tXgeN+uKuyWIjPbvbDr9/oj9CiVJBhhwUSXK/5l5OvzRk7WDFWKS+awJgS
-z+Uln/XQhb1Q539mQhCHjESQSGphVw2L+/LANNziNIigaIyHGXGHQ+vi0zCws06J
-PWNeCNtMf2nuA5ZuCkR9nplvBZyEupfftJtee62EkP+jxXrXJzacCBluV77MVlZT
-nzyH51iwlXopT8VIQnhvsGdjSWx5eGdwlkjVcn6q5xx6yXP1mKisnMW5IqIWhA35
-iWxvbCOBUt1ls0lu9rfLKWOeePNokjhdnl7JdZEe/PMc/BH1xYOryqAhSQbtTaOv
-HwcnqCAoGw/luivLaziJE1N6KfWi9L2Uz2k+3aFdXENOtff8edvM6S6uldDUXrvK
-RiIWnYNWkep7k1YcY+pG60WgqLMuOmE0u7QxOcMyqo/crngdrzvZYFTSi1brzunB
-eLdsqQdkcfS665ALkDZApC7By/BUAmd1HvK57nyT74p3mosDPoBIbLMlIrFdvJT6
-ewDsMI4sQ6puRYLfHGC8O0LknhlWdwC9eXEr/rysy1n+RoG9mFgbx0UD+S2pUpI0
-MsK7c/6H+4RXIGwmLR6yldfoFD+TfkNNKtyImeVVwjMcLeMW2r4jyhxHSYB5zMYD
-lFiNc4vV33eejyTy80tdWqVD7KQUgc8PGbTqfWtRWmnUWaENVdcDZgO4qZyPfSLK
-FSLDbvcddBRI7NqX9P/3IJ5bhH9mkwrA9f2Fqm0Y8w8j9jnSRt52QbAsSYSUSDXt
-mqXfqTs7acrUOjTnZCINp6Rvw6wBK2j48RHciH//J3wn81VsZmwQGvtyfr9pUjSF
-d306LsKL6xjdItufStbyd15rhBfVcHw/XfICxDendsYj1Bz0Mup7GyTVnMZbUt/y
-4t6KSVveljtX3Wu22KgcLfyQLynE5msZjw2jXLsEAAhwK6ydRxhUf+BxglpJIgzX
-JPH+wcf6PK4eYA5d8iPLWEoAL32Ac6Gv3IADlTnirUEACH1u3V0JbQpi7wkUkK3s
-JmhE83wPBTKV7iE4Ildt9qXfqE7D0gpMvVP3FOYtSMTN/3uhgO4il/Gf6IbA8KMx
-w4DMv3AqUxxIn7cdhP+sghSa/4sUq+Fqi0WLGVx+F101FsAnM4P+Uyo/rd/EFHac
-69/0GYFZ5FOgIMrLnitltLB79C4HJuFFIYhWkoC8M6u3y+7HlDYLBwaMnPfBMHwt
-/hZ2S25wN/itlIwOGGnO1Q==
+// GET /api/unit-conversions — 分页查询单位换算规则
+// POST /api/unit-conversions — 新增单位换算规则
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { uid } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+import { requireByRegistry } from '../../_shared/validate';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const rules = await db.prepare('SELECT * FROM unit_conversions ORDER BY from_unit, to_unit').all();
+  return json({ ok: true, data: rules.results || [] });
+}
+
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  const { fromUnit, toUnit, factor } = body;
+
+  // ★ V3.87.0 扩面：收口到集中必填登记表（单一真相，不造双源）
+  const _reqCore = requireByRegistry('unit_conversions', body);
+  if (_reqCore) return _reqCore;
+
+  const id = uid('uc');
+  try {
+    await db.prepare(
+      `INSERT INTO unit_conversions (id, from_unit, to_unit, factor, created_at) VALUES (?, ?, ?, ?, ?)`
+    ).bind(id, fromUnit, toUnit, Number(factor), new Date().toISOString()).run();
+
+    await writeAudit(db, {
+      orgId: user.org_id,
+      actor: { id: user.id, name: user.name },
+      entity: 'unit_conversion',
+      action: 'create',
+      entityId: id,
+      summary: `新增单位换算：${fromUnit} → ${toUnit} (×${factor})`,
+    });
+
+    return json({ ok: true, data: { id, fromUnit, toUnit, factor } }, 201);
+  } catch (e: any) {
+    if (e.message?.includes('UNIQUE constraint')) {
+      return json({ error: '该换算规则已存在' }, 409);
+    }
+    return json({ error: e.message || '保存失败' }, 500);
+  }
+}

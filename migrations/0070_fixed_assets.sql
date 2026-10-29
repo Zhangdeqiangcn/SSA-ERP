@@ -1,63 +1,53 @@
-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
+-- 迁移 0070：#13 折旧计提彻底服务端化 —— 固定资产从 app_state KV 迁入关系表
+--
+-- ═══════════════ 背景 ═══════════════
+-- 旧实现（V3.15.x 及之前）把 fixed_assets 与 closingPeriods 一起塞进
+--   app_state KV 键 `ssa-erp-finance-ledger`（一个 JSON 大对象），折旧计提
+--   deprecateAll 在前端算、并往遗留表 fin_account_entries 写两条中文科目分录，
+--   根本不产生权威会计凭证。这等于：① 数据不在关系库、绕开 RLS；② 计提无凭证、
+--   无审计、可随意在前端改状态绕过结账管控（缺陷台账 #13）。
+--
+-- 现把 fixed_assets 迁入关系表，与 vouchers / fin_invoices 同属财务域（org 内全员可见）。
+-- 计提动作改为服务端权威端点 /api/fixed-assets/depreciate：更新累计折旧 + 生成折旧凭证
+-- （借 6602 管理费用-折旧 / 贷 1602 累计折旧），并受「已结账期间禁止记账」硬管控。
+--
+-- ═══════════════ 存量迁移（KV → 关系表）══════════════
+-- 不在此迁移里写 INSERT（KV 数据按 org 各不同，且可能很大）。改为在
+--   /api/fixed-assets GET 首次访问时做「惰性回填」：当某组织 D1 中 fixed_assets
+--   计数为 0 且 KV 的 ssa-erp-finance-ledger.fixedAssets 有数据时，批量插入并回写。
+--   幂等（仅当 D1 为空才回填），不重复、不丢数据。
+--
+-- ═══════════════ 列集说明 ═══════════════
+-- 字段与前端 @/types/finance 的 FixedAsset 一一对应（camel → snake）：
+--   asset_code / asset_name / category / original_value / residual_rate /
+--   useful_life_months / start_date / monthly_depreciation / accumulated_depreciation /
+--   net_value / depreciation_method / status / scrap_date / last_depreciation_period /
+--   note / created_at / updated_at / created_by / updated_by
+-- last_depreciation_period 为服务端新增：记录该资产最后一次成功计提的期间，
+-- 用于 /depreciate 的幂等判断（同一期间重复计提不产生重复凭证）。
+
+CREATE TABLE IF NOT EXISTS fixed_assets (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  asset_code TEXT,
+  asset_name TEXT,
+  category TEXT,
+  original_value REAL NOT NULL DEFAULT 0,
+  residual_rate REAL NOT NULL DEFAULT 0,
+  useful_life_months INTEGER NOT NULL DEFAULT 0,
+  start_date TEXT,
+  monthly_depreciation REAL NOT NULL DEFAULT 0,
+  accumulated_depreciation REAL NOT NULL DEFAULT 0,
+  net_value REAL NOT NULL DEFAULT 0,
+  depreciation_method TEXT NOT NULL DEFAULT 'straight_line',
+  status TEXT NOT NULL DEFAULT 'in_use',
+  scrap_date TEXT,
+  last_depreciation_period TEXT,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_fixed_assets_org ON fixed_assets(org_id);

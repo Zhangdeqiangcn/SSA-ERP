@@ -1,25 +1,21 @@
-U2FsdGVkX1+sywXkwtr9har4EFLiO/UEu9zmR4xhhuOuFsHWivO8mH4gMtKfkfO8
-a483XBfqBgLPrwHNzX1sI8FPxzQpPfWUUtvK+2pH4C7ZNth9oUOW/SyMGHPX+Ir6
-PURk8aTt4NBSSucH6Y87dxb3oL4eek6bc8XQOSSp42bnnGtK9v32JtidGYBVCCAK
-kQzcL6zUMjxBisshefa4RZaRdpFMdfhkAUuhvlQfk/kNBpc0OTKby2q/IjTRGH7N
-F3e5SbTulBm4MIzDOMtNWLVlLRNyxJd6Nvoe0EYgqvYKe/RKcQMOSBw/53LYkgHB
-8GxV5TllZeWV5Ppc/zFU/5M9l3b3KKtKcNd4of4fRcmFpBdSrN3LEAt8oc7KjXLK
-6Os5UaxYHwipmvudR0BqnEMqZS6+uJcXC8IbptT1xZpGZzxPlPOeH7emIsBWATZk
-dC6EIjtVKCkX7GiolKOBNcKsL7agprHQnmsz0ThqOgUCS3yPSoe8tDx9jqZb6u2D
-um9NO5Bra04ByXjzYH1GhvQ9U9WR/UIWUFeOINkieAooqpUIAfLr6jFYw++PUpPE
-k1fOVv9t1IWtDoFiP+Cl1NnfoaSpK9cIpMLG6d+jvpGUekD/HtXRQeJjnjx45mjF
-+5B7JnK84crd4zvnDuqjVL/JPxBwZS3aRPvxa+xFJINx2u3Xo/WChWw7rrZ1yxSC
-ObmMggyMRrZTEHO1uOhZvOEh6d23hwd6vrfy3IBFVHbCT1T1fSxRJkY7lw3aSaiq
-vCcy++8z5J9M6mXPQGh29emF0dAISVYGmEa29Ai4cqfMFhlMi84pNFObqa3tzb0O
-ETRax4bwx+jjHKAG43r/ZryzLJFoJyjeVgysFi1BIIR7bqauIxpbj+5BqkjBHfnG
-sE4VRxi2bQpRueIqK4oNS/tEqtt15jOXS63mjwwOeB9QNQ9mrMHL6y+SnJiRjkus
-JpIH+ge8eWRiYqLjhad1jUSEV9JyES3GqledoqoRey9E/LwtkxXzY6Py2pYZQUic
-M6b54SlAPNbIhV+OulVt+8I/Et3eoLbckDC6anrJ5PRF4ojVpzZ1QK8RVi1jrh6/
-pDZAXTMNc8OfW8SsUQsOv6v1pT6t3Nvd+dp7v9NBG/FuWAfPRa41KoMcNNCOY3uO
-r/Y5aDJePetoT/1of9XUEnC0nISV4K0V0eSdYx8bmcvvpC+OAsj9qdnIutAG+qPU
-6CplWRvBKZc3iBiyB5mXVAZjMDjx6/cOzp47HB1hmH60ewrSNQLymMJHPGiz7m4d
-OTSATnrfJVK5L7G/5kSdP/CV4+ve1bt6Lkd4glB4uLDEaJjB5A0s1jvPco2c+Dj9
-kTM990vZz85sLWnxNDESq41ozP36sG4GSFRVlp/Y24fuDtMggh6IG1q2f4VuFQub
-nSriljSkjwxxugEhymBreqEoOUs3E+oFYsVbt4/t3BiBRm4XMwKp/lhBb3cbFudW
-PdC3jzeVFD0C2PRzD28amVCWw8AEntdebZGDgktMi7ox5Ekq3yvCRtH9Pp09bctj
-Bj+sDomswMpEIKOq98Ug4dBPdiML1EAuZVtl/u6U1l64g2189YQU9i2QimsUrDLD
+// 意向客户集合端点（C1 销售域 · 父子表）
+// GET  /api/sales-prospects   列表（分页 / keyword / RLS，含每条跟进记录）
+// POST /api/sales-prospects   创建（意向客户 + followupRecords 一次性写入）
+//
+// ── 为什么不用通用实体路由 ──────────────────────────────────────
+// `Prospect.followupRecords: FollowupRecord[]` 是嵌套数组。
+// 通用路由的 pickSnake 只挑 ENTITY_RESOURCES 里登记过的列，
+// **followupRecords 未登记 → 静默丢弃且不报错**，
+// 表现为「意向客户列表全都在、详情页打开正常，但跟进记录一条没有」，
+// 而 save 仍然返回 201。销售漏斗的下一步动作全靠跟进记录驱动，
+// 丢掉它等于把销售过程管理变成一张静态名片夹。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PROSPECT_PC } from '../../_shared/salesConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(PROSPECT_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(PROSPECT_PC, context);
+}

@@ -1,47 +1,42 @@
-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
+// POST /api/vendors/:id/unblacklist — 移出黑名单
+//
+// P0-4（V3.113.3）：前端 removeFromBlacklist() 一直调用本端点，后端从未实现 → 404。
+//   移出后恢复为 'approved'（不是 pending —— 已经合作过的供应商拉黑又解黑，
+//   若回到 pending 就等于又让其重新排队审批，业务上不合理）。
+//   拉黑原因历史**保留**（合规要求：曾被拉黑的事实不可消失）。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { audit } from '../../../_shared/auditLog';
+
+export async function onRequestPost(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'update', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  const existing = await env.DB.prepare(
+    'SELECT id, vendor_code, status FROM vendor_master WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!existing) return json({ error: '供应商不存在' }, 404);
+  if (existing.status !== 'blacklisted') {
+    return json({ error: '该供应商不在黑名单中', code: 'NOT_BLACKLISTED' }, 409);
+  }
+
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `UPDATE vendor_master SET status = 'approved', blacklisted_at = NULL, updated_at = ?, updated_by = ? WHERE id = ? AND org_id = ?`
+  ).bind(now, user.name, params.id, user.org_id).run();
+
+  // 门户账号表同步
+  await env.DB.prepare('UPDATE vendors SET status = ? WHERE id = ? AND org_id = ?')
+    .bind('approved', params.id, user.org_id).run();
+  await env.DB.prepare('UPDATE vendors SET status = ? WHERE vendor_code = ? AND org_id = ?')
+    .bind('approved', existing.vendor_code, user.org_id).run();
+
+  await audit(env.DB, user.org_id, user, 'vendor_master', 'unblacklist',
+    `供应商 ${existing.vendor_code || params.id} 移出黑名单（恢复 approved，拉黑原因历史保留）`);
+
+  return json({ ok: true, id: params.id, status: 'approved' });
+}

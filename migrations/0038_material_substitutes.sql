@@ -1,27 +1,28 @@
-U2FsdGVkX19KvdXEmppKnub+3BZu1UII81EYnNz/k0GnyqYbo5E2TcTPHvrdtiDo
-4C2FudzDdqcE44kPpWvXPrEnrPXkQz+ZnVuy2pwc1lQnQTnYF19XvQYH+l4BWdf/
-bUvs3dGEcZWHeplftIX0UVoupT4erfT/J/qjCmFD+RKvm1hZ6AkozX5EfTiAQ6rP
-whi4JPfr8ulp5LoxP85FH9fm9JF0YWMfLPjN2YALKuUkJV+NpCHNsfNJ+dhcnQx+
-XMKoMsZTbYxK6MkAjNA7HhXZo04K0h9y2lnW2ymwdzLJ0zjfnLaeqEZqXXmiReI5
-KnRsIkLFnOawaTrNvvMLko9GXHlN+7ExArK0qez/NiqXMHw6s9uh6nJD/ORm9k+X
-FQt6MxbEPEYOu9ULyujld0VGk0vmznxRLzUXpsQ+k41F2wgOd2/xwXEPX04fzP4F
-yEthmt2E2X/c4nwVkII1TT1kIe0N9ypJb7Sfe+DWhehPN5i/VeF+v6UBODC7ZPxk
-6h8gCmO8wZrilW0oX0bnrOuJOlqLNMVb5DT6yO0Aua9j3PDqPyUYLtxAPZm3tMg4
-GFpdzpnoj3iOlbbRljVQFDv1LekyWh4J0RlGFnFnN8rDyjTm2pq+ajteARf8NbwV
-+Md48g+JgzHDbqvxcDCrKHN+CriDQjSDgXIlsx3jbLmoh4frt0MnF/7B7NXDDI0g
-6lUhdS67saR0I4F1OsBPhBTDia32uxrKl70Qp/jpLcMr9eXyeu0rEgWXYe+XANk3
-9/gyKoqarzs8chciJe/4JzEsMcmeEcheMroJTvFf6hxk52O3zl+R6eahrbpvbQvn
-2M2wv4e8NcttDFAK4+I29V3ha9l5KIKOz1rhd255Ddb+YhXMDMNIfWaO/jqQBNWQ
-vfDw+qg9E0cygKfwMemG7K/vDE9BZEgHSGYWU+siqqgJvDdmTIHQ7pqMy3gq00BP
-0Y+TiKY+hoeEa1MOYmt8UFZE7tNJ/xLYKzawbVY43UHhbDNT7MBikksRs+Qc/UTp
-sCJ/HJvFhEdSug/wzQLmyiF7LkzOWhazSxi8vX8x+bJamQ1p3ppG4F2atjIZZpn4
-qaw3JD1L22t10lE0L6jL+5/v5IP+JVhn5maOzozldytRmT9+tlE0T1N3PuxBOr8S
-QsL6BZZDnQg65zhzAOWLTODULD1KptGE6IHub+ltmwpVsE/3WE3F1OvdQ5P9SZ5f
-BIYqCeEKXI3Z/DLCHmK9qf/oG0tDvnzXUxNUsKa5aInKly3k3O9oDZmcjebLg7Jc
-HJlGHZceRxdlaoXbBD+LsYBU8rfLDEfyN5kP/yBF3e8drOq+XZMuZAYjqQs6mEA1
-J5VihX6LaRykhV552z72KR5uvNtVLuCgnKYtoRC8kZc8JxRmCT8mKwQCv5Ws4q8B
-pQcMMtwZtWBznDQ6p7vwXKuoET5A7p/DllbLAq9DhoO6ZahVcQHCTYP08Xz/C9EA
-RPmObFlyHXtIzxXH8S+uiyvHSk2zwShu26sliPClt4Cj/6rth/zNwYk2Bz6zPvmR
-UYOEWiuL0trkK8wn7wWu0wNxnHBANg8/hl7TuEB/sY2qHYPo1QfUUSpPsLaLttR8
-tKxHnPoy7Wy7+x0RDZC1t7wxYBMOhUav5/j7BQFXS43PujJzzl/94RM7Mf7yCg6c
-yQYOocbt6bUcSOtABLD14yIVLx26fR/9jxQJBHNMf8Y=
+-- V2.84.0 C9 物料替代料组 + 优先级（根治 BOM/生产灵活可配硬缺口，源码零实现 → 闭合）
+-- 复用通用实体路由 /api/entities/materialSubstitute（会话鉴权 + 按公司 org 隔离 + 行级权限 + 写审计），零新增后端函数。
+-- 字段全为标量；materialSubstitute 资源在 functions/_shared/entities.ts 注册（驼峰↔蛇形自动转换）。
+-- 与 ENTITY_RESOURCES.materialSubstitute 同源。
+CREATE TABLE IF NOT EXISTS material_substitutes (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  material_code TEXT NOT NULL,
+  material_name TEXT,
+  substitute_code TEXT NOT NULL,
+  substitute_name TEXT,
+  priority INTEGER DEFAULT 1,
+  substitute_type TEXT DEFAULT 'full',
+  conversion_ratio REAL DEFAULT 1,
+  effective_from TEXT,
+  effective_to TEXT,
+  reason TEXT,
+  remarks TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_material_substitutes_org ON material_substitutes(org_id);
+CREATE INDEX IF NOT EXISTS idx_material_substitutes_material ON material_substitutes(material_code, org_id);
+
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0038_material_substitutes', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

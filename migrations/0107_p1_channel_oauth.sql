@@ -1,24 +1,13 @@
-U2FsdGVkX18CujpU++NvQZtkXqlix8YUty7bnx3J8kNw0ecPcOlbVpOX3B7e43kB
-xSNp1NM9ZWn/bl3V+/tT4HJFqQ3KmzV3SCSNZAXDQafdivyFz7vh92XVM7BfkaG6
-4J51WPCW4833G8l3GIaz1F1WLr51diaYAQXONReSiCYjVBlEsDOgiH6X7+1UKs4S
-DSFL/CzTu1k2QAyZhK+lI6egOptPYSCtFDnUQLB36tr/6YDUHhHBfED0yVyOTmnc
-eYtIRP5RfkoT51BFQzrSVpB+/vF3G3sK3apwlPG5WeA3ie+oEEHGVoGMqw4szq41
-dTnMTJzD2TYRBkuDo7wk+RZGh3SA0Iq31HYNDABPvI25HlLepPQ4gFRB/NBElPHS
-27bmxjtr+taxprUnXeIYSaPGqgjiFCrZG3Pm9yJBhg8fh6q2veLz6UO1HZDZbpOf
-1c7iFm4f6lzPNMBkWTAom2hR/dT3NK1fHPTkFM3Hu1j1BDZritJdX+e/hMBuPGYb
-umDpq0GdybX1LTRDE4SwRfEk2JdoCs9UEKe1B+wX2seWxlJQgsk01+sLyjPDFF3Z
-GSAkTfmqfJo0+Fjqs/5hW4QzGAJ4vm/QPxdNfkG7k21OUbjl0N9wLXDFhj11sxSI
-90fIssIKYIko9+JdLNByWkf5RMV8dw2IYVt2Fg9zQSwSEqboUaqGQn1CHBhasmE9
-aeJYYnb8+zaZCqQL31XOXtN/TjnL2mkmjQ6k7sXd23G8FZ3ph5av/LW/j/aOEr5r
-WkkeKO6N03EnNIZwPr2pyTbYjsAuTCNwgsKPkTunepu9FA3vg35FL/XAcXEz6UuB
-bRPN7HxG6BN8Tu3zYjtF4RqCCOgzTUttUJEzdUhIEnvBBQ349f8j6kpMimaGc/Gw
-pTU7q/pS6S3tPAUd1BjW4tBWkGE6IOhIvmtsVoyJb4UKQXR6VGjB1P7yTkuiWLzf
-Jq2U1J4+YWYTvt2QcOTdZvxRHl7VEiJx5Upi/73ZfzvxkiOiparyec2+mSUaXWPN
-oQIXEh4Dqu8x412TsMwyZP4uz4zYoi/TsJ+k8DBb3+a5Yir2QzVlBN5w9dYCEhP/
-Gp5/YTjdkXGzDZhp5kI47A06rpuvVdr9Ck7iD28tMvijNYbo9VHoC8Iunxqp482U
-7l3I2VyJ9XcLIQDKwNVOyyZ9fN410HCVQcXkLdARfHdtWObgHbmyiCZ1vA4qL2rQ
-XAMqI1IgBXH9mNcT1NjzSe0E2d05PEOB2qcEVSLbAdsp+DBPAqNhf0/BZh25+2P9
-DplKNqqbo3rGw5u3C3PyozPtSRkwzvS7EK4uabbQRt80eoreK7qXFrLCeDufPTl/
-FQO3N1uJBwj2SaUU1xdEEzAqjF+95FjmsCwVxYKyX9Xzk7nm0AEYTGB37sD/+lTn
-/UVbqC/yhTdj6LG8bx2kvS7uvUNI/EcJqv61Kg47APp/IJWoORSVFc5sBgtMX1lD
-hEIoCIYovjbCjdMSDexkgOdjyTSVJiF9GY66EgVteUM=
+-- V3.92.0 P1-7：渠道凭证补 OAuth 字段，支撑「登录即连接」授权码流程
+-- 设计口径：在既有 channel_credentials 基础上增量加列（密钥 + 令牌 + 刷新 + 状态）。
+-- 说明：SQLite 不支持 ADD COLUMN IF NOT EXISTS，本迁移由 wrangler 按 d1_migrations 跟踪只执行一次；
+--       若需在已含这些列的库上重放，请先核对（列已存在时 ALTER 会报错，属预期，不影响已应用环境）。
+-- 安全：access_token / refresh_token / app_secret 仍由后端持有，绝不落前端。
+
+ALTER TABLE channel_credentials ADD COLUMN refresh_token TEXT;
+ALTER TABLE channel_credentials ADD COLUMN scope TEXT;
+ALTER TABLE channel_credentials ADD COLUMN auth_mode TEXT;        -- 'oauth' | 'manual'
+ALTER TABLE channel_credentials ADD COLUMN status TEXT;          -- 'connected' | 'expired' | 'disconnected'
+ALTER TABLE channel_credentials ADD COLUMN shop_id TEXT;
+ALTER TABLE channel_credentials ADD COLUMN shop_name TEXT;
+ALTER TABLE channel_credentials ADD COLUMN is_mock INTEGER DEFAULT 0; -- 1=模拟授权（未配真实应用密钥）

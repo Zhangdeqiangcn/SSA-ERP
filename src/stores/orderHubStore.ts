@@ -1,33 +1,42 @@
-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
+import { createEntityStore } from './createEntityStore';
+import { channelApi } from '@/services/channelApi';
+import type { NormalizedOrder } from '@/services/channels/types';
+
+const parseOrder = (r: any): NormalizedOrder => ({
+  ...r,
+  lines: typeof r.lines === 'string' ? safeJson(r.lines, []) : r.lines || [],
+});
+const serializeOrder = (o: Partial<NormalizedOrder>): any => {
+  const out: any = { ...o };
+  if (Array.isArray((o as any).lines)) out.lines = JSON.stringify((o as any).lines);
+  return out;
+};
+function safeJson(s: string, fallback: any) {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return fallback;
+  }
+}
+
+// 订单中台域：复用通用仓储工厂，调用方零改动；后端走专用 /api/order-hub。
+// 订单为业务凭证，不支持删除（仅可改状态），故 remove 显式拒绝。
+export const useOrderHubStore = createEntityStore<NormalizedOrder>({
+  resource: 'orderHub',
+  seed: [],
+  stateKey: 'orders',
+  backend: {
+    list: () =>
+      channelApi.listOrders({ page: 1, pageSize: 200 }).then((r: any) => (r?.data || r || [])),
+    create: (item) => channelApi.createOrder(item as any),
+    update: (id, patch) => channelApi.updateOrder(id, patch as any),
+    remove: () => Promise.reject(new Error('订单中台不支持删除')),
+  },
+  parse: parseOrder,
+  serialize: serializeOrder,
+  extend: (ctx) => ({
+    loadOrders: () => ctx.get().load(),
+    addOrder: (o: NormalizedOrder) => ctx.primary.add(o),
+    updateOrder: (id: string, patch: Partial<NormalizedOrder>) => ctx.primary.update(id, patch),
+  }),
+});

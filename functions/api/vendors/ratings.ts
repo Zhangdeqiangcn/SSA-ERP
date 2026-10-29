@@ -1,39 +1,49 @@
-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
-7/F3VyIJaYKIrgK0GZrKaA==
+// GET /api/vendors/ratings — 全部供应商评级记录
+//
+// P0-4（V3.113.3）：前端 getAllRatings() 一直调用本端点，后端从未实现 → 404。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardOperation } from '../../_shared/operationGuard';
+
+const CRITERIA_KEYS = ['deliveryRate', 'qualityRate', 'serviceRate', 'priceRate'] as const;
+
+function toRatingRecord(r: any) {
+  let criteria: Record<string, number> = {};
+  let remarks = r.remarks || '';
+  try {
+    const parsed = JSON.parse(remarks);
+    if (parsed && typeof parsed === 'object' && parsed.__criteria) {
+      criteria = parsed.__criteria;
+      remarks = parsed.__remarks || '';
+    }
+  } catch { /* 非 JSON 备注 */ }
+  return {
+    id: r.id,
+    vendorId: r.vendor_id,
+    rating: Number(r.total_score) || 0,
+    type: 'manual' as const,
+    evaluator: r.evaluated_by || '',
+    criteria,
+    remarks,
+    createdAt: r.created_at || r.evaluated_at || '',
+  };
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'read', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  const url = new URL(request.url);
+  const vendorId = url.searchParams.get('vendorId') || undefined;
+
+  let sql = `SELECT * FROM vendor_performance WHERE org_id = ?`;
+  const params: any[] = [user.org_id];
+  if (vendorId) { sql += ` AND vendor_id = ?`; params.push(vendorId); }
+  sql += ` ORDER BY created_at DESC LIMIT 500`;
+
+  const rows = await env.DB.prepare(sql).bind(...params).all();
+  return json((rows.results || []).map((r: any) => toRatingRecord(r)));
+}

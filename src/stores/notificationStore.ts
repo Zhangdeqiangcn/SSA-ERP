@@ -1,229 +1,315 @@
-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
-+IHmwuE62hdlWNzZfLDziA==
+// P4-4 角色工作区与通知中心：实时聚合业务待办/预警的通知 store
+// 聚合来源：financeStore（逾期/待付款、发票待验证）、warehouseStore（库存告急）、
+// vendorStore（供应商待审）、qualityStore（检验任务）、materialStore（安全库存对照）
+// 用户级状态（已读 / 已忽略）持久化到 localStorage（键 ssa-erp-notify），不持久化业务数据本身。
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import { useMemo } from 'react';
+import { useFinanceStore } from './financeStore';
+import { useWarehouseStore } from './warehouseStore';
+import { useVendorStore } from './vendorStore';
+import { useQualityStore } from './qualityStore';
+import { useMaterialStore } from './materialStore';
+
+export type NotifyLevel = 'error' | 'warning' | 'info' | 'success';
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  desc: string;
+  level: NotifyLevel;
+  path: string;
+  time: string;
+  category: string;
+  source: 'biz' | 'system';
+  read: boolean;
+  dismissible: boolean;
+}
+
+export interface TodoCategory {
+  key: string;
+  label: string;
+  count: number;
+  level: NotifyLevel;
+  path: string;
+}
+
+interface NotificationState {
+  readIds: Record<string, boolean>;
+  dismissedIds: string[];
+  markRead: (id: string) => void;
+  markAllRead: (ids: string[]) => void;
+  dismiss: (id: string) => void;
+  reset: () => void;
+}
+
+// 系统级固定公告：非业务数据，read/dismiss 状态持久化
+const SYSTEM_NOTICES: Omit<AppNotification, 'read'>[] = [
+  {
+    id: 'sys:welcome',
+    title: '欢迎使用 SSA ERP',
+    desc: '个人中心已上线，可在此集中处理待办、查看与修改个人资料、修改密码。',
+    level: 'info',
+    path: '/profile',
+    time: '系统公告',
+    category: 'system',
+    source: 'system',
+    dismissible: true,
+  },
+  {
+    id: 'sys:p4',
+    title: 'P4 体验升级',
+    desc: '新增主题中心、通知中心、个人中心与无障碍支持。',
+    level: 'success',
+    path: '/settings',
+    time: '系统公告',
+    category: 'system',
+    source: 'system',
+    dismissible: true,
+  },
+];
+
+export const useNotificationStore = create<NotificationState>()(
+  persist(
+    (set) => ({
+      readIds: {},
+      dismissedIds: [],
+      markRead: (id) => set((s) => ({ readIds: { ...s.readIds, [id]: true } })),
+      markAllRead: (ids) =>
+        set((s) => {
+          const next = { ...s.readIds };
+          (ids ?? []).forEach((id) => {
+            next[id] = true;
+          });
+          return { readIds: next };
+        }),
+      dismiss: (id) =>
+        set((s) =>
+          s.dismissedIds.includes(id)
+            ? s
+            : { dismissedIds: [...s.dismissedIds, id] }
+        ),
+      reset: () => set({ readIds: {}, dismissedIds: [] }),
+    }),
+    { storage: backendStorage,
+    
+      name: 'ssa-erp-notify',
+      partialize: (s) => ({ readIds: s.readIds, dismissedIds: s.dismissedIds }),
+    }
+  )
+);
+
+/**
+ * 实时聚合业务待办/预警 + 系统公告 → 通知列表与待办汇总。
+ * 订阅各业务 store 切片，数据变化时自动重算（响应式）。
+ */
+export function useNotificationData(): {
+  notifications: AppNotification[];
+  summary: TodoCategory[];
+} {
+  const invoices = useFinanceStore((s) => s.invoices);
+  const paymentPlans = useFinanceStore((s) => s.paymentPlans);
+  const inventoryRecords = useWarehouseStore((s) => s.inventoryRecords);
+  const vendors = useVendorStore((s) => s.vendors);
+  const inspectionTasks = useQualityStore((s) => s.inspectionTasks);
+  const materials = useMaterialStore((s) => s.materials);
+  const readIds = useNotificationStore((s) => s.readIds);
+  const dismissedIds = useNotificationStore((s) => s.dismissedIds);
+
+  return useMemo(() => {
+    const items: AppNotification[] = [];
+
+    // 安全库存对照表（materialCode → safetyStock）
+    const safetyMap = new Map<string, number>();
+    (materials ?? []).forEach((m) => {
+      if (m.code) safetyMap.set(m.code, m.safetyStock ?? 0);
+    });
+
+    // 1. 逾期付款
+    (paymentPlans ?? []).forEach((p) => {
+      if (p.status === 'overdue') {
+        items.push({
+          id: `biz:pay:${p.id}`,
+          title: '逾期付款预警',
+          desc: `${p.planNo} ${p.vendorName} 应于 ${p.dueDate} 付款`,
+          level: 'error',
+          path: '/finance/payments',
+          time: `应由于 ${p.dueDate}`,
+          category: 'overdue_payment',
+          source: 'biz',
+          read: !!readIds[`biz:pay:${p.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 2. 待付款计划
+    (paymentPlans ?? []).forEach((p) => {
+      if (p.status === 'pending') {
+        items.push({
+          id: `biz:payp:${p.id}`,
+          title: '待付款计划',
+          desc: `${p.planNo} ${p.vendorName} 计划 ${p.dueDate} 付款`,
+          level: 'warning',
+          path: '/finance/payments',
+          time: `计划 ${p.dueDate}`,
+          category: 'pending_payment',
+          source: 'biz',
+          read: !!readIds[`biz:payp:${p.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 3. 库存告急（库存 < 物料安全库存）
+    (inventoryRecords ?? []).forEach((r) => {
+      const ss = safetyMap.get(r.materialCode) ?? 0;
+      if (ss > 0 && r.quantity < ss) {
+        items.push({
+          id: `biz:inv:${r.id}`,
+          title: '库存告急',
+          desc: `${r.materialName}（${r.materialCode}）库存 ${r.quantity} 低于安全库存 ${ss}`,
+          level: 'warning',
+          path: '/warehouse/inventory',
+          time: `当前 ${r.quantity} / 安全 ${ss}`,
+          category: 'low_stock',
+          source: 'biz',
+          read: !!readIds[`biz:inv:${r.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 4. 供应商待审核
+    (vendors ?? []).forEach((v) => {
+      if (v.status === 'pending') {
+        items.push({
+          id: `biz:ven:${v.id}`,
+          title: '供应商待审核',
+          desc: `${v.name} 准入申请待审批`,
+          level: 'warning',
+          path: '/vendor/approvals',
+          time: '待审批',
+          category: 'vendor_pending',
+          source: 'biz',
+          read: !!readIds[`biz:ven:${v.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 4.5 供应商资质到期预警（B6）：过期→error，30天内临期→warning
+    (vendors ?? []).forEach((v) => {
+      if (!v.qualificationExpiry) return;
+      const exp = new Date(v.qualificationExpiry);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const diffDays = Math.ceil((exp.getTime() - today.getTime()) / 86400000);
+      if (diffDays < 0) {
+        items.push({
+          id: `biz:venq:${v.id}`,
+          title: '供应商资质已过期',
+          desc: `${v.name} 资质有效期 ${v.qualificationExpiry} 已过期，请尽快更新以免影响合作`,
+          level: 'error',
+          path: '/vendor/risk',
+          time: `已过期 ${Math.abs(diffDays)} 天`,
+          category: 'vendor_qualification',
+          source: 'biz',
+          read: !!readIds[`biz:venq:${v.id}`],
+          dismissible: false,
+        });
+      } else if (diffDays <= 30) {
+        items.push({
+          id: `biz:venq:${v.id}`,
+          title: '供应商资质即将到期',
+          desc: `${v.name} 资质有效期 ${v.qualificationExpiry} 将于 ${diffDays} 天后到期`,
+          level: 'warning',
+          path: '/vendor/risk',
+          time: `剩 ${diffDays} 天`,
+          category: 'vendor_qualification',
+          source: 'biz',
+          read: !!readIds[`biz:venq:${v.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 5. 检验任务（待检验 / 检验中）
+    (inspectionTasks ?? []).forEach((t) => {
+      if (t.status === 'pending' || t.status === 'in_progress') {
+        items.push({
+          id: `biz:qc:${t.id}`,
+          title: t.status === 'in_progress' ? '检验进行中' : '待检验任务',
+          desc: `${t.taskNo} ${t.materialName}（${t.batchNo}）`,
+          level: 'info',
+          path: '/quality/inspection',
+          time: t.status === 'in_progress' ? '检验中' : '待检验',
+          category: 'inspection',
+          source: 'biz',
+          read: !!readIds[`biz:qc:${t.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 6. 发票待验证
+    (invoices ?? []).forEach((inv) => {
+      if (inv.status === 'submitted') {
+        items.push({
+          id: `biz:inv:${inv.id}`,
+          title: '发票待验证',
+          desc: `${inv.invoiceNo} ${inv.vendorName} 待财务验证`,
+          level: 'info',
+          path: '/finance/invoices',
+          time: `开票 ${inv.invoiceDate}`,
+          category: 'invoice_pending',
+          source: 'biz',
+          read: !!readIds[`biz:inv:${inv.id}`],
+          dismissible: false,
+        });
+      }
+    });
+
+    // 系统公告
+    SYSTEM_NOTICES.forEach((n) => {
+      items.push({ ...n, read: !!readIds[n.id] });
+    });
+
+    // 过滤已忽略
+    const filtered = items.filter((n) => !dismissedIds.includes(n.id));
+
+    // 排序：未读优先，业务优先于系统公告
+    filtered.sort((a, b) => {
+      if (a.read !== b.read) return a.read ? 1 : -1;
+      if (a.source !== b.source) return a.source === 'biz' ? -1 : 1;
+      return 0;
+    });
+
+    // 待办汇总（按分类计数，仅业务类）
+    const catCount: Record<string, number> = {};
+    filtered.forEach((n) => {
+      if (n.source === 'biz') catCount[n.category] = (catCount[n.category] ?? 0) + 1;
+    });
+    const summary: TodoCategory[] = [
+      { key: 'overdue_payment', label: '逾期付款', count: catCount['overdue_payment'] ?? 0, level: 'error', path: '/finance/payments' },
+      { key: 'pending_payment', label: '待付款', count: catCount['pending_payment'] ?? 0, level: 'warning', path: '/finance/payments' },
+      { key: 'low_stock', label: '库存告急', count: catCount['low_stock'] ?? 0, level: 'warning', path: '/warehouse/inventory' },
+      { key: 'vendor_pending', label: '供应商待审', count: catCount['vendor_pending'] ?? 0, level: 'warning', path: '/vendor/approvals' },
+      { key: 'vendor_qualification', label: '资质到期', count: catCount['vendor_qualification'] ?? 0, level: catCount['vendor_qualification'] ? 'error' : 'info', path: '/vendor/risk' },
+      { key: 'inspection', label: '检验任务', count: catCount['inspection'] ?? 0, level: 'info', path: '/quality/inspection' },
+      { key: 'invoice_pending', label: '发票待验证', count: catCount['invoice_pending'] ?? 0, level: 'info', path: '/finance/invoices' },
+    ];
+
+    return { notifications: filtered, summary };
+  }, [
+    invoices,
+    paymentPlans,
+    inventoryRecords,
+    vendors,
+    inspectionTasks,
+    materials,
+    readIds,
+    dismissedIds,
+  ]);
+}

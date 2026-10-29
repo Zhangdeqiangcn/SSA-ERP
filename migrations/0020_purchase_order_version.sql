@@ -1,17 +1,11 @@
-U2FsdGVkX1+wls/1SjkICEaGGZNSmQTEN83Q1GprlPNBEz2QeDwQAzd6O0Y8Zn66
-LDkmpe5aaGoF8VAiIzUyKa1jWXJFgNDZSRodai+D3zca/CnzStBOiqmrqTy52NhR
-FTjeZDKjdZkc+V8WaBkiVsR7aSg5c0lCgtnpX3Py/wlD4Lc8f9XTvhCtQ2nbWlNv
-zEK2zHT0As4aw2wkKeuBXJOqAeVIoFxZJgOYQVlqKUs6ZcDPRr1Vi7WODePca+E3
-eUSlHh3W7wk5K0inmMpAHbMH51AssczJQyPRBvOhgUVhsbczg8TFa+5765kccWL8
-cZC55azZA4bt7wSEh8251rD8VStK3koXOHggHWEx3ClB0g0RrpxIPIm5QffriESO
-CJVt7WjB+0gq1guErSwu1Q+/PJE011TKesN6ZPYKkNBOYPQqCS4Ru1TAW4Uvfpnj
-wNZKk7oFAleLw6R07Vye4lX8bUPoiKMO5C6y4tE/3jMqZIG07aa8uKcROBvTI4ZB
-6zPO1ueiKbk+8yJfj5iz1t1kDW2kCzWe/Luwjz5SNDfhiW3GXPhIwjzHWXHKnxis
-xJ9WXGxoGTX7miTVRJdg/6oXkfk/YlP9tpahYBknoJ47CEAbz+ScNd34D0ULMrlT
-iAcA4RRdjYfXRlMCz34NZmMihTzbQjlFJdhu2vSgZwhiYyZxabHNEm3IzNqOy30D
-iMj9mFnH/+iJz0LIeoNyf69m38wUEWuI90DQAh32Tui5nJJXjRrOvssoybyALXu5
-7l6aR9fsNwECfrV6VVQEJtgNJoo9cBRQHz1+gxgXQXllFihgrJItCvL8SElS48Qb
-JEXpwbsvfWPeD7EV9wu2UrdFgxFUlL47kLG+MrZ8SAKZLwGUafOVMgHbZd81Mrz/
-yNil3z1MXatB0BeOQQjrTOg8a7DgMlrMG/uVW1cLQt8dBOkpes6A2DquHp5bbH8w
-OGzTi/K7/JvdkD6JiosfG9aNo6WOmrEvI9uCsuckfrLI492j/RK+viNVmaFbi+sc
-rBaE57CViIKW9qUPxAuzyQ==
+-- W1 根治双通道：采购订单补 version / history 列，支撑 B10 变更单版本留痕落 D1。
+-- SQLite 不支持 `ALTER TABLE ADD COLUMN IF NOT EXISTS`，故本文件幂等由「应用前先探测列是否存在」保证
+-- （见实施脚本：PRAGMA table_info 探测，仅当列不存在才执行 ALTER；重复应用安全）。
+-- 远程应用：wrangler d1 execute --remote --command "$(cat migrations/0020_purchase_order_version.sql)"
+
+PRAGMA foreign_keys = ON;
+
+ALTER TABLE purchase_orders ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE purchase_orders ADD COLUMN history TEXT DEFAULT '[]';
+
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0020_purchase_order_version', datetime('now')) ON CONFLICT(version) DO NOTHING;

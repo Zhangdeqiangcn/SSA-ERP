@@ -1,114 +1,121 @@
-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
-cgmJPVw+/yU/IDHQDCuOxQ==
+// 外部 ERP 同步 · 连接列表 + 新建
+//   GET  /api/system/erp-sync       列出本组织全部连接 + 最近运行概览
+//   POST /api/system/erp-sync       新建连接配置（校验 base_url / 鉴权 / 方向 / 映射）
+//
+// 鉴权：会话需管理员；或 API Key（read 列 / write 建）。
+// 安全：返回的 auth_config 中 token / password 以 *** 遮盖，避免凭据在传输/日志中泄露。
+import { resolveDataRequester, requesterHasScope } from '../../_shared/dataAccess';
+import { runSync, testConnection } from '../../_shared/erpSync';
+import { json, uid } from '../../_shared/auth';
+import { errorResponse } from '../../_shared/errors';
+import { writeAudit } from '../../_shared/auditLog';
+
+const AUTH_TYPES = ['bearer', 'basic', 'apikey', 'none'];
+const DIRECTIONS = ['push', 'pull', 'both'];
+
+/** 遮盖 auth_config 中的敏感字段。 */
+function maskAuth(authConfig?: string | null): any {
+  const cfg = (() => { try { return authConfig ? JSON.parse(authConfig) : {}; } catch { return {}; } })();
+  const out = { ...cfg };
+  if (out.token) out.token = '***';
+  if (out.password) out.password = '***';
+  return out;
+}
+
+function publicConn(row: any) {
+  if (!row) return row;
+  return { ...row, auth_config: maskAuth(row.auth_config) };
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'read')) return json({ error: 'API Key 缺 read 权限' }, 403);
+  try {
+    const rows = await env.DB.prepare(
+      `SELECT * FROM erp_sync_connections WHERE org_id = ? ORDER BY created_at DESC`
+    ).bind(r.org_id).all();
+    const conns = (rows.results || []).map(publicConn);
+
+    // 最近运行概览（组织内最新 10 条）
+    const runs = await env.DB.prepare(
+      `SELECT * FROM erp_sync_runs WHERE org_id = ? ORDER BY started_at DESC LIMIT 10`
+    ).bind(r.org_id).all();
+
+    await writeAudit(env.DB, {
+      orgId: r.org_id,
+      actor: { id: r.actorId, name: r.actorName },
+      entity: 'erp_sync',
+      action: 'list',
+      summary: `查看外部 ERP 同步连接（${conns.length} 个）`,
+    });
+
+    return json({ connections: conns, recentRuns: runs.results || [] });
+  } catch (e: any) {
+    return errorResponse(e, '查询同步连接');
+  }
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const body = await request.json().catch(() => ({}));
+    const name = (body.name || '').toString().trim();
+    const base_url = (body.base_url || '').toString().trim();
+    const auth_type = (body.auth_type || 'bearer').toString();
+    const direction = (body.direction || 'push').toString();
+    const target_type = (body.target_type || 'rest').toString();
+
+    if (!name) return json({ error: 'name 必填' }, 400);
+    if (!/^https?:\/\//i.test(base_url)) return json({ error: 'base_url 必须是 http(s) 地址' }, 400);
+    const authMsg = 'auth_type 必须是 ' + AUTH_TYPES.join('/');
+    if (!AUTH_TYPES.includes(auth_type)) return json({ error: authMsg }, 400);
+    const dirMsg = 'direction 必须是 ' + DIRECTIONS.join('/');
+    if (!DIRECTIONS.includes(direction)) return json({ error: dirMsg }, 400);
+
+    // mapping_profile 必须是合法 JSON（可空）
+    let mappingProfile: string | null = null;
+    if (body.mapping_profile != null) {
+      if (typeof body.mapping_profile === 'string') {
+        try { JSON.parse(body.mapping_profile); mappingProfile = body.mapping_profile; } catch { return json({ error: 'mapping_profile 不是合法 JSON' }, 400); }
+      } else {
+        mappingProfile = JSON.stringify(body.mapping_profile);
+      }
+    }
+    let authConfig: string | null = null;
+    if (body.auth_config != null) {
+      if (typeof body.auth_config === 'string') {
+        try { JSON.parse(body.auth_config); authConfig = body.auth_config; } catch { return json({ error: 'auth_config 不是合法 JSON' }, 400); }
+      } else {
+        authConfig = JSON.stringify(body.auth_config);
+      }
+    }
+
+    const id = uid('esc');
+    const now = new Date().toISOString();
+    const enabled = body.enabled === false ? 0 : 1;
+    await env.DB.prepare(
+      `INSERT INTO erp_sync_connections (id, org_id, name, enabled, target_type, base_url, auth_type, auth_config, mapping_profile, direction, schedule_cron, last_synced_at, created_at, updated_at, created_by, updated_by)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(id, r.org_id, name, enabled, target_type, base_url, auth_type, authConfig, mappingProfile, direction,
+      body.schedule_cron || null, null, now, now, r.actorId, r.actorId).run();
+
+    await writeAudit(env.DB, {
+      orgId: r.org_id,
+      actor: { id: r.actorId, name: r.actorName },
+      entity: 'erp_sync',
+      action: 'create',
+      entityId: id,
+      summary: `新建外部 ERP 同步连接「${name}」（${direction}）`,
+    });
+
+    const created = await env.DB.prepare(`SELECT * FROM erp_sync_connections WHERE id = ?`).bind(id).first();
+    return json(publicConn(created), 201);
+  } catch (e: any) {
+    return errorResponse(e, '新建同步连接');
+  }
+}

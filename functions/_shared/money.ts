@@ -1,20 +1,15 @@
-U2FsdGVkX18sGHZ3FgUfChtNBazLvh8rMyE1GkXVwcSIMSEYd/r7Erg7uKhKmObG
-+c82z7xoegyAhMtrj9NIcUIsUzi84qMDCA6K2ezRAQhiHDSj35U81qIDmctUYlzu
-am5gTImUJp6FJCvw8aMMTAXjT1Hv+3eilZ+cmxWty2SAmzA55JlYyQU/AZxhjQBZ
-jTIx7rY0dUbJOBAk05/P3wVVzv1FPJ+Xm92VcnTLXuG2+3pCDbNbfxw2StsLAtdP
-lXyIN2NS0dEX1TTOOBcSToS3N72YXvE3+D3cIrA1bhRhd/EJvjFfzOtVoUv5jhDA
-ShLxkXcerM8mxrcY1VrCYeQ3TGEpBYd0JCLKLHbg/wRsD2bDEm1A2zrMoEDMfa0e
-9XzTwMBTMfBKiB0K/35yskc4rr7sHoijPrDn3NZXl/tkQAn3ZlrKhDZ8HJKOPRHO
-T9TTh+P82afY7MMM9178bIB7lMwyfsN/OVPrIYm+y2x5X/SrGvllHk5IWLNreDVj
-RQcGr4jnBe8yHUlPx8ouPBZd3+Xlko0TWWNFkgvZ3PmCZpJJ2ZAmteRyCC0vDQan
-IVE0Ew7aVwuKhlnYgwkYvp1f40nOQmFTqCpYxCbLL4i9bJrfhoAV/qSn0P86LpuT
-GoonfbqcXaeABFPs2rJMjoYk1xLfjxX++sGCqB03c+gPBEKtE0mXMYNcAFv0QwtU
-sHpOV4KUn/COrIuxgFW8+wCHbLuvVtIVeSr8YgxYehEz4PyYPoDNeLUqgGGRf+4u
-oKBtfYvIfl6zjTTuJ/PyoicxT0SYrnR01G5j39jSpAHyTCQfajF8TRAs4Jt3uRD5
-3NblHmje5qlvP47aY9creMrjaUDlbB+t1QAoxs8Fd1USTmV5LVsif6EjpV3hXk7k
-qQBkLYw13D4OICTob+HA6xUGOY3ItsmxPoKK1Pk3ACN8wiVW6igX4V9FnJLIcyTe
-HZp8l5yJbE7BVcQxUOiSKjxrBbOFh+FwJ0jqfqS4nsSZ7stfzRTw9DhZokEF8dqI
-ksua4dDXQ8+4GukQinHFblYSq36ok+/4iYa7oGYy9VQMsQsCs6LJbwJlPyRgrFPs
-yMHH0tHarxoylgFDtsQggos6OvTQXzk6mp6T6UymdYl/AJDzPydzSBZK7b8Y7HhZ
-3q+gyX8IgmGgTxeYOdnjwH+ajTJE3JW4kr8b49HVueCUZBjH4Vqk1o1Jiu4QxSJH
-ASbggSbMlmiDMtaQbFQno9a5ISLuB4AV4y7Eeeo/pElR2vREBH18NNTGYt9eCb1F
+/**
+ * 金额精度统一工具（#12 缺陷修复 · 2026-09-20）
+ * ------------------------------------------------------------------
+ * 之前四舍五入函数在 6 个文件各写一份（round2 / roundAmount / roundPrice 散落），
+ * 口径碰巧一致但无单一来源，后续改动极易漂移（硬规矩㉝：同源两处实现必须对得上）。
+ * 统一到此处，所有服务端金额 / 单价精度只此一份：
+ *   · roundAmount：金额保留 2 位小数（元）
+ *   · roundPrice ：单价保留 4 位小数（规避移动均价滚动误差）
+ * 均为纯函数、零副作用；null / undefined / NaN 归 0。
+ */
+/** 金额保留 2 位小数（元），规避浮点累加误差 */
+export const roundAmount = (n: number): number => Math.round((Number(n) || 0) * 100) / 100;
+
+/** 单价保留 4 位小数 */
+export const roundPrice = (n: number): number => Math.round((Number(n) || 0) * 10000) / 10000;

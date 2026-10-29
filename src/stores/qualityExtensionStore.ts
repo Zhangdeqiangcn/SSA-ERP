@@ -1,170 +1,200 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { EightDRecord, SpcChart, LabEquipment } from '@/types';
+import { parsePayload, splitByKind, withKind, writeRow } from './entityBackedShared';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const today = () => new Date().toISOString().slice(0, 10);
+const addDays = (base: string, days: number) => {
+  const d = new Date(base);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().slice(0, 10);
+};
+
+interface QualityExtensionState {
+  eightDRecords: EightDRecord[];
+  spcCharts: SpcChart[];
+  labEquipments: LabEquipment[];
+
+  // 8D
+  addEightD: (r: EightDRecord) => void;
+  updateEightD: (id: string, u: Partial<EightDRecord>) => void;
+  deleteEightD: (id: string) => void;
+  closeEightD: (id: string, d8?: string) => void;
+
+  // SPC
+  addSpcChart: (c: SpcChart) => void;
+  updateSpcChart: (id: string, u: Partial<SpcChart>) => void;
+  deleteSpcChart: (id: string) => void;
+
+  // 实验室 / 检验设备
+  addLabEquipment: (e: LabEquipment) => void;
+  updateLabEquipment: (id: string, u: Partial<LabEquipment>) => void;
+  deleteLabEquipment: (id: string) => void;
+  calibrateEquipment: (id: string, date: string) => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateQualityExtension: () => Promise<void>;
+}
+
+const RES = 'qualityExtension';
+
+const seedLab: LabEquipment[] = [
+  {
+    id: 'lab-seed-1', equipmentNo: 'LAB-CAL-001', name: '数显千分尺', type: 'gauge', model: '293-240',
+    manufacturer: 'Mitutoyo', location: '计量室', custodian: '李计量', calibrationCycleDays: 180,
+    lastCalibrationDate: addDays(today(), -185), nextCalibrationDate: addDays(today(), -5), status: 'in_use',
+    accuracy: '±0.001mm', createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
+  },
+  {
+    id: 'lab-seed-2', equipmentNo: 'LAB-CMM-002', name: '三坐标测量机', type: 'cmm', model: 'EXPLORER',
+    manufacturer: 'HEXAGON', location: '精测间', custodian: '王精测', calibrationCycleDays: 365,
+    lastCalibrationDate: addDays(today(), -30), nextCalibrationDate: addDays(today(), 335), status: 'in_use',
+    accuracy: '±1.5μm', createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
+  },
+];
+
+const seedSpc: SpcChart[] = [
+  {
+    id: 'spc-seed-1', name: '缸体孔径 SPC', characteristic: '缸体孔径', unit: 'mm', subgroupSize: 5,
+    usl: 80.05, lsl: 79.95,
+    subgroups: [
+      { id: 'g1', label: 'G1', values: [80.01, 80.00, 79.99, 80.02, 80.00] },
+      { id: 'g2', label: 'G2', values: [79.98, 80.01, 80.00, 79.99, 80.02] },
+      { id: 'g3', label: 'G3', values: [80.03, 80.02, 80.01, 80.04, 80.00] },
+      { id: 'g4', label: 'G4', values: [80.20, 80.18, 80.19, 80.21, 80.17] }, // 失控子组
+      { id: 'g5', label: 'G5', values: [79.99, 80.00, 80.01, 79.98, 80.00] },
+    ],
+    createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
+  },
+];
+
+const seed8D: EightDRecord[] = [
+  {
+    id: 'd8-seed-1', code: '8D-2026-001', title: '钢板表面划伤客诉', sourceType: 'customer_complaint',
+    sourceNo: 'CUST-2026-0312', priority: 'high', status: 'in_progress', owner: '张质量',
+    team: ['张质量', '李工艺', '王生产'], d0: '客户现场隔离在制品 200 件', d1: '成立专项小组',
+    d2: '批次 STEEL-001 表面划伤率 3.2%', d3: '暂停发货并全检',
+    dueDate: addDays(today(), 15), createdAt: today(), updatedAt: today(), createdBy: '质量部', updatedBy: '质量部',
+  },
+];
+
+export const useQualityExtensionStore = create<QualityExtensionState>()((set, get) => ({
+  eightDRecords: [...seed8D],
+  spcCharts: [...seedSpc],
+  labEquipments: [...seedLab],
+
+  addEightD: (r) => {
+    set((s) => ({ eightDRecords: [...s.eightDRecords, r] }));
+    if (isAuthed()) writeRow(RES, r.id, withKind('eightD', r));
+  },
+  updateEightD: (id, u) => {
+    let updated: EightDRecord | undefined;
+    set((s) => ({
+      eightDRecords: s.eightDRecords.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('eightD', updated));
+  },
+  deleteEightD: (id) => {
+    set((s) => ({ eightDRecords: s.eightDRecords.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+  closeEightD: (id, d8) => {
+    let updated: EightDRecord | undefined;
+    set((s) => ({
+      eightDRecords: s.eightDRecords.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, status: 'closed', d8: d8 || x.d8, closedDate: today(), updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('eightD', updated));
+  },
+
+  addSpcChart: (c) => {
+    set((s) => ({ spcCharts: [...s.spcCharts, c] }));
+    if (isAuthed()) writeRow(RES, c.id, withKind('spc', c));
+  },
+  updateSpcChart: (id, u) => {
+    let updated: SpcChart | undefined;
+    set((s) => ({
+      spcCharts: s.spcCharts.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('spc', updated));
+  },
+  deleteSpcChart: (id) => {
+    set((s) => ({ spcCharts: s.spcCharts.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  addLabEquipment: (e) => {
+    set((s) => ({ labEquipments: [...s.labEquipments, e] }));
+    if (isAuthed()) writeRow(RES, e.id, withKind('lab', e));
+  },
+  updateLabEquipment: (id, u) => {
+    let updated: LabEquipment | undefined;
+    set((s) => ({
+      labEquipments: s.labEquipments.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u, updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('lab', updated));
+  },
+  deleteLabEquipment: (id) => {
+    set((s) => ({ labEquipments: s.labEquipments.filter((x) => x.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+  calibrateEquipment: (id, date) => {
+    let updated: LabEquipment | undefined;
+    set((s) => ({
+      labEquipments: s.labEquipments.map((x) => {
+        if (x.id !== id) return x;
+        const next = addDays(date, x.calibrationCycleDays);
+        updated = { ...x, lastCalibrationDate: date, nextCalibrationDate: next, status: 'in_use', updatedAt: today(), updatedBy: '当前用户' };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('lab', updated));
+  },
+
+  hydrateQualityExtension: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload(res?.data || []);
+      if (rows.length === 0) {
+        for (const r of seed8D) writeRow(RES, r.id, withKind('eightD', r));
+        for (const c of seedSpc) writeRow(RES, c.id, withKind('spc', c));
+        for (const e of seedLab) writeRow(RES, e.id, withKind('lab', e));
+        const rf = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+        const r2 = parsePayload(rf?.data || []);
+        set({
+          eightDRecords: splitByKind<EightDRecord>(r2, 'eightD'),
+          spcCharts: splitByKind<SpcChart>(r2, 'spc'),
+          labEquipments: splitByKind<LabEquipment>(r2, 'lab'),
+        });
+        return;
+      }
+      set({
+        eightDRecords: splitByKind<EightDRecord>(rows, 'eightD'),
+        spcCharts: splitByKind<SpcChart>(rows, 'spc'),
+        labEquipments: splitByKind<LabEquipment>(rows, 'lab'),
+      });
+    } catch {
+      // 离线/异常：保留本地种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useQualityExtensionStore.getState().hydrateQualityExtension();

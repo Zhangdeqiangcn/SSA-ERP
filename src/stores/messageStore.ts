@@ -1,97 +1,119 @@
-U2FsdGVkX19paSyvQkpfkn2rgcIA4ZYtA1I0sMbmdsP0W5zX+mbZ/jlPdUBQOcNq
-AmZeUU7elcvL61XwJk/AZyBlehnt+5NgjEnFIJkZT3YPzw9UGdjEyThk+Sccv96b
-voALZkGk1ysDnFlQj6IXLJsX3IoVdPu5KMdxNiUbdAP200/peI+fckdMNTP75yA+
-B/gZuathTV53lH6CBO/GkEvffpKrKbYqsAG3HehMrjqmWG/QqPPkZrmNwpH+C69N
-Sl2DNhlOjvlqWnVKvtX4tPLNZK1fFmj9AJ4/A4AnG6NP+2m1z9m+se83bXJTigx1
-7NuzfDSncJxi7Z+XH5OpwVKfxG9bD6WzfDkFbO+Z/1Ay9lpHjznlmVHa0N3OgL2e
-QJpW5YbhSVgxgvO3pinbLuVD+grFQpLJ/flPk77NQANkuBuWnYQH6vMOhacDSM5o
-D4k49T/TODEgZSHKXIBsU5Vbp7cUBRs4xJcJkYMSz4RcP9bW1o1YpSKqgRmxurZy
-11i0koLSPSP7DgyejU5fjUhYQQfygKan7R4+RyP3L/FANpXXSAspm6c0itlvHUgS
-6k6FU1wiSBpDMpFL+xcGC2aLuyn0PI83sbXNepHd+jG711bHkTFp2t9DApArg+nv
-3iBawUOAkIiAKlBaHkYOLR1jDFmK3H/qSUlJS6hmQ6VSqWKscZeW5+c72gYIPF7d
-9+H5ZwrBj75iayU2kqRP4Xa2QFQZZnRZmXh9NjHTYKHpoxt9CM75mjGY3w3lagIy
-Zjot3OE4xpEMaXCt24Hxzg8Qv9J4VseUCObZxPUjMoFGQz4LNQj34SnXPtUPeh22
-7doy7YBX0edaH4WOf0MQNzSXUIm7maLlqeyGwrEdALjcWnQWpqt/FoC+Yq7l8eYr
-rfMG3nHXk6wm2LJguYOV7mTPkte9VaT4iaBdq1IIqIjnSjeF72Ooovpykpo5ZFma
-49ymfYMAGzwGjYbG0iM75++6aD34wRPFetrlZtC2t+B4xiW2jJxTVPtdYehwNR9r
-zHF0VT0jgKVcZhdUvmZom9sZm6m1hjSSTdIgmwuyaFNjivIWLE/7WuylujPWMqdS
-R+2hnARELg6kUk1IvKdst4KN5xpxRES18hqxdtAjvKZByDi+JbLcO8/DTin+5TR8
-uAVJ4IfSOJZ+onY3n/kb9eM7DDTna9R56NzLL7lDrJ3oEG5XhuI4QXU7QC0vRk8E
-ohvOlHCrYSOoBLCzW/X2f7gXxXQsf16aZFOU71+O75SciAYMedTjlWBnzaTMPuXl
-w2NtkFYQD09C6a8bEX8X5sZGS3wFDqO7UFGjgQbf2tP1RY3m2CTUBUAsbMRGDAbm
-/WZA/l7R66SipI9XAhbaSVn0SLXHpABtoLRcohE+3dmPG7U1ssS3BUJMUQqUATrh
-yocHnKt9+s/VuHKqYnKDTyGx2W/Ku0DuaVS9zEA6130I9Q4F5tUhp2vj1/UPPSYO
-vKzCHhyBR2al2PUBCOzcIizfkZtM7sEcwh7aFFKL0nkPLPeCg8eWamyUFbLx9ZI9
-XetTrXUUVfp3yc/pXuGB5Gc5QJzr6dhrbzZrRcQDYwyWi8ZBsnigh7cWa6Pnm8nB
-H5SnVhrfAn6DfsGkWCfXaYgHHJgZhfe1Kvy4ZQp5Sf2HEe7POiziUBA83cFeBgMR
-0pVzoeUzTrzzJuWKhGf+s0cHgV0gkkPMqMrLneuc8MxNLR+Z9nVfrAIylEa5vEck
-LDHyq8C/ciXnIiglddCYa+dAS6d6QDrrg8232eTOEYeiOlAiOjrBFykpTr4EBWIp
-YEcquEe6Lwe6h5D4c4uE2To9utbSqwv2ayAAHLvvT4HfMmJGDeGqHzxx3TnQL3yH
-lO9gmYZP1E0R0YSBkldP3OxdOAfCYekTFtCzGV+AjOwnNc0kvIvHR4bThxS/Qwnl
-cFEDlZb+iy5zdY5wFovnjQn8oHbky8pGTirkTJHbyhWvyIUNSKYEtC+Dofg+DlPa
-m5fMq02qHrdd2N9DgMGNjjDLotyFCXiEZty7i2+wYuQRttjgYy7Isq4wpQRURmt3
-o0VdZq75JNGwo974QlmPpjrNAAKhKJlHatoxwAWqhaE8SdpZRy2Ay0ehDu/jsTf6
-7niL/zG/qfZlopuVkX7VBRnqMQbzCX7UJivfL9bjGRigd7R0wOxznDBSIXKZwrY+
-YgzjEg0KjAXirsDX3Sga8GhbcEBbxxAC7ijQJ6QNftFtRQOE92cvDv3enxYFdE4r
-oJyMEMojjUnZu88UhdPXITy8amZ5Frf/YvlxvDkC0TsBd77WJYbmi22AFfCHOwkK
-UIHCxUcyiW0oBQkSCmLxsxc46oHplc7GvEjBk13mOlu/gytPMF17iAyFxt9VA+29
-o3a2XsKQeOJJWYwTospPtf/LA/RfmhFz2QNhSP9+vRCOOXtxjC506OP0GZ+9ESbD
-+8FNCCllCg0eGXflFJ0DP782vXBi5N9hS9xxAyU5j6K2KJ480qOAsER6Vqu1sE80
-+CpWWjhVYZWIR8a7RnuQkgOjTVX94TCyiJynnRPTOc1ea3D/NNfO7xoAmuqC6oC2
-xspKtJtYX+PhBokNuv05nOwMPto02y3KhP+gA5EyNW5O4GRUhz90a8rxMK/hDQak
-WgIfgR3rPOEgWJpONGKTMxEsbtSid+afhmsSnEigpSkOKDCH5OiBI4tjlPxb0yGs
-yxWN0JvJ3UkSKa6cS5/k6se6MRWKZs7U+EpjVtVTuS+QR9YQ3s+s2VaICATmxWgr
-e2vzhfpgfqHl7YbQpr7Jq5vg2pG8BjA3FfzAQ4zUtNuvIyGx2EAd6Zjo5cTJrz9h
-HNBAhl6ISksqkfuYTd73d202gVIRHZF80FQp8xFPYzSiB/aXrrsYbZAVcCr1Xlh7
-kpXcTZaK1s7pZyqucPUZ4DCfN9NP030w4OX+yD+HRYR7qk7zztokgiSZothgWzjc
-ZZwOXiOzUjC4Vosu2vc6Mf6rAA4M5m8LbqlSdI7hrgi3JKJ45fwE7EhXIV1z5yjH
-t562Czfnn5ukURzmoFN0ILiRa/1dv0TOx2jFbYtXSapwVZbuSpibe9AFqd0qAmdt
-fc4Ilv4avH7cHrwcjYvtHGU6itr7Y2eMbZI+KMb0oTnIKOLIL+dwY1wPuBtWqTpL
-Fsx3vyZNzbbfZUlBPf26FGpLLEsJFcBk7X0nYxmeHv19HWabjxa+LyabnwnZKnGt
-xofdbquayrJztUaYdBgfWjp8//m/vCNhSc/om8Jezc/mIg+wPdGE329r70LxBHR8
-ms2wNHbys4FBXIElLXJeAIGh+PIxUos0lY+tBgELgFuj0Q7dYEhI5/0ZMPF5qXJk
-nD7kjfhUkHEiToWZx2amFeRUX6z4VIhsvy9va8Ofanyjy+D0QOtUtDER3qGZGBw+
-V+hMutvJ735u2WVouLvM4LexLq2/MoI4vB1cjcfdT2RaUnjZnf9EHHCwiqgUFXWS
-Z269JR/H3+6UDfh9CXzXaD+3YY8kGuV5Ld6PYqARa73EmpytZYpBk0+0fhsa9HBe
-kNFE9OnHyH6r2Mv/OIppBKG5jsw0KNRFCImEpF6EHC9sK3Yu+lTlkP1OYSyJCVYK
-uF96w1yjx/RP1ZrGRvYZCYWXBjpVGiOHzyDfPz9c8lYUumNzyXmQft77o7x8+UPH
-zLe3C1PwdMi29ZPPD/WxFjN/ZNnjp7kduM8OuryCoOdnHOSAmedPTAS3VJmzh7kB
-N1HEAHDOvKbTCqGnAU11J3jrNR8RYfROj+vprmE82C2w7k6drlwBi6vv/sCJPsc1
-+Y5M8X/i21d/YhYrSBOFyuDhEuCsdyNGw517l0cNdOfAyjoXRWUoGuf/xSSgOzjb
-+M3/9g2MRtIWoM9wfDfFpP9yd5uyoc3587A+7fftSfkSCje1T29hR2R1ujzs6aSA
-J9xJToAg5JWde9TrrgvwbCebFQe3ifVmz2xP/0mw4YqpvUpUAjjeND1F4hgiRxJh
-v/NuY6ma62haGu8pLKnTMdaQf++j50jgFrdy6NuQQ2qBOBUOkrjFa4mG1o+Ytw49
-dwHXpb7nlGIToL2QvVhKeIMtYDWJmWh9rfAPxv7dlkpXuiFnB74rjasyxWpeCd2f
-mZd8Sh0/XJp0P8CzTnPP60sbAewJrnYPIFpeyzbzgIqqyJkCqXJkjITphhquG0vV
-eOGfUGmyyi6Uj6407Zsg3vrNrR+9x/LYgNFSGRqi+LJAcY3tvo3IaOLb0k3bm8mM
-qTFlXLI8wBJSWLXLIhNht5D+sekfyUB2Z/7Y1cxzn9z0KV8Okd2kiAOStpfryx5z
-qTOPoi+RCrA5GjhCTzhCWS0LV6j8b4hGUNeEPuxuQkLkPC0HKqOvg3tDbT0GmhiR
-j6KHcMnU9srgvI820bzTHmy7EvTa1MSNwrK7wormZYimslsz1pmGjXQ1BGjZ6HJx
-24wF9EBlrQRhpMdbedxKOjnRhecCBxUkAmOPcuMJZazG9/Ws8jFW85klGvjM8XBW
-fQWsTyQOGYsIG9Ep6RYaYU+SIJReZxwmuhfxGyxKKzQXFKdtjTrd1OkdH+zxXQYT
-zn/Nd1EG10UyfkQ2UaRxiQVRISornrkeZsjnblI7wM95ZhtdIw7RRNcRrQEYbCtJ
-447JaooK2N4ElyLZLsJfuIkuzsqqjGX4+jhb92kt6xDBP+RvbqvuRPt9i9WSd+Dn
-363XU1MzLIT6nABZ70JpVR8+5p+f6eoJlCpjzlBHrUFpz9bEj6w/V/VKDApeOrn2
-j4KBY2cMxLjQMFAF3TdjjAHugRQYsxtCtQj227Sk9wjz9N4+OuVoCtIIlyrY6QM9
-4qSi0C36EczJQN1Ve/q9+U1R7fJVCzkJPkNags7s6uoMWbIPyFySPM7zR7ilCH/J
-1MNgjFe6Qc7p5Xf7LmNhBYzs0n8G0AhNxGyLo/zd9kLp2rjciQElvfRj9lP8cAYi
-l3kUGP2fPZQb1Skg6Vs3xmcy1YzsM4RvuLHekzMrY5OnDpL/U/5HPqG8rbqPrlaS
-wAZcaJM1AovWWSWhDthWUjuOxweamvUacNcvp4BakDjpm+vqDJhR5LXEcJl6Icv6
-eNIT9tNtBU89cJpegl9zj8Rb2c6DEq7CunGJK8Zrwb2IzUe6hx3V4DZKVduFNc5C
-CVuClK7/05E0CB/NCoMkF9tUGIhsUGzro7pjyQJVGAVY7vBsPVetlNnDvz2mJOUq
-zRXtDgd30yAYLRaetSrbMjAeZwjYk2Bz04a5KB87KuI9g3/PIvh4nrOnRNa7GbBb
-S8MBwmkd2eV9b3tf1oBClufmjVLwoL2ncCmYv30KF7eqBQEFkWPErDsIKrajcm7r
-vIENMfsEaN2yqfLds6xujVk73kHX2GLZnCkp2tlC8BC4bRLuJhYpRVcyCm53ILxJ
-OHv1c78+DpI1Wei+rZckfSu7awNRP4wOZkZzLPwSDFbmcUsBnkRGICrF7uWal3V7
-Ohud5LlGzxKXTCoHHwLG9MVNa0ejgW6AjU//R9RNnAHHTfQw+dPFrn2iNenUXts5
-2YfxTU4e/hAQsmbQ5BZ2kFTXYA6bCrKjY+s6EAZkdmmmjYTy1UXce2X20Wz8xlXK
-xpVVgtH1hV+NiRv9X/kkJrQrE9nJof5HFZF43R23s0AT9n9ofER39g/tS6sUW5o6
-jYmDaaSmjBSjsvLJs8/ZmGKVOGvlQ1H4fvYfW1KqjSwxThqruLUeZzMD5WFHyA/0
-/xBu3jEL/KmdMpO+jMEzrDMIKbEVXtXewrqeqKBvigo0daga414VeszioGX1aNK2
-iM+OXVWjacgGhUKh8FkRzCHHIbchMuHtSR3G7nf0SrcOsYJzoOyq8H/ioO0FT3ca
-92CVnjx/hLA/uZ4bBtBy5cEwWzbw3Qq/ZR7+9EvPyVV/12LMR+ICwte2Rd1Ebmts
-qrTDxlpJY0k7pP+OTo4Z5TTlEOX3eDFINUoPAIIojO+dcIiDcZxPmOags1J+cPVX
-Zv2U8Nwpx4xKau9ruCyJTRBSQJRatmPUSuZ1czkDt1dOdBgZV1eIwZfKF+zxT+KL
-oPtVK8dCOd2bqXnfHFjYPZL83AN2/O9aboPeGOxz3mCmuEbSCKNMKT2MFjw3+VaJ
-iQjzJmphqtJcKc73NRUVjcZncQJjhzP+pYYQSSPTYGO7L+JdG0h0ZvN2tl5yFjTp
-C6CAzgFSkjwf7JK0bdR5zuTZC2mjNbmsXXRsW0hqo0TuFFZPInKgM0AXC2LCSa0P
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { MobileMessage, MessageType } from '@/types/message';
+import { useAuthStore } from '@/stores/authStore';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+
+/**
+ * V2.80.0 W2：移动端即时消息 store（根治双通道，真存云端 D1）。
+ * 复用 entityRepo（通用 /entities/[resource] 端点，org 隔离 + 审计）。
+ * 推送机制：移动端轮询拉取（每 30 秒），复用预警列表那种拉取模式，简单稳，无需长连接。
+ * 可见性：recipientId 指定用户 / recipientRole 指定角色 / 二者皆空=全员可见。
+ * 触发入口：send() 可被审批流、预警规则等业务调用（预留 push 接入点）；本版提供「发布全员公告」演示真多人同步。
+ */
+const RES = 'mobileMsg';
+const flagKey = 'ssa-erp-backfilled-messages';
+
+const newId = () => `msg-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+
+/** 当前用户是否可见该消息（指定用户 / 角色 / 全员） */
+export function isMine(m: MobileMessage, user: { id?: string; role?: string } | null | undefined): boolean {
+  if (!user) return false;
+  if (m.recipientId) return m.recipientId === user.id;
+  if (m.recipientRole) return m.recipientRole === user.role;
+  return true; // 全员
+}
+
+interface MessageState {
+  all: MobileMessage[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  send: (m: {
+    title: string;
+    body: string;
+    type?: MessageType;
+    recipientId?: string | null;
+    recipientRole?: string | null;
+    refModule?: string;
+    refId?: string;
+  }) => Promise<void>;
+  markRead: (id: string) => Promise<void>;
+  markAllRead: () => Promise<void>;
+}
+
+export const useMessageStore = create<MessageState>()((set, get) => ({
+  all: [],
+  loaded: false,
+
+  load: async () => {
+    try {
+      const r = await entityRepo.list<MobileMessage>(RES, { page: 1, pageSize: 500 });
+      const list = (r?.data || []) as MobileMessage[];
+      if (list.length === 0 && !localStorage.getItem(flagKey)) {
+        localStorage.setItem(flagKey, '1');
+        const seed: MobileMessage = {
+          id: newId(),
+          senderId: undefined,
+          senderName: '系统',
+          recipientId: null,
+          recipientRole: null,
+          title: '欢迎使用移动消息',
+          body: '审批与预警将推送至此；点击消息可标记已读，数据直连云端 D1 多人共享。',
+          type: 'system',
+          read: 0,
+          createdAt: new Date().toISOString(),
+        };
+        try { await entityRepo.create<MobileMessage>(RES, seed); } catch { /* 尽力回填 */ }
+        const r2 = await entityRepo.list<MobileMessage>(RES, { page: 1, pageSize: 500 });
+        set({ all: (r2?.data || []) as MobileMessage[], loaded: true });
+        return;
+      }
+      set({ all: list, loaded: true });
+    } catch {
+      set({ all: [], loaded: true });
+    }
+  },
+
+  send: async (m) => {
+    const user = useAuthStore.getState().currentUser;
+    const msg: MobileMessage = {
+      id: newId(),
+      senderId: user?.id || undefined,
+      senderName: user?.name || '系统',
+      recipientId: m.recipientId ?? null,
+      recipientRole: m.recipientRole ?? null,
+      title: m.title,
+      body: m.body,
+      type: m.type || 'announce',
+      refModule: m.refModule,
+      refId: m.refId,
+      read: 0,
+      createdAt: new Date().toISOString(),
+    };
+    set((s) => ({ all: [msg, ...s.all] }));
+    try {
+      await entityRepo.create<MobileMessage>(RES, msg);
+    } catch {
+      set((s) => ({ all: s.all.filter((x) => x.id !== msg.id) }));
+    }
+  },
+
+  markRead: async (id) => {
+    const now = new Date().toISOString();
+    set((s) => ({ all: s.all.map((x) => (x.id === id ? { ...x, read: 1, readAt: now } : x)) }));
+    try { await entityRepo.update<MobileMessage>(RES, id, { read: 1, readAt: now }); } catch { useGlobalToastStore.getState().showError('标记已读同步失败，刷新后可能恢复未读'); }
+  },
+
+  markAllRead: async () => {
+    const user = useAuthStore.getState().currentUser;
+    const mine = get().all.filter((x) => !x.read && isMine(x, user));
+    if (mine.length === 0) return;
+    const now = new Date().toISOString();
+    set((s) => ({
+      all: s.all.map((x) => (mine.find((m) => m.id === x.id) ? { ...x, read: 1, readAt: now } : x)),
+    }));
+    await Promise.all(
+      mine.map((m) => entityRepo.update<MobileMessage>(RES, m.id, { read: 1, readAt: now }).catch(() => { useGlobalToastStore.getState().showError('部分消息标记已读同步失败'); })),
+    );
+  },
+}));

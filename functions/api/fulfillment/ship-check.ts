@@ -1,78 +1,106 @@
-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
+// 仓储执行层 · 发货校验（POST /api/fulfillment/ship-check）：订单行 vs 实扫清单逐项比对
+// 关键纪律：不通过必须诚实返回 422 + 不符明细，绝不静默放行（防错发漏发）
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+function safeJson(s: string | null, fallback: any) {
+  if (!s) return fallback;
+  try {
+    return JSON.parse(s);
+  } catch {
+    return fallback;
+  }
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'fulfillment', 'update', env.DB, user.org_id);
+  if (_g) return _g;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const { orderHubId, packNo, scanList } = body;
+  if (!orderHubId || !Array.isArray(scanList)) {
+    return json({ error: '订单与扫描清单必填' }, 400);
+  }
+
+  const rls = rlsCondition(user, 'order_hub');
+  let where = 'id = ? AND org_id = ?';
+  const params: any[] = [orderHubId, user.org_id];
+  if (rls.clause !== '1=1') {
+    where += ' AND ' + rls.clause;
+    params.push(...rls.params);
+  }
+  const order = await env.DB.prepare(`SELECT lines FROM order_hub WHERE ${where}`).bind(...params).first();
+  if (!order) return json({ error: '订单不存在' }, 404);
+
+  const lines = safeJson(order.lines, []);
+  // 期望：内部 SKU → 数量
+  const expected = new Map<string, number>();
+  for (const l of lines) {
+    const sku = l.sku || l.platformSku;
+    if (!sku) continue;
+    expected.set(sku, (expected.get(sku) || 0) + l.quantity);
+  }
+  // 实扫：materialCode/sku → 数量
+  const actual = new Map<string, number>();
+  for (const s of scanList) {
+    const code = s.materialCode || s.sku;
+    if (!code) continue;
+    actual.set(code, (actual.get(code) || 0) + (s.quantity || 0));
+  }
+
+  const mismatches: any[] = [];
+  for (const [code, qty] of expected) {
+    const got = actual.get(code) || 0;
+    if (got !== qty) {
+      mismatches.push({ materialCode: code, expected: qty, actual: got, type: got === 0 ? 'missing' : 'qty' });
+    }
+  }
+  for (const [code, qty] of actual) {
+    if (!expected.has(code)) mismatches.push({ materialCode: code, expected: 0, actual: qty, type: 'extra' });
+  }
+  for (const s of scanList) {
+    const code = s.materialCode || s.sku;
+    const line = lines.find((l: any) => (l.sku || l.platformSku) === code);
+    if (line && line.barcode && s.barcode && line.barcode !== s.barcode) {
+      mismatches.push({ materialCode: code, expected: -1, actual: -1, type: 'barcode' });
+    }
+  }
+
+  const pass = mismatches.length === 0;
+  const id = uid('sc');
+  const now = new Date().toISOString();
+  try {
+    await env.DB
+      .prepare(
+        `INSERT INTO ship_checks (id, org_id, order_hub_id, pack_no, pass, detail, created_at)
+         VALUES (?,?,?,?,?,?,?)`
+      )
+      .bind(id, user.org_id, orderHubId, packNo ?? null, pass ? 1 : 0, JSON.stringify(mismatches), now)
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '发货校验');
+  }
+
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'fulfillment',
+    'update',
+    `发货校验 ${orderHubId} ${pass ? '通过' : '不通过(' + mismatches.length + '项不符)'}`
+  );
+  if (!pass) return json({ pass: false, mismatches }, 422);
+  return json({ pass: true, id });
+}

@@ -1,37 +1,38 @@
-U2FsdGVkX18s2oVTcMqF3TZiPgmO88ymTYkbVtqaJE72bldmMOU1bXY+Uypf6nVT
-dF/A2oh8N2pg3n9sK3pcR8o31oLAwCY5ijLfk//4pVI8e+qnP03+XPj1Hxp2ocOJ
-4Umu7nH6vE2lI55IHnDHrf5GZ8CTOLuq0+kpmVSHv3vuyTIMfdK+s/cdrXo65B7B
-kgLtRwdouwjHVPmBLjWZaxWBVrNrzn8znZpywhP4F2tUTXAjAbcxQI83WrmJTA+v
-15Ex+Pd9eJ0t1ezvFenk8nX65glZ4JbHAq+XJwJhFzcgc4pBIaSKH6sw7ylYhz77
-0Jq86nhDwpg9eNcyxJq6Au9i9bYQGheeK6eOMbZj/tq5GfoGjxMdIOKMTtfmGeSG
-f7okJ5/3leaRziJ6ngBvQvqf18au4UXUKGY/m9xRZnSdsSMYIctnvF3Iowcr7By+
-0ci1KAmZwBDvJ+ZXyKTizfAlRRWCx3HpzN4g3QphdUAR0+WlETD9czEFic1/2KEm
-cAcCjp7/zavTy+rS4duPvQ+59gvldKqoFCYx6gq2MASm9Jt29njETUlX4CPuuTja
-LT9BSnQe80Fn1YdIa/RpUpOzi8kmnoQKLZmho+2aqm7CC48LXm+RFINVJvya8gF+
-h2s9bEUKqYzNgW0eY+7yfZ9hKV75A1EvXwS8Gg6EtGl8UXGRV22UHIK82kN0Bu5F
-FlDUs7zVesbl1ettd4MkC7d6Oc/6Gs0dgVfUATl1C7Z4uiciIP2Q6d5ovanhA3pn
-h/yo8ohUhXaWqcLP/MawKTVt2UoUPUj/uVHbF2oSY/PWEyxXvJ9BL6HtgkgJNfmw
-h4geW5l15vVeenxjqoZDGX2nnZ4m09upU7U8wQSjWqsIscvH4pcJn+oiS/lr5FXz
-U6ctXRSpYgr4JEUNnwTiRv+ad4qY0es84LL7ASAwjJUZXBh3LN6/uSn82F7jYIQr
-FLOjQpijWp5CMSfWj4Uug6cHNWfaOtnvi2jZqVHln66RJH4Kwkhc7GVvKJQXp4HC
-pzwrLRdUNDgJyt4tNz9k1EReAXojt3/QNLDsxlD24wUnfPQF1MteebRx4zI8V2Uu
-2gApwy0ig3n9fF6jafGlFxOIruZPW1XPMoiGknD5XBLIvdaXdeSWOPvoJUNRutH6
-vX0KA9MfsZoSppQ0Zgv8FSlO13daoFdNSHACdk6Ik11Mr5KgMd0Of1GuxYSjsDOG
-fQTGMLuKedg9HBcJ54jUatAFGwCs6tNx29DycrYnvsVS01WB0XM/aUgt6xSOz7OE
-uTJlv3CogPfUQl6ZiB4HtQ3xjtGWogjcWibnd+vaxuSV+8wFZC8z5qGlmMCl7oLP
-KN04u7c3s3vkbpzFv78iquEY7+xounLZNAZke/7ILnQJi3Wq86IL5bdgV4YF6u5R
-Q01tGqqHpyKt2jnflp3wTuQoV53OKeh0fmcljJurhxe1XxCyJRFYMr0aRIf5NARl
-CjFXFgJMjanv5evWtGe6EPCbTo0KyKNxF7ktsSZrBWMb3S0+mwB16o/ysPIj2WKf
-Fd2gvUJXMgnJciedbJ9DsaY/tk9nJdUUKtzbGFJtUyVErojxftu7PHnXFhfSeq82
-ga4rLuD9iHy4OpaGvpEApMR8EyNreH4yk4SUCUv+rlY+gG+Tt4GArowawdAp797F
-xT7E6LkXeKrU9vyeo1Z7LPXgfSI1e5SBVBQE58RVxAWFMPzPmw+3dn2lW8ZdOb5S
-VyhCucg51VFJbpJfd+CoscOGqeJuZ1CrRH6CqtsYqTdoD6a/DnOAgZGStIjOongh
-8iwbOZkDioFPeR4K1SsqZnxca5tXnjEtcoqvWw+QRtPUxkGOBUacp4ZOAOw+IINl
-g9IM6bV2cN0X0j/8JQRW2yAv42B2FsByQEz/LzjOJC15mVDujKbkOf6/4ohUVyAa
-dIThEJqxTPEz3iPiznqXHsX5ahpBbgfDE4PuXuFxop7NICU/RbYNucr3siUSZnqj
-W22Z6GokNzCE7nxDhei5+vjduYVu3UOp3UevPHrz64iwzPzItI9VDbLH6U9TLnuY
-0Co02gEahXFQgxvG3yvmTshqi6V7PgQiLdipVYYl9GGKrumOeftzWjmjNg+z3FY0
-Dq03UFxWsbkmywx1CTFC26CurcILgA6Ywht9OF70iyOirLyFOT62QyIYUzqQY+qR
-3SM76RCOczgvCu6Pa0mnR10GSxFYpjrBfKRVP9QTOxW6RyfWdhtQAEflrlxcZ8xJ
-juYTEnKI74Xq0gbiYWGhzaZQP7ydohhCY+TAXAy7aGy64SS/cToBzWBgwennePCY
-WmeKeqs90yrSnpR3ujKoKrFv8BYbtXcjUyehe0/yFdjEj2TWWMFh5S3d/Am8uc6y
+// 保存平台「应用密钥」（AppKey/AppSecret）—— 仅存服务端，前端永不可见
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { audit } from '../../../_shared/auditLog';
+import { getProvider, upsertCredential } from '../../../_shared/channelOAuth';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const deny = await guardOperation(user, 'channel', 'update', env.DB, user.org_id);
+  if (deny) return deny;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const platform = String(body?.platform || '');
+  if (!getProvider(platform)) return json({ error: `未支持的渠道平台：${platform}` }, 400);
+  const appKey = String(body?.appKey || '').trim();
+  const appSecret = String(body?.appSecret || '').trim();
+  if (!appKey || !appSecret) return json({ error: '请填写 AppKey 与 AppSecret' }, 400);
+
+  await upsertCredential(env.DB, user.org_id, platform, { app_key: appKey, app_secret: appSecret });
+  await audit(env.DB, user.org_id, user, 'channel', 'oauth_app', `配置「${platform}」应用密钥`);
+
+  // 若此前已有连接，重置为需重新授权（密钥变更后旧令牌失效）
+  await env.DB.prepare(
+    `UPDATE channel_credentials SET status = 'disconnected' WHERE org_id = ? AND platform = ? AND status = 'connected'`
+  )
+    .bind(user.org_id, platform)
+    .run();
+
+  return json({ ok: true, message: '应用密钥已保存（仅存于服务端，前端不可见）' });
+}

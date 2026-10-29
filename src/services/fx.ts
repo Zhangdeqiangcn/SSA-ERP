@@ -1,26 +1,26 @@
-U2FsdGVkX1/P8jWzpFVheciOyj9vAnojpxUjmRRBrZSGTHzk5KTTAI5y/9CimFMm
-pGwU813aGbllzpnEeX75tQTG3KoxPV7ScQqmqmQ4Z5HcRWsKvvFGS/+yMSRTnyxD
-sXYYJXfOBfsbW+TfL5xgpTt5R/9Q+4w4ygsHGLbGRNOnl4QZFeeqdxphU5WDmVgX
-skeZGMivMtyR1vMhP1E9sg4VO8awlC2SkQQjwTTDM7tux65Z6jrG5WGkzRRmcvwh
-hRRyT4tMgqQhcVQasFTnM3NTjdqQJy2nhmvTxCpMggwp+eQBuMD/SNsR8PCS0v9e
-rrxiuiAR0IyjSJzwpeXKKx/l8dds10l6lvncJ2iCRtCASb1lazfzsM012IdVzsr4
-APX44hf4D4JzjVVdU65bDl10d4zzope+lfiyu+edJGuPANlYSfiITjMgNWArw0TQ
-r46kw2lFLLzIfMAfxeax4f+jjexAVhmjWRdCWFBCEf79TShXk6dCvg1agvpuk0va
-JyJCh7uKxtzz32Ggegswgr77e6GOLLfaxG7bxGY1mbqbPUsYugF9btJo/d/POxCa
-w1T1vc5kC60yZrnRdW3R6lQkFlcPHrgTef0qnkKAqFv2SCIMjlMcCg4NiaMsBOFQ
-im1CXJ3F59Mwj6zYLrtbPdqsoBLSwjurcTN6a/j4xwKuKq05JpdPckdaeuW3/0Qx
-77ZDRFcaPZA0B3XJfdKqiVL7bY1GJs7VFdj7F+CulBdInB0Qmotet7J9d1RAD8O8
-vCb+hwHfcksIDamyh/RUb+kZP1xovStIoega51hCtfTo+ICUDf2uWSY/0jESEI/b
-GtdDWNSsJFt9lUudh6WZgDoP07kzxBp6O/wvX/96Fs6uS52w3EcNc9sG4ajLOHzC
-w4Xq8rzfKuBh8ftf3ed7ZCoExsmOH+5uO7jD4nNrIoRVLy/ovqBYJ1IH/77wK7F5
-K3ljSDuQrgnMhhMLhCHMEskPNTJBg/JULEI+P3qIxKtX5yi8TgV7csDsv5GkAnNW
-xN19sSc1cn9v3u+W9jnmVD4XF2R8fqUJ/rHtUyHU/UHeHyFV08O2gJvYMI3aUifP
-Dy4gct9jyPOv2CskyrCnAPt+ECEpgTpRkkPdI1w1kU4XeLNpSFOwa/1o7e0mLOCh
-jJqE9Kv05dRrlBY1lkAHublRw8HPIyu8y33ZgbyGztg3IxQmL5azH75SMmW/fVAW
-acpRdOSLlRZMUDMHTsplYEMd17fnP7b8IQgUA87nCxVZyAk1eWrA+/ZPMEn0S6aU
-M1ucqxer/J5eu8VybkbCRgPnMxRLgtodvSIXaA78+NxyYnspu4BZ59dYrZGYt+wr
-oOMmz/scP2kWjNDgQloXlVoUgsbRzJ2fADKtPJmiNAcSpRZh6NehDn0g6vS+gjwv
-j41wy1C863n0lNts3cp9K6qdH1/pGNWQIA8kf4/M7dCee2qoXmjDe39Q4Eyo/6V+
-7CIrsLMnaEOI/ENuUcYN83aH0ygAKGWUIXd0hx4Rr3N8y4lQ6cdNQnUzmBCEIYny
-RIYrTyoHbSYVvn7lRrG7OP+3Uj63KTK4OzD8/zWJpnwVKkL9HhwFG90hNnJoauk1
-LKInyIgo6cVrBGh6mOKLYw==
+// 汇率走云端 /api/fx（D1 fx_rates 表，带 org_id 组织隔离）。
+// 背景（B 类 P1-2 汇率双源 + P1-12 组织隔离泄漏点）：原 fxStore 纯 localStorage、
+// 不上云、不带 org_id，同一浏览器多组织共享一份汇率且永不同步云端；
+// 后端已有按 org_id 隔离的 fx_rates 表。本 service 让前端改走云端，
+// 本地 persist 仅作离线兜底（未登录 / 拉取失败时保留本地种子）。
+import { api } from './api';
+
+/** 云端汇率行（与后端 GET /api/fx 返回结构对齐，camelCase） */
+export interface FxRateRemote {
+  id: string;
+  base: string;
+  quote: string;
+  rate: number;
+  source: string;
+  updatedAt: string;
+}
+
+export const fxApi = {
+  /** 拉取本组织某基准币种的全部汇率（带 org_id 隔离） */
+  list: (base = 'CNY'): Promise<FxRateRemote[]> =>
+    api.get<{ data: FxRateRemote[] }>('/api/fx', { base }).then((r) => r.data || []),
+
+  /** 手工设置 / 更新一条汇率（后端按 org_id + base + quote upsert，含审计） */
+  upsert: (r: { base: string; quote: string; rate: number; source?: string }): Promise<{ ok: boolean }> =>
+    api.post<{ ok: boolean }>('/api/fx', r),
+};

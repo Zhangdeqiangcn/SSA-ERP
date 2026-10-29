@@ -1,35 +1,32 @@
-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
+// 质检扣留「占用实物」状态词表 —— 全链路唯一来源
+//
+// ★ 为什么必须集中（V3.113.3 P0-3 实测踩坑）：
+//   扣留单的「生效态」决定两件事：
+//     ① 冻结量要不要写进库存台账（inventory_records.frozen_quantity）
+//     ② 出库时这批料算不算「可用」
+//   这两处如果各写一份清单，迟早会分叉：
+//     - PUT 放行回冲用一份（含 rejected）
+//     - DELETE 删除回冲用另一份（不含 rejected）
+//   分叉后果：判不合格但未处置的料，删单时冻结量不回冲 → 物料被永久锁死。
+//
+// 语义边界（关键）：
+//   rejected =「已判定不合格，但尚未处置（未报废/未返工/未退货）」。
+//   实物仍在库、仍不可用 → **必须继续占用可用量**，不能解冻。
+//   只有 released（已放行，料已处置或退回可用）才不占用。
+//
+// 与前端 src/utils/supply.ts 的 isHoldActive 严格对齐（前后端口径分裂会重演本缺陷）。
+export const HOLD_OCCUPYING_STATUSES: readonly string[] = [
+  'pending',   // 待检
+  'active',    // 生效（扣留中）
+  'rejected',  // 判定不合格但未处置 → 实物仍占库
+  'open',      // 开启
+  'inspecting',// 检验中
+];
+
+/** 该扣留状态是否占用实物（要冻结） */
+export function holdOccupiesStock(status: unknown): boolean {
+  const s = String(status ?? '').trim().toLowerCase();
+  if (!s) return true; // 状态缺失 → 保守占用（宁可锁住也不误放）
+  if (s === 'released' || s === 'passed') return false; // 已放行
+  return HOLD_OCCUPYING_STATUSES.includes(s);
+}

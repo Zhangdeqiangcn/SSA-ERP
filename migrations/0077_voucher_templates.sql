@@ -1,59 +1,52 @@
-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
-JPQvNyg1OzCIwH8hp/NlZQ==
+-- 迁移 0077：凭证模板与常用凭证（V3.26.0）
+--
+-- ── 为什么做这件事 ──────────────────────────────────────────
+-- 财务手工制单时，大量凭证（如「计提工资」「摊销房租」「结转损益」）的分录结构高度重复，
+-- 每次都要从零选科目、填借贷，既慢又容易出错。凭证模板 = 一套可复用的分录骨架，
+-- 录入凭证时点「套用模板」即可把预设的摘要/科目/借贷方向一次性填好，金额留空待填。
+--
+-- 设计取舍（与打印模板 0052、凭证 0021 同一套原则）：
+--   · 模板属于组织级基础配置（谁都不能看别的组织的模板）→ 带 org_id，RLS 登记为 'all'
+--     （与 print_templates / vouchers 同属性：财务数据是组织内共享配置）。
+--   · 模板头（voucher_templates）+ 模板分录行（voucher_template_items）两张表，
+--     分录行从属模板，通过 template_id 关联，**不重复存 org_id**（与 0051 bom 同原则）。
+--   · direction（借/贷）显式存，套用时直接映射成 voucher_items 的 debit/credit；
+--     default_amount = 0 表示「套用时金额留空待填」，>0 表示带默认金额。
+--   · 模板不带金额平衡约束——它只是骨架，套用后由凭证自身的借贷平衡闸（writeVoucher）把关。
+
+CREATE TABLE IF NOT EXISTS voucher_templates (
+  id           TEXT PRIMARY KEY,
+  org_id       TEXT,
+  name         TEXT NOT NULL,
+  description  TEXT,
+  voucher_type TEXT,                 -- 记/收/付/转，可选（套用时建议带入凭证字）
+  is_default   INTEGER DEFAULT 0,    -- 同类凭证字下是否默认模板
+  sort_order   INTEGER DEFAULT 0,
+  created_by   TEXT,
+  created_at   TEXT,
+  updated_at   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_vtpl_org ON voucher_templates(org_id, is_default);
+CREATE INDEX IF NOT EXISTS idx_vtpl_name ON voucher_templates(org_id, name);
+
+CREATE TABLE IF NOT EXISTS voucher_template_items (
+  id            TEXT PRIMARY KEY,
+  template_id   TEXT NOT NULL,
+  org_id        TEXT,
+  line_no       INTEGER,
+  summary       TEXT,
+  account_code  TEXT,
+  account_name  TEXT,
+  direction     TEXT NOT NULL DEFAULT 'debit',  -- debit | credit
+  default_amount REAL DEFAULT 0,                -- 0 = 套用时留空待填
+  ledger_book   TEXT DEFAULT '0000',
+  FOREIGN KEY (template_id) REFERENCES voucher_templates(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_vtpl_item_tpl ON voucher_template_items(template_id);
+
+-- 幂等守卫（业务版本登记）
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0077_voucher_templates', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,60 +1,58 @@
-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
+// GET /api/org-members — 当前组织成员名录（登录用户均可读）
+//
+// ── 为什么需要它（V3.17.9 修复差距 11 的配套）──────────────────────
+// 「审批委托」要选受委托人，而唯一能列出用户的 /api/users 只对
+// admin / super_admin 开放（那是用户管理入口，含邮箱、手机号、角色等敏感字段）。
+// 结果就是：普通审批人（如财务主管、采购主管）根本拉不到人选列表，
+// 「委托」功能对他们等于不可用 —— 功能存在、位置不对，与差距19 是同一类问题。
+//
+// ── 刻意只返回什么 ──────────────────────────────────────────────
+// 只回 id / name / department / role，**不回** email、phone、alt_email、
+// is_owner、created_at 等。理由：办事协作只需要「知道该找谁」，
+// 不需要把账号信息一览无余地摊开；少回一个字段就少一份泄露面。
+// 在 ERP 里，组织成员名录本身是内部公开信息（找人、转单、指派都要用），
+// 因此这里不做角色限制，但**严格限定在本组织 + 启用状态**。
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json } from '../../_shared/auth';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const limit = Math.min(Number(url.searchParams.get('pageSize')) || 500, 1000);
+  const keyword = safeKeyword(url.searchParams.get('q'));
+
+  // IFNULL(status,'active') 与 /api/users、登录链路口径一致：
+  //   users.status 历史上存在空值，直接写 status='active' 会把这批人漏掉，
+  //   表现为「明明是同事却搜不到、选不了」。
+  const where = [`u.org_id = ?`, `IFNULL(u.status, 'active') = 'active'`];
+  const params: any[] = [user.org_id];
+  if (keyword) {
+    where.push(`(u.name LIKE ? ESCAPE '\\' OR u.username LIKE ? ESCAPE '\\')`);
+    params.push(likePattern(keyword), likePattern(keyword));
+  }
+  params.push(limit);
+
+  const res = await db
+    .prepare(
+      `SELECT u.id, u.name, u.username, u.department, u.role
+         FROM users u
+        WHERE ${where.join(' AND ')}
+        ORDER BY u.name ASC
+        LIMIT ?`
+    )
+    .bind(...params)
+    .all()
+    .catch(() => ({ results: [] }));
+
+  const data = ((res.results || []) as any[]).map((r) => ({
+    id: String(r.id),
+    name: String(r.name || r.username || r.id),
+    department: r.department || null,
+    role: r.role || null,
+  }));
+
+  return json({ ok: true, data });
+}

@@ -1,22 +1,31 @@
-U2FsdGVkX1+MD06yJoYuDCx5pgYzhaKn/V0JbWIxG8ruOlkvorqdZ9hVIEu6RB0t
-IlPxyq/kg1X+FlabF8nTmlDHch8p31kBxQamRdJ0WFV4WBqzBNimp5dsMlDQsiUk
-PdDKioXbMpw3kgARdaoukyWwY+xaJgz4hxqahWu5xSpNMmEuCDYpYOfi6bpwKw0S
-BLIYLGYy1PE9VP0RE/s03PbqFg7crpGaSbP21Df/R/gF+cT2Ax0rYH5nfH9BjxyG
-nFe63daE8Yi6qKTzf2ZdFtYs3D8CVlDQwwScVLtMI3/+dy80kue8w9fZe+sAUfBh
-Nw/DGt2EybG8yzGUMMM9RgJjbbSdw9iu86ZXlhP8XgZrJkemQLR1Oi8/EPKAceV0
-rHkxeKQWGnn40mfppC9E0H9RR8mfAoT7/viZN4Xm5eC0eEM75zzJhM1Edq0vXuU/
-E2HJCWNTjdycfWeLwW1BSRVy5CPXveNThDgO7Q399XMvR3M2bz2UwpjOHrpNAkB8
-HZPg8UfAzgPN9VLn++/mSwYPUDM9nj75LGez7XE0C5W7yBkP166sba1HwzkVQYeG
-yApYkf7aQX4J8+PgxP2LTlyH3G551tqSYz2jb1gx7Dc+kNGrjiesoHFnQtR+tAoI
-nu1DVKUYXRmBz1L3ZBNpysNkF2UgPNQKx9IP4l+BKb3yiDiRSgwC97Ly9nK8kCG6
-N3ZHn11n47bWEan4eOVofEbCTa8AsgPQJASKLrp5knrmMHsnP4xWFKrER1Hy4ASD
-NLt+3yJNzvmppFxaOX/n3JLw5NNRoYVMomCyR6yFXwx52DZxMd+b6KImz0/QN0OY
-9qUuhX1ae24q0cmHqbgzTB4w2E6i8T+DQNnYYxaK3fZ6MwqHUxfLGZd5g5nzNsiQ
-h7UJo8r+b+qlvMHyySAziszdcM1/430kRCZDtKvwRFjnBd+rVsVp/yMasz7RjwK7
-Jra+apFA4ADn7DMRGaQjBtj9XpUm4WTyUjagMk6YpCtmo7KUs/9NicwW/m5MIwIA
-+lVRCoycjcuMLoq9nXy5U87qFs6d+j0clu/4X9QH4tP/oselZVzVVsq3KfYj3mNE
-EfcH8N9NLbDKBcyQ6061cRrvPEVPoftDU2Ac++YkugwIYOlKiX3h7zIn89/a7lpj
-Qxdwe8nQjxGul3XZQ1Pg7hlfCdSUyyaOmg6CAQg8/lXDDIVrzAtrUAqLFpplXZVO
-mjKNm8XxgOBp40AV5peNobDkIzQNCvamHegwf6ht4E6B84BhYlCDGVaYLwnOzSS5
-N7CKK1ZnN6MchpXDLRINPte0l64sIFoKU/tDPdrLWbJgOGYMA5L18kEl3SmZSUih
-dsUsx2rokymezR26gOL/rxffHIqztnQQ2mVk1AWTeSVBo5LcPgtPxk75y9iThh4Q
+import { create } from 'zustand';
+
+interface UIState {
+  sidebarCollapsed: boolean;
+  globalLoading: boolean;
+  toggleSidebar: () => void;
+  setGlobalLoading: (loading: boolean) => void;
+
+  // P4-6 响应式：移动端抽屉开关（仅移动断点生效，非持久化会话态）
+  mobileOpen: boolean;
+  setMobileOpen: (open: boolean) => void;
+  toggleMobileOpen: () => void;
+
+  // P4-7 无障碍：快捷键帮助面板开关
+  shortcutsHelpOpen: boolean;
+  setShortcutsHelpOpen: (open: boolean) => void;
+}
+
+export const useUIStore = create<UIState>((set) => ({
+  sidebarCollapsed: false,
+  globalLoading: false,
+  toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
+  setGlobalLoading: (loading) => set({ globalLoading: loading }),
+
+  mobileOpen: false,
+  setMobileOpen: (open) => set({ mobileOpen: open }),
+  toggleMobileOpen: () => set((state) => ({ mobileOpen: !state.mobileOpen })),
+
+  shortcutsHelpOpen: false,
+  setShortcutsHelpOpen: (open) => set({ shortcutsHelpOpen: open }),
+}));

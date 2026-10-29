@@ -1,37 +1,42 @@
-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
-PEyVunup632tIZ8gvH1K+g==
+// 发起授权：拼授权页地址 + 写入 state 防篡改 Cookie，返回给前端跳转
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { audit } from '../../../_shared/auditLog';
+import {
+  getProvider,
+  buildAuthorizeUrl,
+  genState,
+  getCredential,
+} from '../../../_shared/channelOAuth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const platform = new URL(request.url).searchParams.get('platform') || '';
+  const provider = getProvider(platform);
+  if (!provider) return json({ error: `未支持的渠道平台：${platform}` }, 400);
+
+  const origin = new URL(request.url).origin;
+  const redirectUri = `${origin}/api/channels/oauth/callback`;
+  const state = genState();
+
+  const cred = await getCredential(env.DB, user.org_id, platform);
+  const hasRealApp = !!(cred?.app_key && cred?.app_secret);
+
+  // 未配置真实应用密钥 → 走模拟授权页（界面/流程全真，令牌标 mock，绝不冒充真实平台）
+  const authorizeUrl = hasRealApp
+    ? buildAuthorizeUrl(provider, cred.app_key, redirectUri, state)
+    : `${origin}/api/channels/oauth/mock?platform=${encodeURIComponent(platform)}&state=${encodeURIComponent(state)}`;
+
+  const cookie = `ssa_oauth_state_${platform}=${state}; HttpOnly; SameSite=Lax; Path=/api/channels/oauth; Max-Age=600`;
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'channel',
+    'oauth_start',
+    `发起「${provider.label}」授权（${hasRealApp ? '真实' : '模拟'}）`
+  );
+  return json({ authorizeUrl, mock: !hasRealApp, platform }, 200, cookie);
+}

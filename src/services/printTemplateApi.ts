@@ -1,38 +1,40 @@
-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
-pQbRbSHs1sVRw3LvlsIv8Q==
+// 打印模板域 API 服务层（V3.7.0 C1 数据关系化 · 第二个域）
+//
+// 与 bomApi 同样的组织原则：把「唯一权威实现」收在一处，
+// 上层（store）负责缓存与失败回退策略，本层只做 HTTP。
+//
+// 特别注意：模板正文里的图片在服务端被外置为 {{asset:<id>}}，读取时已还原成
+// data URL 返回，所以**本层看到的对象形状与改造前完全一致**。
+// 6 个消费方（打印预览、模板设计器、各单据打印入口）无需改动。
+import apiClient from './api';
+import type { PrintTemplate } from '@/stores/printTemplateStore';
+
+export interface PrintTemplateListResult {
+  success: boolean;
+  templates: PrintTemplate[];
+  total: number;
+  assetCount: number;
+}
+
+export const printTemplateApi = {
+  /** 全量列表（模板是少量基础配置，一次取全；支持按 entity 过滤） */
+  list: (params?: { entity?: string }) =>
+    apiClient.get<PrintTemplateListResult>('/print-templates', { params }),
+
+  /** 单条 */
+  get: (id: string) => apiClient.get<{ success: boolean; template: PrintTemplate }>(`/print-templates/${id}`),
+
+  /** 创建或整条保存（模板设计器每次保存整份配置） */
+  save: (tpl: Partial<PrintTemplate>) =>
+    apiClient.post<{ success: boolean; template: PrintTemplate; assets: number }>('/print-templates', tpl),
+
+  /** 更新（只改传了的字段） */
+  update: (id: string, patch: Partial<PrintTemplate>) =>
+    apiClient.put<{ success: boolean; template: PrintTemplate }>(`/print-templates/${id}`, patch),
+
+  /** 删除（连带清理图片资源） */
+  remove: (id: string) =>
+    apiClient.delete<{ success: boolean; deletedAssets: number; freedBytes: number }>(
+      `/print-templates/${id}`
+    ),
+};

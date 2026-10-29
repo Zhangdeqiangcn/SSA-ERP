@@ -1,115 +1,81 @@
-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
+-- ─────────────────────────────────────────────────────────────
+-- 迁移 0083：发票明细表（V3.47.0 第3批 3-05 · 三单匹配行级化的前提）
+--
+-- ═══════════════ 背景（为什么必须建）════════════════════════════
+-- 三单匹配（采购订单 ⇄ 入库单 ⇄ 发票）目前只能做**金额维度**比对，代码里
+-- 已写明能力边界（threeWayMatch.ts:21-25）：
+--   「fin_invoices 表没有明细行，也就不存在『发票数量』这个数据。
+--     三单匹配缺了一方的数量，数量维度无法构成比对。」
+--
+-- 后果是真实的数据准确性风险：同一张订单订 3 种物料，
+--   · 实际收货 A×100、B×50（欠交 50）
+--   · 发票只开了 A×100（金额与订单总额对得上，因为单价差恰好抵消）
+--   → 金额维度全部通过，但 B 料**根本没到货也没收到发票**，
+--     系统却判定"三单匹配通过"并放行付款。对标金蝶/用友/SAP：
+--     三单匹配必须**按行（订单行）比对数量**，且支持容差与超差审批。
+--
+-- ═══════════════ 本表设计 ═══════════════���══════════════════════
+-- 一行 = 一个发票行，对应采购订单的一行。
+--
+-- 为什么必须带 order_item_id（外键到 purchase_order_items.id）而不是只存
+-- 物料编码：物料编码**不唯一**（同一物料可在一个订单里出现多行、不同单价/
+-- 交期），只按编码匹配会把 A 行和 B 行并成一行，行级匹配失效。
+--
+-- quantity 的口径：与采购订单行**同一单位**（采购单位），不做单位换算 ——
+--   换算口径属 unit_conversions 域，若在此处偷偷换算，一旦主数据换算率
+--   事后被改，已入库的发票明细会与订单对不上（且无法复算）。
+--   若前端录入的是 BOM 用量单位而非采购单位，应在录入侧换算并把换算率
+--   记入 unit_conversion_rate，判定时按同一系数还原。
+CREATE TABLE IF NOT EXISTS fin_invoice_items (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  invoice_id TEXT NOT NULL,              -- 发票头（fin_invoices.id）
+  -- 行级对账锚点
+  order_item_id TEXT,                    -- purchase_order_items.id（首选，行级精确匹配）
+  material_id TEXT,                      -- 物料（冗余一份，便于按物料反查）
+  material_code TEXT,
+  material_name TEXT,
+  -- 数量与金额
+  quantity REAL DEFAULT 0,               -- 开票数量（采购单位）
+  unit TEXT,
+  unit_price REAL DEFAULT 0,             -- 不含税单价
+  amount REAL DEFAULT 0,                 -- 不含税金额 = 数量 × 单价
+  tax_rate REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  total_amount REAL DEFAULT 0,           -- 含税金额
+  -- 录入时的单位换算率（1 = 未换算）。留痕以便主数据换算率变更后可复算
+  unit_conversion_rate REAL DEFAULT 1,
+  -- 行级匹配容差（比例，0.02 = 2%）。行级比数量比金额更易受计量误差影响，
+  -- 标杆做法是给容差；无容差会把正常的尾差判成超差。
+  tolerance_rate REAL DEFAULT 0.02,
+  -- 该行匹配结果：matched(一致) / short(欠交) / over(超交) / pending(未判定)
+  match_status TEXT DEFAULT 'pending',
+  match_note TEXT,
+  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
+);
+
+-- 按发票查明细（最常用路径：发票详情页展示 + 行级匹配）
+CREATE INDEX IF NOT EXISTS idx_inv_items_invoice
+  ON fin_invoice_items(org_id, invoice_id);
+-- 按订单行反查"这张订单的哪些行被开过票"（防重复开票的核心查询）
+CREATE INDEX IF NOT EXISTS idx_inv_items_order_item
+  ON fin_invoice_items(org_id, order_item_id);
+-- 按物料反查（对账报表用）
+CREATE INDEX IF NOT EXISTS idx_inv_items_material
+  ON fin_invoice_items(org_id, material_code);
+
+-- ─────────────────────────────────────────────────────────────
+-- 补：入库明细的行锚点（行级三单匹配的另一前提）
+--
+-- 为什么要补：行级比对需要「入库行 → 订单行」的锚点。入库明细表原先**没有**
+--   任何指向 purchase_order_items 的列，只有 source_no 指到订单头。
+--   没有行锚点时，入库行只能退回按物料编码匹配 —— 而同一物料在一个订单里
+--   可能出现多行（不同单价/交期），届时会把多行并成一行，比对结果失真。
+--
+-- ⚠️ 下面两句已移至 **迁移 0084**（inbound_order_item_anchor.sql）执行。
+--   原因：0083 在追加这两句之前就已经 apply 过，而 D1 的 schema_migrations
+--   按版本号记录、同一版本不会重跑 ⇒ 写在这里等于永不执行，且无任何报错。
+--   **迁移一旦 apply 过即视为不可变，后续补充的 DDL 必须新建版本。**
+-- ALTER TABLE inbound_order_items ADD COLUMN order_item_id TEXT;
+-- CREATE INDEX IF NOT EXISTS idx_in_items_order_item
+--   ON inbound_order_items(org_id, order_item_id);

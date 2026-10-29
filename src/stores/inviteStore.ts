@@ -1,70 +1,85 @@
-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
+// 采购员定向邀请供应商注册（V3.100.0）— 前端 store
+//
+// 职责：采购员生成 / 吊销 / 查看自己发出的邀请（RLS 'own' 保证只看自己的）。
+// 邀请码本地生成（32 位字母数字表，12 位 → 32^12 空间，碰撞可忽略；若仍撞库 UNIQUE 冲突则重试）。
+import { create } from 'zustand';
+import { inviteApi, VendorInvitation } from '@/services/inviteApi';
+import { useAuthStore } from './authStore';
+
+const CODE_ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789';
+const genCode = (len = 12): string => {
+  let s = '';
+  for (let i = 0; i < len; i++) s += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  return s;
+};
+
+interface InviteState {
+  invitations: VendorInvitation[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  create: (input: { salesOrg?: string; expiresInDays?: number | null }) => Promise<{ ok: boolean; error?: string; item?: VendorInvitation }>;
+  revoke: (id: string) => Promise<void>;
+}
+
+export const useInviteStore = create<InviteState>()((set, get) => ({
+  invitations: [],
+  loaded: false,
+
+  load: async () => {
+    try {
+      const res = await inviteApi.list({ page: 1, pageSize: 100 });
+      set({ invitations: (res?.data || []) as VendorInvitation[], loaded: true });
+    } catch {
+      set({ invitations: [], loaded: true });
+    }
+  },
+
+  create: async ({ salesOrg, expiresInDays }) => {
+    const user = useAuthStore.getState().currentUser;
+    if (!user) return { ok: false, error: '未登录，无法生成邀请链接' };
+    const expiresAt =
+      expiresInDays && expiresInDays > 0
+        ? new Date(Date.now() + expiresInDays * 86400000).toISOString().slice(0, 19).replace('T', ' ')
+        : null;
+
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const item: Partial<VendorInvitation> = {
+        id: `vinv-${Date.now()}-${attempt}`,
+        code: genCode(),
+        buyerId: user.id,
+        buyerName: user.name,
+        salesOrg: salesOrg || '',
+        status: 'active',
+        expiresAt,
+        ownerId: user.id,
+      };
+      try {
+        const created = await inviteApi.create(item);
+        set((s) => ({ invitations: [created as VendorInvitation, ...s.invitations] }));
+        return { ok: true, item: created as VendorInvitation };
+      } catch (e: any) {
+        const msg: string = e?.response?.data?.error || '';
+        // 仅「邀请码唯一冲突」才重试，其余错误直接报出
+        if (e?.response?.status === 500 && /UNIQUE|unique|code/i.test(msg) && attempt < 2) continue;
+        return { ok: false, error: msg || '生成邀请链接失败，请重试' };
+      }
+    }
+    return { ok: false, error: '生成邀请链接失败，请重试' };
+  },
+
+  revoke: async (id: string) => {
+    const prev = get().invitations;
+    set((s) => ({ invitations: s.invitations.map((x) => (x.id === id ? { ...x, status: 'revoked' } : x)) }));
+    try {
+      await inviteApi.update(id, { status: 'revoked' });
+    } catch {
+      set({ invitations: prev });
+    }
+  },
+}));
+
+/** 生成完整的邀请链接（前端拼装，含邀请码） */
+export function buildInviteLink(code: string): string {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  return `${origin}/vendor-portal/register?invite=${encodeURIComponent(code)}`;
+}

@@ -1,67 +1,60 @@
-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
+// POST /api/serial-numbers/consume — FIFO 核销序列号
+import { getUserFromRequest, json } from '../../_shared/auth';
+// V3.5.0 B6：补齐写审计（批量核销是「一次改变多个单件状态」的高影响动作）
+import { writeAudit } from '../../_shared/auditLog';
+// ★ V3.45.0 操作权限服务端守卫：此前该端点零守卫（任何登录用户均可写）。
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+
+  // V3.45.0：写端点服务端硬拦，越权返回 403 OPERATION_FORBIDDEN（绕开界面亦生效）。
+  const _opGuard = await guardOperation(user, 'serial', 'update', db, user.org_id);
+  if (_opGuard) return _opGuard;
+  const body = await context.request.json().catch(() => ({}));
+  const materialId = body.materialId;
+  const qty = parseInt(body.qty, 10);
+  const newStatus = body.newStatus || 'shipped';
+  const date = body.date || new Date().toISOString().replace(/\.\d{3}Z$/, '');
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  if (!materialId || !qty || qty <= 0) {
+    return json({ error: 'materialId 与 qty 必填且 qty 为正整数' }, 400);
+  }
+
+  const avail = await db.prepare(`SELECT * FROM serial_masters WHERE org_id = ? AND material_id = ? AND status = 'in_stock' ORDER BY inbound_date ASC, serial_no ASC LIMIT ?`).bind(user.org_id, materialId, qty).all();
+  const rows = avail.results || [];
+  if (rows.length < qty) {
+    return json({ error: '在库序列号不足', available: rows.length, required: qty }, 409);
+  }
+
+  const consumed: string[] = [];
+  for (const r of rows) {
+    await db.prepare(`UPDATE serial_masters SET status = ?, outbound_date = ?, updated_at = ?, updated_by = ? WHERE id = ?`).bind(newStatus, date, now, user.name, r.id).run();
+    await db.prepare(`INSERT INTO serial_movements (id, serial_master_id, type, doc_no, date, status, note) VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(
+      'smv-' + crypto.randomUUID(), r.id, body.type || null, body.docNo || null, date, newStatus, null
+    ).run();
+    consumed.push(r.serial_no);
+  }
+
+  // B6 审计：FIFO 核销是「批量、按先入先出自动选号」的动作，比逐条改序列号影响更大 ——
+  //   一次调用就改变多个单件的状态，且具体选中了哪些号由系统按入库日期决定而非人工指定。
+  //   因此审计里必须把**实际核销掉的完整序列号清单**写下来，否则事后无法回答
+  //   「发给客户的到底是哪几台」——这正是序列号管理存在的意义。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'serial_masters',
+    entityId: materialId,
+    action: 'consume',
+    summary:
+      `FIFO 核销序列号：物料 ${materialId} × ${consumed.length} 件` +
+      `（状态 → ${newStatus}；单据：${body.docNo || '-'}；日期：${String(date).slice(0, 10)}）` +
+      `（核销明细：${consumed.join('、')}）`,
+  });
+
+  return json({ consumed });
+}

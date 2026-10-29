@@ -1,112 +1,99 @@
-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
-A0kJkKnzyekT6QPk1axI5g==
+// POST /api/framework-agreements — 供应商框架协议（协议价基准）落库 + 注入审批
+//
+// V3.65.0 立项①④ 薄端点：框架协议此前走通用 entities 路由（/api/entities/frameworkAgreement），
+//   通用路由是「config 驱动范式」，无法在落库后注入 startApprovalForDoc → 审批流接不上。
+//   本端点只做「创建」这一动作（建头 + 明细，明细 ceiling_price 为真实列，供付款核验读协议价基准），
+//   落库后注入审批（module='vendor_agreement'，静默幂等：该模块无启用审批流则自动跳过，绝不阻断业务）。
+//   增 / 删 / 改继续走通用 entities 路由（不重复造 CRUD，够用原则）；列表查也走通用路由 GET。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+import { guardOperation } from '../../_shared/operationGuard';
+import { startApprovalForDoc } from '../../_shared/autoApproval';
+import { requireByRegistry } from '../../_shared/validate';
+
+const nowIso = (): string => new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  // 框架协议属采购域：采购管理可建协议，越权角色 403 + OPERATION_FORBIDDEN
+  const _opGuard = await guardOperation(user, 'purchase', 'create', db, user.org_id);
+  if (_opGuard) return _opGuard;
+
+  const body = await context.request.json().catch(() => ({}));
+  const vendorId = String(body.vendorId || '').slice(0, 64);
+  const vendorName = String(body.vendorName || '').slice(0, 200);
+  // ★ V3.87.0 扩面：收口到集中必填登记表（逻辑收口；响应保留原 MISSING_VENDOR 业务码，前端可读）
+  const _reqCore = requireByRegistry('framework_agreements', body);
+  if (_reqCore) return json({ error: '供应商（vendorId）必填', code: 'MISSING_VENDOR' }, 400);
+
+  const now = nowIso();
+  const id = uid('fa');
+  const status = ['active', 'expired', 'closed'].includes(body.status) ? body.status : 'active';
+  const items: any[] = Array.isArray(body.items) ? body.items : [];
+  const releases: any[] = Array.isArray(body.releases) ? body.releases : [];
+
+  // ── 原子提交：头 + 全部明细同 batch（全成或全回滚，杜绝「头建了明细缺」半状态）──
+  const headStmt = db.prepare(
+    `INSERT INTO framework_agreements
+       (id, org_id, agreement_no, vendor_id, vendor_name, status, start_date, end_date,
+        currency, total_ceiling, released_amount, remarks, extra_json,
+        created_at, updated_at, created_by, updated_by)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(
+    id, user.org_id,
+    String(body.agreementNo || `FA-${now.slice(0, 10).replace(/-/g, '')}`).slice(0, 64),
+    vendorId, vendorName || null, status,
+    String(body.startDate || '').slice(0, 10) || null,
+    String(body.endDate || '').slice(0, 10) || null,
+    String(body.currency || 'CNY').slice(0, 8) || 'CNY',
+    Number(body.totalCeiling) || 0,
+    Number(body.releasedAmount) || 0,
+    String(body.remarks || '').slice(0, 500) || null,
+    JSON.stringify({ releases }),
+    now, now, user.name || user.username, user.name || user.username,
+  );
+
+  // 明细 ceiling_price 为真实列（V3.65 立项④ 付款核验基准数据入口）：逐行归一化，防御 undefined 进 bind 导致 500
+  const itemStmts = items.map((raw) => {
+    const it = (raw && typeof raw === 'object') ? raw : {};
+    return db.prepare(
+      `INSERT INTO framework_agreement_items
+         (id, org_id, agreement_id, material_id, material_code, material_name, unit, ceiling_price, committed_qty, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      String(it.id || uid('fai')), user.org_id, id,
+      String(it.materialId || '').slice(0, 64) || null,
+      String(it.materialCode || '').slice(0, 64) || null,
+      String(it.materialName || '').slice(0, 200) || null,
+      String(it.unit || '').slice(0, 16) || null,
+      Number(it.ceilingPrice) || 0,
+      Number(it.committedQty) || 0,
+      now, now,
+    );
+  });
+
+  if (itemStmts.length <= 99) {
+    await db.batch([headStmt, ...itemStmts]);
+  } else {
+    await headStmt.run();
+    for (const s of itemStmts) await s.run();
+  }
+
+  const row: any = await db.prepare(`SELECT * FROM framework_agreements WHERE id = ?`).bind(id).first();
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'framework_agreements',
+    entityId: id,
+    action: 'create',
+    summary: `创建框架协议 ${row?.agreement_no || id}（供应商 ${vendorName || vendorId}，协议价明细 ${items.length} 行）`,
+  });
+
+  // V3.65.0 立项①：协议价基准落库后注入审批（静默幂等，无启用审批流则跳过，不阻断主单据）
+  const appr = await startApprovalForDoc(db, user.org_id, user, 'vendor_agreement', id, row?.agreement_no).catch(() => null);
+
+  return json({ ...row, items, releases, approval: appr ? { started: appr.started, reason: appr.reason, instanceId: appr.instanceId } : null }, 201);
+}

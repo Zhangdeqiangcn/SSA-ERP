@@ -1,80 +1,81 @@
-U2FsdGVkX1+cASV1zP0F6z0GPv4nZyFMeNBQkakfdMfz7oQKvDjF8mdn4WLwOpAI
-3MsaIIS7p5FD7Ormu8OTV8r7UWLgjDLCIbqm+QKuOuSzS4Dt7nk6lrEBw8U22w0V
-KnmibF7CBqaL2wBF+SZMcBDmg09jslseP022khC7lgXFRNx+x71CFdBfGCpHHxfq
-OU3MJtypcG4++0iqgYFoZhNAkxN8fSr3W1QVwA9gAd0O/Qqx+GR/Y2zJ0v5XRVrU
-S2M13X1KXkERqvYIXMQQGb5DoeGTKgrzJW/B3dbgCNEJsgpNx3gGlQABMICmfA/t
-tzRGwUantgsEvEUvLMiN6Yu+6oKDU4qCq+M/Ik/tNb0tG9NrABrBa3Yp4sZdjnUc
-qP1to5le4tOHD0bbj5g40Hab+q8eBGkPViKyXEHG/4QL5v7MONT3rAXhQ/gdNUcg
-1w5VRXuWR25VTHcXN69MjwO22Us9y24mtXmDdPLk2rMA+g0hVdS7NDxUOT8NLJtY
-6+7OPMAKPaCOJmaWH/0Hp9NWHy/X9O/IaGlzISO0d57Nyhl4dgTKx7zh6rvXzeGi
-Imj864f5dCHfPbQBuZbP9BSSFPBOXlJquD9sOTZYfhcvPFCqAmWC+te8HyYMqg3C
-9RvZskiSu7f/E/H45wvbYYBfQrj7XSgIpijuQ0RDvwEwasKLTYK/dp3ffYJCaozL
-W81TxNjtwZyt29+omqZqbiuKZaOmy/+kWOYumWfD0o9uQtWUr5imrr99MJc70hbE
-JeLaEvKiHvCf3LlJ1hejekjT1aPwWDhaLG8hmy+T6eaqkQFFQj7/9kKBwRPEy7/d
-wXtS50//TWjVwiBFko8rBbPN7wuwVaR4WXdS51BqsPRKgtbpdiHUiW1dWMNBi4KX
-6X0rrmBbP1d7PMDTX76d216rfQlb58OXHqU1aPBCHHayCSrMy0Os2abgCPM80S5p
-6VNwpCuMkVqpq+ugZGimcWSiYGmFu13ElKdNKGUJoFwkMgUGg4g5RzTH76AbpOku
-ip7eXlz7bHcJjLy3WDpYx1nHHwPXs9JrSTwqVzdJUZmxMSyL69EL8tVblFdkhVu8
-wes1v/EcY2tfRxt49jo0HOmjP1X0lwGpzpbJ+re8UOgkdzlwK2g90kz5T03ou8ws
-17x3ih04YKQFf4b1A6cM8sbZKfxMJH0IL4Qg9lkAMnjh5QOO3fOIJ4mpA/CatLQh
-Wzk97Hxi0ZJTZ2rbE13xRW4BsbMiNIHcBIC1ZRNG20E9nji54EUtoDyAaC++aUYm
-qasCYlHkYZfkEvsE4fS+034FmWGJ9X0FITLp5JQcsCA9i1pFaOnHQXY1HLynCiua
-MQkjhld6wdGXn7WXlCtiGuz4JOJAvqdbRQKfBBHnMJRjxDRxiUnhlTo8/mtXjwgq
-xb2FuihplQYEM+14NuiPYiaiYbRibeJyaVCq1S7O5P/luz4egGXrequxZIgtThOo
-SUTJEPILJbA8Lluqb//e72BTOy6VxEva10Csz+vo5sZQB5On4xLQ32qJO9FHH4gq
-ONANNyoMAebgMAfSiEP6DTpHAOT+SCl+WcLVrCOiYBS8yrcMQKPfogWviL8hUFDK
-B4m+CI6/1eiCXOzbGiuWdbI6U+9mr2YXMklTuU94AzEyKSmgz5prPE0ma/W3Xt/e
-jLwjTTzexUgTTG6KIavrdyZWkeLz+UVaTpm+fok+2/sONlufuGtiSIYaZLTSvSeU
-d3RzNirAwc1x6bUnqwoXcdWtFnyDkswofrIqlBOLQDACRhKXYaRbGOMLJdwTsYYh
-HqNrM+FXw2eqI8VTS5ia+COzM3JvEcUHWw7ZsKFCcJZND2WHeNPKI4jem4Udn/yw
-L2c8T4ZkXoJxOyc7Tg3pWLa9x6sNs8MOHv0j12FNDfhntQcyPx3us4vI/yaMO0en
-N+2x7aHpuAtFOYbhM/CkFIBLnSejuII45XMlTBDlmKqXIQT9XLrPgyNA/8lt+l1J
-3tFgfmz9mLau4aLwCueeNlvPEXQQ/2NQjIkQYuHC2zxUgnnB6xoBO691vpJPj0zT
-+ymMIy6BzbB00CFlSrAHcGgFXpAPcgf/ZIZipNwGxlteuktLcn1GkFafbg8jeEQm
-7YDwPg9pFQ86+d3tjEOvcManMZjCLFn9A6bmpt8WvD42Ba3Dpgg72U37Wkd5SP0M
-xtpta+uuBpbWGmcN1tfi0uJrKD/JHWUGULd7aNZbTAHIb2vaYoaFIXZ0LSrgPJ9e
-5eGUpLAmFgFU5nfWPMMRGAO5KK9zWSdNB4runWCcGkVrDSqKrtreyM6+VGbwCUXt
-e6eRPeDA3Vp4LH33zU+y3/VGnMcG+cgKMpdgDmWf9eCKav639UoUSBeNckJsUnnk
-UFHzYQGwCa+lD/dWTbD+fwnSv2ILRx2SfEUJomA9pVTg3S2BZ5byF6mVBm7PAKf9
-BtW8aPbG8mPgyNZUlMd6rwUrGvmeqNsByIsoIBAkso9nPeVfMVTFCO3M+2apsjyl
-X8fI9KAgyPH+iDh1B9q4SX0CWrVgeACFHa2x3156YMIoKF9GsbEymfuOoWLQofJ/
-2d4G11amnTIvIiVqkC8iA/xMViLOCMOfLsLrFky7eHW3RqUYzScao8FnvgQIeSYR
-dqaFf/Tyha+mOTSKUtRmUcZwg3kDJib+XlViBV4H+ovl9P8xIGQMPvU8ypC5+ZCc
-Lu4OLByliXpCqMyy8grUXeU20rkeLwLAoPBtKrLig7aFB6cMfV/vGel+b8qRd8wV
-bTYgQxpi5rGd9O5uZIToRsa6HzjgSCB2QQnS8EDIovSziqrD7nTjVixuCX/VVRt3
-s32MbePOFPK0O4nlcvR7RssoZa6AFiqDUrKxH3qD4WyjPfnZxEyhcgZifuvaOWvI
-Ix5OQS+Shwhwx0xbMZ9P8hW7SAd4ZH+iieJESndRImknBn54Glrq+hxlTlBWjJac
-M3Lx7lISSZEM4kdvR3XjniknR1n638dmJW5tI+g1c83pwKKqNedndBeAeGv3YXmc
-j8fBxs2XHfEVgv85sVh5yLrUdpYvAYkUe4v5tiLN7hun7Mb1u1bDb+pUsAaG1TPB
-DccSlPmMTNMh4ohF+ecmcpAWcwNR2Zc6nmitDa73XSRBfSMkRouIeRvGFSDI4rPo
-dG4EjA89xhiau4qlEDHTvg7wpVcptQEFZhrdIlGOFq1WzbpEGoJi4iSaUugaEhLp
-nU/MdAV1z/HV+S0er38lreHnLI6ux3Ki9kwYhkGVvKiwx/gZlkJwymE09hNgHw4G
-Rp7iUozjfLm4s0SLQTTXED7Vhp3B6o2EypbT8QzXe7XiuW1iKZ5TrbCbz3c25iPO
-/Bm8z6qDq3Sn1xjLan80FOqJjSgKFgNGBv3a2qQWXttipMLiEt6B0cEzmd/Zsrfb
-m0oFATDt6foHvXFwYY8yAeoj+2+yTp/Q5hXGbwoDPXsJhzQCoBFq2GmERItq+4if
-8S9FtVlVdoJjV7jDoJCvfolxFr6XhbENOHx3vds6AstnDRysQmlVIyGWDacrXO40
-RGp5OqSwdkcykNTPCIZb4QbZ+hLd5GjMK1XMGBe3NwniIfFs6NZfvdHtErT8SSU3
-cBU7UZQhCHtYJ3JH7mGiPVGSOi4m/Ca+pnR2hdAoGKC2uK5YJ+BGozdoN+kh1132
-ZH8gjb4I/jui63Guy42ayTFvqwuSKmY7Zxq7mRn4n+V6M2A6rPwTCLHK3GnHhFkE
-/QKeYkwIFfE0+snf/SJW0M0h1agrOfJbEn69LYBPDxvzjYjvDnjgvIwTrLBLkKdE
-tMVJ30t4p06EfODrV+kji5XRr/FjdWJcpO+rLfDODD4sIeiUizBII3PQex/X2CWo
-yBt+4bwF+NI96kY2cjVRJOox11lrWcXnm6Pin+5wASjfUy6XEVRYZ+u7nynCc4gQ
-xGYr97F5zKluKd+ddJltDUT4TXQoU2/c9FM7fFSLSCFRjUkEnXwWn8w/c/8HHwiL
-4/NF9xRNyx3uKwkF2b3Xrrte61eOUKN51Fl22IgNaq1Ojzse/h1hBk2z1fYX4r5w
-oGQtfmYVqkgdims2eBpqJ+GJg6twW+tWmgFI4klrj4/7MvuQjl2oqIlSV4yeKgG1
-JTcviyNMiEqoOBeG8E8JlTOdw/94kL+wTol+S3ghF0rRgX+oW+roZOOS1OYgUG6N
-PLMV0fTlHZMj6ET1KOF4b2qG0g0swfvYn5Nfj+CksULnx0J1gGAeTFupejko2wUx
-cem2LWZJT6MKZgFnAk9XAM+VozE8KQAuk8A0j+IW3K3G7eVzBZpaNAWkHRNVI88M
-Q/2dwDwE2rFzEB+gkEcG7auZwasT8IUeICFa6NbHpPjuO/ROmTA973Os8Rx+RTGx
-my5nxljBNuSJXY7km4YZdXSwy8avN6UgQ3prcc/0TYgOq37xVsrZ9EkFNeWG0JCd
-yixFNZ+kBgca2FajP7gyIy4Ao3OFiJ7EsdNl+M/eFN1YvBon8G9LTmlxs67sDqLI
-8Q0RZE+Fw5tYgjC2t3m18WgSrUOc/4ISOgyt6shkd3lhSbLbco8MCXlqr5woYz2V
-p3RCwFHg5sl3O/h4YeqtYsD5owo1kMA2vHVrjFN6nHwNQ/8mMgiUi1Cmghcjizra
-J9WdoPJH35jVJArImvFFFF4Li9Hm+g/7mkmf9lm+rtqQ/JfO55iB9XoAq/MfnqDi
-Y9VhatNh+eFiUJVYM6TkHMzX6rVt1pz0hmMmrpFYMP7KqQRol0p+j5KBUIM/tS57
-EOezOpZ/Bi7x+18fBXvsNc5GJS4mNhLqHIdVL4yvqr7px8QPuji0QCJrFHnQmKbS
-m06/MbLHNBR7MJt4W0zZOsDNIZpyUHSd/zurz5tM1/rtjpZaClKKgd+fvMc2kouh
-KxN+uiC8547FjnruIzdnvavzf8Dje0utKrUXAD2JuBrNk0O9t7Nna2ONe9HeJroB
-V+0mZ7peTTelgfzo3NNcMtzfzMNl5uvZURWGmasFOAAW4erWhroepYD+g4I2ooG4
-smPv3uylLHmfrWVTa660nAp6aD/E9KYx64fE2/bO3/rO4E/huAW4MBR3vFRVRBi4
-WklFk+tn9PaniILovSACGQ==
+-- V3.92.0 P1-5 仓储执行层（波次 / 拣货 / 配货 / 打包 / 发货校验）
+-- 设计口径（对齐 0100/0101 范式）：
+--   · org_id 隔离 + created_at/updated_at/created_by/updated_by/created_by_name/updated_by_name 审计列；
+--   · 嵌套明细（order_ids）封 JSON 字符串列；
+--   · 全部 CREATE TABLE IF NOT EXISTS + CREATE INDEX IF NOT EXISTS，可重复执行；
+--   · 不新增源数据没有的唯一约束（按 org_id + 业务键 非唯一索引）。
+-- 关联：waves.order_ids → order_hub.id；拣货/打包/发货校验均以 order_hub 为业务锚点。
+
+-- ──────────────────────────────────────────────
+-- 波次（waves）：订单集合的分拣批次
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS waves (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  wave_no TEXT,
+  status TEXT,            -- draft/released/picking/picked/packed/shipped
+  order_ids TEXT,         -- JSON 数组：order_hub.id 列表
+  remark TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_waves_org ON waves(org_id);
+CREATE INDEX IF NOT EXISTS idx_waves_status ON waves(org_id, status);
+
+-- ──────────────────────────────────────────────
+-- 拣货任务（pick_tasks）：波次拆出的 SKU 级拣货明细
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pick_tasks (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  wave_id TEXT,
+  order_hub_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  location_id TEXT,
+  location_name TEXT,
+  barcode TEXT,
+  required_qty REAL DEFAULT 0,
+  picked_qty REAL DEFAULT 0,
+  status TEXT,            -- pending/picking/done/skipped
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_pick_tasks_org ON pick_tasks(org_id);
+CREATE INDEX IF NOT EXISTS idx_pick_tasks_wave ON pick_tasks(org_id, wave_id);
+
+-- ──────────────────────────────────────────────
+-- 打包记录（pack_records）：配货 + 打包结果
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS pack_records (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  wave_id TEXT,
+  order_hub_id TEXT,
+  pack_no TEXT,
+  weight REAL,
+  status TEXT,
+  created_at TEXT,
+  created_by TEXT,
+  created_by_name TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_pack_records_org ON pack_records(org_id);
+CREATE INDEX IF NOT EXISTS idx_pack_records_wave ON pack_records(org_id, wave_id);
+
+-- ──────────────────────────────────────────────
+-- 发货校验（ship_checks）：发货前条码 / 数量核对
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS ship_checks (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  order_hub_id TEXT,
+  pack_no TEXT,
+  pass INTEGER DEFAULT 0,
+  detail TEXT,            -- JSON：不符明细数组
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_ship_checks_org ON ship_checks(org_id);
+CREATE INDEX IF NOT EXISTS idx_ship_checks_order ON ship_checks(org_id, order_hub_id);

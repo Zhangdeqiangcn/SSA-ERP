@@ -1,91 +1,129 @@
-U2FsdGVkX1+rnMe6pisqQPI9SqfsWh1iS+NRk8dQa/0Mf6WRxOzqK1CWRa1TPdO/
-vDeYun3poNIudChGTFikKwiLXO6MKv/6C17Sc7EVfWnOMNImIPg7Btifoy/YVK2Q
-33dFwHkapRgVQskHFCFwHGJwb9jsUxsyc/WApECJCae/T928dk+ejy8hSE2wJSIN
-+/MWtahFoZUaZsY8g/U1aciH6wBR1rJnBazfgQaTAAlERwjNsCJyZ7oxqAGrVlSA
-w0GWq7tnuOQn/JsVm4jl2eEPigXoP8Pk5OWejP1bI/3CJy384Gtw//gl6XGRkeN/
-+0F7PK4BixDAwjqPtJHtmN0r2FufYyw/NQGxAIn4RLL+W2/a7nwWN6n0xlB8NL7V
-zIoy+ZXyuwUMymJ9qwCqibgG/YkwokaVMrEpdLckKOe7wk0W9nsdKu71QwhmkYe3
-YRupART/kHOX4caRo68vhp11OnpuTIYPM6FhF2NzNhCiIc8GYJX87qiJImfRV0Pz
-VK3/PIxleEHgyF4QBsaEdzgPjqa0xX+oaxh1qMQMJ/es4/zUR0uBRMK1a/hecscQ
-QoLJKpTsR7LxQiIqqE48EzfqmhXkxKCFcJUDDfn+y+YrxHVB0FzWv6qAOhyJOro4
-Mb58p3LWpwoCnrRhbnwMFJOpaxjJJJyFWPEnUKPzPMhxC+4oHPdOxVuVgLbUZmcz
-jwA1luUOcx5miVq+kxu0Ts0WA+xYYVqZ8dwpmZm62xAt6r5j311Uv0TdW+5us1+U
-llSTc7RqeZQ+Hj3/RiZiCkXJ0uELF382cMAe+pPZYCadb7c7bQZB1SMUlBLTJs/b
-rD0/BrpnVRH6x0pBn/8KUnkrp2YoO/RPMtYSpnq2RX5lng5/Kn9NkkiSqzKhzVmR
-fhPhKa4UN2r2BBoC2tNZjaV3KW+S40WF/6FwGqq0bzuiEsV+KDCHH0LcOksCbFiI
-xrvjS2OlIuhWnSkULo/UF8jmUizOjhkcklzxgOh/0E6qIHrgVpaEXqfJpSvRCitv
-xusoEyjTD4xr/TdixRJTc+oUH1ofJNtadhxdt3VHt2iw9HByg5vD/KgJBt/oLLS9
-dVFOd0G03SGXpAPZwvejIWoCm6QPAYvlIAziTARLkoP8ctekoIZRUN620VeDpYLT
-cLQ+qklp0QF0CT2+nx4/Qhn82zQtR2WdUpH7q9PMbDzO4Ro6ol+DflbD1Tve0Kwb
-q2exEf95gV2+U0Hsy3Q8bkrwQnYDiwLxHp5tczVRel8NTd7VKb9IRxH2F4GbPj6a
-oeoiCTTDclAjJvKHGOr5XwpiVCqBtAOCpDFMV1gR05RTeBLwdAeIMP5FJUI5mgJc
-68i59IhCny4GYcZVxToDha6UzhYer7BgOYkcRV/eHyR4vrc51rgjzYlULVHQWhLk
-eX98kBDuxUxh2Y5fL+CSBFh5ce5f1+mFJW7iiioMI8ROY43nFdgRITbJ/lnK1GZG
-I1NuD24zc70UAJ/6s7DP+ShfMmLW3+m6qAhYXpGcPFIC9QiAmHiNdoUsrmEADAHL
-vldRLfGVPKAOEnSwlWPm5DHn6Zja56NPnsYSuLCu4O0CuaxJ7F2eZJgRD0GJ+gA3
-WKSZE+DAPL+zW+OiJ8Z0M3o34md+BC1xiWncxXsvK7HkW+J1opjMXQlayMZEd+3S
-adv0F8y/MY3RrvamlweBOKhKBhyaUnX0KOrMO6UUJdx0mp5QKWX/cPCT/we9A4UJ
-WBVBjM7OHnJ4x50Ba+Q+lc4wUzUklap/9l6FRera/k0/3NAhzTD86HBlg432vkt8
-l3DA646nl3wNEtOn/mQ4aOwdzH3uLAulXoRUE+J07B7EojreFmFt8Gb8D0SqNlGV
-wIpowSQTN1PFaKv2LKdFCaHq1aTBdDh6YgvOLFkaR8+92veYRn/XXfVmO9M5M4WH
-y5svbkhn9e1VIlF6BW646FS/Qkql34VOtOJKiz/oH7Z+VIsOQYsiKBaur5rysA7y
-CpwHUbC/s/Bdw8GZkrZpcLcPqBaNbL0diwms6ry8zijljWPvsLVWkK4NJM48ARww
-esyLdPhlqD/YYrcpH0ccAxKo62zvr/UKCbxuRswP2VuyNmg+Dr9UnFbH8VX1K60V
-q/YDnUU9qZV5P/2YeDO5lttW41Ab8t6FHrvDKWZrwjvlmNmkMKxZ1kB1/hlYVd4a
-lJW1N6H2hVVnT6ASNY21+DW5ludUJkbJX5jDyH4mk6nJNg1z5kPjHXN3+WNhmc6f
-naczJzhg2pI3PKpguX/liKDIa22J9w5UMdkxTgzLNyiuoMpKlYdPdMa6GsbAnKn8
-ULbR3cZRAQ9piSqk6vJdNVIdS6LvT7kRC4GoCvW9ApOV0ySLetZ9ntsVb4ehLcwW
-frewUut5FURrT7iz6NzaB7HXPqNW8dPa5pmdfaW/2YdbNy6izGY4BjLNCwEZCiWh
-b9DHISWO1NvZHJJAEeFUB36QakZbY+1G6LcMoEW065ruYg0h/SbcRnacVy7c44z+
-yQUNXIuEBWTwlH+1wSZW7w/4LvswSoFkTp+cwzjKwUvV42Y3oBMtjv8QVBxul2tb
-QAXxjjx2hthiJzeo5pXILHL4ZjDXzCAVZ4nUoCiZeXIvzPlDis2gHGbPSFM/MfBE
-YchC3CZL49Wtua2MVN9Z5AnPTngOWUPQqZfTDz8k1AkaFCM7Q1JMEID9n/ytaWnq
-0YGfA5Ei7mC/VhqZfu6Wo7B2CwO0zzzKJftVpvso7Z5o0pydqNbshx7hsCtKFxpT
-hTJ4NjP7FLzW/O1DcS9K9x+wrl9uLdYGcHkgwc2IlitQ41rtrLou4t6Pti5U7SEQ
-dSYzi0S+8Eg5QfmIm5AwM2NTiY/2/jr2b3JjsYCvMHhmO5wbsSnD8UyyG5WfwvMw
-bXVRzivB8O2VdZlRA7krSYgMB2VdLgHYhKO+opi++28Zzsq1397jiTye2MPTCrOk
-GR0ae5bZQPu5ruWsGN4j8blia2o6hax+ESIwIwqqGAoyOTWVYhBlzbVa5tAHi5vP
-UaMLGasJU3xSfkfXUMHuNoART77eKD8qti9zfDmgUls0p7X9ZiyeKQIVhTQqqgIV
-1/MMdc3EQIQd/NYwfnvQrpIqgRbW7z6C3BwOVEPIBC83p4K34KziTrXQaTAopYDH
-+25tAYGT437xaB3c/+vh5wB9G0E9zPWjb672riJ9k2+/XlBe2EUg3VksoswwA5Rk
-7N+D5ulafLkEiotIpkmTf4eeRaPkZiipT5jHGPH8U0wq+Lr9Tm8WCzs9WbBXvirt
-2u56shwiNBdaAfofXKw+fVC/n6eKek/X0FqdQ/aD4upEsrsSxR0IfzfkvzpvMy4+
-jIsjPxUAN4yMxuj7pkdxWslOOa4m0S2ysMxGH34po/+1mrTMEiglaOXLQ8acnRRH
-4lFJi/GHCS8JhYlmVw0w3fc8pOE5z6U98OaRzWnKguo33mWuy/9AcfwpZAZ7A8MN
-0KU70IfG7OAzkWosHYGkSROFHZofbNcVYRWiY9mDeVlPOMH5h/5ap+klXi1uSXCG
-EbTywyMxnAz6ffZWfDeCEbdN5JN5yd9a62IuS3KQleGYKda9+eNUKkW1gf5JHtLv
-+gXv52+eluujzA2/eNLp8NBtg/U+7dqVoV6uzHh4Q0sjFNp2DuacK0fDyca7aStj
-6feCxMjNW8JMp0/q4nlHM/KPBF846dxQdWZyQZk0x/nnUzPUzliyC7PXuhGQ8BMM
-mPspO8laaO0YngD6uJ/+ncob4X8ONvwIymSRbMZJWqfWaRQo1F2UdVA4azFXyZoO
-zl/PxLmHihS3R/XhlqvYtb9zUu3Kpa/CurR2dhkgVy0FzA03VmfEUnOcHkJ5xSZn
-3SitC6A6G36spXDzdOowX91p00SLIopU77pD+loyhV2TQlAOu/AyWAuiycFSVZw3
-nabuCbZnvWvafXTtcOXxMA748k+ZuZuhA5KtyGonhghEFSnzMWToT0yPFnT6oO+Q
-ArotM/DzvKA7l6FgoaIzTbnLYwjsHFIDnfLMM2YIx8TGHqXQ9NeOsh4nUnPVYwfQ
-TNOQ2UH4Gzuk8E5fZ7E58OIUcPVgMTUa6M5Lc1U9psb+dkKUiotINsO9n0iHXuBZ
-DiCxX9ebxOGQYJ1CARj9qqaOiRuDHZN4RypR7A2tCR6lrMzL7HdTK7u7vhVwQhML
-3uo5FYGV0P+5r7bOWlWpCKA328wI6KKVw4/TG5muF8Qe2ExqeBkaqtACmdXU1IMx
-ixVMoAhkL5ip33wSRt4VJDEgblOHYQ/UC9/jHqzjqZQ0KMjuQHLABc/UIr7ovjKl
-SIA5wB2/jjMJSmo44vQOavUqjzUKUOG1s/sAOCG+MScHbNYuXoQ9nu8pAoejhfrN
-k72Gf2vvPErms7NOC+WNLzdAl2P10O95pvd6VZ7b9iZanw/9V4adAQt4Y9/iaHJA
-59EQZ1KL+MW31SQ2VmYcDLK7K1BaoYU4CObmT7bjyWHmWqfcWkAr6r2NmdaZWDCB
-13PH6bdog1a73vCDLl7d4ilsMj0cwWcv9vbaeXmJky+zBdRyQ9qk7H9YJMm7yFrC
-SkTYv1zqJ0qH7WCKxj+gk/8+Z9T/jQjYjVSPM62Fem6Tgb599TV/Hbl87Ja+ylsB
-FvY/gAJn1hvCgxWH/GdQFlnnx0RyaFB+rmYiHTmayotpCUpn0M9hK2LS56zasCGa
-1xwlc0Bx9GRa5noRyRXEuA7JRX6oGddYizS30UPP2ZULw227zX30GuZtpXOAtgEl
-44wHFFyrhx41tHwiP85/3sxlTi8FFXDrIR8m7h3wl/FrSfRub3CHIfBGRbxmzMRc
-sNvvQspm0nFPEv6lyjTA2gn0pxG7wSJsvkTryh3sTe6ovHxBo2mR/BLnWpa8tWyK
-pzdbrY+6YHiSSDRlEiMh0LjXy+HIoqZdoVuFbDe6bn6DDmJnvBtXHy/S4l70rKRa
-RxQJgAQcQUdAK0jk/ud4AawacfmbTCWSP1wkko3/F/UrGGqvTWs1YgwomzQt4+9b
-xtEejGWCgbExO96InxP+N+GrghcACLJuvR9px5lJtUmGZVUYeAur1GeBeZBDKGhs
-pLRi8R2ZAduAhWHfdQELPSpsPICuiTkbJzS7B97HuGIB39D+fNtCkdLgsVQCCRME
-VYHZGsJ3H+TDRRgtwAPnyJHaeFs6JceRFFGGFLRwxdQcVOBASa2UdVEJARTNzA+b
-XzFCiGecOAt94H4S6G7Qssbruznnfv43jKaKAfEBS+NTYqrzKkPjVs0xdpwW0fWB
-EEVJmgxRs228gz+HDFjDq9MkHdfksWuFoAwiXTae3lRUpzSHeOh1kFBHluEnyCHP
-QBPC1EdyNUijpvAGsB9JyVZG4gxvXhvXyKk5gisiy8bzJq2bmDVbcakjDSkFpgXb
-i93oO+SZfDUd0zIie1CF2XDAysRSc2DxWKuyNJ+wNzA9X5iKQ92SKejj8eKQTIEx
-aT/uaBKUaq2x/Jew/dI0T7/irgQOn0E8UQR/93Ta9GE4Rc0Sg4JwnLuQctNMkLz9
-mIScEzq3C2yhWpTzGzpbHmvD0woQBcKoBBskAviWBwkcwXzser6GwiAO6vgznME7
-T3jhjda9+DUMifBdQXQX6KqblCnO97QVQ8PBGLUW/n7K1rP8Y524/WwdObQgjp4/
-LMXvnIWVEbvKY/Fp15KrBLCjvH2OpIX4qAHAkzzMHXYxELHUeOuu84+9RGy3/QF0
-XSX73KPy+SSw4M0keDXdjyhbfXjLOVTck66d+3SxZxbm3rqH3XU6GbXaFj0ImTi+
-loyW0wi8e3C3KLO1rjeikKgK0Tqd7cONcJI3qCkH/Y0=
+/**
+ * 登录失败限流（评测发现 H-05：登录接口无失败次数限制，可被口令爆破）
+ *
+ * 计数维度：用户名 + 来源地址。这样即使攻击者换用户名，
+ * 同一来源对同一账号的连续尝试依然会被计数；同时避免「一处输错、
+ * 全网被锁」的误伤。
+ *
+ * 计数窗口：距上次失败超过 WINDOW_MINUTES 分钟即重新计数，
+ * 避免用户偶尔输错被长期累积。
+ * 锁定阶梯：失败次数越多，锁定时长越长。
+ */
+import { json, uid } from './auth';
+
+/** 计数窗口（分钟）：超过该时长未再失败则重新计数 */
+const WINDOW_MINUTES = 15;
+
+/** 锁定阶梯：由高到低，取第一个满足的档位 */
+const TIERS = [
+  { count: 50, minutes: 60 * 24 }, // 24 小时
+  { count: 20, minutes: 30 },
+  { count: 10, minutes: 5 },
+];
+
+/** 触发锁定的最小失败次数（用于提示文案） */
+export const LOCK_THRESHOLD = Math.min(...TIERS.map((t) => t.count));
+
+/** 取客户端来源地址：Cloudflare 优先，其次代理头，最后兜底 */
+export function clientIp(request: Request): string {
+  const h = request.headers;
+  const cf = h.get('CF-Connecting-IP');
+  if (cf) return cf.trim();
+  const xff = h.get('X-Forwarded-For');
+  if (xff) return (xff.split(',')[0] || '').trim() || 'unknown';
+  return 'unknown';
+}
+
+const subjectKey = (username: string, ip: string): string => `${username}@${ip}`;
+
+const minutesText = (ms: number): string => {
+  const m = Math.ceil(ms / 60000);
+  return m <= 1 ? '1' : String(m);
+};
+
+/** 登录前检查：已锁定则返回 429 响应，否则返回 null */
+export async function checkLoginLock(
+  db: any,
+  username: string,
+  ip: string
+): Promise<Response | null> {
+  try {
+    const row = await db
+      .prepare('SELECT locked_until FROM login_attempts WHERE subject_key = ?')
+      .bind(subjectKey(username, ip))
+      .first();
+    if (!row) return null;
+    const until = String((row as any).locked_until || '');
+    if (!until) return null;
+    const left = new Date(until).getTime() - Date.now();
+    if (left <= 0) return null; // 已过锁定时间
+    return json(
+      {
+        error: `登录失败次数过多，已临时锁定，请 ${minutesText(left)} 分钟后重试`,
+        code: 'LOGIN_LOCKED',
+        retryAfterSeconds: Math.ceil(left / 1000),
+      },
+      429
+    );
+  } catch {
+    // 限流表异常不应阻断登录本身
+    return null;
+  }
+}
+
+/** 记录一次登录失败；达到阶梯则写入锁定截止时间 */
+export async function recordLoginFail(db: any, username: string, ip: string): Promise<void> {
+  const key = subjectKey(username, ip);
+  const now = new Date();
+  const nowIso = now.toISOString();
+  const windowStart = new Date(now.getTime() - WINDOW_MINUTES * 60000).toISOString();
+  try {
+    const res = await db
+      .prepare(
+        `UPDATE login_attempts
+            SET fail_count = CASE WHEN last_fail_at IS NULL OR last_fail_at < ? THEN 1 ELSE fail_count + 1 END,
+                last_fail_at = ?
+          WHERE subject_key = ?`
+      )
+      .bind(windowStart, nowIso, key)
+      .run();
+
+    if (!res?.meta || res.meta.changes === 0) {
+      await db
+        .prepare(
+          `INSERT INTO login_attempts (id, subject_key, username, fail_count, first_fail_at, last_fail_at)
+           VALUES (?, ?, ?, 1, ?, ?)`
+        )
+        .bind(uid('la'), key, username || '', nowIso, nowIso)
+        .run();
+    }
+
+    const row = await db
+      .prepare('SELECT fail_count FROM login_attempts WHERE subject_key = ?')
+      .bind(key)
+      .first();
+    const count = Number((row as any)?.fail_count || 1);
+    const tier = TIERS.find((t) => count >= t.count);
+    if (tier) {
+      const until = new Date(now.getTime() + tier.minutes * 60000).toISOString();
+      await db
+        .prepare('UPDATE login_attempts SET locked_until = ? WHERE subject_key = ?')
+        .bind(until, key)
+        .run();
+    }
+  } catch {
+    /* 限流失败不阻断登录流程 */
+  }
+}
+
+/** 登录成功：清除该主体的失败计数 */
+export async function clearLoginFail(db: any, username: string, ip: string): Promise<void> {
+  try {
+    await db
+      .prepare('DELETE FROM login_attempts WHERE subject_key = ?')
+      .bind(subjectKey(username, ip))
+      .run();
+  } catch {
+    /* 忽略 */
+  }
+}

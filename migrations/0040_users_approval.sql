@@ -1,43 +1,35 @@
-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
-XSupQLRRVzGJiGXtF4RSgQ==
+-- V2.95.0 账号审批与超级管理员：users 增加审批状态 / 组织所有者 / 联系方式列
+-- 背景：原注册接口直接信任请求体传入的 role（可自封 admin），且新账号无审批即开通。
+--   本次引入 status(pending/active/rejected) + is_owner，公司码已存在的再次注册需管理员审批。
+-- 说明：D1(SQLite) 不支持 ALTER TABLE ... ADD COLUMN IF NOT EXISTS；本迁移由
+--   `wrangler d1 migrations apply` 记录进 schema_migrations，成功后自动跳过，
+--   保证重复 apply 不报错（与 0017_vendor_master_ext 同一约定）。
+
+ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT 'active';
+ALTER TABLE users ADD COLUMN is_owner INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN email TEXT;
+ALTER TABLE users ADD COLUMN phone TEXT;
+
+-- 历史数据归一化：role 不在有效角色集合内的一律降为普通用户 'user'。
+-- 存量库中存在大量 user/manager 等无效值（前端角色表中并不存在），会导致这些账号权限为空。
+-- 有效角色集合（与后端 users 接口的 VALID_ROLES 保持一致）：
+UPDATE users
+SET role = 'user'
+WHERE role IS NULL
+   OR trim(role) = ''
+   OR role NOT IN (
+        'super_admin','admin','rd_engineer','process_engineer','qa_engineer',
+        'qa_inspector','warehouse_keeper','logistics','finance_manager','accountant',
+        'buyer','prod_manager','prod_leader','vendor','user'
+      );
+
+-- 历史存量账号（迁移前已存在）视为已通过审批：status 默认值即为 'active'，保持可用，
+-- 避免升级后老账号被 403 拦在门外。仅升级后新注册的账号才会是 'pending'。
+
+-- 用户管理列表 / 待审批计数的常用过滤（org_id + status）
+CREATE INDEX IF NOT EXISTS idx_users_org_status ON users(org_id, status);
+
+-- 幂等守卫（version 为 TEXT 主键）
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0040_users_approval', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

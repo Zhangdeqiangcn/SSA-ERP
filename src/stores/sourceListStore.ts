@@ -1,96 +1,146 @@
-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
-ACfTz+LZq1TVvPS+oRrVeQ==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { SourceListItem } from '@/types';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+const seedItems: SourceListItem[] = [
+  {
+    id: 'sl-001',
+    materialId: 'mat-001',
+    materialCode: 'MAT-001',
+    materialName: '钢板',
+    vendorId: 'cus-001',
+    vendorName: '华润建筑',
+    priority: 1,
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    fixedVendor: false,
+    quotaPercentage: 60,
+    status: 'active',
+    remarks: '主供应商',
+  },
+  {
+    id: 'sl-002',
+    materialId: 'mat-002',
+    materialCode: 'MAT-002',
+    materialName: '不锈钢管',
+    vendorId: 'cus-002',
+    vendorName: '长江船舶',
+    priority: 2,
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    fixedVendor: true,
+    quotaPercentage: 100,
+    status: 'active',
+    remarks: '固定货源',
+  },
+  {
+    id: 'sl-003',
+    materialId: 'mat-003',
+    materialCode: 'MAT-003',
+    materialName: '角钢',
+    vendorId: 'cus-003',
+    vendorName: '新源机械',
+    priority: 1,
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    fixedVendor: false,
+    quotaPercentage: 40,
+    status: 'active',
+    remarks: '备选供应商',
+  },
+];
+
+const RES = 'sourceList';
+
+interface SourceListState {
+  items: SourceListItem[];
+  addItem: (item: SourceListItem) => void;
+  updateItem: (id: string, patch: Partial<SourceListItem>) => void;
+  deleteItem: (id: string) => void;
+  /** V3.80.0：从 D1 水合 */
+  hydrateSourceList: () => Promise<void>;
+}
+
+/**
+ * 货源清单联动派生 selector（集中维护联动规则，供 OrderForm / 详情页统一消费）
+ * ——避免各页面散落裸 getState().items 过滤逻辑，保证联动口径一致。
+ */
+
+/** 是否在有效期内：status=active 且 当前日期落在 [validFrom, validTo] 区间 */
+export function isSourceInValidity(
+  item: SourceListItem,
+  today: string = new Date().toISOString().split('T')[0]
+): boolean {
+  if (item.status !== 'active') return false;
+  if (item.validFrom && item.validFrom > today) return false;
+  if (item.validTo && item.validTo < today) return false;
+  return true;
+}
+
+/** 按物料查全部货源 */
+export function getSourcesByMaterial(materialId: string): SourceListItem[] {
+  return useSourceListStore.getState().items.filter((s) => s.materialId === materialId);
+}
+
+/** 按供应商查全部货源 */
+export function getSourcesByVendor(vendorId: string): SourceListItem[] {
+  return useSourceListStore.getState().items.filter((s) => s.vendorId === vendorId);
+}
+
+/** 取某供应商当前生效且在有效期内的货源，按优先级升序 */
+export function getActiveSourcesByVendor(
+  vendorId: string,
+  today: string = new Date().toISOString().split('T')[0]
+): SourceListItem[] {
+  return getSourcesByVendor(vendorId)
+    .filter((s) => isSourceInValidity(s, today))
+    .sort((a, b) => a.priority - b.priority);
+}
+
+/** 取某物料当前生效且在有效期内的货源，按优先级升序 */
+export function getActiveSourcesFor(
+  materialId: string,
+  today: string = new Date().toISOString().split('T')[0]
+): SourceListItem[] {
+  return getSourcesByMaterial(materialId)
+    .filter((s) => isSourceInValidity(s, today))
+    .sort((a, b) => a.priority - b.priority);
+}
+
+export const useSourceListStore = create<SourceListState>()((set) => ({
+  items: [...seedItems],
+  addItem: (item) => {
+    set((state) => ({ items: [item, ...state.items] }));
+    if (isAuthed()) writeRow(RES, item.id, item);
+  },
+  updateItem: (id, patch) => {
+    let updated: SourceListItem | undefined;
+    set((state) => ({
+      items: state.items.map((r) => {
+        if (r.id !== id) return r;
+        updated = { ...r, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, updated);
+  },
+  deleteItem: (id) => {
+    set((state) => ({ items: state.items.filter((r) => r.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+  hydrateSourceList: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<SourceListItem>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<SourceListItem>(res?.data || []);
+      if (rows.length) set({ items: rows });
+    } catch {
+      // 离线/异常：保留本地态（含种子）
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useSourceListStore.getState().hydrateSourceList();

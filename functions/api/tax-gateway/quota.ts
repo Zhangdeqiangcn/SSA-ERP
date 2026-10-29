@@ -1,21 +1,18 @@
-U2FsdGVkX1+WwsIpTQKr1fGJxq/veT5GWnL8ficCc+khqQ3CEzn1mGfyUS7NRG7J
-wsYBuzrD+mXJpZRiQsLrF+OO+v2iZ1mPjBleq0d33Q5Ic40blcEbDEax+zTxvMOV
-WGQaZW2VEzVAcFIvHjqmrc15WINLOzBYsJFpeLcKMZCMRLE5b7SUYUphHPgvSaRI
-LRNVp4agzQhnaAtFNNAnLHuykhI0RpBW5IaGMmhLvbHk5PHUrtb54DFXeIJ/KUur
-AQTpzVVLMhrUAJGiZbhBe95+9ck775gNFkVmkvwwS809u1QxEAPJpqKXt3x2VA4B
-AK+frJjrhoEWGFbnw4a35aBEhwIPhm8mYe2/W4xivzToCm0jGCTLeQ8I3U72fSkc
-M+6ewqJnHYBXrNz/WHIuyaQy3sdz4QUZiQHbC8bG3STfE9YqrkAR4IwITwjMIhne
-cOVkyVrv0Hyg39qq9RbNjUtpqx3lur7a5Ar9NjYO/OuGdjaiR6RR1DjUOtpB1ZK/
-4nTlPbOmfvxuSLcB+XLbGx2XZWLbhzsbcl5H4dEKcUeMK4irnoNWKXsYITlVlNYP
-XM0x1i3Hn2TU2p0twFjBLdHH4DyF/ce5DrTkwYY1J2Jk315DiW3JFSte5MNgTEoz
-rsctc8VwmVPhHxjAt9ZBuVbBnbNLowos+6ciqucqL/oG3IhN2InS+MqEfsdLlGPh
-5ZSFg9vfMeGSIpGYr4Exyjdt9BsZjOiVBXPUx4BS+DsW5NUIP6HnqNCrTrevlnx7
-tgy16njRHJdDFTnhKkvd8rMnN3rGwFGw5x7k0XVQJBxELqqLSu2xiR+u6Ep4oDu7
-Z0V5/zsSqfe/lNn1HDNO+MslbCVm06IJCrUWZHTceKYQDp5Hpz/zlJ/I9tLr4fBJ
-+HPqsw631x9TodtcFgC2svAZjK619yctaIxSShZEE6D8WKzEP2oQ2X0KgjIiQcHB
-twnwcq/xD9OaaLz+Y0uN0CKlmi6XMkl2fXnatC5ngRFhegFqUhQN4Wj+RXwIew1B
-g7VZN53yYvs0RDKQ5JbmsNAwxc2UO7lcTGIvv7U4HDBu9YyEJaoswq08U+XMZ8GA
-tIpnMs7+lTirQ+9TrIVu9r/xEOs4kDyDZRHbRp3gJ78UP1Osx2Snuhx7g6gwOxqO
-rOHX3CUvRBe5Av7QbL3zteQy+yUBztoitS0EMPZdKfirqbCAVbtC9+AF4v/HhHrv
-Hl6fzXTzBkmk2gckMiVLnZ4yGn/OgXIYscw45yQHf6LZCIcIBehxGnkftgWE7CUE
-r1cabCV29T18u8JGNBZbRxuFfjAwRK0SOkDK8KwnKrU=
+/**
+ * GET /api/tax-gateway/quota —— 查询今日配额
+ *
+ * ★ 为什么会有这个文件（V3.11.2 修复）：
+ * `./index.ts` 里有一个完整实现的 `onRequestQuota`，但 **Pages Functions 只认
+ * `onRequest` 或 `onRequest<HTTP方法名>`**（Get/Post/Put/Delete/...）。
+ * `Quota` 不是 HTTP 方法，所以这个导出**从未被任何路由命中过** —— 是个写好了却
+ * 接错线的功能，且从外部看完全像"已经实现"，属误导性死代码。
+ *
+ * 实测（生产环境，2026-09-16）：GET /api/tax-gateway/quota → 200 text/html（落到 SPA 回退）。
+ *
+ * 这里按 Pages 的约定转接成 `onRequestGet`。
+ * 注：当前前端**尚未调用**该端点（税务配置页只调 /config 与 /verify），
+ * 本文件属「把已实现的能力接对线」，未来要做配额展示可直接用，不必重写。
+ */
+import { onRequestQuota } from './index';
+
+export const onRequestGet = onRequestQuota;

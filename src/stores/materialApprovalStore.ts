@@ -1,95 +1,124 @@
-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
-LU1SF7B0C+mU0oZFm5lB4w==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { Material, MaterialApplication } from '@/types';
+import { generateMaterialCodeByCategory } from '@/utils/codeGenerator';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+interface MaterialApprovalState {
+  materialApplications: MaterialApplication[];
+  addMaterialApplication: (a: MaterialApplication) => void;
+  updateMaterialApplication: (id: string, updates: Partial<MaterialApplication>) => void;
+  deleteMaterialApplication: (id: string) => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateMaterialApproval: () => Promise<void>;
+}
+
+const RES = 'materialApproval';
+
+const addItem = <T,>(list: T[], item: T) => [...list, item];
+const updateItem = <T extends { id: string }>(list: T[], id: string, updates: Partial<T>) =>
+  list.map((x) => (x.id === id ? { ...x, ...updates } : x));
+const deleteItem = <T extends { id: string }>(list: T[], id: string) =>
+  list.filter((x) => x.id !== id);
+
+export const useMaterialApprovalStore = create<MaterialApprovalState>()((set) => ({
+  materialApplications: [],
+
+  addMaterialApplication: (a) => {
+    set((s) => ({ materialApplications: addItem(s.materialApplications, a) }));
+    if (isAuthed()) writeRow(RES, a.id, a);
+  },
+  updateMaterialApplication: (id, u) => {
+    let updated: MaterialApplication | undefined;
+    set((s) => ({
+      materialApplications: s.materialApplications.map((x) => {
+        if (x.id !== id) return x;
+        updated = { ...x, ...u };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, updated);
+  },
+  deleteMaterialApplication: (id) => {
+    set((s) => ({ materialApplications: deleteItem(s.materialApplications, id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  hydrateMaterialApproval: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<MaterialApplication>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<MaterialApplication>(res?.data || []);
+      if (rows.length) set({ materialApplications: rows });
+    } catch {
+      // 离线/异常：保留本地态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useMaterialApprovalStore.getState().hydrateMaterialApproval();
+
+type CatNode = { id: string; code: string; parentId: string | null; name?: string; sequenceLength?: number; children?: CatNode[] };
+
+function findCategory(nodes: CatNode[], id?: string): CatNode | null {
+  if (!id) return null;
+  for (const n of nodes) {
+    if (n.id === id) return n;
+    if (n.children) {
+      const f = findCategory(n.children, id);
+      if (f) return f;
+    }
+  }
+  return null;
+}
+
+/** 将审批通过的草稿转换为正式物料（生成编码、补齐默认值、状态 active） */
+export function buildMaterialFromApplication(
+  app: MaterialApplication,
+  ctx: { categories: CatNode[]; existingCodes: string[] }
+): Material {
+  const draft = app.draft;
+  const code = draft.categoryId
+    ? generateMaterialCodeByCategory(draft.categoryId, ctx.categories as any, ctx.existingCodes.map(c => ({ code: c })))
+    : `M${Date.now()}`;
+  const category = findCategory(ctx.categories, draft.categoryId);
+  const now = new Date().toISOString();
+  return {
+    id: `mat-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+    code,
+    name: draft.name || '未命名物料',
+    categoryId: draft.categoryId || '',
+    categoryName: category?.name,
+    specification: draft.specification,
+    model: draft.model,
+    unit: draft.unit || '个',
+    materialType: draft.materialType,
+    makeOrBuy: draft.makeOrBuy,
+    safetyStock: draft.safetyStock ?? 0,
+    minStock: draft.minStock ?? 0,
+    maxStock: draft.maxStock ?? 0,
+    currentStock: 0,
+    price: draft.price ?? 0,
+    currency: draft.currency || 'CNY',
+    leadTime: draft.leadTime,
+    moq: draft.moq,
+    mpq: draft.mpq,
+    defaultVendorId: draft.defaultVendorId,
+    defaultVendorName: draft.defaultVendorName,
+    purchaseUnit: draft.purchaseUnit,
+    unitConversion: draft.unitConversion,
+    routing: draft.routing,
+    workCenter: draft.workCenter,
+    cycleTime: draft.cycleTime,
+    scrapRate: draft.scrapRate,
+    inspectionPoint: draft.inspectionPoint,
+    status: 'active',
+    remarks: draft.remarks,
+    createdAt: now,
+    updatedAt: now,
+    createdBy: app.applicant || 'system',
+    updatedBy: app.applicant || 'system',
+  };
+}

@@ -1,314 +1,362 @@
-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
+// B2 三岛「落 D1」双写桥接层。
+//
+// 设计原则（与现有前端零冲突）：
+//   1. 所有请求都从内存态令牌（getSyncToken）取 token，注入 Authorization: Bearer <token>；
+//      V3.91.0 起令牌不再落地明文 localStorage，生产刷新后由 HttpOnly Cookie 兜底，此处返回 null 属正常。
+//   2. 未登录 / token 缺失 → 静默 return null（无会话则无「需要同步到 D1 的变更」，不计入失败）。
+//   3. 前端永远以本地 zustand store 为准；本层负责「尽力把变更同步到 D1」。
+//   4. 调用方（各 store）仍 fire-and-forget：在本地 set 完成之后异步调用，使用 .catch(() => {}) 兜底。
+//
+// ──────────────────────────────────────────────────────────────────────────
+// P1 FE-002 修复：消除「系统性静默失败」。
+//
+// 旧设计：任何异常（响应非 2xx / fetch 抛错）都直接 `return null`，失败即放弃，
+// 且前端约 54 处 `.catch(() => {})` 调用点永不感知 —— 本地状态与 D1 真相源可能
+// 永久分歧而用户零察觉（如入库写入失败、本地 id 永不回写）。
+//
+// 新设计（**不破坏 54 处现有调用约定**）：
+//   - `request()` 仍返回 `T | null`，调用点零改动；
+//   - 但失败不再消失：内部记入环形缓冲 `failureLog`，并「可观测 + 可重试 + 可上报」。
+//     ① 可观测：每次失败 `console.warn` 一次（轻量上报），并通知订阅者；
+//     ② 可重试：`retryAll()` 按原 method/path/body 重放所有写操作（非 GET）；
+//     ③ 可上报：通过 `subscribe`/`getFailures` 暴露给 UI（B2SyncStatus 状态条）。
+// ──────────────────────────────────────────────────────────────────────────
+//
+// 注意：本文件不依赖 axios，也不用 src/services/api.ts（那个 client 用的是 'token' key 且 401 会跳登录），
+// 以免双写失败影响既有登录态与导航。
+
+import { getSyncToken, hasSession } from '@/stores/persistStorage';
+
+const BASE = '/api';
+
+/** 失败环形缓冲上限 */
+const MAX_FAILURES = 50;
+
+/** 单次失败记录 */
+export interface B2Failure {
+  /** 唯一标识，用于重试后精准移除 */
+  id: string;
+  /** 发生时间戳（ms） */
+  ts: number;
+  /** HTTP 方法（GET/POST/PUT/DELETE…） */
+  method: string;
+  /** 请求路径（已 encode，含 BASE 之外的部分） */
+  path: string;
+  /** 响应状态码；网络/超时错误时为 undefined */
+  status?: number;
+  /** 失败原因（HTTP 响应文本前若干字符 / 网络错误信息） */
+  message: string;
+  /** 请求体（写操作重放时需要）；GET/DELETE 通常为 undefined */
+  body?: unknown;
+}
+
+type FailureListener = (failures: B2Failure[]) => void;
+
+function getToken(): string | null {
+  try {
+    return getSyncToken();
+  } catch {
+    return null;
+  }
+}
+
+/** 把查询参数拼成 ?a=b&c=d（空值跳过），GET 列表查询复用 */
+function qs(p?: Record<string, string>): string {
+  if (!p) return '';
+  const s = Object.entries(p)
+    .filter(([, v]) => v != null && v !== '')
+    .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+    .join('&');
+  return s ? `?${s}` : '';
+}
+
+/** 是否已登录（有 token 即视为可尝试双写） */
+export function isAuthed(): boolean {
+  return hasSession();
+}
+
+// ── 失败记录环形缓冲 + 极简发布订阅 ────────────────────────────────────────
+let failures: B2Failure[] = [];
+const listeners = new Set<FailureListener>();
+
+/** 取当前失败列表的快照（副本，避免外部直接改内部状态） */
+export function getFailures(): B2Failure[] {
+  return failures.slice();
+}
+
+/** 清空失败记录并通知订阅者（用户手动「忽略/已读」时使用） */
+export function clearFailures(): void {
+  failures = [];
+  notify();
+}
+
+/** 订阅失败列表变化；返回取消订阅函数。订阅时立即推送一次当前快照。 */
+export function subscribe(cb: FailureListener): () => void {
+  listeners.add(cb);
+  // 立即推送当前状态，使挂载组件能反映既有失败
+  try {
+    cb(getFailures());
+  } catch {
+    /* 订阅回调异常不应影响桥接层 */
+  }
+  return () => {
+    listeners.delete(cb);
+  };
+}
+
+/** 内部通知：向所有订阅者推送最新快照 */
+function notify(): void {
+  const snapshot = getFailures();
+  listeners.forEach((cb) => {
+    try {
+      cb(snapshot);
+    } catch {
+      /* 单个订阅者异常不影响其他订阅者 */
+    }
+  });
+}
+
+/** 记录一次失败（写入环形缓冲 + console.warn + 通知） */
+function recordFailure(p: Omit<B2Failure, 'id' | 'ts'>): void {
+  const rec: B2Failure = {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    ts: Date.now(),
+    ...p,
+  };
+  failures.push(rec);
+  if (failures.length > MAX_FAILURES) {
+    // 环形缓冲：超出上限丢弃最旧的
+    failures.splice(0, failures.length - MAX_FAILURES);
+  }
+  // 轻量上报：开发者在控制台即可看到双写失败（可观测）
+  const statusText = p.status !== undefined ? ` (HTTP ${p.status})` : '';
+  // eslint-disable-next-line no-console
+  console.warn(`[b2Api] D1 同步失败：${p.method} ${p.path}${statusText} - ${p.message}`);
+  notify();
+}
+
+/**
+ * 把一次「可重试的写失败」安全入队（供 entityRepo 等统一写入口复用）。
+ * 与 recordFailure 的区别：
+ *   - 自带「同 path + 同 body」去重：已 pending 的不重复入队，仅刷新 ts 与最新错误，
+ *     否则 writeRow 的「update 失败 fallback create」会写入两条等效失败，重放时产生僵尸项。
+ *   - 仅用于「网络中断 / 5xx」这类用户无能为力、但应被自动重放的失败；
+ *     401（登录态失效）与 4xx（业务校验）由调用方自行判断，不应调本函数。
+ * @param method HTTP 方法
+ * @param path 请求路径（含 /api 之外的部分，如 /entities/material）
+ * @param body 请求体（重放时需要）
+ * @param status 响应状态码；网络错误时为 undefined
+ * @param message 失败原因
+ */
+export function enqueueWriteFailure(
+  method: string,
+  path: string,
+  body?: unknown,
+  status?: number,
+  message = '请求失败',
+): void {
+  const key = `${method} ${path} :: ${hashBody(body)}`;
+  const dup = failures.find((f) => `${f.method} ${f.path} :: ${hashBody(f.body)}` === key);
+  if (dup) {
+    // 已存在等效 pending：仅刷新时间戳与最新错误信息，不重复入队
+    dup.ts = Date.now();
+    if (status !== undefined) dup.status = status;
+    dup.message = message;
+    notify();
+    return;
+  }
+  recordFailure({ method, path, status, message, body });
+}
+
+/** 请求体稳定哈希（用于去重判断）：JSON 归一后比较 */
+function hashBody(body?: unknown): string {
+  if (body === undefined || body === null) return '';
+  try {
+    return JSON.stringify(body);
+  } catch {
+    return String(body);
+  }
+}
+
+/** 底层请求：执行 fetch 并返回结构化结果，**不**记录失败（记录交由上层决定） */
+async function rawRequest<T = unknown>(
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<{ ok: boolean; status?: number; data?: T | null; errorText?: string; silent?: boolean }> {
+  if (!hasSession()) {
+    // 无会话（未登录 / 已登出）：本应无「需要同步到 D1 的变更」，按设计意图静默（不计入失败环形缓冲）。
+    return { ok: false, status: 401, errorText: '未登录（缺少会话）', silent: true };
+  }
+  const token = getToken();
+  try {
+    const res = await fetch(`${BASE}${path}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
+    const text = await res.text();
+    if (!res.ok) {
+      // 截取响应文本前 200 字符，避免把大段 HTML/报错塞进内存
+      return { ok: false, status: res.status, errorText: text.slice(0, 200) };
+    }
+    if (res.status === 204) return { ok: true, status: 204, data: null };
+    if (!text) return { ok: true, data: null };
+    try {
+      return { ok: true, data: JSON.parse(text) as T };
+    } catch {
+      // 响应体非 JSON（例如纯文本 200）——视为成功但无结构化数据
+      return { ok: true, data: null };
+    }
+  } catch (e) {
+    // 网络错误 / 超时：fetch 抛 TypeError（如 Failed to fetch）
+    const message = e instanceof Error ? e.message : String(e);
+    return { ok: false, status: undefined, errorText: message };
+  }
+}
+
+/** 通用安全请求：失败可观测（记录到 failureLog），但仍返回 null，不向上抛、不阻塞前端。 */
+async function request<T = unknown>(method: string, path: string, body?: unknown): Promise<T | null> {
+  const result = await rawRequest<T>(method, path, body);
+  if (!result.ok && !result.silent) {
+    recordFailure({
+      method,
+      path,
+      status: result.status,
+      message: result.errorText ?? '请求失败',
+      body,
+    });
+  }
+  return (result.data ?? null) as T | null;
+}
+
+type IdResult = { id?: string } | null;
+
+export const b2Api = {
+  // ── 序列号 / HU ──
+  postSerial: (p: Record<string, unknown>) =>
+    request<IdResult>('POST', '/serial-numbers', p),
+  putSerial: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/serial-numbers/${encodeURIComponent(id)}`, p),
+  deleteSerial: (id: string) =>
+    request('DELETE', `/serial-numbers/${encodeURIComponent(id)}`),
+  // 核销端点（备选；本改造优先用「逐条 PUT 同步」以完全对齐前端取号结果）
+  consumeSerials: (p: Record<string, unknown>) =>
+    request<{ consumed?: string[] } | null>('POST', '/serial-numbers/consume', p),
+
+  // ── 委外 ──
+  postSubcontract: (p: Record<string, unknown>) =>
+    request<IdResult>('POST', '/subcontracts', p),
+  putSubcontract: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/subcontracts/${encodeURIComponent(id)}`, p),
+  deleteSubcontract: (id: string) =>
+    request('DELETE', `/subcontracts/${encodeURIComponent(id)}`),
+
+  // ── 工单领料 ──
+  postPicking: (p: Record<string, unknown>) =>
+    request('POST', '/work-orders/picking', p),
+  putPicking: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/work-orders/picking/${encodeURIComponent(id)}`, p),
+  deletePicking: (id: string) =>
+    request('DELETE', `/work-orders/picking/${encodeURIComponent(id)}`),
+
+  // ── 出库单 / 入库单 ──
+  postOutbound: (p: Record<string, unknown>) =>
+    request<IdResult>('POST', '/outbound-orders', p),
+  postInbound: (p: Record<string, unknown>) =>
+    request<IdResult>('POST', '/inbound-orders', p),
+
+  // 仓库战役：读 / 改 / 删（直连真实 D1，根治 app_state Blob 双通道）
+  getInbounds: () => request('GET', '/inbound-orders?pageSize=200'),
+  getInbound: (id: string) => request('GET', `/inbound-orders/${encodeURIComponent(id)}`),
+  getOutbounds: () => request('GET', '/outbound-orders?pageSize=200'),
+  getOutbound: (id: string) => request('GET', `/outbound-orders/${encodeURIComponent(id)}`),
+  putInbound: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/inbound-orders/${encodeURIComponent(id)}`, p),
+  deleteInbound: (id: string) =>
+    request('DELETE', `/inbound-orders/${encodeURIComponent(id)}`),
+  putOutbound: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/outbound-orders/${encodeURIComponent(id)}`, p),
+  deleteOutbound: (id: string) =>
+    request('DELETE', `/outbound-orders/${encodeURIComponent(id)}`),
+
+  // ── 库存记录（权威源，W6 整改：前端展示改消费后端 inventory_records）──
+  getInventoryRecords: <T = unknown>(params?: Record<string, string>) =>
+    request<T>('GET', `/inventory-records${qs(params)}`),
+  // ── 库存调整单（W1 整改：盘点差异走真实调整单过账）──
+  postAdjustment: (p: Record<string, unknown>) =>
+    request<{ id?: string } | null>('POST', '/inventory-adjustments', p),
+  putAdjustment: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/inventory-adjustments/${encodeURIComponent(id)}`, p),
+
+  // ── 仓库主数据（W4 整改：后端化，统一权威源 + RLS + 审计）──
+  getWarehouses: <T = unknown>(params?: Record<string, string>) =>
+    request<T>('GET', `/warehouses${qs(params)}`),
+  postWarehouse: (p: Record<string, unknown>) =>
+    request<{ id?: string } | null>('POST', '/warehouses', p),
+  putWarehouse: (id: string, p: Record<string, unknown>) =>
+    request('PUT', `/warehouses/${encodeURIComponent(id)}`, p),
+  deleteWarehouse: (id: string) =>
+    request('DELETE', `/warehouses/${encodeURIComponent(id)}`),
+
+  // ── FE-002 新增：失败可观测 / 可重试 / 可上报 ──
+  /** 订阅失败列表变化，返回取消订阅函数 */
+  subscribe,
+  /** 取当前失败记录快照 */
+  getFailures,
+  /** 清空失败记录 */
+  clearFailures,
+  /**
+   * 重放所有写操作（非 GET）失败记录：按原 method/path/body 重新发起请求。
+   * 成功则该条移除；失败则保留（更新 ts 与最新错误）。读取（GET）失败不重放。
+   * @returns 重放统计
+   */
+  retryAll,
+  /** 统一写入口（entityRepo）把「可重试写失败」入队时使用（自带 path+body 去重） */
+  enqueueWriteFailure,
+};
+
+/**
+ * 重放所有写操作（非 GET）失败记录：按原 method/path/body 重新发起请求。
+ * 成功则该条移除；失败则保留（更新 ts 与最新错误）。读取（GET）失败不重放。
+ */
+async function retryAll(): Promise<{ retried: number; succeeded: number; failed: number }> {
+  const pending = failures.slice();
+  const kept: B2Failure[] = [];
+  let retried = 0;
+  let succeeded = 0;
+  let failed = 0;
+
+  for (const f of pending) {
+    // 读取失败不参与「本地修改未同步」重放
+    if (f.method === 'GET' || f.method === 'HEAD') {
+      kept.push(f);
+      continue;
+    }
+    retried += 1;
+    const result = await rawRequest(f.method, f.path, f.body);
+    if (result.ok) {
+      succeeded += 1;
+      // 成功：该条移除（不进入 kept）
+    } else {
+      failed += 1;
+      // 失败：保留并更新时间戳与最新错误
+      kept.push({
+        ...f,
+        ts: Date.now(),
+        status: result.status,
+        message: result.errorText ?? f.message,
+      });
+    }
+  }
+
+  // 重放后可能仍有残留（失败项），保持在环形缓冲上限内
+  failures = kept.slice(-MAX_FAILURES);
+  notify();
+  return { retried, succeeded, failed };
+}
+
+export default b2Api;

@@ -1,22 +1,17 @@
-U2FsdGVkX18kJabhWLEH8VsasL+ZYDXqev3TqDah5ducVrSaPjeYK1XSltzZF7cw
-R6p6ee7wJAPUKCo/31qGQ7H4D9+2Nx6g3A6sm9iY3FO4VxW58y93RTcxevavnL6Y
-HMHFf6+sSAAZZXl8/b+VE9wDSZxH/VDBdtatHlwIFVR0RKGSASp4GduISOOCfcoy
-AHG2ce5IxUHLdFLbGoE9gMzbF85MQS0HkWZ8FV5FCegQVPYa2+9IumzklDVBX7A0
-2q6lZZp43sSMJHXNycFLdk3hpJf0twQbvPI+S/IEvx9ccBzqLpXbzE7mqjzoAmBE
-pF2HeT6FdlUCNmwe98YCifk/yxhQU/lPjL4CTEViuadlEQBdE1xTrvXrEAjtc7xD
-YdkFtFqkrO+u6a3ydPFYpDuf8g8yT2r0QlHU+UyU6fbDe50G7bdIHns2RvFUYFmk
-BOumbL4fHuTLp2N8OdtroqgFTUZcrGrPr3GTYRYA3NxOi5ww+REuyMJGVNqHmhBB
-rX/OTJK39+7mvErCNuadFcnIoRH4ud5UH8lHxPCnalmZLpEK9Z0976VVDC/2FGLj
-zOjRfGXcaHplwZRZqGj5FKY4N6roWu6g/q4nehEky1lcLSen88Tbpmbu59Tp9wws
-H6VBJ9vPuWfUCBY3Gvpf7iC6rRv8NMoZqDSf/Fg5CkK15Fk7HBb22Ywa0thW4qtK
-rX1AUVKeuASQNEzir1GZzFIKi0/8T9ow/UHIMtGFY6XfwkjDX4qTK8FnBFpCs7+Y
-X42/adpI0S+FRThfDt3ybG8khth1yJftkEg5sDHvfq2mNlPo7y//pE24LNyOb6+K
-/1fngEuzkwzfd4uiwiuTNGPOxS93C8Z+5sjTV07NfRWWNnZy1cJYgF+gz4Uan18f
-xn8S2BEHm689oOXmvY2V+I45n628QUd3WtgNyUZw2xnoSn2E/gLPD97//H2277df
-ZVQQ9W9ZlNeBaafRnX1m1sySFKZY1SEl/6qRXqSv34ef0nqtnT0eLzwgTkqj1s/M
-nF6EYWdkhDyOXit51pdvu4I66E6f9JT7JK1tFvBYlpTNKIR5edE72Ys9T+DEsx1K
-izdYU+RoVjrpPdINbhwbO+u/xkIBT99stLr3oJQBMt7uAPtgnFR8iL+MIcJv8mlK
-c2T+rAXLni/D8Aiz6zuNKGeqJY3H9VgOt7ehlfcEtH1kTzi7mVt1vxY8fDU16Lmo
-i+h7UiEMKephkfM5IahGD0QUhUFaSZ3d8hluTsGxtyNZsCmglTnIz0OQEl761DlN
-07VkbmoVsqej1pEoRBBjSTsz6p9ZdXgK4re4J9O4aWKa87CqzvoI7V8J5AX70/xC
-lMVlfsnCICab4/lMXzVQVQ==
+-- 0045: 关键单据增加乐观锁版本号
+--
+-- 背景：并发修改同一张单据时，后提交者会静默覆盖先提交者的改动，
+--       双方都看到「保存成功」，实际丢了一次修改。
+-- 方案：给三类核心单据补 version 列（采购单已有），更新时按版本号比对，
+--       版本对不上即返回 409 冲突，由前端提示用户刷新后重试。
+-- 兼容：存量行统一置为 1；前端不传 version 时保持原行为（不加锁），
+--       因此老客户端不会因本次迁移而报错。
+
+ALTER TABLE sales_orders ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE inbound_orders ADD COLUMN version INTEGER DEFAULT 1;
+ALTER TABLE outbound_orders ADD COLUMN version INTEGER DEFAULT 1;
+
+UPDATE sales_orders SET version = 1 WHERE version IS NULL;
+UPDATE inbound_orders SET version = 1 WHERE version IS NULL;
+UPDATE outbound_orders SET version = 1 WHERE version IS NULL;
+UPDATE purchase_orders SET version = 1 WHERE version IS NULL;

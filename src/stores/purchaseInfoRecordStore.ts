@@ -1,114 +1,156 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { PurchaseInfoRecord } from '@/types';
+
+/**
+ * 采购信息记录 store（V3.76.0 P1-5：Blob → D1 关系表）
+ *
+ * 迁移前：整状态 JSON 走 backendStorage（persist name 'ssa-erp-purchase-info-record'）——
+ *   供应商-物料价格/货期主数据只存单浏览器大对象，采购员之间互不可见（审计 P1-5）。
+ * 迁移后：落 D1 关系表 purchase_info_records（迁移 0100，entities.ts 注册
+ *   purchaseInfoRecord，rls.ts 组织共享 'all'）。
+ *
+ * 数据流：登录态 D1 权威源 + 页面挂载水合（D1 空一次性回填种子）；未登录本地种子兜底；
+ *   CRUD 本地即时 + 登录态写穿。旧 Blob 键回填后保留不删（回滚安全垫）。
+ */
+
+const seedRecords: PurchaseInfoRecord[] = [
+  {
+    id: 'ir-001',
+    vendorId: 'cus-001',
+    vendorName: '华润建筑',
+    materialId: 'mat-001',
+    materialName: '钢板',
+    materialCode: 'MAT-001',
+    specification: 'Q235B',
+    unit: '吨',
+    unitPrice: 4100,
+    currency: 'CNY',
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    minQty: 1,
+    leadTime: 7,
+    purchasingGroup: 'PG01',
+    status: 'active',
+  },
+  {
+    id: 'ir-002',
+    vendorId: 'cus-002',
+    vendorName: '长江船舶',
+    materialId: 'mat-002',
+    materialName: '不锈钢管',
+    materialCode: 'MAT-002',
+    specification: '304',
+    unit: '吨',
+    unitPrice: 3800,
+    currency: 'CNY',
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    minQty: 2,
+    leadTime: 10,
+    purchasingGroup: 'PG02',
+    status: 'active',
+  },
+  {
+    id: 'ir-003',
+    vendorId: 'cus-003',
+    vendorName: '新源机械',
+    materialId: 'mat-003',
+    materialName: '角钢',
+    materialCode: 'MAT-003',
+    specification: 'L50×5',
+    unit: '吨',
+    unitPrice: 5200,
+    currency: 'CNY',
+    validFrom: '2026-01-01',
+    validTo: '2026-12-31',
+    minQty: 1,
+    leadTime: 5,
+    purchasingGroup: 'PG01',
+    status: 'active',
+  },
+];
+
+/** 旧 Blob 持久化键（回填安全垫，不删） */
+const LEGACY_BLOB_KEY = 'ssa-erp-purchase-info-record';
+
+function readLegacyLocal(): PurchaseInfoRecord[] | null {
+  try {
+    const raw = window.localStorage.getItem(LEGACY_BLOB_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.records) && st.records.length) return st.records as PurchaseInfoRecord[];
+  } catch {
+    /* 损坏的旧数据忽略，走种子 */
+  }
+  return null;
+}
+
+async function readLegacyCloud(): Promise<PurchaseInfoRecord[] | null> {
+  try {
+    const { api } = await import('@/services/api');
+    const res = await api.get<{ value?: string }>(`/state/${encodeURIComponent(LEGACY_BLOB_KEY)}`);
+    if (typeof res?.value !== 'string' || !res.value) return null;
+    const parsed = JSON.parse(res.value);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.records) && st.records.length) return st.records as PurchaseInfoRecord[];
+  } catch {
+    /* 云端无旧数据或网络异常：忽略 */
+  }
+  return null;
+}
+
+interface PurchaseInfoRecordState {
+  records: PurchaseInfoRecord[];
+  addRecord: (record: PurchaseInfoRecord) => void;
+  updateRecord: (id: string, patch: Partial<PurchaseInfoRecord>) => void;
+  deleteRecord: (id: string) => void;
+  /** V3.76.0：从 D1 水合（页面挂载调用；D1 空且本地/云端有旧 Blob 数据时一次性回填） */
+  hydrateInfoRecords: () => Promise<void>;
+}
+
+export const usePurchaseInfoRecordStore = create<PurchaseInfoRecordState>()((set) => ({
+  records: [...seedRecords],
+  addRecord: (record) => {
+    set((state) => ({ records: [record, ...state.records] }));
+    if (isAuthed()) void entityRepo.create('purchaseInfoRecord', record as any).catch(() => {});
+  },
+  updateRecord: (id, patch) => {
+    let updated: PurchaseInfoRecord | undefined;
+    set((state) => ({
+      records: state.records.map((r) => {
+        if (r.id !== id) return r;
+        updated = { ...r, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update('purchaseInfoRecord', id, updated as any).catch(() => {});
+  },
+  deleteRecord: (id) => {
+    set((state) => ({ records: state.records.filter((r) => r.id !== id) }));
+    if (isAuthed()) void entityRepo.remove('purchaseInfoRecord', id).catch(() => {});
+  },
+
+  hydrateInfoRecords: async () => {
+    if (!isAuthed()) return; // 未登录：本地种子兜底
+    try {
+      const res = await entityRepo.list<PurchaseInfoRecord>('purchaseInfoRecord', { page: 1, pageSize: 500 });
+      const rows = res?.data || [];
+      if (rows.length === 0) {
+        const legacy = readLegacyLocal() || (await readLegacyCloud());
+        const src = legacy && legacy.length ? legacy : seedRecords;
+        for (const r of src) {
+          try { await entityRepo.create('purchaseInfoRecord', r as any); } catch { /* 冲突忽略 */ }
+        }
+        const refreshed = await entityRepo.list<PurchaseInfoRecord>('purchaseInfoRecord', { page: 1, pageSize: 500 });
+        if ((refreshed?.data || []).length) set({ records: refreshed!.data as PurchaseInfoRecord[] });
+        return;
+      }
+      set({ records: rows as PurchaseInfoRecord[] });
+    } catch {
+      // 离线或后端异常：保留本地种子态
+    }
+  },
+}));

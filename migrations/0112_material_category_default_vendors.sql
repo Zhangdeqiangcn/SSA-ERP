@@ -1,12 +1,6 @@
-U2FsdGVkX19oTSkka/xVMgh5QsoYJLr23WCpFioj/YYsZHfZs6AzzgB8HIhyytGs
-gdXTbIvKfKJfd3Ee8o2vCrcqZpfdXmZQaQjeWSdeFxWGDQ21AHp3UGga18tlenpR
-+DjXbxHBYyppofcMOfUeUjwFypPfjzcAa4gpWs+2tLwengE2PIGwCjYHozze24KS
-+QHMKnqXzaE54/pG5H4XgIIgG6SR9DnqP22rD64yEZ2N0cf1XGpyQnZDdp4osmAe
-WOXDKvEpMH7fUM/TdLMWThVaznaYxQz1GyI7+5RAU5IBPZMEuBaIa4exGXaOOmtC
-VR9hpIRTAdYP/FKEOyiuumHHLk1RNnRqW5Ca89i01xLWqhWPZne/J+MvbRZGywct
-7hjDKdnCgpa7Fcf08TJ5O1wJy7JP6/oYmgwoYAz07W8STnBCjGWPVO5oSGUwYOpS
-P2YygyZDIi5eHpANrr6TCs2hOs8f4jK5jIW/QEYqcAV/l7jOc3yK0R3dn9HRhsGo
-0pnbZeqs/XRpgCG4P4uIg1TBCTI1HlNkLxne2oq3uoV3xW5K/JUeXQ5eE4vFFDtn
-+G1ztqlhiS5jEct8/jOQSA1UwrZFyJ5F6YMZSBqtkCcWR3r30NJClUNMQD3xj4rK
-QnLub6MdVAM5KatA0qD7W0DVeCKy2wiBfFeIGILtyijhE9TLlgAaXl/sg6fajO8/
-GJHTx6FCn0TB7AdpJDs0OQ==
+-- V3.95.0 物料分类「默认供应商」一等公民列
+-- 供应商是外部主体（门户 vendor），不适合塞进 responsible_persons（内部责任人多选）；
+-- 故单列 default_vendors（JSON 文本，存供应商 id 数组），供采购按物料分类向默认供应商询价/下单。
+-- D1 不支持 ALTER TABLE ADD COLUMN IF NOT EXISTS，用裸 ALTER；
+-- 幂等靠 schema_migrations 守卫（迁移只 apply 一次）。
+ALTER TABLE material_categories ADD COLUMN default_vendors TEXT;

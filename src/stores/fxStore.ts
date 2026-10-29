@@ -1,71 +1,85 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { fxApi } from '@/services/fx';
+import { hasSession } from '@/stores/persistStorage';
+
+export interface FxRate {
+  id: string;
+  base: string;
+  quote: string;
+  rate: number;
+  source: string;
+  updatedAt: string;
+}
+
+interface FxState {
+  baseCurrency: string;
+  rates: FxRate[];
+  setBaseCurrency: (c: string) => void;
+  upsertRate: (r: { base: string; quote: string; rate: number; source?: string }) => void;
+  removeRate: (id: string) => void;
+  setRates: (r: FxRate[]) => void;
+  /** 登录态从云端 /api/fx 拉取本组织汇率覆盖本地；未登录/失败保留本地兜底 */
+  load: (base?: string) => Promise<void>;
+  /** 经直接汇率或基准币种换算，无法换算返回 null */
+  convert: (amount: number, from: string, to: string) => number | null;
+}
+
+export const useFxStore = create<FxState>()(
+  persist(
+    (set, get) => ({
+      baseCurrency: 'CNY',
+      rates: [],
+      setBaseCurrency: (c) => set({ baseCurrency: c }),
+      upsertRate: (r) => {
+        set((s) => {
+          const id = `${r.base}-${r.quote}`;
+          const rec: FxRate = {
+            id, base: r.base, quote: r.quote, rate: r.rate,
+            source: r.source || 'manual', updatedAt: new Date().toISOString(),
+          };
+          const idx = s.rates.findIndex((x) => x.id === id);
+          if (idx >= 0) {
+            const next = [...s.rates]; next[idx] = rec; return { rates: next };
+          }
+          return { rates: [...s.rates, rec] };
+        });
+        // 登录态同步到云端 /api/fx（带 org 隔离 + 审计）；未登录/失败保留本地兜底
+        try {
+          if (hasSession()) void fxApi.upsert(r);
+        } catch { /* ignore */ }
+      },
+      // 局限（已如实标注）：后端 /api/fx 无 DELETE 端点，removeRate 仅本地生效，重新 load 会从云端恢复
+      removeRate: (id) => set((s) => ({ rates: s.rates.filter((x) => x.id !== id) })),
+      setRates: (r) => set({ rates: r }),
+      load: async (base) => {
+        // 仅登录态走云端（避免未登录触发 api 客户端 401 跳转）；失败/离线保留本地兜底
+        try { if (!hasSession()) return; } catch { return; }
+        try {
+          const remote = await fxApi.list(base || get().baseCurrency);
+          if (remote.length) set({ rates: remote }); // 云端有数据才覆盖，空则保留本地兜底
+        } catch { /* 离线/失败保留本地兜底（诚实降级，不清空本地） */ }
+      },
+      convert: (amount, from, to) => {
+        const { baseCurrency, rates } = get();
+        if (from === to) return amount;
+        // 统一以基准币种折算：rate(base→quote) = 1 quote 合多少 base
+        // 1) from → base
+        let amountInBase: number;
+        if (from === baseCurrency) {
+          amountInBase = amount;
+        } else {
+          const bf = rates.find((x) => x.base === baseCurrency && x.quote === from);
+          if (!bf) return null;
+          amountInBase = amount * bf.rate;
+        }
+        // 2) base → to
+        if (to === baseCurrency) return amountInBase;
+        const bt = rates.find((x) => x.base === baseCurrency && x.quote === to);
+        if (!bt) return null;
+        return amountInBase / bt.rate;
+      },
+    }),
+    { name: 'ssa-erp-fx', version: 1 }
+  )
+);

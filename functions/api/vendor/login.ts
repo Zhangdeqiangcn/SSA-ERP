@@ -1,92 +1,106 @@
-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
-FqPJknkHwbF7jpIJsyOrBA==
+// POST /api/vendor/login — 供应商登录
+import { makeToken, verifyPassword, json } from '../../_shared/auth';
+import { errorResponse } from '../../_shared/errors';
+import { clientIp, checkLoginLock, recordLoginFail, clearLoginFail } from '../../_shared/loginGuard';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const vendorCode = (body.vendorCode || '').trim().toUpperCase();
+  const password = (body.password || '').toString();
+
+  if (!vendorCode || !password) {
+    return json({ error: '请输入供应商代码和密码' }, 400);
+  }
+
+  // V2.99.0（评测 H-05）：供应商门户同样接入登录失败限流，
+  //   主体前缀加 vendor: 以与内部账号区分，避免与内部用户名相撞。
+  const ip = clientIp(request);
+  const lockSubject = 'vendor:' + vendorCode;
+  const locked = await checkLoginLock(env.DB, lockSubject, ip);
+  if (locked) return locked;
+
+  try {
+    // 先从 vendors 表查
+    const vendor = await env.DB.prepare(
+      'SELECT * FROM vendors WHERE vendor_code = ?'
+    ).bind(vendorCode).first();
+
+    if (!vendor) {
+      await recordLoginFail(env.DB, lockSubject, ip);
+      return json({ error: '供应商代码不存在' }, 401);
+    }
+
+    const v = vendor as any;
+    // VendorStatus 枚举为 registered/pending/approved/rejected/blacklisted，无 'active'；
+    // 仅「已批准(approved)」的供应商方可登录门户。黑名单直接拒绝。
+    // V2.97.0 修复（安全审计 A4）：原先额外放行 registered，与 register 接口落地的
+    //   pending 语义不一致（registered 亦属「未经审批」）——现统一只认 approved。
+    //
+    // ★ V3.113.3 P0-4：实测生产 vendors 表存在**存量 status='active'** 的行
+    //   （早期版本写入的旧口径，共 2 条）。若只认 'approved'，改代码后这两家供应商会
+    //   突然登不进去（存量功能回归）。故 'active' 一并放行，并**当场归一**为 'approved'
+    //   （一次性自愈，幂等、可回滚；不改动任何业务数据，只修正状态口径）。
+    if (v.status === 'blacklisted') {
+      return json({ error: '账号已被禁用，请联系管理员' }, 403);
+    }
+    const LOGIN_ALLOWED = ['approved', 'active'];
+    if (!LOGIN_ALLOWED.includes(String(v.status))) {
+      return json({ error: '账号未激活，请联系管理员审批' }, 403);
+    }
+    if (v.status === 'active') {
+      // 自愈：把历史 'active' 归一为 'approved'，避免下次仍走兼容分支
+      await env.DB.prepare('UPDATE vendors SET status = ? WHERE id = ?')
+        .bind('approved', v.id).run().catch(() => { /* 归一失败不阻断登录 */ });
+    }
+
+    // 验证密码
+    const ok = await verifyPassword(password, v.password_hash, v.salt);
+    if (!ok) {
+      await recordLoginFail(env.DB, lockSubject, ip);
+      return json({ error: '密码错误' }, 401);
+    }
+    await clearLoginFail(env.DB, lockSubject, ip);
+
+    // 确保 users 表有对应记录（供 sessions FK 使用）
+    const existingUser = await env.DB.prepare(
+      'SELECT id FROM users WHERE username = ?'
+    ).bind(vendorCode).first();
+
+    let userId = existingUser ? (existingUser as any).id : null;
+    if (!userId) {
+      userId = 'vendor_' + v.id;
+      await env.DB.prepare(`
+        INSERT INTO users (id, org_id, username, password_hash, salt, name, role, department, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, 'vendor', '供应商', ?)
+      `).bind(userId, v.org_id, vendorCode, v.password_hash, v.salt, v.contact_name, v.created_at).run();
+    }
+
+    // 创建会话
+    const token = makeToken();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 3600 * 1000).toISOString();
+    await env.DB.prepare(
+      'INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)'
+    ).bind(token, userId, expiresAt).run();
+
+    return json({
+      token,
+      user: {
+        id: v.id,
+        vendorCode: v.vendor_code,
+        companyName: v.company_name,
+        contactName: v.contact_name,
+        role: v.role || 'vendor',
+      },
+    });
+  } catch (e: any) {
+    console.error('Login error:', e?.message || e);
+    return errorResponse(e, '登录');
+  }
+}

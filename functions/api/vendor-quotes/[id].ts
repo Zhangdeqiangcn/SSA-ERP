@@ -1,16 +1,18 @@
-U2FsdGVkX18cotCdCvfbNWLnVo7BGBcccSa5xOfOMLftxQWFO4oMablAYFMOOjeg
-b84NNpzxDoiHE6B+/yDPYMsuClQjvdG8rBu5idPEhALohE2r+igW8mKQ4/eArRqJ
-6P9aRtVwbZjvFplFWcIAAXEYjbfGcfkX1J4A+Hay/1UCS879ln1ngBqUj8J6URmy
-p5IoE23e6LyIWcb103x2BveWzWQTMyOe+gduKm4iYRGD94oQIxBTZCtF6wunLXkY
-tMt+nDkaWPleWyc9XMhJ2MM597D+GKRtvPiadLH01nJsm5lG+4KCYP5r96UsXvNK
-b9CPtoWaYk0klE9k8S32CqvsoWYPOgdjKjTQm9/+wl7ABGpEFYutbHcvw5RQ3ITL
-Vyob8Yv1cOOvyuLG7iCVdKdAZhEwIaSBOMrNC5RhC7HtnWFXPQqhCji/2uBNbSed
-qPkKB0HeYJM64pbg1c5lhwYTtEWdzhwqPWQl1kNmrP151zir3p8pQrtmPEWJvt2e
-noKWEUzR7Kap0mEAQh8ohZL9O7lJNvjHCdmsVCi9nlvs5wGeAJb4stWNk3chpWv5
-u2/LYbevItRhnFiecCMztPIK8eVXt907+QYGuYnhGXTmxxSip/2V62v5kyCB+DPa
-eDVUFpHXMhtSLpEjWS8S0wYjtsQdfnZ/JZHd5RtDzz5Qfq99O8q1mVqReckYtMjH
-nr2ZlJL/k7KZp30vJnQdoSmCzsWH6S+ULTNzWxauaFiPbgROB5gV/gfwVA9bDhZ1
-GpNzsf5O1PknuPaDyVAc62pilTwQhXN0bUQHqBXFHC1XeNlusQe0zs0h0jQZhd+X
-OfnufII6laW4AlE6PCReE9rLjxQXOUbwrETXNCTQt7gHntKP8L49Chy9ZPH34uDz
-Fkeu9fE7khhLVQQdaPuFWd0ihv+hYDjzdvFC3yuKAlcUy3UG+OlozblnwtHtAVxp
-oblLJsRebabJ4ceZYaINvuoafPOZOuYkJl2F/OpTDtk=
+// 供应商报价单条端点（C1 采购域 · 父子表）
+// GET    /api/vendor-quotes/:id   读取（含全部物料明细）
+// PUT    /api/vendor-quotes/:id   更新（不传 items = 明细保持原样；传 [] = 清空）
+// DELETE /api/vendor-quotes/:id   删除（连带删除明细）
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { VENDOR_QUOTE_PC } from '../../_shared/purchaseConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(VENDOR_QUOTE_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(VENDOR_QUOTE_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(VENDOR_QUOTE_PC, context);
+}

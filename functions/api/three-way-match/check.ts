@@ -1,51 +1,49 @@
-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
+// GET /api/three-way-match/check — 付款前预检（只判定，不留档）
+//
+// 用途：界面在用户点「付款」之前就能显示「这笔会被拦 / 会通过、差在哪里」，
+// 而不是等提交下去被拒才知道。预检与真实闸门调用**同一个判定函数**
+// （_shared/threeWayMatch.ts 的 evaluateThreeWayMatch），因此结论必然一致——
+// 这一点很关键：如果预检与真闸门各写一套，就会出现「预检说能付、提交却被拦」，
+// 用户会认为系统在骗人。
+//
+// 为什么不留档：预检可能被频繁调用（打开页面、改金额时都能触发），
+// 若每次都写台账，真正的付款判定会被噪声淹没。
+//
+// 参数语义（容易用错，特别写清）：
+//   poNo     必填（缺省则返回 NO_PO）
+//   invoiceNo 可选。不传则按该采购订单号汇总其下全部有效发票
+//   amount   可选。**不传时不做「付款是否超发票」这一项判断** ——
+//            该项的前提是「本次要付多少」，没有金额就无从判断。
+//            因此调用方若要看这一项，必须把金额带上；否则会得到
+//            「三单一致」的结论，却误以为是「可以付这个数」。
+//   advance  可选。预付款金额，> 0 时允许「暂无发票」这一正常情形。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { evaluateThreeWayMatch } from '../../_shared/threeWayMatch';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const poNo = (url.searchParams.get('poNo') || '').trim();
+  const invoiceNo = (url.searchParams.get('invoiceNo') || '').trim();
+  const payAmount = Number(url.searchParams.get('amount') || '0') || 0;
+  const advanceAmount = Number(url.searchParams.get('advance') || '0') || 0;
+
+  const check = await evaluateThreeWayMatch(env.DB, user.org_id, {
+    poNo,
+    invoiceNo,
+    payAmount,
+    advanceAmount,
+  });
+
+  // 预检不拦请求本身：它只是「问一句」，HTTP 一律 200，
+  // 由响应体里的 ok / code / message 表达判定结论。
+  return json({
+    ok: check.ok,
+    code: check.code,
+    message: check.message,
+    detail: check.detail,
+  });
+}

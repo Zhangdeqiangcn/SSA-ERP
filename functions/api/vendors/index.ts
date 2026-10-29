@@ -1,322 +1,293 @@
-U2FsdGVkX18rPo13HP12V3uAgJnJy3BYwfiFMNgFxmWxdTQHxTJnPrgW4yEnvazq
-Z3xr3h0TU4miDy5A0MB72rhTVZtQY4Ajfs1/P2Incnh6Tw6eIbLLRCtUgfsQW6Mn
-VZmazCsRNKGmdaQjMulNeOZSlUiV+QGwG+lchVwYy2svTIXV6LNkmH18imsLQ6l/
-ydyHOfckbHDFXzRuktylFzNkNGfS3PvH4GuEbt3W6HLodG06I7J2cbseEmUmhOEK
-0dLvD9CkvBshSymRJgkDXYvRX/NY3dHGPq/IU/tD1sdR3Jk85acJfADAmzp1i45n
-thgYILdBk7py/6N8rTbxeHcrhBFvEVkkxrnQTZchai5xwJXcV8r1FXG9usaNp/wr
-o0fxa5UC2ze465sLO+A6yu4HlfVXHfrsqBQvKPxxn3eDCq7VwVWJiJ+ke0NQTuPB
-jrpW3c6qAIum6oxS4qR31w05A4gJoUytDGW174R8Sr0HJA+iT1cS+ciAadZxBd3x
-fQUo566qGoMBFURh6MIhH1o568lBN+ZPh4PpjBp1DYNDGLxalsSayA3eVGtIfDXO
-7diplSzyYOEMdzkFEhEv2guh1MxdKncWTktb63W+vn4C9TVmhwdXI0fqWpOC4kA9
-WCKymbYo33CdYPOrBRmPWbehpzDDJo79c9DC6rB3rt32XQVdpd3ZVKJx/SR4Xui8
-zZkcPR1T3UeEoGzpI7yYovLXozCJ7/uCOOfl8ikPujotyNYmtMmcOBcV52rHoywN
-F08HbJw31uPLPKq9xqa57S3qPVK3zalQwU3G7mcrM0wRvlLMUljpifKHlr7qkCGH
-MfkmGyayZIye9c7ijZeSofaKVS6U30jP5TqzHqn5WtBB6QCwgfb9QaDLqcwjdZiW
-NE2Xh3ZTrnv+2r1xmYDUXCv1O1/Y9dY5PZ/Ovq1/2ZwxKCedKiSAOMSjyH2Xidg9
-J8qtY9jNGDjIiTH6nVwS2nUTNXdwvF+OCFyJlSJvsKL1hFWi3D083L+iYRJ00c21
-6yIu1I5+SbZZgMEoc0VVCc76J3fN6T8PFUt/cJ4+x4XaXKM1c8P/lptXQhmdKYxW
-CPAsKb0D3FxATrdyYk+qe8o/BZVQdw/NF7GO2zwzmm/gHFss3fcMD48GwNxIEUgD
-UL+6Md9iv3f21kgv3kVXmt0zROxqSBZ+huX1UuZi6JiD/7zDTXb+e5oZirzzlSEP
-/ocEFbNRiyXQ/GVjEysMH6IGH5GiwOAjC+cMrDCZLxwo62CZATgG78D/htEbA3pu
-om3lOKlWHeL3ojzvAzpabRujXpYBPVVYAyqdXazAnjk8lkB4Y7VJt1oJ441WPxiV
-yJ3DcJICwBcv1omto1OAxELQWnBOPfrOgypyl75cjaP38WBqp7yWc1WThDpGwazA
-UHR7r7CF3TPHgUXJDJaTRmnIGj/g4LuoKE98XEOUFb4DIZEV9IYz6AdlV7VVfqhT
-OB28rVwyQ4VtR/k4XBywdw74X84sKxGPT+SYP3mR97ocSm5O67s0SUrK3rvLM/SW
-AZUR7tgbhriAoXD+8+iNv2muRecTSx5OLS4AWhmKQ/3CFSi4T2rMbMxZNb9bcY6X
-D/bAaK6fPp5EfCLHnnnngfJXNjtrzWdpR7tlt5RDgG2CudBoPQ6MokgwtHaQSxmb
-bjtvLC63L8KVAaittTArgiQwGgG3ywId2kksWm8IkWq3fgN+pc1S1EO6QxGeRlLz
-GB78NoFdCezVMHopCt7lxbF4ukJgPzcN91lvmhyYU1adjr9HDp7TkptETIupsq3M
-Dc3ghC3bFbizzieewpYp+7m8Qf/I6oMKjxTPo09xLRuncaqQix36PBi0awCQF9Rp
-+Z/Sxvm2U+saxx78kmVCWuOzyWcNmNvbrkEw3pWYXiYv4Snq1lvRc01btCKYoMK8
-7ZMeNPdFJdN9DmeyKgShpHvnEJEb4lf9JxP9WW1v5S5n4mi8LvldY47swhUinTX1
-VVS5lrnSoAc5YVB5xJ81cM7qkWcUSFrWWISUWLxdM8rSngO54plEX400n9e6A+za
-1W6ryvpIEU2Zo/JfNIfShrnEgFkm+wFgMBkzcqnUeryymE9dT9tFjQfM2qtevDDb
-MOBhhpTVq1yA8zZDgsKWTbR6JgoylaIEQBW3xBVX1B8gVi4b7ltXDucqICwRNeSu
-2Or45+flSxrLmk14Dt7mPZy1/fCZN430a7CQ/K9ln2wOvHMezYfi+2MJbMs84qS5
-r/CN1wtks6nAOigP92ZNNaHjUC1Ua/LFtXHcaDU1483z2JQdc2B/dRAkDMooNEjt
-cZjpbiuRXzISQZnpppuO3obcaGsaQXGE8MqAcriM7PmDGqzHLpBqUX95VUGAB10j
-ejFomlMmtIl7ncccMiFRjwsnLhm8VbjC4i5ww034tjYwGdQEjZkPeyOPKwJR2omu
-m+lI8l9hKRwvwe1PLpzT8SubvorFcdKFwul64xAjqONlQugvEwnxf10GeXzqqAMa
-IAHe61+cT+oOSuHoDBh35D3F5EHhzunUS+T3hO5OWNA32m7mMQ8T2NmOTuph143F
-2jFU5yX+V7grLKyzwjIZT/y8tcx/c6ppI+pW14SSsVqhukMhoBNk9/KilokhZ6hn
-8GyJ86ylpbHSVdSJ8oG3IhCIlvt9vZQHERUm4lcx4kizHOyYkVnhIUHlRBn0UT9r
-bt9jYCdnqfYCcIzbpu5X06ruk7S2xolZ8HT1osBaPJds3XE5XFCC18DsEY03wQ26
-xi2uDrGAUI64eL+yfSMzOTI1zw1cbxJAlvpts3RNt6zUiUHRMzus+/NGxd43OHBD
-MQfD7ZnJpc6tVkhiVT619Lvrv8mdK13omlRUA65g+vQO/cEdNQQHSgx0+V3onMTS
-+vf4LFZR/jnj3CsjolgxCotltyBGKp53bg1lc/MKkcmH2D9yfz8WQlhE9aAmnKu9
-2cMrx2NNjUjtKjjkEyhJRAa2UFwOFvs22k40wAO2XDz0cqWqoRKDxl4K7zNxGWtp
-YKA29z0Y/pAxmHE3w9y8LqndBxEeCasjsQwlN2EG6SZDYbWQ37oOa7Ud8nBW9LOE
-+S/WQiUYS1CsOv/U2gvs+JWutxYjPMndVEtx8XpK5c4gDz15szG5E/kCABowJOsF
-sqVJNvybcs5u+7TKU85pIOtGKp3gUVIdYXO5b4/mW/cyhC1LVxlwmEGRtqZ7ePVU
-FzKP0/O0rc3XAGYQdFHd9D3JhtX7AnKUPiB8SAruoQqH+L88AA0mvWWwtMWt+efD
-e6r8DVb3IF5Nn40JFibs+NmiuxxWGsTo4lBsqvTaIW2p2xD4DTC3OH4ua1MG2oB6
-rToazruvLzS4Ls2dqShF8mNpenZhSqZu7M4ckL2WpPi5VkafpPXqjli/5zJVoQ6R
-ce5DG6UWHO0XT/73wvpX0Cg3OM8ysCgTe7AlaLGdBftpaubStmSiuXQh1YoJwb0Z
-luKxOAOuqa/gCoFuaGKg35rF5vsNCtHvuRs37p2WqRAdMiKnEqAJGYTjQlpXKEoA
-aIIzYVnSMTKj3ihGzzUIUDsedRFduS78r9qfiRYlYSjMQCxnUPzRRtTXGdXPistV
-pnp52v3/9A6ZfO939K6ttg2c6jgSWO26nOr2Zx2GyOMsaNnpxoTgpQ/gtgAts9+I
-wPWKQJ9VdY8Y8H9jGO8q3asMHvSn78e3LgARoO7Mg4mQTbSbAtP3xdlzfE+LHisT
-gJqraeneTBTIOaDA6q1Mu83nu9jzsx4xKAco+Pd9XFZsxXQBBwTT21Eb6Ko+V5qM
-wag/P6gjcZsyKD6fFMUj88KB2YIi14GAdG+LjQutt0GVwwYzD88nvWR5UUDmUCr/
-qG4SFDlIp5ZURX/jciDRFjx3USKjw8wH8S1cW3skSL4fBfkm3iGXwgo/i9Pa4Kj5
-AvK1U7V5uKWL6GtpGuuv3d6Oa9Yi9CBiyRoUKkCwXn1tmmDSJ5aypcuGVDpbOeSi
-GCFIqYar9vF8dj468dq5BncoajorhNR4+MfvfFH+H1gEGXa+AWJH5W0yGmmD6oFp
-dja74XxfIilBS6yH40ZTuQCC/6vZswguDL9FgieEOPkXsAnTNw7Fj8872SEkUcwH
-kWenmswZm9HL8MoiylvHhaOfcQ1rPWOUW5ugnErqAFA2T7ahChqVNpDiqs3q+A7B
-OI/VsoErW/jWELpv6XmtX/vNjr4SCfSZrkFlR6IW70ucV2OxOentOJhlszc599hY
-9cqyfEtpYwVCso/ZenKMLlNi85sWGs3vIA6SugROrP6AyTIV2ntyod3F4gSfd2fi
-8dpO+0wg9TmoJ/UoreAxqLLpgmtg8dWrp0n6WmfrPzivj5exkHg0TSij2rYoKwbi
-Y8Vk1+SPFj2XGQsAjGTV0KFMSf2FKv+5AfR5JZ1JacFy8B2g8HXMpTJ8TNh8GVig
-1JzdrbUUagU82r2bN19KNx9EBnfqCkmaJfeMDwTGujyvYd5R96ruE1F2ZwCHnlBt
-murpNd9mNxNrZoJO3ZPsJN1jxjpVxP/kq2tmKIY6073Tz0KGMv+uxVdESdjZ/1+z
-z2sfYxoSoMT9vQdAuPU+aaESTDBeYSqKkBJ9EHlE33WloXBXbruIGlmwPCSybBco
-9tkGgnzOf3BAnr6rGFd+UskBd4fHQLHGk3zhC+Rwm2vRvjhMDgxmBb+OEZYp91MW
-BqaUuqCMMMKQ6HcLcNkzdELTd0QZnDNDpomBN/XsEjOwDuBY1Jt6JSsTlSPdOANC
-Eg5wfIsoDb9WtoGwN2C0+euHci/YTXIr3XODD0JP4/PwlfHyp1iv9D/rrdBe/OR6
-MzpkT9T9xy5GAM2pf5oC8u5lGk+qK2yKakCQ/KMcLYi3/XV6iRvwKwKERl9tfAFA
-WDocrsYY13AgqHtkvUm5B5gwNPBccL+tFV/tA2tAyyN77p5O7VN0htu9JEwpgYFj
-oBPjPn+cUjnWjyrlGvnaMEC8NORuBjoOTyoKvzOelgamoRmXx2Uvg0bLUOKbI/0f
-6EzrQkgJdBDlZ9DPQgu9sbJZB1m+uXNJbNNZas8Lj/bak9jTYybSe+guVfIb0sz6
-zr8v+wIeB4Xft41aCgUYpTz4BVfSGULcrnULZ+skB37yL5XOuj2m7/t6aQChJiI/
-rSaww9Hsn3yc9vsMwFHX5m4po6xEfaZhP9yqPU2zaqK2rqVFBvYTynFsB3Fek9Z0
-mjWkUrphQjvr8f7rBMTctPzBI8LAztdElWMTB+bFGOPe4J/1Aj1b+mj9aCu3ADOs
-/WJU6+8KTS1Nlz8gk5ZJInwy3ONjhWFIVCKex4gZDQXeJV3DHJVKNNGtvTPblp3s
-DfsTbFZfIH/SD5JeyJsJxakKvwDeRjVqx7qdXc+qY0zvQCOhN3OxurKdsC7JXrtG
-0/VfF9tu/9xVGrzcbAHkTqXggtMxyQsGfwBOIanXzyu0rjpKIn+Q66UCTBvKU02f
-90K5s5T5NBp8q/VNKULXL9J4itscAEgCgV9f/0DAeP1dKItW5yQ2tHBiirpc2GdN
-kF5gr8X71nJeV7EuG9SNJlWA8yIslRCDU8DTrmGMe2gtW7BAciJVZeVf5j7Qg/h6
-DXT6irHgkhu9R8IU7mQi/DVqlYD4kCyGQ7GYssfdpJipFJglDI7ybfjiZr5qD8S8
-P+9+e+kAaP6EeCWZpomri7JBStWXG6BREBRg39kRjwVOZeOTyx6A+gw4fJTs7xHo
-oonKKZTG3SnND6BWwHgy03hFbCt5gez16eJzQmj5Mcb7+SSBarL9qQYShj82oWAN
-HUTFdIGxIOfHCz5wa93E+pllOiYAzbreqKYX57Sj+xbqR9MDMvqX7gDnVQlKlcOq
-8IlhptjHrjkp+H3pynhOaDuA4dAWtb0yeUgY3P3pS2v5uk+neyb6zoCMMmwN001f
-Qp2Z+GjQuKho8n1s2x+K4conGc+6frIBCn3gDZRODvBdRqqwwOnAypKyAiQHMC6f
-4MrmfoQt6n15gmyzxNM2wZDZ3U4UaJWHCPIaT1AwoNpswSEJD9/IDM2+huBsvR4p
-rLgFP/VRt4TL9c7HIbT/6iXzgN+54mFvaFUfVmqo+V/5xeaU2uGOyn/S5rmrvMEP
-t7wOKTlsOVPbIsYfTd/RxgWqEiFBh2XHDRA+hJipVrwmCGyfYS9YZ/nEkgnbu7cW
-n3DJXgdbQRwCmOmlVFiv3J8uQcJ0w05FWElgDVNNTwzHhFS1N/ZQx6DGuwY9BPIK
-tXiGtq8udLhSVJkwfGebMX32p8OJZHZujdi5jpvlPom3uvAqk3GCf/PFRjxuhuG3
-t1WnXannCu52/lBSmkP3pA0XiyZAfEYxajFQ71fdUItzqHypcEnhNoh2oRDeYFzQ
-9OtVNEx7RqI4WLVfhgt41DZ3c3tHL5rZn2Qp461b05SMxSNcj8ONWjEFTwlix2lT
-ZaXz6pnRQLDZnVuZV+PO2v693XimUJdiMo2nak84Kd83JTd8jCJd51GxvQ8PIYZc
-PvyJjD17mvd6AQU0f4CnVkK93OFdOjsn7A4mVrmd0Fiv7h0reCjeUBaAIvjla7cF
-2oHphPct3LVMpWu6ElFQdJhS0j8E9JFSoRA6vCJUSOJ4VOZeCdW2L5gjuS0TwBVG
-FShT+I3SJ4pkwgXKLmNDw8vYrNPK+wzfdHoXcVkESaqpXJJ0Qoj1Ujhcx7HHa/T+
-I12CYsKcESfC1+Lc/slfzK9JQyW4wTiKlv0Xd+rUtqNBkFfWTh/K7hTInpSYL0SK
-oNnrXubQkSxthhyAjQ/dsyWytEu7u5Nd7ZvJFvNnD6nvuQUe3+CCFasYDGkHJyGx
-uwoG2u0E3aP8OC1y6K6U5PjCoKyP8Fcq+RjNCESIPJPohfyMht5kwU9+e1nI32CW
-owX/mKw//EJjlr3zqGZ/Cq1OehRgbhQQ7JnjbcDRSZFdcIAbbMMUcLNY5qRCrhqF
-klIXTkuMGU0NAfJr88zOoA8MHVAUHE8IlDLo2DxGYmTXat2aXN9QRL2zwe6OH9nG
-uT2J8NnpZsiqHb6gS6Pq8C6w7hJFZDY+hJenQ438rFT3BH+cmrKyxOK37+pPSvkM
-0HkJJu0vuztMIg5XmxwzOBzJ265w9+gkXoy5IHr5YY+73/3LRshZ4JEDX3TL/j86
-YD/DFPJVpcIF3DOpEPjrbZFSmZe2FREa9xWIdZ4g+9cgiVUC48fxnHJomYzZZFix
-Ow9BQadPioisPlE+Ly4xTPJ0Z/2H54MlS91BJvyVCsXlC5TMYeFz0nt0EoHIOwiT
-+9EZDjN4XnZ7ckgAQRY6p1RWsYYNC8BHBpRi+OjyictAIEz+4hxwhcBpx5SaM5vz
-lwMWhyqYbu4K07KP/B8Cv1CtePrSaE1F7Oub/aE2P+zUjwd+fyYKhivG0gxasGM4
-7659na5TaRjaC1dSGQp1pams9MOTyjI2tEuyXXOmKEyBLzH1OKPoKG9uAbC7dpmb
-xevzQPL5ZUWjQxeUf7NFywii30r1skjiJ1SOz9Bo9+APfpzYb1feUJ9deFLsOGsj
-eTP2gCD0knF0fEtjisboekQzPnQz87pOFen4oRj7V367lPGAPWVKcjEApO+Kow+M
-gFAfzUiVoaItxyh7p5HRR4Qa8oMvLHo4zCTxfcdvvs2Uo4iuluhg32anSLyXDzdv
-A71GuprresNnOgoWQIVOyDDuXeNyloTxvdVCwgH9hiCrC4Y3v1GvF/n9/QYRNXBk
-uhc1LRxW+L8VHiZWN2q/DYF8Ka97r7aOPwtjRcfV9W0Vh4reuuiQ3O5wpgvsP0B+
-uGkZ+WXM9+Lw/stUXqYwPVUUpgcTp0hx3TtZ+Z+I6AXpnIIhBRcQTKQqhUHog8+W
-l5r4jzJbRYJeWjNs61Y8gEK1aFEXzjobvbzNWIELCADHmfwSbLylp9HZ0pTlbWBy
-M4iG/c34AGQ4ivTfRqI5DUDlqaZdc5n0ZLMwSbsWCdf1HuaP18CfGXWMu8Psw1Qv
-PP6i8gSL5cXXa/XsIQSgEn2axo025RPyI+/q3JgCkzO3fyUfJcIqtbhBHLbSdNnT
-3E5yKX6HsjlHHS01032Zp/xf3Ah1uWvNkaV15l+EsOdY8ccG09a6je3uOzXXWhFp
-RT9biQcp1yckC67iTOVyncllGqesYNBleh8XcBtHRRZukN8HAPLJE5SVkVRcSSZz
-7tcJkmFDUOpEIdTb6D+Ol2mj+adQSrEUk21/p/PtlyfyJCDDjoSRIR6eYKRnGt7k
-1Es9aG/XmzOH/JE818mS1rqREG8B0tNMeauc8RwHajcCXrWGrNzb9aFI2/Cr3jsu
-RdSu7n4wHFJiEliFt0EiFn16tl3gm1uRzOfhdC19DSg84SordisxZqpNz/U/Uv+s
-Q40oKK1Bl4PBTZIlIByTLtX1DHWtD3MlI1I4p3ZYOC5eQs7DAFeY3tjbBXVvA66A
-JJOWu1nNtkROnlsbcxl0qp4N60Bz3vmaGnh9jrEbA/55iHZnHAacLW2SgguxZwaW
-S5kKhhvmqMPA1kb0P3P7lU7JLlf1gWZsvSBzO4lqFxrPQqGp/Ow97LAspTjlwviP
-oE3mbl801g7aJweVV0IWkXeVMi3jnLP4k8H7I7T5nKl4mVGndosatNYhmDuUt1Pq
-hBfl7kx0IiFX9pbb8a4uFxB6xvbzQ0qqsvJpbZhWBCTvtGSC9yahQvM2bfXNFE7V
-H/tNHMYI953IrUaqes+HYL/P24fLmEvG3kWlnd3H36icqWw8Bq9FDXzPVHCvglEQ
-IPW3pXczZKJq9U9b6/sbnIZ1DzKIjRW1xXCEvrK5rfqiD8WhTxp8uFFdNC3PPPV6
-KeWo/xIf82BUyskHZiWfXwvZa6wwxiQL3esn4YLrtCnxSlpq660cogva+kwQJNsY
-+88R0yS6dZUlw2h0GAUv9Zu1O0SQP+SXuonLaz+prDhbfDVVCdY/svnu69+zQQCp
-9YBIIFO9rqGZkbGd5Hh++ByXZRAx7rVXt/+sjG7oBQnPLYr2ohHB9Uo1gi3aMXFj
-TIztaj9ZbqWP6ijqF48N62tlgYvLmn44LuVzOR3IZa6wVUetM5wK6/eD7VvXZ+Ul
-GICXuFIECrIhlySB3a55HrY+gbp+QK1/16VJGtbNNym7z6+3BKtsA+DUpzRfuHIK
-Zc1u+xDLGIPDbJxgnrmb31atw4iDMXBMpMnW3DGzskuOwtyLZ6bjE6wK1nAPNp4D
-O89Jix5St2Z4V/DOKVVNtxtTB30fOEl6trwiNxnIObCPn4v4pfMz0SwCtNef4L5g
-MJgGKAYSe0hzUmAVM5x7O6l9s3VEQJ0l9EmiKWAn13almwsL3QlnAGkGn1+85tgs
-GULb2q2dQEyQPkcHF81bPHpzLYE6yBxD0fKTS2NA+spkXJh9YQkBhziYvVnuR0ga
-9i+MWRyjgO75fGw8VSJj1KZNmFba0cpFkQtzc8yXdc4KTr48msY80ln2aCRZi14O
-9X1OnZyYwD2CNm/2h1UbMGqoTr5ZEhjCbp6dnTEB/VF3+nG0lB2PtMhonM/oVtM8
-gdlreZCIoVDWNQ2lg0RPArRR7tbPcwS2AlK7ZtR3jg7b/m604oJsys2/69P6f84V
-WxLMd2B0HJpAghgm7UbLe7gg86aEwTp6hv6b+qlnmF/UVMKbFCppEOd/kvk6csGl
-TdiJlrb/SCviB2tDBT6YFX0F3SBWgmtHIvpsOXJQ7btn+JUfVW8tPZ5saUp9xhbC
-OCewlFgthIkyaqmiEh7gYY8WsTQzC7MeBGPxhM1gd3GzRL8KNfHcrTfL7UQwuW/2
-MZ5uPYjzv77HZJcWU+LSHEzuGkbbD5UoT/tdDXT0iweBJ2j6Xg7337+bxf7lInW/
-3GZBfHNlbkAd9rAMdnk/2isuink/M9EwAZsK1iO1mTc4Z4M2qPmAnnK5NYVnvlmI
-dZl4/qVqasntkwR9hmDrje8RMF4Q5VQ7IEq8XaJIBbMvMXrTKB36y2FdpNfADCcJ
-7BPgDuopNR731BVYR1M5J1FUfdRxXQqRdAsd1ITCmaNXVmyEMqN4ICw7PEKp4WQe
-aaDpr36vLRcuDAN3FA0ehDqwSZVzCn+4RdxcsiHzMHhGk73n4X7fBpVFbwbBHoAb
-d+L05ZVgqV1tZYxe60J2ziOTABIhgN/NTXShm0ckaPnrLGXKFYNuXm5dztDhULOk
-NewjSyrTc7Tmge19E10maop9mGpwgQ1CfTLsgOZGWkX5Jkk+GDLkCMuiurdUZXTt
-3KxEz59VaWw9a1dLzfVMVPV4kZSyH1lPrdGxGuFgrE2eLQcsWD3bXlj6kB+ky7Z+
-ls7PuAAi1jFELt6VMPhJIsRDNgDJ08Dv0vT3y/AL1atkWvMazwjjx7e2ly4bT9bo
-sR0z0EntwaGQnVozwpLHqSMxQSVsjsxoXr5DD8vOcXzfnmBMdKSrm3ZcnO8QKj8b
-C94xvMV05RthOsqn81937oVPdG9yWb473u9qalO69E2ygVl16DTHyYzQSFqY3m1X
-2seWMHCwz2oEpIbXkXUssrWzK9HB1t2KD78uFR9lzMTKtAVaDklhn4al7SbqcX7a
-5fADyj8aYAMdlaUEyOqIWYTMVn7CNJE8pkSRqNFs+p9m+g/tjDTYAzrsCdzgpIPu
-7/ZeUZVIk9Bv9G6EzJJm4rrzCEfczC5Kq1JS9BldqUjysbZV7GD8v5hUKfg/EHWv
-U3ahurQf+FBjSWv67SkfkcD4+OjOJisP4ixsgfPU/YbjRgr9xVcXgPZO9P+IpK69
-Ob025yMv4A4yjODCzxIHQhAf+KwuS5QI/k80sR9QWfJl3VGIjqhIiuorcHU8p9ji
-A3VnHIG7C2x1+CvshTE11RfyRzLqHyee+4x9DJbY4es//2B4T1xSJ9W7bEJKNCaG
-tLJxnVq8gHLqYCcov6DSl9wTZ1RXTSW+IT9/8JUxl/FrhcWQWB6zJgXvHobuQ1uZ
-zusohpp2ELrOKlGXw9CJbf3F9KeqNSSNICmEmW1Vb2ccCRcgxgT2pxVI+LBDqREz
-dpc+9qk+H4H5Cwj2h0v1NNhHnWWd8txj/ia/iuQ2Jo/S1Acjpl7Jwb3xuQ3rxg6u
-7Z3qMFKB3Rm+avvjDDfbd5jLhmLS7WIi65X7pIMc9O8j5/95vBj9zdnCobcP7o56
-B2LBbeb4jEzMwstZkG2yo8Eg2ZTp2btOo0CNUtV0sV2Oqo9jtGLir5fAcXLahCQe
-WjD9s1UHtgGa1ja7qGnvL7+4bzSzNvaro2f0C8rawyG0kVRdCdw/mX0xTAdh/3ZX
-QHNzPt8ANtqwYnTz/U45Yrnsi0YC6zHmkyKpPnwyWUArAGTz7v383B87Bk1ZyjqK
-C6EVjZlpQ6W7CGNctaH34plhcGbx2ppYp5EAI0pnqD7ZgAnK0UqdBDzc+pAJC6/w
-P8R/0KgeTKDhO20qY42IehWgZrdgjMwVyqOEd7NFB799nvV3XhHl14XlpyLlbwC2
-JZxbM3Ts8qtZuLHZE/dagwlYOs6s5g7No7t+PLkuwwiu3r+cBfEgI2yo9x60Ed7v
-dUWH71vgWwzCQ9k68zJOdBw8ZirBV7E9cu8pPKUsyNorFPj00TSaM0KvupwonMCW
-tb9ZSodltrEb+AAvbbq0LWizgqbEll6lU2gR26IgLs+ZDIjg7akHqKWyu2UV+vZM
-Yr35U2m7zAZgteO7LOBgfzlxtYZ37bt/lxqHFO/NWv5+lqUo2595UCFpU5Ck2jHR
-qkSWfV+WX0dEjXBGxhmZByWBIpiSokBRSXzDGQgzKSGII8E9i/szozPOBsKpzcdw
-aIMShGsQvR6nZvvL6X2wgPP+RBNCkiq4pldz8jYLCwFlEIiRbdxVWpy69EcCXvwF
-QiWO2HIZCwUlbWgr4ruwfL1YRYU9B8te6F5/LV0H5CNnnrgszqvJLJEGpM44FvVQ
-lYpBpsrY7PpOpudLPCqRKNek+2CNbDzxtiI/MQAIvqg3ZUEg8KCPwIpSUi70SQHw
-Mm1PGah2XB0kGk+RLGJOFTQwf32kZKYBdP6j3SL6tru02YH9xnfNTO+AeWuqqFhx
-tYBDmdt4VG7BM/zk94X5ekfIuFJDRkZNXEaIxi1rL924Iibfbk8rb/Nptx2l2etm
-JlkTVsgvW2t6mJDeR5xk4K+qkPu65mluEavq4g7PiwE9Fil37JXy0QcGHqEAoU85
-Y0PNTqnHz1mLVd2HizqM+3SSCNfD1kErj44z4PGrlu/cHQ3G0D+OJMiC37QibXmd
-bX7Rpd+fgoKX/9tUiznU5x4BILW7DNWK79MXBCYXl/TLzfZeBnYougJpcMXgfLCy
-MJAsKzeaqbNcdRZPZS9rIAjvtWtfDNSJEGIaHRUM2d5fBx9F/iDXHOI5MGgEZEtL
-wQ5mLwJVTk8NXZ3oj7GQfX+OgFouTfOqT4K5vwwUyjta0bz0Faxc1v0fBE5gXGaE
-SRA9vqRITLikqTHdfaqdLhoVbCqla4b8tq+bbirDkuFv4VMadcfGhDbVKrD2PMNB
-3gitnojIjd3VbOnvBBuYHkJf76wiI1B8DLPIIM+a957Adkxi3DzWJOyo/TAJpiA6
-zr5CUdmjFgDIxZ/rSPSQFkA30bzx2YhJqT9yS8KKGDeLu7B+NTtd2Y9O+3umRkK6
-ojv/mVmGOTWEszVxEfKcRwbt5Vjh8uI+uBo3hC8DT/UEzDrQyiz5GRHiALZI1FI6
-1iNybYRVwehPea076J0GcPNrW6XS0hxP5cXjz4ILaMxRwwAz8zhQLhiyoRTNMJwn
-c0ExsolNk4r8sZovELuSWHeJAL0fSjjhWCr7TRJc811pdhOCgBiD+y5lqIiqnboV
-SoieUGO4Qaghi1aypMlYk9VpPgJZJMJ0Otl2/JCe+28veqS3ei5mo5ovHzt3lCGG
-7QNzxfJftXvz1ajrpSMNQz/4RUNrR7m4VwBYV4qYJBn6YWG77+klcXrqYJTHDMmU
-AgLOF3ZQ8yaQju6Q1LNbOWjP2pbN7FEcruEbUFGbI5QYZug7gtJlORPeIJBBkKkV
-TIQnYBr3OsoA5W5uokqsodHt0sX/jD54jFU4YRS4Nchv6CF0rGgNEaKrzIhJOUe0
-X7LLZIGjmio6h/5flXlU2LdgP7Y7JB4lZ1Q7oztDxz74HCn3LfXvfb0dTkndfMpq
-7rC197Ye/0URqhMgCu81LoBqAnsDhVXqLQ9NFul9r8ZGu4DAQ4AzIl7QGz+PPDvY
-N+kw7EeTjqxpbqQGsVUgIzHeViW3zsnFopv9hnGgNXsTxk5B0XXTU7wzDS9vBH0n
-i35qNN3xoacg1AOKsl2csxk8vDU0ewQB3M8oKzH1EAmIjJlKS9ArAinVpleM7Bzg
-i9N8VKVROgQ+NKEj5oc4AtN5RHImrH4Eo0qts8IVASAO7yuRS9F7Wi1BGUxG5sW7
-9MCyPB8M+JJ6mlIO8aZjovdzVc/LS7OFIyv6f5mgjDyzH5SRzVerhYnN/uTaCJeC
-JA+WsnXkgoua9pV69QfF/DLYgMdy0MgNlXc7sWA2ndky2PEANvNR1ZMqPyiK8OO7
-QR33ulJvexAtg8EHmvheUkGMQ2jHMzz1eX8PFAFRb/UZWJX2Yn4ePf02bIQTrLn3
-MWNMPiclKua5MtHF3pum+sVUYDloDdZTCbfwbUaBC2KNdYeCeR2d/6n8qNKjzzWa
-0eeT+VK039n1VuIQbMX4wtTD5hOWPxMNPRf8Ak6CoBdBVLzFzHVN8kv9RTqMvCeh
-pcCshUQEq5qJQohEQo+1sIzICIqoc8vtTyk/i5+Ha8ZY+oGrG89CQCz7iNtPZQkK
-9FFdk34L7/yI/aVtrQanpi1m5DVqPe2QPbaFyhmtq32dxxEevxYxNmhHRvtWCZdx
-l0NZbazoUNkhFUDSkIPL3ies+lV02hx+BMjYHlAflJQkn1bReXRw6MXsCnu1UUVD
-T00Qt6A0NGktuliDzkneaKkaTQWSQetHFJ1SSe2NBFp/ipklzahoxpj2i6ws2spy
-DWoXD3q38sKT9iKbo/mRIZwB1g37ptLO+pTNKnqF8Nx78Y6DKtN6a8fbdbDDvHNl
-xWctQBa4leb4kNTPfHAk/LEXdfUIurjczPbHxyDkwozxVqS97goxAizdt5SU0lAh
-gTXwUP1tltSlb9melcTyP3NJOonHukz6M8+60r87QkpAfZXoDYJehvVTiIokB7HL
-t7JBDudqsiGSlhHN7Cov3mw4FhvJXoWOQwC9JBLz0H17saK60Q0oXKtR7U1Ux5GD
-MEbkYnapt4EqqF+Sn8XpEqqFzUqP8Su74nL+4htSZbtPGAZNiTsc+vDjySHTCZWv
-CizWRjbKdbu4PSh9/CrjeDyptCE3LlRb1NeA+Uif/tzVCQ9eCyH//2QrYyAjBxDx
-ImqOTmiSJEMtulHzBApH0aSAVby7ba3X1dkzU2pvUSqyizQwZItIcxQob54OsFWI
-KZ48Ed7jUCMSNeu9i26DrIrlqMp5GajSDpDA7Hzvc3JmqrJgNydXw+w6oeu2DMKD
-O0T05UdihKrkQf289KAv42kGlw3gJ5iD1d6JmC1eypimm6NcyYfvI6y7U1JwO/t2
-wdJnEAB8umtnZUGlqQx8s8DKzZ+NVoVp7mLt1WDxiwkuGLi8IvtUYQveYVB5EYLX
-DQbrt8gUjKkWdPdb4QIFx0PnOi6iZxB/SH8gNgNmI2pA/g5UlU7KYHy3IBUY/6lO
-OJJciMLgPtfj4JKTwGYB0hLZ+OK5K9Qjj2Cvb9DBO/BBHZP2IubBAMrnfOtKDHu6
-/IxEBlNqDu7Zvx+bKH/L9Hx8/5dd0/N8WeLhpm/OojIC/octLibOgPFfCJNUqBxs
-a6UXyxRBr3oJr1fBW8ITs5a1j9B/Hu4hHBHHOwNK+mjvqTM9zu+3Z+af6/AKUU3B
-PJHuMw++gyUV1SsOnc+fu/+kv9zlerlVLdPzDc/bayFSFIem+kdPblEjcH3pe6uY
-O4Zvz1Ve/kplNHwr3Pt2S3e6oe5ybiFgaEttRxpQ2lM/pg9VY5NOxjIcs2hGt93j
-NRIKRBpMMdmTyAvFSseYRqefBefqF8OEAbGLk3zp1WJrYBIJ0SRCR8FrXnxOLtQR
-RkAItbN8j9lLLvTOvSVmZGgntqnYs+Guip2Pc6mrmYRvREffldcYFvXcven5+icd
-aLywh/QN8+1t7cbm0R9iZEFqIB9enpOwgT0TJpqiSHCyC9lLKbwWGVMCVLmVZwTs
-WS2gB1ii7SuKtCScioINnvL87URKbGoD/W7bfpOP7BxX7UfObtSAVWAZwS8aVv62
-Qc9iV6VPypJAc+9d8weg8U3/i1a2bXCBYPnDFJ6vXRCH9Y3pl1TcWq3xCu2OEc7S
-8ktcx4ZHSyil2U21aTstS8i4L+fSBd3AEFpAh/m8K0SlRJXAhFYXGD6kCnghHa6g
-3BDLs0SxF310gjqQF09s9B4YgfpA+KwIllrDZsJESOkUB0JVVS3Phcm6N/Q0u93I
-3hvrg3rM/B4R5wth5UjKgSxoWOU7tMV39gDyDYqLhLxuvFFg6Qv00lffhVPFclnb
-G0yxoi2kGbiVszhjLKznRQsN2LQBqJYXP23eDYRrrSXp/iHyuPLWKyjSzGYEz8vX
-UiRAZ66ZsKmMnBdodjzlM+eR1yxtjTTJUY3nDiIHLy50AY2drR6TZHldumM2cgE9
-ZzcNISAGTtnhG9kgi6YNLz77Jbc4TqVoutRdsZLOmnLPkRLqN0UI2sTsiB1Bdy04
-myLWmeU/weUT764qoKsAdqnbbaa/byTAqmWhPTLUv6gkLi07lyoBOe7CNzSxVpZU
-cH0/06rD9aiJeNmhOZmkRGQz9fp4OY5KpKbgrQLTkdfqrAzAOTr/Tposi1HIaOk8
-jBg9z9BxCFtgWcQx+2hu5Z66OjGwBh+iahI9AZxwEQuBHQQffElL4UY9MHPiRIoL
-a8XUz4hFVVuIzeS/JZpEFS7T97drGfBP6A7yeiTZFNVeVnjN5+QY9Zq249aVpDX+
-AITiYX0kHFoEmkCBnZQb6fD/+YBidxD31hXHykXM2KSWd7yHNbCSVfVo2kJu3vx3
-NAp4fNBMWOHm0HuaC0ZDSBjNltAksVB3zH+iuRlC8wdTnpv2dSBBPb0ySDdYcyMs
-GKH8UnkANf+FblPiXvUHNGPaq3F8Fyys4xG/wzDX46yJZS1V6erOxZhNsM+I50K/
-EFbBH6d8KATjmvw43uyqaVXjvj+uytSgYD2rCUKm4gDxEcGQWpaD6y/t4pYScT7R
-2DstaCAAo1/ncfN6dVcidZ7vzY9vUKGuNlpWg0xG6jZipc5OxXHl9cugTWMnBT5h
-BmTOrrpyasdDelq8idZVyRcJ/tJf44WRSN93hC7INVQ5IrkauYGMk1cVPNTPOvih
-uyoiyexb/DLW2JxTq9w9AvGS0aUC8gK32MT3y2roj3d9CZH3BmzglGGgKSsYroRD
-BPju5Rbjqx3ZLaWEOHtYh85ChX2+ZmhOTk0GHkTep+cgzk8Iw0qtUTA+1Y2WIMa4
-QlXEQYQKAKE5U9eoOYx/RLcTa9/AKG5to9FRlX48ZR3KuOvxz8yYhucO4LnBRp0b
-yXxBGy0rK2kZhBU+2sRf6VGHtTzLGAMRZ0Y/h/EVZlFwCCxm5QOA/ZH0ehOj0rl0
-0LFCXDUcGjEyDCuP1MVqNa5gjJwi/JfR5cYmHicxme8HTLCf3/HeEnJIg9CqiRI/
-7j8MeqAkjo6s22uU2qJFueub/sZfT+DHPe28kTn6OteLP1q090zNEjLbiylU5tuv
-u0qHMN8KIWOjQj95BaREO7gwIazdOViA5GN7C9NtMKrjIRR6MBjiL6ujFFwlb4K0
-ZmgJJCxqZ/vc6c7nIANh6xJb40yeCGQbX37+gu8I74Z2/YH342lVw/HGTPakFrpP
-NI4ttgeFEJmVSYqFJvkAEQmJuRvrUyxSJryMAaKs58typovsIsHRo9m6syUlt4EN
-1woHhWhLBdVzXLDJfuaghV8ovWIZnG85/24gooROcO1Ieooh53WAuHT3z9xhyn4C
-cDknzAJceEsDxtpPHpkJ9+zZF8L5Yc3TXBmhMr2aagGMeqjJU3qjxJq2H+UuOvEk
-8uwV+O1OHs5eLXrYN5kFtDULzzEWRMGjhmyQU/oT/mGUyCcATxt8/MK2dnQspuWK
-EHAK+bxMjjMZpso9Ti7+0NiGlyYtB9HkJqY6hQqcxXdUGjt6y0lztxZOZhTz5QtI
-WQ+Z5dlgcF2pr4wjyCbKxfnigisATrdwuBGEUaaA01nNExHf2n9957l0ZacoH+LT
-yh1/q/QxcflEmSMN63YHwqsldG5TDe/d6ul8kH1NoGAP5u34ReBWV9FzRvM9bjxx
-PGrRlLjxGDkM1w9NHncXsuwE1P1aoejRGz/coDiqWj8BEsO15csa54BAT3KgjC9P
-Qj89giTSu3SLH8ru8QiFA8zVHLj51cIPSVUlKCOYXxW3DnGz961f8VRWXu2LZhCE
-yi4eUP53xqVqTk9GzrqrTtl1OY8FqAVB/SarO/v2BAWzFqCriDSUap3qrrwuseQ1
-YhhQ76J0k8zy6Pm75GDus3OkWkCGBrj6BGrRbVREFDq059rOf5henHceZs/HMvu1
-bEjKCZlGxkYljVNZEwttq50MM/UECcB3SeQPAEXO83gQLHNxw2jZTdFYDcXyyZw2
-RpCYSUX0eutBiYaqcIp/KDNLh3B8JAqd8U5ZTpNyVHyQnF2B9HXB8SC2yK4tlaXg
-R+131e8kVyeoLHAwBZCRUoHL8+UAGEIaT6OxtSOCFIm9CvcUefT1nXwmXMPJMNbV
-7qzJHsBl78kFqFA7sJK725+T8KhHSamdsFpMwYyadiojaqgKMaTck9IiHMUkQ8wQ
-Mqr+Hr+lijC7GlCfLFD25/duCdxpkl3RHTARCVLgCgQA86eeLJhtNgm1lXAVB7M2
-horonLeDzkmOI5zhjd++2xbm9fLHWzMC8DXvYl4cAJeLkfZ4QtqWeHYwcviE9jgo
-Q5aOdXOt7KiNbvR+2uj53x8bjgmjBgBr4uRO4zF8Q1s4YWANVjPDpFlaZyuWf59E
-IT6seGypqhLid/sPXVZ1kRNfsuuX6PRdUMAV7blqySnOTSpQChHiIvV/YK2PPyLp
-1PH3oBKT9+dqig88/jXAPGdY4pPdrhaOyv+xDZ0OSpz+DhvsLSO5Sno/jRf5ydO9
-kr7ZAy6TaeosO9xlMLRylpkqPhJ7r7Uuzdo3eUznNU160G3AOOoIS2ZRA76BGZDU
-wVapJgiokSskQ4hCgmVoiR4c/Q3Tj2e//6DJgH5Am/DvZwxddK+azaSsbKx5YR1w
-sgB7xVQTIRSVkmWGUT7IK3DLZB5BJvmwVQLOgCn3jP37xnnvaF7qI/X+uA6O1jdf
-u9xC1L0eHYHbMyXLSQ3olTmPvrcyiG16DxOX2InOw5WvUxee0C87pc0XUmjHun3p
-BDRu6m36u25PkFatlBdJnopQ8EbN0hngnO8a6n334zUtR2qVkyWOX4qgEMhXXY1P
-2y3FfUaiwDwXMR0pB83CsVAbdguSwyBM9JTBlfFYWJgZv2IrSPai0h1QtMbdwnVv
-JBc9CXqFyxYqOtUzIpLBoJ3iQ46fe6zPxKZL2dJZ1VlMLs63p+H2hCP1Zag/DrMi
-pEL66P7dz7a/1WtBOKIj/IYh9tP0wew3qc9KQGZmaCaEqQVRJcXLf7Uubua+dG0v
-aAaKisGp3floJu/QeISpeFRKcmCxMBB4/YTYtoFXOHu1FlGa8N4L101lPZbiGdUJ
-CnIkOcrK3bRv+LErE76IGDP1YZzMxGWwfkofoMg/mYKE5cOtIH0Y9JYPzZ1i7Tkf
-opvqkHucLoRFDEn/vrPeW6FFd8sMX75xUL+xlneWy3/O0+f5F+9m95rT031QHY2Y
-lXdfA3+BU0yp2CW8nYUNdUHT2dqh0OHfTCXYr7Kw/vksoBmGgwTInggpeZ/gI1dF
-1U2rbWp/Ddm2GRSdYK06ERK+lCpjZye8XIqahy8yq3SFfhQ5TeB0mBioIyNXf8KE
-m6WpbzYFI9sUPrmleVsbookvX5ARDMpGUsseDWwYVNPeroBDQnVjnL2HWzZ66Dwh
-kDB7KxN+rYHGfbuuwkcxnZHzO5iYELwE7EshW0bN3v25f9dffdHZRLEn0GLXB6oU
-uBDL5LT+9+fY/EcMdueb62oVTLNSVmI5WNXfEi2FtNIZ+jJcRcIh8TGqk8yL33Cz
-OT4J8hja0z6xtujubR2FUS8kbVZRWBJes+k37V7IFwSMSJbetbQnCoGVTdV6HpJz
-HShPdF9xXIvnl8kMAdXtAKIHSf2XgweiOBNsuCwhqVz1dMFQ7lHWD4brmuLMiI/2
-z+SVnRGhKsYTmmsGjT9iwQGOXDS/Czm8qBms/euaDrUGmhfbvFT82oO6cL7nClCy
-McMt/Bv45hVXbm2M9kaB6rzEfnwjx/XnBMH7RLvl7Gsv/zTENDuiLZonJAvGhNV0
-WF9ogXpZ2tVyPq3joeIy9xQOYC480QASHodViMrHHDgNKLFJdbK3PR6q9bkC4ibB
-MKhP6qpLw8d45sUVIVaXRBm7bOIWkHBNXooAcONAiQ/SslsvKSckrTlbh4jTW6Q1
-IWkqM3nLiq60YwfRBnGGBudVsafs8bbJ0NnFZE6OdzoCJEkrAogjvsdlOzCRB+U/
-Z2W3Tf4gOajuiqXes+W2mTKxeHhzpkq9MFlQDvOE3o2icmokB3lPd39ZNWWStk7p
-XQqIZHCAD+Oy4Bwk8gCucKNOm+DbSj1bIhkCDTuM1ZZINdrRxf5Qcc/N6fwksQFw
-m4xWEOODlheUHY6gBsKS9GgXVpP0+ACinGvpPKQxchiWHq9tLjqJVlyk6FGvB9DE
-1mke5a4UaXiM/DxhDJhTvIclC3b63ge83ZNQBdCniK2TciTh46XClGShTSU74Exs
-JSlhOMbDTU6tyfR+2vzyueX3TWg3f4qphlbuy9TNJZKseFc6lkK8sBple2DAQ2yS
-cuJZFd4ulT6J9Xz8QoHSPZ6rMU579YSDD9LHIOiiOJPDtpkOMkXZeLN/IwaMFa2j
-stoVHghWeWRUKRKxRp9Mk/ZpfMAUfquBoBq4Gge65xHfdZWWqd89pUMQu9WMdZYS
-rrLNGRcXuW/4ocMukldct/CT26W/GAF/pkol20uxH+7/pJjMOB3sUwlnDierO/8X
-yZoXTmKaAzkuEmwXyKXYnEBOYommuliokgod/Em9t9kZ6dLl1p2arBL8pjNoGe5L
-mHxnUlBEmLlB1ljt7NKmcS5uY5Ih2aXQXwI2/4kd7IIIJGUvL4liHS1nWKam+MYo
-s6B1cpSBAfVLoCtUgAP4QCN1nLanIxaClfb4+HWX1dUMXCoEdsQuMgT5U+X8DpRr
-j5kH0HsMoC8oqToPd2nhLwg1/Yllt72eHotw/vmKygXXPrxny0e+XD9I7Jj2k8dL
-ubSWJeOhftI9siXROtmz0n7u3A5jbwhA/R+RMN0gjARocCNc5ZFiI5DqdreFBeZ5
-X9esaqHrsWQrHG3nOt18c4/N0OxxRsKRLEbK1y7Ko3HERcLC8BZvwdeMjRlk9KyD
-Q6WjVL2KgX9wP+lVz7bvrAp/Yf6f6CN7ChEl3J/U8o9C7QMJT0xk56oEQtThtwha
-i9FMmbLp/0tgNA+Qh8jX+geTD48fQCtl3u0zo5H2PBEw/S1f3hj8cAOiFWnhUhSk
-RFR8t8rlFgwS1sJev6NQD1lqpMLeKO6asW8ncog0HPum/EFpBgiIbnis5lnJIKJs
+// GET/POST /api/vendors — 供应商主数据（D1 vendor_master，会话鉴权）
+// V2.74.3 起从旧 vendors 门户表改指 vendor_master，与开放网关 /api/open/vendors 同源（消除双数据源）。
+//
+// ════════════════════════════════════════════════════════════════════════
+// V3.21.0 差距 19 第 ② 步试点域：字段级权限从「界面装饰」升级为「服务端强制」
+// ════════════════════════════════════════════════════════════════════════
+// 改前：本文件 `SELECT *` 返回全部列、零脱敏。库管在界面上经 <SecureField> 看到的
+//   授信额度是 ***，但打开开发者工具读本接口的响应体，credit_limit / bank_account /
+//   tax_code 全是明文 —— 界面上的字段权限是装饰性的。
+// 改后：
+//   · GET（列表/详情）→ 按当前角色剥离不可见字段，并以 _hiddenFields 元数据告知；
+//   · POST（创建）→ 不可见字段一律不落库（静默剔除）；
+//   · PUT（修改，见 [id].ts）→ 不可见字段「值有变化」即 403。
+// 策略来源见 _shared/fieldAccess：管理员在「字段级权限」页面改了什么，这里立刻照办。
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { validateOrReject } from '../../_shared/validate';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+import {
+  resolveFieldPolicy,
+  hiddenFieldsFor,
+  stripRowsFields,
+} from '../../_shared/fieldAccess';
+
+// ── ★ vendor_master 的 CHECK 约束白名单（V3.12.0 补）────────────────
+// 建表 DDL 里三列带 CHECK：
+//   type         IN ('manufacturer','trader','agent')
+//   status       IN ('registered','pending','approved','rejected','blacklisted')
+//   credit_level IN ('AAA','AA','A','B','C')
+//
+// ★★ 为什么必须在这里再校验一遍（这是实测出来的真故障）：
+//   前端 `Vendor` 类型的 status 与其它主数据一样习惯用 `'active'`
+//   （物料、客户表都是 'active'），而 vendor_master 的 CHECK **不接受它**。
+//   传 'active' 时：
+//     ① `validateOrReject` 只认「字段类型」，不认枚举 → 放行；
+//     ② INSERT 抛 `CHECK constraint failed`；
+//     ③ 本端点**原本没有 try/catch** → 异常冒到 Cloudflare →
+//        返回的是平台的 **500 HTML 错误页**，不是 JSON。
+//   用户看到的是「服务器开了个小差」，完全无从判断其实是
+//   「供应商状态只能填 registered/pending/approved/rejected/blacklisted 之一」。
+//   **这是最难排查的一类问题：错误信息与真实原因之间隔了三层。**
+//
+//   因此做两件事，缺一不可：
+//     (1) 入参显式按白名单校验 → 立刻返回 400 + 可读中文（把原因说清楚）；
+//     (2) INSERT 包 try/catch → 任何漏网的数据库错误都转成中文 JSON，
+//        **绝不让 Cloudflare 的 HTML 错误页到达前端**（前端按 JSON 解析会失败 → 白屏）。
+const VENDOR_ENUMS: Record<string, { camel: string; values: string[] }> = {
+  type: { camel: 'type', values: ['manufacturer', 'trader', 'agent'] },
+  status: { camel: 'status', values: ['registered', 'pending', 'approved', 'rejected', 'blacklisted'] },
+  credit_level: { camel: 'creditLevel', values: ['AAA', 'AA', 'A', 'B', 'C'] },
+};
+
+function enumError(body: any): string | null {
+  for (const [snake, def] of Object.entries(VENDOR_ENUMS)) {
+    const v = body?.[def.camel];
+    if (v === undefined || v === null) continue;
+    if (!def.values.includes(String(v))) {
+      return `字段「${def.camel}」取值「${v}」不合法，只能是：${def.values.join(' / ')}`;
+    }
+  }
+  return null;
+}
+
+// camelCase 前端字段 → vendor_master 列
+function toRow(body: any) {
+  return {
+    vendor_code: body.code,
+    company_name: body.name,
+    short_name: body.shortName ?? null,
+    type: body.type ?? 'trader',
+    contact_name: body.contact ?? null,
+    contact_phone: body.phone ?? null,
+    contact_email: body.email ?? null,
+    address: body.address ?? null,
+    status: body.status ?? 'pending',
+    qualification_expiry: body.qualificationExpiry ?? null,
+    rating: body.rating ?? null,
+    credit_level: body.creditLevel ?? null,
+    credit_limit: body.creditLimit ?? 0,
+    used_credit: body.usedCredit ?? 0,
+    tax_id: body.taxId ?? null,
+    bank_account: body.bankAccount ?? null,
+    sales_org: body.salesOrg ?? null,
+    reconciliation_account: body.reconciliationAccount ?? null,
+    tax_code: body.taxCode ?? null,
+    blacklist_reason: body.blacklistReason ?? null,
+    blacklisted_at: body.blacklistedAt ?? null,
+    blacklist_reason_history: body.blacklistReasonHistory ? JSON.stringify(body.blacklistReasonHistory) : null,
+    profile_pending: body.profilePending ? JSON.stringify(body.profilePending) : null,
+    profile_pending_at: body.profilePendingAt ?? null,
+    profile_pending_by: body.profilePendingBy ?? null,
+    profile_reviewed_by: body.profileReviewedBy ?? null,
+    custom_fields: body.customFields ? JSON.stringify(body.customFields) : null,
+  };
+}
+
+function formatVendor(r: any) {
+  return {
+    id: r.id, org_id: r.org_id,
+    code: r.vendor_code, name: r.company_name,
+    shortName: r.short_name,
+    type: r.type,
+    contact: r.contact_name, phone: r.contact_phone, email: r.contact_email,
+    address: r.address,
+    status: r.status,
+    qualificationExpiry: r.qualification_expiry,
+    rating: r.rating,
+    creditLevel: r.credit_level,
+    creditLimit: r.credit_limit,
+    usedCredit: r.used_credit,
+    taxId: r.tax_id,
+    bankAccount: r.bank_account,
+    salesOrg: r.sales_org,
+    reconciliationAccount: r.reconciliation_account,
+    taxCode: r.tax_code,
+    blacklistReason: r.blacklist_reason,
+    blacklistedAt: r.blacklisted_at,
+    blacklistReasonHistory: safeParse(r.blacklist_reason_history),
+    profilePending: safeParse(r.profile_pending),
+    profilePendingAt: r.profile_pending_at,
+    profilePendingBy: r.profile_pending_by,
+    profileReviewedBy: r.profile_reviewed_by,
+    customFields: safeParse(r.custom_fields),
+    ownerId: r.owner_id,
+    deptId: r.dept_id,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+    createdAt: r.created_at, updatedAt: r.updated_at,
+  };
+}
+
+function safeParse(s: string | null): any {
+  if (!s) return undefined;
+  try { return JSON.parse(s); } catch { return undefined; }
+}
+
+// V3.3.0（评测 L-05）：原本地 audit() 的静默 catch 已删除，统一改用 _shared/auditLog 的
+//   audit()——审计失败不再被吞掉，而是走「结构化日志 → 降级表留痕 → 永不抛出」三层降级。
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+  const pageSize = Math.min(100, Math.max(1, parseInt(url.searchParams.get('pageSize') || '20', 10)));
+  const offset = (page - 1) * pageSize;
+
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const status = url.searchParams.get('status');
+  const type = url.searchParams.get('type');
+
+  let sql = 'SELECT * FROM vendor_master WHERE org_id = ?';
+  const params: any[] = [user.org_id];
+  const rls = rlsCondition(user, 'vendor_master');
+  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(...rls.params); }
+
+  if (keyword) {
+    sql += ' AND (vendor_code LIKE ? ESCAPE \'\\\' OR company_name LIKE ? ESCAPE \'\\\' OR contact_name LIKE ? ESCAPE \'\\\')';
+    const kw = likePattern(keyword);
+    params.push(kw, kw, kw);
+  }
+  if (status) { sql += ' AND status = ?'; params.push(status); }
+  if (type) { sql += ' AND type = ?'; params.push(type); }
+
+  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  const rows = await env.DB.prepare(sql).bind(...params).all();
+
+  // ★ V3.21.0：读取侧字段剥离 —— 让「界面上看不到」变成「数据里也拿不到」。
+  //   在 formatVendor（驼峰化）之后做，因为策略表用的就是驼峰字段名。
+  const policy = await resolveFieldPolicy(env.DB, user.org_id);
+  const hidden = hiddenFieldsFor(policy, user.role, 'vendor');
+  const data = stripRowsFields(
+    (rows.results || []).map((r: any) => formatVendor(r)),
+    'vendor',
+    hidden
+  ).rows;
+
+  let countSql = 'SELECT COUNT(*) as cnt FROM vendor_master WHERE org_id = ?';
+  const countParams: any[] = [user.org_id];
+  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(...rls.params); }
+  if (keyword) {
+    countSql += ' AND (vendor_code LIKE ? ESCAPE \'\\\' OR company_name LIKE ? ESCAPE \'\\\' OR contact_name LIKE ? ESCAPE \'\\\')';
+    const kw = likePattern(keyword);
+    countParams.push(kw, kw, kw);
+  }
+  if (status) { countSql += ' AND status = ?'; countParams.push(status); }
+  if (type) { countSql += ' AND type = ?'; countParams.push(type); }
+  const countRow = await env.DB.prepare(countSql).bind(...countParams).first();
+  const total = (countRow as any)?.cnt || 0;
+
+  return json({ data, total, page, pageSize, totalPages: Math.ceil(total / pageSize) });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  
+  // V3.24.0: 操作权限服务端守卫
+  const _opGuard = await import('../../_shared/operationGuard').then(m => m.guardOperation(user, 'vendor', 'create', context.env.DB, user.org_id));
+  if (_opGuard) return _opGuard;
+
+let body: any;
+  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
+  const _invalid = validateOrReject('vendor_master', body);
+  if (_invalid) return _invalid;
+  if (!body.code || !body.name) return json({ error: '供应商编码与名称必填' }, 400);
+  // ★ 枚举白名单先拦：不拦的话会一路走到 INSERT 抛 CHECK 失败 → 500 HTML
+  const badEnum = enumError(body);
+  if (badEnum) return json({ error: badEnum, code: 'INVALID_ENUM' }, 400);
+
+  // ★ V3.21.0：创建时「不可见字段一律不落库」。
+  //   为何这里静默剔除、而修改时是 403？两者的正确行为本就不同：
+  //     · 修改 —— 用户明确提交了一次改动，若悄悄丢掉他会以为改成功了 → 必须拒绝并说清原因；
+  //     · 创建 —— 表单往往带着默认值（如 creditLimit: 0），一个库管根本看不到该字段，
+  //       若拦成 403 就变成「新建供应商永远失败」。剔除后由 toRow 落库默认值，
+  //       结果等同「该角色从未填过这个字段」，既不越权也不打断业务。
+  const policy = await resolveFieldPolicy(env.DB, user.org_id);
+  const hidden = hiddenFieldsFor(policy, user.role, 'vendor');
+  const droppedFields: string[] = [];
+  for (const f of hidden) {
+    if (f in body) { delete body[f]; droppedFields.push(f); }
+  }
+
+  const dup = await env.DB.prepare(
+    'SELECT id FROM vendor_master WHERE org_id = ? AND vendor_code = ?'
+  ).bind(user.org_id, body.code).first();
+  if (dup) return json({ error: '供应商编码已存在' }, 409);
+
+  const id = uid('ven');
+  const now = new Date().toISOString();
+  const row = toRow(body);
+  try {
+  await env.DB.prepare(`
+    INSERT INTO vendor_master (
+      org_id, id, vendor_code, company_name, short_name, type, contact_name, contact_phone,
+      contact_email, address, status, qualification_expiry, rating, credit_level, credit_limit,
+      used_credit, tax_id, bank_account, sales_org, reconciliation_account, tax_code,
+      blacklist_reason, blacklisted_at, blacklist_reason_history, profile_pending,
+      profile_pending_at, profile_pending_by, profile_reviewed_by, custom_fields,
+      owner_id, dept_id, created_at, updated_at, created_by, updated_by
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).bind(
+    user.org_id, id, row.vendor_code, row.company_name, row.short_name, row.type, row.contact_name,
+    row.contact_phone, row.contact_email, row.address, row.status, row.qualification_expiry, row.rating,
+    row.credit_level, row.credit_limit, row.used_credit, row.tax_id, row.bank_account, row.sales_org,
+    row.reconciliation_account, row.tax_code, row.blacklist_reason, row.blacklisted_at,
+    row.blacklist_reason_history, row.profile_pending, row.profile_pending_at, row.profile_pending_by,
+    row.profile_reviewed_by, row.custom_fields, user.id, user.department || null, now, now, user.id, user.id
+  ).run();
+  } catch (e: any) {
+    return errorResponse(e, '创建供应商');
+  }
+
+  // 审计留痕：被剔除的字段要看得见（否则「为什么我填的授信额度没保存」无从解释）
+  const dropNote = droppedFields.length ? `（已忽略无权字段：${droppedFields.join('、')}）` : '';
+  await audit(env.DB, user.org_id, user, 'vendor_master', 'create', `创建供应商 ${body.code} ${body.name}${dropNote}`);
+
+  const created = await env.DB.prepare('SELECT * FROM vendor_master WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  // 回传同样按角色剥离：创建成功的响应不该比列表接口多泄露字段
+  return json(
+    stripRowsFields([formatVendor(created as any)], 'vendor', hidden).rows[0],
+    201
+  );
+}
+
+/**
+ * ★ 兜底：把任何数据库异常翻译成可读中文 JSON。
+ * 为什么必须包：不包的话，异常冒到 Cloudflare 会返回平台的 **HTML 500 页**，
+ * 前端按 JSON 解析直接失败 —— 用户看到的是白屏或一句「服务器错误」，
+ * 而真实原因（哪个字段不合法）被完全埋掉。
+ * 这里统一转成 JSON，并把 SQLite 的原始原因带上，便于定位。
+ */
+function dbError(e: any, action: string): Response {
+  const msg = String(e?.message || e || '未知错误');
+  if (msg.includes('UNIQUE')) return json({ error: `${action}失败：供应商编码在本组织已存在`, code: 'DUPLICATE' }, 409);
+  if (msg.includes('CHECK')) {
+    return json({
+      error: `${action}失败：取值不在数据库允许的范围内（${msg}）。` +
+        '注意供应商的 status 只接受 registered / pending / approved / rejected / blacklisted，' +
+        '不接受 active —— 与其它主数据的取值不同。',
+      code: 'CHECK_FAILED',
+    }, 400);
+  }
+  return json({ error: `${action}失败：${msg}`, code: 'DB_ERROR' }, 400);
+}

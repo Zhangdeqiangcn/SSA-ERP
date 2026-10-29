@@ -1,19 +1,20 @@
-U2FsdGVkX19o2kU33BDBxAVJq4SoeTE9NXU2nHau57FDy638gFt/B0D2PCIsbmLm
-4pY/PPBFDncNnoJq30JGdnfFU1ExRNHDu1jC1jCBAYmf10BMwKPuxQmY4FzqbTYo
-xG69ScE0g9d8AN+tZN/g8NzVVAS30f2kceEbWeDZEouPaFLx6SHZ/tbAMDj9Irut
-biGoIqQ9fVvoZWKcbKY8V1NjsUgjTrRcDDk8eJ7Wqei6l37x+hbTRSKraWseuEnT
-mFOWjUFJEreJPTLo/ss75teqzoSAc2QM+g7j1g5CvxHFTEq2hA/E/J/QVhXLoP3I
-X7+5qJL2cxdr5lbWDkNE9zxbdB4x1cvXxF4NMMGWm6lkNYQlPVshThf4gtAlpPCD
-lj1WG5QPXJ7Y2bcW7hcackK6SGKYcjVazn5e2lkwLtL9WgAUOy/bSYafAl6hDYer
-HuVCeogicXvF9YZhP4p437l26Kld7FUttqRX/5ljP749+s8N0WrK7pE5cAusSJkT
-/8njgZ3432URCeNAPnXJV03TOTeQNF2RHhKV5uceYTwX+J6bYxiCiEzKdTjtjtC6
-z3DLrZEOu9r5FO8XB0HyszonYO07fO7vx/YTCm8pK0hxnXM9EnfjAXycFNDHXNCo
-LTvtmr+Uiiuiu3+R5Cw0xonD+/xTKA6XuGxuCie4t4WTVlRwZPAAxEczeoA3FN6K
-ADDxgLoLK1EFoS0uC8OZC/CIqqhhA5Mz6FHzjG1o52Nsp4WCsshJIBlrSA0lyM7o
-grE7q1KhVE02q3PKP4OdorLSRX8lQ8ADHL5oFPKWyZdCsOhGS/Gfmkd9MwBPBn/b
-K/7xLOcqfDWD4WMMu/oefOTfogkWhZgKuxm57v7hQ0MLh2cN5CpDPB7nfzfsajOP
-EQ2FysiQB0ji2/9iBaJQcTxGq7Tvstbuw5xSPdOk0Qwj6sT9GUmupS1DxD5Ed/Bp
-NELbOuD4lEkG/Jit0GM6eXpwh1G5UyOZ+ERiB6fIcfyRB+2zUauY6jpJjaFuPrFa
-On0sDXRKer3XuEr6ahv+jk1JJl1Aj7A8qvRDACi0kB0Dbabkdg7rc20gbeGI0W/Q
-W0ZmRhclGuefG1zSs+0djUhs005BON9CIxRCymDF3Y53UgaM1+L2i8od1MtOieqw
-m9op96/u4qbxnUG7E+dMdg==
+-- V2.82.0 库存预警迁真实 D1（根治 Blob 双通道最后一块，对齐实体范式）
+-- 前端 warehouseStore.loadInventoryAlerts 经 /api/entities/inventoryAlert 读写；
+-- 字段全为标量（无嵌套 JSON），camel↔snake 在 functions/_shared/entities.ts 注册。
+-- 与 ENTITY_RESOURCES.inventoryAlert 同源。
+CREATE TABLE IF NOT EXISTS inventory_alerts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  type TEXT DEFAULT 'low_stock',
+  current_quantity REAL DEFAULT 0,
+  threshold REAL DEFAULT 0,
+  severity TEXT DEFAULT 'warning',
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_inventory_alerts_org ON inventory_alerts(org_id);
+
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0036_inventory_alerts', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,122 +1,95 @@
-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
+-- V2.96.0 超级管理员双邮箱双重验证 · 新公司码注册审批 · 系统邮件通知
+-- 需求来源（强哥指令）：
+--   1) 超级管理员绑定主邮箱 + 抄送邮箱；首次登录须两个邮箱的验证码「分别发送、同时通过」
+--      后方可登录并设置密码；修改密码同样要求双邮箱验证；
+--      系统版本升级等重大事件以邮件通知到该两个邮箱。
+--   2) 注册策略调整：新公司码的首个注册者不再直接可用，须经超级管理员批准后方可进入系统；
+--      批准后授予该公司管理员权限（仅能管理本公司事务，不能跨公司）。
+-- 说明：D1(SQLite) 不支持 ALTER TABLE ... ADD COLUMN IF NOT EXISTS；本迁移由
+--   `wrangler d1 migrations apply` 执行并记录，成功后自动跳过，重复 apply 不报错；
+--   另在 schema_migrations 表登记业务版本号作为双保险（与 0039/0040 同一约定）。
+
+-- ── 1) 组织：审批状态 ─────────────────────────────────────────────
+-- active  正常启用（历史存量组织沿用默认值，升级后行为不变）
+-- pending 由新公司码首注册者创建，等待超级管理员批准后方可启用
+ALTER TABLE orgs ADD COLUMN status TEXT NOT NULL DEFAULT 'active';
+ALTER TABLE orgs ADD COLUMN created_by TEXT;
+
+-- ── 2) 用户：抄送邮箱 + 安全初始化标记 ────────────────────────────
+-- alt_email            备用（抄送）邮箱，与 email 共同构成双邮箱验证通道
+-- security_initialized 1=安全信息已就绪（历史账号默认 1，升级后不受影响）
+--                      0=待首次激活：登录时须完成双邮箱验证并设置密码
+ALTER TABLE users ADD COLUMN alt_email TEXT;
+ALTER TABLE users ADD COLUMN security_initialized INTEGER NOT NULL DEFAULT 1;
+
+-- ── 3) 系统配置（key-value）──────────────────────────────────────
+-- 存放邮件服务配置等运行期可改参数，改配置无需重新部署
+CREATE TABLE IF NOT EXISTS system_config (
+  key        TEXT PRIMARY KEY,
+  value      TEXT,
+  updated_at TEXT
+);
+
+-- ── 4) 邮箱验证码 ────────────────────────────────────────────────
+-- 一次「发送验证码」动作按收件邮箱各生成 1 行（超管为 2 行，两枚验证码互相独立）；
+-- 校验规则：同一 batch_id 下全部行 verified=1 才算通过。
+CREATE TABLE IF NOT EXISTS email_verifications (
+  id         TEXT PRIMARY KEY,
+  user_id    TEXT NOT NULL,
+  username   TEXT,
+  purpose    TEXT NOT NULL,          -- activate | change_password
+  email      TEXT NOT NULL,          -- 收件邮箱（回传前端时脱敏显示）
+  code       TEXT NOT NULL,          -- 6 位数字验证码
+  batch_id   TEXT NOT NULL,          -- 同一次发送的批次号，多邮箱共享
+  attempts   INTEGER NOT NULL DEFAULT 0,
+  verified   INTEGER NOT NULL DEFAULT 0,
+  consumed   INTEGER NOT NULL DEFAULT 0,
+  expires_at TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_email_verif_batch ON email_verifications(batch_id);
+CREATE INDEX IF NOT EXISTS idx_email_verif_user ON email_verifications(user_id, purpose, created_at);
+
+-- ── 5) 邮件发送日志 ─────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS mail_logs (
+  id         TEXT PRIMARY KEY,
+  topic      TEXT,                   -- verification | version_notice | test
+  to_addr    TEXT,
+  subject    TEXT,
+  status     TEXT,                   -- sent | failed
+  error      TEXT,
+  batch_id   TEXT,
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_mail_logs_created ON mail_logs(created_at);
+
+-- ── 6) 一次性安全凭证（双邮箱验证通过后签发）───────────────────
+-- 验证码校验通过 → 签发 ticket；激活/改密接口凭 ticket 放行一次，用后作废。
+-- 作用：把「验证通过」与「设置密码」两步解耦，避免验证码被重复使用。
+CREATE TABLE IF NOT EXISTS security_tickets (
+  ticket     TEXT PRIMARY KEY,
+  user_id    TEXT NOT NULL,
+  purpose    TEXT NOT NULL,          -- activate | change_password
+  used       INTEGER NOT NULL DEFAULT 0,
+  expires_at TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_security_tickets_user ON security_tickets(user_id, purpose);
+
+-- ── 7) 邮件服务初始配置（授权码等敏感值由部署后写入）─────────────
+INSERT INTO system_config (key, value, updated_at) VALUES
+  ('mail.enabled',           '0',                datetime('now')),
+  ('mail.smtp_host',         'smtp.163.com',     datetime('now')),
+  ('mail.smtp_port',         '465',              datetime('now')),
+  ('mail.smtp_secure',       'on',               datetime('now')),
+  ('mail.smtp_user',         '',                 datetime('now')),
+  ('mail.smtp_pass',         '',                 datetime('now')),
+  ('mail.from_name',         'SSA ERP 系统通知',  datetime('now')),
+  ('mail.notify_recipients', '',                 datetime('now')),
+  ('security.super_admin_emails', '',            datetime('now'))
+ON CONFLICT(key) DO NOTHING;
+
+-- ── 8) 幂等守卫（业务版本登记）──────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0041_v296_security', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,218 +1,238 @@
-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
+import { createEntityStore } from './createEntityStore';
+import { UseBoundStore, StoreApi } from 'zustand';
+import { Vendor, VendorRatingRecord } from '@/types';
+import { vendors as mockVendors } from '@/mocks/data/vendor';
+import { vendorApi } from '@/services/vendor';
+import { isAuthed } from '@/services/b2Api';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+
+// V2.74.3：供应商主数据改为直连 D1 vendor_master（与开放网关 /api/open/vendors 同源）。
+// 移除原 backendStorage(app_state Blob) 持久化——app_state 不再是供应商来源，消除双数据源。
+// 在线时：loadVendors 从 /api/vendors 拉取，增删改经 vendorApi 写回 vendor_master。
+// 离线/未登录/接口异常：回退内存中的 mockVendors，保证页面可用（不阻塞业务）。
+// V3.90.0：vendors 主数组的 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到
+//   通用工厂 createEntityStore 的「可插拔后端」能力（backend=vendorApi 适配层）；
+//   评级记录(ratingRecords)为本地存储副状态、信用原子端点/黑名单/评审等为领域逻辑，保留在 extend，调用方零改动。
+
+const RATINGS_LS_KEY = 'ssa-erp-vendor-ratings';
+const BACKFILL_FLAG = 'ssa-erp-vendor-backfilled';
+
+function loadRatingsFromLS(): VendorRatingRecord[] {
+  try {
+    const raw = window.localStorage.getItem(RATINGS_LS_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRatingsToLS(records: VendorRatingRecord[]) {
+  try {
+    window.localStorage.setItem(RATINGS_LS_KEY, JSON.stringify(records));
+  } catch {
+    /* ignore */
+  }
+}
+
+// 从旧 app_state 持久化键（V2.74.2 及以前）取出供应商，做一次性回填；不存在则退回 mockVendors。
+function readLegacyVendors(): Vendor[] {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-vendor');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const st = parsed?.state;
+      if (st?.vendors && Array.isArray(st.vendors) && st.vendors.length) return st.vendors as Vendor[];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [...mockVendors];
+}
+
+interface VendorFilter {
+  name?: string;
+  type?: string;
+  status?: string;
+  rating?: number;
+}
+
+const initialFilter: VendorFilter = {};
+
+interface VendorState {
+  vendors: Vendor[];
+  ratingRecords: VendorRatingRecord[];
+  filter: VendorFilter;
+  selectedVendor: Vendor | null;
+  loadVendors: () => Promise<void>;
+  setVendors: (vendors: Vendor[]) => void;
+  setRatingRecords: (records: VendorRatingRecord[]) => void;
+  addRatingRecord: (record: VendorRatingRecord) => void;
+  addVendor: (vendor: Vendor) => Promise<void>;
+  updateVendor: (id: string, patch: Partial<Vendor>) => Promise<void>;
+  deleteVendor: (id: string) => Promise<void>;
+  setFilter: (filter: VendorFilter) => void;
+  resetFilter: () => void;
+  setSelectedVendor: (vendor: Vendor | null) => void;
+  applyVendorCreditDelta: (id: string, delta: number) => boolean;
+  checkVendorCredit: (id: string, amount: number) => { ok: boolean; available: number; limit: number | null; used: number; vendorName?: string };
+  checkVendorBlacklist: (id: string) => { blacklisted: boolean; reason?: string; blacklistedAt?: string; vendorName?: string };
+  setVendorBlacklist: (id: string, blacklisted: boolean, reason?: string, operator?: string) => boolean;
+  reviewVendorProfilePending: (id: string, approve: boolean, reviewer?: string) => boolean;
+}
+
+export const useVendorStore = createEntityStore<Vendor>({
+  resource: 'vendor',
+  seed: [...mockVendors],
+  stateKey: 'vendors',
+  backfillKey: BACKFILL_FLAG,
+  // 可插拔后端：供应商域专用接口
+  backend: {
+    list: () => vendorApi.getVendors({ page: 1, pageSize: 200 }).then((r) => (r?.data || []) as Vendor[]),
+    create: (item) => vendorApi.createVendor(item as any),
+    update: (id, patch) => vendorApi.updateVendor(id, patch as any),
+    remove: (id) => vendorApi.deleteVendor(id),
+    seed: (items) => {
+      const legacy = readLegacyVendors();
+      const source = legacy.length ? legacy : items;
+      return Promise.all(source.map((v) => vendorApi.createVendor(v as any).catch(() => {})));
+    },
+  },
+  // 保留原 store 的中文告警行为
+  onError: (op) => {
+    const msg =
+      op === 'add' ? '供应商创建失败，已回滚本地数据'
+        : op === 'update' ? '供应商更新失败，已回滚本地数据'
+          : '供应商删除失败，已回滚本地数据';
+    useGlobalToastStore.getState().showError(msg);
+  },
+  // 领域接口与领域方法：委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    ratingRecords: loadRatingsFromLS(),
+    filter: initialFilter,
+    selectedVendor: null,
+
+    setVendors: (vendors: any) => ctx.set({ vendors }),
+    setRatingRecords: (records: any) => {
+      saveRatingsToLS(records);
+      ctx.set({ ratingRecords: records });
+    },
+    addRatingRecord: (record: any) => {
+      const next = [record, ...ctx.get().ratingRecords];
+      saveRatingsToLS(next);
+      ctx.set({ ratingRecords: next });
+    },
+    setFilter: (filter: any) => ctx.set({ filter }),
+    resetFilter: () => ctx.set({ filter: initialFilter }),
+    setSelectedVendor: (vendor: any) => ctx.set({ selectedVendor: vendor }),
+
+    loadVendors: () => ctx.get().load(),
+    addVendor: (vendor: Vendor) => ctx.primary.add(vendor),
+    updateVendor: (id: any, patch: any) => ctx.primary.update(id, patch),
+    deleteVendor: (id: any) => ctx.primary.remove(id),
+
+    applyVendorCreditDelta: (id: any, delta: any) => {
+      const v = ctx.get().vendors.find((x: any) => x.id === id);
+      if (!v) return false;
+      const used = v.usedCredit ?? 0;
+      let next = used + delta;
+      if (next < 0) next = 0; // 释放超额 → 归零，不阻断
+      if (delta > 0 && v.creditLimit != null && next > v.creditLimit) {
+        return false; // 超授信上限，拒绝占用（本地预判；服务端端点另有权威护栏，双重保险）
+      }
+      // V3.66.0 P1-3：本地乐观更新保留既有同步语义（调用方零改）；
+      // 登录态下经服务端**相对原子端点** /credit-delta 权威落库（数据库内 used_credit += delta），
+      // 根治原「本地读 → 算 → 整字段 PUT」在并发下的丢更新竞态。
+      const snapshot = ctx.get().vendors.map((x: any) => ({ ...x }));
+      ctx.set((state: any) => ({
+        vendors: state.vendors.map((x: Vendor) => (x.id === id ? { ...x, usedCredit: next } : x)),
+      }));
+      if (isAuthed()) {
+        vendorApi.creditDelta(id, delta, '业务单据信用联动').then((res) => {
+          if (res?.usedCredit != null) {
+            ctx.set((state: any) => ({
+              vendors: state.vendors.map((x: Vendor) => (x.id === id ? { ...x, usedCredit: res.usedCredit } : x)),
+            }));
+          }
+        }).catch(() => {
+          ctx.set({ vendors: snapshot });
+        });
+      }
+      return true;
+    },
+
+    checkVendorCredit: (id: any, amount: any) => {
+      const v = ctx.get().vendors.find((x: any) => x.id === id);
+      if (!v) return { ok: false, available: 0, limit: null, used: 0 };
+      const used = v.usedCredit ?? 0;
+      if (v.creditLimit == null) {
+        return { ok: true, available: Infinity, limit: null, used, vendorName: v.name };
+      }
+      const available = v.creditLimit - used;
+      return { ok: amount <= available, available, limit: v.creditLimit, used, vendorName: v.name };
+    },
+
+    checkVendorBlacklist: (id: any) => {
+      const v = ctx.get().vendors.find((x: any) => x.id === id);
+      if (!v) return { blacklisted: false };
+      if (v.status !== 'blacklisted') return { blacklisted: false, vendorName: v.name };
+      return { blacklisted: true, reason: v.blacklistReason, blacklistedAt: v.blacklistedAt, vendorName: v.name };
+    },
+
+    setVendorBlacklist: (id: any, blacklisted: any, reason: any, operator: any) => {
+      const v = ctx.get().vendors.find((x: any) => x.id === id);
+      if (!v) return false;
+      const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const patch: Partial<Vendor> = { updatedAt: now };
+      if (!blacklisted) {
+        patch.status = 'approved';
+        patch.blacklistReason = undefined;
+        patch.blacklistedAt = undefined;
+      } else {
+        const history = [
+          ...(v.blacklistReasonHistory ?? []),
+          { reason: reason ?? '未填写原因', operator: operator ?? '系统', operatedAt: now },
+        ];
+        patch.status = 'blacklisted';
+        patch.blacklistReason = reason ?? '未填写原因';
+        patch.blacklistedAt = now.slice(0, 10);
+        patch.blacklistReasonHistory = history;
+      }
+      ctx.primary.update(id, patch);
+      return true;
+    },
+
+    reviewVendorProfilePending: (id: any, approve: any, reviewer: any) => {
+      const v = ctx.get().vendors.find((x: any) => x.id === id);
+      if (!v) return false;
+      const pending = v.profilePending as Record<string, unknown> | undefined;
+      if (!pending) return false;
+      const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+      const cleared: Partial<Vendor> = {
+        profilePending: undefined,
+        profilePendingAt: undefined,
+        profilePendingBy: undefined,
+        updatedAt: now,
+      };
+      if (!approve) {
+        ctx.primary.update(id, cleared);
+        return true;
+      }
+      const pick = (k: string) => (typeof pending[k] === 'string' && pending[k] ? (pending[k] as string) : undefined);
+      ctx.primary.update(id, {
+        ...cleared,
+        name: pick('companyName') ?? v.name,
+        shortName: pick('shortName') ?? v.shortName,
+        contact: pick('contact') ?? v.contact,
+        phone: pick('contactPhone') ?? v.phone,
+        email: pick('contactEmail') ?? v.email,
+        address: pick('address') ?? v.address,
+        taxId: pick('taxId') ?? pick('unifiedCode') ?? v.taxId,
+        bankAccount: pick('bankAccount') ?? v.bankAccount,
+        profileReviewedBy: reviewer,
+      });
+      return true;
+    },
+  }),
+}) as unknown as UseBoundStore<StoreApi<VendorState>>;

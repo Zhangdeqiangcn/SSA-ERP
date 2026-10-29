@@ -1,92 +1,92 @@
-U2FsdGVkX180tKjZfhSc1AIw/x7+5U6ZYnCuyY1TJbi2xnXwcHp0plQ+Vm6mE+mj
-HBfupTF5uOuZpzYPSolULgKJOnRxnCsmgObBOB7tK3kXf+aXDmWPyuQsFYTST2jx
-1ks1CpGvB0clsOMKACQHGFInzCPwtfdSo+ughqVtr8ItA38KCYul51GavmA9dc+a
-zUkjjxAubChU/P1Mxzt8TCbS++XB8jLDPUHPPqKiCFmaJ0SHpl3+6gNVzRRgdnvq
-uyNGOQ8jZKT2fIktN7tKdYmXlIkTjh6v6zHTEUBriE2GuKqIF2rM3EZEij7QOkPN
-292Wqms11oUAizobjuggIyxnGE2/JQa12n2mgz25o5ZfMs1T/eo3LTegd1BDIQDw
-K9vRaaiJ8Rlq9xCVVTId5UwoKIDLUtXryC0QYixYpVa3LgvgRBazrZYbTRRyUovg
-5ecbzl7IqJ76Q5dR1PVnbh2VDX0Yy0u8COQ388nA+lewa/WLbB9aKWuV2+Azkv3D
-xjszC7J5Ja5FIxJoDolbhLyj1H2q597orHICeK0qUdO7KxVofStYQmo9arKwqKda
-7Pl9e25rX0vbIDOilRl1bumKQZ1dMTEmKoPdkGgPcYHKwRODj+D/6ukpbNvNCNlI
-PePTbAesB5lDu7xoXDZSH/hIISSeOZiD5teLGnNSHJEYsFVH7rLmD6o24iRMvECH
-vjVFuX9Z18bHsXsxnHPFqL1hMEZUtQK1Yvh/mNIhyn18n1MSUMSZAXxgWu52LAs4
-ZUFOMMTfZfsJqRjF2GoSvUYvGYf3aa+ebwEExWckLkiP1dlPH3wx95yDc3BnbsfQ
-XdM0vGE5YcrZYw1KZtoTSjMCWw2VI42j1Re/an2oSOezA5WfMjVgGf53gBkVypcq
-mxYDt/TgWIuOzGzVrfzS8e/mieNekdGwifjaO7YQOXSvd84urpjTfbqzQ9Q6BTXX
-xm1ND/Aw4LrmXhakRKJzNKFTUxb04y61fBxb/Kcb07GQtxojd4ZAbLrAYd+SfUYo
-RailWKUeNxRnO5iwxMCPjjWws/GUkSh/qrWFNpTAwnPoNhBUJq4RdH9ZcSjwQxXg
-1T2Y2iiz1wFlUU/8oCkU5fLoHUrg+uyPhfHoxB3e/v5Ew3rtsGrzR5SsJIpt6QNm
-aA5cZZr2pl96vu8bD8S0BVvqU5Ib2Zm+v/RiRaqIqJbHfqnLfNHPVBYvwPRjkNCr
-+Rc8MMYUN/kaNbEQbOuwFd4FqSwQncTZjt+tL2e/LbEBHuQkoyvTWWoN6gkFUC+0
-KxdxsmqaStbQA3aryLvspgItHEkG/a0JzZX2kjUiWc3BB9BTooh2LgWCecxaKaK9
-Z+WCtqOPyhG07rKWINWwxzSve3p+MzF0HWIhCjH40uW3d7i4ecnSJbihct/4jSS3
-2sYGfz9tzKwtGRIvzwlzxdoyM4ehpUmp/m7hij3YrysyS9arM7plsKtqVvDVqWeY
-oC3b8n1gcFO33zUcgxAe02XNL730Y0KkCwUME02atvZpUdeTJ8jbvXe4ATkrXDxv
-2H8qGq9zlJyqCPlyaaKVKt+tstuZSzC0CJQHzR+KZWbjwXFx1E91dqXWALCHFgM+
-utIEC1gfsuSOaPbQ8dShmM2/flIijqpRAAtyNoH7Am3TKbhkFQmMLfnFGgEG/B+3
-KvAsl5vTezVVG/jZCD4UeKItvfv/xvDd4cuQgh2wMqIlTKQ+JirECj1te9DLZkVT
-EkgmpZ/mO18qioJeNGdmdGhKVXe0463i7gH7pX/rdZcOyYthcI+6Yc2yGM5d/pbn
-QKRBVMpQLab4LVxA7ZOTchpBZxtdb9la2n2KGdRVrbRSP2sPzaxVhktmOj7oUo88
-F0KyCFyptMW0YVX7MOrcrh1iNqWE5mO0YENzzjRAttRC/3tibrG9gh/Y4R/YX4yv
-76URN5hgFDe435P916iWcFRY2HmvpkmadDg9wJd5rRWlUtPHgZc3TjoxpVxbpXr+
-CUz91YtXD8RsuZoWGfovnDVnUs8Jw6xBGmCWqGmKkhlnp4VC5wNMFTKgZqn5GneA
-J1nLndKZqYGDYmWSEsKN6tcki6nKDTKmpKAKb5UAhVlnJO3DXBmvJiMU+XBuPH/u
-ZIFluqLPCcB/IfA1Sjt/42gQ75P3HTsMJIZvHxc8O8iBeGM8zoK3NX/VSTtgBj5S
-bfLPJjXGtGvfyfzEhHB3upPLsUJapEdmdNnLRC1BRM4TViyBjjOEYvIIztdTVUI9
-bFf4NtDmMzylyGOtvXCCBz+FdRXt3jGZnUo6Rdve7atXhCIhpPaXPgHSURu/V55m
-Sp7JOAuMF0y+HdgF/IqtFDyEY1W/HexmPH5Sx4aSGrswyF4PegPzS+Am/u+wBfNb
-24LJe4/OMO8QcNSz2Mgj0LIQE2uHr3zH+QHo73p/SOw7XeJ203c3/Tm1Yzacf3Dj
-AUoY0K2lk+/q2jNxBjoSNDZVjHZgCzwZ5pEnJBBMTMrCzEZVBusSZUxI8HTtVdrX
-6mXI/0k0GtqZZsfGAiFZqxHRsPbQ6V+4gWppxzTQOkH/5RhzFG7sKOrgfiN96fNf
-nPyMESZjnpoxLcVXRVokWMwKKWb0aNGlavldgkvs8BJRui+S0bdSayjShNQslbrI
-h4hMRi4Kpmz8FiRGUgn5DIqK0+wpSeUr7RA8JNZio1MERRp4qziZ3jVU8J3QL05k
-B1juLOccLlmFxTHBBGA5DjVeV+S2rTDH7K1Zx0DA7G2rByBcvRpM+aCGHhDZlU63
-6YSDDs018u9ygf69RhrnOOEid8dGEKLKLluM+QeV/KMBg140AI09H0sXXAs2EGyY
-hafqrIMZoV33nfBfYWxsRKAC6cT3Bwf3K2v1yKx7QfXlsiAupkjiLGIGFcmT1P6i
-Olde8H7peh/AmMwVI6A1nhqlwz74CyiNb3GrTTST1xGEqA/kDyLs/2Ip/pnGFvDQ
-cMJppKrrFX9Aill9v8uRsVyT+VaKAByq4+fgpRYXtt98fgQao6fcJYw+3D2Qqucm
-aegu7mHw94Nk100N9IOLOSoUcUwkpAueDbT8DP07EJbrAGuSljoj5pk2bNIhWwAg
-IivLZ/O/R2zf7ZK3e2sp7T682yk6rwAD8PUIV94oG0cleBf1comCp5bz+JDNBD4B
-OKQLlczh0Dq9NPDKfCCNjaL/k5S2Jehw+kNBs6kZomZpZdUDz0XHgoeBkrw43DPU
-H2HyNhOkbkFUfcCsEQ0UduSc97Ct6W+hgNcANP54lv5onPflBxAvnDV/BHpBIl+5
-yB5bqXvyiqT7/CIdKBsKvDrSkjmKuR/3FZdyDf99HunlWo0yq+a26S93Qj4BX83J
-cGQGh1xmCI9DBAIdEPh7Aaj8xtWda/SqkUhCP4lJ+YPFI/EghiSkVLIthfodCrya
-ZtPcmzNDDfXbrTUrwk6uSggLD8PX6EHeePXoN9NPHCLobSZhxC73tFWhmtrE+uUx
-301kUUbSR7MiWbT55Jz4fCtHSZXlMtAfbn0hnE+75rH6W9F3Kl2YD3R7G6Jsecbl
-xZ6ssFN2ROB9rPAUtWcLeUH63K54SrpThs+Irni5SknFYn+cSF0LjvZ8FHWdiBXT
-+cdCQaXaVRewD36q/TThqccIQOeEtXWsGb/qQ4FoRalS9zLGOqGnGQjkz0BsNnfE
-M83oI+qxgxNcVCy+nrISAjTQCnIa2j00RLwgaqT8uGz/wEIuyy/ntjH3MZRbjboR
-rZsa2fjMqAPyIcwCVUFh4/17l/S1yzbx5vaMBAKwldDOhU8OqJtzCd+tAtAo8ZB4
-lAKHgMW8pAKgm8Wn1FgqXa5IfmSIFw1E1qKW6/6uutcAOCmI4qVlkuSVGJ06uJA5
-UJ0I3RzttsTBIyLcTV5W9sQ51nvjNSBq5G1mNLxFdG/JiQz9EySzw23hJV6H7228
-AXvacvdzvMb/SAPpOTtsAVuGTrYCRl/XFwZPLmvhX5eMMvGTUAtenng0VLV7aGQl
-hk9leTJ4aoNEKNS4lQ7rp3vJ5BQT2kZw/o/Id8+r/NPcHMJj66Uj3fxX3J6wfTew
-CcD2vatBhQSAtj1LRcUcxPqG+aD2W4sclV7PHn6Twu+67VZ2iDFPaBRK9/7xiBUj
-lFwIIKtQ7eMQW2qTaQHds06IePBYxFH2WU8Vq71rGbP9DbdfKxx+GApVKTYWtEZo
-spM85Ov6hf5YtrhRh8lyQQcXtLb+f32S7hkrYRR2V9E4+8MSyAr6YxV0Mvf2eFXP
-wxyL/NoTm+LySx3Im6nb0YppCe79i9P1o8NrIb2eQ5kKjqRYSWZBUO2BzvC05OzB
-+iy4NH6CheoKbhxWJk8m7z9cnLkiqAGag32nfsp68dGFl5BDWnrXBFJeaovMhyOH
-DahLTGfLukRmRe1fnjFUZV5o7G6abe6Aat0jFsBMB1og0XjyXwfduAwPn1ep/8v1
-bKhk9UejWhOg1L/ycbeGjxOQvGi+ubYOOYpnrtmhCA8zt3tS+UkIFH8JGp6bBWVw
-EieEu2FjTIis3cQjW+eg5FXOvfS7ckIX8ywz+5PP4gvDIb+A2K0EnwNnbd412BpW
-QzplJAqCjjrz0PUyUc9LpROcTZlwq/1huqMyFEmxYnY2oX5P2vxK0fhkLpPEkbOC
-FskkCL9Omft3oLnMxFLPGGr/uksQ4UyOiKDR5PMa29zfKSdQFY3koaNR8Atio7J/
-O4iNu4HoQM4UNOv5Ync8ZnN6kYBP5t60TzcyaBx/JipC16ilUzmtjrKrXabRTFVd
-aOiYfHUiplspS+o4SQ/ZVQ4U+TJRd+UtuQb06i9OBp08gr+8TRK77WEQKs9M1mQc
-1NDz8iGHkmBAm7EaAkWfA4HubekQekAGINA33KKCTb/ECHCojazc5tq2pSrlHiCr
-6Kfc8bBmPduYceeQkWzZiknPJxJCqoG6jXQ0yiqTA9ZK8Gkve/VfL79trY9iYbZs
-ZDvyiBw8yCa38ehLZaZTT2C3Fa6loKYmm/8UHl5GY8qaqlli3Xao/vGmQr785vGf
-mRT4sgmhr++fhob8kmf+AHswSeSPHvuUOmPU3PqGzO5gUv68Fw8aF25ZKn0Rnw7T
-18ui7Jk9vWpmVW1gnvLpdUBNIe87gW/FIUp5M2p2CXmHoPZZe+EUpUuBdkByIBv4
-FEPq5A739GaLAcnDvOli46Aw+fb2CwGePPKXnCgBvLSG4mCYZQ330UEZX8euiw1o
-zifdJpjnMtaG8JKx77s4X91LdY9cbPhA4Din7SUg3k44XRwbkC3QbucD2UmhYab0
-cVRqeyNlPdqAOOT/FUH3D4Yr9mScLToqu2t+xGKAeB2inmPxEq7f8RZh82iKCMCC
-SnR5TJTtiKgo8iVPYjZd2F2BSNXHs9+78e02lsVjmqz8t5RWHzoX+bzC0J6O+axc
-TBQc9oEJPKi8nrTOM3ljju4OJZbsb+1071k+hef9V407+OyaIZk5/FeHWH6ysfV3
-b77HQhF7pivm/KkzIQ4TAEtUoKNKkiD9dWOGCUoKyEU1c1EoVPFjaK45TEyGuFDi
-dcKSFeSu9qoHt+zSA8aoBB69wld73+jE7izpiA6eeB9AyS7sAbYx75+WSnDIR7Xy
-C9cLzsgFinG5FmQiZvwXS8dvz6q/FBKp3Wge/pOJiSjp/876wEUhWAuwtqLZYjlS
-p+cY4HZWar+LyZ/jchiwCrCNLTv3N9vC2ATm4Vg5+ZQqsT9ncFaHvRuLsMjuUpwk
-2eZC9Rib9vO+uh1pbbNEbEeYt6XkpV/WuT53eNq+9ymg8WWWhYD973hKmtglTukc
-EMX/jtA/Odt6z6HtCcZo+sc9DJsXTPFWfXmjM8hIIwwVRXUKaUmTNPQ8sjrbEwtj
-kXYg/j7ZqZouzyENTapqxQ==
+// 组织级 app_state 业务状态读取（与 /api/state/[key].ts 同源，org 隔离）。
+// 用于把"此前只在客户端维护"的业务状态（如会计期间结账）在服务端复用为强制校验依据，
+// 消除"前端改个状态就能绕过管控"的漏洞（缺陷台账 #13）。
+
+/** 读取组织级 app_state 键值（org 隔离）。读不到/异常 → null。 */
+export async function getAppStateValue(
+  db: any,
+  orgId: string,
+  key: string
+): Promise<string | null> {
+  try {
+    const row: any = await db
+      .prepare('SELECT value FROM app_state WHERE org_id = ? AND key = ?')
+      .bind(orgId, key)
+      .first();
+    return row?.value ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * 判断指定会计期间（YYYY-MM）是否已结账。
+ *
+ * ★ V3.46.0 第2批②：权威源从 app_state 迁到关系表 `fin_closing_periods`。
+ *
+ * 为什么必须迁（对标审计 S-05 / SAP TFASTAT + F.OB52）：
+ *   ① app_state 走通用 /api/state/<key> 端点，**任何登录用户都能覆写** ——
+ *      覆盖该键即可一键解除全部期间锁定，结账管控形同虚设；
+ *   ② 无审计：谁在何时结的账不可追；
+ *   ③ 原实现是 **fail-open**（键不存在/解析失败 → 视为未结账），
+ *      一次误清缓存或格式损坏，全部期间锁立即失效 —— 而用户以为已结账。
+ *      这比"没有管控"更危险：它给出**错误的安全感**。
+ *
+ * 现在的策略：
+ *   · 优先读 fin_closing_periods（有行才作数，status='closed' 判定）；
+ *   · 该表**有行但查不到本期** → 视为未结账（正常：期间未结）；
+ *   · 该表**完全无行**（组织尚未初始化财务）→ 回退读旧 app_state 键做兼容，
+ *     避免切换期把老组织的期间锁全部失效（这是迁移期必须的安全网）；
+ *   · 查询异常 → **fail-closed**（按已结账处理，宁可拦住也不能让管控失效）。
+ */
+export async function isPeriodClosed(
+  db: any,
+  orgId: string,
+  period: string
+): Promise<boolean> {
+  if (!period) return false;
+
+  // ① 权威源：关系表
+  try {
+    const row: any = await db
+      .prepare('SELECT status FROM fin_closing_periods WHERE org_id = ? AND period = ? LIMIT 1')
+      .bind(orgId, period)
+      .first();
+    if (row) return String(row.status) === 'closed';
+
+    // 该期无行 → 看看这个组织是否已初始化过结账表
+    const anyRow: any = await db
+      .prepare('SELECT 1 AS x FROM fin_closing_periods WHERE org_id = ? LIMIT 1')
+      .bind(orgId)
+      .first();
+    if (anyRow) return false; // 已初始化、本期未结 → 正常放行
+  } catch (e: any) {
+    // 表不存在（迁移未应用）或查询异常 → fail-closed，不静默放行
+    console.error('[isPeriodClosed] 读取 fin_closing_periods 失败，按已结账处理（fail-closed）：', e?.message || e);
+    return true;
+  }
+
+  // ② 兼容回退：组织尚未初始化新表时，读旧 app_state 键
+  // P1-C 根治 fail-open 后门：这里必须区分两种语义（原实现两者都 return false=放行，
+  //   与头部「查询异常 fail-closed」注释自相矛盾）：
+  //   · 旧键**从未配置过**（rawOld === null）→ 该组织没有任何结账记录 → 正常放行（无期间被结）；
+  //   · 旧键**存在但解析失败** → fail-closed（按已结账处理）。否则「有人配置过结账、
+  //     数据却损坏」会把全部期间锁静默解除，给出「以为已结账、其实没锁」的错误安全感。
+  const rawOld = await getAppStateValue(db, orgId, 'ssa-erp-finance-ledger');
+  if (rawOld === null) return false;
+  try {
+    const state: any = JSON.parse(rawOld);
+    const list: any[] = Array.isArray(state?.closingPeriods) ? state.closingPeriods : [];
+    return list.some((c) => c && c.period === period && c.status === 'closed');
+  } catch {
+    console.error('[isPeriodClosed] 旧结账键存在但解析失败，按已结账处理（fail-closed）');
+    return true;
+  }
+}
+
+/** 从日期/期间字段推导 YYYY-MM（date 为 YYYY-MM-DD 或 YYYY-MM 均可）。 */
+export function toPeriod(date?: string, period?: string): string {
+  if (period && /^\d{4}-\d{2}$/.test(period)) return period;
+  if (date && date.length >= 7) return date.slice(0, 7);
+  return '';
+}

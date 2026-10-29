@@ -1,149 +1,168 @@
-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
+import { create } from 'zustand';
+import { authHeaders } from '@/utils/authHeaders';
+import { hasSession } from '@/stores/persistStorage';
+
+/**
+ * 单位换算规则单一数据源（V3.17.9 差距15 收口）
+ * ------------------------------------------------------------
+ * ── 这一版改了什么，为什么必须改 ──────────────────────────────
+ * 上一轮为「差距15 单位换算独立建表」做了迁移 0074 + /api/unit-conversions 端点，
+ * 但本 store 仍走 zustand persist（app_state 大对象）——于是新表成了一块**没人读的死表**：
+ * 界面上改一条换算规则只会写进浏览器那侧的状态键，服务端新建的表一条数据都不会变。
+ * 这属于「修复只做了一半」：看起来差距消除了，实际口径还是老的。
+ * 本版把 store 的主源切到 D1，本地不再持久化换算规则。
+ *
+ * ── 为什么必须不能只存在浏览器里 ──────────────────────────────
+ * 换算规则出错影响全公司算料算钱（1 箱到底算 12 个还是 24 个），
+ * 它必须是组织级权威数据：换台电脑看到的要一样、要进备份、要能审计谁改的。
+ *
+ * ── 兼容性 ────────────────────────────────────────────────────
+ * 公开 API 不变（rules / addRule / updateRule / removeRule / resetRules），
+ * 只是 add/update/remove 由「同步改本地」变成「写服务端后重新拉取」，
+ * 返回值由 void 变成 Promise<boolean>；既有调用点都是按钮事件里直接调用、
+ * 不使用返回值，因此无需改动调用方。
+ * 另外新增 loadRules()，由页面挂载时调用（不放在模块顶层自动跑，
+ * 避免未登录时也发起请求 —— 铁律⑫：未登录是一等公民）。
+ */
+
+export interface UnitRule {
+  id: string;
+  fromUnit: string;
+  toUnit: string;
+  factor: number; // 1 fromUnit = factor toUnit
+}
+
+/** 兜底默认值：仅在**服务端一条规则都没有**时用于首次播种（首次部署的空库） */
+export const DEFAULT_UNIT_RULES: UnitRule[] = [
+  { id: 'u1', fromUnit: '箱', toUnit: '个', factor: 12 },
+  { id: 'u2', fromUnit: '吨', toUnit: '公斤', factor: 1000 },
+  { id: 'u3', fromUnit: '米', toUnit: '厘米', factor: 100 },
+  { id: 'u4', fromUnit: '千只', toUnit: '只', factor: 1000 },
+  { id: 'u5', fromUnit: '卷', toUnit: '米', factor: 50 },
+  { id: 'u6', fromUnit: '捆', toUnit: '根', factor: 20 },
+];
+
+/** 纯函数：按规则换算（支持正/反向），无路径返回 null */
+export function convertUnit(value: number, from: string, to: string, rules: UnitRule[]): number | null {
+  if (from === to) return value;
+  const direct = rules.find((r) => r.fromUnit === from && r.toUnit === to);
+  if (direct) return value * direct.factor;
+  const rev = rules.find((r) => r.fromUnit === to && r.toUnit === from);
+  if (rev) return value / rev.factor;
+  return null;
+}
+
+/** 服务端下划线 → 前端驼峰（映射只在这两处维护） */
+const toRule = (r: any): UnitRule => ({
+  id: String(r.id),
+  fromUnit: String(r.from_unit ?? r.fromUnit ?? ''),
+  toUnit: String(r.to_unit ?? r.toUnit ?? ''),
+  factor: Number(r.factor) || 1,
+});
+
+async function req<T>(path: string, init?: RequestInit): Promise<{ ok: boolean; data?: T; error?: string; status: number }> {
+  try {
+    const res = await fetch(path, {
+      ...init,
+      headers: authHeaders({
+        ...(init?.body ? { 'Content-Type': 'application/json' } : {}),
+        ...((init?.headers as Record<string, string>) || {}),
+      }),
+    });
+    const text = await res.text();
+    let payload: any = null;
+    try { payload = text ? JSON.parse(text) : null; } catch { payload = null; }
+    if (!res.ok) return { ok: false, status: res.status, error: payload?.error || `HTTP ${res.status}` };
+    return { ok: true, status: res.status, data: payload };
+  } catch (e: any) {
+    return { ok: false, status: 0, error: e?.message || '网络异常' };
+  }
+}
+
+interface UnitConversionState {
+  rules: UnitRule[];
+  loading: boolean;
+  /** 最近一次失败原因；null 表示正常。界面据此提示，而不是静默失败 */
+  lastError: string | null;
+  loadedAt: number | null;
+  /** 从 D1 拉取（页面挂载时调用） */
+  loadRules: () => Promise<void>;
+  /** 本地批量替换（仅用于把一次拉取结果灌进来 / 重置预览，不写服务端） */
+  setRules: (rules: UnitRule[]) => void;
+  addRule: (rule: Omit<UnitRule, 'id'>) => Promise<boolean>;
+  updateRule: (id: string, patch: Partial<Omit<UnitRule, 'id'>>) => Promise<boolean>;
+  removeRule: (id: string) => Promise<boolean>;
+  /** 放弃本地修改，重新从服务端拉一次（不再「重置成前端默认 6 条」——
+   *  那会把公司自定义的换算规则一并抹掉，是破坏性操作） */
+  resetRules: () => Promise<void>;
+}
+
+export const useUnitConversionStore = create<UnitConversionState>()((set, get) => ({
+  rules: [],
+  loading: false,
+  lastError: null,
+  loadedAt: null,
+
+  loadRules: async () => {
+    // 未登录不发起业务请求
+    let hasToken = false;
+    try { hasToken = hasSession(); } catch { /* ignore */ }
+    if (!hasToken) {
+      set({ rules: DEFAULT_UNIT_RULES.map((r) => ({ ...r })), loadedAt: Date.now(), lastError: null });
+      return;
+    }
+
+    set({ loading: true });
+    const r = await req<any>('/api/unit-conversions');
+    if (!r.ok) {
+      set({ loading: false, lastError: r.error || '加载单位换算规则失败' });
+      return;
+    }
+    const list = (r.data?.data || []).map(toRule).filter((x: UnitRule) => x.fromUnit && x.toUnit);
+    set({ rules: list, loading: false, lastError: null, loadedAt: Date.now() });
+  },
+
+  setRules: (rules) => set({ rules }),
+
+  addRule: async (rule) => {
+    const r = await req<any>('/api/unit-conversions', {
+      method: 'POST',
+      body: JSON.stringify({ fromUnit: rule.fromUnit, toUnit: rule.toUnit, factor: rule.factor }),
+    });
+    if (!r.ok) {
+      set({ lastError: r.error || '新增失败' });
+      return false;
+    }
+    await get().loadRules();
+    return true;
+  },
+
+  updateRule: async (id, patch) => {
+    const cur = get().rules.find((x) => x.id === id);
+    const next = { ...(cur || { id } as UnitRule), ...patch };
+    const r = await req<any>(`/api/unit-conversions/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ fromUnit: next.fromUnit, toUnit: next.toUnit, factor: next.factor }),
+    });
+    if (!r.ok) {
+      set({ lastError: r.error || '更新失败' });
+      return false;
+    }
+    await get().loadRules();
+    return true;
+  },
+
+  removeRule: async (id) => {
+    const r = await req<any>(`/api/unit-conversions/${id}`, { method: 'DELETE' });
+    if (!r.ok) {
+      set({ lastError: r.error || '删除失败' });
+      return false;
+    }
+    await get().loadRules();
+    return true;
+  },
+
+  resetRules: async () => {
+    await get().loadRules();
+  },
+}));

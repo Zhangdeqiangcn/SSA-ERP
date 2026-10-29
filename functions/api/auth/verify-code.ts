@@ -1,52 +1,60 @@
-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
+// POST /api/auth/verify-code — 校验双邮箱验证码
+// 请求体：{ username, purpose, password, codes: string[] }
+//
+// 校验规则：codes 中的每一枚验证码都必须与最新批次的验证码「一一对应」，
+//   不看顺序、但一枚都不能少、也不能重复。全部正确后签发一次性凭证 ticket。
+// 失败保护：同一批次累计错误 5 次即整批作废，需重新发送。
+import { verifyPassword, json } from '../../_shared/auth';
+import { verifyCodes, TICKET_TTL_MS } from '../../_shared/verification';
+
+const ALLOWED_PURPOSES = new Set(['activate', 'change_password']);
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  const purpose = String(body.purpose ?? '').trim();
+  const password = String(body.password ?? '');
+  const codes: string[] = Array.isArray(body.codes)
+    ? body.codes.map((c: any) => String(c ?? '').trim()).filter(Boolean)
+    : [];
+
+  if (!username || !password) return json({ error: '请输入用户名和密码' }, 400);
+  if (!ALLOWED_PURPOSES.has(purpose)) return json({ error: '不支持的验证场景' }, 400);
+  if (!codes.length) return json({ error: '请输入收到的验证码' }, 400);
+
+  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ?')
+    .bind(username)
+    .first();
+  const u = user as any;
+  if (!u) return json({ error: '用户名或密码错误' }, 401);
+
+  const ok = await verifyPassword(password, u.password_hash, u.salt);
+  if (!ok) return json({ error: '用户名或密码错误' }, 401);
+
+  if (u.role !== 'super_admin') {
+    return json({ error: '该账号无需邮箱验证码' }, 400);
+  }
+
+  // 与 send-code 保持一致：未通过审批的账号不允许走安全验证流程，
+  // 否则审批闸可被「申请验证码 → 校验 → 激活」这条链路绕过。
+  const status = String(u.status ?? 'active');
+  if (status === 'pending' || status === 'rejected') {
+    return json({ error: '账号尚未通过审批，无法进行安全验证' }, 403);
+  }
+
+  const r = await verifyCodes(env, u, purpose, codes);
+  if (!r.ok) return json({ error: r.error }, 400);
+
+  return json({
+    ok: true,
+    ticket: r.ticket,
+    expiresInSeconds: Math.round(TICKET_TTL_MS / 1000),
+  });
+}

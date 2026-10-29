@@ -1,56 +1,114 @@
-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
-hwbIwUANkvf77A96ki12yw==
+-- V3.63.0 质量模块关系化（根治数据孤岛 P0）：把检验任务/检验标准/不合格品/PDCA
+-- 从「app_state Blob」迁为真实 D1 关系表，使采购/生产/财务可按行引用。
+-- 嵌套字段（缺陷项/检验项/附件/行动项）统一封进 extra_json（TEXT，框架自动 JSON 序列化）。
+
+CREATE TABLE IF NOT EXISTS inspection_tasks (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  task_no TEXT,
+  type TEXT,
+  status TEXT,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  batch_no TEXT,
+  quantity REAL DEFAULT 0,
+  sample_quantity REAL DEFAULT 0,
+  aql REAL,
+  inspection_level TEXT,
+  aql_code TEXT,
+  aql_ac REAL,
+  aql_re REAL,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  purchase_order_no TEXT,
+  work_order_no TEXT,
+  project_no TEXT,
+  project_name TEXT,
+  inspection_standard_id TEXT,
+  inspection_standard_name TEXT,
+  assigned_to TEXT,
+  planned_date TEXT,
+  completed_date TEXT,
+  passed_quantity REAL DEFAULT 0,
+  failed_quantity REAL DEFAULT 0,
+  conclusion TEXT,
+  source TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS inspection_standards (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  standard_no TEXT,
+  name TEXT,
+  material_category TEXT,
+  version TEXT,
+  status TEXT,
+  description TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS unqualified_items (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  item_no TEXT,
+  inspection_task_id TEXT,
+  inspection_task_no TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  batch_no TEXT,
+  defect_quantity REAL DEFAULT 0,
+  defect_description TEXT,
+  disposition TEXT,
+  disposition_status TEXT,
+  actual_disposition TEXT,
+  linked_outbound_no TEXT,
+  linked_inbound_no TEXT,
+  source TEXT,
+  portal_issue_id TEXT,
+  vendor_reported INTEGER DEFAULT 0,
+  status TEXT,
+  responsible_person TEXT,
+  due_date TEXT,
+  completed_date TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+
+CREATE TABLE IF NOT EXISTS pdca_records (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  pdca_no TEXT,
+  title TEXT,
+  status TEXT,
+  source TEXT,
+  related_item_id TEXT,
+  priority TEXT,
+  problem_description TEXT,
+  root_cause TEXT,
+  target_date TEXT,
+  check_result TEXT,
+  check_date TEXT,
+  corrective_action TEXT,
+  preventive_action TEXT,
+  verification_result TEXT,
+  closed_date TEXT,
+  owner TEXT,
+  extra_json TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);

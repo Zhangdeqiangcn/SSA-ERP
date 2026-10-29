@@ -1,87 +1,103 @@
-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
-tioPNUF0bTuQ57nBcmSg+w==
+// POST /api/system/notify — 发送版本升级等重大事件通知邮件（仅超级管理员）
+// 请求体：{ version, title, highlights: string[], note?, to?: string[] }
+// 收件人：请求体 to 优先；否则取 system_config 的 mail.notify_recipients；
+//   再否则退化为「发信账号自己」（即超管绑定的邮箱）。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { getMailConfig, sendMail, logMail, renderNoticeEmail } from '../../_shared/mailer';
+// V3.5.0 B6：补齐写审计（向多人广播版本通知，属于以系统名义对外通信）
+import { writeAudit } from '../../_shared/auditLog';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+  if (me.role !== 'super_admin') {
+    return json({ error: '仅超级管理员可发送系统通知' }, 403);
+  }
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const version = String(body.version ?? '').trim();
+  const title = String(body.title ?? '').trim();
+  const highlights: string[] = Array.isArray(body.highlights)
+    ? body.highlights.map((h: any) => String(h ?? '').trim()).filter(Boolean)
+    : [];
+  const note = body.note ? String(body.note) : undefined;
+
+  if (!version) return json({ error: '请填写版本号，例如 V2.96.0' }, 400);
+  if (!title) return json({ error: '请填写通知标题' }, 400);
+
+  const cfg = await getMailConfig(env.DB);
+  if (!cfg.user || !cfg.pass) {
+    return json({ error: '邮件服务尚未配置，请先在下方填写发信账号与授权码' }, 400);
+  }
+
+  const to: string[] = Array.isArray(body.to) && body.to.length
+    ? body.to.map((s: any) => String(s).trim()).filter(Boolean)
+    : (cfg.notifyRecipients.length ? cfg.notifyRecipients : [cfg.user]);
+
+  const tpl = renderNoticeEmail({ version, title, highlights, note });
+  const res = await sendMail(cfg, { to, subject: tpl.subject, html: tpl.html, timeoutMs: 25000 });
+
+  await logMail(env.DB, {
+    id: uid('ml'),
+    topic: 'version_notice',
+    toAddr: to.join(','),
+    subject: tpl.subject,
+    status: res.ok ? 'sent' : 'failed',
+    error: res.error,
+  });
+
+  // B6 审计：版本通知是「一次性发给多个收件人」的对外广播，误发后无法撤回。
+  //   摘要记清 版本号 + 收件人数 + 成败，便于事后核对「谁在什么时候把它发出去了」。
+  await writeAudit(env.DB, {
+    orgId: (me as any).org_id ?? null,
+    actor: { id: (me as any).id, name: (me as any).name || (me as any).username },
+    entity: 'system_notify',
+    entityId: version,
+    action: 'send',
+    summary:
+      `发送版本通知「${title}」（版本 ${version}）至 ${to.length} 个收件人：` +
+      `${res.ok ? '发送成功' : `发送失败（${res.error || '未知原因'}）`}` +
+      `（要点 ${highlights.length} 条；收件人：${to.join('、')}）`,
+  });
+
+  if (!res.ok) {
+    return json({ error: '通知邮件发送失败：' + (res.error || '未知原因'), to }, 502);
+  }
+  return json({ ok: true, to, subject: tpl.subject, message: '版本通知已发送' });
+}
+
+// GET：查看最近的邮件发送记录，便于排查「为什么没收到」
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+  if (me.role !== 'super_admin') {
+    return json({ error: '仅超级管理员可查看邮件发送记录' }, 403);
+  }
+
+  const rows = await env.DB.prepare(
+    `SELECT id, topic, to_addr, subject, status, error, created_at
+     FROM mail_logs ORDER BY created_at DESC LIMIT 30`
+  ).all();
+
+  return json({
+    data: ((rows.results || []) as any[]).map((r) => ({
+      id: r.id,
+      topic: r.topic,
+      to: r.to_addr,
+      subject: r.subject,
+      status: r.status,
+      error: r.error ?? null,
+      createdAt: r.created_at,
+    })),
+  });
+}

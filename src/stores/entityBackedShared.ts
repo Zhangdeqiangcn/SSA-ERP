@@ -1,50 +1,49 @@
-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
+// 本地孤岛 store 迁 D1 的统一辅助（V3.77.0 全模块联动审计整改）
+// 配合迁移 0101（统一 payload 列范式）+ 后端通用实体路由 /api/entities/<resource>。
+//
+// 范式：整对象 JSON 序列化进 payload 列（含 id/org_id/审计列由端点自动补齐）。
+//   - 多集合同表（一个 store 持有多个数组）用 __kind 标记在 payload 内，水合时分流。
+//   - 本地乐观更新 + 登录态 fire-and-forget 写穿 + 未登录/离线种子兜底 + 页面挂载水合。
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+
+/** 整对象 JSON 落 payload 列：解析回对象数组 */
+export function parsePayload<T = any>(rows: any[]): T[] {
+  return (rows || []).map((r: any) =>
+    typeof r?.payload === 'string' ? JSON.parse(r.payload) : r?.payload,
+  ) as T[];
+}
+
+const KIND = '__kind';
+/** 给对象打上集合种类标记（多集合同表时用于水合分流） */
+export function withKind(kind: string, item: any): any {
+  return { [KIND]: kind, ...item };
+}
+/** 去掉集合种类标记，还原为干净业务对象（不污染组件消费的数据） */
+export function stripKind<T = any>(row: any): T {
+  if (!row || typeof row !== 'object') return row;
+  const { [KIND]: _drop, ...rest } = row;
+  return rest as T;
+}
+/** 按 __kind 从已解析的 payload 数组分流 */
+export function splitByKind<T = any>(rows: any[], kind: string): T[] {
+  return (rows || [])
+    .filter((r) => r && r[KIND] === kind)
+    .map((r) => stripKind<T>(r));
+}
+
+/**
+ * 本地乐观更新后，登录态 fire-and-forget 写穿 D1（payload 范式：body={payload}）。
+ * P0-1A：改用 entityRepo.upsert —— 内部先 update 覆盖编辑，记录不存在(404)或网络/5xx
+ * 时 fallback create（带显式 id 建首条），且仅最终 create 失败才入队（消除双队列项）。
+ */
+export function writeRow(resource: string, id: string, item: any): void {
+  if (!isAuthed()) return;
+  void entityRepo.upsert(resource, id, { payload: item } as any).catch(() => {});
+}
+
+/** 写穿：整对象作为单条配置（config 类 store，单 id 行） */
+export function writeConfig(resource: string, id: string, cfg: Record<string, unknown>): void {
+  if (!isAuthed()) return;
+  void entityRepo.upsert(resource, id, { payload: cfg } as any).catch(() => {});
+}

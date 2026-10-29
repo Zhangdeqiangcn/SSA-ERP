@@ -1,149 +1,101 @@
-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
-lyUWIbJYUpUA/pUS9SBIWg==
+-- ─────────────────────────────────────────────────────────────
+-- 迁移 0082：生产运营域落库（V3.46.0 第2批③）
+--
+-- ═══════════════ 背景（为什么必须迁）════════════════════════════
+-- 工序报工、工作中心、成本费率此前**只存在用户浏览器里**（zustand persist 的
+-- 本地大对象，键 ssa-erp-production-operation），服务端没有任何表。
+-- 三个直接危害：
+--
+-- ① **成本不可复算**：费率（laborRate / machineRate）换台电脑打开就是另一个值，
+--    于是「3 月报的成本」与「6 月重算 3 月报的成本」对不上，且**谁都说不清差在哪**。
+--    对标 SAP：成本要素价格是主数据（KSAL/KSTK），有生效日期与变更留痕，
+--    绝不允许存在于个人电脑。
+-- ② **报工丢失**：浏览器清了缓存 / 换设备 / 多人协作时，已录入的工序报工整块消失，
+--    而工单进度却可能已按它算过 → 工单状态与实际产量脱节。
+-- ③ **报表无口径**：管理层看工序级产量/工时/报废，只能靠各人自己那份本地数据汇总，
+--    不同人汇总的结果不同。
+--
+-- ═══════════════ 本迁移做什么 ═════════════════════════════════════
+-- ① 补齐 mes_operation_reports 的缺失列（建表时只有 6 个业务列，报工所需字段
+--    大半没有 → 此前即使接了实体端点也存不下 laborHours/operator 等）
+-- ② 新建 work_centers（工作中心：产能/工时是排产与标准工时的基础）
+-- ③ 新建 production_rates（成本费率：人工费率/机器费率，按期间生效，
+--    解决"用哪天的费率算"的历史追溯问题）
+--
+-- ═══════════════ 为什么不重建 mes_operation_reports ═════════════════════
+-- 表里可能有存量数据，重建会丢；ADD COLUMN 对存量零影响（NULL 视为"未记录"），
+-- 且迁移可重复执行幂等。
+
+-- ─────────────────────────────────────────────────────────────
+-- ① 补齐工序报工缺失列
+-- ─────────────────────────────────────────────────────────────
+-- operation_id：工序在工艺路线里的标识。原表只有 operation_name（名称字符串），
+--   改名即与历史报工脱钩（与 V3.45.0 修的"报表按科目名匹配"同类问题）。
+ALTER TABLE mes_operation_reports ADD COLUMN operation_id TEXT;
+-- operator：报工人。原表完全没有 → 谁报的工查不到，产量责任无从追溯。
+ALTER TABLE mes_operation_reports ADD COLUMN operator TEXT;
+-- start_time / end_time：工序起止，用于算单件工时与在制时长（原表无法算）。
+ALTER TABLE mes_operation_reports ADD COLUMN start_time TEXT;
+ALTER TABLE mes_operation_reports ADD COLUMN end_time TEXT;
+-- labor_hours：投入工时。**成本计算直接依赖它**，缺失即人工成本恒 0。
+ALTER TABLE mes_operation_reports ADD COLUMN labor_hours REAL DEFAULT 0;
+-- station：工位/线别，用于细分工时归集。
+ALTER TABLE mes_operation_reports ADD COLUMN station TEXT;
+-- note：报工备注。
+ALTER TABLE mes_operation_reports ADD COLUMN note TEXT;
+
+-- 按工单+工序查报工（工序级进度看板的主查询路径，此前无索引支撑）
+CREATE INDEX IF NOT EXISTS idx_mes_oprep_wo_op
+  ON mes_operation_reports(org_id, work_order_id, operation_id);
+-- 按工单查报工
+CREATE INDEX IF NOT EXISTS idx_mes_oprep_wo
+  ON mes_operation_reports(org_id, work_order_id);
+
+-- ─────────────────────────────────────────────────────────────
+-- ② 工作中心主数据
+-- ─────────────────────────────────────────────────────────────
+-- capacity_hours：单班可用工时（排产/负荷计算的输入，对标 SAP 工作中心 capacity）。
+-- 是否设 RLS 登记为 'dept'：工作中心是**生产资源主数据**，全厂共用一套口径，
+--   登 'all' 更合适（跨车间排产必须看到全部工作中心）。
+CREATE TABLE IF NOT EXISTS work_centers (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  code TEXT,
+  name TEXT NOT NULL,
+  description TEXT,
+  -- 单班可用工时（小时）
+  capacity_hours REAL DEFAULT 8,
+  -- 日历班次数：1=单班 2=两班 3=三班
+  shift_count INTEGER DEFAULT 1,
+  -- 单位工时费率（元/小时），用于标准成本预估；正式核算走 production_rates
+  hourly_rate REAL DEFAULT 0,
+  -- 是否启用：停用后不参与排产但保留历史
+  active INTEGER DEFAULT 1,
+  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
+);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_wc_org_code ON work_centers(org_id, code);
+CREATE INDEX IF NOT EXISTS idx_wc_org ON work_centers(org_id);
+
+-- ─────────────────────────────────────────────────────────────
+-- ③ 成本费率（按期间生效，解决"用哪天的费率"）
+-- ─────────────────────────────────────────────────────────────
+-- 为什么按期间存多行而不是单值：同一批产品可能跨月完工，人工费率在 6 月调整过，
+--   6 月前后的工时必须用**各自当时**的费率算，否则 6 月调价会让历史成本一起变
+--   （对标 SAP 的成本要素有效期 / 金蝶的费率期间）。
+-- rate_type：'labor'=人工费率（元/小时）、'machine'=机器费率（元/小时）
+CREATE TABLE IF NOT EXISTS production_rates (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  rate_type TEXT NOT NULL,
+  -- 该费率的生效起始日（YYYY-MM-DD）；取费率时取 effective_date <= 业务日期 的最新一条
+  effective_date TEXT NOT NULL,
+  rate REAL NOT NULL,
+  -- 备注：为什么调（如"2026年社保上调"）
+  remark TEXT,
+  created_at TEXT, updated_at TEXT, created_by TEXT, updated_by TEXT
+);
+-- 同一组织+费率类型+生效日唯一（防重复录入同一生效日导致取费率时不确定）
+CREATE UNIQUE INDEX IF NOT EXISTS uq_rate_org_type_date
+  ON production_rates(org_id, rate_type, effective_date);
+CREATE INDEX IF NOT EXISTS idx_rate_lookup
+  ON production_rates(org_id, rate_type, effective_date DESC);

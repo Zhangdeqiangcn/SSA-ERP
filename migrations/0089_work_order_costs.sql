@@ -1,10 +1,5 @@
-U2FsdGVkX19f1W94elordlzoMn9MILonoEOIgs49uBQRklvA76SSRHwpgce7DCzy
-DYTUqmto+McQYqf/BX2232KIRG5IACQB1HkSHxa9MhKgr8SmD8YB/wn8PGHbBKfp
-3humTKQKGTybf4ehQ4pFJc66i+X3XvDoDIZfRy5Pu53CdlbZ96CxVHNP8ABE114J
-IAowFLoSNb/pW2gmnaVJXqxAIgBUrIm2Zq68J9rjXRg69ZAlWvXbfFssAOlrWefE
-+kK91vDAKy6fPmVRQnvzvmgOZ5Dd6WFxcgxXgvjfa7lG839NrkhOBcK5u12JLTtb
-gu1NYK+Vzvn4wUJZXqg8t7LrJ5fJUHweTNO9F9Rp1ZePMGHtDsTjjDmfLnbWJLbo
-kC6nOZSyaCta3YGmcPfv6jEqJRrPAdRUmVMco6gsBwLP+TDxN5BILkebWQ+AGYrH
-xGfATdBdW1R0Nc/mbeZAP5OjUqqgg4oAsZl76+8WsRDWXhXaB/2/o3DCJ878WqHz
-2jgCHHpCb3LsCt+jCSigQXsTsFwtIoAHRy4Ln3QH1NUEmMatxHvesne7utB03erS
-jWGkYozhqwrqS42LQ0DQju9OBf/hXhW9hLacM6/iLhyWE1r/DDkw8WH48YDtrmfW
+-- 迁移 0089：工单增加折旧成本与制造费用字段（诚实边界①）
+-- 完工结转（贷 5001）含 材料 + 人工 + 折旧 + 制造费用，不再系统性低估生产成本。
+-- 折旧/制造费用为工单 manual 录入（分配动作另立项，本期不自动从固定资产计提分摊）。
+ALTER TABLE work_orders ADD COLUMN depreciation_cost REAL DEFAULT 0;
+ALTER TABLE work_orders ADD COLUMN overhead_cost REAL DEFAULT 0;

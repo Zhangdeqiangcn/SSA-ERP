@@ -1,27 +1,21 @@
-U2FsdGVkX1/kMIJMlL+QdJ0Vu6b2iQVEpzTDegGRfkD99RtXedgpmd5KknS1ZgR8
-YX9aXuzgr0FLS5efzz0+D1zNPha7Y7rJMmCQguWcKGxDS0ZZhUAipYht8fAAjKJz
-vN6YDrjuUH0zWEs7LKhmMDCLfStF13GXJu8v1hL7TaRn+A5svz6UN67P5fQa+6sg
-4vlx0auJIOaMkAigYoiSqgy3T6WJRg3iVwmEOhhxVV5XDQ+VwwHsEgeRnHuRsetv
-ohLy3gz6ZSobzMvJ1w5Qtu+ENQiYlNKs8YzUPXVUqINslNGQCCYqVLRyQjLBSi14
-a8niWJr5zxcQodP8fwGc1aKUUzdn+O3y+2bOLfvPcB1+LHPPTZo5hOclcmtNt6ZH
-9vMjFc6FE7xJsX4p+dAuiYEZiVZc/cooO2hMCf1UGYHC64L4phxEorJT+Gs6zaDd
-6HpqcL8m6odXXX4dFOlXsA5G1v5bxyzZUrtu90XHrkqrtkRFhtE9DBNDbDEUcZaA
-8ZGcc7J3+6MfINC985JBRHh83ze0C1yCQ917rO/tJEEhRe8LHt20EB2Jq6sHtINS
-P+LdGDkrvBCE/8519wvWMvLojNit3fW8aSeTEiqSyimQzXB+o9XSGsCuW+uGkFaF
-p98NCu6c2Dq3EBGpcjzFb9JwLvxyPf09R7ebA8oPbFYJMpj+FSaH4B3DWMJhZFAg
-sABep/9+zzk1qWxT02bIaq2cRIcpiQ7/N0yppOSqdDDXzgm4ncZaTwrkGpKnGJVF
-5eeoypZrNV7iDt17WN2krU3IInJkUxcwpOXgFMTh6hn+cR6B02EzIbPCxfj+cvbA
-MgdNoa/R9JH01+giYJrsgeHL7xm+zbWhQb0hCzKZNQSWtyrSpcaT0Un/k0NYZ6Wq
-UVzLYt3OoOrKWL2QVaYH9ahpVXYw0ew8a8caOO1/dLYixcSEVjAOvm+Hw1jbNfUo
-h0XBwtAAZuYW1yP/6OnveNh0I9tTKLyCT/9fhNgwPT6eHJChAiDWsVnMXMV/MdMI
-xcuTHrMYwU9knFYvD8sL+uPyqgA6+embW92Dvv6s69gNoC5GyTfb0+1S2ca1Qkh0
-AlBCearL5goM6L7txS8rzbVpzD5YpbxjCR/4j2fhHsnwsyst+m6GvfLmIMXd8PFa
-xcUiXyxxCGZ0G8ZLKio+2o+d7gVNytum0Yj4FUVoAswdAiFcnIyh9sC91gTJHcmx
-2GJEG2c3ONWbCvJIFYMc0PgSjv1bLI0gexfl9h+A10uDUbTpRy+XmVlA/dkRLfuO
-ZTxR9TuhGbBRPpgUS2hk51V3O8Fy2XzjFAhgCP6xNLLUQCfDeEbcqQjV40TALA1e
-hzecrgHea2wxJzhtmoX5BygRG7KwYsmOQqTweOOYcx9xonlNeGpMAdc4LQU0gAL6
-US5k+5vZLrNJ2W8e+f/PrAtYEijSiRht74/Wxa+j+h8qC3ca+UyGxFjAkpV1Fmn8
-GzFMLf5R4OkZyJDU0TlNmV+a7gNGtAxbz+HBm5Arn0+EgcXPwk+rfDvh4Y2VhNRe
-1llWk3cTUbVw0GDE8eVDX6wopMrKyVYk6y6xEbAjdA/2TaxsOd1eDKAuq/s3urNy
-Fuw87+0YHcWy9h6l/eeXL0r1Bft5LTTIOVUGKsms6D7plASSMMyv9VwOPkpAE7+N
-OwLJaU1kIwhRnMYkVNUPd+E9DtDy+QErtxCKZa6bVdY=
+// 采购申请集合端点（C1 采购域 · 父子表）
+// GET  /api/purchase-requests   列表（分页 / RLS，含每张申请的全部物料明细）
+// POST /api/purchase-requests   创建（申请 + items 一次性写入）
+//
+// ── 为什么不用通用实体路由 ──────────────────────────────────────
+// `PurchaseRequest.items: PurchaseRequestItem[]` 是嵌套数组。
+// 通用路由（/api/entities/:resource）的设计前提是「一个资源 = 一张平表」，
+// 它的 pickSnake 只挑登记过的列 —— **未登记字段会被静默丢弃且返回 201**。
+// 若走通用路由，后果是「申请列表都在、点进去能看到单号，
+// 但物料明细一条都没有」—— 申请单等于空的，且没有任何报错。
+// 这与审批流（节点全空）是同一类缺陷，只是丢的东西不同。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PURCHASE_REQUEST_PC } from '../../_shared/purchaseConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(PURCHASE_REQUEST_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(PURCHASE_REQUEST_PC, context);
+}

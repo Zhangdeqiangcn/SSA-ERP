@@ -1,60 +1,70 @@
-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
+// 采购员定向邀请供应商注册（V3.100.0）— 前端数据访问层
+//
+// 两类调用：
+//   · inviteApi：走通用实体路由 /api/entities/vendorInvitation（会话鉴权 + RLS 'own'
+//     保证采购员只管自己的邀请；admin/super 特权看全部）。用于「采购员邀请」管理页。
+//   · fetchInvitePublic / submitPublicApplication：直接 fetch 公开接口，无需登录，
+//     用于供应商门户注册页（外部供应商可能未登录也能落库）。
+import { entityRepo } from './entityRepo';
+
+/** 邀请记录（与后端 vendor_invitations 行一致，camelCase） */
+export interface VendorInvitation {
+  id: string;
+  code: string;
+  buyerId?: string;
+  buyerName?: string;
+  salesOrg?: string;
+  status?: 'active' | 'used' | 'revoked';
+  expiresAt?: string | null;
+  usedAt?: string | null;
+  ownerId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+/** 采购员邀请：实体路由 CRUD（会话鉴权 + RLS 'own'） */
+export const inviteApi = {
+  list: (params?: Record<string, unknown>) =>
+    entityRepo.list<VendorInvitation>('vendorInvitation', params),
+  create: (data: Partial<VendorInvitation>) =>
+    entityRepo.create<VendorInvitation>('vendorInvitation', data),
+  update: (id: string, data: Partial<VendorInvitation>) =>
+    entityRepo.update<VendorInvitation>('vendorInvitation', id, data),
+  remove: (id: string) => entityRepo.remove('vendorInvitation', id),
+};
+
+export interface PublicInviteInfo {
+  valid: boolean;
+  buyerName?: string;
+  salesOrg?: string;
+  status?: string;
+  expiresAt?: string | null;
+  reason?: string;
+}
+
+/** 公开查询邀请码信息（无需登录）——供应商门户注册页回填用 */
+export async function fetchInvitePublic(code: string): Promise<PublicInviteInfo> {
+  try {
+    const r = await fetch(`/api/vendor-invite/${encodeURIComponent(code)}`);
+    if (!r.ok) return { valid: false, reason: '邀请链接校验失败' };
+    return (await r.json()) as PublicInviteInfo;
+  } catch {
+    return { valid: false, reason: '网络异常，无法校验邀请链接' };
+  }
+}
+
+/** 公开提交供应商注册申请（无需登录）——携带有效邀请码时由服务端落库并定向归属 */
+export async function submitPublicApplication(payload: Record<string, unknown>): Promise<{ ok: boolean; applicationNo?: string; error?: string }> {
+  try {
+    const r = await fetch('/api/vendor-application-public', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await r.json().catch(() => ({ error: '网络异常' }));
+    if (!r.ok) return { ok: false, error: data?.error || '提交失败' };
+    return { ok: true, applicationNo: data?.applicationNo };
+  } catch {
+    return { ok: false, error: '网络异常，提交失败' };
+  }
+}

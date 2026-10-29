@@ -1,59 +1,65 @@
-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
+// 发票单条端点（V3.56.0 · G3 数据对齐 · 父子表）
+// GET    /api/fin-invoices/:id   读取（发票头 + 明细行）
+// PUT    /api/fin-invoices/:id   更新（不传 items = 明细保持原样；传 [] = 清空明细）
+// DELETE /api/fin-invoices/:id   删除（连带删除明细行）
+//
+// 「不传」与「传空数组」必须区分（见 _shared/parentChild.ts 文件头不变量 ③）：
+// 发票的典型操作是「审核/改状态」，若把「不传 items」当成清空，
+// 一次状态变更会把全部明细删掉 —— 三单匹配会因此跳过行级判定。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { INVOICE_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { ensureInvoiceVoucher } from '../../_shared/arapPosting';
+
+export async function onRequestGet(context: any) {
+  return pcGet(INVOICE_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const body: any = await request.json().catch(() => ({}));
+
+  // ★ V3.56.0 数据对齐（G3 补丁）：编辑时头表金额同样以 Σ明细 复核覆盖
+  if (Array.isArray(body.items) && body.items.length > 0) {
+    let sumAmount = 0, sumTax = 0, sumTotal = 0;
+    for (const raw of body.items) {
+      const it = (raw && typeof raw === 'object') ? raw : {};
+      sumAmount += Number(it.amount) || 0;
+      sumTax += Number(it.taxAmount) || 0;
+      sumTotal += Number(it.totalAmount) || 0;
+    }
+    body.amount = Math.round(sumAmount * 100) / 100;
+    body.taxAmount = Math.round(sumTax * 100) / 100;
+    body.totalAmount = Math.round(sumTotal * 100) / 100;
+  }
+
+  // 重新包装 request：pcUpdate 内部会读 request.json()
+  const newRequest = new Request(request.url, {
+    method: request.method,
+    headers: request.headers,
+    body: JSON.stringify(body),
+  });
+
+  const res = await pcUpdate(INVOICE_PC, { ...context, request: newRequest });
+
+  // ★ V3.60.0 P0-1/P0-3/P2-3：发票审核通过(verified)时自动入账
+  //   （采购→冲暂估+应付 2202；销售→应收 1122+收入 6001）。后置非阻断处理。
+  try {
+    const inv = await env.DB
+      .prepare(`SELECT * FROM fin_invoices WHERE org_id = ? AND id = ?`)
+      .bind(user.org_id, params.id)
+      .first();
+    if (inv) await ensureInvoiceVoucher(env.DB, user.org_id, user, inv);
+  } catch (e: any) {
+    console.error('[fin-invoices PUT] 入账后置处理失败（非阻断）：', e?.message || e);
+  }
+
+  return res;
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(INVOICE_PC, context);
+}

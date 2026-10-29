@@ -1,61 +1,49 @@
-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
+// 发货单集合端点（C1 销售域 · 父子表）
+// GET  /api/shipments   列表（分页 / keyword / RLS，含每张发货单的明细行）
+// POST /api/shipments   创建（发货单 + items 一次性写入）
+//
+// ── 为什么不用通用实体路由 ──────────────────────────────────────
+// `Shipment.items: ShipmentItem[]` 是嵌套数组，通用路由会静默丢弃。
+// 后果：物流列表显示发货单号/承运商/状态全都在（看不出异常），
+// 但点开详情没有货品明细 —— 而「这车发了哪些料、各多少件」
+// 正是发货单存在的全部意义，也是与销售订单核销的依据。
+//
+// ── 为什么表名不叫 sales_shipments ──────────────────────────────
+// 保留 `shipments` 是因为这个域在业务上没有歧义（全系统只有销售发货），
+// 前端切片名就叫 `shipments`，表名与切片名一致更利于对照排查。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { SHIPMENT_PC } from '../../_shared/salesConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { runShipmentOutboundLink } from '../../_shared/shipmentOutboundLink';
+
+export async function onRequestGet(context: any) {
+  return pcList(SHIPMENT_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const resp = await pcCreate(SHIPMENT_PC, context);
+  // pcCreate 出错时直接透传（4xx/5xx）
+  const respStatus = (resp as any).status;
+  if (respStatus && respStatus >= 400) return resp;
+  // ★ 必须透传原状态码（建单成功是 201）：曾因重包json() 导致 201 变 200，
+  //   被20 号与 43 号守护套件当场抓出（"期望=201 实际=200"）。
+  const createdStatus = respStatus || 200;
+
+  // ★ V3.61.0 S-06：建单即发货（status 直接是 shipped）也必须触发联动。
+  //   此前联动只挂在 PUT 的「未发货→已发货」状态边沿，而 POST 走 pcCreate
+  //   完全绕过 → 批量导入或 API 直调建单时若状态为 shipped，会出现
+  //   「界面显示已发货、库存没扣、销售订单已交量没回写」的假成功。
+  //   现在与 PUT 共用同一助手（内部按source_no 查重，重复触发不二次扣库存）。
+  const created: any = await (resp as any).json();
+  if (created?.status === 'shipped') {
+    const issues = await runShipmentOutboundLink(context.env.DB, user, {
+      ...created,
+      shipmentNo: created?.shipmentNo || created?.shipment_no || created?.id,
+    });
+    if (issues.length > 0) (created as any).postingError = issues.join('；');
+  }
+  return json(created, createdStatus);
+}

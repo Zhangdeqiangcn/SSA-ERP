@@ -1,47 +1,26 @@
-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
-2AJbmtXXsSqQ3uZCVuG3sQ==
+-- ═══════════════════════════════════════════════════════════════════════════
+-- 0097 多组织编号隔离：numbering_rules 自然键 docType → org_id::doc_type
+-- ───────────────────────────────────────────────────────────────────────────
+-- 背景（V3.67.0 立项① 遗留）：numbering_rules 主键 id = docType（全局自然键），
+-- RLS 虽按 org_id 隔离查询，但主键本身是全局的——组织 A 建过 PO 行后，
+-- 组织 B 查无本组织行 → INSERT 新行撞全局主键 'PO' → 取号 503。
+-- 本迁移把自然键改为「组织+单据类型」复合键（id = org_id || '::' || doc_type），
+-- 序号天然按组织分开，多组织各自独立取号互不干扰。
+--
+-- 数据迁移（幂等）：把存量「旧格式 id」（= 裸 docType，无 '::' 前缀）的行
+-- 改名为 org_id::doc_type。生产库当前该表为空（0095 建表后尚未产生数据），
+-- 此 UPDATE 只是前瞻性兜底——真出现旧格式行也能一次跑通，不依赖人工。
+-- WHERE 条件保证只改「旧格式行」，新格式行（已带 '::'）不动，可重复执行。
+-- ═══════════════════════════════════════════════════════════════════════════
+
+-- ① 旧格式行改名：id = 裸 docType（doc_type 列 = id 自身，说明没带组织前缀）
+UPDATE numbering_rules
+SET id = org_id || '::' || doc_type
+WHERE id NOT LIKE '%::%'
+  AND doc_type = id;
+
+-- ② 兜底：若上面因 doc_type 为 NULL 漏改，按 id 形态再补一次（id 无 '::' 的旧行）
+--    与 ① 等价但覆盖 doc_type 缺失的边界行；两语句都幂等，重复执行无副作用。
+UPDATE numbering_rules
+SET id = COALESCE(org_id, 'dev') || '::' || COALESCE(doc_type, id)
+WHERE id NOT LIKE '%::%';

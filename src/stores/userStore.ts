@@ -1,104 +1,113 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { UserRole } from '@/types/settings';
+
+/**
+ * 系统用户列表单一数据源（V3.77.0 P0-2：Blob → D1 关系表）
+ *
+ * 整改前：persist(backendStorage, 'ssa-erp-users') 纯本地——
+ *   设置页「用户管理」增删改只在本机生效，其他终端/重新部署看不到（审计 P0-2）。
+ * 整改后：落 D1 关系表 system_users（迁移 0101，resource systemUser，rls 'all'）。
+ *   注意：与鉴权 users 表**解耦**（避免触碰登录），本 store 是设置侧用户目录。
+ *   数据流：登录态 D1 权威源 + 挂载水合；未登录本地种子兜底；
+ *   CRUD 本地即时 + 登录态写穿。getUserName 仍同步读本地缓存（显示责任人姓名）。
+ */
+
+const RES = 'systemUser';
+
+export type UserStatus = 'active' | 'inactive';
+
+export interface SystemUser {
+  id: string;
+  name: string;
+  username: string;
+  role: UserRole;
+  department: string;
+  status: UserStatus;
+  email: string;
+}
+
+export const DEFAULT_USERS: SystemUser[] = [
+  { id: 'u1', name: '张德强', username: 'zhangdq', role: 'admin', department: '信息技术部', status: 'active', email: 'zhangdq@ssa.com' },
+  { id: 'u2', name: '李明', username: 'liming', role: 'qa_engineer', department: '质量部', status: 'active', email: 'liming@ssa.com' },
+  { id: 'u3', name: '王芳', username: 'wangfang', role: 'buyer', department: '采购部', status: 'active', email: 'wangfang@ssa.com' },
+  { id: 'u4', name: '赵磊', username: 'zhaolei', role: 'warehouse_keeper', department: '仓储部', status: 'active', email: 'zhaolei@ssa.com' },
+  { id: 'u5', name: '陈静', username: 'chenjing', role: 'finance_manager', department: '财务部', status: 'active', email: 'chenjing@ssa.com' },
+  { id: 'u6', name: '刘洋', username: 'liuyang', role: 'prod_manager', department: '生产部', status: 'active', email: 'liuyang@ssa.com' },
+  { id: 'u7', name: '周敏', username: 'zhoumin', role: 'rd_engineer', department: '研发部', status: 'inactive', email: 'zhoumin@ssa.com' },
+  { id: 'u8', name: '吴强', username: 'wuqiang', role: 'process_engineer', department: '工艺部', status: 'active', email: 'wuqiang@ssa.com' },
+];
+
+interface UserState {
+  users: SystemUser[];
+  setUsers: (users: SystemUser[]) => void;
+  addUser: (user: SystemUser) => void;
+  updateUser: (id: string, patch: Partial<Omit<SystemUser, 'id'>>) => void;
+  removeUser: (id: string) => void;
+  toggleStatus: (id: string) => void;
+  /** 按 id 取用户姓名，找不到时回退为原 id（用于展示责任人姓名） */
+  getUserName: (id: string) => string;
+  /** V3.77.0：从 D1 水合 */
+  hydrateUsers: () => Promise<void>;
+}
+
+function parse(rows: any[]): SystemUser[] {
+  return (rows || []).map((r: any) => (typeof r?.payload === 'string' ? JSON.parse(r.payload) : r?.payload)) as SystemUser[];
+}
+
+export const useUserStore = create<UserState>()((set, get) => ({
+  users: DEFAULT_USERS.map((u) => ({ ...u })),
+
+  setUsers: (users) => {
+    set({ users });
+    if (isAuthed()) for (const u of users) void entityRepo.update(RES, u.id, { payload: u } as any).catch(() => {});
+  },
+  addUser: (user) => {
+    set((state) => ({ users: [...state.users, user] }));
+    if (isAuthed()) void entityRepo.create(RES, { payload: user } as any).catch(() => {});
+  },
+  updateUser: (id, patch) => {
+    let updated: SystemUser | undefined;
+    set((state) => ({
+      users: state.users.map((u) => {
+        if (u.id !== id) return u;
+        updated = { ...u, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update(RES, id, { payload: updated } as any).catch(() => {});
+  },
+  removeUser: (id) => {
+    set((state) => ({ users: state.users.filter((u) => u.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+  toggleStatus: (id) => {
+    const cur = get().users.find((u) => u.id === id);
+    if (!cur) return;
+    get().updateUser(id, { status: cur.status === 'active' ? 'inactive' : 'active' });
+  },
+
+  getUserName: (id) => get().users.find((u) => u.id === id)?.name ?? id,
+
+  hydrateUsers: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list<SystemUser>(RES, { page: 1, pageSize: 500 });
+      const rows = parse(res?.data || []);
+      if (rows.length === 0) {
+        for (const u of DEFAULT_USERS) { try { await entityRepo.create(RES, { payload: u } as any); } catch {} }
+        const rf = await entityRepo.list<SystemUser>(RES, { page: 1, pageSize: 500 });
+        const r2 = parse(rf?.data || []);
+        if (r2.length) set({ users: r2 });
+        return;
+      }
+      set({ users: rows });
+    } catch {
+      // 离线/异常：保留种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useUserStore.getState().hydrateUsers();

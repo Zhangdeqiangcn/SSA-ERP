@@ -1,126 +1,127 @@
-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
+// GET /api/work-orders/picking — 分页查询工单领料（按 org_id 隔离）
+// POST /api/work-orders/picking — 创建工单领料
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { validateOrReject, requireFields } from '../../../_shared/validate';
+// V3.5.0 B6：补齐写审计
+import { writeAudit } from '../../../_shared/auditLog';
+// V3.21.0：materialName 搜索走统一安全处理（截断防 500 + 转义防通配符）
+import { safeKeyword, likePattern } from '../../../_shared/searchKeyword';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = Math.min(parseInt(url.searchParams.get('pageSize') || '20', 10), 100);
+  const workOrderId = url.searchParams.get('workOrderId') || '';
+  // V3.21.0：与 keyword 走同一套安全处理。
+  //   本端点此前是内联 `` `%${materialName}%` `` 构造，V3.20.1 的关键词扫描
+  //   未覆盖到它 —— 参数名叫 materialName 而非 keyword，属漏网之鱼：
+  //   粘一个超长料名进来仍会触发 D1 的 LIKE 模式长度上限 → 500。
+  const materialName = safeKeyword(url.searchParams.get('materialName'));
+
+  let sql = `SELECT * FROM work_order_pickings WHERE org_id = ?`;
+  const params: (string | number)[] = [user.org_id];
+  if (workOrderId) {
+    sql += ` AND work_order_id = ?`;
+    params.push(workOrderId);
+  }
+  if (materialName) {
+    sql += ` AND material_name LIKE ? ESCAPE '\\'`;
+    params.push(likePattern(materialName));
+  }
+  sql += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+  params.push(pageSize, (page - 1) * pageSize);
+
+  const result = await db.prepare(sql).bind(...params).all();
+  const data = (result.results || []).map(r => ({
+    ...r,
+    quantity: Number(r.quantity),
+  }));
+
+  let countSql = `SELECT COUNT(*) as cnt FROM work_order_pickings WHERE org_id = ?`;
+  const countParams = [user.org_id];
+  if (workOrderId) {
+    countSql += ` AND work_order_id = ?`;
+    countParams.push(workOrderId);
+  }
+  if (materialName) {
+    countSql += ` AND material_name LIKE ? ESCAPE '\\'`;
+    countParams.push(likePattern(materialName));
+  }
+  const countResult = await db.prepare(countSql).bind(...countParams).first();
+
+  return json({
+    data,
+    pagination: {
+      page,
+      pageSize,
+      total: countResult?.cnt || 0,
+      totalPages: Math.ceil((countResult?.cnt || 0) / pageSize),
+    },
+  });
+}
+
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  const _invalid = validateOrReject('work_order_pickings', body);
+  if (_invalid) return _invalid;
+
+  // 必填守卫（V3.22.0 · 实测缺陷）：
+  // 旧行为里本端点连「空对象」都能建单成功（返回 200 并生成一条 id），因为 quantity 走
+  // `Number(body.quantity) || 0` 兜底、物料与工单号都是可空列。这比 500 更隐蔽：
+  //   · 建出「数量为 0」的领料占位 → 下方唯一性判断把它算作「该物料已领料」
+  //     → 真正要领料时返回 409，业务被自己造的空记录卡死；
+  //   · 倒冲发料（backflush）按 material_id 读已领数量，空记录会让差额计算失真。
+  // 因此这里要求工单、物料、正数数量三样齐全，缺任一样直接 400 说明缺什么。
+  const _missing = requireFields(body, ['workOrderId', 'materialId'], {
+    workOrderId: '工单',
+    materialId: '物料',
+  });
+  if (_missing) return _missing;
+  const _qty = Number(body.quantity);
+  if (!Number.isFinite(_qty) || _qty <= 0) {
+    return json(
+      { error: '请填写「领料数量」后再提交（必须大于 0，数量为 0 的领料单会占住该物料、导致后续无法真正领料）', code: 'INVALID_FIELD', field: 'quantity' },
+      400
+    );
+  }
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const existing = await db.prepare(`SELECT id FROM work_order_pickings WHERE org_id = ? AND work_order_id = ? AND material_id = ?`).bind(user.org_id, body.workOrderId, body.materialId || null).first();
+  if (existing) {
+    return json({ error: '该物料已领料', id: existing.id }, 409);
+  }
+
+  const id = 'wop-' + crypto.randomUUID();
+  await db.prepare(`INSERT INTO work_order_pickings (id, org_id, work_order_id, work_order_no, material_id, material_code, material_name, unit, quantity, outbound_no, issued_at, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+    id, user.org_id, body.workOrderId, body.workOrderNo || null, body.materialId || null, body.materialCode || null, body.materialName || null,
+    body.unit || null, Number(body.quantity) || 0, body.outboundNo || null, body.issuedAt || null, now, now, user.name, user.name
+  ).run();
+
+  const row = await db.prepare(`SELECT * FROM work_order_pickings WHERE id = ?`).bind(id).first();
+
+  // B6 审计：新建领料 = 原料出库 + 工单成本归集两件事同时发生。
+  //   摘要带「工单号 / 物料 / 数量 / 出库单号」，这四项合起来就是一条完整的
+  //   材料成本归集凭证摘要，事后做成本还原时可直接对上。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'work_order_pickings',
+    entityId: id,
+    action: 'create',
+    summary:
+      `工单领料 ${body.workOrderNo || body.workOrderId}` +
+      `：${body.materialCode || body.materialId} ${body.materialName || ''}` +
+      ` × ${Number(body.quantity) || 0} ${body.unit || ''}` +
+      `（出库单：${body.outboundNo || '-'}）`,
+  });
+
+  return json(row);
+}

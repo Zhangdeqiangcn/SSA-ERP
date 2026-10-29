@@ -1,32 +1,30 @@
-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
-XkrMIWxEO+i4ClQ+LOo8sw==
+// 项目单条端点
+// GET    /api/projects/:id   读取（含里程碑 + 异常）
+// PUT    /api/projects/:id   更新（不传的数组保持原样；传 [] = 清空该数组）
+// DELETE /api/projects/:id   删除（连带删除里程碑 + 异常）
+//
+// ★★ 多子表下的语义区分是本文件最重要的约束（见 parentChild.ts 不变量 ③）★
+//   项目详情页有多个独立操作入口：
+//     · 拖进度条  → 只传 progress
+//     · 标记里程碑完成 → 只传 milestones
+//     · 登记一条异常   → 只传 exceptions
+//     · 调整项目团队   → 只传 team
+//   因此「没出现在请求体里的数组 = 保持原样」这条规则必须逐张子表独立判断。
+//   若实现成「只要请求体里没有任何数组就清空全部子表」，或「按第一个匹配的
+//   数组清空其余」，都会造成：改一次进度就把里程碑和异常全删掉。
+//   replaceAllChildren 逐张检查 `Array.isArray(body[spec.childField])`，
+//   只有显式传了该数组才动该子表。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PROJECT_PC } from '../../_shared/salesConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PROJECT_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(PROJECT_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PROJECT_PC, context);
+}

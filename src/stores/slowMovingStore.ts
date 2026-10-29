@@ -1,48 +1,67 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow } from './entityBackedShared';
+
+export type DispositionAction = 'scrap' | 'reuse' | 'return' | 'promote' | 'other';
+
+export const DISPOSITION_LABEL: Record<DispositionAction, string> = {
+  scrap: '报废',
+  reuse: '转用/代用',
+  return: '退供应商',
+  promote: '促销处理',
+  other: '其他',
+};
+
+export interface SlowMovingDisposal {
+  materialId: string;
+  materialName: string;
+  materialCode: string;
+  action: DispositionAction;
+  reason: string;
+  quantity: number;
+  value: number;
+  date: string;
+  by?: string;
+}
+
+interface SlowMovingState {
+  disposals: SlowMovingDisposal[];
+  /** 对呆滞物料登记处置决策（同物料重复登记覆盖） */
+  dispose: (d: Omit<SlowMovingDisposal, 'date'> & { date?: string }) => void;
+  removeDisposal: (materialId: string) => void;
+  /** V3.80.0：从 D1 水合 */
+  hydrateSlowMoving: () => Promise<void>;
+}
+
+const RES = 'slowMovingDisposal';
+
+export const useSlowMovingStore = create<SlowMovingState>()(
+    (set) => ({
+      disposals: [],
+      dispose: (d) =>
+        set((s) => {
+          const others = s.disposals.filter((x) => x.materialId !== d.materialId);
+          const rec = { ...d, date: d.date || new Date().toISOString().slice(0, 10) } as SlowMovingDisposal;
+          if (isAuthed()) writeRow(RES, rec.materialId, rec);
+          return { disposals: [...others, rec] };
+        }),
+      removeDisposal: (materialId) => {
+        set((s) => ({ disposals: s.disposals.filter((x) => x.materialId !== materialId) }));
+        if (isAuthed()) void entityRepo.remove(RES, materialId).catch(() => {});
+      },
+      hydrateSlowMoving: async () => {
+        if (!isAuthed()) return;
+        try {
+          const res = await entityRepo.list<SlowMovingDisposal>(RES, { page: 1, pageSize: 500 });
+          const rows = parsePayload<SlowMovingDisposal>(res?.data || []);
+          if (rows.length) set({ disposals: rows });
+        } catch {
+          // 离线/异常：保留本地态
+        }
+      },
+    }),
+);
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useSlowMovingStore.getState().hydrateSlowMoving();

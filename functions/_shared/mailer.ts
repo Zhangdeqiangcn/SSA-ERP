@@ -1,375 +1,419 @@
-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
+// 云端邮件发送模块（零第三方依赖）
+// 运行环境：Cloudflare Pages Functions（wrangler.toml 已启用 nodejs_compat）
+//
+// 实现思路：用 cloudflare:sockets 的 connect() 与邮件服务器建立加密 TCP 连接，
+//   手写精简 SMTP 对话（问候 → EHLO → AUTH LOGIN → MAIL FROM → RCPT TO → DATA → QUIT）。
+// 为什么选 465 端口 + secureTransport:'on'：163/QQ 等国内邮箱对「隐式 TLS」支持最稳，
+//   不需要先明文再 STARTTLS 升级，少一轮协商也少一个失败点。
+// 注意：Cloudflare 的 TCP 出站禁止 25 端口（防垃圾邮件），465/587 可用。
+
+import { connect } from 'cloudflare:sockets';
+
+const CRLF = '\r\n';
+const encoder = new TextEncoder();
+
+/** 一次 SMTP 对话允许的最长耗时（毫秒），超时即中止，避免函数挂死 */
+const DEFAULT_TIMEOUT_MS = 20000;
+
+/**
+ * 值得「重试一次」的 SMTP 错误特征。
+ * 实测依据：163 会偶发拒绝来自 Cloudflare 边缘共享 IP 的登录（返回 535），
+ * 但紧接着重试即可通过（首封测试邮件被拒后，连续 4 封全部成功），
+ * 因此不能因为一次失败就判定通道不可用、让用户收不到验证码。
+ * 注意：只重试 1 次（见下方 RETRY_MAX），避免把「授权码真的填错」这类永久错误
+ * 反复提交给邮箱服务商，触发失败登录计数而把发件账号锁住。
+ */
+const RETRIABLE_SMTP_ERROR =
+  /535|连接被对端关闭|被对端关闭|发送超时|连接超时|ECONNRESET|ETIMEDOUT|ECONNREFUSED/i;
+/** 重试前的等待时间（毫秒）：给对端风控一个短暂退避窗口 */
+const RETRY_DELAY_MS = 800;
+/** 最多额外重试次数（1 = 总共尝试 2 次） */
+const RETRY_MAX = 1;
+
+export interface SmtpConfig {
+  host: string;
+  port: number;
+  user: string;
+  pass: string;
+  fromName: string;
+  /** 'on' = 隐式 TLS（465）；'starttls' = 明文起步再升级（587）；'off' = 明文（不推荐） */
+  secure: string;
+}
+
+export interface MailConfig extends SmtpConfig {
+  enabled: boolean;
+  notifyRecipients: string[];
+}
+
+export interface MailInput {
+  to: string[];
+  subject: string;
+  html: string;
+  timeoutMs?: number;
+}
+
+export interface SendResult {
+  ok: boolean;
+  error?: string;
+}
+
+/** UTF-8 安全的 base64（btoa 不能直接处理中文） */
+function b64(str: string): string {
+  const bytes = encoder.encode(str);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+
+/** 邮件头编码：纯 ASCII 原样返回，含中文等非 ASCII 字符时用 RFC2047 编码字 */
+function encodeHeader(str: string): string {
+  // eslint-disable-next-line no-control-regex
+  if (/^[\x20-\x7E]*$/.test(str)) return str;
+  return '=?UTF-8?B?' + b64(str) + '?=';
+}
+
+/** 把 base64 正文按 76 字符折行（RFC2045 要求，同时规避超长行被截断） */
+function wrap76(s: string): string {
+  const out: string[] = [];
+  for (let i = 0; i < s.length; i += 76) out.push(s.slice(i, i + 76));
+  return out.join(CRLF);
+}
+
+/** 读取 system_config 中的邮件配置 */
+export async function getMailConfig(DB: any): Promise<MailConfig> {
+  let map: Record<string, string> = {};
+  try {
+    const rows = await DB.prepare("SELECT key, value FROM system_config WHERE key LIKE 'mail.%'").all();
+    for (const r of (rows?.results || [])) map[(r as any).key] = (r as any).value ?? '';
+  } catch {
+    // 表尚未建立（迁移未执行）时退化为默认值，不阻断主流程
+    map = {};
+  }
+  return {
+    enabled: map['mail.enabled'] === '1',
+    host: map['mail.smtp_host'] || 'smtp.163.com',
+    port: parseInt(map['mail.smtp_port'] || '465', 10) || 465,
+    user: map['mail.smtp_user'] || '',
+    pass: map['mail.smtp_pass'] || '',
+    fromName: map['mail.from_name'] || 'SSA ERP 系统通知',
+    secure: map['mail.smtp_secure'] || 'on',
+    notifyRecipients: (map['mail.notify_recipients'] || '')
+      .split(/[,;\s]+/)
+      .map((s) => s.trim())
+      .filter(Boolean),
+  };
+}
+
+/**
+ * 发送一封 HTML 邮件。
+ * 全程任何一步异常都会被捕获并转成 { ok:false, error }，绝不向上抛出——
+ * 调用方（注册/登录/通知）不应因为邮件通道故障而整体失败。
+ */
+export async function sendMail(cfg: SmtpConfig, mail: MailInput): Promise<SendResult> {
+  const timeoutMs = mail.timeoutMs ?? DEFAULT_TIMEOUT_MS;
+  if (!cfg.host || !cfg.user || !cfg.pass) {
+    return { ok: false, error: '邮件服务未配置（缺少服务器地址/账号/授权码）' };
+  }
+  if (!mail.to.length) return { ok: false, error: '收件人为空' };
+
+  let socket: any = null;
+
+  const session = async (): Promise<SendResult> => {
+    socket = connect(
+      { hostname: cfg.host, port: cfg.port },
+      { secureTransport: String(cfg.secure) === 'false' ? 'off' : 'on', allowHalfOpen: false }
+    );
+    await socket.opened;
+
+    const reader = socket.readable.getReader();
+    const writer = socket.writable.getWriter();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    /** 读一行（以 CRLF 结尾） */
+    const readLine = async (): Promise<string> => {
+      for (;;) {
+        const idx = buf.indexOf(CRLF);
+        if (idx >= 0) {
+          const line = buf.slice(0, idx);
+          buf = buf.slice(idx + 2);
+          return line;
+        }
+        const { value, done } = await reader.read();
+        if (done) throw new Error('SMTP 连接被对端关闭');
+        buf += decoder.decode(value, { stream: true });
+      }
+    };
+
+    /** 读一个完整响应；SMTP 多行响应形如 "250-xxx" 续行、末行 "250 yyy" */
+    const readResponse = async (): Promise<{ code: number; text: string }> => {
+      const lines: string[] = [];
+      for (;;) {
+        const line = await readLine();
+        lines.push(line);
+        if (line.length >= 4 && line.charAt(3) === '-') continue;
+        break;
+      }
+      const last = lines[lines.length - 1] || '';
+      return { code: parseInt(last.slice(0, 3), 10) || 0, text: lines.join(' | ') };
+    };
+
+    /** 发送一条命令并校验返回码；sensitive=true 时错误信息不回显命令内容（避免授权码进日志） */
+    const cmd = async (command: string, expect: number[], sensitive = false): Promise<void> => {
+      await writer.write(encoder.encode(command + CRLF));
+      const res = await readResponse();
+      if (!expect.includes(res.code)) {
+        const shown = sensitive ? '(已隐藏)' : command;
+        throw new Error(`SMTP 拒绝 ${shown} → ${res.code} ${res.text.slice(0, 180)}`);
+      }
+    };
+
+    // 1) 服务端问候（220）
+    const greeting = await readResponse();
+    if (greeting.code !== 220) {
+      throw new Error(`SMTP 问候异常：${greeting.text.slice(0, 160)}`);
+    }
+
+    // 2) EHLO（主机名随意填，仅作标识）
+    await cmd('EHLO ssa-erp.pages.dev', [250]);
+
+    // 3) 认证：AUTH LOGIN 分三步（命令 → 用户名 → 授权码）
+    await cmd('AUTH LOGIN', [334]);
+    await cmd(b64(cfg.user), [334], true);
+    await cmd(b64(cfg.pass), [235], true);
+
+    // 4) 信封：发件人 + 全部收件人
+    await cmd(`MAIL FROM:<${cfg.user}>`, [250]);
+    for (const to of mail.to) {
+      await cmd(`RCPT TO:<${to}>`, [250, 251]);
+    }
+
+    // 5) 正文
+    await cmd('DATA', [354]);
+    const headers = [
+      `From: ${encodeHeader(cfg.fromName)} <${cfg.user}>`,
+      `To: ${mail.to.join(', ')}`,
+      `Subject: ${encodeHeader(mail.subject)}`,
+      `Date: ${new Date().toUTCString()}`,
+      `Message-ID: <${crypto.randomUUID()}@ssa-erp.pages.dev>`,
+      'MIME-Version: 1.0',
+      'Content-Type: text/html; charset=UTF-8',
+      'Content-Transfer-Encoding: base64',
+      '',
+      wrap76(b64(mail.html)),
+    ].join(CRLF);
+    await writer.write(encoder.encode(headers + CRLF + '.' + CRLF));
+    const accepted = await readResponse();
+    if (accepted.code !== 250) {
+      throw new Error(`邮件未被接收：${accepted.code} ${accepted.text.slice(0, 180)}`);
+    }
+
+    try { await writer.write(encoder.encode('QUIT' + CRLF)); } catch { /* 忽略：邮件已投递成功 */ }
+    try { reader.releaseLock(); } catch { /* ignore */ }
+    try { writer.releaseLock(); } catch { /* ignore */ }
+    return { ok: true };
+  };
+
+  /** 单次投递尝试（含超时保护）；无论成败都在结束时关闭本次连接 */
+  const attempt = async (): Promise<SendResult> => {
+    try {
+      const timeout = new Promise<SendResult>((_, reject) =>
+        setTimeout(() => reject(new Error(`发送超时（${timeoutMs} 毫秒内未完成）`)), timeoutMs)
+      );
+      return await Promise.race([session(), timeout]);
+    } catch (e: any) {
+      return { ok: false, error: e?.message || String(e) };
+    } finally {
+      try { socket?.close?.(); } catch { /* ignore */ }
+      socket = null;
+    }
+  };
+
+  let result = await attempt();
+  // 偶发风控（如 163 对 Cloudflare 边缘 IP 的 535）重试一次即可恢复
+  for (let i = 0; i < RETRY_MAX && !result.ok && RETRIABLE_SMTP_ERROR.test(result.error || ''); i++) {
+    await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+    result = await attempt();
+  }
+  return result;
+}
+
+/** 写一条邮件发送日志（失败不影响主流程） */
+export async function logMail(
+  DB: any,
+  entry: { id: string; topic: string; toAddr: string; subject: string; status: string; error?: string; batchId?: string }
+): Promise<void> {
+  try {
+    await DB.prepare(
+      `INSERT INTO mail_logs (id, topic, to_addr, subject, status, error, batch_id, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    )
+      .bind(
+        entry.id,
+        entry.topic,
+        entry.toAddr,
+        entry.subject,
+        entry.status,
+        entry.error ?? null,
+        entry.batchId ?? null,
+        new Date().toISOString()
+      )
+      .run();
+  } catch {
+    /* 日志失败不阻断 */
+  }
+}
+
+// ── 邮件模板 ────────────────────────────────────────────────────
+
+/** 统一的邮件外框（邮件客户端不支持外部样式，全部内联） */
+function wrapLayout(title: string, inner: string): string {
+  return `<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:24px 12px;background:#F1F5F9;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;color:#0F172A;">
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:560px;margin:0 auto;background:#FFFFFF;border-radius:12px;box-shadow:0 2px 12px rgba(15,23,42,.08);overflow:hidden;">
+    <tr><td style="background:linear-gradient(135deg,#1E3A8A,#0F172A);padding:20px 24px;">
+      <div style="color:#FFFFFF;font-size:18px;font-weight:700;letter-spacing:.5px;">SSA ERP</div>
+      <div style="color:#93C5FD;font-size:12px;margin-top:4px;">企业资源计划系统</div>
+    </td></tr>
+    <tr><td style="padding:24px;">
+      <div style="font-size:16px;font-weight:700;margin-bottom:14px;color:#0F172A;">${title}</div>
+      ${inner}
+    </td></tr>
+    <tr><td style="padding:14px 24px 22px;border-top:1px solid #E2E8F0;">
+      <div style="font-size:12px;color:#94A3B8;line-height:1.7;">
+        本邮件由系统自动发出，请勿直接回复。<br/>
+        如非本人操作，请忽略本邮件并尽快在系统「安全中心」修改密码。
+      </div>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
+/** 验证码邮件：code 为该邮箱专属验证码，label 标明这是主邮箱还是备用邮箱 */
+export function renderCodeEmail(opts: {
+  code: string;
+  username: string;
+  emailLabel: string;
+  purposeText: string;
+  expiresMinutes: number;
+  peerEmails: string[];
+}): { subject: string; html: string } {
+  const digits = opts.code.split('').map(
+    (d) =>
+      `<td style="padding:0 5px;"><span style="display:inline-block;width:38px;line-height:46px;text-align:center;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:8px;font-size:24px;font-weight:700;color:#1D4ED8;font-family:Menlo,Consolas,monospace;">${d}</span></td>`
+  ).join('');
+
+  const peer = opts.peerEmails.length
+    ? `<div style="font-size:12px;color:#64748B;margin-top:10px;">本次验证还向以下邮箱发送了不同的验证码，两个邮箱的验证码都需填写：<br/>${opts.peerEmails.map((e) => `<span style="font-family:Menlo,Consolas,monospace;color:#334155;">${e}</span>`).join('<br/>')}</div>`
+    : '';
+
+  const inner = `
+    <div style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:16px;">
+      您好${opts.username ? `，<strong>${opts.username}</strong>` : ''}：<br/>
+      您正在进行<strong>${opts.purposeText}</strong>，该验证码由您的<strong>${opts.emailLabel}</strong>接收。
+    </div>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 16px;"><tr>${digits}</tr></table>
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 12px;font-size:13px;color:#92400E;line-height:1.7;">
+      验证码 <strong>${opts.expiresMinutes} 分钟内有效</strong>，连续输错 5 次将失效需重新获取。<br/>
+      任何人向你索要验证码都是诈骗，请勿转发。
+    </div>
+    ${peer}`;
+  return {
+    subject: `【SSA ERP】${opts.purposeText}验证码（${opts.emailLabel}）`,
+    html: wrapLayout('安全验证码', inner),
+  };
+}
+
+/**
+ * 安全邮箱备用通道邮件：一封邮件同时列出本批次的全部验证码。
+ *
+ * 与 renderCodeEmail 的区别：普通验证码邮件是「一个邮箱一枚码」，本模板是
+ * 「同一个收件人一次拿到全部码」——因为安全邮箱本身就是那条异地备用通道，
+ * 再拆分到两个邮箱反而增加取码难度。用户拿到全部码后在系统里一并填入即可。
+ */
+export function renderSecurityMailEmail(opts: {
+  codes: string[];
+  username: string;
+  purposeText: string;
+  expiresMinutes: number;
+  delayHours: number;
+  attempt: number;
+  maxAttempts: number;
+}): { subject: string; html: string } {
+  const blocks = opts.codes
+    .map((code, i) => {
+      const digits = code
+        .split('')
+        .map(
+          (d) =>
+            `<td style="padding:0 5px;"><span style="display:inline-block;width:38px;line-height:46px;text-align:center;background:#ECFDF5;border:1px solid #A7F3D0;border-radius:8px;font-size:24px;font-weight:700;color:#047857;font-family:Menlo,Consolas,monospace;">${d}</span></td>`
+        )
+        .join('');
+      return `
+        <div style="margin-bottom:14px;">
+          <div style="font-size:13px;color:#475569;font-weight:700;margin-bottom:6px;">验证码 ${i + 1}</div>
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>${digits}</tr></table>
+        </div>`;
+    })
+    .join('');
+
+  const resendNote =
+    opts.maxAttempts > 1
+      ? `本邮件共投递 ${opts.maxAttempts} 次，本次为第 ${opts.attempt} 次，若收到重复邮件属正常现象，验证码以任意一封为准。`
+      : '';
+
+  const inner = `
+    <div style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:16px;">
+      您好${opts.username ? `，<strong>${opts.username}</strong>` : ''}：<br/>
+      这是您通过<strong>安全邮箱备用通道</strong>申请的验证码，用于<strong>${opts.purposeText}</strong>。
+      该通道在申请后 <strong>${opts.delayHours} 小时</strong>才投递，目的是确保它不依赖已登录的系统会话。
+    </div>
+    ${blocks}
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:10px 12px;font-size:13px;color:#92400E;line-height:1.7;">
+      全部验证码需<strong>一并填入</strong>系统，缺一不可，<strong>${opts.expiresMinutes} 分钟内有效</strong>。<br/>
+      在系统内任何界面都不会显示这些验证码。任何人向你索要验证码都是诈骗，请勿转发。
+      ${resendNote ? `<br/>${resendNote}` : ''}
+    </div>`;
+
+  return {
+    subject: `【SSA ERP】安全邮箱备用验证码（${opts.purposeText}）`,
+    html: wrapLayout('安全邮箱备用验证码', inner),
+  };
+}
+
+/** 版本升级 / 重大事件通知邮件 */
+export function renderNoticeEmail(opts: {
+  version: string;
+  title: string;
+  highlights: string[];
+  note?: string;
+}): { subject: string; html: string } {
+  const list = opts.highlights.length
+    ? `<ul style="margin:0;padding-left:20px;font-size:14px;color:#334155;line-height:1.9;">${opts.highlights
+        .map((h) => `<li>${h}</li>`)
+        .join('')}</ul>`
+    : '';
+  const inner = `
+    <div style="display:inline-block;background:#EFF6FF;border:1px solid #BFDBFE;color:#1D4ED8;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;margin-bottom:14px;">
+      ${opts.version}
+    </div>
+    <div style="font-size:14px;color:#334155;line-height:1.8;margin-bottom:12px;">${opts.title}</div>
+    ${list}
+    ${opts.note ? `<div style="margin-top:14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:10px 12px;font-size:13px;color:#475569;line-height:1.7;">${opts.note}</div>` : ''}`;
+  return {
+    subject: `【SSA ERP】${opts.version} 版本更新通知`,
+    html: wrapLayout('版本更新通知', inner),
+  };
+}
+
+/** 系统测试邮件 */
+export function renderTestEmail(operator: string): { subject: string; html: string } {
+  const inner = `
+    <div style="font-size:14px;color:#334155;line-height:1.8;">
+      邮件通道配置成功，本邮件由系统测试功能发出。<br/>
+      操作人：<strong>${operator}</strong><br/>
+      发送时间：<strong>${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })}</strong>
+    </div>`;
+  return { subject: '【SSA ERP】邮件通道测试', html: wrapLayout('邮件通道测试', inner) };
+}

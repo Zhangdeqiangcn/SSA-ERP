@@ -1,94 +1,65 @@
-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
+-- 0060_purchase_unique_index.sql
+-- 采购域：补上 0058 漏建的业务单号唯一约束（V3.11.0）
+--
+-- ═══════════════════ 这个迁移为什么存在 ═══════════════════
+--
+-- 0058 建 `purchase_requests` 时，只建了三个**普通**索引：
+--   idx_purchase_requests_no / _status / _status_pri
+-- 而 0051（BOM）、0056（审批流）等前序域的同类表都带了 UNIQUE 约束。
+--
+-- 但 `functions/_shared/purchaseConfig.ts` 与
+-- `functions/_shared/parentChild.ts` 的代码**都假定它存在**：
+--   · 配置里写明「noCamel 取 requestNo：UNIQUE 约束落在业务单号上」
+--   · parentChild 的 pcCreate / pcUpdate 各有一段
+--     `if (String(e?.message||'').includes('UNIQUE')) return 409`
+-- 少了唯一约束，那两段 409 分支**永远不会触发** ——
+-- 结果是「同一张申请单可以被建两次、单号完全相同」，
+-- 没有任何报错，用户与审批人都以为只是一张单。
+--
+-- ★★ 为什么这个缺陷「类型检查与打包都发现不了」：
+--    表名与列名在 SQL 字符串里，编译器看不到；
+--    唯一约束是**数据库层**的事实，代码侧只能靠「假设它存在」。
+--    唯一的发现方式是**真的建一条重复记录试试** —— 这正是
+--    `suites/22-purchase-domain.mjs` 里那条断言的作用
+--    （首轮跑出「重复 request_no 被拒（409）」失败 status=201）。
+--
+-- ★ 这也是本项目第一次出现「配置文件的注释与迁移脚本的实际内容不一致」：
+--   写配置时我按「应该有的样子」写了注释，但没有回去核对迁移是否真的建了。
+--   与 0053 的教训同源 —— **按「应该长什么样」推断，而不是按「实际是什么」核对**。
+--
+-- ═══════════════════ 为什么用 UNIQUE INDEX 而不是重建表 ═══════════════════
+--
+-- SQLite 不支持给已存在的表 ALTER 加 UNIQUE 约束；
+-- 严格做法是「建新表 → 搬数据 → 删旧表 → 改名」。
+-- 但这里可以用**等价且零风险**的做法：`CREATE UNIQUE INDEX`。
+-- 二者在约束语义上完全一致（冲突时报 `UNIQUE constraint failed`，
+-- 错误信息里同样含 "UNIQUE"，parentChild 的 409 分支照样命中），
+-- 却不需要搬动任何一行数据。**在有真实数据的表上，能不改结构就不改结构。**
+--
+-- ═══════════════════ 前提核对（动手前已做）═══════════════════
+--
+-- 建唯一索引会在「已有重复值」时失败。执行本迁移前已核对生产库：
+--   SELECT request_no, COUNT(*) FROM purchase_requests
+--    GROUP BY org_id, request_no HAVING COUNT(*) > 1;   → 0 行
+-- 即存量 5 条申请的单号互不重复，索引可以安全建立。
+-- **这一段核对不能省** —— 若存量已有重复，必须先决定留哪一条，
+-- 而那是业务决策，不该由迁移脚本擅自处理。
+
+-- ── 采购申请：同组织内业务单号唯一 ──────────────────────────────
+CREATE UNIQUE INDEX IF NOT EXISTS uniq_purchase_requests_no
+  ON purchase_requests(org_id, request_no);
+
+-- ── 供应商报价：同组织 + 同申请 + 同供应商 只应有一份报价 ────────
+-- 语义说明：一张申请单可以有多家供应商报价（这正是「比价」），
+-- 但**同一家供应商对同一张申请单重复报价**是数据错误 ——
+-- 会让比价列表里出现两条同一供应商的记录，采购员无从判断哪条是新的。
+-- 注意这是「业务复合键」，其 camel 对应关系不是单一字段，
+-- 因此 parentChild 的 409 提示（取 noCamel=vendorName）在这里只是兜底文案，
+-- 真正的防重靠本索引。若将来需要更精确的提示，可再单独处理。
+CREATE UNIQUE INDEX IF NOT EXISTS uniq_vendor_quotes_req_vendor
+  ON vendor_quotes(org_id, request_id, vendor_id);
+
+-- ── 幂等守卫 ────────────────────────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0060_purchase_unique_index', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,168 +1,164 @@
-U2FsdGVkX18k2H2rS8aveFAgUcpJEJaZvkruClZBmK5LgFdug+3pM7FBTzQx/WMU
-8OjhFvjqVj5BZfFRB/PrQXHm7nFHuSsXhaN2ZgAcURRuQ28KjW22j9BjlPtqJTrb
-hjNG7g9cLCrHz56Hd6bBPqADt8nXPMdBF5AF1Gq3nT2ph8jm/58wTR55wUse0Bsy
-5pdspa3QM71pZthhY+u//eOBwLS307OsS3WQcvm3OiFhwyYJVUoyQy00+x22hdf8
-ZqfXXk64AuMbO6kedRZZ2mFWzb9/sCZLtcn8cCDbPKyjRw0Lh6G32/aJ8yIYvi7v
-Fj8m9YmlIMXTCVIq/Lc3gt4579tOm0VtSLD/mjR7+tVjZsKItHmYwNwSCaQubkgp
-Trcx1I0s5wY/K5Co1m227cx1hWdRy9ptQSPa6Yk5BxQ/gKJGvoVK6JAjKXtY8K8P
-6++9LRUgDzOkxk6gkAcRPusiaL0RSC3RXp/YdZrATcMhxKzxa1XVos/g/Q2/Hc+4
-sIJBUJomhTAUBfwHLJ0e5LRJ3XUOWmJFi0qws+uVHW9UNYP1t7k4q7tcM6Aj+EBD
-k0oZ+JfWvbWAxbqzPYnhyE3l2ivATlcZ3auLsuQj1yL3e91E6iK2Fg+7Ihh0TJi5
-WqUaQxYlKJWJ+NoSVEtAGwQOy/Yecqy1+/CXtBIA29UAEDXTuJTy8z+bq6TkyTjD
-K/HLgoAi+D6Ua/OZzDRgsUjlBv8EPH/dN/h5q+hIjSDxqqNZa8KHKIUM+decDOIU
-cVtqrAx/q0vU7UjAJq33AqEuXOk+V2ox9NCEISAX0BbTt9SMd8iLNom7vU0CZfM2
-eMOeq66aNvzvNI+Xy8JFMmvd85ZEdB7FhzuywegnOGCKkRasK9u25oXl6InE3RTf
-AxIAQqLF8bS0yDZd3B7uWlVOyg6sOrzA/FUDHbDeLgC0+N7C0dNIqDtaKePbv79u
-c7YmN1kvriFSNfWPlCbtUBLYqcOXtWZrNmE3EGmjPFAJ7vgomnoBvoz/UErMcxEu
-WuQZM502oZRAJWZSNhGQsGTodJqb2QtzzCTkXTsHursy8bxJ7/oSLgNH7MAo6ntZ
-33klsnNwQzl095u8rHWPrlvsyC+mahrarmfebPt5P9ZcCPG/qfw873u+i0qPuXjk
-OBjhoJ3dhpju61rna9HIELJFBd5azB8AsA4rUhtvPus1qi4mygeu0QCDayvgL9CE
-ZqgST8mfjIYtQLQLheLZrj4Vv9AE/DbiUgFRvqYvV+8TV0PdvseQbKhBUb1j+X6g
-JuBpOb9dt0iujwPH8tTr3d2U7Sq8Rb6YeK123ERn0IyI88izh+dDyvbi8LPZjTHO
-Ao7vm4WFgLgTbVwf9Aff467pGJxszMKML9OgdaRzfhgGj18WPBIUAKcJQupMuWS/
-OJe1TucC+fB2B4OAACOAfMSAuXFSFC+catmelLDBWHsk9lVh98xWzU/sRoqIKECO
-iRql/dc9aU1uh/1hwHGy0nbbnyvXalmYGwhPICBNO+dupvRiT1tHelNgLcq1qtcX
-NjUHuIDaHyKsvd/inJTEy1am5P9SOAHBD/CB+mupRttA9ly23QByNTPfe2/1HnNk
-qHImIgdFzJ5LJlihBs99m5lafvlLEWsPdlutpuvXV1/rKnUqXvWwcT73MoqfuZsk
-+1lhz6iAYrRdjr3mwnIvXyiaB/SCLmnXVviHLgvj+h8KULv8CfXYUjPBgoAmCBsn
-JZaLsqX2fZQUS3//9QwBwdRjPcXAuJlxfisCxtMDMBuh/QS29/VD/2h+u7IgxCun
-sEHG6fwW57higeqMYV0/PZze7XyGpD+znlzq9tmOeEVoBifDWogI9Mf9Y/QtShR3
-gzTUjZJ8azoD+plbd0WX1M2U7TNrUixPq9UX62M9hN6Ne6nXFVyGXJ6hZg4A3qoC
-qlxTbxJ3ZsnaiiSMGKZNTuU9vGhv4llka3YjfxvxhjYOwNpyUpfhwGXat/liJ2N8
-Ms8parVI4HBNESjqdi93LLdPhgCbKApjLQV7aUwQe368N4qg5KTBM9tGN7Xp3Vpf
-kL1J1w0OZiRL64X80ePV036qJbbZXZfcJHZ16cohp+DAYjYSFudBXFdCQ2d+XouW
-3UxLxt3w+RU0hi6Yj052XmmCoqiUtiKFNqG2z+HSLVHE4CdHwWKNgveeeS0NncQW
-j0p/1GEh5BVEKILJWQ3h8tB5HT+FrwlfUVWzVq6uNy1t35A+Jg/N1Wqc8TmuUaGI
-ZexOoFdBskipbSY3IFh8Pas6r1vPhj3InUVLLrbprxGUuYea6TJORwVgrvHT8uYd
-Y6Lr1AmlvSWDJi+m5Yjqgi51jfiCgUDH7RyEo8HiOF5vXbKDXSZMpA2cHoByMVtL
-nENNWC4UiQGY1ZXqPqbuQKLcZtTbzjnLPE2cZNgOmvOsZnNhinlEacaPKkVUFArj
-kFq5M+fbftU+oxjm0sE79nEh3xOYkXoBu03h1NSQlveUbzUTd8uSYvpWOUX6qyMP
-l28oa2+lpjkkLl7O+hmEP3yRJ2MC2u+cmJKX8iNtItjJf7DJWBTkvvuNEpxp2G/S
-Tam1kQmKAQjz71h+35b+GkTkCIsZmIDA2UCwnf1LqtLgICPKEGig4hWyFwbl/h6E
-P4MWUG3DBxktXtpe9+UP1YCdd3xI29YehYi5RQSU73dBGprhm6+aeZz5H5EenSiB
-v6PSmKF6INwEt3z/CnPicKS8WTlG5QTrQ0RMxlThtiLuXF2kVlavqSVoRvk03gcK
-xCOvz4t2a5Z8NUQ0x5hu0IEm3rXT3e+HxpuT38v111N+pLYS7eVsKYcOS783sUus
-XGYp2sZspOjMHFAlHj2UUzwQRWghr0DTWT572l/Nohj5IqEs0VCWdnb7lGVGzyEI
-0MdooivMOW+iOw/egP1XRuQASKoiqWpAwa6oPpZ4GQKB6KQAfPyz+RkkUdCITUvb
-RzhaYAS5jdcvf52u0+XOvc02WZbz1WvNvCJpIKfabc9bCWD/36561FtYG2VhSf9B
-ZU0V1EOiQBlLDUyPJ8xBAIZtF+2CKkR3LMjDVaGo8KnTclJ5UjFIc0bJ7HHozLMN
-w8Ykng3S+Jchgq+7f2427nt5cmf9LEniKDHFIcYaaFmJiAyPykgVwh8B4kLV2lwJ
-g1XG7jSPYp0LzNXzyYatZgepmH7jxDI3BlX6IvCcRLnxcAiE8BSMNFO+4LoPeN65
-AfYItcSrMeFR/IRIF49wIA/yxqAZ77Rfy1UcnIDMlZ+jSQ3yj2XABdP1bU2W1Npo
-lWTRPQ7xjPb7BPLR+eEJOOBPZqHgziMUZFMiMVLtiY9QtumrjGgTuE/rsDj9HqqL
-UtQYqAVKp9NRR1n7EED5r4mGtWXwAvSdLN9x7nSFR7Otg1iEUU4GOquY+g++s/rc
-+Q1uiKETVk2EW7yW2vbFBYLRpJ/smDNkJoqv0dIMmxS66sQJ0/LRd8Eqf5zUDDMC
-8jYhhI90J4Wk5OB/XQM6fc+Jxw6lGbkpks+M0MCNL/qsgJRUtE6/HIufIRLp9A0j
-aaYa+m8LgDnfEC/ctcmdTLkzxnzwn6KyOfYxaw9uMvlRb7SqQ/ZjbuNxIZ7KH9sV
-GE2jC8/FyirD3Og5PrS1rVN3X6ALyg29Vf7Df8OyjzNDyq2b2LUvUMhLIovszcCS
-BcW8kitxNosjwUYeNcOal8dBJcxAzJEeaiEg/zmDOu4dUnT8HkrpjiE5cnYuSwi7
-V8QW/gl6e8uO7vjMYgMmr26N50BEPdpw/l0yfsnz8md1xYRGh5fQ3+7k2Kvf0RJD
-A1gdmjib4wXqNLgmc4WfcpyCHGsx+Nn0RD1pMl+K6wFWQ5lXow9XaPUCdL+iZMP+
-YCbXQCl9Op4zsejreAOMI6Yj6pZKOjFhW56YtJwz7v+vp1bnshklwaC5WnzpKw/5
-2j5C5LIU7JnbgticsFMytP/lV2+agt41sNxp//QTBAVil/6Em3ILVjttzNd/prDC
-pTx+3voMOomph52XNEKP4u6RIYNP4YhueoGea40K8R+XVIutwiIVdR79GQJ6MZEx
-eT7S+EqjmeA6V1X3RiZG+RRDsMb1JzhwcZz69mwa349arIPuDjjlW/aSfjReM4+r
-LbQoGyvYXdp+uxL+35Lg2IgyriAPVtrRAQ/jK2RmR72NHW5LZIU92DfP4U0SkqjD
-a/QHGT17QGSl2wlUKOH5Dt+6Sht9GtWCLqstnayVQwHu3AMcVnm/972XjfTw5GSh
-qB2T2ydwTgpXkHT4aF5CHbr6g4W6XaG6YxkJKppRXgPKMBk7pO9RqKuMVscQy6tY
-ss5HkO+cKtzcRT1RUZ+0dYy6zvdKSpKMzKpw6QAsOLLdLzGg1vAbkS06qEpEWcTn
-/uyJcUMmeyljhh/wGk2mhhfF42lSx+HOu1OxMfeDFAo5aHcUM+4X/cPJxKgmwjQ0
-tX9JqJ3JKClc8clRG0SW7ESSCVQGT5GfOe2p40GA+6WCqUzOcaWKd9InxAmg4zIi
-k5MlFT3K9WEKYurqfiy+odljkfLN/YXkAM1tWP74R0lHj3dUe+guK34v34MERgPe
-vvLsv76Xpy8TN5m2h6NANWjKv/pj70C1hGD2M8r+TKTBCBlII+bypI+q/Du5AS4E
-gU2qnD549zwDVYO1FVLfse0ON8MBwrDvDvXpyfLEFIeF6+i/fr6ZFUxLzf7g6Lzr
-gyGqCzqYUXKqHntdpjA33oSXUTQqHsf4bo3dikA4JC60rXgD4VtQKZPo/jkN7ECf
-zIXOFNgdGjOGyzsAuoQhcKU/4C7R13mGX54uiF8KgVfYecgKzY4iK7jQWqE0Evk1
-IDvJA+FijesEOJc97OmXMe5pW/181uQ1vHkcfD3rTuEKEAeFC9ZmBMZ4evPF8EWb
-oOGzXmBP3DihtHaIfmCKigAAxQVo9y0qTv45bffOqNCskN+v9zEUwc4GV5zFXzd0
-yCZE1tVpsMu3A/uqyOF3GgXmJr7FUFyR6ufbFnZ1WX0gNSwAS+S9LDgqZvVkQMs8
-cRUBKlqA2IYFXUr2xYnvnjOsYKWOl+3GBXGS7wpzDU+Mtr/cp2WBpa/FpaElXsJE
-HtIF9cF7ujcHC6ZI2BBGiIleSeCR3Wa/NwGw8pi7Dbkm3Hip2JPILFP2sy0owqNX
-tlXpB461vvDw/HZQ1IY51s3+iR8T/YLBGYz341FNgPHXRC4SyrlPiL4G7HK0y34J
-gC4xB9HQNRRt8a+essPIeODB/eRpJtAVbG28bD/IVAEnyfvEGQsB2f4I21h+Beou
-drcmgRChZRIth8CPfwqqXPesGXImp3PgdzGnwJTPV6RZaZFii2IOtEvZFeqm19Rk
-JM+jY+hOWVwDKLhTu0ab0pk8tnLKjUpJ1w576aK3yIUQ7yIBXNxMI7JYmXuYVK7h
-Gp3N3NJ7lmYMTCNKLol1zWwYFmeVZqPgWTfJ1KMDw2XlMkQfif7HkMQ2NWuaA5F+
-3mAnPyHPlxaCjYEGOq8Ufew2dZcLjC7HhQmbv5+dcopQZFGEmyK4vL53iTlW7gMw
-kZsCUI0sN7//P0/nnhNLxZtwIPMQfpFeVKO4tnnQBLVHaQIMihDmyAoO7TuFmDLX
-N6y2hUwgWMvszO+MSopkG46Rw5h1IH99jMvVfaj/9jGI796bQx9FHDnVFmobWumq
-h8oeoviup6SFzcjIyFJtfsjnM0EAX51YN81TPujnLYV+6byuNutYXoHYJ/YffA9d
-0LzMq0uzwtyfH7UOpk9lwUn3UMzafx6aaWuAd1k5K1qOmGaS0yqXpK8W6m5WRo5j
-agFvx+xbqEJLJrPPds/89EvKyxnH1XCy8iq9C2ABpXZEfu18rwOQjIveHF5dasXX
-/iz2VZEDY/l5xXilr2Xqomqpax70UM+BHCRrIc7jdeZvUaxn0OQmfPQEV81ws4u/
-bB46662g+HLasuxEe6jS0IDKoln4/J0clnu0PMuuTbAbUCgYDa993/EyaocSHfXF
-yqxfS6X27Nd+D4DjYGwcjdUORBcgxBQ3DrisrCROF6xL4hYv2qBMCcstSIrdZPdY
-Ce4kUlXHrX1++3ts/KltNLK8oIrS2wSphGzwN24NueyY0U9FYp5Lf31lFDMz1O/O
-+dl4ITC2hozDno1gSVHwMCrx41ctIP6QNSIyYh9oMsTZ300EJ61C2qBOhiwrNjk9
-PrZmhz4mblhhPaWBjAFYBToOejpJ1r/mL29OCmIvU7an+qWd9cf9of8GLxvp2NiA
-qTD7qu4X0681JJ6Ga+pF+vXyL6kyMtSJiikC2RKwes9k00CaZqpNuFIp6MggkIQa
-bhxKn8ncDoTl0qPbKr6U53hjefWeSTlZ7pR6iOdyFGfwW0BqOKKND6MFYQYSJHmo
-6eGaSWtmEHrBOUG6gd8AV3bm6H5+fQU5doaNnB5wkxPzhJySE4POcmi8q+DFBKx4
-OiOayRCOTxAF8MndvMcH5xOp5U3CiQh5RkwbM3iWsEUwt8p+XbL84VyLnAJr3mCE
-MgwIPre/AlABbf2rSluj8fEfF0aFeCEs/0lx264dZ5FZFdqBGL1aK05LgZsf7pqo
-Erij+yCPKYBA/riWwrokbtVolryTxNAK2w4xL6rVw0KWC+JiMft5Wfkkf81f9aXt
-HmRXLealge04eUo3QH4RgtuXDk4/aLk3PebKq+K7W7lUoRJr+L67qYcKhQznzmlY
-yilYOu3l6tZYnOn/ay+c0pEnrndxtap1ZXYALfOIeKNCEAnvEgtjoc6rbeO7OuZ/
-FipzEswJC3q4NvJXxXCv79G6UODZI3sICYtY0OU9I+HDBgLlqUAb8QkBaXrv1rta
-q8VFXclh3GHy7cj2Bosw2I9PpyGp3/PGHDYBpvDOO1HmLh2Bo08+j+0E4g0QfWL/
-ud/dQgPlI4CPJBUqXjfWqKRocSkxWEUok9GfajLaXZQo8JPJSkj8HUXSghdJP7Lr
-ZcKrE1DnpSSONcGTZwaD1CeFwpdSHTOk0vmIJCUu6rcJs+QmEJhaf1VoxvSV+Gqu
-zNKnuxlONY1T8LcyGYhylngZSugEQGk0vd51wHM9RUsPhNFGds0dHBjXupDgpglt
-RpMpPzW9l7gh/0k7uomljqJvPQiQjdttOHV5MaV0WYiwbULt4vLrPEwNcHZ828Nf
-8NymP9kok6cXk5x6gyTcXFvD3xIrpkZTbbr5tQ0gHWzVoLvwDX/NeferAlvXdcDu
-wZ7Vz7fapg621R5fWHpdImaLXemeT18dEUozRZpFHVJw7s1HgKRN9/ke4imtBQVF
-EoiVeiLC91fDEhPL7McvklDMPv89xenfT55mC+OrPUjLhMcCHdBh3V3cFKwOhBXd
-iFJq+t0SGktAO2hrN4JEhlEwYt9JM+oInmXZMWsLnqIEcNbenZu+lyxjXNkjLOSo
-qWxdhWmXFZAPkrCmtnBUGJ0i5u0o7rIG4JdXvchKV2v8LcuncOedklHbbltbZWZE
-MZkjJE1so+a4ZhAZ0hjBCMmS/mSSC8XAe/Vfvw+KmAr2j/pxNT6AEfr94SSlQQHR
-lwqJkrmMLdOVOdLYTPgYoQ+W4tbG2WljoAJS73G6ADrbOLulrWELrRNhfBeqJn/V
-5XS4rtM+e2WdRtUflyvcW2zbcca3JXpMTPwYLFmE5Wi+nU6XGWpWkuuZwRlANOIj
-UhV8sJHHJ/rpjk+dJVq1QtWjLTIHhfdtJKERh6LbpKCSfNJguN8IAQ7lwM//Dh37
-Roh6HyekywfhkYmIH4bgONDXpoPkcNxe1k90Eq4YZwOdTn4TPrFDGK7L3WkZGJST
-ytsTQDtznE2VOtReeIYwH5i6JpUa4VL06jrIY9ZyQuXuyXd9nBdI7Gv1JXBCNwu9
-ce8yziBHbL+W5f9PyvHN2n6g41SEg0mNJ5JlUpF6b/weWAubu/ocY62B/2HQ8sol
-enNvWjx/YMXVsbHO87DkjfCZnLccyzFiykZnopEHpubVsgtk0qdhOKUMdhrDCodz
-tGCQ6EGMzomLJv3gPzi0Mmfircl/Ca9pUgro55q0uTNABF0KVRkItqLQHHVttoL2
-S+yo1JvfeckIak/+cZFaRI5qV5K+SGwWzuFYCNvcHMKAmMmqv+t0Oawjb6jLyKo3
-bOymqcv8Ab2QITSGPnF1hCkV1MTFz+gwKCm8B2B0bz//ps22dVVTF/ZxxJmK+rDr
-HPCzBkDTh1s02khGFD0a6CnGkxfT3c0pjQVY9PwRw2Ffkr47SUGuz43CFbO8doFc
-LOVfFX0j/EsYZXo2pFcwX/yijmbUfXYCHujaIvgTronbrluoyxlw4KZNiatgLE6T
-/M832xAM9863J7e2K0Y0ZZqb3OiD4FnXVJezexPx/luswEjkjUK6KM/hsrN6MUC1
-AJyKgJrtXo71rIdrjtqLUbthc875tMWNQodTyo/bmYvoQwZWVMOJQsnz4YW7VXBA
-lHkRZ1oKu9q/VbmWK9s7xNlxWMkgKR0pbUHdFGMCSaJUbd8S3mR4Pe2J/syhLekS
-h5uUz3oa4DJ2rVfjyFHTNM6A7m6jDgb1pdW50tlGalhDYWRLTrCaJuyfjKPMybLy
-eQ9lYm40TnnhyISuHit7aAHsj1Tv/OQOv0rfTbP3+elRSm6YqdSLTbMv5j0IK/I5
-AVzwDz4wI2wnCcZ1788MF6dJsp7BJ27Smc/imZsRH/81hMwWxX5mMoore44oXgZz
-j9I1EP7nmwzf48Q5uNygeNvlFceJtp+nMd2ERqTFdeLDIskK4f1AqElocON23Eib
-AkFTVMF0rieME3nd/Z17vhpeKcoowUh/gW8YXmlt0ILqcJFnp+VqgmMRKKSzJJfA
-y77sHL+dYeZWlzPe2jVTvqs6btboN92iBAGK6ahGUpU27sOUg46Y5qh96dgW9jn9
-LG1ie1Y08XA4tpL8Rpbqx9/meHAwqpCYSt4NlHmvhElxhKuRUXbJwScnQlwjhmmz
-bm/ha/kfy9qnbgvWXthGKYu1Bh7PefurGHHQ+laAYbE5dJ0tuj16pU1+QI7iLP2a
-EO+4zpzvsJUCM6hOqJz+sQG6TBuMFAxmWUA1Ch3jfCM0k838EzKWlsm/vbcnoFl1
-Zx/wB5gxhneK00yZac/Ncu/QujtP6VGiZWYG4avaG37Lxe0IolQ4JpaK0p3A8259
-8wkrVgge/dX41+lG4lPaWIvIguhbt5XWlq/aGJV4ZGdU7mczRaG5j2Eb5QSosghO
-Q/FT/hD8BWDUMDxguI0wdTAIOpnEr7qchPNP52d+SGMvMcNaL6G63Rr9zNlKKg87
-kVC0pHZaHN2Ve9wuru0JHdcp29kW2pGu/nIDjXsszYJWhPsETwRCNITGTNJOla9G
-kBMeJkNX4CC+24FcW95oEfCWJy9k2+bNklKwcOaOKGNFz79GAm2n1XtECfs9lfCB
-1qWpW3ISo4DwkQ2gWtclgZx4myr/Cf2i/XlnQLyxr5j+z4UpquOINXbyt5OrS97u
-PP6wGk4vTV560OxKd1e5PMDDaot+ePfm1oc9JawlQsvAlXv3tCeIEnFNU4i6boAN
-MghU6rscDGgwXliJNhwgvHzhVbFDZ3A11zbDGJVOd3qXB0HQv4BYDsmhhBON/4X9
-4m5DdJZyJZZ/rU+CLgQEho1G15+QSoYCvKL+gge2HVNDuniDSe29ID3HhPldKQGJ
-CSzaRHvfCQjF+eXdQAO/ABAe+AmHGPHrpCjLGkqSJqiHqMMd1+A2XPu6Ux8FPhIv
-CSYFx4p20T9BvRJ+iYdQMHBINKUiHfHR1/baOeNxo4tOFEaBEDGtzv5qJ9cKE2bC
-XYadolW+gfe7WQbcULhz9YjtDN+krDX5FYtCE3iTCrVWLksCLcp/xuomYH0flYst
-wCbfdW8b1sxYvvEdOJnx1ZQUN0I4jzycXQes03XBxxUym51qTYjYLsZZGtIZb4dW
-jysHk91x1yfwA5+aMDjawShbFanTjftEylEcfus9swgm+YD05cnq4V8MHvs7EdiU
-/9wwI1CbK5a2HRHCiFeHDSlMMM0CfATaWME9iFufFHqjlpP5UXV/b/j5ESSJbDVQ
-Bi/kZJlfg2VBS+z+Ggu6cSTYB/NHHR2U4uPsi/bld/zoHga85v2Irgbs06KXvxbQ
-RzWvaDcnfHnYFBAZJISFmbsWo2O0X4nrUtOmSKz3sLzdgyNsTUawWoT7+dkvAHFz
-bnMcQiiSpzJUXmHzFyiCTXPiuKd2j59/Vqw3di2gZDwLGFSmFgAcRZAmRQnghw1i
-wCgbp/9YchcIm11so+VTfxjYPBMektlgxc3k2Y6SpYaOP2pH2JEZqNS3yMzzG8lR
-lZsCOugGNjL/n7Wkk+zgMA5xQIVgAI5tCgzZWfPpS4uw4Q5LWrcD4baPJo0Gq9Xh
-S9SStLCo+nviMLfRWyALrdFNBXIyNYWHgfW5bDL4th802mtYzTmEef/bYXwpwJn+
-ITtAXuAXXnHQrW25/syCpzsQ7njceShaHt88/1Uv2gXla719uxn9O9CCpGYFj/uO
-02NQHRmFdVRoZWMkAWcNyzRkR93akCrwbrkyL+N7z7L4EP89gSBooFnqXCw+3bAK
-3GAaMmSvYJSu52bopDGKowmvj9fKZypsoFcPW9sgOphPG0cZbLlex9qn77zZfBn/
-AdjUkX1IjtWEzQ4qwhTlLhNjAAR21PqkMmlliGNXUvoCPZIrHj53zwWiydEMWoRw
-oqW0iKt0hNXHwUSgInQ+SZLxOy8rjh78oQYsOEqeXO4vbz3LN9QDUP/pVZQn9XI9
-hfXFQdUiepEfWW/cNZLP8r97jy7wHglbseYwlf2cCUU=
+// BOM 域单条端点（C1 数据关系化样板）
+// GET    /api/bom/:id   读取（表头 + 嵌套明细）
+// PUT    /api/bom/:id   更新（表头字段 + 明细整体替换）
+// DELETE /api/bom/:id   删除（明细按外键级联删除，此处显式删一次以兼容未开外键的连接）
+//
+// ── 为什么更新要走「字段级差异」而不是「整体覆盖」──────────────────
+// 前端传来的 body 可能只含被改动的字段（例如 productionVersionStore 的 ECN 只改
+// status 与 version 两个字段）。若直接整体覆盖，未传字段会被写成 NULL ——
+// 一次「改版本号」的操作会把产品名称、成本、生效日期全部清空。
+// 因此这里只更新 body 中出现的字段（pickHeader 已按此语义实现）。
+//
+// ── 为什么删除会同时删明细 ───────────────────────────────────────
+// 迁移里已声明 `ON DELETE CASCADE`，理论上删表头会自动删明细。
+// 但 D1 的每个连接是否启用 `PRAGMA foreign_keys` 不保证（迁移里开过，运行时未必），
+// 级联可能不生效 → 留下孤儿明细行，它们会污染「按子件反查」的结果
+// （查到某个零件属于一张已经不存在的 BOM）。所以显式删一次，成本极低、收益明确。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { validateOrReject } from '../../_shared/validate';
+import { writeAudit } from '../../_shared/auditLog';
+import { headerToApi, pickHeader, pickItem, findHeader, flattenItems } from './index';
+
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const DB = context.env.DB;
+  const id = context.params.id;
+
+  const header = await findHeader(DB, id, user.org_id);
+  if (!header) return json({ error: 'BOM 不存在' }, 404);
+
+  const items = await DB.prepare(`SELECT * FROM bom_items WHERE bom_id = ? ORDER BY level ASC, sequence ASC`)
+    .bind(id)
+    .all();
+
+  return json(headerToApi(header, items.results || []));
+}
+
+export async function onRequestPut(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const DB = context.env.DB;
+  const id = context.params.id;
+
+  const existing = await findHeader(DB, id, user.org_id);
+  if (!existing) return json({ error: 'BOM 不存在' }, 404);
+
+  const body = await context.request.json().catch(() => ({}));
+  const _invalid = validateOrReject('bom_headers', body, { partial: true });
+  if (_invalid) return _invalid;
+
+  const now = new Date().toISOString();
+  const { cols, vals } = pickHeader(body);
+
+  // 只更新传了的字段（见文件头说明）。全都没传时跳过 UPDATE，
+  // 避免生成 `UPDATE ... SET updated_at = ?` 这种「只改时间戳」的空更新 ——
+  // 它会无意义地触发乐观锁版本变化。
+  if (cols.length > 0) {
+    const setClause = cols.map((c) => `${c} = ?`).join(', ');
+    try {
+      await DB.prepare(
+        `UPDATE bom_headers SET ${setClause}, updated_at = ?, updated_by = ? WHERE id = ? AND org_id = ?`
+      )
+        .bind(...vals, now, user.id, id, user.org_id)
+        .run();
+    } catch (e: any) {
+      if (String(e?.message || '').includes('UNIQUE')) {
+        return json({ error: `更新失败：BOM 编号 ${body.bomNo || ''} 在本组织已存在` }, 409);
+      }
+      return json({ error: `更新 BOM 失败：${e?.message || '未知错误'}` }, 500);
+    }
+  }
+
+  // 明细：仅当显式传了 items 数组才替换。
+  // 传 `items: []` = 清空明细（合法操作，表示这张 BOM 暂时没有配料）；
+  // 不传 items = 明细保持原样（这是「只改表头」的语义）。
+  // 两者的区别必须保留 —— 若把 「不传」也当成清空，ECN 改状态会把整张 BOM 的料清掉。
+  let itemInfo = '未改动';
+  if (Array.isArray(body.items)) {
+    // ★ 与创建走同一条摊平逻辑（flattenItems）：不摊平会静默丢掉嵌套子树。
+    //   两处必须共用同一个函数，否则「创建对了、编辑后又少了」这类问题极难定位。
+    const flat = flattenItems(body.items);
+    const stmts: any[] = [DB.prepare(`DELETE FROM bom_items WHERE bom_id = ?`).bind(id)];
+    for (const item of flat) {
+      const { cols: ic, vals: iv } = pickItem(item);
+      const c2 = [...ic];
+      const v2 = [...iv];
+      if (!c2.includes('level')) { c2.push('level'); v2.push(1); }
+      if (!c2.includes('sequence')) { c2.push('sequence'); v2.push(0); }
+      const itemId = item.id ? String(item.id) : crypto.randomUUID().replace(/-/g, '').slice(0, 20);
+      const allCols = ['id', 'bom_id', ...c2, 'created_at', 'updated_at'];
+      const allVals = [itemId, id, ...v2, now, now];
+      stmts.push(
+        DB.prepare(`INSERT INTO bom_items (${allCols.join(',')}) VALUES (${allCols.map(() => '?').join(',')})`).bind(
+          ...allVals
+        )
+      );
+    }
+    try {
+      await DB.batch(stmts);
+      // 回报「摊平后共几行」而不只是顶层条数 —— 让审计能看出嵌套被展开了
+      itemInfo = `${flat.length} 行${flat.length !== body.items.length ? `（由 ${body.items.length} 个顶层项展开）` : ''}`;
+    } catch (e: any) {
+      // 明细批次失败时表头已改，必须如实回报而不是假装成功
+      return json({ error: `BOM 明细保存失败（表头已更新）：${e?.message || '未知错误'}` }, 500);
+    }
+  }
+
+  await writeAudit(DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'bom_headers',
+    entityId: id,
+    action: 'update',
+    summary:
+      `更新 BOM ${(existing as any).bom_no || id}（${(existing as any).product_name || (existing as any).product_code || '-'}）` +
+      `（改动字段：${cols.length > 0 ? cols.join('、') : '无'}）` +
+      `（版本：${(existing as any).version || '-'} → ${body.version ?? (existing as any).version ?? '-'}）` +
+      `（状态：${(existing as any).status || '-'} → ${body.status ?? ((existing as any).status || '-')}）` +
+      `（明细：${itemInfo}）`,
+  });
+
+  const updated = await findHeader(DB, id, user.org_id);
+  const items = await DB.prepare(`SELECT * FROM bom_items WHERE bom_id = ? ORDER BY level ASC, sequence ASC`)
+    .bind(id)
+    .all();
+  return json(headerToApi(updated, items.results || []));
+}
+
+export async function onRequestDelete(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const DB = context.env.DB;
+  const id = context.params.id;
+
+  const existing = await findHeader(DB, id, user.org_id);
+  if (!existing) return json({ error: 'BOM 不存在' }, 404);
+
+  // 删除前先数一下明细行数，写进审计摘要 —— 「删掉了一张 12 行配料的 BOM」
+  // 与「删掉了一张空 BOM」是完全不同的后果，只记单号不足以事后追责。
+  const cnt: any = await DB.prepare(`SELECT COUNT(*) as c FROM bom_items WHERE bom_id = ?`).bind(id).first();
+  const itemCount = cnt?.c || 0;
+
+  await DB.batch([
+    DB.prepare(`DELETE FROM bom_headers WHERE id = ? AND org_id = ?`).bind(id, user.org_id),
+    DB.prepare(`DELETE FROM bom_items WHERE bom_id = ?`).bind(id),
+  ]);
+
+  await writeAudit(DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'bom_headers',
+    entityId: id,
+    action: 'delete',
+    summary:
+      `删除 BOM ${(existing as any).bom_no || id}（${(existing as any).product_name || (existing as any).product_code || '-'} / ${(existing as any).version || '-'}）` +
+      `（连带删除明细 ${itemCount} 行）` +
+      `（原状态：${(existing as any).status || '-'}）`,
+  });
+
+  return json({ success: true, deletedItems: itemCount });
+}

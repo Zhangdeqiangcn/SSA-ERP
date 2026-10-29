@@ -1,175 +1,225 @@
-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
+// 渠道 OAuth 2.0 授权码流程 —— 后端助手（密钥只在后端持有，绝不落前端）
+// 参考 GitHub 主流实现（Shopify connect-standalone-app / 抖音开放平台 / 拼多多开放平台）：
+//   start 拼授权页 + state 防篡改  ->  平台登录授权带 code 跳回  ->  callback 用 code+AppSecret 换令牌落库。
+// 本模块为后端专用（不 import src/），所有平台令牌交换走服务端 fetch。
+
+export interface OAuthProviderMeta {
+  platform: string;
+  label: string;
+  /** 授权页地址模板，占位符：{client_id}/{client_key}/{redirect_uri}/{state}/{scope} */
+  authorizeUrl: string;
+  /** 令牌交换地址（用 code 换 access_token） */
+  tokenUrl: string;
+  /** 默认权限范围 */
+  scopes: string;
+  /** 授权页 query 里客户端标识的字段名（抖音 client_key / 拼多多 client_id） */
+  clientIdField: 'client_id' | 'client_key';
+  /** 从令牌响应里抽取字段（不同平台响应结构不同） */
+  parseToken: (json: any) => TokenResult;
+  /** 构造令牌交换请求体 */
+  buildTokenBody: (p: { clientId: string; clientSecret: string; code: string; redirectUri: string }) => Record<string, string>;
+}
+
+export interface TokenResult {
+  accessToken?: string;
+  refreshToken?: string;
+  expiresIn?: number;
+  scope?: string;
+  shopId?: string;
+  shopName?: string;
+  error?: string;
+}
+
+export const OAUTH_PROVIDERS: Record<string, OAuthProviderMeta> = {
+  douyin: {
+    platform: 'douyin',
+    label: '抖音电商',
+    // 抖店开放平台授权页（电商订单/物流场景）。⚠ 真实端点请以「抖店开放平台-授权」文档为准。
+    authorizeUrl:
+      'https://open.douyin.com/platform/oauth/authorize/?response_type=code' +
+      '&client_key={client_key}&redirect_uri={redirect_uri}&state={state}&scope={scope}',
+    tokenUrl: 'https://open.douyin.com/oauth/access_token/',
+    scopes: 'power_expire_remind,order_detail,waybill',
+    clientIdField: 'client_key',
+    buildTokenBody: ({ clientId, clientSecret, code }) => ({
+      client_key: clientId,
+      client_secret: clientSecret,
+      code,
+      grant_type: 'authorization_code',
+    }),
+    parseToken: (j: any) => {
+      if (j?.error_code && j.error_code !== 0) return { error: j.description || `抖音授权失败(${j.error_code})` };
+      const d = j?.data || {};
+      if (!d.access_token) return { error: '抖音未返回 access_token' };
+      return {
+        accessToken: d.access_token,
+        refreshToken: d.refresh_token,
+        expiresIn: d.expires_in,
+        scope: d.scope,
+        shopId: d.open_id,
+        shopName: d.nick_name,
+      };
+    },
+  },
+  pinduoduo: {
+    platform: 'pinduoduo',
+    label: '拼多多',
+    authorizeUrl:
+      'https://mms.pinduoduo.com/open.html?response_type=code' +
+      '&client_id={client_id}&redirect_uri={redirect_uri}&state={state}',
+    tokenUrl: 'https://open-api.pinduoduo.com/oauth/token',
+    scopes: '',
+    clientIdField: 'client_id',
+    buildTokenBody: ({ clientId, clientSecret, code, redirectUri }) => ({
+      grant_type: 'authorization_code',
+      client_id: clientId,
+      client_secret: clientSecret,
+      code,
+      redirect_uri: redirectUri,
+    }),
+    parseToken: (j: any) => {
+      if (j?.error_response) {
+        return { error: j.error_response.error_msg || `拼多多授权失败(${j.error_response.error_code})` };
+      }
+      if (!j?.access_token) return { error: '拼多多未返回 access_token' };
+      return {
+        accessToken: j.access_token,
+        refreshToken: j.refresh_token,
+        expiresIn: j.expires_in,
+        scope: j.scope,
+      };
+    },
+  },
+};
+
+export function getProvider(platform: string): OAuthProviderMeta | null {
+  return OAUTH_PROVIDERS[platform] || null;
+}
+
+/** 构造授权页 URL（替换占位符） */
+export function buildAuthorizeUrl(p: OAuthProviderMeta, clientId: string, redirectUri: string, state: string): string {
+  const clientFieldValue = clientId;
+  return p.authorizeUrl
+    .replace('{client_key}', encodeURIComponent(clientFieldValue))
+    .replace('{client_id}', encodeURIComponent(clientFieldValue))
+    .replace('{redirect_uri}', encodeURIComponent(redirectUri))
+    .replace('{state}', encodeURIComponent(state))
+    .replace('{scope}', encodeURIComponent(p.scopes));
+}
+
+/** 生成 state（防 CSRF，10 分钟有效） */
+export function genState(): string {
+  const rand = Math.random().toString(36).slice(2) + Date.now().toString(36);
+  return `s_${rand}`;
+}
+
+/** 用 code 换令牌（真实平台调用；密钥由后端持有） */
+export async function exchangeCodeForToken(
+  p: OAuthProviderMeta,
+  clientId: string,
+  clientSecret: string,
+  code: string,
+  redirectUri: string
+): Promise<TokenResult> {
+  try {
+    const body = new URLSearchParams(p.buildTokenBody({ clientId, clientSecret, code, redirectUri }));
+    const resp = await fetch(p.tokenUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+    const json = await resp.json();
+    const result = p.parseToken(json);
+    if (result.error) return result;
+    if (!result.accessToken) return { error: '令牌响应缺少 access_token' };
+    return result;
+  } catch (e: any) {
+    return { error: `令牌交换请求失败：${String(e?.message || e)}` };
+  }
+}
+
+/** 刷新令牌 */
+export async function refreshAccessToken(
+  p: OAuthProviderMeta,
+  clientId: string,
+  clientSecret: string,
+  refreshToken: string
+): Promise<TokenResult> {
+  try {
+    const body = new URLSearchParams({
+      ...p.buildTokenBody({ clientId, clientSecret, code: '', redirectUri: '' }),
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    });
+    const resp = await fetch(p.tokenUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+    const json = await resp.json();
+    return p.parseToken(json);
+  } catch (e: any) {
+    return { error: `令牌刷新失败：${String(e?.message || e)}` };
+  }
+}
+
+/** 模拟授权令牌（未配置真实应用密钥时，界面/流程全真、令牌标 mock，绝不冒充真实平台） */
+export function makeMockToken(platform: string): TokenResult {
+  const token = `mock_${platform}_${Date.now().toString(36)}`;
+  return { accessToken: token, refreshToken: `mock_ref_${platform}`, expiresIn: 60 * 60 * 24 * 15, scope: 'mock' };
+}
+
+/** 计算令牌过期时间（ISO 字符串） */
+export function expiresAt(expiresIn?: number): string | null {
+  if (!expiresIn) return null;
+  return new Date(Date.now() + expiresIn * 1000).toISOString();
+}
+
+/** 落库：新增或更新某平台凭证（按 org_id + platform 唯一） */
+export async function upsertCredential(
+  DB: any,
+  orgId: string,
+  platform: string,
+  fields: Record<string, unknown>
+): Promise<void> {
+  const exist = await DB.prepare(
+    'SELECT id FROM channel_credentials WHERE org_id = ? AND platform = ? LIMIT 1'
+  )
+    .bind(orgId, platform)
+    .first();
+  const now = new Date().toISOString();
+  if (exist) {
+    const sets: string[] = [];
+    const binds: unknown[] = [];
+    for (const [k, v] of Object.entries(fields)) {
+      sets.push(`${k} = ?`);
+      binds.push(v);
+    }
+    sets.push('updated_at = ?');
+    binds.push(now);
+    binds.push(orgId, platform);
+    await DB.prepare(
+      `UPDATE channel_credentials SET ${sets.join(', ')} WHERE org_id = ? AND platform = ?`
+    )
+      .bind(...binds)
+      .run();
+  } else {
+    const cols = ['id', 'org_id', 'platform', ...Object.keys(fields), 'created_at', 'updated_at'];
+    const vals = [crypto.randomUUID(), orgId, platform, ...Object.values(fields), now, now];
+    const ph = cols.map(() => '?').join(', ');
+    await DB.prepare(`INSERT INTO channel_credentials (${cols.join(', ')}) VALUES (${ph})`)
+      .bind(...vals)
+      .run();
+  }
+}
+
+/** 读某平台凭证（仅后端内部用，含密钥；前端永不可见） */
+export async function getCredential(DB: any, orgId: string, platform: string): Promise<any | null> {
+  return DB.prepare(
+    `SELECT id, app_key, app_secret, access_token, refresh_token, token_expire, scope,
+            auth_mode, status, shop_id, shop_name, is_mock
+     FROM channel_credentials WHERE org_id = ? AND platform = ? LIMIT 1`
+  )
+    .bind(orgId, platform)
+    .first();
+}

@@ -1,48 +1,45 @@
-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
+-- V3.65.0 立项④：供应商框架协议（协议价基准）关系化
+-- 根治 P1-4「付款价核验缺协议价基准表」：此前框架协议只活在 purchaseAdvancedStore
+--   的 app_state Blob（前端 persist 整块），后端无表 → 付款核验查不到协议价，只能做
+--   「累计超计划总额」最小留痕（供应商 master 无价格列，硬做即造假，V3.64 诚实降级）。
+-- 现在：框架协议 + 明细（ceiling_price 协议价上限）落真实 D1 关系表，
+--   arapPosting.generatePaymentVoucher 付款前按供应商生效协议的物料 ceiling_price
+--   做价格偏离核验（经 fin_payment_plans.purchase_order_no → 采购订单明细 → 物料 →
+--   该供应商生效协议行 ceiling_price），超协议价上浮阈值在凭证摘要留痕待审；
+--   无协议/无基准时回退既有「累计超计划总额」留痕，绝不造假基准（诚实降级同口径）。
+CREATE TABLE IF NOT EXISTS framework_agreements (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  agreement_no TEXT,
+  vendor_id TEXT,
+  vendor_name TEXT,
+  status TEXT NOT NULL DEFAULT 'active',        -- active | expired | closed
+  start_date TEXT,
+  end_date TEXT,
+  currency TEXT DEFAULT 'CNY',
+  total_ceiling REAL DEFAULT 0,               -- 协议总额上限
+  released_amount REAL DEFAULT 0,             -- 已释放金额
+  remarks TEXT,
+  extra_json TEXT,                            -- 嵌套封 releases（框架协议释放记录）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_framework_org ON framework_agreements(org_id, vendor_id, status);
+
+CREATE TABLE IF NOT EXISTS framework_agreement_items (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  agreement_id TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  unit TEXT,
+  ceiling_price REAL NOT NULL DEFAULT 0,      -- ★ 协议价上限（付款核验基准）
+  committed_qty REAL DEFAULT 0,               -- 协议承诺量
+  created_at TEXT,
+  updated_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fai_agreement ON framework_agreement_items(agreement_id);
+CREATE INDEX IF NOT EXISTS idx_fai_material ON framework_agreement_items(org_id, material_code, material_id);

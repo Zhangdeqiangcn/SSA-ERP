@@ -1,91 +1,124 @@
-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
+import type { NormalizedOrderLine } from './channels/types';
+
+// 仓储执行领域纯函数（与网络/前端框架解耦，便于单测与复用）
+// 对标聚水潭 WMS：波次 → 拣货 → 配货 → 打包 → 发货校验
+
+export type PickTaskStatus = 'pending' | 'picking' | 'done' | 'skipped';
+export type ShipMismatchType = 'missing' | 'qty' | 'extra' | 'barcode';
+
+export interface PickTask {
+  id: string;
+  waveId?: string;
+  orderHubId?: string;
+  materialCode: string;
+  materialName?: string;
+  locationId?: string;
+  locationName?: string;
+  barcode?: string;
+  requiredQty: number;
+  pickedQty: number;
+  status: PickTaskStatus;
+}
+
+export interface ShipScanItem {
+  materialCode: string;
+  quantity: number;
+  barcode?: string;
+}
+
+export interface ShipMismatch {
+  materialCode: string;
+  expected: number;
+  actual: number;
+  type: ShipMismatchType;
+}
+
+export interface ShipCheckResult {
+  pass: boolean;
+  mismatches: ShipMismatch[];
+}
+
+/**
+ * 从待发货订单集合聚合生成拣货任务：相同物料编码合并应拣数量。
+ * 库位/条码运行时由库存与物料主数据反查填充（此处只做 SKU 级聚合）。
+ */
+export function buildPickTasks(
+  orders: { id: string; lines: NormalizedOrderLine[] }[]
+): Omit<PickTask, 'id' | 'status'>[] {
+  const map = new Map<string, Omit<PickTask, 'id' | 'status'>>();
+  for (const o of orders) {
+    for (const l of o.lines) {
+      const existing = map.get(l.sku);
+      if (existing) existing.requiredQty += l.quantity;
+      else
+        map.set(l.sku, {
+          orderHubId: o.id,
+          waveId: '',
+          materialCode: l.sku,
+          materialName: l.name,
+          requiredQty: l.quantity,
+          pickedQty: 0,
+        });
+    }
+  }
+  return [...map.values()];
+}
+
+/**
+ * 拣货确认：校验条码与数量，返回更新后的任务或明确错误。
+ * 关键纪律：校验失败必须显式返回错误，绝不静默吞掉（防止错拣漏拣流入下一环节）。
+ */
+export function applyPick(
+  task: PickTask,
+  scannedQty: number,
+  scannedBarcode?: string
+): { ok: true; task: PickTask } | { ok: false; error: string } {
+  if (scannedBarcode && task.barcode && scannedBarcode !== task.barcode) {
+    return { ok: false, error: `条码不符：扫到 ${scannedBarcode}，应为 ${task.barcode}` };
+  }
+  if (!Number.isFinite(scannedQty) || scannedQty <= 0) {
+    return { ok: false, error: '拣货数量必须为正数' };
+  }
+  const remain = task.requiredQty - task.pickedQty;
+  if (scannedQty > remain) {
+    return { ok: false, error: `超出应拣数量：应拣剩余 ${remain}，实拣 ${scannedQty}` };
+  }
+  const pickedQty = task.pickedQty + scannedQty;
+  const status: PickTaskStatus = pickedQty >= task.requiredQty ? 'done' : 'picking';
+  return { ok: true, task: { ...task, pickedQty, status } };
+}
+
+/**
+ * 发货校验：订单行 vs 实扫清单逐项比对（数量 / 条码）。
+ * 不通过时返回完整不符明细（missing=漏扫 / qty=数量错 / extra=多扫 / barcode=条码错），
+ * 绝不静默放行（聚水潭发货前强校验的立身之本）。
+ */
+export function checkShipment(
+  orderLines: NormalizedOrderLine[],
+  scanList: ShipScanItem[]
+): ShipCheckResult {
+  const expected = new Map<string, number>();
+  for (const l of orderLines) expected.set(l.sku, (expected.get(l.sku) || 0) + l.quantity);
+  const actual = new Map<string, number>();
+  for (const s of scanList) actual.set(s.materialCode, (actual.get(s.materialCode) || 0) + s.quantity);
+
+  const mismatches: ShipMismatch[] = [];
+  for (const [code, qty] of expected) {
+    const got = actual.get(code) || 0;
+    if (got !== qty) {
+      mismatches.push({ materialCode: code, expected: qty, actual: got, type: got === 0 ? 'missing' : 'qty' });
+    }
+  }
+  for (const [code, qty] of actual) {
+    if (!expected.has(code)) mismatches.push({ materialCode: code, expected: 0, actual: qty, type: 'extra' });
+  }
+  for (const s of scanList) {
+    const line = orderLines.find((l) => l.sku === s.materialCode) as any;
+    if (line && line.barcode && s.barcode && line.barcode !== s.barcode) {
+      mismatches.push({ materialCode: s.materialCode, expected: -1, actual: -1, type: 'barcode' });
+    }
+  }
+  return { pass: mismatches.length === 0, mismatches };
+}
+
+export default { buildPickTasks, applyPick, checkShipment };

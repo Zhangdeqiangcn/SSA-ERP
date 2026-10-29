@@ -1,21 +1,21 @@
-U2FsdGVkX18Tr4L22nZbjb9CLtvIPSIp2yLwTFhmO7suryH0J7FnyIycBhnGuftL
-kYnOx9xhBbnhcam/t8YrurwYZOwqUX8ZYkZoevxVYBlSt2TTawYF+vm4ND+JO45+
-+t6YNMDWvAbZdWFZ+l3vF8Et3STAPO0KAWbgak0urct/2dc0Q4iCQpP2MNbtvhNV
-o4lfFwmnUc4TlOAqgQR8HlffbymIgnpMtc9kHvEKxCCjZjyTM+maCNHFShpZBdKH
-Jc9iQnEHJVohnYwhRZWwCbxcTECJnQdYcR2YHefuZD6UqiFXabi8iUXY7KQjuL8C
-BtyFoK8MDk+ruPM/xdxS9QVUWleBElTQQvjnLhKO1TlU36SonP5Mi5b/Gw7zYmWx
-NKdpWUvPAWP8IoRI612b9tYlxgwkDSj8pIUSvhIeXeKJVi6Bk0MoFmQ6YsLdXDOy
-fvL/wBAjdVYTif6KR4QfyLV1blpLsRhn7qoBAa5b4u2XBLVXupAliJ++xd/O1NgS
-htd/cMcrb4x3pHR16kkyCKBsOQ3hTqvegnKCNwQdpSuyetPDY4gnAy7DuObe5/ac
-ZLmjbAi9tzsacivaNwNakg1mknjyAjZhJLpYdjCvC7sCGXCzqL+otKa0WNBFz44c
-XY5KaBnEDqhj+rSl1Sh2kK6q3Ky9TLz+Pnbg/cas6BbCexeQ5vOJGMS4Hgkv9SwU
-ZlvWxs4EkcOwFP6o1c3JuHJ9Qv4UMPRFCP1UL2xMk7ICeiD0jHBomdrZfcQycV6Z
-o4Fg6v2iiMYv/nsIV6yxP4OWySh0xBQJgztV2Sm5m4+tqD8HUS+FmzvMlmplLWj0
-vVVGkmeAq/zXga2LOyuTqAlZ2Zn3jDRh9NO2AVTisof5cYvKV1zvSoervbbIzwa3
-7MRCU2bQKu+QHf1EyM0cY4bl7Zveo1YJLYxTaXJE9wwMqfKeI6S1JZ34g7EtBK4M
-iDN8FaX//b9LfY814t/fX9s5GaQucGuZi/egrVATIcm/M6efggpPeI+1nYzcS8CJ
-gHJ3lBRsuTglF1uqYR/KMDYXujIT4rjgRmb9B5nENZYoUc9oGfbup4qdLxAK/XVg
-zUmix8JViYEUL/diX1gFwf8pTN1iKi48wTbd3EqKce0jmArcOwJzWlg1tVtNf2Ib
-kPBwX0nWDeu5uzfM8Qo9WHTfog1DLbSGKl/B+JuleCCjvVe3hY09BripdwR+S9ZA
-/4WYZvdHFzIEV5PFLv82rwQqO8zD0Z119EGdZABxms4ZNEutjV2P91gPXleTy3nh
-L/3H1VXBiAYYtI+1ikDaAA==
+// 统一数据 API · 批量端点
+//   POST /api/data/:table/bulk   批量 upsert / delete（幂等、失败聚合不中断）
+//
+// body: { rows: [...], mode: 'upsert' | 'delete' }
+// 用途：外部 ERP 同步引擎的回写、批量初始化、跨系统对账修复。
+import { resolveDataRequester, requesterHasScope, daBulk } from '../../../_shared/dataAccess';
+import { errorResponse } from '../../../_shared/errors';
+import { json } from '../../../_shared/auth';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const body = await request.json().catch(() => ({}));
+    return await daBulk(env, r, context.params.table, body);
+  } catch (e: any) {
+    return errorResponse(e, '批量数据操作');
+  }
+}

@@ -1,135 +1,193 @@
-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
-YCyDSPyGn+9lHJMWD/1C9w==
+// AI模型配置管理API
+import { getUserFromRequest, json } from '../../_shared/auth';
+// V3.5.0 B6：补齐写审计（模型配置含密钥与对外地址，属于 AI 出海口）
+import { writeAudit } from '../../_shared/auditLog';
+
+// 读取所有模型配置
+async function getAllModels(env: any) {
+  const models: any[] = [];
+  const prefix = 'ai_model_';
+  
+  // KV list 功能需要 Wrangler，这里使用循环读取
+  // 实际生产环境应该用 KV list API
+  const defaultKeys = ['default'];
+  for (const key of defaultKeys) {
+    const value = await env.AI_MODELS?.get(`${prefix}${key}`);
+    if (value) {
+      try {
+        models.push(JSON.parse(value));
+      } catch {}
+    }
+  }
+  
+  return models;
+}
+
+// GET /api/ai/models — 获取模型列表（脱敏）
+export async function onRequestGet(context: any) {
+  const { env } = context;
+  const user = await getUserFromRequest(context.request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  const models = await getAllModels(env);
+  
+  // 返回脱敏后的列表
+  return json({
+    success: true,
+    models: models.map((m: any) => ({
+      id: m.id,
+      name: m.name,
+      provider: m.provider,
+      baseUrl: m.baseUrl,
+      modelId: m.modelId,
+      default: m.default,
+      // 不返回 apiKey
+    })),
+  });
+}
+
+// POST /api/ai/models — 保存模型配置
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ success: false, error: '请求格式错误' }, 400);
+  }
+
+  const { id, name, provider, baseUrl, apiKey, modelId, default: isDefault } = body;
+
+  if (!id || !name || !provider || !modelId) {
+    return json({ success: false, error: '缺少必要字段' }, 400);
+  }
+
+  const config = {
+    id,
+    name,
+    provider,
+    baseUrl: baseUrl || '',
+    apiKey: apiKey || '',
+    modelId,
+    default: isDefault || false,
+    updatedAt: new Date().toISOString(),
+  };
+
+  // 保存到 KV
+  await env.AI_MODELS?.put(`ai_model_${id}`, JSON.stringify(config));
+
+  // 如果设为默认，清除其他默认标记
+  if (isDefault) {
+    const models = await getAllModels(env);
+    for (const m of models) {
+      if (m.id !== id) {
+        m.default = false;
+        await env.AI_MODELS?.put(`ai_model_${m.id}`, JSON.stringify(m));
+      }
+    }
+  }
+
+  // B6 审计：模型配置里含 API 密钥与接口地址 —— 改错会导致 AI 功能整体不可用，
+  //   改对也可能被用来把公司数据的请求转发到非预期地址。密钥值绝不进审计，
+  //   只记「是否设置过密钥」，这样既留痕又不把审计表变成第二份密钥库。
+  await writeAudit(env.DB, {
+    orgId: user.org_id ?? null,
+    actor: { id: user.id, name: user.name || user.username },
+    entity: 'ai_models',
+    entityId: id,
+    action: 'create',
+    summary:
+      `保存大模型配置「${name}」（服务商：${provider}；模型：${modelId}）` +
+      (baseUrl ? `（接口地址：${baseUrl}）` : '（接口地址：使用服务商默认）') +
+      (apiKey ? '（已设置密钥，值不予记录）' : '（未设置密钥）') +
+      (isDefault ? '【已设为默认模型】' : ''),
+  });
+
+  return json({ success: true, id });
+}
+
+// PUT /api/ai/models/:id — 更新模型配置
+export async function onRequestPut(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  const id = params.id;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ success: false, error: '请求格式错误' }, 400);
+  }
+
+  const existing = await env.AI_MODELS?.get(`ai_model_${id}`);
+  if (!existing) {
+    return json({ success: false, error: '模型不存在' }, 404);
+  }
+
+  const config = JSON.parse(existing);
+  const updated = {
+    ...config,
+    ...body,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await env.AI_MODELS?.put(`ai_model_${id}`, JSON.stringify(updated));
+
+  // B6 审计：更新模型配置同样属于「改变 AI 出口」的动作。摘要只列被改动的字段名
+  //   （值可能是密钥，不能写），这样既知道改了什么，又不泄露密钥。
+  await writeAudit(env.DB, {
+    orgId: user.org_id ?? null,
+    actor: { id: user.id, name: user.name || user.username },
+    entity: 'ai_models',
+    entityId: id,
+    action: 'update',
+    summary:
+      `更新大模型配置「${config.name || id}」（改动字段：${Object.keys(body).join('、') || '无'}）` +
+      (Object.prototype.hasOwnProperty.call(body, 'apiKey') ? '（含密钥变更，值不予记录）' : '') +
+      (body.default === true ? '【已设为默认模型】' : ''),
+  });
+
+  return json({ success: true, id });
+}
+
+// DELETE /api/ai/models/:id — 删除模型
+export async function onRequestDelete(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  const id = params.id;
+  
+  // 不能删除默认配置
+  if (id === 'default') {
+    return json({ success: false, error: '不能删除默认配置' }, 400);
+  }
+
+  const existing = await env.AI_MODELS?.get(`ai_model_${id}`);
+  if (!existing) {
+    return json({ success: false, error: '模型不存在' }, 404);
+  }
+
+  await env.AI_MODELS?.delete(`ai_model_${id}`);
+
+  // B6 审计：删除模型配置会连带清掉绑定的密钥，若删的是在用模型会立刻中断 AI 功能。
+  let removed: any = null;
+  try { removed = JSON.parse(existing); } catch { removed = null; }
+  await writeAudit(env.DB, {
+    orgId: user.org_id ?? null,
+    actor: { id: user.id, name: user.name || user.username },
+    entity: 'ai_models',
+    entityId: id,
+    action: 'delete',
+    summary:
+      `删除大模型配置「${removed?.name || id}」` +
+      (removed?.provider ? `（服务商：${removed.provider}；模型：${removed.modelId || '-'}）` : '') +
+      (removed?.default ? '【注意：被删除的是默认模型，AI 功能将失去默认出口，需重新指定】' : ''),
+  });
+
+  return json({ success: true });
+}

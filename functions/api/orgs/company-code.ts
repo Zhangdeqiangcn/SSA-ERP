@@ -1,213 +1,248 @@
-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
+// 公司邀请码管理（登录态，仅 超级管理员 / 管理员）
+// ─────────────────────────────────────────────────────────────
+// V3.15.5：把「公司码」升级为可轮换、带有效期的「公司邀请码」。
+//   · 公司身份由 orgs.id / orgs.name 承载，邀请码只是「加入凭证」，可更换而不影响公司身份；
+//   · 有效期：默认 30 天，可自定义任意天数，也可设为「永久有效」（NULL）；
+//   · 轮换：生成新码后旧码「立即失效」——旧码写入 org_code_history，注册时被明确拒绝；
+//   · 停用：可临时暂停接受新成员加入。
+//
+// 权限：仅 super_admin（可跨公司，?orgId= 指定目标）与 admin（仅本公司）可读可改。
+//   非特权角色一律 403；admin 无法通过 orgId 参数操作其它公司。
+// 审计：每次成功变更写一条 audit_log，记录谁在什么时候把邀请码/有效期/停用状态改成了什么。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { RLS_PRIVILEGED } from '../../_shared/rls';
+import { writeAudit } from '../../_shared/auditLog';
+
+/** 邀请码字符集：去掉易混淆的 0/o/1/l/i，仅小写字母 + 数字 */
+const CODE_ALPHABET = 'abcdefghjkmnpqrstuvwxyz23456789';
+const CODE_LEN = 8;
+/** 邀请码格式：小写字母与数字，4~32 位 */
+const CODE_RE = /^[a-z0-9]{4,32}$/;
+/** 默认有效期（天） */
+const DEFAULT_VALID_DAYS = 30;
+
+function genCode(): string {
+  let s = '';
+  for (let i = 0; i < CODE_LEN; i++) {
+    s += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  }
+  return s;
+}
+
+/** 生成一个全局唯一（既不在 orgs 也不在历史表）的新邀请码 */
+async function genUniqueCode(DB: any): Promise<string> {
+  for (let attempt = 0; attempt < 12; attempt++) {
+    const c = genCode();
+    const dupOrg = await DB.prepare('SELECT 1 AS x FROM orgs WHERE company_code = ?').bind(c).first();
+    if (dupOrg) continue;
+    const dupHis = await DB.prepare('SELECT 1 AS x FROM org_code_history WHERE code = ?').bind(c).first();
+    if (dupHis) continue;
+    return c;
+  }
+  // 极端兜底：加时间戳后缀，确保唯一
+  return genCode() + Date.now().toString(36).slice(-4);
+}
+
+function toState(row: any) {
+  return {
+    orgId: row.id,
+    orgName: row.name,
+    orgStatus: row.status ?? 'active',
+    companyCode: row.company_code,
+    expiresAt: row.code_expires_at ?? null,
+    rotatedAt: row.code_rotated_at ?? null,
+    disabled: !!row.code_disabled,
+  };
+}
+
+/** 解析目标组织：super_admin 可用 ?orgId= 指定，其余一律锁定为本人所属组织 */
+function resolveOrgId(me: any, url: URL): string {
+  if (me.role === 'super_admin') {
+    const q = (url.searchParams.get('orgId') || '').trim();
+    if (q) return q;
+  }
+  return me.org_id;
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+  if (!RLS_PRIVILEGED.has(me.role)) return json({ error: '无权查看公司邀请码' }, 403);
+
+  const url = new URL(request.url);
+  const orgId = resolveOrgId(me, url);
+  if (!orgId) return json({ error: '账号未归属任何组织' }, 400);
+
+  const row: any = await env.DB.prepare(
+    `SELECT id, name, status, company_code, code_expires_at, code_rotated_at, code_disabled
+       FROM orgs WHERE id = ?`
+  ).bind(orgId).first();
+  if (!row) return json({ error: '组织不存在' }, 404);
+
+  return json({ success: true, data: toState(row) });
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const me = await getUserFromRequest(request, env.DB);
+  if (!me) return json({ error: '未登录' }, 401);
+  if (!RLS_PRIVILEGED.has(me.role)) return json({ error: '无权重置公司邀请码' }, 403);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  if (!body || typeof body !== 'object') return json({ error: '请求格式错误' }, 400);
+
+  const url = new URL(request.url);
+  const orgId = resolveOrgId(me, url);
+  if (!orgId) return json({ error: '账号未归属任何组织' }, 400);
+
+  const row: any = await env.DB.prepare(
+    `SELECT id, name, status, company_code, code_expires_at, code_rotated_at, code_disabled
+       FROM orgs WHERE id = ?`
+  ).bind(orgId).first();
+  if (!row) return json({ error: '组织不存在' }, 404);
+
+  const setClauses: string[] = [];
+  const setParams: any[] = [];
+  const changes: string[] = [];
+  const now = new Date().toISOString();
+  let newCode = row.company_code as string;
+  let rotated = false;
+
+  // ── ① 生成新码（轮换）或手动指定新码 ────────────────────────
+  let explicit = '';
+  if (body.companyCode !== undefined && body.companyCode !== null && String(body.companyCode).trim() !== '') {
+    explicit = String(body.companyCode).trim().toLowerCase();
+  }
+  const wantRotate = body.rotate === true;
+  if (wantRotate || explicit) {
+    if (explicit) {
+      if (!CODE_RE.test(explicit)) {
+        return json({ error: '邀请码只能由 4~32 位小写字母或数字组成' }, 400);
+      }
+      if (explicit !== newCode) {
+        // 唯一性：不得与任何现存组织的码或历史码重复
+        const dupOrg = await env.DB.prepare('SELECT 1 AS x FROM orgs WHERE company_code = ? AND id <> ?')
+          .bind(explicit, orgId).first();
+        if (dupOrg) return json({ error: '该邀请码已被其它公司占用，请换一个' }, 409);
+        const dupHis = await env.DB.prepare('SELECT 1 AS x FROM org_code_history WHERE code = ?')
+          .bind(explicit).first();
+        if (dupHis) return json({ error: '该邀请码曾被使用并已失效，请换一个' }, 409);
+        newCode = explicit;
+      }
+    } else {
+      newCode = await genUniqueCode(env.DB);
+    }
+
+    if (newCode !== row.company_code) {
+      // 旧码写入历史表 → 立即失效（注册时被明确拒绝，而非被误判为新公司）
+      if (row.company_code) {
+        await env.DB.prepare(
+          `INSERT INTO org_code_history (code, org_id, revoked_at, revoked_by)
+           VALUES (?, ?, ?, ?)
+           ON CONFLICT(code) DO NOTHING`
+        ).bind(row.company_code, orgId, now, me.id).run();
+      }
+      setClauses.push('company_code = ?');
+      setParams.push(newCode);
+      setClauses.push('code_rotated_at = ?');
+      setParams.push(now);
+      rotated = true;
+      changes.push(`邀请码：${row.company_code} → ${newCode}（旧码已立即失效）`);
+    }
+  }
+
+  // ── ② 有效期：支持 days（天数）或 expiresAt（ISO）/ null（永久）──
+  if (body.expiresInDays !== undefined) {
+    const d = body.expiresInDays;
+    if (d === null || d === '' || d === 'forever') {
+      if ((row.code_expires_at ?? null) !== null) {
+        setClauses.push('code_expires_at = ?');
+        setParams.push(null);
+        changes.push('有效期：改为永久有效');
+      }
+    } else {
+      const n = Number(d);
+      if (!Number.isFinite(n) || n <= 0 || n > 3650) {
+        return json({ error: '有效期天数需为 1~3650 之间的数字' }, 400);
+      }
+      const exp = new Date(Date.now() + n * 86400_000).toISOString();
+      setClauses.push('code_expires_at = ?');
+      setParams.push(exp);
+      changes.push(`有效期：${n} 天（至 ${exp.slice(0, 10)}）`);
+    }
+  } else if (body.expiresAt !== undefined) {
+    if (body.expiresAt === null || body.expiresAt === '') {
+      if ((row.code_expires_at ?? null) !== null) {
+        setClauses.push('code_expires_at = ?');
+        setParams.push(null);
+        changes.push('有效期：改为永久有效');
+      }
+    } else {
+      const s = String(body.expiresAt);
+      const t = Date.parse(s);
+      if (Number.isNaN(t)) return json({ error: '有效期时间格式不正确' }, 400);
+      if (t <= Date.now()) return json({ error: '有效期必须晚于当前时间' }, 400);
+      setClauses.push('code_expires_at = ?');
+      setParams.push(new Date(t).toISOString());
+      changes.push(`有效期：至 ${new Date(t).toISOString().slice(0, 10)}`);
+    }
+  }
+
+  // ── ③ 停用 / 启用加入 ─────────────────────────────────────
+  if (body.disabled !== undefined) {
+    const want = body.disabled === true || body.disabled === 1 || body.disabled === '1';
+    if (want !== !!row.code_disabled) {
+      setClauses.push('code_disabled = ?');
+      setParams.push(want ? 1 : 0);
+      changes.push(want ? '已暂停接受新成员加入' : '已恢复接受新成员加入');
+    }
+  }
+
+  if (!setClauses.length) {
+    return json({ success: true, changed: false, data: toState(row) });
+  }
+
+  try {
+    await env.DB.prepare(`UPDATE orgs SET ${setClauses.join(', ')} WHERE id = ?`)
+      .bind(...setParams, orgId)
+      .run();
+  } catch (e: any) {
+    return json({ error: '更新失败：' + (e?.message || '数据库错误') }, 500);
+  }
+
+  await writeAudit(env.DB, {
+    orgId,
+    actor: { id: me.id, name: me.name },
+    entity: 'orgs',
+    entityId: orgId,
+    action: 'update_invite_code',
+    summary:
+      `组织「${row.name}」邀请码变更：` + changes.join('；') +
+      (me.role === 'super_admin' ? '【操作人身份：超级管理员】' : '【操作人身份：管理员】'),
+    diff: { before: { companyCode: row.company_code, expiresAt: row.code_expires_at, disabled: !!row.code_disabled } },
+  });
+
+  const fresh: any = await env.DB.prepare(
+    `SELECT id, name, status, company_code, code_expires_at, code_rotated_at, code_disabled
+       FROM orgs WHERE id = ?`
+  ).bind(orgId).first();
+
+  return json({
+    success: true,
+    changed: true,
+    rotated,
+    defaultValidDays: DEFAULT_VALID_DAYS,
+    data: toState(fresh),
+  });
+}
+
+// 兼容 POST 调用方（语义同 PUT）
+export async function onRequestPost(context: any) {
+  return onRequestPut(context);
+}

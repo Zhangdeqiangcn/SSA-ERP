@@ -1,49 +1,56 @@
-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
+// 仓储执行层 · 拣货确认（POST /api/fulfillment/pick）：强校验拣货数量不超应拣
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'fulfillment', 'update', env.DB, user.org_id);
+  if (_g) return _g;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const { taskId, pickedQty, status } = body;
+  if (!taskId) return json({ error: 'taskId 必填' }, 400);
+
+  const rls = rlsCondition(user, 'pick_tasks');
+  let where = 'id = ? AND org_id = ?';
+  const params: any[] = [taskId, user.org_id];
+  if (rls.clause !== '1=1') {
+    where += ' AND ' + rls.clause;
+    params.push(...rls.params);
+  }
+  const task = await env.DB.prepare(`SELECT * FROM pick_tasks WHERE ${where}`).bind(...params).first();
+  if (!task) return json({ error: '拣货任务不存在' }, 404);
+
+  const newPicked = Number(pickedQty ?? task.picked_qty);
+  if (!Number.isFinite(newPicked) || newPicked < 0) {
+    return json({ error: '拣货数量非法' }, 400);
+  }
+  // 强校验：绝不允许超拣（错拣漏拣流入下一环节）
+  if (newPicked > task.required_qty) {
+    return json({ error: `拣货数量 ${newPicked} 超过应拣 ${task.required_qty}` }, 400);
+  }
+  const newStatus = status || (newPicked >= task.required_qty ? 'done' : 'picking');
+
+  try {
+    await env.DB
+      .prepare('UPDATE pick_tasks SET picked_qty = ?, status = ?, updated_at = ? WHERE id = ? AND org_id = ?')
+      .bind(newPicked, newStatus, new Date().toISOString(), taskId, user.org_id)
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '确认拣货');
+  }
+
+  await audit(env.DB, user.org_id, user, 'fulfillment', 'update', `拣货确认 ${taskId}：${newPicked}/${task.required_qty}`);
+  return json({ id: taskId, pickedQty: newPicked, status: newStatus });
+}

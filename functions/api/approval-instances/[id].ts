@@ -1,211 +1,227 @@
-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
-3dduRPTBRAhcnKSdbuiwug==
+// GET /api/approval-instances/:id — 实例详情（含全部动作流水）
+// PUT /api/approval-instances/:id — 执行审批动作：approve | reject | withdraw | urge
+//
+// V3.17.9 修复差距 9/10/11。三个动作的权限闸门都在服务端，绕开界面也拦得住：
+//   · withdraw（撤回）：只有**提交人本人**或管理员可以撤回，且实例必须仍在审批中；
+//                        撤回同时把业务单据退回草稿，并在流水里留下原因。
+//   · urge（催办）    ：只有**提交人本人**或管理员可以催办；同一实例两次催办之间
+//                        有最小间隔，避免把「催办」点成刷屏骚扰。
+//   · approve/reject  ：只有**当前审批人本人**可以处理（含经委托路由后的实际审批人）。
+//                        这里刻意不给管理员开口子 —— 审批是责任动作，管理员代批会
+//                        让「谁批的」失去意义。管理员要纠错应走撤回，而不是替人签字。
+//
+// 委托路由：批准后推进到下一节点时，会再解析一次下一节点审批人的生效委托，
+// 保证「审批人临时出差」在推进链路中也被正确转交（不只是提交那一刻）。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { isRlsPrivileged } from '../../_shared/rls';
+import { writeAudit } from '../../_shared/auditLog';
+import { withVersionGuard } from '../../_shared/optimisticLock';
+import {
+  resolveDelegate,
+  todayStr,
+  withdrawBusinessDoc,
+  writeApprovalAction,
+  assertSoD,
+} from '../../_shared/approvalInstance';
+
+/** 同一实例两次催办之间的最小间隔（分钟）。太短会变成刷屏，太长又起不到作用。 */
+const URGE_MIN_INTERVAL_MIN = 30;
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  const row = await db
+    .prepare(`SELECT * FROM approval_instances WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!row) return json({ error: '审批实例不存在' }, 404);
+
+  const acts = await db
+    .prepare(`SELECT * FROM approval_actions WHERE instance_id = ? ORDER BY created_at ASC`)
+    .bind(id)
+    .all();
+
+  return json({ ok: true, data: { ...row, actions: acts.results || [] } });
+}
+
+export async function onRequestPut(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+  const actorName = user.name || user.username || '';
+  const now = new Date().toISOString();
+
+  const inst: any = await db
+    .prepare(`SELECT * FROM approval_instances WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!inst) return json({ error: '审批实例不存在' }, 404);
+
+  const body = await context.request.json().catch(() => ({}));
+  const action = String(body.action || '');
+  if (!['approve', 'reject', 'withdraw', 'urge'].includes(action)) {
+    return json({ error: '不支持的审批动作', allowed: ['approve', 'reject', 'withdraw', 'urge'] }, 400);
+  }
+
+  const privileged = isRlsPrivileged(user.role);
+  const setClauses: string[] = [];
+  const values: any[] = [];
+
+  // ────────────────────────── 撤回 ──────────────────────────
+  if (action === 'withdraw') {
+    if (inst.status !== 'pending') {
+      return json({ error: '该单据当前不在审批中，无法撤回', status: inst.status }, 409);
+    }
+    if (inst.submitter_id !== user.id && !privileged) {
+      return json({ error: '只有提交人本人或管理员可以撤回该审批' }, 403);
+    }
+
+    // 业务侧回退：撤回只改本表的话，单据状态还挂着「审核中」，等于假装撤回成功
+    const pushed = await withdrawBusinessDoc(
+      db, user.org_id, String(inst.module), String(inst.entity_id),
+      body.comment || '', actorName,
+    );
+    if (pushed === 'skipped') {
+      return json({ error: '单据已进入后续环节，不能撤回（请改用驳回或冲销）' }, 409);
+    }
+    if (pushed === 'missing') {
+      return json({ error: '关联业务单据不存在或已删除' }, 404);
+    }
+
+    setClauses.push(
+      `status = ?`, `withdrawn_at = ?`, `withdrawn_by = ?`, `withdraw_reason = ?`,
+      `current_approver_id = NULL`, `current_approver_name = NULL`, `updated_at = ?`,
+    );
+    values.push('withdrawn', now, actorName, body.comment || '', now);
+
+    await writeApprovalAction(db, {
+      orgId: user.org_id, instanceId: id, action: 'withdraw',
+      nodeOrder: inst.current_node_order, nodeName: inst.current_node_name,
+      actorId: user.id, actorName,
+      targetId: inst.current_approver_id, targetName: inst.current_approver_name,
+      comment: body.comment || '撤回',
+    });
+  }
+
+  // ────────────────────────── 催办 ──────────────────────────
+  if (action === 'urge') {
+    if (inst.status !== 'pending') {
+      return json({ error: '该单据当前不在审批中，无需催办', status: inst.status }, 409);
+    }
+    if (inst.submitter_id !== user.id && !privileged) {
+      return json({ error: '只有提交人本人或管理员可以催办该审批' }, 403);
+    }
+    if (inst.last_urged_at) {
+      const gapMin = (Date.now() - new Date(inst.last_urged_at).getTime()) / 60000;
+      if (Number.isFinite(gapMin) && gapMin < URGE_MIN_INTERVAL_MIN) {
+        const wait = Math.ceil(URGE_MIN_INTERVAL_MIN - gapMin);
+        return json({ error: `请勿频繁催办，${wait} 分钟后可再次催办`, code: 'URGE_TOO_SOON', waitMinutes: wait }, 429);
+      }
+    }
+
+    setClauses.push(`urge_count = COALESCE(urge_count, 0) + 1`, `last_urged_at = ?`, `updated_at = ?`);
+    values.push(now, now);
+
+    await writeApprovalAction(db, {
+      orgId: user.org_id, instanceId: id, action: 'urge',
+      nodeOrder: inst.current_node_order, nodeName: inst.current_node_name,
+      actorId: user.id, actorName,
+      targetId: inst.current_approver_id, targetName: inst.current_approver_name,
+      comment: body.comment || '催办',
+    });
+  }
+
+  // ─────────────────────── 通过 / 驳回 ───────────────────────
+  if (action === 'approve' || action === 'reject') {
+    if (inst.status !== 'pending') {
+      return json({ error: '该单据已处理完毕，不能再审批', status: inst.status }, 409);
+    }
+    // 审批责任闸门：只认当前审批人本人（经委托路由后的实际审批人）
+    if (inst.current_approver_id !== user.id) {
+      return json(
+        {
+          error: '您不是当前节点的审批人，无权处理',
+          currentApprover: inst.current_approver_name || null,
+        },
+        403,
+      );
+    }
+
+    if (action === 'reject') {
+      setClauses.push(`status = ?`, `finished_at = ?`, `updated_at = ?`);
+      values.push('rejected', now, now);
+    } else {
+      const totalNodes = Number(inst.total_nodes) || 0;
+      const currOrder = Number(inst.current_node_order) || 1;
+      const isLast = totalNodes > 0 ? currOrder >= totalNodes : true;
+
+      if (isLast) {
+        setClauses.push(`status = ?`, `finished_at = ?`, `updated_at = ?`);
+        values.push('approved', now, now);
+      } else {
+        const nextOrder = currOrder + 1;
+        // 下一节点审批人也过一遍委托路由：审批人期间出差，推进链路同样要正确转交
+        const nextRawId = body.nextApproverId || null;
+        const nextRawName = body.nextApproverName || null;
+        const nextDeleg = await resolveDelegate(db, user.org_id, nextRawId, String(inst.module), todayStr());
+        // ★ SoD 推进闸：下一节点「委托路由后的实际审批人」不得是提交人本人。
+        //   只校验 nextRawId 会漏掉「配置审批人=他人、但该人委托给了提交人」的自审后门。
+        const nextEffectiveId = nextDeleg ? nextDeleg.id : nextRawId;
+        if (assertSoD(String(inst.submitter_id), nextEffectiveId)) {
+          return json(
+            { error: '下一审批人不能是提交人本人，请指定其他责任人（制单与审核分离）', code: 'SOD_SELF_APPROVAL' },
+            403,
+          );
+        }
+        setClauses.push(
+          `current_node_order = ?`, `current_node_name = ?`,
+          `current_approver_id = ?`, `current_approver_name = ?`,
+          `original_approver_id = ?`, `updated_at = ?`,
+        );
+        values.push(
+          nextOrder,
+          body.nextNodeName || null,
+          nextEffectiveId,
+          nextDeleg ? nextDeleg.name : nextRawName,
+          nextRawId,
+          now,
+        );
+      }
+    }
+
+    await writeApprovalAction(db, {
+      orgId: user.org_id, instanceId: id, action,
+      nodeOrder: inst.current_node_order, nodeName: inst.current_node_name,
+      actorId: user.id, actorName,
+      comment: body.comment || (action === 'approve' ? '同意' : '驳回'),
+    });
+  }
+
+  // 统一走乐观锁写入（客户端不带 version 时行为不变，兼容老前端）
+  const conflict = await withVersionGuard({
+    db, table: 'approval_instances', id, orgId: user.org_id, body, setClauses, values,
+  });
+  if (conflict) return conflict;
+
+  const updated = await db
+    .prepare(`SELECT * FROM approval_instances WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: actorName || null },
+    entity: 'approval_instance',
+    action,
+    entityId: id,
+    summary: `审批动作 ${action}：${inst.module} ${inst.entity_no || inst.entity_id}`,
+  });
+
+  return json({ ok: true, data: updated });
+}

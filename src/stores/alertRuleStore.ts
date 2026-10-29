@@ -1,106 +1,156 @@
-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
-Fzs6MWl2nMmY8iI47ZpeOw==
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeConfig } from './entityBackedShared';
+
+/**
+ * 异常预警规则配置 — V2.73
+ * ------------------------------------------------------------
+ * 后端 /api/alerts 已真实计算 6 类异常（低库存/逾期采购/逾期销售/临期/信用超额/待审批），
+ * 但阈值原先硬编码在后端 SQL 里，业务无法调整。本 store 把「哪些规则生效 + 阈值多少」
+ * 前移到前端：规则对服务端数据与本地同源重算结果一视同仁地二次过滤，
+ * 因此在 DEV/离线（走本地重算）与生产（走 D1）下行为一致。
+ *
+ * persist key = ssa-erp-alert-rules。
+ */
+
+export type AlertRuleKey =
+  | 'lowStock'
+  | 'overduePO'
+  | 'overdueSO'
+  | 'expiring'
+  | 'credit'
+  | 'pendingApproval';
+
+export interface AlertRuleParams {
+  /** 低库存：可用量 / 安全库存 低于该百分比才报警（默认 100 = 只要低于安全库存就报） */
+  ratioPct?: number;
+  /** 逾期采购/销售：逾期天数 ≥ 该值才报警（默认 0 = 只要逾期就报） */
+  minDays?: number;
+  /** 临期：是否包含已过期物料（默认 true） */
+  includeExpired?: boolean;
+  /** 信用超额：超出授信额度的比例 ≥ 该百分比才报警（默认 0 = 只要超额就报） */
+  overRatePct?: number;
+}
+
+export interface AlertRule {
+  key: AlertRuleKey;
+  name: string;
+  /** 规则说明（配置面板展示） */
+  description: string;
+  enabled: boolean;
+  /** 命中后的严重度基线，实际仍按命中条数升级（见 AlertMonitor） */
+  severity: 'high' | 'medium' | 'low';
+  params: AlertRuleParams;
+}
+
+export const DEFAULT_ALERT_RULES: AlertRule[] = [
+  {
+    key: 'lowStock',
+    name: '库存低于安全库存',
+    description: '物料可用量低于安全库存阈值，需及时补货',
+    enabled: true,
+    severity: 'high',
+    params: { ratioPct: 100 },
+  },
+  {
+    key: 'overduePO',
+    name: '采购订单逾期',
+    description: '已超过期望交货日期但未完成的采购订单',
+    enabled: true,
+    severity: 'high',
+    params: { minDays: 0 },
+  },
+  {
+    key: 'overdueSO',
+    name: '销售订单逾期',
+    description: '已超过期望交货日期但未完成的销售订单',
+    enabled: true,
+    severity: 'high',
+    params: { minDays: 0 },
+  },
+  {
+    key: 'expiring',
+    name: '临期/过期物料',
+    description: '保质期临期或已过期的在库物料',
+    enabled: true,
+    severity: 'medium',
+    params: { includeExpired: true },
+  },
+  {
+    key: 'credit',
+    name: '客户信用超额',
+    description: '客户已用信用额度超过授信额度',
+    enabled: true,
+    severity: 'high',
+    params: { overRatePct: 0 },
+  },
+  {
+    key: 'pendingApproval',
+    name: '待审批单据',
+    description: '尚未审批的采购/销售订单与生产工单',
+    enabled: true,
+    severity: 'low',
+    params: {},
+  },
+];
+
+interface AlertRuleState {
+  rules: AlertRule[];
+  setRuleEnabled: (key: AlertRuleKey, enabled: boolean) => void;
+  updateRuleParams: (key: AlertRuleKey, params: AlertRuleParams) => void;
+  resetRules: () => void;
+}
+
+export const useAlertRuleStore = create<AlertRuleState>()(
+    (set) => ({
+      rules: DEFAULT_ALERT_RULES,
+      setRuleEnabled: (key, enabled) =>
+        set((s) => ({ rules: s.rules.map((r) => (r.key === key ? { ...r, enabled } : r)) })),
+      updateRuleParams: (key, params) =>
+        set((s) => ({
+          rules: s.rules.map((r) => (r.key === key ? { ...r, params: { ...r.params, ...params } } : r)),
+        })),
+      resetRules: () => set({ rules: DEFAULT_ALERT_RULES }),
+    }),
+);
+
+// ── V3.81.0 D1 同步层（组织共享预警规则，整块 rules 单行，避免各终端规则漂移）──
+const RES = 'alertRules';
+const CFG_ID = 'alert-rules';
+
+let hydrating = false;
+async function hydrateAlertRules() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 50 });
+    const rows = parsePayload<{ id?: string; rules?: AlertRule[] }>(res?.data || []);
+    const cfg = rows.find((r) => r?.id === CFG_ID);
+    if (cfg?.rules && cfg.rules.length) {
+      useAlertRuleStore.setState({ rules: cfg.rules });
+    } else {
+      writeConfig(RES, CFG_ID, { id: CFG_ID, rules: useAlertRuleStore.getState().rules });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+useAlertRuleStore.subscribe((s) => {
+  if (hydrating) return;
+  if (isAuthed()) writeConfig(RES, CFG_ID, { id: CFG_ID, rules: s.rules });
+});
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void hydrateAlertRules();
+
+/** 按 key 取规则（未配置时回退默认） */
+export function getRule(rules: AlertRule[], key: AlertRuleKey): AlertRule {
+  return (
+    rules.find((r) => r.key === key) ||
+    DEFAULT_ALERT_RULES.find((r) => r.key === key)!
+  );
+}

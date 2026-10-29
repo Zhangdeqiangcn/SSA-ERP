@@ -1,24 +1,29 @@
-U2FsdGVkX1+rEYzniM+mOZgLLIl959JYFMI7D9UX6KbwgTOcexJ/UTiN+mmmVoWF
-USdoUEGdrQbT0WdTRHpAr00UlxN6k5ubJno9BeBfGaawGBPSVwap64q6HXLtmfux
-B1+OYL0Gyle1qyexwWCzwvqMPJpwR06HvVTPocOMnf4TFpn6RFeJoxHpa28BOZI0
-4YLd7QsEMBALyPJmMZ3YBNl2kUyynxADA3FBTDwzid40WbW9K0vHc3m9bmnsysgF
-qgTFWtR0BrWLjG5GGoe0zRhmcFRvKuOciGRiMwZS7lNmR5vLEpihSTR72ZG97Ke3
-/V9hAm+jMueq8LW6rzicA9P/i87QS0z05un5WqI7Vf8vqvJsxxpjJ8ifgYb1B6Sm
-uyRMqEDazr19ofmcGMpD+w+cb0/cKqBcXn/N5TSWoOaRKMlN62apkOGlZTut9fzC
-IVvzeNonTlhX4D6I971yRt88RGRS/prnJgIAODQa6CV1lcjhQfeog40bXpvW67vG
-LAD/hQUfWVlceyAXORK5K184G2gdZLFWpRG0IvvVzypkXKIKakWDKO2x1CrquiYV
-KCplxKEjtaEcvgRGCZpnGFTxpafDh1sbWVWRSGPqmub6NHU/8Q2/fWaViR92jyyd
-ltN9K2eGyKqekgBpSoHnh7dPFnk5cmHnVkErZU4CEsJp4YgAgR3+CM69i7yFHHBf
-6+m1Gq+GLqvNUnIReb9j6Xm8VtWK1AZbpA/gHyZD3MhmO/xDM25LveP19ZDQGPKD
-hQSXA2KZOZYMfgnwYkSVLn0Yc0VAWQPSN7Z/3ogy5noj2MbNhuyM3qR+qoI2yj7Q
-8z7PeSKktpP3nH9f8zo/9xYKhgstkAiIKW4EtztdBYE+6XEHsr3FlWEQOm0ruXtl
-9uTuOo0Ey4z+kfwPIvHOCh2VTGDXiR26lG77G/zqvx2IQNNb9ZuEJBUo/dDkHEi3
-EEZkhFLAn5ztenBG7nHk36tonh8ldDwqCnuG0Py8ipq3DebSZ3G0uzYkQq9qCFtm
-phZPe2ePgMV1DUDiic47SkznDPntIAqUr9DjoCrhjbRfE7hI8vfr7R59DMqx2W2U
-07JhjYHxsGElpODP3rpbxkmeBHegTnUDJHug7A92LygQzU6h5l7ihvNAjko+yef4
-/At1QLUtzBMh79hTMszGl0uMGZYch32RbB2KpOES1KhKbuAGcrCNR3k1jShLUbYF
-q4XaooqIMuZZ2P5zu5qHjFc4GluH2A/RF7sAAJ7Oi/zUwJFU8VjNFY4v6ZhfDOqi
-oWx0bogVtcAMCr/Ro4y14ypXeW8jYhsRjcgwAfnxCdUt3huOr999Zy8BpO452PV2
-0Bk7DF/iNq5APqF7mAEg9o7G0qPNOF8ISFwYfEbIk5m23uSxj/2L6B3ycfbrCfDT
-+ZPhE3ygCdoaku9v0CNLoVsNo9WHuZ5bR8AISp7k+6fZRJFXyYjfcO+T/rF+RiPV
-BCImUC5PymONNhCpM363TZ6M3Vq5yLvmqIBjReDnfW7mctsoADIWPOYX58M+z34/
+// 物流面单 · 承运商列表（GET /api/logistics/providers）
+// 与前端 PROVIDER_LABELS 镜像；isConfigured 由 channel_credentials 是否含该平台非空令牌动态判定（诚实反映真实对接状态）。
+import { getUserFromRequest, json } from '../../_shared/auth';
+
+const CODES: { code: string; label: string }[] = [
+  { code: 'douyin', label: '抖音电子面单' },
+  { code: 'pinduoduo', label: '拼多多电子面单' },
+  { code: 'kdniao', label: '快递鸟（聚合）' },
+];
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const rows: any =
+    (await env.DB
+      .prepare(`SELECT platform, access_token FROM channel_credentials WHERE org_id = ?`)
+      .bind(user.org_id)
+      .all()) || {};
+  const credMap = new Map((rows.results || []).map((r: any) => [r.platform, !!r.access_token]));
+
+  const data = CODES.map((c) => ({
+    code: c.code,
+    label: c.label,
+    isConfigured: credMap.get(c.code) || false,
+  }));
+  return json({ data });
+}

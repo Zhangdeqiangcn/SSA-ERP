@@ -1,131 +1,148 @@
-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
-qwQkBhRJmSgsbN0fAOVfnQ==
+// 后台任务调度接口（V3.1.0 · 评测 H-04 整改）
+//
+// 定位：Cloudflare Pages Functions 无定时任务，故把「触发权」交给外部定时源
+// （Windows 计划任务 / 第三方调度），本接口是唯一的推进入口：
+//   GET  /api/system/jobs         查看队列概览与执行留痕（管理员）
+//   POST /api/system/jobs         推进 / 重放 / 轮换调度令牌
+//
+// 鉴权二选一：
+//   ① 管理员登录态（super_admin / admin）→ 全部动作；
+//   ② 请求头 X-Job-Token 与系统配置 jobs.tick_token 一致 → 仅允许「推进」。
+//     外部调度令牌只具备「触发执行」这一最小能力，不能读队列、不能重放，
+//     即使令牌泄露，攻击者也无法借此查看投递目标或重放任务。
+
+import { getUserFromRequest, json } from '../../_shared/auth';
+import {
+  getJobConfig,
+  getJobOverview,
+  jobUnauthorized,
+  replayFailedJobs,
+  rotateJobToken,
+  runJobTick,
+  verifyJobToken,
+} from '../../_shared/jobs';
+// V3.5.0 B6：补齐写审计（重放失败任务、轮换调度令牌是两个高影响的管理动作）
+import { writeAudit } from '../../_shared/auditLog';
+
+/**
+ * 审计主体解析（B6）。
+ * 本端点有两种调用方：管理员登录态 与 外部调度令牌。审计要能区分二者 ——
+ * 「谁触发了这次推进」在排查异常投递时是首要信息。令牌调用方没有用户身份，
+ * 故用一个显式的伪主体 `{ id: 'job-token', name: '外部调度令牌' }`，
+ * 而不是留空 —— 留空会让审计条目看起来像「无人操作」。
+ */
+async function resolveActor(request: Request, env: any): Promise<{ actor: { id: string | null; name: string }; orgId: string | null }> {
+  const user = await getUserFromRequest(request, env.DB);
+  if (user) return { actor: { id: user.id, name: user.name || user.username || '未知用户' }, orgId: user.org_id ?? null };
+  return { actor: { id: 'job-token', name: '外部调度令牌' }, orgId: null };
+}
+
+async function isPrivileged(request: Request, env: any): Promise<boolean> {
+  const user = await getUserFromRequest(request, env.DB);
+  return !!user && (user.role === 'super_admin' || user.role === 'admin');
+}
+
+/** 中文来源名，便于留痕直接可读 */
+const SOURCE_TEXT: Record<string, string> = {
+  scheduler: '外部定时调度',
+  middleware: '请求顺带触发（兜底）',
+  manual: '管理员手动推进',
+  login: '登录时触发',
+};
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const privileged = await isPrivileged(request, env);
+  const viaToken = !privileged && (await verifyJobToken(request, env.DB));
+  if (!privileged && !viaToken) return jobUnauthorized();
+
+  const overview = await getJobOverview(env.DB);
+  const cfg = await getJobConfig(env.DB);
+
+  return json({
+    ...overview,
+    config: {
+      configured: !!cfg.token,
+      enabled: cfg.enabled,
+      intervalMin: cfg.intervalMin,
+      // 令牌只在管理员身份下回显（外部调度令牌自身无权读取令牌）
+      token: privileged ? cfg.token : undefined,
+    },
+    sourceText: SOURCE_TEXT,
+  });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const privileged = await isPrivileged(request, env);
+  const viaToken = !privileged && (await verifyJobToken(request, env.DB));
+  if (!privileged && !viaToken) return jobUnauthorized();
+
+  let body: any = {};
+  try {
+    const raw = await request.text();
+    if (raw) body = JSON.parse(raw);
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const action = String(body.action || 'run');
+  const limit = Math.min(Math.max(parseInt(String(body.limit ?? ''), 10) || 10, 1), 50);
+
+  // 外部调度令牌：仅最小权限（推进），不得重放或轮换令牌
+  if (viaToken && action !== 'run') {
+    return json({ error: '调度令牌仅具备「推进任务」权限' }, 403);
+  }
+
+  if (action === 'replay') {
+    const r = await replayFailedJobs(env.DB);
+    const who = await resolveActor(request, env);
+    // B6 审计：重放把「已判定失败」的任务重新排入投递队列 —— 可能造成重复发信，
+    //   因此必须记「重放了几个」以及是谁按的。
+    await writeAudit(env.DB, {
+      orgId: who.orgId,
+      actor: who.actor,
+      entity: 'system_jobs',
+      entityId: 'replay',
+      action: 'replay',
+      summary: `重放失败任务：${r.reset} 个任务重新排队（可能产生重复投递，请核对收件方是否重复收到）`,
+    });
+    return json({ ok: true, reset: r.reset, message: `已重新排队 ${r.reset} 个失败任务` });
+  }
+
+  if (action === 'rotate-token') {
+    const token = await rotateJobToken(env.DB);
+    const who = await resolveActor(request, env);
+    // B6 审计：轮换令牌会让旧令牌立即失效（外部定时任务会因此报错直到配置更新）。
+    //   这是「换锁」动作，必须留痕；令牌值本身绝不进审计（审计记录会被很多人看到）。
+    await writeAudit(env.DB, {
+      orgId: who.orgId,
+      actor: who.actor,
+      entity: 'system_jobs',
+      entityId: 'tick_token',
+      action: 'rotate',
+      summary: '轮换外部调度令牌（旧令牌即刻失效，需同步更新定时任务配置）',
+    });
+    return json({ ok: true, token, message: '调度令牌已重新生成，请同步更新定时任务配置' });
+  }
+
+  const cfg = await getJobConfig(env.DB);
+  if (viaToken && !cfg.enabled) {
+    return json({ error: '外部调度已在系统配置中停用（jobs.tick_enabled=0）' }, 403);
+  }
+
+  const result = await runJobTick(env, viaToken ? 'scheduler' : 'manual', limit);
+  return json({
+    ok: result.ok,
+    source: result.source,
+    sourceText: SOURCE_TEXT[result.source] || result.source,
+    processed: result.processed,
+    sent: result.sent,
+    failed: result.failed,
+    durationMs: result.durationMs,
+    error: result.error,
+    message: result.ok
+      ? `本次推进完成：处理 ${result.processed} 个、投递成功 ${result.sent} 个、失败 ${result.failed} 个`
+      : `推进失败：${result.error || '未知错误'}`,
+  });
+}

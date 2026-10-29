@@ -1,96 +1,106 @@
-U2FsdGVkX18X0Cc+f1tVXWkdBcATh5/zzKjZ2Xt6rCAzOZa68CyKe9MJ7ups81cw
-3zsCQoPEelkmejPY5mS1ToX0bHR1G/k75eeL/dI8kmWMUhID81UnWhMt9YudmnhG
-6shqclPdrxLybb2D2rYmn3bfmJxHgF/cgP1FAGJTuRiVMji2osjcVFOlKZGseaqD
-7I56fAh23eR/oOInu8dZk/YiC/0D6m8FZG98amvOwKLbKH0WhVpFRXU96JZTAjtz
-+jcEI2pVLrtW4AOx22Z+ndWFc8LXS6fxA8VO4qpYeSLwIaSDgl0GoqToYudupM0h
-tby8fwLaO36TEcxt8Hh9TZUEMU7J4ukt+prAkKS3K+mo6QG70VODIriEs5YshcrY
-+6WeLKEkBh4fy8sHGiDz9tgipV28jsQyq0oQM9e5T+4KhcjyVkpr2yg/3nD4nrV6
-bQKz9r2+/f3KqHkJHFPUc8XN6A0fPmRMdvVzGqAcQXq+YLxs5/bSBf+Mv4mJ87Tw
-PB+xYuN4527Kl95jPvfGF53TzpeRK80lRSi/uwscjgVh+L4NAQKZVOMgQUrywCyg
-kGoTMIDZiMfPJ4vIh9zJi4xPK79nk+afOo7Gf7q00B6Ak7F2hmd78IotwL2RyB37
-mpA+aqtmmiB1Fg599nbVTneduX4qtHkWExh0W7yFpxIfLzPkv/3cuCUUWe2etJDQ
-sv1kj+3ul9ZopMBgO6Ezt81H9BReGwEdX7GPgIWNo0liU1CL1oNwF+RcaNrMKCrn
-Z+yB6WQEruy0xFfZYkOTKROF3dkKxnmm9x9tPFnghF2tUtm+isZVAkE9w34TN2vu
-hsUDAW0drQ/R77UGsdSlZLys5RWezIqrOxTYEly74iqALJ8qLILBTdyBZ3tFeau/
-GPGScxtR3AIUJxHKyN+ZyX2U9Z/rqna89r7ATrKRK3ykHur5UUBH/TRKDJJ8o06K
-wE1/Yp3vUidHcyOv8v/tNUJ7YG2q4LXRY6N4P3JXJ9nsY39oPEU0foBhTkrm2MIu
-BHlnxk+kspIfDUVYS7A4qdAZIQxksNDeEq3Uuy24aG3RlPdFltSTfgBIsa71AJUN
-ZCv8YmvIHZdJTsniIMgYjHYKCbNA6FHFLhrAqskEG7t/Jhjm076HSiv1ipEPbbaB
-rbJPfr05UGd4DAk3K1GLM2OLNSevax4d8zjxgzGMacbWJFRV1As2BA4BX/fXwHmH
-N9du8zt1svOfEsMqSyV9PqbwC4LtSMdvN7q7HPda3ZXBsNe8Gc/K2RSOUyufzdUY
-G7hMimPLAgYIR5ioFf1XCiOTT+N3KGGM+hk0pU+6u9Bv5UkmDkfHRlhDMiW+qg4K
-iUTyv15BDbQ4hKg1Xwc5f5ggp5cMiao+hXi26eG+efwhyVol0uhP2WzojnIml5Rn
-PFdIxyVVJgZEVbYfsrBUbCh9PNyy7cTRZu0XigR8+9Jgt573t6HTMc7QL7W1a7bI
-d5z5eRc1VGXi72TBnnyyZW5qM34lhUH3NzQW+1vqQAQywguEByD8WCtcAVLJ1JP1
-IUl6LX5MTf3c/GJVlXz2oqUpix6Notl8bkhj5cikpJ0mDmquriKYwhv/1tMvqd2i
-aEsR66B49E8ey0ZoEPk4YIvsl3Stml5d7tWewv+ZEz4+mlsUSYUF+lIonSK/Yk4G
-oZlcdSKxYNbobjsQTnRBl4J5J67HVZUj2ItO07UMqhK34MMxMqupgCuVtQapsd51
-4vx0X8mDkwIYVCxNt7xt3MX7AtjimUzOyQFwbO8Mk3C5EhPvfNtrLGVOdtw2ia8L
-GPKQo9Wc0ZvWQHx6z6FNXkET1uDpgevvGVh+z+dIVCUww9veCNLOIs1JbJh111Cs
-v9ZSPQy48bFvSUCbr9sgX330blUm6l46/FTDRqbW+PBYgtIXoKXfXNsZWu3dokoe
-wLgMJjfX9PJP7zT29j04v3XNXJGId2b4TEf0q2v/yAWrDtt28O1evgHTWFlpKGQg
-3331OE0sJq/d2rqebQRrXZIT9Ut8kKP3+7Grsk8GGbZS1eLDo6X11HsoM3CZio2W
-KrH7A8Yn7hV5SFGiTPOMR0YO09m4PX3YoBMNSFuB4eH5QO4fUAQmKrGeHPeaM49L
-l8TGjTZRZuiF+deUq/i4zCTmBaQnmklybrt5qEcZV0Ftd54JHDJ5O671gpbxBq0J
-MF/Sze4QICyp9Jn5hPdYNQqaK9cueWaJ8BR4tNtOAXesJpjn5kI5T0SNd0QllDuC
-f79enhCGwtQXJ622ACAsilDbD5F5+ahJFzu7uDM50Pq/GgAywFtuR4zOsMoKE4Yn
-vj/QAV2EKJdxgKXRbUik9DnmVOSYa/+pa/PdbNKDFK6hU2iTwZ0Ld0bAJ0ZxcPcO
-131eB8ipqXx9FwrulRtYG+OMWeNXMemcMKWeKRhldcmJVEJQ1AQrSWvVasgqJw4H
-GZZB1G7Fj/6mPEUlWrOn1WJScG/190VybtQUPhqt8mcMnNxskvGjFyotnxOcO9cf
-U+zMphkLtqlEstCGIpwOQNcPmEIVpaLPmfrejDSp+Vpg8KT/OBFccsk1MVs0uHkW
-Lh280I6FImm9Zh2oFZdU6zEiNkkrEeq40/XenFcyXEY5rItwN1LLCfa/TZBCMprS
-31ugrVEJ/VSrDzqHRrH34v7nZnZYlqXLE+EHsf1eS17E9dXVzoxZ6HXXFhPwzm/o
-u1G6stzN6E/5cD9RLHJskBzoiosv6fTmzsuo/HmAdIwL0lDZwmTxQn0Z/z52+ceJ
-cFdOalPkkXcgDbalPZ/wyGP1y79ivnWua+0j5k2FK5zs6MXjP2KA8uEOKkKcJXI8
-Z1YePiBEcZBzO7POMkBHRYSyovBVaHnvOUYNdnUAsU3HgQQUxCCE99HV6ZPxzTNS
-mzxPBw3OSw+waDBNQzCOM5rMMNWoUgPc82plth8w4mxRjxe51E5DC22Pstw1nTFs
-s3cTLCOhDbQ7uxeHQ+0puk2Mx362urGOEacwPL91x+P8K+dfFb9+e9PPkt+9qJho
-L2hHPq0Aw87MOvGYY9ZblMsODcJSk9FXFXe8ZicsH5PWNlZIP+IgitYNObnN9dIS
-+Zg0g9JTrnlVt0hjMltqW2SQGGjjH80wiK97J2h/w3whTMNUjq6JtpVmKKdQhkXw
-mYHizYuMrWJxro4/JDwe8ZzE4GWcHCB4cE9y/qr/TQo62xiMbM81ccNIs7mBzZA9
-Z1jJxGwGnw5PcC4ZBwLclphnSoLPFSkCtFeXXtBqQHggG6kkT/Hi1hxey+WRVuEP
-yaNu1kJKlC1m0S3IeqG6tOy18k4+fpVIG38OHvrI8t59vOFeUwu6Gaf+p2SLOyx5
-QDdj16xAqvEt+vkRctdopngXP3fqn8CLWmOidj3qblqyrlrykdxqzi9JmmJFLaVL
-wZgqNwyw91mUalM7WKisfV9vc5QLOMbFU3v6YzXQQ9hAPT78UAq+q4i6v0dzrD+J
-oKy6unGQTDCjtf55LS/GZyvEqGuXZ8Z7GmxR1QnZskEjcjcmUC/F5ykg1ERb/2jZ
-9fPCx0jDAFyw7CU2c5WLg0EuueOu5DGubcbjf2aq6orrBK6eGm+kBg05/brC2wak
-MRjoFkgB2FpkHIf4pKYAF3P6yJAe2EqKhlkJomEi13Lx8BuwJdxevdsaqLA/sx0c
-3M7RPVWk5fhIDBF+tsJC4Q06DUn63ul/vCA4uCEjD0ywpC30R1GLZNyuGiK5F0j8
-NhepTKpoMRdp6GOr53hd6DoWgZPcYHcQ/G3YTJcEuCmq6Fd1rabZ222mpTVbhXi3
-XQruw6xfUHFp2V45lXVdLGV1VRCgsUqsYNJBxkSdYP9OGT8NAkz1Xdua3R/rQ/FR
-mRW/XGhmdFkB0jPcKzJHXkrH8hgSP9bh3uc+fC+dJu5JqVWmtbhY5Po3edjHo8FO
-/UBySyJiFHF0gTTL405yIOmhhS+kLE1zfBpaJXOr9fRf+HNKX8M9dp9dfDstMWOC
-jA1KyGFzy51TYCVWlKLyrSWS15QwCD8fGiMfC1JUVI0LCh5Sb0zgD5YpQGeuvhO3
-HD98aFlksVCuCGLQhnwQEXG3PZRliuG+raoZJ0WmZp7PT2IjeHYoRJbVSbmIvkgB
-uV6Ynt71CJr6FSm+LKNu+MG6Nzr8dXklJBUwNxTUVkTNgjBa46U7zYJhtVHmhNQm
-x1/4UVW0J/2u4lu/qTwQJSL9SwtcrlRLWFekrXZlr4KBzl/wMnpKHgOyiU6HCbAJ
-MCHGrxalRTX4l1pKIkfgCTifNWAio2+s6MDiwFSYBBUP/HqTB+MgL69Cb5x5Y6sH
-a74l0LtQN4BAfQSUE63uaeuGnLuC89OuTSZsd4SWURC/AAp/rZGgDuRTMKhaJ2hs
-QAtJtOhIE0njOAPyCFtvjME8BHeO+9t0uGe8KuvEuRV4FuwnxdR5M16Q4P5SOjAr
-xV53qAKRQggGmsWDt70L2BNuhCf/go9ftwkcDCGSzXp5RHUOfK8iJxaIkgOanepA
-QbHiFAAPLu2xVW26UdxWuQdOpjlB1xyJbnKVU4CEcB8wu8BYqaq4C8JEzzAZt/le
-NpFW8XmYFVkaTcdLbffTnYHNAiB2X3OZro1NFy3bgPh5KKLKnBEPCAInjhDTg74G
-3RiTnZN6sN5sBGVjDI+jJ9mzDGrwvnkdc9mzSfPZ5EDDWPakTrHuKsr8/t8PcS+2
-ShSJUaHbkSb5z44PEgnT+RUSINahjNljjOZj+rdLgOm/ffZV7uM9fm+ItmkhpNrH
-Fkjn+KbpIcjkSBZv1rkhMAkPYHJHvqKb+7NXS078Ff/MjnoO6sOV8Wpvxx+ZlQ4k
-giKlyNtEStdNO5TetKr6UAeDVuCbksCJDl6nH4z6Dt+O749FOpQypxQ9hjsFdPjp
-zwsN1ZB85kXlqoIVzCcfVINk3sk3k9qYwZmSr1lptN+AsX0ehLb5VXa7blRN1fI2
-Xuj9Ydd6rOA09IG2CxxX4HPNie9VoTEq1AH8TDc9iSCKIpdDOijsSG1T/vKMIZ1A
-DPfTB6qYH3HdMvgFN/wzMWvec/uv4aN1wlmdlg0NUWaR/sqkeOgA9NdDk1MhPgOL
-biWuoYMMLUkhvVF18zGk9/aX/trVaFZMzO8sHy5q3wLrhu2vY6ehpxdKwYU4GWO2
-2XelvD8IflryBWP8uFhHDt3ubzUbFqDf9D2fCd4VSX12ceQEKG1BKINXaX8HPeJo
-B+s14dSQOIv4PVcfI37w0EZw8HO3e4ZKGx9/+QqwFWP778vTy2PbbXtnHr75TBwx
-Gg3fSu3JOSp2wSY5yeb6y/ZoLarXDFA/Bvwg3D1RIplHSHwM2Zx0RCW+ZF0WDHUP
-xE8gg8Yh2w24v3m8XC20/NF/DPK/SFo2aNk6HFQqCBoh4mj1d60Skh+/uuOr+d/S
-VddelR2BeuXavg/0w4QH6/vtTBCfIsKG1GigRSoHwHoi8Dlm0VmTndfa7qGuOI+6
-yGo4B5ZEWr2MxF5TQzxWXOlDgDug4CmK2MnMoKFa6RMqa4SBwZH8/AVxItctZMRl
-oZcep+yznHStTTL+45jhjIffu7uhRt/eyDiBeiWCPLlgBCndtJlG0u5rBoGsUwUr
-bE8YR1IghnCVehJbi8m0f1Q1DYOGAPcSq4H4332vq6//1jMRsldltyGYTpZlprth
-zpSk0hGD5vG771wJzGlF0fqcJKnIuWpjv85hSinneTurIXfyHufIQe7Pe8b6W67j
-bNosD3kkqAquT2vJOFy6N6j6hqMRyw8qXraz+eGJNgZN+RuZhkKHcGeMIs3/to0x
-H51nVjDQEiXk3BURWC9KssSxgKNMjMeCy+Pdb92Azsx55snyfbFkDmzzIPLhJlMX
-ggkM7/etplebEkjFdtonpCRPEVB5c5jGKgju652KUIcCUG72f+3maVGrYVptrQl/
-geuxJ/BrJ5DSUJyKRetLW7mDT828iuNUl6lwUdLzc1iyNUvqXttLPjoR3pKWnqES
-TkDWaAcDNpLUNidAkvgn2VZHHNRn8BJDPMWenaqlj4VcuyI3FOYnWGQh46QWS1Kv
-mnAggRnGRTjcynSk+ukWnFybFxpf5BZQMiWzLVdGnE2SVL5Utco1xV7URU/+y3YB
-3FlHhs6tzJ3p9FfzNi9JdFVl9p9PdYDgZxZwvKw0lqs=
+// POST /api/auth/security-mailbox — 安全邮箱备用通道
+// 请求体：{ username, password, purpose, action }
+//   action = 'enqueue' 申请排队（验证码延时投递到安全邮箱）
+//   action = 'status'  查询最新排队/投递状态
+//
+// 为什么**不要求登录态**：这条通道的用途恰恰是「进不去系统时的备用取码路径」。
+//   若要求先登录才能申请，等于把后路锁在系统内部——上一版方案正是因此被否决
+//   （能登录的人自然也能看到验证码，起不到任何隔离作用）。
+//
+// 安全性由四点共同保证：
+//   1) 必须提供正确的登录密码，且账号与密码错误返回同一提示，避免被用来探测账号；
+//   2) 验证码不在任何接口、任何界面回传，只会投递到独立的安全邮箱；
+//   3) 延时投递（默认 8 小时）+ 间隔重投（默认 10 分钟）；
+//   4) 同一用途同时只允许存在一个排队任务，且有 24 小时申请冷却，防止安全邮箱被骚扰。
+import { verifyPassword, json } from '../../_shared/auth';
+import {
+  enqueueSecurityMail,
+  getSecurityMailStatus,
+  PURPOSE_TEXT,
+} from '../../_shared/verification';
+import { runJobTick } from '../../_shared/jobs';
+
+const ALLOWED_PURPOSES = new Set(['activate', 'change_password']);
+const ALLOWED_ACTIONS = new Set(['enqueue', 'status']);
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  const password = String(body.password ?? '');
+  const purpose = String(body.purpose ?? '').trim();
+  const action = String(body.action ?? 'status').trim();
+
+  if (!username || !password) return json({ error: '请输入用户名和密码' }, 400);
+  if (!ALLOWED_PURPOSES.has(purpose)) return json({ error: '不支持的验证场景' }, 400);
+  if (!ALLOWED_ACTIONS.has(action)) return json({ error: '不支持的操作' }, 400);
+
+  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ?')
+    .bind(username)
+    .first();
+  const u = user as any;
+  if (!u) return json({ error: '用户名或密码错误' }, 401);
+
+  const passOk = await verifyPassword(password, u.password_hash, u.salt);
+  if (!passOk) return json({ error: '用户名或密码错误' }, 401);
+
+  // 目前只有超级管理员需要邮箱验证码
+  if (u.role !== 'super_admin') {
+    return json({ error: '该账号无需邮箱验证码' }, 400);
+  }
+
+  // 与 send-code 保持一致：未通过审批的账号不允许走安全验证流程
+  const status = String(u.status ?? 'active');
+  if (status === 'pending' || status === 'rejected') {
+    return json({ error: '账号尚未通过审批，无法进行安全验证' }, 403);
+  }
+
+  // 顺带推进到期任务：用户来查状态时，正好把已经到期的投递发出去。
+  // 这样即使全局中间件从未触发（例如长期无人访问），用户一次查询就能闭环。
+  //
+  // 这里刻意「不阻塞等待」：SMTP 在极端情况下（对端无响应 + 重试一次）可能耗时数十秒，
+  // 若同步等待会把「查询状态」这个轻量接口拖到超时。投递放到后台执行，
+  // 本次返回的可能是投递前的状态，用户再查一次即可看到最新结果——安全性不受影响。
+  try {
+    const task = runJobTick(env, 'login').catch(() => {});
+    if (typeof context.waitUntil === 'function') context.waitUntil(task);
+  } catch {
+    /* 触发失败不影响本次状态查询 */
+  }
+
+  if (action === 'enqueue') {
+    const r = await enqueueSecurityMail(env, u, purpose);
+    if (!r.ok) return json({ error: r.error }, 400);
+    return json({
+      ok: true,
+      action: 'enqueue',
+      purpose,
+      purposeText: PURPOSE_TEXT[purpose],
+      mailbox: r.mailbox,
+      deliverAt: r.deliverAt,
+      delayHours: r.delayHours,
+      intervalMin: r.intervalMin,
+      maxAttempts: r.maxAttempts,
+      attempt: r.attempt,
+      existing: !!r.existing,
+      message: r.existing
+        ? '已存在排队中的安全邮箱投递任务，无需重复申请'
+        : `已登记：验证码将在 ${r.delayHours} 小时后投递到安全邮箱，并在此后 ${r.intervalMin} 分钟再投递一次`,
+    });
+  }
+
+  const st = await getSecurityMailStatus(env, u.id, purpose);
+  return json({
+    action: 'status',
+    purpose,
+    purposeText: PURPOSE_TEXT[purpose],
+    ...st,
+  });
+}

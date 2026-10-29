@@ -1,228 +1,217 @@
-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
+import { create } from 'zustand';
+import { BOMHeader, BOMItem } from '@/types/bom';
+import { bomApi } from '@/services/bomApi';
+import { resolveBOM } from '@/utils/bomResolver';
+import {
+  bomList as mockBomList,
+  bomTreeData as mockBomTreeData,
+} from '@/mocks/data/bom';
+
+// BOM Store（V3.6.0 C1 数据关系化首个样板域）
+//
+// ── 改造前的问题（第一性原理）────────────────────────────────────
+// 此前 bomList / bomTreeData 整体存在 `app_state` 的一个 JSON 大对象里
+// （persist 的 name: 'ssa-erp-bom'），带来三个硬缺陷：
+//   ① 无法按子件反查「这个零件被哪些产品用到」—— 后端没有表可 WHERE；
+//   ② 无法做关系约束（同层重复序号、引用不存在的父件都拦不住）；
+//   ③ 无法分页，明细增长后只能整包传，且受 A5 的 8 MB 硬顶限制。
+//
+// ── 改造后的数据流（关键设计）─────────────────────────────────────
+//   数据主源 = D1 关系表（bom_headers + bom_items），经 bomApi 读写；
+//   内存种子 = mocks/data/bom（**不落任何存储**），仅用于 D1 拉取完成前先渲染出内容。
+//
+// 为什么初始值用 mock 种子而不是空数组：
+//   本项目前端大量页面（MRP、成本卷积、工单详情）在挂载时**同步**读 bomList。
+//   若初始为空数组，首屏必然出现「BOM 列表为空 → MRP 算不出东西」的中间态。
+//   用内存种子先把界面撑起来，load() 成功后被 D1 数据整体覆盖 ——
+//   这是「渐进增强」，不是「双写」（种子从不下发到后端，只存在于这一个 JS 对象的初始值里）。
+//
+// ── 为什么连 persist 都删掉了（重要，与初版设计不同）────────────────
+// 初版曾保留 `persist(backendStorage, { name: 'ssa-erp-bom' })` 作为「本地降级缓存」，
+// 但那是错的：backendStorage 的落点就是 `app_state` 的那个 JSON 大对象 ——
+// 保留它等于**双通道照旧**（D1 写一份、app_state 写一份），C1 想根治的问题一个没解决。
+// 参照 V2.75.0 S&OP 迁移的既有先例（sopStore 迁 D1 后即移除 persist），此处同样移除。
+//
+// 那么「未登录/离线时界面不可用」怎么办？答案由组件内存态承担：
+//   store 初始值仍是 mock 种子（内存中的一份，不落任何存储），
+//   load() 成功后用 D1 数据覆盖；失败则保留种子并给出 syncError。
+// 这样：① `app_state` 里不会再出现 'ssa-erp-bom' 键；
+//      ② 用户增删改一律以 D1 为准，不存在「两边不一致以谁为准」的问题；
+//      ③ 界面在任何情况下都有内容可渲染，不会白屏。
+//
+// ── 为什么对外 API 形状一个字都不改 ───────────────────────────────
+// 本 store 有 15 个消费方（BOMList / BOMDetail / BOMForm / CostRollup /
+// MaterialDetail / CostCollection / MRPPlan / MTOCreate / WorkOrderDetail /
+// SalesOrderDetail / apiService / productionVersionStore / bomCost …）。
+// 若趁机把 `bomList` 改名或改成异步选择器，15 处都要动，回归风险远超收益。
+// 因此**保持 bomList / bomTreeData / selectedBOMId + 5 个方法的原签名**，
+// 只把内部实现从「改数组」换成「打 D1」。这样样板才能被复制：
+// 下一个域（price / quality）只需照抄这个形状，消费方代码零改动。
+
+interface BOMState {
+  bomList: BOMHeader[];
+  bomTreeData: BOMItem[];
+  selectedBOMId: string | null;
+
+  /** 是否已完成一次 D1 拉取（页面可据此决定是否显示加载态） */
+  loaded: boolean;
+  /** 最近一次同步失败的可读原因（为空表示正常） */
+  syncError: string;
+
+  addBOM: (bom: BOMHeader) => void;
+  updateBOM: (id: string, updates: Partial<BOMHeader>) => void;
+  deleteBOM: (id: string) => void;
+
+  setBomTreeData: (data: BOMItem[]) => void;
+  setSelectedBOM: (id: string | null) => void;
+  getBOMById: (id: string) => BOMHeader | undefined;
+  getBOMByProductCode: (productCode: string) => BOMHeader | undefined;
+
+  /** 从 D1 拉取全量 BOM（表头 + 嵌套明细）。失败时保留本地缓存并记录原因。 */
+  load: () => Promise<void>;
+}
+
+/** 首次空库回填的标记键：每设备只回填一次，避免多端互相重复写入 */
+const BACKFILL_FLAG = 'ssa-erp-bom-backfilled-v2';
+
+/** 生成带前缀的本地 id（与既有 mock id 风格一致，便于人工识别来源） */
+const localId = (prefix: string) =>
+  `${prefix}-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+
+export const useBOMStore = create<BOMState>()((set, get) => ({
+      bomList: [...mockBomList],
+      bomTreeData: [...mockBomTreeData],
+      selectedBOMId: null,
+      loaded: false,
+      syncError: '',
+
+      // ── 增：乐观更新本地 → 打 D1 → 成功用后端返回替换、失败回滚 ──────
+      // 为什么乐观更新：BOM 创建后要立刻跳转到详情页，若等网络往返会有一秒空白。
+      // 为什么失败必须回滚：不回滚的话界面显示「创建成功」但刷新就消失，
+      //   用户会以为系统丢数据（这正是 V3.1.0 之前 persist 静默失败的教训）。
+      addBOM: (bom) => {
+        const optimistic: BOMHeader = {
+          ...bom,
+          id: bom.id || localId('bom'),
+          createdAt: bom.createdAt || new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        set((state) => ({ bomList: [...state.bomList, optimistic] }));
+
+        void (async () => {
+          try {
+            const created = await bomApi.create(optimistic as never);
+            set((state) => ({
+              bomList: state.bomList.map((b) => (b.id === optimistic.id ? created : b)),
+              syncError: '',
+            }));
+          } catch (e: any) {
+            set((state) => ({
+              bomList: state.bomList.filter((b) => b.id !== optimistic.id),
+              syncError: `BOM「${optimistic.bomNo || optimistic.id}」保存到服务器失败，已撤回：${readableError(e)}`,
+            }));
+          }
+        })();
+      },
+
+      // ── 改：同样乐观 + 失败回滚 ────────────────────────────────────
+      updateBOM: (id, updates) => {
+        const prev = get().bomList.find((b) => b.id === id);
+        set((state) => ({
+          bomList: state.bomList.map((b) =>
+            b.id === id ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b
+          ),
+        }));
+
+        void (async () => {
+          try {
+            await bomApi.update(id, updates as never);
+            set({ syncError: '' });
+          } catch (e: any) {
+            if (prev) {
+              set((state) => ({ bomList: state.bomList.map((b) => (b.id === id ? prev : b)) }));
+            }
+            set({ syncError: `BOM「${prev?.bomNo || id}」修改未保存：${readableError(e)}` });
+          }
+        })();
+      },
+
+      // ── 删：先备份整表再乐观删，失败整表还原（删错比改错更难挽回）────
+      deleteBOM: (id) => {
+        const prev = [...get().bomList];
+        const target = get().bomList.find((b) => b.id === id);
+        set((state) => ({ bomList: state.bomList.filter((b) => b.id !== id) }));
+
+        void (async () => {
+          try {
+            await bomApi.remove(id);
+            set({ syncError: '' });
+          } catch (e: any) {
+            set({ bomList: prev, syncError: `BOM「${target?.bomNo || id}」删除失败：${readableError(e)}` });
+          }
+        })();
+      },
+
+      setBomTreeData: (data) => set({ bomTreeData: data }),
+      setSelectedBOM: (id) => set({ selectedBOMId: id }),
+      getBOMById: (id) => get().bomList.find((b) => b.id === id),
+      getBOMByProductCode: (productCode) => resolveBOM(get().bomList, productCode),
+
+      load: async () => {
+        try {
+          const res = await bomApi.list({ page: 1, pageSize: 200 });
+          const data = res?.data || [];
+
+          // 首次拉取为空：把 mock 种子回填到 D1，避免「换存储 = 数据清零」。
+          // 一次性标记放在 localStorage，多端不会互相重复回填。
+          if (data.length === 0 && !localStorage.getItem(BACKFILL_FLAG)) {
+            localStorage.setItem(BACKFILL_FLAG, '1');
+            for (const bom of mockBomList) {
+              try {
+                await bomApi.create(bom as never);
+              } catch {
+                /* 单条失败（如编号冲突）不阻断其余回填，尽力而为 */
+              }
+            }
+            const again = await bomApi.list({ page: 1, pageSize: 200 });
+            set({
+              bomList: again?.data || [],
+              bomTreeData: (again?.data || []).flatMap((d: any) => d.items || []),
+              loaded: true,
+              syncError: '',
+            });
+            return;
+          }
+
+          if (data.length > 0) {
+            set({
+              bomList: data,
+              bomTreeData: data.flatMap((d: any) => d.items || []),
+              loaded: true,
+              syncError: '',
+            });
+          } else {
+            // 空库且已回填过（用户确实把 BOM 全删了）：如实反映为空，不回填。
+            // 这里刻意不退回 mock —— 否则用户删完刷新又「长回来」，像灵异事件。
+            set({ bomList: [], bomTreeData: [], loaded: true, syncError: '' });
+          }
+        } catch (e: any) {
+          // 未登录 / 离线 / 接口异常：保留内存中的种子让界面继续可用，但如实记下原因。
+          // 注意这里**不退回 localStorage 的旧快照** —— 本 store 已不再往 app_state 写，
+          // 手上这份就是初始种子；如实告知「读不到服务器」比展示一份来路不明的旧数据更安全。
+          set({ loaded: true, syncError: `无法从服务器读取 BOM：${readableError(e)}` });
+        }
+      },
+    }));
+
+/** 把 axios / 网络错误转成强哥看得懂的一句话（不暴露堆栈与状态码术语） */
+function readableError(e: any): string {
+  const status = e?.response?.status;
+  if (status === 401) return '登录已过期，请重新登录后重试';
+  if (status === 403) return '当前账号没有 BOM 的修改权限';
+  if (status === 409) return '数据与服务器冲突（可能是编号重复），请刷新后重试';
+  const msg = e?.response?.data?.error;
+  if (typeof msg === 'string' && msg) return msg;
+  if (e?.code === 'ERR_NETWORK') return '网络不可达';
+  return '网络或服务器异常';
+}

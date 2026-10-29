@@ -1,102 +1,120 @@
-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
+// 通用实体单条端点：GET 单条 / PUT 更新 / DELETE 删除
+// 会话鉴权 + org_id 隔离 + 写审计；复用实体注册表与行列映射。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { assertRlsOwnership } from '../../../_shared/rls';
+import { validateOrReject } from '../../../_shared/validate';
+import {
+  ENTITY_RESOURCES,
+  rowToCamel,
+  pickSnake,
+  badResource,
+  presentCols,
+  audit,
+} from '../../../_shared/entities';
+import { guardPaymentRow } from '../../../_shared/paymentGate';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const def = ENTITY_RESOURCES[context.params.resource];
+  if (!def) return badResource();
+
+  const id = context.params.id;
+  const row = await env.DB.prepare(`SELECT * FROM ${def.table} WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!row) return json({ error: '记录不存在' }, 404);
+  // V2.97.0 修复（安全审计 B6）：单条读取同样受行级策略约束（此前 [id] 路由
+  //   引入了 rlsFragment 却从未使用；当前注册资源均为 all 作用域故无实际影响，
+  //   但一旦新增 own/dept 资源即会越权，故统一补齐）。
+  if (!assertRlsOwnership(user, row, def.table)) {
+    return json({ error: '无权访问该记录' }, 403);
+  }
+  return json(rowToCamel(row, def));
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const resource = context.params.resource;
+  const def = ENTITY_RESOURCES[resource];
+  if (!def) return badResource();
+
+  const id = context.params.id;
+  const body = await request.json().catch(() => ({}));
+  const _invalid = validateOrReject(def.table, body, { partial: true });
+  if (_invalid) return _invalid;
+  const { cols, vals } = pickSnake(body, def);
+  if (cols.length === 0) return json({ error: '无可更新字段' }, 400);
+
+  // V2.97.0 修复（安全审计 B6）：写操作前确认记录存在且归属允许。
+  const existing = await env.DB.prepare(`SELECT * FROM ${def.table} WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!existing) return json({ error: '记录不存在' }, 404);
+  if (!assertRlsOwnership(user, existing, def.table)) {
+    return json({ error: '无权修改该记录' }, 403);
+  }
+
+  // V3.19.0 付款闸门：与 POST 同理 —— 通用实体路由也是付款计划的一条写入路径，
+  // 必须与专用端点用完全相同的判定，否则这里成为绕过通道。
+  if (def.table === 'fin_payment_plans') {
+    const blocked = await guardPaymentRow(env.DB, user, body, existing);
+    if (blocked) return blocked;
+  }
+
+  const present = await presentCols(env.DB, def.table);
+  const extraNames: string[] = [];
+  const extraVals: any[] = [];
+  if (present.has('updated_at')) {
+    extraNames.push('updated_at');
+    extraVals.push(new Date().toISOString());
+  }
+  if (present.has('updated_by')) {
+    extraNames.push('updated_by');
+    extraVals.push(user.id);
+  }
+  const setSql = [...cols.map((c) => `${c} = ?`), ...extraNames.map((n) => `${n} = ?`)].join(', ');
+  const values = [...vals, ...extraVals, id, user.org_id];
+
+  const res = await env.DB.prepare(`UPDATE ${def.table} SET ${setSql} WHERE id = ? AND org_id = ?`)
+    .bind(...values)
+    .run();
+  if ((res.meta?.changes ?? 0) === 0) return json({ error: '记录不存在' }, 404);
+
+  await audit(env.DB, user.org_id, user, def.table, 'update', `更新 ${resource} ${id}`);
+  return json({ ok: true });
+}
+
+export async function onRequestDelete(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const resource = context.params.resource;
+  const def = ENTITY_RESOURCES[resource];
+  if (!def) return badResource();
+
+  const id = context.params.id;
+
+  // V2.97.0 修复（安全审计 B6）：删除前确认记录存在且归属允许。
+  const existing = await env.DB.prepare(`SELECT * FROM ${def.table} WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!existing) return json({ error: '记录不存在' }, 404);
+  if (!assertRlsOwnership(user, existing, def.table)) {
+    return json({ error: '无权删除该记录' }, 403);
+  }
+
+  const res = await env.DB.prepare(`DELETE FROM ${def.table} WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .run();
+  if ((res.meta?.changes ?? 0) === 0) return json({ error: '记录不存在' }, 404);
+
+  await audit(env.DB, user.org_id, user, def.table, 'delete', `删除 ${resource} ${id}`);
+  return json({ ok: true });
+}

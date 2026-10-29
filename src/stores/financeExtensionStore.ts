@@ -1,232 +1,260 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, splitByKind, withKind, writeRow } from './entityBackedShared';
+
+/**
+ * 财务深化扩展 store（P2-5 核心）
+ * ------------------------------------------------------------
+ * 承载 V2.14 财务域之外的新增深化能力：
+ *  1. 多币种汇率（exchangeRates）：以本位币 CNY 为基准，记录各外币折算汇率。
+ *  2. 辅助核算维度（costCenters）：成本中心主数据，供凭证按成本中心/项目归集。
+ *  3. 预算控制（budgets）：按期间 + 成本中心/科目 设定预算，与实际发生额对比。
+ * 与 financeStore 解耦（避免改动其 partialize），独立持久化键 ssa-erp-finance-ext。
+ * V3.77.0：迁 D1 关系表 finance_extensions（迁移 0101，resource financeExtension，rls 'all'）。
+ */
+
+export type BudgetDimension = 'costCenter' | 'account' | 'project';
+
+export interface ExchangeRate {
+  id: string;
+  currency: string;       // 外币代码，如 USD / EUR
+  currencyName: string;   // 外币名称，如 美元
+  rate: number;           // 1 外币 = rate 本位币(CNY)
+  effectiveDate: string;  // 生效日期
+  note?: string;
+}
+
+export interface CostCenter {
+  id: string;
+  code: string;
+  name: string;
+  dept: string;           // 所属部门
+  manager: string;        // 负责人
+  note?: string;
+}
+
+export interface Budget {
+  id: string;
+  period: string;         // 预算期间，如 2026-07 或 2026-Q3
+  dimension: BudgetDimension;
+  refId: string;          // 关联的 成本中心id / 科目code / 项目id
+  refName: string;        // 关联名称（冗余展示）
+  amount: number;         // 预算金额（本位币）
+  note?: string;
+}
+
+export const DEFAULT_EXCHANGE_RATES: ExchangeRate[] = [
+  { id: 'fx-usd', currency: 'USD', currencyName: '美元', rate: 7.18, effectiveDate: '2026-07-01', note: '默认基准汇率' },
+  { id: 'fx-eur', currency: 'EUR', currencyName: '欧元', rate: 7.85, effectiveDate: '2026-07-01' },
+  { id: 'fx-jpy', currency: 'JPY', currencyName: '日元', rate: 0.047, effectiveDate: '2026-07-01' },
+  { id: 'fx-hkd', currency: 'HKD', currencyName: '港币', rate: 0.92, effectiveDate: '2026-07-01' },
+];
+
+export const DEFAULT_COST_CENTERS: CostCenter[] = [
+  { id: 'cc-001', code: 'CC-001', name: '生产中心', dept: '生产部', manager: '张工' },
+  { id: 'cc-002', code: 'CC-002', name: '采购中心', dept: '采购部', manager: '李采购' },
+  { id: 'cc-003', code: 'CC-003', name: '销售中心', dept: '销售部', manager: '王销售' },
+  { id: 'cc-004', code: 'CC-004', name: '行政中心', dept: '管理部', manager: '赵管理' },
+];
+
+export const DEFAULT_BUDGETS: Budget[] = [
+  { id: 'bg-001', period: '2026-07', dimension: 'costCenter', refId: 'cc-001', refName: '生产中心', amount: 500000, note: '生产相关费用预算' },
+  { id: 'bg-002', period: '2026-07', dimension: 'costCenter', refId: 'cc-002', refName: '采购中心', amount: 300000 },
+  { id: 'bg-003', period: '2026-07', dimension: 'account', refId: '6602', refName: '管理费用', amount: 200000 },
+  { id: 'bg-004', period: '2026-Q3', dimension: 'costCenter', refId: 'cc-003', refName: '销售中心', amount: 250000 },
+];
+
+const BASE_CURRENCY = 'CNY';
+
+/**
+ * 取指定外币相对本位币的汇率。
+ *
+ * 默认（不传 asOfDate / strict）：本位币或缺失返回 1 —— 报表折算等展示层可接受的降级。
+ *
+ * ★ P1-A 新增两个可选参数（向后兼容，不影响既有 4 处报表调用）：
+ *   · asOfDate（'YYYY-MM-DD'）—— 期末口径：只取 `effectiveDate <= asOfDate` 的汇率里
+ *     **最后一条**（即该时点真正生效的那条）。期末汇兑损益必须用「期末生效的汇率」，
+ *     而不是「store 里碰巧当前那条」——这是审计 P1-A「按期间末最后一条取数」的落地。
+ *   · strict（bool）—— fail-closed：开启后若取不到汇率（缺失 / 无 asOfDate 之前的记录）
+ *     返回 `NaN` 而非 1。调用方检测 NaN 即可判断「汇率缺失、这行不能算」，
+ *     避免外币按 1 静默算出虚假的汇兑损益（审计 P1-A「缺失时静默按 1」的 fail-open）。
+ *     报表折算保持 strict=false（缺失=1 是展示层可接受的），只有期末汇兑这类
+ *     影响损益数字的场景才开 strict，避免过度 fail-closed 让整张报表变 NaN。
+ */
+export function getExchangeRate(
+  currency: string | undefined,
+  rates: ExchangeRate[],
+  asOfDate?: string,
+  strict?: boolean
+): number {
+  if (!currency || currency.toUpperCase() === BASE_CURRENCY) return 1;
+  const key = currency.toUpperCase();
+  let found: ExchangeRate | undefined;
+  if (asOfDate) {
+    // 期末口径：取 effectiveDate <= asOfDate 的里按生效日最后一条（无 effectiveDate 视为最早生效）
+    found = rates
+      .filter((r) => r.currency.toUpperCase() === key && String(r.effectiveDate || '') <= asOfDate)
+      .sort((a, b) => String(b.effectiveDate || '').localeCompare(String(a.effectiveDate || '')))[0];
+  } else {
+    found = rates.find((r) => r.currency.toUpperCase() === key);
+  }
+  if (found) return found.rate;
+  return strict ? Number.NaN : 1; // strict 模式缺失不再静默按 1
+}
+
+/** 将金额折算为指定目标币种（默认本位币 CNY） */
+export function convertCurrency(
+  amount: number,
+  fromCurrency: string | undefined,
+  rates: ExchangeRate[],
+  toCurrency: string = BASE_CURRENCY
+): number {
+  if (!fromCurrency || fromCurrency.toUpperCase() === toCurrency.toUpperCase()) return amount;
+  const fromRate = getExchangeRate(fromCurrency, rates); // 1 from = fromRate CNY
+  const toRate = getExchangeRate(toCurrency, rates);     // 1 to = toRate CNY
+  const inBase = amount * fromRate;
+  return toRate === 0 ? inBase : inBase / toRate;
+}
+
+export const BASE_CURRENCY_CODE = BASE_CURRENCY;
+
+interface FinanceExtensionState {
+  exchangeRates: ExchangeRate[];
+  costCenters: CostCenter[];
+  budgets: Budget[];
+
+  // 汇率 CRUD
+  addExchangeRate: (rate: Omit<ExchangeRate, 'id'>) => void;
+  updateExchangeRate: (id: string, patch: Partial<Omit<ExchangeRate, 'id'>>) => void;
+  removeExchangeRate: (id: string) => void;
+
+  // 成本中心 CRUD
+  addCostCenter: (cc: Omit<CostCenter, 'id'>) => void;
+  updateCostCenter: (id: string, patch: Partial<Omit<CostCenter, 'id'>>) => void;
+  removeCostCenter: (id: string) => void;
+
+  // 预算 CRUD
+  addBudget: (b: Omit<Budget, 'id'>) => void;
+  updateBudget: (id: string, patch: Partial<Omit<Budget, 'id'>>) => void;
+  removeBudget: (id: string) => void;
+
+  resetAll: () => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateFinanceExtension: () => Promise<void>;
+}
+
+const RES = 'financeExtension';
+
+export const useFinanceExtensionStore = create<FinanceExtensionState>()((set, get) => ({
+  exchangeRates: DEFAULT_EXCHANGE_RATES.map((r) => ({ ...r })),
+  costCenters: DEFAULT_COST_CENTERS.map((c) => ({ ...c })),
+  budgets: DEFAULT_BUDGETS.map((b) => ({ ...b })),
+
+  addExchangeRate: (rate) => {
+    const item: ExchangeRate = { ...rate, id: `fx-${Date.now()}` };
+    set((state) => ({ exchangeRates: [...state.exchangeRates, item] }));
+    if (isAuthed()) writeRow(RES, item.id, withKind('fx', item));
+  },
+  updateExchangeRate: (id, patch) => {
+    let updated: ExchangeRate | undefined;
+    set((state) => ({
+      exchangeRates: state.exchangeRates.map((r) => {
+        if (r.id !== id) return r;
+        updated = { ...r, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('fx', updated));
+  },
+  removeExchangeRate: (id) => {
+    set((state) => ({ exchangeRates: state.exchangeRates.filter((r) => r.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  addCostCenter: (cc) => {
+    const item: CostCenter = { ...cc, id: `cc-${Date.now()}` };
+    set((state) => ({ costCenters: [...state.costCenters, item] }));
+    if (isAuthed()) writeRow(RES, item.id, withKind('cc', item));
+  },
+  updateCostCenter: (id, patch) => {
+    let updated: CostCenter | undefined;
+    set((state) => ({
+      costCenters: state.costCenters.map((c) => {
+        if (c.id !== id) return c;
+        updated = { ...c, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('cc', updated));
+  },
+  removeCostCenter: (id) => {
+    set((state) => ({ costCenters: state.costCenters.filter((c) => c.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  addBudget: (b) => {
+    const item: Budget = { ...b, id: `bg-${Date.now()}` };
+    set((state) => ({ budgets: [...state.budgets, item] }));
+    if (isAuthed()) writeRow(RES, item.id, withKind('bg', item));
+  },
+  updateBudget: (id, patch) => {
+    let updated: Budget | undefined;
+    set((state) => ({
+      budgets: state.budgets.map((b) => {
+        if (b.id !== id) return b;
+        updated = { ...b, ...patch };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) writeRow(RES, id, withKind('bg', updated));
+  },
+  removeBudget: (id) => {
+    set((state) => ({ budgets: state.budgets.filter((b) => b.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  resetAll: () => {
+    set({
+      exchangeRates: DEFAULT_EXCHANGE_RATES.map((r) => ({ ...r })),
+      costCenters: DEFAULT_COST_CENTERS.map((c) => ({ ...c })),
+      budgets: DEFAULT_BUDGETS.map((b) => ({ ...b })),
+    });
+    if (isAuthed()) {
+      for (const r of DEFAULT_EXCHANGE_RATES) writeRow(RES, r.id, withKind('fx', r));
+      for (const c of DEFAULT_COST_CENTERS) writeRow(RES, c.id, withKind('cc', c));
+      for (const b of DEFAULT_BUDGETS) writeRow(RES, b.id, withKind('bg', b));
+    }
+  },
+
+  hydrateFinanceExtension: async () => {
+    if (!isAuthed()) return;
+    try {
+      const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload(res?.data || []);
+      if (rows.length === 0) {
+        for (const r of DEFAULT_EXCHANGE_RATES) writeRow(RES, r.id, withKind('fx', r));
+        for (const c of DEFAULT_COST_CENTERS) writeRow(RES, c.id, withKind('cc', c));
+        for (const b of DEFAULT_BUDGETS) writeRow(RES, b.id, withKind('bg', b));
+        const rf = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+        const r2 = parsePayload(rf?.data || []);
+        set({
+          exchangeRates: splitByKind<ExchangeRate>(r2, 'fx'),
+          costCenters: splitByKind<CostCenter>(r2, 'cc'),
+          budgets: splitByKind<Budget>(r2, 'bg'),
+        });
+        return;
+      }
+      set({
+        exchangeRates: splitByKind<ExchangeRate>(rows, 'fx'),
+        costCenters: splitByKind<CostCenter>(rows, 'cc'),
+        budgets: splitByKind<Budget>(rows, 'bg'),
+      });
+    } catch {
+      // 离线/异常：保留本地种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void useFinanceExtensionStore.getState().hydrateFinanceExtension();

@@ -1,119 +1,137 @@
-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
+// 云同步状态（V3.1.0 · 评测 H-02 / H-03 / M-13 整改）
+//
+// 用途：把「云端保存失败」「多端冲突」「登录状态失效」三类过去被静默吞掉的事件，
+//   暴露成界面上能看见、能处理的状态，由 SyncStatusBanner 统一呈现。
+//
+// 为什么单独建一个 store：persistStorage 是底层存储适配器（被 authStore 引用），
+//   它自己不能再引用 authStore（会形成循环依赖）。用一个中立的状态仓库 +
+//   浏览器事件解耦，是这里最干净的做法。
+
+import { create } from 'zustand';
+
+/** 各持久化键的中文名（用于把 ssa-erp-xxx 翻译成人话） */
+export const KEY_LABELS: Record<string, string> = {
+  'ssa-erp-alert-rules': '预警规则',
+  'ssa-erp-analytics': '分析配置',
+  'ssa-erp-approval-flows': '审批流程',
+  'ssa-erp-arap': '应收应付',
+  'ssa-erp-audit': '审计日志',
+  'ssa-erp-bom': '物料清单（BOM，即产品用料结构表）',
+  'ssa-erp-coa': '会计科目',
+  'ssa-erp-conditions': '条件配置',
+  'ssa-erp-consignment': '寄售库存',
+  'ssa-erp-customfield': '自定义字段',
+  'ssa-erp-datadict': '数据字典',
+  'ssa-erp-data-permission': '数据权限',
+  'ssa-erp-display': '显示偏好',
+  'ssa-erp-finance': '财务',
+  'ssa-erp-finance-ext': '财务扩展',
+  'ssa-erp-finance-ledger': '财务账簿',
+  'ssa-erp-flow': '流程配置',
+  'ssa-erp-fmea': '失效模式分析（FMEA）',
+  'ssa-erp-fx': '汇率',
+  'ssa-erp-integration': '集成配置',
+  'ssa-erp-invoice-verify': '发票核验',
+  'ssa-erp-listprefs': '列表偏好',
+  'ssa-erp-lowcode': '低代码配置',
+  'ssa-erp-material-approval': '物料审批',
+  'ssa-erp-material-ext': '物料扩展',
+  'ssa-erp-notify': '通知',
+  'ssa-erp-numbering': '编号规则',
+  'ssa-erp-order-templates': '订单模板',
+  'ssa-erp-org': '组织与部门',
+  'ssa-erp-price': '价格与价目表',
+  'ssa-erp-purchase': '采购',
+  // ⚠️ 以下两个键的 persist 已删除（财务 V3.8.0、销售 V3.9.0 迁入 D1 关系表），
+  // 新版本不会再写入它们。**但映射刻意保留**：老版本浏览器里可能还挂着
+  // 这两条待重试的失败记录，删掉映射会让同步面板显示裸 key（如 `ssa-erp-sales`）
+  // 而不是「销售」，反而让用户看不懂。等这些遗留项自然清空后再考虑移除。
+  // （'ssa-erp-finance' 原本就在上方第 27 行登记，此处不重复声明。）
+  'ssa-erp-sales': '销售',
+  'ssa-erp-users': '用户与角色',
+};
+
+export function keyLabel(key: string): string {
+  return KEY_LABELS[key] || key;
+}
+
+export interface SyncFailure {
+  key: string;
+  label: string;
+  message: string;
+  attempts: number;
+  at: number;
+  /** error = 网络/服务端故障（会自动重试）；warn = 权限不足等重试也无用的情况 */
+  severity: 'error' | 'warn';
+}
+
+export interface SyncConflict {
+  key: string;
+  label: string;
+  at: number;
+}
+
+interface SyncStatusState {
+  /** 云端保存失败、等待重试的项 */
+  failures: SyncFailure[];
+  /** 多端并发冲突（已改为以云端为准） */
+  conflicts: SyncConflict[];
+  /** 账号被停用 / 会话失效（将清理本地缓存并跳登录） */
+  expired: boolean;
+  reportFailure: (key: string, message: string, attempts: number, severity?: 'error' | 'warn') => void;
+  clearFailure: (key: string) => void;
+  clearFailures: () => void;
+  reportConflict: (key: string) => void;
+  clearConflicts: () => void;
+  reportExpired: () => void;
+
+  // ── V3.4.0（对标 D4 可用性 / D2 界面）：云端数据拉取中的并发计数 ──
+  // 现状：业务数据一律同步读 zustand store，store 由 persist 从 /api/state/[key] 异步回填，
+  //   回填完成前页面渲染的是本地/内置数据，回填后整表跳变一次——用户看到的是「先假后真」，
+  //   没有任何「正在加载」的提示。此前全项目没有任何加载态（Skeleton 出现 0 次）。
+  // 解法：在存储适配器的 getItem 上打点，暴露一个全局可读的「仍有键在拉取」标志，
+  //   列表页据此显示骨架屏。计数而非布尔，是因为 60 个键是并发拉取的。
+  hydrating: number;
+  beginHydrate: (key: string) => void;
+  endHydrate: (key: string) => void;
+}
+
+export const useSyncStatusStore = create<SyncStatusState>()((set) => ({
+  failures: [],
+  conflicts: [],
+  expired: false,
+
+  reportFailure: (key, message, attempts, severity = 'error') =>
+    set((s) => {
+      const rest = s.failures.filter((f) => f.key !== key);
+      return {
+        failures: [...rest, { key, label: keyLabel(key), message, attempts, severity, at: Date.now() }],
+      };
+    }),
+  clearFailure: (key) => set((s) => ({ failures: s.failures.filter((f) => f.key !== key) })),
+  clearFailures: () => set({ failures: [] }),
+
+  reportConflict: (key) =>
+    set((s) => ({
+      conflicts: [
+        ...s.conflicts.filter((c) => c.key !== key),
+        { key, label: keyLabel(key), at: Date.now() },
+      ],
+    })),
+  clearConflicts: () => set({ conflicts: [] }),
+
+  reportExpired: () => set({ expired: true }),
+
+  hydrating: 0,
+  beginHydrate: () => set((s) => ({ hydrating: s.hydrating + 1 })),
+  endHydrate: () => set((s) => ({ hydrating: Math.max(0, s.hydrating - 1) })),
+}));
+
+/**
+ * 是否仍有持久化键在从云端拉取。
+ * 列表页用法：`<DataTable loading={useCloudHydrating() && rows.length === 0} ... />`
+ * ——只在「还没有任何数据」时显示骨架，已有数据时不闪骨架，避免打扰。
+ */
+export function useCloudHydrating(): boolean {
+  return useSyncStatusStore((s) => s.hydrating > 0);
+}

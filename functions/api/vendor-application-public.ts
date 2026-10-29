@@ -1,120 +1,131 @@
-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
-YvhQ5y/QiY/KXJA4idcSOA==
+// 公开提交接口：供应商凭「有效邀请码」提交注册申请（无需登录）
+// 路由：POST /api/vendor-application-public
+// 用途：让未登录的外部供应商也能把申请落到 D1，真正实现「跨设备 / 真落地后端」。
+// 安全要点：
+//   · 必须携带一个【有效且未使用、未过期】的邀请码（否则拒绝）——既防开放滥用，又确定 org_id 与归属。
+//   · buyerId / inviteCode / salesOrg 由服务端从邀请记录权威填充，客户端传入仅作参考，杜绝伪造归属。
+//   · 成功消费后标记邀请为 used，并给发起采购员发站内信「新的供应商注册待您审核」。
+import { json } from '../_shared/auth';
+
+const REQUIRED = [
+  'companyName', 'unifiedCode', 'contact', 'contactPhone', 'contactEmail',
+  'bankName', 'bankAccount', 'bankAccountName',
+];
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const body = await request.json().catch(() => ({}));
+
+  const code = body.inviteCode;
+  if (!code || typeof code !== 'string') {
+    return json({ error: '缺少邀请码，无法通过邀请注册' }, 400);
+  }
+
+  const invite = await env.DB.prepare(
+    `SELECT id, org_id, buyer_id, buyer_name, sales_org, status, expires_at
+       FROM vendor_invitations
+      WHERE code = ?`,
+  ).bind(code).first();
+
+  if (!invite) return json({ error: '邀请码不存在' }, 400);
+  if (invite.status !== 'active') {
+    return json({ error: invite.status === 'used' ? '该邀请链接已被使用' : '该邀请链接已作废' }, 400);
+  }
+  if (invite.expires_at && new Date(String(invite.expires_at)).getTime() < Date.now()) {
+    return json({ error: '邀请链接已过期' }, 400);
+  }
+
+  // 最小必填校验（防止空白脏数据入库）
+  for (const f of REQUIRED) {
+    if (!body[f] || typeof body[f] !== 'string' || !String(body[f]).trim()) {
+      return json({ error: '请完整填写企业、联系人、银行等信息后再提交' }, 400);
+    }
+  }
+
+  const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  const id = body.id && typeof body.id === 'string' ? body.id : `vpa-${Date.now()}`;
+  const applicationNo =
+    body.applicationNo && typeof body.applicationNo === 'string'
+      ? body.applicationNo
+      : `VA${new Date().toISOString().slice(0, 10).replace(/-/g, '')}${Math.floor(Math.random() * 900 + 100)}`;
+
+  // 申请对象（__kind 标记与前端 flowStore.withKind('vendorApplication', item) 一致，便于水合分流）
+  const app: Record<string, unknown> = {
+    __kind: 'vendorApplication',
+    id,
+    applicationNo,
+    companyName: String(body.companyName),
+    unifiedCode: String(body.unifiedCode || ''),
+    businessLicense: String(body.businessLicense || ''),
+    legalRepresentative: String(body.legalRepresentative || ''),
+    registeredCapital: String(body.registeredCapital || ''),
+    contact: String(body.contact),
+    contactPhone: String(body.contactPhone),
+    contactEmail: String(body.contactEmail),
+    address: String(body.address || ''),
+    supplyCategories: Array.isArray(body.supplyCategories) ? body.supplyCategories : [],
+    mainProducts: String(body.mainProducts || ''),
+    annualRevenue: String(body.annualRevenue || ''),
+    certifications: Array.isArray(body.certifications) ? body.certifications : [],
+    bankName: String(body.bankName),
+    bankAccount: String(body.bankAccount),
+    bankAccountName: String(body.bankAccountName),
+    taxId: String(body.taxId || ''),
+    taxRate: String(body.taxRate || '13'),
+    attachments: [],
+    status: 'submitted',
+    submittedAt: now,
+    createdAt: now,
+    updatedAt: now,
+    currentStep: 0,
+    stepHistory: [{ step: 0, role: 'supplier', label: '提交申请', action: 'submit', at: now }],
+    // ── 定向归属：服务端权威填充，不从客户端取值 ──
+    buyerId: invite.buyer_id,
+    buyerName: invite.buyer_name,
+    inviteCode: code,
+    salesOrg: invite.sales_org || '',
+  };
+
+  try {
+    // 写 flow_shared（org_id 取自邀请记录，绕过 RLS 直接插入）
+    await env.DB.prepare(
+      `INSERT INTO flow_shared
+         (id, org_id, payload, created_at, updated_at, created_by, updated_by, created_by_name, updated_by_name)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+      .bind(
+        id, invite.org_id, JSON.stringify(app), now, now,
+        invite.buyer_id, invite.buyer_id, invite.buyer_name, invite.buyer_name,
+      )
+      .run();
+
+    // 标记邀请已使用
+    await env.DB.prepare(
+      `UPDATE vendor_invitations SET status = 'used', used_at = ?, updated_at = ? WHERE id = ? AND org_id = ?`,
+    )
+      .bind(now, now, invite.id, invite.org_id)
+      .run();
+
+    // 通知发起采购员
+    const msgId = `msg-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    await env.DB.prepare(
+      `INSERT INTO messages
+         (id, org_id, sender_id, sender_name, recipient_id, recipient_role,
+          title, body, type, ref_module, ref_id, read, created_at, updated_at,
+          created_by, updated_by, created_by_name, updated_by_name)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+      .bind(
+        msgId, invite.org_id, null, '系统', invite.buyer_id, null,
+        '新的供应商注册待您审核',
+        `「${app.companyName}」通过您的邀请链接提交了注册申请，请前往「供应商注册审批」处理。`,
+        'vendor_invite', 'vendor_register', id, 0, now, now,
+        'system', 'system', '系统', '系统',
+      )
+      .run();
+
+    return json({ ok: true, applicationNo, id }, 201);
+  } catch (e: any) {
+    return json({ error: '提交失败，请稍后重试' }, 500);
+  }
+}

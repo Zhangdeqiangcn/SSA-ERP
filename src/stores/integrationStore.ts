@@ -1,138 +1,171 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import type { Webhook, WebhookLog, ApiEndpoint, WebhookEvent } from '@/types';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const now = () => new Date().toISOString();
+
+// OpenAPI 风格的服务端 API 注册表（文档/目录），描述 SSA ERP 对外暴露的接口
+export const API_REGISTRY: ApiEndpoint[] = [
+  { method: 'GET', path: '/api/v1/materials', module: '物料', description: '查询物料主数据（支持过滤/分页）' },
+  { method: 'POST', path: '/api/v1/materials', module: '物料', description: '创建物料主数据' },
+  { method: 'GET', path: '/api/v1/sales-orders', module: '销售', description: '查询销售订单列表' },
+  { method: 'POST', path: '/api/v1/sales-orders', module: '销售', description: '创建销售订单' },
+  { method: 'GET', path: '/api/v1/purchase-orders', module: '采购', description: '查询采购订单列表' },
+  { method: 'POST', path: '/api/v1/purchase-orders', module: '采购', description: '创建采购订单' },
+  { method: 'GET', path: '/api/v1/inventory', module: '仓储', description: '查询实时库存' },
+  { method: 'GET', path: '/api/v1/reports', module: '报表', description: '获取报表数据集' },
+  { method: 'POST', path: '/api/v1/webhooks', module: '集成', description: '注册事件 Webhook 订阅' },
+];
+
+interface IntegrationState {
+  webhooks: Webhook[];
+  webhookLogs: WebhookLog[];
+  addWebhook: (w: Omit<Webhook, 'id' | 'createdAt'>) => void;
+  updateWebhook: (id: string, patch: Partial<Omit<Webhook, 'id' | 'createdAt'>>) => void;
+  deleteWebhook: (id: string) => void;
+  triggerWebhook: (event: WebhookEvent, payload: Record<string, unknown>) => void;
+}
+
+// 按 Webhook 鉴权配置构建请求头
+function buildAuthHeaders(w: Webhook): Record<string, string> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const authType = w.authType ?? 'none';
+  if (authType === 'bearer' && w.authToken) {
+    headers['Authorization'] = `Bearer ${w.authToken}`;
+  } else if (authType === 'basic' && w.authUser) {
+    const basic = typeof btoa === 'function'
+      ? btoa(`${w.authUser}:${w.authPass ?? ''}`)
+      : Buffer.from(`${w.authUser}:${w.authPass ?? ''}`).toString('base64');
+    headers['Authorization'] = `Basic ${basic}`;
+  }
+  return headers;
+}
+
+// 单次投递（含失败重试）；返回最终日志条目
+async function deliverWebhook(w: Webhook, event: WebhookEvent, payload: Record<string, unknown>): Promise<WebhookLog> {
+  const headers = buildAuthHeaders(w);
+  const body = JSON.stringify({ event, payload });
+  const maxRetry = Math.max(0, w.retry ?? 0);
+  let lastError = '';
+  let resp: Response | null = null;
+  for (let attempt = 0; attempt <= maxRetry; attempt++) {
+    try {
+      resp = await fetch(w.url, { method: 'POST', headers, body });
+      if (resp.ok) break;
+      lastError = `HTTP ${resp.status}`;
+    } catch (e) {
+      lastError = String(e);
+    }
+  }
+  const ok = !!resp?.ok;
+  return {
+    id: uid('whl'),
+    webhookId: w.id,
+    webhookName: w.name,
+    event,
+    status: ok ? 'success' : 'failed',
+    detail: ok ? `HTTP ${resp!.status}` : `重试 ${maxRetry} 次仍失败：${lastError}`,
+    at: now(),
+  };
+}
+
+const RES = 'integrationShared';
+const KIND_WEBHOOK = 'webhook';
+const KIND_LOG = 'webhookLog';
+
+/** 双切片写穿（__kind 标记，行主键 = 各对象 id） */
+const pushWh = (w: Webhook) => isAuthed() && writeRow(RES, w.id, withKind(KIND_WEBHOOK, w));
+const pushLog = (l: WebhookLog) => isAuthed() && writeRow(RES, l.id, withKind(KIND_LOG, l));
+
+export const useIntegrationStore = create<IntegrationState>()(
+    (set, get) => ({
+      webhooks: [
+        {
+          id: 'wh-seed-1',
+          name: '示例-销售订单通知',
+          url: 'https://example.com/hooks/sales',
+          events: ['sales.order.created'],
+          enabled: true,
+          createdAt: now(),
+          authType: 'none',
+          retry: 0,
+        },
+      ],
+      webhookLogs: [],
+      addWebhook: (w) => {
+        const rec: Webhook = { ...w, id: uid('wh'), createdAt: now() };
+        set((s) => ({ webhooks: [...s.webhooks, rec] }));
+        pushWh(rec);
+      },
+      updateWebhook: (id, patch) => {
+        let updated: Webhook | undefined;
+        set((s) => ({
+          webhooks: s.webhooks.map((w) => {
+            if (w.id !== id) return w;
+            updated = { ...w, ...patch };
+            return updated;
+          }),
+        }));
+        if (updated) pushWh(updated);
+      },
+      deleteWebhook: (id) => {
+        set((s) => ({ webhooks: s.webhooks.filter((w) => w.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+      triggerWebhook: (event, payload) => {
+        const targets = get().webhooks.filter((w) => w.enabled && w.events.includes(event));
+        targets.forEach((w) => {
+          const logId = uid('whl');
+          const pending: WebhookLog = {
+            id: logId,
+            webhookId: w.id,
+            webhookName: w.name,
+            event,
+            status: 'pending',
+            detail: '发送中…',
+            at: now(),
+          };
+          set((s) => ({ webhookLogs: [pending, ...s.webhookLogs] }));
+          pushLog(pending);
+          deliverWebhook(w, event, payload)
+            .then((log) => {
+              const next: WebhookLog = { ...log };
+              set((s) => ({
+                webhookLogs: s.webhookLogs.map((l) =>
+                  l.id === logId
+                    ? { ...l, status: log.status, detail: log.detail, at: log.at }
+                    : l,
+                ),
+              }));
+              pushLog(next);
+            });
+        });
+      },
+    }),
+);
+
+// ── V3.81.0 D1 同步层：双切片（webhooks + webhookLogs）挂载水合 ──
+let hydrating = false;
+async function hydrateIntegration() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+    const rows = parsePayload(res?.data || []);
+    if (rows.length) {
+      useIntegrationStore.setState({
+        webhooks: splitByKind<Webhook>(rows, KIND_WEBHOOK),
+        webhookLogs: splitByKind<WebhookLog>(rows, KIND_LOG),
+      });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+void hydrateIntegration();

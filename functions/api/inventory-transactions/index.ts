@@ -1,97 +1,115 @@
-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
+// GET /api/inventory-transactions — 库存变动流水查询（只读）
+//
+// V3.46.0 第2批① · 对标 SAP MATDOC / 金蝶库存流水账
+// ------------------------------------------------------------------
+// 为什么需要这个端点：
+//   余额表（inventory_records）只回答"现在有多少"，流水表回答"为什么变成这样"。
+//   缺了查询入口，流水建了也没人看 —— 追溯仍要靠人工查库。
+//
+// 能力：
+//   · 按物料 / 仓库 / 库位 / 批次 / 单据 / 会计期间 / 事务类型 过滤
+//   · balance=1 时返回「按流水重建的余额」，与 inventory_records 互为校验
+//     （两者不一致即说明有差异被静默吸收，是排查账实不符的第一入口）
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = Math.min(200, parseInt(url.searchParams.get('pageSize') || '50', 10));
+  const offset = (page - 1) * pageSize;
+
+  const where: string[] = ['org_id = ?'];
+  const params: any[] = [user.org_id];
+
+  const addEq = (col: string, val: any) => {
+    if (val === undefined || val === null || val === '') return;
+    where.push(`AND ${col} = ?`);
+    params.push(val);
+  };
+  addEq('material_id', url.searchParams.get('materialId'));
+  addEq('warehouse_id', url.searchParams.get('warehouseId'));
+  addEq('location_id', url.searchParams.get('locationId'));
+  addEq('batch_no', url.searchParams.get('batchNo'));
+  addEq('txn_type', url.searchParams.get('txnType'));
+  addEq('doc_type', url.searchParams.get('docType'));
+  addEq('doc_no', url.searchParams.get('docNo'));
+  addEq('period', url.searchParams.get('period'));
+  if (url.searchParams.get('includeVoided') !== '1') where.push('AND is_voided = 0');
+
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  if (keyword) {
+    where.push('AND (material_code LIKE ? ESCAPE \'\\\' OR material_name LIKE ? ESCAPE \'\\\')');
+    params.push(likePattern(keyword), likePattern(keyword));
+  }
+
+  const whereSql = where.join(' ');
+
+  const rows = await db
+    .prepare(`SELECT * FROM inventory_transactions WHERE ${whereSql} ORDER BY created_at DESC, id DESC LIMIT ? OFFSET ?`)
+    .bind(...params, pageSize, offset)
+    .all();
+  const count = await db
+    .prepare(`SELECT COUNT(*) AS cnt FROM inventory_transactions WHERE ${whereSql}`)
+    .bind(...params)
+    .first();
+
+  // 余额重建：按流水汇总（带符号求和）。与 inventory_records 比对即得差异。
+  let rebuilt: any[] = [];
+  const materialId = url.searchParams.get('materialId');
+  if (url.searchParams.get('balance') === '1' && materialId) {
+    const agg = await db
+      .prepare(
+        `SELECT warehouse_id, warehouse_name, location_id,
+                SUM(qty_delta) AS qty, SUM(value_delta) AS value, COUNT(*) AS entries
+           FROM inventory_transactions
+          WHERE org_id = ? AND material_id = ? AND is_voided = 0
+          GROUP BY warehouse_id, warehouse_name, location_id
+          ORDER BY warehouse_id`
+      )
+      .bind(user.org_id, materialId)
+      .all();
+    rebuilt = (agg.results || []).map((r: any) => ({
+      warehouseId: r.warehouse_id,
+      warehouseName: r.warehouse_name,
+      locationId: r.location_id,
+      qty: Number(r.qty || 0),
+      value: Number(r.value || 0),
+      entries: Number(r.entries || 0),
+    }));
+  }
+
+  return json({
+    data: (rows.results || []).map((r: any) => ({
+      id: r.id,
+      materialId: r.material_id,
+      materialCode: r.material_code,
+      materialName: r.material_name,
+      warehouseId: r.warehouse_id,
+      warehouseName: r.warehouse_name,
+      locationId: r.location_id,
+      batchNo: r.batch_no,
+      unit: r.unit,
+      qtyDelta: Number(r.qty_delta || 0),
+      valueDelta: Number(r.value_delta || 0),
+      unitCost: Number(r.unit_cost || 0),
+      txnType: r.txn_type,
+      docType: r.doc_type,
+      docNo: r.doc_no,
+      docId: r.doc_id,
+      docDate: r.doc_date,
+      period: r.period,
+      deptId: r.dept_id,
+      userName: r.user_name,
+      remark: r.remark,
+      isVoided: Number(r.is_voided || 0),
+      createdAt: r.created_at,
+    })),
+    rebuiltBalance: rebuilt,
+    pagination: { page, pageSize, total: Number(count?.cnt || 0) },
+  });
+}

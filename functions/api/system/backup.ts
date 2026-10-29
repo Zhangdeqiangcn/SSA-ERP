@@ -1,185 +1,198 @@
-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
+// GET /api/system/backup — 导出当前组织的真实业务数据（可用于恢复）
+//
+// V3.0.0 重建说明：
+//   旧版只导出 app_state 的键值（前端状态快照），业务表一行都不含，
+//   且系统内没有任何导入通道 —— 等于「有备份、无恢复」。本次重写为
+//   「主表按 org_id 导出 + 明细表跟随父单导出」，并配套 /api/system/restore。
+//
+// 用法：
+//   GET /api/system/backup                       导出全部业务表
+//   GET /api/system/backup?mode=manifest         仅返回各表行数清单（不取数据，很快）
+//   GET /api/system/backup?tables=customers,vendors
+//                                                只导出指定表（大数据量时分批拉取）
+//   GET /api/system/backup?limit=2000&offset=0   分页控制
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { errorResponse } from '../../_shared/errors';
+import { writeAudit } from '../../_shared/auditLog';
+import { discoverTables, assertSafeTable, ORG_TABLE } from '../../_shared/backupSchema';
+
+const MAX_LIMIT = 20000;
+const DEFAULT_LIMIT = 5000;
+
+function clampInt(raw: string | null, def: number, max: number): number {
+  const n = parseInt(raw || '', 10);
+  if (!Number.isFinite(n) || n <= 0) return def;
+  return Math.min(n, max);
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  // 备份含本组织全部业务数据，属高敏感操作：仅管理员及以上
+  if (!['super_admin', 'admin'].includes(user.role)) {
+    return json({ error: '需管理员权限' }, 403);
+  }
+
+  try {
+    const url = new URL(request.url);
+    const mode = url.searchParams.get('mode') || 'data';
+    const onlyRaw = url.searchParams.get('tables') || '';
+    const limit = clampInt(url.searchParams.get('limit'), DEFAULT_LIMIT, MAX_LIMIT);
+    const offset = Math.max(0, parseInt(url.searchParams.get('offset') || '0', 10) || 0);
+
+    const { parents, children } = await discoverTables(env);
+    // 外部传入的表名必须落在可信清单内，其余一律丢弃
+    const requested = onlyRaw
+      ? onlyRaw.split(',').map((s) => s.trim()).filter((t) => assertSafeTable(t, parents, children))
+      : null;
+
+    // ---- 模式一：清单（只数行，不取数据）----
+    // ★ V3.52.0 备份超时分批/异步专项：旧实现逐表串行 COUNT（主表 N 次 + 子表 M 次 D1 往返），
+    //   生产库负载高时累计超 D1 单请求 30s → 间歇性 30s 超时/500。
+    //   现改为把全部 COUNT 语句按 99 条/片收进 db.batch（1 片 = 1 次网络往返），
+    //   计数结果按「语句序号」回填；单条 COUNT 失败时该表按 0 处理并记入 note（清单可用性优先，
+    //   不把一张表的计数失败放大成整个端点 500）。
+    if (mode === 'manifest') {
+      const countStmts: { key: string; stmt: any }[] = [];
+      for (const t of parents) {
+        if (requested && !requested.includes(t) && t !== ORG_TABLE) continue;
+        if (t === ORG_TABLE) {
+          // 组织主记录按 id 精确计数（与 data 模式同口径）
+          countStmts.push({
+            key: t,
+            stmt: env.DB.prepare(`SELECT COUNT(*) AS c FROM ${t} WHERE id = ?`).bind(user.org_id),
+          });
+        } else {
+          countStmts.push({
+            key: t,
+            stmt: env.DB.prepare(`SELECT COUNT(*) AS c FROM ${t} WHERE org_id = ?`).bind(user.org_id),
+          });
+        }
+      }
+      for (const c of children) {
+        if (requested && !requested.includes(c.table)) continue;
+        countStmts.push({
+          key: c.table,
+          stmt: env.DB.prepare(
+            `SELECT COUNT(*) AS c FROM ${c.table} WHERE ${c.fk} IN (SELECT id FROM ${c.parent} WHERE org_id = ?)`
+          ).bind(user.org_id),
+        });
+      }
+      const manifest: Record<string, number> = {};
+      const failedTables: string[] = [];
+      const CHUNK = 99; // D1 单 batch 语句上限
+      for (let i = 0; i < countStmts.length; i += CHUNK) {
+        const slice = countStmts.slice(i, i + CHUNK);
+        let results: any[] = [];
+        let allOk = true;
+        try {
+          results = await env.DB.batch(slice.map((j) => j.stmt));
+        } catch (_e) {
+          // 整片 batch 失败（D1 不允许 batch 内部分失败、要么全成要么全失败）：
+          // 退回逐条执行这一片，让能成的计数尽量落地、把失败隔离到单表
+          allOk = false;
+          for (const j of slice) {
+            try {
+              const r = await j.stmt.first();
+              manifest[j.key] = (r as any)?.c || 0;
+            } catch (_e2) {
+              manifest[j.key] = 0;
+              failedTables.push(j.key);
+            }
+          }
+        }
+        if (allOk) {
+          slice.forEach((j, idx) => {
+            const r = results[idx];
+            manifest[j.key] = (r?.results?.[0]?.c as number) || 0;
+          });
+        }
+      }
+      return json({
+        schema: 'ssa-erp-d1-backup',
+        version: 2,
+        mode: 'manifest',
+        orgId: user.org_id,
+        tables: manifest,
+        totalRows: Object.values(manifest).reduce((a, b) => a + b, 0),
+        // 计数失败（单表异常）时按 0 记入的表名单列于此，供调用方区分「空表」与「计数失败」
+        ...(failedTables.length ? { countErrors: failedTables } : {}),
+        note: '行数为当前库实际值；导出默认每表 5000 行，超出请用 tables/limit/offset 分批' +
+          (failedTables.length ? `；以下表计数失败已按 0 记入：${failedTables.join(', ')}` : ''),
+      });
+    }
+
+    // ---- 模式二：导出数据 ----
+    const tables: Record<string, any> = {};
+    let totalRows = 0;
+    const truncated: string[] = [];
+
+    const wantParent = (t: string) => !requested || requested.includes(t) || t === ORG_TABLE;
+    const wantChild = (t: string) => !requested || requested.includes(t);
+
+    // 组织主记录（恢复时用于校验归属，防止把别的组织数据灌进来）
+    if (wantParent(ORG_TABLE)) {
+      const org = await env.DB.prepare(`SELECT * FROM ${ORG_TABLE} WHERE id = ?`)
+        .bind(user.org_id).first();
+      if (org) { tables[ORG_TABLE] = { rows: 1, data: [org] }; totalRows += 1; }
+    }
+
+    // 主表：按组织隔离
+    for (const t of parents) {
+      if (!wantParent(t)) continue;
+      const res = await env.DB.prepare(
+        `SELECT * FROM ${t} WHERE org_id = ? LIMIT ? OFFSET ?`
+      ).bind(user.org_id, limit + 1, offset).all();
+      const all = res.results || [];
+      const data = all.slice(0, limit);
+      tables[t] = { rows: data.length, data };
+      totalRows += data.length;
+      if (all.length > limit) truncated.push(t);
+    }
+
+    // 明细表：跟随本组织的父单
+    for (const c of children) {
+      if (!wantChild(c.table)) continue;
+      const res = await env.DB.prepare(
+        `SELECT * FROM ${c.table} WHERE ${c.fk} IN (SELECT id FROM ${c.parent} WHERE org_id = ?) LIMIT ? OFFSET ?`
+      ).bind(user.org_id, limit + 1, offset).all();
+      const all = res.results || [];
+      const data = all.slice(0, limit);
+      tables[c.table] = { rows: data.length, parent: c.parent, fk: c.fk, data };
+      totalRows += data.length;
+      if (all.length > limit) truncated.push(c.table);
+    }
+
+    // 导出留痕（V3.15.10）：数据导出是敏感动作，必须落审计。
+    // 此前本端点全程无 writeAudit，谁在什么时候导走了多少数据，在审计日志里查不到。
+    // 注意：留痕失败不能阻断导出本身（writeAudit 内部自带三层降级、不抛出）。
+    await writeAudit(env.DB, {
+      orgId: user.org_id,
+      actor: { id: user.id, name: user.name || user.username },
+      entity: 'system_backup',
+      action: 'export',
+      summary: `导出组织数据备份：${Object.keys(tables).length} 张表 / ${totalRows} 行${
+        truncated.length ? `（被截断：${truncated.join(',')}）` : ''
+      }`,
+    });
+
+    return json({
+      schema: 'ssa-erp-d1-backup',
+      version: 2,
+      exportedAt: new Date().toISOString(),
+      exportedBy: user.name || user.username,
+      orgId: user.org_id,
+      range: { limit, offset },
+      tables,
+      counts: { tables: Object.keys(tables).length, rows: totalRows, truncated },
+      // 明确告诉使用方这份备份能不能直接用于恢复
+      restorable: totalRows > 0,
+      hint: truncated.length
+        ? `以下表超过单次上限被截断，完整备份请按表分批导出：${truncated.join(', ')}`
+        : '本文件可交由 /api/system/restore 恢复',
+    });
+  } catch (e: any) {
+    return errorResponse(e, '备份导出');
+  }
+}

@@ -1,138 +1,96 @@
-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
+-- 迁移 0063：修正 0057 / 0059 存量回填的**组织归属错误**（V3.12.0）
+--
+-- ═══════════════ 这是什么性质的问题 ═══════════════
+-- **不是本轮引入的回归，是前两轮（V3.10.0 / V3.11.0）遗留的旧缺陷**，
+-- 且属于「上一轮汇报有误需纠正」：
+--   · V3.10.0 记录写「0057 回填 13 流程 + 28 节点，changes 43」—— 数量没错；
+--   · V3.11.0 记录写「回填 5/8/2/6」—— 数量也没错；
+--   · **但两轮都没核对「这些行落在了哪个组织」**，而它们落错了。
+--   数量核对通过 ≠ 数据到了该到的地方。**行数与归属是两件独立的事。**
+--
+-- ═══════════════ 现象（用户视角）══════════════
+-- 强哥用自己的账号（zhangdeqiang / super_admin，组织 CY03Z）登录后：
+--   · 采购申请列表 **空**（应有 5 条）
+--   · 供应商报价列表 **空**（应有 2 条）
+--   · 审批流设置页 **看不到任何流程**（应有 13 条）
+-- 而数据库里这些行**确实存在**、迁移执行成功、门禁全绿。
+-- → 典型「静默失效」：没有任何报错，只是数据不在你这一侧。
+--
+-- ═══════════════ 根因（三层，缺一不成立）══════════════
+-- ① **前提错误**：0057/0059 的注释写「app_state 是全局单份历史配置表，
+--    本身不带 org_id」—— 实测 DDL 是
+--      CREATE TABLE app_state (org_id TEXT NOT NULL, key TEXT NOT NULL,
+--        value TEXT NOT NULL, ..., PRIMARY KEY (org_id, key))
+--    **它带 org_id，还是主键的一部分。** 于是本可直接取的，变成了要推导。
+-- ② **推导规则选错**：改用「用户数最多的组织」→ 选中 xinguang（8 用户）。
+--    但该组织的用户全是 2026-08-28 seed 污染时灌进去的（`vendor_vendor-V002`
+--    这类账号，创建时间整点 2026-08-18T00:00:00Z），**没有真人**。
+-- ③ **旁证反而加固了错误**：0059 写「追加一条独立旁证 —— purchase_orders
+--    3 条在 org_04d6…」。但项目记忆里明确记着 seed 污染的数字是
+--    「供应商 12 / 客户 5 / 采购订单 3 / 销售订单 3 / 工单 3」，
+--    实测 xinguang 各表计数与之**逐项吻合** → 旁证指向的正是被污染的组织。
+--    ★ 教训：**两条证据指向同一答案，只有在两条都独立且都可靠时才算确认。**
+--      这里第二条（哪张表数据多）被污染数据带偏，反而让错误答案看起来更可信。
+--
+-- ═══════════════ 本迁移怎么定「正确组织」（用一手证据，不推导）══════════════
+--   取 `app_state` 行自带的 org_id：
+--     ssa-erp-approval-flows → org_d213a257563c40cca55551781cef67f9（CY03Z 创业三人组）
+--     ssa-erp-purchase       → 同上
+--   Blob 是登录用户写入的 → 该 org_id 就是数据所有者。
+--   **决定性旁证**：强哥的账号 zhangdeqiang 就在 CY03Z。
+--
+-- ═══════════════ 为什么是 UPDATE（搬）而不是 INSERT（复制一份）══════════════
+-- 三张表的 id 都是 **TEXT PRIMARY KEY**（不是 (org_id,id) 复合主键），
+-- 同一 id 在库里只能有一行 → **无法在 CY03Z 再插一份同 id 的行**。
+-- 因此唯一正确的做法是把它**搬到**正确组织。
+--   · 这不是删除：数据一行不少，只是改了归属列。
+--   · 可回退：源 Blob（`app_state`）**原样保留**，随时可反向 UPDATE 回去。
+--
+-- ═══════════════ 安全性守卫（三条，缺一不执行）══════════════
+--   1. 只动 org_id = xinguang 的行（显式列出组织 id，不写「非 CY03Z 全部」）；
+--   2. 且该行 id 必须**确实出现在对应 Blob 里**（证明它就是从那个 Blob 搬出来的）；
+--   3. 且目标组织（Blob 的 org_id）**存在**。
+-- 三条同时满足才搬。任何一条不满足 → 该行原地不动。
+--
+-- ═══════════════ 子表不需要动 ═══════════════
+-- approval_flow_nodes / purchase_request_items / vendor_quote_items
+-- 三张子表**都没有 org_id 列**（只靠 flow_id / request_id / quote_id 从属父表），
+-- 父表改归属后子表自动跟随。已用 PRAGMA 实测确认。
+
+-- ── 1. 审批流定义（0057 回填，13 条）────────────────────────────
+UPDATE approval_flows
+SET org_id = (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-approval-flows' LIMIT 1)
+WHERE org_id = 'org_04d67b437bf24a5db3d4aa2fc756b45d'
+  AND (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-approval-flows' LIMIT 1) IS NOT NULL
+  AND id IN (
+    SELECT r.value ->> 'id'
+    FROM app_state a, json_each(a.value, '$.state.flows') r
+    WHERE a.key = 'ssa-erp-approval-flows'
+  );
+
+-- ── 2. 采购申请（0059 回填，5 条）───────────────────────────────
+UPDATE purchase_requests
+SET org_id = (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-purchase' LIMIT 1)
+WHERE org_id = 'org_04d67b437bf24a5db3d4aa2fc756b45d'
+  AND (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-purchase' LIMIT 1) IS NOT NULL
+  AND id IN (
+    SELECT r.value ->> 'id'
+    FROM app_state a, json_each(a.value, '$.state.purchaseRequests') r
+    WHERE a.key = 'ssa-erp-purchase'
+  );
+
+-- ── 3. 供应商报价（0059 回填，2 条）─────────────────────────────
+UPDATE vendor_quotes
+SET org_id = (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-purchase' LIMIT 1)
+WHERE org_id = 'org_04d67b437bf24a5db3d4aa2fc756b45d'
+  AND (SELECT a.org_id FROM app_state a WHERE a.key = 'ssa-erp-purchase' LIMIT 1) IS NOT NULL
+  AND id IN (
+    SELECT r.value ->> 'id'
+    FROM app_state a, json_each(a.value, '$.state.vendorQuotes') r
+    WHERE a.key = 'ssa-erp-purchase'
+  );
+
+-- ── 幂等守卫 ────────────────────────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0063_fix_backfill_org_ownership', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

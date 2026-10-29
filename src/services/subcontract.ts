@@ -1,103 +1,120 @@
-U2FsdGVkX1+63Dsl/0edKX9mXSNhSIy0k0ENpUNTgz5uDA0RkJbVjI0WXgmJ52G8
-NpFLehi6rEqanZk2na36hZ6zzfI2D+TbVtVQ+nPwBOjEGpz7OG72JBHPUMDqwHxt
-W/nQmYLWb0HG8xMXwPiDh23P9QZ6TwO2fhBQQVP5sxPMfAps2TKMt8kIGuDc9wDg
-THY+5GS/D4dDAd0HHWs9GK9rCRKKNkCpx2Y07okZ5a47xfB74zsVsYFwHvibS1Fe
-TwYinGfqu+t45WOj4Fg2qRw2287iHBTo92e3Wbq61mB/FH9STqbbRtgmlqHeTh+S
-mYhr2LN3qL5H5uuqptBfSnH6Pte5CO2CjRtGlgSYmqusk9LkRiJC9ktOm85Mag0f
-Ae4ZUF7d5ZfjL7Y2m8XMl0u4AL5+XYZX2cAFexBnzE1fLFnS8yyNme+YJluIFSSU
-Gku9wPxau3xJYsVV/NDjOg5bwARDcHS1T24VujJnE6CGdyyKtb18LmYAZie43j+B
-qdruNgbhR2bl0MDUaRO2eyFgFhIQhit3oMdNZ1eTwH/F6PkhI8siXb3HtxwRGTZg
-ZuzAf1gppwCP5RMsEqVfRmoIO393CppZL+jbu9MspJkcN9YFUHxTULPXkUZ3VXk7
-li2X1E+Pi1igEdzOU1CKCPu3rmx8xp0pm+6BCK9piT2e1TnxVB0lHmtzK7gPkBQm
-io/WN1hvdqXvwOymoxSKxApMABVx4Sm2nSMvUIpbJpieR47DAQKd49zdKLJqmuiL
-NlWN6BCy782YexFcqfQLhF4j58HkQEOqAlR2WWsnI9/ezxsgU3zO5QFjK3nv2Inb
-WNIb7DDa0YY5eKYVXFMX/qdYs6pxvg1N5hxEOY7ii8yarAserC1We2PtETqZr1UK
-aNBVPLeJHD7RltONa/OTVlIZ65TqBzsqlcIBNpwXDKxk7D3BUNOS0zar4Zurq1JO
-ywtC7Iz/Vf2xC12pA8vc0Bry2wnNbXh8VMDUyWb59OQTZvk1NmMyDsuxItlqANMs
-Um/tyUvLo8eT4Xigf2X9cZSs0rq74j+cYPnuNcKlYfERJ07m1dATYj9ywDjAo8m2
-Wf43w1SDqMe3NpUPSgkvmsAETiobVDm3GIPZOqf/rMAp6cc4kmG7MTha2ApCtPpb
-4vqhcQD9v3VT5RSTGlSxGojSfrRJS1TDsrYuj+7VqJSBr81LcGk8rqJYp6uWJ9CD
-MGYZXp3/UxM6ENy1pP1tilokooVNkdf5qRr4owSSVbtxrAhW0CmFwsQdR4kYuLHD
-/oARyytp0iXZW7aWU11yJ8w0sxTaRVAy1ey1hoYgVSnJt7HmZ2UH5yflhI7yNjKK
-XgsYNnBrQjc0FxcYehqmLeKTYEo2tSH9R+ljY8vbRIMUG+nTGl5VJxbSCJGtUvoB
-lsEx1/7Cpx5MciNUYZ6CKGUagnD4mUMevlOPMpsTgbqxSPsPzwRtEgTxLJpsl3Iy
-PamcW2JHJzrSs4vhKYLCnNtmZgroTlwp+Q2fhZj5WigFudC21fgXUiANwACxX+vv
-3qOuoH1dlTnXSChQcxUAHb2SbAeNNSw/xCcF4oYQlwk14k1gKh0spqbwu60qP9xP
-EHyvCu26jqvA5tJK9Gvjw9TUZi2FB7oGVWyZlOON7/ai4htrOHNl747nZnFmihum
-3X5RTj2zMo6dS/IqzGY2jWSD98qOmt2k3EeNCGOOC3jyu/oEgD34zaCLZQREKbaz
-P8laUSxdY6yJwqik9mwqDMYFf+i2s4BgV2n81fYwooEfphmyXnB55tS60h+1+QVI
-rfX6AhE2169z9Yz0dg6lIRvmQMCONoGmP2Qp07GyfiRPuQ8gc5+04if26L3GhfEY
-XZwXCklHaGhuThPlvLa1y9Ok9QIKBwEXhQU2cZHrMBL+hbOAXQnY6cJoOyDD+/h3
-aKtlTwml8T4VAEl5NkTIotUFu9d3E1fIM9IikVJxfWDfpHtsaLtlQCWaApWLilAS
-Uaxh2HeB/klg3QZslAEng7Iw+M50jvnTTiCPdvGg3VyVvCXUjrHuGYojFAzEDDc1
-a9Kcn5ONuwaqdnnvo+Pc7GmHoFvg+OFPdhcoFvp+B1LVNu46vJIn4ggkZUZeME5w
-x1BUKetGccp9GRtAcBkKmmaB7I7XKqXc9A5V6rb8DBuI86JdiCHurMTDq0WFO/QT
-AD5fVicTOTNhcjV5Ny6pdFshhgCr/vbtswnSjVrDqZnDdBSZCJhjOBfai6830rLu
-Y2rH/6NlL1EkPJDWDzYx7Pki9DJx9rHTTCBdZG/HjjZVHg2iXn0stT+VCiDCZsE6
-EIN95qlae2H049e3BrtKrc1+Y7hLvSd0rVKN5cCYjDruHx13X2Wd6ZbVTs3ik71y
-yGHo70+HRuscX7zEQ7nrDWmWrcASyt7H79pa0+rTjdNMt2XXL2yDomKLWkj7oNZo
-trru1agkE041SdfCI3HsKLMAtpty4LP/q/YOWG+1jWr532yxjlAZZQe6QQDMb803
-0d07sei6PWnh9iJVln7FVMCONUoTR3DIkpEMEXJ10efQAQ+lBdrINY/Tn5Vo6+k4
-ApjzkwNsdQ/xzuFO0ft/5JnyJ3THHTE7FWhUFv9B1L8uHdmNHqXh/VWI4+BGdaDE
-/pxjeoWwOBNRhq3z/nRkq+rgZLEnDE5WcnOsZkzSvIzbBtfoaBprTN5cBx/ij1jz
-ptxEkDCy/PZj48xEhGkeZKDwjtvsohyPK2I2rYCzvk6GeqM9Ww270BUQ40ebokZG
-rmj2VDymf9t2YpY6EKYDjvvfb32KF6/tm0ateNiSqiLEEhay+P2jMWdEmS06xgBk
-95hI0L6rO6JY9GtOQdq3X/8k0ewGMBP0swB2s0D/7+VpEZ3CsBEaoF11iHe6GSfC
-NmzsdmXwH/j8V6iYTs77W3txQ7aJyrvt5cjKbQspNcFdSUQK1kbj5iE4W4aYccFd
-2t4aW7FHGEO9WRq1djmuZT16JRTVaDPtjde3Ix1bv7ohElU9JO8cat7EQdf65IvX
-smPrrZzX3F4Yclcpi5TUQM5sOdT+5YEUbocUq970Zn8/Px34wZ5Fg0k7/dKdLnuy
-YzgCvjKZ3s5fxwgeJ02JxlFtH/1/PM9JC3OzcJpbKthIJvz7+jrHFCQ+TjvQ774Y
-HaKvMA3aIcf/PKniMS51Fse6XMLVN9bc31lpl5vonT4HVgsEW4iBkuutJUpge8/y
-RR6a/dT4JUBdjVzEfSWC/mWz0yFzpfqdXtKHVSgJIEPD0cCtCmr5lwPXy+EcUz2Y
-yuyhvf3QTYuN3VPcPwUlfiX9Uo4o4ALp8D+0y3lFyfsLGtR1SsvOv0fERM9z02n1
-mr66tsOdqFbAOCkii9OPYN7comde0F1nXymHhd8uLGojARM3bfwAcdVRrkYj9+D/
-o5iFh9WVm0H8ZVXDAcmAEuVLGk9zo+meADvAq/ujksG1oT+pP7SlWl3PIgzcWmtr
-fR1NmahxjDCVAUBU9jXQSl4U53bPJM1ywIByLRqvP8yL6jOskyCR0gwRjftbFzUC
-GtWJQc94Uy0o0RE1Rw3SVdYAj6CbfaixgReAgvunk+U5L1s/ZNyrxth5c3RB1fKH
-CwNokGlB73XMN1TgvDFCmL1R0GRRqS/ZfDZgbKrLWL0c2b2kB56h/a/ezMW+J9nW
-grMoUzd8aFNwsLTFIQQQ5xJSd61ithrWR4XgFgPMo35oAe1yswrodZSZPfzFWDdY
-zcyi1sOuO48CAqAE7lVZT+Vh5Tpo8ttLOfmkZBdf1rnidy+9HmsG5YbEp0C4o0VQ
-zShkbffBkNYYq8JV3veb9QjSVbc4TWoQJ1kEpK8Yeua/NlsltjVoGqHh15Zbfggw
-s28EEhnlaqynfeL0BaFOHzoERwSChS3AB92QRGNn+41JX/4GUKeUUNNv2p2gzfA2
-2TcUsCedf99dMgGucAqw4yHdO/g1lLMriqElLo++slH/gKPOj1KL9r2j5W1eBTDS
-UFMkkp13gDXLN4nj15ilqXKVg/4JQerFdAyJAOejk8t1+MkJhwHfsZ0YhxelR69O
-0jT9FkyUrJbGmmMJ8hZQx2/7dRq6OimFXwOHvSIoiyk79LeobcyrCzjTDCeioVgw
-iQMbki63BHEl3vENP2UMQobEz6XUaVbwt24GPlre9oIOYuXJu6GnUtRK4/3DtRXy
-fdMhdgLxrA7w/qzoobYTTjszmUmkKElWfWOVDzaxK0lR1CDabfThBWd5swZjT9g/
-xYBs9XQm7brxF9fpxvMSZC/u1+VTaD6dg6jjqmjiyZpk1WPfn64npWTUyZZ05tE/
-JrfiQfHsYUgC7Y260KyMWNuIqNMjcP9P/Eq1NPU23VFyAPSjfR7xd0xR8tWoFJZz
-5gn/yZKCGR3ZGVwhvsYxIiRn2bMgQxVFkqp7ZCx9lRHIIGBFKXmetN/Tcnn+9br5
-vqnTUug+ToaNnRSJonl/FyfGUwTMRo/+4YBBeEsbFhCmHOu11ENwHRru8zseDJG9
-ElgskaqWuBJdJHE2k1mtT1ll+9wbQ1tpoo5EfytXSclfENyzy4a8trDlwkcUOftW
-yVdQQ82iIhTKQZTj9zYnPBHAAIgo/ChzJvHlracKJ0PnI83VXum90fjo/LfuR2lK
-GB3iwKMWBeIaLpFnLs54Z1OzAC+5h3oESMnHPlEtMmZbfzYPO0WEej0bGDXGOJvJ
-wTGviFaweZRkMPnhPbR2Cqr3GOYSyLB0PDkTzHYUUYQnasHCY/LsJgaun3aN1IHc
-Iz9g0R0IQFFzk8OkExE3TQ5WaGO8cDPGxyY0jmwfalMjLDGLZQTQWERrv/NK06dG
-6nrma4qEhRsJCnr1vPfkAUMJ3FAlVzXn002Wf7fcbrWXIETS6ymgkRlAaQY+Ccc1
-7W0qO7LlACDLhGmeDMluNnuAH2mNIW26WFCu+IKhOpG2ycewOhnd6dYSn/NA9oBC
-t+iwmSLcRyrXuTY8dTRYuMyDIp+R4kCI9YIyZwQ6rPTGsxTLo+LeeDTpchciumcr
-sIEOegqj+KpxQcOd/3nTbBm/D1kFzLaizT789aW+20E4lzlyaAp6STNDJJPWZaBD
-CGFTgid5KLbOmSsQX79wkXa8alIoXUnGmYR3EPNhbIHQA6+7bgaikJjTfowAocti
-6vW+PqUP5/yuyFMznSa7oQ0bppG0X3mIJkcBzLNu4T4FncrJGNAEQReXnu0mhGMR
-HUU0qA7lJZfECE18XqPBsh/+mg0B/q0jPndB7iZCGgJ96GNnK/8iZYz82pvKY9sA
-Hk24d7LTneHtKb1/1CHeNiB7aZFhOXuZpi7QNUcgjWEX2g+wWtNKg8tJ/zzEED3m
-JlR2w2sYNNqjolL182LZoZ4EEvSlwWpIqWEP5fLcGDMIhg57il7Q6Oh9wJvkXU0d
-vV7BmymEQaHJj3nTpUNfBfGjPHxBYTffbDwSBBOpy1mVYL0ge2WQ51SXXwI/cgOW
-RGoXL9mPXXa0UyxoOmvIU3Apbi00U9TBQWDB3pLq7HulmZrjwDHGYn37Gl5elMFW
-ULP/SKZ6JSY8D9oN4R+J4CsCD/um31nlSvJ2McpoOGFmAbglWAXZliSXm//Eo+sm
-jNWOMuOh6hZp/t1FBDFqwfvmMN1zPaU4DNg2got/mH3iyngl4CwuPW/R+XCl9TvP
-krr7DFp8nRl5a4hhK8+fXGwU39CVm2Ghp6/hI9F1XTz+2Vm+DpHBL9rEmajgwETU
-6ljeGW20DBEx8UB69Q7P+dxAm6yB7zkjvADyrH9WRksIpnHO6Qd1xm5qGGrUKs4/
-7m7X8aXM43qaAEJSgfxYOQX9gJK6urep9hu8V2MvF1tn4+4HI2bdes2NbQ4ABP9r
-kGsEzFQfMKEkwaVPu7tIdqhpiRmOBbt5dYyWJ/v0OQwpA0dK1KUh8Jc6vPrwjqKe
-tptvU7nGG4Ed5qyqG4tKA4fv2rZihz98pia60UoGOYXH+hLvUvB6sZLQS2pjCTqc
-ZAruK9Z+lcpeZLFuKp80EhFRSf3Xmv1mT/xNRrjy1k0ZILglbvhc3n8gZ7CLkXp1
-ybU0nsR04+QcZzd6F1tyQxp8mfhxMceLlup0rNu506E5qqVgpf5KOjLjdnXh5Jr3
-cxt2XWiLfn0dslnorvWBDQlHU39LIT1+oSfmyKgI5X15J1m+7srW1ycdlxhm0rEV
-Ki8MF4uG9m82zR2uqZhQzNALuTKzM5gPxGGKuvgVJ6TCkgNKARqszySzpmwL6NR2
-romLVKAZvZVHefQADxv+AOxMZQjeElynmvpggs6j7PbDv0Gr0xLJLuAfHFiAgF+B
-3qlygPBjJXEjpc4GR4w2WuEbyVvD6sQ9MzTJ1rB8Exhly3hsTR9xaOskZAd0A/al
-3qDHa7nUWZ2JtBoA3Jp0MiiS/4KQuLFcou7KxOoYsFAlWglm3EkxKkPz2d8ZMU0l
-DsmmeUSYr8xIf0DJZramR+hNkssSQ4G4SjdFTrl9VQYunA8CxMhZmXushAC63to3
-l+x6UC9XeDvqDOvVLd22J5Dx3+9InYKchxw/5H1xDdaK3VWQX+KPsRF4Nr2dp6/2
-ZNAlrKlha/jvlVuK6Udfx+glxXuYPqf5ZVVvUWofX2tCnVjg97o/Z3vtO5Bzy8Q4
+// 委外订单专用服务（W1-B1：根治双通道）。
+// 直连真实 D1 subcontract_orders（与 B2 三岛同源），替代原 b2Api 双写桥。
+// 行表 subcontract_orders / subcontract_issue_items 为 snake_case，这里统一转 camelCase 的 SubcontractOrder。
+import { api } from './api';
+import type { SubcontractOrder, SubcontractIssueItem } from '@/types/production';
+
+/** D1 snake_case 行 → 前端 SubcontractOrder */
+function rowToSubcontract(r: Record<string, unknown>): SubcontractOrder {
+  let receiptInboundNos: string[] = [];
+  const rawReceipt = r.receipt_inbound_nos;
+  if (rawReceipt) {
+    try {
+      receiptInboundNos =
+        typeof rawReceipt === 'string' ? (JSON.parse(rawReceipt) as string[]) : (rawReceipt as string[]);
+    } catch {
+      receiptInboundNos = [];
+    }
+  }
+  const issueItems = Array.isArray(r.issueItems)
+    ? (r.issueItems as Record<string, unknown>[]).map((it) => ({
+        id: it.id as string,
+        materialId: (it.material_id as string) || '',
+        materialCode: (it.material_code as string) || '',
+        materialName: (it.material_name as string) || '',
+        unit: (it.unit as string) || '',
+        qty: Number(it.qty) || 0,
+      }))
+    : [];
+
+  const num = (v: unknown) => (typeof v === 'number' ? v : Number(v) || 0);
+
+  return {
+    id: r.id as string,
+    orderNo: (r.order_no as string) || '',
+    type: (r.type as SubcontractOrder['type']) || 'process',
+    materialId: (r.material_id as string) || '',
+    materialCode: (r.material_code as string) || '',
+    materialName: (r.material_name as string) || '',
+    vendorId: (r.vendor_id as string) || '',
+    vendorName: (r.vendor_name as string) || '',
+    qty: num(r.qty),
+    bomId: (r.bom_id as string) || undefined,
+    sourceWorkOrderId: (r.source_work_order_id as string) || undefined,
+    issueItems,
+    status: (r.status as SubcontractOrder['status']) || 'draft',
+    planDate: (r.plan_date as string) || '',
+    note: (r.note as string) || undefined,
+    processFee: num(r.process_fee),
+    receivedQty: num(r.received_qty),
+    issueOutboundNo: (r.issue_outbound_no as string) || undefined,
+    receiptInboundNos,
+    createdAt: (r.created_at as string) || '',
+    updatedAt: (r.updated_at as string) || '',
+    createdBy: (r.created_by as string) || '',
+    updatedBy: (r.updated_by as string) || '',
+  };
+}
+
+/** 前端 SubcontractOrder → POST/PUT payload（snake_case，严格匹配后端）。 */
+export function toSubcontractPayload(o: Partial<SubcontractOrder>): Record<string, unknown> {
+  return {
+    orderNo: o.orderNo,
+    type: o.type,
+    materialId: o.materialId,
+    materialCode: o.materialCode,
+    materialName: o.materialName,
+    vendorId: o.vendorId,
+    vendorName: o.vendorName,
+    qty: o.qty,
+    bomId: o.bomId,
+    sourceWorkOrderId: o.sourceWorkOrderId,
+    status: o.status,
+    planDate: o.planDate,
+    processFee: o.processFee,
+    receivedQty: o.receivedQty,
+    issueOutboundNo: o.issueOutboundNo,
+    // TEXT 列：数组必须 JSON.stringify 后再存，读取端 JSON.parse
+    receiptInboundNos: Array.isArray(o.receiptInboundNos) ? JSON.stringify(o.receiptInboundNos) : o.receiptInboundNos,
+    issueItems: (o.issueItems || []).map((it: SubcontractIssueItem) => ({
+      materialId: it.materialId,
+      materialCode: it.materialCode,
+      materialName: it.materialName,
+      unit: it.unit,
+      qty: it.qty,
+    })),
+  };
+}
+
+export interface SubcontractListResult {
+  data: SubcontractOrder[];
+  pagination: { page: number; pageSize: number; total: number; totalPages: number };
+}
+
+export interface SubcontractApi {
+  list: (params?: { keyword?: string; status?: string; page?: number; pageSize?: number }) => Promise<SubcontractListResult>;
+  get: (id: string) => Promise<SubcontractOrder>;
+  create: (data: Partial<SubcontractOrder>) => Promise<SubcontractOrder>;
+  update: (id: string, data: Partial<SubcontractOrder>) => Promise<SubcontractOrder>;
+  remove: (id: string) => Promise<unknown>;
+}
+
+export const subcontractApi: SubcontractApi = {
+  list: async (params) => {
+    const res = await api.get<{ data: Record<string, unknown>[]; pagination: SubcontractListResult['pagination'] }>(
+      '/subcontracts',
+      params,
+    );
+    return {
+      data: (res?.data || []).map(rowToSubcontract),
+      pagination: res?.pagination || { page: 1, pageSize: 20, total: 0, totalPages: 0 },
+    };
+  },
+  get: async (id) => rowToSubcontract(await api.get<Record<string, unknown>>(`/subcontracts/${encodeURIComponent(id)}`)),
+  create: async (data) => rowToSubcontract(await api.post<Record<string, unknown>>('/subcontracts', toSubcontractPayload(data))),
+  update: async (id, data) =>
+    rowToSubcontract(await api.put<Record<string, unknown>>(`/subcontracts/${encodeURIComponent(id)}`, toSubcontractPayload(data))),
+  remove: async (id) => api.delete(`/subcontracts/${encodeURIComponent(id)}`),
+};
+
+export default subcontractApi;

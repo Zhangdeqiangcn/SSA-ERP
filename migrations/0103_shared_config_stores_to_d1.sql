@@ -1,74 +1,101 @@
-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
-aG/bHGIcGLw0bgvLhxm3Ng==
+-- 迁移 0103（B 类共享配置/留痕型本地 blob store 迁 D1 · V3.81.0 数据地基）
+-- 背景：承接 V3.80（A 类 6 强协作型），本批 7 个 store 仍走整块 blob（backendStorage /api/state/:key），
+--   多人同时改配置/共享留痕会触发整块 409 冲突/换端看不到别人配的。迁 D1 行级根治。
+-- 范式（沿用 V3.77/V3.80 payload 列范式）：
+--   · config 型（customFields/alertRules）：整对象 JSON 作单行 payload（writeConfig + subscribe 写穿 + 挂载水合），
+--     行主键 = 固定 config id。
+--   · 逐行型（fmea）：一记录一行，行主键 = 对象 id。
+--   · 双切片型（integration/lowCode/workflow/analytics）：单表 __kind 标记在 payload 内分流，行主键 = 各对象 id。
+-- 后端通用实体路由 /api/entities/<resource> 提供 CRUD + org 隔离 + RLS + 审计；
+-- 前端 store 保留原方法名，内部改走 entityRepo（本地乐观 + 登录态写穿 + 未登录/离线种子兜底 + 挂载水合）。
+
+-- custom_fields（customFieldStore：三实体自定义字段定义，整块 EntityFields 单行 config）
+CREATE TABLE IF NOT EXISTS custom_fields (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- alert_rules（alertRuleStore：异常预警规则 6 条，整块 rules 单行 config，行主键 = 'config'）
+CREATE TABLE IF NOT EXISTS alert_rules (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- fmea_items（fmeaStore：FMEA 分析记录，逐行 rowkey = FMEA.id）
+CREATE TABLE IF NOT EXISTS fmea_items (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- integration_shared（integrationStore 双切片：webhooks + webhookLogs，__kind 分流，rowkey = 各对象 id）
+CREATE TABLE IF NOT EXISTS integration_shared (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- low_code_shared（lowCodeStore 双切片：formDefinitions + formRecords，__kind 分流）
+CREATE TABLE IF NOT EXISTS low_code_shared (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- workflow_shared（workflowStore 双切片：definitions + instances，__kind 分流）
+CREATE TABLE IF NOT EXISTS workflow_shared (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+-- analytics_shared（analyticsStore 双切片：forecastSuggestions + ocrHistory，__kind 分流）
+CREATE TABLE IF NOT EXISTS analytics_shared (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);

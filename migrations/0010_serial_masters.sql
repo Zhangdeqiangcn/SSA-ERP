@@ -1,28 +1,45 @@
-U2FsdGVkX1+kW8CKTx2q+ifbO9/Oq5sUcJaXByMwb6tSh359V5bkwGCiaoK03Fjp
-Fl/j+c/c6MGBh3slfwZ/qezw1djOOrGLt4cmcvbRoYFqYW2OfpAW3M9TDRk6JgXK
-GfmC28nTonDRC7spPOl6HEL+tBJF3FdREcLtHAfuYD+TghMZwJmUv1N7XDG6+XlS
-KH4bSuICfkM6QEtxd4LYlLFtg6DPPfNlVvUExHix2ZZiZawZa7eCbnvmSQu3yhDK
-cACSvU27vFjNpD8WDhQlZMJKlGaZwin2OUFS1ENcntbJlE1qFSdgct/uH12xMc6l
-LkIiyfKLui5+ZBxptuy+uYCWT/I5wY4bvGTMFUyE8LmhoI0WYXvV5zsRWhrLxKRH
-yJohmoPk3RDNHW0aCFeNpU4bzAOgDU6J0tZXg8E+YBuOcCwH8eYlMRi59aO4Qp50
-zi3qfiGAayxkHk4UcRLunAl56nhDGaDsdnymzIBwGOIpSLZLQb0TD8a3UnROs/o2
-99PYuoFXdUZOPbfiPXDx9L18If1D68+pcFBTBBN311MXSb1edaTGCQTiKuNeAEUB
-1wjgbinOYM2/xqPB/ctJxYk8c/8HoitiSrYef1epOTCBuBf8TLVNe01L77+K1x2W
-aw/6ya1i0bANVH84VOsdjMqMEehetFHksxkbETlgNwkSfywMYx9HV2bgSLS0pd41
-mOGfX6mT7o+XL7xO4t+Wlc8/XePnF9irmFIdFr85FM+1st4fbTI4Re5l7qZsYpgO
-fNWUa724msqX9OZ+unBFnkiIdg6CdxAh/KdkllFgZjsthz03XoYkSVf7ihNecHpX
-jVvi7vuYPLXQjWZBYrtvXnJx9OqMhCWLI12mNpJ4GxQrinjJNVHDgMv0ibWMey1j
-Lg7SAfjThsUUvYh0XJkz3Evr0GSZNkcTme9RD35thzyWMpGJ+MCMhU1QBkfz5sZA
-3zMEfMmyQXU73X5GvYP/a64IPtCSkqCOqlUUlXNhWBDwxZ/3hizaL7ZCpHKS6kUX
-7laWTqjyCTsmg2Zyamfe5YUj5fUgGNvXTt80250GKNENzsWBtjU3njNnrvCvj7wj
-CnN2TBbl/KBc9GtLlmN4vLjEUWZwuGRy0WwA03d1dfY/K+KmHIMIZNYF3+nxgpoa
-Deccd35s7PNCPelrJCnk+hiBHrHWn9hySWdAQx1EKLJS4PFq008KOwbepXb3XEJR
-zxlGZo8kzebN6sb+jNPXHt5qVGGR988NgIwL79vSz3Uumsjz3vmfyRfLX1dev9+i
-tXI80+NUZfyRpFbSiASJ2hHFKrvb9MzyNIvF/tkerrvQcYHpv5dM1BWA5LAXq3oR
-tHTnMRI5de/o7MX5KEjiXsqSmLP3StZlpEuZTD9PAPCI49DSaI03td8zMBGTCVCk
-IG3cLR119B4nWb+QL52tC+T05ttLfyGMrvKT9EOksmL9Ncxh+mQqIt8Pl+B8yjRU
-KLaqOXTygqHRX/vtGhDTZzRUOvxVBbZiPTbBVtcNHmym+U3/XvcSKurUMcPv2tU1
-6B5Cz8yaygevd/Td6jpjaqq/wAS49SiawlvRXv9JW0GBBp2p0EoPCuxupFzURxo/
-j9ay9Ta4PKPNp3yxLTeHfzvOgIUdXuDmpuc1vBZRPozJXMgPrgblZyliSmJ4S4CA
-uSl9gpXipSQYq3p45b/Haq0oM9oIY58H8LW4olEZ0ngWrfuN0+EQ/IxrsWoXR5Ey
-svT3CLMZSqeracx+m5xrfg==
+-- B2 三岛：序列号主档 + 序列号流转记录
+PRAGMA foreign_keys = ON;
+
+-- 1. 序列号主档
+CREATE TABLE IF NOT EXISTS serial_masters (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  serial_no TEXT NOT NULL,
+  material_id TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  batch_no TEXT,
+  warehouse_id TEXT,
+  hu_id TEXT,
+  status TEXT NOT NULL DEFAULT 'in_stock',
+  inbound_date TEXT,
+  outbound_date TEXT,
+  customer_name TEXT,
+  remarks TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  created_by TEXT,
+  updated_by TEXT,
+  UNIQUE(org_id, serial_no)
+);
+
+CREATE INDEX IF NOT EXISTS idx_sm_org_status ON serial_masters(org_id, status);
+CREATE INDEX IF NOT EXISTS idx_sm_org_mat ON serial_masters(org_id, material_id);
+
+-- 2. 序列号流转记录（行表）
+CREATE TABLE IF NOT EXISTS serial_movements (
+  id TEXT PRIMARY KEY,
+  serial_master_id TEXT NOT NULL,
+  type TEXT,
+  doc_no TEXT,
+  date TEXT,
+  status TEXT,
+  note TEXT,
+  FOREIGN KEY (serial_master_id) REFERENCES serial_masters(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_sm_move_master ON serial_movements(serial_master_id);
+
+-- 3. 版本控制
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0010_serial_masters', datetime('now')) ON CONFLICT(version) DO NOTHING;

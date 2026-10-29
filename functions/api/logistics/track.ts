@@ -1,64 +1,77 @@
-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
+// 物流面单 · 轨迹回写（POST /api/logistics/track）：接收承运商推送的轨迹，去重落库并推导运单状态
+// 纪律：轨迹必须归一化校验后才落库；运单状态由最新轨迹推导写回，绝不静默写入脏状态。
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+import { deriveWaybillStatus, parseTrackPayload } from '../../_shared/logistics';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'logistics', 'update', env.DB, user.org_id);
+  if (_g) return _g;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const { waybillNo, carrier, payload } = body;
+  if (!waybillNo) return json({ error: '运单号必填' }, 400);
+
+  // 校验运单存在且归属本组织
+  const wb: any = await env.DB
+    .prepare(`SELECT id, org_id, carrier FROM waybills WHERE org_id = ? AND waybill_no = ?`)
+    .bind(user.org_id, waybillNo)
+    .first();
+  if (!wb) return json({ error: '运单不存在' }, 404);
+
+  const events = parseTrackPayload(payload);
+  if (events.length === 0) return json({ error: '轨迹报文无有效节点' }, 400);
+
+  const now = new Date().toISOString();
+  let status = 'created';
+  try {
+    for (const e of events) {
+      const id = uid('tk');
+      await env.DB
+        .prepare(
+          `INSERT OR IGNORE INTO logistics_tracks (id, org_id, carrier, waybill_no, event_time, status, location, description, raw, created_at)
+           VALUES (?,?,?,?,?,?,?,?,?,?)`
+        )
+        .bind(
+          id, user.org_id, carrier || wb.carrier || null, waybillNo,
+          e.eventTime, e.status, e.location ?? null, e.description ?? null,
+          JSON.stringify(payload), now
+        )
+        .run();
+    }
+    // 重新拉全量轨迹，去重后推导运单状态写回
+    const all: any = await env.DB
+      .prepare(`SELECT event_time, status FROM logistics_tracks WHERE org_id = ? AND waybill_no = ?`)
+      .bind(user.org_id, waybillNo)
+      .all();
+    const tracks = (all.results || []).map((r: any) => ({ eventTime: r.event_time, status: r.status }));
+    status = deriveWaybillStatus(tracks);
+    await env.DB
+      .prepare(`UPDATE waybills SET status = ?, updated_at = ? WHERE org_id = ? AND waybill_no = ?`)
+      .bind(status, now, user.org_id, waybillNo)
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '写入物流轨迹');
+  }
+
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'logistics',
+    'update',
+    `运单 ${waybillNo} 回写 ${events.length} 条轨迹，状态→${status}`
+  );
+  return json({ ok: true, eventCount: events.length, status }, 201);
+}

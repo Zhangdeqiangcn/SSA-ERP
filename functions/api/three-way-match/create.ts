@@ -1,54 +1,47 @@
-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
+// POST /api/three-way-match/create — 手工发起一次三单匹配判定并留档
+// ⚠️ 路由：真实路径带 /create 后缀。本文件是 create.ts 而非 index.ts，
+//    Cloudflare Pages Functions 按文件名映射路由，所以 POST /api/three-way-match
+//    会返回 405（V3.18.0 线上实测确认）。
+//    查询走 GET /api/three-way-match（index.ts）；付款前预检走 /check。
+//
+// ── V3.19.0 口径统一 ─────────────────────────────────────────────
+// 本文件原先自带一套判定算法，接收前端传来的 poQuantity / invoiceUnitPrice 等数值。
+// 问题有两层：
+//   ① 它与界面上的另外两套算法（Finance/ThreeWayMatch.tsx、Purchase/OrderDetail.tsx）
+//      对同一个业务判定给出不同答案；
+//   ② 由前端传数值意味着可以传一个「刚好能通过」的数字进来。
+// 现在改为：只接收采购订单号与发票号，三个金额全部由服务端从
+// purchase_orders / inbound_orders / fin_invoices 自行取数并判定，
+// 判定函数与付款闸门完全相同（_shared/threeWayMatch.ts）。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { evaluateThreeWayMatch, recordThreeWayMatch } from '../../_shared/threeWayMatch';
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+
+  const poNo = String(body?.poNo ?? body?.po_no ?? '').trim();
+  const invoiceNo = String(body?.invoiceNo ?? body?.invoice_no ?? '').trim();
+  const advanceAmount = Number(body?.advanceAmount ?? body?.advance_amount ?? 0) || 0;
+
+  if (!poNo) return json({ error: '缺少采购订单号（poNo）' }, 400);
+
+  const input = { poNo, invoiceNo: invoiceNo || null, advanceAmount };
+  const check = await evaluateThreeWayMatch(db, user.org_id, input);
+  // 无论结论如何都留档：三单匹配是付款前置闸门，
+  // 「当时判定为不可付款」这条信息与「判定为可付款」同等重要。
+  const id = await recordThreeWayMatch(db, user.org_id, { id: user.id, name: user.name }, input, check);
+
+  return json({
+    success: true,
+    id,
+    matchStatus: check.ok ? 'matched' : 'discrepancy',
+    blocked: !check.ok,
+    code: check.code,
+    message: check.message,
+    detail: check.detail,
+  });
+}

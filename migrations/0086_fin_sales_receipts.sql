@@ -1,37 +1,32 @@
-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
+-- V3.61.0 P0-2 · 销售收款单（补齐应收账款冲减侧）
+-- 背景：V3.60.0 补齐了「销售开票确认应收 1122」（应收增加侧），但收款冲减侧从未存在
+--   —— 全库无销售收款端点，1002 只出现在采购付款，应收 1122 只增不减，
+--   应收账龄/周转率/DSO 永久失真，且与采购侧（付款会冲应付）不对称。
+--
+-- 本表登记每一笔客户收款：单据 → 自动凭证（借1002 银行存款 / 贷1122 应收账款）。
+CREATE TABLE IF NOT EXISTS fin_sales_receipts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  receipt_no TEXT NOT NULL,          -- 收款单号（幂等键来源）
+  receipt_date TEXT,                -- 收款日期（决定会计期间）
+  customer_id TEXT,
+  customer_name TEXT,
+  sales_order_no TEXT,              -- 关联销售订单（可空：预收/非订单收款）
+  amount REAL DEFAULT 0,            -- 收款金额（价税合计，与开票口径一致）
+  currency TEXT DEFAULT 'CNY',
+  exchange_rate REAL DEFAULT 1,
+  payment_method TEXT,              -- transfer | cash | check | acceptance
+  bank_account TEXT,
+  status TEXT DEFAULT 'posted',     -- draft | posted | cancelled
+  voucher_generated INTEGER DEFAULT 0,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT,
+  UNIQUE (org_id, receipt_no)
+);
+CREATE INDEX IF NOT EXISTS idx_fin_sales_receipt_no ON fin_sales_receipts(org_id, receipt_no);
+CREATE INDEX IF NOT EXISTS idx_fin_sales_receipt_date ON fin_sales_receipts(org_id, receipt_date);
+CREATE INDEX IF NOT EXISTS idx_fin_sales_receipt_so ON fin_sales_receipts(org_id, sales_order_no);
+CREATE INDEX IF NOT EXISTS idx_fin_sales_receipt_cust ON fin_sales_receipts(org_id, customer_name);

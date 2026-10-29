@@ -1,144 +1,144 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { Organization, OrgType } from '@/types';
+
+/**
+ * 多组织 / 多账套（V3.77.0 P0-2：组织目录 Blob → D1 关系表）
+ *
+ * 整改前：persist(backendStorage, 'ssa-erp-org') 纯本地——组织目录只在单机生效。
+ * 整改后：organizations 落 D1 关系表 system_orgs（迁移 0101，resource systemOrg，rls 'all'）。
+ *   与鉴权 orgs 表**解耦**（避免触碰登录/多组织隔离主链路）。
+ *   currentOrgId（全局组织上下文）仍本地持久化——它是会话级上下文，必须可靠本地，不参与共享。
+ *   数据流：登录态 D1 权威源 + 挂载水合；未登录本地种子兜底；CRUD 本地即时 + 登录态写穿。
+ */
+
+const RES = 'systemOrg';
+
+const today = (): string => new Date().toISOString().slice(0, 10);
+
+type OrgInput = Omit<Organization, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>;
+
+const seedOrgs: Organization[] = [
+  {
+    id: 'ORG-001', code: 'HQ', name: 'SSA公司', type: 'company', ledgerCode: '1000',
+    currency: '人民币 (CNY)', taxNo: '91310000HQ0001', address: '上海市浦东新区世纪大道 100 号',
+    contact: '021-88888888', status: 'active', intercompanyEnabled: true,
+    createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+  {
+    id: 'ORG-WH-001', code: 'WH-PLANT', name: '武汉工厂', type: 'plant', parentOrgId: 'ORG-001', parentId: 'ORG-001',
+    ledgerCode: '1100', currency: '人民币 (CNY)', address: '湖北省武汉市东湖高新区光谷大道 88 号', contact: '027-66666666',
+    status: 'active', intercompanyEnabled: false, createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+  {
+    id: 'ORG-WH-DEPT-001', code: 'WH-PROD', name: '生产部', type: 'department', parentOrgId: 'ORG-WH-001', parentId: 'ORG-WH-001',
+    ledgerCode: '1101', currency: '人民币 (CNY)', address: '湖北省武汉市东湖高新区光谷大道 88 号', contact: '',
+    status: 'active', intercompanyEnabled: false, createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+  {
+    id: 'ORG-WH-DEPT-002', code: 'WH-QC', name: '质检部', type: 'department', parentOrgId: 'ORG-WH-001', parentId: 'ORG-WH-001',
+    ledgerCode: '1102', currency: '人民币 (CNY)', address: '湖北省武汉市东湖高新区光谷大道 88 号', contact: '',
+    status: 'active', intercompanyEnabled: false, createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+  {
+    id: 'ORG-002', code: 'EAST', name: '华东制造公司', type: 'plant', parentOrgId: 'ORG-001', parentId: 'ORG-001',
+    ledgerCode: '2000', currency: '人民币 (CNY)', taxNo: '91320000EAST02', address: '江苏省苏州市工业园区星湖街 88 号', contact: '0512-66666666',
+    status: 'active', intercompanyEnabled: true, createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+  {
+    id: 'ORG-003', code: 'TRADE', name: '贸易事业部', type: 'department', parentOrgId: 'ORG-001', parentId: 'ORG-001',
+    ledgerCode: '3000', currency: '人民币 (CNY)', address: '上海市黄浦区南京东路 200 号', contact: '',
+    status: 'active', intercompanyEnabled: false, createdAt: today(), updatedAt: today(), createdBy: 'system', updatedBy: 'system',
+  },
+];
+
+function parse(rows: any[]): Organization[] {
+  return (rows || []).map((r: any) => (typeof r?.payload === 'string' ? JSON.parse(r.payload) : r?.payload)) as Organization[];
+}
+
+interface OrgState {
+  organizations: Organization[];
+  currentOrgId: string;
+  addOrg: (o: OrgInput) => void;
+  updateOrg: (id: string, u: Partial<Organization>) => void;
+  deleteOrg: (id: string) => void;
+  setCurrentOrg: (id: string) => void;
+  resetOrgs: () => void;
+  /** V3.77.0：从 D1 水合 */
+  hydrateOrgs: () => Promise<void>;
+}
+
+export const useOrgStore = create<OrgState>()(
+  persist(
+    (set, get) => ({
+      organizations: [...seedOrgs],
+      currentOrgId: 'ORG-001',
+
+      addOrg: (o) => {
+        const org: Organization = { ...o, id: `ORG-${Date.now()}`, createdAt: today(), updatedAt: today(), createdBy: 'admin', updatedBy: 'admin' };
+        set((state) => ({ organizations: [...state.organizations, org] }));
+        if (isAuthed()) void entityRepo.create(RES, { payload: org } as any).catch(() => {});
+      },
+
+      updateOrg: (id, u) => {
+        let updated: Organization | undefined;
+        set((state) => ({
+          organizations: state.organizations.map((x) => {
+            if (x.id !== id) return x;
+            updated = { ...x, ...u, updatedAt: today(), updatedBy: 'admin' };
+            return updated;
+          }),
+        }));
+        if (updated && isAuthed()) void entityRepo.update(RES, id, { payload: updated } as any).catch(() => {});
+      },
+
+      deleteOrg: (id) => {
+        if (id === get().currentOrgId) return; // 不允许删除当前组织，避免上下文丢失
+        set((state) => ({ organizations: state.organizations.filter((x) => x.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+
+      setCurrentOrg: (id) => set({ currentOrgId: id }),
+
+      resetOrgs: () => {
+        set({ organizations: [...seedOrgs], currentOrgId: 'ORG-001' });
+        if (isAuthed()) {
+          for (const o of seedOrgs) void entityRepo.update(RES, o.id, { payload: o } as any).catch(() => {});
+        }
+      },
+
+      hydrateOrgs: async () => {
+        if (!isAuthed()) return;
+        try {
+          const res = await entityRepo.list<Organization>(RES, { page: 1, pageSize: 500 });
+          const rows = parse(res?.data || []);
+          if (rows.length === 0) {
+            for (const o of seedOrgs) { try { await entityRepo.create(RES, { payload: o } as any); } catch {} }
+            const rf = await entityRepo.list<Organization>(RES, { page: 1, pageSize: 500 });
+            const r2 = parse(rf?.data || []);
+            if (r2.length) set({ organizations: r2 });
+            return;
+          }
+          set({ organizations: rows });
+        } catch {
+          // 离线/异常：保留种子态
+        }
+      },
+    }),
+    {
+      name: 'ssa-erp-org',
+      version: 2,
+      // 仅持久化 currentOrgId（全局组织上下文，必须本地可靠）；organizations 由 D1 水合
+      partialize: (state) => ({ currentOrgId: state.currentOrgId }),
+    }
+  )
+);
+
+// 模块加载即自动水合组织目录（未登录/离线静默兜底）
+void useOrgStore.getState().hydrateOrgs();
+
+/** 取当前组织对象（供页面展示账套/本位币） */
+export const useCurrentOrg = (): Organization | undefined =>
+  useOrgStore((s) => s.organizations.find((o) => o.id === s.currentOrgId));

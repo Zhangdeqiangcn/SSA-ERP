@@ -1,28 +1,23 @@
-U2FsdGVkX1+pIJ3zCK51EaM6I+fnWxsUDcNoPGSJpBdUj63dfRO1r3KqGSiyCWPG
-w5P5FpvKeqvZZekL/+Z4SGOmACV+D24E6YcSfhyNa1DtB531NrWiU6yYDNwRKtIJ
-fNCjbC1VXq+VJyNilb8d/fcYtqJwmZRNKtcPsBXO+31QHD6BboVVCTQdpBxRd7Ht
-vGIh8FRazNKCQTpJfO2TnxbOp7At5zTquBv/cIQZ2CRYP5e5kAJ7kSXsWsfinGMR
-YrcCHH1C2eGWJwKEkT4SUC8eKPEYoq440eHVcnfxR4JTt+JK5I/qn8Kn7ImS3zjZ
-jGwrmQ/8XBm++sS+Z+6W+0l750WYOCR37QDJXtpTuT7NmAd5N0XEFcIHHfRG+2pH
-ly9W/cdSdZ06QzzIz9Q6yYnL3j7DZhYKB+LVPfoKUYNKF9l4NBV1v2l0Tg2LaYsS
-Qg/kmcRacZeUEwMVfPNPK549EIt1hjRid5BikJQ7EjH/rbbYWW/8589oEa8clDUZ
-gOdkS4NB8/oRkLXQYWGbVCZ4oByV5qWaChg9kfU6qziml1PIkPB9UE5ojOiekitK
-BIRbzbFvIFPh1ZIe7vCQxxZjvvVhRfqwvufIFk7wPrz9GkOpo1ro9VCWWvfr8Bbj
-TYNtACa/rjpPQUY2DRxFokRRR2SxekEs74xh9Mg1NIvJEC27VJxMhh4zDECERjt0
-pnx8Tg14xJGl51Ifa64V02/OUdAAfArNxwbdGjBYNbl3eCfQG1TeCUzPHIq1j4vi
-lTmYItqsLfTq0pCD2T1btaduZ2WrFRwzgCeMUn18SkFelqxBCbpswGJYyaQaHcfh
-SJvmCW+cRxqnZNv8ver7wDg9gHnScovIi6hEmcaqENHabqvFE3OYKLeoY07tBENu
-d9U8LAggx5feVuDMUAJNnFr2uiSiZjtB4O+TeSt1aLgWu6ELWMXvVaYURgPILMSA
-E6YetqgLcBjn/ICGf1A2EaEEep/Hp7VoGzbJKn1bX3P1H06B4cqO6P1Xt4rY2qWF
-bi9POmrL7G0cnDoUfeSI9YlZh7aLEBH2djwsvE4Q4gO+lGoq5CS9kt5OeOzaX71m
-DQsO+jprEK/+RAVItHGZ0bRg62co7fivKkpMDVivY4mot8XteFW+3zdC31po5E3t
-CabR6QT153yyMB/20uB8c8Vqu0Rgvy4g4quvQapPk7Kt94kG6gGAphKSaxIB2CGU
-r2V6RPyygnLh5L4wbr4tH/Im1Cv2EcG5W/hJ54wPuG5He+qWJLOe4773SSC79yCY
-VUUNsGNW2sSD3RjEQ0uaD0STVFxvQWJOxqO+NnpNkkRpRu+z4A951sE5fAlRM8tc
-1O1MsW7PMnyhf++1LgHyPpuSSRITcTTr+9M3j0UlXHr13B4vli9kgB+MNj874sFP
-aUPZlkOg7EqUC+G6i/uvehVm81L6Jm+mDGO4GRypa0rIyPozhlSwlINPF7yehaK2
-fgFmYpKhnB1ID7R1Z0GHQLWcTZyDHeaEfPehMH6gKSCxg+FOeaZb/xdJ7L80Q52Q
-jZCKmYLuFZArYruO47FyJ4bQtNPgEVVWxzqneh0WqwpIGnQVzBQYDk+DjT//bL5i
-diPpfnYuksIIgR73spTf+6yOyHt07S6x6jE9T+RvSaCZ+7+3/RytVZZ3c+qh6kMG
-aYftSSY1ehkzUUlFtlVVx63UAB7ZhUvixLcFIF9ZszwJjtvULq59RR4mz7cQ2+ba
-TRyAclzhRtxZP1kfuyR0rcZZ6OvHtzxGKWf4Rs6OYh4=
+// 项目集合端点（C1 销售域 · 多子表）
+// GET  /api/projects   列表（分页 / keyword / RLS，含里程碑 + 异常）
+// POST /api/projects   创建（项目 + milestones + exceptions 一次性写入）
+//
+// ── 这是全项目第一个「多子表」端点 ──────────────────────────────
+// `Project` 一次带三个数组：milestones[] / exceptions[] / team: string[]。
+// 财务域两张表各只有一个嵌套数组，单子表配置够用；到了这里必须扩展
+// `_shared/parentChild.ts` 为 `children: ChildSpec[]`（本轮已完成），
+// 否则第二个数组（exceptions）会被静默丢弃，表现为
+// 「项目详情页正常、里程碑按计划显示，但异常列表永远空白」——
+// 而项目管理的核心价值恰恰是「异常能被记录并跟踪到闭环」。
+//
+// team / linkedOrders 是字符串数组 → 父表 JSON 文本列（见 salesConfig.ts 注释）。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PROJECT_PC } from '../../_shared/salesConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(PROJECT_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(PROJECT_PC, context);
+}

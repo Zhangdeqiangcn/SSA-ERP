@@ -1,29 +1,30 @@
-U2FsdGVkX1/SXTA3kVZod76fqUyOQjHyIVNP/TH3Y8xuARVcabKLuFjEwObOEVSv
-luRiYVtdnDpecZKri//Wh/8L5xSv5J2cG4Wnx1mVpFPdoY5wSzBl1Dqk1cD6XP85
-rZMJAT/lxUkD+VREeKWOE5BA3OSPNsigX8205jPi79G0C/hPQlNwJULwjDi51Fc+
-Wj4JWUDdDqQbFCUB+gfxoQUysHjiv/Bf6UCb7qz3QRt8D+xBxW4PaI/NARgOWyfc
-rv7D0L1K0GrCMhCCyZboVF6ENQgMHDI377Z5E/0sWf5gWV9lFyUr6tQ/ULI0B6kV
-1se4jGP5sjL+6h+1eZ2YQ38O2XQsLAfpPDRxN/B45IfBCCEb8RupMRNGKTApPWYW
-hODWUf1sjVfVMtGfM3ePwfBTdEGydEEFmUDbmuTy2HSN5Wgj4mcqQtS9cNF6fuBC
-KCUtldpXhluIAj5N/zD+6cIAAhDMkerPAugg0VGMXafWHfGhAI695Tp4FEQ99JLa
-VSMHk2nnWLpYbJbqDE/OppbRKdYmvLxor2kkC9E1sTVfc3ytM/3Ja/GrsgVKBbTr
-2HSH/BYf7NCNraWOBfzqVLarWELEKtTVOUkoubgkzi/2mm4yP9ISffrfCaR1dBZU
-8haN7dVDhEuIXL54AjuMX/ZR8AMhc1oZfvHvE3c2/dAs1AGmF6iE5IRA1ea6YW9N
-ucRBekU5OpCv4xtGaXLcxCxfVwxwLLQW6klm3KusDTibuazBSKGJsoo0WdYQAVcU
-g8nSiBosN+yOtKtfzuL6YLclcy4ZjpJwFQICYPPsVKksySteXQ54iBdM9Sh8AwN6
-7MIPnqyv/7yE9H6j1BufToyYn2JxC1aY9ZXSCh+3a99qE8l+a28pKLUHd1AHrW+j
-rlS6rh+6U5s7TQOUmAyNUaqMZJYQjNHnyGLBE2Y/9Fb8rL5m5zEai1Ur26c4bhC9
-bl73ocLPebEx3t9/fm+MCjuISRQ0kcW34TdZ7/xoZ740UJR7UIPxgZfBtPAdZai3
-z7fpSLUvAZiLDE5Dsr7OdMslq2oJp/wu0EkanXOyoGtdX9Ue4ReWep7/UfEVacqc
-615R3MNwIdG6ooojVZf5RlUkSCnImKo0f3VGSm+9TXQ5pAZNNeWDHAa32iHx9VZC
-R3arbQzDkLSvd/KWRRQDeVTqixxldHsaLHHe5CjvuYRJ/mD4yeTUJ5npsV1HRRKT
-K47woNRYRpjK6OmbJzYSrvT172bnU9sXzt8ElfNNeHO2FDF1t6c3OuU12j1RGK3j
-gQz+1NvX7SrgoXmG/rutDapwvNivBsmNSmEuq6XglCphmp32+0nThFYT4s4O3Zw1
-NnW3JNsU3nEkpMC9oSWXL3D3bDsDDHthbvJf5pLjBXFvoLShT/ZiMmIcf8Uh4nng
-4fyor8dpLuyHtttfahZIwkQfS9RPScBu9FNKlQf6VlD8STSZBGBWWMCQa9hmXSir
-tPjktnXeGk3m3pI1UQYpbR41IrsgYAWfnPprbr4YqXLFfY9dqQhkEeQ9pj5ODduA
-SDz+3y8IlLHconTI/MA3RHYx6/Yt6eNVbrBRXSqB8KV0KWYE4smo+jOFKxT4p9xN
-TpY2z1Ofo16ItYXPw/ab9h8Ni0W7J4MfbWojxt7yqkg03z0xcRmQGrKxlNR+aXrd
-Kc2722vexZs9OocSQR1DCkeVY8OhSpBWIpL4MFIJgEoIgoEVJHTZVHe67aVPwG1j
-3/QYYaLVDeUQ/E9lTU3Q6PGM5B5gcXDiN1T1yXcqVmhFaFIwh7QmAdnOEw0nNB/U
-0NKFvT/707hA/LetF9uteMsP+SAcxI3kguRTGFJLDpM=
+import { createEntityStore } from './createEntityStore';
+import { TripartySale } from '@/types/tripartySales';
+import { tripartySales } from '@/mocks/data/tripartySales';
+import { UseBoundStore, StoreApi } from 'zustand';
+
+// V2.80.0 W1：三方销售（代销结算）迁真实 D1（根治双通道）。
+// V3.90.0：以上 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到通用工厂
+//   createEntityStore（entityRepo 主源），本文件仅保留领域接口名（addSale/updateSale/...），调用方零改动。
+
+interface TripartySalesState {
+  list: TripartySale[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addSale: (s: TripartySale) => Promise<void>;
+  updateSale: (id: string, u: Partial<TripartySale>) => Promise<void>;
+  deleteSale: (id: string) => Promise<void>;
+}
+
+export const useTripartySalesStore = createEntityStore<TripartySale>({
+  resource: 'tripartySale',
+  seed: [...tripartySales],
+  stateKey: 'list',
+  backfillKey: 'ssa-erp-backfilled-tripartySale',
+  // 领域接口名委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    addSale: (s: any) => ctx.primary.add(s),
+    updateSale: (id: any, u: any) => ctx.primary.update(id, u),
+    deleteSale: (id: any) => ctx.primary.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<TripartySalesState>>;

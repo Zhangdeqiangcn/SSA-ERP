@@ -1,217 +1,238 @@
-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
-KD9jYOVOfpVUV33lKL+K2w==
+// /api/finance/closing-periods — 会计期间结账状态（V3.46.0 第2批②）
+// ------------------------------------------------------------------
+// 为什么要有这个端点：结账状态此前只存在 app_state（浏览器大对象）里，
+// 任何登录用户都能覆写、且无审计；isPeriodClosed 还因此是 fail-open
+// （键损坏即全部期间锁失效）。这是对标 SAP TFASTAT + F.OB52 的核心差距 ——
+// 标杆系统的期间状态由数据库表承载、只能通过"重新打开期间"授权动作变更并写审计。
+//
+// 本端点提供：
+//   GET    ?period=YYYY-MM   查期间状态；不带 period 则返回全部
+//   POST                   结账（需 finance.update 权限；带结账前检查）
+//   PUT                    反结账（需 finance.delete 权限 + 强制填原因 + 审计）
+//
+// 权限口径复用 operationGuard：finance 模块的 update 用于结账、delete 用于反结账。
+// 反结账比结账更敏感（它解除的是管控），故要求更高的操作权限。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { writeAudit } from '../../../_shared/auditLog';
+
+const PERIOD_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
+const nowIso = () => new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+export async function onRequestGet(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const period = (url.searchParams.get('period') || '').trim();
+
+  try {
+    if (period) {
+      const row = await db
+        .prepare('SELECT * FROM fin_closing_periods WHERE org_id = ? AND period = ? LIMIT 1')
+        .bind(user.org_id, period)
+        .first();
+      return json({ data: row || null, period });
+    }
+    const rows = await db
+      .prepare('SELECT * FROM fin_closing_periods WHERE org_id = ? ORDER BY period DESC LIMIT 60')
+      .bind(user.org_id)
+      .all();
+    return json({ data: rows.results || [] });
+  } catch (e: any) {
+    return json({ error: '期间状态表暂不可用：' + (e?.message || e) }, 503);
+  }
+}
+
+/** 结账前检查（对标金蝶/用友"期末处理"逐项确认、SAP Closing Cockpit） */
+async function runClosingChecks(db: any, orgId: string, period: string) {
+  const issues: string[] = [];
+
+  // ① 试算平衡：本期凭证借贷是否平
+  try {
+    const bal = await db
+      .prepare(
+        `SELECT IFNULL(SUM(debit),0) AS d, IFNULL(SUM(credit),0) AS c
+           FROM voucher_items vi JOIN vouchers v ON v.id = vi.voucher_id
+          WHERE v.org_id = ? AND v.period = ?`
+      )
+      .bind(orgId, period)
+      .first();
+    const d = Number(bal?.d || 0), c = Number(bal?.c || 0);
+    if (Math.abs(d - c) >= 0.01) {
+      issues.push(`试算不平：借方合计 ${d.toFixed(2)}，贷方合计 ${c.toFixed(2)}，差额 ${(d - c).toFixed(2)}`);
+    }
+  } catch { /* 表不可用时不阻断结账，交由月末总账核对 */ }
+
+  // ② 凭证日期是否都落在本期内（跨期凭证会让"本期已结账"名不副实）
+  try {
+    const cross = await db
+      .prepare(
+        `SELECT COUNT(*) AS cnt FROM vouchers
+          WHERE org_id = ? AND period = ? AND date IS NOT NULL AND substr(date, 1, 7) != ?`
+      )
+      .bind(orgId, period, period)
+      .first();
+    if (Number(cross?.cnt || 0) > 0) {
+      issues.push(`存在 ${Number(cross.cnt)} 张期间与日期不一致的凭证（跨期），请先修正`);
+    }
+  } catch { /* 同上 */ }
+
+  // ③ 折旧是否已计提（固定资产台账与总账会背离）
+  try {
+    const unDep = await db
+      .prepare(
+        `SELECT COUNT(*) AS cnt FROM fixed_assets
+          WHERE org_id = ? AND status = 'in_use' AND original_value > 0
+            AND (last_depreciation_period IS NULL OR last_depreciation_period < ?)`
+      )
+      .bind(orgId, period)
+      .first();
+    if (Number(unDep?.cnt || 0) > 0) {
+      issues.push(`有 ${Number(unDep.cnt)} 项在用固定资产本期未计提折旧`);
+    }
+  } catch { /* 同上 */ }
+
+  return issues;
+}
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+
+  // 结账 = 财务修改权限（与凭证过账同级）
+  const guard = await guardOperation(user, 'finance', 'update', db, user.org_id);
+  if (guard) return guard;
+
+  const body = await context.request.json().catch(() => ({}));
+  const period = String(body.period || '').trim();
+  if (!PERIOD_RE.test(period)) {
+    return json({ error: '期间格式应为 YYYY-MM（如 2026-06）', code: 'INVALID_PERIOD' }, 400);
+  }
+
+  const now = nowIso();
+  // V3.83.0 三态结账：action='profit_close' 落中间态 profit_closed（损益已结转、尚未最终结账，
+  //   凭证仍可记账），跳过结账前硬检查；缺省/'close' 维持原最终结账（closed）语义。
+  const targetStatus: string = body.action === 'profit_close' ? 'profit_closed' : 'closed';
+
+  const existing = await db
+    .prepare('SELECT * FROM fin_closing_periods WHERE org_id = ? AND period = ? LIMIT 1')
+    .bind(user.org_id, period)
+    .first();
+
+  // 已最终结账（closed）不能再退回中间态，需先反结账
+  if (targetStatus === 'profit_closed' && existing && String(existing.status) === 'closed') {
+    return json({ error: `会计期间 ${period} 已结账，请先反结账`, code: 'ALREADY_CLOSED' }, 400);
+  }
+  // 重复最终结账拦截（保持原语义）
+  if (targetStatus === 'closed' && existing && String(existing.status) === 'closed') {
+    return json({ error: `会计期间 ${period} 已结账`, code: 'ALREADY_CLOSED' }, 400);
+  }
+
+  // 结账前检查：仅最终结账（closed）需要「试算/跨期/折旧」硬检查；
+  // 中间态 profit_closed 不锁凭证、是可记账的过渡态，不做硬检查。
+  let issues: string[] = [];
+  if (targetStatus === 'closed') {
+    issues = await runClosingChecks(db, user.org_id, period);
+    if (issues.length > 0 && !body.force) {
+      return json({
+        error: `结账前检查未通过（${issues.length} 项）：${issues.join('；')}`,
+        code: 'CLOSING_CHECKS_FAILED',
+        issues,
+        hint: '处理后可重新结账；确需强制结账请传 force=true（会留审计）',
+      }, 400);
+    }
+  }
+
+  // 幂等 upsert：中间态不记 closed_by/closed_at（不算锁定），最终结账才记
+  await db
+    .prepare(
+      `INSERT INTO fin_closing_periods
+         (id, org_id, period, status, closed_by, closed_at, profit_voucher_no, fx_voucher_no, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       ON CONFLICT(org_id, period) DO UPDATE SET
+         status = excluded.status, closed_by = excluded.closed_by, closed_at = excluded.closed_at,
+         profit_voucher_no = excluded.profit_voucher_no, fx_voucher_no = excluded.fx_voucher_no,
+         updated_at = excluded.updated_at`
+    )
+    .bind(
+      `fcp-${user.org_id}-${period}`, user.org_id, period, targetStatus,
+      targetStatus === 'closed' ? user.name : null,
+      targetStatus === 'closed' ? now : null,
+      body.profitVoucherNo || null,
+      body.fxVoucherNo || null,
+      now, now,
+    )
+    .run();
+
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'fin_closing_periods',
+    entityId: `fcp-${user.org_id}-${period}`,
+    action: targetStatus === 'profit_closed' ? 'profit_close' : 'close',
+    summary:
+      targetStatus === 'profit_closed'
+        ? `损益结转会计期间 ${period}（中间态，凭证 ${body.profitVoucherNo || '未填'}）`
+        : `结账会计期间 ${period}` +
+          `${body.profitVoucherNo ? `（损益结转凭证 ${body.profitVoucherNo}）` : ''}` +
+          `${body.fxVoucherNo ? `（汇兑结转凭证 ${body.fxVoucherNo}）` : ''}` +
+          `${body.force ? '【强制结账：存在未过检查项】' : ''}` +
+          `${issues.length ? `（检查未过项：${issues.join('；')}）` : ''}`,
+  });
+
+  return json({ ok: true, period, status: targetStatus, issues, forced: !!body.force });
+}
+
+export async function onRequestPut(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+
+  // 反结账 = 财务删除权限（比结账更敏感：它解除的是管控，故要求更高权限）
+  const guard = await guardOperation(user, 'finance', 'delete', db, user.org_id);
+  if (guard) return guard;
+
+  const body = await context.request.json().catch(() => ({}));
+  const period = String(body.period || '').trim();
+  const reason = String(body.reason || '').trim();
+
+  if (!PERIOD_RE.test(period)) {
+    return json({ error: '期间格式应为 YYYY-MM（如 2026-06）', code: 'INVALID_PERIOD' }, 400);
+  }
+  // ★ 强制填原因：反结账是审计事件，无原因的口头操作等于没有管控
+  if (reason.length < 4) {
+    return json({ error: '反结账必须填写原因（至少 4 个字），该操作会记入审计', code: 'REASON_REQUIRED' }, 400);
+  }
+
+  const existing = await db
+    .prepare('SELECT * FROM fin_closing_periods WHERE org_id = ? AND period = ? LIMIT 1')
+    .bind(user.org_id, period)
+    .first();
+  if (!existing) {
+    return json({ error: `会计期间 ${period} 未结账，无需反结账`, code: 'NOT_CLOSED' }, 400);
+  }
+
+  const now = nowIso();
+  await db
+    .prepare(
+      `UPDATE fin_closing_periods
+          SET status = 'open', closed_by = NULL, closed_at = NULL, updated_at = ?
+        WHERE org_id = ? AND period = ?`
+    )
+    .bind(now, user.org_id, period)
+    .run();
+
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'fin_closing_periods',
+    entityId: `fcp-${user.org_id}-${period}`,
+    action: 'reopen',
+    summary: `反结账会计期间 ${period}｜原因：${reason}`
+      + `${existing.closed_by ? `（原结账人：${existing.closed_by}，原结账时间：${existing.closed_at || '未记录'}）` : ''}`,
+  });
+
+  return json({ ok: true, period, status: 'open' });
+}

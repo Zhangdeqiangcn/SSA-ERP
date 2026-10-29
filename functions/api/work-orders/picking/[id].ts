@@ -1,96 +1,102 @@
-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
+// GET/PUT/DELETE /api/work-orders/picking/:id
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { validateOrReject } from '../../../_shared/validate';
+// V3.5.0 B6：补齐写审计（领料直接扣原料库存并计入工单成本）
+import { writeAudit } from '../../../_shared/auditLog';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  const row = await db.prepare(`SELECT * FROM work_order_pickings WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!row) return json({ error: '领料记录不存在' }, 404);
+
+  return json({
+    ...row,
+    quantity: Number(row.quantity),
+  });
+}
+
+export async function onRequestPut(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  const existing = await db.prepare(`SELECT id, work_order_no, material_code, quantity, outbound_no FROM work_order_pickings WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!existing) return json({ error: '领料记录不存在' }, 404);
+
+  const body = await context.request.json().catch(() => ({}));
+  const _invalid = validateOrReject('work_order_pickings', body, { partial: true });
+  if (_invalid) return _invalid;
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const fields = ['workOrderNo', 'materialId', 'materialCode', 'materialName', 'unit', 'quantity', 'outboundNo', 'issuedAt'];
+  const setClauses: string[] = [];
+  const values: (string | number)[] = [];
+  for (const f of fields) {
+    if (body[f] !== undefined) {
+      const col = f === 'workOrderNo' ? 'work_order_no' : f === 'materialId' ? 'material_id' : f === 'materialCode' ? 'material_code' :
+        f === 'materialName' ? 'material_name' : f === 'outboundNo' ? 'outbound_no' : f === 'issuedAt' ? 'issued_at' :
+        f.toLowerCase();
+      setClauses.push(`${col} = ?`);
+      values.push(body[f]);
+    }
+  }
+  setClauses.push('updated_at = ?', 'updated_by = ?');
+  values.push(now, user.name);
+
+  await db.prepare(`UPDATE work_order_pickings SET ${setClauses.join(', ')} WHERE id = ?`).bind(...values, id).run();
+
+  const updated = await db.prepare(`SELECT * FROM work_order_pickings WHERE id = ?`).bind(id).first();
+
+  // B6 审计：领料记录把原料从仓库账转入工单成本，是「材料成本归集」的凭证。
+  //   数量改动会同时影响库存数与工单成本两处，故摘要突出「数量变化」。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'work_order_pickings',
+    entityId: id,
+    action: 'update',
+    summary:
+      `更新工单领料 ${(existing as any).work_order_no || id}` +
+      `（物料：${body.materialCode ?? (existing as any).material_code ?? '-'}）` +
+      `（数量：${(existing as any).quantity ?? '-'} → ${body.quantity ?? (existing as any).quantity ?? '-'}）` +
+      `（出库单：${body.outboundNo ?? (existing as any).outbound_no ?? '-'}）`,
+  });
+
+  return json(updated);
+}
+
+export async function onRequestDelete(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = context.params.id;
+
+  const row = await db.prepare(`SELECT id, work_order_no, material_code, material_name, quantity, outbound_no FROM work_order_pickings WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!row) return json({ error: '领料记录不存在' }, 404);
+
+  await db.prepare(`DELETE FROM work_order_pickings WHERE id = ?`).bind(id).run();
+
+  // B6 审计：删除领料记录会同时从工单成本里扣掉这笔材料费，属于成本数据的反向操作。
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'work_order_pickings',
+    entityId: id,
+    action: 'delete',
+    summary:
+      `删除工单领料 ${(row as any).work_order_no || id}` +
+      `（物料：${(row as any).material_code || '-'} ${(row as any).material_name || ''}；` +
+      `数量：${(row as any).quantity ?? '-'}；出库单：${(row as any).outbound_no || '-'}）` +
+      '【注意：工单材料成本将相应减少，请核对成本核算】',
+  });
+
+  return json({ success: true });
+}

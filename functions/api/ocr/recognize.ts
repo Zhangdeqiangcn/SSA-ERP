@@ -1,98 +1,134 @@
-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
+// POST /api/ocr/recognize — 发票 OCR 识别（基于 Tesseract.js）
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { createWorker } from 'tesseract.js';
+// V3.5.0 B6：补齐写审计（发票是税务凭证，识别结果的产出与准确度需留痕）
+import { writeAudit } from '../../_shared/auditLog';
+
+interface ParsedInvoice {
+  invoiceNo: string;
+  invoiceDate: string;
+  buyer: string;
+  seller: string;
+  amount: number;
+  taxRate: string;
+  taxAmount: number;
+  total: number;
+  rawText: string;
+  confidence: number;
+  duration: number;
+}
+
+function parseInvoiceText(text: string): Partial<ParsedInvoice> {
+  const pick = (label: string) => {
+    const m = text.match(new RegExp(`${label}[：:\\s]*([^\\n]+)`));
+    return m ? m[1].trim() : '';
+  };
+  const num = (label: string) => {
+    const v = pick(label).replace(/[, ¥￥\s]/g, '');
+    const n = parseFloat(v);
+    return isNaN(n) ? 0 : n;
+  };
+  return {
+    invoiceNo: pick('发票号码') || pick('发票代码') || pick('No') || '',
+    invoiceDate: pick('开票日期') || pick('日期') || '',
+    buyer: pick('购买方') || pick('购方') || '',
+    seller: pick('销售方') || pick('销方') || '',
+    amount: num('金额'),
+    taxRate: pick('税率') || '',
+    taxAmount: num('税额'),
+    total: num('价税合计') || num('合计') || 0,
+  };
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ success: false, error: '未登录' }, 401);
+
+  let formData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return json({ success: false, error: '请上传发票图片' }, 400);
+  }
+  const imageFile = formData.get('image') as File;
+
+  if (!imageFile) {
+    return json({ success: false, error: '请上传发票图片' }, 400);
+  }
+
+  const language = (formData.get('language') as string) || 'chi_sim+eng';
+  const startTime = Date.now();
+
+  try {
+    const worker = await createWorker(language, 1, {
+      logger: (m) => {
+        console.log(`OCR progress: ${m.status} ${Math.round((m.progress || 0) * 100)}%`);
+      },
+    });
+
+    const arrayBuffer = await imageFile.arrayBuffer();
+    const { data } = await worker.recognize(arrayBuffer as unknown as Blob);
+
+    const duration = Math.floor((Date.now() - startTime) / 1000);
+    const confidence = Number(data.confidence) || 0;
+    const text = data.text || '';
+    const parsed = parseInvoiceText(text);
+
+    await worker.terminate();
+
+    // B6 审计：OCR 是把纸面发票变成系统内数据的入口，识别结果会被直接用于三单匹配
+    //   与付款。因此「谁在什么时候用哪张图识别出了哪张发票、置信度多少」必须留痕 ——
+    //   将来若发现一张发票金额录错，可据此判断是人工改的还是识别本身不准。
+    //   发票号与金额写入摘要（这二者是后续业务单据里公开流转的信息，不属敏感新增暴露）；
+    //   不记录原始 OCR 全文（可能含开票方银行账号等信息）。
+    await writeAudit(env.DB, {
+      orgId: user.org_id ?? null,
+      actor: { id: user.id, name: user.name || user.username },
+      entity: 'ocr_invoice',
+      entityId: parsed.invoiceNo || null,
+      action: 'recognize',
+      summary:
+        `发票 OCR 识别：发票号 ${parsed.invoiceNo || '未识别到'}；` +
+        `价税合计 ${parsed.total ?? 0}；` +
+        `识别置信度 ${confidence.toFixed(1)}%、耗时 ${duration} 秒` +
+        (confidence < 70 ? '【注意：置信度偏低，识别结果建议人工复核后再用于付款】' : ''),
+    });
+
+    return json({
+      success: true,
+      data: {
+        ...parsed,
+        rawText: text,
+        confidence,
+        duration,
+      },
+    });
+  } catch (error: any) {
+    return json({
+      success: false,
+      error: error.message || 'OCR 识别失败',
+    }, 500);
+  }
+}
+
+export async function onRequestGet(context: any) {
+  return json({
+    message: 'OCR 识别接口',
+    usage: 'POST /api/ocr/recognize',
+    params: {
+      image: '图片文件 (PNG/JPEG/BMP/WebP)',
+      language: '语言包，默认 chi_sim+eng',
+    },
+    supportedLanguages: [
+      'eng', 'chi_sim', 'chi_tra', 'jpn', 'kor',
+      'fra', 'deu', 'spa', 'ara', 'rus',
+    ],
+    tips: [
+      '支持多语言组合，如 chi_sim+eng',
+      '建议图片分辨率 200-300 DPI',
+      '裁剪发票区域可提高识别准确率',
+    ],
+  });
+}

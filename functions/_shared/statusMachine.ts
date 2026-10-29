@@ -1,173 +1,174 @@
-U2FsdGVkX1/KDORB2221JvgRl86cscTanjz5/7U52JFu4WDWGtcbi9WODUbYOxrr
-btm7qmNAKdVRAHWNeWy44jaDjDzdfT7NKdUjvPJHGp4t9hyLFF1n7fLugOa5+aZt
-ixUTH5F5siCLDazq4+pMifKkElMycAiTh6J9EGQtSR0b1TLO3bCXHENHExmaK7Qj
-41H9PfNcXX+0a5o1N2MU1y+Kf9FFN3H9cweWpx/9K7CXVTC7SM6Zqp7wjpswde2o
-o/qQdE7Xh39Fcn1bIrg2gNXEXRqWaKwBZPK6iS1npJQtlzRg3mVmiP7HY5asvVk0
-KhuC8oCWzuEiqDCHBDN23LtvqWLaF9gE+H94SB5xgHgqgmfgWmHCI0iFVuDzpZsP
-oGykMX8QD9UlqWM6qaZaydwzpwYlJP59ohU6Ru0wvXaYrlZS55oGTWLapGzWTR0q
-PUcmHWTqbuaxwOWT5AeYMmwF9+L9eSorl7ID4tY0Mm7vkUwZZaQTxs2PHs29jQam
-Y5ZmuH6PtreZ1quBwNLGTr2NNszdeWfgXW7MgjenB2mDVCsiW1nzIa12GngyvIQ3
-Rrw2WMUaD1Nhhsy6gwOMnLTp8Xn0o1agMBkmtcOS4R3mcZMVlvIRVnRIaDUonVnb
-Nc5WLrTZ5fJEarJ5xfXsjgHNUxfZaOW1oQ/nGBlxHwTws3pm6dQ2bCmX+I9EQeLG
-Y2KKvjIGx40Gg0p079HY1oMO8KEmRcW/7T0HGCMAv5gd0STcIMLHUIq4C488oPos
-4z5bNo0X1NXdzl0wB83B6k+6L58moZg0YWUMw/1NQUf4424YlBjn61YbMepLS+9s
-Wj5dXHgeN5sRYMG3o0zfQTqXS17kFT1qc6/6OUch0Eh+dgaEd0730ZJlXLWV10Xf
-46KPAJisvYJvNu75os9bLyOrcF3E+8ezIH9TyfMxy1UyKRHs44yPLX8+4Dr4ysO3
-fIEaRqP41rSZIsPb85xIK0akSayWkCkhcxdP8ABx/HU7zO/yDejO6H6Qz1NvyKHP
-ctuY1/QZ6nRQhHN4Fmt/gEADVXYQtF37lersAvrH7AJwK3l55fYVBKKX7VhezTrv
-71p+y+eJilNq8OE/vQfEHZR1i9ZGwlO25HUoJ3qy6x+hBCTsgA113P6mKuobuy8d
-YFTLhrKNoam8h3Js0jnQYKemIMsZSORT8f3iFmkNPpCFfrR7lTHitu/XAZ0eDBqR
-X3S5diLL+LqJ3xorVcUZyFOW3OpI+wQWK2GWFWbxgGyQy3IztNd2zCbbjRTo173k
-z9fN4FzgJsBCKbygXupVTqxqpzHFGn4pZ6i8Md2ysBSq4qAng5qVaWCBoG+jGfDP
-VOM8hcPseQ3pylICPwRYFtnr9L9BVDAeWgqkiSN8X3U4hQ7Xjks+g8FcsYZOni+g
-PAw5JMhXAjLhAzg03BIg/HtPuPyowv2Nf894bkob0xQimFx4o1N/inYmetcXZ+jA
-0NAdkA2FyD5UtSt4OstX+i+E4sKVgMQ7evcZj5y4ZCI4v/3mjE7eI3GS0Hl6gkkK
-7NjHaQSq21kZ66E/n2zacAruEYxOSSmUOepSuL0VDogHrJFcZ4xSWNn5rYq3gB66
-yDitlVF35oveGXOWW4K6nbYb4crOxB6JsrM7CEqwhzeCOQuttm24hIPrrIFmGtVv
-flSg45DWqKOc4uNk4iBj/gkiQRiyOn4Sn5hkqtLbcTipL1NhulliVq9cH1Uwq5xb
-f9tnrALU/QTzrbq+cjuwWsYzHKCMzUfGL8KHqvhwQYdLjvUDeEsxiyWqrR3Yu70e
-m6wv061pgvAFk28Mj+BTkvwS8VW5aDI2vQvH5xFP//u7BHMsSOEMEO70oD7Cxul2
-lOAwUN/Ad0mjVIYTqp39fLkYHqNN90soJg1VaXcmThGhJ1xXZMZK7AsCCIqmBJ0V
-hcslHJmPayFZHNAk6fqmy/14QMO+lDOgWxWsg5nvJ77Acf8mgE53KZqKTpftOHKT
-XwN8rbtHTsgH8Dq0Vza+dB1XAUe9hlhfbxlJOExR60kWCukeiQwA26SAf3Y+0nsn
-W9unLQh5BiROmlY8JHgfQsIb0XM5vAILznyNfDJlq7/jti9ywPJ9w+HLksNFfbdP
-v4+84kGgf9weFs79wg+4VA1SQUG73UUDE7LcZvoaiHCp44LYDSvW2M3lE5NTAVSf
-sl0EIP5/vNWRlMIeCi5xWirvXKQB+hLQBb0eLRm5LXqIPgF1JU9jzfQOrWgyEXpf
-FjVKLOFLMMMmbceuJU5nLLGivooupluOHZDdpcDQxU78QM6PH4utLmz5Nb0FDhW3
-z3XXPljly5XTT8LaA+JXYldNZSkorpKM3ar32hEGb/wNmSTYb+fhlHBYQ/6Lx1sH
-PzW2wPoYBRCTcGYdzlD7zUsxvakmQ3KnqpXz2j3BNQIxo6VMHzC41J8icApXptI4
-sMM/z+TO+NoffzK3BWRWNQym87BhFsCaObvphMqC4LVzb6hPgoys0lnPmpWgFPS5
-ZT944d4/KnyLbPDvmyAIEBtAaKuLVvzR4xuDfpJYCsQLyw6dcQdLD0zglv1D/Xsc
-IDS3bK351rAT66Tn+E56bibNeSpFAjKVX0+2V3ZvUovt1TjmUfApaP0szABicvQI
-nrbGCEhJ+hjmHBGgawuzMh3H9+NaLjYD9Ptuq8ZzG4HxoyevLSjxxBO5HJw9K2Vf
-QFGgS+EzHYNIvbNzWtMLTZtwTk7KZRxAeb6T2AjFmfdzWcFZuOCH71b7tS51Iu1B
-oi268eHPQ2eOZG74pU6yewJ/g/EKMYZ8dKbdGbSS3e5VTsPTZ7pJRPn4pC8u17Fp
-4UdUodbGbDdjaWLcH4O/36nW8HERUSOB606JcO+U7IH5+p488QyRIMDkQfce6a17
-I3QqR1BDSxzfZCFs0EOyqkWNajx8bEfHf3fATJtWZ0sStl4M243sVskz7hxJFnyu
-klkxe+Qasghgs22WgGz3ZC50gPDqTMAC1384i8DV4p87w7nBoxG+x27atgQelN/M
-9dNWlbmngsnzdpXolvWFYbp8lvaKN7du0VnnILnMEmhT2aECqk5mZFgcS5gtyVIe
-NrbvlRgTmvI2mTViF8XP7/G1rMhA/sqimYF1PKb43GVddeaGzRfAtIK5dIMC0fUl
-LBLh19renZtGJwCwdLikDG3nak/Afvz4svCdo801TQI9NxKCy1hM8WdcfbKmeHcH
-azAX7Sds3LPeUYPhUwAwXkMpSqXN9qumLXfdKlCHFgndHIXeQX7oVxiPcSnD8S75
-HQrAuTssT4pzWY3kkLA3WYZ7WHdTC1IqK4ZLQcclMydZf08Xe5+2czCeHp5ZIwFq
-MlL3W/zSqkhRkf2ZvvAgoLPZKamCBbgsCNwn+dDU552nK8hlcTdS7dsdmSkVImO+
-TmCeCQv/rRSrc4DsB4hAhFJoWn/XUjS69UBq/XtXT0pCwfq+8lSnB4lIvzfh2enm
-l3/E/Th1aU/5j73hHhvEP5uw0wws4JD4CSemnNenw0OCXlLmCg2qFo4Kwdbw8+wr
-V8ZDNrJQ/WZlpqhSaV3SHSuwq2+F3pGdBArkQ51zcTXFY7B5qe7XmMF688Dtz+yD
-oFq7D+Ywr7Bt8D6uuupdS55OpFE33fL2UviZ/kbxDYSFCHVqUpWUSJjC8K7yQaee
-DV7/wtnSBFvlB4nKYP7yc33+wSs0C/RAYxzAZIUnusMg43RF1Vf/BMVkqO9fBDnw
-5Nci2m/QL8PnX8ds5Xev1vxcOTSxBfknNNAgDyzVlPx1SKRDa3Taa8TaTKL0UKmk
-77/lwAGYjyr8qsL5XZKk4Bii5Aazp6wuKxVKfbYBFeIzoQLatGWMxVTgi8n6r9mR
-2+LccyXy+UqC7KFMKOKc2DgF/njIPG9CNc/pOpeLatDGb9T9PNegR2DWQSl5O+RM
-roQDDuEP5DRI4tfJADVJX9CmjrYwiJH++4FmhmgggKt/qg484t5ba1tluS+x/vYY
-2eOa6JjOkObaSq874nX3CO9dbuEavB3EbddZTOkMx9wYe9rxAB3nnZK3jwPu34vJ
-iYz5O9Z3d5MmKACxVl3ZIKvb03DkxBJQmwz894mpYDeJUi7S1KWqLIKqLO/OuWsG
-+0rqUtsFuq+2PO2TuYZ3xYjEQCYiH/jEUjp95Ygs7uFP/d4AKGIlYLcf3JE5dPSx
-Hy18ro4PnDAmRmyiyaPiXmph3+PsolYoWMMgXDC5IOTpNQM5tGkD3KC1SnpzCBPs
-vNQp5K7QHXZkNSz3DO7fYFbKfHCqIlbN6ZapI6PhivP7oTzZ5+2wOMGk4uHVqo0C
-fFV53GxjBPBis1VT4agCZrNBz7oNQhBKOVei+pFlxVyJC4DG/7NggHxjoGHpShze
-f7EnxO/zKZQQ4Gxp5QNW1x7+hk6YLvDcqrFUto5bI5vRRbk7Y/4zYGAn3oaZpZQk
-oQ+8VPh2mSiz+amXKkoRlvZbhzA3xQghzanL17OvzO6duQIUmKCAx5wpAYKO/89e
-i6EXMzvLUuHCuOstYGQuDjXKafjp6t8SdroNksF4d7P5ZDkpbsh2GZ1tgaQCudpa
-6OL7uG+YmpiysHm5Mlpy3oMX+gkeILJRQE2X2VqYp9qyzyD8wWK5SJnxzd2AB8Q+
-pEWdKKSSjzSNXCuHIzjVGQIgqwo//BI00yLaliP02jTEI2xXXxSymFVMzVEYbohn
-XmlB2fofHJyOTSFV7HVk7bmGx8s9RztYiesBPUXGyVtEWA7g5DJjHv3PBCrkl1l4
-3TM+dAx5rLFCHXla491Qe0CCziDacCRdRsEoI2kNnXPcTyWE0j9OBhJpgZT6g9er
-eRvnrwzqFHJg8pqHXQJNBVy7OXs+p5ZbKQwn+O/M883qiJPEypiWfD6ds/SllbQG
-dThOlhY+BE9t2xcUrQ/M5EOMwMzjeFn8XkrVW4NEQnaK+oErMoAnp1ink+18F/TO
-Ly8H3i6ZSorjpGGrOJ/mz0iV8bDxQMvCtwp2g7YbNxKWTpGGpcb7NRLObblE3f8Y
-6N/yHnNFdws+7PL+jWLoJnf7z52hcli60a4yJpj+BESyCmsDeYG5Tina7li0pCMB
-gE+dKxXrNJ3L/10pUuxcxw1nSfOANP0EnZ7ms8P5xnKDpi/hanns04Qi0aHj/F+d
-TXZQeNRqPWp0QvvdMwoQGY6+xKsSsIgHG3bXl/66nRLSS0Xq3hyE/pstMwpCuJcc
-PWUPBGA5yToMt6t5swuNMZMOdGM9urJ04PJRyyBrw63RM/QxQGZJQ0Q+cF6mDMbe
-PvBEGxFZEr+D6j3xKcstpOeNoRcDl0JWeDYI5DNaR4fMgFZkcKftmNdCyTg8samF
-c67nr+6146O6dkCTCHF8kNkaZ1+lbPjL83P+jPxxK71/6V0hH9yAcdkmoFGLHBMX
-ZbSmiIwYHwSy9ZyVBbrtQAaC74bI/OLUQ7U5Dsu3mAUM9uv2l4db/2G592iIRohO
-22yhkRd5RuXNG17OCwBYxIJT+y9aHbNzt9qRgccvBHsW+yI67nssmIO6PdF7C2iS
-oQOXXYv5Wm7WPTwwlizMZ0L+kV6lt3m6Q8OQjooVeSocX0ih+oBbHeJfVFY+tBd7
-+U3eQM6qmzGE7hmD/w+71tnz8K4g1bRQXydJAdXw7lhUMdKp1ZBhZHjHj9wxJRYr
-Bh3RzIC65QM8DUOjT6o3vcBiYpnVixQ/IUNERWP1Mxhqzle406o7Pfo/Wm/z4a+A
-boEz3ergoT43MIyanGjr2jjjTKP6JRizv0Wefhc1e4gbymZ4X4CmG5IqjHbFbmKd
-ph3jTj/rjGZdAJEogag7KSZDwi4ulPneVteoJ8KkVbnchC1jK8YvDMfudtzX/k7a
-6nS2kzOBIz/ltgNpVrsmx5UuhkstcpyQwQXy+lqjjlHQz6ZpgYCGWuQbkLlr5QY1
-VII9Hz5riSTc8U2+rUPW/GmJv0jT/hr79SgTgEbaN0MaKtO9FJ/xDlp5IBZ/mDRs
-Pg8ZOOcf/6syvCLmbRRGY8czHwpf3bm0E+Dln9STl2dsh4hqRC0HpciS1WF8V3pe
-jiB5veTUr0IpILd6E1h1GCdZOD7vMAGb8phqLUTNoCDngWcOBzE4VjBDfpvHx7SC
-mK1BDIyO0p72c9dCbOwAMgfKrREVMyXZQkf1olWMfCio24EP5yqYzlJFytPFrLm3
-BoUMvPAmhticWZKt7F4VYFLa+wEXSMVOyFCClhoMaXndFWxEjyJ68ZqclSrEAdkb
-5dtPH4qZd4z3sMiIrRo9CXXB13wsr7Qes4mE0MVMMPUVmm4JVJiKnpbUQQSzYzOe
-R/ipaJTwvtdjvwwm18b4I45BaUdXKAJOAhkpOAKWgpzoVnr7mCxP7ntpcIDfdHxG
-ha5PTQqKW0lfNI59e8jQMml+ZVxrCE1iR0G4oNYWPufH9Za5D8kn5jXY0rI/A5EO
-fgqiYBqZ0bk7MQH47Fa4ww5zE6Ah7K9gQxhG7XFMXBCaiZ1nSB2zZ2SVQyjht3i+
-dpAyvJj2io98gAcgVsBUKfJslYBHvApmj9Z8twchkQ6Q6OWmy4+c2Lnsv/naPdRR
-ACzPkJAGUiw9EvzafCbOOeHsXN+EYBZliUU8xdGRmlW/BmlvzlDGVqIEZZC81gyH
-4o6UlFaC25WutG9fgXu8qw12WlVeChUBAlEu/rlGFY1NPLrSx0XoHTLjEYdFY+HR
-kHqvVhVuCC3WWq3nFysh27L7M8tunA8ztgYQZALLVqV0PvezC9UGLGmdjeOnp4Wv
-3ELMyEQEQ7Hgme7rHRYKeyWEOVe2OoOqM0ibc20r++dVGpBcOaqVj224ldOBCuPx
-g2uirxiuoWD9eZcSeOCwjkhIk+hiR9eV/hK5GwXSrVRWo5jtcW4gOTL79OLrz2ve
-BjQD+WJAK8XpxYi9DTz8BEpwFXb6IO2bbonvzmDjWDhZ5zncqH0SkQOCK28heHL5
-JQ0y0CpXmq1mhR7UILp7Sny+fxzyKsf6hHVtpyvQcJVbrhon/6yPMC4YszVgLRjT
-yYjKTmIUVgNbXfQbYf1G2QRccgtph89B45g8WmZjOGJA1/HVeRikf42MOCM4P3pl
-TpTpsdcf0xW6tZYewNIi2OlCFaMyltYjZSvHc44u+GH4Im2ZPteD4DtWZJkVKwQZ
-oTTmjAfu4DSu4Hi7eAOIBr1jVTaPAXLMQU4XRf/NZBbrtsI2lKdPmFTOXj9f7bNw
-yyAIU7wLqFqO5RATGMOJyqPwxicauRIl30IaBpEb+OFxOXOJtAFUCHMELROuTD0Q
-C5Mhfhn3IbSocRJ5C5+qy2lcFILG1fXOmn1AS7uWFxERUJI5grt19Y78p8X5LnbM
-n7GFShmc7j9tFvRRs0lt/HgZ3x6FOgDe5O7AEEsVGAJsa5m82fDhqO8/F71jUUaj
-H034lVnfiNuC/KnMi6fgYxvv+2auiyTc+EqFkT9sseK1IJW6mKLR5a8w1YhpiMyY
-qyTg0oFKazOhLfoaO7C9IE58RMMbZO1pRGmxDUhVtn3EMsU/poFfzbCKo6jLt7y+
-Jv6+U0lL3SkCTxCDkKtIk8s8ddpqJA75WEZXwRF3FaKy5hALpDk2Z/liiN+rIBtW
-WtO4m9CKkf8SK86OX61Axp6CE7fiXTjUf4Sb4U9g2mpHQji4ztbE/l4hmzzH2aH5
-riqLqc7hrlIiwQYpekM15OQ+GYbB56nCFQUrc4xGyxJaXt6IyXYCVJvw8vQIifbY
-qajDi0g8F62tLs5hJsBTtMOjTb4/mDX8sYEC8WLa/cyuBTNXPIuxtihnwlJk6av5
-gv+ldVp8PRrluDsfrLxb8WekdLuCz2bojjCJX04b99Ppfh4QSKBFmAXVMufX/5j4
-Tl0eC6XTBLiOMZRSRQpplE0j/2w1tfGM423FGqwTdVHLesQcE60sagYgUc95/Lyd
-goyQJX9mzwg4eWvDojUQbzrKq+DnNdEhRf7Je4ArG9TLojjy6gOyESmBQSZxVAfe
-5b+CSUMDx/dqfdQadCJ5/LZjnz0qFumPWQjV1SefknsikvRPxP4w1/XVqfbof/t7
-/Pa9Q1BJedW3WQlo+sgO1ZcfI+zdnPMlmu4xYnjagrBQ/h6ZuhY2ibKIZBU00pBh
-csYCNBL8r0+HKcg4Du8sCjdgDpMDPoeLT6zM4o2Po0+Fne/MF3Snq71inf9nswo9
-Ln+j5/nmDM+NmX4VtbXGtaqJs290KF1czOqnsv8RkumdvF1dkyvmzkeKsHvRt5zK
-5c6d1XwlieNWErwzn8fq4oSZLygQK8eT4r3d11i+gf+6bl98s2H2WpRvTQpaMHgC
-ZbDhXvkSThA2xnzuPZdj2pEtBqRW+Mz73y+ylUj4Mg3g/Pdq9L/PhYiffcMur1/m
-J6lyrasamI+h7F3RphYhSKVHbR8hrOFbimHaazDqTv58mEMPzeRpBhPS0R5FxWd2
-4LPPiiF9wSIGzDmQqQwLr3SrN9gBgI3MmJG/6kTanOJGhVWtu8UrWXncla7mS/69
-OWW0VFDCUTGF7ebz+oExIDMfnXLSFKFUM9I1GSFVcHwAmc9ekbxJfpnOv6g+YmOD
-KrUwZibZ/Q2mBw2QGJqKKPFSY3HVnCssbn7KPgzJgOzsvaY62ks7UcwhZ8JvL628
-e2vjavP6itNnJ8EFXlNkcSRFoMEJhh7KDikgvvqz6kR0miNSt3DIaoAD/wyhNg7j
-ZElagpGrv1baIrIol37g7cmLo/i/0y7YpGgnjIBgTEuNKgM2tn/O1Fvl6SEbhP/B
-xJj/qODg2NGGSKR/Tt7rZsWEYxbFAVIzQXuDHBJdfz9ffhA25QO0rsX5rgYEsOIH
-rQYuKCTmLGZ2SDge4IPccf/hzhFVmLRubvdC5r/a/B1KB3BwWp/+qoljm7q+Qgl6
-4oCo/dh4TpFY2TfpjjPdTtshd7VXix/D4uK6BtDkPSLjET6BxXXNnjKo58Y7SVXG
-LDiuB4cbAtPR0xJir00klbzascajWdqJ0TMZ0sbS1H9QT6k/CVAmeqGnTyhXCMXp
-2+zBxKHZj/r/INoIGNnk/jwwrRPjE1fBVeNI6eetk8SqGbnSOC3XdVvSQhznZ+rK
-tgjdJAF20R5ACL4/ek9JxoO8/3+lzK2gsFZCo3cS94LlnIz3fz2WTPlqotjxAbsz
-90qqI7Tr+OsYNwD6XFTrx4aUKPjtDpKWaow5rK50dCxeDW62Q/NKiQ7uSG4D5Aa6
-TtHAjv1Pr0S2Vk5jzvtW5PUIpRCyGFBJ9LaAMuuP/XgXtKw4mPbzcwo+zBGV0f2l
-Uy5NiCIyLjFslpy4yb8vnBSyDYXh0/7hhsPOIcyE+u+nGAQMcvPw2gGHusmgPjWR
-lWXHi2kV0p5YPuaV6UTFAM7ZPbj5E+gPLq6a8cdwMsy0tm9lITNzHwk81qGf/Jiy
-P5znFROpIcC/v1aTtKkypHIb1dvVABLeez2Oo/sbHLC0KmMqpKQOm5IiknRJ6qLm
-q1iRFKm5YURqNibMKh0ksWZ51fZX9+ftoxYVn0EQi8EwDXSf70YYcWnzGwuo8bth
-x2rUtR8kJGo7r+U31DfshpMHUVyn0WnHF5W7ageCjwK6yyo/N/KJzOyxO70yCsB/
-0jdfBmKIwLmD2iaBhnY63dA9kOhAqT9dQBPfiIxdvwVmQaQ4xrsmESl2KLXi/7Un
-Dio+FcPLebO1g2nZcqmD+zN5SSmPlGjNxViJ4h+VqTUHkuVZ22AaKBAHU+e2TpSd
-AgtGmKtr8eJeWmvn1GhNAqzoIDQX30hJgZUjeDN84LcuQYunNsdUMgno+fyJDypd
-z5GqkcxVPNZPcuglMh2ROJU32TZf5bUojAzCfo3OwPVMOIwRc2ogMo3hZfCMbaRJ
-sqCy8ZLXtMsDcmIFFKsOzrUFNQc2ZVRvqpcEgjqzIGk2hxClZXN5XglB5xHCt9iu
-Za6Ct4zOjRg3l/1NClO1NnKK+fmsuJiKURClJxv9oZmn7yUZfoRiOiLStZp20TKa
-0DUULB4cW0ptScyOHI1arxDg0KhEdaFkpd1IfOKNXcnN2A6MPb2Uell74uPng2Dd
-uNvnvWN+CRNbfY4gWQA8oU75/mtADe34ygigtWPoYvlGPp6T9Rch9Cl4PlbTGnXm
-1V8UgLGTKMLxch/rCyT9W15BsZPJ9z2KY1QG2oRean3KlBZPwQCt1XJsH5Y/RrSl
-O4M4YVdd34b//qxwUrZ111xbvVh/HZOwTW8vNZ9VJU8Sm3a0SiT7rn59xbP6rd/Q
-I95zKrD/d50Vl1BXDcDvtIUkqr04msLSUdpPtDjUP8Iai75vrubu2ULRVeCriW27
-tcPlkoEOUXa1qnWgjDZv+d6reYY/iZXMCIomN3NqrPcT7gH6HxJAJv/u4Pf31X96
-USmX4QJQWvDKavTUejBstfR6B8xZDUvetcy4fGw+B/JiUb3C7oteevZFRTB3/LRl
-BuU5kzfrjVzIb/7jC1Pe2A6KTVFd75bRCEfhlYZYdiRc72UVrBBLChFC3C1y3rmA
-o6tfl/glIi3gEeFjVPuCyEJk03ItHhF2HsADWUE/Z+0H8HKbjuk9NzLzgK83omlG
-IeOduK4Iv7KXLp8FQ/F/nBuOafvQbMj6cLPtl0lTXD86O0v1LGtJidBpZ8JjoJAm
-tvVIAJcoSF5/8ERTfuqmnYaHsO82MBd4/d8PvEk6kOMj0fsouBNihMGm8VpHjwwF
-/ZIBVGmer7LYiIO7Rb40NZd0fU4Y0GGcoZMvaK0m66utzYngCNXVFOf4VYAS0c27
-CcZJbpuh8GvRfnPatArM4FQ4KVzeVn1cuBxbuPK8fzcD8ok8MOB06Sy9DtqyRJoq
-iHrYtvThm5bK6kT9Wy6bFdhesxBTibtw0Y9U1pNJR+0zr15n8BqTeDe0ok9jNB40
-APiH3CyYQpBWGTXIoo6ED1hZ4ueJjnC8u2CjZ/mgTLBHiqdH+785maNPw5LK2TAU
-fxTG+R4IqL1mc7wDUGfGj274DQqXGMHTDffltTMt2Q37rNLGZnSbxEbdPN5IKNkG
-XmFetRSMzLs582ZRnPxkkJ5Sq0JKHeFEaqBOv2EWDwrleNx81CwEC9vjZhXFRlnt
-UiB9wIgOtIAcPDwuuk+R+7g+j5StJlgnGtmEx6verTkRirYVf+k3SvGgaRBtFozy
+// 单据状态机（V3.17.4 · 缺陷台账 #9「单据状态机」服务端硬拦）
+//
+// 为什么要有这个文件：
+//   全系统 20+ 类单据，后端 PUT 一律把 status 当普通字段「只存不校验」。
+//   于是任何绕过界面的写入——直接调接口、批量修改、Excel 导入、第三方集成、
+//   未来的智能助手——都能把一张「已完成」的单据改回「草稿」，
+//   把一张「已过账」的凭证改回「草稿」，账实就此不符，
+//   而且往往到月结 / 年审才被发现。这里把它下沉为服务端强制闸门。
+//
+// ★ 设计原则：只锁「实质完结态」，非完结态之间自由流转——刻意的「宽松」是为了**零误伤**。
+//   侦察确认前端存在大量既有的自由流转：
+//     · 采购订单「编辑保存」会把已有订单打回 created（src/pages/Purchase/OrderForm.tsx）
+//     · 销售订单「编辑保存」会把已有订单打回 draft（src/pages/Sales/SalesOrderForm.tsx）
+//     · 批量修改 / Excel 导入可写任意状态（OrderList / InboundList / OutboundList）
+//   若做「完整白名单」逐条枚举合法跃迁，上述每一条都会被误杀，线上直接报错。
+//   而台账 #9 的真正痛点是「已完成 / 已过账被退回草稿」这类**破坏终态**的操作。
+//   因此策略定为：**非完结态自由流转（兼容现状），完结态一旦进入不可回退（堵住痛点）**。
+//
+// ★ 刻意不做的事（都是踩过的坑，改动前请先读完）：
+//   ① 不做「跳级校验」（例如 created 不能直接到 received）：
+//      收货回写本来就是 created → received（未必经过 sent / confirmed），
+//      一刀切会把正常的收货 / 确认流程全部拒掉。
+//   ② 不拦截「状态不变」的请求（to === from）：整单保存时前端会原样回传当前状态，
+//      这不是流转，必须放行，否则任何编辑保存都会 400。
+//   ③ 不拦截「不携带 status」的请求：部分接口只改明细不改状态。
+//   ④ 不做「删除」拦截：删除是另一套语义，已由各接口自身的审计与业务判断处理。
+
+export type DocType =
+  | 'purchase_order'
+  | 'sales_order'
+  | 'work_order'
+  | 'inbound_order'
+  | 'outbound_order'
+  | 'stock_transfer'
+  | 'voucher';
+
+interface StatusRule {
+  /** 单据中文名（报错文案用） */
+  label: string;
+  /** 合法状态全集；不在其中的目标状态一律 400 */
+  all: string[];
+  /**
+   * 锁定态 → 允许的去向（**不含自身**；to === from 由「状态不变」规则自动放行）。
+   * 未列入 locked 的状态视为「非锁定态」，可自由流转到 all 中的任意状态。
+   * 空数组（[]）= 完全锁定，进入后不可再变。
+   */
+  locked: Record<string, string[]>;
+  /** 状态中文名（报错文案用，缺省回退为原始值） */
+  labels: Record<string, string>;
+}
+
+const RULES: Record<DocType, StatusRule> = {
+  // 采购订单：已收货 = 库存已过账，不可回退（只可继续结案）；已关闭 / 已取消完全锁定
+  purchase_order: {
+    label: '采购订单',
+    all: ['created', 'sent', 'vendorConfirmed', 'confirmed', 'partial', 'received', 'closed', 'cancelled'],
+    locked: { received: ['closed'], closed: [], cancelled: [] },
+    labels: {
+      created: '已创建', sent: '已发送', vendorConfirmed: '供应商已确认', confirmed: '已确认',
+      partial: '部分收货', received: '已收货', closed: '已关闭', cancelled: '已取消',
+    },
+  },
+  // 销售订单：已全发货（货已出）不可回退（只可继续完成）；已完成 / 已取消完全锁定
+  sales_order: {
+    label: '销售订单',
+    all: ['draft', 'confirmed', 'in_production', 'partial_shipped', 'fully_shipped', 'completed', 'cancelled'],
+    locked: { fully_shipped: ['completed'], completed: [], cancelled: [] },
+    labels: {
+      draft: '草稿', confirmed: '已确认', in_production: '生产中', partial_shipped: '部分发货',
+      fully_shipped: '已全发货', completed: '已完成', cancelled: '已取消',
+    },
+  },
+  // 工单：已完工不可回退（只可继续关闭）；已关闭完全锁定
+  work_order: {
+    label: '工单',
+    all: ['draft', 'released', 'in_progress', 'completed', 'closed'],
+    locked: { completed: ['closed'], closed: [] },
+    labels: { draft: '草稿', released: '已下达', in_progress: '生产中', completed: '已完工', closed: '已关闭' },
+  },
+  // 入库单：已完成 = 库存已入库，不可回退；已取消完全锁定
+  inbound_order: {
+    label: '入库单',
+    all: ['pending', 'processing', 'completed', 'cancelled'],
+    locked: { completed: [], cancelled: [] },
+    labels: { pending: '待处理', processing: '处理中', completed: '已完成', cancelled: '已取消' },
+  },
+  // 出库单：已完成 = 库存已扣减 / 成本已结转，不可回退；已取消完全锁定
+  outbound_order: {
+    label: '出库单',
+    all: ['pending', 'processing', 'picking', 'picked', 'packed', 'shipped', 'completed', 'cancelled'],
+    locked: { completed: [], cancelled: [] },
+    labels: {
+      pending: '待处理', processing: '处理中', picking: '拣货中', picked: '已拣货',
+      packed: '已装箱', shipped: '已发货', completed: '已完成', cancelled: '已取消',
+    },
+  },
+  // ★ V3.45.0 第3批新增：库存调拨单（对标报告 S-05）。
+  //   此前 DocType 联合类型里**没有** stock_transfer ⇒ 调拨单状态可被任意赋值
+  //   （包括直接置 completed 而不触发任何过账），等于没有状态管控。
+  //   规则设计：completed 与 cancelled 为锁定态 —— 调拨已完成即意味着两仓数字已变动，
+  //   不可再回退（要改只能反向再做一张调拨单，对标 SAP：不删除已过账移动类型，只能反向过账）。
+  stock_transfer: {
+    label: '转储单',
+    all: ['draft', 'pending', 'in_transit', 'completed', 'cancelled'],
+    locked: { completed: [], cancelled: [] },
+    labels: {
+      draft: '草稿', pending: '待处理', in_transit: '在途',
+      completed: '已完成', cancelled: '已取消',
+    },
+  },
+  // 凭证：已过账不可回退为草稿 / 已审核（只能红冲）；已红冲完全锁定
+  voucher: {
+    label: '记账凭证',
+    all: ['draft', 'reviewed', 'posted', 'reversed'],
+    locked: { posted: ['reversed'], reversed: [] },
+    labels: { draft: '草稿', reviewed: '已审核', posted: '已过账', reversed: '已红冲' },
+  },
+};
+
+/**
+ * 校验一次状态流转是否合法。
+ *
+ * @param docType    单据类型
+ * @param fromStatus 库中当前状态（existing.status）
+ * @param body       请求体；读取 body.status 作为目标状态
+ * @returns null 表示放行；非 null 为可直接 return 的 400 错误响应（调用方需自行 json(..., 400)）
+ */
+export function guardStatusTransition(
+  docType: DocType,
+  fromStatus: unknown,
+  body: any
+): { response: any } | null {
+  const rule = RULES[docType];
+  if (!rule) return null;
+
+  // 未携带状态：只改明细不改状态，放行
+  if (!body || body.status === undefined || body.status === null) return null;
+
+  const from = String(fromStatus ?? '');
+  const to = String(body.status);
+
+  // 状态未变：不是流转（整单保存会原样回传当前状态），放行
+  if (to === from) return null;
+
+  const nameOf = (s: string) => rule.labels[s] || s;
+
+  // ① 目标状态必须是该单据的合法值
+  if (!rule.all.includes(to)) {
+    return {
+      response: {
+        error: `${rule.label}的状态值「${to}」不合法`,
+        code: 'INVALID_STATUS',
+      },
+    };
+  }
+
+  // ② 已进入锁定态（实质完结）的单据，不允许回退
+  const allowed = rule.locked[from];
+  if (allowed && !allowed.includes(to)) {
+    const hint = allowed.length > 0
+      ? `仅可继续流转为「${allowed.map(nameOf).join('、')}」`
+      : '该状态不可再变更';
+    return {
+      response: {
+        error: `${rule.label}当前为「${nameOf(from)}」，不能改为「${nameOf(to)}」（${hint}）`,
+        code: 'STATUS_LOCKED',
+        from,
+        to,
+      },
+    };
+  }
+
+  return null;
+}

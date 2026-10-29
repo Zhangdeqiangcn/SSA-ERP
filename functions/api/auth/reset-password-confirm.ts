@@ -1,52 +1,57 @@
-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
-vEmL41v5IBYoUM69UWZLTQ==
+// POST /api/auth/reset-password-confirm — 找回密码：第二步，校验验证码并重置密码
+// 请求体：{ username, code, newPassword }
+//
+// 安全说明：
+//   1) 验证码错误 5 次即失效，防止暴力枚举 6 位验证码；
+//   2) 验证通过后立即更新密码哈希（PBKDF2-HMAC-SHA-256）；
+//   3) 重置成功后注销该账号的全部会话，防止账号被他人持有后继续登录。
+import { verifyPassword, hashPasswordPbkdf2, makeSalt, json } from '../../_shared/auth';
+import { verifyResetCode } from '../../_shared/verification';
+import { writeAudit } from '../../_shared/auditLog';
+
+const MIN_PASSWORD_LENGTH = 8;
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  const code = String(body.code ?? '').trim();
+  const newPassword = String(body.newPassword ?? '');
+
+  if (!username) return json({ error: '请输入用户名' }, 400);
+  if (!code) return json({ error: '请输入验证码' }, 400);
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
+    return json({ error: `新密码至少 ${MIN_PASSWORD_LENGTH} 位` }, 400);
+  }
+  if (!/[A-Za-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+    return json({ error: '新密码需同时包含字母和数字' }, 400);
+  }
+
+  const u = (await env.DB.prepare('SELECT * FROM users WHERE username = ?').bind(username).first()) as any;
+  if (!u) return json({ error: '账号不存在或验证码无效' }, 400);
+
+  const ok = await verifyResetCode(env, u, code);
+  if (!ok.ok) return json({ error: ok.error }, 400);
+
+  const salt = makeSalt();
+  const passwordHash = await hashPasswordPbkdf2(newPassword, salt);
+  await env.DB.prepare(
+    `UPDATE users SET password_hash = ?, salt = ?, security_initialized = 1 WHERE id = ?`
+  )
+    .bind(passwordHash, salt, u.id)
+    .run();
+
+  // 重置后注销该账号全部会话（包括可能的非法登录）
+  await env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(u.id).run();
+
+  await writeAudit(env.DB, { orgId: u.org_id, actor: { id: u.id, name: u.name }, entity: 'users', action: 'reset_password', entityId: u.id, summary: `通过邮箱验证重置密码 ${u.username}` });
+
+  return json({ ok: true, changedAt: new Date().toISOString() });
+}

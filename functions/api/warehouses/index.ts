@@ -1,108 +1,133 @@
-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
+// GET /api/warehouses — 分页查询仓库主数据（按 org_id 隔离，W4 整改：后端权威源）
+// POST /api/warehouses — 创建仓库（locations 以 JSON 文本内联存储）
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { requireCoreFields } from '../../_shared/validate';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+  const pageSize = Math.min(100, Math.max(1, parseInt(url.searchParams.get('pageSize') || '20', 10)));
+  const offset = (page - 1) * pageSize;
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const type = url.searchParams.get('type');
+  const status = url.searchParams.get('status');
+
+  let sql = 'SELECT * FROM warehouses WHERE org_id = ?';
+  const params: any[] = [user.org_id];
+  const rls = rlsCondition(user, 'warehouses');
+  if (rls.clause !== '1=1') { sql += ' AND ' + rls.clause; params.push(...rls.params); }
+
+  if (keyword) {
+    sql += ' AND (code LIKE ? ESCAPE \'\\\' OR name LIKE ? ESCAPE \'\\\')';
+    const kw = likePattern(keyword);
+    params.push(kw, kw);
+  }
+  if (type) { sql += ' AND type = ?'; params.push(type); }
+  if (status) { sql += ' AND status = ?'; params.push(status); }
+
+  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  const rows = await env.DB.prepare(sql).bind(...params).all();
+  const data = (rows.results || []).map((r: any) => formatWarehouse(r));
+
+  let countSql = 'SELECT COUNT(*) as cnt FROM warehouses WHERE org_id = ?';
+  const countParams: any[] = [user.org_id];
+  if (rls.clause !== '1=1') { countSql += ' AND ' + rls.clause; countParams.push(...rls.params); }
+  if (keyword) {
+    countSql += ' AND (code LIKE ? ESCAPE \'\\\' OR name LIKE ? ESCAPE \'\\\')';
+    const kw = likePattern(keyword);
+    countParams.push(kw, kw);
+  }
+  if (type) { countSql += ' AND type = ?'; countParams.push(type); }
+  if (status) { countSql += ' AND status = ?'; countParams.push(status); }
+  const countRow = await env.DB.prepare(countSql).bind(...countParams).first();
+  const total = (countRow as any)?.cnt || 0;
+
+  return json({
+    data,
+    total,
+    page,
+    pageSize,
+    totalPages: Math.ceil(total / pageSize),
+  });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // 操作权限服务端守卫（模块 warehouse）
+  const _opGuard = await import('../../_shared/operationGuard').then((m) =>
+    m.guardOperation(user, 'warehouse', 'create', context.env.DB, user.org_id)
+  );
+  if (_opGuard) return _opGuard;
+
+  let body: any;
+  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
+  // V3.86.0 必填改走集中登记表（REQUIRED_CORE_FIELDS['warehouses']=编码+名称），单一口径
+  const _req = requireCoreFields('warehouses', body);
+  if (_req) return _req;
+
+  const dup = await env.DB.prepare(
+    'SELECT id FROM warehouses WHERE org_id = ? AND code = ?'
+  ).bind(user.org_id, body.code).first();
+  if (dup) return json({ error: '仓库编码已存在' }, 409);
+
+  const id = uid('wh');
+  const now = new Date().toISOString();
+  const locations = Array.isArray(body.locations) ? body.locations : [];
+
+  try {
+    await env.DB.prepare(`
+      INSERT INTO warehouses (id, org_id, code, name, type, address, manager, status, locations, created_at, updated_at, created_by, updated_by)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(
+      id,
+      user.org_id,
+      body.code,
+      body.name,
+      body.type || 'raw',
+      body.address ?? null,
+      body.manager ?? null,
+      body.status || 'active',
+      JSON.stringify(locations),
+      now, now, user.id, user.id
+    ).run();
+  } catch (e: any) {
+    return errorResponse(e, '创建仓库');
+  }
+
+  await audit(env.DB, user.org_id, user, 'warehouses', 'create', `创建仓库 ${body.code} ${body.name}`);
+  const created = await env.DB.prepare('SELECT * FROM warehouses WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  return json(formatWarehouse(created as any), 201);
+}
+
+function formatWarehouse(r: any) {
+  let locations: any[] = [];
+  try { locations = r.locations ? JSON.parse(r.locations) : []; } catch { locations = []; }
+  return {
+    id: r.id,
+    orgId: r.org_id,
+    code: r.code,
+    name: r.name,
+    type: r.type,
+    address: r.address,
+    manager: r.manager,
+    status: r.status,
+    locations: Array.isArray(locations) ? locations : [],
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}

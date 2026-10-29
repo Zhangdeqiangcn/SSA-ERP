@@ -1,144 +1,192 @@
-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
+// 财务域父子表配置（C1 · V3.8.0）
+//
+// 两张配置驱动 /api/fin-payment-plans 与 /api/fin-project-accounts 四个端点，
+// 实际 CRUD 逻辑在 `_shared/parentChild.ts`（通用父子表助手）。
+//
+// 列名来源：`src/types/finance.ts` 的 PaymentPlan / PaymentInstallment /
+// ProjectAccount / ProjectCostItem，逐一转成 snake_case，**不按会计常识推断**
+// （0053 就是这么错的，见 migrations/0054_finance_domain_fix.sql 文件头）。
+import type { ParentChildConfig } from './parentChild';
+
+/** 付款计划：父 fin_payment_plans + 子 fin_payment_plan_installments */
+export const PAYMENT_PLAN_PC: ParentChildConfig = {
+  parentTable: 'fin_payment_plans',
+  module: 'finance', // P0-1：finance_manager / accountant 在 BUILTIN_ROLE_OPS 已有 finance 全权限
+  children: [
+    {
+      childTable: 'fin_payment_plan_installments',
+      childFkCol: 'plan_id',
+      childField: 'installments',
+      childCols: [
+        ['seq', 'seq'],
+        ['type', 'type'],
+        ['label', 'label'],
+        ['amount', 'amount'],
+        ['due_date', 'dueDate'],
+        ['status', 'status'],
+        ['paid_date', 'paidDate'],
+        ['note', 'note'],
+      ],
+      childOrder: 'seq ASC',
+    },
+  ],
+  parentCols: [
+    ['plan_no', 'planNo'],
+    ['vendor_name', 'vendorName'],
+    ['vendor_id', 'vendorId'],
+    ['purchase_order_no', 'purchaseOrderNo'],
+    ['invoice_no', 'invoiceNo'],
+    ['total_amount', 'totalAmount'],
+    ['paid_amount', 'paidAmount'],
+    ['status', 'status'],
+    ['due_date', 'dueDate'],
+    ['paid_date', 'paidDate'],
+    ['payment_method', 'paymentMethod'],
+    ['bank_account', 'bankAccount'],
+    ['note', 'note'],
+    ['voucher_generated', 'voucherGenerated'],
+    ['advance_amount', 'advanceAmount'],
+    ['advance_occupied', 'advanceOccupied'],
+    ['currency', 'currency'],
+    ['exchange_rate', 'exchangeRate'],
+  ],
+  label: '付款计划',
+  noSnake: 'plan_no',
+  noCamel: 'planNo',
+};
+
+/**
+ * 销售收款单：父 fin_sales_receipts（V3.61.0 · P0-2 · 应收冲减侧）
+ * ------------------------------------------------------------------
+ * 为什么需要：V3.60.0 补齐了销售开票确认应收（借1122/贷6001），但**收款冲减侧从未存在**
+ *   —— 全库无销售收款端点，1002 只出现在采购付款 → 应收 1122 只增不减，
+ *   应收账龄/周转率/DSO 永久失真，且与采购侧不对称（付款冲应付、收款不冲应收）。
+ *
+ * 单表（无子表），走 parentChild 框架复用 list/create/update + RLS + 权限 + 审计。
+ */
+export const SALES_RECEIPT_PC: ParentChildConfig = {
+  parentTable: 'fin_sales_receipts',
+  module: 'finance',
+  children: [],
+  parentCols: [
+    ['receipt_no', 'receiptNo'],
+    ['receipt_date', 'receiptDate'],
+    ['customer_id', 'customerId'],
+    ['customer_name', 'customerName'],
+    ['sales_order_no', 'salesOrderNo'],
+    ['amount', 'amount'],
+    ['currency', 'currency'],
+    ['exchange_rate', 'exchangeRate'],
+    ['payment_method', 'paymentMethod'],
+    ['bank_account', 'bankAccount'],
+    ['status', 'status'],
+    ['voucher_generated', 'voucherGenerated'],
+    ['note', 'note'],
+  ],
+  label: '销售收款单',
+  noSnake: 'receipt_no',
+  noCamel: 'receiptNo',
+};
+
+/** 发票：父 fin_invoices + 子 fin_invoice_items（V3.56.0 · G3 数据对齐） */
+// ── 为什么必须走专用端点而非通用实体路由 ──────────────────────────
+// 通用路由（/api/entities/finInvoice）只能写平表（头表），发票明细 items
+// 会被静默丢弃且返回 201 成功 → 三单匹配的行级比对读不到发票明细，
+// 行级闸门永远走 NO_INVOICE_ITEMS 跳过，等于形同虚设。
+// 专用端点走 parentChild 框架：头+明细在 db.batch 原子写入，与付款计划/项目核算同范式。
+export const INVOICE_PC: ParentChildConfig = {
+  parentTable: 'fin_invoices',
+  module: 'finance', // P0-1：finance_manager / accountant 在 BUILTIN_ROLE_OPS 已有 finance 全权限
+  children: [
+    {
+      childTable: 'fin_invoice_items',
+      childFkCol: 'invoice_id',
+      childField: 'items',
+      childCols: [
+        ['order_item_id', 'orderItemId'],
+        ['material_id', 'materialId'],
+        ['material_code', 'materialCode'],
+        ['material_name', 'materialName'],
+        ['quantity', 'quantity'],
+        ['unit', 'unit'],
+        ['unit_price', 'unitPrice'],
+        ['amount', 'amount'],
+        ['tax_rate', 'taxRate'],
+        ['tax_amount', 'taxAmount'],
+        ['total_amount', 'totalAmount'],
+        ['unit_conversion_rate', 'unitConversionRate'],
+        ['tolerance_rate', 'toleranceRate'],
+        ['match_status', 'matchStatus'],
+        ['match_note', 'matchNote'],
+      ],
+      childOrder: 'rowid',
+    },
+  ],
+  parentCols: [
+    ['invoice_no', 'invoiceNo'],
+    ['invoice_type', 'invoiceType'],
+    ['status', 'status'],
+    ['vendor_name', 'vendorName'],
+    ['vendor_tax_no', 'vendorTaxNo'],
+    ['purchase_order_no', 'purchaseOrderNo'],
+    ['invoice_date', 'invoiceDate'],
+    ['received_date', 'receivedDate'],
+    ['amount', 'amount'],
+    ['tax_rate', 'taxRate'],
+    ['tax_amount', 'taxAmount'],
+    ['total_amount', 'totalAmount'],
+    ['currency', 'currency'],
+    ['exchange_rate', 'exchangeRate'],
+    ['verified_by', 'verifiedBy'],
+    ['verified_at', 'verifiedAt'],
+    ['note', 'note'],
+    ['voucher_generated', 'voucherGenerated'],
+  ],
+  label: '发票',
+  noSnake: 'invoice_no',
+  noCamel: 'invoiceNo',
+};
+
+/** 项目核算：父 fin_project_accounts + 子 fin_project_cost_items */
+export const PROJECT_ACCOUNT_PC: ParentChildConfig = {
+  parentTable: 'fin_project_accounts',
+  module: 'finance', // P0-1：项目核算属财务域
+  children: [
+    {
+      childTable: 'fin_project_cost_items',
+      childFkCol: 'account_id',
+      childField: 'costItems',
+      childCols: [
+        ['seq', 'seq'],
+        ['category', 'category'],
+        ['description', 'description'],
+        ['budget_amount', 'budgetAmount'],
+        ['actual_amount', 'actualAmount'],
+        ['variance', 'variance'],
+        ['variance_percent', 'variancePercent'],
+      ],
+      childOrder: 'seq ASC',
+    },
+  ],
+  parentCols: [
+    ['account_no', 'accountNo'],
+    ['project_id', 'projectId'],
+    ['project_no', 'projectNo'],
+    ['project_name', 'projectName'],
+    ['customer_name', 'customerName'],
+    ['period', 'period'],
+    ['total_budget', 'totalBudget'],
+    ['total_actual', 'totalActual'],
+    ['total_variance', 'totalVariance'],
+    ['revenue', 'revenue'],
+    ['gross_profit', 'grossProfit'],
+    ['gross_margin', 'grossMargin'],
+    ['status', 'status'],
+    ['prepared_by', 'preparedBy'],
+    ['approved_by', 'approvedBy'],
+    ['remarks', 'remarks'],
+  ],
+  label: '项目核算',
+  noSnake: 'account_no',
+  noCamel: 'accountNo',
+};

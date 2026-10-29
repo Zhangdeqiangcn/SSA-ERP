@@ -1,163 +1,159 @@
-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
+/**
+ * 单据提交自动触发审批（根治审计 P0-ST-1「审批流仅采购申请/供应商报价触发，核心单据不触发」）
+ * ------------------------------------------------------------------
+ * V3.63.0 之前：approval_flows 已为采购订单/销售订单/工单/出入库/发票建好默认流程，
+ * 但只有采购申请走审批，其余核心单据提交不建审批实例 → 审批流配置形同虚设。
+ *
+ * 现在：业务单据端点在「单据已落库」后调用 startApprovalForDoc，
+ *   若该模块存在 enabled 的审批流，则按首个节点（node_order=1）的 approver_user_ids/approver_roles
+ *   解析首位审批人并自动创建一条 pending 审批实例（含委托路由 + SoD 自审拦截）。
+ *   审批流未启用 / 查不到 / 建实例失败 → 静默跳过（**绝不阻断主单据**），仅留痕日志，
+ *   与凭证模板「未命中回退内置」同口径：配置驱动但不绑架业务。
+ *
+ * 幂等：同一 (module, entity_id) 已有 pending 实例则不重复建（与 /api/approval-instances POST 同口径）。
+ */
+import { uid } from './auth';
+import { writeAudit } from './auditLog';
+import { resolveDelegate, todayStr, assertSoD, writeApprovalAction } from './approvalInstance';
+
+export interface AutoApprovalResult {
+  started: boolean;      // 是否成功启动了审批
+  reason: string;        // 未启动原因（flow_disabled / no_flow / no_approver / already_pending / sod_self / failed / none）
+  instanceId?: string;
+}
+
+/**
+ * 为业务单据启动审批（服务端侧）。
+ * @param db D1 句柄
+ * @param orgId 组织 id
+ * @param user 提交人（含 id / name / department）
+ * @param module 审批模块标识（与 approval_flows.module 对齐：purchase_order / sales_order / work_order / inbound / outbound / invoice）
+ * @param entityId 业务单据 id（approval_instances.entity_id）
+ * @param entityNo 业务单号（可选，用于实例可读编号）
+ */
+export async function startApprovalForDoc(
+  db: any,
+  orgId: string,
+  user: any,
+  module: string,
+  entityId: string,
+  entityNo?: string
+): Promise<AutoApprovalResult> {
+  // 1) 该模块是否有启用的审批流
+  const flow = await db
+    .prepare(`SELECT id, status FROM approval_flows WHERE org_id = ? AND module = ? AND enabled = 1 ORDER BY created_at DESC LIMIT 1`)
+    .bind(orgId, module)
+    .first()
+    .catch(() => null);
+  if (!flow) return { started: false, reason: 'no_flow' };
+  if (flow.status && !['active', 'published', 'system'].includes(flow.status)) {
+    return { started: false, reason: 'flow_disabled' };
+  }
+
+  // 2) 首个审批节点（node_order=1）
+  const node = await db
+    .prepare(`SELECT * FROM approval_flow_nodes WHERE flow_id = ? ORDER BY node_order ASC LIMIT 1`)
+    .bind(flow.id)
+    .first()
+    .catch(() => null);
+  if (!node) return { started: false, reason: 'no_flow' };
+
+  // 3) 解析首位审批人（approver_user_ids 优先，否则 approver_roles 取首）
+  let approverId: string | null = null;
+  let approverName: string | null = null;
+  try {
+    const userIds: string[] = node.approver_user_ids ? JSON.parse(node.approver_user_ids) : [];
+    if (Array.isArray(userIds) && userIds.length > 0) {
+      approverId = String(userIds[0]);
+      const urow = await db
+        .prepare(`SELECT name FROM users WHERE id = ?`).bind(approverId).first().catch(() => null);
+      approverName = urow?.name || approverId;
+    } else {
+      const roles: string[] = node.approver_roles ? JSON.parse(node.approver_roles) : [];
+      const role = node.role || (Array.isArray(roles) && roles.length > 0 ? roles[0] : null);
+      if (role) {
+        // users 表自带 role 列（本系统无独立 user_roles 关联表）：按组织内首个该角色用户解析审批人
+        const rrow = await db
+          .prepare(`SELECT id, name FROM users WHERE role = ? AND org_id = ? ORDER BY created_at ASC LIMIT 1`)
+          .bind(role, orgId)
+          .first()
+          .catch(() => null);
+        if (rrow) {
+          approverId = String(rrow.id);
+          approverName = rrow.name;
+        }
+      }
+    }
+  } catch {
+    /* 解析失败按无审批人处理 */
+  }
+  if (!approverId) return { started: false, reason: 'no_approver' };
+
+  // 4) 委托路由 + SoD 自审拦截（与 /api/approval-instances POST 同口径）
+  const delegated = await resolveDelegate(db, orgId, approverId, module, todayStr()).catch(() => null);
+  const effectiveApproverId = delegated ? delegated.id : approverId;
+  const effectiveApproverName = delegated ? delegated.name : approverName;
+  if (assertSoD(user.id, effectiveApproverId)) return { started: false, reason: 'sod_self' };
+
+  // 5) 幂等：已 pending 不重复建
+  const existing = await db
+    .prepare(`SELECT id, status FROM approval_instances WHERE org_id = ? AND module = ? AND entity_id = ?`)
+    .bind(orgId, module, String(entityId))
+    .first()
+    .catch(() => null);
+  if (existing && existing.status === 'pending') return { started: false, reason: 'already_pending', instanceId: existing.id };
+
+  // 6) 建实例（pending，首节点）
+  const now = new Date().toISOString();
+  let instanceId = '';
+  try {
+    if (existing) {
+      // 驳回/完成后重提：重置同一行
+      instanceId = existing.id;
+      await db
+        .prepare(
+          `UPDATE approval_instances SET
+             flow_id = ?, entity_no = ?, submitter_id = ?, submitter_name = ?, status = 'pending',
+             current_node_order = 1, current_node_name = ?, current_approver_id = ?, current_approver_name = ?,
+             original_approver_id = ?, submitted_at = ?, finished_at = NULL, withdrawn_at = NULL,
+             withdrawn_by = NULL, withdraw_reason = NULL, urge_count = 0, last_urged_at = NULL,
+             version = version + 1, updated_at = ?
+           WHERE id = ? AND org_id = ?`
+        )
+        .bind(
+          flow.id, entityNo || null, user.id, user.name || user.username || '',
+          node.name || '第一步', effectiveApproverId, effectiveApproverName, approverId,
+          now, now, instanceId, orgId
+        )
+        .run();
+    } else {
+      instanceId = uid('appr');
+      await db
+        .prepare(
+          `INSERT INTO approval_instances
+             (id, org_id, flow_id, module, entity_id, entity_no, title, submitter_id, submitter_name,
+              status, total_nodes, current_node_order, current_node_name,
+              current_approver_id, current_approver_name, original_approver_id,
+              submitted_at, urge_count, version, created_at, updated_at, owner_id, dept_id)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', 1, 1, ?, ?, ?, ?, ?, 0, 1, ?, ?, ?, ?)`
+        )
+        .bind(
+          instanceId, orgId, flow.id, module, String(entityId), entityNo || null, `${module} 审批`,
+          user.id, user.name || user.username || '',
+          node.name || '第一步', effectiveApproverId, effectiveApproverName, approverId,
+          now, now, now, user.id, user.department || null
+        )
+        .run();
+    }
+    await writeApprovalAction(db, {
+      orgId, instanceId, action: 'submit', nodeOrder: 1, nodeName: node.name || '第一步',
+      actorId: user.id, actorName: user.name || user.username || '', targetId: effectiveApproverId,
+      targetName: effectiveApproverName, comment: '单据提交自动触发审批',
+    }).catch(() => {});
+  } catch (e: any) {
+    await writeAudit(db, { orgId, actor: { id: user.id, name: user.name || user.username || null }, entity: 'approval_instance', action: 'create', entityId: null, summary: `单据审批自动启动失败 ${module} ${entityNo || entityId}: ${e?.message || e}` });
+    return { started: false, reason: 'failed' };
+  }
+
+  return { started: true, reason: 'none', instanceId };
+}

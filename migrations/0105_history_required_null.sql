@@ -1,27 +1,18 @@
-U2FsdGVkX18JE60U2lA5wY0JgyP1i7e5Dr1kZT9oR8XGCtlz+XOHYA9nijnS7gPW
-iv0aP8RMKbRVteU9ljBN8PAdZhDDlehe5rNGGLakZLvjWiXu9lU8TYjuh9xHjMxw
-gwQ0OVWvBu3/suDwzfOGynIGPanbgsPrTiAanGI+1QGwB1/53pgiNjWbV1RO5rJ3
-Z7kmRGARG7tZbG0OssncGmaOy4do9FowGqyls0lLP6snopVM3zSeijinUb6Q3VDo
-jfJ9WaGM3H2dAQghSetTUOg12gJ/w1Z3WmAKQyriEOt432AtIPOXxoIGrLrHfvZW
-7WyEskcDU2dnV4UdN6m463f3PwKZH5pYx2QNRj01IO6kJV6hXXC2tdOxVmYrw5Qm
-bl9QLfVKLvgxF1gPfcgFOHJjqaqeto0pMB2diBzB0yLHQlEBbObfFOyxMW4eb3MR
-hpw71uDCXiYKf0tEbgimOY4b8bcdn5LPxh/F7pykrIVCrBmXEEvOW1N/orLp9q80
-r07JkPENThbMvudaxXeBfLcogrDd3t0JsIaIw4tQpU6THAwq/WBbwWfIj/o05RI1
-dCJ/z63Gz7hfeh6er3MpvAg/os1p0cvXrY5dmOzkwkfsiQN8z2kbzZy388FKeetV
-dU6FyBO+RQXw7kDTVfM80JEe9SI2iUWm8y/f4uJIgrib6URFyvO3p78u3QB/P6p5
-Mz+aMDuZ2VzhNNxFk87fS1st0/LKTcfxa3+vEroTyo9k68gqRviFbYN/+kptfVw1
-1s/e4n+ta2/4bk9VK3ATA3Cwmd32+X17cqVr4jKiu/uEt2mUEAqF7JSwZRgMhSAc
-5Qw7phFKuX/BifP/sgTd2hDAR3GTPnCYsA79mT1GTasBsdnuSuMiQJn46BMBMG7c
-BdOC/0G2fRBTF7n6tu+qOiY70bDs7G3yo70I9/Hu5O7TL3m6jaoY8Y1KAt29i5S9
-fNFP9rvHKKCLLSn9sBVDTpTVybHIJLzUnCFQ/vYwuAd9Moum/MVbr701jDGBUwrv
-W0379z47Ei9sU119zSH8Z1RZh3LEL/tBNpSrIcZbl+xAmnEWUazjlOvWik6z6T/4
-S/YfOSdMoTKjai88JizFVW1FB19zIc6gKMIYJmsjFhSu45brMltENcntNrTczi6Q
-exYS2RF7C3yDkRyrkE65xEPjmi2DNyr3+XbfiwbjOsPFgD4pEMnEmgqAn+FX4xH6
-NFG1ONFtdZUWWhIrSjhZ0K3BPExgvK4b3Ay/yGGge5coZFt41KtBVJ7UA1w5Xo0m
-Y2nJD2kqzJolrSaXPXV6FrS2Rpc7SaNhbFoAgeyZ41qF6To4BW4Wy2vhFr7poThq
-MqpoSVuQooYHDIC+Oqlnlf4+0R9KiYdJFmDMP2Rb3Nk8LFRbZxNp4NsiTuS0aBqx
-luMKJTQsVwg8lVmtxTETu+fLJJs1+QmwVI8kZB7jDfqlTavlqpMe8ZEqzz2Enmq/
-z+XFm+VjUZrV8gkJ1b5t8Z2Nwu/DVBa4F2QCRF5FxTAp0HQRqAcPN/iRqWBrXuu3
-cbMIxT4KEEdH8dZDW8OuOHaby31Zi9e2s8n7aLWCj/u0clMD/u5Jj5bDG58/cxMU
-B7BF8qZYl1TqGavlhm5JcKCf7FhgLTkNcMug5uKN9DaKZskvGwK8kz2O9RfJziKH
-3SfwTO2rPDdsUYiKI4C1zA==
+-- V3.86.0 历史遗留整改：未填写的「本次必填项」由空串规范为 NULL（强哥要求）
+-- 背景：主数据必填收口后，历史数据里被留成空串 '' 的字段应还原为「真正未填写」的 NULL，
+--       避免「看似填了、其实空串」的假数据糊弄后续统计与检索。
+-- 范围：仅本次纳入必填、且物理上可空（notnull=0）的列。NOT NULL 的商务键（如
+--       materials.code/name/unit、customers.code/name、warehouses.code/name）
+--       本就不可为 NULL，也不存在「未填写」问题，故不纳入（强行置 NULL 会违反约束报错）。
+-- 幂等：TRIM(...)='' 判定 + SET NULL，重复执行结果一致，可安全反复 apply。
+-- 不删行、不填假值，只把「空串」还原成「空」。
+
+-- 物料：规格型号（可空，本次新增必填）
+UPDATE materials SET specification = NULL
+  WHERE specification IS NOT NULL AND TRIM(specification) = '';
+
+-- 供应商：编码 / 名称（vendor_master 两列可空）
+UPDATE vendor_master SET vendor_code = NULL
+  WHERE vendor_code IS NOT NULL AND TRIM(vendor_code) = '';
+UPDATE vendor_master SET company_name = NULL
+  WHERE company_name IS NOT NULL AND TRIM(company_name) = '';

@@ -1,61 +1,46 @@
-U2FsdGVkX18UroEgV//jWf4hytUfpoav0t3ke2U6/yugRo574ZiaW3B06kNycKiy
-p3Ge0jjwr1/ymjY2BGqleMiG5wzEHht82b9TeLXvkymGEcfogFo6hsOKf+8WGbeb
-xgsXB634aNFF/pNFYi5iRwhPTMgIB27SaaZWckCtwWOOqIbUrWT/U+CJEV7vleVh
-VIUXjJ5RJdcsjNvAb9bEWUs9Vv8Dgch8tMKBqeruwTrBU6j/97ctownPLfaJ2SHP
-4vDczRBTiodcoAPIXrbBr0t84V8JNgsanZL24AYySrbk/fyclKYFtyh8t0nPKwTl
-ut+aB+U3MseiKcUw6U/1IuJOqG2PCrXGLM7F6L1y5aJTmDAUCF+qBSXYzuQCWD/8
-tPVXaYNjduMS54oOgof0Sx1kws5ycgYWSEM8w6mUpR06pj7Jazo7OSW32iRtIrwz
-8ZBxqyIqJrPIzNCXbizS09Y/0yntzXcqa+u68+qxnkKUavCtRGG4JAawXISRtw9e
-6QCcJjoRvI/XH2pbcIcnKLjaghlIyN1S7BYww4ix6L5TN39EN3uYNjQcjzcPix2K
-R4vawKwPQRE0dFLVp6WmzIDVxR6E9BTaEs4S7M5r5T3Z1G7klA6JdtUt3YpASOUO
-tyDBGqb6hJCd9JmTB+BGqoAZ5Sy/YMFvuwow7l4c26w+ChKxN+0ywhbXpafpNONB
-9quWtpt+f76nk/36i1vq0HbHeKl0JeCUW4XBSiZ5dzt08P9YryKbM2xOw7KLdeEb
-UHHHf4S+2abmAf9/9/2u3Y9KdIyJXjXvdtPwG4PigqxYt6UfWQl1aR6FuA0Dr42Z
-iBt9TtWe3sbJIPsXHUMYi3bdcRaKPkrWfr2/ozPcq3jXE+iN9CtSAJYrlnNL96oA
-np4H31RWflRpNjYFcbvlODNMcDb1K9ikXXtG9fplWNTxoYTDQ8LgbFMcQrOUVo9q
-cNAomXSoLExnScSlqcLlPbcPRJltZsIttcqg/UZn44papHo++Sw11yvTrI8olksj
-1o26dJIFGsN7lb28K/P+cT4McEhwDoM8TVudUhtJuj2u5uHtHJ4rX2N4xYU8zBst
-FfRurbAUBIfq8DhJpT8jhwsI7hwZy9oM+un4lFUUO0AOO/oRLY5ynXXkAZb82oVV
-W/jCg8YdCLfW5gT+jOEBxGGQTHnrjp1vOBrngzvy5jztJxI25Tytn4CumbmLAhzn
-fcbf6PO31cuqpQrwekvHm+gU0OsUjXjs4pGge1pspZAPKBZpEm/u3x2/vfQgTW5E
-j5TwMwOHcUBOtJ1ZivG1aX6F8gH1JEY5vziGlh79OOkcLMySSNhjK+xvZCR3T0Ka
-AQA92jBbIKA4qlJl2rujRScHArab7Lp5EzF9R7kUfA4AIk3noxXLBUVz4iI9Vthj
-c717bqmf0G7lbWvW4CMoiUwqt2QClL4BEcv2gbNEV1+8jJr+LVxHnjzawXgYypMi
-FRzdNVbe6gHA3/RIJCfIW1BxKb5UjAKQJh57JxBTPmiUjY9D7Ulll/3CCn4xn3Pv
-zfrEcZ+48Y+dXOT+2Q+qdDSBuRY88JSfiCdon1EYxZ30Pd3Y19FzmUczOtW9EcgE
-DniolaoUK/6ETj78d300cWeSznd9793HcIg89CYc3HZsO4dMzPCgrtJUI1dUuJJ0
-xacVSca6h/zDX5RKZ4Ztl6ouXWwHf2hkJBuwdG3ebcEdOd/CAGl1l0pYSeLgqkHf
-F5XqBAMrgNx1CahMZlNVx5Iv0AVfMP42uX464iMSQ+Ayn2rWjddvAqU5fZRyPvY8
-xuXC0dMXxLkdkv6hmSCqd/0DqfXpeYrzJjkuyeL2J8lY6lXtwn4QJ39nkzEl7lhX
-1CbgluurKKlBpCO1N7DLNQnj1xjjT/owpGi6kq5ucTcT5M/liuw1ByMm3WsVwk9v
-+lYsDkXXKl9embAXGHP/gCHSn8f5rZPsHozI6Bj20/UKMsx+SZt/pEMa4T/j3asq
-j8fTSSMwWa3YMKH4L0SIR5Q+AHKAuSgEJt1wCp6S5wLd3+M254fWPh5wS14HkPDH
-S7NlIQxq0tHb1RkezaqtNwwMZG3fgf9Ilg/PRdAenJR0e2s2cndGVjvqJYc26eLP
-P2nY2gN2SY7PdceW57Awi0ofP0irn1A6ZCSz0SJL1oJqPBT/VX/JnKJENIAUlIHA
-PPuF04ismLMh98rPh75GKlmZqs0lknZghPFNwPJjJyO7tT9bSf51ONb7oyUTqNdz
-YXJPEOW6FR+vOe961FgtrGDYHRZNhLZa12JaIAWbw0RX6FAqAgGZ2n7Jd/5jt37a
-3MoucSAv+4bL6GqT6MjE13EbEI+uLNbL6IAGac5KW9mmciaxoAS85qe4GyI2tqqO
-d6jbJ9KbXHAXbRNFzi/6GqnxLZ050o0cUsnyBKsz9wWT4TgO8s6zOAyv1+T/Hcl0
-1GrPfXmEUN8hpt7lhRNP8/zyKy1VvxkltS0Sqd4uFMmiRL3E0MZsbupZr1bkCvLU
-03mjJ1NB7ESICOPPYAjl0TWBTxZvmaeXJXColcGMZe5jQzrs+crMF6fEo6mgC08T
-XAlBDJu92e2QbCJIupvMb3tY4/jmIxrayppfRwnuJXAsMybOKxnTmH4VyVyNrGbV
-c3YfK+lOQiW3/pBLR25E7tSUVmnOFj5Szz1TAiXZKibyqisL8esZKPFu+0VMf+se
-wuhxfPsBjZ3Bi/VM1i0eAhVl3jinW2UWIhmOBr0qnFlq3AEH74SBHQa2d3rxUv1V
-vA86p07fE05sskppc8aORc7SYwa0I5Rgz3KnOzEg3xvdnzInca+zvoAKSGX2OUS3
-wKbjYy1YDaaZeLgwi92uERafuxXrDsFf4XVBY/qhJnS64KciBzk09s8yKmvRo/k/
-EB4QeUheGWJnj9gQ2nofoY3Cb46tsTbEcpWHozm6U0+IwTGJmT1W/6ejP6gd8kwV
-AOdEd5A3ksfGPR3wc9vPkdzcOeNMBFA+vSyO+PehJkvJkqJKVO6eFD7eR2/ePSH/
-s1EJyUzQSVR3cD+4JV/TSLj59w/gLcmDrm5AEmLZilR/eCBYTceLz5TJtsOdPOHJ
-+5BvIUV9KfFd//AJVm3/dS6TRgjIqfUpK/eQyjv+sdsbU7YSj1Lqgz6x09BdHWO3
-jeBkjPo7t5eqUYK9H1AcRppybI2yQbf/z5+YjV4+A3FYFXTkOkMDlfez1iPMLsrm
-JwhGB+hZoanOZYhRnqc4nSc3utDZ5kWD+s8VydPQPTysaJ+dKJnqjxjPSXbdDrF6
-EP/fiY47b6vRTLLha/NLpUETnt4yR4arX38GClifbrJiDaY4IBQJ6fKLuQMQc5bt
-2DF70w6lSQkpjeSh8mAQn5ADNEgLeciVtDUmWU0f8+UkjCmuJ8i+rSrcvfrw5R5L
-FdlvZj50obP3yPpb0itBL6D+xWSsUocuJyz3VYlxCInImEMr5Z81b7QKmXAAHUpy
-HP6nSDR9wAG3GgDMLjhPeJXIu1olIflVlqlI7urwvC03iC9ddi/i2aFplI35d8Wc
-jRJ05xihLFqAjOyqA8lIzXV77AzUvogFXcWTe7KaAxGMOqnwFnQ8wyLuDQnA2xsA
-5OrlcDXF0HA7FrYklNwv8KeGUOgdyE1dKg0sW8hW+r46Z45mVOYiwA3I5V+x8VXD
-iUcr5azcq0lkdrExpvRfoZvTGr0Drv2m29UWqOIgBatEaJhOkVAAs8mjnRYXs5/c
-3GY2soPyYwjhCv3opFbN8jErJDORHjfqRpIcvROUi/iqc0g+tV0j0G2z7HOkB6dT
-y/yzZzn0DzDNOgB2pqruUl21Z9q0Ak99q+ATZ8JCLxtE5n91BBQjKMv8DIMK9Bcr
-IauFta/TZmPswxcBygMtHA==
+-- V3.96.0 供应商组织与会计整改：新增「税码主数据」
+--
+-- 背景（强哥诉求）：
+--   供应商注册申请里「统驭科目」「税码」是**甲方财务视角**的字段，外部供应商
+--   不了解、也不该在注册时填。应改由采购/财务在审批环节从主数据里【选择】。
+--   统驭科目复用现有会计科目表（fin_chart_of_accounts，选应付类科目）；
+--   税码此前没有独立维护入口，只有注册表单里写死的税率下拉，缺一个正经的
+--   「税码主数据」。本迁移把税码主数据落 D1，与会计科目表同一范式。
+--
+-- 范式对齐 fin_chart_of_accounts（迁移 0053）：组织级共享主数据，带 org_id 隔离，
+--   通用实体路由 functions/api/entities/[resource] 接管（前端在 entities.ts 登记
+--   finTaxCode），零新增后端函数；RLS 在 _shared/rls.ts 的 RLS_SCOPE 登 'all'。
+
+CREATE TABLE IF NOT EXISTS fin_tax_codes (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  code TEXT NOT NULL,                  -- 税码编码（如 V13 / V9 / V0）
+  name TEXT NOT NULL,                  -- 税码名称（如 增值税13%专票）
+  tax_rate REAL DEFAULT 0,            -- 税率（0-100，对应税率百分比数值）
+  deductible INTEGER DEFAULT 1,       -- 进项是否可抵扣（1=可抵扣 0=不可）
+  remark TEXT,                         -- 说明/适用场景
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT,
+  UNIQUE (org_id, code)
+);
+CREATE INDEX IF NOT EXISTS idx_fin_tax_code ON fin_tax_codes(org_id, code);
+CREATE INDEX IF NOT EXISTS idx_fin_tax_rate ON fin_tax_codes(org_id, tax_rate);
+
+-- 种子：常用增值税税码（与中国现行税率对齐），组织 'default'。
+-- 幂等：ON CONFLICT DO NOTHING，已有不重复写入。
+INSERT INTO fin_tax_codes (id, org_id, code, name, tax_rate, deductible, remark, created_at) VALUES
+  ('ftc-v13', 'default', 'V13', '增值税13%专票（可抵扣）', 13, 1, '一般纳税人标准税率，进项可抵扣', datetime('now')),
+  ('ftc-v9',  'default', 'V9',  '增值税9%专票（可抵扣）',  9,  1, '交通运输/建筑/基础服务等',       datetime('now')),
+  ('ftc-v6',  'default', 'V6',  '增值税6%专票（可抵扣）',  6,  1, '现代服务/信息技术/金融等',       datetime('now')),
+  ('ftc-v3',  'default', 'V3',  '增值税3%征收率',          3,  1, '小规模纳税人/简易征收',           datetime('now')),
+  ('ftc-v0',  'default', 'V0',  '免税/零税率',             0,  0, '出口/免税项目，进项不可抵扣',     datetime('now'))
+ON CONFLICT (id) DO NOTHING;
+
+-- 幂等守卫（业务版本登记）
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0114_fin_tax_codes', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

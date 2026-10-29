@@ -1,98 +1,100 @@
-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
-e641zorX4WP+QQ8Ztg5f+w==
+import { createEntityStore } from './createEntityStore';
+import { ProductionLine, RepetitiveMfgPeriod } from '@/types/repetitiveMfg';
+import { productionLines, repetitivePeriods } from '@/mocks/data/repetitiveMfg';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+import { UseBoundStore, StoreApi } from 'zustand';
+
+// V2.80.0 W1：重复制造迁真实 D1（根治双通道）。
+// V3.90.0：以上 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到通用工厂
+//   createEntityStore（entityRepo 主源）。双资源 repMfgLine(主键)/repMfgPeriod(periods) 经 extraResources
+//   管理；倒冲明细 backflushItems 的 JSON 序列化/反序列化经 parse/serialize 隔离。
+//   领域方法 reportProduction（乐观本地+fire-and-forget 写 D1+失败告警）保留在 extend，行为不变。
+
+interface RepetitiveMfgState {
+  lines: ProductionLine[];
+  periods: RepetitiveMfgPeriod[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  addLine: (l: ProductionLine) => Promise<void>;
+  updateLine: (id: string, u: Partial<ProductionLine>) => Promise<void>;
+  deleteLine: (id: string) => Promise<void>;
+  addPeriod: (p: RepetitiveMfgPeriod) => Promise<void>;
+  updatePeriod: (id: string, u: Partial<RepetitiveMfgPeriod>) => Promise<void>;
+  deletePeriod: (id: string) => Promise<void>;
+  /** 产量报工：按产出数量回写周期产量并倒冲各物料耗用（同步签名，D1 写即发即弃，下次 load 校正） */
+  reportProduction: (periodId: string, goodQty: number, scrapQty: number) => boolean;
+}
+
+// ── 倒冲明细 JSON 序列化/反序列化（periods 资源专属）──────────────
+const parsePeriod = (p: any): RepetitiveMfgPeriod => ({
+  ...p,
+  backflushItems:
+    typeof p.backflushItems === 'string'
+      ? (() => { try { return JSON.parse(p.backflushItems); } catch { return []; } })()
+      : (p.backflushItems || []),
+});
+
+const toPeriodRow = (p: Partial<RepetitiveMfgPeriod>): any => {
+  const out: any = { ...p };
+  if (Array.isArray((p as any).backflushItems)) out.backflushItems = JSON.stringify((p as any).backflushItems);
+  return out;
+};
+
+export const useRepetitiveMfgStore = createEntityStore<ProductionLine>({
+  resource: 'repMfgLine',
+  seed: [...productionLines],
+  stateKey: 'lines',
+  backfillKey: 'ssa-erp-backfilled-repMfg',
+  // 第二资源：生产周期（含嵌套 JSON 字段，parse/serialize 隔离序列化细节）
+  extraResources: [
+    {
+      resource: 'repMfgPeriod',
+      stateKey: 'periods',
+      seed: [...repetitivePeriods],
+      parse: parsePeriod,
+      serialize: toPeriodRow,
+      backfill: true,
+    },
+  ],
+  // 领域接口与领域方法：委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    addLine: (l: any) => ctx.primary.add(l),
+    updateLine: (id: any, u: any) => ctx.primary.update(id, u),
+    deleteLine: (id: any) => ctx.primary.remove(id),
+    addPeriod: (p: any) => ctx.extras.periods.add(p),
+    updatePeriod: (id: any, u: any) => ctx.extras.periods.update(id, u),
+    deletePeriod: (id: any) => ctx.extras.periods.remove(id),
+    // 产量报工：乐观本地更新 + fire-and-forget 写 D1 + 失败告警（沿用原逻辑，不丢跨字段）
+    reportProduction: (periodId: any, goodQty: any, scrapQty: any) => {
+      const period = (ctx.get() as any).periods.find((p: RepetitiveMfgPeriod) => p.id === periodId);
+      if (!period || period.status === 'closed') return false;
+      const backflushItems = period.backflushItems.map((it: any) => ({
+        ...it,
+        consumedQty: Math.round((it.consumedQty + it.stdQty * goodQty) * 1000) / 1000,
+      }));
+      ctx.set((s: any) => ({
+        periods: s.periods.map((p: RepetitiveMfgPeriod) =>
+          p.id === periodId
+            ? {
+                ...p,
+                producedQty: p.producedQty + goodQty,
+                scrapQty: p.scrapQty + scrapQty,
+                backflushItems,
+                updatedAt: new Date().toISOString(),
+              }
+            : p
+        ),
+      }));
+      // 写 D1（失败不阻断 UI，但需告警，下次 load 校正）
+      ctx.repo
+        .update<RepetitiveMfgPeriod>('repMfgPeriod', periodId, toPeriodRow({
+          producedQty: period.producedQty + goodQty,
+          scrapQty: period.scrapQty + scrapQty,
+          backflushItems,
+          updatedAt: new Date().toISOString(),
+        }))
+        .catch(() => { useGlobalToastStore.getState().showError('报工数据同步失败，刷新后可能回退'); });
+      return true;
+    },
+  }),
+}) as unknown as UseBoundStore<StoreApi<RepetitiveMfgState>>;

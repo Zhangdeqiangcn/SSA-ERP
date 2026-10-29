@@ -1,145 +1,170 @@
-U2FsdGVkX1/cqKSBeIffhp5C1PEizi+YcdJPif17pNdnGXvqCpwSx7fK5lCIb0YI
-LtOU6qFCtnh3xeuPJ6XbT0xMB14OlYLQbTbZpBGn9oDtDkbLQiORaWA8BJNoDBO0
-d0zrT66jBkEGfaHQRVLWw9xqOq4Gj6hJSDZRaq6/tObwsBPqLFR3pL1gwvOZGhMN
-ZuOW0Vjb56q3R0Z4bd47zW/ssVtGTR+vhmRGseCZnNqIO9VTJvb+ltp1VS2omzQ4
-4fll4o+E6f3yBkTbAcztbzcSDxu54wRURArWQg1OZkr07J2HUhqsCuthyG5IP1+3
-45Rk+uE7QeSZKTDQIk9eFwPLadtvx5Z1Y5seKepuzaESuEaJpiCWZ/WeiT8YQWX9
-BfXCNotL/Xhg8R8T7yql8cYXvgwrnD0Tcsa8XinSHsMLpFf4b6wIKAr+8Z1d1hvd
-Ep82QiMYNfvhxxZQpkXaQWZUu/VjpAVtsb7kb3IGCk5SBk7kAGGqJhzTD4tgrfnA
-05TM8nMJ0YqtrMhTFX+6oLPoqLYbepOH7HuYaYb8UdEM1jygR9aXNjiDtsbOZCDB
-OndZyAmqzoLiUFYPahfqrG8W+sOA7K4eIDCxtp+3HHhXOrAGlogsK0kfMtCVts2f
-zeOvmr41Ilg9vhDLL8/KNrK8SkbeGtxGgb8+1+gGVdjb2WJ2gqvC2HI16fbSH4G6
-+wjlqKGna8pAS1BfzphcjD3ew42LAj9uJlzRoBFboEum7Q4K+hgbNitIp27d5vTI
-GLQeBbQY2//gNcRNeHXChuL9lWNp/7FzKfOCESsQ28WK5y58bgvJdMkVi9xSLaIT
-FrKwwY4GivV29kqV4K4cUjqqNWi8u1GNvuUTS3h2FaLkj+U1FkuTTBTqStv1cJde
-T9AllrExJHc0/uJtBP+4DMueR+/2h5pyuCy82VnVBfZft+W67UxVP7EjTMPPfC2T
-GncdABx7QIDDjEw0YLoVkgO8E3SYgyCkyOoT2ZgpHDwFwD/qBZ3qgWILlCjz3iiB
-3tJbzqjX2fp18V1SmF0hFNzwh5XAIabwdJUu8XI/3f7+Yl8K/tsSh4N15XTGipy6
-98qpnhRTkCehZGpAuCOZfRQmN4C6kdQI8zF9x+3scEJ2B0wqxBvjqzWCPmca+75C
-+Q14KaB3xUGnke9zyVy/B1inHNUXEskbIHW5lBaDHwd7BE7VaFmpU1fKOk1oFsoy
-0Gz2lp4petOTm8q3fTnhzbULd+/u/vrc5CPbt0BCb6jZJceoTz/Lo1ZobjZu3kMg
-Y4TQx8ifZ79dbbKiG2FXNbbIy+3auAitfbUQYC2i1IE2yeZHWtuTA77ErxfvBlhx
-DwysodpRxvvfkf6mr+XLmLPI5uf6SAjVm89Rwejzo3/TA0WOgAZztgKGt2+ZrAtx
-Kr0qsJPxJviZKuwq8oyXxJKWNXThDeiR77g/ZylyWvfA3QDEfOI18Ae6uynwo8sF
-qOqMYRkLgYyt+GeZaBJay/Zz+c6oQ+XSavEsz05UpeneZtnFMpTLGY+elUUQQ3Fi
-oKEywMRNoWoptp7C4LzpTDQ/ywYhzw637uS5lcNxjOQr8TZq55+2wPMVaZd9U85m
-DEHKEKGam2KJeSIVCHOeU2ACnJ8CpaxD4ASkL45A+dCdWSD//xi8d1pu9m6UNggs
-zxphi6bK9WdugcZ0rQVU3w/6kP8pmWiG4aBHuDKwN32dcv4VXgRZ/VPjeixQiRCh
-6vwEEx+ObHoUbUK23/ZlYrR3Lie37a89XNufRoTztHe7R/LljmwT4tpJ0H+GZ0s9
-hTIzucLaKzP5U8ZTvAohb+xtyr0jJ14LCElLSry0xSNoucqQVUW2kkWIVzuYySeZ
-xAI6BhbC+tJhbejN7K6iVLy36VRV35Dpd6Q6oiG3bfZdxkKq+fE2T5krhcKggGZa
-eUHF4DHz9QF8kV1hWl/CvIuqHgeQ3vNJa3/MdK/fITJr0Oqg6uH34I0Y67jnhTfG
-GkngW5c9M44Kto0tbXhBuV7SlylrHKppBiKmgWz+Rwye/jmccMRD1wlYmdU5gpjQ
-CuCI2XmLL2cq8ozS7dFaTH+2gS97v91Cu7V35bfT01FD8WMc99BmzzQ1CslY7ovW
-//0rv0uVqeMJjMqm033+ejIYKNdsdvtqRGtnB7k3H8Fic0bBqddkp8CU/PfqvuHT
-2m+7aHIHwNtPn5Bogou8U1Gq9HCnYvJNiIh8Ydzon8cU9+1ByNLiZE78ItNpyj4T
-zpyswoFBSSeB4ldAp+10uGIXVRfgPwKEwD8vgBIQ5X1U0LTFcH9JT/SVBz9d7JIr
-MRMgXQj72UhfuUimny9wkQsC3kJbP1ZJyVelxiAIl9gBQOvLsEgpGj80GAcqdRTc
-tAK0+bc1/SiBFHJeGD5YCHGQ5IzCJxuoxzL4opxt4ge+lGAp4c22Zc4I7V9W3s17
-ktyAODWGlhDn5NMVvGL69RrT+KbcBjnpJrf1QXPmjSGc39GVAzV4yXqveMw08Kmj
-XM92sRfi0nFizBVuoenz8aqDs376JY3yW28eo85IDZ33BbOgxK89L+1OYPaUXyR8
-dAiQX3FzmlmHnDe/+IilIqpLcxe/NrdyiDbqBGixihNN/ppbB8Hv33OK2Dewbt5c
-aqbZnf6YVZtOxO+q4byItlyrV6AJohab6qpPjjrSsubLxCDPkLgGRCH8ZJVr9Jwq
-95w8wOVaGCTrvup55VpkYwZBjvmyNY1r+0ibGJd9Ing38FZkcWcGMOpIkSDGeGne
-Dg5E/NJFo2GohN/cIlfW5I52ZjHGMY0qZ11XFhV5pJKt98IuzT6u3OJj1psr42HC
-ymovVyJkO8Z/L8mSnwxVWPZAIaZzYsAHXCzeJDLpVPe+H9t4MmCrr9qCAgSUxhCe
-Z/7fnKr7O5WwfQEqyekrgg9PqGw4asDpTHW5sMh0Gr7jCLqTrztldbNdU6E2oLvf
-SZgCSj6giyI+5vTsnmOOl/0hq/dmByaPclIk0bB8Zp73ZchuSMCz+DEo3U7ySt0x
-m3702sFLQRg/tiD+XFUEL1UxEnkfUNGnvBd2SDERdAr7UuWdK1axoJbMBdVo09vr
-q+j+D+jxGPB2c2jSrQ4JXW4R02dbcb2t39mqWnzk9PNCXkMVuMfTqykSgFiudHZ9
-yVLPrRdVj+4TaOyI5OOdoMHdb2MVDgzLZc8nkGs3NHY6egrzTqRmJUsmf+ktAVh5
-JpCQxqJW1ICsbE9qH2bSd79Pi4sEqyTmU1zMzssca/iDUBeqoyx8MeUd6OzUOouZ
-LBU+XRs4FY3F4+sqokEQWfcvOgoTdLHLDNA3AnMgcUjMzAlaHxawWgzrQySpr9pP
-FRsBCPOa5uxVMsaE4UflfqNyBREapN7sswAX3BvPwNIyzQsNRr2vr+x2Hm1SKX5e
-WLjv8iXbqZpHKBXs9LMovaN5DDtPJtd+oev8W7xznmCydamCcN/y5r2jGTV/8RBo
-ljN73CSuMHLyvxstvx85mJ1+ZbAIjoGbS4cf16C62h4A4AWTuH3UUbgj+dAsF9Nk
-nPAeRziEGAdYtssWypHAWHB1AbzKOJz/ni4eBj4WXoNG3oGAbzX4wgUqNTRRmOed
-ccYHdrUDryR8Ro0J/OK1P4jcWgMhCXQcAoqjShkZwyV4/WRsamhj/3BjmBs3omhg
-2g59DYcC4tQxgpUoBeNpNB7rblHYw/3jpT60hFVPeb5aCYp9fvBfnW8M4G5EB4q1
-6EuJTDi9DTJNzRV5tMsgX4eemc78kxNzGFDVzgtw7qnN+afL0uW35Obz5stIk7OA
-bravA7afMi+IEVxv4mfg5RyT+qRVi60D+UMfySZBvRdmjRQGCesgqwaoOO6mMsCx
-8uRUZn7zgdycJC5NMynC+dPviukCgCTw1VYixc7sFL1oL1HPHW5q+n2CaS1M8e7E
-icqnsuTQi/MJkniUMZpgLkYwFOiHbiQxHEaPdLVEx2enzGUgE+A6j2lzElkOhYS1
-ygkxCTVz2g1R7Qd7MEW5J734fCtZhxj8CbkMmnXUCbbqi3W22pHhAco2tUQTSWuB
-1aB+qHjlAvUbEXDdes7Ekqj+F0J3iYiT+lmcyMIWM8RlkXaJ7lPBeQGYvCC2S5tS
-c4BPe8RNMvkNNUE0EKXC6No2rSjNqcot6i5/cN+GOz9WcaL+STg1DcGZ0TUvUyxO
-Zvfx/5I0z/VaJuwcdD5DRy/bSdcVly7CgQqXJNbTeEBiWv2ml16xjWOdXX2y/ePr
-52uWN3MX7jCk851lftgz0dN5st1zJdFC+rYRL3vmBTl6vhrGMkZNQlA16WmgFxsg
-gmoiIddRhpX/3DjzfoFy7jPvTFtAb32TIspVHXb9eUzkE1FAxtF3hmLJIjYJOO15
-/o2gSBVLPlt4iDnXACewdaLb0bavO7INCBlNSCVC6qIL8FRQ7TXIaWoVkgZD5YWK
-drPHAmFcM5G/2r4hxffk8Y2PtiYReqaksC3fga5xUDZGP7EJSfIT6KkoLETdiZOh
-77n/gpEWsDvkXJ+kaTeDRWOGPjuliJRRElz7uNZmXQJ0dJ1H0E5MPn8gMZxas2iF
-QnW/Ld3vR2g7qUspwA2pWr3BmjfalZlPEhtivE+h1c7bUsoeMufuGt6kLG2POQH2
-sq609pgCZ8Nk/DY7JhHbgF0M54727Kt8rjwfHsgxxocTpKAwW7hOO6e1FZd3904v
-ossQ1lDWLzpwwAUT4Be7xPM+ud8rT9T710cJ3jZdKilbJmIxsrmLUYSGTjPE3hIV
-PGr46xJDxxOcSRrvhs/MfgdvrEDh9/uWNalo8+x3JquVwrCjy3gX3QGL8J2+6kq8
-Kmr3HQEOY3mEZsbBr0LFjNNop/X2YP5hUmmPHL4QB35phiuPxxZ4t51Nv9CeTHi/
-+RB7Z6QWPSern8CMpvy/x4trWFVR6DGJGkgrJJ5kbibShuWBNcYmwwvhRChrTU0h
-BWMPEDZ8yhc19ip1RjYBiuUSGS+yer/9GoXCobBekS5paykLnG2SE6Ok6uBMYyUS
-YqakxUUASGG1xbRRpAaZ60TaTvLa1YGyIgi3D1Lzo+Fr4XEhK6D3qXliOOzt8FKk
-fJLW1bFgNLDFosdihVpZoBxQVHuVkcSBpISc+JxrdCYJ+jEj4d2Jv0I4sszGFn2t
-DE9dbsYdVC/uvYaHVMIUxUjkVQlitd7NdIZ0mC4GZrWStJfegCP/tQGJLw87BXlc
-ZngIWYQVFrui2MWUnX32J4Wvl3zSDkZE/sDMibbTPuLaZ1N4ibGMHR+RkPREKvSh
-KJ9V5a7DZ71JHcens5HWMtotwOb8+GZRdcDimMiBjyWjIgK1J+2pJDXLn48UXyFb
-PHapnkMvdp0Kq10jRjEsRF6WArKGQNaHKTSTvVyq8zq3frIM7rZrbyGoNCGKugkW
-Cl5NB6w7fCkc+oGiqUF5/H0oCyn2PpF1Ak5YDG8dYNAy5b0xGjRI9SbSQiPgn5Hg
-SZ4onEMsVQhdo9LhazFtTa7aGWNoFiN1U08dpdWXZOEZzrwVCuTF2mrUV2SQvjN1
-1z2IhI0rCQbHQLm7YXHLBxTV4chglhOur0qxAuvRwRqjTUTN40g5BdArgNxQX/FL
-lKQu+grNhyvR8yWd5l/vLStrDliHOFq8Xn1yhUPGlE4N+peJxo/6EQz+pIL2zjiJ
-KK6GpDyRF+Jk38/Q3vXqCX1p6gtE23/QM7Pg2jaK3cqAxt5rBQmqudljwG5CIjTM
-c8xqz7OCyHbJclUM3C41OuCZwhCkMDhrKU6n733PFGsw3cuCpiRGd5IoAk0rroC4
-misQtejWzL+xIghEgqrQOU8RC8m+cJMDTJO4I7vnH9Updh+bWnm6GbEhjFD9Lk90
-5Bg1tB8tNZ4r+7dCUeZYjXvuF3dJzVHzGAbVwpLc1gWp9Ft8Q/u6X9vfyPCPBY0/
-ciu8Vm4OStN9XOGn+WqE9vaza675xqAPD5fQBOb3qTXB4xK9lntlQeZJpgddz0KD
-lwEFX/JM2dY2zqMS8TPvWQx98ujAIWxGoVS/iYXG2qjVrYm3rtYrI9Q+o8U7d/wG
-/rLDV7RzYJMJXK5ZO530G4XZa7nNIYBGBblfwklgmH4pWCR450sZWgWr5MzAH5YL
-4kMYO2nqn4WZtpCn70a7aNJIZNEHwn9BJNMv5GFm/X0N5//SGgH7at0Ypsyzl1ZQ
-dDtXQ91vXnP+peX/aea3OjlyzuCBlhpKl0vw/FwQtyBwgrg8BVHgPUuT5Z5ul5p8
-GconYm4gOfbMof426/yf+x3L9yw+VfuGYVMcXiaYWrTIeNbWerq5hW7pPFOgUzGm
-tGQ+MGGOJ7pCWhi5YdLtPgY/cFprghJW7TXr2mvupC+9Y9CVkX4DAvRzUvubB3FG
-6oFwZhOP8xHZwlfOihDxqhTZRisS/J7W2sFWn4YvW1LAdfxegDwAXF5is9ER48Wc
-auzykxvI2O4o4ktgyDnDlD7tQdon+KCHdwgD4VLgESaXtAvZKsHfx5z4bH0ObVgh
-mlHPU4B+NHw+nVRm4zlcpSJPWMt4e8uWFd1v65+fp9I1oo5LighUQdTRwxfSA2AP
-iF4eoBFl8cziweMh6m/xFLEQtgHajxJa9S0qDgpTsAdAxzjzayYIamEp5aoPspG0
-OZFbk0j6iz/7Zitkv5yAjCgMesTHarzYQpr5tojGTEWbw7ExetKCTiK7NeayAFHB
-8dDWSks8UOUNbmxhpzdtAGpjc6Qrc8wdmizdmHWCFSWW8U6ClYrhUxSYsKcUxmf2
-t052mhx3jqRiKIMVnIEdSWKG/VvxyHCAos+vqwsCLl5RbqGcJxOFVGHd/M0/7xzs
-ZM6/eoKuLaLJ1ujMOVDA5F2YnkujcVcFNRLUTj+lU6Zdj4g+pGOmpas0FZixgbjX
-vUSi7JYZQ7PXRqR2h5Hz+sP1P0snicUCOkpcg7RT9hi6fxZPU419I4uiUU/S0Jqq
-cParcICTpXFFImxtp7iW+v6254U0Hvnkok+TqU2qAg8gJO3gvghSSk51PvU5fcNF
-xBzdYzycjvl2bb+6JiUgPySJFr4Q1+4ZJ4ql776AXdtTUSC729vD+rjUIZEqN8ch
-d1z63iPYWY+29Q88HDqFXKf/vvOEigLv95yRsd835UjqMA7H+neeUO2hnhgOZkbc
-vJbjhJMt3OHUfgRqRikpUOUhVB06dPgXbD24igkR88katZzgRcipHHOSAv6Jvh+/
-3muIzEF1p6UY965SiCDYOvy2z93jd99y2zcwxJ6YUb6H0Dy8M5gfljY6W6blr7Gr
-8daZWjV26TQ1PHV8eW92OjjeIBpSBGsOLwv7J7hBLTZ58M72ul1VZ0nZ56wq6YXW
-IUm0VtpUzrHy/9dbB2NuymMTOF8Xwmp7DQg/EvSQuYUY5qpYLVOeTICkEMMQLpg9
-2cYngUIhq74Jr+VasWUe0+ZZTo04Ba79/3qfe0IHZM0bV7DpqMokIv5pc5v5BID/
-BDVAlt4MeAGK2WD75+l22Z9dSdhFQw8U7Z/er9JoDjw5pSJua5hlerdhLdMROk37
-zXyOHuKVQLwmoy1/rVCPaTaSwAF8QIgFg22hEenFk/EBrBVuzHI/GyOKRqBpyYHY
-sCOjlpGIWN/iIPitoWinsc6IS5oJFZC2PkBocjcxOWfxgQSNgybfAepEcTEe+jxY
-nixq3hcEBNB1BQfA5OSpZxvp42tzP5znB95n594kkN64c477TA8fHeZ54FDswcd2
-rsR0JmthebjAoePLfz+dP0vqlFf5QSN+4HT3WSxUERwh+RcO2Hv30tY0ahJBgFl+
-8NWIFvi7NOuKxeaTXucak0DOxa4TVPhOQFtdcPBRqT/+CNc/p3Vq1F6IZVzfbllv
-g6JsdxlwbDLQ4TpN8MN+JynnsBgIpqKRulmU7xTjTjY4L/DGjij1ZEGhtF66pAfG
-w86g/kpDnxOm1UMrMZ6SK/FqrSAfZuyleE0fbeH/9lQs8gBwKrDJcA5E3UkcwaSB
-4zaXMIBd8dZ7dnbABwVUcPcNloMGpGVtFpZjI9+MHJzCMAWfzy+YJB0gztxu4zVJ
-DNm86mg2cIPiaWjxeFCEJAWmY2QjmKDZTQsI3RLywV976vQnW86TI+CDER3ZiLMY
-n8ow09lk4Q53ZBcZzjXEKjbIpQB6gGm2Qu+yR6a+GRFF8xeE1zMx7gEquVNv08B6
-k82cCR0f6QTagYldxCbz4HdOMGNNIZLY3fOHTtrnI3w6vaCRilFBqIqjOw5f9wvk
-3JAWiKBLs5pZaa6R4lsBMAQ1byTEl0Fd5cIKDJPx/ZTwNb/pv+5Tl0CEQdI34e+0
-wNaMNiGfG+pMESPKbZ0uvDA48DNKpvjZj9exxROUPZp8FZaXuQ2d6JI7qXnmwdzp
-BzWiXXLPq/EOH1ySv2OouSMdU3P9CcOE3/aqfpcPXYlfqzgsSPNooe5SEIJ95/tf
-biyExz4T1dC3zYPYI9cs6Z9kObs4yZACx19qbRORsCzqw+aMXv5+dwVnXHcQwBp8
-tvLFAPSh1/iYmeYqRTZLBlHfmoP8sbYBDGvgAzEa03eux9zmFVzgH3euItencXD1
-grhwflHP3/HIIUeks4uagxBdIMlQKCmS2jFOE0Cl16VwwHSO2MEIenrx9ufUk5pe
-fkY72Q4whKLTw5CmOtsRTkHKwaqd9zbGcg0D+kdgZ3GVId82zJg2xlLV65iGqEET
-/CRyu/U4MJYLDVQuVh6gc3R4gcb/kI/ebKg+CX6NaVkWKsHYOOTUDq6G/WHes9fQ
-fKCmI3zFZ/N5sjUaqjfEInIWGy8TQ7USUdii0iCgJCxfIWvqq7ht/1VUcEZ+1Ehe
-nxqZVhJgJIUoSOFh/TXvyH/0RWxlxEXIQkbyi9+VxyGF9ll4NzTZqmyrkw5ZcS7H
-obCxj/Oqact06Xn+OVBVzbkT8VecPk4uusXHfRVqVWhjarWCV51xbzK6mI5FP3ZW
-ux8tgfS6bVN+yhefRijNvDM5Ojc4EqeokeHPnLccuVAIxUkmvE3pdFyDMEsbDMqE
-bRLb0vQzuxDkqZphBaHsPBVNwnEeTH5FmMCq1L22B5XvwbIlmn/pQoiJtS1hFwVT
-RHVjTWBD9nm6Ee4wrYr4mLJsto/QmbmnpOau/TODywX1+afuST9ZJbVXa1jidB/K
-xlH14IxX68yecKvapDCnYBEfhAVimQs07oGKyNxIw8k1B6k4Qn+cH3ekVCq1Z4A6
-rkEngLyYrHIwtspH6ZztzwcuJHGvgDwpzoCOdSXub3FDmERfwYc68DYoB7WsVwfy
-c8w4eSRHJCnFJ3Uuk8gXChLePk6AF/4fkwZQZbWJntk=
+/**
+ * 通用工作流引擎（BPMN-lite，实验性）
+ * ------------------------------------------------------------
+ * ⚠️ 定位澄清（B7-4）：本 store / WorkflowEngine 是一个「通用流程设计器」，
+ * 提供起止节点 + 任意 transition 的可视化编排（开始→审批→执行→结束），
+ * 用于自定义非标流程（如 OA 流转、特殊项目审批）的沙盒演练。
+ *
+ * 它与业务审批引擎 `approvalFlowStore` 是**两套独立机制**，请勿混淆：
+ *   - approvalFlowStore：采购申请 / 供应商准入 / 价格审批 / 物料新增等
+ *     业务审批的「单一数据源」，由各业务审批队列（Vendor/ApprovalQueue、
+ *     Purchase/PurchaseApproval、Price/PriceApproval、Material/MaterialApprovalQueue）
+ *     与 FlowTracker 按配置驱动多步审批，并支持结构化条件 + 跳过规则运行时执行。
+ *   - workflowStore（本文件）：通用工作流设计器，示例/实验用途，不参与上述
+ *     业务审批的真实推进链路。
+ * 两者不强制合并，避免破坏已上线的业务审批闭环。
+ */
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import type {
+  WorkflowDefinition,
+  WorkflowInstance,
+  WorkflowNode,
+} from '@/types';
+
+const uid = (p: string) => `${p}-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+const now = () => new Date().toISOString();
+
+interface WorkflowState {
+  definitions: WorkflowDefinition[];
+  instances: WorkflowInstance[];
+  addDefinition: (def: Omit<WorkflowDefinition, 'id' | 'createdAt'>) => void;
+  deleteDefinition: (id: string) => void;
+  startInstance: (defId: string, initiator?: string) => string;
+  advanceInstance: (instanceId: string, operator?: string) => void;
+  rejectInstance: (instanceId: string, operator?: string) => void;
+}
+
+const seedDef: WorkflowDefinition = {
+  id: 'wf-seed-1',
+  name: '采购申请审批流',
+  createdAt: now(),
+  nodes: [
+    { id: 'n1', name: '发起申请', type: 'start' },
+    { id: 'n2', name: '主管审批', type: 'approval' },
+    { id: 'n3', name: '采购执行', type: 'task' },
+    { id: 'n4', name: '结束', type: 'end' },
+  ],
+  transitions: [
+    { from: 'n1', to: 'n2', label: '提交' },
+    { from: 'n2', to: 'n3', label: '通过' },
+    { from: 'n3', to: 'n4', label: '完成' },
+  ],
+};
+
+const RES = 'workflowShared';
+const KIND_DEF = 'workflowDefinition';
+const KIND_INST = 'workflowInstance';
+
+/** 双切片写穿（__kind 标记，行主键 = 各对象 id） */
+const pushDef = (d: WorkflowDefinition) => isAuthed() && writeRow(RES, d.id, withKind(KIND_DEF, d));
+const pushInst = (i: WorkflowInstance) => isAuthed() && writeRow(RES, i.id, withKind(KIND_INST, i));
+
+export const useWorkflowStore = create<WorkflowState>()(
+    (set, get) => ({
+      definitions: [seedDef],
+      instances: [],
+      addDefinition: (def) => {
+        const rec: WorkflowDefinition = { ...def, id: uid('wf'), createdAt: now() };
+        set((s) => ({ definitions: [...s.definitions, rec] }));
+        pushDef(rec);
+      },
+      deleteDefinition: (id) => {
+        set((s) => ({ definitions: s.definitions.filter((d) => d.id !== id) }));
+        if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+      },
+      startInstance: (defId, initiator) => {
+        const def = get().definitions.find((d) => d.id === defId);
+        if (!def) return '';
+        const startNode = def.nodes.find((n) => n.type === 'start') ?? def.nodes[0];
+        const id = uid('wfi');
+        const instance: WorkflowInstance = {
+          id,
+          defId,
+          defName: def.name,
+          currentNodeId: startNode.id,
+          status: 'running',
+          startedAt: now(),
+          initiator,
+          history: [
+            { nodeId: startNode.id, nodeName: startNode.name, action: 'start', at: now() },
+          ],
+        };
+        set((s) => ({ instances: [...s.instances, instance] }));
+        pushInst(instance);
+        return id;
+      },
+      advanceInstance: (instanceId, operator) =>
+        set((s) => {
+          const next = s.instances.map((inst) => {
+            if (inst.id !== instanceId || inst.status !== 'running') return inst;
+            const def = get().definitions.find((d) => d.id === inst.defId);
+            if (!def) return inst;
+            const current = def.nodes.find((n) => n.id === inst.currentNodeId);
+            if (!current || current.type === 'end') return inst;
+            const trans = def.transitions.find((t) => t.from === current.id);
+            if (!trans) return inst;
+            const target: WorkflowNode = def.nodes.find((n) => n.id === trans.to)!;
+            const action = current.type === 'approval' ? 'approve' : 'advance';
+            const updated: WorkflowInstance = {
+              ...inst,
+              currentNodeId: target.id,
+              status: target.type === 'end' ? 'done' : 'running',
+              history: [
+                ...inst.history,
+                { nodeId: target.id, nodeName: target.name, action, at: now(), operator },
+              ],
+            };
+            pushInst(updated);
+            return updated;
+          });
+          return { instances: next };
+        }),
+      rejectInstance: (instanceId, operator) =>
+        set((s) => {
+          const next = s.instances.map((inst) => {
+            if (inst.id !== instanceId || inst.status !== 'running') return inst;
+            const def = get().definitions.find((d) => d.id === inst.defId);
+            if (!def) return inst;
+            const current = def.nodes.find((n) => n.id === inst.currentNodeId);
+            if (!current || current.type !== 'approval') return inst;
+            const updated: WorkflowInstance = {
+              ...inst,
+              status: 'rejected',
+              history: [
+                ...inst.history,
+                { nodeId: current.id, nodeName: current.name, action: 'reject', at: now(), operator },
+              ],
+            };
+            pushInst(updated);
+            return updated;
+          });
+          return { instances: next };
+        }),
+    }),
+);
+
+// ── V3.81.0 D1 同步层：双切片（definitions + instances）挂载水合 ──
+let hydrating = false;
+async function hydrateWorkflow() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+    const rows = parsePayload(res?.data || []);
+    if (rows.length) {
+      useWorkflowStore.setState({
+        definitions: splitByKind<WorkflowDefinition>(rows, KIND_DEF),
+        instances: splitByKind<WorkflowInstance>(rows, KIND_INST),
+      });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+void hydrateWorkflow();

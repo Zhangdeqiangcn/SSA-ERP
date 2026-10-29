@@ -1,68 +1,63 @@
-U2FsdGVkX1+XLv/XItgAZ4Jn/UlRBRAL+fVzT0cFek7gU9WTj4AMURSktmMJPmQj
-hEbi+M+m0Kyyj8yyjKmT7u+Ecn0zn9hw4wnydskR68GqKlUEcjMjm/iIDVbXXzMi
-8PF5/sSWl4xsX6grbig0E1nlOkcwMG053n/TMCKyeBt89oXn8R7aKPx9fSTld0mc
-O9ps14DgLYnTrs/Vj3Ul92HZBFHUyAB00uTxP4ZH+JnGWqnuyMb2UIexpD4YIoPJ
-n6veLC8HmQjasXFkuxHum4HSzV/eIO9vil3txnoYYgYimLdePHwPsIU6Qm5OldmI
-iocoTLNxhIJpIU8d+dcrHZKL4q16nEOPE1dJEs7xOOSCbBG+UkNWF2chQccRNxF/
-nzDPGAfuDICJSmA+/U18JKPoaGkn/mOXQ8uSEja35XmLC2ihuD64vQRiGHMRsOcG
-KZZINUpMmhMxWLhumz5/xnIKJzVw8nDWeVYfAKu+u0zTEVY7anw5aSpWdgxj8ERf
-BWYsW7mnIuJjgEP96YJ580y5IcoW0VdKYhxmShqjzJciUj9UQKCUZVT0GgQBfjG9
-+Up7+8kyTTUeEJtasF34OK7rUQ1CzTPH4LPZjbjtJNo5Yks4N4kTtYYcpRw1VurW
-t6gSLCqvlFuBTl9LsDamD+CBst6E3FAedyxCSUbKkWOYisRbe+LpqN2e+ArLMsHx
-QVKCQJuKD9DCV9dtuxd6h8sfWyXMOUjL/l7hK+l1s/O9Xbm5q89gmIQj55KgufaA
-61Tg9BKyFnVXZ0NsLHo06JftrK+d6CuiIZF29GFReeJUxhrjrr8OjROa9/ctdCG3
-AFeJtFOG61m/+5K77aJxMOEX/aIyqO0MSgZfpRod8wve+sKYvYLWjDvgw5EIEI4M
-hOu5mHjfYS3SBKOV/Ak2vJVJo2cIoAUoqdE8Yc3OCcpZyqC/ZVuoo0yZ0LEykpS2
-Uk8T4Z9sAtioNf/lkwznrDosWHdAiZYhy5mC3fearZeTQhkyyGGodVFqbd3ceF2J
-wiyjRDgcrEExW6BicEt+kKmOb1foWfTQ6bszLVWtAml9qpDQDCq5ziZLOVlvaG+c
-yKyDnKa9EfrVZQv3n7BXBhCRN/BDmpnD5Y8WZZ2a8hfVnrfrDvkrWFNTbfMINmiU
-xh7Olm1cYJh7jlXSIPEA3dOpzslZQU7qeYVLHceLFrjaC9/+llRmoengDsDz1MpU
-g01q9cqYSB7+9JNDo6xgJ0ng8nNJwEQj0SGD2ppXMPN6mYJ1xNjwsJuGeSzczDOq
-w4ST6sPDsjsW8CQm/QmPRf6ixhLntb/LntsTKgb0ZVznBj+PHXPq7Im6cY5MRgp7
-fCzqV3OW6FohANisTEjd2hY3Ve55PnL7cT2qk0bPOwReSWoGJzjGsbAV1EDu+7XM
-ofV1WxHLU/UHcwh20jQcwT4bUV8IKFS6/VkQ2XEfqoDxT4A/ivECrCWBAWM2j5NX
-H9+MF98zc4G3atWu3TLKN54FrJTeXcD6m/f/YceNFheGt0pMIjgj9OO8HaLnDEq9
-bWptkeH7Eg2twFWQnhOGGqa60WsKIQOpAOhrj/Ykl2TKmTAX65JJUfwU8kedKPjd
-pW7skL9YD+9thiAzXFriOOQbNSCjSckqGGVUe5yaQrE+i05+E00NlpDuYJpCgxrI
-pfQ8Nnd/xsttNylQLdC/gWZoMVWlH00UqJSXMQL9r6kPpgYd6gMaa37Gv4IJb5Ji
-KJuRTK8TICsUwuW/kYJMpzPRj792W0z0FuXoceKxh1IcyeQSQgsRpQfw5nPac6cm
-ViFCq4OaLs3JPC/CGkKe6gATvtJJDXasDR3c9WeF5FFCuBROc7oxjWbcmRdzXupJ
-BfoQG6p33OmN2wIWmpWZ3ka41RoacU+JPMbBwDsf6JSKADWJxHTPNKfghNnwLM0r
-wfQBAZ2wIPy5IJ59fpsEcOBVY2+inAGJ/auyshOR52D+nxS2r74W91EH0YcZQK12
-Qfh+uCe9aSP+lK8CN9m++dhBEZXnRRAVF7eWGl0h1/QTZgLkEMvyR9H+q1BV9m0c
-9ywzaBQtt/IEOdS9UZQpRGIAhkIhdxNOjI0QKiKS7HYMlEcU8SvuP5wVErVTdpgQ
-AiZV6DB96gRx39BIJvVdw1Ws4Uxuy9fcMYRdavjBsxmr764utNt9Q+MqTQc6FaxO
-PmGcUhyqSOOi7REjMiEqipJHNxoEGt5UvcOBofOVfz1JA+q6hYDpOfIeEVmzWyex
-/MHKA8kaTxL97KJVpiJjEZSAhh2+1fEns7LxlZnamcQzMxcGPHK9jIsny9275dd5
-rPG3kK1yeYWNLpYhGnkhrkAcOuMrMsu6YJ2yYFb8oXE20TbdwpP0LmVRN+ayQdsM
-MKpzo0G046X8Mcgctpf6S40Msyk+tLzKlNb32+zzngOt1bHfuM11Ty4q/264rflO
-G9D9yq2qFA6yH8BV5rp0H8wKkjjOisRf4ilQMs1wM8gBjLCHFzo/2+Y0+oRPTPn7
-1Vnp0+a9lIhfb4Y3VpQyCirLL3ztd/oDVKLi3eE9GNg8gMcst7FqD6F8ovsAH1JY
-CiH13QPLzhqbQxt3Il4KXZRNU0dT6gC7xgHCTmAKtM0xXfSfHZD2VnBB5gBiJlti
-hcfem+w0mVdU6rp0ohdfXchmwht2/tAtvZW9Y/7Ev4SMcVknPsdeAjugx2UsWb4K
-oHJhmVwrR2K55rpOuVZHpg6SxITK9KyIzqhjTn3GjdlDoI7xq0GOXm736+IdIcyv
-mj8Mm2S6Z4v2bvHGLLqLoMVno2Hz7dnzr+dizEma1soddUtyHXQxisplgVUBbItK
-CoXSapXNQ0OGK1ydJLQoDNR2CRxcgZlSoTnZOIEHxLPxs8Xc1WZoQjGOyRWtoo4I
-pEC5jIUnF6Qg3UxqmSUyyZclTYPxC8lFrw+cH34o3uJh1u8uTTa94+f3+k4o84se
-yovVHyleIjyt/GUdmUf9HlGnLqY0k/fo1PfWEf10tK1pcEtdoUiwbrKezoIPe3xS
-lrA2IaYrhbuCpIOqO7sh54+jbicl5RCQywNySlaNNoHYeC6e9np0WW1KbVnKhgAq
-r5iVrrBCmqavukW7+J/on7lZQyBtwXLJs5QSmwCw8Q0auSCdhLseKv31CtoTjK5A
-OmpVXHUF7dmXFNFC+ObkC1VDAk/PGdku5PVZIw42NCd9UlXhhdUDcFFBc4N7RpKN
-wnlPD3n6ULA4O0Gt48N3DQPH8R8wDW3dCRf5aI9ZuZ9vjXdSGd2mpN6B5aSFouyY
-gpVo0w1iMm0zJhGCcnVh5Iiu5wDp/ufNQ9g5gwSIuBdd+Xcx9RCMyciCmMCuuMwr
-CofO/MHfNuu2dYCIFc0KMCxlKw/ZCq2IXah/olYMnq6CmjYboTKaExMFF/XmqzF3
-dmVTPwj9bghEkWDL6L+j2z9BpmTyYL2nmNuPG2RB6ljyNfEKmNgy2DXbbJU0E/MG
-qyaZDpncYU71C4Yw6ILdGhY09gb8y1YCjrV6iZMZCSmKwJ1kRlodGKQCMANwFdVa
-TOYAcNTT4MdFUpwHf942zhxRk7sLq/B0LhdqtxsQ8awFJ9Zo6S+/wyQGj7PLzNt1
-Dze20Mpi1OOF3wtuOgHHc6xoUcd6rMMnDfJeRCU1ghjBn9a0IumBsTCLf3O6f0+h
-y+C5e/1fIkxx9QhHbjH7ylhbqCMe+mYlc3k6MbPB6b3Rn1b99+0z39XMu6bZT1b4
-9+TMUo7Aao1KAqR2sfXhyxjKhe43lE/uZRjzS/Os/vUEDMpWQjihN6ZFpo4TL0Dn
-2rPZvWD/Jki53aa35TbSKZCFv8YpGogkDrTOepGkrDqtUu58BrZbQXsqgcVkhXU1
-rcpig2ZCQeNrtjsN2Yix7WuOnSIEeC1C0V7+1YCrZzOczwfh6EPNYfAxC+W7yBZU
-Jhr23sDPRaj5MJA12JJY0GUOszo42zKeSnN2LlyU0vGFzVXQ+jo2RKFTbly5xX3l
-jqcz8d0+va+EfMoqtlPRlCk8rm5xo01sfl54M01EKUpVk3+XjVhi4/zO3q5UPdN7
-E8eHK0w6yUU7NZCWYTr6QG7QJJR6EdAAHyBlPjHwIMb51u0vCSMalwCSyrVrISyp
-P9wZDCZ8BXFsxiRx0dr/NQAvzNYQ3THnM2bBRwO6yPdYAHgV0nAt18UvWYpSwWxf
-U7o9aYRsiycj7f/7DNM2EjXWfMElFM0IXHeVgp9fwOR/Dw6uQvtviDJ4onQVGXjH
-jPvmmx6b7GadmNXHJKZNS3jISAo89Y2JtkJy22avAXfBIwBPfmJlsRQaKvsolDKt
-XGKmTc01TXgpyEy354IKmQ==
+// 财务域数据访问层（C1 关系化 · V3.8.0）
+//
+// ── 为什么拆成两种通道 ──────────────────────────────────────────
+// 四个**平表切片**（分录 / 税务 / 科目 / 凭证）走通用实体路由
+//   /api/entities/:resource —— 后端零新增代码，已在 ENTITY_RESOURCES 登记。
+// 三个**带嵌套数组的切片**必须走专用端点：
+//   · 发票（items 明细数组）—— V3.56.0 G3 从通用路由迁移到专用端点
+//   · 付款计划（installments 分期数组）
+//   · 项目核算（costItems 成本明细数组）
+//   通用路由只挑已登记列，嵌套数组会被**静默丢弃**且返回 201 成功。
+//
+// 两种通道对外暴露**同一组方法**（list/create/update/remove），
+// 让 store 层不必关心某切片走哪条路 —— 换通道时只改这里一处。
+import { api } from './api';
+import { entityRepo } from './entityRepo';
+import type { PaginatedResponse } from '@/types';
+
+export interface CrudApi<T> {
+  list: (params?: Record<string, unknown>) => Promise<PaginatedResponse<T>>;
+  create: (data: Partial<T>) => Promise<T>;
+  update: (id: string, data: Partial<T>) => Promise<T>;
+  remove: (id: string) => Promise<unknown>;
+}
+
+/** 通用实体路由通道（平表切片） */
+function viaEntity<T>(resource: string): CrudApi<T> {
+  return {
+    list: (params) => entityRepo.list<T>(resource, params),
+    create: (data) => entityRepo.create<T>(resource, data),
+    update: (id, data) => entityRepo.update<T>(resource, id, data),
+    remove: (id) => entityRepo.remove(resource, id),
+  };
+}
+
+/** 专用父子表端点通道（带嵌套数组的切片） */
+function viaEndpoint<T>(base: string): CrudApi<T> {
+  return {
+    list: (params) => api.get<PaginatedResponse<T>>(base, params),
+    create: (data) => api.post<T>(base, data),
+    update: (id, data) => api.put<T>(`${base}/${id}`, data),
+    remove: (id) => api.delete(`${base}/${id}`),
+  };
+}
+
+export const financeApi = {
+  // ★ V3.56.0 G3：发票从通用实体路由迁移到专用端点（头+明细原子写入）
+  invoices: viaEndpoint<any>('/fin-invoices'),
+  // #8：报表真源已切换为 vouchers（见 financeStore 的 deriveEntries）。
+  // 下面是旧表 fin_account_entries 的历史存档通道，业务代码已不再调用其写入；
+  // 保留定义以避免影响其它潜在读取与类型引用。
+  accountEntries: viaEntity<any>('finAccountEntry'),
+  taxRecords: viaEntity<any>('finTaxRecord'),
+  chartOfAccounts: viaEntity<any>('finChartAccount'),
+  // V3.96.0 税码主数据（迁移 0114）：平表切片，走通用实体路由，登记于 entities.ts finTaxCode
+  taxCodes: viaEntity<any>('finTaxCode'),
+  paymentPlans: viaEndpoint<any>('/fin-payment-plans'),
+  projectAccounts: viaEndpoint<any>('/fin-project-accounts'),
+  // V3.26.0 凭证模板（常用凭证）：专用父子表端点通道（带嵌套数组 items）
+  voucherTemplates: viaEndpoint<any>('/voucher-templates'),
+};
+
+/** 拉全量时一页最多取多少条（财务数据远小于此，留足余量避免漏行） */
+export const FIN_PAGE_SIZE = 500;

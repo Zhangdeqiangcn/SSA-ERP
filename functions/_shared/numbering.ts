@@ -1,144 +1,117 @@
-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
-wGVUKJTf4CxRD7Z10DjeU/3sDHARd0NvlBv2XrXOrTkXWM6bJCC4y5iN+nmOsayK
-bClL3qsOMhPHWT3/NCnloXL0nlvFvGlquIkzz+8OvsgTwoftJUqzi8GjATmFFeQf
-VZSskWx4QsJ7k9lqqjzypsBxGgyP0t+OmzMULLSFCaPqmA4IGhdN95xhMp8iwKHe
-aIJNFx5lfNXYoVajpjsYsT00O+lj4nEg6iS/09TF/vkPuH5LQZ8OFGC7DvtlH4DE
-fS4FyvYQMeeAmOTvFa7JwcFr8tbrsb/F7WXM0zqe0skAxphxZaHpPKrfSzXY4gMG
-O+OmrtvFUd8k4JhiU6oYmWvhFshGCaWeUwGliAOtc1TbDbPU5ghUjgZojeOMWz+z
-MdhdoXSCbW8EgYScI/qJ5spWLBInLwNRH9TkFDLG8jFdo/AFlt1sc8KkFc6gvZMa
-FKq6XPn+/ozvq1oaHakwUZ9cs3nmybVYCdl1tnG3fFZuAlFI6hCtnA9QNPNqZPMM
-4C6QW0rEOLMtuWQRnGNzUqflCY47/BwJzySv9q6LQYaD1AtwkHnJSMl4uVMeAh+N
-OU8mQmdTF/p78fjp2oGXgz9ZmBvW09K+oJZuqRdX7Uo7AhqMY3gYB079se+Wkonz
-+Zp9cngB6EmYnlIt+l0WIw==
+// ═════════════════════════════════════════════════════════════════════════
+// V3.67.0 立项① 服务端原子取号（numbering_rules D1 权威源）
+// ---------------------------------------------------------------------------
+// 背景：单号此前由前端 numberingStore.nextNo 生成后随 body 传入各建单端点，
+// 前端本地序号（水合后与 D1 同步，但存在「本地已取号、建单失败未回退」的窗口）
+// 在多终端并发下有撞号/跳号风险。本模块提供 D1 侧权威取号：
+//   - 序号列原子自增（UPDATE ... RETURNING，数据库内完成，无竞态窗口）
+//   - 规则缺失时用内置默认（与前端 numberingStore seedRules 对齐）自动建行
+//   - 任何失败（表未建/离线）返回 null → 端点回退「单号必填」400，绝不因取号打挂建单
+//
+// 调用约定（5 个建单端点：purchase/sales/work/inbound/outbound）：
+//   body.<xxNo> 缺省时调用 nextDocNo 服务端取号；已传则保持既有 dedupe 查重（向后兼容）。
+//
+// 诚实边界：
+//   - 前端 nextNo 与 here 共写 numbering_rules.current_seq（V3.66 P0-2 已 D1 化），
+//     两端共享同一序号列；「前端取号后建单失败」只产生跳号（可接受），不产生撞号。
+//   - 多组织（V3.68.0 立项③ 落地）：自然键 id = orgId::docType（复合键，迁移 0097），
+//     各组织序号独立、互不串号；SELECT/UPDATE/INSERT 除按复合主键定位外，org_id 列
+//     同时入 WHERE 做双保险（防复合键写错导致跨组织越权读）。前后端两侧键值必须一致，
+//     否则同一序号列会被拆成两条、各记各的号。
+//   - 日期段用服务端时间（UTC），与前端本地时区存在日期边界差异（跨零点建单），
+//     与既有单据日期字段（服务端 new Date().toISOString().slice(0,10) 兜底）口径一致。
+// ═════════════════════════════════════════════════════════════════════════
+
+/** 多组织复合自然键：orgId::docType（与前端 numberingStore ruleKey 严格一致） */
+const ruleKey = (orgId: string, docType: string): string => `${orgId}::${docType}`;
+interface ServerRule {
+  prefix: string;
+  separator: string;
+  datePattern: 'none' | 'YYYY' | 'YYYYMM' | 'YYYYMMDD';
+  seqLength: number;
+  label?: string;
+}
+
+// 与前端 numberingStore.seedRules 对齐（本模块只覆盖 5 个建单端点消费的 docType，
+// 其余（PR/FG/QC/MRP/TPS/ACC/SOP/BI/ESG）仍走前端取号，不在本版扩大范围）
+const DEFAULT_RULES: Record<string, ServerRule> = {
+  PO: { prefix: 'PO', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, label: '采购订单' },
+  // V3.93.0：采购申请（PR）接入服务端权威取号。此前该单号完全由前端扫本地已有编号
+  // 取最大号加一，多终端并发必然撞号；此处与 PO 同款规则，空库首次自动建行。
+  PR: { prefix: 'PR', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, label: '采购申请' },
+  SO: { prefix: 'SO', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, label: '销售订单' },
+  WO: { prefix: 'WO', separator: '-', datePattern: 'YYYY', seqLength: 4, label: '生产工单' },
+  IN: { prefix: 'IN', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, label: '入库单' },
+  OUT: { prefix: 'OUT', separator: '-', datePattern: 'YYYYMMDD', seqLength: 4, label: '出库单' },
+};
+
+const datePart = (pattern: ServerRule['datePattern'], now: Date): string => {
+  if (!pattern || pattern === 'none') return '';
+  const y = String(now.getFullYear());
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  switch (pattern) {
+    case 'YYYY': return y;
+    case 'YYYYMM': return `${y}${m}`;
+    case 'YYYYMMDD': return `${y}${m}${d}`;
+    default: return '';
+  }
+};
+
+const formatNo = (rule: ServerRule, seq: number, now: Date): string => {
+  const seqStr = String(seq).padStart(Math.max(1, rule.seqLength), '0');
+  const dp = datePart(rule.datePattern, now);
+  if (!dp) return `${rule.prefix}${rule.separator}${seqStr}`;
+  return `${rule.prefix}${rule.separator}${dp}${rule.separator}${seqStr}`;
+};
+
+/**
+ * D1 原子取号：numbering_rules 内 current_seq 自增并返回格式化单号。
+ * 规则缺失 → 用内置默认建一行（序号从 1 起）；docType 未登记或 DB 异常 → 返回 null。
+ */
+export async function nextDocNo(db: any, orgId: string, docType: string): Promise<string | null> {
+  try {
+    if (!db || !orgId || !DEFAULT_RULES[docType]) return null;
+    const now = new Date();
+    const nowIso = now.toISOString().replace(/\.\d{3}Z$/, '');
+    // V3.68.0 立项③：多组织复合键定位（orgId::docType），org_id 列同时入 WHERE 双保险
+    const key = ruleKey(orgId, docType);
+    const row: any = await db
+      .prepare(`SELECT id, prefix, separator, date_pattern, seq_length FROM numbering_rules WHERE id = ? AND org_id = ?`)
+      .bind(key, orgId)
+      .first()
+      .catch(() => null);
+
+    let rule: ServerRule;
+    let seq: number;
+    if (row) {
+      // 命中既有规则：数据库内原子自增（RETURNING 消除「读→算→写」竞态窗口）
+      rule = {
+        prefix: row.prefix || DEFAULT_RULES[docType].prefix,
+        separator: row.separator ?? '-',
+        datePattern: (row.date_pattern || DEFAULT_RULES[docType].datePattern) as ServerRule['datePattern'],
+        seqLength: Number(row.seq_length) > 0 ? Number(row.seq_length) : DEFAULT_RULES[docType].seqLength,
+      };
+      const inc: any = await db
+        .prepare(`UPDATE numbering_rules SET current_seq = current_seq + 1, updated_at = ? WHERE id = ? AND org_id = ? RETURNING current_seq`)
+        .bind(nowIso, key, orgId)
+        .first();
+      seq = Number(inc?.current_seq ?? 1);
+    } else {
+      // 空库首次：内置默认建行（序号从 1 起，与前端 seed currentSeq=0 下一号=1 对齐）
+      const d = DEFAULT_RULES[docType];
+      await db
+        .prepare(
+          `INSERT INTO numbering_rules (id, org_id, doc_type, prefix, separator, date_pattern, seq_length, current_seq, label, created_at, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)`
+        )
+        .bind(key, orgId, docType, d.prefix, d.separator, d.datePattern, d.seqLength, d.label || '', nowIso, nowIso)
+        .run();
+      rule = d;
+      seq = 1;
+    }
+    return formatNo(rule, seq, now);
+  } catch {
+    return null; // 取号失败绝不阻断建单主流程（端点回退必填校验）
+  }
+}

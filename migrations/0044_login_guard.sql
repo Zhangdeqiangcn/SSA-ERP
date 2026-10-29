@@ -1,14 +1,17 @@
-U2FsdGVkX19TWybNcTus1PSAXkRhxSZyt5xBxjG/jnsNT9uGaH70ASdk6qMA1D0T
-rCcUrnytSNMG/ddYKADZtvVTECJ/RaT+Mf/lZykoWu2qk0+Fl5mNxmHCEwZgkHbD
-pZtT0lAcJ3dYjXp/U6/3kaQoaDkUF2v0tD7RHen3h66y9ts8eUM2f7aTKHflAuHH
-G7HcPnWj6OeJopsaju0CoXPjSRWvp0mo4CtcTl/5B2GZBGEP1WxLqs1yRdAh9UKA
-sQCN0xhjJhKo7fpbAGK+N1uGFBm/zfacxciFQ166MTr0CSq58B71PFePCJBuEqa/
-1iNihnYYrnFF/Q/tMKSeLdylpmXobT2FQm+gfiK2LSOV/x17ZZtKlVBc2k08FsoL
-LPzGzIh/xHjZluB+lYL/S0p90cNP0c7WJDPAuauzCAbMFBjGk996g7UQ0rEVemwH
-W9v05/MsqR/E+NOoPxFWXd3Qr1LVzlMgrcY4a1LpBcWyDcWQyvMFHSrCHcGZgInj
-IhMOCdp4Y0feqRtadiG8O+VYUmnDDWMIH5g48IlvC7pkQFHVnw0wt+b22G1xpUp1
-iRoZnEn9/7T9R+zZsmSOdghAr4i0h/7LLyp8rYSQ5hxlVtA6l8zrm0HATM+jZB60
-W8MZ1c3S7MVYrxgeLgXc8aFqMR9h0rYZ+aH4hsem3JQLXJMdnm2F+d1bQPWJcjMk
-2VblCexoI6AEG+T+vxxTtus7q7rw0TdAUlmqDSMvbiLJB5LfutdHsSagti1/Nvt4
-2LI2+x3axvWboMpLiEwPvnnCCGKtOcJ85y9+Q8A8iajZU6JcwOLfXkl0YCjdn3cO
-aWRPQPvSe5WqFQbl4p+tNV2UW89X5mJbnC3Nv7BTpZ8=
+-- 0044：登录失败限流（评测发现 H-05：登录接口无失败次数限制，可被口令爆破）
+-- 计数维度 = 用户名 + 来源地址；连续失败达阈值后锁定时长递增。
+CREATE TABLE IF NOT EXISTS login_attempts (
+  id           TEXT PRIMARY KEY,
+  subject_key  TEXT NOT NULL,
+  username     TEXT,
+  fail_count   INTEGER NOT NULL DEFAULT 0,
+  first_fail_at TEXT,
+  last_fail_at  TEXT,
+  locked_until  TEXT
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_login_attempts_subject
+  ON login_attempts(subject_key);
+
+CREATE INDEX IF NOT EXISTS idx_login_attempts_locked
+  ON login_attempts(locked_until);

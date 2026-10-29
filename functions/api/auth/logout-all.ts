@@ -1,40 +1,45 @@
-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
+// POST /api/auth/logout-all — 下线全部设备（按用户清空会话）
+// V2.98.0（评测 M-09）：原先登出只删除当前这一枚令牌（logout.ts），
+//   同一账号在手机/其它电脑上的会话依然有效，管理员无法把离职员工真正踢下线。
+// 规则：
+//   - 不传 userId → 清空本人全部会话（含当前设备，前端随后跳登录页）
+//   - 传 userId   → 仅管理员/超管可用，且目标账号必须在同一组织内
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { isRlsPrivileged } from '../../_shared/rls';
+import { errorResponse } from '../../_shared/errors';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  let body: any = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+
+  const targetId = body.userId ? String(body.userId) : user.id;
+
+  if (targetId !== user.id) {
+    if (!isRlsPrivileged(user.role)) {
+      return json({ error: '只有管理员可以下线其他账号' }, 403);
+    }
+    // 越权护栏：管理员只能操作本组织账号，不能跨组织清会话
+    const target = await env.DB.prepare('SELECT id FROM users WHERE id = ? AND org_id = ?')
+      .bind(targetId, user.org_id)
+      .first();
+    if (!target) return json({ error: '目标账号不存在或不在本组织' }, 404);
+  }
+
+  try {
+    const res = await env.DB.prepare('DELETE FROM sessions WHERE user_id = ?')
+      .bind(targetId)
+      .run();
+    // V3.91.0：clearAuth 清除当前设备 HttpOnly Cookie（被下线者自然随会话删除失效，此处清本机）
+    return json({ ok: true, revoked: res?.meta?.changes ?? 0, clearAuth: true });
+  } catch (e: any) {
+    return errorResponse(e, '下线设备');
+  }
+}

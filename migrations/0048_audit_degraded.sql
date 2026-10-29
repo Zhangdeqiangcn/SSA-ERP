@@ -1,41 +1,34 @@
-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
+-- 迁移 0048：审计写入降级留痕表
+-- 来源：独立安全评测（V2.97.0 基线）发现 L-05「审计写入失败无降级记录」
+-- 整改版本：V3.3.0
+--
+-- 背景与设计取舍：
+--   原状：所有审计写入都是 `try { INSERT } catch { /* 静默丢弃 */ }`——
+--     审计失败时既不报错、不留痕、也不告警。后果有两层：
+--       ① 出问题时无人知晓：管理员看到的「审计日志」是完整的，因为缺的那条根本不存在；
+--       ② 安全事件（越权尝试、批量删除）发生后，恰恰在最需要证据的时候没有证据。
+--   本表用于承载「审计写入失败」这一事件本身，即「关于失败记录的记录」：
+--     写入失败时，把 谁 / 哪个实体 / 什么动作 / 原始摘要 / 失败原因 记到这里，
+--     从而把「静默丢失」变成「可发现、可追溯、可在管理端看到」。
+--
+--   为什么不用同一张 audit_logs 表：一次 INSERT 失败通常意味着该表或该批次本身有问题
+--     （约束冲突、列缺失、库临时不可用），再往同一张表写第二条大概率同样失败；
+--     用独立的表 + 独立的 try/catch，才能做到「主审计失败但降级留痕仍可能成功」。
+--
+--   为什么降级记录本身失败也不再向上抛：审计绝不能阻断业务主流程。因此降级链条为
+--     ① 结构化错误日志（console.error，平台侧可检索，零依赖，永远能执行）
+--     ② 本表留痕（尽力而为，独立 try/catch）
+--     ③ 永不抛出，业务请求照常返回成功。
+CREATE TABLE IF NOT EXISTS audit_degraded (
+  id TEXT PRIMARY KEY,
+  org_id TEXT,
+  user_id TEXT,
+  user_name TEXT,
+  entity TEXT,
+  action TEXT,
+  summary TEXT,
+  error TEXT,
+  created_at TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_degraded_org_time ON audit_degraded(org_id, created_at DESC);

@@ -1,47 +1,64 @@
-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
+// 仓储执行层 · 波次更新（PUT /api/fulfillment/:id）：状态流转 / 备注
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'fulfillment', 'update', env.DB, user.org_id);
+  if (_g) return _g;
+
+  const id = context.params.id;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const rls = rlsCondition(user, 'waves');
+  let where = 'id = ? AND org_id = ?';
+  const params: any[] = [id, user.org_id];
+  if (rls.clause !== '1=1') {
+    where += ' AND ' + rls.clause;
+    params.push(...rls.params);
+  }
+  const existing = await env.DB.prepare(`SELECT * FROM waves WHERE ${where}`).bind(...params).first();
+  if (!existing) return json({ error: '波次不存在' }, 404);
+
+  const sets: string[] = [];
+  const binds: any[] = [];
+  if (body.status) {
+    sets.push('status = ?');
+    binds.push(body.status);
+  }
+  if (body.remark !== undefined) {
+    sets.push('remark = ?');
+    binds.push(body.remark);
+  }
+  if (sets.length === 0) return json({ error: '无可更新字段' }, 400);
+  sets.push('updated_at = ?');
+  binds.push(new Date().toISOString());
+
+  try {
+    await env.DB.prepare(`UPDATE waves SET ${sets.join(', ')} WHERE ${where}`).bind(...binds, ...params).run();
+  } catch (e: any) {
+    return errorResponse(e, '更新波次');
+  }
+
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'fulfillment',
+    'update',
+    `更新波次 ${existing.wave_no} → ${body.status ?? existing.status}`
+  );
+  const updated = await env.DB.prepare(`SELECT * FROM waves WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  return json({ id: updated.id, waveNo: updated.wave_no, status: updated.status, remark: updated.remark });
+}

@@ -1,20 +1,30 @@
-U2FsdGVkX18Le/QtAtszxylxZvAPYJ9ngNgOBRfyquM5jWi62/iQU6RCILRwnYEY
-6SUBGdqYfqfMggIOtM7jKrym++JwkOLqM8a9jaXP+73fjIJ+CUB2zc+AZo4uJcjK
-ClMMTI+SqbiVxuej5e0w7hCVlnKqYkjtzMfb6EUrtn/FXpIM/B2miCD/oFAInXNh
-b1TMtkXTmfGQ5ufZ4JjQksQZVl9nqtnIrsHk8yneqiKtKujtdmrbVWypBFR+6PbH
-DGb/x8gthvQP+4492iCQdwTQFAyu1nJ60Vvenp7ecYi1UzMDfULv9EwGYOLpG+W2
-x7H84wlyCzcYdW3VuTcEb43gjsLlKeMrYe+srmQMZK+WJcKsq2J1RpEU8dJiM9H6
-qv1EBiKi3frzXTzq8oOxktqEhKZpI+JENyR886pqniY8401owJ4g12Y0IJGYblac
-mY8qAXVQpqapyE4KlLaUMikstv6cJL4P+Zo4M6CZyikBiQYFXHxl5mMbw5Nz1Baa
-eeDCZaCSVNkYpxbtCvD35I34fcu8Jp6d9Ur0cFRM+MLtcF9X9ldYs4f1QupnhPTt
-Pl+FsdRX+6/ovJ+GB5OecowAxzQ6mnFe8DrtKYC8vzjgpR27gFjfvVK3XyczdUQL
-Hiu0ECfHSuTBNq2VYjBKt8/PslFhs6ib/qM6WDTSandU8DU7Qnk/RmmTfdd88iS0
-J9/tWdIFB9Y+0vSOAfWsdJNJl0tWL0ownNwEjqZgokyh5uaCuna5RgSZ44k2BFVl
-NXIS4pVTJjTMJ/5MIoutZhh7OBilQn3ziDfVitMlvpWUi5gi6z1+WsklHW0z0KHw
-+Wn2JCXktrNW+yJENUyv1hM8EQJJ9kkHu33aLrTYob24irzejklw4HSS+GdnZ/4P
-YtlREbiDt45ofPQkHFcWKX2lDcUA4oKgRbsmBxtoD07WmA/fZrCV9sUT6mpX45lm
-ZH3oUcMcPl1ev945b+buwzgEsyKZ0B2wbZw2/b+b2ZNddPdKDN4eTy5gFFnYiUwS
-33jUGfBfRwyxDG4Fs1HnPOdtQnBQ+Dr/KM3CHZ+MMRWlCsl87AvSf+/c5vZiNwxY
-3zaTltX7k2bMjoxjKSC4VycnnnbiLyNePI+Q0sWgXYwfsWHfdOp7V0oE2aGmo/NK
-lIkl0t9jp8GLYL7zAD/sjmrP7dsY/f27l1h/I/TRson1C9rIqAnYZZllVTL+j7Do
-tdNan5g2UVoFNpOd4kwlJQ==
+import { ChannelAdapter, ChannelPlatform } from './types';
+import { DouyinAdapter } from './douyin';
+import { PinduoduoAdapter } from './pinduoduo';
+
+// 适配器工厂注册表（新增平台只需在此登记 + 实现 Adapter）
+const REGISTRY: Record<string, () => ChannelAdapter> = {
+  douyin: () => new DouyinAdapter(),
+  pinduoduo: () => new PinduoduoAdapter(),
+};
+
+export const CHANNEL_LABELS: Record<string, string> = {
+  douyin: '抖音电商',
+  pinduoduo: '拼多多',
+  taobao: '淘宝/天猫',
+  jd: '京东',
+  kuaishou: '快手小店',
+  manual: '手工录入',
+};
+
+export function getChannelAdapter(platform: string): ChannelAdapter {
+  const factory = REGISTRY[platform];
+  if (!factory) throw new Error(`未支持的渠道平台: ${platform}`);
+  return factory();
+}
+
+export function listSupportedPlatforms(): string[] {
+  return Object.keys(REGISTRY);
+}
+
+export * from './types';

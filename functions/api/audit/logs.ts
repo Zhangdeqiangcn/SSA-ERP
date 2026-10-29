@@ -1,68 +1,60 @@
-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
+// POST /api/audit/logs — 写入审计日志（含 diff）
+//
+// V3.3.0（评测 L-05 整改）：本接口原先自行拼 INSERT + 自行 try/catch，
+//   失败后既无降级记录也无告警（且失败会让整个请求 500）。现统一走
+//   `_shared/auditLog.writeAudit`：审计失败时降级留痕（降级表 + 结构化日志），
+//   接口本身不再因审计问题失败，并通过 `degraded` 字段如实告知调用方。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+import { onRequestGet as listAuditLogs } from './index';
+
+// GET /api/audit/logs — 读取审计日志（V3.15.10 补齐）
+//
+// 背景：本文件历史上只有 POST（写入）处理器，没有 GET。而前端两处都在用 GET 拉数据：
+//   · src/pages/Settings/ServerAuditTab.tsx:60 → GET /api/audit/logs?pageSize=200
+//   · src/stores/auditStore.ts:107           → POST /api/audit/logs（写入，正常工作）
+// 缺少 GET 处理器时，请求会落到 Pages 的静态资源回退，返回的是**首页 HTML 而不是 JSON**，
+// 前端 `resp.json()` 解析失败并被 try/catch 静默吞掉 —— 表现就是「设置 → 服务端审计日志」
+// 页面永远显示本地审计、看不到服务端真实落库的记录，且不报任何错。
+//
+// 修法：直接复用 /api/audit 的 GET 实现（同一套组织隔离 + 按角色收敛可见范围），
+// 不另写一份查询逻辑，避免两处口径日后分叉。
+export { listAuditLogs as onRequestGet };
+
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+
+  const { entity, entityId, action, summary, diff } = body;
+  if (!action || !entity) return json({ error: '缺少 action 或 entity' }, 400);
+
+  const res = await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity,
+    action,
+    entityId: entityId || null,
+    summary: summary || '',
+    diff,
+  });
+
+  // 只保留最近 10000 条
+  // 清理失败仅影响「历史条数上限」，与本次审计是否写入成功无关，故单独兜住，
+  // 不让它反过来把一次成功的审计写变成接口失败。
+  try {
+    await db.prepare(
+      `DELETE FROM audit_logs WHERE rowid NOT IN (SELECT rowid FROM audit_logs WHERE org_id = ? ORDER BY created_at DESC LIMIT 10000)`
+    ).bind(user.org_id).run();
+  } catch {
+    /* 清理失败可忽略：下一次写入会再尝试 */
+  }
+
+  // 返回契约（V3.3.0 保持兼容）：`success` 表示「本次审计请求已处理完毕」，
+  // `id` 为主审计记录 id（走降级通道时为 null），`degraded` 如实告知是否走了降级留痕。
+  // 刻意保留 success:true —— 审计失败不再让本接口失败（业务连续性优先），
+  // 但绝不再「假装写了」：id 为 null 与 degraded:true 同时给出，调用方可据此告警。
+  return json({ success: true, id: res.id, degraded: res.degraded });
+}

@@ -1,31 +1,28 @@
-U2FsdGVkX1+j5IKMYVyrb2ZpPVIACi2jgDwCi9ZLGC3p47jrBAN3519EosyZoKPw
-cQgCO9c4dKRP72Quid5Ja3xQg6QFgncYKdN5wxVtnNI9lILbmAfxzujjhbhlVJun
-Nukf2ivsI7B5tdAhneKRaQ0NLttW2YgVq6pVIzN8G4DoJnmCEhcxIrw/EouDD9ri
-YyZlAMMvYmX4/R7lJMu2FDwkTm1w6kvbxCAQpBeG9PGyNK5CFB3eUCIn29KuVz0w
-JLpiB+ThBF4iS2PX4THJtp+uvAGSaz5wEfKMsuPrBsKI/+o+PPxS3PddlP8UkWw0
-Rpfo02IgHM9GDMitElncjrOi2GgPeH1Qd9kmwjFt8Vnd6dsZ9mdsRviwv/BzWhIi
-BXaBENHxREi3Q6Y+VsGmgi3ANVgChBsIiCDizraOdXq5+piOtyUSKxqZ+Eckgw0k
-ZS7Q3D0oxNCmYsZHzhDw7cPIXFWXmf/gybdnNOFu687F538D4gAawI+CUR1XnxT9
-j3YliL1oNj3oLk8jRQZowWsMyZDtZjqJ8wB1jGXdsppVZ0Jm/VJtnq+HzgnrlxKm
-7wddQktXg7+GB+HYhPGS6X4eSaaI9xtqC0nujGeqn4EX76FFQcubF046rQyAPlWW
-2MGAgq5o2ZfzeggGs1yF9YUg7mXw5kuBq33JmS4I/jm9wJuqFueOzVsFUph8Tdr5
-X2f2URxc+3lWb8LHWB/Ot5Hynw2Fr1mIaEfWmWhl7hSuZdqfGt6XnkFIk4xN7Ma0
-1tioZ0WXDIZWp1SficMCtvl6EBz2LLK9mNMRvO+VY273iX4diWbj7sCGUI+yIEgE
-VeqArVDcJUuFvzzWJym1ZWLa6NBeXD/5+Oiyo0Pszbof+GEuyzoEFO7ZJhYk6UEP
-wGD5fc60wK48DhK8Vlkg8zq5NXS6xugXdTKoxkjGiBEnVzGJVhkR5wQJyeu+6KLj
-qBE+7rsg6kdAqwiSHzdk9+JioZ/FpuinRlR4jQUjV2t/zJdnAJaOIth7w2e/7vsW
-75Xo0hEWWhxQKJVTaYXFW/7Ht/37ZYW29CCUflwRvaPiKUR+iyc7bqxnAe4L1c0i
-WkeCufBDNuOTcvLGNm0wh2o9ds7jwbD+uUqct78bfEpH1ff7TC4M6OXVa1SYJFCc
-O2OUKni6lb+ho8Ed0cHOVThAN4rdYKME2uM07UVFyYQvh5B3FduOaoW+H3wW3zuM
-MbXEEf78XUAymBjaHj3TC8vHJuUD3YoBUG9RDuWNS3wr/RF0yQCpAuCMjNumbFOa
-PhiRR0aL92N/cnA6RNqo+8oPOeYDnlh/Qa6ddWgE3CnT09VgC2Xr2D1XFc5rATRb
-53FWS2GZYSWe1xyE9qYODSo23zBBI+L6CR7CUXvxGBy9wJpeDqTLmVcajxHR9Zrg
-nhntLXrYb8hZuwnYRUjVGQTuZ4M1MpMlo6+5q+OBvw+VqrOWougFV+4G0xDhAnX6
-8n2VUKHI/WhUZc4iyc8r9asgolMCT867p2Q4SuPXGO5zsvK0lSPUuWlOPnh86YO6
-Xn48QE9HCmmQHI/4gnDDQMZPy7DnvhuRn5LYP/cq/SMfmFpqPfE6tXrYwHMX2NoI
-aD98gtLoASlkVwt5zM08p821TytCyx2WHo9JawtcLyrxucAn4v1jODx2kek+7825
-Gu8qhzS06cJS6GuvUDvhVVuQdPyja+lwppHWHN9RSH3QiQT4gIpvxx+3uPZmRUfE
-L+VyHb+Y+R+1NZymP6hWVjyMwSk0eNIjEhNHrqwrrEfn7NQoRAY3UnVOsZk2kRMN
-/hLq1tXIqustX/3hO6Z62bi++k5BFA916aNyF7bUfixLnBZOOoLzLY5xRAEgseo+
-lU6PNVPXwZ8vt4V0RkOx7anmWj98oQUWAp2A6eRH0BlLLXa7jPNSyH7MVDveglry
-8/p+aydKpCIbQKHLhOLBGQ==
+// 工艺路线单条端点（C1 生产域 · 父子表）
+// GET    /api/process-routes/:id   读取（含全部工序）
+// PUT    /api/process-routes/:id   更新（不传 operations = 工序保持原样；传 [] = 清空）
+// DELETE /api/process-routes/:id   删除（连带删除工序）
+//
+// ── ★ 「不传」与「传空数组」必须区分（见 _shared/parentChild.ts 不变量 ③）──
+// 工艺路线有一个高频操作**只改状态不改工序**：
+//   「版本升版 / 作废」→ 只 PUT `{ status: 'obsolete' }`。
+// 若把「不传 operations」当成清空，一次作废操作就把这条路线**全部工序删光**，
+// 而 PUT 返回 200、界面提示保存成功；等下次开工单选这条路线时，
+// 才看到它是空的 —— 那时已经无法判断是被删的还是本来就没配。
+//
+// ★ 反向的「传 [] = 清空」同样是合法操作：
+//   整条工艺路线推倒重来时，前端会传 `operations: []` 再逐条加新的。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PROCESS_ROUTE_PC } from '../../_shared/productionConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PROCESS_ROUTE_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(PROCESS_ROUTE_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PROCESS_ROUTE_PC, context);
+}

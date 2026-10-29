@@ -1,23 +1,23 @@
-U2FsdGVkX18ibWadxKY5ywZO7EWy9kl7gRqrX4cgLTj07tcfXmhDVi/IHMPxv+oF
-yQ3PMu2/jiNuwKveZIrTQljgwxPAJ5LhVhB7G6hnhP7QhI5Z0sF/X/hOxidttp8d
-azauD/Evx29m6b21Mev0HNoi1J+ucFOKVEtt8B3WODh8KlAlfhxmFNHM1GPWr0zD
-OwELzcQBrvdRXSyE3Sub12k10YjhRXLDNNzx6RTaFCRENft1cXocYuErYvLRKN1u
-NaM00Smm9UtrxQYzTLCotZ77A48F0oYWwPnW2945eH7eKWO/3VyOPfuF/bICnCSL
-orrmM2LwANWiPirIdOA3gvnCJHLn4wskFOgD2J+/WlKSGtMgZDstXxwYISL1AkC8
-hbHSlh/sV5l4NYyBrekOxeZACZM8vgq2Yk7ZLhYbsy0yGFv5RfuV64wSkpXFKvnm
-8BU9zN6MH6AUTpKLd6jxz0z+Ow0m4jtqvExSpmxwd8KHak+3wr0e9NDHyoFu06WE
-E6Uwq8Mfxj/2e+tH4ZT3Hh+epPnsXBL8SYRFlRTmhEnHFtNZ29E4h1T4EHKrkKi9
-z2c6IOdigoKkZ1bY3me54okOWp77OFnzry/qgexlNpEqsdf+wvYCW4ItSCJvpURD
-pVhxrc/rVk3eBFdrNGwJ7qkKRG6dpOvQa7KAJPaxvVeKRBYVpmjSb0a6lldPClcz
-c11m8+CWhPt08sFrvNLihYbWQgCBFyZ3fnjzQVcsEXQZYHj1/vw+8O5i1hGsqOIq
-Oro7cR5Qo71zFhUyk56IySCMEtoz04Ei0jbGA+mvISmP9t6ClE6q0KSt0JvG7y6I
-JNxvvfLiYw4E8/YZhqZ+uvgOBAmT7MmeLCQ9YkMMM1002JmWW5V2y/WSTLcbWyfq
-7SfRgCHl6UdZYIGUHkj93H78F9RGT9Whm5kk+tu1Pl3IHoHDL250aekxBl8kpzdh
-fDb9s6GKVqXypdRAnfQp4lFj7NWeYD4Lu10vLheumXQFtJsINS91S68enNLNpf9q
-Ia9LgwBdmtaE8r0YNk+4omHU1fI868JGpyZ/BnKrKzUu4ivGC/FCQS3dgbQWrK1O
-mE8yGW7DgIhM+I6Te6op58XwPfoAaK+IHMpxu7w21eB/4ZaPYwPn3O2ECbbepQ1i
-N5Qv/2uySSF+ojKGk1fZ13D0X+L3AAOyH8scCY1FdhhVyd4fzYPqGa9oijlCrii2
-fPMgJQYGL63kgdNPdIfYROGavMRPojZ5woDNFSi/cPiD/wVL0unpXu3mzdTERn2q
-aiP+DOqmr8o6BmVPlrhhN3wMe6aqwB+w+rrYjPEw6l+poGneyl3TP4owk8kPo52s
-a4qiJkebjHX0cWvI7KIxi+Pc4KZ0m3dXAQYeAzzbbeCOBUu3XZra8jwZistWl0DD
-otpNrs9r1gRR5ZXbYI5e7ohWDoH2WU9MB/MRu6ZagZw=
+// 意向客户单条端点
+// GET    /api/sales-prospects/:id   读取（含跟进记录）
+// PUT    /api/sales-prospects/:id   更新（不传 followupRecords = 跟进记录保持原样；传 [] = 清空）
+// DELETE /api/sales-prospects/:id   删除（连带删除跟进记录）
+//
+// 「不传」与「传空数组」必须区分（见 _shared/parentChild.ts 文件头不变量 ③）：
+// 最典型的操作是「把状态从 negotiating 改成 won」，
+// 若把「不传 followupRecords」当成清空，一次改状态就会删掉全部跟进历史 ——
+// 而跟进历史正是判断这个客户为什么能成交的唯一依据。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PROSPECT_PC } from '../../_shared/salesConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PROSPECT_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(PROSPECT_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PROSPECT_PC, context);
+}

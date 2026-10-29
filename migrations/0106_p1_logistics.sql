@@ -1,69 +1,61 @@
-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
+-- V3.92.0 P1-6 物流面单（电子面单 + 物流轨迹回写）
+-- 设计口径（对齐 0100/0101/0102 范式）：
+--   · org_id 隔离 + created_at/updated_at/created_by/updated_by/created_by_name/updated_by_name 审计列；
+--   · 全部 CREATE TABLE IF NOT EXISTS + CREATE INDEX IF NOT EXISTS，可重复执行；
+--   · 不新增源数据没有的唯一约束（按 org_id + 业务键 非唯一索引）。
+-- 关联：waybills.order_hub_id → order_hub.id；waybills.pack_no → pack_records.pack_no；
+--       logistics_tracks.waybill_no → waybills.waybill_no（承运商运单号作业务锚点）。
+
+-- ──────────────────────────────────────────────
+-- 电子面单（waybills）：向承运商申请到的运单
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS waybills (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  carrier TEXT,                 -- douyin / pinduoduo / kdniao / ...
+  waybill_no TEXT,              -- 承运商回传的运单号
+  order_hub_id TEXT,
+  pack_no TEXT,
+  wave_id TEXT,
+  receiver_name TEXT,
+  receiver_phone TEXT,
+  receiver_address TEXT,
+  province TEXT,
+  city TEXT,
+  district TEXT,
+  weight REAL,
+  label_url TEXT,              -- 面单 PDF/HTML 地址
+  status TEXT,                 -- created/printed/dispatched/intransit/delivered/signed/exception
+  mock INTEGER DEFAULT 0,      -- 1=Mock 生成（未接真实承运商），0=真实承运商回传
+  raw_payload TEXT,            -- 承运商原始报文
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_waybills_org ON waybills(org_id);
+CREATE INDEX IF NOT EXISTS idx_waybills_carrier ON waybills(org_id, carrier);
+CREATE INDEX IF NOT EXISTS idx_waybills_order ON waybills(org_id, order_hub_id);
+
+-- ──────────────────────────────────────────────
+-- 物流轨迹（logistics_tracks）：承运商回传的轨迹流水
+-- ──────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS logistics_tracks (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  carrier TEXT,
+  waybill_no TEXT,
+  event_time TEXT,             -- 轨迹发生时间
+  status TEXT,                 -- 归一化状态：collected/dispatched/intransit/delivered/signed/exception
+  location TEXT,
+  description TEXT,
+  raw TEXT,                    -- 承运商原始轨迹节点
+  created_at TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_tracks_org ON logistics_tracks(org_id);
+CREATE INDEX IF NOT EXISTS idx_tracks_wb ON logistics_tracks(org_id, waybill_no);
+CREATE INDEX IF NOT EXISTS idx_tracks_time ON logistics_tracks(org_id, event_time);
+-- 同一运单 + 时间 + 地点 视为同一物理节点：承运商重复推送时幂等（INSERT OR IGNORE）
+CREATE UNIQUE INDEX IF NOT EXISTS idx_tracks_uniq ON logistics_tracks(org_id, waybill_no, event_time, status, location);

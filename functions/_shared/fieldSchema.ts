@@ -1,271 +1,556 @@
-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
+/**
+ * 字段类型表（由数据库真实结构自动生成，请勿手工修改）
+ *
+ * 生成方式：scripts/_gen_schema.py 读取库结构 → scripts/_emit_schema.mjs 生成本文件。
+ * 判定规则：声明类型为数值型 → number；列名含 _at/_date/date/expiry → date。
+ * 文本长度不在此登记，由 validate.ts 按统一上限处理。
+ * 用途：写接口入参校验（数值传文本 / 非法日期 / 超长字段 三类脏数据）
+ */
+export type FieldKind = 'number' | 'date';
+
+/** 表 -> 列名 -> 字段类型 */
+export const FIELD_SCHEMA: Record<string, Record<string, FieldKind>> = {
+  app_state_metrics: {
+    bytes: 'number',
+    peak_bytes: 'number',
+    writes: 'number',
+  },
+  approval_flow_nodes: {
+    node_order: 'number',
+    optional: 'number',
+    seq: 'number',
+    timeout: 'number',
+  },
+  approval_flows: {
+    approved_at: 'date',
+    enabled: 'number',
+  },
+  audit_degraded: {},
+  bi_integrations: {
+    last_sync_at: 'date',
+  },
+  bom_headers: {
+    approved_at: 'date',
+    effective_date: 'date',
+    expiry_date: 'date',
+    is_alternate: 'number',
+    priority: 'number',
+    total_cost: 'number',
+    usage_probability: 'number',
+  },
+  bom_items: {
+    is_critical: 'number',
+    labor_cost: 'number',
+    lead_time: 'number',
+    level: 'number',
+    process_cost: 'number',
+    quantity: 'number',
+    scrap_rate: 'number',
+    sequence: 'number',
+    total_cost: 'number',
+    unit_cost: 'number',
+  },
+  cash_accounts: {
+    current_balance: 'number',
+    opening_balance: 'number',
+  },
+  cash_flows: {
+    amount: 'number',
+    flow_date: 'date',
+  },
+  check_tasks: {
+    blind_mode: 'number',
+    difference_amount: 'number',
+    end_date: 'date',
+    start_date: 'date',
+  },
+  copa_analysis: {
+    cogs: 'number',
+    revenue: 'number',
+  },
+  customers: {
+    credit_limit: 'number',
+    default_tax_rate: 'number',
+    settlement_term_days: 'number',
+    used_credit: 'number',
+  },
+  esg_reports: {
+    target: 'number',
+    value: 'number',
+  },
+  fin_account_entries: {
+    amount: 'number',
+    date: 'date',
+  },
+  fin_chart_of_accounts: {
+    balance: 'number',
+    is_leaf: 'number',
+  },
+  fin_invoices: {
+    amount: 'number',
+    exchange_rate: 'number',
+    invoice_date: 'date',
+    received_date: 'date',
+    tax_amount: 'number',
+    tax_rate: 'number',
+    total_amount: 'number',
+    verified_at: 'date',
+    voucher_generated: 'number',
+  },
+  fin_payment_plan_installments: {
+    amount: 'number',
+    due_date: 'date',
+    paid_date: 'date',
+    seq: 'number',
+  },
+  fin_payment_plans: {
+    advance_amount: 'number',
+    advance_occupied: 'number',
+    due_date: 'date',
+    exchange_rate: 'number',
+    paid_amount: 'number',
+    paid_date: 'date',
+    total_amount: 'number',
+    voucher_generated: 'number',
+  },
+  fin_project_accounts: {
+    gross_margin: 'number',
+    gross_profit: 'number',
+    revenue: 'number',
+    total_actual: 'number',
+    total_budget: 'number',
+    total_variance: 'number',
+  },
+  fin_project_cost_items: {
+    actual_amount: 'number',
+    budget_amount: 'number',
+    seq: 'number',
+    variance: 'number',
+    variance_percent: 'number',
+  },
+  fin_tax_records: {
+    actual_payable: 'number',
+    deducted_amount: 'number',
+    paid_amount: 'number',
+    payment_date: 'date',
+    tax_amount: 'number',
+    tax_rate: 'number',
+    taxable_amount: 'number',
+  },
+  finished_goods_inbounds: {
+    actual_qty: 'number',
+    inbound_date: 'date',
+    planned_qty: 'number',
+    qualified_qty: 'number',
+    rejected_qty: 'number',
+  },
+  fx_rates: {
+    rate: 'number',
+  },
+  inbound_order_items: {
+    actual_quantity: 'number',
+    amount: 'number',
+    expected_quantity: 'number',
+    expiry_date: 'date',
+    production_date: 'date',
+    unit_price: 'number',
+  },
+  inbound_orders: {
+    cost_posted: 'number',
+    inbound_date: 'date',
+    inventory_posted: 'number',
+    subcontract_material_cost: 'number',
+    total_cost: 'number',
+    version: 'number',
+  },
+  inventory_adjustment_items: {
+    actual_qty: 'number',
+    book_qty: 'number',
+    delta_qty: 'number',
+  },
+  inventory_adjustments: {
+    date: 'date',
+    total_delta_qty: 'number',
+  },
+  inventory_alerts: {
+    current_quantity: 'number',
+    threshold: 'number',
+  },
+  inventory_records: {
+    available_quantity: 'number',
+    frozen_quantity: 'number',
+    last_inbound_date: 'date',
+    last_outbound_date: 'date',
+    quantity: 'number',
+  },
+  job_runs: {
+    attempt: 'number',
+    finished_at: 'date',
+    started_at: 'date',
+  },
+  job_ticks: {
+    duration_ms: 'number',
+    failed: 'number',
+    finished_at: 'date',
+    processed: 'number',
+    sent: 'number',
+    started_at: 'date',
+  },
+  login_attempts: {
+    fail_count: 'number',
+    first_fail_at: 'date',
+    last_fail_at: 'date',
+  },
+  material_substitutes: {
+    conversion_ratio: 'number',
+    priority: 'number',
+  },
+  materials: {
+    batch_managed: 'number',
+    current_stock: 'number',
+    cycle_time: 'number',
+    gr_processing_days: 'number',
+    lead_time: 'number',
+    lot_size: 'number',
+    max_stock: 'number',
+    min_delivery_qty: 'number',
+    min_order_qty: 'number',
+    min_stock: 'number',
+    moq: 'number',
+    moving_avg_price: 'number',
+    mpq: 'number',
+    planned_delivery_days: 'number',
+    price: 'number',
+    reorder_point: 'number',
+    safety_stock: 'number',
+    scrap_rate: 'number',
+    serialized: 'number',
+    shelf_life_days: 'number',
+    shelf_life_warning_days: 'number',
+    standard_price: 'number',
+    stock_value: 'number',
+    unit_conversion: 'number',
+  },
+  mes_connections: {
+    last_sync_at: 'date',
+  },
+  mes_devices: {
+    oee: 'number',
+    reported_at: 'date',
+  },
+  mes_operation_reports: {
+    good_quantity: 'number',
+    reported_at: 'date',
+    scrap_quantity: 'number',
+  },
+  mes_wips: {},
+  mrp_recommendations: {
+    current_stock: 'number',
+    on_order_quantity: 'number',
+    required_quantity: 'number',
+    safety_stock: 'number',
+    suggested_date: 'date',
+    suggested_quantity: 'number',
+  },
+  outbound_order_items: {
+    cost_amount: 'number',
+    quantity: 'number',
+    unit_cost: 'number',
+  },
+  outbound_orders: {
+    cogs_posted: 'number',
+    inventory_posted: 'number',
+    outbound_date: 'date',
+    package_count: 'number',
+    version: 'number',
+    volume: 'number',
+    weight: 'number',
+  },
+  planned_orders: {
+    due_date: 'date',
+    gross_qty: 'number',
+    low_level_code: 'number',
+    net_qty: 'number',
+    on_hand_qty: 'number',
+    on_order_qty: 'number',
+    planned_qty: 'number',
+    run_at: 'date',
+  },
+  print_template_asset_chunks: {
+    chunk_index: 'number',
+  },
+  print_template_assets: {
+    byte_size: 'number',
+  },
+  print_templates: {
+    footer_show_date: 'number',
+    header_show_date: 'number',
+    is_default: 'number',
+    sort_order: 'number',
+  },
+  process_route_operations: {
+    run_time: 'number',
+    seq: 'number',
+    sequence: 'number',
+    setup_time: 'number',
+    wait_time: 'number',
+  },
+  process_routes: {
+    total_lead_time: 'number',
+  },
+  project_exceptions: {
+    reported_at: 'date',
+    resolved_at: 'date',
+    seq: 'number',
+  },
+  project_milestones: {
+    actual_date: 'date',
+    planned_date: 'date',
+    seq: 'number',
+  },
+  projects: {
+    actual_cost: 'number',
+    budget: 'number',
+    contract_amount: 'number',
+    end_date: 'date',
+    progress: 'number',
+    received_amount: 'number',
+    start_date: 'date',
+  },
+  purchase_order_items: {
+    amount: 'number',
+    amount_with_tax: 'number',
+    delivered_quantity: 'number',
+    ordered_quantity: 'number',
+    price_with_tax: 'number',
+    tax_amount: 'number',
+    tax_rate: 'number',
+    unit_price: 'number',
+  },
+  purchase_orders: {
+    actual_delivery_date: 'date',
+    confirmed_at: 'date',
+    credit_amount: 'number',
+    credit_occupied: 'number',
+    credit_released_amount: 'number',
+    delivered_quantity: 'number',
+    exchange_rate: 'number',
+    expected_delivery_date: 'date',
+    grand_total: 'number',
+    order_date: 'date',
+    tax_included: 'number',
+    total_amount: 'number',
+    total_tax_amount: 'number',
+    version: 'number',
+  },
+  purchase_request_items: {
+    delivery_date: 'date',
+    estimated_amount: 'number',
+    estimated_price: 'number',
+    quantity: 'number',
+    seq: 'number',
+  },
+  purchase_requests: {
+    current_step: 'number',
+    expected_date: 'date',
+    total_amount: 'number',
+  },
+  quality_holds: {
+    hold_date: 'date',
+    quantity: 'number',
+    release_date: 'date',
+  },
+  rep_mfg_lines: {
+    daily_capacity: 'number',
+  },
+  rep_mfg_periods: {
+    end_date: 'date',
+    planned_qty: 'number',
+    produced_qty: 'number',
+    scrap_qty: 'number',
+    start_date: 'date',
+  },
+  sales_order_items: {
+    amount: 'number',
+    delivered_quantity: 'number',
+    delivery_date: 'date',
+    quantity: 'number',
+    unit_price: 'number',
+  },
+  sales_orders: {
+    actual_delivery_date: 'date',
+    ar_due_date: 'date',
+    credit_amount: 'number',
+    credit_occupied: 'number',
+    delivered_quantity: 'number',
+    expected_delivery_date: 'date',
+    grand_total: 'number',
+    order_date: 'date',
+    received_amount: 'number',
+    tax_amount: 'number',
+    tax_rate: 'number',
+    total_amount: 'number',
+    version: 'number',
+  },
+  sales_prospect_followups: {
+    date: 'date',
+    seq: 'number',
+  },
+  sales_prospects: {
+    converted_to_customer: 'number',
+    credit_limit: 'number',
+    estimated_value: 'number',
+    next_followup_date: 'date',
+    probability: 'number',
+    used_credit: 'number',
+  },
+  serial_masters: {
+    inbound_date: 'date',
+    outbound_date: 'date',
+  },
+  serial_movements: {
+    date: 'date',
+  },
+  shipment_items: {
+    amount: 'number',
+    order_quantity: 'number',
+    seq: 'number',
+    ship_quantity: 'number',
+    unit_price: 'number',
+  },
+  shipments: {
+    actual_delivery_date: 'date',
+    actual_pickup_date: 'date',
+    estimated_delivery_date: 'date',
+    estimated_pickup_date: 'date',
+    freight: 'number',
+    insurance: 'number',
+    package_count: 'number',
+    total_volume: 'number',
+    total_weight: 'number',
+  },
+  sop_plans: {
+    balance_qty: 'number',
+    demand_forecast: 'number',
+    supply_plan: 'number',
+  },
+  stock_transfer_items: {
+    quantity: 'number',
+  },
+  stock_transfers: {
+    transfer_date: 'date',
+  },
+  subcontract_issue_items: {
+    qty: 'number',
+  },
+  subcontract_orders: {
+    plan_date: 'date',
+    process_fee: 'number',
+    qty: 'number',
+    received_qty: 'number',
+  },
+  three_way_match: {
+    amount_match: 'number',
+    amount_variance: 'number',
+    inbound_amount: 'number',
+    inbound_quantity: 'number',
+    invoice_amount: 'number',
+    invoice_unit_price: 'number',
+    matched_at: 'date',
+    po_amount: 'number',
+    po_quantity: 'number',
+    po_unit_price: 'number',
+    price_match: 'number',
+    price_variance: 'number',
+    qty_match: 'number',
+    qty_variance: 'number',
+  },
+  triparty_sales: {
+    amount: 'number',
+    order_date: 'date',
+    quantity: 'number',
+    settle_date: 'date',
+    settle_price: 'number',
+  },
+  vendor_master: {
+    blacklisted_at: 'date',
+    credit_limit: 'number',
+    profile_pending_at: 'date',
+    qualification_expiry: 'date',
+    rating: 'number',
+    used_credit: 'number',
+  },
+  vendor_quote_items: {
+    amount: 'number',
+    quantity: 'number',
+    seq: 'number',
+    unit_price: 'number',
+  },
+  vendor_quotes: {
+    submitted_at: 'date',
+    total_amount: 'number',
+  },
+  vendors: {
+    blacklisted_at: 'date',
+    credit_limit: 'number',
+    profile_pending_at: 'date',
+    qualification_expiry: 'date',
+    rating: 'number',
+    used_credit: 'number',
+  },
+  voucher_items: {
+    credit: 'number',
+    debit: 'number',
+    exchange_rate: 'number',
+    line_no: 'number',
+  },
+  vouchers: {
+    attachment_count: 'number',
+    date: 'date',
+    posted_at: 'date',
+    reversed: 'number',
+    reversed_at: 'date',
+    reviewed_at: 'date',
+    total_credit: 'number',
+    total_debit: 'number',
+  },
+  wave_rfid: {
+    line_count: 'number',
+    order_count: 'number',
+    planned_date: 'date',
+    released_at: 'date',
+  },
+  wave_rfid_tags: {
+    scanned_at: 'date',
+  },
+  work_order_pickings: {
+    issued_at: 'date',
+    quantity: 'number',
+  },
+  work_orders: {
+    actual_end_date: 'date',
+    actual_labor_cost: 'number',
+    actual_machine_cost: 'number',
+    actual_material_cost: 'number',
+    actual_start_date: 'date',
+    actual_total_cost: 'number',
+    completed_quantity: 'number',
+    planned_end_date: 'date',
+    planned_quantity: 'number',
+    planned_start_date: 'date',
+    qualified_quantity: 'number',
+    scrap_quantity: 'number',
+  },
+};
+
+/** 服务端自管列：不参与入参校验（客户端回传也不作为依据） */
+export const SERVER_MANAGED_COLS = new Set([
+  'id',
+  'org_id',
+  'created_at',
+  'updated_at',
+  'created_by',
+  'updated_by',
+  'owner_id',
+  'dept_id',
+]);

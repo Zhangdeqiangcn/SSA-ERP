@@ -1,32 +1,28 @@
-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
+// 采购申请单条端点（C1 采购域 · 父子表）
+// GET    /api/purchase-requests/:id   读取（含全部物料明细）
+// PUT    /api/purchase-requests/:id   更新（不传 items = 明细保持原样；传 [] = 清空）
+// DELETE /api/purchase-requests/:id   删除（连带删除明细）
+//
+// ── ★ 「不传」与「传空数组」必须区分（见 _shared/parentChild.ts 不变量 ③）
+// 采购申请最高频的两个操作**都不涉及明细**：
+//   · 审批通过/驳回 → `updatePurchaseRequest(id, { status, approvalRecords })`
+//     （PurchaseApproval.tsx 第 194/200/209 行）
+//   · 从申请生成订单后 → `updatePurchaseRequest(rid, { status: 'ordered' })`
+//     （OrderForm.tsx 第 725/860 行）
+// 若把「不传 items」当成清空，**审批一次就把申请的全部物料删光** ——
+// 而界面会提示「保存成功」（PUT 返回 200），用户要等到采购员下单时
+// 发现申请单是空白的才知道。这类缺陷在真实环境极难复现与定位。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PURCHASE_REQUEST_PC } from '../../_shared/purchaseConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PURCHASE_REQUEST_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(PURCHASE_REQUEST_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PURCHASE_REQUEST_PC, context);
+}

@@ -1,80 +1,98 @@
-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
-Jf9Esy7wL9HpS+MelBiWBw==
+// POST /api/auth/activate — 超级管理员首次激活：凭双邮箱验证凭证设置密码并登录
+// 请求体：{ username, ticket, newPassword }
+//
+// 前置条件：login 返回 needActivation=true（security_initialized=0），
+//   或调用方已通过 send-code + verify-code 拿到 activate 用途的 ticket。
+// 效果：写入新密码、标记安全初始化完成、作废该账号全部旧会话、签发新会话直接登录。
+import {
+  hashPasswordPbkdf2,
+  makeSalt,
+  makeToken,
+  json,
+} from '../../_shared/auth';
+import { consumeTicket } from '../../_shared/verification';
+import { writeAudit } from '../../_shared/auditLog';
+
+/** 超管密码强度下限（高于普通账号，因为该账号可跨组织操作） */
+const MIN_PASSWORD_LENGTH = 8;
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  const ticket = String(body.ticket ?? '').trim();
+  const newPassword = String(body.newPassword ?? '');
+
+  if (!username || !ticket) return json({ error: '缺少必要参数，请重新完成邮箱验证' }, 400);
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
+    return json({ error: `新密码至少 ${MIN_PASSWORD_LENGTH} 位` }, 400);
+  }
+  if (!/[A-Za-z]/.test(newPassword) || !/\d/.test(newPassword)) {
+    return json({ error: '新密码需同时包含字母和数字' }, 400);
+  }
+
+  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ?')
+    .bind(username)
+    .first();
+  const u = user as any;
+  if (!u) return json({ error: '账号不存在' }, 404);
+  if (u.role !== 'super_admin') return json({ error: '该账号无需激活流程' }, 400);
+
+  // 纵深防御：未通过审批的账号不得借「激活」流程把自己变成可登录状态。
+  // 正常路径下未审批账号走不到这里（login 与 send-code/verify-code 均已拦截），
+  // 此处是审批闸被绕过的第二道锁——因为下面的 UPDATE 会无条件写入 status='active'。
+  const curStatus = String(u.status ?? 'active');
+  if (curStatus === 'pending' || curStatus === 'rejected') {
+    return json({ error: '账号尚未通过审批，无法完成安全激活' }, 403);
+  }
+
+  const valid = await consumeTicket(env, ticket, u.id, 'activate');
+  if (!valid) {
+    return json({ error: '邮箱验证凭证无效或已过期，请重新获取验证码' }, 400);
+  }
+
+  const salt = makeSalt();
+  const passwordHash = await hashPasswordPbkdf2(newPassword, salt);
+
+  await env.DB.prepare(
+    `UPDATE users
+     SET password_hash = ?, salt = ?, security_initialized = 1, status = 'active'
+     WHERE id = ?`
+  )
+    .bind(passwordHash, salt, u.id)
+    .run();
+
+  // 激活即重置：作废该账号所有历史会话，确保旧凭证全部失效
+  await env.DB.prepare('DELETE FROM sessions WHERE user_id = ?').bind(u.id).run();
+
+  const token = makeToken();
+  const expires = new Date(Date.now() + 30 * 24 * 3600 * 1000).toISOString();
+  await env.DB.prepare('INSERT INTO sessions (token, user_id, expires_at) VALUES (?, ?, ?)')
+    .bind(token, u.id, expires)
+    .run();
+
+  await writeAudit(env.DB, { orgId: u.org_id, actor: { id: u.id, name: u.name }, entity: 'users', action: 'activate', entityId: u.id, summary: `超管首次安全激活账号 ${u.username}` });
+
+  return json({
+    ok: true,
+    activated: true,
+    token,
+    user: {
+      id: u.id,
+      org_id: u.org_id,
+      username: u.username,
+      name: u.name,
+      role: u.role,
+      department: u.department ?? null,
+      email: u.email ?? null,
+      phone: u.phone ?? null,
+      isOwner: !!u.is_owner,
+    },
+  });
+}

@@ -1,30 +1,31 @@
-U2FsdGVkX1/5UiRrSA/sxndwqED0oiqI6YSgMI8xq5we+J0LpVaQv+uuhzI/HeIy
-RkwROo0y4Km1DPeCyczvKpiJkEeEPcuDpTY2KKwnHs8Xdwhi4JVOGXfclSqR/rfG
-Vbl9B5CdwcloS/IILt3gW/vuYs6shHrYl8AVB/MGLVR26T/CXB6q90McclmmIiPB
-sa25H29fvaoUsP6ZJ1JZdeBXacjzO+vhBHCrBXzU5V3MYCfWUbvcynveNRomROUY
-byWXXR1cVk3/B6A8gL2rZKd8OeC13t+e6Yxq1FaAtRJ5K0zGc1vfRlxiKTklmOIo
-uO4FEWt/TF1il4tIkR9xj7PVKzSGqWhDDf+f3lwJSqfN2260j9Vo+kABCNuIkhjH
-BXuFffJFw9QUdccU1ipBtIidNR63ymD+jpr6KBVxV6S2jnlkb2Ed8QLuzLL1cQ+d
-yr+nIeSjF1AI24WtAucFMVCA95OaQBSEfYdL9PMATyqkM7V36332MvCbLOFtGJiE
-ScMuf0ouMPZ6ftTmbEb2RLH4YDbfCGChYN+bqbueDOGa2SRa2IuctUIVP4uq2QCb
-PsVbmjWMlj5Z7qphy92BhdEDFcbRilpDnNZNCR+aUmMyT7+HCyGL6We63Bf3SYoB
-R0Wc4dIsDXKxZNp4zSXPOpF8sUhB/VhDj+4gyQyYbXkTysv5NujpCgbUi2cuk9hy
-1X6MNd+o/DsRaPG93bGqxGOOVIySUUfWr8qKri1sYmUBxqk1fCn91UlT7AhBkTvU
-OdNq+4Gce5jRZMgKVUakdifyjuho1BxncBbJOB+SaH52coA1JQdO/XJi561Pw2Cf
-xRvHR/2rze+s8m5lg2rmZJlDrREYnvW1aROkjXq4EIGBuLgVu8ir6VKqG7nBWvwN
-Ag1EPi1LYGBqtEvk9ZfC+GzW50OTSS0S26GkmEtFR6Jbk+E4q+Il5oNe7EvrBDjT
-kSvpuL4DShHuV+J4INMPtdmoZuh7/LgIdxwnN3kaV/egfmt1iI5mQMJX9J3P/wD1
-bifn/jMYdiu5StOCYiIWxCA1EjEUJeumjKotQAixUxCwq/l8smJJimztntCRhwt3
-myJOuQi270zR4aOJWzi4PQV9PWsEOmb4aAF4a0RFhw1HUsrLNVIdT2beInDXKxNv
-E+1gqT30MrLOUEhoBpNyqyVYEtaT5l8yv195UALyKB2jx/rCUubsS4NwQoQf4mJn
-sXe3AChRBwWsMOCJ8ZKSAQHf12vUZM/3EZy0CyCI1poEfCQngywf4vg75h3CtctG
-Ew7pIHYg/OlI+o3iskMk2W6ElrA4UcUaj7+viH1bVu96H3LbXNTHZABmutzLxTRH
-4TOpyV1R1eh4ndfyjR+Q3JXryLRKi9hYiP16zbbSVfxs1wWSie/qL+L4UOzM1oh+
-OizZutiOboJn3XSgysT074T6R0QU8bS4+/8gjxVaIF81OssdADyqrTabfJE4lSZl
-WyTy8C/hASo3t1HKvk7/sWormNT1gS8/lHwC/ZX3qsXz8+H1Rxyx/64DPYO9rlGx
-Hcvho7aOEPa/NFucVZ1PFGvly3TLveIQpHSuseOXO2P7YGXnip8Pc/IstfiUhqsF
-H6onVgjRudjVuqJZwsZCGBbrpKQCziOJ0qYSDg2/EZBFL1c7UrGvWo1PEiqf4fCf
-LV0Nn9YkrdJJiSbR8ZyeFyRWhb1G40+y/dCxEGl1pNgps8xgZhxtmbOBRut7bfOD
-degoa/QyxtJHIVOeXSBWjm8dxdeh+w9yM79lHW/hB5lTaiQjAv1nPrVzTqCCHHhI
-6DECw5HG3C+F0sIRq4GAe5+2NejuJc43LGyoixwIhbz6ZuS9d83Nn8fKxeleD24o
-wXavlIrACyfeU3EFt/j4Q5S+wkYg4mGTLXs209CZ7LSbJxXPMh9wZWnBhfLuanOX
+-- V3.95.0 自动化设置中心（物料类别分工驱动的表单自动流转）
+-- 落地强哥诉求：MRP 分解→采购需求→采购单/询价/寻源/领料/生产工单，是否发起、做到哪一步由管理员在「按物料分类」配置。
+--
+-- 范式对齐 system_settings / custom_fields（0103/0108）：整对象 JSON 落 payload 单列，
+-- 通用实体路由 functions/api/entities/[resource] 接管，零新增后端函数；RLS 登 'all'（组织级共享配置）。
+--   · automation_config：单行（id='automation-config'）存 全局默认 + 按分类覆盖 两段配置。
+--   · automation_logs：  逐行存每次自动化触发（谁/何时/哪段/结果），供设置中心「运行日志」查询。
+
+CREATE TABLE IF NOT EXISTS automation_config (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 整对象 JSON（{ global, perCategory }）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS automation_logs (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL DEFAULT 'default',
+  payload TEXT,                      -- 单条日志 JSON（{ stage, categoryId, actor, action, result, at }）
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);

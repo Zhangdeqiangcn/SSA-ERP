@@ -1,97 +1,129 @@
-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
+// GET/PUT/DELETE /api/warehouses/:id（W4 整改：仓库主数据后端权威源）
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { errorResponse } from '../../_shared/errors';
+import { audit } from '../../_shared/auditLog';
+
+export async function onRequestGet(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const row = await env.DB.prepare(
+    'SELECT * FROM warehouses WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!row) return json({ error: '仓库不存在' }, 404);
+  return json(formatWarehouse(row as any), 200);
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _opGuard = await import('../../_shared/operationGuard').then((m) =>
+    m.guardOperation(user, 'warehouse', 'update', context.env.DB, user.org_id)
+  );
+  if (_opGuard) return _opGuard;
+
+  let body: any;
+  try { body = await request.json(); } catch { return json({ error: '请求格式错误' }, 400); }
+
+  const existing = await env.DB.prepare(
+    'SELECT * FROM warehouses WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!existing) return json({ error: '仓库不存在' }, 404);
+
+  // code 唯一性（排除自身）
+  if (body.code && body.code !== (existing as any).code) {
+    const dup = await env.DB.prepare(
+      'SELECT id FROM warehouses WHERE org_id = ? AND code = ? AND id != ?'
+    ).bind(user.org_id, body.code, params.id).first();
+    if (dup) return json({ error: '仓库编码已存在' }, 409);
+  }
+
+  const now = new Date().toISOString();
+  // 子表 locations 内联：未传则保留原值（keep 语义），传了就用新值
+  const locationsJson = body.locations !== undefined
+    ? JSON.stringify(Array.isArray(body.locations) ? body.locations : [])
+    : (existing as any).locations;
+
+  try {
+    await env.DB.prepare(`
+      UPDATE warehouses SET
+        code = COALESCE(?, code),
+        name = COALESCE(?, name),
+        type = COALESCE(?, type),
+        address = COALESCE(?, address),
+        manager = COALESCE(?, manager),
+        status = COALESCE(?, status),
+        locations = ?,
+        updated_at = ?,
+        updated_by = ?
+      WHERE id = ? AND org_id = ?
+    `).bind(
+      body.code ?? null,
+      body.name ?? null,
+      body.type ?? null,
+      body.address ?? null,
+      body.manager ?? null,
+      body.status ?? null,
+      locationsJson,
+      now,
+      user.id,
+      params.id,
+      user.org_id
+    ).run();
+  } catch (e: any) {
+    return errorResponse(e, '更新仓库');
+  }
+
+  const updated = await env.DB.prepare(
+    'SELECT * FROM warehouses WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  await audit(env.DB, user.org_id, user, 'warehouses', 'update', `更新仓库 ${(existing as any)?.code || params.id}`);
+  return json(formatWarehouse(updated as any), 200);
+}
+
+export async function onRequestDelete(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _opGuard = await import('../../_shared/operationGuard').then((m) =>
+    m.guardOperation(user, 'warehouse', 'delete', context.env.DB, user.org_id)
+  );
+  if (_opGuard) return _opGuard;
+
+  const existing = await env.DB.prepare(
+    'SELECT * FROM warehouses WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!existing) return json({ error: '仓库不存在' }, 404);
+
+  const result = await env.DB.prepare(
+    'DELETE FROM warehouses WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).run();
+
+  if ((result.meta?.changes ?? result.changes) === 0) return json({ error: '仓库不存在' }, 404);
+  await audit(env.DB, user.org_id, user, 'warehouses', 'delete', `删除仓库 ${(existing as any).code || params.id}`);
+  return json({ ok: true });
+}
+
+function formatWarehouse(r: any) {
+  let locations: any[] = [];
+  try { locations = r.locations ? JSON.parse(r.locations) : []; } catch { locations = []; }
+  return {
+    id: r.id,
+    orgId: r.org_id,
+    code: r.code,
+    name: r.name,
+    type: r.type,
+    address: r.address,
+    manager: r.manager,
+    status: r.status,
+    locations: Array.isArray(locations) ? locations : [],
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}

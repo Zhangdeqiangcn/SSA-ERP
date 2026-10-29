@@ -1,45 +1,80 @@
-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
+// AI大模型配置Store（使用localStorage持久化）
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import type { AIModelConfig } from '@/types/ai';
+
+interface AIState {
+  // 模型配置
+  models: AIModelConfig[];
+  activeModelId: string | null;
+  
+  // 设置操作
+  addModel: (config: AIModelConfig) => void;
+  updateModel: (id: string, config: Partial<AIModelConfig>) => void;
+  deleteModel: (id: string) => void;
+  setActiveModel: (id: string) => void;
+  setModels: (models: AIModelConfig[]) => void;
+  
+  // 便捷方法
+  getActiveModel: () => AIModelConfig | null;
+  isConfigured: () => boolean;
+}
+
+const STORAGE_KEY = 'ssa-erp-ai-models';
+const ACTIVE_KEY = 'ssa-erp-ai-active-model';
+
+// 默认配置（Agnes 2.5 Flash）
+const DEFAULT_MODEL: AIModelConfig = {
+  id: 'default',
+  name: 'Agnes 2.5 Flash',
+  provider: 'custom',
+  baseUrl: 'http://localhost:8080/v1',
+  apiKey: '',
+  modelId: 'agnes-2.5-flash',
+  default: true,
+};
+
+export const useAIStore = create<AIState>()(
+  persist(
+    (set, get) => ({
+      models: [DEFAULT_MODEL],
+      activeModelId: 'default',
+
+      addModel: (config) => set((state) => ({
+        models: [...state.models, config],
+      })),
+
+      updateModel: (id, updates) => set((state) => ({
+        models: state.models.map((m) =>
+          m.id === id ? { ...m, ...updates } : m
+        ),
+      })),
+
+      deleteModel: (id) => set((state) => ({
+        models: state.models.filter((m) => m.id !== id),
+        activeModelId: state.activeModelId === id ? null : state.activeModelId,
+      })),
+
+      setActiveModel: (id) => set({ activeModelId: id }),
+
+      setModels: (models) => set({ models }),
+
+      getActiveModel: () => {
+        const { models, activeModelId } = get();
+        return models.find((m) => m.id === activeModelId) || null;
+      },
+
+      isConfigured: () => {
+        const model = get().getActiveModel();
+        return !!model && !!model.apiKey;
+      },
+    }),
+    {
+      name: STORAGE_KEY,
+      partialize: (state) => ({
+        models: state.models,
+        activeModelId: state.activeModelId,
+      }),
+    }
+  )
+);

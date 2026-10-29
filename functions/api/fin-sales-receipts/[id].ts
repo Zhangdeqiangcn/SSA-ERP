@@ -1,85 +1,94 @@
-U2FsdGVkX195e4hLUaKZ5o03K8fzIj+qZN0uOCy5aeVuZ5oDXn7wXBWj0PCsvLBf
-jtDIW+vMF+Uophi5Xc1BDt81LWG77YRvGEUcC8zC+xdAldJep/hFSQCGCkA4LPS4
-TiXMIJrpIsUBg2njKQuVBEYf641GhTd8VLwhj9bVoz0SsRNKqiO2Kcppt6HVf3AY
-xEgnZV13xG31DE8Sv9eal5tLGWThhSIzxIAU0LRvWygtRG5DhKe/QvGO1eB6xQXQ
-nfFPXzoys3uhV6gWvNZKpZGErOfSdGwHyJWrdbP2WLG27evPmrImz0e6n7FX3/hP
-XW7xq/kDyBuZDUubBuPNbSlgkt4VgChhVXTu6ZGf680Jk4bRpiu4bj1RO6py3mvc
-GGia4FU9/pR3LJeWVPumqjcSTafA5zJT9WykqzrvlmVuF3xn8uKzjuWAhxweF4JO
-ebtDUWImA4fU5sGUZZRP+TnJeWkHA6PdTxeS/KJAVvyyJhFRea2QMzuaM50WiIA3
-nJXbrMhinCxEIhImzSRa5wtVFPcZ1KqbmjxRYqoAdU0XCV2Bfo44TD1/4zxyTN6j
-a05vboxWFCqufoJogTWwLGmv0Y5EwkD4iEtSbji56ukY/lOOViuCln7qpN+a5UwW
-p1ZcYfVg5z3NkvOqMEIhsZiLp8Nrp2Wb7DmTzUXH0d1FzjmoEwSX+9OS46676R/2
-Am/K+8UL7GDtbay9Z0+0RueUKTff62pPZADe9WifRCo2SLt+45VpWg7Ob3nYtAXP
-N/j0txkVfPssSYM5Ul7S/mXfqd7OpMSXa9yic80w/K3QCPfw6x9MAcV1stGiWonD
-BVffyjK2cl0UvF0ANgZXsEiMFH2JT/VTxKip0wzixRkW1JkXi0Kq+8dxClP3QMrV
-LAnijSdEa2XDIY/As17n/i7cNQR1zSgw/gJcExIGWR+nguzIGjNRu39zMZl2yBUg
-p3T7QKWPQPBMzrYTL7o8MvebeEfFHszlGgRW3JL5Nct4PW/VtW/LOhhIY768Ctm4
-NhTOR5KO9pLNf5cQAtTlXe4F3uXzQIoWqV5IiA7YXPeSs4lllE1D0aVGnX4IJne8
-XEHXaIsWS27qyujNWEn5qTUmL1p4rmEChoPQge5bqnrVTRAmF48VNHt34SOM2Wgp
-uNk0Yqu2yq5HCOBsAUQDp8+f5vFi4DuW7Z9fb7RVZGbPpvZZ0WEgTteMnWkSaGbg
-qQGXGY4bf66grrFD4h1fT4VJjhKr52JnBEi47cCAb+5xbHdPfiK9PP5HH1IBJSdL
-sqeUW8vP5CIgr5KboAqjxD9AnTeMjZCddRrpiSBlRxzd4qRaQg8r9Y1aDounmIP+
-yzrEro1swWnvxlPyibURBgBCs+ey7PHMjOuizRSqni3qjAHwWR45ZehiFcOcqY/v
-YMXU6adxYtdF+Beyq94FVzr+Cti2NtJSihWMiQM12ugxV6BMzBBabsPrt8/e/Ldt
-6d6FaHpooYv7c9/cJCArxTXjygSoaK7El0uJhKCgJJNT+MvuOnZ3RIWFIUTCCitE
-C2ez1vHOzvuGRAR2aPoydQkSv9PADYoAO1liwf4CiBOOy5RiBIXMaLwec4LLLUrH
-vv7lN/9sQiHPx0UaqVRZwqtdQ60Z+qChh5I5nSTIgc1PKv9aEyky+Yw+PkdCSHa7
-FKm4r6MMzk9aJF8w0nfu7oxO1QOeck678h5xW9+6NFylnlNBTIeCbGZJSL0qKl5N
-ntMg/uf4JLCZmsfnswl4RSp0BIs46Ml6xmsvUbcyce4qJFlVMjKYK3ruhsz7WXQ7
-8L/zA7rrzE+7BU7DSOUscV/lDQv7HkKxc+7T+oSwPHeu8Q/iACq/abjPERWrn3R8
-BUvx7QWZMXJ5dM/S0ItEympgDKu+VKtbeZ2eZjkqnwPyDx28opQ79H31UxNEmSZ2
-Q45MPiTIRiEzsRRwI5WcpZB1au26yM77TowIsEWwr/WEXrp1T03AfB7bZunJ27Xe
-aheZup+3s4fEjLjXdtkGK54nTiWhHpSPgWkHkV3STo4Nsrg6M6V/GCpBmrARtE5+
-zbNZt/Edq35P/nPK424DhGGq5fEfDUVq6tblvrK5oO04ZGzF5WmRcuepeooc6Yyy
-EdXeCsAHB8YFEpzB1yBPKVzVLFRQqdEQr5XNKvH0JkSyzwZbCNMfXInEM7ow1UMo
-f68CiWvEZqBSVQqr0i9Z/MtXp4B34nlWQFdVbP2lh3AfbDMrYsHVHuupAYyXQEK5
-mYcArcJPzY6W+61fok4m0PUyqJd8v+JgsRcGyUrMDZQOopKpW9LWo2VEbNqSQM4A
-Fx7MaNz7lIWheldukxS2emOr8gkoXpCbzqAHn4JqwFGJaP2Ht7QuDW+Uab+D2H+h
-UJMmNB9GNXXg0VI4kgQ8j5UmrdkoLG/z8hgKX3sJv0VDQ+/NBlmd5oE7qYOR1NSd
-4X56tRDuB+JjxXD7b47wcMrbqkN3GIC8g1GxXFUjnaDUjxRrP0cQ4TW3zrpf4jvP
-O/9m6Y4o7vg6YyduANvFZ2rsDcBPSJ3uJd+T34z8s0LUjQvivC/15sdZEu4iLSsu
-+m9gusM8BiThCAyYpSVuCBt2pUknDJ3siZQCno67KKYQCu6TNhgsiGsSfn2P8Iqb
-JrHFWL9YnLp5z0FYfd7uHMm582uRNfDA7241wLu9uZCBXMcpscA6Y8Y7Ielb3l+g
-BpWotEJWPHdL7DBtIQqGjfDCvyYTfIvnzBXOZtowIEcqwz0K9rGlhqdsX/3+b7Ju
-VZQd4aEZ1ebe5Bp1tu7j5BTl9E9bQzBFF01CVIqnqQQFnAPczU4tWIj4jDnSpkUU
-fwi9Lcg6G00/gtOySy21TX+QzE53jc9Q8bve+VMo4/g/Xx/5q4Xn0Q7YiaAC0S1G
-Z/bAd0k1BglMLslX4sIEOyQLCr1IJp0p6HwRX0pu3hBTvAzqvExKUmavWARP2o8L
-8wEOYsF+hiX7VZ3VcS/Io7xiXgyk8HjXgq/TrYMF4bsJ2zd9ySvy3eVvg4qPG78P
-itGgen9ZqgsiAej3gIp+JX7kSu5ffj1G7E64SWsiv2QyfjiTIrK12Rih/vHgmpjO
-6VcbujhkpfthDX0ci2pG951iNywuk2qzvaysUvEKsgA1JGVy4XBLQAFPHnbqDVHU
-ProJiVfB0vH1nJYJAjr/7Imwix4aITymOta2dhWyYgoWX8fgQtge1WqnOD/UP9u8
-AdVh+tre54t1DFUno3BNztd69tZduIkOM9XGL6oVPgcUEaEwxAnd4PfcMCA5nHq3
-yMIz6baCEEeGd+owON3Z4oCpWpCnNwGxB4a4LBbRAJPQDbRTJU3E/ibpq88kln65
-59jAiibHcQqOCiCM0zE5SIxEfhY7NH0YQlCZD5ogDG/+C2WW8Rt9GGaS3Qd4LYeL
-Ffk14v8R8+vhJoq9WY0cVW2t0AMQgXW8HzTrozwstVbAf5ezY+0JjvEVrbQFoOU5
-qiz9nKqJgDIszozkP80KqC5P1B7r+FD+a9ZlKfETa5aVgn3bdn3sleE1WaOtYWQp
-hE4NZDdqTzD2HT3BUuU4IMal+gQP46n1+mL8iAYGIZkiniHAbk8jhNdn1lIk2bQm
-0ip4a5pSnFw1wPaRVqqmdCUxS8b1DmTxuQ8lrVVmyUxJ0evGqg2uq//FsNqzFWc+
-bn9729ylFHTgQCoGcPtdVbOODdqeadhjCa7ZD97J6CMXRIb5boMLOHCAVmhqNrm2
-/viUCNb2YcIUOLosKHG7m36f4QAR0Hc7XYci729dzuDMju2xnj4crK4hS+s8eJn/
-om4d5EPL0o7PD4evUreqJU0gawlGtGGUyEpndzJmVrX1yvz7zQ6JiWlmsY7hvhQW
-LydrEUOEPiquV9s5e5xUzFE/R3oCCvW8iEXjV1i02J4S5ieNyiuWD7oqQKkVtT9F
-FJY2Y5fltQUNHsAMjdqsBhIUKHpwuNeMbyPthMzPrEP0aNvJ9Dy6pcJxCbZiW9FJ
-O7tnSPeEQSIyknOJd8+BL3E8CPUc5qT8soNU6EWRne2Wn16/Jo97+Q45SYpx9t71
-CXe/Fo6H5hImBcbbDEOCnwM3KoCNn2uEG4ewPeI60bvdSn85SDWch6auM1bGFE8W
-XV0RSC9mGx/cHuFxd3OUliZf5DBd5gaFi3AvyhoZm0J6Ag6OKT4PluyVSG7EdbLU
-szN0dgx7PnquQSlk3ceW6M4lgXTPG7sr84oPpB711t0no6Deeu3I+Spk4eI5yCOL
-kdqpHUKyCioZVVdoDQP2KXsUBGA7IV14SctmTcYsO5vWtbeFxb+nW0BpQB0Z4u7k
-oX8afOVDsoB2DUSFA5dFRkFjESyR3udP/e5cRkpX2gfUIacCqtpja3biNKnpJaST
-llzGcXb+8z5s3EUi2bEGRU35luhNv0kF3hojZP/FZwEYs2LBGn0jPcYAoVHBW3Uf
-43mLVuPxTnbhe2WMTeHGxQH/nyD7pcb7XHVLlS5hLVfRkm8qWXhLmYk5dr48etNl
-DX8BIzfW4pWvg5Nz0DH22IMTClFqbtBoZ+YQh7JD7oPgj+E+aMJVHd6kgpTo2WDC
-ZHpRhMVV9nV1TvCpzSz9p1P7CO48RZuFE5yzbJEXNFAeQp3/hu2MxNL+ZUSKl+xE
-kyScagj0hbst5QA/LLUabHH1cYh2gdHD79y9kGJR6yZbarA7EJAhzoW9qIdwaRJe
-OSQXHA+4y8bhg9ERTuGAPg1pKqnO/GE/wpym4QRsaGzT856xozcrohdkudUpbY9P
-eDTUYjYJkCNmjn1rKtGbEiDYOqiuF52EO0KiZZYDnY8bie9QbWFvTcIgvLcBjFv8
-o7Aquqb5hnluaE4cQj5siR8Ni881aXwJ5BB8i1XOOJPZytyVrjyZDinn4rjC0uE/
-+ZFQj2iSuFso6mM8fQQU9nM41XrvPYb5GOVVyNzBm7RdsS2siZJdKlQVkGn4LH47
-6ZR6NTOInTNXQXG7ajaxzs5ZfJVNIHWnKJHoYDQDYypNw/9n+V+aT8pjtsyoESNx
-dV7jOkwLjaWbGXjvf2+Nm3mFIF5NpiZZ1r69UqqUtcSbgIATrtVoLbOAalfOxWUJ
-oCRqmlzfBjg6Xa8aYXWUCcMlzWmqOngRi2eoNE65QTC2anHIvp67UGoO7/fod2Ko
-AbRn4WusU7so2vx4mbkZtazdFkrnsKMjdaRoziLUFKZSRPx5FJSurlAMRTFjZZFU
-UuwFTJo0KNrEqVJ98rj30i6n2dfGZdHEShZWWbO1BASuAOMLU5gHUDVRJFmp0lbT
-Dbsj2t1l2uhzLRivxMlIVymErDgkIjYLWwsUYppBFoXRIdgTdbZzLCpOqkObp8FP
-IcjtNaw66IpUOYmUTJhe06di3UPTuHM9c72Y0+cn+1Dfh5DkkeBK5PdQqbBrFmX6
-j+OO1YfUfAI1cOL0FRwCKQ==
+// 销售收款单·单条端点（V3.61.0 · P0-2）
+// GET    /api/fin-sales-receipts/:id读取
+// PUT    /api/fin-sales-receipts/:id    更新（若首次入账则记账；已入账不重复记）
+// DELETE /api/fin-sales-receipts/:id    删除（★连带删除其凭证，避免「收款单没了但银行存款凭证还在」）
+//
+// ★ 为什么删除必须连带删凭证：凭证是权威账，单据是源。若只删单据，
+//   银行存款 1002 会凭空多一笔、应收 1122 会被冲减一次而单据已不存在——
+//   这正是铁律㊴治理的「数字对不上且无法自愈」。parentChild.pcRemove 只清业务表，
+//   凭证在 vouchers 表，必须显式按 source/source_no 清理。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { SALES_RECEIPT_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { generateSalesReceiptVoucher } from '../../_shared/arapPosting';
+import { roundAmount } from '../../_shared/money';
+
+export async function onRequestGet(context: any) {
+  return pcGet(SALES_RECEIPT_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const body: any = await request.json().catch(() => ({}));
+  if (body.amount !== undefined) {
+    body.amount = roundAmount(Number(body.amount) || 0);
+    if (body.amount <= 0) {
+      return json({ error: '收款金额必须大于 0', code: 'INVALID_AMOUNT' }, 400);
+    }
+  }
+
+  const newRequest = new Request(request.url, {
+    method: request.method,
+    headers: request.headers,
+    body: JSON.stringify(body),
+  });
+  const res = await pcUpdate(SALES_RECEIPT_PC, { ...context, request: newRequest });
+
+  // 记账：generateSalesReceiptVoucher 内部按 source+source_no 幂等，
+  //   已生成的收款单改状态为 cancelled 后再改回 posted 也不会双记。
+  try {
+    const rc: any = await env.DB
+      .prepare(`SELECT * FROM fin_sales_receipts WHERE org_id = ? AND id = ?`)
+      .bind(user.org_id, params.id)
+      .first();
+    if (rc && String(rc.status) !== 'cancelled' && !rc.voucher_generated) {
+      const vid = await generateSalesReceiptVoucher(env.DB, user.org_id, user, rc);
+      if (vid) {
+        await env.DB
+          .prepare(`UPDATE fin_sales_receipts SET voucher_generated = 1, updated_at = ? WHERE id = ? AND org_id = ?`)
+          .bind(new Date().toISOString(), params.id, user.org_id)
+          .run();
+      }
+    }
+  } catch (e: any) {
+    console.error('[fin-sales-receipts PUT] 收款入账后置处理失败（非阻断）：', e?.message || e);
+  }
+
+  return res;
+}
+
+export async function onRequestDelete(context: any) {
+  const { env, params } = context;
+  const user = await getUserFromRequest(context.request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const rc: any = await env.DB
+    .prepare(`SELECT id, receipt_no FROM fin_sales_receipts WHERE org_id = ? AND id = ?`)
+    .bind(user.org_id, params.id)
+    .first();
+  if (!rc) return json({ error: '销售收款单不存在' }, 404);
+
+  const res = await pcRemove(SALES_RECEIPT_PC, context);
+
+  // 连带清理其凭证（先查凭证 id → 删 voucher_items → 删 vouchers，与 vouchers/[id].ts 同语义）
+  try {
+    const sourceNo = `RCPT-${rc.receipt_no}`;
+    const v: any = await env.DB
+      .prepare(`SELECT id FROM vouchers WHERE org_id = ? AND source = 'sales-receipt' AND source_no = ?`)
+      .bind(user.org_id, sourceNo)
+      .first();
+    if (v?.id) {
+      await env.DB.batch([
+        env.DB.prepare(`DELETE FROM voucher_items WHERE voucher_id = ?`).bind(v.id),
+        env.DB.prepare(`DELETE FROM vouchers WHERE id = ? AND org_id = ?`).bind(v.id, user.org_id),
+      ]);
+    }
+  } catch (e: any) {
+    console.error('[fin-sales-receipts DELETE] 连带清理收款凭证失败：', e?.message || e);
+  }
+
+  return res;
+}

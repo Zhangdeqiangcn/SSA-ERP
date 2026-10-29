@@ -1,77 +1,80 @@
-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
+// 渠道通道（动态路由 /api/channels/<platform>）
+// POST { action: 'pull' | 'inventory' | 'logistics', ... } —— 拉单 / 推库存 / 回写物流
+// 平台密钥（AppKey/AppSecret/access_token）只在后端持有，前端经 SSA 自有接口调用，绝不暴露。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { audit } from '../../_shared/auditLog';
+
+interface ChannelCreds {
+  appKey?: string;
+  appSecret?: string;
+  accessToken?: string;
+}
+
+// 读取渠道凭证（存 channel_credentials 表；生产建议改用 Cloudflare Secrets 或加密列）
+async function getChannelCreds(DB: any, orgId: string, platform: string): Promise<ChannelCreds | null> {
+  const row = await DB.prepare(
+    'SELECT app_key, app_secret, access_token FROM channel_credentials WHERE org_id = ? AND platform = ? LIMIT 1'
+  )
+    .bind(orgId, platform)
+    .first();
+  if (!row) return null;
+  return { appKey: row.app_key, appSecret: row.app_secret, accessToken: row.access_token };
+}
+
+// 真实拉单：需调用平台开放接口（OAuth + 签名）。密钥从 creds 取，绝不落前端。
+// 当前无真实密钥时返回空数组（诚实降级，不造数据、不静默假成功）。
+// TODO(P1-4): 接入各平台开放平台 SDK/接口
+//   抖音: https://open.douyin.com  order 查询接口
+//   拼多多: pdd.order.list.get / pdd.waybill 物流回写
+async function fetchPlatformOrders(_platform: string, _creds: ChannelCreds, _params: any): Promise<any[]> {
+  return [];
+}
+
+async function pushPlatformInventory(_platform: string, _creds: ChannelCreds, _items: any[]): Promise<{ success: boolean; message?: string }> {
+  // TODO(P1-4): 调用平台库存更新接口
+  return { success: true, message: '库存推送接口待接入（凭证就绪后生效）' };
+}
+
+async function pushPlatformLogistics(_platform: string, _creds: ChannelCreds, _input: any): Promise<{ success: boolean; message?: string }> {
+  // TODO(P1-4): 调用平台物流回写/电子面单接口
+  return { success: true, message: '物流回写接口待接入（凭证就绪后生效）' };
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const platform = context.params?.platform;
+  if (!platform) return json({ error: '缺少平台参数' }, 400);
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const action = body?.action;
+
+  const creds = await getChannelCreds(env.DB, user.org_id, platform);
+  if (!creds) {
+    return json(
+      { success: false, message: `未配置「${platform}」渠道凭证，请先在渠道设置中录入 AppKey/AppSecret` },
+      400
+    );
+  }
+
+  let result: any;
+  try {
+    if (action === 'pull') result = { data: await fetchPlatformOrders(platform, creds, body) };
+    else if (action === 'inventory') result = await pushPlatformInventory(platform, creds, body.items || []);
+    else if (action === 'logistics') result = await pushPlatformLogistics(platform, creds, body);
+    else return json({ success: false, message: `未知 action: ${action}` }, 400);
+  } catch (e: any) {
+    await audit(env.DB, user.org_id, user, 'channel', 'sync_failed', `渠道 ${platform} ${action} 失败：${String(e?.message || e)}`);
+    return json({ success: false, message: `渠道调用失败：${String(e?.message || e)}` }, 502);
+  }
+
+  await audit(env.DB, user.org_id, user, 'channel', 'sync', `渠道 ${platform} ${action} 成功`);
+  return json({ success: true, ...result });
+}

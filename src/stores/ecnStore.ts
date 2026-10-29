@@ -1,114 +1,149 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { EngineeringChange } from '@/types/material';
+import { useProductionVersionStore } from './productionVersionStore';
+
+/**
+ * 工程变更 ECN store（V3.77.0 P0-1：Blob 双通道 → D1 关系表）
+ *
+ * 整改前：persist(backendStorage, 'ssa-erp-ecn') 纯本地——
+ *   V3.74 的"ECN 双源双向引用"只在两个前端本地 store 互写，未落 D1，
+ *   跨终端/重新部署即丢、后端读不到（审计新发现的修复落地缺陷）。
+ * 整改后：落 D1 关系表 ecns（迁移 0101，entities 注册 ecn，rls 'all'）。
+ *   数据流：登录态 D1 权威源 + 挂载水合（D1 空一次性回填种子）；
+ *   未登录本地种子兜底；CRUD 本地即时 + 登录态写穿。
+ *   双向引用 linkEcn/unlinkEcn 仍镜像写对侧 production_ecns（落 D1）。
+ */
+
+const RES = 'ecn';
+
+const seedECNs: EngineeringChange[] = [
+  {
+    id: 'ecn-001',
+    changeNo: 'ECN-2026-001',
+    title: '钢板厚度升级',
+    materialId: 'mat-001',
+    materialName: '热轧钢板 Q235B 3mm',
+    fromVersion: 'V1.0',
+    toVersion: 'V2.0',
+    changeType: 'material',
+    oldValue: '3mm',
+    newValue: '5mm',
+    effectiveDate: '2026-09-01',
+    status: 'draft',
+    createdAt: '2026-08-01T08:00:00Z',
+    updatedAt: '2026-08-01T08:00:00Z',
+  },
+  {
+    id: 'ecn-002',
+    changeNo: 'ECN-2026-002',
+    title: '焊接工艺变更',
+    materialId: 'mat-002',
+    materialName: 'H型钢 200×200×8×12',
+    fromVersion: 'V1.0',
+    toVersion: 'V2.0',
+    changeType: 'bom',
+    oldValue: '手工焊接',
+    newValue: '自动焊接',
+    effectiveDate: '2026-10-01',
+    status: 'approved',
+    approvedBy: '工艺主管',
+    createdAt: '2026-08-05T08:00:00Z',
+    updatedAt: '2026-08-05T08:00:00Z',
+  },
+];
+
+interface ECNState {
+  ecns: EngineeringChange[];
+  addECN: (ecn: EngineeringChange) => void;
+  updateECN: (id: string, patch: Partial<EngineeringChange>) => void;
+  deleteECN: (id: string) => void;
+  getECNById: (id: string) => EngineeringChange | undefined;
+  /**
+   * P0-4（V3.74.0）：把物料域变更挂到生产域 ECN 上，双向落库。
+   * 本方法维护本侧 linkedEcnIds，并镜像写对侧 ECN.linkedChangeIds（落 D1）。
+   */
+  linkEcn: (changeId: string, ecnId: string) => void;
+  /** P0-4（V3.74.0）：解除上述关联，同样双向生效 */
+  unlinkEcn: (changeId: string, ecnId: string) => void;
+  /** V3.77.0：从 D1 水合（页面挂载调用） */
+  hydrateECN: () => Promise<void>;
+}
+
+function parsePayload<T>(rows: any[]): T[] {
+  return (rows || []).map((r: any) => (typeof r?.payload === 'string' ? JSON.parse(r.payload) : r?.payload)) as T[];
+}
+
+export const useECNStore = create<ECNState>()((set, get) => ({
+  ecns: seedECNs.map((e) => ({ ...e })),
+
+  addECN: (ecn) => {
+    set((state) => ({ ecns: [...state.ecns, ecn] }));
+    if (isAuthed()) void entityRepo.create(RES, { payload: ecn } as any).catch(() => {});
+  },
+
+  updateECN: (id, patch) => {
+    let updated: EngineeringChange | undefined;
+    set((state) => ({
+      ecns: state.ecns.map((e) => {
+        if (e.id !== id) return e;
+        updated = { ...e, ...patch, updatedAt: new Date().toISOString() };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update(RES, id, { payload: updated } as any).catch(() => {});
+  },
+
+  deleteECN: (id) => {
+    set((state) => ({ ecns: state.ecns.filter((e) => e.id !== id) }));
+    if (isAuthed()) void entityRepo.remove(RES, id).catch(() => {});
+  },
+
+  getECNById: (id) => get().ecns.find((e) => e.id === id),
+
+  linkEcn: (changeId, ecnId) => {
+    const peer = useProductionVersionStore.getState().ecns.find((e) => e.id === ecnId);
+    if (!peer) return;
+    const cur = get().ecns.find((e) => e.id === changeId);
+    if (!cur) return;
+    get().updateECN(changeId, {
+      linkedEcnIds: [...new Set([...(cur.linkedEcnIds || []), ecnId])],
+    });
+    // 镜像对侧（其自身落 D1，fire-and-forget）
+    void useProductionVersionStore.getState().linkChange(ecnId, changeId);
+  },
+
+  unlinkEcn: (changeId, ecnId) => {
+    const cur = get().ecns.find((e) => e.id === changeId);
+    if (!cur) return;
+    get().updateECN(changeId, {
+      linkedEcnIds: (cur.linkedEcnIds || []).filter((x) => x !== ecnId),
+    });
+    void useProductionVersionStore.getState().unlinkChange(ecnId, changeId);
+  },
+
+  hydrateECN: async () => {
+    if (!isAuthed()) return; // 未登录：本地种子兜底
+    try {
+      const res = await entityRepo.list<EngineeringChange>(RES, { page: 1, pageSize: 500 });
+      const rows = parsePayload<EngineeringChange>(res?.data || []);
+      if (rows.length === 0) {
+        // 一次性回填种子
+        for (const e of seedECNs) {
+          try { await entityRepo.create(RES, { payload: e } as any); } catch { /* 冲突忽略 */ }
+        }
+        const refreshed = await entityRepo.list<EngineeringChange>(RES, { page: 1, pageSize: 500 });
+        const rows2 = parsePayload<EngineeringChange>(refreshed?.data || []);
+        if (rows2.length) set({ ecns: rows2 });
+        return;
+      }
+      set({ ecns: rows });
+    } catch {
+      // 离线或后端异常：保留本地种子态
+    }
+  },
+}));
+
+// 模块加载即自动水合（未登录/离线静默兜底，登录态从 D1 拉取）
+void useECNStore.getState().hydrateECN();

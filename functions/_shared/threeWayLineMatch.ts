@@ -1,181 +1,202 @@
-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
+/**
+ * ★ V3.47.0 第3批 3-05：三单匹配的**行级**比对（数量维度）
+ *
+ * ── 为什么必须做行级（这是真实的数据准确性风险）────────────────────
+ * 此前三单匹配只能比金额（`threeWayMatch.ts:21-25` 已写明能力边界：
+ * 「fin_invoices 表没有明细行，也就不存在『发票数量』这个数据」）。
+ * 于是这个场景能**蒙混过关**：订单订 A×100(@10) + B×50(@20) = 1500 元；
+ *   实际只收到 A×100，收 B×0；发票也只开 A×100 = 1000 元。
+ *   付款 1000 元 → 金额维度全部通过 → 放行。
+ *   但 **B 料既没到货、也没收到发票**，系统却报告"三单匹配通过"。
+ *   若 B 料是外购件且已被下游工单领用，成本就凭空少了 1000 元。
+ *   对标金蝶/用友/SAP：三单匹配必须**按订单行**比数量，超差需审批。
+ *
+ * ── 行级判定的三条规则（各自对标标杆）────────────────────────────
+ * ① 逐行比「累计入库量」与「累计开票量」，而不是比单张单据
+ *    （分批到货、分批开票是常态，只比单张必然误判）
+ * ② 容差按行判定（`tolerance_rate`，默认 2%）—— 行级比金额更易受计量与
+ *    尾差影响，无容差会把正常尾差判成超差（对标 SAP 采购容差配置）
+ * ③ 只拦风险侧：欠交（short）与超交（over）都拦，**恰好等于或轻微少交不拦**
+ *    （少交可能是部分到货，付款给已到货部分属正常）
+ */
+
+/** 订单行（来自 purchase_order_items） */
+export interface OrderLine {
+  id: string;
+  materialId?: string | null;
+  materialCode?: string | null;
+  materialName?: string | null;
+  unit?: string | null;
+  orderedQuantity: number;
+  unitPrice?: number;
+}
+
+/** 入库行（来自 inbound_order_items，quantity 用实收数量 actual_quantity） */
+export interface InboundLine {
+  orderItemId?: string | null;
+  materialId?: string | null;
+  materialCode?: string | null;
+  quantity: number;
+}
+
+/** 发票行（来自 fin_invoice_items，迁移 0083） */
+export interface InvoiceLine {
+  orderItemId?: string | null;
+  materialId?: string | null;
+  materialCode?: string | null;
+  quantity: number;
+  /** 行级容差（比例），不传用全局默认 */
+  toleranceRate?: number | null;
+}
+
+export type LineMatchStatus = 'matched' | 'short' | 'over' | 'pending';
+
+export interface LineMatchResult {
+  orderItemId: string | null;
+  materialCode: string;
+  materialName: string;
+  unit: string;
+  orderedQty: number;
+  inboundQty: number;
+  invoicedQty: number;
+  status: LineMatchStatus;
+  /** 差异量 = min(入库, 开票) − 订单量（负=欠交，正=超交） */
+  diffQty: number;
+  /** 该行是否超差（超出容差） */
+  exceeded: boolean;
+  note: string;
+}
+
+export interface LineMatchSummary {
+  lines: LineMatchResult[];
+  /** 全部行通过 */
+  ok: boolean;
+  /** 超差行数 */
+  exceededCount: number;
+  /** 欠交行数 */
+  shortCount: number;
+  /** 汇总说明（可直接给业务人员看，要说清"差什么、差多少"） */
+  summary: string;
+}
+
+const num = (v: unknown): number => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : 0;
+};
+const round4 = (n: number): number => Math.round((Number(n) || 0) * 10000) / 10000;
+
+/** 全局默认容差 2%（与金额维度的 TWM_TOLERANCE 保持同一量级） */
+export const LINE_TOLERANCE_DEFAULT = 0.02;
+
+/**
+ * 行匹配键：优先 orderItemId（行级精确），退回 物料编码+单位。
+ *
+ * ★ 订单行的锚点字段名是 `id`（不是 orderItemId）—— 首次实现时统一按
+ *   `orderItemId` 取键，导致订单行算出 `mc:A#个` 而入库行算出 `oi:oi-1`，
+ *   两者永不相等 ⇒ 累计入库量恒 0、每行都判 short（单测一次抓出）。
+ *   这里显式接受 `id`（订单行）或 `orderItemId`（入库/发票行）。
+ */
+const keyOf = (l: {
+  id?: string | null;
+  orderItemId?: string | null;
+  materialId?: string | null;
+  materialCode?: string | null;
+  unit?: string | null;
+}, opts: { asOrderLine?: boolean } = {}): string => {
+  // 订单行的锚点是自身 id；入库/发票行的锚点是 order_item_id（可能为空）
+  const anchor = opts.asOrderLine ? l.id : l.orderItemId;
+  if (anchor) return `oi:${String(anchor)}`;
+  const code = l.materialCode || l.materialId || '';
+  return `mc:${code}#${l.unit || ''}`;
+};
+
+/**
+ * 行级三单比对
+ *
+ * @param orderLines  订单行（必需，决定比对基准）
+ * @param inboundLines 累计入库行（可空 → 全部行判 short）
+ * @param invoiceLines 累计开票行（可空 → 不参与数量判定，仅记录）
+ * @param opts.globalTolerance 全局容差，默认 2%
+ */
+export function matchLines(
+  orderLines: OrderLine[],
+  inboundLines: InboundLine[],
+  invoiceLines: InvoiceLine[],
+  opts: { globalTolerance?: number } = {}
+): LineMatchSummary {
+  const globalTol = Number.isFinite(opts.globalTolerance) ? Number(opts.globalTolerance) : LINE_TOLERANCE_DEFAULT;
+  const orders = Array.isArray(orderLines) ? orderLines.filter((l) => l && l.id) : [];
+  if (orders.length === 0) {
+    return { lines: [], ok: true, exceededCount: 0, shortCount: 0, summary: '订单无明细行，跳过行级比对' };
+  }
+
+  const sumBy = (rows: any[], keyFn: (r: any) => string) => {
+    const m = new Map<string, number>();
+    for (const r of Array.isArray(rows) ? rows : []) {
+      if (!r) continue;
+      const k = keyFn(r);
+      m.set(k, round4((m.get(k) || 0) + num(r.quantity)));
+    }
+    return m;
+  };
+  const inMap = sumBy(inboundLines, (r) => keyOf(r as any));
+  const invMap = sumBy(invoiceLines, (r) => keyOf(r as any));
+
+  const lines: LineMatchResult[] = orders.map((o) => {
+    const k = keyOf(o as any, { asOrderLine: true });
+    const inboundQty = inMap.get(k) || 0;
+    const invoicedQty = invMap.get(k) || 0;
+    const orderedQty = round4(num(o.orderedQuantity));
+    // 比对基准取「入库」与「开票」的较小者：
+    //   两者都齐了才算这一行真对上（只到货没开票 → 还不能付这一行的钱）
+    const effective = Math.min(inboundQty, invoicedQty);
+    const diff = round4(effective - orderedQty);
+    // 容差：行级可用自己的 toleranceRate（发票行上的），否则用全局
+    const lineInvoiceTol = (invoiceLines || []).find((r) => r && keyOf(r as any) === k)?.toleranceRate;
+    const tol = Number.isFinite(lineInvoiceTol as number) ? Number(lineInvoiceTol) : globalTol;
+
+    let status: LineMatchStatus;
+    let note: string;
+    if (orderedQty <= 0) {
+      status = 'pending';
+      note = '订单数量为 0，无法比对';
+    } else if (Math.abs(diff) <= orderedQty * tol) {
+      status = 'matched';
+      note = diff === 0 ? '数量一致' : `差异 ${diff} 在容差 ${(tol * 100).toFixed(1)}% 内`;
+    } else if (diff < 0) {
+      status = 'short';
+      note = `欠交/欠票 ${Math.abs(diff)}${o.unit || ''}（入库 ${inboundQty}、开票 ${invoicedQty}、订单 ${orderedQty}）`;
+    } else {
+      status = 'over';
+      note = `超交/超票 ${diff}${o.unit || ''}（入库 ${inboundQty}、开票 ${invoicedQty}、订单 ${orderedQty}）`;
+    }
+
+    return {
+      orderItemId: o.id,
+      materialCode: o.materialCode || '',
+      materialName: o.materialName || '',
+      unit: o.unit || '',
+      orderedQty,
+      inboundQty,
+      invoicedQty,
+      status,
+      diffQty: diff,
+      // matched 与 pending 不算超差（pending 是数据不足，不是数据错误）
+      exceeded: status === 'short' || status === 'over',
+      note,
+    };
+  });
+
+  const exceeded = lines.filter((l) => l.exceeded);
+  const short = lines.filter((l) => l.status === 'short');
+  const ok = exceeded.length === 0;
+  const summary = ok
+    ? (short.length === 0
+      ? `行级比对通过：${lines.length} 行数量均在容差 ${(globalTol * 100).toFixed(1)}% 内`
+      : `行级比对通过（${lines.length} 行；${short.length} 行轻微欠交在容差内）`)
+    : `行级比对不通过：${exceeded.length}/${lines.length} 行超差 —— ` +
+      exceeded.slice(0, 5).map((l) => `${l.materialCode || l.orderItemId} ${l.note}`).join('；') +
+      (exceeded.length > 5 ? ` 等 ${exceeded.length} 行` : '');
+
+  return { lines, ok, exceededCount: exceeded.length, shortCount: short.length, summary };
+}

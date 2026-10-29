@@ -1,64 +1,76 @@
-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
+// POST /api/auth/send-code — 向账号绑定的邮箱「分别」发送验证码
+// 请求体：{ username, purpose: 'activate' | 'change_password', password }
+//
+// 安全说明：
+//   1) 必须同时提供正确的登录密码，否则任何人都能凭用户名触发发码、骚扰超管邮箱；
+//   2) 账号不存在与密码错误返回完全相同的提示，避免被用来探测账号是否存在；
+//   3) 验证码先落库再发信——即使邮件通道故障，超管仍可通过兜底通道取到，不会被锁死。
+//   ★ V3.14.1：super_admin 激活流程（purpose=activate, security_initialized=0）
+//     密码为空是正常状态，跳过密码校验直接发码，避免激活死锁。
+import { verifyPassword, json } from '../../_shared/auth';
+import {
+  issueVerificationCodes,
+  getVerifyEmails,
+  PURPOSE_TEXT,
+} from '../../_shared/verification';
+
+const ALLOWED_PURPOSES = new Set(['activate', 'change_password']);
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const username = String(body.username ?? '').trim();
+  const purpose = String(body.purpose ?? '').trim();
+  const password = String(body.password ?? '');
+
+  if (!username) return json({ error: '请输入用户名和密码' }, 400);
+  if (!ALLOWED_PURPOSES.has(purpose)) return json({ error: '不支持的验证场景' }, 400);
+
+  const user = await env.DB.prepare('SELECT * FROM users WHERE username = ?')
+    .bind(username)
+    .first();
+  const u = user as any;
+  if (!u) return json({ error: '用户名或密码错误' }, 401);
+
+  // ★ V3.14.1：super_admin 激活时密码为空，跳过密码校验
+  if (u.role !== 'super_admin' || Number(u.security_initialized ?? 1) !== 0) {
+    const ok = await verifyPassword(password, u.password_hash, u.salt);
+    if (!ok) return json({ error: '用户名或密码错误' }, 401);
+  }
+
+  // 目前仅超级管理员需要双邮箱验证（首次激活 / 修改密码）
+  if (u.role !== 'super_admin') {
+    return json({ error: '该账号无需邮箱验证码' }, 400);
+  }
+
+  const status = String(u.status ?? 'active');
+  if (status === 'pending' || status === 'rejected') {
+    return json({ error: '账号尚未通过审批，无法进行安全验证' }, 403);
+  }
+
+  if (!getVerifyEmails(u).length) {
+    return json({ error: '该账号未绑定验证邮箱，请联系系统运维添加后再试' }, 400);
+  }
+
+  const r = await issueVerificationCodes(env, u, purpose);
+  if (!r.ok) return json({ error: r.error }, 400);
+
+  return json({
+    ok: true,
+    purpose,
+    purposeText: PURPOSE_TEXT[purpose],
+    // 仅返回脱敏邮箱，绝不把明文验证码回传前端
+    emails: r.sent,
+    expiresInSeconds: r.expiresInSeconds,
+    allFailed: !!r.allFailed,
+    message: r.allFailed
+      ? '邮件未能发出，可在「安全中心」用兜底通道查看验证码'
+      : undefined,
+  });
+}

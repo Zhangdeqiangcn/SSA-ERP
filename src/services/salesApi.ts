@@ -1,46 +1,47 @@
-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
+// 销售域数据访问层（C1 关系化 · V3.9.0）
+//
+// ── 本域没有平表切片，全部走专用父子表端点 ────────────────────────
+// 财务域的 5 个平表切片可以走通用实体路由 /api/entities/:resource（后端零新增代码）。
+// 销售域则相反：待迁的三个切片**每一个都带嵌套数组**
+//   · 意向客户 → followupRecords: FollowupRecord[]（跟进记录）
+//   · 发货单   → items: ShipmentItem[]（货品明细）
+//   · 项目     → milestones[] + exceptions[]（两个真正的子表）
+// 通用路由只挑已登记列，嵌套数组会被**静默丢弃**且返回 201 成功。
+// 因此三个切片全部走 `_shared/parentChild.ts` 驱动的专用端点。
+//
+// 与 financeApi 保持**同一组方法名**（list/create/update/remove），
+// 让 store 层不必关心某个切片走哪条通道 —— 将来换通道只改这里一处。
+import { api } from './api';
+import type { PaginatedResponse } from '@/types';
+
+export interface CrudApi<T> {
+  list: (params?: Record<string, unknown>) => Promise<PaginatedResponse<T>>;
+  create: (data: Partial<T>) => Promise<T>;
+  update: (id: string, data: Partial<T>) => Promise<T>;
+  remove: (id: string) => Promise<unknown>;
+}
+
+/** 专用父子表端点通道（带嵌套数组的切片） */
+function viaEndpoint<T>(base: string): CrudApi<T> {
+  return {
+    list: (params) => api.get<PaginatedResponse<T>>(base, params),
+    create: (data) => api.post<T>(base, data),
+    update: (id, data) => api.put<T>(`${base}/${id}`, data),
+    remove: (id) => api.delete(`${base}/${id}`),
+  };
+}
+
+export const salesDomainApi = {
+  prospects: viaEndpoint<any>('/sales-prospects'),
+  shipments: viaEndpoint<any>('/shipments'),
+  projects: viaEndpoint<any>('/projects'),
+};
+
+/**
+ * 拉全量时一页最多取多少条。
+ *
+ * 销售数据实测极小（`ssa-erp-sales` 全键 10668 字节，三个切片合计约 10.4 KB），
+ * 但意向客户与跟进记录会随使用缓慢增长，因此留足余量避免漏行。
+ * 与 financeApi 的 FIN_PAGE_SIZE 同值同义。
+ */
+export const SALES_PAGE_SIZE = 500;

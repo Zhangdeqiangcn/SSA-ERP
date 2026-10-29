@@ -1,122 +1,154 @@
-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
+// 订单中台 CRUD（order_hub 表，org 隔离 + 审计）
+// GET /api/order-hub — 列表（平台/状态/关键字过滤）
+// POST /api/order-hub — 创建归一化订单（来自各渠道适配器）
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(request.url);
+  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10));
+  const pageSize = Math.min(100, Math.max(1, parseInt(url.searchParams.get('pageSize') || '20', 10)));
+  const offset = (page - 1) * pageSize;
+  const keyword = url.searchParams.get('keyword');
+  const platform = url.searchParams.get('platform');
+  const status = url.searchParams.get('status');
+
+  let sql = 'SELECT * FROM order_hub WHERE org_id = ?';
+  const params: any[] = [user.org_id];
+  const rls = rlsCondition(user, 'order_hub');
+  if (rls.clause !== '1=1') {
+    sql += ' AND ' + rls.clause;
+    params.push(...rls.params);
+  }
+  if (platform) {
+    sql += ' AND platform = ?';
+    params.push(platform);
+  }
+  if (status) {
+    sql += ' AND order_status = ?';
+    params.push(status);
+  }
+  if (keyword) {
+    sql += " AND (platform_order_id LIKE ? ESCAPE '\\' OR buyer_name LIKE ? ESCAPE '\\')";
+    params.push(`%${keyword}%`, `%${keyword}%`);
+  }
+  sql += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+  params.push(pageSize, offset);
+
+  const rows = await env.DB.prepare(sql).bind(...params).all();
+  const data = (rows.results || []).map((r: any) => formatOrder(r));
+
+  let countSql = 'SELECT COUNT(*) as cnt FROM order_hub WHERE org_id = ?';
+  const countParams: any[] = [user.org_id];
+  if (rls.clause !== '1=1') {
+    countSql += ' AND ' + rls.clause;
+    countParams.push(...rls.params);
+  }
+  if (platform) {
+    countSql += ' AND platform = ?';
+    countParams.push(platform);
+  }
+  if (status) {
+    countSql += ' AND order_status = ?';
+    countParams.push(status);
+  }
+  if (keyword) {
+    countSql += " AND (platform_order_id LIKE ? ESCAPE '\\' OR buyer_name LIKE ? ESCAPE '\\')";
+    countParams.push(`%${keyword}%`, `%${keyword}%`);
+  }
+  const countRow = await env.DB.prepare(countSql).bind(...countParams).first();
+  const total = (countRow as any)?.cnt || 0;
+
+  return json({ data, total, page, pageSize, totalPages: Math.ceil(total / pageSize) });
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _opGuard = await guardOperation(user, 'orderHub', 'create', env.DB, user.org_id);
+  if (_opGuard) return _opGuard;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  if (!body.platformOrderId || !body.platform) return json({ error: '平台与平台订单号必填' }, 400);
+
+  const id = uid('oh');
+  const now = new Date().toISOString();
+  const lines = JSON.stringify(body.lines || []);
+  const raw = JSON.stringify(body.rawPayload ?? null);
+  try {
+    await env.DB.prepare(
+      `INSERT INTO order_hub (
+        org_id, id, platform, platform_order_id, order_status, buyer_name, buyer_phone,
+        receiver_name, receiver_phone, receiver_address, province, city, district, pay_time,
+        total_amount, tax_amount, discount_amount, freight, currency, lines, raw_payload,
+        created_at, updated_at, created_by, updated_by, created_by_name, updated_by_name
+      ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+    )
+      .bind(
+        user.org_id, id, body.platform, body.platformOrderId, body.orderStatus ?? 'paid',
+        body.buyerName ?? null, body.buyerPhone ?? null, body.receiverName ?? null,
+        body.receiverPhone ?? null, body.receiverAddress ?? null, body.province ?? null,
+        body.city ?? null, body.district ?? null, body.payTime ?? null,
+        body.totalAmount ?? 0, body.taxAmount ?? 0, body.discountAmount ?? 0, body.freight ?? 0,
+        body.currency ?? 'CNY', lines, raw,
+        now, now, user.id, user.id, user.name ?? user.username, user.name ?? user.username
+      )
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '创建订单中台记录');
+  }
+
+  await audit(env.DB, user.org_id, user, 'orderHub', 'create', `创建订单中台 ${body.platform} ${body.platformOrderId}`);
+  const created = await env.DB.prepare('SELECT * FROM order_hub WHERE id = ? AND org_id = ?').bind(id, user.org_id).first();
+  return json(formatOrder(created as any), 201);
+}
+
+function formatOrder(r: any) {
+  if (!r) return null;
+  return {
+    id: r.id,
+    platform: r.platform,
+    platformOrderId: r.platform_order_id,
+    orderStatus: r.order_status,
+    buyerName: r.buyer_name,
+    buyerPhone: r.buyer_phone,
+    receiverName: r.receiver_name,
+    receiverPhone: r.receiver_phone,
+    receiverAddress: r.receiver_address,
+    province: r.province,
+    city: r.city,
+    district: r.district,
+    payTime: r.pay_time,
+    totalAmount: r.total_amount,
+    taxAmount: r.tax_amount,
+    discountAmount: r.discount_amount,
+    freight: r.freight,
+    currency: r.currency,
+    lines: safeJson(r.lines, []),
+    rawPayload: safeJson(r.raw_payload, null),
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+  };
+}
+function safeJson(s: string | null, fallback: any) {
+  if (!s) return fallback;
+  try {
+    return JSON.parse(s);
+  } catch {
+    return fallback;
+  }
+}

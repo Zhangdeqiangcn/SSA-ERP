@@ -1,102 +1,113 @@
-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
+// 授权回调：校验 state → 用 code 换令牌（真实 or 模拟）→ 落库 → 渲染结果页跳回设置
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { audit } from '../../../_shared/auditLog';
+import {
+  getProvider,
+  exchangeCodeForToken,
+  makeMockToken,
+  expiresAt,
+  upsertCredential,
+  getCredential,
+  type TokenResult,
+} from '../../../_shared/channelOAuth';
+
+function parseCookies(header: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  header.split(';').forEach((part) => {
+    const idx = part.indexOf('=');
+    if (idx > -1) out[part.slice(0, idx).trim()] = decodeURIComponent(part.slice(idx + 1).trim());
+  });
+  return out;
+}
+
+function resultHtml(success: boolean, message: string, platform: string, origin: string): string {
+  const color = success ? '#16A34A' : '#DC2626';
+  const back = `${origin}/settings?tab=channel-auth&oauth=${success ? 'success' : 'fail'}&platform=${encodeURIComponent(platform)}`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/>
+<meta http-equiv="refresh" content="2;url=${back}"/>
+<title>授权结果</title>
+<style>
+ body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#F1F5F9;display:flex;align-items:center;justify-content:center;height:100vh}
+ .card{background:#fff;border-radius:16px;padding:32px;width:380px;box-shadow:0 8px 30px rgba(15,23,42,.08);text-align:center}
+ .dot{width:46px;height:46px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;background:${color}}
+ h2{margin:0 0 6px;color:#0F172A}.sub{color:#64748B;font-size:13px}
+ a{display:inline-block;margin-top:18px;color:#2563EB;font-size:14px;text-decoration:none}
+</style></head><body><div class="card">
+ <div class="dot">${success ? '✓' : '✕'}</div>
+ <h2>${success ? '授权成功' : '授权失败'}</h2>
+ <div class="sub">${message}</div>
+ <a href="${back}">返回系统设置（2 秒后自动跳转）</a>
+</div></body></html>`;
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const deny = await guardOperation(user, 'channel', 'update', env.DB, user.org_id);
+  if (deny) return deny;
+
+  const url = new URL(request.url);
+  const platform = url.searchParams.get('platform') || '';
+  const code = url.searchParams.get('code') || '';
+  const state = url.searchParams.get('state') || '';
+  const provider = getProvider(platform);
+  const origin = url.origin;
+  const clearCookie = `ssa_oauth_state_${platform}=; HttpOnly; SameSite=Lax; Path=/api/channels/oauth; Max-Age=0`;
+
+  if (!provider) {
+    return new Response(resultHtml(false, `未支持的渠道平台：${platform}`, platform, origin), {
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': clearCookie },
+    });
+  }
+
+  // state 校验（防 CSRF / 防重放）
+  const cookies = parseCookies(request.headers.get('cookie') || '');
+  const expected = cookies[`ssa_oauth_state_${platform}`];
+  if (!expected || expected !== state) {
+    return new Response(
+      resultHtml(false, 'state 校验失败（可能是跨站请求或授权已过期，请重试）', platform, origin),
+      { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': clearCookie } }
+    );
+  }
+
+  const cred = await getCredential(env.DB, user.org_id, platform);
+  const isMock = !cred?.app_secret || code.startsWith('mock_');
+
+  let token: TokenResult;
+  if (isMock) {
+    token = makeMockToken(platform);
+  } else {
+    const redirectUri = `${origin}/api/channels/oauth/callback`;
+    token = await exchangeCodeForToken(provider, cred.app_key, cred.app_secret, code, redirectUri);
+  }
+  if (token.error) {
+    return new Response(resultHtml(false, token.error, platform, origin), {
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': clearCookie },
+    });
+  }
+
+  await upsertCredential(env.DB, user.org_id, platform, {
+    access_token: token.accessToken,
+    refresh_token: token.refreshToken,
+    token_expire: expiresAt(token.expiresIn),
+    scope: token.scope || provider.scopes,
+    auth_mode: isMock ? 'manual' : 'oauth',
+    status: 'connected',
+    shop_id: token.shopId || null,
+    shop_name: token.shopName || null,
+    is_mock: isMock ? 1 : 0,
+  });
+  await audit(
+    env.DB,
+    user.org_id,
+    user,
+    'channel',
+    'oauth_callback',
+    `「${provider.label}」授权成功（${isMock ? '模拟' : '真实'}）`
+  );
+  return new Response(resultHtml(true, `「${provider.label}」已连接`, platform, origin), {
+    headers: { 'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': clearCookie },
+  });
+}

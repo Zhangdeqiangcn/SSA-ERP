@@ -1,27 +1,23 @@
-U2FsdGVkX19xbox8IQmiPUD7reLHYw8I4ueXXI7wblEauFbG2PN/9nD9oRY8UDSZ
-BhLdSYYFlAcveFOqJXGHyKaZcSVDjXdWXuL8S20yHMyxQQ+x1I3a960+xavSV/UO
-pGu1/fNV7QXTNodWZGeVB+WoRBnIfK7EGwV+XHeS6EU7X4upzhoWzbbbjW0HQFpK
-2iSvWKnFKOfsHAfnIZv1txfoW/YEUY+NVudxH+6OrdS2hKepnsk11lqf6lg9hGs+
-tPV+e5LJrXGAY64fblc7ZK3fICg5GG3RUlvE1BFTgz+IoJd8erv5krInREMvEW/a
-6eih3ud72v3g2c9Lz/Dd4dK1ZTWCKkBXU/63LaJdLn19V0ew79hLLbTJI5zFud7I
-NNDgwXwtcH62RqW0+SD1kkr6mOxCsoeOvgvVGpk27a87tao9wvkyCdYuDILfhJ66
-hOBUIugPqIb4h8lZkIct9HAAdMTX5hCmbKLvZfS9ENlkv3SLT2td6VMMpsDCVN0m
-gKzSPjij6XKo46jDvWvovTRnK1qpotw6+9G3qtkI3m2BBEdqD/h+9rzhdCMlsTWd
-f0dvdE7trZ9x2Drg7UUfVsivKX2X8yVDWtLrRAzUwQd98n640aZn+HRtasReXdop
-u0p0mJOlTTySxLGvwYZUpWY33WYckvlSjydg51+k15LsQ54v3CiL98fKhcGtuoUN
-uPefJtLJboIibaxOxS8QAdHa1Zhb+SJqaCEfktsyNxEg4S/YmISlZueB+ty1K9zA
-eDqMbeGS2eZJ034R9r7/2nHpqYrYZuaeIppe+zDGkaGtAlZsS+8innRdoMpjzxjY
-OKMP9c8fzofyOCzbWNtvDuWO5J0SCzGh+ClWsXj7tz9l/rvO+tY4IfwiCVcCs+Jf
-psMscKQV/9gHSSTOQEx324JZOMrMRd1c2tOGIrpKHk0reP2VOisQkZ/JTsj+HNJx
-LD7pguqhMgBU5fu7pqnyME/o/kMLJAwbK+8i0myLBaSXfcbLawAlanFP3dcN/rzQ
-bUzPlxm5YJOZflD6fthOsBWL4F7VWjh+J1xzVLiugKU0BoOazm4iIXQLA3dShoEF
-WlmHK8gsJ2k+S1v4Ouptp8glgY1OmZVn4ATGqE3/66oVPikzepCY9GUmHxRlOMFT
-R5TL36y+mNaecH+MbviLAc5CwGPxE2GDqpkf/FsJk+gqzk3kj1i+q3mavtDFJFcT
-foa3UBsxRBAQpFWNUiaHCgcQ/nvzejlQFfxOuOik3NKMNaAjuRrSt2b5gJgZiQ+p
-7z7g6s1Wli4Tj5W7w/ooqEepghMw9XIncw/5lyUD/DSymarsNT5fRLR/xNN7CWMN
-+6FetfbJF2yAiHsf1KiRZUey5PC9rtiJsiWffykxr6JwRilEo7Ynh9xJyLbzfJFR
-vZ8TIQuX/wzaUB4cml+62cTLC+CpYmwztKCCb/w2Hg5dlPqME4PVHi0NJBOq9d+P
-bj3DeYaTAS9zqtoETg2hvxy+HgPtOa9LmP3mfXI7tRqBdU90i/XShqTouw123exR
-7ORcl3vPN/CBjmFSYpOPz0npGVmC1QV4to1am0mFg3Dt8tuKQxOfrrXC3h0tt0jJ
-LP9OuPxZEqMn4udAihRAk0F41jflQWhVkSeya7BDzG2zyksHYR8vKouS9CnkhNdY
-C2NCtTB2dwoI9MKIwnWPyNpEttFMyKcJwsuWzOP00RqwIwdodnABz8DFHepLZxoX
+-- 0073: 新建单据幂等键登记（缺陷台账 #10 完整范围 · 幂等键部分）
+--
+-- 背景：系统此前的防重复手段全部只覆盖「副作用」（库存过账 inventory_posted 守卫、
+--       折旧计提期间查重、MRP 落库 run_id），**建单本身没有任何防重复**。
+--       用户双击保存、或网络超时后前端重试，会静默建出两张一模一样的单据。
+--
+-- 用途：客户端可在新建请求上带 `Idempotency-Key` 请求头（或 body.idempotencyKey），
+--       服务端按 (org_id, idem_key) 唯一登记；重复提交命中登记则直接回传上一次结果，不再建单。
+--       不带键的端点完全不启用，老客户端行为零变化。
+--
+-- ★ 单号查重（另一道闸）不需要本表——它直接查业务表自身单号是否重复，见 idempotency.dedupeByNo。
+
+CREATE TABLE IF NOT EXISTS idempotency_keys (
+  id          TEXT PRIMARY KEY,
+  org_id      TEXT NOT NULL,
+  idem_key    TEXT NOT NULL,
+  resource    TEXT NOT NULL,
+  result_id   TEXT,
+  created_at  TEXT NOT NULL
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_idem_org_key ON idempotency_keys(org_id, idem_key);
+CREATE INDEX IF NOT EXISTS idx_idem_org_created ON idempotency_keys(org_id, created_at);

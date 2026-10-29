@@ -1,18 +1,21 @@
-U2FsdGVkX1/LgsQNApjg1rWbra3xFDER6Vysl4lt/NGvE5ZoWmj0dEzU4brV0Dce
-FGGfuLPYU1gDeIZPchwsgAVCEcDnyON5HWRQkVqVwoc+pc9JE5Ian+YlK6TKqdUs
-VOrUU0s5Evzxx4cNZzzoS+08VBKALH2PZlVf7IewCBJJp699peR4DoHCR8zUFLNJ
-PvMjuBgFqXIvBOjdwOpVLaVaNVrxzJApJALCegHk2jXdoA78+LJir1I5u4V33s9a
-enUHgS2B+z32gUEqfwm5C2K5BRN/s7vgqkCi/uaLaz0KU1K2Lecs1SdZUJ+k0Mhy
-CYr9xekZG7jjIX6WQf2CP4HKVNSciIXAlgXpy/myjPLJbn/e9nuWKRnGfluUgnTG
-MX9RLVtx4W84OO+4VwfrCjT0/AaYwCfDw3izDyO9FIAqe1VX59M+xA8eTtRAXkoP
-aETzi2YqQT+mUnphQ0d59iecO5Iwaywu32jPgid6PPolVMTkD/jIRSQzQ79UTTm9
-X0ABhigY7UiT2MQB6o/YEpyK3IOWyrXw9gaOZFoz3hmf8fP7N7EVrcyv+TfKTZcW
-v5fm0DBFKXGKiYdtfHHv59P/hzQzmLARAuwI46xJ8HgcC5Zx+qjy4iyAXZQhlqMe
-TWuQQ0N4W+H8E7pwHDy7Q+eejcapJpQXBUpPuejpeRbm6SRtvOhH/iaxyv215ssw
-z5lw1RjbznWUwGjPNo5PcJKTWyTMQSjCSMbBEayO/dW52HmZVL/EoHbHKFxsiAe0
-8rrZToYJXMi2WFem04hJVEo724KwOMlcARDXo+DqkJxOlPUzw60hw4tBoisDBwPi
-95nInSEGjKDEyJlawsiZSLoJa9970+wOakRMjDlknZ9DpI9TvBUgqBWQDmdW5XPi
-EKfBmVlEWDQ01cORIKFSZvPZhrot8EB7FIzy3xVhgyxqYtSOzaKgtkubYu4cUN+o
-x81LJwzPeIrDG0P9raDJsKOJhTLIr8DvDiCDKeYBko8+H44GAfyn+n+IAHQFBs1l
-aqDh3/Ogl2gXXHrGjtE1r3EFgh5DIBrvQVwB9UzkWv0XogHJbpgJ1zD+foO9wcwX
-Qe2BjLoQu9UEca1syxBE2COtOkCIJL7dx3/dUE1Dgys=
+-- 迁移 0014：多币种外汇汇率表
+-- 支持手动维护 + 从免费源(exchangerate.host，无需 key)刷新。
+CREATE TABLE IF NOT EXISTS fx_rates (
+  id            TEXT PRIMARY KEY,
+  org_id        TEXT NOT NULL,
+  base_currency TEXT NOT NULL DEFAULT 'CNY',
+  quote_currency TEXT NOT NULL,
+  rate          REAL NOT NULL,
+  source        TEXT NOT NULL DEFAULT 'manual',   -- 'manual' | 'exchangerate.host'
+  updated_at    TEXT NOT NULL,
+  UNIQUE(org_id, base_currency, quote_currency)
+);
+CREATE INDEX IF NOT EXISTS idx_fx_org ON fx_rates(org_id);
+
+-- 组织级设置（基准币种等），与 orgs 表互补，避免改 orgs schema
+CREATE TABLE IF NOT EXISTS org_settings (
+  org_id         TEXT PRIMARY KEY,
+  base_currency  TEXT NOT NULL DEFAULT 'CNY',
+  company_name   TEXT,
+  updated_at     TEXT NOT NULL
+);

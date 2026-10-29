@@ -1,43 +1,59 @@
-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
+import { api } from './api';
+import { Vendor, VendorRatingRecord, PaginatedResponse } from '@/types';
+
+export const vendorApi = {
+  // Vendor CRUD
+  getVendors: (params?: { page?: number; pageSize?: number; name?: string; type?: string; status?: string }) =>
+    api.get<PaginatedResponse<Vendor>>('/vendors', params),
+
+  getVendor: (id: string) =>
+    api.get<Vendor>(`/vendors/${id}`),
+
+  createVendor: (data: Partial<Vendor>) =>
+    api.post<Vendor>('/vendors', data),
+
+  updateVendor: (id: string, data: Partial<Vendor>) =>
+    api.put<Vendor>(`/vendors/${id}`, data),
+
+  deleteVendor: (id: string) =>
+    api.delete(`/vendors/${id}`),
+
+  // V3.66.0 P1-3：已用信用额度相对原子更新（服务端权威值，根治「本地读→算→写」丢更新竞态）
+  creditDelta: (id: string, delta: number, reason?: string) =>
+    api.post<{ ok: boolean; usedCredit: number; creditLimit: number | null; delta: number }>(
+      `/vendors/${id}/credit-delta`,
+      { delta, reason },
+    ),
+
+  // Approval
+  getPendingApprovals: () =>
+    api.get<Vendor[]>('/vendors/pending-approvals'),
+
+  approveVendor: (id: string, comments?: string) =>
+    api.post<Vendor>(`/vendors/${id}/approve`, { comments }),
+
+  rejectVendor: (id: string, reason: string) =>
+    api.post<Vendor>(`/vendors/${id}/reject`, { reason }),
+
+  // Blacklist
+  getBlacklistedVendors: () =>
+    api.get<Vendor[]>('/vendors/blacklist'),
+
+  addToBlacklist: (id: string, reason: string) =>
+    api.post<Vendor>(`/vendors/${id}/blacklist`, { reason }),
+
+  removeFromBlacklist: (id: string) =>
+    api.post<Vendor>(`/vendors/${id}/unblacklist`),
+
+  // Rating
+  getVendorRatings: (vendorId: string) =>
+    api.get<VendorRatingRecord[]>(`/vendors/${vendorId}/ratings`),
+
+  rateVendor: (vendorId: string, data: { rating: number; criteria: Record<string, number>; remarks?: string }) =>
+    api.post<VendorRatingRecord>(`/vendors/${vendorId}/rate`, data),
+
+  getAllRatings: () =>
+    api.get<VendorRatingRecord[]>('/vendors/ratings'),
+};
+
+export default vendorApi;

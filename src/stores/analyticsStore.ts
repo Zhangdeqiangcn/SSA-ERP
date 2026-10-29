@@ -1,63 +1,84 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import { parsePayload, writeRow, withKind, splitByKind } from './entityBackedShared';
+import type { ForecastSuggestion, OcrHistoryItem } from '@/types/analytics';
+
+interface AnalyticsState {
+  forecastSuggestions: ForecastSuggestion[];
+  ocrHistory: OcrHistoryItem[];
+  addForecastSuggestion: (s: ForecastSuggestion) => void;
+  addOcrHistory: (item: OcrHistoryItem) => void;
+  clearForecastSuggestions: () => void;
+  clearOcrHistory: () => void;
+}
+
+const RES = 'analyticsShared';
+const KIND_FORECAST = 'forecastSuggestion';
+const KIND_OCR = 'ocrHistory';
+
+/** 双切片写穿（__kind 标记，行主键 = 各对象 id） */
+const pushForecast = (s: ForecastSuggestion) => isAuthed() && writeRow(RES, s.id, withKind(KIND_FORECAST, s));
+const pushOcr = (i: OcrHistoryItem) => isAuthed() && writeRow(RES, i.id, withKind(KIND_OCR, i));
+
+/** 清空某切片：本地清空 + 后台逐个删远端（clear 为低频操作，fire-and-forget 即可） */
+function clearRemote(kind: string) {
+  if (!isAuthed()) return;
+  void entityRepo
+    .list(RES, { page: 1, pageSize: 500 })
+    .then((r) => {
+      const rows = parsePayload<{ id?: string; __kind?: string }>(r?.data || []);
+      rows
+        .filter((row) => row?.__kind === kind)
+        .forEach((row) => entityRepo.remove(RES, String(row.id)).catch(() => {}));
+    })
+    .catch(() => {});
+}
+
+export const useAnalyticsStore = create<AnalyticsState>()(
+    (set) => ({
+      forecastSuggestions: [],
+      ocrHistory: [],
+      // 注意：必须用 set(updater) 返回新数组，绝不能 setter([...list, item])（partial 合并会静默失效）
+      addForecastSuggestion: (s) => {
+        set((st) => ({ forecastSuggestions: [...st.forecastSuggestions, s] }));
+        pushForecast(s);
+      },
+      addOcrHistory: (item) => {
+        set((st) => ({ ocrHistory: [...st.ocrHistory, item] }));
+        pushOcr(item);
+      },
+      clearForecastSuggestions: () => {
+        set({ forecastSuggestions: [] });
+        clearRemote(KIND_FORECAST);
+      },
+      clearOcrHistory: () => {
+        set({ ocrHistory: [] });
+        clearRemote(KIND_OCR);
+      },
+    }),
+);
+
+// ── V3.81.0 D1 同步层：双切片（forecastSuggestions + ocrHistory）挂载水合 ──
+let hydrating = false;
+async function hydrateAnalytics() {
+  if (!isAuthed()) return;
+  hydrating = true;
+  try {
+    const res = await entityRepo.list(RES, { page: 1, pageSize: 500 });
+    const rows = parsePayload(res?.data || []);
+    if (rows.length) {
+      useAnalyticsStore.setState({
+        forecastSuggestions: splitByKind<ForecastSuggestion>(rows, KIND_FORECAST),
+        ocrHistory: splitByKind<OcrHistoryItem>(rows, KIND_OCR),
+      });
+    }
+  } catch {
+    /* 离线/异常：保留本地态 */
+  } finally {
+    hydrating = false;
+  }
+}
+
+// 模块加载即自动水合（未登录/离线静默兜底）
+void hydrateAnalytics();

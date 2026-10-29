@@ -1,242 +1,320 @@
-U2FsdGVkX18GnKrOVnIu5DELGuvqne+oAuuJHec67bjqHnJkqI4iKjmbttLC1lfj
-PBrKKDNDjGLlO+FcqwV91972IEQTjBu5i4x0GK02lEiGnrPm2xVzcf8nUo8v6TnW
-xqlER7O8mqOezKwqSNEbbihlRQX1+x31T2Rg5Q6xskXJV/OtkBmWBNZNgr0Db2si
-7fqX0Pzu9tU94akudvx32Klk2F4ihf4D+WVxe6ibjxm0vEGiDc5jPPA69xOWcFwE
-t5pYFw7Elp2K4ARXCS67fco8Jaa6AXQLNuFTmMvOHmbln9VIxg8qHEfEEZYcAeP9
-xLOq7rdwDyxwi6TKDNw2kDIKGLk4/mX8AE738VzukuViks05F9xPB9XSvv2lAJkr
-FEkYRt/7XtqpWxZ8JNVox1f7BjahEWy7LZdM+9UCAldNQFK2gy+ql8G93tna3Gbh
-WEXhepWp9XJ1oFD0axkgxdTIpUWUdb3my4b1f2AiK6DISsdiHqfvHI9AJ4BqBl3A
-ELDREikpbKKc4kjtaMb2SrRfacSjvz+ahGrhxrJamJS4LLlY1FeSZVtxs1PN4W9y
-KiFDJLDHOGNZynMLz7P8l9LL/nvkw1IBUkaV6MnsiB8921nSSZtezIQB3HgjtqDa
-7jE4/+G5VNT+zccQ+iJn84G+SJ41lXgxBqztJ/oefY2Ef10AeNz7PBIWobe/Q4Bz
-iySwksr8ZXiRdFSB6zP3r34KGFXl6etpfsfgdb4hV2bSmORDl2fUGyOzCvcjg/9O
-iJ0uXHO+GOHG/zaezaau9zgzcyP/TCnmvqaoMDu2ISxdw4yrndJZdI2vcfgBtGzS
-mfdA31kR0KcZycWzCktkwlpYkW/l2QzApH0FoHIj5J7536C9bMO++o5yHoflfSKX
-nbbWituwUwAcx/qmm10HwAjtMyUPl0ri2JoV2HG8XtEIlQZvaL3eKv1T/CI1f1vI
-qI+6veJTSsNGeaFL+m9joENcYAiCtr4UyQ9pjd1p15EkvL0YEay+8Yr7Gb+X22py
-A/4rGi65qNYOJIiCY2urgAw82BZ8n+rn9lHCUYh5712UMy4z6kjtl/UuNsOwjPHD
-Wa3U7ueBu/DtqpQ+WW1VjNaagdq2PmvyR0V8+AbXMALJd9GXno63mJPNf5OKBfaG
-zBgUAETsNHVTXRei9MhAwrAq+xuXEAVswMi8tSX+R1k6IYec0nCKB+o54r082QPZ
-64mFb93vw28WNnwsHds6GVVvPzwPbeg6KF1XG26V0EM5FfijFPv1kxIY+YMFXqQb
-QQIhK2mj6nsgrhIpk9TAJPiBNXA42+dTl65fPMyf3pnMoIpmwOVC2lL7kCtQE9Zp
-Fvyb9OntZ2drDVXzNqymy7NBPQ4NW2tN0TZwLdevNWWNzqz3jNrhoZp2M9yT8dqx
-45c9AQI1cuRSK9/4AYDAfSWEL5wz5D7s0NTByIwnm1JjJcBskgnzThIvvvGvvDE3
-hLlKeecDn6qdBP2XFbvW2uy3pxZQ4xwrI+iF6WJ/xgRQ5FmMxmiAOtB2DZZUnaGR
-74VstG0iYObrARyr5hZAdG7JtyugfnzEsgBofe3asGEfTvuLCp/5mNP+asUyB5+l
-ejSK2CyxFk2g7R1l+yiquJTgypvppDnVtHdYYiM4AH1YlkiP/FNLxe2gM5j1//ZR
-nfojYMxDpuK5NDqNiuEZzIJLx6Uhzgea3wpy/BeGZoixTocgka5Oozi0yqUFP2zZ
-l9PpS9EVSZwuRwJUOigddxYP3NpCiJAbQ32bBgsIDmK2RqMkDZhsPlQYOftbzdUs
-K//3qu5pOwXR1kVTysG+WIFD7J7SrQulXb5N+juOC9nUoPkw0ljL/Su7eBWgb/Il
-xAeryqhqpwNa3/RhOPz7KWFpXa/NxMeUXWIT0FpT2rojvR3erabHSZWFLNUA5Diw
-dXEHCvctRcwoAEeRwlRzWKJy5FBUN6J/scXW69iRHw4OnLYpWwmItUmlKC0RZqNe
-tG/ZfvMYUEVQ8z9eWiquUSLevcxVawJsXcKZfblQbqGvFNe8E7TI1JlEuCyOm3gH
-DJHNrhX3zXUWZf6fke99uS1ZaoV1aIfuM805j83bAsa6tROfTwQAr45DpHUx5G4B
-Rs4LSIc0PKcDpeh7uXWXSg7BXmxwvHwqzD7etcN5g0anw1lsAxW2ETAfRzRpsnZ4
-BK6kcxZPTB9Nct2JHMk3wxqtInM5TvqSpyQQVY5Nwhoe4GJORvMOKGdk6dhE1BAl
-61o7Dh8PgijGku1tGSbciW9cHWJDGHxdFXDdhyATEVxsRmdPmj4oFxzeI0D+DfFX
-eqoMiefi59j/ynGXwLcNY5+kNBHo+D1dtgqCFMWQDJnUf5Rrp9Tzuzka7zsXT3ij
-qzFqOo81QW0abSPUAH8U/3I7IWD6DKNVDLs04hZXXyRnI4lrTbaQg+UAnFwzyuWz
-q82Emcx+92U6fbyeJgb8Fvp0bPeYkkeG96prFFSi93+is+fhn5cSaQ+7biordxNW
-uboAY+2wrpIIwm3uG8ebrVTi0B1ooQASIsKvh+XJ7Ul+gytic5iTdR+ewTv08uEX
-c5/TclI6rJ1DRYwZLLM/Y0eT3jrCsrOQRGNROpGsj2GYJxkU2v3tsuzl5THVKwWf
-lgnF2gTgywtO3zD5KE3+EJBbuer4UxHQvDRRgH44+Dd7Qp0GUfIShBVH4uI0CZDi
-PA9tN/zd61MVcrNE1OHVFj1KzZzP2YAOt5lz9K64YmcbnKzWNPkNVR/OmKPRg81/
-xsM3JJnV+Ah1DGTLyTWPKYEuuerpqv4MFREenJrEl+tBsQsld4Lm7WX9FeacTqXf
-yn/vgGxqRvZaWuWINiRToYqjGUonUHN2Ms1NRdkNggBPHpa262oE6qgkkEPexIZs
-NdnRb+wKFPl/aHFcRlaEPSJp/8rg7NLUJpJDsrkkMSmjL8uO/ft0G3yb+IU1uc1+
-PxaGG6YkbPzy+dwLXcq8ObemUO2BGJKDBBin7sO1vNxi0S5jdhMQzGG1Bw7pK+FK
-27qtV4aONpmytcniuodjMvBLaLp2B2yQcGxS/MdeR3EvfqE8IMQlTgC16pj/IBYX
-J11dTxHfsGPMw/7xEKo6Gi/i3tfSkpvE99nXyMRtJFiGRPHrVUo4Ixu7kweI0WCg
-GJTrt4d+O3btpTA2/BgQRtPn0Axw8KsJU2rYvFhn40WFBvahNZfWI1ZhMMfPqjK1
-GlxCHVYxJk3jQgwfQ7rAMUAI/HoYIXq/EvfwdZnBSTaIDgUF1rkIRxgWZJznP7jr
-U3JrWIP6FgEn0p/HRPZm3ky2FI1KbzD25pWuQ/XFrsogMhxDmUlWIUU9PshXkr+s
-UMkCtaohDiRdGZak+X8koG7Mr0Sge+zc6S1vw+ugIwyd4lu+CD9U9ZvPPaM/CUNW
-JdAujJgNW852Ei9XBQ23PvGCGrJa8cd3iNdkq40sWRtPbfjVu4Dd4Ubq5NV9hnJi
-0lUvno6GVoyzXVwX+dbk4q59kXjN9JFgk0/6M6XUMKhwLa1eDxfKw4PLJYHbeCW3
-Oiip6Y65yWMePqQ/5+1cq+Fb7zkXeuCCJNmLl8QEScQq7zOBvqK/D52GYOgfwQRS
-5Tp4vRqiGVytffUALSBz065uldWVbVxKdpfWsbODcRYWGFA1siX6Nq9Hqhb8gjr+
-OxwwlaYBdcXW7YuPBnO66dofyx1rX88D5+aAWbIbAPDNabyE5N4DLvbmxTBCMCah
-th4aCcLtfvGk9p70nbG32jIv1GTLv4owCFqL7z+wZKzHyPS0l8fh0RueGOWbG7it
-n3X2+e2XPVmn3vJOx2S+/bWAF3pAd5NFUrSt+jTJt6iwyemYW2FILEaw7xTI85Kt
-MGvBeDLWkmGRuo9AUWY3/Wm9g2jwv9cgcl6HNNG92ZNPcAcFBDpMLBnxGFCTyMOS
-QWctrQsh/AjVezTyhBoqQe3ptQrtC47927xLvFJ5SZhYvm8HqXpFLKYGHSUKvZ/s
-wrItfsw+mSogjKeKDB6hoaP6zwh369ds5YoZzNPpgz7G5E4sk+9J1e26LXGoaDBT
-KfMDbB8I3JCOX/bYFYaO8+mVA/3SgcVhlQjnloBy3CKhjuHTkdDe0JzHJGOK9KZR
-nRTcO9wRHeAg/dzoLCRXweldbxlM173wbXTMBoXu7Vqn/4mV3X3TwdjD63/4i4c3
-jpUDa1XQspb7oZTt+T+8LMDosQllExhGwCN51untr1znf9E4ANlqXdynSl1Dd9Ou
-ZoWXg0m1KxLS0BtQdQ/pU/FtHr1DiCp+4Ky+wXAu7cuAwWYCMXIOz6veh7xYQzeC
-s1fQDR9Q8sbxTGS4OvhD5AKVRXC5VQmHg9QHhqLIRV5suN/DeoT5nSZfMnSI/qZv
-K4hHeSLIiS8/PJNZI9mMXr1GCgbv07ZW0nzXt/8TGHESz4GRpug8gLgm8ZRZtuEn
-On7GmP4k+dTCkVu5iG07VElROqtW5DRLcV8bggTS2vQaXHtkuD7PiJ0sL45X01rC
-BIWn8xao1HYmQI+XXWao5lcgnhRcszyYggspDcP4FmEkdAYiSqsYPbRMl9npdmbL
-25hs0qEZpeSUsz1n4KBggxCbga9kUFNVRFI/45NrLIZzSANmu9OgxvD4DQH8FPo3
-59RuwoZnAq5FmjNdC2TYCTz8Gy7jx8lzMxFbwf49Pa0c48YH6h52LH9QLukR92x5
-k5ZhHE38FU9SDmvEaiBkG6ux65El+xaUg4H689f7/ESDJVan4tuPbl6PgOvVIifH
-BU/U2QLz5bhotUrxG1Y3mWhoHp4+fYiVr1eeXADbBnEBY8y3VBgt7XOE4l0ucjz8
-iYHeeI041CzeXi0sV+KAE/B3Z+Numvki9y/lSwY0XDFmDO5yDX87y0ofv7GmYGMa
-TE5CFG3voyk5SGLXe1zHE+2Ri9+BMcv3S7wsOFuy6oGz/kc21ZLGm4Px9Z+RFRuP
-WjooHrSXl8dUtiq8bQb6f9Iyp4Zjwzg7umRyRBQwWikKL3n9Iv/GzMywpxV/6ZWy
-dpqvW92hVtBm14vwWH8WzZNCOYUCTMxyraSnfj0ltiJHbmGCk6zAVB/MOxrUTitq
-I9aunvXMahmsKROSyNLHkId3gEs3/6zep1LnNxzi8SKYeLY6dGR50V31r2HzJzG5
-8nfmI0KL/6qV9DPu2ZxUECfOYmsZM0kmk87fBQ9YizO+DQwRpK35BQVRuViXUwJS
-JFu5dUwselLM4ApIRfm3q6C8gg5YWfdVA9P+Vbi1xQCxvbJwVI9Dzc971YCDB/vm
-5B3nOptp+2xNo0PHr28bHhxw8lBt8Omi8zJOXAZyUDik7BdJHHNxZY3VA5zA8lTf
-mkfiDcVQKgEFhHD3533cWI+vU1Jy8msviGoHqi95vWY5SpOWMlYS34LO5eLflr7X
-jR3g8vIOla0mJRwk2unAuvT+wSXCWv/fDbM+1Lrujj74h1Z/oVwYZba4+VPT1MMb
-ZF5wFx5WLUAN5SdncxN+Hik2kczdRubVleULNyRN6eQF5rGMCnPQcId9mratxU/+
-T1+Fr59Sjdv9w0yLmpXW/jx+7yCSOnrt8wqtb3xH/UEhr1EJuJU7J4lvuhde40UN
-KFTrBhCyv7gtqVrMSMu5KTmGpTfyRExrqpUp7Qmu1PiSegnqq+d4uFJMVwkENqp/
-LrHmJOOKjEuhkDICpJSpx1RfddK68AETEWK910oL/P0/97IKIixcCHHdeAHPsCrP
-L8/M3etde0F/28qYbR4J6q7jNFvpVWSJ7C1EMQrdD6nJj57SgjZlxNzwaISknAAF
-56MLkZ6HN07pxGqErx166+bXUnK/RQBcIwgwXZl3/4k+Rdc9tOEjHkXhaGKM287F
-Jp8s5IYH2GZTGpbQPtY2AoRCGydkt706JX3+ZrRMqnd+Ua0G+iuFaBQ/IoiZ8+ur
-/wafI6bllW/0dvGgv1fXXlrvRgR6nFBlgL92vBO+LYhxj49Dv7e+PbNOU9WyZWXt
-fWNvbR/CmWJZPNzjqRHQqjWkVsdIYr0XEYPvtF/GrTFR5E1ueJ3y5Ek0W0JoSWgn
-EqSL0RKVs/nFPs6rFSPUydrUGEz+nsGCofQEmjNX8pYmlsVHzaJM9bROszomoYvT
-EP+NlN1MU1dnfSp9vqjQT7OwarmGEhbxT+y4DDdYZbdmpnmcVm1dMYrLobbdBaSR
-sAiZifsdHt5SVynTnd4pK5GhuWt36Cpo1d83vGNRclvAsjYIuZv237vJ8BsBVZMS
-MAcvhPGBWkzMbxqHOF3NBCMUV6bNuTl5bBhqOOJSH5tph2WzpvyZHkbByRefrc98
-HAksiDNAWE/AO6Mjp+iJ6eXtkRlQ1uoC2xGIQRfmqIbiR1bpYywUhLS+etf8rvqI
-GqxZplLSO6inhlFeR1zXIeVD5rxPrl6rlTEmV9llxVkJL4yqepHxvgfLJGxXcdq1
-UVowt0VRJ/mShFdcTRY7uiLJoFZk13Vf18lgQ/YI+EwL84EXSQ4w732CfJ7LEiZn
-UOiK5eV1sCnxF4WnGxsdFJHQAifkztw4HJKp4uTeEGvFyCt/C9/Qlf6Fzuc2MePf
-v5ZbOMsuDq2eMHGbNvzVbTCXytKUAJ0oN2ZBMa1T5G4WtNOwz/SRyawN3c9blVpP
-fEMKh90IVivSDRbFSWyyiT3zW5ytQF2CXcFNG7va5/ueXxw371m3suJbJSdE/Ro+
-wAv12GCz8/i6hmngyrqNyY2+Ob+xhrOZD0GJh1a0KqiLRwr43c0TEFakZLEVD5ih
-WC3EVk2kpoa98fQTmv9qvRAYtnEa/MI+6vSxlFe/Z0HPi3bLtn7y27eYh2Gg0Tng
-vrylIHmAW9eP9ai1rzbJZs493DxoxGLZBG+93mw2EqbJGlUEVqJITjC7AnPF5Wca
-N1LsSEqMSDj0WeQX0FCCJRjmJ0H8q09uNM2QX4eflNLMHk/mDRMMqOg/yNp03Nrw
-r4AEmG+7MoedReAFF/CCmwtaQv+D4r2lBUQfvT45imUOpmNufq+xwAYVoDK9AWlR
-LPn/dD0KGDLBds69RZSzgKR01bVyGi7fXVozb3NDBeNq2Lt7/Ba0vuSTK8K5Cz75
-CoFxaWRtoTJqTLtmQi0W64f175jyWpaYT3QwBmuOqMa66tP7BzcWXKT/rBT8e/aq
-Lk/x7HVwYOWGVSgqGigowz8bMGDwTzZi5LnJRvpQbgQVhBnhlkSqdCnkhx8N7Jk9
-12KsPQ958EQk3K8HQqBstx+B+e2FtAIJSkS4gTqZc9+5+VN2AE/c3djhJIWjTZq6
-J4UTGyfIDpwdKpg2nJLqnjOhRQdJQYzobj9ndU+ylxiKfEVSjB1qt3s6qqQ/BSj2
-RrPS1yMjJddrCeEXTkW+ITit0MC/b77ITKWeB5J9uoJXMItB8LDftBUJI8Jlt8Tt
-YtjRWHTKp7Yjos/Kd2+qKYvI6jxLPpJfUGXL+WkH8fNgz5nPJD+rpi0eHZR/Ub61
-f+My8c7t8rV9N2hk0uVS9tQdyzdPVzXdaBW7trhfGJkCsths9S6ydRIxfG4zOzk4
-3J5vQsEvd3CfVXluMCcM6aXni9mpf8kuA+lMKwqCaALhrF3XtoqvfZI3ovvZh/9F
-lh/VUi1zSzveh9enUIDiTDf/dlhHGfE7GM5q0Q50hW/SPvsQnNX/AgD8/xBc0IMC
-RN+X4jbNnBGpY/tWQemcfO3VfpqD1rCbf67nAwX782HgZ9b3TFrkLZ2iqPPMBzRA
-AYkRpPvNV50gm1tR8u19EA9bSgcwQeXtMVpUKpN8ad+RQ+be7dOcfZG8jv23Trm1
-sDzMfEOwWTdOSPd8QOZPhBUiLkO8PTlwgXVnj16ZiarPDA/CILnb8XJw0MHCMMed
-eUTj5KunAsxtKWK7ElMEiZHfuCevg8Tw/nKG4qLlpj0yJZ2tWEDRx13VHB65chc4
-PBGMNCx85YBg+yeDUmoCRpn2eOTBxZ3VbfCRsynR7HileJIYnfCgqSy2Hsuk+Zk8
-yk9t0ivwlRVm9TIIy17K+2+aEumpr4FacBop80nq82Q94bXmdTAtEJ5BQj/vgA13
-F8xUHhqeOhc3gpOQC/xyXl2AUi0mixQJQuDaGevO3RGHLKa80dlkqAzwKmOE7Y8E
-PzoSEGjlV8V40w//m+ObxV80j0/nf+pmpIRWF1LDo5WEKvKuoJPYQA42Il/Lrgf8
-09PpBmNdg0GQowi4g5340CY9crVbN/Ofb64v6HIrqFx7WtVI1Y96NHzkXyD9Kq/G
-UZ3T33Di6wXlIsREeRvhUG9eQLNH1NvyEstL+/mmhGz2eqpeMnh+LcmkKe5JAlY2
-XCs5oPNHTsA730JKjiSBdHJtZRXA0V7+yv1MG1sxZSh/N/uK+00skoAnvjYwZTTB
-S0poz5gnY2rWIn9Q/IynbpCmOoM+KgpHyBx7r+RYzvUYMhKsIZjeS0plBdg4vGrP
-DL0ayiWeV+vaBoykPSYgOT9F6r9zuz7mK53sq9tBljb+m+oBZsTCbmQqc0AveEVQ
-x3BU0h0+H9cZ3pXNCvlG2mgEuf8U2B5AZ5UOLYYP4rtKflnIla+pfDUelBpAz7WD
-FdK/33J3Ix6y+ZJVygSUXkNVmZtX8Cb98V9mjOiksvRGtXral8Tc2B8secJhy+Au
-5fKzTJ2qrf7uaZfqTj7kuX2qZFnPK1q+Z07p37JeVDGR37CvnqYN++DXERA4zC76
-3w+CtQFobIwGUrx9tqlaVgDTS6Xi5PunQRIm7sG9fybfKcNOec4DXY5R1J+dueO0
-yoCRGYQVt6mxWdH/1m8ezf7pNsgBluv6J/qgALM0IUO0aRaxGUdT9KyhAtRY74aj
-6dDJDupfY/ZickTStkVS34qPfBK9dUYAJIRlSse74ghc6gbMd3nq2s3Y6N2TlHMp
-SECMIvl7ABYvS3KbQqUJitjxIMmMrVJKN7nJ05XxpG3T1bGgRLqxyf7saN97Gw0l
-w6HM4GWt0BuUv+qdjLNlaBZvAAYi9zjnMc5Of/9HQnkS0eI1/iSqDGSKHSgq91+h
-kaxXPxmfAIgvSmB1ljrgmhCkT4eqjf0dGKxz970kuGDiguFR48WrzPM6DrAlzp7G
-8iWrdXoSVs9psYr4i04eDXi45H9qzfp7SPlsHHp+/Y4xsX9k339m/xQ45eE8qMOK
-kUXbPULgvBEHdtJ5VCKjUYNrRQJYGRifbghxKs+yXJUtahC6/Ejnaa9b6tUhdjDq
-lAgWZI1FcltkmmcEfT3OFrAoqCHx5c0MvZ7lD5cGgnNA7otgX2r1+pszx2m2wZuv
-F8GpUeyNNap9WresX+XzIpLXf9YI9DvaHKufazyFu3NMvwSzU1LvKdVYOEGgAszD
-/JkuWK5+RkMjUo2GEYws0ZGRoGJaqwwnXlNDPAnZDZhcCtoSmUUhAnX3A0tvBIn6
-eTrUW+QbbBYY8IADtXGpg1nH5CMWcAXrENrr8vcIlriOJsuG80hezmfLSibFkgKU
-xtSfB4AkwM4br6jdZTPyS9RbC/4JVH49oFdbuPoUwIwG++N9Gdv534DAkRZyr28H
-41FwxfOq9N2qS2Q1PO7nW6PFtr/wg4mrS+TcRfEtO9S5dcXOLbzLPYefM4hDyIAC
-S1EfNfUpomcYJ7z1HWxYZwxJMoQvtuKMaOej64Gr1WLZUdt0Ka98/VciXc+SiudJ
-6RadUCLOEp8rihbKA4C8SNzcf7F1qg47ffntxgS2VKbKS9ab7YiAos1uI7FyG+gP
-wVJJwEXwacpvp4TATNk2mwwbiLCMSoCUzZFcg0f7e32N+rN4t2Ykhdd7yocbHm3K
-dsmhhMDq/VumnwzU8yqyKW0Ba5OFGpqEmC1S+yrCjaUM5ZD5Ez69Rm+A4tDVSpmF
-jJCLTuAn7WqXQT5Smbtakszdkzvr/mY4gwVvokfaKYwCbD2y/7Nb9ddBw686TnWI
-wUrLn2PtxkNlS1CW6plthCKFAO445Nmpd4jZBxvzkFV99TMRw5Eu0/OuRQTiVa4V
-8UoM90/mC9Hv8un2+r0JgdI54rm1iu/lCOZ+W3wABXQkDxy+YmXuLrp0zTfZpsTj
-weImrF0UcCU5mYpXoAv725VBiGFNZF1Kssmq4Y4rNot66E7xpYzXjo5bhpA0VbBd
-uAoffb+/pJ9GSJLMFzqdE2VXB9DG3Jgdn4rleT8JhV9G4O06/nUowNnrN5pLgQlD
-FaTsOAzWrlmQFIF63KEohFTLwKR4qE1MhZviRAE2T/bVncxjIs3xK2sqCjGa42p0
-SYrwVCz08lHWiVGmjae9jvtSmN+6nUMPMWsnOnxTMi/4Y6EIiskpXPUz7k9GcSjV
-WXOIfmuLr4OuRgez5c8Q/BBL46UH/Zn+PDPotXI7o4CQhK5/ybfo6r5LjnVgAHCm
-wDEhZz7biGSWEOWvGnqC13qgTfWDE4kLjJHu1+1eBLfw+SBsrWzdcbt59JS3D/9X
-z6oTNC7k90UWviWyUwPHH+d5GkF+6DWM1LaOrnOpRfInz7njENncCL1iG5hgMJYm
-q63/ZoTdZUVGft+zR97zueoKbjhBEylhgVIEpeTYTzTH4K2egbrxElx2uestduue
-FKTv//SojGoFDsgLdgXx89WQDdoQNZTo3BDxuP4SiBhMM629wnoNss9IvcHL+8lY
-mF9y6/fCvbtv+6NovBX03OoMRJxuw4NacZ6Ua1HAmbISEZF1g0mYXcXf/wbnhERe
-QgryA5AdhUWJjdWqKA5o2ShzU1BdUxmPiphpi/3nmBmb/6KLrJzEo7nVZujl5jY6
-SJXiJAhm0DwgxJInB72TPxmUK17iOXkWktkwDBAA0TkeRD02KlLKkBllQFdFRn1A
-V+Chd/Qi8IKr8N6M3kVg/JNFmR1MDvqD6e/4zrbq4TJipLkAf17qq4PWHtwsd2dO
-fNKDbWtNrSqzmeXZvHlMQdb/SvFmiZYum8ZjopDw5dRgcXovZc2t8+ter99olOuU
-dRb3YqAgISirTBpKg9T8JJOX5G3gE45y82jA05BctGW6H6nxI7s1LvS+OnsQEqSv
-d11x97YdDHi5247XusPrsjaFwsbE0+OLokxrQ860OFSMDoVBAQ+qaJouOkalvrvL
-m3bxvQEz50pP3QFdlJSNDnraWwjpSbOqx3Vx4b5eafJ0aLG2Pzx2Y6WPqozpvpfw
-F9R32Li6wI6v8AmDcYjD1yId7a0nI2YEAfzLvidy01PtFYWwsgB+5X6TNFPjqqhA
-9wB7a0skbaPPgkt7N9WfQnACGpN3KKCszRDCrD4hi8kFoZ9wmbI5l8RIwmqHb+jT
-BQoEsVDI9x6bgLbA36vkZcq5owbNqaKXKRgOJwq8gJVkEiJ0IQ5FDSlJ1VcZbZSU
-whinfKbbx+5LKQdVBSuqrwtmEnkKj986ArNTRjVAA08F1q8T+KCYwAcMkEQHbtNt
-Tst3tUJANROBMMzajSWh4IYbGjWszt0MwDtcgZgIgH3yWb442SZtoW4Nl+n1vqOc
-LxVN7VBWBlYtHrwKJKpV9EVzJVrNhaPViohjI8Ep+agFjPJblCjEyaSA1qj/USEY
-sM7tQ3dB9MwKXHZjgy9SuOM6fMLjfmwe2xLtkKWNZIT6yZfyRJ4sW38czGAAxnXd
-T6NBx/NE3w7goCnH3qawFsX14swOV65kaF+iJRN1APWZMXU5m0yCtxM7KAkbNYMn
-0vzQTBu52aSqFvEvs1Z0QAJBRK4Fg6PmNlQVKfpsCyfSfcqHAAdl87tX9GzMIJ9R
-tn0NooZ1iRAxnc0fqZ6PPf3Q5NKyi4Q6wpEY6aw89880z4PkMrWPCLxC3VPZppJH
-so810P/R0EQtMt9LdnHSsTJG/ANGSRHDgz6om71NVLnkD8TqBINMnPbvmuJEctuL
-VCsNmXPaJo7ixGBxzJiT7ZkWPVCQIjRaelmtaPxH+8xkLU4FxKGWmPacL6uDyByy
-x0fFBHAUcgRdya4f853mRoqkC09KE1f5eq2o9gmYDwZlUhBlQi/YRyul2Xvhclka
-F5TXkIrLQlCLGLpIRrchAcUR3LCXyq5785+64L0yXY34RGVbaZiXDMN4+er0SyeK
-k9eHfL/2IiW570SqUhM4HJTjCAOuIVc3VxlGAUEs3gY1n1QbVBbnxMARud5B6J3f
-ERWw1U/BJ/byQipejlk8Vdobbiinqt4lWrpBbD5xlua2tvQQQxLxyHJNTrVqAiyS
-Xk9x7dP7weEG3Tsg++UIKvyoLlcVhrxeIcWjhff857WRfp4FlOAUchBd7SNPtMC5
-lmhirjLM0JeNcmSac3H7j0cIndK07irN7XCag4ZOS3WSr0mFvLyemOCOQizlMJ1V
-cRFy6sqdML7JL8zddYYZYujyOLUFIIOpsdUf5qqNT14pkYjQoyqIL+sND/pj0k+a
-i6ccD+W+zq5G6KGBp/feRiScQ1URNKgOtvjuHoNXbT2wyZZm2LQDgYGTc1eNcv9w
-gqsmNI204tb+2/3ioeDd2PHe5x3Ts6eftxPDAOrXQWU66ASrtac9Re1XciFsdAUj
-gPQVNMk2i29KAeFaHMa9Vc4+W1J4vJzowNUWgTlzFeQqLnsW/LkYxQHN88hR1BOH
-RBSgJK96pY0HS4GMEbXsTP7LRJzUW8FRb7E41ow6bGZR2+Fq4WvBW1+YPq8hSald
-rbU6hGMXJb7TQ5SaXocsUMwmM5AjwENzIODlUXTSFjfYv+1fPLJQZ9g2cIeZLIe9
-2Keootkcl8Fu2MLlOO4KVJM4htKvEJCm/AbdihSmV26kkH+YPLidQELxFKNW4xGX
-GTSEApjujjojRbc8+nbWQq7WzrgOBiUQPhmyEYlrZ14V1IDuaKCci6jfoJYpoPrQ
-lRc8Sh0FOQX6ppu7zv60Ln53Qb0843yKHT1iDdIarpIGCNaSYMn7alLySY4OquwH
-xdgxuAibnkvv6FTaxxz30M3ahIrp5pTqfL4HH4F0w1Lqd0xNiJysLlsxYOL4G/hg
-8qXTwH2eykGE8ccNQ7vVG8KyXpx5gI7C+BlcHaPC/x+IT1KK5PuDn6YB59TQQm26
-/OteeXMsIcVrjaXSIibatJo8nw6PeljmqdC32WWBspyIXGn4wigZTSSbCeOfSRpi
-J5XrgrmKPAxcrEu85OMhjdnwTTC9lkT9adekPl3PAX3tayNIr24iKCDbrntTUV2Z
-AxnMwXk1Ni6qBR9zXHVrVzdkZibh1m+CsM4pcxu9BEZn7A73h0mI8t9PD9DscbHn
-gxfyooOYoiRvmdco8llA2WeJvo6hT2E4qyLdqbbCE931mlvn/3RcrUrEi99/XOm/
-W5R/vd7RR5GmUDzgwmyFla8yrJwrcnLSLEOMm7PV/VsyyvWPVmGhd87ooif0dKAv
-8r07c6NE+r9jm2wUF4yOEap1Xt21fvyjWputASTocO4IRXvb7th8+NWzjsvCmiPZ
-dU3ztT2rNN2BpAK5tt0LMDYJbKD26+fukAjRap7W3MIzNoSRtuCEZBG/bacH+FCb
-9mKWrBnm4WzC2WDTg5Od/9qGXL0rtZW1zBtS7MVCAuFYD+C0Ey4Ths1HYfWga8rK
-wNU2BDj7tXrULdxcphJH32jRakg7TlnzoC/qZchzuJj/PivpFk6brgiA97vZHVqz
-R3L4Pz//PDrZgbakWaHVtayn0Obv+zT6//0BkJ68GR42eEP6ynYA/lMphxHFCJz2
-K/nYUXUbjv6hHtFBqGy7rvimJeHOwmlACd3U/LG8z4Rv+q8mwnnieA3wzWXG2i40
-Qx/YZmLPLnQZ+tM2qRLbfyWTQtRY0IBevovobQxTEYl4QteRxUvrRzxTRU5zkAvd
-Xle12+BckawAkNTA9KKP4F1A2zoEAvBlusWUkBkN6q7GBcqcG4Ps1GJCpD5lv4LT
-0rYl88f4mGFiA/pwycHAqFOLlNF7aQi9nktLcYJj2Lx660Eu1qsWbmSnEkKz0WZO
-LR0IQZOpzSbS5nnQexL/ALq312YN4hGQGIo8jSCdxI3TQa46MlWCjllENiR+Lsbl
-WXLhx8eplV5l/5BajxQaXVwL78OMkctR8W4nrpX9eFpRSdQOe1OV9aHSq2lvn/Ne
-Pf0ch9YYxqBDgJBs4BvrXZUJwep8H3nMP3cJGHofiyO2774inadT+cXLZchyeB/c
-70h1sjju+ZHDE7jq2YQlYxop9/Iy7TYwjbtbizdDUAS/cNhccxHynWvPKIL0yTSZ
-J3dPHxbFyuKHhe/LQUFeLmNRWDajD73AWAlIhBAlIRHXuclQSgw41NoRhs1Z78za
-yTu3GtmG522LkqCoq0nk8ttT15DqBhdRpTbJT/KEOaGWpK9w3rXWC6tV6fA0GY88
-EusoYz0kbtNSg/rFuGC9WA+6C/qYeib3f0Q1tjConvsgoL8uIsZUp9J2TbtCPOWY
-7Av3gGBLaYSrfoWzJ+LNFdprkiI9HEXMRcTtZCFvqIyrzqENahkc9znLhrkkFTUw
-gEBBWZ4BMPF31GmnoY7y9Ol82TuVgTsVof4dT6TAfFQ/RLAtrHFVa7zJJCjJrNz8
-Sam1JKvHK/HHEOCbjzi6swVKofm81o0hpS0rhrvxbyijwmuOrvaQ+T+fiHc4Khkj
-J0uFEj4cVvpCk8ezZm9V6q48+QK8ZMQQs74hqgSUNIu4l++5J2dgbsbrL8IzIrPL
-kdBTGmga69bewBw8qZ2+NiMHeurCtBR5LExtqLg4kSTqmM0MYAIidJDQlDlkXTJu
-aZfBUlJCv4aX3WTIH31vFddRjPFKKXtSJduJO6yPYhK3mEdiTvSpPixmrb69QE/G
-is0ZSSKzqDkM1BivgRqnephwaxqSimWGy7o+5uKL/nOT6w/FRgPV6kG1rfl5xhp8
-JP6o/mDftEKZxWCrvnX7Jo+lolhnyzH9r+xB7/dY7YqNWOJlaWOm77ysVRU2TRFp
-bxRkAaVIbPsIF+cQ4O1wnp/O4akBy3GwFd3pnhmejUFOB2nQ7nNxiG0EL5PGbLi2
-Gkb2xDV9qqGDNBEMXIYninTRRO6cLj7p8hvSCGge3OFsd/ZFslZGuK1icHGejXPT
-xuMae2eKgDk0f2YC57M2drjzyTMLWi4kfKWGsOoyADdiG+inwYFVPrCg6hr7vAOK
-WU007LuC/znO6a8/4yTPpuPguQH4bh+CUNFo6ZJYRtzMek5pBAzFJKt2ygcOaquU
-WHpDhkPlevfBDcVqgWN2wX5qxE2m1acLSGXh1pua9+7VkbIjzowF0TNCxiXXtG08
-twUwA8szhLA2FDN923IEC1nm6WWTNKIgCACiNmx8DDBMLhggkOjCR+x6ieL5ueBJ
-TaoQFKD9zO6q21J4MoksFGBvRx1pkJhtVr6uFLMXvpza0jyGBm5HOHarhJf9Ootk
-2JF0tQ9zWhReglZj3pDEgAVzZ9N+c2tCjtk76izo40BnYRs9YSrsTjldGDcpWPtM
-tFBL4VS1Sw5Gui1EjusB03v8tw2PtTkOvcjkSOHv+xneSSSLc5uOLnwvxOyWECxs
-isAcowhDAHazE3J9f5jJh9gmpi842VaFtPwTXpUj/UpcvVeY/ONQ30BQ8JFXyztJ
-hBayIMcOnSy+kbClGGrheRi2DgL1i2fwifOFnFfXeok=
+// POST /api/tax-gateway/verify — 发票批量核验（基于第三方查验API）
+// 支持：增值税专用发票、增值税普通发票、数电票、区块链电子发票等
+
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { sanitizeMessage } from '../../_shared/errors';
+import { writeAudit } from '../../_shared/auditLog';
+
+interface VerifyRequest {
+  invoices: InvoiceItem[];
+  provider: 'etoplive' | 'lskj' | 'manual';
+}
+
+interface InvoiceItem {
+  type: string;         // 01=专票, 04=普票, 09=全电, 10=电普, 20=电子专票
+  code?: string;        // 发票代码（数电票可空）
+  number: string;       // 发票号码
+  date: string;         // YYYY-MM-DD
+  amount: number;       // 不含税金额
+  checkCode?: string;   // 校验码后6位
+  totalAmount?: number; // 价税合计
+  sellerTaxNo?: string; // 销方税号
+}
+
+interface VerifyResult {
+  invoiceNo: string;
+  type: string;
+  isValid: boolean;
+  status: 'valid' | 'invalid' | 'not_found' | 'error';
+  message?: string;
+  parsed?: InvoiceDetail;
+  checkedAt: string;
+  /** 本张发票核验走的是真实第三方通道还是本地模拟（V2.80 新增，用于前端明确标注真/假） */
+  channel?: 'real' | 'mock';
+}
+
+interface InvoiceDetail {
+  invoiceCode?: string;
+  invoiceNumber: string;
+  invoiceType: string;
+  invoiceDate: string;
+  buyerName?: string;
+  sellerName?: string;
+  sellerTaxNo?: string;
+  amount: number;
+  taxAmount: number;
+  totalAmount: number;
+  checkCode?: string;
+  machineCode?: string;
+  remark?: string;
+}
+
+// 模拟查验（实际对接时替换为真实API调用）
+async function mockVerifyInvoice(item: InvoiceItem): Promise<VerifyResult> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // 模拟查验逻辑：发票号以特定规则校验
+      const invoiceNo = item.number || '';
+      const isMockValid = invoiceNo.length >= 8;
+
+      resolve({
+        invoiceNo,
+        type: item.type,
+        isValid: isMockValid,
+        status: isMockValid ? 'valid' : 'error',
+        message: isMockValid ? '模拟查验通过（未配置真实通道）' : '查验失败：发票号格式错误',
+        parsed: isMockValid ? {
+          invoiceNumber: invoiceNo,
+          invoiceType: item.type,
+          invoiceDate: item.date,
+          amount: item.amount,
+          taxAmount: item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13,
+          totalAmount: item.totalAmount || item.amount * 1.13,
+        } : undefined,
+        channel: 'mock',
+        checkedAt: new Date().toISOString(),
+      });
+    }, Math.random() * 500 + 200);
+  });
+}
+
+// ── 真实查验通道骨架（V2.80） ──────────────────────────────────
+// 税务局官平台对企业不开放公开 API，须经持牌第三方（etoplive / 航信 / 百望 / 票联云等）。
+// 凭证来自 KV 命名空间 TAX_GATEWAY 的 config：{ provider, apiKey, apiSecret, ... }
+// 未配置 apiKey 时绝不调用真实接口（本函数与上层路由默认走 mock）。
+interface GatewayConfig {
+  provider?: string;
+  apiKey?: string;
+  apiSecret?: string;
+  [k: string]: any;
+}
+
+/** 统一映射第三方返回为 VerifyResult */
+function toResult(
+  item: InvoiceItem,
+  ok: boolean,
+  detail: Partial<InvoiceDetail>,
+  msg: string,
+  channel: 'real' | 'mock'
+): VerifyResult {
+  return {
+    invoiceNo: item.number,
+    type: item.type,
+    isValid: ok,
+    status: ok ? 'valid' : 'invalid',
+    message: msg,
+    parsed: ok
+      ? {
+          invoiceNumber: item.number,
+          invoiceType: item.type,
+          invoiceDate: item.date,
+          amount: item.amount,
+          taxAmount: detail.taxAmount ?? (item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13),
+          totalAmount: detail.totalAmount ?? item.totalAmount ?? item.amount * 1.13,
+          ...detail,
+        }
+      : undefined,
+    channel,
+    checkedAt: new Date().toISOString(),
+  };
+}
+
+// etoplive 真实查验（按官方发票查验接口参数构造，application/x-www-form-urlencoded）
+async function etopliveVerifyInvoice(item: InvoiceItem, cfg: GatewayConfig): Promise<VerifyResult> {
+  const body = new URLSearchParams({
+    key: cfg.apiKey || '',
+    secret: cfg.apiSecret || '',
+    FPLX: item.type,
+    FPDM: item.code || '',
+    FPHM: item.number,
+    KPRQ: item.date.replace(/-/g, ''),
+    FPJE: item.amount.toString(),
+    JYM: item.checkCode || '',
+    JSHJ: (item.totalAmount || item.amount).toString(),
+  });
+  const res = await fetch('https://www.etoplive.com/api/invchk.srvc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!res.ok) {
+    return toResult(item, false, {}, `真实查验失败：HTTP ${res.status}`, 'real');
+  }
+  const data: any = await res.json().catch(() => null);
+  // 各服务商返回结构需按实际文档微调；此处按常见“成功/一致”字段判定
+  const success =
+    !!data && (data.code === '0' || data.success === true || data.status === 'SUCCESS' || data.fpzt === '正常' || data.valid === true);
+  if (!success) {
+    return toResult(
+      item,
+      false,
+      {},
+      `真实查验不一致：${data?.message || data?.msg || JSON.stringify(data || {}).slice(0, 80)}`,
+      'real'
+    );
+  }
+  return toResult(
+    item,
+    true,
+    {
+      invoiceCode: item.code,
+      buyerName: data.gmfmc || data.buyerName,
+      sellerName: data.xsfmc || data.sellerName,
+      sellerTaxNo: data.xsfsh || data.sellerTaxNo,
+      taxAmount: Number(data.se || data.taxAmount || (item.totalAmount ? item.totalAmount - item.amount : item.amount * 0.13)),
+      totalAmount: Number(data.jshj || data.totalAmount || item.totalAmount),
+    },
+    '真实查验通过（第三方通道）',
+    'real'
+  );
+}
+
+// 通用路由：按 config.provider 选择真实服务商；未实现则抛错（上层转 error 状态，绝不静默回退 mock 误判为通过）
+async function realVerifyInvoice(item: InvoiceItem, cfg: GatewayConfig): Promise<VerifyResult> {
+  switch (cfg.provider) {
+    case 'etoplive':
+      return etopliveVerifyInvoice(item, cfg);
+    // 航信 / 百望 / 票联云等同理，按各自文档实现后加入 case；当前未接通
+    default:
+      throw new Error(`服务商 ${cfg.provider || '未指定'} 真实通道研发中，请改用 etoplive 或配置 manual 走模拟`);
+  }
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  let body: VerifyRequest;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ success: false, error: '请求体格式错误' }, 400);
+  }
+
+  const { invoices, provider = 'manual' } = body;
+
+  if (!Array.isArray(invoices) || invoices.length === 0) {
+    return json({ success: false, error: '请至少上传一张发票' }, 400);
+  }
+
+  if (invoices.length > 100) {
+    return json({ success: false, error: '单次最多核验100张发票' }, 400);
+  }
+
+  // 读取金税网关配置
+  const config = await env?.TAX_GATEWAY?.get('config')
+    ? JSON.parse(await env.TAX_GATEWAY.get('config'))
+    : null;
+
+  const results: VerifyResult[] = [];
+  const concurrency = 5; // 并发限制
+
+  // 真实通道判定：KV 配置了 apiKey 且 provider 非 manual 才走真实第三方；否则一律模拟兜底
+  const useReal = !!(config?.apiKey && config?.provider && config.provider !== 'manual');
+
+  for (let i = 0; i < invoices.length; i += concurrency) {
+    const batch = invoices.slice(i, i + concurrency);
+    await Promise.all(batch.map(async (item: InvoiceItem) => {
+      try {
+        let result: VerifyResult;
+        if (useReal) {
+          try {
+            result = await realVerifyInvoice(item, config);
+          } catch (e: any) {
+            result = {
+              invoiceNo: item.number,
+              type: item.type,
+              isValid: false,
+              status: 'error',
+              message: sanitizeMessage(e, '真实通道异常'),
+              channel: 'real',
+              checkedAt: new Date().toISOString(),
+            };
+          }
+        } else {
+          result = await mockVerifyInvoice(item);
+        }
+        results.push(result);
+      } catch (e: any) {
+        results.push({
+          invoiceNo: item.number,
+          type: item.type,
+          isValid: false,
+          status: 'error',
+          message: sanitizeMessage(e, '查验异常'),
+          channel: useReal ? 'real' : 'mock',
+          checkedAt: new Date().toISOString(),
+        });
+      }
+    }));
+  }
+
+  // 统计
+  const validCount = results.filter(r => r.isValid).length;
+  const invalidCount = results.filter(r => r.status === 'invalid' || r.status === 'not_found').length;
+  const errorCount = results.filter(r => r.status === 'error').length;
+
+  // 审计：发票批量核验结果
+  // V3.3.0（评测 L-05 整改）暴露并修复的真实缺陷：
+  //   原先直插 (operator, details, ip_address) 三列，而 audit_logs 表中并无这三列
+  //   （真实结构见迁移 0039）。由于外面包了 try/catch，失败被静默吞掉——
+  //   结果是「发票核验审计从来没有落过库」，而这恰恰是最需要留证的合规动作。
+  //   现统一走 writeAudit，失败会进入降级通道（降级表 + 结构化日志）而非无声消失。
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'invoice',
+    action: 'invoice_verify_batch',
+    summary: `批量核验发票 ${results.length} 张：有效 ${validCount} / 无效 ${invalidCount} / 异常 ${errorCount}`,
+    diff: {
+      total: results.length,
+      valid: validCount,
+      invalid: invalidCount,
+      error: errorCount,
+      ip: request.headers.get('x-forwarded-for') || request.headers.get('cf-connecting-ip') || 'unknown',
+    },
+  });
+
+  return json({
+    success: true,
+    data: {
+      total: results.length,
+      valid: validCount,
+      invalid: invalidCount,
+      error: errorCount,
+      results,
+      // V2.80：明确告知前端本次批次走的是真实第三方通道还是本地模拟兜底
+      verifiedBy: useReal ? 'real' : 'mock',
+    },
+    message: `核验完成：通过 ${validCount} 张，不通过 ${invalidCount} 张，异常 ${errorCount} 张${useReal ? '（真实通道）' : '（模拟兜底）'}`,
+  });
+}
+
+// GET 接口返回帮助信息
+export async function onRequestGet(context: any) {
+  return json({
+    message: '发票批量核验接口',
+    usage: 'POST /api/tax-gateway/verify',
+    supportedTypes: [
+      { code: '01', name: '增值税专用发票' },
+      { code: '03', name: '机动车销售统一发票' },
+      { code: '04', name: '增值税普通发票' },
+      { code: '05', name: '区块链电子发票' },
+      { code: '09', name: '数电发票（蓝票）' },
+      { code: '10', name: '增值税普通发票（电子）' },
+      { code: '11', name: '增值税普通发票（卷式）' },
+      { code: '20', name: '增值税专用发票（电子）' },
+    ],
+    batchLimit: 100,
+    concurrency: 5,
+    providers: ['etoplive', 'lskj', 'manual'],
+    tips: [
+      '数电票无需发票代码，仅需发票号码+开票日期+金额',
+      '当日开具的发票当日可查验',
+      '每张发票每天最多查验5次',
+      '建议批量上传时控制并发数避免限流',
+    ],
+  });
+}

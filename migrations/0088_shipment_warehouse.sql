@@ -1,6 +1,3 @@
-U2FsdGVkX19kqosng+TAKgcZIz1B0jLtFC188W40fXUKya6J54rPf7t4gPnE2zIu
-uD5/BT3hv0gV3D10VjUkf8xf1MqUBS4Fy28EOCWi+ac50YpoQSexEXKg3lglGxEF
-lG08pmKes4uB/6Vfm4K209zNn/0f4MEdpTP/YQDsWazwmtbMfp+FX4ckgQx2nZJz
-NOMmcB7bUC7Bgw9qpJ+lk6AfZtCdE7HQHPQErHDYp1wFCmad291QIicdMm3LjgGS
-4y/BDf6+rvhzucEy/HrJBYHmUQ/ACF12jkomB7A4GPsbFI0SGbBQjDOLbs6eBYMz
-62+6/qPizDAKntKrwvuGdHAQgFoXvYHHaJeHM/C5hkk=
+-- 迁移 0088：发货单增加发货仓库字段（诚实边界④）
+-- 多仓场景下用户可在发货单上指定发货仓库，发货→出库联动不再默认取本组织首个仓库。
+ALTER TABLE shipments ADD COLUMN warehouse_id TEXT;

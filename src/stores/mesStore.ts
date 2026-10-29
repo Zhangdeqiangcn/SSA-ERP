@@ -1,100 +1,87 @@
-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
-N5cgZyW1rvhyF2j0YlGEpQ==
+import { createEntityStore } from './createEntityStore';
+import {
+  MesConnection,
+  MesDeviceStatus,
+  WipTrack,
+  MesOperationReport,
+} from '@/types/mes';
+import { mesConnections, mesDevices, mesWips, mesOperationReports } from '@/mocks/data/mes';
+import { UseBoundStore, StoreApi } from 'zustand';
+
+// V2.80.0 W1：MES 集成迁真实 D1（根治双通道）。
+// V3.90.0：以上 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到通用工厂
+//   createEntityStore（entityRepo 主源）。四资源 mesConnections(主键)/mesDevices/mesWips/
+//   mesOperationReports 经 extraResources 管理；全部字段扁平标量无需序列化。
+//   领域方法 syncConnection（走可插拔扩展点 mesSyncExecutor 后写回 D1）保留在 extend，行为不变。
+
+interface MesState {
+  connections: MesConnection[];
+  devices: MesDeviceStatus[];
+  wips: WipTrack[];
+  operationReports: MesOperationReport[];
+  loaded: boolean;
+  load: () => Promise<void>;
+
+  addConnection: (c: MesConnection) => Promise<void>;
+  updateConnection: (id: string, updates: Partial<MesConnection>) => Promise<void>;
+  deleteConnection: (id: string) => Promise<void>;
+  /** 触发一次同步：走可插拔扩展点 mesSyncExecutor（默认模拟、不真调外部 MES），置状态并记录 lastSyncAt，写回 D1 */
+  syncConnection: (id: string) => Promise<void>;
+
+  addDevice: (d: MesDeviceStatus) => Promise<void>;
+  updateDevice: (id: string, updates: Partial<MesDeviceStatus>) => Promise<void>;
+  deleteDevice: (id: string) => Promise<void>;
+
+  addWip: (w: WipTrack) => Promise<void>;
+  updateWip: (id: string, updates: Partial<WipTrack>) => Promise<void>;
+  deleteWip: (id: string) => Promise<void>;
+
+  addOperationReport: (r: MesOperationReport) => Promise<void>;
+  updateOperationReport: (id: string, updates: Partial<MesOperationReport>) => Promise<void>;
+  deleteOperationReport: (id: string) => Promise<void>;
+}
+
+// ── 真实 MES 同步扩展点（可插拔）──────────────────────
+// 默认「模拟」实现：不真正调用外部 MES 系统，仅返回 connected + 时间戳，
+// 让 UI「同步」按钮行为可见、可预期（不产生副作用数据）。
+// 接入真实外部 MES 时，替换本常量为真实拉取逻辑（按 conn.endpoint/protocol/apiKey
+// 调 REST/OPC-UA/MQTT 拉取设备/WIP/报工并回填 devices/wips/operationReports），
+// syncConnection 写回 D1 的主流程不变。
+const mesSyncExecutor: (conn: MesConnection) => Promise<{ status: 'connected' | 'error'; lastSyncAt: string }> =
+  async () => ({ status: 'connected', lastSyncAt: new Date().toISOString() });
+
+export const useMesStore = createEntityStore<MesConnection>({
+  resource: 'mesConnections',
+  seed: [...mesConnections],
+  stateKey: 'connections',
+  backfillKey: 'ssa-erp-backfilled-mes',
+  // 其余三资源：扁平标量，无序列化，独立回填
+  extraResources: [
+    { resource: 'mesDevices', stateKey: 'devices', seed: [...mesDevices], backfill: true },
+    { resource: 'mesWips', stateKey: 'wips', seed: [...mesWips], backfill: true },
+    { resource: 'mesOperationReports', stateKey: 'operationReports', seed: [...mesOperationReports], backfill: true },
+  ],
+  // 领域接口与领域方法：委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    addConnection: (c: any) => ctx.primary.add(c),
+    updateConnection: (id: any, u: any) => ctx.primary.update(id, u),
+    deleteConnection: (id: any) => ctx.primary.remove(id),
+    // 同步：走可插拔扩展点（默认模拟）后，乐观更新 + 写回 D1（失败回滚，与原行为一致）
+    syncConnection: async (id: any) => {
+      const prev = (ctx.get() as any).connections.find((x: MesConnection) => x.id === id);
+      const u: Partial<MesConnection> = prev
+        ? await mesSyncExecutor(prev).then((r) => ({ status: r.status, lastSyncAt: r.lastSyncAt }))
+        : { status: 'connected', lastSyncAt: new Date().toISOString() };
+      await ctx.primary.update(id, u);
+    },
+    addDevice: (d: any) => ctx.extras.devices.add(d),
+    updateDevice: (id: any, u: any) => ctx.extras.devices.update(id, u),
+    deleteDevice: (id: any) => ctx.extras.devices.remove(id),
+    addWip: (w: any) => ctx.extras.wips.add(w),
+    updateWip: (id: any, u: any) => ctx.extras.wips.update(id, u),
+    deleteWip: (id: any) => ctx.extras.wips.remove(id),
+    addOperationReport: (r: any) => ctx.extras.operationReports.add(r),
+    updateOperationReport: (id: any, u: any) => ctx.extras.operationReports.update(id, u),
+    deleteOperationReport: (id: any) => ctx.extras.operationReports.remove(id),
+  }),
+}) as unknown as UseBoundStore<StoreApi<MesState>>;

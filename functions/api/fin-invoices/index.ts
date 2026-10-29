@@ -1,76 +1,72 @@
-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
+// 发票集合端点（V3.56.0 · G3 数据对齐 · 父子表）
+// GET  /api/fin-invoices   列表（分页 / keyword / RLS，含发票明细行）
+// POST /api/fin-invoices   创建（发票头 + items 明细原子写入）
+//
+// ── 为什么从通用实体路由迁移到专用端点 ──────────────────────────────
+// 原走 /api/entities/finInvoice（平表路由），items 数组被静默丢弃 →
+// fin_invoice_items 表永远为空 → 行级三单匹配读不到发票明细 →
+// threeWayMatch 走 NO_INVOICE_ITEMS 跳过 → 行级闸门形同虚设。
+// 现在走 parentChild 框架：头 + items 在 db.batch 原子写入，与付款计划/项目核算同范式。
+//
+// ── 头表金额服务端复核（同 G1/G6 范式）──────────────────────────────
+// 当存在明细行时，头表的 amount / taxAmount / totalAmount 以 Σ明细 覆盖，
+// 杜绝「头金额=前端自报、和明细对不上」。前端正常路径下覆盖结果一致；
+// 若客户端传错/被篡改，服务端以明细合计为准纠正。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { INVOICE_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { ensureInvoiceVoucher } from '../../_shared/arapPosting';
+
+export async function onRequestGet(context: any) {
+  return pcList(INVOICE_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const body: any = await request.json().catch(() => ({}));
+
+  // ★ V3.56.0 数据对齐（G3 补丁）：头表金额服务端以 Σ明细 复核覆盖
+  //   口径与采购单/销售单 G1/G6 完全一致：只覆盖不拒绝（正常路径覆盖值一致，
+  //   异常路径以明细为准纠正）。仅当存在明细行时才覆盖（头单无明细保持原值）。
+  if (Array.isArray(body.items) && body.items.length > 0) {
+    let sumAmount = 0, sumTax = 0, sumTotal = 0;
+    for (const raw of body.items) {
+      const it = (raw && typeof raw === 'object') ? raw : {};
+      sumAmount += Number(it.amount) || 0;
+      sumTax += Number(it.taxAmount) || 0;
+      sumTotal += Number(it.totalAmount) || 0;
+    }
+    body.amount = Math.round(sumAmount * 100) / 100;
+    body.taxAmount = Math.round(sumTax * 100) / 100;
+    body.totalAmount = Math.round(sumTotal * 100) / 100;
+  }
+
+  // 重新包装 request：pcCreate 内部会读 request.json()，所以用新 body 构造新 request
+  const newRequest = new Request(request.url, {
+    method: request.method,
+    headers: request.headers,
+    body: JSON.stringify(body),
+  });
+
+  const res = await pcCreate(INVOICE_PC, { ...context, request: newRequest });
+
+  // ★ V3.60.0 P0-1/P0-3/P2-3：发票审核通过(verified)时自动入账
+  //   （采购→冲暂估+应付 2202；销售→应收 1122+收入 6001）。后置非阻断处理。
+  try {
+    const payload: any = await res.clone().json().catch(() => null);
+    if (payload && payload.id) {
+      const inv = await env.DB
+        .prepare(`SELECT * FROM fin_invoices WHERE org_id = ? AND id = ?`)
+        .bind(user.org_id, payload.id)
+        .first();
+      if (inv) await ensureInvoiceVoucher(env.DB, user.org_id, user, inv);
+    }
+  } catch (e: any) {
+    console.error('[fin-invoices POST] 入账后置处理失败（非阻断）：', e?.message || e);
+  }
+
+  return res;
+}

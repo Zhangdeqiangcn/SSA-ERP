@@ -1,17 +1,32 @@
-U2FsdGVkX1/7UJ74HrNjfx0F5m8BQvyqDIQAPNMu1j3OxlZ2PKO6yVaQctx8KhjU
-demGfENwCcxD7Rpj2QXrITL6iI4a3uLLCUI/D5u7VKVGMYJnKcUHHiTAa10UH8Gu
-I3wkuNSxCizP22mBKVKRyYZ2ito5XJpSrbEPZ2G0qZNiP8j+Vu0iRkvrRPdCcceQ
-sCxFZpUAzPxReo47PCnrYFFTDeGcfDeCmRNwHGFhcgYy0DEC36XoRqLIr4uMhZwc
-hTanLDlg7bYrcrUgSpSqNn9KT5+pfFET3O3zTWihNHL2cMvJKW7F+iZ4Fc+igOqj
-RyLfkzcMOr0E5gQwEnmxGoIJU0/X2mNwJfYRvpp3rRRxnCCDxVvmEt3EeVNXcqZ1
-1Qf3CWlnMnj0QY7omO6TZI/aQnCeQizGYGQAIRXeqlMV6pMO1Rf71GpHEqCoqegF
-3OHgO7triDmpOd8KcpSTaxK4enhUNopf3G/6oZKDRoSpwKXH4yQjNHR3hxzqOXnQ
-arxbLAKoTokfRlSRMzIn/lDq1blK5DQb8oI0f2JfEuOe5aNAGo6jkMsoHgj19STw
-A1CON/SpLOHmgCskPNzUBbhsIYzRVGVtd4Q53oLuFEUDVa0eLKxPop4mVTZc9qka
-ro/IX6z7nsNJFTwVG32f4NsWHvVPz5ZaLQt3SjNBt8riP06gnq68VQJyMeBS88D3
-R+Olns5/wzxGIiYoi8zSAjfK8oiCvPIywl6Na3gLNJ9dt8PrLuAfm5GqPQHqj4t9
-k9C+V2q40zrdsXPdDaJpanGW6d2t8J8p0yfnXBdzxNnAi4mbF7MMvOePXrSWRyJz
-CSYxSj+dIeSt/+cTZzkCg83wDWeMulb5v2QX/p6/oz4nERHDPpK1/u/HdNux9x1R
-HkzJ0YcOLJAV/DKXdsX08uV+X2d1bJvMZw8u6QzKS+kJ62L2s1kok8rClth5gE0h
-rtFArCGj81OlpOsJEXqSucJ3Pm8UBTyHouugm5TLsFYckLhafAfUwPHG1zrK5Hk3
-hqV8Aen+xrd8m5c9iftKa9mSRJYkdl+OWs1NrWbKG+U=
+/**
+ * 仓库主数据 行 ↔ 前端形态 互转（W4 整改：仓库迁真实 D1）。
+ * DB 列 snake_case；locations 以 JSON 文本内联存储，读取时解析为数组。
+ */
+export function parseLocations(s: any): any[] {
+  if (!s) return [];
+  try {
+    const a = typeof s === 'string' ? JSON.parse(s) : s;
+    return Array.isArray(a) ? a : [];
+  } catch {
+    return [];
+  }
+}
+
+export function prevToWh(r: any) {
+  if (!r) return r;
+  return {
+    id: r.id,
+    orgId: r.org_id,
+    code: r.code,
+    name: r.name,
+    type: r.type,
+    address: r.address,
+    manager: r.manager,
+    status: r.status,
+    locations: parseLocations(r.locations),
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}

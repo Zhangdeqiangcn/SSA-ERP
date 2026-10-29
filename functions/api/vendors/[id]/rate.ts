@@ -1,96 +1,92 @@
-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
+// POST /api/vendors/:id/rate — 人工评级供应商
+//
+// P0-4（V3.113.3）：前端 src/services/vendor.ts 的 rateVendor() 一直调用本端点，
+//   后端从未实现 → 404（供应商评级是「点了就报错」的功能）。
+//
+// 口径映射：前端 criteria 用 { deliveryRate, qualityRate, serviceRate }（1–5 星），
+//   D1 表 vendor_performance 用 { quality_score, delivery_score, price_score, service_score }（0–5 分）。
+//   本端点做**唯一一次**映射（前端不再各自换算，避免两套口径），并把 criteria 原样存进 remarks 的 JSON 里，
+//   保证「读回来时能还原成前端契约」，不丢信息。
+//
+// ★ 路径纪律：前端调的是 `/vendors/:id/rate`（单数），不是 `/vendors/:id/ratings`。
+//   读取记录用 GET /vendors/:id/ratings（复数），两者职责不同、路径不同，不可混用。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { audit } from '../../../_shared/auditLog';
+
+const CRITERIA_KEYS = ['deliveryRate', 'qualityRate', 'serviceRate', 'priceRate'] as const;
+
+export async function onRequestPost(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const opGuard = await guardOperation(user, 'vendor', 'update', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  let body: any = {};
+  try { body = await request.json(); } catch { /* 空体由下方校验拦截 */ }
+
+  const vendor = await env.DB.prepare(
+    'SELECT id, vendor_code, company_name FROM vendor_master WHERE id = ? AND org_id = ?'
+  ).bind(params.id, user.org_id).first();
+  if (!vendor) return json({ error: '供应商不存在' }, 404);
+
+  const criteria = (body?.criteria && typeof body.criteria === 'object') ? body.criteria : {};
+  const scores = CRITERIA_KEYS.map((k) => Number(criteria[k]) || 0);
+  if (scores.every((s) => s <= 0)) {
+    return json({ error: '评分无效：至少需要一个大于 0 的评分项', code: 'INVALID_RATING' }, 400);
+  }
+  // 允许 1–5 星；越界视为输入错误，不静默夹紧（静默夹紧会让用户以为打了 5 星）
+  if (scores.some((s) => s > 5)) {
+    return json({ error: '评分必须在 1–5 之间', code: 'INVALID_RATING' }, 400);
+  }
+
+  const delivery = Number(criteria.deliveryRate) || 0;
+  const quality = Number(criteria.qualityRate) || 0;
+  const service = Number(criteria.serviceRate) || 0;
+  const price = Number(criteria.priceRate) || 0;
+  // 综合分：有几项就按几项平均（不打分的不计入分母）
+  const rated = [delivery, quality, service, price].filter((s) => s > 0);
+  const total = Math.round((rated.reduce((a, b) => a + b, 0) / rated.length) * 10) / 10;
+
+  const now = new Date().toISOString();
+  const id = `vprf-${crypto.randomUUID()}`;
+  const remarks = JSON.stringify({
+    __criteria: {
+      ...(delivery > 0 ? { deliveryRate: delivery } : {}),
+      ...(quality > 0 ? { qualityRate: quality } : {}),
+      ...(service > 0 ? { serviceRate: service } : {}),
+      ...(price > 0 ? { priceRate: price } : {}),
+    },
+    __remarks: String(body?.remarks || '').slice(0, 500),
+  });
+
+  await env.DB.prepare(
+    `INSERT INTO vendor_performance
+       (id, org_id, vendor_id, vendor_name, vendor_code, period,
+        quality_score, delivery_score, price_score, service_score, total_score,
+        remarks, evaluated_by, evaluated_at, created_at, updated_at, created_by, updated_by)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(
+    id, user.org_id, vendor.id, vendor.company_name, vendor.vendor_code,
+    now.slice(0, 7),
+    quality, delivery, price, service, total,
+    remarks, user.name, now, now, now, user.name, user.name
+  ).run();
+
+  // 主数据 rating 字段同步（列表页展示的评分）
+  await env.DB.prepare('UPDATE vendor_master SET rating = ?, updated_at = ?, updated_by = ? WHERE id = ? AND org_id = ?')
+    .bind(total, now, user.name, vendor.id, user.org_id).run();
+
+  await audit(env.DB, user.org_id, user, 'vendor_performance', 'create',
+    `供应商 ${vendor.vendor_code || vendor.id} 评级 ${total}（交货${delivery}/质量${quality}/服务${service}/价格${price}）`);
+
+  return json({
+    id, vendorId: vendor.id, rating: total, type: 'manual',
+    evaluator: user.name,
+    criteria: JSON.parse(remarks).__criteria,
+    remarks: JSON.parse(remarks).__remarks,
+    createdAt: now,
+  }, 201);
+}

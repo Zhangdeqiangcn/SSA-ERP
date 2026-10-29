@@ -1,216 +1,281 @@
-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
-i+oJ9LO40+SmWqBcgcNLGQ==
+import { create } from 'zustand';
+import { Warehouse, WarehouseLocation, WarehouseType } from '@/types';
+import { b2Api, isAuthed } from '@/services/b2Api';
+
+/**
+ * 仓库 / 库位主数据（P2-2，替代各表单中的硬编码仓库名）
+ * ------------------------------------------------------------
+ * W4 整改：仓库主数据由「纯前端 localStorage 单人不共享」升级为「后端 D1 权威源 + 本地种子基线」。
+ *   · 本地 seed 作为离线基线，保证未登录 / 后端异常时仍能渲染与业务表单取数；
+ *   · 登录在线时 loadWarehouses() 从 /api/warehouses 拉取并「按 id 合并」——
+ *     后端同 id 覆盖（权威）、后端独有追加、本地独有（如本会话新增）保留；
+ *   · 所有写操作（增/改/删/库位）本地即时生效 + fire-and-forget 写穿后端，
+ *     使后端 inventory_records.warehouse_name 等引用与界面同源（根治 W4 账面≠界面）。
+ */
+
+const today = (): string => new Date().toISOString().slice(0, 10);
+
+const mkLoc = (
+  id: string,
+  code: string,
+  name: string,
+  warehouseId: string,
+  zone?: string
+): WarehouseLocation => ({
+  id,
+  code,
+  name,
+  warehouseId,
+  zone,
+  createdAt: today(),
+  updatedAt: today(),
+  createdBy: 'system',
+  updatedBy: 'system',
+});
+
+const seedWarehouses: Warehouse[] = [
+  {
+    id: 'wh-001',
+    code: 'WH001',
+    name: '主仓库',
+    orgId: 'ORG-001',
+    type: 'raw',
+    address: '上海市浦东新区世纪大道 100 号 厂区A',
+    manager: '赵磊',
+    status: 'active',
+    locations: [
+      mkLoc('loc-001', 'A-01-01', 'A区-01排-01架', 'wh-001', 'A区'),
+      mkLoc('loc-002', 'A-01-02', 'A区-01排-02架', 'wh-001', 'A区'),
+      mkLoc('loc-003', 'A-02-01', 'A区-02排-01架', 'wh-001', 'A区'),
+      mkLoc('loc-004', 'A-01-05', 'A区-01排-05架', 'wh-001', 'A区'),
+      mkLoc('loc-005', 'A-03-02', 'A区-03排-02架', 'wh-001', 'A区'),
+      mkLoc('loc-009', 'A-03-01', 'A区-03排-01架', 'wh-001', 'A区'),
+      mkLoc('loc-006', 'B-01-01', 'B区-01排-01架', 'wh-001', 'B区'),
+      mkLoc('loc-007', 'B-01-02', 'B区-01排-02架', 'wh-001', 'B区'),
+      mkLoc('loc-008', 'B-01-03', 'B区-01排-03架', 'wh-001', 'B区'),
+      mkLoc('loc-010', 'B-02-03', 'B区-02排-03架', 'wh-001', 'B区'),
+      mkLoc('loc-011', 'B-02-04', 'B区-02排-04架', 'wh-001', 'B区'),
+      mkLoc('loc-012', 'A-03-01', 'A区-03排-01架', 'wh-001', 'A区'),
+    ],
+    createdAt: today(),
+    updatedAt: today(),
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+  {
+    id: 'wh-002',
+    code: 'WH002',
+    name: '辅料仓库',
+    orgId: 'ORG-001',
+    type: 'aux',
+    manager: '孙倩',
+    status: 'active',
+    locations: [mkLoc('loc-020', 'C-01-01', 'C区-01排-01架', 'wh-002', 'C区')],
+    createdAt: today(),
+    updatedAt: today(),
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+  {
+    id: 'wh-003',
+    code: 'WH003',
+    name: '成品仓库',
+    orgId: 'ORG-001',
+    type: 'finished',
+    manager: '周敏',
+    status: 'active',
+    locations: [mkLoc('loc-fg-01', 'FG-01-01', '成品区-01排-01架', 'wh-003', '成品区')],
+    createdAt: today(),
+    updatedAt: today(),
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+  {
+    id: 'wh-201',
+    code: 'WH201',
+    name: '华东原料库',
+    orgId: 'ORG-002',
+    type: 'raw',
+    address: '江苏省苏州市工业园区星湖街 88 号',
+    manager: '钱伟',
+    status: 'active',
+    locations: [mkLoc('loc-e-01', 'E-01-01', '华东-01排-01架', 'wh-201', '华东区')],
+    createdAt: today(),
+    updatedAt: today(),
+    createdBy: 'system',
+    updatedBy: 'system',
+  },
+];
+
+/** 后端行（snake）→ 前端 Warehouse（W4：与 functions/_shared/warehouseShape.prevToWh 对应，但放在 src 侧避免跨边界引用） */
+function rowToWarehouse(r: any): Warehouse {
+  let locations: WarehouseLocation[] = [];
+  try { locations = r.locations ? JSON.parse(r.locations) : []; } catch { locations = []; }
+  return {
+    id: r.id,
+    orgId: r.org_id,
+    code: r.code,
+    name: r.name,
+    type: r.type,
+    address: r.address,
+    manager: r.manager,
+    status: r.status,
+    locations: Array.isArray(locations) ? locations : [],
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}
+
+/** 合并：本地种子基线 + 后端权威（同 id 后端覆盖；后端独有追加；本地独有保留） */
+function mergeWarehouses(local: Warehouse[], backend: Warehouse[]): Warehouse[] {
+  const map = new Map<string, Warehouse>();
+  for (const w of local) map.set(w.id, w);
+  for (const w of backend) map.set(w.id, w);
+  return [...map.values()];
+}
+
+interface WarehouseMasterState {
+  warehouses: Warehouse[];
+  loadWarehouses: () => Promise<void>;
+  addWarehouse: (w: Omit<Warehouse, 'id' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>) => void;
+  updateWarehouse: (id: string, u: Partial<Warehouse>) => void;
+  deleteWarehouse: (id: string) => void;
+  addLocation: (warehouseId: string, loc: Omit<WarehouseLocation, 'id' | 'warehouseId' | 'createdAt' | 'updatedAt' | 'createdBy' | 'updatedBy'>) => void;
+  updateLocation: (warehouseId: string, locId: string, u: Partial<WarehouseLocation>) => void;
+  deleteLocation: (warehouseId: string, locId: string) => void;
+  resetWarehouses: () => void;
+}
+
+export const useWarehouseMasterStore = create<WarehouseMasterState>()(
+  (set) => ({
+      warehouses: [...seedWarehouses],
+
+      // ── W4：在线拉取后端权威源并合并（离线/异常则保留本地种子）──
+      loadWarehouses: async () => {
+        if (!isAuthed()) return;
+        try {
+          const res = await b2Api.getWarehouses<{ data?: any[] }>();
+          const list = (res?.data || []) as any[];
+          const recs = list.map(rowToWarehouse).filter(Boolean) as Warehouse[];
+          if (recs.length > 0) {
+            set((state) => ({ warehouses: mergeWarehouses(state.warehouses, recs) }));
+          }
+        } catch {
+          // 离线或后端异常：保持本地种子态，不阻断 UI
+        }
+      },
+
+      // ── 新增仓库：本地即时 + 写穿后端（id 本地生成，前后端一致）──
+      addWarehouse: (w) => {
+        const newWh: Warehouse = {
+          ...w,
+          id: `wh-${Date.now()}`,
+          createdAt: today(),
+          updatedAt: today(),
+          createdBy: 'admin',
+          updatedBy: 'admin',
+        };
+        if (isAuthed()) {
+          void b2Api.postWarehouse(newWh as unknown as Record<string, unknown>).catch(() => {});
+        }
+        set((state) => ({ warehouses: [...state.warehouses, newWh] }));
+      },
+
+      // ── 编辑仓库：本地即时 + 写穿后端 ──
+      updateWarehouse: (id, u) => {
+        let updated: Warehouse | undefined;
+        set((state) => ({
+          warehouses: state.warehouses.map((x) => {
+            if (x.id !== id) return x;
+            updated = { ...x, ...u, updatedAt: today(), updatedBy: 'admin' };
+            return updated;
+          }),
+        }));
+        if (updated && isAuthed()) {
+          void b2Api.putWarehouse(id, updated as unknown as Record<string, unknown>).catch(() => {});
+        }
+      },
+
+      // ── 删除仓库：本地即时 + 写穿后端 ──
+      deleteWarehouse: (id) => {
+        set((state) => ({ warehouses: state.warehouses.filter((x) => x.id !== id) }));
+        if (isAuthed()) {
+          void b2Api.deleteWarehouse(id).catch(() => {});
+        }
+      },
+
+      // ── 新增库位：本地即时 + 写穿父仓库 ──
+      addLocation: (warehouseId, loc) => {
+        let parent: Warehouse | undefined;
+        set((state) => ({
+          warehouses: state.warehouses.map((w) => {
+            if (w.id !== warehouseId) return w;
+            const newLoc: WarehouseLocation = {
+              ...loc,
+              id: `loc-${Date.now()}`,
+              warehouseId,
+              createdAt: today(),
+              updatedAt: today(),
+              createdBy: 'admin',
+              updatedBy: 'admin',
+            };
+            parent = { ...w, locations: [...w.locations, newLoc], updatedAt: today(), updatedBy: 'admin' };
+            return parent;
+          }),
+        }));
+        if (parent && isAuthed()) {
+          void b2Api.putWarehouse(warehouseId, parent as unknown as Record<string, unknown>).catch(() => {});
+        }
+      },
+
+      // ── 编辑库位：本地即时 + 写穿父仓库 ──
+      updateLocation: (warehouseId, locId, u) => {
+        let parent: Warehouse | undefined;
+        set((state) => ({
+          warehouses: state.warehouses.map((w) => {
+            if (w.id !== warehouseId) return w;
+            const locations = w.locations.map((l) =>
+              l.id === locId ? { ...l, ...u, updatedAt: today(), updatedBy: 'admin' } : l
+            );
+            parent = { ...w, locations, updatedAt: today(), updatedBy: 'admin' };
+            return parent;
+          }),
+        }));
+        if (parent && isAuthed()) {
+          void b2Api.putWarehouse(warehouseId, parent as unknown as Record<string, unknown>).catch(() => {});
+        }
+      },
+
+      // ── 删除库位：本地即时 + 写穿父仓库 ──
+      deleteLocation: (warehouseId, locId) => {
+        let parent: Warehouse | undefined;
+        set((state) => ({
+          warehouses: state.warehouses.map((w) => {
+            if (w.id !== warehouseId) return w;
+            const locations = w.locations.filter((l) => l.id !== locId);
+            parent = { ...w, locations, updatedAt: today(), updatedBy: 'admin' };
+            return parent;
+          }),
+        }));
+        if (parent && isAuthed()) {
+          void b2Api.putWarehouse(warehouseId, parent as unknown as Record<string, unknown>).catch(() => {});
+        }
+      },
+
+      resetWarehouses: () => set({ warehouses: [...seedWarehouses] }),
+    })
+);
+
+/** 按组织过滤可见仓库（沿用 matchOrg 软规则） */
+export const selectWarehousesByOrg = (orgId?: string) => (w: Warehouse): boolean =>
+  !w.orgId || !orgId || w.orgId === orgId;
+
+export const WAREHOUSE_TYPE_LABELS: Record<WarehouseType, string> = {
+  raw: '原料仓',
+  finished: '成品仓',
+  wip: '半成品仓',
+  aux: '辅料仓',
+  transit: '中转仓',
+};

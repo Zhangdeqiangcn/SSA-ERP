@@ -1,120 +1,136 @@
-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
-F4VG0V4DGvB8R0M1fwZMJg==
+// GET  /api/approval-delegates — 委托关系列表（我委托出去的 / 委托给我的）
+// POST /api/approval-delegates — 新建委托
+//
+// V3.17.9 修复差距 11（审批委托）。迁移 0075 建表。
+//
+// 为什么要一张独立的委托关系表，而不是在用户表上加个「代理人」字段：
+//   · 委托有**时间段**：出差 3 天和长期授权是两回事，加字段表达不了；
+//   · 委托有**范围**：只委托「采购类」和委托全部，是两种授权强度；
+//   · 委托有**历史**：谁在什么时候把审批权交给了谁，是要能被审计追问的。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { writeAudit } from '../../_shared/auditLog';
+import { isDelegateActive, todayStr } from '../../_shared/approvalInstance';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  // view=out 我委托出去的；view=in 别人委托给我的；不传则两者都返回
+  const view = url.searchParams.get('view');
+
+  // ★ 与 approval-instances 同一个坑：org_id 必须**无条件**进 where。
+  //   原先 view=out 只推入 'delegator_id = ?'，而 params 里已有 org_id →
+  //   占位符 1 个、绑定 2 个 → 500。线上验收同批抓出。
+  const where: string[] = ['org_id = ?'];
+  const params: any[] = [user.org_id];
+
+  const rls = rlsCondition(user, 'approval_delegates');
+  if (rls.clause !== '1=1') {
+    where.push(rls.clause);
+    params.push(...rls.params);
+  }
+
+  if (view === 'out') {
+    where.push('delegator_id = ?');
+    params.push(user.id);
+  } else if (view === 'in') {
+    where.push('delegate_id = ?');
+    params.push(user.id);
+  } else {
+    where.push('(delegator_id = ? OR delegate_id = ?)');
+    params.push(user.id, user.id);
+  }
+
+  const res = await db
+    .prepare(
+      `SELECT * FROM approval_delegates
+        WHERE ${where.join(' AND ')}
+        ORDER BY created_at DESC LIMIT 200`
+    )
+    .bind(...params)
+    .all();
+
+  // 生效与否由服务端算好再下发，避免前端各处各写一遍日期区间判定
+  const today = todayStr();
+  const rows = ((res.results || []) as any[]).map((r) => ({ ...r, effective: isDelegateActive(r, today) }));
+
+  return json({ ok: true, data: rows, today });
+}
+
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  const { delegateId, delegateName, module, startDate, endDate, reason } = body;
+
+  if (!delegateId) return json({ error: '缺少必填字段：delegateId' }, 400);
+  if (!startDate || !endDate) return json({ error: '缺少必填字段：startDate, endDate' }, 400);
+  if (String(endDate) < String(startDate)) {
+    return json({ error: '结束日期不能早于开始日期' }, 400);
+  }
+  if (delegateId === user.id) {
+    return json({ error: '不能把审批权委托给自己' }, 400);
+  }
+
+  // 受委托人必须在同一组织内且处于启用状态 —— 否则会造出一条永远不会生效的委托，
+  // 而用户在界面上看不出来（他以为已经安排了代班）。
+  const target = await db
+    .prepare(`SELECT id, name, status FROM users WHERE id = ? AND org_id = ?`)
+    .bind(String(delegateId), user.org_id)
+    .first();
+  if (!target) return json({ error: '受委托人不存在或不属于当前组织' }, 404);
+  if (target.status && target.status !== 'active') {
+    return json({ error: '受委托人账号未启用，无法接受委托' }, 400);
+  }
+
+  // 同一委托人 + 同一范围 的**有效期重叠**委托只允许一条，避免同一时刻有两套路由规则
+  const overlap = await db
+    .prepare(
+      `SELECT id FROM approval_delegates
+        WHERE org_id = ? AND delegator_id = ? AND active = 1
+          AND COALESCE(module, '') = COALESCE(?, '')
+          AND start_date <= ? AND end_date >= ?`
+    )
+    .bind(user.org_id, user.id, module || null, String(endDate), String(startDate))
+    .first();
+  if (overlap) {
+    return json({ error: '该时间段内已存在同范围的委托，请先撤销原委托或调整日期', id: overlap.id }, 409);
+  }
+
+  const id = 'ad-' + crypto.randomUUID();
+  const now = new Date().toISOString();
+  try {
+    await db
+      .prepare(
+        `INSERT INTO approval_delegates
+           (id, org_id, delegator_id, delegator_name, delegate_id, delegate_name, module,
+            start_date, end_date, reason, active, created_at, updated_at, created_by, owner_id, dept_id)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?)`
+      )
+      .bind(
+        id, user.org_id, user.id, user.name || user.username || '',
+        String(delegateId), String(delegateName || target.name || ''), module || null,
+        String(startDate), String(endDate), reason || null,
+        now, now, user.id, user.id, user.department || null,
+      )
+      .run();
+  } catch (e: any) {
+    return json({ error: e?.message || '创建委托失败' }, 500);
+  }
+
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'approval_delegate',
+    action: 'create',
+    entityId: id,
+    summary: `建立审批委托：${user.name || user.id} → ${delegateName || target.name}（${startDate} ~ ${endDate}）`,
+  });
+
+  return json({ ok: true, data: { id } }, 201);
+}

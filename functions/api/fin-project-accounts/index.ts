@@ -1,18 +1,17 @@
-U2FsdGVkX19x4S2KzlcId8k0fDdSTaEE5PPyJ1UU64eKlswAiOhHjjmJqV49qIZJ
-hEVjQyjnDB0D9G1yHmsF0L4dbcNnOOZsMD17VXVqQ4/EWX5TE5moP9tWybb1a9Zv
-TGd6nQRQdHOuRsar5LOqCzO6iNA7JYdjV5ZznPcEg6I5jevcMM4lLocO3nGQ2B/Q
-kJ4Npql6shHvtLowIkwZesRYLRQYdxd2C2ijiBNiM0hJx9qNoNqzX67kTgfXB6fE
-5fddUGc2TXZ8n+wuqPhdztLfqKBfQuAT69741aAYeL+7GDwl4TKbaAmof4NQMAqJ
-l0FB/0FlqCEpWKjpRMiIFjZVFAPJN/XNekXEfmSptu+3sZ1oeopOoUVFWZPDY4PO
-b7ec0tcA89FTchztwdo1OYsfADlz7CHkD5MeWjGsbEFBXo9FvZrrCGZrJGiuds4z
-htpTW+TTG5qXIR1+qPsMtoM2W4aevFTo5IWaDMseAQHjgTdzZqeUWP1TJlM4NlIs
-PLeHHOhujvfyr3chl0YgVS/Pt9/3zzvb6SCxysI1m+P3YQZHhkqCx5qeEnRxqqNr
-SFiJUD1pjyxw7SUg6tbHFjOaVfoZ2B/OSlFL95/WX86NdX3/4ivPPKdNRrSDX4rv
-u0xbrxlrzt3GtIQS6d2IB/a3g/Vn9N+QpoT4u1MKeTp97h+6nPt5kRybAu2Y8Gby
-trBfGRWt3aBGb4nLqVqhhAB885HSW8Gqjjqb3lRSvxP0cvKUGTTD5zvaBBNdG/ty
-d2NePf3NjuEvZq1sRSrEbhbS+DVaLYO74t03lyc1cg+WjfdwVTQek1qqrHHoo38v
-ULa8isBpU5G+jWoartJmwbqZKNmTz7pptfvydur+7Of82ntLrBFmFSNLM7WvF0+p
-3rAMbLHWory9ivrKXcmJG+6qMMqney+8s9rq4V0rIKgsR4Cv/vhRffKYsj68L+4B
-A14d2hkhxTv/mB5Dh6NRIVHf4eRO740OYdf7mj/ZoO/2r5BX+2pFlCL+TVzJ5DKs
-Z488i91/XfsnyRTFEySrgE8kCAcx84l8DsQc8DMaMUgt5IAxQqokDUc6t54guezr
-XmmN12I35RRhi0Un1rYVeQ==
+// 项目核算集合端点（C1 财务域 · 父子表）
+// GET  /api/fin-project-accounts   列表（含成本明细）
+// POST /api/fin-project-accounts   创建（核算单 + costItems 一次性写入）
+//
+// 与付款计划同款理由：`ProjectAccount.costItems: ProjectCostItem[]` 是嵌套数组，
+// 走通用实体路由会被静默丢弃 —— 界面上「核算项目」列表正常显示，
+// 但点开详情的成本明细表是空的，且保存接口返回成功。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PROJECT_ACCOUNT_PC } from '../../_shared/finConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(PROJECT_ACCOUNT_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(PROJECT_ACCOUNT_PC, context);
+}

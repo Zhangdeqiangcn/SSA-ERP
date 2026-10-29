@@ -1,31 +1,39 @@
-U2FsdGVkX1+kag0ZuecZ9ggw1kxMbOlC/Gtm443Ts8T5eGQ4YPFEYenfHDqLpQKo
-39+ZdbFRnY77NtoRG5N+NbfqEW9r5Nu4NRRivETidQfLvyn2L94MHN88KHGqfMjc
-KLaimwKFIoRnJjq6DT7MhYb13b8H0CNZKPLQsJQbqpaeuF++E2tm2plSTVXMLVqF
-EENjVejGNfYTqph397IDa5Kck8p3cTa4pDpbPHlQesEqrWiak4kebD8l9VNRJhp4
-fe9Zwg39QWy3QHFJ0AB7rHVJE5Zgt4+sJ2JOMUt+cyIEAw1z4GQnyPWVP2eT3rtr
-Rd/MQKocWWFUOq3wIoraqOL0G2KJ+/Ap40XngOcSrfn1yg4HeoJuYm/grakrRRm3
-TimQaWwuNEB5hVQBWUix18qTyjNmg+MGUe9omfpu/ozdATvu86F6rsSq2FTwBo6a
-zQGBZnigBztqo05pDJI0cRQfBI6RLBfignAKdV3fm6Sp7QXmXhHUPr7+Vnk/o7ZA
-+yqDfDmfLKfK2CYfxtSrm/DqIuwpst7yeo6+L7Ozn5T/aeynMOxa5618TGwHAptz
-+s4zVaN/DkzmBLrdZmUyb4SzHI0nAHoXXDZbmb6OeVYvT56BsUEiCL93TcIEZut2
-RCU9MOO78t0vS5SbQPzIDX23xQx4ssOsMJMEytJ/0gYidErbgXlWm/MDhWvrzOQ6
-PbsIyDRznuGi18iwPvnZYzC1q4/IZ7VJUdPn26C17iiTn7Z9Dhy2pBL7qCql+ixm
-irhkefiU5+fj4hNoPd9yGHcqe+kixCxYWbq3HBLpGYLsg8l4QkB0I3l7Gs1Tr6Wd
-P5K5OeXStByllmCOq9iRbVjYtwQkpWY3b7kDsmVZ5mgAkY+9kLgP+0iarfVSER82
-LOXTWrXAMTrHcN+DPtgMoAgv84S/9TL0FbVpHNhMliwvlHIYwpQjG4FJDwGOfqPU
-tlLOrh2L2illuQ9nuErlXCrhr4AleUtv4OGO0bw3icr0Sh0a/1+C63lmkRQ7ysLY
-b4dKI6ywfA6q4UpsWsIkivrYPvMDEnvR7af8f/U0m2esEEF+qD1ShMpdR6byBx0M
-OM7vyes4n2I2SVC/MKBNy98PZ9d25L5UbO6P6o/cWf5IXzfCnibSbWH05oLL4S5k
-uqyD+pr+kZP0ccV4VUJmSNAK3m133DmlQT1h9tiYtDhCcobaOpXpZO4A5VHGTYMR
-1QyDRtLCafm2Q+5KP9WPuIhWzvi16edKRuc56A9yPakwRCfyS3FV5kRS4Bp7tqYq
-gFD0RWgNi8eHV8FM65Em8hF0oqeQTGY914vePwyOaLLHdvKFCtTR2hYubNCxsHPB
-JdmhXhNcc4N2IwvUExYxtISBXbKankPFSeFB8G/JDFcCEsXIWe/IVaC5ipPiCmx0
-dZ/r5ZSVs/mSYoQY82fdodOZ+VWw7+Hj3qcXij9eVMEPR+8gMSYnY/ckECm4cBJq
-7ZvhQPkAEYSkvOmKjUOJULeQB4t3eavzkSfqIu5tV0CvhHeMkAnKktRMk0wkg78O
-oZzqiW1ILQ5pYkm/+AR6EgrXOxnnh7TYrlbDEF/JV3qt0vsU4251pXSGJ6RBPhhd
-EIZI4pYZqD2XqAh8BmTv+ftFbADLIU3t625b9odtlsJ5pO7ovtjRN0okBp7a6yT0
-6yr+a+9rrY47LasHtQgyTp+lnZBptJX5WtTw6hE4kmIEJsoE5OY0nFDbod0zpbFV
-RS43a7pEwoC36NzRh8xaIILLvmtGHJvRgjFkl2b1Jp7MWPVOOudw+V27CIoPm3el
-bsvyfOqZPSJA6mvmFtUvQsJ3H46lxALZt41JimeAkyTeIv4DU7F+dSwiDW1XM1Zm
-RauXo+LFGo01Ht1JO7L8Lh1o9XDTrTbPioLvZMO7/3boIk0aVJngAsFGegDMX3u5
-ifDpEQGgCH+Q4KrXkGUPFw==
+// 公开只读接口：按邀请码查询邀请信息（无需登录）
+// 路由：GET /api/vendor-invite/:code
+// 用途：供应商门户注册页凭 ?invite=<code> 回填「邀请采购员 / 采购组织」并校验有效性。
+// 安全：仅返回非敏感字段（buyer_name / sales_org / status / expires_at），不泄露 buyer_id / org_id。
+import { json } from '../../_shared/auth';
+
+export async function onRequestGet(context: any) {
+  const { env } = context;
+  const code = context.params.code;
+  if (!code || typeof code !== 'string') {
+    return json({ valid: false, reason: '缺少或无效的邀请码' }, 200);
+  }
+
+  const row = await env.DB.prepare(
+    `SELECT buyer_name, sales_org, status, expires_at
+       FROM vendor_invitations
+      WHERE code = ?`,
+  ).bind(code).first();
+
+  if (!row) {
+    return json({ valid: false, reason: '邀请码不存在或已失效' }, 200);
+  }
+
+  const expired = !!row.expires_at && new Date(String(row.expires_at)).getTime() < Date.now();
+  const consumed = row.status === 'used' || row.status === 'revoked';
+  const valid = row.status === 'active' && !expired;
+
+  return json(
+    {
+      valid,
+      buyerName: row.buyer_name || '',
+      salesOrg: row.sales_org || '',
+      status: row.status,
+      expiresAt: row.expires_at || null,
+      reason: expired ? '邀请链接已过期' : consumed ? '邀请链接已使用或已作废' : '',
+    },
+    200,
+  );
+}

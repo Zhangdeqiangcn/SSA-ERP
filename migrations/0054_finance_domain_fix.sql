@@ -1,188 +1,164 @@
-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
-w6kB1t2lEcF/lIIRVzaU4Q==
+-- 迁移 0054：修正财务域三张表的字段契约（V3.8.0）
+--
+-- ── 为什么要写这条迁移（这是一次自我纠正）─────────────────────────
+-- 0053 建表时**没有对照前端真实类型**，列名是按「会计上应该长什么样」推断的。
+-- 结果三张表与前端数据契约完全对不上：
+--
+--   · fin_account_entries
+--       表：entry_date / summary / account_code / account_name / debit / credit
+--       前端：date / description / debitAccount / creditAccount / amount
+--       → 一个都对不上。若直接接入，每次写分录都会**静默丢掉全部业务字段**
+--         （通用路由 pickSnake 只挑已登记列，未登记的键直接丢弃且不报错）。
+--
+--   · fin_tax_records
+--       前端 TaxRecord 有 recordNo / periodType / category / deductedAmount /
+--       actualPayable / paidAmount / paymentDate / remarks 共 8 个字段，表内一个都没有。
+--       → 税务页会显示一堆空值，而界面不会报错。
+--
+--   · fin_project_accounts
+--       表：budget_amount / actual_amount / start_date / end_date / note
+--       前端：accountNo / totalBudget / totalActual / totalVariance /
+--             grossProfit / grossMargin / revenue / preparedBy / approvedBy / remarks
+--             以及**嵌套数组 costItems**（ProjectCostItem）
+--       → 字段名几乎全不同，且 costItems 无处可存。
+--
+-- ── 为什么是「重建」而不是「加列」─────────────────────────────────
+-- 加列（ALTER TABLE ADD COLUMN）不会丢数据，但会留下 16 个**永远为 NULL 的死列**
+-- （entry_date / summary / account_code / account_name / debit / credit / tax_type /
+--   declared_at / note / budget_amount / actual_amount / cost / profit / start_date …）。
+-- 在会计凭证这类表里留下死列尤其危险：后来的人看到 `debit` 列会以为那就是借方金额，
+-- 而真实金额在 `amount` 列 —— 一个列名就能让人算错账。
+--
+-- 因此这里选择重建。前提是这三张表**自建立以来没有任何一行数据**：
+-- 0053 只建了表，从未有任何端点或 store 写入过它们（财务 store 此前仍写 app_state），
+-- 本迁移执行前已用探针核对行数。空表重建的代价为零，且是唯一能留下干净结构的时机 ——
+-- 等数据进来之后就再也没有这个机会了。
+--
+-- ── 契约来源 ───────────────────────────────────────────────────
+-- 全部列名由 `src/types/finance.ts` 的对应 interface 反推（snake_case），
+-- 不再由「会计常识」推断。**表结构必须服从前端契约，而不是反过来。**
+
+-- ==================== 会计分录：对齐 AccountEntry ====================
+-- ⚠️ 必须用「DROP + CREATE」，不能改成「CREATE TABLE IF NOT EXISTS」：
+--   0053 已用**另一套（错误列名）**建过这三张表；若这里用 IF NOT EXISTS，对已存在的表属**空操作**，
+--   后果有二：① 本迁移「纠正列名」的初衷完全失效（全新库仍保留错误旧列名）；
+--   ② 紧随其后的 `CREATE INDEX ...(org_id, period)` 会因旧表没有 period 列**直接报错中断**，
+--      使 0055 及之后**全部迁移（含 0069）无法下发**。
+--   原 DB-005 判据「重新部署会重放迁移并清空财务表」**不成立**：wrangler 按 d1_migrations 记录跳过
+--   已应用迁移，不会重放；而此三表在本迁移执行时点已核验为**空表**（0053 只建表、无任何写入方），
+--   故「先删后建」的重建代价为零。生产库早已记录 0054，本改动不会在其上重跑，零风险。
+DROP TABLE IF EXISTS fin_account_entries;
+CREATE TABLE fin_account_entries (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  entry_no TEXT,                      -- entryNo
+  date TEXT,                          -- date（记账日期；前端字段名就叫 date）
+  period TEXT,                        -- 派生冗余列：供报表按会计期间聚合
+  description TEXT,                   -- description（摘要）
+  debit_account TEXT,                 -- debitAccount（借方科目名）
+  credit_account TEXT,                -- creditAccount（贷方科目名）
+  amount REAL DEFAULT 0,              -- amount（单列金额；方向由借贷两列决定）
+  currency TEXT DEFAULT 'CNY',
+  voucher_no TEXT,                    -- voucherNo
+  cost_center_id TEXT,                -- 辅助核算：成本中心
+  cost_center_name TEXT,
+  project_id TEXT,                    -- 辅助核算：项目
+  project_name TEXT,
+  aux_note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_date ON fin_account_entries(org_id, date);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_period ON fin_account_entries(org_id, period);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_voucher ON fin_account_entries(org_id, voucher_no);
+CREATE INDEX IF NOT EXISTS idx_fin_entry_account ON fin_account_entries(org_id, debit_account, credit_account);
+
+-- ==================== 税务记录：对齐 TaxRecord ====================
+-- ⚠️ 同上：必须重建，否则 IF NOT EXISTS 对 0053 已建的表是空操作（列名纠正失效）。
+DROP TABLE IF EXISTS fin_tax_records;
+CREATE TABLE fin_tax_records (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  record_no TEXT,                     -- recordNo
+  period TEXT,
+  period_type TEXT,                   -- periodType（月/季/年）
+  category TEXT,                      -- category
+  taxable_amount REAL DEFAULT 0,      -- taxableAmount
+  tax_rate REAL DEFAULT 0,
+  tax_amount REAL DEFAULT 0,
+  deducted_amount REAL DEFAULT 0,     -- deductedAmount
+  actual_payable REAL DEFAULT 0,      -- actualPayable
+  paid_amount REAL DEFAULT 0,         -- paidAmount
+  payment_date TEXT,                  -- paymentDate
+  status TEXT,                        -- pending | calculated | paid | reported
+  remarks TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_tax_period ON fin_tax_records(org_id, period);
+CREATE INDEX IF NOT EXISTS idx_fin_tax_status ON fin_tax_records(org_id, status);
+
+-- ==================== 项目核算：对齐 ProjectAccount（头） ====================
+-- ⚠️ 同上：必须重建。这就是全新库原先中断的地方——0053 的 fin_project_accounts 没有 period 列，
+--   若沿用 IF NOT EXISTS 空操作，下面第 129 行的 (org_id, period) 索引会直接报「no such column: period」并中断。
+--   子表先删（本迁移随后会重建它），避免重建父表时受外键牵连。
+DROP TABLE IF EXISTS fin_project_cost_items;
+DROP TABLE IF EXISTS fin_project_accounts;
+CREATE TABLE fin_project_accounts (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  account_no TEXT,                    -- accountNo
+  project_id TEXT,
+  project_no TEXT,
+  project_name TEXT,
+  customer_name TEXT,
+  period TEXT,
+  total_budget REAL DEFAULT 0,        -- totalBudget
+  total_actual REAL DEFAULT 0,
+  total_variance REAL DEFAULT 0,
+  revenue REAL DEFAULT 0,
+  gross_profit REAL DEFAULT 0,
+  gross_margin REAL DEFAULT 0,
+  status TEXT,                        -- draft | submitted | approved
+  prepared_by TEXT,
+  approved_by TEXT,
+  remarks TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_fin_project_no ON fin_project_accounts(org_id, project_no);
+CREATE INDEX IF NOT EXISTS idx_fin_project_period ON fin_project_accounts(org_id, period);
+
+-- ==================== 项目核算：成本明细（子表） ====================
+-- ProjectAccount.costItems 是第二个嵌套数组（第一个是 PaymentPlan.installments）。
+-- 不摊平进子表的后果与 BOM 的 children 完全同款：**界面顶层行都在，明细全空**。
+CREATE TABLE IF NOT EXISTS fin_project_cost_items (
+  id TEXT PRIMARY KEY,
+  account_id TEXT NOT NULL,           -- 从属项目核算单，不重复存 org_id
+  seq INTEGER DEFAULT 0,
+  category TEXT,                      -- material | labor | equipment | outsource | overhead | other
+  description TEXT,
+  budget_amount REAL DEFAULT 0,
+  actual_amount REAL DEFAULT 0,
+  variance REAL DEFAULT 0,
+  variance_percent REAL DEFAULT 0,
+  FOREIGN KEY (account_id) REFERENCES fin_project_accounts(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_fin_pcost_account ON fin_project_cost_items(account_id, seq);
+
+-- 幂等守卫
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0054_finance_domain_fix', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

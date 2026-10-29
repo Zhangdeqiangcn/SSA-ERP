@@ -1,279 +1,287 @@
-U2FsdGVkX18nX2CaOBYr7bQQnrzj0gDhM5fxZze2AFS059Ih3sXJABPXYEIMzTym
-M0Aewwb5zoZtQiBoiUWUu4cHhpy+jvZBvgu3aYT8HeXH9JxFDfAc+m7WH9P4fQIf
-COvOYhAVqaRn1avxW+rpnW+dakfK3makHNf+RU1fa4qIcI4BYTSD5mW+FnLyU8Ni
-5mxiDTPIVrJ0TKxBF/8FaZIygBcrFgSkv27xkkXqurrKwSzK9y0pxRpA99GkfmOR
-rHTeaQz4k93VvW7ySYxfpnlAj6tSZq7zYDySPBjZrXslWEkZq3OiA6hUZborTUbh
-3ROj11BeMH9Ig93OH8F30GAI6LkEqf5dx2CXskW2X9syOw+nVULLKuWrHNJt2K6d
-bNUjO+cXehZNb8+DBO2eXLoVhG0yNZM8KcBgx0/pMfW45uwc7/TRLqOfKd/fTstV
-lDzUkPf90Ox6VtITOJa2nOXW5ph+mQHE2eFtMgicS5SeBs4GIZp9KF7Imn0paMaq
-CzzL9B8MEDqzSy3zjrDyzzSYYWyydE2Tfib5J5SVQRhDC2Cmr9VUwPKlNIwQYeQM
-Os48jHmFoY6fbXScdy56e3LtCk0ZPDJz9w7jqV0YsrUaj7k351Nyy1aCukJxADIj
-IC8zkpZ6Go21CYLFp34kTWMO+wSm5vbNijbBp7flFMLVaIUU68/w2RTfxH9JJsN3
-ZrXJeKGttgN3B3Lx8fHAbAxqk5TlTiP7n1NK6YrFbNolYwztfO5DrZiDBL3+D1On
-12pbQ/C3zZglHyB0zRCGr+8F9JaKNC+sMI5kY6Yd2nKFUCbUYZVEoTixc/T3ECkk
-jOn0UIJ8eQedat/q+7yN5Rgmey2eeOCyFDOpBJVVx0AK4TPD+Z1UJBxR8WKJyCBj
-JGAaimgAGlsnxpQg1EH1ulCqc+CEExUKL7QCnHeSHKM6bRWWB99tZP3YoIrEiD0f
-+0SOPU/EXp0mGu9Z+IJWbzunky5nW35mU38n2JO8PlSuUzqABlR8aj+O7gOkwU8R
-ZzuSfMUTVc1KR5ig5DjTgkSyFzaCyi5MHYLGOp+D0ddhJ3iTR1Tj7w0ONN1dsHu7
-7uJ980hlars7no9L7Ji8eBASgZs89BG0tYY0difqX57+a2WOVHS9ssTDByUmeOxg
-qm+SHUL2e/kcEv+MNKQZoZuCKEoqTjt/MauzbBaH416ob/r0S7mX9D3H5xtHS8HZ
-8NF8okci/FsJrKhLjMTa3hcIqkVOKEPy2C1Ofy6shimnrFb9lLEP+syrDQSv4YOb
-bDPiXwoZ8DsJayzJuFdlgLXckj1WsLfpTIC8olNb/O9cJis1AJcZrRVWIyvUpo7h
-kMO8OXL58XUdtGbz+sSvHiKtG8u3H3Fot8z0Dl0K9aGQu2V2vSC8PVlB9Y9Nmles
-hb54DD8JN3ybDxO6vOQ0ASv9wE6sG9ZFfyDh0DZMSEybgn7ZZz8BW9CLkpWqMlvF
-o3lZC0owWkikoHJ7NWxdGqn6K6XT2tvG8Cmm7lrqL8ZOdWiIGRyT/Lt+vxAi9yQ5
-MC2yD3d2KBx0C0NPT68bm3c4gkBD8Tr8PTvPPyExPPCXwVKP11bpHAtvq0Fpj6mj
-BOqpYuNs3GFj6nTFNYyFnqK+BKcaFpyXqSGFGJY3NuCjHtLwoK9qvIxmv2d56+GK
-XdRz8qbLYhYLY8fRDWzgxULOG7qjyUtPhmJvsB8A4CmAIdtOg898iygJSgo7k+E/
-6hsysEcBPDhB87GXLuk1hN2PqrK9K1LqU65P53oOVgZauOuB3jvbj8wQvPVP3MD4
-T0pK+1vMYUZMab9aepByDv+N/H/UMVFJo7cODFydD5q0Z1rlbFqDp/pV1fUU66rT
-1/A5t8mO/R9VamxcjbewFPCbj63cOUmQ9ivFViveA1QvvVgQwem78AnpGNA/KAnY
-HQh3AJjL2rwIq4wpEp5RT7fy7XCPY8iBhI/6pG+bdOnUyyp9pgw94Doedrk0GjSM
-IfHvBEaugXp25nlS0ih6WI8POxkwXcsOJlnaM0RDMAIhS9aRJw6Bk5JlF68UdOql
-AV8qqEhig9/mvsFUXdLX7xZBi5Rbekk2iBv5igieRa2nVG1eZLwkdPYtWX3VnpmV
-LzPGQB5mc0lS+ShTN2rumv5DABa0qqqdgp15qEI6F7L8TybkOq++Dskm5vzVjw+7
-ZDYM7jP9SH/gwH3w/8ziDPYpDvgMxjgbhFXaRq997fJuYgWbIP1MisNtMXwHG74Y
-S2U8lwentbxsCBrjoyfqDv0Yg4ObyqiowEG0NLdhmsVS77n9OkLx9FdBsnwLTnA2
-8QaSstjIVL3FrQ3ECNvekngrNeH0wdR0bVxOl4RsX9f3cF0T26iagVgTNTBdfzc3
-UjwV4VtDAifzcnRm+1m22tkyjFzFoscnRyBrGE/KHiHBwyLcne1PNOwWUMT39qrv
-PecODC54uH+32dsr5qYn/jplq/8T0HUteY2Z/qTw6NcSSOwPVpmr6mN/ri5PSvWW
-FG9tC4aBPkDCFCFf+R8dsAf2EwQSLzs7GcRovAFYaR/mDA0uMpl32TGmT2e45OJ7
-TE8nAwMuptHG7kB7flBEMaPchLeX/o/0VbbWankC3zpSzuarv7e2O3HqbNkhIsts
-/OZyMpMOnYvtXTwpxOnddOCIlVhFFgAMAuYsoV1BGCzlVyl1j3kN4TKvZKuHADqp
-EQCgQgz00lUF2ehBXbZO+DMogT8Jf/ZePnoXzgfEnx5L7NJf7E9D7xPXjM0LfD3k
-V/F6rBQgpR3crEXmy3GTMxlUxBAp3o+aWIl8O/tLYCnIut6UW0Ep2RD02p0ueJPb
-Tfcb0Xf0HIfEsaX/H+7BtwQrKwHWSjV8k/p95FLTZ8CNjsfpSOOQkitxfANhgt9K
-i4YRTunok2H4L5eNJSsC+rx5C4Otdr19uNpWFlntACcrYKzVBi9t9P1IGikoLyDW
-9mAi/8l+8wQIDl1nPi656vvYRucNTQtuh8VyF7+Ohc4OMQolWSX5Q2zRB6ohUeZM
-EJU10V29eYsUcqkDdoc/XDuT+4Kz59rnPD5/teAwteDQhoUAHiRjYW6y6JWQevNc
-9xzdGmEC5SCi6AF0604ch7BPIox95sreZ3KGgc9Yy0vPOiL2c/xA9xhLT1xVScwe
-jgkT5C+urA+2AUZp4AulmJGRqlD/9VjtMAn6buNDel4WsmfSbxeTMsFtV3iZBFZ7
-70PfK0IoPHrhGFDQaSV2CbyeQCbWaivCecf8QLzHOi1wuIrSYj8M0XTjgzUCe04Z
-wbPI1rbgnhc766VWJ2xb/Q8pnJSD6cLNKF3/KIuf4FNYSR7QBeo0fne84aVtYObB
-hfXp7yxilunn/NZE8eSDrzNgPh/lmKjiQvZAWKqO3xFrzNrBKoyAVXFjlvMuz3h4
-H5kv/YUTo07FlwfKIrelMaPzoERMp/oI/31eOmFo/wnyhlK2U6YT1IoWzxeGY6ah
-SZk3YuUeBK5R0n/dH/G6zitzuNWcfW+YukyPsBgdNfVeBwfDNTwY4aJYbnj7/Qhi
-MaI+nj93jSY4WGSiY9FvUP4z8/2M6nNFab8n77MWDrfOxV9kpP6EmrCIK4pFtp2V
-3aSqFpCYe6hbWf/uUrqSehoj94KMfZyodJgci9FrqgV8Kf7/RNbxydS9aDQ+D+sh
-AhhoPHL4c8PG1sw96Q4r9QcXQPhJYf+zHgYvNiIAMMdIJ/G8XjC/1gpGXtkPYRSQ
-lNCFcpTway6DIyaW4evlEnMsDf4qEnIj3od+l3s22XFqSCPPIlDltXNfq5jS6AXg
-iC/WoZkjfDn1bYVs/ZC384PKWlqtxXnEr0zb5RrEYHChsbZ6StbElW5/22AzD3iT
-D7IYTtWrgeN/fhVRYwALe1Kpuh7KgidnH0nIJUNMzpEP9Lik3LpG69L7O78c5T3I
-iWzbCXjTJ/hFHtz8aDZzrISEOtqlGTDARsvrMA+0BBPDDhxSHtgDgCgmD3N/+xJ8
-5UHJojtn8ylR3Gf+c7I8DoQZXcr8sJuCQ/2Y2DqZpNzHzclSwM20tNsA9R2Um5D3
-SVM3rt342ahrH8lIEANc5RxOCHpjUXdeafYOnaLvFBnoy49ykeU1zykpkAkhB261
-CN3hJsfCYaDnnahekJetR02j0Opb+lIC8KHnbY6bXuBbPlOZktCFt3ElUvI9KFrL
-OBM14GGVLcyK3sGb1zikrfkbuE6wBRGUxkEzw6cqBeDIwE7iMMI4N2z5ed0mO4jP
-16dRGCS5WXDumGfj7lnczwninND+KXPO6Cj5Z0X0/8OiafgMu4WGL/sHLXdnfHk2
-MfJtjdNYifrPGs/INPBlgrlOVC5OZjqbCPWJJSdXj6VRV4y1LY7nJhT+QabP0/pI
-lg0i59RTfK/bj8puPuapMaDSEW9ai6ca9xrA9i7cmJYwbsHGidtAjKxpsdw8ohuX
-XsT5+w8prbTUhC2b1M2aR0XnaseMzfWOO/N47heaGsoRx/KQjsWgFD9qD2lZB0R+
-2+23i2FM8nxyEbsxiJ75sKZ02OuQMk8C9wozoqlykc26ktwagCh2v0LThXcOJQJy
-fCwdEKZCT8Azcfr23JZySdEuQTXazbr7sDJRy/H6DydjYgcZXDbl4bZ4kllzqW2l
-dozPu6bTV0QWUy6AV8I6yRqb+WOIZC/jGIjegmMzwcsCEw/+RUcOCEPPN0LaXWMr
-BW/ZJsVSxDpmnfRFe8LjLKMkb5gX+C5dKrrodpVTFbxpac7oQ2ANta8iMojzsVgE
-BwRMIMiPf2YxHqbtWPfwMGWQumkiMcgh7CiJOnVqR1KNSNZVDMJH83dgFAXQi6iI
-N4PdJhytbZiBi+2YyUynXqgVVgnS0MxHshvfuP+kZowKcEW8a/wvf0a3B9KKZXxt
-EQG0dXA4tUqcsuKxOQ3o9/+9gGPI1vDNSQgMgHR6N3G4ulG3b9EFMiZSYJL0knNP
-T0dALcHaASLBBlR9rT4AlUct7+lolVQgCYzAM0qSw/eyWiS9nXVAgQgwzhielTmv
-oAVWFEL2T2qwuJ2Xvjq4cDHaKbLUQ+Gwr21dSSnQOZywBmCpjxbtL/pBc+cM6JKS
-IO38x6xxoyIexgSjYmx/ZId2PW/GW/e7OqxOA2VsTY9zhS+q3/5sFzicKmoGmQtg
-A+kYBsx15nDrl4N8V1ezMHlEtTg8f9pI8OUNaLscAAiw3qtNK60Gvm+Kt8UZUDZT
-AgXNCIkDssalpgeRwfCUinUnXAbdZluIOHJ6RFqsENbrHb/ZSVVTxmFHLTJPH8dL
-6Akw8sAY/BnpUHLKUoYUUhI/2PjgmXz/1FtKNCXHweaT3f/3/jZtXNjJRj2R/Jwn
-drpXjOCgRHH7G8AIT0jqRrZlWo28s0sDwcizGug/4/1/R73UYw5K2eDGJ8Z7M0sa
-n7WGHEV51lZEr4DeQihYtTQlR6Lm8Yj92pMK7aer24wIHWJPnJ5Im16jXOlnZfTE
-KjGIUqmm3zDhBDgtrve+O2VOdfGsgoHjmstG7emCE8EFJ52zZCZ4dnKLkMXR6N/B
-lvWHciaRXXKy1KmfdK9r69wK0fz93YdSdxNhcPLQ4XhvsOuVeTPfBp5BhY2jh0lS
-wtSRfUv2XFeBE9dFIMjLB94uJGOpWXHfouqafvcRs7kdZkCTTAIie46vrrOe2Ujl
-1Dwfs2IqtnhtYcfDOgWcIKdLYylCwLjGELRiSDxLTC2h/ReUpZ6FtKioYB3Peb/Q
-k8urMh+jacSRS6M8j2qMbPiQa6difc+FyK9lqfuHFbklAkKpUbTdsHr+hEbbbeWR
-n1jahhu8Dr6lRj+TVsX3aIX88r+PABo4vT7vtdzFwUSVBBuysenwcyAaG2cL5F9Y
-AeirYbQ0y6ADwg4HdGaev4uh+RNSMRGLM6L1V8X12mfLGuQ7Xrm3jnottoWjp/G3
-NQQnaEvDQubEYrF0MPMGGtpU9irS/oEbO5EnJShiHRbBXn8IEhjuGKYHLPjZFF1G
-bLd7CX4quKNHpDhCdZ7pw9he+h1k9SCO5ElDfcZ04266PH9HaDvxmlx63u1nLTsD
-FJaALcdwcu4u/xcfd5ErMW4VB0Wsv1ZL1BH9Ar/Afm+mMlW9H46k9C6HSEqQjnaI
-hOKGn756lsxXOU7wCCQv33tZ0bm0nZes6tZGQmokKl7q5Wam5WUFxUDzQuCxFWp6
-ALDWQYs1qqKCFPBJgBWrc7ekRPPcJ5cgqaKb+k9miRp6GmLs6OwVFH+T2oTk4zOy
-Njs9K+8Z4JYbo9zOQKmjzTqH/hEebVQgZR6ZQIZ3c8YyKKPyJOAjBaI1KXv/Vn5m
-QcOS4IOhvrPXfKC/Z8jxfC/jWHulNgz9DYMNyoC8xB4pAbw8AiKLHUR8qD5HhNpc
-E6tdU0jRPB+9iaWa6oH6Kev58T7nidLap8WH820D7qJHVGwODYiHo6EDCNjcQsey
-ZGbAVJO9ES0JQmVcJ2suRLtJPd5VXhzCOtHrOwBLj7NoQsg6Cgq4vG3D/bheWUOx
-eFA52FpQdgusZVukTfNu7JDQwb89dMmEw+dYni0KpcyDSpsQtGwGr1OPekwOTU/D
-7qEJW7MqkOphbz8csRKbXSFfA9ZlqnX71ERNztXzcPb03IUJH78RhzO86Cp9cLuP
-bZTx5rX1gAm6LNGuCZWj8gaVDv2ehVWq/uUgGr4keW9BdyrMyBs++AjkL/InPPkS
-HK4+8FA5ss8S5LeK+OyoXterG+KjNwGAuhzpo/M+ik6R49YLrgmcb1ZxW0Lllq2j
-Xmds6g632rm7eAay7D9uxb0hOpxYCeRXJb7lHaPVQx0eVFNdwkOHAtgQfdA4rctO
-rfKPNS9mT0LDlX4zUuKxFdO1Hp+y7O0Dn/PUBh5BtmRXTZ1SuPn3cXtDx2b09XQD
-eoJ9S9o5C5noV902zKiyNOkaOOEg64MNh3b0Um+TXkJpCL8mK5bYsfsaza6SUFBE
-jFivnuUDiqLFl1LII8hz9BbQmCaQHmuMHVaOc/6zDcM8MTQWUndO5qGSxYwFggPN
-INzFwcVZ2MvuT69dLT7j8hthl03plN+rOrFgoUt3l30iw11b8BTKv+mfME+l1gWI
-HUWNkVHrxSdiO0p/vx05lbSuhX8kHvBR8G84x1Ob4vudkAw9ZQg/spHK0hqmT2tS
-AP5IKPVy7AYaFB1Y+0xzitT3Xlp1z449RwhxI4HrNnCR1dQVsUsHv9L4VWDP0ZxL
-bseYZL3BVCGE5Hu9BZ3yBDrM7h1bbzxgwhg5P3h9KRXlVkLfKCeI/1YhwjoRVMU7
-n8kISM6KSQXTCWKNFjATp/dPOyIqWjZXEW+BLfZ+INh9S4gxczsIJ/MXw23NAEa7
-hpEsikaOdqiF+kVaviWX/5MMYlerSXNOWj4liguwBs+NQcwSo4xgoUOII0razHIW
-wzTG99TcgTE13yxvWaOd47et89+/caIh8dy1qbvE8EWpvDA+eDb7JUr5VaopR+VH
-bgMFfMNS4wQv4biM0w84Dj0rAMoX1yFKDD8uq7o8F/fr+e7XIFwfPHtZb89sInIj
-O68rhli7HldBrpI5HibSr3zk3sRGdjfP8vWtM+LyeGL/Jtkl74vQTzKTmR1yiawk
-wOvhCvdju3VukXqHRQ8EjdYVWCGWyo3NTLi2/VO7RgCWsGLrsTDYWFewaMRoDPcP
-AeLd3JszLdzXaaOn7ARWjhve6D3WxhJ+YOo8lvd6I4oYtyYVBtRWxYYv4+jfctc4
-JXUaXZR+B8ldKZSjX1elseFgNt7cmIWPPeQd+y6ysa1Twi3OzCtfBfEReNa4izdb
-Hc/fF/4by+Vc27XoLjF7SDqfKCZynn+OKD55V5Vzz4H1rg55jKzWpPOlI0W9l/Ht
-upqKw8Ow1/Cb7r6W3WAbk7pqE8kGKi3NzTtJm8JGrBpoPxBI1GUFDTdXLzkAQ3ip
-cgtDtWOfJXI70bFwld+givoK6/3yPlrr10p+3L1E7i5k7mSVloowlAsyceueMtxH
-1M6/yDX2frzju5Ja4iVLDg2TzBy9WwUn5aj7sAWdM7KeZ40K2IYQAExeaf90f8kc
-xZ4pp8/3cTWYk9OgFAMwkC0KzyZ9FOr4f1YN8VQqPW2n+QCr1c4B+cYVMKEu5bY4
-VnBdyXdu2dtTbap0BQHXp7u2Z7kFSK5o6Zcjpdk4iGzXXvBHjwGhx2wroW0vHSJH
-SzNW5sOOwY61FOfSQDUsZ9Xzeoc467VYcFpn34eTkaI82c6sONT2GEdG61WNQ4/P
-wlCcR0Z4rTbQI1sAJjZGgY6ng6bKqktGEcP/r+MojyXhF+eKVLKwVderQxABtabv
-nPv1/AyTl7pG+4LVRRUE4ppJBC2aTxscIkOtLFD3JVI5suUcI0kC/E9tNjVcq67/
-XfKzYx9xvyh2GXrMWuk0clX4Fh2a6PQWXqP1Ivb8G5WuqMFBFLjmgGYTZCHfOSIy
-zYNHudmGRIS5kuoMGGTcfmW8ePtxAnoBIloeXibd9iUgoqTlSiVSNQIrTbO6zh1m
-FqHrxbY0Pq0T4LqP8BAJSZirYSrU9cBMvRin2PdHhqeUHbcUtXXAoGLpTWq00UUY
-J9JhGSi78fvWEVGNWN9qyC+8m4FLHV9ixVqRFnc85cFJgRnGsEw045ItoSYtatWw
-ImlIKptwpkOVI3jrxzTBuNyyp9Pfqw9tMOu9V26bR5Op3VpM2yAS0uB860BchXy7
-SKF6a2y/MbZ+VXwDIMttaVu7Oh6zx+bIH0ykzk4q6Uu9wsMW6/ztK5eQN+NYSu8+
-soo9W0E9wRr4JFChmSCLuLinc1zhiHp4nlCg0XonNLm92cufoRzBOQZoS1gz/KPr
-WDsfM78LI6wyB6Kun0q5dIIXIItDf46+IvdggJuTxAuoDZvWZ89+6o/udTQhT7D+
-Rd0VdjhTXlVWf2bz+9tmnFdF+Cl2E78Mdw2r+YOsl+nA9JZwNbVzMdyvjfUBYXiC
-UJHit3Abhc0Pc1OJRFjFdooP95ohallp5cl9tSZcFvmJeBlXknyVu4qL+6WLwmEs
-aU/UD82RgPT59zWC/DQtrMfSa2bX5oYa1M5TjF64ITir5SWdBAc8VKAG8hN71cb8
-8gTLI8l+Sdz2nqsln4YK5bM/8KxQFuZ3OLjTGbjiGRIrclxnRwJeCh1TPabH6DiY
-dYYVCaiecjZagjjzQSA8tJ0kXQAMIySa/bi+trOi+UToxdFFt8UujKJyfC9H1bIO
-dXZ0TrMz8lV9k4jyUSQH+iTj6McJ9mLRt8dpVU6EsEr/JtnvGu3jWhDrimSMQDSr
-bfO4POLGvw1nBd7jVEmUiVSPuER8iYU0tm0Sw7rSXBK5UFE15kXZApQnpkd2g6xs
-j3YIemLUp9P+cdjUfNNSKGlorPh6oC4NGfr1KvF/oLyt7K0+zMIPrBiJqEZuACnm
-es7vcD8t4Cb5yLRW6klspMw1IpQinc0V+nFFGJNjHAWXDcyFdSQ58j+e2rmRwQTU
-wdTL3a9gmX/qGukp9XKlqqyLCZAHlF6FPXboy9QFXXtqyoSHGd+MSrEWDilAWVyM
-aFtCHRDAuqEk/7JEU5vDgggGQiscSCFX0G5VHRzJ9c8s2fmGdRmnZ83a/jEDiUny
-3yiHzrbnQ/0qCnoAnhANd6aEcfR4S0rwtUvGKy9v10ThdBF45Bwk2I3uFZTjTzP+
-W8tiQHZ7d//DIDH/fZMYZmiUf9m1KBlb4yURKpraO/Nrh/rFuXfavjBzb42EPBq8
-lh6FvocLoS2o9OLlWzuOALU7lotPAyj73eQhFmTwBEn2uTxut/dhDxxW8m/mh/dw
-3qkUAP/+4E2CqC7Q2o7Cl+LJXfFWOjrSiVY9tcDOttO7fhQmks60YwBbS8ec/rbN
-XRT3+dWwi+xpLbzHMQz+LPQ/gNlSsMEAyqmwTRXwASX73A3K1qQksm5/TRENSSi8
-ypVcQwRrE/lpixyVokJzhGZ7FnJZ/YmVyhlSRSw0fvQFqAZwua3dJwMdvFsdevUi
-UjVTTFWnSzD+Q29SCp2OBvmzplsL+VQLXrEfNfJICTqe1N95ZNJuFKXU10r7PixO
-vhEFRuCmJ7YUAymnmcwsq6UGCZUv6L6YATiDYkFmfFonxI4aAM2kC4aLs7opsNll
-/rMbbHzHOoGaJvnz5CH6LZnijrwiCtQ4kyBMQ7ZcaxIhU59loyvJ2Cr+uEEQZw7k
-jbezOZDyrSyBvprFshDDR9P2AbC1RxFa8UXhiQ2UUsl8DFFP/2cX1vfZGKM0xAzh
-uo9ABuQqH/S8lU5X+ngWF/zL2fHFr9bAwJ7OkE+Y0NbNPVCQO41HiffkSOGbMQVx
-33RyUZbRffFXdS7TYK2YFWK8bcgbXxdexgC65vGUf88V7TD4PT22Q3j4eGG1c6ib
-ABrllFbiGPf36UgCTG0lYU4l7zssIhA3sk2RAimwlisfLOcEuDoLHAKExarq9QFx
-JfRLitrb66RKby/7HalEOqw/XN3bHicGujp07Z6r3Fa7uNYFNZ+ddxyF4ePjycEi
-TkKm4Kdu1zVPHdtlW8d9ebrzH5+rpZmFT86CzFbFV8eV29dVJAPqaW8pDc5loqMe
-P3Vri8QAEQRGXTkoxpj9o9cjRZn7DlbFBiuPeCRBiR3jSrBh8Yn25jHJNGK0/cAp
-84z2iRRLjGe7Ob4NkNyEJJi+C9pgDKt4toFtxymR9P3tMYg/Y6yHUA6NNERpSBPr
-LZbItS9Uf6RE3dMblUGb3rHvanQfMP3pqYOhrSjTYw1CAIl2ipuWN+RF+5FLEYgM
-5DI6MdspxJF7H5HZikuny7zSRWAmGFG8vwqwVqkSUjj1e0MQbRpGYcXFXIjtUYH3
-zgMjzz5QpULBLtW4uwDQY4Fgg5R7GesRTHCLnc4jiFy6cpgCNWmuVUdDWTjXJTBc
-dR75NAtYqS2Azooykx0UzuSmY/Q1IrNNjpsMEIum8nxPoe9HeoEwgoq8Pmoq8r8e
-JhC44ztiAvgMxHP5N5ZRYwxxpUfrbALjsua/owhYBnSDIUFo076YAzRUYv+RU1hG
-OgVEWGF7rfIvl9xwXMML3f2lFPRORjjLCmfEUwZ9bmtUx5xR5pNC7Jo3+5UlM6M+
-a5nTsIcZSiZGS15m4KmjX4oPQAb6LVg9wbPHBXHkz6h0mtQLsL1u09GUf8BQIt1/
-igsy5hiAkFPKzYahaAgsUv2dlfvqQPqt/fpSifQfm9IKbrzWEgANyQF2hltchgED
-MZz2pb6b/xW1hRO2/S9kGez5P25n3ifRc7Wjvl8yIEt54xNgBsfQREPag43Nc1Ss
-QWq3cRZZyZaIgelYuEKiGsvD0cc1mw2iBaFwJxuGEy8VKvw9kk/Wc22aTjuWTlJq
-6TXaRviYDnYAOdAutRvCUkbnAv2JhyNvQ0aMAsf0tQWrBGFjq3pbupqReiW7gkoZ
-87Qo4Ns1FLbMVz6x4ynmKOdASX5lchDXEq1D1kQfNKwP6PxQFdoWaqDnHQ3rauEn
-gEq+Ye73vZhcCq+cXhlam/alsxYvNxcWF41ePWa1vwplw5zvTRf5aASeFGMIL3Ux
-U4ug0HsmzYJ7ffzeMzJ7VYvCnCH2xOEivJA1k0BSIlO5smom/NFBogzufvyFqbyu
-S7yD+k0t7AOFG56Z2Vs5fA5ST6iq60RixJgV0qtdiCnUUFomOqxp8mTKJzn4oALm
-a1kodQ4+VihGOcQwpPClwao1rcE5nvejB3jmM7xayDGBSKNdd6zwv9X598aDXJEF
-B145Bb0x3PXndK0+S+NTPqzUw4CCyDjn36Y5JPjay14+Jx/Jb9D8c0YbuGb9X01Y
-GrrrlHesNS6xsWATyZ7o1FeJrUDcMYHn84/1SZ79eGeRvZuSLb3g6IzoGp3NGcQb
-n7A+kfWE/LJThUyCccqor4XJaFAAAEOUNT1YmlVeJCL/0Iz6ELgZ1X4BgzL0Ijgx
-vHQyavz9GukfOLHiqxQ/gv15OUFF7KYUSFeNjv0LfDGO6QiuD4Aj+brmyJWRH0/V
-6qYbiYmtgaFd9aU6ZLNYyJU23+GJgs/0HTSe8I+l+/A/RR1V0SZDwNNyhMma1kTK
-30cR+MLIg2JgMPX1dkhRK29+WsrJaY4g4ZQMeyqpNtDUqvIh1wptEwf9El1IgfR+
-fikqHgGMde3Oo9+bhV2GYsfbAvSNRZAJ+98QmuBWaF/SLir8xrdxwmrzIyBttCkv
-QFrtjhDUK8KaqrDR/GTinHWlUHx0q930Yv+tsS9ZLoGw/8R84dj9QjN432I/uyER
-zGinU/wI2SZ55U2mzoLyck8B2lIbUUD4KzJ+wdO4gyEJgjYjvN/PtRvT1c0fTQYz
-CMNMohSQ/51ZAON7EkLT4W8xltR8E80xAv5So0hT4TQmLHhPJu6Mgi7kyuTuvN/X
-JBqT9euCXAlG96Q93bxDfpAKYiiHmgMWBBPoj9IcJsAzNr5aIZ1V7+mdEJPrxvgY
-u3PKS37jD4T4XDQqjkebtpp4FY57wo56fnSHTfLCd6Q4UIYvrm35ZfJCyxzHH9/A
-H3NsCktwbtHnM66T1Hdkw1716Cp+IYvp8i7H3K07TVTt9ttNffNwXXHd3GNpErkD
-SAoEG2bb78cZplpSW8PI1WpD+B98jfM7d8GHx0ZoG5j2O84J63b3pVqsQjw5959E
-QqfRDuDvrR4K86P89xt+hATAIFHdIyJgb5FLjK5AOYy7QC0LLdv2snYUIJkr0qCw
-CvsIpGxvOILGrqY5U/jtmssFNW/qGiZaIgvJYaWImBTP1tBw930anKq/FjPPeCN6
-SBbn0dx7TQsiConaTM+89klbtfcUx2BWBi5qXL+K71r5MO0fn25uhiD6+TtoAwDX
-1fq+pw0sDBhih3vbo6v0BPMCE6FUxiVUDHoV0BNtdv84afR3N2RAaIJiP8AGwRNV
-e0RKwOsJqz7WVqsqy4cxCL2UOoxqwqm3QbsHm+7XBgsd/bkc7sQqEdARG+YCF2Iz
-qHWU+sr40bgLEImv5EJ/PkbCUxTqfjXIqxC0F/dVLNjw6MrEUINT4ulSYnPJyXTd
-Z4XlCFxAEpKXv9oKm7DQD7dzPQMxF6Le8lM52Ao9xiRwt5ikhBQRtAk8XrNGEEAl
-nZpSPATEBgR+I9Hs/hAPCepI22Uk9EBwPMcmuz9PrH4XncMtwyIBhazkC4PJ8m4w
-JDbgqPhzx3bA71z1TmjizTpJzNpYteyLqr+GfBmubonM2bUTvLicngD/EI8fMV0S
-fZKMGypeuAZNy0oA3R5vRyu67yO5VFNg0Hzj79ERqxXQBhiUDHdJG/6K0aJOkSFo
-7hjutDgsVVKWCjMdXXtjReEFx2CDkmW6MLYFo9kcPM0d0FC+JvIiPJoUHfpXDJHt
-UOZfjjBgjs8xm7dyEIi71iai1XyKxbJtRFxDo06Vdc2HQopl7fKPu4NwdHsZa1ZN
-A4Htr4fWWIFlPOV0dW5mmY8tajVC1V2g4oSApCAhy2yehRCPVjzJV0upT6Or9qKr
-hxi3O82m3INPI9YmxscHYPFjsa2nbQUlvraNXw5c2rETtaYMDWanvnSyjOYRc28z
-X9/9qPX2t34MtarvRP8Hrl/WAjSaaDkp9lW8EJnl9Naelg63XP5PHQSH5GF/1MdX
-fLCAUmOtRgvM6NDNEJlqCtfPybpBJpvWi+sV7jGhOmo+dfZLtfwfhMlHYdXR+YZj
-lrDAASImyzxZ71ovQV60s3+qoJa6oUUHNC7w6751zUmIalAlR5XUknoge6vVDFU1
-ItQAnu9Te2KzFu5VFBoBUN7aBDl2rjAyRynBctPrdiaoxguVJ4j7xHtBgofp6xFH
-4excpSdy2dH5LFTbL+q8iu4xvdQhi31DBtQ0Pbp5SMRNIFEcrXrDzM4kmSn1hXD5
-vXgUy3dMz7fZv2t5pbmPRXxYQKPdWzw0e2EuxOsqpkdaLQPU37Nc9ZDk5wl1/2jx
-kLIPzzXNrn6RohftD8xZvtrcN5nFCYEWxLII6AnA9g3LyRMcPelwJNfVX8fEpKm6
-VB17xbhspUzUOchJikmbZ+954fjymp3oq+9RIqCTLqR929cBlaM2ob+CWtnzCB9i
-KMkrNMQi6EPoA0gAcJL/CQp3xomWt9eaznY60FaS0mgDDkU0flz4277i7dgs266O
-Ub1pmvf5Xby4316lUf9YWb+8tShunfMRPUJ2vmgCyydqB5OQoKuFcr06AiyuFE2P
-R6B3nL8t2msi+3sKFhRKB5tZxay5UjQ/zcet5EqHPeSIrPJi27QRQo4LjlasNS9u
-gDvCs0nYXbgaVc4GGYSpiJ7RK/DKFNULbiz2YWIn4gPTPpE6HS8EH/bAM3KVBE1r
-gYxfQ557PcC6ICW9TFDBITLrt4JunGEjc++G7RQDOZrjKEZqFCi7HJ/13YmVkZUd
-0979hPtXBx2zqqyCnjQZNIJifKJfqs6MTe5Yj/QuewQGVJ827mSNmuAPGEQVmQzQ
-EF6Xj3eQt2iBrzE7IbwHhA2+KREMVVT03P7yC4uFGaD2o8gclxlJeT6lvrX6/cnm
-g/cdQVCEilUpfXw4TKASJk2ZWqMo8P2xqY8EpkIQEiCwOP4/FwEtNTjynRJgCxG0
-wHuphpFA3hE6q2Hht0VdmWazcNVmazvKg2Yw/X61EAwrDg1S3Xa4QTfGoHblkQNy
-QrudbFwC6BeKzju4FlIq+FG7Qm9pkkZpt1IjSUWxcZoMFIpyXYF0heVvX1tURTQL
-3sITKDJ2VIwDdnl1dO0O4V9/dk8VA4nS/LjDVdUU4Ht14BRhjv0vCwXAc8Ue7ysd
-bQPb7zKHb60BnZz4m2EfS82864LXK94HtG+huBAyTYfSZeMwdtfJn1u1H0QwafRv
-iPYF2Bkb12zleprTHxqvH2rapNQlNvJzTlObzOmeUF0YS5BL8aYYmhzFx5xFfBQ8
-dY6cmcblWnN037r12eH7ejkHkR6e8a9we9El1Nrd0ttjlE1u3RoopntYDaC4NGxZ
-ZMyRJZK3KZqNeiue/66/I+ejWdw4MSzg19ATraPcUjiYoTrJgg9RW5TvSr/MR5Xi
-JW8gP6uCJd1Hzu02qJpda8gfjIZ+fldHTBraEJAbw4AtZ+zJj8aGrPixd8W1dDXb
-jayqP4PhipwZQHWAtBw13ePylc9EMEzcCVi4kWdG0jleqfI8Es54DLhAbuEFF8cX
-0blw4vyrzepe5l3dP4OFm+17I4reTnd18/Lr8HibqD2+LsJ26W79E4O1CTZ2P2wk
-mXZH1RKp7+GE96lEL4VAGw8mZVazli8KMelR3Fxlb4AtSqtOaO21kdw5fS8iUkBB
-KvoaCtVCADfrfxQeoDr5wG5ElFxm/TFBP4M53GvdxFDTedfTD/ZBlqqPuJ+xiVRh
-jh9ik0xcWUycx5RBinIYI1neNUahkwNw0iloKuRBclJnqqE24z81t34w37NnkEXV
-TIpw8woJwXQ4P8EJyru4JrHYxa82QTagEKsaUFKd4VsVZeaSqiSvRw2kGdT4F5lN
-jfP+2ogz0ohDxEXAh9QZUhaglLSWEFSCRb+nzaEtdmcTLr/jYatNpq4XLBHo77mN
-qsQq91rzOBmpch6moAm9FHSgGXu25c0T7kxatfZc3a+S2zMSCWlV5VnM1Ib0cW/t
-hfB3kd9sFn3ayUglF/983wp0oucTWTRzR6phCmL1BHQHancMNV61cP9Svb/iL8FL
-4CEWIDbYyE5ASSKxoI2lR0JdWljkgAbLcmYA/fNqpNmkw17a+CPhj72W9FOJpt+Z
-4FuUBgGQuo+smtbNxnvfBcLDVm9vp8wq9e7f7mfUOF9VqACZpN7t1Am11Uul+hzD
-WYHPUza7D4RJO+2hTPgQ7eK1bCof55ta5BBiI81FBZVg5Exqs65AAf0wQsxjuL5B
-x6Giq28KpTwS+IEIBwwSPrkFPGLUh7W8ttMOI+2Vo9TYh3iaZrx75FF/b+u6iiLF
-OF3h40BE8rnY8YQUcNErjs9s0U5obqHWVV07IG9Q6XtdAPMDBHh4oo1lJkrBb0NY
-oiCWeqDJBdVU6lhZBeU+yI30wOJNJSN+8YF9vZkpZ10IsyEoSgHfK3rN8SbY9oKk
-3vOpTmdiBoZG/XZHRfAJxyTvBKw8QmvMjPbCbE+iHYo1PqS6ZTlhOfVXchsIVqM6
-TG7iwc9fVkm45dtNWqqFJM6G/Tc9/O2gZ8a6bjkOkRgeHNUCcSxLQMRmqUs4BMxX
-D2Q2UdYFahnI8EfC1EO+W5rycRYII2vbBMMMk088J6WIbAOm14cBQ5ZL2/klRvU5
-qeFNwXA9104wjHE3ySRFqDwNrWgt+DvT6dmk6ISAUK9AsG+emiymBbwQ+f0GVIKe
-Qi2tHrxkbbgvi7i9w1uBD2XUH2NrJVpQ8X8UOL5gNbLmQ+pdxIhKlpHDEj9iR02i
-0dJ0yrOcBWhmXjpRm4c7QqcjvUwGG0//9fzCywUi69lPvvbYQrcG+VyjVFwt9rFU
-59b1XBue+SEPak74dBz/UxZTQVBUKoyLZ0pO6R+fjOUHqbR91XHhVkpjlJ3zpoNz
-hPWGNs8eNNoCNbnjrunxod1DWIUTsksz3rhIlEnpdcwpcR8XKAGYid8dHWYzBAlZ
-/CjtYU4a8AJ5MFQNk28N2tAREXhmFPPxH+IF8L9t1cRwR/jlUJO7wfCB25Ir5ChT
-qMQeUagDgVVRMa30pc01oYglJDQ1PLVfKvikIquKu3T+B5kMD9++fWd4zZHPLzGx
-yZESZxXDf3831uDirOLrI5FrMagBKYwXWicc30nZHS8MAEg/1kgVL1BN8mOE2KsZ
-r6EtjLpUQDUYAOXR9bAmgFrNtETKnsBdL2ISOJsWglQ7TXFV0GP7N3pktmFDjPSM
-1QG6apucaQZOxK+l6IgS1KzhC9S8vCPvJY7jshAEzO8SD7yDlQ8JREePlplJJxDD
-tao91iZTXii8bMAG6bpoz/lnDhzbzuvyoOZASTUIGz8ZfquN38ormBEnuFCv6qVK
-iCq/uVAjTTt2Kz2xFbUqTnh8o9NMAWb2IqL8DW8ebeYp6R4+z2w6QrBqnHQ86C4O
-GQujD0trw51BQuXmyiVp5CdtMkpXafsSwYo0U8S8SYi4MHiQW+UAMQmo72wQ9f5S
-SHilN3YT9SIM2NWx0W/+VSG3HGCRwCqmp6g5j04r3SUuA1a2+5GKwRWtBY7BUt1e
-7bAQ5Yqe+PCETyOOGlkl1rzpevhC8xwnYh7e6nd6234f9n1WWBRFP4vDMCKLKAiC
-S63SFvSQ0X2CISmrN9BntzcZMMwIwREGEHaJu/1H8t00yOVRdiCX3j0FPSIcesyM
-UXMfbibPxJjvYEG6du7LjqXfDZN9K99LfBBqRujrF8TxzPk1MFP/+2uLhdN4IbMx
-36RhePB19Uc2uE/Vfd/i3qNYBaSPdGo9+tbqiMF1eugNgwOCixF4ortuPSyrU5Kf
-HYwPrUP4s+nXtZMxEbI1pmPEaw6buhMwgVsbBLt3wMF2pHx46D+kjNxsQsSa/y7h
-TrrjOcQQ14gkKhs4FJa6CvR/kH+FNzaa9VaadT3V6Stq2iEXlhO2urJyYE7BI39/
-KIDnz308eA85o7XvJBNMnm9C8zsQJTHy8Avk+kYGzCc5gds8xA25CGNmGDsgQF8d
-mBAORFDfD0CSDLNMJXeI3i2L8poIZfNsBtYp+M28L4t6CyK+xumFI9hhkUQkZTLc
-I85QAkilsVnQu5tmsthFhg5nNALXsQ8j9ET7NMo6WLioip8PF8QdgYcwfsk1IbpE
-QHXjO6HkSAPjhObvReuD5YwvqHa0cziT7gOdLA8LNy00gpNHb2au4nWVX32RDDmY
-FgNPJtHtCcBxtfNA1S81va77hpAilgywYwl5inzT8QdgIZPZaZv/nRtlcd72vtlH
-AnMPDWghVonivHfQLiyQuLi2xDc2+AwQ7DLdcyLHshnCKca53tCUA7zZQ3lxYRN+
-10cAp1SYOeA/rqFLXskDHw==
+// 外部 ERP 同步引擎（V3.68.0）
+//
+// 通用可配置 REST 适配器——不绑定任何品牌（金蝶/用友/SAP/自建系统皆可对接）。
+// 一份「连接配置」描述：对方在哪（base_url）、怎么鉴权（auth_type/auth_config）、
+// 字段怎么对（mapping_profile）。引擎据此把本组织数据「推送」到对方，或把对方数据
+// 「拉取」回本系统（等效异地互备）。
+//
+// 设计要点：
+//   ① 复用统一数据访问层（dataAccess）：拉取回写走 daBulk，天然享受 org 强制归属、
+//      列交集过滤、父单归属校验、写审计——与本地人工写入同一套安全网，不另造。
+//   ② 增量游标：推送时按连接级 last_synced_at 只取「上次之后变更」的行；全量用 full。
+//   ③ 幂等：推送把本地 id 映射为对方 idField；拉取把对方 id 作为本地 id。重复跑不重复建。
+//   ④ 失败聚合不中断：单行/单次请求失败只记进 run_items + errors，整轮继续，最终状态
+//      success/partial/failed 精确反映。
+//   ⑤ 鉴权四种：bearer / basic / apikey（自定义请求头）/ none。
+import { isDataTable, daBulk, DataRequester } from './dataAccess';
+import { CHILD_TABLES } from './backupSchema';
+import { uid } from './auth';
+
+export interface SyncConnection {
+  id: string;
+  org_id: string;
+  name: string;
+  enabled: number;
+  target_type: string;
+  base_url: string;
+  auth_type: string;
+  auth_config?: string | null;   // JSON
+  mapping_profile?: string | null; // JSON
+  direction: string;              // push | pull | both
+  schedule_cron?: string | null;
+  last_synced_at?: string | null;
+}
+
+interface TableMapping {
+  resource: string;            // 对方 REST 路径段，如 'customers'
+  idField?: string;            // 对方主键列名（默认 'id'）
+  fields?: Record<string, string>; // 推送：本地列 -> 对方列；拉取时自动反向
+  method?: 'put' | 'post';     // 推送动词，默认 put
+  query?: Record<string, string>; // 拉取附加查询参数
+}
+
+interface MappingProfile {
+  tables?: Record<string, TableMapping>;          // 推送映射（本地表 -> 对方）
+  pullTables?: Record<string, { localTable: string; idField?: string; fields?: Record<string, string> }>;
+}
+
+function parseJson<T>(s: string | null | undefined, fallback: T): T {
+  if (!s) return fallback;
+  try { return JSON.parse(s) as T; } catch { return fallback; }
+}
+
+/** 构造对方请求头（鉴权）。 */
+function buildAuthHeaders(conn: SyncConnection): Record<string, string> {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const cfg = parseJson<any>(conn.auth_config, {});
+  switch (conn.auth_type) {
+    case 'bearer':
+      if (cfg.token) headers['Authorization'] = 'Bearer ' + cfg.token;
+      break;
+    case 'basic':
+      if (cfg.username != null && cfg.password != null) {
+        const b = btoa(cfg.username + ':' + cfg.password);
+        headers['Authorization'] = 'Basic ' + b;
+      }
+      break;
+    case 'apikey':
+      if (cfg.header_name && cfg.header_value) headers[cfg.header_name] = cfg.header_value;
+      break;
+    case 'none':
+    default:
+      break;
+  }
+  return headers;
+}
+
+/** 取对方某资源的数组数据（兼容直接数组或 {data:[...]} 包裹）。 */
+async function fetchRemoteArray(conn: SyncConnection, resource: string, query?: Record<string, string>): Promise<any[]> {
+  const headers = buildAuthHeaders(conn);
+  let url = conn.base_url.replace(/\/$/, '') + '/' + resource.replace(/^\//, '');
+  if (query && Object.keys(query).length) {
+    const qs = new URLSearchParams(query).toString();
+    url += '?' + qs;
+  }
+  const resp = await fetch(url, { method: 'GET', headers });
+  if (!resp.ok) throw new Error(`GET ${resource} 返回 ${resp.status}`);
+  const j: any = await resp.json();
+  if (Array.isArray(j)) return j;
+  if (j && Array.isArray(j.data)) return j.data;
+  if (j && Array.isArray(j.rows)) return j.rows;
+  return [];
+}
+
+/** 推送单行到对方（put 默认按 id；post 整条 upsert）。 */
+async function pushRow(conn: SyncConnection, map: TableMapping, localRow: any): Promise<{ remoteId?: string; status: string; message?: string }> {
+  const headers = buildAuthHeaders(conn);
+  const idField = map.idField || 'id';
+  const payload: Record<string, any> = {};
+  if (map.fields) {
+    for (const [local, remote] of Object.entries(map.fields)) payload[remote] = localRow[local];
+  } else {
+    // 未给字段映射：整行原样（剔除 org_id 等内部审计列，含 V3.71.0 新增的 *_by_name）
+    for (const k of Object.keys(localRow)) if (!['org_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'created_by_name', 'updated_by_name'].includes(k)) payload[k] = localRow[k];
+  }
+  // 始终带上 id 字段，便于对方按主键幂等
+  payload[idField] = localRow.id;
+
+  const base = conn.base_url.replace(/\/$/, '') + '/' + map.resource.replace(/^\//, '');
+  const method = map.method || 'put';
+  let url = base;
+  if (method === 'put') url = base + '/' + encodeURIComponent(String(localRow.id));
+  const resp = await fetch(url, { method: method.toUpperCase(), headers, body: JSON.stringify(payload) });
+  if (!resp.ok) return { status: 'error', message: `推送 ${map.resource} 返回 ${resp.status}` };
+  const j: any = await resp.json();
+  const remoteId = j?.id ?? j?.[idField] ?? String(localRow.id);
+  return { remoteId, status: 'ok' };
+}
+
+/** 读本地待同步行（增量：since 之后 updated_at）。 */
+async function readLocalRows(env: any, orgId: string, table: string, since?: string | null): Promise<any[]> {
+  const info = await isDataTable(env, table);
+  if (!info.ok) return [];
+  let where = 'org_id = ?';
+  const args: any[] = [orgId];
+  if (since) { where += ' AND updated_at > ?'; args.push(since); }
+  const rows = await env.DB.prepare(`SELECT * FROM ${table} WHERE ${where} ORDER BY updated_at ASC`).bind(...args).all();
+  return (rows.results || []) as any[];
+}
+
+export interface RunOptions {
+  direction?: 'push' | 'pull' | 'both';
+  full?: boolean; // 忽略增量游标
+}
+
+export interface SyncResult {
+  runId: string;
+  status: string;
+  totals: { pushed: number; pulled: number; errors: number };
+  summary: string;
+  items: any[];
+}
+
+/**
+ * 执行一次同步运行（推送和/或拉取）。写 erp_sync_runs + erp_sync_run_items。
+ * 任一单行失败都计入 errors 但整轮继续；最终据此定 success / partial / failed。
+ */
+export async function runSync(env: any, conn: SyncConnection, opts: RunOptions = {}): Promise<SyncResult> {
+  const dir = opts.direction || (conn.direction as any) || 'push';
+  const doPush = dir === 'push' || dir === 'both';
+  const doPull = dir === 'pull' || dir === 'both';
+
+  const profile = parseJson<MappingProfile>(conn.mapping_profile, {});
+  const runId = uid('syn');
+  const now = new Date().toISOString();
+  const items: any[] = [];
+  const totals = { pushed: 0, pulled: 0, errors: 0 };
+
+  const writeRun = async (status: string, summary: string) => {
+    await env.DB.prepare(
+      `INSERT OR REPLACE INTO erp_sync_runs (id, org_id, connection_id, direction, status, started_at, finished_at, totals, summary, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(runId, conn.org_id, conn.id, dir, status, now, new Date().toISOString(),
+      JSON.stringify(totals), summary, now).run();
+  };
+  const writeItem = async (it: any) => {
+    items.push(it);
+    await env.DB.prepare(
+      `INSERT INTO erp_sync_run_items (id, org_id, run_id, connection_id, table_name, direction, local_id, remote_id, status, message, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(uid('si'), conn.org_id, runId, conn.id, it.table_name, it.direction, it.local_id || null, it.remote_id || null, it.status, it.message || null, new Date().toISOString()).run();
+  };
+
+  await writeRun('running', '同步进行中');
+
+  let maxUpdated: string | null = conn.last_synced_at || null;
+
+  // ───── 推送 ─────
+  if (doPush && profile.tables) {
+    for (const [table, map] of Object.entries(profile.tables)) {
+      const rows = await readLocalRows(env, conn.org_id, table, opts.full ? null : conn.last_synced_at);
+      for (const row of rows) {
+        try {
+          const res = await pushRow(conn, map, row);
+          if (res.status === 'ok') totals.pushed++;
+          else totals.errors++;
+          if (row.updated_at && (!maxUpdated || row.updated_at > maxUpdated)) maxUpdated = row.updated_at;
+          await writeItem({ table_name: table, direction: 'push', local_id: String(row.id), remote_id: res.remoteId, status: res.status, message: res.message });
+        } catch (e: any) {
+          totals.errors++;
+          await writeItem({ table_name: table, direction: 'push', local_id: String(row.id), status: 'error', message: String(e?.message || e) });
+        }
+      }
+    }
+  }
+
+  // ───── 拉取（回写本系统） ─────
+  if (doPull) {
+    // 拉取映射：优先 pullTables；否则复用 tables 反向（resource->本地表，fields 反向）
+    const pulls: { localTable: string; resource: string; idField: string; fields?: Record<string, string>; query?: Record<string, string> }[] = [];
+    if (profile.pullTables) {
+      for (const [resource, m] of Object.entries(profile.pullTables)) {
+        pulls.push({ localTable: m.localTable, resource, idField: m.idField || 'id', fields: m.fields, query: undefined });
+      }
+    } else if (profile.tables) {
+      for (const [localTable, m] of Object.entries(profile.tables)) {
+        const rev: Record<string, string> = {};
+        if (m.fields) for (const [local, remote] of Object.entries(m.fields)) rev[remote] = local;
+        pulls.push({ localTable, resource: m.resource, idField: m.idField || 'id', fields: rev, query: m.query });
+      }
+    }
+
+    for (const p of pulls) {
+      let remoteRows: any[] = [];
+      try {
+        remoteRows = await fetchRemoteArray(conn, p.resource, p.query);
+      } catch (e: any) {
+        totals.errors++;
+        await writeItem({ table_name: p.localTable, direction: 'pull', status: 'error', message: String(e?.message || e) });
+        continue;
+      }
+      // 转换：对方行 -> 本地行（字段反向映射 + 强制 org_id + 用对方 id 作本地 id 幂等）
+      const localRows = remoteRows.map((rr) => {
+        const lr: Record<string, any> = { org_id: conn.org_id, id: rr[p.idField] ?? rr.id };
+        if (p.fields) {
+          for (const [remote, local] of Object.entries(p.fields)) lr[local] = rr[remote];
+        } else {
+          for (const k of Object.keys(rr)) if (!['org_id'].includes(k)) lr[k] = rr[k];
+        }
+        lr.org_id = conn.org_id;
+        if (!lr.id) lr.id = rr[p.idField] ?? rr.id;
+        return lr;
+      }).filter((lr) => lr.id);
+
+      // 批量回写（复用 daBulk：org 强制 + 列交集 + 父单校验 + 审计）
+      const requester: DataRequester = {
+        org_id: conn.org_id,
+        actorId: 'sync:' + conn.id,
+        actorName: 'ERP同步(' + conn.name + ')',
+        scopes: ['*'],
+        source: 'session',
+      };
+      try {
+        const bulkRes = await daBulk(env, requester, p.localTable, { rows: localRows, mode: 'upsert' });
+        const bulk = (await bulkRes.json()) as any; // daBulk 返回 Response，必须解析体
+        const written = (bulk.inserted || 0) + (bulk.deleted || 0);
+        totals.pulled += written;
+        totals.errors += bulk.skipped || 0;
+        for (const lr of localRows) {
+          await writeItem({ table_name: p.localTable, direction: 'pull', local_id: String(lr.id), remote_id: String(lr.id), status: 'ok' });
+        }
+        if (bulk.errors && bulk.errors.length) {
+          for (const er of bulk.errors) totals.errors++;
+        }
+      } catch (e: any) {
+        totals.errors++;
+        await writeItem({ table_name: p.localTable, direction: 'pull', status: 'error', message: String(e?.message || e) });
+      }
+    }
+  }
+
+  // ───── 收尾：状态 + 增量游标 ─────
+  let status = 'success';
+  if (totals.errors > 0 && (totals.pushed > 0 || totals.pulled > 0)) status = 'partial';
+  else if (totals.errors > 0 && totals.pushed === 0 && totals.pulled === 0) status = 'failed';
+
+  if (doPush && maxUpdated && (status === 'success' || status === 'partial')) {
+    await env.DB.prepare(`UPDATE erp_sync_connections SET last_synced_at = ?, updated_at = ? WHERE id = ?`)
+      .bind(maxUpdated, now, conn.id).run();
+  }
+
+  const summary = `推送 ${totals.pushed} 行，拉取 ${totals.pulled} 行，错误 ${totals.errors} 行`;
+  await writeRun(status, summary);
+
+  return { runId, status, totals, summary, items };
+}
+
+/** 测试连接：对 base_url 发一次 HEAD/GET，返回可达性与状态码。 */
+export async function testConnection(conn: SyncConnection): Promise<{ ok: boolean; status?: number; message: string }> {
+  const headers = buildAuthHeaders(conn);
+  try {
+    const url = conn.base_url.replace(/\/$/, '') + '/';
+    const resp = await fetch(url, { method: 'GET', headers });
+    return { ok: resp.status < 500, status: resp.status, message: `连接可达，状态码 ${resp.status}` };
+  } catch (e: any) {
+    return { ok: false, message: String(e?.message || e) };
+  }
+}

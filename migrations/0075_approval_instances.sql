@@ -1,154 +1,120 @@
-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
-EQbnv89bRWOqsmed1bx0cA==
+-- 迁移 0075：审批实例统一表 + 动作流水 + 审批委托关系（V3.17.9 修复差距9/10/11）
+--
+-- ── 背景：配置层早已统一，实例层一直散着 ──────────────────────────
+-- 迁移 0056 已经把「审批流配置」统一到 approval_flows / approval_flow_nodes，
+-- 但「一次真正的提交—审批过程」（实例层）至今仍寄存在各业务单据自己的字段里：
+--   · purchase_requests.current_step / approval_records（唯一真正落 D1 的）
+--   · priceApprovals.currentStep / approvalRecords（前端 localStorage）
+--   · materialApplications.currentStep / stepHistory（前端 localStorage）
+-- 这套结构撑不起下面三件事，也正是对标报告列为「仍存」的差距 9/10/11：
+--   差距9 撤回：必须知道「现在卡在哪个节点、谁还没批」，才谈得上把单子收回来；
+--   差距10 催办：必须能按节点算出「该催谁」，并留下催过几次的痕迹；
+--   差距11 委托：必须有一张委托关系表，才能把某人的待办在委托期内转给别人。
+-- 因此本迁移把「实例」与「动作」从业务单据里抽出来，单独成表。
+--
+-- ── 为什么不要往各单据的 approvalRecords JSON 里继续塞 ─────────────
+-- ① 跨单据查询做不到：审批中心要一次列出「待我审批 / 我提交的 / 委托给我的」，
+--    如果实例信息散在 N 张业务表里，就得 UNION N 次且每张表字段名都不一样；
+-- ② 撤回/催办是「过程动作」，不是单据字段，塞进 JSON 会让单据表越写越大、
+--    且无法用索引按「催办时间」排序；
+-- ③ 委托关系是「人→人+时间段」的独立实体，和任何单据都没有从属关系。
+--
+-- ── 设计口径 ──────────────────────────────────────────────────
+-- · approval_instances：一次提交 = 一行。业务单据本身仍保留自己的 status，
+--   本表是「审批过程的权威账本」，两者通过 (org_id, module, entity_id) 关联。
+-- · approval_actions：所有过程动作的流水（提交/通过/驳回/撤回/催办/委托/撤销委托）。
+--   只追加、不修改，作为审计与「催办了几次、谁催的」的唯一依据。
+-- · approval_delegates：委托关系（时间段 + 可选模块范围）。生效判定在应用层做，
+--   不用触发器 —— 与全项目「业务判定不藏在 DDL 里」的既有约定一致。
+--
+-- 注意：不加外键约束到业务表 —— 业务单据分散在多张表、模块名是字符串，
+--       数据库层面无法表达；归属校验由端点按 (org_id, module, entity_id) 做。
+
+PRAGMA foreign_keys = ON;
+
+-- ════════════ 1) 审批实例 ════════════
+CREATE TABLE IF NOT EXISTS approval_instances (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  flow_id TEXT,                              -- 引 approval_flows.id（可为空：未配置流程的模块）
+  module TEXT NOT NULL,                      -- 业务模块：purchase_request / sales_order / price_approval / material_application…
+  entity_id TEXT NOT NULL,                   -- 业务单据 id
+  entity_no TEXT,                            -- 单据编号（界面展示用，避免每次回查业务表）
+  title TEXT,                                -- 标题（界面展示用）
+  submitter_id TEXT,
+  submitter_name TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',    -- pending | approved | rejected | withdrawn
+  total_nodes INTEGER DEFAULT 0,
+  current_node_order INTEGER DEFAULT 0,      -- 当前卡在第几个节点（1 起）
+  current_node_name TEXT,
+  current_approver_id TEXT,                  -- 当前应审批人（委托路由后的「实际」审批人）
+  current_approver_name TEXT,
+  original_approver_id TEXT,                 -- 配置上本应的审批人（用于区分「是否走了委托」）
+  submitted_at TEXT NOT NULL,
+  finished_at TEXT,                          -- 通过/驳回的收口时间
+  withdrawn_at TEXT,
+  withdrawn_by TEXT,
+  withdraw_reason TEXT,
+  urge_count INTEGER DEFAULT 0,              -- 累计催办次数
+  last_urged_at TEXT,
+  version INTEGER DEFAULT 1,                 -- 乐观锁（与项目 #10 全量乐观锁口径一致）
+  created_at TEXT NOT NULL,
+  updated_at TEXT,
+  owner_id TEXT,
+  dept_id TEXT,
+  UNIQUE (org_id, module, entity_id)
+);
+CREATE INDEX IF NOT EXISTS idx_appr_inst_org_status ON approval_instances(org_id, status);
+CREATE INDEX IF NOT EXISTS idx_appr_inst_approver ON approval_instances(org_id, current_approver_id, status);
+CREATE INDEX IF NOT EXISTS idx_appr_inst_submitter ON approval_instances(org_id, submitter_id);
+CREATE INDEX IF NOT EXISTS idx_appr_inst_entity ON approval_instances(org_id, module, entity_id);
+
+-- ════════════ 2) 审批动作流水（只追加）════════════
+CREATE TABLE IF NOT EXISTS approval_actions (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  instance_id TEXT NOT NULL,                 -- 引 approval_instances.id
+  action TEXT NOT NULL,                      -- submit | approve | reject | withdraw | urge | delegate | revoke_delegate
+  node_order INTEGER,
+  node_name TEXT,
+  actor_id TEXT,                             -- 动作发起人
+  actor_name TEXT,
+  target_id TEXT,                            -- 催办/委托的目标人
+  target_name TEXT,
+  comment TEXT,                              -- 意见 / 撤回原因 / 委托事由
+  created_at TEXT NOT NULL,
+  FOREIGN KEY (instance_id) REFERENCES approval_instances(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_appr_act_instance ON approval_actions(instance_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_appr_act_org ON approval_actions(org_id, created_at DESC);
+
+-- ════════════ 3) 审批委托关系 ════════════
+-- 语义：delegator 在 [start_date, end_date] 期间，把自己 module 范围内的审批权交给 delegate。
+-- · module 为空 = 全部模块
+-- · active = 0 表示手工撤销（撤销后保留历史，不物理删除）
+-- · 生效判定在应用层用「日期闭区间 + active」算，不用 DDL 默认值兜
+CREATE TABLE IF NOT EXISTS approval_delegates (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  delegator_id TEXT NOT NULL,
+  delegator_name TEXT,
+  delegate_id TEXT NOT NULL,
+  delegate_name TEXT,
+  module TEXT,                               -- 空 = 全部模块
+  start_date TEXT NOT NULL,                  -- YYYY-MM-DD
+  end_date TEXT NOT NULL,                    -- YYYY-MM-DD（含当日）
+  reason TEXT,
+  active INTEGER NOT NULL DEFAULT 1,
+  created_at TEXT NOT NULL,
+  updated_at TEXT,
+  created_by TEXT,
+  owner_id TEXT,
+  dept_id TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_appr_deleg_org_delegate ON approval_delegates(org_id, delegate_id, active);
+CREATE INDEX IF NOT EXISTS idx_appr_deleg_org_delegator ON approval_delegates(org_id, delegator_id, active);
+
+-- 登记迁移
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0075_approval_instances', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

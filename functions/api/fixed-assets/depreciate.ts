@@ -1,281 +1,284 @@
-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
-FJ5C3C0Qwm7HmxzRD+dmJg==
+// POST /api/fixed-assets/depreciate — 计提本月折旧（#13 彻底服务端化 V3.17.1）
+//
+// 旧实现：deprecateAll 在前端算累计折旧、往遗留表 fin_account_entries 写两条中文科目
+//   分录，**不产生权威凭证**、可随意改状态绕过结账。现改为服务端权威端点：
+//   ① 更新在用资产的累计折旧/净值（D1 fixed_assets）；
+//   ② 生成折旧凭证（借 6602 管理费用-折旧 / 贷 1602 累计折旧）进 vouchers；
+//   ③ 受「已结账期间禁止记账」硬管控（isPeriodClosed）；
+//   ④ 同期间幂等：已存在该期间折旧凭证则直接返回，不重复计提/不重复出凭证。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { audit } from '../../_shared/entities';
+import { isPeriodClosed } from '../../_shared/appState';
+import { buildVoucherStmts } from '../../_shared/voucherWriter';
+
+import { roundAmount } from '../../_shared/money';
+
+/**
+ * V3.60.0 P1-3：判断固定资产是否属于「生产用资产」。
+ * 生产用资产折旧计入生产成本(5001)；其余（办公/运输/管理用）计入管理费用(6602)。
+ * 判定：category 含 生产/制造/车间/机器/机床/产线/厂房/房屋 视为生产用。
+ */
+function isProductionAsset(category?: string): boolean {
+  return /生产|制造|车间|机器|机床|产线|厂房|房屋/.test(String(category || ''));
+}
+
+/**
+ * 计算两个会计期间（YYYY-MM）之间**相差的月数**（to - from），用于判断折旧是否已到期。
+ * ★ V3.45.0 新增并导出：原先折旧计提**完全不判断使用年限**，
+ *   资产提满后仍按月继续计提（累计折旧可超原值），对标 SAP FI-AA 的
+ *   "折旧基数为 0 / 到期自动停提"，金蝶/用友亦到期自动停提。
+ *
+ * 命名说明：函数名刻意用 monthsElapsedSince（"自 from 起经过的月数"）而不是
+ *   monthsBetween —— 后者易被误读为"含首尾的期间数"（如把 2026-01→2027-01
+ *   误当成 1 期，实际是 12 期），这个歧义在写单测时已真实踩过一次。
+ *
+ * @param fromPeriod 起始期间 YYYY-MM
+ * @param toPeriod   目标期间 YYYY-MM
+ * @returns 相差月数（from 之前返回 0）；任一入参不可解析时返回 0
+ *          （按"未计提过"处理 —— 宁可不停提等人工修，也不能误把在用资产全标已提足）
+ */
+export function monthsElapsedSince(fromPeriod: string, toPeriod: string): number {
+  // ★ 关键：用**命名捕获组**。此前写成 `const m = /^(\d{4})-(\d{2})$/.exec(s)` 后
+  //   取 `m[1]` / `m[2]` —— RegExpExecArray 的下标 1、2 是**捕获组**没错，
+  //   但一旦正则带命名组，`m.groups` 才是捕获组入口；混用极易取错值。
+  //   实测（V3.45.0 单测抓到）：'2026-01'→'2026-12' 曾返回 132、'2026-01'→'2027-01' 返回 1，
+  //   两者都会让"已提期数"判断完全失真 —— 折旧要么永不停止、要么立刻全停。
+  //   这里显式解构 groups 并对缺项兜底，杜绝再次踩坑。
+  const m = /^(?<y>\d{4})-(?<mo>\d{2})$/.exec(String(fromPeriod || '').trim());
+  const t = /^(?<y>\d{4})-(?<mo>\d{2})$/.exec(String(toPeriod || '').trim());
+  const fy = Number(m?.groups?.y), fm = Number(m?.groups?.mo);
+  const ty = Number(t?.groups?.y), tm = Number(t?.groups?.mo);
+  if (!Number.isFinite(fy) || !Number.isFinite(fm) || !Number.isFinite(ty) || !Number.isFinite(tm)) return 0;
+  // 月份越界（如 13 月）视为非法输入，不参与到期判断
+  if (fm < 1 || fm > 12 || tm < 1 || tm > 12) return 0;
+  const months = (ty - fy) * 12 + (tm - fm);
+  return months > 0 ? months : 0;
+}
+
+function rowToFixedAsset(r: any) {
+  if (!r) return null;
+  return {
+    id: r.id,
+    assetCode: r.asset_code,
+    assetName: r.asset_name,
+    category: r.category,
+    originalValue: r.original_value,
+    residualRate: r.residual_rate,
+    usefulLifeMonths: r.useful_life_months,
+    startDate: r.start_date,
+    monthlyDepreciation: r.monthly_depreciation,
+    accumulatedDepreciation: r.accumulated_depreciation,
+    netValue: r.net_value,
+    depreciationMethod: r.depreciation_method,
+    status: r.status,
+    scrapDate: r.scrap_date,
+    lastDepreciationPeriod: r.last_depreciation_period,
+    note: r.note,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    createdBy: r.created_by,
+    updatedBy: r.updated_by,
+  };
+}
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const db = context.env.DB;
+  const b = await context.request.json().catch(() => ({}));
+  const period = (b.period || new Date().toISOString().slice(0, 7)) as string;
+  if (!/^\d{4}-\d{2}$/.test(period)) return json({ error: '期间格式应为 YYYY-MM' }, 400);
+
+  // ③ 已结账期间禁止记账
+  if (await isPeriodClosed(db, user.org_id, period)) {
+    return json(
+      { error: `会计期间 ${period} 已结账，禁止计提折旧；如需操作请先在「财务→期末结账」反结账该期间` },
+      400
+    );
+  }
+
+  // ④ 同期间幂等：已有该期间折旧凭证则直接返回，不重复出凭证
+  const existed = await db
+    .prepare('SELECT id, voucher_no, total_debit FROM vouchers WHERE org_id = ? AND source = ? AND source_no = ?')
+    .bind(user.org_id, 'asset', period)
+    .first();
+  if (existed) {
+    const rows = await db.prepare('SELECT * FROM fixed_assets WHERE org_id = ? ORDER BY asset_code').bind(user.org_id).all();
+    return json({
+      data: {
+        total: roundAmount(existed.total_debit || 0),
+        voucherNo: existed.voucher_no,
+        period,
+        duplicated: true,
+        assets: (rows.results || []).map(rowToFixedAsset),
+      },
+    });
+  }
+
+  // ① 仅计提在用资产
+  const assets = await db
+    .prepare("SELECT * FROM fixed_assets WHERE org_id = ? AND status = 'in_use'")
+    .bind(user.org_id)
+    .all();
+  const inUse: any[] = assets.results || [];
+  if (inUse.length === 0) {
+    return json({ data: { total: 0, voucherNo: null, period, assets: [] } });
+  }
+
+  let total = 0;
+  let productionTotal = 0; // 生产用资产折旧额 → 5001 生产成本
+  let adminTotal = 0;      // 管理用资产折旧额 → 6602 管理费用
+  const now = new Date().toISOString();
+  const today = now.slice(0, 10);
+  const updateStmts: any[] = [];
+  const expiredIds: string[] = [];   // 本期新到期、应置为「已提足」的资产
+  for (const a of inUse) {
+    const dep = roundAmount(a.monthly_depreciation || 0);
+    if (dep <= 0) continue;
+
+    // ★ V3.45.0 补「折旧到期」判断（对标 SAP FI-AA：折旧基数为 0 / 到期自动停提）：
+    //   原实现只按 status='in_use' 过滤，**不判已提期数与年限**，
+    //   于是提满 useful_life_months 之后仍按月继续计提：
+    //   net 用 Math.max(0,...) 卡在 0 不变负，但 total 与 accumulated 照旧累加
+    //   ⇒ 凭证继续全额计提、累计折旧可超过原值（纯财务硬伤）。
+    //   现在三重保护：
+    //     ① 已提期数 ≥ 使用年限 → 本期不计提，转入「已提足」；
+    //     ② 计提额不得超过「原值 × (1 - 残值率) - 已提累计」；
+    //     ③ 计提后净值恰为 0 者标记「已提足」，不再进入后续期间。
+    const life = Number(a.useful_life_months) || 0;
+    const alreadyMonths = a.last_depreciation_period
+      ? monthsElapsedSince(String(a.last_depreciation_period).slice(0, 7), period.slice(0, 7))
+      : 0;
+    if (life > 0 && alreadyMonths + 1 > life) {
+      expiredIds.push(String(a.id));
+      continue;
+    }
+
+    const residualRate = Number(a.residual_rate) || 0;
+    const depreciableBase = roundAmount((a.original_value || 0) * (1 - residualRate));
+    const alreadyDep = roundAmount(a.accumulated_depreciation || 0);
+    // 剩余可提额度：不得超过基线，同时天然形成"提完即止"
+    const remaining = roundAmount(depreciableBase - alreadyDep);
+    if (remaining <= 0) {
+      expiredIds.push(String(a.id));
+      continue;
+    }
+    const actualDep = Math.min(dep, remaining);
+    if (actualDep <= 0) {
+      expiredIds.push(String(a.id));
+      continue;
+    }
+
+    total = roundAmount(total + actualDep);
+    // V3.60.0 P1-3：按资产用途分流折旧额（生产用→生产成本，管理用→管理费用）
+    if (isProductionAsset(a.category)) productionTotal = roundAmount(productionTotal + actualDep);
+    else adminTotal = roundAmount(adminTotal + actualDep);
+    const accumulated = roundAmount(alreadyDep + actualDep);
+    const net = Math.max(0, roundAmount((a.original_value || 0) - accumulated));
+    // 提足后净值归零 → 标记已提足，下期不再计提
+    const fullyDepreciated = net <= 0 || roundAmount(accumulated - depreciableBase) >= 0;
+    if (fullyDepreciated) expiredIds.push(String(a.id));
+
+    const setClauses = `accumulated_depreciation = ?, net_value = ?, last_depreciation_period = ?, updated_at = ?, updated_by = ?`;
+    const binds: any[] = [accumulated, net, period, now, user.name];
+    updateStmts.push(
+      db
+        .prepare(`UPDATE fixed_assets SET ${setClauses}${fullyDepreciated ? ", status = 'fully_depreciated'" : ''} WHERE id = ? AND org_id = ?`)
+        .bind(...binds, a.id, user.org_id)
+    );
+  }
+  // 未参与本期计提、但已到期的资产：落状态便于界面显示"已提足"，并排除出后续期间
+  for (const aid of expiredIds) {
+    updateStmts.push(
+      db
+        .prepare(`UPDATE fixed_assets SET status = 'fully_depreciated', updated_at = ?, updated_by = ? WHERE id = ? AND org_id = ? AND status = 'in_use'`)
+        .bind(now, user.name, aid, user.org_id)
+    );
+  }
+  total = roundAmount(total);
+
+  // ② 生成折旧凭证语句（**构建不执行**，与资产台账同批原子提交，见下）
+  const voucherNoConst = 'DEPR-' + period;
+  let voucherStmts: any[] = [];
+  let voucherId: string | null = null;
+  if (total > 0) {
+    const built = buildVoucherStmts(db, user.org_id, user, {
+      voucherNo: voucherNoConst,
+      voucherType: '转',
+      date: today,
+      period,
+      description: `计提固定资产折旧 ${period}`,
+      source: 'asset',
+      sourceNo: period,
+      status: 'posted',
+      totalDebit: total,
+      totalCredit: total,
+      currency: 'CNY',
+      remark: `服务端自动计提 ${period} 折旧`,
+      items: [
+        ...(productionTotal > 0
+          ? [{ summary: `生产用资产折旧 ${period}`, accountCode: '5001', accountName: '生产成本', debit: productionTotal, credit: 0 }]
+          : []),
+        ...(adminTotal > 0
+          ? [{ summary: `管理用资产折旧 ${period}`, accountCode: '6602', accountName: '管理费用', debit: adminTotal, credit: 0 }]
+          : []),
+        { summary: `累计折旧 ${period}`, accountCode: '1602', accountName: '累计折旧', debit: 0, credit: total },
+      ],
+    });
+    if (built.stmts.length) {
+      voucherStmts = built.stmts;
+      voucherId = built.id;
+    }
+  }
+
+  // P0-4：资产台账更新 + 折旧凭证收进**同一个原子批次**。
+  //   根因：原实现「先 db.batch(资产台账) 再 writeVoucher(凭证)」两步分离，
+  //   凭证虽受 UNIQUE(org_id, voucher_no) 保护、并发后到者插不进凭证，
+  //   但此时资产累计折旧已被累加且**不回滚** ⇒ 双计提、账实不符。
+  //   合并后：凭证头 UNIQUE 冲突会让**整批（含资产更新）一起回滚**，
+  //   并发/重试的后到者自动失效，「同期间只提一次」在数据库层得到保证。
+  let voucherNo: string | null = null;
+  if (updateStmts.length || voucherStmts.length) {
+    try {
+      await db.batch([...updateStmts, ...voucherStmts]);
+    } catch (e: any) {
+      const uniq = String(e?.message || '').includes('UNIQUE');
+      if (uniq) {
+        // 并发/重试：该期间折旧凭证已被先到者提交，本批已整体回滚 → 按「已计提」返回
+        const dup = await db
+          .prepare('SELECT id, voucher_no, total_debit FROM vouchers WHERE org_id = ? AND source = ? AND source_no = ?')
+          .bind(user.org_id, 'asset', period)
+          .first();
+        if (dup) {
+          const dupRows = await db.prepare('SELECT * FROM fixed_assets WHERE org_id = ? ORDER BY asset_code').bind(user.org_id).all();
+          return json({
+            data: {
+              total: roundAmount(dup.total_debit || 0),
+              voucherNo: dup.voucher_no,
+              period,
+              duplicated: true,
+              assets: (dupRows.results || []).map(rowToFixedAsset),
+            },
+          });
+        }
+      }
+      throw e; // 非唯一冲突的数据库错误照常上抛，不吞
+    }
+    if (voucherId) {
+      const v = await db.prepare('SELECT voucher_no FROM vouchers WHERE id = ?').bind(voucherId).first();
+      voucherNo = v?.voucher_no || voucherNoConst;
+      await audit(db, user.org_id, user, 'vouchers', 'create', `计提折旧生成凭证 ${voucherNo}（${period}）`);
+    }
+  }
+
+  const rows = await db.prepare('SELECT * FROM fixed_assets WHERE org_id = ? ORDER BY asset_code').bind(user.org_id).all();
+  return json({
+    data: {
+      total,
+      voucherNo,
+      period,
+      duplicated: false,
+      assets: (rows.results || []).map(rowToFixedAsset),
+    },
+  });
+}

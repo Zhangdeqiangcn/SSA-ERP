@@ -1,18 +1,11 @@
-U2FsdGVkX18nqyb0XJZjSywckT0fCEIZ4rYsXLXlPaDjfdG+Q+Io6I7stv/9hTfZ
-MozrgiLNkL9hnDzTWfUFiU3h9g3iQH4XxVDhQUTMtJHY69gAR4tBe/RFFDmCxOrn
-mfLtvOXj/di+xzpaeCkTfYIkOAVrzxs0u1Vd2ChJyyH5od5Z0kSoi06iwNLQySmJ
-pvHvpZxzJPPuZt1kh02MiW4QwSX0Z+3e7IqDOovSaakTe4b5pQQPpUeSyDaQ2gSj
-h6pryqPYyU8mbnhGYPSPSEVzuZrgUznBet6fHKnLdzmOLQaEefYsaCfmVAozEot2
-8D/1HZBFezElGLugS9Jjd7E+Uw2J0srr5C3oYDB2RXgUBpBVMNc62MTogVGG400D
-X69TxlEpEnoxm39IgkYqAzUAOFkVQSaS8pY/Ky4Eh1oyZNM7/SXMQS8Mgaj8qZNv
-S2x5ZEsl7ddFzkPDjjX654foGZWZP0Mryy/krI4nidNDPCqOH0HnHBUcilJrl1eL
-9/CEjnyVnp4birY+/7NZcxJ/q6spYrdN3J1A76t7wwsY//Gs39unR7bpoCf1ZoM/
-3OFMnjuO0lIX9U5vb0eTm+qox7kRSvVOXpmGllWAPc06e1AG2Lixc9JrYZ3ceAHa
-RLgjUP851p08k2H+jCSE2Ftaax+W1Cxt+pFCct2gQ+cXp8iZWFxa81EYEbNBMyS/
-mdKivE1BDME6GPupvBuJdjHFbLyZzr4HU10vfprHPLppaUYpHtzXAwaXS4uhpC1V
-9dsfF8KklLWUIZHsHybBHYi0MdczYxHl1j6Hucu5Sc23xGHW75NpOnVobCXU7hdl
-PvKJCYCuYodbv3VKOzqbqG4DSyPrd8GW74hBUnvuNmNsvAExRnIVT7E9r5n4oDAo
-DPb3AmxypqnrvXITqPGbbuweHC/e0MHw6rrgzxKlQCi7BnhOd5VwTdzDUx6kuB1W
-TmK3J2hGLFAg6X4asNa3qJcepCLLdULYznTXXvgYCcBmm1xBFcT7MX2v8SG531Ud
-J5RngE7zsuKwbm5c5w89/LSEGsUDmx8TbPso8YeXMLhKqyCD3ZHlOJLjofTD7F+V
-bND2OavrE41Jd9xZ8esodQ==
+-- 0071: 工单（work_orders）增加乐观锁版本号
+--
+-- 背景：缺陷台账 #10 —— 乐观锁（optimisticLock.withVersionGuard）已在采购单/销售单/入库单/出库单
+--       四个接口启用，但工单（生产核心单据）尚未接入，并发改同一张工单会静默覆盖。
+-- 方案：给 work_orders 补 version 列，更新时按版本号比对，版本对不上即返回 409 冲突。
+-- 兼容：存量行统一置为 1；前端不传 version 时保持原行为（不加锁），老客户端不受影响。
+--       本迁移仅做 ADD COLUMN + 回填，不改动任何写入路径（写入侧改为在 work-orders/[id].ts 接入守卫）。
+
+ALTER TABLE work_orders ADD COLUMN version INTEGER DEFAULT 1;
+
+UPDATE work_orders SET version = 1 WHERE version IS NULL;

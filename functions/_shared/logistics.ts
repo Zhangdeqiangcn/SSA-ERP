@@ -1,53 +1,64 @@
-U2FsdGVkX191dUKnnPg9nDwPtJl1AxVmnNtZH+IyCXOPE95sbBjQ+85Ix1VBETWF
-2zRH58P33qCTvWmXFJhwvybWLFIUsOL4zoRp4WsNcQdZDdagXu3tfIEFpFAl6I/1
-sIhNFsk1qCV0LVe2e9TzphfwAGzJQKM8mJb15ufpGaIe/o+SwODha4j7KkN60J5E
-gG/kl4vQIPk002w42AseI2GpsP9yMEjwIoXrnbwhmrumgRh4srQRO0EFN/tLaDjA
-oclve89Sz6f3eGBXm9Tx51IZohXhd1MKNbJC4LWAyGOBWd2y1Ig43WheQQfBnWvs
-Uz1YNNmJNw3gyRYyCXPDrndpn0wUc+2+z6QL8iKljxngWCQehjcdOdGZAwblPxzO
-bfloEU3vlLo2MToMN1ry8lCSGX4Itxpel9TAiDGgyceJxisif+ApUmUcoi1Iw4tp
-1tcuu0HYmXF2A+URDbkx6ItTpxE9H9xgeDfdCAOiLiNIRbH5XRj0WRiKwRr9QDye
-AjPZv1jpeeB1WG+IuueFgLEKFKh2NmzgyMO8noWeXZHyO1K2TNLqjkUTG+NT/SgZ
-On1tOjfLezB6JKtLSAMwUoxGwDtt/FktOmkdhG9gUuxxezJMGIMHZbKJbA3qyCG1
-Q2dnbCeXk59tcYnFpTkB0QlOaDxwN/QMSfBOl2RPDWBjs/44zfm9tFO+xsea1oNk
-t1K0SxVxz4rNGfDByy316z1uX5XM1MwUfV+RoOhbTgFlBYSsTte5C4qW3LAfFolt
-/CBQNhKyE1filhUaFlyzkx0f/5JnVKFMEUN9IhKs/hoZMFyT9rxjceAcNYasTvkj
-q5VU9/frMV8Y8eMcEovFfOWjFDw8xhiab8qmb32x27xCb4rC1zRnca6/ZNql2rAX
-5LF2+etWKPjoySrDSsznU4fqAMQwBBIb20WGX5ocW2Q16TEUwtlvsF1ncHNlcZdc
-j1JMU4w7gM8djOdS7ZEl3xMwrg5i1td1bEv1GCJpB7pmDmEF8QXNcWyK8Uj9yVsl
-x063W/MyXgtrjBMFHJACDqLHGivEg2t7Ga62/l6tqbFQ6MHu238T7zVSzsqClJZy
-t78VvEIFbHReetq948bQk9KdGUicgSa8La0g362AfPi2Hk4wvVmLXhddjB/TIjkP
-FFH19WD1psgai6mmkG8+ESqNWRRp+6Z9yk8iFp6uPGSXx4xPglz7r+A5BVHt9BCg
-FHyjzrPgFhRBVoVuuI0/oK0Hs4WO8D93zDm2+3Ec4W6yb+iHsu9rXp1iljtHSkcf
-ROWUZ32zMQxENnxh7o3HDwO0BAnOWA26Wl6je37SAoisD6BvAKe3HWyBt6j1V9k0
-uLlUqmRvWHUU3AcJPPDDzI1gTW/lcD7dhRZUdWCJSlNxb6JEcmdJQ359j6mKUjKy
-y88iAXAd3RAZMM34dVhayIrQiad0gQvRip/Fu+CrgUusUwsEHgZEMs3Vz2PWDVnx
-gLyiPXuEJ2MuaSVG7CIfGXQxFlh+ACNi2XrrGzoKrChqNUBRJ1z4QFhWmsuhYBho
-KBMlu45c4ens7ek7g8toS6hFopD5d/4vXCp4Sucf+psYzvbkkI1lDotzWxKzzCfu
-NlEtIplLk/C4SdxvwQ4hb8K/90jZusqueaxay3Er6NzFDMcJkMqmADNtg28IUiTG
-nxaFFJyD/25D9QpLSPRaFDXxbVUjzmRgPgwxUdEmRcM2DRc8U2DFP1p0+WfhgJkK
-hJYgmDoeRfzNCA9SSIDHH0hnHfALW5koRtUsE4nBkoMGIm2JSIxuiqrGrZPQ/5y8
-334C+Fo90o04WMFNXZNXsnnZPoDSj8NTj3Sll4oEGynpLekzq9oYB8Mt4OvOS+CB
-qXHxW7oFbmB3hUNGpi08rGlZckMc9g5xYOHnJbJh458Hu8dGDMbaxqJk0cLq+Szv
-284hDBpQACa7ux9dmceAafx9uDs/SulzWa+HrJaPPDBKEB/uXzYWy4q8Q6x7lZoV
-dNr8Aw98wbvMxCzsVmNP2iSlLXhKaSukQn0P5MDFXkYOJZabKOrZNWOYrOmEDxnN
-XOkI2lyLckvdSspUyj6Bg1Hfmb5U6drTwM/TTyuLD6WWJvmlU53rL7/hBgCv6VU1
-6EJUGSA0ZjJH1rNVomT4XWV0anRn+Fsdc+IlD3mHT/GKM4Pb/iinvjXQ08aXXWxI
-K1ZErOQTgize5AEjrclUBBkuFurZ1+B1C1ljKrfIdrCYpHIlwgppInWMScyu3eYx
-xYTI97EyTJGeDmbY8myOZ7rCFu2a62Tix9TpKiDgZmCDDIqlLketSvdFMM+AhkRb
-VpUB9DojzfzeqTvZOgKKk+vGcwtRKLdHZ3yoxNNGJqzXK7DSQgpj4zo36QOaLLE+
-8xFd3uWhkZlisCC68jdtKUmepowclwwONQgcUV6UVQv1/Qnny1q/Nhuv1jC9Yc/f
-TP+jdSserDcKsOl+K4jcs848bfjzaAf/8B2GXVTjM1iPJOP07mzQNZSiywWkEUCn
-qyL01E1eHjebpI3SphnajTav21vtrY+iWYj0LzZNjPLm4vM4svxK0i/WIp8ISbHm
-co3bwtUm38Vwmnp7ACrgki8xnyHYPzdhvXKsan1RohANy6Jw6d2usW1LLIB0U35x
-oJZACRo3AI/fYN0qwv74B3jFYBGNO13QRX+KXODnDzpPWIcKRzMQ9hL8qj4c5D7i
-7Rfq+PJaJ1x245A+okN6H3/6HnvZHzNcQ4Ha0sf3crNbuA41X9BwgdZhKBWa4QlG
-wTAh5GOvP1eN2/mc0wpB+O+9P1/AT8VaEip15YPkQ+gLDRMAGN+jpmZhVidDf3iz
-gOfyFaeW5RQeiOkmAZ2S5pe9bR5VvkQIHoW7OYnlwgcQ//2J31QNnvVwz33jsWkw
-6rDzuC5+6rDA5c3sk++3zSj/K+YekCXYQ/C0LqeCmTD4wzK76jPMA0O8oERnBpX0
-kS3bC9YTpq4Nr9bhMRveS4mWY1irH/qG35vQtvukoP0cNMdJeEKQIej3dFNI//MC
-V4t0CAcGwvZDzX7aoUmlTih5lxXOL2E1BHfjA1gwtx1T4NjQkW+/PYmMRuYbuOLa
-su1MztvReVMDh1Qa6yiH8XX44r1kUDHM+TlXQcetpDBkPJXqBdz/sxuEkwH6OEUh
-rAZRuVxo7NAMmAdLxerIrEW/s6VtwtVqtsm9RrK+VkY6rmN3mXw9pUKgyw21AgEP
-sOzQR7MzsIDB2G3jLXUK8GN/cVq8uIjgs6db2Zc47W2RwSu037Ck+CY60bqTjKgz
-PUx8n+UvUg759uL5WTpAUWfK/Q/5ovsYj2ul2zayjC+uxvjvtOyFQ9kecbnCoceZ
-V+mZRRkjuXWu1v/Q/TRsHFy1HFdFhoYmi9TshZSOFK/MB5YvdiADfc9BIdIRkXJY
+// 物流面单后端共享逻辑（functions/ 独立打包，不引 src/）。
+// 与 src/services/logistics.ts 同口径：轨迹归一化 + 运单状态推导。
+export type TrackStatus = 'collected' | 'intransit' | 'dispatched' | 'signed' | 'exception';
+export type WaybillStatus =
+  | 'created' | 'printed' | 'dispatched' | 'intransit' | 'signed' | 'exception';
+
+export interface TrackEvent {
+  eventTime: string;
+  status: TrackStatus;
+  location?: string;
+  description?: string;
+}
+
+const TRACK_TO_WAYBILL: Record<TrackStatus, WaybillStatus> = {
+  collected: 'dispatched',
+  intransit: 'intransit',
+  dispatched: 'dispatched',
+  signed: 'signed',
+  exception: 'exception',
+};
+
+const DESC_STATUS_MAP: { kw: string; status: TrackStatus }[] = [
+  { kw: '揽收', status: 'collected' },
+  { kw: '收件', status: 'collected' },
+  { kw: '运输', status: 'intransit' },
+  { kw: '中转', status: 'intransit' },
+  { kw: '离开', status: 'intransit' },
+  { kw: '到达', status: 'intransit' },
+  { kw: '派件', status: 'dispatched' },
+  { kw: '派送', status: 'dispatched' },
+  { kw: '签收', status: 'signed' },
+  { kw: '异常', status: 'exception' },
+  { kw: '问题', status: 'exception' },
+];
+
+function mapStatusFromText(text: string): TrackStatus {
+  for (const m of DESC_STATUS_MAP) if (text.includes(m.kw)) return m.status;
+  return 'intransit';
+}
+
+/**
+ * 解析承运商轨迹回调报文 → 归一化轨迹节点。
+ * 兼容：① 归一化数组 {eventTime,status,location,description}；② 各平台原始 {traces:[{time,desc,location}]}。
+ */
+export function parseTrackPayload(payload: any): TrackEvent[] {
+  if (Array.isArray(payload)) return payload as TrackEvent[];
+  const traces = payload?.traces || payload?.data || payload?.list || [];
+  return (traces as any[]).map((t: any) => ({
+    eventTime: t.eventTime || t.time || new Date().toISOString(),
+    status: (t.status as TrackStatus) || mapStatusFromText(t.description || t.desc || ''),
+    location: t.location || t.city || '',
+    description: t.description || t.desc || '',
+  }));
+}
+
+/**
+ * 由轨迹推导运单当前状态：取最新一条事件的归一化状态映射而来。
+ * 无轨迹 → created；异常/签收优先；派生值直接写回 waybills.status。
+ */
+export function deriveWaybillStatus(tracks: TrackEvent[]): WaybillStatus {
+  if (!tracks || tracks.length === 0) return 'created';
+  const latest = [...tracks].sort((a, b) => b.eventTime.localeCompare(a.eventTime))[0];
+  return TRACK_TO_WAYBILL[latest.status];
+}

@@ -1,30 +1,30 @@
-U2FsdGVkX18enJSi7ryPOHt3ihnDJSgxpY0QUth4ViUJEZ5b2kOtqC3teojURHjp
-kiBC367xEW5SbPL7+sdEwqUF2HVI2LJg9IeqeNUsieGSvQbPWQWf3b6sbB6M/Yfj
-XOmfEeNg3GYFxDXsAsQaOXbrsz/XcnNLNx8JjxOLqp93CTDKXD03FFZM+yK6FpvX
-G6AgXnKYAOmn8W8KVgi6MSvSdQiLNJSVOeeN/I8ZXvK9eqz00GE9e5EDzjKpG+bo
-0mZLRj7nmfvMWLrzRZPlqnPtboWGhFnbPooHfxQEg1P45vbpcTgyEwI3+mjnZo5l
-idsjQDXaVlAjoEzD+mKKGyMrS3FW01I5OxjZ/E4DffpCtwre4T6HCHg3kFlhdSrM
-ZTgxYT09DXX+EKhNkJRv9AiV52LNMtYrf2s83CkacXgnRrHZmvRK7YREKAuKU/Eu
-yqiv7zkMohrU//drWlRu0yGKQQRA4sW+2ofoDyPnlQIKLq8L+dGA5UAqJOqgDnhr
-a34pSvlR2nf204V5FT/xeL18Nq6SXinC6OgZUDWu0Mmh2EbHaNx2O2qrgIqHQHYa
-U3GP4q7FCb0eHYOo4KasgZqDePd2KMaH2GuX2vgr3TRsblsJoQWL1Jx1OH+XaoGa
-NxTm8+iVR3h8wmAGRby2qhvkn4NnV9jO5sRbqq4RJwK8q+jDL2Bf9bK+p/MK3YKC
-geslU3npoQMy+Ch9PsQO35qmvwNKfRHnikAudGUXdiWEf9H82mMQ1lorfjV0W3jr
-7sj+CNHZ5t/0AlwYIc1a6LEb956omRdNZLGl+2s0PnYJfFdtZsZ2jmB9W9O8vmoV
-VLGyO7ZcJifL+htDo72gTMwZcDMDJTDC3CE1XVW+4KT2JjZq2bpvJp9koRCqyCo4
-w+pI7lNJFRHrly8VsStgzWFzpHNGXP0nD10ifRL9MedP51vI1rM3kOUGoE2LxHdx
-8N0uErsSjB64G4LuQU2Txk3g+m5o17bEQ3zJXG0EQpOjZKOhiSOHZU3pDqoh8u5S
-uiQKU+coo5lUSFyPa7XInn5dhMaHs+v1JCx7Ig1qtQYPJLX7GHavwj8nyIPPQppR
-DKR/4vDottuWdLZ0aOEmyxEUj5Y6kSkTxVosZ+WKxYlKQt0Y/gC3qkX0UUbjqco1
-a7+FagOjcRtTmuCL5T/D9lv0eshpEv9WRy1kOeHNSsUn11q9hSkISCvgUyQNVvf1
-3UHDlr6XZcx0tjkDc9aYF1DzPPXF8c7mCp6QoB1XXK45/g2RQxzSeIS42cmY6TTa
-yY7LbvmXDiIv4+rSajTA6Nn68a9VrU3OUFhob31qHxiMHQs5OkK15mkUUBU8vTIp
-pLULMwfSZKbu7n8oeUYkGuowBxdkISwMyl+68BdWn7eNhZyu7cTfdluXlOHEtKe+
-8zIwtcNsrGM9N2n4xwAOxA4GJI84OP1V44A9GcCWvhRor3EXcdaL+tNQ/x8/RKEC
-Mj6MS6WKINIoPZufDYkoeHsiDaMDMvyK+GWAjgVcGxJbT/qukm69d3SX4YuCLmqe
-+3oq9Trylr8YSxqzdasmXp91A0Gs9A22ZpC3yDGM/sIzKdZgkVkcSuwDMaHkOKG8
-yQLXlnnAi4WlwnZ/cGHZq586suSXFXQvLs70xId8bJh+OfYlzszNNTHjfRUfxcH6
-5rhe1UlX9nZgS8WnFEez63oUmJXrp099KeC7EnykvHybe85KSg0jOf9j+I6rhTw/
-65rLOKkGSMVSxVulOHy7I1gy2T59ayPa2fL0+4A2FFyXQsSZjX4EcAVzJwXDdo+l
-nHZMoeRkmdFHPeG+ODppl2rnpQpL+DOr4IJStGRC2aP6HgAopwXrS5NuSDNH4YJC
-bIhR5JQHX6NTpdTrmhjpBg==
+import { api } from './api';
+
+// 前端 → SSA 后端仓储执行接口（波次 / 拣货 / 配货 / 发货校验）
+// 约定：GET /api/fulfillment?kind=wave|pick|pack|ship 列表；POST 建波次；
+//      POST /api/fulfillment/pick 拣货确认；/pack 打包；/ship-check 发货校验。
+export const fulfillmentApi = {
+  listWaves: () =>
+    api.get('/fulfillment', { kind: 'wave' }).then((r: any) => r?.data ?? r ?? []),
+  createWave: (payload: any) => api.post('/fulfillment', { kind: 'wave', ...payload }),
+  updateWave: (id: string, patch: any) => api.put(`/fulfillment/${id}`, { kind: 'wave', ...patch }),
+
+  listPickTasks: (waveId?: string) =>
+    api
+      .get('/fulfillment', { kind: 'pick', ...(waveId ? { waveId } : {}) })
+      .then((r: any) => r?.data ?? r ?? []),
+  confirmPick: (payload: { taskId: string; pickedQty: number; status: string }) =>
+    api.post('/fulfillment/pick', payload),
+
+  listPackRecords: (waveId?: string) =>
+    api
+      .get('/fulfillment', { kind: 'pack', ...(waveId ? { waveId } : {}) })
+      .then((r: any) => r?.data ?? r ?? []),
+  packOrder: (payload: any) => api.post('/fulfillment/pack', payload),
+
+  listShipChecks: () =>
+    api.get('/fulfillment', { kind: 'ship' }).then((r: any) => r?.data ?? r ?? []),
+  checkShip: (payload: any) => api.post('/fulfillment/ship-check', payload),
+};
+
+export default fulfillmentApi;

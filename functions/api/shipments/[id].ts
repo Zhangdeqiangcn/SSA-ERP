@@ -1,88 +1,72 @@
-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
+// 发货单单条端点
+// GET    /api/shipments/:id   读取（含货品明细）
+// PUT    /api/shipments/:id   更新（不传 items = 明细保持原样；传 [] = 清空）
+// DELETE /api/shipments/:id   删除（连带删除明细）
+//
+// ★ 发货单最频繁的操作是「推进状态」：pending → picked → packed → shipped
+//   → in_transit → delivered。这条链路上每一步都**不带 items**。
+//   若把「不传 items」当成清空，每次点一次「已装车」就会把整张发货单的
+//   货品明细删光，而界面依旧显示操作成功 —— 这是最典型的静默数据损坏。
+//
+// ── S-03/S-04 发货→出库联动（V3.59.0）────────────────────────────
+// 旧实现：发货单端点只是纯 pcUpdate，发货→出库是完全断链的两条线 ——
+//   销售发货了，但库存/成本要等仓管再「手动建一张出库单」才会动，
+//   且销售订单的「已交数量 delivered_quantity」永远停在 0（对账时
+//   无法判断一笔销售订单是否已发完货）。这正是审计 S-03/S-04 点名的缺口。
+// 新实现：当发货单状态**从未发货变为「已发货 shipped」**时，在服务端
+//   ① 自动生成一张销售出库单（type=sale，source_no=发货单号，状态 completed
+//      直接过账扣库存 + 结转 COGS，与手工出库单同口径）；
+//   ② 按物料编码把发货数量写回销售订单行的 delivered_quantity（封顶订单数量）；
+//   ③ 重算销售订单表头 delivered_quantity = Σ 行已交数量。
+// 幂等：① 状态边沿触发（oldStatus!=shipped && newStatus==shipped）；
+//       ② 按 source_no 查重，已生成过出库单则跳过（防重复触发/重复扣库存）。
+// 可感知失败（铁律㊴）：联动任何异常都不阻断发货单本身的状态更新，
+//   而是随响应体 postingError 回传前端红条，与 WH-17 同口径。
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { SHIPMENT_PC } from '../../_shared/salesConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { runShipmentOutboundLink } from '../../_shared/shipmentOutboundLink';
+
+export async function onRequestGet(context: any) {
+  return pcGet(SHIPMENT_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(SHIPMENT_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const DB = context.env.DB;
+  const id = context.params.id;
+  const existing: any = await DB.prepare(`SELECT * FROM shipments WHERE id = ? AND org_id = ?`).bind(id, user.org_id).first();
+  if (!existing) return json({ error: '发货单不存在' }, 404);
+
+  const oldStatus = existing.status;
+
+  // 先执行标准更新（状态推进 / 明细修改等），拿回更新后的完整单据（含 items）
+  const updResp = await pcUpdate(SHIPMENT_PC, context);
+  if ((updResp as any).status && (updResp as any).status >= 400) return updResp;
+  const updated: any = await updResp.json();
+  const newStatus = updated?.status;
+  const salesOrderNo = updated?.salesOrderNo || existing.sales_order_no;
+
+  // ── S-03/S-04 发货→出库联动：仅在「未发货 → 已发货」的边沿触发一次 ──
+  // ★ V3.61.0：实现已抽到_shared/shipmentOutboundLink.ts，供POST 建单即发货
+  //   与 PUT 状态推进共用（此前只在 PUT 生效，POST 直传 shipped 完全绕过联动）。
+  const linkIssues: string[] = [];
+  if (newStatus === 'shipped' && oldStatus !== 'shipped') {
+    linkIssues.push(...await runShipmentOutboundLink(DB, user, {
+      ...updated,
+      salesOrderNo,
+      shipmentNo: existing.shipment_no || updated?.shipmentNo || id,
+      customerName: updated?.customerName || existing.customer_name || null,
+    }));
+  }
+
+  // 把联动结果（warning / error）回传给前端，与 WH-17 同口径
+  if (linkIssues.length > 0) (updated as any).postingError = linkIssues.join('；');
+  return json(updated);
+}

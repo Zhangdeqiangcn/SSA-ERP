@@ -1,124 +1,129 @@
-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
+/**
+ * 大对象键容量守护（A5 · 数据底座可观测性）
+ *
+ * ── 第一性原理：这里要防的到底是什么？ ─────────────────────────
+ * 60 个业务域目前以「一个键 = 一整个 JSON 大对象」的形式存在 app_state 表。
+ * 这种形态有两个必然会发生的故障，且现状是**静默发生**：
+ *
+ *   ① 静默截断 / 静默失败：D1 单值有容量上限（SQLITE 层是 1 GB，但 Cloudflare 单次
+ *      响应与请求体另有上限，实际可控量远小于此）。当某个域（例如财务凭证、库存流水）
+ *      累积到阈值以上，写入会失败或半失败，而前端 persistStorage 对此是静默吞掉的
+ *      —— 用户看到「保存成功」的提示，数据却没上云，下一次刷新回滚，无人知晓。
+ *
+ *   ② 无法预警的增长：没有任何地方记录「这个键现在多大、多久翻一倍」，
+ *      等到真的写不进去时，已经积压了大量未上云的本地数据。
+ *
+ * ── 本模块的做法（分级处置，不做「一刀切拦截」）──────────────
+ *   · 软阈值（4 MB）：写入照常成功，但响应里带 warning，前端可在同步状态栏提示，
+ *     管理端也能看到「接近上限」清单 —— 提前几个星期就能发现哪个域要爆。
+ *   · 硬阈值（8 MB）：拒绝写入并返回 413，附上诊断信息（当前大小、键名、建议动作）。
+ *     为什么不干脆放开：静默丢数据比明确报错严重得多。报错至少可发现、可干预。
+ *   · 增长监测：把每次写入的体积记入 app_state_metrics（迁移 0049），
+ *     管理端据此看「哪些键在持续变大」，这是判断「该不该迁关系表」的客观依据，
+ *     而不是拍脑袋说「这个域该迁了」。
+ *
+ * ⚠️ 这套机制不解决大对象本身的架构问题（那要靠 C1 逐域迁关系表）。
+ *    它的价值是把一个「静默的、发生在未来的」故障，变成「显式的、提前可见的」故障。
+ */
+
+/** 软阈值：4 MB —— 超过只告警不拦截 */
+export const SOFT_LIMIT_BYTES = 4 * 1024 * 1024;
+/** 硬阈值：8 MB —— 超过拒绝写入 */
+export const HARD_LIMIT_BYTES = 8 * 1024 * 1024;
+
+export interface SizeCheckResult {
+  /** UTF-8 实际字节数 */
+  bytes: number;
+  /** 人类可读体积 */
+  human: string;
+  level: 'ok' | 'warn' | 'reject';
+  /** 拒绝时给用户看的中文原因（含可操作的下一步） */
+  message?: string;
+}
+
+/** 字节数 → 人类可读（1.23 MB / 456 KB / 789 B） */
+export function humanBytes(n: number): string {
+  if (!Number.isFinite(n) || n < 0) return '0 B';
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / 1024 / 1024).toFixed(2)} MB`;
+}
+
+/**
+ * 按 UTF-8 计字节数。
+ * 不用 value.length：JS 字符串长度按 UTF-16 码元算，中文占 3 字节却只算 1 个长度，
+ * 用 length 判断会严重低估中文业务数据（本系统的数据几乎全是中文）。
+ */
+export function byteLength(value: string): number {
+  // TextEncoder 在 Workerd 运行时可用；退化路径按码点手算，保证老运行时也能工作
+  try {
+    return new TextEncoder().encode(value).length;
+  } catch {
+    let bytes = 0;
+    for (let i = 0; i < value.length; i++) {
+      const c = value.charCodeAt(i);
+      if (c < 0x80) bytes += 1;
+      else if (c < 0x800) bytes += 2;
+      else if (c >= 0xd800 && c <= 0xdbff) { bytes += 4; i++; } // 代理对（emoji 等）
+      else bytes += 3;
+    }
+    return bytes;
+  }
+}
+
+/** 体积分级判定 */
+export function checkSize(value: string): SizeCheckResult {
+  const bytes = byteLength(value);
+  const human = humanBytes(bytes);
+  if (bytes > HARD_LIMIT_BYTES) {
+    return {
+      bytes,
+      human,
+      level: 'reject',
+      message:
+        `数据体积 ${human} 已超过单键上限 ${humanBytes(HARD_LIMIT_BYTES)}，本次保存被拒绝（未写入）。` +
+        `原因：该数据域目前以「整块 JSON」存在单个键里，体积已接近存储单值上限，` +
+        `继续写入会导致静默丢数据。处理建议：① 先导出该模块数据留底（模块内「导出」按钮）；` +
+        `② 联系管理员安排该域迁移到关系表（主计划 C1）；③ 迁移完成前，请勿在该模块继续大量新增记录。`,
+    };
+  }
+  if (bytes > SOFT_LIMIT_BYTES) {
+    return {
+      bytes,
+      human,
+      level: 'warn',
+      message:
+        `数据体积 ${human} 已超过预警线 ${humanBytes(SOFT_LIMIT_BYTES)}，本次保存成功，` +
+        `但该数据域建议尽快迁移到关系表（主计划 C1），否则达到 ${humanBytes(HARD_LIMIT_BYTES)} 后将无法保存。`,
+    };
+  }
+  return { bytes, human, level: 'ok' };
+}
+
+/**
+ * 体积指标落库（失败绝不阻断业务 —— 指标是观测手段，不是业务前置条件）。
+ * 采用「只保留每键最新值 + 累计写入次数」，避免指标表本身膨胀成新的大对象问题。
+ */
+export async function recordSizeMetric(
+  db: any,
+  orgId: string,
+  key: string,
+  bytes: number,
+): Promise<void> {
+  try {
+    await db
+      .prepare(
+        `INSERT INTO app_state_metrics (org_id, key, bytes, writes, peak_bytes, updated_at)
+         VALUES (?, ?, ?, 1, ?, ?)
+         ON CONFLICT(org_id, key) DO UPDATE SET
+           bytes = excluded.bytes,
+           writes = app_state_metrics.writes + 1,
+           peak_bytes = MAX(app_state_metrics.peak_bytes, excluded.bytes),
+           updated_at = excluded.updated_at`
+      )
+      .bind(orgId, key, bytes, bytes, new Date().toISOString())
+      .run();
+  } catch {
+    // 指标表不存在（迁移未执行）或临时故障 → 静默跳过，绝不影响业务写入
+  }
+}

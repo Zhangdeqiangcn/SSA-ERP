@@ -1,27 +1,21 @@
-U2FsdGVkX1/H/5hGfEmewFhihVCJgN3I2x6J4K5L+R9aZ25+EA/rw5Ld7ZrXYs1/
-i2Ae/BCaJr2tA4uRADN9Mud2pwguT52c6FhTSIc/QgmPvuHCbp1R8m2QsBtqRc5O
-F6FSqS4aRDyNFMsAuHpgaZRUv04ZOy3+0o4y8FvvVDk8ohKkLCENyF5K1IpmFDXa
-XFC+3OThclOBtXloi9MlQ6S6lIEcCv+6b/QmOOJM7QqadY09r3PvKiOzuU+r1W09
-MS2u02fW4KHCc7jW6EdrVzaZa4JRDvbfNi3DXVZ+7+D8tBATFNfK7ACL+tVy7aCE
-D6SQI4N7jM2MJkHH232AVzgAjndlXn528cqdpM8m+VDL6QQJKUzKmM76Ta5mmN+Z
-M7NfOZW3LHc/UeeagLyg9VrT8q0muOeAtz46j1TTYVlamEy2fjEbUWi6vvYVtig9
-YaZmtmQzYP72rE2eMsldn+/g8bzrdy8NwhLagNV5UiuBDaqohZcRXxLAMtsziBu6
-cwFa9EPU514aht2fNh1Q7SL5nyYZrYtuGkBWg8kIaTJWfY4AxtdOghJ1U7Um221n
-SkTdYGTQR0UWQzzyiVscJ6tIPWCQKi1hkM5zAs7FHmiAr6lcnu4yOJRWNO+UyWtv
-9ejkSMH6LJm1ClGlcIemB2NN7B6ocJKJYoYX6cdJzmyozME1h0dR8F5e8oBVjHr8
-iQgkeuCdJzILH8+b8CdmCiRFkjPlN/ChfmmSHYrRjZSeV0Fup4KnJGKZAPrlGXQg
-x6IWzboe16gr8zZE5WkCH8UR9qIGoxBemu3AI4sL/bnE4TKxil0i7IvvHK0A9GC7
-0wf7lf6SwRF5u0rp/AbMqEZX6kjsg1mItn+7J26ApcJd6/DeO1TNbJk84gdomSX2
-bTzcqVLID3bpZpgBb4fXEzRHZYWe6sTsVsfYp3wgyNVFJtjslMwzg6hoQPg2nfuy
-Nv+bmic0OtcRj33lb5UXJHuBsGMchkLQoz+ANhrHhyohkHOwnWTGSCZIE2+BfbTt
-4D9iIE43l63GNjnkLGdvYCj3o+04eUAi+T3AEbFkCIhMIyObVa6SoewVMQS4jAIl
-027JjiNsU8eNCjmJdD+cu7WCztFCKQeGG/8xhqpDv5IpoXOqh/yFbuiZAqmQlU/l
-hF6jnNUd13j737B6HQcrZnL1QF9/NdmL7KizIsyZn/6mWoT42eFQXYECI6tBmfDe
-r9okEqeAvgyR6peN/ah0bveRsZhvi8rX76KibjgOjivMa12XnYmgbb0ACM2NeZro
-ahLON+naiddLiMhb60WuVovh5tO/NYV7qgKpzPkHs95t1Bg1qWGrK+ugpcmSeEgJ
-h8i0tLZo+ukV6ns1LUC3ufx5xi4jj2xsxF6d7QXxzHll4d7yV85/7sIpTU8pzOPU
-7RZSDhGKYUTelvH1ANapMCPICrpjJrKpRVBpGPhx2yn1o+27iAqcCg4JSJLOY/Dz
-Z7Voa3tpGt6Hws2O/KaFoHgb5FOAYu0Bl6z/4CPvzvH/cNig4oW+pxN+3e4oNlq2
-AD1NunYIRmLPa/A7Bhq3Wx+srIbvyghbg8Q0BF2XBDnRGom83PELrFkmCXSLdpmI
-4Xku35NmG5QMlvdj0O4jICbJF/qyLdbgq1Z/yqx2nDFzmLGT8OfgiEVfSq7ZRrnV
-ZlqYd+5R+Fc/KixWm/gJwg==
+// 审批流集合端点（C1 审批流域 · 父子表）
+// GET  /api/approval-flows   列表（分页 / RLS，含每条流程的全部审批节点）
+// POST /api/approval-flows   创建（流程 + nodes 一次性写入）
+//
+// ── 为什么不用通用实体路由 ──────────────────────────────────────
+// `ApprovalFlowConfig.nodes: ApprovalNode[]` 是嵌套数组，且**每个节点
+// 自己还带嵌套**（conditions / skipRule / escalation 三个对象，
+// approverRoles / approverUserIds / fields 三个字符串数组）。
+// 通用路由的 pickSnake 只挑登记过的列，未登记字段会被**静默丢弃且返回 201**。
+// 若走通用路由，后果是「审批流列表都在、点进去能看到流程名，
+// 但审批节点一条都没有」—— 流程等于空的，且没有任何报错。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { APPROVAL_FLOW_PC } from '../../_shared/approvalFlowConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(APPROVAL_FLOW_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(APPROVAL_FLOW_PC, context);
+}

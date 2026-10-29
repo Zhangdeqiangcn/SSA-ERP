@@ -1,26 +1,21 @@
-U2FsdGVkX19fiWm+WFdd5+RkrWmTmBmEW8K3ic0Dtr0qsTMG8hM66FGKRBLnzbUl
-EFd+Y4qvzf1z7xILzlqfgriXItpiqHULfEsCfJExXmSSiLQWBrwukyD5l3xHDOmk
-HdqSr1+ML+yiy8KG4vr7IHqXryXQm0KSbjQASA36EMrWpEgDgOeozV/oNmvZFH6Y
-SWJ7jyXUQ8SQMuzVMGCY1Aq4BIeikUtU+fTmxo4CUgDoaCuq2taln/C+FaD7wnYu
-QHhXXkH35GgZrWgI8czkJg+1+3LZ3kXr7Kv/V/JJLVyzld0kMQTKRChUYhggLYkz
-rizP207ssAXgPYX+I0BWn3zobRgUFF97HfyVPi1ja477XI3e/6jZvpbyVV8t6gDs
-Y+KZT2cK9f1APe94y0seb/0nrlTWs3Hak6IXIm6f90eiF+s+apE+pAdtvyYCM7mt
-YyKcjXjlVPP1YJ39pgPc+eQF6rOWjuVeaZ2EzCuvpeg6afx91Mp7XnkqYgCg7E/y
-2rcHxUMuO5wUdYpr9rGapO0L6w+9gNtjzzbF+2Ko3BCg2FUh8v260S4D2aW+ueGc
-dpOZD8ifeaWf+kpb1ABuylIS7S/yQMvoEdR+2UHzwXJb2NbwIGap2/WtPf0RdtZ6
-4x3fIm+YiHTPTOG7ckHl/QRU0ljsAfVkAxmB/5lPNqF/VCiQwezreX5e8vugs6S/
-9Ef5SrOXMvwhK6A/afCFeS5YNZzTn9qZc5LsFnQgMGmRZd0KnhJNBZnCAJyZWN1U
-79xtpmNGNiAOzNvDIpA/JStrLkjSLLGGnjiCmkL68zoKEXeMuZRE/TzzdnCxm1gB
-IGkrSrKhgaKwa/X4sMmKOgR9S8Pz1ubBida7zpDYS9gKcSr5wHrw5y8EMrnESxyQ
-/v32xVk8LEDaNF0LgJz9omBjHUjc4LOHLm2Ob4NnLssHrHot8gqdASMT28IA1xEk
-2WEVAS2UKZopljsucEPBJ0bzQ2esGJ323fp9yojA+TEsAe9DnZi7NJ0YBN0Ghb1D
-XpFCxaFOvCnSpEDsor7q9fVBMr1aAPIuy0d4ATb+JAjFslJ7KSVLw0sYH/hESGgL
-032Cw1gOJMalTYPkwm+gXRS+JmFmKxF4YgDUERC1N6BesijFYej6WCxpon17r/wt
-etfhmsMjE1pkOqSZKyvGuG8M4gKQ8CoVvCbp7/cgaFChh9M3J2ZxyFaokuMUHUCO
-26Qn7guPnEu7kphkg9dhbrnhB+xXUzsEmFVdpoSVpoeGrsec6RBKWL/arrCBGryu
-QpeP/0NcAJVuEFdU2twrqpmi8jAWCmtQTkI7PqL+e+w3emsGdg+BeisbUrS/iLQC
-jvudhNFqwNiQIJdnu3ECC1+I4T0X0udDceb3wm22JPZeLqvWgIpJYHJjzR7gonX8
-9NqDf6vbXFXpe8eObIRPd/NJldwUDyhamCJ30VA7vu0XY79ic0A/TDj/eMMcp1Tv
-Ugelz6ZCPZMKppWGpKiw4EqTX+fX885DmUIm3pTHpzo7wvM+bTaix5y3rBV57Cnn
-ISII3+3qMMrgDoaSnzD8qVimcZubnLmXSbSF6Qtu8McN5k4YfCjLDbjBOFcAW9NM
-sayODzWmyaGNsFDDVxpD/EgzdytdOm8BcZjKTDXQSXQ31NKp8htPT+naBY0u6sml
+// 工艺路线集合端点（C1 生产域 · 父子表）
+// GET  /api/process-routes   列表（分页 / RLS，含每条路线的全部工序）
+// POST /api/process-routes   创建（路线 + operations 一次性写入）
+//
+// ── 为什么不用通用实体路由 ──────────────────────────────────────
+// `ProcessRoute.operations: Operation[]` 是嵌套数组，且 Operation 自己还带
+// `skills: string[]`。通用路由（/api/entities/:resource）的设计前提是
+// 「一个资源 = 一张平表」，它的 pickSnake 只挑登记过的列 ——
+// **嵌套数组会被静默丢弃且返回 201**。
+// 后果：「工艺路线列表都在、编号版本都对，但工序一条都没有」，
+// 而工艺路线的全部价值就在于工序 —— 这是 V3.6.0 BOM 轮次最危险的那类缺陷。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PROCESS_ROUTE_PC } from '../../_shared/productionConfig';
+
+export async function onRequestGet(context: any) {
+  return pcList(PROCESS_ROUTE_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  return pcCreate(PROCESS_ROUTE_PC, context);
+}

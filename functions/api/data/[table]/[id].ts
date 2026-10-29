@@ -1,37 +1,44 @@
-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
+// 统一数据 API · 单条端点
+//   GET    /api/data/:table/:id    读取单条
+//   PUT    /api/data/:table/:id    更新单条
+//   DELETE /api/data/:table/:id    删除单条
+import { resolveDataRequester, requesterHasScope, daGet, daUpdate, daDelete } from '../../../_shared/dataAccess';
+import { errorResponse } from '../../../_shared/errors';
+import { json } from '../../../_shared/auth';
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'read')) return json({ error: 'API Key 缺 read 权限' }, 403);
+  try {
+    return await daGet(env, r, context.params.table, context.params.id);
+  } catch (e: any) {
+    return errorResponse(e, '数据查询');
+  }
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const body = await request.json().catch(() => ({}));
+    return await daUpdate(env, r, context.params.table, context.params.id, body);
+  } catch (e: any) {
+    return errorResponse(e, '数据更新');
+  }
+}
+
+export async function onRequestDelete(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    return await daDelete(env, r, context.params.table, context.params.id);
+  } catch (e: any) {
+    return errorResponse(e, '数据删除');
+  }
+}

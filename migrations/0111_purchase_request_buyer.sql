@@ -1,15 +1,8 @@
-U2FsdGVkX18Fd4ZxowDl2Wi3LWbIqYgrkbmN1YhBW175CFyz4hVK56bxiq1Z2zvC
-PVufhMLdr5zJjBfcJj0F0GMWUH5QixWk7jG4YsBnZpfaiaO8mqfOmjRLh2ylGk1p
-6d7v1Me5HTyYSKMInEqCh0bhH1TfJQSI1QmsjnHLwqwKKKcnpvr8jCnytZC5egxn
-BiQjDIZNYQ201WRZ4kBSgMdeuSL6qgzFGhbrcuV6zNOnKZR49UxYuqtINx3Q+tIb
-tsir3pvymS0Xd7uLgbokD611Gmmvs+A4z1qq1AK0OCuZjyVHOj5untn1Oiln4hST
-X47U8MVld5rvxZKNubGNfKH01DUVLw86yd7O17eA6Ql6z6ZJs81wQnqeLtsSN3dw
-mz/opCUBD8ZJkVQo5bxb7XojNEB4MP06BdL5MnDK540pBZWhBUXaOzeqvIYF3AgK
-hQCTDyL7rd5/+gz0WwI9TDzXt/KwEVYGxHEpIqKedu6fp8wHwMSj9XuSqoKk1MFB
-Vo7p74jHPyvCy+0PoHtVB2EMsiF9uOMWVba2LaPZhmou1wrJ+vgTvN0OM4eE9GER
-z4UfC7v4M+Na4+1Alql5GLl/vvZbFW8BYB30G2AYSxXIjNj9MCK5eUBrmhSi10Og
-1Pq0fHQtE06WBUBflFVfloN6BsvU6EICl4OfIE5X8euCnbGSfBFV5i+P4K20y0vw
-DSVAPxpqxsSqHHrMTWeLpAvlchxLEk+FpNuA6HDyIVKoEVM5UJGZtqte0cbhaOSt
-reUXr69ECdkHL6haVTYJ7ZXTSYrRCAlHW2kI+4OqNfMSX53etUxX10BWpirnjl72
-Bv6JuXe0N8VqGD66xR00GqRjrGxIAjcgPgM2goMe4XZRcGirYFeu6EJmOyzO+83H
-cBXErbP2DHQ7Hug5jB8GtA==
+-- V3.94.0 采购申请增加「采购员归属」字段
+-- 来源：物料分类按职能维护的采购员（responsiblePersons.buyer）。
+-- 采购申请创建时反查物料所属分类的采购员，写入本单归属采购员，
+-- 用于：① 自动通知采购员办理（站内消息）；② 采购申请列表按采购员姓名筛选。
+-- buyer_ids 为 JSON 数组（本单归属的采购员 id，可能多家分类对应多名采购员）；
+-- buyer_names 为逗号拼接姓名（用于列表展示与按姓名模糊筛选）。
+ALTER TABLE purchase_requests ADD COLUMN buyer_ids TEXT;
+ALTER TABLE purchase_requests ADD COLUMN buyer_names TEXT;

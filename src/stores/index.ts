@@ -1,152 +1,154 @@
-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
+// 业务 store 统一出口，便于测试/聚合引用
+export { useMaterialStore } from './materialStore';
+export { useVendorStore } from './vendorStore';
+export { useCustomerStore } from './customerStore';
+export { usePurchaseStore } from './purchaseStore';
+export { usePriceStore } from './priceStore';
+export { useAutomationStore } from './automationStore';
+// C5 销售价目表 / 折扣 / 促销
+export { useSalesPriceStore } from './salesPriceStore';
+export { useWarehouseStore } from './warehouseStore';
+export { useQualityStore } from './qualityStore';
+export { useBOMStore } from './bomStore';
+export { useProductionStore } from './productionStore';
+export {
+  useProductionOperationStore,
+  mapCenter,
+  DEFAULT_CENTER_NAMES,
+  CENTER_COLORS,
+  DEFAULT_WORK_CENTERS,
+  DEFAULT_LABOR_RATE,
+  DEFAULT_MACHINE_RATE,
+} from './productionOperationStore';
+export { useSalesStore } from './salesStore';
+export { useFinanceStore } from './financeStore';
+export {
+  useFinanceExtensionStore,
+  getExchangeRate,
+  convertCurrency,
+  BASE_CURRENCY_CODE,
+} from './financeExtensionStore';
+export { useFinanceLedgerStore } from './financeLedgerStore';
+export { useProductionVersionStore } from './productionVersionStore';
+export { useSubcontractStore } from './subcontractStore';
+export { useEquipmentStore } from './equipmentStore';
+export { useProductionSchedulingStore } from './productionSchedulingStore';
+export type { SchedulingMode, ConflictInfo, RescheduleResult } from './productionSchedulingStore';
+export { useFlowStore } from './flowStore';
+export { useVendorPerformanceStore } from './vendorPerformanceStore';
+export { useVendorPortalStore } from './vendorPortalStore';
+export { useDataDictStore } from './dataDictStore';
+export { useOrgStore, useCurrentOrg } from './orgStore';
+// C3 统一编号规则中心 + 数据权限（行级/组织级）
+export { useNumberingStore, DOC_TYPES, type DocType, type NumberingRule } from './numberingStore';
+export {
+  useDataPermissionStore,
+  passDataPermission,
+  type PermissionMode,
+  type DataPermissionState,
+} from './dataPermissionStore';
+export { useWarehouseMasterStore, selectWarehousesByOrg, WAREHOUSE_TYPE_LABELS } from './warehouseMasterStore';
+export {
+  useCustomFieldStore,
+  useCustomFields,
+  makeFieldKey,
+  CUSTOM_FIELD_ENTITY_LABELS,
+  CUSTOM_FIELD_TYPE_LABELS,
+} from './customFieldStore';
+export { usePrintTemplateStore } from './printTemplateStore';
+export { useApprovalFlowStore, DEFAULT_APPROVAL_FLOWS } from './approvalFlowStore';
+export { useUnitConversionStore } from './unitConversionStore';
+export { useOrderTemplateStore } from './orderTemplateStore';
+export { useUserStore } from './userStore';
+// C7 服务端化：多用户会话 + 落库审计
+export { useSessionStore, currentUser, type SessionInfo } from './sessionStore';
+export { useAuditStore, recordAudit, AUDIT_ACTION_LABELS, type AuditRecord, type AuditAction } from './auditStore';
+export { useSettingsStore } from './settingsStore';
+// P3-3 供应链深化：5 个新增 persist store
+export { useSalesAdvancedStore } from './salesAdvancedStore';
+export { usePurchaseAdvancedStore } from './purchaseAdvancedStore';
+export { useWarehouseAdvancedStore } from './warehouseAdvancedStore';
+export { useQualityAdvancedStore } from './qualityAdvancedStore';
+export { useMaterialExtensionStore } from './materialExtensionStore';
+// 采购信息记录（P0-05）
+export { usePurchaseInfoRecordStore } from './purchaseInfoRecordStore';
+// 货源清单（P0-06）
+export { useSourceListStore } from './sourceListStore';
+// P3-4 质量深化：质量扩展 store（8D / SPC 控制图 / 实验室设备）
+export { useQualityExtensionStore } from './qualityExtensionStore';
+// P3-5 平台生态 / 低代码：6 个新增 persist store
+export { useLowCodeStore } from './lowCodeStore';
+export { useWorkflowStore } from './workflowStore';
+export { useIntegrationStore, API_REGISTRY } from './integrationStore';
+// V2.86.0 字段权限统一到 dataPermissionStore 引擎（原 fieldPermissionStore 已废弃）
+export { maskValue } from './dataPermissionStore';
+export { useI18nStore, I18N_DICT, translate } from './i18nStore';
+export { useReportPermissionStore } from './reportPermissionStore';
+// P3-6 智能分析：分析 store（预测建议 / OCR 凭证历史）
+export { useAnalyticsStore } from './analyticsStore';
+// P4-4 角色工作区与通知中心：实时通知聚合 + 待办汇总
+export { useNotificationStore, useNotificationData } from './notificationStore';
+export { useMessageStore, isMine } from './messageStore';
+// P1-12 应收应付独立管理
+export { useArapStore, computeAging } from './arapStore';
+// P4-1 个人工作台：个性化布局持久化
+export { useWorkbenchStore, WIDGET_LIBRARY } from './workbenchStore';
+// P4-3 全局列表参数体系：查询方案 / 列方案（用户级记忆）
+export { useListPrefsStore } from './listPrefsStore';
+// P4-2 主题与显示中心：显示偏好（明/暗主题、主题色、密度、字号、高对比）
+export {
+  useDisplayStore,
+  DEFAULT_DISPLAY_PREFS,
+  PRIMARY_OPTIONS,
+  DENSITY_OPTIONS,
+  FONT_SIZE_OPTIONS,
+} from './displayStore';
+// 条件技术引擎（P1-04）
+export { useConditionStore } from './conditionStore';
+// ECN 工程变更（P1-06）
+export { useECNStore } from './ecnStore';
+// 返利管理（P2-11）
+export { useRebateStore } from './rebateStore';
+// P2-15 FMEA 失效模式分析
+export { useFMEAStore } from './fmeaStore';
+// 寄售库存（P2-06）
+export { useConsignmentStore } from './consignmentStore';
+// 呆滞料处置流（P2-24）
+export { useSlowMovingStore, DISPOSITION_LABEL, type SlowMovingDisposal, type DispositionAction } from './slowMovingStore';
+// COA 产品合格证记录（P2-17）
+export { useCOAStore, type COARecord, type COAItem } from './coaStore';
+// V2.73 异常预警规则配置（前端可配阈值，对服务端/本地两种数据源同样生效）
+export {
+  useAlertRuleStore,
+  DEFAULT_ALERT_RULES,
+  getRule,
+  type AlertRule,
+  type AlertRuleKey,
+  type AlertRuleParams,
+} from './alertRuleStore';
+// V2.73 数电票核验台账（历史批次留存 + OCR 联动队列）
+export {
+  useInvoiceVerificationStore,
+  type VerifyBatch,
+  type VerifyRow,
+  type VerifyStatus,
+  type OcrQueueItem,
+} from './invoiceVerificationStore';
+// V2.74.6 波次拣货 + RFID 事件（P2-07）
+export { useWaveRfidStore } from './waveRfidStore';
+// V2.74.6 重复制造（倒冲）（P2-08）
+export { useRepetitiveMfgStore } from './repetitiveMfgStore';
+// V2.74.6 MES 集成（连接/设备/WIP/报工）（P2-09）
+export { useMesStore } from './mesStore';
+// V2.74.7 三方销售（代销结算）（P2-12）
+export { useTripartySalesStore } from './tripartySalesStore';
+// V2.74.7 COPA 获利分析（P2-13）
+export { useCopaStore } from './copaStore';
+// V2.74.7 资金管理（账户/流水 + 余额联动）（P2-14）
+export { useCashMgmtStore } from './cashMgmtStore';
+// V2.74.8 S&OP 销售与运营计划（P2-10）
+export { useSopStore } from './sopStore';
+// V2.74.8 BI 集成（外部 BI 平台连接 / 同步）（P2-19）
+export { useBiStore } from './biStore';
+// V2.74.8 ESG 报告（环境/社会/治理指标）（P2-30）
+export { useEsgStore } from './esgStore';

@@ -1,27 +1,15 @@
-U2FsdGVkX198LdDCrUuIup4W0UwDe2brM00SUN81IaWEYuDg+hxp28+YB9y2PhJ9
-c/YeGnHcBV1cgUNq43ooy47cczyXQWqnj8h+Hvw0ihmwah+pEAZcGepoAEcMj98C
-iHTe7WvJwVfAPo2RJgoMJoazdeKeDaKJFxo3otpdS8dUAe3/m1l4DvyjUB48/8+G
-HYpEimsjQaTnIM2HcPbz7969iC8lqWZ3CNUdcJAFhJCJeHZNPLmib4gkDzO1Qq3B
-eE85yLfBXLogfO2VPJbhW0+02gKP9EKj+QANkN9y6AXvj+fg0VTXg1k63l61mY02
-1HEMnRVy587NYU+BdZJtBf7DeZJZtPpNJ3/N8H39nwgwS58/wTrM+Vqb2lMy41PL
-5qLjo06UfEN16dk6ne2sOZZQPBepWIIDcEYoMHYN2UDHKdeL5lNCSe//RPdnello
-tLJ1X/OGLI+3D/eUVhdcvitLTmnHoQR7j9+dZ1q0at9d3PHsh5ylSvINVXgfBFjT
-FH//kTAw3ohTuzdkH9XQK3tcIHdEtqVoZ7U9fz8k5uTegtQDbM+A3JxcNDQGOCRq
-Uq9rBNFv0EwYFeLcKrKbnKjErNUT9lfF1n9jIrb7lN7CYAUrw66MU/g1c5Mw1ueb
-9bk0wAsnsPnRUIqw241gJSj21/Os7GMFyRy1lNFUl+lOO0YwI9V3lKp+0CML5OQW
-pXmAAHNDN2Azy4fDe7ubhFLIVC3ON1Ck+wJYDEs9rNMIdM5yBK1ir3ZiZ4qEC8e4
-A/yMvXXmNvg2+Mdxq9BioK7719269arVn96mzlalHg6aDn7zynj+koCIssSpQ1j0
-PoDHukXW4AmGklZuQCcx16EnKfdou0WT/qpfk2Ki5bajP+hB+vj3r1PpmVxvV8KT
-MBZZqh24vVadrG4XPKHbpBLdepPtxeoJC1Z/4HkFfAMM4+56oF0pswYp6JKMYlZa
-dA33/ijlGgWYd0CFCECBJiETcTfBHVcMt+XR2smeJR6B2HTfHofgt2S2q5vE45dB
-02cdWKsKYZAbzIa7Oyo+VxMUpiNrcDUvGGoC/k/xXWsAR/ehfiQeOjlN0baB2Qld
-HECIXjqR4B4sOG7aTk3FU1uMdoptkzd22EK9Adji/r7sXpzTMVEfd3gtL1+Mz31D
-dpDkQ02I5HhFDYdNpLuQmdI9h6RM2eTkmzGaw6I8wahc/maTKDqAbF2Nz4qCF5Xx
-GTW2hL/uIXsGFJMXcOzBtC+7O7D6GdAKNKFqT7RC5+iT938TgQSEL7cn/1dyFC4Q
-fDHuZrtkZMnJTOR63i8eMQRHZSR7Ln65CUBbvnskgu8YRhuFjGDsW/XPc1J326u/
-YaQ4Z+8BeC58h9VTakOP3jH1IhX31bQSuf6kwfuTXsata0nspNvlE1tIffK2G0Vg
-fZ7fyy2x58s9Er5+jHVEeFlmXLqv7xlMTtTs0wPex6DA5YzEkRQPGbPQNtjFyETb
-RPWknsS18jx98hB4BXhAW7EWVeB4WTMJPQsGY7p0QT79qxBi8W5lt2ja9/jksF6h
-4jLpPbES9wtMcgkmTb0EOTHPIOIbuycfh0UGYWajgJaWVYyOTRm7cldvXwaACQcS
-/C9AEIOk1RCKkWuskjxheLbnPBKrAu8EMp6A4lehRBRKTNku2p7LCQbo57cv3e1t
-k/NEdtoEX/KIw9bg7GQ7LA==
+-- 迁移 0047：开放网关 API Key 生命周期（有效期 + 轮换留痕）
+-- 来源：独立安全评测（V2.97.0 基线）发现 M-12「接口密钥无有效期、支持网址参数传递」/ L-02「密钥无轮换机制」
+-- 整改版本：V3.2.0
+--
+-- 设计取舍（三条，均以「不打断既有集成」为前提）：
+--   1) expires_at 允许为空 = 永久有效 —— 迁移前已签发的历史 Key 不强制过期，
+--      避免上线瞬间把线上集成全部切断；新建 Key 默认 90 天，可显式选永久。
+--   2) rotated_at 记录最近一次轮换时间 —— 轮换采用「原地替换密钥哈希」而非新建一行：
+--      调用方只需替换密钥字符串，Key 的编号、标签、权限、限流与审计归属全部保持不变，
+--      被替换掉的旧密钥在同一时刻失效（因为它已不在表内）。
+--   3) 有效期判定放在网关鉴权入口（functions/_shared/apiKey.ts），
+--      与吊销判定同一处，确保所有 /api/open/* 端点口径一致，不依赖各端点自觉。
+ALTER TABLE api_keys ADD COLUMN expires_at TEXT;
+ALTER TABLE api_keys ADD COLUMN rotated_at TEXT;
+CREATE INDEX IF NOT EXISTS idx_api_keys_expires ON api_keys(expires_at);

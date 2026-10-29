@@ -1,81 +1,58 @@
-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
-M04QC9l032zuxQZ8a2q6WA==
+-- V2.96.1 安全邮箱备用通道（带时延、不依赖登录态的异地取码路径）
+-- 需求来源（强哥指令）：
+--   原设计「在安全中心用登录密码查看最近生成的验证码」被否决——能登录系统就能看到验证码，
+--   等于这条后路没有提供任何额外隔离。改为：另设一个与登录体系无关的「安全邮箱」，
+--   当双邮箱通道取不到码时，可申请把新的一批验证码「延后投递」到安全邮箱，
+--   并在间隔一段时间后再投递一次（防止首次丢信）。
+--
+-- 设计要点：
+--   · 验证码全程不在系统任何界面出现，彻底解决「能登录就能看码」的问题；
+--   · 8 小时时延 = 攻击者即使拿到登录密码，也必须在 8 小时后仍能进入安全邮箱才可能得手；
+--   · 延时/间隔/次数均为可配置项，运维可在数据库直接调整，无需重新部署；
+--   · Cloudflare Pages Functions 没有定时任务能力，故采用「懒执行」：
+--     任何请求到来时顺带检查是否有到期任务并投递（详见 functions/_middleware.ts）。
+--
+-- 说明：D1(SQLite) 不支持 ALTER TABLE ... ADD COLUMN IF NOT EXISTS；本迁移由
+--   `wrangler d1 migrations apply` 执行并记录，成功后自动跳过，重复 apply 不报错。
+
+-- ── 1) 安全邮箱投递队列 ─────────────────────────────────────────
+-- 一次「申请备用通道」= 1 行；同一用户同一用途同时只允许存在 1 行未完成记录。
+CREATE TABLE IF NOT EXISTS security_mail_queue (
+  id           TEXT PRIMARY KEY,
+  user_id      TEXT NOT NULL,
+  username     TEXT,
+  purpose      TEXT NOT NULL,          -- activate | change_password
+  mailbox      TEXT NOT NULL,          -- 安全邮箱（收件方，与发件账号无关）
+  codes        TEXT NOT NULL,          -- JSON 数组，本批次的 2 枚验证码
+  batch_id     TEXT NOT NULL,          -- 投递时写入 email_verifications 用的批次号
+  delay_hours  INTEGER NOT NULL DEFAULT 8,
+  interval_min INTEGER NOT NULL DEFAULT 10,
+  max_attempts INTEGER NOT NULL DEFAULT 2,
+  attempt      INTEGER NOT NULL DEFAULT 0,
+  status       TEXT NOT NULL DEFAULT 'pending', -- pending | done | failed | cancelled
+  deliver_at   TEXT NOT NULL,          -- 下次投递时间
+  last_error   TEXT,
+  created_at   TEXT NOT NULL,
+  updated_at   TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_sec_mail_queue_due
+  ON security_mail_queue(status, deliver_at);
+CREATE INDEX IF NOT EXISTS idx_sec_mail_queue_user
+  ON security_mail_queue(user_id, purpose, created_at);
+
+-- ── 2) 安全邮箱相关配置（运维可在库中直接调整）───────────────────
+-- security.mailbox      安全邮箱地址（收件方）。留空 = 该通道不可用。
+-- security.delay_hours  申请后延迟多少小时才投递（默认 8，即强哥指定值）
+-- security.interval_min 首次投递后间隔多少分钟再投递一次（默认 10）
+-- security.max_attempts 最多投递几次（默认 2）
+INSERT INTO system_config (key, value, updated_at) VALUES
+  ('security.mailbox',      'zhang.deqiang@foxmail.com', datetime('now')),
+  ('security.delay_hours',  '8',                         datetime('now')),
+  ('security.interval_min', '10',                        datetime('now')),
+  ('security.max_attempts', '2',                         datetime('now'))
+ON CONFLICT(key) DO NOTHING;
+
+-- ── 3) 幂等守卫（业务版本登记）──────────────────────────────────
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0042_v2961_security_mailbox', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

@@ -1,53 +1,46 @@
-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
-5Po4FBjb7Mf0+l50eQnsMQ==
+// 付款计划集合端点（C1 财务域 · 父子表）
+// GET  /api/fin-payment-plans   列表（分页 / keyword / RLS，含每期明细）
+// POST /api/fin-payment-plans   创建（计划 + installments 一次性写入）
+//
+// ── 为什么不用通用实体路由 /api/entities/finPaymentPlan ──────────────
+// `PaymentPlan.installments?: PaymentInstallment[]` 是嵌套数组。
+// 通用路由的 pickSnake 只挑 ENTITY_RESOURCES 里登记过的列，
+// **installments 未登记 → 静默丢弃且不报错**。
+// 后果正是 BOM 轮次踩过的同款坑：界面顶层计划全都在（看不出异常），
+// 但展开没有分期、B11 的「逐期付款 + 预付款占用供应商信用」全部失效，
+// 且 save 返回 201 成功。
+//
+// 因此走 `_shared/parentChild.ts`：父表 fin_payment_plans + 子表
+// fin_payment_plan_installments（一期一行，可 SQL 统计「哪几期还没付」）。
+//
+// ── V3.19.0：付款闸门（三单匹配）────────────────────────────────────
+// 「申请付款」本身就是付款动作：计划一旦建立，后续就会按它出钱。
+// 因此建计划时必须先过三单匹配闸门（订单 / 入库 / 发票是否对得上），
+// 而不是等到点「付款」才校验 —— 问题要拦在钱出去之前，也要拦在
+// 「已经承诺付款」之前。判定由 _shared/paymentGate.ts 统一执行。
+import { pcList, pcCreate } from '../../_shared/parentChild';
+import { PAYMENT_PLAN_PC } from '../../_shared/finConfig';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { guardPaymentRow } from '../../_shared/paymentGate';
+
+export async function onRequestGet(context: any) {
+  return pcList(PAYMENT_PLAN_PC, context);
+}
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // 必须 clone：pcCreate 内部会自行读取请求体，先读完会让它拿到空对象。
+  const body: any = await request
+    .clone()
+    .json()
+    .catch(() => ({}));
+
+  // existing 传 null 表示新建：建计划本身就是付款动作（计划一旦建立就会按它出钱）
+  const blocked = await guardPaymentRow(env.DB, user, body, null);
+  if (blocked) return blocked;
+
+  return pcCreate(PAYMENT_PLAN_PC, context);
+}

@@ -1,226 +1,278 @@
-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
+// 审计写入的统一入口 —— 永不抛出，失败时走「降级通道」留痕。
+//
+// ── V3.3.0（评测 L-05 整改）：把「静默丢弃」改为「可发现的降级」 ──────────────
+// 缺陷原状：审计写入一律 `try { INSERT } catch { /* 静默 */ }`。
+//   审计失败时既不报错、不留痕、也不告警，后果有两层：
+//     ① 出问题时无人知晓 —— 管理员看到的审计日志是「完整」的，因为缺的那条根本不存在；
+//     ② 安全事件（越权尝试、批量删除）之后，恰恰在最需要证据时没有证据。
+//
+// 现改为三层降级链条（顺序即优先级）：
+//   ① 结构化错误日志：console.error('[AUDIT_DEGRADED] ...')，零依赖、永远能执行，
+//      云端平台日志可直接检索，是「一定能留下」的那一层；
+//   ② 降级留痕表：把「谁 / 哪个实体 / 什么动作 / 原始摘要 / 失败原因」写入
+//      独立的 audit_degraded 表（迁移 0048），使失败可被管理端查询与追溯；
+//   ③ 永不抛出：审计绝不允许阻断业务主流程，业务请求照常返回成功。
+//
+// 为什么降级表不能复用 audit_logs：一次 INSERT 失败通常意味着该表或该批次本身有问题
+//   （约束冲突、列缺失、库临时不可用），再往同一张表写第二条大概率同样失败；
+//   独立表 + 独立 try/catch 才可能「主审计失败但降级留痕仍然成功」。
+import { uid } from './auth';
+
+/** 审计主体：既支持登录用户，也支持开放网关的接口密钥调用方 */
+export interface AuditActor {
+  id?: string | null;
+  name?: string | null;
+}
+
+export interface AuditInput {
+  /** 组织归属（必填，缺失时无法归属，仍会尽力留痕） */
+  orgId?: string | null;
+  actor: AuditActor;
+  entity: string;
+  action: string;
+  summary: string;
+  entityId?: string | null;
+  /** 变更明细（可选），仅主审计落库，不写入降级记录（避免降级记录过大） */
+  diff?: any;
+}
+
+/** 审计写入结果：既如实回报「是否走了降级」，也保留原有调用方需要的记录 id */
+export interface AuditResult {
+  /** 主审计是否成功落库 */
+  ok: boolean;
+  /** 主审计成功时为该条记录 id；走了降级通道时为 null（此时降级表另有独立记录） */
+  id: string | null;
+  /** 是否走了降级通道（等价于 !ok，单独给出便于调用方直接判断） */
+  degraded: boolean;
+}
+
+/**
+ * 业务主流程用的审计写入：返回结果对象，但**绝不抛出**。
+ * 注意返回值语义（V3.3.0 修正）：以前返回裸 boolean，改造后引入降级通道时必须同时
+ * 回传「记录 id」——`/api/audit/logs` 的既有调用方依赖 id（门禁 09-audit-match 断言），
+ * 若只回 boolean 会把这条对外契约打断。故统一返回 `{ ok, id, degraded }`。
+ */
+/**
+ * 计算某实体的下一版本号（V3.83.0 跨端精确回滚地基）。
+ * 按 (org_id, entity, entity_id) 维度取当前 MAX(version)+1；
+ * entity_id 为空的全局日志（登录/导出等无主键）不编号，恒为 1，避免给无关日志凑版本号。
+ * 取数失败不阻断审计（降级为 1）。
+ */
+async function nextAuditVersion(DB: any, orgId: string | null, entity: string, entityId: string | null): Promise<number> {
+  if (!entityId) return 1;
+  try {
+    const row: any = await DB.prepare(
+      `SELECT MAX(version) AS maxv FROM audit_logs
+        WHERE org_id = ? AND entity = ? AND entity_id = ?`,
+    )
+      .bind(orgId ?? null, entity, entityId)
+      .first();
+    return Math.max(1, Number(row?.maxv ?? 0)) + 1;
+  } catch {
+    return 1;
+  }
+}
+
+export async function writeAudit(DB: any, input: AuditInput): Promise<AuditResult> {
+  const now = new Date().toISOString();
+  const actorId = input.actor?.id ?? null;
+  const actorName = input.actor?.name ?? null;
+  const id = uid('al');
+  const entityId = input.entityId ?? null;
+  // V3.83.0：带主键的实体变更按实体维度自增版本（支撑跨端精确回滚）；无主键日志恒 1
+  const version = await nextAuditVersion(DB, input.orgId ?? null, input.entity, entityId);
+
+  try {
+    await DB.prepare(
+      `INSERT INTO audit_logs (id, org_id, user_id, user_name, action, entity, entity_id, summary, diff, version, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+      .bind(
+        id,
+        input.orgId ?? null,
+        actorId,
+        actorName,
+        input.action,
+        input.entity,
+        entityId,
+        input.summary ?? '',
+        input.diff ? JSON.stringify(input.diff) : null,
+        version,
+        now,
+      )
+      .run();
+    return { ok: true, id, degraded: false };
+  } catch (e: any) {
+    await recordAuditDegraded(DB, input, e, now);
+    return { ok: false, id: null, degraded: true };
+  }
+}
+
+/**
+ * 审计降级留痕（第 ① ② 层）。
+ * 注意：本函数**自身也不允许抛出**——它已经在异常路径上，任何二次异常都会打断业务主流程。
+ */
+export async function recordAuditDegraded(
+  DB: any,
+  input: AuditInput,
+  cause: any,
+  at?: string,
+): Promise<void> {
+  const now = at || new Date().toISOString();
+  const reason = String(cause?.message || cause || '未知错误').slice(0, 500);
+
+  // 第 ① 层：结构化日志（零依赖，永远能执行；平台日志可检索 AUDIT_DEGRADED）
+  try {
+    console.error(
+      '[AUDIT_DEGRADED] 审计写入失败，已转入降级留痕。' +
+      ' entity=' + input.entity +
+      ' action=' + input.action +
+      ' org=' + (input.orgId ?? '-') +
+      ' actor=' + (input.actor?.id ?? '-') +
+      ' reason=' + reason,
+    );
+  } catch {
+    /* 连日志都失败时继续往下，不阻断 */
+  }
+
+  // 第 ② 层：降级表留痕（尽力而为）
+  try {
+    await DB.prepare(
+      `INSERT INTO audit_degraded (id, org_id, user_id, user_name, entity, action, summary, error, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    )
+      .bind(
+        uid('ad'),
+        input.orgId ?? null,
+        input.actor?.id ?? null,
+        input.actor?.name ?? null,
+        input.entity,
+        input.action,
+        String(input.summary ?? '').slice(0, 1000),
+        reason,
+        now,
+      )
+      .run();
+  } catch {
+    /* 第 ② 层也失败时，只剩结构化日志——这正是第 ① 层必须零依赖的原因 */
+  }
+}
+
+/**
+ * 兼容旧签名的薄封装（位置参数）。
+ * `account` 既可以是登录用户对象（取 id / name / username），
+ * 也可以是开放网关的接口密钥调用方（传 `{ id: keyId, name: 'api-key' }`）。
+ * 新代码优先使用 `writeAudit` 的对象参数形式；本函数专为「不打断既有调用点」而保留，
+ * 但内部已统一走同一套降级链条，不再是各文件各自 try/catch 的复制品。
+ */
+export async function audit(
+  DB: any,
+  orgId: string | null,
+  account: any,
+  entity: string,
+  action: string,
+  summary: string,
+): Promise<AuditResult> {
+  return writeAudit(DB, {
+    orgId,
+    actor: { id: account?.id ?? null, name: account?.name || account?.username || null },
+    entity,
+    action,
+    summary,
+  });
+}
+
+/**
+ * 审计降级自动补偿（V3.91.0 · 评测蓝图 2.9 整改）。
+ *
+ * 背景：writeAudit 主审计失败时，事件被写入 `audit_degraded` 降级表（绝不抛出、不阻断业务）。
+ *   但此前「降级后无人回收」——降级记录只能靠人工发现，主审计链路恢复后也不会自动补写，
+ *   等于把一次本应入主表的审计证据长期留在「非正常通道」里。
+ *
+ * 本函数在每次后台 tick（runJobTick）中被调用：扫描降级表，把「现在能落主表」的记录重放写入
+ * `audit_logs`，成功即删除该降级行；仍失败则保留（下个 tick 再试）。批量上限受 limit 控制，
+ * 避免单次请求耗时过长。失败不入队循环（仅计数），防止与主审计失败时再次降级形成死循环。
+ */
+export async function replayDegradedAudit(
+  DB: any,
+  limit = 50,
+): Promise<{ processed: number; recovered: number; failed: number }> {
+  let processed = 0;
+  let recovered = 0;
+  let failed = 0;
+  try {
+    const rows: any = await DB.prepare(
+      `SELECT id, org_id, user_id, user_name, entity, action, summary, created_at
+         FROM audit_degraded ORDER BY created_at ASC LIMIT ?`,
+    )
+      .bind(limit)
+      .all();
+    for (const r of rows?.results || []) {
+      processed += 1;
+      try {
+        const newId = uid('al');
+        const version = await nextAuditVersion(DB, r.org_id ?? null, r.entity, null);
+        await DB.prepare(
+          `INSERT INTO audit_logs (id, org_id, user_id, user_name, action, entity, entity_id, summary, diff, version, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        )
+          .bind(
+            newId,
+            r.org_id ?? null,
+            r.user_id ?? null,
+            r.user_name ?? null,
+            r.action,
+            r.entity,
+            null,
+            String(r.summary ?? '').slice(0, 1000),
+            null,
+            version,
+            r.created_at || new Date().toISOString(),
+          )
+          .run();
+        // 主表补写成功 → 删除降级行（避免重复补写）
+        await DB.prepare('DELETE FROM audit_degraded WHERE id = ?').bind(r.id).run();
+        recovered += 1;
+      } catch {
+        // 仍失败：保留降级行，下个 tick 再试
+        failed += 1;
+      }
+    }
+  } catch {
+    /* audit_degraded 表不存在等异常：静默跳过，不阻断 tick */
+  }
+  return { processed, recovered, failed };
+}
+
+/** 审计健康概览（管理端只读） */export async function auditHealth(DB: any, orgId?: string | null, limit = 20) {
+  const scope = orgId ? ' WHERE org_id = ?' : '';
+  const args: any[] = orgId ? [orgId] : [];
+
+  const total: any = await DB.prepare(
+    `SELECT COUNT(*) AS cnt FROM audit_degraded${scope}`,
+  )
+    .bind(...args)
+    .first();
+
+  const since = new Date(Date.now() - 24 * 3600 * 1000).toISOString();
+  const last24h: any = await DB.prepare(
+    `SELECT COUNT(*) AS cnt FROM audit_degraded WHERE created_at >= ?` + (orgId ? ' AND org_id = ?' : ''),
+  )
+    .bind(...(orgId ? [since, orgId] : [since]))
+    .first();
+
+  const recent: any = await DB.prepare(
+    `SELECT id, org_id, user_id, user_name, entity, action, summary, error, created_at
+       FROM audit_degraded${scope}
+      ORDER BY created_at DESC LIMIT ?`,
+  )
+    .bind(...args, limit)
+    .all();
+
+  return {
+    total: total?.cnt ?? 0,
+    last24h: last24h?.cnt ?? 0,
+    recent: recent?.results || [],
+    note: '本表只记录「审计写入失败」这一事件；为空即表示审计链路正常。',
+  };
+}

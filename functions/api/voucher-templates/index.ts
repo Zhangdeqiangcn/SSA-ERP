@@ -1,85 +1,84 @@
-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
+// GET /api/voucher-templates — 分页查询凭证模板（按 org_id 隔离，组织级共享配置）
+// POST /api/voucher-templates — 创建模板（含分录行）
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { audit } from '../../_shared/auditLog';
+import { requireByRegistry } from '../../_shared/validate';
+
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(url.searchParams.get('pageSize') || '50', 10);
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const vtype = url.searchParams.get('voucherType') || '';
+  const offset = (page - 1) * pageSize;
+
+  let sql = `SELECT * FROM voucher_templates WHERE org_id = ?`;
+  const params: any[] = [user.org_id];
+  // ★ 关键词搜索必须「escapeLike 转义 + SQL 声明 ESCAPE '\\'」成对（见硬规矩㉗），否则连该搜到的都搜不到
+  if (keyword) {
+    sql += ` AND (name LIKE ? ESCAPE '\\' OR description LIKE ? ESCAPE '\\')`;
+    params.push(likePattern(keyword), likePattern(keyword));
+  }
+  if (vtype) {
+    sql += ` AND voucher_type = ?`;
+    params.push(vtype);
+  }
+  sql += ` ORDER BY sort_order, name LIMIT ? OFFSET ?`;
+  params.push(pageSize, offset);
+
+  const results = await db.prepare(sql).bind(...params).all();
+  const count = await db.prepare(`SELECT COUNT(*) as cnt FROM voucher_templates WHERE org_id = ?`).bind(user.org_id).first();
+
+  const data: any[] = [];
+  for (const r of (results.results || [])) {
+    const items = await db.prepare(`SELECT * FROM voucher_template_items WHERE template_id = ? ORDER BY line_no`).bind(r.id).all();
+    data.push({ ...r, items: (items.results || []).map((it: any) => ({ ...it })) });
+  }
+
+  return json({ data, pagination: { page, pageSize, total: count?.cnt || 0 } });
+}
+
+// POST /api/voucher-templates — 新建模板（头 + 分录行）
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const body = await context.request.json().catch(() => ({}));
+  // ★ V3.87.0 扩面：收口到集中必填登记表（单一真相，不造双源）
+  const _reqCore = requireByRegistry('voucher_templates', body);
+  if (_reqCore) return _reqCore;
+  const name = (body.name || '').trim();
+
+  const items = Array.isArray(body.items) ? body.items : [];
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+  const id = (body.id && typeof body.id === 'string') ? body.id : uid('vt');
+
+  await db.prepare(
+    `INSERT INTO voucher_templates (id, org_id, name, description, voucher_type, is_default, sort_order, created_by, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  ).bind(
+    id, user.org_id, name, body.description || '', body.voucherType || '', body.isDefault ? 1 : 0,
+    Number(body.sortOrder) || 0, user.id, now, now
+  ).run();
+
+  for (let i = 0; i < items.length; i++) {
+    const it = items[i];
+    await db.prepare(
+      `INSERT INTO voucher_template_items (id, template_id, org_id, line_no, summary, account_code, account_name, direction, default_amount, ledger_book)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).bind(
+      uid('vti'), id, user.org_id, i + 1, (it.summary || '').trim(), it.accountCode || '', it.accountName || '',
+      it.direction === 'credit' ? 'credit' : 'debit', Number(it.defaultAmount) || 0, it.ledgerBook || '0000'
+    ).run();
+  }
+
+  await audit(db, user.org_id, user, 'voucher_templates', 'create', `创建凭证模板 ${name}`);
+  const created = await db.prepare(`SELECT * FROM voucher_templates WHERE id = ?`).bind(id).first();
+  return json(created, 201);
+}

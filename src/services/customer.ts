@@ -1,17 +1,23 @@
-U2FsdGVkX1+gcXSxtvtPKmhspsTiimzsQdz7/fMzjw2xcPDn5mgGVW0Uj/0u2IP+
-ssu6ufImFA91tgOR8FVPGljTur60ZqSXOumOz7QalKlJDdi251fF2z7RjV1vuReF
-b/1FI5QsKL88j4jFIRmqhdQLJPgN20/DHghfvZagDYsZ/n1GR5HQF4+CfkMWm2l4
-VlXyMJQAIBXIED9Ajy9XHJvSFQQ9m2c9EG9E6yjfcgUxnUoyFYNcL9PjD1l9YLre
-3I41ZCXZKSvztB6hBX5OWWo3o3tsWWmZyUwP38oT0+fM335/PMhRJA9dv2FMx8EL
-9OHmjJ1qDmD8w5pKlIbTVAvYP/9A2rBSEkL87KRbcXk+m9Dtxl6y3uI8CU9JetJp
-9c1vvndTxBghOoKoZC9/3gV4f4KF1i+A18TYwUdtC6cyYaZ+X9eHpUXowX1Vvoy4
-LWadnkH74Z98i2/aY0IRLCV/OpUbgTOHilSgy2inb7sD4P5hnYmm2LFdhJfFdg4E
-r0Ccafk5NgoqT1Uz16NYfuxqOs7XHSf/prrgQZTE5yu37sUfTQIr54JXN4CqFeld
-AsCjPzdyR2Ti76S36hgwKFmo+7dXbx0TujQg3FFYubgDY+Q254KLpAQJP9srxrM9
-IGyzV2EVz3x0rHlxLTYAnQFNstW3EWsKREFaotlliyylUOCA6ul+An2eePYntmrl
-YdF6d3t+RHbo7BwVR9l0UrtMEGnpL4ePjUynba9EJ++f18wyoFGthG9oGMrr10gk
-HcoY4mlJ4PZa2Ard8ZbUY9litWoKPNJ24fkbtPlOcOMNkwfuE4mq8Ap2eBiERZPN
-PECKZPUCVjC3HJv5Zb1pugwwI0oPui8GmZneiZyoRKOLAC5RHw6Mg+7YNbIIlORW
-tfnwRTANt0Du5a5u4UvirZQvoca3S/U93wmDg7Gk0cUk2brMZnQ7LoYbH2SKELB3
-HgsvPBkRMQSM1dlhbwohain7hor6zRt0uzXHNkLGbxLQF8sJ2kQ6Tbm1/o6HxcWY
-d0Ku9bNs4cE2Cc02uEydnQ==
+import { api } from './api';
+import { Customer, PaginatedResponse } from '@/types';
+
+// 客户主数据 CRUD（直连 D1 customers，会话鉴权）
+// V2.74.5 起与开放网关 /api/open/customers 同源，消除 app_state Blob 双源。
+export const customerApi = {
+  getCustomers: (params?: Record<string, unknown>) =>
+    api.get<PaginatedResponse<Customer>>('/customers', params),
+
+  getCustomer: (id: string) =>
+    api.get<Customer>(`/customers/${id}`),
+
+  createCustomer: (data: Partial<Customer>) =>
+    api.post<Customer>('/customers', data),
+
+  updateCustomer: (id: string, data: Partial<Customer>) =>
+    api.put<Customer>(`/customers/${id}`, data),
+
+  deleteCustomer: (id: string) =>
+    api.delete(`/customers/${id}`),
+};
+
+export default customerApi;

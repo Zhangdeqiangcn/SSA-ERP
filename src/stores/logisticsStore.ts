@@ -1,65 +1,97 @@
-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
+import { createEntityStore } from './createEntityStore';
+import type { UseBoundStore, StoreApi } from 'zustand';
+import { logisticsApi } from '@/services/logisticsApi';
+import { deriveWaybillStatus, validateWaybillRequest, type TrackEvent, type WaybillRequest } from '@/services/logistics';
+
+export interface Waybill {
+  id: string;
+  carrier?: string;
+  waybillNo?: string;
+  orderHubId?: string;
+  packNo?: string;
+  waveId?: string;
+  receiverName?: string;
+  receiverPhone?: string;
+  receiverAddress?: string;
+  weight?: number;
+  labelUrl?: string;
+  status?: string; // created/printed/dispatched/intransit/signed/exception
+  mock?: boolean;
+  createdAt?: string;
+}
+export interface TrackRecord {
+  id: string;
+  carrier?: string;
+  waybillNo?: string;
+  eventTime?: string;
+  status?: string;
+  location?: string;
+  description?: string;
+}
+
+interface LogisticsState {
+  waybills: Waybill[];
+  tracks: TrackRecord[];
+  providers: { code: string; label: string; isConfigured: boolean }[];
+  loaded: boolean;
+  load: () => Promise<void>;
+  loadProviders: () => Promise<void>;
+  createWaybill: (req: WaybillRequest) => Promise<any>;
+  pushTrack: (payload: { waybillNo: string; carrier: string; payload: any }) => Promise<any>;
+  getTrack: (waybillNo: string) => Promise<void>;
+}
+
+const parseWaybill = (w: any): Waybill => ({
+  ...w,
+  mock: !!w.mock,
+});
+
+// 物流面单层：复用通用仓储工厂，主资源 waybill + 附属资源 track。
+// 建单取号与轨迹回写走后端权威执行（含承运商适配器调用），前端 extend 负责编排。
+export const useLogisticsStore = createEntityStore<Waybill>({
+  resource: 'waybill',
+  seed: [],
+  stateKey: 'waybills',
+  parse: parseWaybill,
+  backend: {
+    list: () => logisticsApi.listWaybills(),
+    create: (item) => logisticsApi.createWaybill(item),
+    update: () => Promise.reject(new Error('运单不支持直接改')),
+    remove: () => Promise.reject(new Error('运单不支持删除')),
+  },
+  extraResources: [
+    {
+      resource: 'track',
+      seed: [],
+      stateKey: 'tracks',
+      backend: { list: () => Promise.resolve([]) },
+    },
+  ],
+  extend: (ctx) => ({
+    loadLogistics: async () => {
+      await ctx.get().load();
+    },
+    loadProviders: async () => {
+      const ps: any = await logisticsApi.listProviders();
+      ctx.set({ providers: ps });
+    },
+    createWaybill: async (req: WaybillRequest) => {
+      const v = validateWaybillRequest(req);
+      if (!v.ok) throw new Error(v.error);
+      const r: any = await logisticsApi.createWaybill(req);
+      await ctx.get().load();
+      return r;
+    },
+    pushTrack: async (payload: { waybillNo: string; carrier: string; payload: any }) => {
+      const r: any = await logisticsApi.pushTrack(payload);
+      return r;
+    },
+    getTrack: async (waybillNo: string) => {
+      const ts: any = await logisticsApi.getTrack(waybillNo);
+      ctx.set({ tracks: (ts || []).map((t: any) => ({ ...t })) });
+    },
+  }),
+}) as unknown as UseBoundStore<StoreApi<LogisticsState>>;
+
+export { deriveWaybillStatus };
+export type { TrackEvent };

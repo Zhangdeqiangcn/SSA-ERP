@@ -1,17 +1,8 @@
-U2FsdGVkX195jUmQwpdX609RPn6kcSR+4NO9V4Tz5lz643KSzuWYMaYBL+uD+icj
-gLR4HQqKbtJhG3ApHshTHFt4BRjg9BROublh128N735gzbUndzupBLjtzT8jwqjo
-YBoa+bN6pqJ2BWyYYWhK86VkJVX5ZipJe4CPP1+5VPkaHsFBDW8u0PRrCVUIlm1f
-gZFNl3ivZweEpjZ/aAiLU2+OOXzoPwNMtoChIWS9FbinKnZhS+sdTOfgqT9dkdZm
-UI08RZYBezrSJwRIZDFZNrnmtjERue7nClvgrGof/hiE5c638F8W9d6Mth6OceOT
-XjrGM9csZ1ymTqtmeXSKB2ZQBTX2RYITFd5mCFST9XgQe4u9LyywPKuuQFHvr0UB
-p7+gLiCeav9SjfbC49CMEJJJcyE7hpamvoHKBxuhl4zR/EzXkC59wnQ0N5qwtU6U
-0ZISu4lCufQ1ADMABC0kvFH5vM8KDF1tZl5RYnmJ3IPq+FAVdvyCAxHAHvsrH3wx
-PrSU+Hamesa20zEJWCLFKUt97wPoP64O7u2qs297l9tWZTturo6k0DEtrZAPVE3l
-d15/OTfh556EqVe480b84OkKex3O8IJsTL1x8YSmB50JbSH3uCxQC/ErczjmG38h
-cUJKdh5ZsnXevzYoc8gIfTl4KRFKAMqlKxNL7lE4/DB1QGtJtAFgdB1KdxK9I4JN
-rWHySAuIBbidYZD31/kJcOrYGzS6NgQLxjgEhcwxH3D1xC+bHlROilZumCo875YR
-K9CZGyudk7fQHl/vgXyb3EDhPfUqQNwlcbUVzFSxdjxYcjq98Y04qy8v6QOnB1JN
-sPFB2RIN2ctUD/DAlQMKqmoEHdLPPDCqo+tufp1/BLivaj58xsVu7VFvznoX0E4N
-bD6WtMBX5VMe+kNEMv1qAOASOw48Nj1VKwdlBeq1h1aHwIuSRToPVAXorG1ZD61b
-c4cOZrYFfRs6OQTg16ZpJcm8R3yykVvcWoWb4q0+HwYpQCoMULeXDvQK/Ho20fb5
-ycEZ4Yy0+FuI4TOmIAlvbbzM6H7yq8rY7dMi+UJ8AWSfafwxmDKJEdmoF++OdwLo
+-- V3.64.0 P0-3 销售退货↔采购退货串联（根治八模块审计：两张退货表无共同字段，供应商追责链断裂）
+-- 此前 sales_returns / purchase_returns 各带 credit_note_no / voucher_no，但彼此无 source 关联，
+-- 「客户退货(销售侧) → 应向供应商追责(采购侧)」全凭人工补单。现双向加一列关联单号：
+--   · sales_returns.linked_purchase_return_no  →  指向它触发的采购退货单号
+--   · purchase_returns.linked_sales_return_no  →  指回它的销售退货来源单号
+-- 均可空（非质量类退货、或无法溯源供应商时为 NULL，诚实不造假）。
+ALTER TABLE sales_returns ADD COLUMN linked_purchase_return_no TEXT;
+ALTER TABLE purchase_returns ADD COLUMN linked_sales_return_no TEXT;

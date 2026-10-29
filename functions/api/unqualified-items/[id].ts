@@ -1,90 +1,73 @@
-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
-1MMZytsswC2YqlIukOl5fQ==
+// POST /api/unqualified-items/:id — 质量不合格品处置（服务端权威 + 注入审批）
+//
+// V3.65.0 立项①：质量不合格品「处置」此前走通用 entities 路由（/api/entities/unqualifiedItem PUT），
+//   通用路由是 config 驱动范式，无法在处置落库后注入 startApprovalForDoc → 审批流接不上。
+//   本薄端点只做「处置」这一个动作：服务端权威更新 disposition_status / actual_disposition /
+//   completed_date（防前端绕过篡改处置结果），落库后注入审批（module='quality_disposition'，
+//   静默幂等：该模块无启用审批流则自动跳过，绝不阻断处置）。增删查继续走通用 entities 路由（够用原则）。
+//
+// 联动价值（审计 P0-1 闭环）：处置后 disposition_status='completed'，
+//   inventoryPosting.checkQualityBlocked 的来料检 failed 分支判定「已闭环不合格品」自动放行，
+//   解除质量冻结对仓库出库的拦截 —— 审批通过后处置才真正生效。
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { writeAudit } from '../../_shared/auditLog';
+import { guardOperation } from '../../_shared/operationGuard';
+import { startApprovalForDoc } from '../../_shared/autoApproval';
+
+const VALID_STATUS = new Set(['open', 'in_progress', 'completed', 'closed']);
+const VALID_DISPOSITION = new Set(['rework', 'scrap', 'concession', 'return_vendor', 'other']);
+
+export async function onRequestPost(context: any) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+  const id = String(context.params.id || '').slice(0, 64);
+  if (!id) return json({ error: '不合格品 id 必填' }, 400);
+
+  // 质量域守卫：质检可处置，越权角色 403 + OPERATION_FORBIDDEN
+  const _opGuard = await guardOperation(user, 'quality', 'update', db, user.org_id);
+  if (_opGuard) return _opGuard;
+
+  const body = await context.request.json().catch(() => ({}));
+
+  const target: any = await db
+    .prepare(`SELECT * FROM unqualified_items WHERE id = ? AND org_id = ?`)
+    .bind(id, user.org_id)
+    .first();
+  if (!target) return json({ error: '不合格品不存在' }, 404);
+
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  // 处置结果（服务端归一化 + 白名单校验，防脏值）
+  const disposition = VALID_DISPOSITION.has(body.disposition) ? body.disposition : target.disposition;
+  const dispositionStatus = VALID_STATUS.has(body.dispositionStatus) ? body.dispositionStatus : target.disposition_status;
+  const actualDisposition = body.actualDisposition !== undefined ? String(body.actualDisposition).slice(0, 300) : target.actual_disposition;
+  const status = VALID_STATUS.has(body.status) ? body.status : (dispositionStatus === 'completed' ? 'closed' : target.status || 'open');
+  const completedDate = dispositionStatus === 'completed' ? (now.slice(0, 10)) : target.completed_date;
+
+  await db
+    .prepare(
+      `UPDATE unqualified_items SET
+         disposition = ?, disposition_status = ?, actual_disposition = ?, status = ?,
+         completed_date = ?, updated_at = ?, updated_by = ?
+       WHERE id = ? AND org_id = ?`
+    )
+    .bind(disposition, dispositionStatus, actualDisposition || null, status, completedDate || null, now, user.name || user.username, id, user.org_id)
+    .run();
+
+  const row: any = await db.prepare(`SELECT * FROM unqualified_items WHERE id = ?`).bind(id).first();
+  await writeAudit(db, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name || user.username || null },
+    entity: 'unqualified_items',
+    entityId: id,
+    action: 'dispose',
+    summary: `处置不合格品 ${row?.item_no || id}：处置方式 ${disposition}，状态 ${target.disposition_status || '-'} → ${dispositionStatus}`,
+  });
+
+  // V3.65.0 立项①：处置落库后注入审批（静默幂等，无启用审批流则跳过，不阻断处置）
+  const appr = await startApprovalForDoc(db, user.org_id, user, 'quality_disposition', id, row?.item_no).catch(() => null);
+
+  return json({ ...row, approval: appr ? { started: appr.started, reason: appr.reason, instanceId: appr.instanceId } : null });
+}

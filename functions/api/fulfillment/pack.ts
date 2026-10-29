@@ -1,36 +1,44 @@
-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
+// 仓储执行层 · 打包（POST /api/fulfillment/pack）：配货 + 打包记录
+import { getUserFromRequest, json, uid } from '../../_shared/auth';
+import { rlsCondition } from '../../_shared/rls';
+import { audit } from '../../_shared/auditLog';
+import { errorResponse } from '../../_shared/errors';
+import { guardOperation } from '../../_shared/operationGuard';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const _g = await guardOperation(user, 'fulfillment', 'create', env.DB, user.org_id);
+  if (_g) return _g;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+  const { waveId, orderHubId, packNo, weight } = body;
+  if (!waveId || !orderHubId || !packNo) {
+    return json({ error: '波次 / 订单 / 包号 必填' }, 400);
+  }
+
+  const id = uid('pkc');
+  const now = new Date().toISOString();
+  const rls = rlsCondition(user, 'pack_records');
+  try {
+    await env.DB
+      .prepare(
+        `INSERT INTO pack_records (id, org_id, wave_id, order_hub_id, pack_no, weight, status, created_at, created_by, created_by_name)
+         VALUES (?,?,?,?,?,?,?,?,?,?)`
+      )
+      .bind(id, user.org_id, waveId, orderHubId, packNo, weight ?? null, 'packed', now, user.id, user.name ?? user.username)
+      .run();
+  } catch (e: any) {
+    return errorResponse(e, '打包记录');
+  }
+
+  await audit(env.DB, user.org_id, user, 'fulfillment', 'create', `打包 ${packNo}（订单 ${orderHubId}）`);
+  return json({ id, packNo }, 201);
+}

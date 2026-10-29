@@ -1,16 +1,18 @@
-U2FsdGVkX19WVILpd+HPewprCoqti5Dp6c9z789GfVSmD5lZdFXpzYKnyksWwT0V
-SaEwImUOJXU68V5TJPydf+aII61LvDjPs7IpnTeuerlgJJ1AWKFyh35MkZSdUMLI
-GYQ4y4ZPXIDdXAQZReHadpEI3nYndrztCdm6GujXaJZukJqu3OfMywNFPP9xv3HO
-K6hy2ht+QJHFCk0OH2I8LTCjce+AG7fasOIIqj5hEwV61PPw0stdfhtCEVoUmKMp
-ImGjXPGlrMXfkZ1DIrzYuBhhFIUCI4U0fRnQohx2v27POsE7zuAKL67YQGc1J2jH
-I7SCHojiqhsH095wjxGFe3lSyhYiT7YceZD+kpfxTXYac1rQAKHUvFWbo9knlqyT
-uoDIoeDgi4SdX1SZIE8gL7arnznCEYlYnzAN7H2tvYN6umrmfZZg1GcijI9T4Gdx
-5zbcjwCFFK8Y3XWmftWlQ0AO/3WQVA13y/yag2LNfTJwqr7mBdW9yz9Ond2o8XgK
-kh++UuAPwv4ZBvPTqc63eJGAdQzsMWNl059GGeUuaZWIqw0x7NU3TRCo7n4Cdt2N
-q6RTBwW68Xb2RyXFWyuOy3zlNwo1fJlnCK3SP2d8YH60zPaSyvNCapYm7MEVjDt7
-cUGOZ5TEd2DOTOgHhcTXKBN/bTDCQ2FMWyEialcXOc+hDvzxFlVaephfVx1h3bP8
-ICZa/Clr/Nw0ItRmGAOzHbRcrke17tKxjTbZE8TIx13F5xWdY/tu0wq2WpmHCllU
-PqPpSVFwm3bficiEE2dippwLOP9f48ntbf6BJlogxw50RRlyRzKj7JlsmzqugNeL
-ef2MQRxr7YuCbpUycWCao2trgaRK7Fg4fDsYUh26BLYyoNoQ78aDdJFP+OZlX8Ru
-oydSaNf+LocqFPoU1yQX5KjCsaZtAH0Lsn3WIunsj4O4I3H+5ytLHgheDL6vfdO3
-OxSV8LCzvDA9cp/nKtoaWw==
+// 项目核算单条端点
+// GET    /api/fin-project-accounts/:id   读取（核算单 + 成本明细）
+// PUT    /api/fin-project-accounts/:id   更新（不传 costItems = 明细保持原样）
+// DELETE /api/fin-project-accounts/:id   删除（连带删除成本明细）
+import { pcGet, pcUpdate, pcRemove } from '../../_shared/parentChild';
+import { PROJECT_ACCOUNT_PC } from '../../_shared/finConfig';
+
+export async function onRequestGet(context: any) {
+  return pcGet(PROJECT_ACCOUNT_PC, context);
+}
+
+export async function onRequestPut(context: any) {
+  return pcUpdate(PROJECT_ACCOUNT_PC, context);
+}
+
+export async function onRequestDelete(context: any) {
+  return pcRemove(PROJECT_ACCOUNT_PC, context);
+}

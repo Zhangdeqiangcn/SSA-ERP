@@ -1,9 +1,4 @@
-U2FsdGVkX1+nyvyiiOUdHx9bgWMo6ykhk5/8NWHi+T+pmtP+E4zG7MVUNYn3FERJ
-Hm2sxa1ROo2kFUwLfHRr35Mh8wFkZzaPMydawsVMpm55NBjXUcFbHeZq7/AoL5UG
-6sNT0QlT6CaJy5udmHvdIrhU+m+br5sJUZRGGEbJlnoKMZP6HOvkb2Mebkk+M1B+
-gmWGcBveXgESUHPWudSpX68owcbwvgAM5hzHGoXTTCPOLqn47R8sF4TkI1BV8hxn
-dkoUYFL1PtViEpieGbjleTw4lM2rb87h2Hb8tyYFbYfTas3Q3VB8hCX8lUXS/Dgu
-lFkkvIctRKCIk3pRk2HGWmAO6bWwYizsP8PGJyNgtZFSGpbOXDIyjFUm8kfW2d1k
-8s5AkFm1rTP4YqddKh4N2IY8J7rJOfyjKI5ea56tGSBUG+cqPEH4NibYo6FUnLzL
-am0aOuw/aioAj9bBslE+OqO8dnO+/8sCxv9bbVYifetzRjLeXZGek++VH8KtO2ZJ
-lGGuhBOB9UjlD61ubaFf7ZSnmw6JICGY+BIx9FgJjk4=
+-- V3.103.0：发货通知单补 ship_date 列（发货日期）。
+-- 前端发货日期经 SHIPMENT_PC 落 shipments 表时，若未登记该列会被 parentCols 静默丢弃（返回 201 但值丢失）。
+-- 此处加列并在 SHIPMENT_PC.parentCols 登记 ['ship_date','shipDate']，与采购申请 application_date 同款纪律。
+ALTER TABLE shipments ADD COLUMN ship_date TEXT;

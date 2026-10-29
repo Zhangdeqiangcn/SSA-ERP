@@ -1,144 +1,127 @@
-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
+// GET /api/stock-transfers — 分页查询跨组织转储（按 org_id 隔离）
+import { safeKeyword, likePattern } from '../../_shared/searchKeyword';
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { validateOrReject, requireFields } from '../../_shared/validate';
+import { dedupeByNo, resolveIdemKey, findIdem, saveIdem } from '../../_shared/idempotency';
+
+import { audit } from '../../_shared/auditLog';
+// ★ V3.45.0 操作权限服务端守卫：此前该端点零守卫（任何登录用户均可写）。
+import { guardOperation } from '../../_shared/operationGuard';
+export async function onRequestGet(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const url = new URL(context.request.url);
+  const page = parseInt(url.searchParams.get('page') || '1', 10);
+  const pageSize = Math.min(parseInt(url.searchParams.get('pageSize') || '20', 10), 100);
+  const keyword = safeKeyword(url.searchParams.get('keyword'));
+  const status = url.searchParams.get('status') || undefined;
+
+  const db = context.env.DB;
+  let where = `WHERE st.org_id = ?`;
+  const params = [user.org_id];
+
+  if (keyword) {
+    where += ` AND (st.transfer_no LIKE ? ESCAPE '\\' OR st.from_warehouse_name LIKE ? ESCAPE '\\' OR st.to_warehouse_name LIKE ? ESCAPE '\\')`;
+    const kw = likePattern(keyword);
+    params.push(kw, kw, kw);
+  }
+  if (status) {
+    where += ` AND st.status = ?`;
+    params.push(status);
+  }
+
+  const offset = (page - 1) * pageSize;
+  const totalRows = await db.prepare(`SELECT COUNT(*) as cnt FROM stock_transfers st ${where}`).bind(...params).first();
+  const rows = await db.prepare(`SELECT * FROM stock_transfers st ${where} ORDER BY st.transfer_date DESC, st.created_at DESC LIMIT ? OFFSET ?`).bind(...params, pageSize, offset).all();
+
+  // 列表回填 items（store 启动 load 路径需明细支撑 confirmTransfer 双边过账，等同迁移前 Blob 全量）
+  const data = await Promise.all((rows.results || []).map(async (r) => {
+    const items = await db.prepare(`SELECT * FROM stock_transfer_items WHERE stock_transfer_id = ?`).bind(r.id).all();
+    return {
+      ...r,
+      items: (items.results || []).map(it => ({
+        id: it.id, material_id: it.material_id, material_code: it.material_code, material_name: it.material_name,
+        unit: it.unit, quantity: Number(it.quantity), batch_no: it.batch_no, location_id: it.location_id,
+      })),
+    };
+  }));
+
+  return json({
+    data,
+    total: totalRows?.cnt || 0,
+    page,
+    pageSize,
+  });
+}
+
+// POST /api/stock-transfers — 创建跨组织转储（含 items 子表）
+export async function onRequestPost(context) {
+  const user = await getUserFromRequest(context.request, context.env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  const db = context.env.DB;
+
+  // V3.45.0：写端点服务端硬拦，越权返回 403 OPERATION_FORBIDDEN（绕开界面亦生效）。
+  const _opGuard = await guardOperation(user, 'warehouse', 'create', db, user.org_id);
+  if (_opGuard) return _opGuard;
+  const body = await context.request.json().catch(() => ({}));
+  const _invalid = validateOrReject('stock_transfers', body);
+  if (_invalid) return _invalid;
+
+  // #10 防重复建单：① 单号查重（同组织同单号已存在 → 409，双击保存/网络重试正好被拦住）
+  //                ② Idempotency-Key 幂等键（重复提交命中登记则回传上次结果，不再建单）
+  const _dupNo = await dedupeByNo(context.env.DB, { table: 'stock_transfers', noCol: 'transfer_no', orgId: user.org_id, no: body.transferNo, label: '转储单' });
+  if (_dupNo) return json(_dupNo.response, 409);
+  const _idemKey = resolveIdemKey(context.request, body);
+  if (_idemKey) {
+    const _hit = await findIdem(context.env.DB, user.org_id, _idemKey);
+    if (_hit) {
+      const _prev = await context.env.DB.prepare(`SELECT * FROM stock_transfers WHERE id = ? AND org_id = ?`).bind(_hit.resultId, user.org_id).first().catch(() => null);
+      if (_prev) return json({ ...(_prev as any), idempotentReplay: true }, 200);
+    }
+  }
+
+  // 必填守卫（V3.16.1 · 缺陷 #11）：调拨单必须指明出入仓库且至少一条明细，否则生成全空记录
+  const _req = requireFields(body, ['fromWarehouseId', 'toWarehouseId'], {
+    fromWarehouseId: '调出仓库',
+    toWarehouseId: '调入仓库',
+  });
+  if (_req) return _req;
+  if (!Array.isArray(body.items) || body.items.length === 0) {
+    return json({ error: '请至少添加一条调拨明细', code: 'EMPTY_ITEMS' }, 400);
+  }
+  const now = new Date().toISOString().replace(/\.\d{3}Z$/, '');
+
+  const id = 'stf-' + crypto.randomUUID();
+  // ★ V3.51.0 原子底座（R1 多表写原子化）：头表 + 全部子项 INSERT 收进**同一 db.batch** 原子提交，
+  //   全成或全回滚，杜绝「头已建、明细残缺」半状态（D1 单次 batch 上限 100 条，>99 退回逐条 .run()）。
+  const headStmt = db.prepare(`INSERT INTO stock_transfers (id, org_id, transfer_no, from_warehouse_id, from_warehouse_name, to_warehouse_id, to_warehouse_name, from_org_id, to_org_id, status, transfer_date, remarks, created_at, updated_at, created_by, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+    id, user.org_id, body.transferNo || ('ST-' + id.slice(0, 8)), body.fromWarehouseId || null, body.fromWarehouseName || null,
+    body.toWarehouseId || null, body.toWarehouseName || null, body.fromOrgId || null, body.toOrgId || null,
+    body.status || 'draft', body.transferDate || null, body.remarks || null, now, now, user.name, user.name
+  );
+  const itemStmts: any[] = [];
+  if (body.items && Array.isArray(body.items)) {
+    for (const item of body.items) {
+      itemStmts.push(
+        db.prepare(`INSERT INTO stock_transfer_items (id, stock_transfer_id, material_id, material_code, material_name, unit, quantity, batch_no, location_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`).bind(
+          'sti-' + crypto.randomUUID(), id, item.materialId || null, item.materialCode || null, item.materialName || null,
+          item.unit || null, Number(item.quantity) || 0, item.batchNo || null, item.locationId || null
+        )
+      );
+    }
+  }
+  if (itemStmts.length <= 99) {
+    await db.batch([headStmt, ...itemStmts]);
+  } else {
+    await headStmt.run();
+    for (const s of itemStmts) await s.run();
+  }
+
+  // #10 幂等键登记：建单成功后把 (组织, 键) → 结果 id 记下来，供后续重复提交命中回放
+  if (_idemKey) await saveIdem(db, user.org_id, _idemKey, 'stock_transfers', id);
+  const row = await db.prepare(`SELECT * FROM stock_transfers WHERE id = ?`).bind(id).first();
+  await audit(db, user.org_id, user, 'stock_transfers', 'create', `创建调拨单 ${row?.transfer_no || id}`);
+  return json(row);
+}

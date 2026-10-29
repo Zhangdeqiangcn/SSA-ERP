@@ -1,144 +1,176 @@
-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
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+import { entityRepo } from '@/services/entityRepo';
+
+/**
+ * 订单模板单一数据源（全面 store 化 · V2.14）
+ * ------------------------------------------------------------
+ * 将采购订单模板从 OrderTemplateTab 的 localStorage `ssa-order-templates`
+ * 收敛到唯一 zustand persist store。新建采购订单时由 OrderForm 直接消费本 store，
+ * 消除「设置页写一份、OrderForm 又读 localStorage」的双点直读。首次启动从旧键迁移
+ * （若有用户自定义），否则播种 2 条默认模板。
+ *
+ * V3.66.0 P0-2 订单模板 D1 化：数据主源 = D1 order_templates 表（items 明细封 extra_json），
+ * 增删改经 entityRepo 同步；启动水合 D1，空库回填本地 seed（含旧 localStorage 迁移）。
+ * 对外接口不变（upsertTemplate/removeTemplate/duplicateTemplate 签名未动）。
+ */
+
+export interface TemplateItem {
+  materialId: string;
+  materialCode: string;
+  materialName: string;
+  specification: string;
+  unit: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface OrderTemplate {
+  id: string;
+  name: string;
+  vendorId: string;
+  vendorName: string;
+  paymentTerms: string;
+  tradeTerms: string;
+  deliveryTerms: string;
+  remarks: string;
+  expectedDeliveryDate: string;
+  items: TemplateItem[];
+  createdAt: string;
+}
+
+export const DEFAULT_ORDER_TEMPLATES: OrderTemplate[] = [
+  {
+    id: 'tpl-001',
+    name: '钢板标准采购模板',
+    vendorId: 'ven-001',
+    vendorName: '上海宝钢钢铁贸易有限公司',
+    paymentTerms: '货到付款',
+    tradeTerms: 'CIF（到岸价）',
+    deliveryTerms: '含运费到厂',
+    remarks: '钢板类物料标准采购模板',
+    expectedDeliveryDate: '',
+    items: [
+      { materialId: 'mat-001', materialCode: 'MAT202405010001', materialName: '钢板 Q235B', specification: '10mm*1500mm*6000mm', unit: '吨', quantity: 30, unitPrice: 4150 },
+    ],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: 'tpl-002',
+    name: '紧固件批量采购模板',
+    vendorId: 'ven-002',
+    vendorName: '浙江温州紧固件有限公司',
+    paymentTerms: '月结30天',
+    tradeTerms: 'FOB（离岸价）',
+    deliveryTerms: '自提',
+    remarks: '螺栓螺母类物料批量采购',
+    expectedDeliveryDate: '',
+    items: [
+      { materialId: 'mat-004', materialCode: 'MAT202405010004', materialName: '螺栓 M10', specification: 'M10*40 10.9级', unit: '套', quantity: 500, unitPrice: 2.3 },
+      { materialId: 'mat-005', materialCode: 'MAT202405010005', materialName: '螺栓 M12', specification: 'M12*50 8.8级', unit: '套', quantity: 300, unitPrice: 3.0 },
+    ],
+    createdAt: new Date().toISOString(),
+  },
+];
+
+const seedTemplates = (): OrderTemplate[] => {
+  try {
+    const raw = localStorage.getItem('ssa-order-templates');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        localStorage.removeItem('ssa-order-templates');
+        return parsed as OrderTemplate[];
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+  return DEFAULT_ORDER_TEMPLATES.map((t) => ({ ...t, items: t.items.map((i) => ({ ...i })) }));
+};
+
+// ── V3.66.0 P0-2：嵌套 items 打包/解包（extra_json）────────────────────────
+function packTemplate(t: OrderTemplate) {
+  const { items, ...rest } = t;
+  return { ...rest, extraJson: JSON.stringify(items || []) };
+}
+function unpackTemplate(r: any): OrderTemplate {
+  let extra: any = {};
+  try { extra = r.extraJson ? JSON.parse(r.extraJson) : {}; } catch { extra = {}; }
+  const { extraJson, ...rest } = r;
+  return { ...(rest as any), items: extra.items ?? [] };
+}
+
+interface OrderTemplateState {
+  templates: OrderTemplate[];
+  setTemplates: (templates: OrderTemplate[]) => void;
+  upsertTemplate: (template: OrderTemplate) => void;
+  removeTemplate: (id: string) => void;
+  duplicateTemplate: (id: string) => void;
+  /** V3.66.0 P0-2：启动时从 D1 order_templates 水合（主源 = D1，本地 Blob 降为离线兜底） */
+  hydrateTemplates: () => Promise<void>;
+}
+
+export const useOrderTemplateStore = create<OrderTemplateState>()(
+  persist(
+    (set) => ({
+      templates: seedTemplates(),
+      setTemplates: (templates) => set({ templates }),
+      upsertTemplate: (template) => {
+        set((state) => {
+          const idx = state.templates.findIndex((t) => t.id === template.id);
+          if (idx >= 0) {
+            const next = [...state.templates];
+            next[idx] = template;
+            return { templates: next };
+          }
+          return { templates: [...state.templates, template] };
+        });
+        // V3.66.0 P0-2：模板变更同步 D1（items 封 extra_json；失败静默不阻断本地）
+        entityRepo.update('orderTemplate', template.id, packTemplate(template))
+          .catch(() => { const p = packTemplate(template); entityRepo.create('orderTemplate', { ...p, id: template.id }).catch(() => {}); });
+      },
+      removeTemplate: (id) => {
+        set((state) => ({ templates: state.templates.filter((t) => t.id !== id) }));
+        entityRepo.remove('orderTemplate', id).catch(() => {});
+      },
+      duplicateTemplate: (id) =>
+        set((state) => {
+          const src = state.templates.find((t) => t.id === id);
+          if (!src) return state;
+          const clone: OrderTemplate = {
+            ...src,
+            id: `tpl-${Date.now()}`,
+            name: `${src.name} (副本)`,
+            items: src.items.map((i) => ({ ...i })),
+            createdAt: new Date().toISOString(),
+          };
+          entityRepo.create('orderTemplate', packTemplate(clone)).catch(() => {});
+          return { templates: [...state.templates, clone] };
+        }),
+
+      hydrateTemplates: async () => {
+        try {
+          const res = await entityRepo.list<any>('orderTemplate', { page: 1, pageSize: 200 });
+          const rows: any[] = res?.data || [];
+          if (rows.length === 0) {
+            // 空库首次：本地 seed（含旧 localStorage 迁移结果）回填 D1
+            for (const t of seedTemplates()) {
+              try { await entityRepo.create('orderTemplate', packTemplate(t)); } catch { /* 冲突忽略 */ }
+            }
+            return;
+          }
+          set({ templates: rows.map(unpackTemplate) });
+        } catch {
+          /* 离线/异常：保留本地 Blob 副本（persist 水合结果），不阻断 */
+        }
+      },
+    }),
+    { storage: backendStorage,
+     name: 'ssa-erp-order-templates', version: 2 }
+  )
+);
+
+// ── V3.66.0 P0-2：启动水合订单模板（D1 主源，与 qualityStore 同款顶层触发）──
+void useOrderTemplateStore.getState().hydrateTemplates();

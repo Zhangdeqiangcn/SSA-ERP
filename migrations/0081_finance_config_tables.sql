@@ -1,156 +1,126 @@
-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
-8cEStSKHDf5ErOoiooVaUg==
+-- 迁移 0081：财务配置迁关系表（V3.46.0 第2批② · 对标审计 S-05 底座）
+--
+-- ═══════════════ 为什么必须迁 ═══════════════
+-- 结账状态、预算、汇率、应收应付四类财务配置此前全在 app_state（zustand persist 的
+-- JSON 大对象）里，问题有三层：
+--   ① **任何登录用户都能覆写** —— app_state 走通用 /api/state/<key> 端点，
+--      没有"谁能改结账状态"的权限概念。覆盖该键即可一键解除全部期间锁定。
+--   ② **无审计** —— 谁在何时结的账、改了多少预算、谁改的汇率，全都不可追。
+--   ③ **fail-open** —— appState.ts 的 isPeriodClosed 在"键不存在 / 解析失败"时
+--      返回 false（视为未结账）。于是**一次误清缓存或格式损坏，全部期间锁立即失效**，
+--      而用户以为已结账。这比"没有结账管控"更危险：它给出错误的安全感。
+--
+-- 对标：SAP 的期间状态在 TFASTAT 表、受 F.OB52 配置控制，只能通过
+--   "重新打开期间"授权动作变更并写审计；金蝶/用友的账套期间与预算均由数据库表承载，
+--   非管理员无法反结账。**没有一家把结账状态放在浏览器里。**
+--
+-- ═══════════════ 迁移策略（重要：不破坏现有数据）═══════════════
+-- 本迁移**只建表 + 一次性回填当前 app_state 里的存量**，然后服务端改为读新表；
+-- 前端 store 保持读写新端点。若新表为空（首次部署前无数据）则行为与现在一致。
+-- 这样可**逐域切换、可回退**，不必一次性大爆炸迁移。
+--
+-- 回填说明：app_state 的 value 是 JSON 字符串，可能包了两层（zustand persist
+--   序列化为 {state:{...}, version:n}）。SQL 里用 json_extract 逐层尝试取值，
+--   两种形态都覆盖；解析不出就留空（宁可不回填，也不能写错）。
+
+-- ─────────────────────────────────────────────────────────────
+-- ① 会计期间（结账状态）—— 最关键的一张
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS fin_closing_periods (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  period TEXT NOT NULL,            -- YYYY-MM
+  status TEXT NOT NULL DEFAULT 'open',   -- open | profit_closed | closed
+  closed_by TEXT,
+  closed_at TEXT,
+  profit_voucher_no TEXT,         -- 损益结转凭证号
+  fx_voucher_no TEXT,             -- 汇兑损益结转凭证号
+  created_at TEXT,
+  updated_at TEXT,
+  UNIQUE(org_id, period)
+);
+CREATE INDEX IF NOT EXISTS idx_fcp_org_status ON fin_closing_periods(org_id, status);
+
+-- ─────────────────────────────────────────────────────────────
+-- ② 预算
+-- ─────────────────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS fin_budgets (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  period TEXT NOT NULL,           -- 2026-07 或 2026-Q3
+  dimension TEXT NOT NULL,        -- costCenter | account | project
+  ref_id TEXT,                    -- 成本中心id / 科目code / 项目id
+  ref_name TEXT,
+  amount REAL NOT NULL DEFAULT 0,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  UNIQUE(org_id, period, dimension, ref_id)
+);
+CREATE INDEX IF NOT EXISTS idx_fb_lookup ON fin_budgets(org_id, dimension, ref_id);
+
+-- ─────────────────────────────────────────────────────────────
+-- ③ 汇率：补 effective_date（此前**根本没有这一列**）
+-- ─────────────────────────────────────────────────────────────
+-- 缺口实证：fx_rates 实际列为 id/org_id/base_currency/quote_currency/rate/source/updated_at，
+--   **没有 effective_date**（迁移 0014 建表时就没有）。
+--   后果：期末汇兑损益该用哪个汇率没有口径依据；PeriodClosing.tsx 只能用
+--   `inv.exchangeRate || 1` —— **汇率缺失时静默按 1 处理**（对标报告 S-34/P1-31）。
+--   现在补列并回填：对已有汇率，取其 updated_at 的日期作为初始生效日期
+--   （不猜历史生效日，只保证"从何时起有效"这件事有据可查）。
+ALTER TABLE fx_rates ADD COLUMN effective_date TEXT;
+
+UPDATE fx_rates
+   SET effective_date = substr(updated_at, 1, 10)
+ WHERE effective_date IS NULL
+   AND updated_at IS NOT NULL;
+
+-- 按「币种 + 生效日期」取汇率的索引（此前按日期过滤无索引支撑）
+CREATE INDEX IF NOT EXISTS idx_fx_rates_effective
+  ON fx_rates(org_id, quote_currency, effective_date);
+
+-- ─────────────────────────────────────────────────────────────
+-- ④ 存量回填：从 app_state 一次性搬到新表
+-- ─────────────────────────────────────────────────────────────
+-- 结账状态：closingPeriods 元素是对象 {period, status, closedBy, closedAt, ...}
+INSERT OR IGNORE INTO fin_closing_periods
+  (id, org_id, period, status, closed_by, closed_at, profit_voucher_no, fx_voucher_no, created_at, updated_at)
+SELECT
+  'fcp-' || s.org_id || '-' || COALESCE(json_extract(j.value, '$.period'), ''),
+  s.org_id,
+  json_extract(j.value, '$.period'),
+  COALESCE(json_extract(j.value, '$.status'), 'open'),
+  json_extract(j.value, '$.closedBy'),
+  json_extract(j.value, '$.closedAt'),
+  json_extract(j.value, '$.profitVoucherNo'),
+  json_extract(j.value, '$.fxVoucherNo'),
+  datetime('now'), datetime('now')
+FROM app_state s
+JOIN json_each(s.value) j
+WHERE s.key = 'ssa-erp-finance-ledger'
+  AND json_valid(s.value)
+  AND json_type(j.value) = 'object'
+  AND json_extract(j.value, '$.period') IS NOT NULL;
+
+-- 预算：budgets 在 state.budgets（zustand persist 双层）
+INSERT OR IGNORE INTO fin_budgets
+  (id, org_id, period, dimension, ref_id, ref_name, amount, note, created_at, updated_at)
+SELECT
+  'fb-' || s.org_id || '-' || COALESCE(json_extract(j.value, '$.id'), ''),
+  s.org_id,
+  json_extract(j.value, '$.period'),
+  json_extract(j.value, '$.dimension'),
+  json_extract(j.value, '$.refId'),
+  json_extract(j.value, '$.refName'),
+  COALESCE(json_extract(j.value, '$.amount'), 0),
+  json_extract(j.value, '$.note'),
+  datetime('now'), datetime('now')
+FROM app_state s
+JOIN json_each(s.value, '$.state.budgets') j
+WHERE s.key = 'ssa-erp-finance-ext'
+  AND json_valid(s.value)
+  AND json_type(j.value) = 'object';
+
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0081_finance_config_tables', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

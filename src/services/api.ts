@@ -1,91 +1,105 @@
-U2FsdGVkX18uhUDHfGKa2PilD2P87Y7x0wg60T3CumQqezWhdWKpEIummsGI4tjU
-6VtFeaLu72891fYTHsoreqln1b409f9eyUTfY+mrGuhbD9VRT+Pg8qvhaf3tcHak
-iEu0Tr7hvIGR7cDd+q9qgK/dLHpZ9Z6+C1v9HyZGwQbsz4IVuEM1aCkuSaCe2X4K
-znEYGGnzJdxIHqSkcrnKW+QsB14ah+aD9l7RezbxLVw1u4V67QoyeIlirPdHh/m5
-U/oHV6U4Yy79OI0nccnkc+F43ZSqqhz2PrvEM5GoOnzORvkAjrSX2zvCklE2DLOi
-ZB/Z8ZvnT3tSQ4OUFgragpjoOtqe00N2/gQNOcjFnr90yOckGRqTbwMBT46Vqo8Z
-r2CdYA/dON+8TUwyDz/Yfm62+/aRC+Vm8hgXyfz8CrAzfTPP8ib59FZ/XTsM8erk
-p+C5auP4tc3TmiLNOjMbUIeviiLmy6yILTBA/3biBlyzzCh9t6ltfQW+6rAqkzQU
-O83bI6Z5TvKF0n3pNcyg2UKqLUv5Rn9OO3s/1CEnbwzIciEBg+Y0K1DpIScvGHI+
-BeCvS6ix2sd7FJ46a6iDqLcpHTaUeX2qLrReZ1JtI1ne1Q+QnolzqfkoRF3PxnoE
-Fwag6+n4ptISY3V86zvW2fPWG3kgdu0wX9aeSxuerJOZY8Sax8EjTgYGRv+WzsDs
-rIYGoSYAtPW5OsNwtdBeY47lgg0uwgrx9hMWWocJjcDlgP05UgqQ/cxNddVoLUhz
-nWRz1E+J1Z1xexQ6KOvIu+a1689GP3+d2AYipb5iLmLT3JRQ5Wu/mJKA3SXfqEwU
-Wvsupn3z5QO1i6A+J5il8l1P4pmfD6xSw0GBHbOmrrMr/52dlHXVcSdsXA1gcUKp
-gHmsNtQ3rteciQcJuR2nGyp/pndYbl7cJXb2wSu1aV0FWM84D6io7tOQZtwVEAnl
-Wm5knxZ4yhTMRKXluLSoC2Hbqj3MZtLIvBCWwsWnHD10j0RkXiBr48O3dBTS0KJ6
-fZVvQ8RDNkX/4GZci0czSCxtLKm8TeaEYeFWB3etXzX7BvACr9+5EdUvoupbrkQi
-sLM7p+IlrFcDS5dNpUnzEbW1pl6s3ZLMezE41+BDM07j0anUZkLx4sDPhqEB412V
-rg/ZBdyPs6fMNOSbx37OU+czbMKQbHsaqBBoeQNo5lf3Fi0jLyiW0Y9vrPBv0uiv
-CxpL5tgfBTMiOM3rvkMJ+mB4l7k1/8UtEBirxeSBVKuWrie2FtXLKMKWg+3KbS2/
-4Q8RHlBapMaevI7aUBnbXVQMyRueoZ3bRxgOh4jevkBcrse4djl63Fp97cdYTFAA
-EONG/plLOwgjqY/iwNqhQegWJdMZ0ZIN+V+cj62V588VdFaDGaYlSyfLjZot1rlx
-wixJqyxyom0JyvyKa7ruBgbCJZr5icaUBamHC0Glst0V84bYtl3IwPpJrA9dy/vv
-hv56lBWVToAuojCARXuG4NQjANcmgM/HjIUO1UxmXjE1H+KbN06tDCMxMzR0+V4S
-TvC1jtkS5EKOq9nHv6oWC8QP38bncbIkit9kRhqr93LtfZ4mzxvMlnboarVfhG5z
-XOgzWc6Lq6GUojoV4p0SRNYdR49VM2lHNJ5qe4hBh0lpUGhvczhOkJkCj9hj1Opq
-IQ8k1iv0bCweY8mQt6VSjgbEEglOflWtB+bwbfmA8X0j9c0jo26hRrdvf+YqBrYc
-aFv3b9K5FvHTonFIgV+K82DLK/zYR72F4BmOcSy8DPCMwYvFGtkl7QoTTOqmKmRU
-1+2BholM2sBkstWj/qnXrUtk8EPiJr2Fxh6UeeY/ofr7CR5QbHKTBdgsinUw1qv9
-VMqaIdbitpjpT5wpY6BNHP9Bd0eDsI1MagDOKc2IjxTwDGtY0Mla4FqgvsPLIQGc
-gAB8o7qxXxOcVrUlL/3LL2zaUriE3r9ZGi2QLrPZU62pxsgeDPJleXx+7xMf92nE
-oc8c7QjSGMtS++0zAK2GvxOUAD3K3fHpYoXSddA/hxf7IusD4EvFPsOeGlX/CeZ4
-2szhKwv/UwqLNcE4hEVyP0zRK2n/GbOFvEU+9musV/ER9ZxJP5VutM6bHkdc4k4l
-vE9/skgHSvmgiN/nY0hVylweQa5sNMS843blp5fqiTCAPY7B9BWcDVXRANZr/Pzj
-W4YX2MkkurwJkIuTpafVqXsue09qN3edNQwtOX3V0WSMJG9vjeH6GN5eL/dVKv5v
-+ZdrdRRys7eZQFpgz3AhOEGQPidctSG058ymEFucZ7nOqPjF1RJsFfpmekOlk4ah
-YtO3FMIIhQbA5R05KnAmAexa8K6RcpG/yRChNk1T71ZRZ9hz+5zaQoYmJ60OhBIA
-rPIGzSTkb47iPgqlj5HwtNLWmL3xRfQiqn/X6eXFEvvn0qmQItgOJX1QbDj2TT7j
-JwJ6BZYFMfM2/2rY7R1UDHlWjNriUfEdhM3TeBqqf71vKI0pWbEgMhaVQVC5LJjj
-czY/wkw8fUETPCmmhttiFQcZl1b4uXwSDvT74b04FVHKHAquK8h33SLEkrEU7nXg
-gLKnIgVsnAa+HQDwH+kPbR5jnur7deZbUxNsefwLjGdT+ybuGNob2pyoT8N7SO+F
-9QoMZvI/mwM9P20mJkfM+ewPHSa32RptcJNAgIEu2Rb9DxAdsLWImGX74OCV562J
-fZibCH9GC/4AjRlane2EMKSgzjI9JzuIemmiYV5KtWwqHYOW3m2M67W9ovhdbTvo
-p8ETrzOkvaK0/XIQ/afEnGWIJqG2lPMGEwRxLGCH5veNj+7Mjsv55t8xe2aVWcDb
-QLWL8T8N+JttJ19ht6BlnuRuFxah8L6szwqHbkbAjzECcqV2T+qsW4V0GdVzCCEp
-JHL/NLZPNjGMa+prbLbNqHZautEgMgOywYV5l4Chg2Djezjiva8vb1/Oywv+8mzP
-Vv7jPu5H4XY8PgDQxmAiRPEjVTw+N9u8FUOSCsz0Od07IR2iX6ow2CbQi//u2EQa
-C9pbrucfzS+M8zQbU+c/IsIxZpeHivzZkkad4OWlBvLAoLdgC0ETzEmYBtTlEqv+
-8Jvs1nYnHuUOdcnNKX3f2qj1tsxOP9uD30MWrdi8C43s6C+dHgutMJTP1rybVFBK
-TYa0Eo43PeeRCXZYmknRwY00qvS/b9FjTvY08lFrLK2C/me7mFJoNo57b9XrHD6x
-XcKUHKCZprbYvqNVGBfLVrUzR0cFLlWLqaiSwGSBhRygN4TP4/CImI8+BQCeK8bc
-dwmIbsQ83DjJYFgaqBs58F4k7ZtT3eS6S/yHVgFLNTMYhSkFUcJHTCVmgUXphU4N
-n0bfQCTs1R67jPxr8ztJ5qokcGCBwSbXiDeRUlemXNUozf6jGlFesJRQHlATxphf
-W3eeaUud6W+Yp5rPYX8utqaq63OBE+uj4rpPQYeIeRW+3CwiqIftpPjo8XCfedeb
-Pd6nHBjVcV6tm1RA+tu+BPUUQZkRjYukbIj4FZIaI4w/2ZOcoMqNNKAyQYnr+ONK
-pVfox5DpW/kq2AxcZSPyxq1dNiMFoHX4ztvh3+owttgNamruDG1EPV/AiXJs1UNh
-a4VbH70FIZDZr2jeLb4YTMf89bd8JMLIWJ4XBk+Ro/3n4GFVRgL5PkobNdAiHLmD
-tv+DgfH9Ql7j2dNyecvhgMedZFXhmjfUsDJLv0NjQdYmSdF5zMkOSHsHcrjCl5he
-ycl8ncO2BMew8PgpCC51SIPZKJmYxVFZegk8WPFxsRkY4hnkKzYBMUbWZIv+9op+
-rG4rMYIkEiDjhrHauWPJB9LVuM+t7BilQ9m+Y/9SFsc5Zo1PXrvlmL7sQx1Xk0jz
-15UmTVblM6rV4tS4xwRMzx++eCWOfdPDav7koxiOXXEkkwOPiNGHzN4QlGRwpfFu
-U9K1VkGv/our5OY3iNYIXXVPtmopIFf0iEqYuyFwen6LvGKNtQoerXM7OKw8yYlN
-GrKbC4l2iEnDrlJL6XTN6tzUw3Xn+Gi9tbkzI9FyifWGmb7fepPA5kxeJCYF7cTJ
-FWIIVMzlhVcWbN34HZBQjUP6B1UILtuJFeqzQ3L7jPLnUlICVz89sSEf8jHua2X6
-XwEhKZVDAOnbT3Xlq28ESJr4nYbEuUCEUSpFhcbJgNzN5revwXA4TF6n6fENH0Js
-sSpj4Sxz3tfjyu+YqYIcGSjQmk5zNUzHNJ9fwrg81xl6gAa2xyFksQZmLftABQUL
-o0DsZTxcgiI/2TmeqhIjWxakUALh9rVT/sgJf9iVLAMfUn/8Ika6tr7nU5+JpyCD
-NUGkT47+8Lizt5thS/74gVA0Te3dk8tw1CAxhie89VwwozPpmmbkczVNP8dU19CR
-bjceFXT6ZaSiNWiaXmSAcooYDWroUq52Cs4QRWd0JtmjS+ddOYrB6kvfyXcH9W22
-MCMZ0a2+DxjYRCwgJxWrbDddb5oj8eZgs05vRiBpGoePzIXS/5czsh5UZn7i7Pgd
-1XaWYrEl8DuiR4Bf3AlwZyJbdM4tJCr4WQfsi/nrrsk6jg0OQXM/YUTmQzNFnGdT
-fFQxE17YCnBUIYn/M/1PFHSls5sdh/iS+IeyNipg7h/wV8oGMQg2z3uk1ZIxdFfB
-BR0Kp5VaFbUwq+obN1TFdcdYHbVZlcc/4IJsd9TWu2CV8TOrkyAjAHfpvHS3s0VG
-svrCIPJbu6VbeCMQo2OUCIxXO5p8Urf+RQnNNMXfQr3LqvhXfaSwO1A3pQtrvaOI
-TE+gQr31p5LjzgmI5tQIJ02Dx3NvGBpI2MQUb7GcoNUo1Gbgq9jFKZWxkhOk+N6o
-4MLydwa1hJMTdTN4wR+75ijsmNuJZWo+ER8wNYC0KikVxUqmdq+qP8Ju8a9oauDS
-a3tV0uijj5fdC7sWyRRFpQExFN1FYumxdj6Fa/HwuVUHJ6u7L+E0Sl4t6LqqSF61
-LKzxXLL48r3GyvTBulw0/yRzWt9IyzHqpNSVBSXM8EDOKvu5ch7rY8tR3zCJSS8U
-biZ30aUtpffwVSV30cHvG356IP9wt5SxQd6cu6KOQhWlH09SvBEUiqn5ocobmgHH
-yNcBFQLWP135bn2vFo829gqMiOQ3SABilI56pPlsHXHDoJmwRw6dwt8GHgCI5Whe
-nGueFeembiGyby3mA7+pauukxyKJ1+O/eJQs7gLlJKyM4sqJKGhnmbHtCl8oltkm
-J0uicnZtmNdqA10uwApEPQqqg3/9dsLc0aK0fI6VUoFeuc1O56X7JotWQU4DMDLn
-DJJtQArAjffzGl1xO22GvTsF5SkiXt88mjWN2ILauWSJIa1Qrn/s7BBJYUZzGdIQ
-RodCeCXFnTzmUh/ibrhBfk2+M+kpbRNZHB4vBdu5NijhGRNS2bgGxIjWmMlAX0GP
-TqbW3dJXoMIJmqgrR5s37OZZy2Re6SOTmomq+PSkgEgGSL53Yxter2EueiNlpLMb
-z3zM8A6KSUmk7esEmIMgx6sKMTG2C5MVVEpXtSMvcvWYBF14AsoBDjfkqSbP5GZI
-p5jgO4j0Ud9xi3WblnOePDwYFTgRx19VJ4aRINa57j8Y70hypMfF7+jcC+f0VbuS
-c4KAUujQp3yfEx7o7wsrPQclm6NflRZMrSUjMUaRu7CPA0kbhDIbIW3OrY3dcVVM
-/frR5Ek4/osQRIJrbK0go3lppGncZJwWuIU7lAY4as5oIdL643pC1SSjmShBck5X
-qFjpY6BO4JdjVwR02sLXoc8/WD35j6kmp06ZbdVBUpZrpqVNjfr2zfRBLwSl2d6M
-LNxyaL7AXof2NdRMjM1kww==
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse, isCancel } from 'axios';
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+import { getSyncToken, clearSession, SESSION_EXPIRED_EVENT } from '@/stores/persistStorage';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+
+export const apiClient: AxiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Request interceptor
+// 注意：V3.91.0 起令牌不再落地明文 localStorage（防 XSS 窃取），改由 persistStorage 以
+// 「内存态 + 生产 HttpOnly Cookie」持有。getSyncToken() 返回内存/ dev sessionStorage 中的令牌；
+// 生产刷新后返回 null，此时浏览器自动携带 HttpOnly Cookie，后端 getUserFromRequest 仍鉴权成功，
+// 故此处「拿不到令牌就不加 Authorization 头」是安全的（不会误 401）。
+function getAuthToken(): string | null {
+  return getSyncToken();
+}
+apiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = getAuthToken();
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor
+apiClient.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    // 取消的请求（组件卸载 / 主动 cancel）不提示，避免误报
+    if (isCancel(error)) return Promise.reject(error);
+
+    const status = error.response?.status;
+    if (status === 401) {
+      // ★ V3.93.1 修复「/ 与 /login 之间反复跳闪」：
+      // 此前进法 = clearSession() 后直接 `window.location.href = '/login'`（裸跳整页），
+      // 但它**没有清 localStorage 里的 auth-storage（isAuthenticated）**。
+      // 一旦本地残留 isAuthenticated=true（登录态持久化在 localStorage，刷新后恢复），
+      // 落到 /login 时 Login.tsx 的 `if (isAuthenticated) return <Navigate to="/" />`
+      // 会立刻又跳回 /，回到 / 再次 401、再次裸跳 /login → 双向无限弹跳。
+      //
+      // 现收敛到与 persistStorage 完全一致的防循环路径：
+      // ① clearSession() 清内存令牌 + 会话标记；
+      // ② 派发 SESSION_EXPIRED_EVENT，由 authStore 监听器统一做
+      //    「清 auth-storage 登录态 + 一次性闸门 + 已在 /login 则不跳」。
+      // 这样 401 后 isAuthenticated 被彻底清成 false，登录页不再跳回 /，循环即断。
+      try {
+        clearSession();
+      } catch {
+        /* ignore */
+      }
+      try {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
+        }
+      } catch {
+        /* ignore */
+      }
+      return Promise.reject(error);
+    }
+
+    // V3.23.0 · #5 消除静默失败：服务端 5xx 与网络失败是「用户无能为力、但操作确未成功」
+    // 的最危险一类，此前被各 store 的 .catch 静默吞掉 → 本地状态与数据库真值永久分歧且零感知。
+    // 仅在这两个类别上弹全局提示；4xx（多为校验/业务拒绝）仍交由各 store 内联处理，不重复提示。
+    if (!status || status >= 500) {
+      const message = status
+        ? `服务异常（${status}），操作可能未成功，请稍后重试`
+        : '网络异常，请检查网络连接后重试';
+      useGlobalToastStore.getState().showError(message);
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Generic CRUD operations
+export const api = {
+  get: <T>(url: string, params?: Record<string, unknown>): Promise<T> =>
+    apiClient.get(url, { params }).then((res) => res.data),
+
+  post: <T>(url: string, data?: unknown): Promise<T> =>
+    apiClient.post(url, data).then((res) => res.data),
+
+  put: <T>(url: string, data?: unknown): Promise<T> =>
+    apiClient.put(url, data).then((res) => res.data),
+
+  patch: <T>(url: string, data?: unknown): Promise<T> =>
+    apiClient.patch(url, data).then((res) => res.data),
+
+  delete: <T>(url: string): Promise<T> =>
+    apiClient.delete(url).then((res) => res.data),
+};
+
+export default api;

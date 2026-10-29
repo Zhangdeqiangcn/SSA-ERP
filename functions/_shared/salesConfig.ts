@@ -1,156 +1,201 @@
-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
+// 销售域父子表配置（C1 · V3.9.0）
+//
+// 三张配置驱动 /api/sales-prospects、/api/shipments、/api/projects 六个端点，
+// 实际 CRUD 逻辑在 `_shared/parentChild.ts`（通用父子表助手，本轮扩展为多子表）。
+//
+// ── 列名来源 ────────────────────────────────────────────────────
+// 全部列名由 `src/types/sales.ts` 的 Prospect / Shipment / Project 及其子接口
+// 反推（snake_case），**不按「销售上应该长什么样」推断**。
+// 这条纪律来自 0053 的教训：当时按会计常识推断了财务三张表的列名，
+// 结果三张表与前端契约完全对不上，且通用路由 pickSnake 会静默丢弃未登记字段、
+// 仍然返回 201 成功 —— 表现为「列表有行数、详情全空」，极难定位。
+//
+// ── 为什么销售域的嵌套比财务域复杂得多 ──────────────────────────
+// 财务域两张表各只有 1 个嵌套数组（installments / costItems），单子表够用。
+// 销售域：
+//   · Prospect  2 个数组：interestProducts: string[]、followupRecords: FollowupRecord[]
+//   · Shipment  1 个数组：items: ShipmentItem[]
+//   · Project   3 个数组：team: string[]、milestones[]、exceptions[]
+// 因此 parentChild.ts 在本轮被扩展为 children: ChildSpec[]（多子表），
+// 而字符串数组（interestProducts / team / linkedOrders）走父表 JSON 文本列。
+import type { ParentChildConfig } from './parentChild';
+
+/** 意向客户：父 sales_prospects + 子 sales_prospect_followups */
+export const PROSPECT_PC: ParentChildConfig = {
+  parentTable: 'sales_prospects',
+  module: 'sales', // P0-1：sales_manager/salesperson 已有 sales 写权
+  children: [
+    {
+      childTable: 'sales_prospect_followups',
+      childFkCol: 'prospect_id',
+      childField: 'followupRecords',
+      childCols: [
+        ['seq', 'seq'],
+        ['date', 'date'],
+        ['method', 'method'],
+        ['content', 'content'],
+        ['result', 'result'],
+        ['next_action', 'nextAction'],
+        ['followed_by', 'followedBy'],
+      ],
+      childOrder: 'seq ASC, date ASC',
+    },
+  ],
+  parentCols: [
+    ['prospect_no', 'prospectNo'],
+    ['company_name', 'companyName'],
+    ['contact_name', 'contactName'],
+    ['contact_phone', 'contactPhone'],
+    ['contact_email', 'contactEmail'],
+    ['industry', 'industry'],
+    ['region', 'region'],
+    ['source', 'source'],
+    ['status', 'status'],
+    ['estimated_value', 'estimatedValue'],
+    ['probability', 'probability'],
+    ['next_followup_date', 'nextFollowupDate'],
+    ['assigned_to', 'assignedTo'],
+    ['converted_to_customer', 'convertedToCustomer'],
+    ['credit_limit', 'creditLimit'],
+    ['used_credit', 'usedCredit'],
+    ['notes', 'notes'],
+  ],
+  // 字符串数组：无 id、无属性、不参与 SQL 统计 → JSON 文本列
+  jsonCols: [['interest_products', 'interestProducts']],
+  label: '意向客户',
+  noSnake: 'prospect_no',
+  noCamel: 'prospectNo',
+};
+
+/** 物流发货：父 shipments + 子 shipment_items */
+export const SHIPMENT_PC: ParentChildConfig = {
+  parentTable: 'shipments',
+  module: 'sales', // P0-1：发货属销售履约，sales 写角色覆盖
+  children: [
+    {
+      childTable: 'shipment_items',
+      childFkCol: 'shipment_id',
+      childField: 'items',
+      childCols: [
+        ['seq', 'seq'],
+        ['material_id', 'materialId'],
+        ['material_code', 'materialCode'],
+        ['material_name', 'materialName'],
+        ['specification', 'specification'],
+        ['unit', 'unit'],
+        ['order_quantity', 'orderQuantity'],
+        ['ship_quantity', 'shipQuantity'],
+        ['unit_price', 'unitPrice'],
+        ['amount', 'amount'],
+      ],
+      childOrder: 'seq ASC',
+    },
+  ],
+  parentCols: [
+    ['shipment_no', 'shipmentNo'],
+    ['warehouse_id', 'warehouseId'],
+    ['sales_order_no', 'salesOrderNo'],
+    ['project_no', 'projectNo'],
+    ['project_name', 'projectName'],
+    ['customer_name', 'customerName'],
+    ['status', 'status'],
+    ['transport_mode', 'transportMode'],
+    ['carrier', 'carrier'],
+    ['tracking_no', 'trackingNo'],
+    ['ship_date', 'shipDate'],
+    ['estimated_pickup_date', 'estimatedPickupDate'],
+    ['estimated_delivery_date', 'estimatedDeliveryDate'],
+    ['actual_pickup_date', 'actualPickupDate'],
+    ['actual_delivery_date', 'actualDeliveryDate'],
+    ['origin_address', 'originAddress'],
+    ['destination_address', 'destinationAddress'],
+    ['driver_name', 'driverName'],
+    ['driver_phone', 'driverPhone'],
+    ['vehicle_no', 'vehicleNo'],
+    ['total_weight', 'totalWeight'],
+    ['total_volume', 'totalVolume'],
+    ['package_count', 'packageCount'],
+    ['freight', 'freight'],
+    ['insurance', 'insurance'],
+    ['notes', 'notes'],
+  ],
+  label: '发货单',
+  noSnake: 'shipment_no',
+  noCamel: 'shipmentNo',
+};
+
+/**
+ * 项目管理：父 projects + 子 project_milestones + 子 project_exceptions
+ *
+ * ★ 这是本域风险最高的一处：`Project` 一次带**三个**数组。
+ *   若沿用单子表配置，第二、三个数组会被静默丢弃 —— 表现为
+ *   「项目详情页能打开、进度条正常，但里程碑列表和异常列表全空」，
+ *   没有任何报错。因此这里给两个真正的子表，`team` 走 JSON 列。
+ */
+export const PROJECT_PC: ParentChildConfig = {
+  parentTable: 'projects',
+  module: 'sales', // P0-1：销售项目属销售域，sales 写角色覆盖
+  children: [
+    {
+      childTable: 'project_milestones',
+      childFkCol: 'project_id',
+      childField: 'milestones',
+      childCols: [
+        ['seq', 'seq'],
+        ['name', 'name'],
+        ['planned_date', 'plannedDate'],
+        ['actual_date', 'actualDate'],
+        ['status', 'status'],
+        ['description', 'description'],
+        ['deliverable', 'deliverable'],
+      ],
+      childOrder: 'seq ASC, planned_date ASC',
+    },
+    {
+      childTable: 'project_exceptions',
+      childFkCol: 'project_id',
+      childField: 'exceptions',
+      childCols: [
+        ['seq', 'seq'],
+        ['exception_no', 'exceptionNo'],
+        ['type', 'type'],
+        ['severity', 'severity'],
+        ['title', 'title'],
+        ['description', 'description'],
+        ['reported_by', 'reportedBy'],
+        ['reported_at', 'reportedAt'],
+        ['status', 'status'],
+        ['resolution', 'resolution'],
+        ['resolved_by', 'resolvedBy'],
+        ['resolved_at', 'resolvedAt'],
+        ['impact_description', 'impactDescription'],
+      ],
+      childOrder: 'seq ASC, reported_at DESC',
+    },
+  ],
+  parentCols: [
+    ['project_no', 'projectNo'],
+    ['project_name', 'projectName'],
+    ['customer_name', 'customerName'],
+    ['customer_code', 'customerCode'],
+    ['status', 'status'],
+    ['start_date', 'startDate'],
+    ['end_date', 'endDate'],
+    ['contract_amount', 'contractAmount'],
+    ['received_amount', 'receivedAmount'],
+    ['budget', 'budget'],
+    ['actual_cost', 'actualCost'],
+    ['progress', 'progress'],
+    ['manager', 'manager'],
+    ['description', 'description'],
+    ['notes', 'notes'],
+  ],
+  // team / linkedOrders 都是字符串数组 → JSON 文本列
+  jsonCols: [
+    ['team', 'team'],
+    ['linked_orders', 'linkedOrders'],
+  ],
+  label: '项目',
+  noSnake: 'project_no',
+  noCamel: 'projectNo',
+};

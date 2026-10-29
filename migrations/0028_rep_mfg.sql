@@ -1,30 +1,46 @@
-U2FsdGVkX1+oI5E6SHJJE++VbBMzptjOGBqbcVjNWIhqAlSlv7BpuADYtbXLpNcp
-6DBM5nbKylsVEY3r4GYKWPf466j7lN2xtI7zJni7QajTOeWgPfYKXfBPs6ILF0pM
-qVBQzx5XMBgYlbOjgQWQz4HJ6mHVOZfPr7jVRLNd5silsoocWXH8mAnHmW9DyPFq
-tl/qdu8wSCGdBNX1SvFX9CW/JpQ7XUv4a0uggxzeZuHQr4QgSIYhEmlBTNmN+lNH
-nMW4AmkXsU3gIoTgGdf+4FA6YVFlXmHafMzRYywuoff7WnMeTQAll1gzOfhweCU9
-GOyucFw4Ly6ncYW86K7cLLzFTFzFz8CaYRKeWxKbmpZmlP+qP/1U+DWTFD/GpDB0
-lGAVObrNYhIDgEt6d5f2m1UFV3beMjkLQFwAWx668eMweUyzxf6lpRqO34cdxgAB
-jhV+PXm65q9dUqbF5dHpbm8WejytCGxRhytwphqlNQEPcCZ5E/tQ7NmTdtVPLdsi
-mIJbV7oAFe8PYI7dJasSHqkjM81LiI/wub+vswnnmuXfrH57sks0SqXlhvdIQKsJ
-ULbW6Ueu4oIIZdKghihy6m4tf1S3yWm7Qt7MkTroOVtgnGJveAc4ZnKPnMOY31g5
-RHVzOPVMQSIwUC5/4zkLjefRpeNa7Nf6V84xoVkYCaKBd4bWlXfP2+9smvhAeCui
-W+/c18UbsPYLtgZSOJG7JKSQDCrZgTARoRL4M+5BRyKNR0XCaIgKlTwvyb9oPfIV
-ePZzjMHfngx5x7ZhVyMJbMTNpPu9d91xeyMiqEXqs1nU/LV8BdMevoAZumibtyTo
-GXSYfIjj6XhtNTVAcNXRUGm1ehg7CyhIuL6b+oHp+r/I/LyX+YelMJtauOq7YhrG
-rdvD7F9dvAJGTLHQd074km4edlJv7Y/m53XiWRmpp/YSiM2XJ0H8EuSHhvCwMgsY
-mXjobpKkTiY+gb1UuJBBu0qhHRRjA59NSeo0tbo7N2XGsrEkLGwIIx89p5bbkLUf
-lmiuOxPIm6VXpkcAVcOiKS8nLTU9g1SH2pyO+VrMRzowlNDIkM/mjFufjg75KAFN
-cCb+u5b5oBBYt9Qsp/xxDf9cfTBBqMoW857UJCOT3J1PLjFtrfZzYe7NTAbwoIph
-U1Fd4xBkiCivHhnXSybeLP97uXucyVrmiRBRprm8IS+CveFKCXBv+R6vg4mAcq7E
-T8MDuurCPa6WCr12uyij8OsGLuqTESbc2V8fbdrDEjz3WVEeLflIAMKxup/jag/5
-HCPpTau1gn2uNFGnmNqnCr9T6PARa/DvZyfOW2n/CU/c+NgZ0NL7j5YMPK1LNjFh
-FAIg96UHqbKVBMtN5OHT3MROo+urQD1BVGM9qAgb93neL2S4/WoQXCviPpDSqtsv
-vuioV24yJPli2Fyxe1McNogMThRkbm+FaH1HetlR3UnOYcf1GBNGhSFFfO3VW6UO
-Pfr3cHUNuNcVKVgH/wZIbJthABQa9M1Xbby9KP8PDYgLi63Yh9ii3/JpApM/X0cF
-Dqnb4VZmptZan8H0zb1f9Vj/gnrUrrKzn3VBXh87aNAMRLRoKI11hgBTSotf9qxQ
-79ShYXTu6v9oORoM/axw9ixfD4LF+gKP5AOyoLdzL2S7H7REt8CfMU7YoxRBPttv
-/B2a4/7okCrtmws47iI/ToaTkJI884j2+bNmAF1+kkNfi5JxFgIsuACCs1lF+XjY
-zHhlj17wBURMsL21drcpAek2IaGCuJ5B47F4Khz5sw0/P7LTl5hI+gF5qbupGjv5
-H9qhmD/3gcoAKCaLgC/FKnYaX4/G0z4916eYOBmP4tc5UzawUR9yeJHLS9ZDXdnU
-0ExL1LESL/BVxxE80XB86aq2vjfJZTi77S1JkhYnCgA=
+-- V2.80.0 W1：重复制造（产线 + 周期，含倒冲明细 JSON）迁真实 D1（根治双通道）
+-- 与前端 useRepetitiveMfgStore（entityRepo 双资源 repMfgLine/repMfgPeriod）同源。
+-- backflush_items 以 TEXT 存 JSON 字符串（D1 无原生 JSON 类型，前端读写时序列化/反序列化）。
+CREATE TABLE IF NOT EXISTS rep_mfg_lines (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  line_no TEXT,
+  name TEXT,
+  work_center_id TEXT,
+  work_center_name TEXT,
+  status TEXT DEFAULT 'idle',
+  daily_capacity REAL DEFAULT 0,
+  note TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_rep_mfg_lines_org ON rep_mfg_lines(org_id);
+
+CREATE TABLE IF NOT EXISTS rep_mfg_periods (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  period_no TEXT,
+  line_id TEXT,
+  line_no TEXT,
+  line_name TEXT,
+  material_code TEXT,
+  material_name TEXT,
+  start_date TEXT,
+  end_date TEXT,
+  planned_qty REAL DEFAULT 0,
+  produced_qty REAL DEFAULT 0,
+  scrap_qty REAL DEFAULT 0,
+  status TEXT DEFAULT 'active',
+  note TEXT,
+  backflush_items TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_rep_mfg_periods_org ON rep_mfg_periods(org_id);
+
+INSERT INTO schema_migrations (version, applied_at) VALUES ('0028_rep_mfg', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

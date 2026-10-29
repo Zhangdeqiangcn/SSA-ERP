@@ -1,111 +1,113 @@
-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
-V50YeRU0OOUni18qHwJdxw==
+import { useGlobalToastStore } from '@/stores/globalToastStore';
+import { createEntityStore } from './createEntityStore';
+import { Customer } from '@/types';
+import { customers as mockCustomers } from '@/mocks/data/customer';
+import { customerApi } from '@/services/customer';
+
+// V2.74.5：客户主数据改为直连 D1 customers（与开放网关 /api/open/customers 同源）。
+// 移除原 backendStorage(app_state Blob) 持久化——app_state 不再是客户来源，消除双数据源。
+// 在线时：loadCustomers 从 /api/customers 拉取，增删改经 customerApi 写回 customers。
+// 离线/未登录/接口异常：回退内存中的 mockCustomers，保证页面可用（不阻塞业务）。
+// V3.90.0：以上 CRUD 骨架（乐观更新+失败回滚+离线兜底+空库回填）统一收敛到通用工厂
+//   createEntityStore 的「可插拔后端」能力（backend=customerApi 适配层），本文件仅保留
+//   领域接口名（loadCustomers/addCustomer/...）与领域方法（applyCreditDelta），调用方零改动。
+
+const BACKFILL_FLAG = 'ssa-erp-customer-backfilled';
+
+function readLegacyCustomers(): Customer[] {
+  try {
+    const raw = window.localStorage.getItem('ssa-erp-customer');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const st = parsed?.state;
+      if (st?.customers && Array.isArray(st.customers) && st.customers.length) return st.customers as Customer[];
+    }
+  } catch {
+    /* ignore */
+  }
+  return [];
+}
+
+interface CustomerFilter {
+  name?: string;
+  type?: string;
+  status?: string;
+  creditLevel?: string;
+}
+
+interface CustomerState {
+  customers: Customer[];
+  filter: CustomerFilter;
+  selectedCustomer: Customer | null;
+  setCustomers: (customers: Customer[]) => void;
+  addCustomer: (customer: Customer) => Promise<void>;
+  updateCustomer: (id: string, patch: Partial<Customer>) => Promise<void>;
+  deleteCustomer: (id: string) => Promise<void>;
+  setFilter: (filter: CustomerFilter) => void;
+  resetFilter: () => void;
+  setSelectedCustomer: (customer: Customer | null) => void;
+  /**
+   * 信用额度占用变更（delta 可正可负）。
+   * 超限额或产生负占用时拒绝变更并返回 false（硬管控的兜底）。
+   */
+  applyCreditDelta: (id: string, delta: number) => boolean;
+  /** 从 D1 customers 拉取（在线）。失败回退内存 mockCustomers。首次空库做一次 legacy 回填。 */
+  loadCustomers: () => Promise<void>;
+}
+
+const initialFilter: CustomerFilter = {};
+
+export const useCustomerStore = createEntityStore<Customer>({
+  resource: 'customer',
+  seed: [...mockCustomers],
+  stateKey: 'customers',
+  backfillKey: BACKFILL_FLAG,
+  // 可插拔后端：客户域专用接口，隔离于工厂的通用数据访问服务
+  backend: {
+    list: () => customerApi.getCustomers({ page: 1, pageSize: 200 }).then((r) => (r?.data || []) as Customer[]),
+    create: (item) => customerApi.createCustomer(item as any),
+    update: (id, patch) => customerApi.updateCustomer(id, patch as any),
+    remove: (id) => customerApi.deleteCustomer(id),
+    // 首次空库回填：优先用旧 app_state 的真实客户，其次用模拟种子（等价原 loadCustomers 逻辑）
+    seed: (items) => {
+      const legacy = readLegacyCustomers();
+      const source = legacy.length ? legacy : items;
+      return Promise.all(source.map((i) => customerApi.createCustomer(i as any).catch(() => {})));
+    },
+  },
+  // 保留原 store 的中文告警行为（add 失败静默，与原实现一致）
+  onError: (op) => {
+    if (op === 'update') useGlobalToastStore.getState().showError('客户更新失败，已回滚本地数据');
+    else if (op === 'remove') useGlobalToastStore.getState().showError('客户删除失败，已回滚本地数据');
+  },
+  // 领域接口与领域方法：委托给工厂内部 ops，保持调用方零改动
+  extend: (ctx) => ({
+    filter: initialFilter,
+    selectedCustomer: null,
+    setCustomers: (customers: any) => ctx.set({ customers }),
+    setFilter: (filter: any) => ctx.set({ filter }),
+    resetFilter: () => ctx.set({ filter: initialFilter }),
+    setSelectedCustomer: (customer: any) => ctx.set({ selectedCustomer: customer }),
+    loadCustomers: () => ctx.get().load(),
+    addCustomer: (customer: Customer) => ctx.primary.add(customer),
+    updateCustomer: (id: any, patch: any) => ctx.primary.update(id, patch),
+    deleteCustomer: (id: any) => ctx.primary.remove(id),
+    // 信用额度占用变更（本地乐观计算，不写后端）
+    applyCreditDelta: (id: any, delta: any) => {
+      let ok = false;
+      ctx.set((state: any) => {
+        const customers = state.customers.map((c: Customer) => {
+          if (c.id !== id) return c;
+          let next = (c.usedCredit ?? 0) + delta;
+          // 释放超过已占用时归零而非拒绝，避免历史脏数据导致额度永久锁死
+          if (next < 0) next = 0;
+          if (delta > 0 && c.creditLimit != null && next > c.creditLimit) return c; // 超限额拒绝占用
+          ok = true;
+          return { ...c, usedCredit: next };
+        });
+        return { customers };
+      });
+      return ok;
+    },
+  }),
+});

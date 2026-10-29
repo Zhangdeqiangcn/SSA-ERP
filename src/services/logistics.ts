@@ -1,68 +1,78 @@
-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
+// 物流面单领域纯函数（与网络/前端框架解耦，便于单测与复用）
+// 对标聚水潭「电子面单 + 物流轨迹」：承运商归一化 + 轨迹去重排序 + 运单状态推导
+
+export type WaybillStatus =
+  | 'created' | 'printed' | 'dispatched' | 'intransit' | 'signed' | 'exception';
+export type TrackStatus = 'collected' | 'intransit' | 'dispatched' | 'signed' | 'exception';
+
+export interface TrackEvent {
+  eventTime: string;     // ISO 时间
+  status: TrackStatus;   // 归一化状态
+  location?: string;
+  description?: string;
+}
+
+export interface WaybillRequest {
+  carrier: string;
+  orderHubId: string;
+  packNo: string;
+  waveId?: string;
+  receiverName: string;
+  receiverPhone: string;
+  receiverAddress: string;
+  weight?: number;
+}
+
+// 轨迹归一化状态 → 运单状态（承运商回传的「揽收/派件/签收/异常」映射到运单生命周期）
+const TRACK_TO_WAYBILL: Record<TrackStatus, WaybillStatus> = {
+  collected: 'dispatched',   // 揽收后即发运
+  intransit: 'intransit',    // 运输中
+  dispatched: 'dispatched',  // 派件中
+  signed: 'signed',          // 已签收
+  exception: 'exception',    // 异常
+};
+
+/**
+ * 校验建单请求必填项（运单必须含收件人/承运商/包裹锚点，否则承运商无法生成面单）。
+ * 纪律：校验失败显式返回错误，绝不静默放行。
+ */
+export function validateWaybillRequest(req: Partial<WaybillRequest>): { ok: true } | { ok: false; error: string } {
+  const required: (keyof WaybillRequest)[] = [
+    'carrier', 'orderHubId', 'packNo', 'receiverName', 'receiverPhone', 'receiverAddress',
+  ];
+  for (const k of required) {
+    const v = req[k];
+    if (v === undefined || v === null || (typeof v === 'string' && v.trim() === '')) {
+      return { ok: false, error: `建单必填项缺失：${k}` };
+    }
+  }
+  return { ok: true };
+}
+
+/**
+ * 合并轨迹：把承运商重复推送的轨迹去重后按时间升序合并。
+ * 去重键 = eventTime + status + location + description（同一节点只保留一条）。
+ */
+export function applyTrackEvents(existing: TrackEvent[], incoming: TrackEvent[]): TrackEvent[] {
+  const map = new Map<string, TrackEvent>();
+  for (const e of existing || []) map.set(trackKey(e), e);
+  for (const e of incoming || []) map.set(trackKey(e), e); // 新事件覆盖同键旧事件
+  return [...map.values()].sort((a, b) => a.eventTime.localeCompare(b.eventTime));
+}
+
+/**
+ * 由轨迹推导运单当前状态：取最新一条事件的归一化状态映射而来。
+ * 无轨迹 → 保持 created（尚未揽收）；异常优先提示；签收即终态。
+ */
+export function deriveWaybillStatus(tracks: TrackEvent[]): WaybillStatus {
+  if (!tracks || tracks.length === 0) return 'created';
+  const latest = [...tracks].sort((a, b) => b.eventTime.localeCompare(a.eventTime))[0];
+  return TRACK_TO_WAYBILL[latest.status];
+}
+
+// 轨迹去重键：同一物理节点（时间 + 地点）被承运商重复推送时合并，取最新（描述/状态可更新）。
+function trackKey(e: TrackEvent): string {
+  return `${e.eventTime}|${e.location ?? ''}`;
+}
+
+export default { validateWaybillRequest, applyTrackEvents, deriveWaybillStatus };

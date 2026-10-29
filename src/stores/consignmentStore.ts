@@ -1,117 +1,132 @@
-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
+import { create } from 'zustand';
+import { entityRepo } from '@/services/entityRepo';
+import { isAuthed } from '@/services/b2Api';
+import type { ConsignmentStock } from '@/types/purchase';
+
+/**
+ * 寄售库存 store（V3.76.0 P1-5：Blob → D1 关系表）
+ *
+ * 迁移前：整状态 JSON 走 backendStorage（persist name 'ssa-erp-consignment'）——
+ *   寄售台账只存在单浏览器/单组织的大对象里，换设备即丢（审计 P1-5「仍 Blob 的单据」）。
+ * 迁移后：落 D1 关系表 consignment_stocks（迁移 0100，entities.ts 注册 consignment，
+ *   rls.ts 组织共享 'all'），多用户/多终端共享真源。
+ *
+ * 数据流：登录态 D1 权威源 + 页面挂载水合（D1 空一次性回填种子）；未登录本地种子兜底；
+ *   CRUD 本地即时 + 登录态写穿。旧 Blob 键回填后保留不删（回滚安全垫）。
+ */
+
+const seedRecords: ConsignmentStock[] = [
+  {
+    id: 'cs-001', vendorId: 'V001', vendorName: '宝钢股份', vendorCode: 'BG001',
+    materialId: 'M001', materialCode: 'SPCC-1.0', materialName: '冷轧板 SPCC 1.0',
+    specification: '1.0×1250×C', unit: '吨',
+    agreedUnitPrice: 5200, consignedQty: 500, consumedQty: 320, balanceQty: 180,
+    warehouseId: 'WH001', warehouseName: '原料仓A',
+  },
+  {
+    id: 'cs-002', vendorId: 'V002', vendorName: '鞍钢集团', vendorCode: 'AG001',
+    materialId: 'M002', materialCode: 'Q235B-2.0', materialName: '热轧卷 Q235B 2.0',
+    specification: '2.0×1500×C', unit: '吨',
+    agreedUnitPrice: 4800, consignedQty: 300, consumedQty: 120, balanceQty: 180,
+    warehouseId: 'WH001', warehouseName: '原料仓A',
+  },
+  {
+    id: 'cs-003', vendorId: 'V003', vendorName: '首钢集团', vendorCode: 'SG001',
+    materialId: 'M003', materialCode: 'DX51D-0.8', materialName: '镀锌板 DX51D 0.8',
+    specification: '0.8×1250×C', unit: '吨',
+    agreedUnitPrice: 6200, consignedQty: 200, consumedQty: 80, balanceQty: 120,
+    warehouseId: 'WH002', warehouseName: '原料仓B',
+  },
+];
+
+/** 旧 Blob 持久化键（回填安全垫，不删） */
+const LEGACY_BLOB_KEY = 'ssa-erp-consignment';
+
+function readLegacyLocal(): ConsignmentStock[] | null {
+  try {
+    const raw = window.localStorage.getItem(LEGACY_BLOB_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.records) && st.records.length) return st.records as ConsignmentStock[];
+  } catch {
+    /* 损坏的旧数据忽略，走种子 */
+  }
+  return null;
+}
+
+async function readLegacyCloud(): Promise<ConsignmentStock[] | null> {
+  try {
+    const { api } = await import('@/services/api');
+    const res = await api.get<{ value?: string }>(`/state/${encodeURIComponent(LEGACY_BLOB_KEY)}`);
+    if (typeof res?.value !== 'string' || !res.value) return null;
+    const parsed = JSON.parse(res.value);
+    const st = parsed?.state ?? parsed;
+    if (Array.isArray(st?.records) && st.records.length) return st.records as ConsignmentStock[];
+  } catch {
+    /* 云端无旧数据或网络异常：忽略 */
+  }
+  return null;
+}
+
+export interface ConsignmentState {
+  records: ConsignmentStock[];
+  /** 消耗结算：增加已消耗数量、等量减少结存 */
+  settleConsumption: (id: string, qty: number) => void;
+  addRecord: (record: ConsignmentStock) => void;
+  removeRecord: (id: string) => void;
+  reset: () => void;
+  /** V3.76.0：从 D1 水合（页面挂载调用；D1 空且本地/云端有旧 Blob 数据时一次性回填） */
+  hydrateConsignment: () => Promise<void>;
+}
+
+export const useConsignmentStore = create<ConsignmentState>()((set) => ({
+  records: [...seedRecords],
+
+  settleConsumption: (id, qty) => {
+    let updated: ConsignmentStock | undefined;
+    set((s) => ({
+      records: s.records.map((r) => {
+        if (r.id !== id) return r;
+        updated = {
+          ...r,
+          consumedQty: r.consumedQty + qty,
+          balanceQty: Math.max(0, r.consignedQty - (r.consumedQty + qty)),
+        };
+        return updated;
+      }),
+    }));
+    if (updated && isAuthed()) void entityRepo.update('consignment', id, updated as any).catch(() => {});
+  },
+  addRecord: (record) => {
+    set((s) => ({ records: [...s.records, record] }));
+    if (isAuthed()) void entityRepo.create('consignment', record as any).catch(() => {});
+  },
+  removeRecord: (id) => {
+    set((s) => ({ records: s.records.filter((r) => r.id !== id) }));
+    if (isAuthed()) void entityRepo.remove('consignment', id).catch(() => {});
+  },
+  reset: () => set({ records: [...seedRecords] }),
+
+  hydrateConsignment: async () => {
+    if (!isAuthed()) return; // 未登录：本地种子兜底
+    try {
+      const res = await entityRepo.list<ConsignmentStock>('consignment', { page: 1, pageSize: 500 });
+      const rows = res?.data || [];
+      if (rows.length === 0) {
+        // 一次性回填：旧 Blob（本地优先、云端兜底）或种子
+        const legacy = readLegacyLocal() || (await readLegacyCloud());
+        const src = legacy && legacy.length ? legacy : seedRecords;
+        for (const r of src) {
+          try { await entityRepo.create('consignment', r as any); } catch { /* 冲突忽略 */ }
+        }
+        const refreshed = await entityRepo.list<ConsignmentStock>('consignment', { page: 1, pageSize: 500 });
+        if ((refreshed?.data || []).length) set({ records: refreshed!.data as ConsignmentStock[] });
+        return;
+      }
+      set({ records: rows as ConsignmentStock[] });
+    } catch {
+      // 离线或后端异常：保留本地种子态
+    }
+  },
+}));

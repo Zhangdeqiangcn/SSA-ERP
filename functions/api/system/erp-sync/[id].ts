@@ -1,137 +1,143 @@
-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
+// 外部 ERP 同步 · 单连接详情 / 更新 / 删除 + 运行历史
+//   GET    /api/system/erp-sync/:id   连接详情 + 最近运行与逐行结果
+//   PUT    /api/system/erp-sync/:id   更新连接配置
+//   DELETE /api/system/erp-sync/:id   删除连接（级联删除其运行历史）
+import { resolveDataRequester, requesterHasScope } from '../../../_shared/dataAccess';
+import { json } from '../../../_shared/auth';
+import { errorResponse } from '../../../_shared/errors';
+import { writeAudit } from '../../../_shared/auditLog';
+
+const AUTH_TYPES = ['bearer', 'basic', 'apikey', 'none'];
+const DIRECTIONS = ['push', 'pull', 'both'];
+
+function maskAuth(authConfig?: string | null): any {
+  const cfg = (() => { try { return authConfig ? JSON.parse(authConfig) : {}; } catch { return {}; } })();
+  const out = { ...cfg };
+  if (out.token) out.token = '***';
+  if (out.password) out.password = '***';
+  return out;
+}
+function publicConn(row: any) {
+  if (!row) return row;
+  return { ...row, auth_config: maskAuth(row.auth_config) };
+}
+
+async function loadOwned(env: any, orgId: string, id: string) {
+  return env.DB.prepare(`SELECT * FROM erp_sync_connections WHERE id = ? AND org_id = ?`).bind(id, orgId).first();
+}
+
+export async function onRequestGet(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'read')) return json({ error: 'API Key 缺 read 权限' }, 403);
+  try {
+    const conn = await loadOwned(env, r.org_id, context.params.id);
+    if (!conn) return json({ error: '连接不存在' }, 404);
+
+    const runs = await env.DB.prepare(
+      `SELECT * FROM erp_sync_runs WHERE connection_id = ? AND org_id = ? ORDER BY started_at DESC LIMIT 20`
+    ).bind(context.params.id, r.org_id).all();
+    const runItems = await env.DB.prepare(
+      `SELECT * FROM erp_sync_run_items WHERE connection_id = ? AND org_id = ? ORDER BY created_at DESC LIMIT 200`
+    ).bind(context.params.id, r.org_id).all();
+
+    return json({ connection: publicConn(conn), runs: runs.results || [], runItems: runItems.results || [] });
+  } catch (e: any) {
+    return errorResponse(e, '查询同步连接');
+  }
+}
+
+export async function onRequestPut(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const conn = await loadOwned(env, r.org_id, context.params.id);
+    if (!conn) return json({ error: '连接不存在' }, 404);
+
+    const body = await request.json().catch(() => ({}));
+    const sets: string[] = [];
+    const vals: any[] = [];
+
+    if (body.name != null) { sets.push('name = ?'); vals.push(String(body.name)); }
+    if (body.base_url != null) {
+      const u = String(body.base_url);
+      if (!/^https?:\/\//i.test(u)) return json({ error: 'base_url 必须是 http(s) 地址' }, 400);
+      sets.push('base_url = ?'); vals.push(u);
+    }
+    if (body.auth_type != null) {
+      const authMsg = 'auth_type 必须是 ' + AUTH_TYPES.join('/');
+      if (!AUTH_TYPES.includes(String(body.auth_type))) return json({ error: authMsg }, 400);
+      sets.push('auth_type = ?'); vals.push(String(body.auth_type));
+    }
+    if (body.direction != null) {
+      const dirMsg = 'direction 必须是 ' + DIRECTIONS.join('/');
+      if (!DIRECTIONS.includes(String(body.direction))) return json({ error: dirMsg }, 400);
+      sets.push('direction = ?'); vals.push(String(body.direction));
+    }
+    if (body.enabled !== undefined) { sets.push('enabled = ?'); vals.push(body.enabled ? 1 : 0); }
+    if (body.schedule_cron !== undefined) { sets.push('schedule_cron = ?'); vals.push(body.schedule_cron || null); }
+
+    if (body.mapping_profile != null) {
+      const s = typeof body.mapping_profile === 'string' ? body.mapping_profile : JSON.stringify(body.mapping_profile);
+      try { JSON.parse(s); } catch { return json({ error: 'mapping_profile 不是合法 JSON' }, 400); }
+      sets.push('mapping_profile = ?'); vals.push(s);
+    }
+    if (body.auth_config != null) {
+      const s = typeof body.auth_config === 'string' ? body.auth_config : JSON.stringify(body.auth_config);
+      try { JSON.parse(s); } catch { return json({ error: 'auth_config 不是合法 JSON' }, 400); }
+      sets.push('auth_config = ?'); vals.push(s);
+    }
+
+    if (!sets.length) return json({ error: '无可更新字段' }, 400);
+    sets.push('updated_at = ?'); vals.push(new Date().toISOString());
+    sets.push('updated_by = ?'); vals.push(r.actorId);
+    vals.push(context.params.id, r.org_id);
+
+    await env.DB.prepare(`UPDATE erp_sync_connections SET ${sets.join(', ')} WHERE id = ? AND org_id = ?`)
+      .bind(...vals).run();
+
+    await writeAudit(env.DB, {
+      orgId: r.org_id,
+      actor: { id: r.actorId, name: r.actorName },
+      entity: 'erp_sync',
+      action: 'update',
+      entityId: context.params.id,
+      summary: `更新外部 ERP 同步连接 ${context.params.id}`,
+    });
+
+    const updated = await env.DB.prepare(`SELECT * FROM erp_sync_connections WHERE id = ?`).bind(context.params.id).first();
+    return json(publicConn(updated));
+  } catch (e: any) {
+    return errorResponse(e, '更新同步连接');
+  }
+}
+
+export async function onRequestDelete(context: any) {
+  const { request, env } = context;
+  const r = await resolveDataRequester(request, env);
+  if (r instanceof Response) return r;
+  if (!requesterHasScope(r, 'write')) return json({ error: 'API Key 缺 write 权限' }, 403);
+  try {
+    const conn = await loadOwned(env, r.org_id, context.params.id);
+    if (!conn) return json({ error: '连接不存在' }, 404);
+
+    await env.DB.prepare(`DELETE FROM erp_sync_run_items WHERE connection_id = ? AND org_id = ?`).bind(context.params.id, r.org_id).run();
+    await env.DB.prepare(`DELETE FROM erp_sync_runs WHERE connection_id = ? AND org_id = ?`).bind(context.params.id, r.org_id).run();
+    await env.DB.prepare(`DELETE FROM erp_sync_connections WHERE id = ? AND org_id = ?`).bind(context.params.id, r.org_id).run();
+
+    await writeAudit(env.DB, {
+      orgId: r.org_id,
+      actor: { id: r.actorId, name: r.actorName },
+      entity: 'erp_sync',
+      action: 'delete',
+      entityId: context.params.id,
+      summary: `删除外部 ERP 同步连接 ${context.params.id}`,
+    });
+    return json({ ok: true });
+  } catch (e: any) {
+    return errorResponse(e, '删除同步连接');
+  }
+}

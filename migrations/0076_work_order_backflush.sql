@@ -1,98 +1,61 @@
-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
-57iGhujJl5vjxw68gZHVpw==
+-- 迁移 0076：生产倒冲发料（backflush）—— 幂等标记与留痕列
+--
+-- ═══════════════ 背景：差距 13「生产倒冲发料」═══════════════
+-- 系统此前**没有任何**「完工自动按 BOM 扣减原料」的实现，且存在两条彼此独立的手工通路：
+--   ① 「生成领料出库」→ 生成 pick 出库单 → 库存扣减（服务端 postOutbound 权威扣账）；
+--   ② 「生成成品入库」→ 只回写工单状态 + 生成成品入库单，**对原料零动作**。
+-- 结果是：只要没人记得点第①步，成品就凭空入库了 —— 原料账不动、材料成本不进工单，
+-- 账实不符且没有任何地方会提示。重复制造模块里那个已经叫 "backflush" 的报工，
+-- 也只是把数字累加进台账（repetitiveMfgStore.reportProduction），同样不扣账。
+--
+-- 本次把「完工即按 BOM 倒冲扣料」下沉到服务端（functions/_shared/backflush.ts），
+-- 由 work-orders 的 PUT 在「状态首次进入 completed」时触发，绕开界面亦生效。
+--
+-- ═══════════════ 为什么必须新增这几列 ═══════════════
+-- · work_orders.inventory_posted —— **幂等守卫**。工单表原本没有这个标记（对比
+--   purchase_orders / outbound_orders 早就有）。没有它就无法区分「这张工单的原料
+--   是否已经倒冲过」，网络重试或重复提交会导致重复扣料。
+--   这是参照 outbound_orders 的既有模式（0005_purchase_orders.sql:150）补齐的对齐项。
+--
+-- · work_orders.backflush_outbound_no —— 倒冲生成的出库单号。留一个能从工单直接
+--   追到出库单的指针；否则事后想核对「这批原料到底什么时候扣的、扣了多少」，
+--   只能靠出库单的 remarks 文本反查，脆弱且易错。
+--
+-- · work_order_pickings.backflush_quantity / backflush_outbound_no —— 领料台账里
+--   把「手工领料」与「自动倒冲」两个来源**分开留痕**。
+--   为什么要分开：quantity 列表示「该工单该物料的累计耗用」（手工 + 倒冲），
+--   倒冲算「还差多少要扣」时用的正是这个累计值；如果不同时留下倒冲的份额，
+--   事后就无法回答「这 120 件里有 100 件是人工领的、20 件是倒冲的」。
+--   ⚠️ 刻意【不】改 work_order_pickings 的 UNIQUE(org_id, work_order_id, material_id)：
+--     改唯一键在 SQLite 里要重建表 + INSERT…SELECT，而该表已有存量数据、
+--     又带着 version 列（迁移 0072），重建的列集很容易与全新库跑出来的不一致
+--     （这正是坑 ㉘②「迁移可分叉」）。用 UPSERT 累加到同一行即可达到目的。
+--
+-- · 兼容性：全部为 ADD COLUMN + 带默认值，老数据自动取 0 / NULL，
+--   不改变任何既有写入路径与读取形状（前端 WorkOrder 类型不需要新增字段即可工作）。
+--
+-- ═══════════════ 与 RLS 的关系 ═══════════════
+-- 本迁移**没有新建表**，故无需在 functions/_shared/rls.ts 的 RLS_SCOPE 中登记
+-- （work_orders 与 work_order_pickings 早已登记）。新增列不改变行级归属。
+
+PRAGMA foreign_keys = ON;
+
+-- ── 一、工单：倒冲幂等标记 + 出库单号留痕 ──────────────────────────
+ALTER TABLE work_orders ADD COLUMN inventory_posted BOOLEAN DEFAULT 0;
+ALTER TABLE work_orders ADD COLUMN backflush_outbound_no TEXT;
+
+-- ── 二、领料台账：区分「手工领料」与「自动倒冲」两个来源 ────────────
+-- backflush_quantity 默认 0 → 存量行全部被正确解释为「纯手工领料」
+ALTER TABLE work_order_pickings ADD COLUMN backflush_quantity REAL DEFAULT 0;
+ALTER TABLE work_order_pickings ADD COLUMN backflush_outbound_no TEXT;
+
+-- ── 三、存量行回填（ADD COLUMN 带 DEFAULT 时新行为默认值，此处兜底历史 NULL）──
+-- 若不回填，`COALESCE(backflush_quantity,0)` 之外的裸比较（如 backflush_quantity > 0）
+-- 在 NULL 上会得 NULL（非真非假），统计口径容易出怪数。
+UPDATE work_orders SET inventory_posted = 0 WHERE inventory_posted IS NULL;
+UPDATE work_order_pickings SET backflush_quantity = 0 WHERE backflush_quantity IS NULL;
+
+-- 登记迁移
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0076_work_order_backflush', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

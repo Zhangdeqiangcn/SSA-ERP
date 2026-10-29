@@ -1,19 +1,23 @@
-U2FsdGVkX1/+ep+MzZ3r9UDEtndGjOeXJ6+Iexc6SSsjjRFtp3Wxz7v9Eh45U37f
-qQhLCztcX5hJ67sMo7WUrEofuAoedFMNL1esJE6TVTTE/5EJLGhux0Xoo4Ts0tqB
-+QKQt7uTfCdD1MxNj1EP64/XZaFJi2yu8x6IiKr62qvAR+ml1fxTjTjybpl38nq/
-ogKfXBeqOKKyEla0jYsvHytmqcN6sQ98taLZlCRspleVlggsP7pKIHnEUniLNG+n
-aL9LqRNGnbI+GvJ0viaNI42Tn8nn2brKM9HGgGSWoNRChg/1cOKyzevef1WTtg5l
-DLaOTx6Uk2UuLlzA+fjaDA9WET/5hxpE6dB8hNnYQbk/e2lp1yOlugE4upelVn4o
-8rTBKF1KttMDnroK8fSuhU4T2gEK09gDb30Vilx3FsInubUd4AoAdkBsJ35HLcX1
-Z9Yahy6Q2G1LF2RUoLYMqeWVhBYpdYu0KfyyCuCwQArg+aOee9E6Q9uFRuw3jVSm
-FYaTpEnh2L7g13QI9BFDYMS6/L3Gx7uvJ0i5iWfJL8BNRI46+l9OC8SYZg+f4r0x
-M6SG7vfEQ03epw1Jres/G0M63mOCpMapo2wk4/zpiAH2YlwHcbZPJIMrKvNOlSw4
-0jXAAr5nUj6SqihZLKInOjwoaODUYsD/5FoRRT4WfvGWeA738l5twAeZT4srsXDb
-RnVcHUu9+2e/OAkPHS/vy3JYp8iZvZXID7XwMvW8RjYonj7rNprcFem/6V1MqiA2
-gWT9LN06Nn0PToFbaGM3SP7NapEv6ztOCu/BpzWcpcj60wPcM5xP1h24uiLi4D32
-1jT/99c93Ekmu30OrIz7uQt8u52ty/9y8FX4UQyKUamPcelfuKcQdaPThzbGDXbI
-dyDRnXDKAsVk/l5Y8alR/RJX8PdRTimCjzMUJrvqMJ9B4XTlOlFzkK6TsJ2jBX0T
-mJ+cB7H4V5TTCfo7gcZ5Gd96I8Y8Yn49OHYRg1YUsihfsyOEzFehwzJYYdSTKnT4
-FWCI/OQ67tvWuOO0wWUaHvHi1J+8nWe/XldSfKXlmfygrH42ja19pRGFxQ3ieLCW
-0Upq+vsGZebB/1muFs3PuMeimI8D0J0LusGDld3TPedshdb6Ds0rPstQ2dzvGPec
-1w15Gux1RJoyUg7Cq/3ksI0JIAeSgwyrnsfmQf75OQE=
+-- V3.94.0 物料分类落库（根治内存 mock 双通道，开启「分类自配置自定义字段」地基）
+-- 分类为组织级共享主数据，RLS 登 'all'（组织隔离靠 org_id，'all' ≠ 跨组织放行）。
+-- responsible_persons / attributes 以 JSON 文本落库，前端读取后自行 JSON.parse；
+-- attributes 承载管理员在「设置→自定义字段（实体=物料分类）」中自助加列后写入的值。
+CREATE TABLE IF NOT EXISTS material_categories (
+  id TEXT PRIMARY KEY,
+  org_id TEXT NOT NULL,
+  parent_id TEXT,
+  code TEXT,
+  name TEXT NOT NULL,
+  sequence_length INTEGER,
+  responsible_persons TEXT,
+  attributes TEXT,
+  sort_order INTEGER DEFAULT 0,
+  level INTEGER DEFAULT 1,
+  description TEXT,
+  created_at TEXT,
+  updated_at TEXT,
+  created_by TEXT,
+  updated_by TEXT,
+  created_by_name TEXT,
+  updated_by_name TEXT
+);

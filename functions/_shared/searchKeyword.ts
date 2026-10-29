@@ -1,153 +1,124 @@
-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
-rAiJRBy8Q9Bv4xjL4IPU6g==
+// 列表搜索关键词的统一安全处理（V3.20.1 建 / V3.21.0 扩充）
+//
+// ── 为什么需要这个文件（用一个真实 500 换来的）────────────────────────
+//
+// Cloudflare D1 的 SQLite 把 `SQLITE_LIMIT_LIKE_PATTERN_LENGTH` 设成了 **50**
+// （原生 SQLite 的默认值是 50000）。一旦 LIKE 的**模式字符串**超过 50 个字符，
+// SQLite 直接抛错：
+//
+//     LIKE or GLOB pattern too complex: SQLITE_ERROR [code: 7500]
+//
+// 端点没有捕获它 → 中间件兜底成 500「请求处理失败，请稍后重试」，
+// 用户看到的是「系统错误」，而根本原因只是**搜索词太长了**。
+//
+// 生产库真机二分实测（`%` + N 个字符 + `%`）：
+//
+//     关键词 48 字符 → 模式 50 字符 → ✅ 通过
+//     关键词 49 字符 → 模式 51 字符 → ❌ too complex
+//
+// ── 触发场景一点都不罕见 ──────────────────────────────────────────────
+//
+// **用户把完整单号粘进搜索框**。本项目单号形如
+// `OUT-WO-BF-WO-E2E-260923060258-m2b7-MAIN-1790143389976`（53 字符），
+// 一粘即炸。此缺陷此前从未被发现，是因为它只在「关键词 > 48 字符」时才
+// 现形，而在此之前没有任何套件覆盖过「长关键词搜索」这条路径。
+//
+// ── 为什么选择「静默截断」而不是「返回 400 报错」──────────────────────
+//
+// 超长关键词的高频场景就是「粘贴完整单号」。若直接拒绝，用户最自然的操作
+// 反被拦住；而截断到 40 字符后，前缀已足够区分单据，**仍能命中目标**，
+// 且不会再 500。所以这里选择可用性优先：截断、不打断用户。
+//
+// ── 为什么余量留到 40，而不是贴着 48 用 ───────────────────────────────
+//
+// 50 是 D1 当前实现的常量，属**外部约束**，可能随平台调整而变；且各端点
+// 的拼接姿势并不一致（有的 `%kw%`、有的 `kw%`）。留 10 个字符余量，可让
+// 「多包一层引号或额外字符」的写法也一并安全。
+// ★ V3.21.0 补：转义本身会让模式变长（每个 `%`/`_`/`\` 前多一个 `\`），
+//   截断在转义**之前**执行，所以最坏情况是 40×2 + 2 = 82 字符 ——
+//   这会再次超限！故下文的 `likePattern()` 对**转义后**长度做二次收口。
+//
+// ═══════════════════════════════════════════════════════════════════════
+// V3.21.0 新增：通配符转义（修「搜 100% 被当通配符」）
+// ═══════════════════════════════════════════════════════════════════════
+//
+// 【问题】用户搜 `100%` 时，`%` 被 SQL 当成通配符 → 变成「以 100 开头的一切」，
+//   而不是「包含字符串 100% 的行」。库管要查一个规格写着 `M8×100%` 的物料，
+//   搜出来的却是一堆无关记录；更坏的情况是搜 `_` 会匹配任意单字符，
+//   于是「搜什么都像搜到了」。
+//
+// 【修法】`%` `_` `\` 三个字符在进模式前一律加 `\` 转义，并在 SQL 里声明
+//   `ESCAPE '\'`。二者**必须成对出现**：
+//     · 只转义不声明 ESCAPE → `\` 变成普通字符，搜索会去找字面上的反斜杠，更错；
+//     · 只声明 ESCAPE 不转义 → 与现在一样，通配符仍生效。
+//   因此 `scripts/check-search-escape.mjs` 门禁会机器核对「凡 `LIKE ?` 必带
+//   `ESCAPE '\'`」，防止将来新增端点时漏配（防「同口径两处实现走偏」，坑㉛）。
+//
+// 【为什么用 `\` 作转义符而不是别的字符】SQLite 的 ESCAPE 只接受单字符。
+//   `\` 是通行约定，且本项目现有数据里几乎没有反斜杠（Windows 路径不会存进
+//   这些搜索列），即使有也已被转义，语义正确。
+//
+// 【已覆盖范围】全部 24 个关键词搜索端点（含 parentChild 通用父列表、
+//   entities 通用实体路由、work-orders/picking 的 materialName 搜索、
+//   vendor/register 的公司码前缀匹配）。
+
+/** 单个 LIKE 模式的最大安全长度（D1 实测上限 50，留余量取 48） */
+export const MAX_PATTERN_LEN = 48;
+
+/** 未转义关键词的最大长度（D1 实测上限 50 减去两侧 `%`，再留余量） */
+export const MAX_KEYWORD_LEN = 40;
+
+/**
+ * 归一化搜索关键词：trim + 截断到安全长度。
+ * 所有列表端点的 keyword 都应经由此函数提取，这是防 500 的主力闸门。
+ */
+export function safeKeyword(raw: string | null | undefined): string {
+  const kw = String(raw ?? '').trim();
+  return kw.length > MAX_KEYWORD_LEN ? kw.slice(0, MAX_KEYWORD_LEN) : kw;
+}
+
+/**
+ * 转义 LIKE 模式里的特殊字符：`\`（转义符本身）、`%`（任意长度）、`_`（任意单字符）。
+ *
+ * ★ 调用方必须在 SQL 里带上 `ESCAPE '\'`，否则本函数等于没做（见文件头说明）。
+ * 正则里 `[\\%_]` 一次性替换，顺序无要求（不会出现「二次转义」问题）。
+ */
+export function escapeLike(raw: string | null | undefined): string {
+  return String(raw ?? '').replace(/[\\%_]/g, (m) => '\\' + m);
+}
+
+/**
+ * 构造「包含」LIKE 模式 `%kw%`。
+ *
+ * 两道闸门叠在一起：
+ *   ① safeKeyword 截断（防 D1 的 50 字符上限 → 500）；
+ *   ② escapeLike 转义（防通配符语义 → 搜不准）。
+ *
+ * ★ 两道闸门的**顺序与相互作用**很关键：转义会让模式变长（一个 `%` 变成 `\%`，
+ *   长度翻倍）。若只截断不复查，关键词 40 个全写 `%` → 转义后 80 字符 →
+ *   模式 82 字符 → **反而更容易触发 500**。故此处按「转义后」长度做二次收口：
+ *   超限时从**原始关键词**上截断（绝不在已转义的串上再截，那会造成二次转义），
+ *   截到最坏情况（每字符都翻倍）也合规的长度。
+ */
+export function likePattern(raw: string | null | undefined): string {
+  const kw = safeKeyword(raw);
+  let esc = escapeLike(kw);
+  if (esc.length > MAX_PATTERN_LEN - 2) {
+    // 最坏情况每个字符都需转义（长度 ×2），按这个上界反推可保留的原始字符数。
+    const safeLen = Math.floor((MAX_PATTERN_LEN - 2) / 2);
+    esc = escapeLike(kw.slice(0, safeLen));
+  }
+  return `%${esc}%`;
+}
+
+/**
+ * 构造「前缀」LIKE 模式 `kw%`。
+ *
+ * 用于「按代码前 N 位定位」这类场景（如 functions/api/vendor/register.ts
+ * 用供应商代码前 3 位匹配所属公司码）。此处 `%` 是**我们自己**加的前缀通配符，
+ * 用户输入部分必须转义 —— 否则供应商填一个 `%` 开头的代码就能把自己
+ * 注册进任意组织（越权归属）。
+ */
+export function likePrefix(raw: string | null | undefined): string {
+  return `${escapeLike(safeKeyword(raw))}%`;
+}

@@ -1,13 +1,15 @@
-U2FsdGVkX1925zV+kfXGaG0WSWlLZEVBhfz/LPfKeDiuG1kdOxMdZTo/jUHcuF2u
-TIMRBHQgYFq51AZETH/O571w0OwsnprSjY8rdWciLYHMcKmqyL4IclNEXtclsj4t
-NaUfxuUxMy1+K3TEjLtDxbTyhnqG/MfTngaw8F/XOEbD1dsAhn02FJ3DgAhxpLxf
-dOL2KJMx/R/PiVxCIiIhn/K1KA/8NGw2o/g5C1Sos7KSn9UDRxCFw2ypNm8ZeVIW
-AALA28wg1oxx9n+KskWE3brsaLu1sSKkLdd4Uaspz3llVfQguhfX8cD0ubXPz6C9
-vK70pikkUIP3sPvHDDiSl/Lvzlx6k4hQkOSo+aQ9asV2SSXwI6KCNtBe9aCymyqt
-DRfos3UxgB/Qu2Ji0OlfqeHhh8teGXOpDRbdegQeQaYvafLgaNr1TfV4or4vU1hU
-ZUFiFjKmqoVaXrBJGtIzufD6u3WY3DFhkpCU9azDUMwhrxMpclMnozjs6XCHC4Vl
-rqQ24p54WvxWutWVpTmajeajDcQ33FWzLz9WnI3LZNCrkMTiy6JFuYJY5BRFHkNA
-WUwt+1kQu8G6q38C8x6eVBbOeWwsEFrrvlo7p6RIKkcJ+pApCnDWbZH4o2Ai46q5
-SmD8BAskjXKbFhqCPJY7h4HZaavT2zFxskRGqk37+vGeuxsaX+yTNqR5XLswHJGq
-30ALud+PiaOUp9/nzlt6ItlJjs4PZhHLXigZgjOg/j3Q7p0xuEIcMRHBhwPO8Dau
-Fj0cB3580SopPQb3PiuW2LbqatApFQtXS2AeJp7FaTk=
+// 登出：作废当前会话 token
+import { json } from '../../_shared/auth';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const auth = request.headers.get('Authorization');
+  if (auth && auth.startsWith('Bearer ')) {
+    const token = auth.slice(7).trim();
+    if (token) {
+      await env.DB.prepare('DELETE FROM sessions WHERE token = ?').bind(token).run();
+    }
+  }
+  // V3.91.0：clearAuth 触发 auth.json() 清除 HttpOnly 会话 Cookie（前端 JS 无法清除 HttpOnly）
+  return json({ ok: true, clearAuth: true });
+}

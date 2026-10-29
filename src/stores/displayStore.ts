@@ -1,53 +1,72 @@
-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
+/**
+ * 显示偏好 Store（P4-2 主题与显示中心）
+ * 持久化到 localStorage（键：ssa-erp-display）。
+ * 覆盖：明/暗主题、主题色、密度、字号、高对比。
+ */
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { backendStorage } from './persistStorage';
+
+export type ThemeMode = 'light' | 'dark';
+export type PrimaryColor = 'blue' | 'green' | 'indigo';
+export type Density = 'compact' | 'comfortable' | 'cozy';
+export type FontSize = 'small' | 'medium' | 'large';
+
+export interface DisplayPrefs {
+  mode: ThemeMode;
+  primary: PrimaryColor;
+  density: Density;
+  fontSize: FontSize;
+  highContrast: boolean;
+}
+
+export const DEFAULT_DISPLAY_PREFS: DisplayPrefs = {
+  mode: 'light',
+  primary: 'blue',
+  density: 'comfortable',
+  fontSize: 'medium',
+  highContrast: false,
+};
+
+export const PRIMARY_OPTIONS: { value: PrimaryColor; label: string; main: string }[] = [
+  { value: 'blue', label: '经典蓝', main: '#3B82F6' },
+  { value: 'green', label: '自然绿', main: '#10B981' },
+  { value: 'indigo', label: '靛青紫', main: '#6366F1' },
+];
+
+export const DENSITY_OPTIONS: { value: Density; label: string; desc: string }[] = [
+  { value: 'compact', label: '紧凑', desc: '信息密度最高，适合大屏多任务' },
+  { value: 'comfortable', label: '适中', desc: '推荐默认，平衡可读与密度' },
+  { value: 'cozy', label: '宽松', desc: '留白更多，长时间录入更舒适' },
+];
+
+export const FONT_SIZE_OPTIONS: { value: FontSize; label: string }[] = [
+  { value: 'small', label: '小' },
+  { value: 'medium', label: '中' },
+  { value: 'large', label: '大' },
+];
+
+interface DisplayState extends DisplayPrefs {
+  setMode: (m: ThemeMode) => void;
+  setPrimary: (p: PrimaryColor) => void;
+  setDensity: (d: Density) => void;
+  setFontSize: (f: FontSize) => void;
+  setHighContrast: (b: boolean) => void;
+  reset: () => void;
+}
+
+export const useDisplayStore = create<DisplayState>()(
+  persist(
+    (set) => ({
+      ...DEFAULT_DISPLAY_PREFS,
+      setMode: (mode) => set({ mode }),
+      setPrimary: (primary) => set({ primary }),
+      setDensity: (density) => set({ density }),
+      setFontSize: (fontSize) => set({ fontSize }),
+      setHighContrast: (highContrast) => set({ highContrast }),
+      reset: () => set({ ...DEFAULT_DISPLAY_PREFS }),
+    }),
+    { storage: backendStorage,
+     name: 'ssa-erp-display', version: 1 }
+  )
+);

@@ -1,38 +1,40 @@
-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
+// 手动录入 access_token（无 OAuth 或不便走授权流的兜底；同样仅存服务端）
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { audit } from '../../../_shared/auditLog';
+import { getProvider, upsertCredential, expiresAt } from '../../../_shared/channelOAuth';
+
+export async function onRequestPost(context: any) {
+  const { request, env } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const deny = await guardOperation(user, 'channel', 'update', env.DB, user.org_id);
+  if (deny) return deny;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求格式错误' }, 400);
+  }
+
+  const platform = String(body?.platform || '');
+  if (!getProvider(platform)) return json({ error: `未支持的渠道平台：${platform}` }, 400);
+  const accessToken = String(body?.accessToken || '').trim();
+  if (!accessToken) return json({ error: '请填写 access_token' }, 400);
+  const expiresIn = body?.expiresIn ? Number(body.expiresIn) : undefined;
+  const shopId = body?.shopId ? String(body.shopId) : null;
+  const shopName = body?.shopName ? String(body.shopName) : null;
+
+  await upsertCredential(env.DB, user.org_id, platform, {
+    access_token: accessToken,
+    token_expire: expiresAt(expiresIn && !Number.isNaN(expiresIn) ? expiresIn : undefined),
+    auth_mode: 'manual',
+    status: 'connected',
+    shop_id: shopId,
+    shop_name: shopName,
+    is_mock: 0,
+  });
+  await audit(env.DB, user.org_id, user, 'channel', 'oauth_manual', `手动录入「${platform}」令牌`);
+  return json({ ok: true, message: '令牌已保存（仅存于服务端）' });
+}

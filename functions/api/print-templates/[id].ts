@@ -1,136 +1,165 @@
-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
+// 打印模板单项端点（C1 数据关系化 · 打印模板域）
+// GET    /api/print-templates/:id    取单条（含图片还原）
+// PUT    /api/print-templates/:id    更新（只改传入字段；传 config 则整份替换并重建资源）
+// DELETE /api/print-templates/:id    删除（连带清理图片资源）
+import { getUserFromRequest, json } from '../../_shared/auth';
+import { rlsCondition, RLS_PRIVILEGED } from '../../_shared/rls';
+import { writeAudit } from '../../_shared/auditLog';
+import { chunkStatements, loadAssets, pickTemplate, rowToApi } from './index';
+
+export async function onRequestGet(context: any) {
+  const { env, request, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+  const id = params.id;
+
+  // ★ rlsCondition 返回 { clause, params }，取 .clause 拼 SQL、params 补 bind
+  const rls = rlsCondition(user, 'print_templates');
+  const row = await env.DB.prepare(
+    `SELECT * FROM print_templates WHERE id = ? AND ${rls.clause}`
+  )
+    .bind(id, ...rls.params)
+    .first();
+  if (!row) return json({ error: '模板不存在或无权查看' }, 404);
+
+  const assetMap = await loadAssets(env.DB, [id]);
+
+  // 资源计数 = assetMap.size（loadAssets 的 Map 值只有 {mime, base64}，没有 id 字段）
+  return json({
+    success: true,
+    template: rowToApi(row, assetMap),
+    assets: assetMap.size,
+  });
+}
+
+export async function onRequestPut(context: any) {
+  const { env, request, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // P0 修复：PUT 同样加角色门槛，仅管理员可改模板（与下方资源归属校验并存）
+  if (!RLS_PRIVILEGED.has(user.role)) {
+    return json({ error: '权限不足：仅管理员可管理打印模板' }, 403);
+  }
+  const id = params.id;
+
+  let body: any;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: '请求体不是合法 JSON' }, 400);
+  }
+
+  const existingRls = rlsCondition(user, 'print_templates');
+  const existing: any = await env.DB.prepare(
+    `SELECT * FROM print_templates WHERE id = ? AND ${existingRls.clause}`
+  )
+    .bind(id, ...existingRls.params)
+    .first();
+  if (!existing) return json({ error: '模板不存在或无权修改' }, 404);
+
+  const now = new Date().toISOString();
+  const { cols, assets } = pickTemplate(body, id);
+
+  // 关键判断：正文相关字段被改动时才重建图片资源。
+  // 只改模板名称/纸张时若也重建资源，会把图片读出来再写回去（白白搬运 200 KB）。
+  const touchesContent =
+    body.headerConfig !== undefined || body.footerConfig !== undefined;
+
+  const stmts: any[] = [];
+  const setCols = Object.keys(cols);
+  if (setCols.length > 0) {
+    stmts.push(
+      env.DB.prepare(
+        `UPDATE print_templates SET ${setCols.map((c) => `${c}=?`).join(',')}, updated_at=? WHERE id=?`
+      ).bind(...[...Object.values(cols), now, id])
+    );
+  } else {
+    stmts.push(
+      env.DB.prepare('UPDATE print_templates SET updated_at=? WHERE id=?').bind(now, id)
+    );
+  }
+
+  if (touchesContent) {
+    // 先清分片再清资源（外键约束下顺序不能反）
+    stmts.push(
+      env.DB.prepare(
+        'DELETE FROM print_template_asset_chunks WHERE asset_id IN (SELECT id FROM print_template_assets WHERE template_id = ?)'
+      ).bind(id)
+    );
+    stmts.push(env.DB.prepare('DELETE FROM print_template_assets WHERE template_id = ?').bind(id));
+    for (const a of assets) {
+      stmts.push(
+        env.DB.prepare(
+          `INSERT INTO print_template_assets
+           (id, template_id, kind, mime, file_name, byte_size, content_hash, placeholder, created_at)
+           VALUES (?,?,?,?,?,?,?,?,?)`
+        ).bind(a.id, id, 'image', a.mime, null, a.bytes.length, a.hash, `{{asset:${a.id}}}`, now)
+      );
+      stmts.push(...chunkStatements(env.DB, a.id, a.bytes));
+    }
+  }
+
+  await env.DB.batch(stmts);
+
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'print_templates',
+    action: 'update',
+    entityId: id,
+    summary: `修改打印模板「${body.name ?? existing.name}」${touchesContent ? `（正文变更，图片资源重建 ${assets.length} 个）` : '（仅属性变更，未触图片）'}`,
+  });
+
+  const row = await env.DB.prepare('SELECT * FROM print_templates WHERE id = ?').bind(id).first();
+  const assetMap = await loadAssets(env.DB, [id]);
+  return json({ success: true, template: rowToApi(row, assetMap) });
+}
+
+export async function onRequestDelete(context: any) {
+  const { env, request, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // P0 修复：DELETE 同样加角色门槛，仅管理员可删模板（与下方资源归属校验并存）
+  if (!RLS_PRIVILEGED.has(user.role)) {
+    return json({ error: '权限不足：仅管理员可管理打印模板' }, 403);
+  }
+  const id = params.id;
+
+  const delRls = rlsCondition(user, 'print_templates');
+  const row: any = await env.DB.prepare(
+    `SELECT * FROM print_templates WHERE id = ? AND ${delRls.clause}`
+  )
+    .bind(id, ...delRls.params)
+    .first();
+  if (!row) return json({ error: '模板不存在或无权删除' }, 404);
+
+  // 数一下要连带清掉多少图片资源，写进审计摘要（删了多少是有意义的）
+  const cnt: any = await env.DB.prepare(
+    'SELECT COUNT(*) AS n, COALESCE(SUM(byte_size),0) AS bytes FROM print_template_assets WHERE template_id = ?'
+  )
+    .bind(id)
+    .first();
+
+  await env.DB.batch([
+    env.DB.prepare(
+      'DELETE FROM print_template_asset_chunks WHERE asset_id IN (SELECT id FROM print_template_assets WHERE template_id = ?)'
+    ).bind(id),
+    env.DB.prepare('DELETE FROM print_template_assets WHERE template_id = ?').bind(id),
+    env.DB.prepare('DELETE FROM print_templates WHERE id = ?').bind(id),
+  ]);
+
+  await writeAudit(env.DB, {
+    orgId: user.org_id,
+    actor: { id: user.id, name: user.name },
+    entity: 'print_templates',
+    action: 'delete',
+    entityId: id,
+    summary: `删除打印模板「${row.name}」（适用于 ${row.entity}），连带清理图片资源 ${
+      cnt?.n ?? 0
+    } 个、释放 ${((cnt?.bytes ?? 0) / 1024).toFixed(1)} KB`,
+  });
+
+  return json({ success: true, deletedAssets: cnt?.n ?? 0, freedBytes: cnt?.bytes ?? 0 });
+}

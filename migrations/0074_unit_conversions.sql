@@ -1,27 +1,39 @@
-U2FsdGVkX181HDsPYYcoCmMi7o+1d0NgQXVrKlOQhSJJ3iEkGultCPrzKiV3idpU
-eceortIQIv01dWu35ihdhZoTrTbrIxycT+eYBdVqfIc14eacqpY2cVfBt6zsi7Ak
-q7IyNahaUMYKXImGy+8bP0IY3qi/+tKJkVpJWf35jo5ro15SmWQovVz0nhZdZiv8
-NVzpMKSk6o3VTGGy4KUqo19VwKKpgfB7spICC+wUjIU1KBpEACrt7rry7MtLkPNm
-7zULtAkbfVEtd88J7iopqcU3ftr9LSbDh1P15KUYZN94IHr+nsgw4A/hDSVwnnNU
-aT9iHI9lZpzA+aEPW+pK/hHleupC1rSIngQMSu22pq0YQFfKisxWsDxSMedGHhsZ
-nGErLsOE5Ibiq/PJmpHv2GEsFtEXTdIZ2DCWXsvdgmGc8sF6d1KSkt2HhcsM8yeN
-l3nzuuc9h2sC/mewWVPm49R8b3mIw7KHybNHL63q6q7Lh9OtQmQiehaa7Gk44QIq
-RaL5MtrAzpv8wUKtJ+wot6WCViUl58QINgLR5hTpnBsxGFaDocNSq4gjagB5JVAj
-KtM1+l9cyRDjj5Vvffv0xHok6l8Hnp0dBlTfd8GiwOYtAFagTPsLdbOj89LSN41C
-nVBEZIgMyRrIdEwSRmzHdAwDfypRouPXgcpz/c31RudBTpb/JuRAS7KvKgOMXy7T
-lzPbpvemc/X0ig63eKZS9LktFMJw9wg3jUaBBpLFgr03UiGwowdl3b0US8d77Jp7
-dQWbTnZ0P+OSx4wq534S3wJsvlnULZaPHz+JcghSnugsqsOfNDC2Wk4rRjpTxLtu
-BgARpXinQWDNpqZ9cPSFvVwoHuYKsJ24DI4VhcVAIDMLb0LWrqAqCy3aQ0+62Ab8
-YmqV5LqjZ7e/f1cXKCwQ9dtn9R+q0wLhDJ6QLHpE98EQKLWVi6A7SOT9z5QLyqD3
-7uKoxmGyUEwXLYcOHLpsnu5eylWpQi3560sY58nLthVKo+c/aQMeTvIkKllN8XHJ
-G+Cjjxsc0Qlg4Qle4C0UAD4fz3PEyh1w0+VYHmZljtojMPWT0TUvMb4Kt7wnlgwu
-uZD1Kqjx7pvRWhEYe5dkx+Mar/JJo4XjG2KtxAq4F9gPZvMRB1iAV3mfQ37hOAUI
-8XvllR/IViA9P8SxasWwz/6DqqAEWMI6VYj0Kii1LmDNwnw/7XG6FFNeTAKIXtYq
-TdoqhORDFSOVyRRPqwGXGUo8tM6p8EqF9DrhM68AEGSxZOgKzzVjxXoNTzVGcsXc
-vPev3H9Jihz8QKRcwJuTOt3jwYWgF4bRMrG3bA7SEQQ5+9DakVWFA2W5RhKBNl6y
-WEWeTuI6JTzsvztKt/9U2kbtAZGnNU+liEsjl5DNPeqO3FzSS7OY4ZFJ85iIfErl
-V/SqPfGec0hhJCR3s1vWoqyZHFKWxaADZ59rvAUiKJmLJL6qAAi1lL/l8VyPu4D+
-U1/1x/rXwE0uT9eilHe73+2vbNd6zUdgxppwyJ/CpDxECMkiJz/tipb0rSs7rTUs
-ZU26DQw3aDmWG/uRkdVF4HJcm/oYlIN1FKAriPf6JFOhFm99vfxymVw+U82YAOBt
-I14yU4kdv5E+0Wzf/3WYPadFl6oKWsjQj3/2jsLZdQLFUAnO1KNJmaJLZVoW2HfC
-Uwgq/hZpSyqvfGA+fohNIl8DtYd2HY3jhq+li3JmyBY=
+-- 迁移 0074：单位换算规则关系表（V3.17.9 修复差距15）
+--
+-- 背景：unitConversionStore.ts 使用 zustand persist，数据存在 localStorage，
+-- 换设备后不同步、无权限控制、无审计。本迁移将其迁到 D1 关系表。
+--
+-- 字段契约：对齐 src/stores/unitConversionStore.ts 的 UnitRule 接口
+--   - id: string
+--   - fromUnit: string
+--   - toUnit: string
+--   - factor: number
+--
+-- 注意：不加 org_id——单位换算是全局基础数据，不区分组织
+
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS unit_conversions (
+  id TEXT PRIMARY KEY,
+  from_unit TEXT NOT NULL,
+  to_unit TEXT NOT NULL,
+  factor REAL NOT NULL,
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT,
+  UNIQUE(from_unit, to_unit)
+);
+
+-- 种子数据（与前端 DEFAULT_UNIT_RULES 一致）
+INSERT OR IGNORE INTO unit_conversions (id, from_unit, to_unit, factor)
+VALUES
+  ('u1', '箱', '个', 12),
+  ('u2', '吨', '公斤', 1000),
+  ('u3', '米', '厘米', 100),
+  ('u4', '千只', '只', 1000),
+  ('u5', '卷', '米', 50),
+  ('u6', '捆', '根', 20);
+
+-- 登记迁移
+INSERT INTO schema_migrations (version, applied_at)
+VALUES ('0074_unit_conversions', datetime('now'))
+ON CONFLICT(version) DO NOTHING;

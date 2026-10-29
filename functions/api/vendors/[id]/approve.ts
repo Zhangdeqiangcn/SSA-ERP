@@ -1,41 +1,42 @@
-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
+// POST /api/vendors/:id/approve — 审核通过供应商
+//
+// P0-4（V3.113.3）：前端 approveVendor() 一直调用本端点，后端从未实现 → 404。
+//   审核通过 = 把 status 置为 'approved'，并**同步两张供应商表**：
+//     · vendor_master —— 主数据（界面列表/详情读它）
+//     · vendors       —— 门户账号（门户登录读它，只放行 approved）
+//   只改一张就会出现「界面显示已批准、供应商仍登不进去」的口径分裂。
+import { getUserFromRequest, json } from '../../../_shared/auth';
+import { guardOperation } from '../../../_shared/operationGuard';
+import { syncVendorStatus, formatVendorRow } from '../../../_shared/vendorApproval';
+
+export async function onRequestPost(context: any) {
+  const { request, env, params } = context;
+  const user = await getUserFromRequest(request, env.DB);
+  if (!user) return json({ error: '未登录' }, 401);
+
+  // 审核 = 供应商更新面（与 PUT 同口径的权限守卫）
+  const opGuard = await guardOperation(user, 'vendor', 'update', env.DB, user.org_id);
+  if (opGuard) return opGuard;
+
+  let body: any = {};
+  try { body = await request.json(); } catch { /* 允许空体（审批意见可选） */ }
+  const comments = String(body?.comments || '').slice(0, 500);
+
+  const res = await syncVendorStatus(
+    env.DB, user.org_id, params.id, 'approved',
+    { id: user.id, name: user.name },
+    comments ? `审批意见：${comments}` : '审核通过'
+  );
+
+  if (!res.ok) return json({ error: '供应商不存在' }, 404);
+
+  const row = await env.DB.prepare('SELECT * FROM vendor_master WHERE id = ? AND org_id = ?')
+    .bind(res.id, user.org_id).first();
+
+  return json({
+    ...(row ? formatVendorRow(row) : { id: res.id, code: res.code, status: 'approved' }),
+    status: 'approved',
+    comments,
+    syncedTables: res.syncedTables,
+  });
+}

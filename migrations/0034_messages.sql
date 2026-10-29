@@ -1,12 +1,20 @@
-U2FsdGVkX18xNTFQ/1pjvZuF3rNrgQ7C6if0bLYyPjFdUxvW1/te16RSwgEeErF9
-k9DEr5fYvttHSnatGQXOQthesqhJa/JqGlIwhwndiC6WPlpy5j+g0SwWlAQhpRj3
-vIXzLMNpJVxdtSoe7+P5JWU1IcSTQzvtgXd5lnzFiwZUMv2IBInzsjTEezj5qazB
-9mGRLQq06OwaW0b++hPsogyLGtX+ZpTDMpWWqOiFSOoT2TWrClmOSKaRforQQLwk
-fPnM2UjE39XXgFIWlT4GelinebWtM2f6zk9YaJMPYb/v6niz7Ct/KN6AkpewUPgf
-yFLISozc8TZHeaQoZjUFcMTm3zFAad9uPD9VSwzCgwsxA5LXfJwy7xd06DoRLhGc
-utp+CR7O6IaERdwVwuFVeWhFio172ENJQy6Ut0KXX6ML862bFQzP3s5egYrk69S7
-Rphn0l7Zn1VVjuOv9iQLeHKHKOlOq2PXnOmOFHgXIlRVG9DpHmfIal7wYm5keGpP
-DGMzXvPIHMU6Mkw9lx4KAl+A1Ag7gj8wB0pL4T2sRyp/drlTRX8xkRB+D85bgtts
-Ie036PVBg6Wlzk4Qzt0DkTU/oEXxJh7TC/qf8bJQl4jf0T+XrgZT1ec8+OjPQcrF
-SG+JlpNZiVZRL1d2B5zvm8ldwBUq0/vp6zhnS8CSDI1a9tzhWWg8nt72+1wab3o4
-HkVN6vSHZEJxy0/cB9x/y913vqAID362B9JWz84t5XiMxlG8JMpZbzqsBkmrZ6EP
+-- V2.80.0 W2：移动端即时消息（轮询拉取，D1 多人共享，org 隔离）
+CREATE TABLE IF NOT EXISTS messages (
+  id           TEXT PRIMARY KEY,
+  org_id       TEXT NOT NULL,
+  sender_id    TEXT,
+  sender_name  TEXT,
+  recipient_id TEXT,
+  recipient_role TEXT,
+  title        TEXT NOT NULL,
+  body         TEXT,
+  type         TEXT DEFAULT 'system',
+  ref_module   TEXT,
+  ref_id       TEXT,
+  read         INTEGER DEFAULT 0,
+  read_at      TEXT,
+  created_at   TEXT,
+  updated_at   TEXT,
+  created_by   TEXT,
+  updated_by   TEXT
+);
