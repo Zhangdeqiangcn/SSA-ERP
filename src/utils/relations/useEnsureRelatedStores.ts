@@ -25,6 +25,9 @@ export function useEnsureRelatedStores(docType: string): number {
     const targets2 = new Set<string>();
     if (rel?.upstream?.target) targets2.add(rel.upstream.target);
     for (const d of rel?.downstream ?? []) targets2.add(d.target);
+    // V3.115.0：同源（兄弟）单据的数据源也要预拉取，否则 siblingResolver 查了个空表 ——
+    // 表现为「入库单列表里的采购发票/付款计划列全空」，且报不出任何错。
+    for (const t of rel?.siblingTargets ?? []) targets2.add(t);
     for (const t of targets2) {
       try {
         DOC_SOURCES[t]?.ensureLoaded?.();

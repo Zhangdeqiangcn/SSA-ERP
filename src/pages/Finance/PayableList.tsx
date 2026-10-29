@@ -1,14 +1,17 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Chip, Grid, Card, CardContent, Button,
+  Dialog, DialogTitle, DialogContent, DialogActions, Divider,
 } from '@mui/material';
 import { DataTable, FilterBar } from '@/components/common';
 import { PageWrapper } from '@/components/layout';
 import type { ColumnDef } from '@tanstack/react-table';
 import { useArapStore } from '@/stores/arapStore';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import type { RelatedDocRef } from '@/utils/relations/documentRelations';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import type { Payable, AgingBucket } from '@/types';
 
@@ -60,6 +63,10 @@ export default function PayableList() {
     if (p.agingBucket === '1-30') return '下周安排';
     return '按计划付款';
   };
+
+  // ── 详情弹窗状态（V3.115.0）：提前声明，供 columns 内的「详情」按钮闭包引用 ──
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [selected, setSelected] = useState<Payable | null>(null);
 
   const columns: ColumnDef<Payable, unknown>[] = [
     {
@@ -149,14 +156,40 @@ export default function PayableList() {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<Payable, unknown>[]),
+    // V3.115.0：关联单据按实际类型分列（采购发票 / 付款计划 …），每格「单号 + 状态」，点单号直达单据
   ];
 
+  const rel = useTypedRelated('payable', payables);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<Payable, unknown>[])],
+    [columns, rel.columns]
+  );
+
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
-  // 注：上方 columns 已并入「上游单号 / 下游单号」两列（默认隐藏、可筛选、详情页可点跳转）
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('payable', payables), columns, filterData, { module: 'finance' }),
-    [payables, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'finance' }),
+    [rel.data, allColumns, filterData]
+  );
+
+  // ── 深链（V3.115.0）：应付原本没有详情页，别处点关联单据过来只能看到一张列表。
+  //    现补详情弹窗 + 支持 ?focus=<应付id> 自动打开。 ──
+  const [searchParams] = useSearchParams();
+  const focusId = searchParams.get('focus');
+  const handledFocusRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!focusId || handledFocusRef.current === focusId) return;
+    const list = Array.isArray(payables) ? payables : [];
+    const hit = list.find((p) => String(p.id) === String(focusId));
+    if (!hit) return;
+    handledFocusRef.current = focusId;
+    setSelected(hit);
+    setDetailOpen(true);
+  }, [focusId, payables]);
+
+  /** 当前详情行（含关联单据字段） */
+  const selectedRow = useMemo(
+    () => (selected ? rel.data.find((r) => String(r.id) === String(selected.id)) : undefined),
+    [selected, rel.data]
   );
 
   // 账龄汇总（依赖过滤后的数据）
@@ -185,12 +218,12 @@ export default function PayableList() {
       </Grid>
 
       {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
-      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="payable-list" />
+      <FilterBar columns={allColumns} module="finance" onSearch={setFilterData} listKey="payable-list" />
 
       {/* 应付表格 */}
       <DataTable<Payable>
         data={filtered}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection={false}
         enablePagination
         enableSorting
@@ -199,7 +232,9 @@ export default function PayableList() {
         enableExport
         exportFormat="xlsx"
         enableImport
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
+        onRowClick={(row) => { setSelected(row as Payable); setDetailOpen(true); }}
+        onView={(row) => { setSelected(row as Payable); setDetailOpen(true); }}
         onImport={(rows) => {
           rows.forEach((r) => {
             const now = new Date().toISOString();
@@ -220,6 +255,50 @@ export default function PayableList() {
         }}
         columnConfigKey="payable-list"
       />
+
+      {/* 应付详情（V3.115.0 新增）：支持从其他单据列表点「应付单」深链直达（?focus=<id>） */}
+      <Dialog open={detailOpen} onClose={() => setDetailOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle>应付详情 — {selected?.invoiceNo}</DialogTitle>
+        <DialogContent dividers>
+          {selected && (
+            <>
+              <Grid container spacing={1.5}>
+                {[
+                  { label: '供应商', value: selected.vendorName || '-' },
+                  { label: '发票号', value: selected.invoiceNo || '-' },
+                  { label: '金额', value: `¥${Number(selected.amount).toLocaleString()}` },
+                  { label: '已付', value: `¥${Number(selected.paidAmount).toLocaleString()}` },
+                  { label: '余额', value: `¥${Number(selected.balance).toLocaleString()}` },
+                  { label: '到期日', value: selected.dueDate || '-' },
+                  { label: '账龄', value: AGING_LABELS[selected.agingBucket]?.label ?? selected.agingBucket },
+                  { label: '状态', value: STATUS_LABEL[selected.status] ?? selected.status },
+                  ...(selected.remarks ? [{ label: '备注', value: selected.remarks }] : []),
+                ].map((f) => (
+                  <Grid item xs={6} key={f.label}>
+                    <Typography variant="caption" color="text.secondary">{f.label}</Typography>
+                    <Typography variant="body2">{f.value}</Typography>
+                  </Grid>
+                ))}
+              </Grid>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>关联单据</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', minWidth: 64 }}>来源单据</Typography>
+                  <RelatedDocLinks docs={(selectedRow?.upstreamDocs ?? []) as RelatedDocRef[]} showType showStatus />
+                </Box>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', minWidth: 64 }}>后续单据</Typography>
+                  <RelatedDocLinks docs={(selectedRow?.downstreamDocs ?? []) as RelatedDocRef[]} showType showStatus />
+                </Box>
+              </Box>
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDetailOpen(false)}>关闭</Button>
+        </DialogActions>
+      </Dialog>
     </PageWrapper>
   );
 }

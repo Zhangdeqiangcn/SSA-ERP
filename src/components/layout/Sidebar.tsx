@@ -272,6 +272,8 @@ const menuGroups: MenuGroup[] = [
           { label: '付款计划', icon: <CreditCard />, path: '/finance/payments' },
           { label: '应收管理', icon: <CallReceived />, path: '/finance/receivables' },
           { label: '应付管理', icon: <Outbound />, path: '/finance/payables' },
+          // V3.118.0：与供应商端对账数据核对（门户对账单 ↔ 采购订单 / 入库单 / 发票台账）
+          { label: '对账管理', icon: <FactCheck />, path: '/finance/reconciliations' },
           { label: '账龄分析', icon: <TimelineIcon />, path: '/finance/aging' },
           { label: '汇率管理', icon: <SwapHorizIcon />, path: '/finance/exchange-rates' },
           { label: '预算控制', icon: <Savings />, path: '/finance/budget' },

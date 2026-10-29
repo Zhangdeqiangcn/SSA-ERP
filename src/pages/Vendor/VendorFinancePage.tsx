@@ -10,7 +10,8 @@
  *  5. 客户同意（演示用「模拟客户同意」）→ 触发开票，按发票版面排版预览；
  *  6. 供应商确认 → 开电子票/打印纸质发票，并登记至财务发票台账、回写对账单行已开票。
  */
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import {
   Box, Chip, Typography, Stack, Button, Paper, Grid,
   Dialog, DialogTitle, DialogContent, DialogActions,
@@ -31,6 +32,11 @@ import { useFinanceStore } from '@/stores/financeStore';
 import type { VendorStatement, VendorInvoiceRequest, DeliveryShipment, Invoice } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { getVendorPortalIdentity } from '@/utils/vendorPortalIdentity';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
+import { withRelatedDocNos, type RelatedDocRef } from '@/utils/relations/documentRelations';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import PortalDocPeek from './PortalDocPeek';
 
 // ── 常量与工具 ─────────────────────────────────────────────
 // B5-T5 统一身份源：门户登录会话 → 主数据供应商，消除硬编码 ven-001
@@ -107,6 +113,32 @@ function StatementPanel() {
   const [createOpen, setCreateOpen] = useState(false);
   const [snackbarMsg, setSnackbarMsg] = useState('');
   const [invoiceFrom, setInvoiceFrom] = useState<VendorStatement | null>(null);
+  const [peek, setPeek] = useState<RelatedDocRef | null>(null);
+
+  // 深链：?focus=<对账单id> → 自动打开该单详情（与主 ERP 财务域同一套深链约定，
+  //   否则从别处点过来的链接只会停在列表页，用户会以为按钮坏了）
+  const [searchParams] = useSearchParams();
+  const focusId = searchParams.get('focus');
+  const handledFocusRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!focusId || handledFocusRef.current === focusId) return;
+    const list = Array.isArray(vendorStatements) ? vendorStatements : [];
+    const hit = list.find((s) => String(s.id) === String(focusId));
+    if (!hit) return; // 数据未水合：先不标记，等数据到位再试
+    handledFocusRef.current = focusId;
+    setDetailOpen(hit);
+  }, [focusId, vendorStatements]);
+
+  // V3.116.0：关联单据能力与主 ERP 共用同一套基础设施（数据源 / 关系表 / 状态字典），
+  //   门户只是把「点击跳路由」换成「门户内只读速览」—— 因为门户用户没有主 ERP 登录态。
+  useEnsureRelatedStores('vendorStatement');
+  const openPeek = useCallback((d: RelatedDocRef) => setPeek(d), []);
+  const rel = useTypedRelated('vendorStatement', vendorStatements as unknown as Record<string, any>[], {
+    onDocClick: openPeek,
+    // 付款计划列固定出现：供应商最关心"这笔钱排没排付款"，
+    //   这一栏空着本身就是答案（还没排），列藏掉等于问题不可见。
+    alwaysIncludeTypes: ['paymentPlan'],
+  });
 
   // 候选「已发货/已签收」订单
   const candidateShips = useMemo(
@@ -139,12 +171,30 @@ function StatementPanel() {
       cell: ({ row }) => <StatementActions row={row.original} onMsg={setSnackbarMsg} onInvoice={(st) => setInvoiceFrom(st)} /> },
   ], []);
 
+  // 关联列拼在业务列之后：采购订单 / 入库单 / 开票申请 / 采购发票 / 付款计划
+  //   （列头即单据真名；只对这批数据里真实出现过的类型建列）
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<VendorStatement, unknown>[])],
+    [columns, rel.columns],
+  );
+
   const filteredData = useMemo(() => {
-    let data = [...vendorStatements];
+    let data = rel.data as unknown as VendorStatement[];
     if (filterData.statementNo) data = data.filter((d) => d.statementNo.includes(filterData.statementNo as string));
     if (filterData.status) data = data.filter((d) => d.status === filterData.status);
+    // 关联单据检索：单号能精确查、状态词（已入库/已开票/已付清）也能查 —— 与主 ERP 同口径
+    const kw = String(filterData.relDoc ?? '').trim();
+    if (kw) {
+      data = data.filter((d) => {
+        const text = Object.entries(d as unknown as Record<string, unknown>)
+          .filter(([k]) => k.startsWith('relUp_') || k.startsWith('relDown_'))
+          .map(([, v]) => String(v ?? ''))
+          .join(' ');
+        return text.includes(kw);
+      });
+    }
     return data;
-  }, [filterData, vendorStatements]);
+  }, [filterData, rel.data]);
 
   return (
     <Box>
@@ -175,12 +225,19 @@ function StatementPanel() {
         { name: 'statementNo', label: '对账单号', type: 'text' as const },
         { name: 'status', label: '状态', type: 'select' as const,
           options: [{ value: '', label: '全部' }, ...Object.entries(statementStatusMap).map(([v, { label }]) => ({ value: v, label }))] },
+        { name: 'relDoc', label: '关联单据（单号/状态）', type: 'text' as const },
       ]} onFilter={setFilterData} />
-      <DataTable data={filteredData} columns={columns} enableRowSelection enablePagination enableExport />
+      <DataTable data={filteredData} columns={allColumns} hiddenColumns={rel.hiddenColumns} enableRowSelection enablePagination enableExport />
 
       {detailOpen && (
-        <StatementDetailDialog statement={detailOpen} onClose={() => setDetailOpen(null)} />
+        <StatementDetailDialog
+          statement={detailOpen}
+          onClose={() => setDetailOpen(null)}
+          onOpenDoc={openPeek}
+        />
       )}
+
+      {peek && <PortalDocPeek doc={peek} onClose={() => setPeek(null)} onOpen={setPeek} />}
 
       {createOpen && (
         <StatementCreateDialog
@@ -232,7 +289,18 @@ function StatementActions({ row, onMsg, onInvoice }: {
 }
 
 // 对账单详情
-function StatementDetailDialog({ statement, onClose }: { statement: VendorStatement; onClose: () => void }) {
+function StatementDetailDialog({ statement, onClose, onOpenDoc }: {
+  statement: VendorStatement;
+  onClose: () => void;
+  /** 点明细行 / 关联单据里的单号 → 打开门户内只读速览（V3.116.0） */
+  onOpenDoc: (doc: RelatedDocRef) => void;
+}) {
+  // 详情页原本看不到"这张对账单对的是哪几张单、开出的票到哪一步了"，
+  // 只能回列表里猜。这里复用同一个关系表算出上下游，与列表列口径完全一致。
+  const related = useMemo(
+    () => withRelatedDocNos('vendorStatement', [statement as unknown as Record<string, any>])[0],
+    [statement],
+  );
   return (
     <Dialog open maxWidth="md" fullWidth onClose={onClose}>
       <DialogTitle sx={{ fontWeight: 600 }}>对账单详情 · {statement.statementNo}</DialogTitle>
@@ -243,11 +311,28 @@ function StatementDetailDialog({ statement, onClose }: { statement: VendorStatem
           <Grid item xs={4}><Typography variant="caption" color="text.secondary">对账周期</Typography><Typography>{statement.statementPeriod}</Typography></Grid>
           <Grid item xs={4}><Typography variant="caption" color="text.secondary">状态</Typography><Chip label={statementStatusMap[statement.status]?.label} size="small" color={statementStatusMap[statement.status]?.color || 'default'} /></Grid>
         </Grid>
+
+        {/* 关联单据：来源（采购订单/入库单）+ 后续（开票申请/发票/付款计划），每项带当前状态 */}
+        <Paper variant="outlined" sx={{ p: 1.5, mb: 2, borderRadius: 2, bgcolor: '#F8FAFC' }}>
+          <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1 }}>关联单据</Typography>
+          <Stack spacing={1}>
+            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+              <Typography variant="caption" sx={{ color: '#64748B', minWidth: 56 }}>来源单据</Typography>
+              <RelatedDocLinks docs={related.upstreamDocs} showType showStatus onDocClick={onOpenDoc} />
+            </Stack>
+            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
+              <Typography variant="caption" sx={{ color: '#64748B', minWidth: 56 }}>后续单据</Typography>
+              <RelatedDocLinks docs={related.downstreamDocs} showType showStatus onDocClick={onOpenDoc} />
+            </Stack>
+          </Stack>
+        </Paper>
+
         <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
           <Table size="small">
             <TableHead>
               <TableRow sx={{ bgcolor: '#F8FAFC' }}>
-                <TableCell>采购订单号</TableCell><TableCell>物料</TableCell>
+                <TableCell>采购订单</TableCell><TableCell>入库单</TableCell>
+                <TableCell>物料</TableCell>
                 <TableCell align="right">数量</TableCell><TableCell align="right">单价</TableCell>
                 <TableCell align="right">金额</TableCell><TableCell align="right">税率</TableCell>
                 <TableCell align="right">价税合计</TableCell><TableCell>入库日期</TableCell><TableCell>开票</TableCell>
@@ -256,7 +341,18 @@ function StatementDetailDialog({ statement, onClose }: { statement: VendorStatem
             <TableBody>
               {statement.items?.map((item) => (
                 <TableRow key={item.id} hover>
-                  <TableCell><Typography variant="body2" fontFamily="monospace">{item.purchaseOrderNo}</Typography></TableCell>
+                  <TableCell>
+                    <RelatedDocLinks
+                      docs={item.purchaseOrderNo ? [{ type: 'purchaseOrder', no: item.purchaseOrderNo }] : []}
+                      showStatus onDocClick={onOpenDoc}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <RelatedDocLinks
+                      docs={item.inboundNo ? [{ type: 'inbound', no: item.inboundNo }] : []}
+                      showStatus onDocClick={onOpenDoc}
+                    />
+                  </TableCell>
                   <TableCell>
                     <Stack spacing={0.3}>
                       <Chip label={item.materialCode} size="small" sx={{ bgcolor: '#EFF6FF', color: '#1D4ED8', fontFamily: 'monospace', fontSize: '0.7rem', width: 'fit-content' }} />
@@ -269,7 +365,14 @@ function StatementDetailDialog({ statement, onClose }: { statement: VendorStatem
                   <TableCell align="right">{item.taxRate}%</TableCell>
                   <TableCell align="right">{formatCurrency(item.totalAmount)}</TableCell>
                   <TableCell>{formatDate(item.inboundDate)}</TableCell>
-                  <TableCell>{item.invoiced ? <Chip size="small" color="success" label={item.invoiceNo || '已开'} /> : <Chip size="small" color="default" label="未开" />}</TableCell>
+                  <TableCell>
+                    {item.invoiced
+                      ? <RelatedDocLinks
+                          docs={item.invoiceNo ? [{ type: 'finInvoice', no: item.invoiceNo }] : []}
+                          showStatus onDocClick={onOpenDoc}
+                        />
+                      : <Chip size="small" color="default" label="未开" />}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -742,8 +845,27 @@ function InvoiceIssueDialog({ request, open, onClose }: {
 }
 
 // ── 主页（Tabs：对账单 + 开票申请）─────────────────────────
-const VendorFinancePage: React.FC = () => {
-  const [tab, setTab] = useState(0);
+export interface VendorFinancePageProps {
+  /**
+   * 'full'      —— 财务管理（对账单管理 + 开票申请 两个 Tab），挂 /vendor-portal/finance/*
+   * 'statement' —— 采购模块下的独立「采购对账单」页，挂 /vendor-portal/purchase/statements
+   *
+   * 为什么用同一个组件而不是复制一份：对账单列表/新建/审批/开票这一整条链路有 600 多行，
+   * 复制出去必然出现两套口径（改一处漏一处）。差异只在页面标题与是否显示 Tab。
+   */
+  mode?: 'full' | 'statement';
+  /** 页面主标题（默认按 mode 推导：财务管理 / 采购对账单） */
+  title?: string;
+}
+
+const VendorFinancePage: React.FC<VendorFinancePageProps> = ({ mode = 'full', title }) => {
+  const { pathname } = useLocation();
+  // Tab 初值跟随路由：原先 /finance/invoices 与 /finance/statements 都渲染本组件、都从 tab=0 起，
+  // 点「开票申请」菜单实际落在对账单 Tab 上（静默错位）。顺手修掉。
+  const [tab, setTab] = useState(() =>
+    mode === 'statement' ? 0 : pathname.includes('/invoices') ? 1 : 0
+  );
+  const heading = title ?? (mode === 'statement' ? '采购对账单' : '财务管理');
   return (
     <Box sx={{ p: 3 }}>
       {!identity && (
@@ -753,19 +875,26 @@ const VendorFinancePage: React.FC = () => {
       )}
       <DemoBanner reason="对账单、开票申请与发票均**已真实写入财务台账**（addVendorStatement / confirmReconciliation / addInvoice）；当前「审批通过 / 客户同意」为**模拟按钮**，未对接外部真实采购-财务审批系统与税务开票平台。" />
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-        <Typography variant="h5" fontWeight={700} sx={{ color: '#1E293B' }}>财务管理</Typography>
+        <Typography variant={mode === 'statement' ? 'h5' : 'h5'} fontWeight={700} sx={{ color: '#1E293B' }}>{heading}</Typography>
         <Chip size="small" color="primary" variant="outlined" data-testid="portal-current-vendor" label={identity?.vendorName || DEFAULT_VENDOR_NAME} />
       </Box>
-      <Paper sx={{ mb: 3 }}>
-        <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ px: 2, borderBottom: '1px solid #E2E8F0' }}>
-          <Tab label="对账单管理" icon={<AccountBalance fontSize="small" />} iconPosition="start" />
-          <Tab label="开票申请" icon={<Receipt fontSize="small" />} iconPosition="start" />
-        </Tabs>
-      </Paper>
-      <Box sx={{ mt: 2 }}>
-        {tab === 0 && <StatementPanel />}
-        {tab === 1 && <InvoiceRequestPanel />}
-      </Box>
+      {mode === 'statement' ? (
+        // 采购模块下的对账单页：不显示 Tab（开票申请留在财务管理里），只出对账单
+        <Box sx={{ mt: 2 }}><StatementPanel /></Box>
+      ) : (
+        <>
+          <Paper sx={{ mb: 3 }}>
+            <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ px: 2, borderBottom: '1px solid #E2E8F0' }}>
+              <Tab label="对账单管理" icon={<AccountBalance fontSize="small" />} iconPosition="start" />
+              <Tab label="开票申请" icon={<Receipt fontSize="small" />} iconPosition="start" />
+            </Tabs>
+          </Paper>
+          <Box sx={{ mt: 2 }}>
+            {tab === 0 && <StatementPanel />}
+            {tab === 1 && <InvoiceRequestPanel />}
+          </Box>
+        </>
+      )}
     </Box>
   );
 };

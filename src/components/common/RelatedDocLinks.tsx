@@ -9,9 +9,10 @@
 //         明确表达"这是单号，但目标不存在"，而不是给一个点不动的假按钮。
 
 import React from 'react';
-import { Link, Typography } from '@mui/material';
+import { Chip, Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { resolveRoute, docTypeLabel, type RelatedDocRef } from '@/utils/relations/documentRelations';
+import { getDocStatus } from '@/utils/relations/docStatus';
 
 interface Props {
   /** 关联引用数组（可空/空数组 → 显示 '-'） */
@@ -22,10 +23,35 @@ interface Props {
    * 只给单号没人分得清是什么单 —— 明细是什么单就写什么单。
    */
   showType?: boolean;
+  /**
+   * 是否在单号后显示该单据的当前状态（V3.115.0）。
+   * 强哥需求：列表里不只要看到关联单号，还要一眼看出对方单走到哪了
+   * （入库单已入库没有、发票验没验、付款付没付）。
+   * 状态标签取全站 StatusBadge 字典的同一套语义色，不另造颜色与文案。
+   */
+  showStatus?: boolean;
+  /** 单号之间的分隔符（默认中文顿号） */
+  separator?: string;
+  /**
+   * 覆盖默认跳转行为（V3.116.0）。
+   *
+   * 为什么需要：主 ERP 里点单号 = 跳路由进详情页，因为用户有 ERP 登录态；
+   *   但供应商门户是**另一套身份体系**，门户用户没有主 ERP 权限 —— 若照旧跳
+   *   /purchase/orders/po-001 会被 RequireAuth 弹回登录页，等于点了没反应。
+   * 传了本回调时：① 一律渲染为可点链接（是否存在由回调自己判断并提示）；
+   *   ② 不再走 navigate，改由调用方决定（门户侧是弹只读速览弹窗）。
+   */
+  onDocClick?: (doc: RelatedDocRef) => void;
 }
 
 /** 渲染一组可点击的关联单号；无则显示占位符 */
-export default function RelatedDocLinks({ docs, showType = false }: Props) {
+export default function RelatedDocLinks({
+  docs,
+  showType = false,
+  showStatus = false,
+  separator = '、',
+  onDocClick,
+}: Props) {
   const navigate = useNavigate();
   if (!docs || docs.length === 0) return <>-</>;
 
@@ -33,8 +59,10 @@ export default function RelatedDocLinks({ docs, showType = false }: Props) {
     <>
       {docs.map((d, i) => {
         // V3.113.2：先判定能否解析出真实路由，解析不到 → 灰色纯文本（不可点）
-        const to = resolveRoute(d.type, d.no);
-        const resolvable = !!to && to !== '#';
+        // V3.116.0：调用方接管点击（门户速览）时不做死链判定 —— 门户能看到什么由它自己算
+        const to = onDocClick ? '' : resolveRoute(d.type, d.no);
+        const resolvable = onDocClick ? true : !!to && to !== '#';
+        const st = showStatus ? getDocStatus(d.type, d.no) : null;
         return (
           <React.Fragment key={`${d.type}-${d.no}-${i}`}>
             {showType ? (
@@ -52,9 +80,11 @@ export default function RelatedDocLinks({ docs, showType = false }: Props) {
                 variant="body2"
                 underline="hover"
                 sx={{ cursor: 'pointer' }}
+                title={onDocClick ? `${docTypeLabel(d.type)} ${d.no}：点击查看` : undefined}
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate(to);
+                  if (onDocClick) onDocClick(d);
+                  else navigate(to);
                 }}
               >
                 {d.no}
@@ -71,7 +101,22 @@ export default function RelatedDocLinks({ docs, showType = false }: Props) {
                 {d.no}
               </Typography>
             )}
-            {i < docs.length - 1 ? '、' : null}
+            {st ? (
+              <Chip
+                label={st.label}
+                color={st.color}
+                variant="outlined"
+                size="small"
+                title={`${docTypeLabel(d.type)}当前状态：${st.label}`}
+                sx={{
+                  height: 16,
+                  ml: 0.5,
+                  verticalAlign: 'middle',
+                  '& .MuiChip-label': { px: 0.5, fontSize: '0.62rem', lineHeight: 1.6 },
+                }}
+              />
+            ) : null}
+            {i < docs.length - 1 ? separator : null}
           </React.Fragment>
         );
       })}

@@ -33,10 +33,14 @@ interface PortalMenuItem {
 const menuItems: PortalMenuItem[] = [
   { label: '工作台', icon: <Dashboard />, path: '/vendor-portal' },
   {
-    label: '订单管理', icon: <ShoppingCart />,
+    // V3.116.0：原「订单管理」升级为「采购管理」——
+    //   对账单本质是采购履约的结算凭证（对着采购订单/入库单核数、核完再开票），
+    //   放在采购模块下与业务动线一致：订单确认 → 发货 → 对账 → 开票 → 收款。
+    label: '采购管理', icon: <ShoppingCart />,
     children: [
       { label: '订单确认', icon: <Handshake />, path: '/vendor-portal/orders/confirm' },
       { label: '发货物流', icon: <LocalShipping />, path: '/vendor-portal/orders/shipment' },
+      { label: '采购对账单', icon: <AttachMoney />, path: '/vendor-portal/purchase/statements' },
       { label: '询价报价', icon: <Assignment />, path: '/vendor-portal/quotation', badge: 1 },
     ],
   },
@@ -50,7 +54,8 @@ const menuItems: PortalMenuItem[] = [
   {
     label: '财务管理', icon: <AccountBalance />,
     children: [
-      { label: '对账单管理', icon: <AttachMoney />, path: '/vendor-portal/finance/statements' },
+      // 对账单移入采购模块（见上）；此处只留资金侧视角。
+      // 旧路径 /vendor-portal/finance/statements 仍可用（同一套组件），仅不再在菜单暴露。
       { label: '开票申请', icon: <Receipt />, path: '/vendor-portal/finance/invoices' },
       { label: '付款计划查询', icon: <Payment />, path: '/vendor-portal/finance/payments' },
     ],
@@ -68,7 +73,7 @@ const VendorPortalLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [vendorUser, setVendorUser] = useState<{ name: string; code: string; role: string } | null>(null);
-  const [expandedItems, setExpandedItems] = useState<string[]>(['订单管理', '质量管理', '财务管理']);
+  const [expandedItems, setExpandedItems] = useState<string[]>(['采购管理', '质量管理', '财务管理']);
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {

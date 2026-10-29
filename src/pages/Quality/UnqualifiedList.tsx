@@ -22,8 +22,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useQualityStore } from '@/stores/qualityStore';
 import { UnqualifiedDisposition, UnqualifiedStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 扩展处置方式（兼容旧4种 + 新5种枚举）
@@ -391,13 +390,21 @@ const UnqualifiedList: React.FC = () => {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<typeof unqualifiedItems[0], unknown>[]),
   ];
+
+  // V3.117.0：关联单据列改造（对齐采购订单）——原实现把 upstreamNo/downstreamNo 两列隐藏，
+  //   用户看不到"这张不合格品是哪张报检单检出来的、后续走了哪张退货出库单"。
+  //   现按真实单据类型分列，可点直达。
+  const rel = useTypedRelated('unqualified', unqualifiedItems);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<typeof unqualifiedItems[0], unknown>[])],
+    [columns, rel.columns]
+  );
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('unqualified', unqualifiedItems), columns, filterData, { module: 'quality' }),
-    [unqualifiedItems, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'quality' }),
+    [rel.data, allColumns, filterData]
   );
 
   return (
@@ -445,12 +452,12 @@ const UnqualifiedList: React.FC = () => {
         </Paper>
       </Stack>
 
-      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="unqualified-list" />
+      <FilterBar columns={allColumns} module="quality" onSearch={setFilterData} listKey="unqualified-list" />
 
       <Paper sx={{ borderRadius: 3 }}>
         <DataTable<typeof unqualifiedItems[0]>
           data={filtered}
-          columns={columns}
+          columns={allColumns}
           enableRowSelection={false}
           enablePagination={true}
           enableSorting={true}
@@ -461,7 +468,7 @@ const UnqualifiedList: React.FC = () => {
           codeColumnId="itemNo"
           enableImport={true}
           onImport={(rows, headers) => rows.forEach(r => addUnqualifiedItem(mapImportRow(r, headers)))}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          hiddenColumns={rel.hiddenColumns}
           columnConfigKey="unqualified-list"
         />
       </Paper>

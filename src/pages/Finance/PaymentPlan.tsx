@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Chip, Grid, Card, CardContent, Button, TextField,
@@ -19,8 +20,9 @@ import type { PaymentInstallment, PaymentInstallmentType } from '@/types/finance
 import { useFinanceExtensionStore, convertCurrency, BASE_CURRENCY_CODE } from '@/stores/financeExtensionStore';
 import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
+import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import type { RelatedDocRef } from '@/utils/relations/documentRelations';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 付款计划状态 → 集中 statusConfig key（overdue 复用通用 key）
@@ -94,6 +96,21 @@ export default function PaymentPlan() {
     setDetailOpen(true);
   };
 
+  // V3.115.0 深链：别处点「计划号」进来带 ?focus=<付款计划id>，自动打开详情弹窗
+  const [searchParams] = useSearchParams();
+  const focusId = searchParams.get('focus');
+  const handledFocusRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!focusId || handledFocusRef.current === focusId) return;
+    const list = Array.isArray(paymentPlans) ? paymentPlans : [];
+    const hit = list.find((p) => String(p.id) === String(focusId));
+    if (!hit) return;
+    handledFocusRef.current = focusId;
+    setSelectedPlan(hit);
+    setVoucherMsg(null);
+    setDetailOpen(true);
+  }, [focusId, paymentPlans]);
+
   const handleGenVoucher = () => {
     if (!selectedPlan) return;
     const v = generateVoucherFromPayment(selectedPlan.id);
@@ -124,17 +141,28 @@ export default function PaymentPlan() {
     },
   ];
 
-  // V3.113.2：付款计划补齐「上下游关联单号」列（此前是唯一"已登记关系但列表未接入"的财务单据）
-  const columnsWithRelated: ColumnDef<typeof paymentPlans[number], unknown>[] = [
-    ...columns,
-    ...(buildRelatedColumns() as ColumnDef<typeof paymentPlans[number], unknown>[]),
-  ];
+  // V3.115.0：付款计划原先手写表格只显示「关联发票 / 关联采购单」两个单号列，
+  //   且不带状态。现统一走 useTypedRelated：单号后带对方单据当前状态，并补「入库单」列，
+  //   让财务一眼看出"货到了没有、票验了没有"再决定付款。
+  const rel = useTypedRelated('paymentPlan', paymentPlans);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<typeof paymentPlans[number], unknown>[])],
+    [columns, rel.columns]
+  );
 
   const filtered = useMemo(
-    // 顺序关键：先 enhance 再 filter，否则上游/下游列筛不到
-    () => applyColumnFilters(withRelatedDocNos('paymentPlan', paymentPlans), columnsWithRelated, filterData, { module: 'finance' }),
-    [paymentPlans, columnsWithRelated, filterData]
+    // 顺序关键：先 enhance（useTypedRelated 已做）再 filter，否则关联列筛不到
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'finance' }),
+    [rel.data, allColumns, filterData]
   );
+
+  /** 取某行在指定方向上、指定类型的关联单据（供手写表格单元格渲染） */
+  const docsOf = (
+    row: Record<string, any>,
+    dir: 'upstreamDocs' | 'downstreamDocs',
+    type: string
+  ): RelatedDocRef[] =>
+    ((row?.[dir] ?? []) as RelatedDocRef[]).filter((d) => d.type === type);
 
   const overdueCount = paymentPlans.filter(p => p.status === 'overdue').length;
 
@@ -203,7 +231,7 @@ export default function PaymentPlan() {
       </Grid>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columnsWithRelated} module="finance" onSearch={setFilterData} listKey="finance-payment-plan" />
+      <FilterBar columns={allColumns} module="finance" onSearch={setFilterData} listKey="finance-payment-plan" />
 
       <Paper>
         <TableContainer>
@@ -214,6 +242,7 @@ export default function PaymentPlan() {
                 <TableCell sx={{ fontWeight: 600 }}>供应商</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>关联发票</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>关联采购单</TableCell>
+                <TableCell sx={{ fontWeight: 600 }}>入库单</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>付款方式</TableCell>
                 <TableCell align="right" sx={{ fontWeight: 600 }}>应付总额</TableCell>
                 <TableCell sx={{ fontWeight: 600 }}>币种 / 折合{BASE_CURRENCY_CODE}</TableCell>
@@ -240,12 +269,16 @@ export default function PaymentPlan() {
                       )}
                     </TableCell>
                     <TableCell>
-                      {/* V3.113.2：关联发票改为可点链接（跳采购发票列表） */}
-                      <RelatedSourceField docType="paymentPlan" entity={p} filterType="finInvoice" />
+                      {/* V3.115.0：关联发票改为「单号 + 发票当前状态」，点单号直达该发票详情 */}
+                      <RelatedDocLinks docs={docsOf(p, 'upstreamDocs', 'finInvoice')} showStatus />
                     </TableCell>
                     <TableCell>
-                      {/* V3.113.2：补「关联采购单」可点链接 */}
-                      <RelatedSourceField docType="paymentPlan" entity={p} filterType="purchaseOrder" />
+                      {/* V3.115.0：关联采购单同样带状态（已收货 / 部分到货 …） */}
+                      <RelatedDocLinks docs={docsOf(p, 'upstreamDocs', 'purchaseOrder')} showStatus />
+                    </TableCell>
+                    <TableCell>
+                      {/* V3.115.0：同源入库单（付款前先看货到没到齐） */}
+                      <RelatedDocLinks docs={docsOf(p, 'downstreamDocs', 'inbound')} showStatus />
                     </TableCell>
                     <TableCell>{p.paymentMethod || '-'}</TableCell>
                     <TableCell align="right">¥{p.totalAmount.toLocaleString()}</TableCell>

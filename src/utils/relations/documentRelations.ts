@@ -30,6 +30,88 @@ export interface DocRelation {
    *  matchField 指定"用本单哪个字段去比"（默认 numberField 即编号）；
    *  当子单的关联字段存的是本单 id（如 sourceRequestIds）时，须显式 matchField:'id'。 */
   downstream?: Array<{ target: string; linkField: string; matchField?: string }>;
+  /**
+   * 同源关联单据（V3.115.0 新增）。
+   *
+   * 解决的问题：部分单据之间在数据模型上**没有直接字段相连**，只共享同一个上游。
+   *   例：入库单只存 sourceNo=采购订单号，发票只存 purchaseOrderNo=采购订单号，
+   *   「这张入库单对应的发票」在两表里都没有对方的号 —— 硬按字段映射必然查不到。
+   *   但业务上它们确实是一伙的（同一采购订单下的收货与开票），用户就是要在入库单列表
+   *   里看到这张单的发票状态。
+   *
+   * 解法：由本类型自行给出「同源单据」解析函数（通常按共同上游单号去反查目标单据），
+   *   结果并入 downstreamDocs —— 列头仍是真实单据名（采购发票 / 付款计划…），
+   *   在「明细是什么单就写什么单」的口径下与普通下游单据无差别。
+   * 注意：不写函数即表示该单据没有同源关联需求，不做任何推断。
+   */
+  siblingResolver?: (row: any) => RelatedDocRef[];
+  /**
+   * siblingResolver 可能返回的目标单据类型清单（V3.115.0）。
+   *
+   * 为什么要单独声明：siblingResolver 是函数，运行时才能知道它查哪些表，
+   *   而 useEnsureRelatedStores 需要在**挂载时**就把这些数据源的 store 拉起来。
+   *   不声明 → 发票/付款计划的 store 没 hydrate → 兄弟单据永远查不到（列恒为空）。
+   * 列出即可，不需要精确到字段；多列几个无害，漏列则关联失效。
+   */
+  siblingTargets?: string[];
+  /**
+   * 上游目标类型清单（V3.115.0）。
+   * 与 siblingTargets 同理：upstreamResolver 是函数，静态看不出它指向哪些单据，
+   * 而列表需要**稳定地把「来源单据」列摆出来**（哪怕当前数据解析不到目标，也要让用户
+   * 看见"这里本该有一张采购发票"）。不声明则只按实际数据生成，数据一断列就消失。
+   */
+  upstreamTargets?: string[];
+  /**
+   * 本单据类型专属的状态字典（V3.116.0 新增）。
+   *
+   * 为什么需要：全站 statusConfig 是通用字典，同一个 key 在不同业务域含义并不相同 ——
+   *   issued 在库存域是「已发料」，在供应商门户的开票申请里是「已开票」；
+   *   received 在仓储域是「已收货」，在开票申请里是「已收票」。
+   *   若一律走通用字典，供应商看到的状态就是错的（把他的发票说成"已发料"）。
+   *
+   * 用法：仅在**本类型语义与通用字典冲突**时声明；未声明的 key 自动回退通用字典，
+   *   所以只需列出有歧义的那几个，不必把整张字典抄一遍。
+   * 优先级：本表 > statusConfig 模块前缀键（inv_/pp_） > statusConfig 通用键 > 原始值。
+   */
+  statusLabels?: Record<string, DocStatusLabel>;
+}
+
+/** 类型专属状态标签（label 为中文短标签，color 取 MUI 语义色） */
+export interface DocStatusLabel {
+  label: string;
+  color: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
+}
+
+/**
+ * 按「目标单据类型 + 某字段等于某值」反查单号（V3.115.0 新增）。
+ * 供 relations.ts 书写 siblingResolver 时复用：一行代码即可把"同属某采购订单的发票"捞出来。
+ * 字段值为数组时（如 receiptInboundNos）按包含匹配。
+ */
+export function docsByField(
+  type: string,
+  field: string,
+  value: unknown
+): RelatedDocRef[] {
+  const src = DOC_SOURCES[type];
+  if (!src || value == null || value === '') return [];
+  let docs: unknown;
+  try {
+    docs = src.getDocs();
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(docs)) return [];
+  const key = String(value);
+  const out: RelatedDocRef[] = [];
+  for (const d of docs as Record<string, any>[]) {
+    const v = d?.[field];
+    if (v == null) continue;
+    const hit = Array.isArray(v)
+      ? v.map(String).includes(key)
+      : String(v) === key;
+    if (hit) out.push({ type, no: String(d[src.numberField]) });
+  }
+  return out;
 }
 
 /**
@@ -96,6 +178,9 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   cashMgmt: '资金流水',
   voucher: '记账凭证',
   paymentPlan: '付款计划',
+  // 供应商门户（V3.116.0）
+  vendorStatement: '供应商对账单',
+  vendorInvoiceRequest: '开票申请',
   // 主数据
   vendor: '供应商',
   material: '物料',
@@ -270,6 +355,13 @@ export function withRelatedDocNos<T extends Record<string, any>>(
 
     // 下游（反向查：目标单据的 linkField 等于本单的某字段；linkField 可能是数组）
     const downstreamDocs: RelatedDocRef[] = [];
+    // V3.117.0：同一张下游单可能被多条规则命中 —— 典型是 RELS 里同时登记了
+    //   { linkField:'inspectionTaskId', matchField:'id' } 与 { linkField:'inspectionTaskNo' }，
+    //   种子数据两个字段都填了，于是同一张 NCR 被推入两次，列表里显示成
+    //   「NCR-20240511-001,NCR-20240511-001」。
+    //   这里按 type+单号 去重（而不是删掉某条规则），因为两种匹配方式都必须保留：
+    //   历史数据可能只填了 id、新数据可能只填了单号，删任一都会漏单。
+    const seenDown = new Set<string>();
     for (const d of downTargets) {
       const src = DOC_SOURCES[d.target];
       if (!src) continue;
@@ -283,7 +375,28 @@ export function withRelatedDocNos<T extends Record<string, any>>(
         const matches = Array.isArray(linkVal)
           ? linkVal.map(String).includes(String(myRef))
           : String(linkVal) === String(myRef);
-        if (matches) downstreamDocs.push({ type: d.target, no: String(c[src.numberField]) });
+        if (!matches) continue;
+        const no = String(c[src.numberField]);
+        const key = `${d.target}|${no}`;
+        if (seenDown.has(key)) continue;
+        seenDown.add(key);
+        downstreamDocs.push({ type: d.target, no });
+      }
+    }
+
+    // 同源关联单据（V3.115.0）：走共同上游反查出来的兄弟单据，并入 downstreamDocs。
+    // 去重理由：某些单据既是下游又是同源（如采购订单的发票既是 downstream 又可能被
+    // siblingResolver 再捞一次），重复渲染会让同一个单号在列里出现两遍。
+    if (rel?.siblingResolver) {
+      try {
+        for (const ref of rel.siblingResolver(row) ?? []) {
+          if (!ref?.type || !ref?.no) continue;
+          const no = String(ref.no);
+          if (downstreamDocs.some((d) => d.type === ref.type && String(d.no) === no)) continue;
+          downstreamDocs.push({ type: ref.type, no });
+        }
+      } catch {
+        /* 同源解析失败不影响主体关联 */
       }
     }
 

@@ -98,3 +98,5 @@ approval-center-test.png
 # WorkBuddy agent 工作区产物（memory 已单独忽略）
 .workbuddy/artifacts/
 .workbuddy/audit/
+# QA 临时测试产物（每次测试重新生成，不入库）
+qa-results/

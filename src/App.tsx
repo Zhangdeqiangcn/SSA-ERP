@@ -55,6 +55,8 @@ const VendorOrderConfirmList = lazy(() => import('./pages/Vendor/VendorOrderConf
 const DeliveryShipmentList = lazy(() => import('./pages/Vendor/DeliveryShipment'));
 const VendorQualityPage = lazy(() => import('./pages/Vendor/VendorQualityPage'));
 const VendorFinancePage = lazy(() => import('./pages/Vendor/VendorFinancePage'));
+// V3.116.0：采购模块 → 采购对账单（独立页，复用 VendorFinancePage 的 statement 模式）
+const VendorStatementPage = lazy(() => import('./pages/Vendor/VendorStatementPage'));
 const VendorPaymentPlan = lazy(() => import('./pages/Vendor/VendorPaymentPlan'));
 const VendorProfilePage = lazy(() => import('./pages/Vendor/VendorProfilePage'));
 const VendorPermissionsPage = lazy(() => import('./pages/Vendor/VendorPermissionsPage'));
@@ -236,6 +238,8 @@ const CashFlowStatement = lazy(() => import('./pages/Finance/CashFlowStatement')
 // 应收应付独立管理（P1-12）
 const ReceivableList = lazy(() => import('./pages/Finance/ReceivableList'));
 const PayableList = lazy(() => import('./pages/Finance/PayableList'));
+// V3.118.0 财务 · 对账管理（供应商门户对账单 ↔ 主 ERP 采购订单/入库/发票台账 核对）
+const ReconciliationList = lazy(() => import('./pages/Finance/ReconciliationList'));
 // 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理）
 const CopaAnalysis = lazy(() => import('./pages/Finance/CopaAnalysis'));
 const CashMgmtList = lazy(() => import('./pages/Finance/CashMgmtList'));
@@ -385,15 +389,18 @@ function App() {
       <Route path="/vendor-portal/register" element={<VendorPortalRegister />} />
       <Route path="/vendor-portal" element={<VendorPortalLayout />}>
         <Route index element={<VendorWorkbench />} />
-        {/* 订单管理 */}
+        {/* 采购模块（V3.116.0：对账单归属采购履约，入口在采购下） */}
         <Route path="orders/confirm" element={<VendorOrderConfirmList />} />
         <Route path="orders/shipment" element={<DeliveryShipmentList />} />
+        <Route path="purchase/statements" element={<VendorStatementPage />} />
         {/* 质量管理 */}
         <Route path="quality" element={<Navigate to="/vendor-portal/quality/issues" replace />} />
         <Route path="quality/issues" element={<VendorQualityPage />} />
         <Route path="quality/8d" element={<VendorQualityPage />} />
         {/* 财务管理 */}
         <Route path="finance" element={<Navigate to="/vendor-portal/finance/statements" replace />} />
+        {/* 兼容：财务视角下仍保留对账单入口（同一套组件、同一份数据），
+            老书签与既有 E2E 依赖此路径与「财务管理」标题，不做重定向 */}
         <Route path="finance/statements" element={<VendorFinancePage />} />
         <Route path="finance/invoices" element={<VendorFinancePage />} />
         <Route path="finance/payments" element={<VendorPaymentPlan />} />
@@ -639,6 +646,8 @@ function App() {
         {/* 应收应付独立管理（P1-12） */}
         <Route path="finance/receivables" element={<ReceivableList />} />
         <Route path="finance/payables" element={<PayableList />} />
+        {/* V3.118.0 财务 · 对账管理 */}
+        <Route path="finance/reconciliations" element={<ReconciliationList />} />
         {/* 整页补齐 B 轮（P2-13 COPA 获利分析 / P2-14 资金管理） */}
         <Route path="finance/copa" element={<CopaAnalysis />} />
         <Route path="finance/cash" element={<CashMgmtList />} />

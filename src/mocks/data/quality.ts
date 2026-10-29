@@ -77,7 +77,9 @@ export const inspectionTasks: InspectionTask[] = [
     sampleQuantity: 20,
     vendorId: 'ven-001',
     vendorName: '上海宝钢贸易有限公司',
-    purchaseOrderNo: 'PO-2024-0501',
+    // V3.117.0 修正：原值 'PO-2024-0501' 与采购订单表实际单号（PO20240506001）不同源，
+    // 导致「来源单据 → 采购订单」关联永远解析不到，列表里那张单点了没反应。
+    purchaseOrderNo: 'PO20240506001',
     inspectionStandardId: 'std-001',
     inspectionStandardName: '钢材来料检验标准',
     assignedTo: '李检验员',
@@ -104,7 +106,8 @@ export const inspectionTasks: InspectionTask[] = [
     sampleQuantity: 32,
     vendorId: 'ven-003',
     vendorName: '宁波紧固件制造有限公司',
-    purchaseOrderNo: 'PO-2024-0502',
+    // V3.117.0 修正：与采购订单表单号体系对齐（原 'PO-2024-0502' 查无此单）
+    purchaseOrderNo: 'PO20240507001',
     inspectionStandardId: 'std-002',
     inspectionStandardName: '紧固件来料检验标准',
     assignedTo: '王检验员',
@@ -129,10 +132,12 @@ export const inspectionTasks: InspectionTask[] = [
     materialId: 'mat-010',
     materialCode: 'PRD-WELD-001',
     materialName: '钢结构焊接件 H-001',
-    batchNo: 'WO-2024-05-003',
+    // V3.117.0 修正：原 workOrderNo 'WO-2024-0503' 在工单表中**不存在**（工单只有 0501/0502/0490
+    // 三张），这条成品检验挂在一张查无此单的工单上 → 关联列永远是死链。改为实际存在的完工工单。
+    batchNo: 'WO-2024-05-0490',
     quantity: 10,
     sampleQuantity: 5,
-    workOrderNo: 'WO-2024-0503',
+    workOrderNo: 'WO-2024-0490',
     inspectionStandardId: 'std-003',
     inspectionStandardName: '焊接件成品检验标准',
     assignedTo: '张质检',
@@ -155,7 +160,8 @@ export const inspectionTasks: InspectionTask[] = [
     sampleQuantity: 10,
     vendorId: 'ven-005',
     vendorName: '上海施耐德电气有限公司',
-    purchaseOrderNo: 'PO-2024-0504',
+    // V3.117.0 修正：与采购订单表单号体系对齐（原 'PO-2024-0504' 查无此单）
+    purchaseOrderNo: 'PO20240503001',
     inspectionStandardId: 'std-002',
     inspectionStandardName: '紧固件来料检验标准',
     assignedTo: '李检验员',

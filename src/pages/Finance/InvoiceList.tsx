@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   Box, Typography, Chip, Grid, Card, CardContent, Button, TextField,
   Dialog, DialogTitle, DialogContent, DialogActions, Alert,
@@ -11,8 +12,7 @@ import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { FlowTracker, DataTable, StatusBadge, FilterBar } from '@/components/common';
 import type { ColumnDef } from '@tanstack/react-table';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { RelatedSourceField, RelatedDocsBlock } from '@/components/common/RelatedSourceField';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useFinanceStore } from '@/stores/financeStore';
@@ -76,6 +76,22 @@ export default function InvoiceList() {
     setVoucherMsg(null);
     setDetailOpen(true);
   };
+
+  // V3.115.0 深链：从别的单据列表点「发票号」进来时带 ?focus=<发票id>，
+  //   自动打开该发票的详情弹窗 —— 否则只跳到列表首页，用户还得自己再找一遍。
+  const [searchParams] = useSearchParams();
+  const focusId = searchParams.get('focus');
+  const handledFocusRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!focusId || handledFocusRef.current === focusId) return;
+    const list = Array.isArray(invoices) ? invoices : [];
+    const hit = list.find((i) => String(i.id) === String(focusId));
+    if (!hit) return; // 数据尚未水合时先不标记，等下一次 invoices 变化再试
+    handledFocusRef.current = focusId;
+    setSelectedInv(hit);
+    setVoucherMsg(null);
+    setDetailOpen(true);
+  }, [focusId, invoices]);
 
   const handleGenVoucher = () => {
     if (!selectedInv) return;
@@ -191,14 +207,19 @@ export default function InvoiceList() {
         </Box>
       ),
     },
-    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
-    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<Invoice, unknown>[]),
+    // V3.115.0：关联单据按实际类型分列（采购订单 / 应付单 / 付款计划 / 入库单 …），
+    // 每格显示「单号 + 状态」，点单号直达对应单据；不再隐藏。
   ];
 
+  const rel = useTypedRelated('finInvoice', invoices);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<Invoice, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('finInvoice', invoices), columns, filterData, { module: 'finance' }),
-    [invoices, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'finance' }),
+    [rel.data, allColumns, filterData]
   );
 
   return (
@@ -233,12 +254,12 @@ export default function InvoiceList() {
       </Grid>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columns} module="finance" onSearch={setFilterData} listKey="finance-invoice-list" />
+      <FilterBar columns={allColumns} module="finance" onSearch={setFilterData} listKey="finance-invoice-list" />
 
       {/* 发票表格 */}
       <DataTable<Invoice>
         data={filtered}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection={false}
         enablePagination
         enableSorting
@@ -275,7 +296,7 @@ export default function InvoiceList() {
             });
           });
         }}
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="fin-invoice-list"
       />
 

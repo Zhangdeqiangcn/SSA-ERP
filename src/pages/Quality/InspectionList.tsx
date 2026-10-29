@@ -16,7 +16,7 @@ import { InspectionStatus, InspectionType, InspectionTask } from '@/types/qualit
 import { computeAqlPlan, LEVELS, AQLS } from '@/utils/aql';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const TYPE_LABELS: Record<InspectionType, string> = {
@@ -216,14 +216,25 @@ const InspectionList: React.FC = () => {
         </Box>
       ),
     },
-    ...(buildRelatedColumns() as ColumnDef<InspectionTask, unknown>[]),
   ], []);
+
+  // V3.117.0：关联单据列改造（对齐采购订单的做法）。
+  //   改造前这里是 buildRelatedColumns() —— 只产出「上游单号 / 下游单号」两个通用列，
+  //   而下游集合挂到 onRowClick 之外没人管，实际效果是这两列被 hiddenColumns 隐藏，
+  //   用户在检验列表里根本看不到"这张检验单对应哪张采购订单/工单、检完产生了哪张不合格品"。
+  //   现改为 useTypedRelated：按**真实单据类型**分列（采购订单 / 工单 / 入库单 / 不合格品 …），
+  //   列头就是单据中文名，单元格显示「单号 + 该单据当前状态」，点单号直达对应单据详情。
+  const rel = useTypedRelated('inspectionTask', tabFiltered);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<InspectionTask, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   // （置于 columns 声明之后，避免『used before declaration』类型错误）
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('inspectionTask', tabFiltered), columns, filterData, { module: 'quality' }),
-    [tabFiltered, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'quality' }),
+    [rel.data, allColumns, filterData]
   );
 
   return (
@@ -261,7 +272,7 @@ const InspectionList: React.FC = () => {
       </Grid>
 
       {/* 检索条：覆盖全部可搜列，默认显 5 项、其余『更多筛选』展开，按字段权限门控 */}
-      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="inspection-list" />
+      <FilterBar columns={allColumns} module="quality" onSearch={setFilterData} listKey="inspection-list" />
 
       {/* Tabs */}
       <Paper sx={{ borderRadius: 3 }}>
@@ -278,7 +289,7 @@ const InspectionList: React.FC = () => {
 
         <DataTable<InspectionTask>
           data={filtered}
-          columns={columns}
+          columns={allColumns}
           enableRowSelection={false}
           enablePagination={true}
           enableSorting={true}
@@ -289,7 +300,8 @@ const InspectionList: React.FC = () => {
           enableImport={true}
           codeColumnId="taskNo"
           onImport={(rows, headers) => rows.forEach(r => addInspectionTask(mapImportRow(r, headers)))}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          onRowClick={(row) => navigate(`/quality/inspection/${row.id}`)}
+          hiddenColumns={rel.hiddenColumns}
           columnConfigKey="inspection-task-list"
         />
       </Paper>

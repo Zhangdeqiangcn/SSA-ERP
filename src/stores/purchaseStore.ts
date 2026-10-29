@@ -111,6 +111,27 @@ function readLegacySlice<T>(key: string): T[] {
  *   但这意味着「回填部分成功」是可能的，因此回填后**必须重新拉一次列表**
  *   以服务器为准，而不是信任本地算出来的结果。
  */
+/**
+ * 从分页响应里稳健地取出数组（V3.115.0）。
+ *
+ * 为什么需要：不同后端/Mock 的包裹层数不一致 ——
+ *   · 真实分页接口解包后是 { data: [...], total }
+ *   · 部分 Mock（MSW）多包一层 { data: { data: [...], total } }
+ * 原实现直接 `res?.data || []`，遇到第二种就把**对象**当数组塞进 store：
+ * 列表页的 Array.isArray 守卫随即降级为空表 —— 表现为「采购申请明明有 5 条却显示暂无数据」，
+ * 且不报任何错，极难排查。此处按层探测，取到数组即止，取不到返回空数组。
+ */
+function listFromResponse<T>(res: unknown): T[] {
+  const r = res as Record<string, any> | null | undefined;
+  const first = r?.data;
+  if (Array.isArray(first)) return first as T[];
+  const second = (first as Record<string, any> | undefined)?.data;
+  if (Array.isArray(second)) return second as T[];
+  const third = (second as Record<string, any> | undefined)?.data;
+  if (Array.isArray(third)) return third as T[];
+  return [];
+}
+
 async function pullSlice<T>(
   api: { list: (p?: Record<string, unknown>) => Promise<any>; create: (d: any) => Promise<any> },
   seed: T[],
@@ -119,16 +140,22 @@ async function pullSlice<T>(
 ): Promise<T[] | null> {
   try {
     const res = await api.list({ page: 1, pageSize: PURCHASE_PAGE_SIZE });
-    const list = (res?.data || []) as T[];
+    const list = listFromResponse<T>(res);
     if (list.length === 0 && !flagGet(flagKey)) {
       flagSet(flagKey, '1');
       const legacy = readLegacySlice<T>(legacyKey);
       const source = legacy.length ? legacy : seed;
+      let okCount = 0;
       for (const item of source) {
-        try { await api.create(item); } catch { /* 编号冲突等单条失败不阻断其余回填 */ }
+        try { await api.create(item); okCount += 1; } catch { /* 编号冲突等单条失败不阻断其余回填 */ }
       }
       const again = await api.list({ page: 1, pageSize: PURCHASE_PAGE_SIZE });
-      return (again?.data || []) as T[];
+      const created = listFromResponse<T>(again);
+      // V3.115.0 修复：回填一条都没成功、且读回来仍是空 → 说明是「后端不可用/未登录」，
+      //   并非「用户真的把数据删空了」。此时必须返回 null 让调用方保留本地种子，
+      //   否则列表会被刷成空表（实测表现：采购申请列表有种子数据却显示"暂无符合条件的数据"）。
+      if (okCount === 0 && created.length === 0) return null;
+      return created;
     }
     // list 为 0 且已回填过 = 用户确实把数据删空了，如实返回空数组，不再塞种子
     return list;

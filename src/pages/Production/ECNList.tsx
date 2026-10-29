@@ -11,8 +11,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { useECNStore } from '@/stores/ecnStore';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { useProductionVersionStore } from '@/stores/productionVersionStore';
 import { useMaterialStore } from '@/stores/materialStore';
@@ -152,7 +151,9 @@ export default function ECNList() {
     {
       id: 'material',
       accessorKey: 'materialName',
-      header: '物料',
+      // V3.117.0：改名为「物料名称」。原表头「物料」与新增的关联单据列「物料」（可点编码）
+      // 文字完全相同，同一张表出现两列同名，用户分不清哪列能点、哪列只是名称展示。
+      header: '物料名称',
       accessorFn: (row) => row.materialName || row.materialId,
       meta: { searchable: true },
       cell: ({ row }) => {
@@ -268,13 +269,20 @@ export default function ECNList() {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<EngineeringChange, unknown>[]),
   ];
+
+  // V3.117.0：关联单据列改造（对齐采购订单）——ECN 原只有一条下游（生产版本），
+  //   且上游（物料）没定义 → 列表里"关联单据"永远空着。现补物料上游 + 生产版本下游，可点直达。
+  const rel = useTypedRelated('ecn', ecns as unknown as Record<string, any>[]);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<EngineeringChange, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控（置于 columns 声明之后）
   const rows = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('ecn', ecns), columns, filterData, { module: 'production' }),
-    [ecns, columns, filterData]
+    () => applyColumnFilters(rel.data as unknown as EngineeringChange[], allColumns, filterData, { module: 'production' }),
+    [rel.data, allColumns, filterData]
   );
 
   return (
@@ -292,16 +300,16 @@ export default function ECNList() {
         新增 ECM
       </Button>
 
-      <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="ecn-list" />
+      <FilterBar columns={allColumns} module="production" onSearch={setFilterData} listKey="ecn-list" />
       <DataTable<EngineeringChange>
         data={rows}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection={false}
         enablePagination={true}
         enableSorting={true}
         enableColumnFilter={true}
         enableBlockSelect={true}
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         enableExport={true}
         exportFormat="xlsx"
         codeColumnId="changeNo"

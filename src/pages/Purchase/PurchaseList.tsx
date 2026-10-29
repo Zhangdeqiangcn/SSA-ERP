@@ -18,7 +18,7 @@ import { PurchaseRequest, PurchaseRequestStatus, Priority } from '@/types';
 import { formatDate, formatCurrency, todayLocal, localDateOf } from '@/utils/format';
 import { approvalStatusOptions } from '@/constants/approvalEnums';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { buildRelatedColumns } from '@/components/common/relatedColumns';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
@@ -101,10 +101,15 @@ const PurchaseList: React.FC = () => {
       meta: { searchable: true },
       cell: ({ row }) => formatCurrency(row.original.totalAmount),
     },
-    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
-    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PurchaseRequest, unknown>[]),
+    // V3.115.0：关联单据改为「按实际单据类型分列」（采购订单 / 入库单 / 采购发票 / 付款计划 …），
+    // 每格显示「单号 + 该单据当前状态」，点单号直达对应单据；不再用 hiddenColumns 藏起来。
   ], []);
+
+  const rel = useTypedRelated('purchaseRequest', purchaseRequests);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PurchaseRequest, unknown>[])],
+    [columns, rel.columns]
+  );
 
   const filterFields = [
     { name: 'requestNo', label: '申请单号', type: 'text' as const },
@@ -133,11 +138,11 @@ const PurchaseList: React.FC = () => {
     },
   ];
 
-  // 通用列检索：覆盖全部声明了 meta.searchable 的列（编号/标题/申请人/部门/优先级/状态/期望日期/预估金额），
-  // 并按字段权限门控。默认显 5 项、其余『更多筛选』可展开（由 FilterBar 内置）。
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（含按单据类型分列的关联列），并按字段权限门控。
+  // V3.115.0：关联列的检索值 =「单号 + 状态中文」，因此输入单号或"已入库/已验证"都能检索。
   const filteredData = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('purchaseRequest', purchaseRequests), columns, filterData, { module: 'purchase' }),
-    [purchaseRequests, filterData, columns]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'purchase' }),
+    [rel.data, filterData, allColumns]
   );
 
   // ── 单条删除 ──
@@ -347,14 +352,14 @@ const PurchaseList: React.FC = () => {
         onChange={handleFileChange}
       />
 
-      <FilterBar fields={filterFields} columns={columns} module="purchase" onSearch={setFilterData} listKey="purchase-request-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="purchase" onSearch={setFilterData} listKey="purchase-request-list" />
       <DataTable
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport={false}
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="purchase-request-list"
         onRowClick={(row) => navigate(`/purchase/${row.id}`)}
         onView={(row) => navigate(`/purchase/${row.id}`)}

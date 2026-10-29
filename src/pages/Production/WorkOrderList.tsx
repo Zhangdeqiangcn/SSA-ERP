@@ -15,8 +15,7 @@ import { useOrgStore, useCurrentOrg } from '@/stores/orgStore';
 import { useDataPermissionStore, passDataPermission } from '@/stores/dataPermissionStore';
 import { WorkOrder, WorkOrderStatus } from '@/types/production';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<WorkOrderStatus, string> = {
@@ -288,13 +287,21 @@ const WorkOrderList: React.FC = () => {
         </Box>
       ),
     },
-    ...(buildRelatedColumns() as ColumnDef<WorkOrder, unknown>[]),
   ];
+
+  // V3.117.0：关联单据列改造（对齐采购订单）——原实现只产出「上游单号/下游单号」两个通用列，
+  //   且被 hiddenColumns 隐藏 → 工单列表里看不到"这张工单用哪条工艺路线、领料走了哪张出库单、
+  //   完工入了哪张成品入库单、报检了哪张检验单"。现按真实单据类型分列，可点直达。
+  const rel = useTypedRelated('workOrder', filtered as unknown as Record<string, any>[]);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<WorkOrder, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // 列表检索：在「状态 Tab + 字段权限」已过滤后的数据上，再用通用列检索覆盖全部声明了 meta.searchable 的列（工单编号/产品/优先级/数量/计划日期/车间/状态），并按字段权限门控
   const filteredData = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('workOrder', filtered), columns, filterData, { module: 'production' }),
-    [filterData, filtered, columns]
+    () => applyColumnFilters(rel.data as unknown as WorkOrder[], allColumns, filterData, { module: 'production' }),
+    [filterData, rel.data, allColumns]
   );
 
   return (
@@ -418,7 +425,7 @@ const WorkOrderList: React.FC = () => {
       </Box>
 
       <Paper sx={{ borderRadius: 3 }}>
-        <FilterBar columns={columns} module="production" onSearch={setFilterData} listKey="workorder-list" />
+        <FilterBar columns={allColumns} module="production" onSearch={setFilterData} listKey="workorder-list" />
         <Tabs
           value={tabValue}
           onChange={(_, v) => setTabValue(v)}
@@ -432,13 +439,13 @@ const WorkOrderList: React.FC = () => {
 
         <DataTable<WorkOrder>
           data={filteredData}
-          columns={columns}
+          columns={allColumns}
           enableRowSelection={false}
           enablePagination={true}
           enableSorting={true}
           enableColumnFilter={true}
           enableBlockSelect={true}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          hiddenColumns={rel.hiddenColumns}
           enableExport={true}
           exportFormat="xlsx"
           codeColumnId="orderNo"

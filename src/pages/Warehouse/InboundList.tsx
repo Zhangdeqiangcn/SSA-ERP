@@ -13,8 +13,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import { InboundOrder, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const InboundList: React.FC = () => {
@@ -71,8 +70,16 @@ const InboundList: React.FC = () => {
     },
     { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
     { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate), meta: { searchable: true } },
-    ...(buildRelatedColumns() as ColumnDef<InboundOrder, unknown>[]),
   ], []);
+
+  // V3.115.0：入库单原本把「来源/后续单号」两列用 hiddenColumns 藏掉了 —— 用户完全看不到关联单据。
+  //   现改为按实际单据类型分列（采购订单 / 采购发票 / 付款计划 / 采购退货单 / 检验通知单 …），
+  //   单元格显示「单号 + 该单据当前状态」，点单号直达对应单据。
+  const rel = useTypedRelated('inbound', inboundOrders);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<InboundOrder, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
   const INBOUND_BATCH_FIELDS: BatchEditField[] = [
@@ -199,11 +206,10 @@ const InboundList: React.FC = () => {
   ];
 
   const filteredData = useMemo(() => {
-    let data = inboundOrders.filter(r => matchOrg(r, currentOrgId));
-    // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
-    const enhanced = withRelatedDocNos('inbound', data);
-    return applyColumnFilters(enhanced, columns, filterData, { module: 'warehouse' });
-  }, [filterData, inboundOrders, columns, currentOrgId]);
+    // 关联字段在 rel.data 里已按全量算好（与组织无关），此处只做组织范围 + 列检索过滤
+    const scoped = rel.data.filter((r) => matchOrg(r, currentOrgId));
+    return applyColumnFilters(scoped, allColumns, filterData, { module: 'warehouse' });
+  }, [filterData, rel.data, allColumns, currentOrgId]);
 
   return (
     <PageWrapper
@@ -214,16 +220,16 @@ const InboundList: React.FC = () => {
         />
       }
     >
-      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="inbound-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="warehouse" onSearch={setFilterData} listKey="inbound-list" />
       <DataTable<InboundOrder>
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="入库单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="inbound-list"
         codeColumnId="inboundNo"
         onImport={handleImport}

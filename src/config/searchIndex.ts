@@ -146,6 +146,9 @@ export const searchIndex: SearchEntry[] = [
   { label: '凭证列表', path: '/finance/vouchers', module: '财务与报表', group: '财务管理', keywords: ['voucher', '凭证', '会计凭证'], desc: '会计凭证' },
   { label: '凭证模板', path: '/finance/voucher-templates', module: '财务与报表', group: '财务管理', keywords: ['voucher template', '凭证模板', '常用凭证', '套用模板'], desc: '凭证模板（常用凭证）管理与套用' },
   { label: '三单匹配', path: '/finance/three-way', module: '财务与报表', group: '财务管理', keywords: ['three way', '三单匹配', '订单收货发票'], desc: '订单/收货/发票匹配' },
+  // V3.118.0：与三单匹配是两个不同的问题（能否付款 vs 对账单认不认），关键词刻意不重叠，
+  //   避免用户搜「对账」被三单匹配抢走
+  { label: '对账管理', path: '/finance/reconciliations', module: '财务与报表', group: '财务管理', keywords: ['reconciliation', '对账', '对账单', '供应商对账', '对账核对', '门户对账'], desc: '供应商门户对账单与采购订单/入库/发票台账跨端核对' },
   { label: '财务报表', path: '/finance/report', module: '财务与报表', group: '财务管理', keywords: ['financial report', '财报'], desc: '财务报表' },
   { label: '税务核算', path: '/finance/tax', module: '财务与报表', group: '财务管理', keywords: ['tax', '税务', '增值税'], desc: '税务核算' },
   { label: '项目核算', path: '/finance/project-accounting', module: '财务与报表', group: '财务管理', keywords: ['project accounting', '项目核算'], desc: '项目成本核算' },

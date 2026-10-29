@@ -411,7 +411,9 @@ export const RECORD_SOURCES: RecordSource[] = [
   {
     storePath: '@/stores/financeStore', hookKey: 'useFinanceStore', slice: 'reconciliations', moduleKey: 'finance', recordType: '对账单',
     pick: (r) => ({ title: r.statementNo, sub: [r.vendorName, r.period, r.status].filter(Boolean).join(' · '), fields: [r.statementNo, r.vendorName, r.period, r.status] }),
-    path: () => '/finance/three-way',
+    // V3.118.0 修正：原指向 /finance/three-way（三单匹配）—— 那是"发票↔订单↔入库能不能付款"的页面，
+    //   与"供应商对账单能不能认"是两件事，跳过去看到的是另一批单据，等于检索结果落到错误的页。
+    path: (r) => `/finance/reconciliations?focus=${encodeURIComponent(String(r?.statementNo ?? ''))}`,
     ensureLoaded: (st) => st.load?.(),
     loadedGate: (st) => st.loaded === true,
   },

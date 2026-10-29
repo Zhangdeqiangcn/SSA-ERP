@@ -12,8 +12,7 @@ import { DataTable, FilterBar, StatusBadge } from '@/components/common';
 import { useQualityStore } from '@/stores/qualityStore';
 import { PDCARecord, PDCAStatus } from '@/types/quality';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const PDCA_STEPS: PDCAStatus[] = ['plan', 'do', 'check', 'act', 'closed'];
@@ -282,13 +281,20 @@ const PDCAList: React.FC = () => {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<PDCARecord, unknown>[]),
   ];
+
+  // V3.117.0：关联单据列改造（对齐采购订单）——原实现只产出两个通用列且被 hiddenColumns 隐藏，
+  //   用户在 PDCA 列表里看不到"这条 PDCA 是从哪张不合格品/检验单发起的、跟进的 8D 是哪张"。
+  const rel = useTypedRelated('pdca', filteredRecords as unknown as Record<string, any>[]);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PDCARecord, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // 通用列检索：在标签筛选结果上叠加，覆盖全部声明了 meta.searchable 的列，并按字段权限门控（置于 columns 声明之后）
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('pdca', filteredRecords), columns, filterData, { module: 'quality' }),
-    [filteredRecords, columns, filterData]
+    () => applyColumnFilters(rel.data as unknown as PDCARecord[], allColumns, filterData, { module: 'quality' }),
+    [rel.data, allColumns, filterData]
   );
 
   // ── 导入：表头 → store 字段映射，调用 addPdcaRecord ──
@@ -361,15 +367,15 @@ const PDCAList: React.FC = () => {
       </Box>
 
       {/* 主列表（DataTable） */}
-      <FilterBar columns={columns} module="quality" onSearch={setFilterData} listKey="pdca-list" />
+      <FilterBar columns={allColumns} module="quality" onSearch={setFilterData} listKey="pdca-list" />
       <DataTable<PDCARecord>
         data={filtered}
-        columns={columns}
+        columns={allColumns}
         enablePagination
         enableExport
         enableImport
         columnConfigKey="pdca-list"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         onImport={handleImport}
         codeColumnId="pdcaNo"
         onRowClick={(row) => navigate(`/quality/pdca/${row.id}`)}
