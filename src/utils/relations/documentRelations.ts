@@ -32,6 +32,81 @@ export interface DocRelation {
   downstream?: Array<{ target: string; linkField: string; matchField?: string }>;
 }
 
+/**
+ * 单据类型 → 中文名（V3.114.0 新增）
+ * 用途：关联列不再统一叫「上游单号 / 下游单号」，而是直接以实际单据类型命名
+ *      （入库单、采购发票、付款计划…）—— 明细是什么单，列头就写什么单。
+ */
+export const DOC_TYPE_LABELS: Record<string, string> = {
+  // 采购域
+  purchaseRequest: '采购申请',
+  purchaseOrder: '采购订单',
+  purchaseReturn: '采购退货单',
+  sourceList: '货源清单',
+  infoRecord: '采购信息记录',
+  frameworkAgreement: '框架协议',
+  // 价格域
+  priceInquiry: '询价单',
+  priceComparison: '比价单',
+  priceApproval: '价格审批单',
+  priceList: '价目表',
+  // 销售域
+  salesOpportunity: '销售机会',
+  salesQuotation: '销售报价单',
+  salesOrder: '销售订单',
+  salesLogistics: '发运单',
+  salesInvoice: '销售发票',
+  salesReturn: '销售退货单',
+  salesContract: '销售合同',
+  tripartySales: '三⽅贸易单',
+  project: '项目',
+  // 仓储域
+  inbound: '入库单',
+  outbound: '出库单',
+  checkTask: '盘点任务',
+  stockTransfer: '调拨单',
+  inventoryAdjustment: '库存调整单',
+  waveRfid: '波次单',
+  batch: '批次',
+  serialHU: '序列号/搬运单元',
+  consignmentStock: '寄售库存',
+  finishedGoodsInbound: '成品入库单',
+  // 质量域
+  inspectionNotice: '检验通知单',
+  inspectionTask: '检验任务',
+  unqualified: '不合格品单',
+  pdca: 'PDCA 单',
+  lot: '检验批次',
+  eightD: '8D 报告',
+  inspectionStandard: '检验标准',
+  fmea: 'FMEA',
+  labEquipment: '实验设备',
+  // 生产域
+  workOrder: '生产工单',
+  processRoute: '工艺路线',
+  subcontract: '委外订单',
+  repetitiveMfg: '重复制造期间',
+  ecn: '工程变更单',
+  productionVersion: '生产版本',
+  sopPlan: 'SOP 计划',
+  // 财务域
+  finInvoice: '采购发票',
+  receivable: '应收单',
+  payable: '应付单',
+  cashMgmt: '资金流水',
+  voucher: '记账凭证',
+  paymentPlan: '付款计划',
+  // 主数据
+  vendor: '供应商',
+  material: '物料',
+  customer: '客户',
+};
+
+/** 取单据类型中文名；未登记的类型回退为原始 key（不编造名称） */
+export function docTypeLabel(type: string): string {
+  return DOC_TYPE_LABELS[type] ?? type;
+}
+
 /** 各单据类型 → 上下游关系登记表（由 relations.ts 运行时填充） */
 export const DOC_RELATIONS: Record<string, DocRelation> = {};
 

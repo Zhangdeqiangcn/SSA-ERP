@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ColumnDef } from '@tanstack/react-table';
 import {
@@ -16,6 +16,9 @@ import {
   type BatchAction, type BatchEditField, type KpiItem,
 } from '@/components/common';
 import { usePurchaseStore } from '@/stores/purchaseStore';
+import { useWarehouseStore } from '@/stores/warehouseStore';
+import { useFinanceStore } from '@/stores/financeStore';
+import { useArapStore } from '@/stores/arapStore';
 import { usePrintTemplateStore } from '@/stores/printTemplateStore';
 import { PurchaseOrder, PurchaseOrderStatus } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
@@ -23,8 +26,15 @@ import { calcTaxTotals, round2 } from '@/utils/tax';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
 import { applyColumnFilters } from '@/utils/listSearch';
 import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { buildTypedRelatedColumns } from '@/components/common/relatedColumns';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
+import {
+  withFulfillment,
+  DIMENSION_LABELS,
+  STAGE_FILTER_OPTIONS,
+  type PoFulfillment,
+  type FulfillStage,
+} from '@/utils/purchase/poSettlement';
 
 /** 批量导入：表头 → 字段 别名映射（中英文均可） */
 const ORDER_IMPORT_ALIASES: Record<string, string> = {
@@ -73,11 +83,40 @@ const ORDER_BATCH_FIELDS: BatchEditField[] = [
 ];
 
 /**
+ * 履约维度小徽章（入库/开票/对账/结算 共用）。
+ * 统一在一处定义配色，避免同一状态在列表、抽屉、详情页出现三种颜色。
+ */
+const STAGE_COLOR: Record<string, 'default' | 'warning' | 'success'> = {
+  none: 'default',
+  partial: 'warning',
+  full: 'success',
+};
+
+/** 列表行的真实形状：订单本体 + 履约派生字段（withFulfillment 挂上来的） */
+type PoRow = PurchaseOrder & Partial<PoFulfillment>;
+
+const StageChip: React.FC<{
+  stage: FulfillStage;
+  labels: { none: string; partial: string; full: string };
+  title?: string;
+  suffix?: string;
+}> = ({ stage, labels, title, suffix }) => (
+  <Chip
+    size="small"
+    label={`${labels[stage]}${suffix ? ` ${suffix}` : ''}`}
+    color={STAGE_COLOR[stage]}
+    variant={stage === 'none' ? 'outlined' : 'filled'}
+    title={title}
+    sx={{ fontSize: '0.72rem', height: 20 }}
+  />
+);
+
+/**
  * PoQuickView —— 采购订单「抽屉速览」内容（放进 DetailDrawer，就地看核心信息不跳页）。
  * 结构与采购申请详情页保持一致：两列 label/value 表头信息区（DetailSection）+ 物料明细表（DataTable），
  * 外加收货进度条；深层操作（变更/版本/删除/审批）走抽屉右上角「打开完整详情」逃生舱。
  */
-const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
+const PoQuickView: React.FC<{ order: PurchaseOrder & Partial<PoFulfillment> }> = ({ order }) => {
   const currency = order.currency || 'CNY';
   const totals = calcTaxTotals(order.items || []);
   const netTotal = order.totalAmount ?? totals.totalAmount;
@@ -111,6 +150,27 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
     <Stack spacing={2}>
       {/* 表头信息区：两列 label/value（与采购申请详情 DetailSection 同结构） */}
       <DetailSection columns={2} fields={quickFields} />
+
+      {/* V3.114.0 履约与结算小结：收货 → 开票 → 对账 → 结算，四步一眼看完，不用再翻四张表 */}
+      <Paper elevation={0} sx={{ p: 1.5, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+          <Typography variant="subtitle2" fontWeight={600}>履约与结算</Typography>
+          <Typography variant="caption" color={order.closeState === 'closed' ? 'success.main' : 'text.secondary'}>
+            {DIMENSION_LABELS.close[order.closeState ?? 'open']} · {order.pendingNote ?? '—'}
+          </Typography>
+        </Stack>
+        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+          <StageChip stage={order.receiptStage ?? 'none'} labels={DIMENSION_LABELS.receipt}
+            suffix={order.receiptProgress ? `${order.receiptProgress}` : undefined}
+            title={`订购 ${order.orderedQty ?? 0}，已入库 ${order.receivedQty ?? 0}，未入库 ${order.remainingQty ?? 0}`} />
+          <StageChip stage={order.invoiceStage ?? 'none'} labels={DIMENSION_LABELS.invoice}
+            title={`已开票价税合计 ${formatCurrency(order.invoicedAmount ?? 0, currency)}`} />
+          <StageChip stage={order.reconcileStage ?? 'none'} labels={DIMENSION_LABELS.reconcile}
+            title={`口径：发票已认证或已生成应付单视为已对账；已对账金额 ${formatCurrency(order.reconciledAmount ?? 0, currency)}`} />
+          <StageChip stage={order.settleStage ?? 'none'} labels={DIMENSION_LABELS.settle}
+            title={`已结算 ${formatCurrency(order.settledAmount ?? 0, currency)}`} />
+        </Stack>
+      </Paper>
 
       {/* 收货进度 */}
       <Box>
@@ -175,6 +235,21 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
               ),
             },
             {
+              // V3.114.0：逐行看欠多少（订单 10 个入库 8 个，这行就是 2）
+              id: 'remainingQuantity', header: '未入库', enableSorting: false,
+              cell: ({ row }) => {
+                const remain = Math.max(0, (row.original.orderedQuantity || 0) - (row.original.deliveredQuantity || 0));
+                return (
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Typography variant="body2" fontWeight={remain > 0 ? 600 : 400}
+                      color={remain > 0 ? 'error.main' : 'text.disabled'}>
+                      {remain.toLocaleString()}
+                    </Typography>
+                  </Box>
+                );
+              },
+            },
+            {
               id: 'unitPrice', header: '未税单价', accessorKey: 'unitPrice',
               cell: ({ row }) => (
                 <SecureField module="purchase" fieldName="unitPrice">
@@ -201,11 +276,29 @@ const PoQuickView: React.FC<{ order: PurchaseOrder }> = ({ order }) => {
 const OrderList: React.FC = () => {
   const hydrating = useCloudHydrating();
   const navigate = useNavigate();
-  useEnsureRelatedStores('purchaseOrder');
+  // 关联源数据版本计数：入库单/发票/付款计划被水合替换后，本页派生状态要跟着重算
+  const relatedTick = useEnsureRelatedStores('purchaseOrder');
   const purchaseOrders = usePurchaseStore(s => s.purchaseOrders);
   const updatePurchaseOrder = usePurchaseStore(s => s.updatePurchaseOrder);
   const deletePurchaseOrder = usePurchaseStore(s => s.deletePurchaseOrder);
   const printTemplate = usePrintTemplateStore(s => s.getTemplateByEntity('purchaseOrder'));
+
+  // ── 履约/结算数据源（V3.114.0）：入库单 + 发票 + 应付 + 付款计划 ──
+  const inboundOrders = useWarehouseStore(s => s.inboundOrders);
+  const invoices = useFinanceStore(s => s.invoices);
+  const paymentPlans = useFinanceStore(s => s.paymentPlans);
+  const payables = useArapStore(s => s.payables);
+  const hydrateArap = useArapStore(s => s.hydrateArap);
+  // 应付台账不在采购订单的关系登记里（DOC_RELATIONS 无 payable），需单独拉一次，
+  // 否则「已对账 / 已结算」会因数据没到位而被判成"全部未做"。
+  useEffect(() => {
+    try {
+      void hydrateArap?.();
+    } catch {
+      /* 应付拉取失败不阻断列表：状态列降级为"未对账/未结算" */
+    }
+  }, [hydrateArap]);
+
   const [filterData, setFilterData] = useState<Record<string, unknown>>({});
   const [printOpen, setPrintOpen] = useState(false);
   const [printOrderId, setPrintOrderId] = useState('');
@@ -220,10 +313,30 @@ const OrderList: React.FC = () => {
     open: false, message: '', severity: 'info',
   });
   // ── 一页化：行内右侧抽屉速览（就地看详情不跳页）＋扩展分析折叠 ──
-  const [drawerOrder, setDrawerOrder] = useState<PurchaseOrder | null>(null);
+  const [drawerOrder, setDrawerOrder] = useState<PoRow | null>(null);
   const [analyticsOpen, setAnalyticsOpen] = useState(false);
 
-  const columns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(() => [
+  const fulfillmentSources = useMemo(
+    () => ({ inbounds: inboundOrders, invoices, payables, paymentPlans }),
+    [inboundOrders, invoices, payables, paymentPlans]
+  );
+
+  // 订单 + 履约派生字段 + 上下游关联单（三件事一次算完，避免多次全表扫描）
+  const relatedRows = useMemo(
+    () => withRelatedDocNos('purchaseOrder', withFulfillment(purchaseOrders, fulfillmentSources)),
+    [purchaseOrders, fulfillmentSources, relatedTick]
+  );
+
+  // 关联列按「实际出现的单据类型」分列：采购申请 / 入库单 / 采购发票 / 付款计划 …
+  const relatedCols = useMemo(() => buildTypedRelatedColumns('purchaseOrder', relatedRows), [relatedRows]);
+
+  // 把每类单号摊成行字段（relUp_* / relDown_*），筛选条才能按单据类型精确查
+  const rows: PoRow[] = useMemo(
+    () => relatedRows.map((r) => ({ ...r, ...relatedCols.fieldsOf(r) })),
+    [relatedRows, relatedCols]
+  );
+
+  const baseColumns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(() => [
     { accessorKey: 'orderNo', header: '订单号', meta: { searchable: true } },
     { accessorKey: 'vendorName', header: '供应商', meta: { searchable: true } },
     {
@@ -265,13 +378,121 @@ const OrderList: React.FC = () => {
       meta: { searchable: true },
       cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
+
+    // ── V3.114.0 履约链路：入库 → 开票 → 对账 → 结算 → 完结 ──
+    // 这些值不是订单表上的字段，而是按订单号从入库/发票/应付/付款计划聚合出来的派生列，
+    // 但一样挂在行上（accessorKey 真实存在），所以检索条能按它们精确筛。
+    {
+      id: 'receiptStage',
+      accessorKey: 'receiptStage',
+      header: '入库进度',
+      meta: { searchable: true, filterType: 'select', filterOptions: STAGE_FILTER_OPTIONS.receipt },
+      cell: ({ row }) => {
+        const r = row.original as PoRow;
+        const ordered = r.orderedQty ?? 0;
+        const received = r.receivedQty ?? 0;
+        const remain = r.remainingQty ?? 0;
+        return (
+          <Box sx={{ minWidth: 92 }} title={`订购 ${ordered} · 已入库 ${received} · 未入库 ${remain}`}>
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <Typography variant="body2" fontWeight={600}
+                color={remain === 0 && ordered > 0 ? 'success.main' : 'text.primary'}>
+                {received}/{ordered}
+              </Typography>
+              {remain > 0 && (
+                <Chip size="small" label={`欠${remain}`} color="error" variant="outlined"
+                  sx={{ height: 18, fontSize: '0.68rem', minWidth: 0 }} />
+              )}
+            </Stack>
+            <LinearProgress
+              variant="determinate"
+              value={ordered > 0 ? Math.min(100, Math.round((received / ordered) * 100)) : 0}
+              color={remain === 0 && ordered > 0 ? 'success' : 'primary'}
+              sx={{ height: 3, borderRadius: 2, mt: 0.4 }}
+            />
+          </Box>
+        );
+      },
+    },
+    {
+      id: 'invoiceStage',
+      accessorKey: 'invoiceStage',
+      header: '开票状态',
+      meta: { searchable: true, filterType: 'select', filterOptions: STAGE_FILTER_OPTIONS.invoice },
+      cell: ({ row }) => {
+        const r = row.original as PoRow;
+        return (
+          <StageChip
+            stage={(r.invoiceStage ?? 'none') as FulfillStage}
+            labels={DIMENSION_LABELS.invoice}
+            title={`已开票价税合计 ${formatCurrency(r.invoicedAmount ?? 0, r.currency || 'CNY')}${r.invoiceNos?.length ? `\n发票号：${r.invoiceNos.join('、')}` : ''}`}
+          />
+        );
+      },
+    },
+    {
+      id: 'reconcileStage',
+      accessorKey: 'reconcileStage',
+      header: '对账状态',
+      meta: { searchable: true, filterType: 'select', filterOptions: STAGE_FILTER_OPTIONS.reconcile },
+      cell: ({ row }) => {
+        const r = row.original as PoRow;
+        return (
+          <StageChip
+            stage={(r.reconcileStage ?? 'none') as FulfillStage}
+            labels={DIMENSION_LABELS.reconcile}
+            title={`口径：发票已认证或已生成应付单即视为已对账；已对账 ${formatCurrency(r.reconciledAmount ?? 0, r.currency || 'CNY')}`}
+          />
+        );
+      },
+    },
+    {
+      id: 'settleStage',
+      accessorKey: 'settleStage',
+      header: '结算状态',
+      meta: { searchable: true, filterType: 'select', filterOptions: STAGE_FILTER_OPTIONS.settle },
+      cell: ({ row }) => {
+        const r = row.original as PoRow;
+        return (
+          <StageChip
+            stage={(r.settleStage ?? 'none') as FulfillStage}
+            labels={DIMENSION_LABELS.settle}
+            title={`已结算 ${formatCurrency(r.settledAmount ?? 0, r.currency || 'CNY')}`}
+          />
+        );
+      },
+    },
+    {
+      id: 'closeState',
+      accessorKey: 'closeState',
+      header: '完结状态',
+      meta: { searchable: true, filterType: 'select', filterOptions: STAGE_FILTER_OPTIONS.close },
+      cell: ({ row }) => {
+        const r = row.original as PoRow;
+        const st = r.closeState ?? 'open';
+        return (
+          <Chip
+            size="small"
+            label={DIMENSION_LABELS.close[st]}
+            color={st === 'closed' ? 'success' : st === 'cancelled' ? 'default' : 'warning'}
+            variant={st === 'closed' ? 'filled' : 'outlined'}
+            title={r.pendingNote}
+            sx={{ fontSize: '0.72rem', height: 20 }}
+          />
+        );
+      },
+    },
+
     { accessorKey: 'orderDate', header: '下单日期', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.orderDate) },
     { accessorKey: 'expectedDeliveryDate', header: '预计交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.expectedDeliveryDate) },
     { accessorKey: 'actualDeliveryDate', header: '实际交货', meta: { searchable: true }, cell: ({ row }) => formatDate(row.original.actualDeliveryDate) },
-    // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
-    // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PurchaseOrder, unknown>[]),
   ], []);
+
+  // 基础列 + 按单据类型分列的关联列（采购申请 / 入库单 / 采购发票 / 付款计划 …）
+  const columns: ColumnDef<PurchaseOrder, unknown>[] = useMemo(
+    () => [...baseColumns, ...(relatedCols.columns as ColumnDef<PurchaseOrder, unknown>[])],
+    [baseColumns, relatedCols]
+  );
 
   const filterFields = [
     { name: 'orderNo', label: '订单号', type: 'text' as const },
@@ -291,12 +512,53 @@ const OrderList: React.FC = () => {
         { value: 'cancelled', label: '已取消' },
       ],
     },
+    // 履约/结算筛选：默认折叠在「更多筛选」里，可按业务阶段直接捞单
+    { name: 'receiptStage', label: '入库状态', type: 'select' as const, options: [{ value: '', label: '全部' }, ...STAGE_FILTER_OPTIONS.receipt] },
+    { name: 'invoiceStage', label: '开票状态', type: 'select' as const, options: [{ value: '', label: '全部' }, ...STAGE_FILTER_OPTIONS.invoice] },
+    { name: 'reconcileStage', label: '对账状态', type: 'select' as const, options: [{ value: '', label: '全部' }, ...STAGE_FILTER_OPTIONS.reconcile] },
+    { name: 'settleStage', label: '结算状态', type: 'select' as const, options: [{ value: '', label: '全部' }, ...STAGE_FILTER_OPTIONS.settle] },
+    { name: 'closeState', label: '完结状态', type: 'select' as const, options: [{ value: '', label: '全部' }, ...STAGE_FILTER_OPTIONS.close] },
+    // 区间检索（这两组不在表格列里，由下方 applyRangeFilters 单独处理）
+    { name: 'orderDateFrom', label: '下单起', type: 'date' as const },
+    { name: 'orderDateTo', label: '下单止', type: 'date' as const },
+    { name: 'grandTotalFrom', label: '金额≥', type: 'text' as const, placeholder: '价税合计下限' },
+    { name: 'grandTotalTo', label: '金额≤', type: 'text' as const, placeholder: '价税合计上限' },
   ];
 
-  // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控。
+  // 区间检索（下单日期 / 价税合计）：这两组不在表格列上，故在通用列检索之前先过滤一遍。
+  // 空值一律跳过，绝不用 0 当日期的兜底 —— 那会把没填区间的人筛成空表。
+  const rangeFiltered = useMemo(() => {
+    const f = filterData as Record<string, unknown>;
+    const str = (k: string) => (typeof f[k] === 'string' ? String(f[k]).trim() : '');
+    const num = (k: string) => {
+      const s = str(k);
+      if (!s) return null;
+      const n = Number(s);
+      return Number.isFinite(n) ? n : null;
+    };
+    const from = str('orderDateFrom');
+    const to = str('orderDateTo');
+    const minAmt = num('grandTotalFrom');
+    const maxAmt = num('grandTotalTo');
+    if (!from && !to && minAmt == null && maxAmt == null) return rows;
+
+    return rows.filter((r) => {
+      const d = (r.orderDate || '').slice(0, 10);
+      if (from && (!d || d < from)) return false;
+      if (to && (!d || d > to)) return false;
+      const grand = r.grandTotal
+        ?? round2((r.totalAmount ?? 0) + (r.totalTaxAmount ?? calcTaxTotals(r.items || []).totalTaxAmount));
+      if (minAmt != null && grand < minAmt) return false;
+      if (maxAmt != null && grand > maxAmt) return false;
+      return true;
+    });
+  }, [rows, filterData]);
+
+  // 通用列检索：覆盖全部声明了 meta.searchable 的列（含新增的入库/开票/对账/结算/完结状态列），
+  // 并按字段权限门控。
   const filteredData = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('purchaseOrder', purchaseOrders), columns, filterData, { module: 'purchase' }),
-    [filterData, purchaseOrders, columns]
+    () => applyColumnFilters(rangeFiltered, columns, filterData, { module: 'purchase' }),
+    [rangeFiltered, filterData, columns]
   );
 
   // ── 删除确认 ──
@@ -318,10 +580,10 @@ const OrderList: React.FC = () => {
   };
 
   // ── 批量导入（按表头映射字段，仅更新匹配到的现有订单，未匹配则跳过）──
-  const handleImport = (rows: Record<string, string>[], _headers: string[]) => {
+  const handleImport = (importedRows: Record<string, string>[], _headers: string[]) => {
     let updated = 0;
     let skipped = 0;
-    for (const raw of rows) {
+    for (const raw of importedRows) {
       const mapped: Record<string, string> = {};
       Object.entries(raw).forEach(([h, v]) => {
         const key = ORDER_IMPORT_ALIASES[String(h).trim()];
@@ -406,19 +668,27 @@ const OrderList: React.FC = () => {
   // ── 一页化：KPI 统计条数值（扫一眼看全貌，减少翻表算数） ──
   const stats = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
-    const total = purchaseOrders.length;
-    const inProgress = purchaseOrders.filter(o => ['created', 'sent', 'confirmed', 'partial'].includes(o.status)).length;
+    const total = rows.length;
+    // 未完结：收货/开票/对账/结算任一维度没走完（比原「进行中」更贴近业务实际）
+    const openCount = rows.filter(r => (r.closeState ?? 'open') === 'open').length;
     // 逾期未交：预计交货日已过、且尚未完成收货（已收货/已关闭/已取消 不算逾期）
-    const overdue = purchaseOrders.filter(o => !['received', 'closed', 'cancelled'].includes(o.status)
-      && o.expectedDeliveryDate && o.expectedDeliveryDate < today).length;
-    return { total, inProgress, overdue };
-  }, [purchaseOrders]);
+    const overdue = rows.filter(r => !['received', 'closed', 'cancelled'].includes(r.status)
+      && r.expectedDeliveryDate && r.expectedDeliveryDate < today).length;
+    // 待结算金额：未结清部分的价税合计（已取消订单不计）
+    const unsettled = rows
+      .filter(r => r.status !== 'cancelled' && (r.settleStage ?? 'none') !== 'full')
+      .reduce((s, r) => {
+        const grand = r.grandTotal ?? round2((r.totalAmount ?? 0) + (r.totalTaxAmount ?? 0));
+        return s + Math.max(0, round2(grand - (r.settledAmount ?? 0)));
+      }, 0);
+    return { total, openCount, overdue, unsettled };
+  }, [rows]);
 
   const kpis: KpiItem[] = [
     { key: 'total', label: '订单总数', value: stats.total.toLocaleString(), color: 'primary', icon: <Layers sx={{ fontSize: 16 }} /> },
-    { key: 'inprog', label: '进行中', value: stats.inProgress.toLocaleString(), color: 'warning', icon: <Assignment sx={{ fontSize: 16 }} /> },
+    { key: 'open', label: '未完结', value: stats.openCount.toLocaleString(), color: 'warning', icon: <Assignment sx={{ fontSize: 16 }} />, hint: '入库/开票/对账/结算未走完' },
     { key: 'overdue', label: '逾期未交', value: stats.overdue.toLocaleString(), color: stats.overdue > 0 ? 'error' : 'success', icon: <Alarm sx={{ fontSize: 16 }} />, hint: '预计交货已过' },
-    { key: 'month', label: '本月采购金额', value: formatCurrency(analytics.monthAmount), color: 'success', icon: <Payments sx={{ fontSize: 16 }} /> },
+    { key: 'unsettled', label: '待结算金额', value: formatCurrency(stats.unsettled), color: 'success', icon: <Payments sx={{ fontSize: 16 }} />, hint: '未结清部分价税合计' },
   ];
 
   return (
@@ -531,11 +801,15 @@ const OrderList: React.FC = () => {
         enableRowSelection
         enablePagination
         enableExport
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        // V3.114.0：关联列改为「按单据类型分列」（采购申请 / 入库单 / 采购发票 / 付款计划 …），
+        // 默认全部可见 —— 用户要看的正是"这一串号到底是什么单"，默认隐藏等于没改。
+        // 同时把「币种 / 未税金额 / 税额」三列默认收起：价税合计已含税口径信息，
+        // 腾出的宽度留给新增的入库/开票/对账/结算/完结五列，关键状态不必横向拖动就能看完。
+        hiddenColumns={['currency', 'totalAmount', 'totalTaxAmount', ...relatedCols.defaultHidden]}
         columnConfigKey="purchase-order-list"
         codeColumnId="orderNo"
-        onRowClick={(row) => setDrawerOrder(row)}
-        onView={(row) => setDrawerOrder(row)}
+        onRowClick={(row) => setDrawerOrder(row as PoRow)}
+        onView={(row) => setDrawerOrder(row as PoRow)}
         onDelete={(row) => { setDeleteTargets([row]); setDeleteOpen(true); }}
         batchActions={batchActions}
         enableImport

@@ -133,8 +133,8 @@ const SalesContractDetail: React.FC = () => {
     { label: '备注', value: contract.remarks || '-' },
     { label: '创建时间', value: formatDate(contract.createdAt) },
     { label: '更新时间', value: formatDate(contract.updatedAt) },
-    { label: '上游单号', value: <RelatedDocLinks docs={rel?.upstreamDocs} /> },
-    { label: '下游单号', value: <RelatedDocLinks docs={rel?.downstreamDocs} /> },
+    { label: '来源单据', value: <RelatedDocLinks docs={rel?.upstreamDocs} showType /> },
+    { label: '后续单据', value: <RelatedDocLinks docs={rel?.downstreamDocs} showType /> },
   ];
 
   // 状态流转时间线

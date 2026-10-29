@@ -1087,6 +1087,14 @@ export const MANUAL_MODULES: ManualModule[] = [
         ],
       },
       {
+        id: 'v31140',
+        title: 'V3.114.0（2026-10-29）｜采购订单列表履约/结算状态增强 + 关联单据按实际类型命名',
+        blocks: [
+          { kind: 'usage', title: '本次变更', text: '强哥需求：①采购订单明细列表不再笼统写「上游单号/下游单号」，明细是什么单就写什么单（如入库单、采购发票、付款计划）；②采购订单列表增加履约/结算状态——订购 vs 已收 vs 未入库欠数、供应商是否开票、是否对账、是否结算、是否完结；③这些状态要能在订单列表筛选查询，并完善区间检索（下单日期、价税合计）。\n\n**履约/结算聚合核心（新增 src/utils/purchase/poSettlement.ts）**：列表与详情共用同一套口径，纯派生不写库——从入库单/采购发票/应付单/付款计划按订单号聚合。导出 PoFulfillment、FulfillmentSources、buildFulfillmentIndex、getFulfillment、withFulfillment、STAGE_LABELS、DIMENSION_LABELS、STAGE_FILTER_OPTIONS；阶段 none|partial|full 三态。口径：receivedQty=max(入库单实收合计, 订单行 deliveredQuantity 回退)；开票=finInvoice（作废不计）；对账=发票已认证(verified/paid)或已生成应付单；结算=应付已付与付款计划已付取较大值；完结=收货齐+开票齐+结清或 status=closed。金额用 1% 容差（amountEnough，与服务端付款闸门口径一致）；buildFulfillmentIndex 用 asArray() 守卫防 store 水合中间态非数组白屏。\n\n**关联单据按类型命名**：documentRelations.ts 新增 DOC_TYPE_LABELS（所有单据类型中文名）+ docTypeLabel(type)；relatedColumns.tsx 重写——buildRelatedColumns 表头改为「来源单据/后续单据」，单元格用 RelatedDocLinks showType 加单据类型小字；新增 buildTypedRelatedColumns(docType, rows) 对数据中真实出现过的单据类型各生成一列（列头=单据中文名，REL_UPSTREAM_PREFIX/REL_DOWNSTREAM_PREFIX 前缀、fieldsOf 把单号摊成行字段供筛选）。RelatedDocLinks 新增 showType prop；ObjectPage 与 RelatedSourceField 同步「来源单据/后续单据」分组命名；InquiryDetail/SalesContractDetail/ProjectDetail 批量「上游单号→来源单据」「下游单号→后续单据」并加 showType。\n\n**列表页（OrderList.tsx）**：新增 5 状态列（入库进度 显示 x/y+欠数 Chip+进度条、开票状态、对账状态、结算状态、完结状态）+ 物料明细「未入库」列；filterFields 增加 receiptStage/invoiceStage/reconcileStage/settleStage/closeState 五类阶段下拉（来自 STAGE_FILTER_OPTIONS）+ orderDateFrom/To、grandTotalFrom/To 区间；rangeFiltered useMemo 处理区间（空值跳过，不用 0 兜底）后 applyColumnFilters；KPI 改为 订单总数/未完结/逾期未交/待结算金额；hiddenColumns 腾宽度给新状态列。详情页（OrderDetail.tsx）：orderList/requestList 数组守卫防水合中间态 find is not a function；新增「履约与结算」4 宫格 + 完结 Chip(data-testid=po-fulfillment-close)、currency 提前声明；单据流转关联渲染真实关联单据（来源+后续，docTypeLabel+单号可点）；基本信息加「来源采购申请」Chip；物料明细加「未入库」列。\n\n**验证**：tsc 0 错；Playwright 实测列表表头含 入库进度|开票状态|对账状态|结算状态|完结状态|采购申请|入库单|检验通知单；筛选「入库状态=已入库」行数 3→1、首行 PO20240503001 显示 30/30、PAGE_ERRORS=[]；详情页 HAS_LINKS/HAS_FULFILL 均 true、0 控制台异常。' },
+          { kind: 'why', title: '为什么这样做', text: '履约状态原本分散在 4 个 store（入库/发票/应付/付款计划），订单表无字段，用户无法一眼判断「这单到底进行到哪一步」。把它收敛成 poSettlement.ts 一处派生、列表与详情共用，既消除两处各算各的口径漂移，也让筛选条能按业务阶段检索（已入库/未开票/未结算/未完结）。关联单据从「上游/下游」两列改为按真实单据类型命名，是因为「上游/下游」是系统视角的黑话，对用户没有意义——明细里出现的是入库单、发票、付款计划这类具象单据，写清楚是什么单才真正可点可查。用 buildTypedRelatedColumns 动态分列而非写死，是因为不同订单关联的单据种类不固定，固定两列要么挤占宽度要么漏类型。' },
+        ],
+      },
+      {
         id: 'v31130',
         title: 'V3.113.0（2026-10-25）｜全交易单据「上游/下游关联单号」列（默认隐藏、可筛选、详情可点）',
         blocks: [

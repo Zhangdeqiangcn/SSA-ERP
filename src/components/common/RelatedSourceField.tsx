@@ -12,6 +12,7 @@ import { Box, Paper, Typography } from '@mui/material';
 import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 import RelatedDocLinks from './RelatedDocLinks';
 import type { RelatedDocRef } from '@/utils/relations/documentRelations';
+import { docTypeLabel } from '@/utils/relations/documentRelations';
 
 interface FieldProps {
   /** 目标单据类型（DOC_SOURCES / DOC_RELATIONS 的 key） */
@@ -40,23 +41,52 @@ interface BlockProps {
   entity: Record<string, any> | null | undefined;
 }
 
-/** 详情弹窗里的「关联单据」区块：上游/下游两栏（样式对齐 ObjectPage） */
+/** 详情弹窗里的「关联单据」区块：来源/后续两栏，各自按单据类型命名（V3.114.0） */
 export function RelatedDocsBlock({ docType, entity }: BlockProps) {
   const rel = useRelatedDocs(docType, entity);
   if (!entity || !rel) return null;
   if (rel.upstreamDocs.length === 0 && rel.downstreamDocs.length === 0) return null;
+
+  const groupByType = (docs: RelatedDocRef[]) => {
+    const map = new Map<string, RelatedDocRef[]>();
+    for (const d of docs) {
+      const arr = map.get(d.type);
+      if (arr) arr.push(d);
+      else map.set(d.type, [d]);
+    }
+    return Array.from(map.entries());
+  };
+
   return (
     <Paper variant="outlined" sx={{ p: 2, borderRadius: 2, mt: 2 }}>
       <Typography variant="subtitle2" fontWeight={600} sx={{ mb: 1 }}>关联单据</Typography>
       <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-        <Box>
-          <Typography variant="body2" color="text.secondary">上游单号</Typography>
-          <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel.upstreamDocs} /></Box>
-        </Box>
-        <Box>
-          <Typography variant="body2" color="text.secondary">下游单号</Typography>
-          <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel.downstreamDocs} /></Box>
-        </Box>
+        {groupByType(rel.upstreamDocs).length > 0 && (
+          <Box>
+            <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>来源单据</Typography>
+            <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mt: 0.5 }}>
+              {groupByType(rel.upstreamDocs).map(([type, docs]) => (
+                <Box key={type}>
+                  <Typography variant="body2" color="text.secondary">{docTypeLabel(type)}</Typography>
+                  <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={docs} /></Box>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
+        {groupByType(rel.downstreamDocs).length > 0 && (
+          <Box>
+            <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>后续单据</Typography>
+            <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', mt: 0.5 }}>
+              {groupByType(rel.downstreamDocs).map(([type, docs]) => (
+                <Box key={type}>
+                  <Typography variant="body2" color="text.secondary">{docTypeLabel(type)}</Typography>
+                  <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={docs} /></Box>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
       </Box>
     </Paper>
   );

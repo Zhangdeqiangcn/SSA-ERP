@@ -63,8 +63,8 @@ const InquiryDetail: React.FC = () => {
     { label: '目标供应商', value: inquiry.targetVendorNames.join('、') },
     { label: '预估总金额', value: formatCurrency(inquiry.totalEstimatedAmount) },
     { label: '备注', value: inquiry.remarks || '-' },
-    { label: '上游单号', value: <RelatedDocLinks docs={rel?.upstreamDocs} /> },
-    { label: '下游单号', value: <RelatedDocLinks docs={rel?.downstreamDocs} /> },
+    { label: '来源单据', value: <RelatedDocLinks docs={rel?.upstreamDocs} showType /> },
+    { label: '后续单据', value: <RelatedDocLinks docs={rel?.downstreamDocs} showType /> },
   ];
 
   const handleGenerateComparison = () => {

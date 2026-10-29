@@ -11,15 +11,21 @@
 import React from 'react';
 import { Link, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { resolveRoute, type RelatedDocRef } from '@/utils/relations/documentRelations';
+import { resolveRoute, docTypeLabel, type RelatedDocRef } from '@/utils/relations/documentRelations';
 
 interface Props {
   /** 关联引用数组（可空/空数组 → 显示 '-'） */
   docs?: RelatedDocRef[] | null;
+  /**
+   * 是否在单号前显示单据类型名（V3.114.0）。
+   * 用于「来源单据 / 后续单据」这类混合列：一个格子里可能同时有入库单和发票，
+   * 只给单号没人分得清是什么单 —— 明细是什么单就写什么单。
+   */
+  showType?: boolean;
 }
 
 /** 渲染一组可点击的关联单号；无则显示占位符 */
-export default function RelatedDocLinks({ docs }: { docs?: RelatedDocRef[] | null }) {
+export default function RelatedDocLinks({ docs, showType = false }: Props) {
   const navigate = useNavigate();
   if (!docs || docs.length === 0) return <>-</>;
 
@@ -31,6 +37,15 @@ export default function RelatedDocLinks({ docs }: { docs?: RelatedDocRef[] | nul
         const resolvable = !!to && to !== '#';
         return (
           <React.Fragment key={`${d.type}-${d.no}-${i}`}>
+            {showType ? (
+              <Typography
+                component="span"
+                variant="caption"
+                sx={{ color: '#64748B', whiteSpace: 'nowrap', mr: 0.25 }}
+              >
+                {docTypeLabel(d.type)}
+              </Typography>
+            ) : null}
             {resolvable ? (
               <Link
                 component="button"

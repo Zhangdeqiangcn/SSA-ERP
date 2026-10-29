@@ -138,12 +138,12 @@ const ProjectDetail: React.FC = () => {
         <Typography variant="subtitle2" fontWeight={600} mb={1.5}>关联单据</Typography>
         <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
           <Box>
-            <Typography variant="body2" color="text.secondary">上游单号</Typography>
-            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.upstreamDocs} /></Box>
+            <Typography variant="body2" color="text.secondary">来源单据</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.upstreamDocs} showType /></Box>
           </Box>
           <Box>
-            <Typography variant="body2" color="text.secondary">下游单号</Typography>
-            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.downstreamDocs} /></Box>
+            <Typography variant="body2" color="text.secondary">后续单据</Typography>
+            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.downstreamDocs} showType /></Box>
           </Box>
         </Box>
       </Paper>

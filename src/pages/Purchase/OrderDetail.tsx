@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Button, Paper, Typography, Chip, Divider, Alert,
@@ -14,10 +14,19 @@ import ApprovalFlow, { ApprovalNode } from '@/components/common/ApprovalFlow';
 import { usePurchaseStore } from '@/stores/purchaseStore';
 import { useWarehouseStore } from '@/stores/warehouseStore';
 import { useFinanceStore } from '@/stores/financeStore';
+import { useArapStore } from '@/stores/arapStore';
 import { api } from '@/services/api';
 import { useVendorStore } from '@/stores/vendorStore';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { calcTaxTotals, round2 } from '@/utils/tax';
+import { withRelatedDocNos, resolveRoute, docTypeLabel } from '@/utils/relations/documentRelations';
+import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
+import {
+  getFulfillment,
+  buildFulfillmentIndex,
+  DIMENSION_LABELS,
+  type FulfillStage,
+} from '@/utils/purchase/poSettlement';
 
 const buildApprovalNodes = (status: string): ApprovalNode[] => [
   { id: 'n1', role: '创建订单', approver: 'admin', status: 'approved', time: '2024-05-06 10:00' },
@@ -44,11 +53,36 @@ const PENDING_MATCH_CODES = ['NO_PO', 'PO_NOT_FOUND', 'PO_AMOUNT_INVALID', 'NO_I
 const OrderDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { invoices } = useFinanceStore();
+  const { invoices, paymentPlans } = useFinanceStore();
   const { inboundOrders } = useWarehouseStore();
   const { purchaseOrders, purchaseRequests, deletePurchaseOrder, changePurchaseOrder } = usePurchaseStore();
+  const payables = useArapStore(s => s.payables);
+  const hydrateArap = useArapStore(s => s.hydrateArap);
   const applyVendorCreditDelta = useVendorStore(s => s.applyVendorCreditDelta);
-  const order = purchaseOrders.find(o => o.id === id);
+  // 防御：persist 恢复 / 云端水合的中间态可能把数组字段暂时写成非数组，
+  // 直接 .find 会让整页白屏（本机实测踩到 purchaseRequests 非数组导致详情页 500）。
+  const orderList = Array.isArray(purchaseOrders) ? purchaseOrders : [];
+  const requestList = Array.isArray(purchaseRequests) ? purchaseRequests : [];
+  const order = orderList.find(o => o.id === id);
+
+  // 关联单据数据源（采购申请 / 入库单 / 采购发票 / 付款计划 / 退货单 …）随水合刷新
+  const relatedTick = useEnsureRelatedStores('purchaseOrder');
+  useEffect(() => {
+    try {
+      void hydrateArap?.();
+    } catch {
+      /* 应付拉取失败不阻断详情页：对账/结算状态降级为未完成 */
+    }
+  }, [hydrateArap]);
+
+  // 本单的真实关联单据（上游 + 下游），渲染成「单据类型 + 单号」可点跳转，
+  // 不再用写死的「入库单 / 付款计划」假入口。
+  const relatedDocs = useMemo(() => {
+    if (!order) return { upstream: [], downstream: [] } as { upstream: { type: string; no: string }[]; downstream: { type: string; no: string }[] };
+    const enriched = withRelatedDocNos('purchaseOrder', [order as unknown as Record<string, unknown>])[0];
+    return { upstream: enriched.upstreamDocs, downstream: enriched.downstreamDocs };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [order, relatedTick, inboundOrders, invoices, paymentPlans]);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [snackbar, setSnackbar] = useState(false);
   const [snackMsg, setSnackMsg] = useState('订单信息已复制到剪贴板');
@@ -97,10 +131,75 @@ const OrderDetail: React.FC = () => {
   }
 
   // 关联的采购申请
-  const relatedRequest = order.requestId ? purchaseRequests.find(r => r.id === order.requestId) : null;
+  const relatedRequest = order.requestId ? requestList.find(r => r.id === order.requestId) ?? null : null;
 
   // A2 税价拆分：币种与含税汇总（兼容未迁移的存量单据）
+  // 提前到履约区块之前声明：履约四步的金额都要按本单币种展示
   const currency = order.currency || 'CNY';
+
+  // V3.114.0 履约与结算状态：与列表页共用 poSettlement 同一套口径，
+  // 避免「列表说未结算、详情页说已结算」这种同一个事实两个答案的老问题。
+  const fulfillment = getFulfillment(
+    order,
+    buildFulfillmentIndex({ inbounds: inboundOrders, invoices, payables, paymentPlans })
+  );
+
+  const fulfillGrandTotal = order.grandTotal ?? round2((order.totalAmount ?? 0) + (order.totalTaxAmount ?? 0));
+  const fulfillDims: Array<{
+    key: string;
+    title: string;
+    stage: FulfillStage;
+    labels: { none: string; partial: string; full: string };
+    main: string;
+    sub: string;
+    docs: string[];
+    hint: string;
+  }> = [
+    {
+      key: 'receipt',
+      title: '① 收货入库',
+      stage: fulfillment.receiptStage,
+      labels: DIMENSION_LABELS.receipt,
+      main: `${fulfillment.receivedQty} / ${fulfillment.orderedQty} 件`,
+      sub: fulfillment.remainingQty > 0 ? `还有 ${fulfillment.remainingQty} 件未入库` : '订购数量已全部入库',
+      docs: fulfillment.inboundNos,
+      hint: '口径：入库单（来源单号=本单）实收数量合计；无入库单时回退订单行已收数量',
+    },
+    {
+      key: 'invoice',
+      title: '② 供应商开票',
+      stage: fulfillment.invoiceStage,
+      labels: DIMENSION_LABELS.invoice,
+      main: `${formatCurrency(fulfillment.invoicedAmount, currency)} / ${formatCurrency(fulfillGrandTotal, currency)}`,
+      sub: fulfillment.invoiceStage === 'full' ? '开票金额已覆盖订单金额' : '开票金额未覆盖订单金额',
+      docs: fulfillment.invoiceNos,
+      hint: '口径：采购发票价税合计（作废发票不计）',
+    },
+    {
+      key: 'reconcile',
+      title: '③ 对账确认',
+      stage: fulfillment.reconcileStage,
+      labels: DIMENSION_LABELS.reconcile,
+      main: formatCurrency(fulfillment.reconciledAmount, currency),
+      sub: fulfillment.reconcileStage === 'full' ? '发票已全部进入应付台账' : '仍有发票未认证/未入应付',
+      docs: [],
+      hint: '口径：发票已认证或已生成应付单，即视为已对账',
+    },
+    {
+      key: 'settle',
+      title: '④ 付款结算',
+      stage: fulfillment.settleStage,
+      labels: DIMENSION_LABELS.settle,
+      main: `${formatCurrency(fulfillment.settledAmount, currency)} / ${formatCurrency(fulfillGrandTotal, currency)}`,
+      sub: fulfillment.settleStage === 'full'
+        ? '已结清'
+        : `待结算 ${formatCurrency(Math.max(0, round2(fulfillGrandTotal - fulfillment.settledAmount)), currency)}`,
+      docs: [],
+      hint: '口径：应付单已付金额；无应付记录时回退付款计划已付金额',
+    },
+  ];
+
+  // A2 税价拆分：含税汇总（币种已在履约区块之前声明）
   const taxTotals = calcTaxTotals(order.items);
   const orderNetTotal = order.totalAmount ?? taxTotals.totalAmount;
   const orderTaxTotal = order.totalTaxAmount ?? taxTotals.totalTaxAmount;
@@ -205,6 +304,22 @@ const OrderDetail: React.FC = () => {
       </Box>
     },
     { label: '供应商', value: order.vendorName },
+    // 来源采购申请：订单是从哪张申请转来的，直接回跳（原来只在“单据流转关联”里出现）
+    ...(relatedRequest
+      ? [{
+          label: '来源采购申请',
+          value: (
+            <Chip
+              size="small"
+              label={relatedRequest.requestNo}
+              color="primary"
+              variant="outlined"
+              onClick={() => navigate(`/purchase/${relatedRequest.id}`)}
+              sx={{ cursor: 'pointer', fontFamily: 'monospace', fontSize: '0.75rem' }}
+            />
+          ),
+        }]
+      : []),
     { label: '联系人', value: order.contact || '-' },
     { label: '联系电话', value: order.phone || '-' },
     { label: '订单状态', value: <StatusBadge status={order.status} /> },
@@ -321,34 +436,90 @@ const OrderDetail: React.FC = () => {
             content: (
               <Box sx={{ p: 2, bgcolor: '#F0F9FF', borderRadius: 2, border: '1px solid #BAE6FD' }}>
                 <Typography variant="caption" sx={{ color: '#0369A1', fontWeight: 600, display: 'block', mb: 1 }}>
-                  <LinkOutlined sx={{ fontSize: 14, mr: 0.5, verticalAlign: 'middle' }} />单据流转关联
+                  <LinkOutlined sx={{ fontSize: 14, mr: 0.5, verticalAlign: 'middle' }} />
+                  单据流转关联（来源单据 → 后续单据，点击直达）
                 </Typography>
-                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                  {relatedRequest && (
-                    <Chip
-                      label={`📋 采购申请 (${relatedRequest.requestNo})`}
-                      size="small" variant="filled" color="primary"
-                      onClick={() => navigate(`/purchase/${relatedRequest.id}`)}
-                      icon={<OpenInNew sx={{ fontSize: '14px !important' }} />}
-                      sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                    />
-                  )}
+                {/* V3.114.0：不再写死「入库单 / 付款计划」两个假入口，也不再叫「上下游单号」，
+                    这里列的就是真实存在的单，每种都写明是什么单（入库单 / 采购发票 / 付款计划…） */}
+                {relatedDocs.upstream.length === 0 && relatedDocs.downstream.length === 0 ? (
+                  <Typography variant="body2" color="text.secondary">暂无关联单据</Typography>
+                ) : (
+                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                    {[...relatedDocs.upstream, ...relatedDocs.downstream].map((d, i) => {
+                      const to = resolveRoute(d.type, d.no);
+                      const clickable = to !== '#';
+                      return (
+                        <Chip
+                          key={`${d.type}-${d.no}-${i}`}
+                          size="small"
+                          label={`${docTypeLabel(d.type)} ${d.no}`}
+                          variant={clickable ? 'filled' : 'outlined'}
+                          color="primary"
+                          icon={<OpenInNew sx={{ fontSize: '14px !important' }} />}
+                          title={clickable ? `打开${docTypeLabel(d.type)} ${d.no}` : `${d.no}：目标单据不存在或尚未加载，无法跳转`}
+                          onClick={() => { if (clickable) navigate(to); }}
+                          sx={{ fontSize: '0.8rem', cursor: clickable ? 'pointer' : 'default', opacity: clickable ? 1 : 0.55 }}
+                        />
+                      );
+                    })}
+                  </Box>
+                )}
+              </Box>
+            ),
+          },
+          {
+            id: 'fulfillment',
+            title: '履约与结算',
+            content: (
+              <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 2, p: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    履约链路（收货 → 开票 → 对账 → 结算）
+                  </Typography>
                   <Chip
-                    label={`🏭 入库单`}
-                    size="small" variant="outlined"
-                    onClick={() => navigate('/warehouse/inbound')}
-                    icon={<OpenInNew sx={{ fontSize: '14px !important' }} />}
-                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
-                  />
-                  <Chip
-                    label={`💰 付款计划`}
-                    size="small" variant="outlined"
-                    onClick={() => navigate('/finance/payments')}
-                    icon={<OpenInNew sx={{ fontSize: '14px !important' }} />}
-                    sx={{ cursor: 'pointer', fontSize: '0.8rem' }}
+                    size="small"
+                    label={DIMENSION_LABELS.close[fulfillment.closeState]}
+                    color={fulfillment.closeState === 'closed' ? 'success' : fulfillment.closeState === 'cancelled' ? 'default' : 'warning'}
+                    variant={fulfillment.closeState === 'closed' ? 'filled' : 'outlined'}
+                    data-testid="po-fulfillment-close"
                   />
                 </Box>
-              </Box>
+                <Grid container spacing={2}>
+                  {fulfillDims.map((d) => (
+                    <Grid item xs={12} sm={6} md={3} key={d.key}>
+                      <Tooltip title={d.hint} placement="top">
+                        <Box sx={{ p: 1.25, borderRadius: 1.5, border: '1px solid', borderColor: 'divider', height: '100%' }}>
+                          <Typography variant="caption" color="text.secondary" display="block">{d.title}</Typography>
+                          <Chip
+                            size="small"
+                            label={d.labels[d.stage]}
+                            color={d.stage === 'full' ? 'success' : d.stage === 'partial' ? 'warning' : 'default'}
+                            variant={d.stage === 'none' ? 'outlined' : 'filled'}
+                            sx={{ my: 0.5, height: 20, fontSize: '0.7rem' }}
+                          />
+                          <Typography variant="body2" fontWeight={600} data-testid={`po-${d.key}-value`}>{d.main}</Typography>
+                          <Typography variant="caption" color={d.stage === 'full' ? 'success.main' : 'text.secondary'}>
+                            {d.sub}
+                          </Typography>
+                          {d.docs.length > 0 && (
+                            <Typography variant="caption" color="text.secondary" display="block" sx={{ mt: 0.5, wordBreak: 'break-all' }}>
+                              单据：{d.docs.join('、')}
+                            </Typography>
+                          )}
+                        </Box>
+                      </Tooltip>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Alert
+                  severity={fulfillment.closeState === 'closed' ? 'success' : 'info'}
+                  sx={{ mt: 1.5, py: 0 }}
+                >
+                  {fulfillment.closeState === 'closed'
+                    ? '订单已完结：收货、开票、对账、结算全部走完。'
+                    : `未完结：${fulfillment.pendingNote}`}
+                </Alert>
+              </Paper>
             ),
           },
           {
@@ -481,6 +652,21 @@ const OrderDetail: React.FC = () => {
                           </Typography>
                         </Box>
                       ),
+                    },
+                    {
+                      // V3.114.0：行级欠账一目了然 —— 这行还差多少个没入库
+                      id: 'remainingQuantity', header: '未入库', enableSorting: false,
+                      cell: ({ row }) => {
+                        const remain = Math.max(0, (row.original.orderedQuantity || 0) - (row.original.deliveredQuantity || 0));
+                        return (
+                          <Box sx={{ textAlign: 'right' }}>
+                            <Typography variant="body2" fontWeight={remain > 0 ? 600 : 400}
+                              color={remain > 0 ? 'error.main' : 'text.disabled'}>
+                              {remain.toLocaleString()}
+                            </Typography>
+                          </Box>
+                        );
+                      },
                     },
                     {
                       id: 'unitPrice', header: '未税单价', accessorKey: 'unitPrice',

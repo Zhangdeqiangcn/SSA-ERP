@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, Paper, Stack, Breadcrumbs, Link, Chip, Divider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import RelatedDocLinks from '@/components/common/RelatedDocLinks';
+import { docTypeLabel } from '@/utils/relations/documentRelations';
 import { useRelatedDocs } from '@/utils/relations/useRelatedDocs';
 
 export interface ObjectPageSection {
@@ -56,20 +57,57 @@ const ObjectPage: React.FC<ObjectPageProps> = ({
   entity,
 }) => {
   const rel = useRelatedDocs(docType ?? '', entity);
+
+  // V3.114.0：不再笼统写「上游单号 / 下游单号」，而是按单据实际类型分组命名
+  //（采购申请 / 入库单 / 采购发票 / 付款计划…）—— 明细是什么单就写什么单。
+  const groupByType = (docs?: { type: string; no: string }[]) => {
+    const map = new Map<string, { type: string; no: string }[]>();
+    for (const d of docs ?? []) {
+      const arr = map.get(d.type);
+      if (arr) arr.push(d);
+      else map.set(d.type, [d]);
+    }
+    return Array.from(map.entries());
+  };
+  const upstreamGroups = groupByType(rel?.upstreamDocs);
+  const downstreamGroups = groupByType(rel?.downstreamDocs);
+
   const relatedSection: ObjectPageSection = {
     id: 'related-docs',
     title: '关联单据',
     content: (
       <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
         <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-          <Box>
-            <Typography variant="body2" color="text.secondary">上游单号</Typography>
-            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.upstreamDocs} /></Box>
-          </Box>
-          <Box>
-            <Typography variant="body2" color="text.secondary">下游单号</Typography>
-            <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={rel?.downstreamDocs} /></Box>
-          </Box>
+          {upstreamGroups.length > 0 && (
+            <Box>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
+                来源单据
+              </Typography>
+              <Stack direction="row" spacing={3} sx={{ mt: 0.5 }} flexWrap="wrap" useFlexGap>
+                {upstreamGroups.map(([type, docs]) => (
+                  <Box key={type}>
+                    <Typography variant="body2" color="text.secondary">{docTypeLabel(type)}</Typography>
+                    <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={docs} /></Box>
+                  </Box>
+                ))}
+              </Stack>
+            </Box>
+          )}
+          {downstreamGroups.length > 0 && (
+            <Box>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
+                后续单据
+              </Typography>
+              <Stack direction="row" spacing={3} sx={{ mt: 0.5 }} flexWrap="wrap" useFlexGap>
+                {downstreamGroups.map(([type, docs]) => (
+                  <Box key={type}>
+                    <Typography variant="body2" color="text.secondary">{docTypeLabel(type)}</Typography>
+                    <Box sx={{ mt: 0.5 }}><RelatedDocLinks docs={docs} /></Box>
+                  </Box>
+                ))}
+              </Stack>
+            </Box>
+          )}
         </Box>
       </Paper>
     ),
