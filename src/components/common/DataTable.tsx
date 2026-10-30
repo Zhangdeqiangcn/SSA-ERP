@@ -1068,6 +1068,7 @@ export function DataTable<T>({
                     return (
                       <TableCell
                         key={cell.id}
+                        data-col-id={cell.column.id}
                         sx={{
                           ...bodyCellSx,
                           position: 'relative',
