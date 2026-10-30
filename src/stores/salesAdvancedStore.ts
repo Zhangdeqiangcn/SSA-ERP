@@ -44,12 +44,19 @@ interface SalesAdvancedState {
 
 const seedQuotations: Quotation[] = [
   {
-    id: 'q-seed-1', quotationNo: 'Q-2026-0001', customerName: '东风汽车零部件', customerCode: 'CUST-001',
-    status: 'approved', validUntil: '2026-08-31', currency: 'CNY',
+    // V3.119.0：原为 Q-2026-0001 / 客户「东风汽车零部件」/ 2026-07 创建。
+    //   三个问题让它成了孤岛：① 客户既不在客户主数据也不在商机表；② 不存 sourceProspectId，
+    //   商机列表的「销售报价单」列按该字段反查 → 恒空；③ 日期在 2026 年，与全站 2024 年销售单据不同期。
+    //   改为 2024 年、挂到商机 pro-001（华润建筑，2024-06 正在洽谈、跟进行动里就写着「准备详细报价单」
+    //   与「客户要求 7 月初前提供报价」），与销售订单 SO202406001 同一条业务线。
+    id: 'q-seed-1', quotationNo: 'Q-2024-0001', customerName: '华润建筑集团有限公司', customerCode: 'C001',
+    sourceProspectId: 'pro-001',
+    status: 'approved', validUntil: '2024-07-31', currency: 'CNY',
     items: [
-      { id: 'qi-1', materialId: 'mat-001', materialCode: 'STEEL-001', materialName: 'Q345 钢板', unit: 'kg', quantity: 5000, unitPrice: 42, amount: 210000 },
+      { id: 'qi-1', materialId: 'mat-004', materialCode: 'MAT202405010004', materialName: 'H型钢 Q345B', unit: '吨', quantity: 120, unitPrice: 5200, amount: 624000 },
+      { id: 'qi-2', materialId: 'mat-002', materialCode: 'MAT202405010002', materialName: '角钢 50×50×5', unit: '吨', quantity: 60, unitPrice: 4800, amount: 288000 },
     ],
-    totalAmount: 210000, taxRate: 13, taxAmount: 27300, grandTotal: 237300, salesPerson: '王伟', createdAt: '2026-07-01', updatedAt: '2026-07-01', createdBy: '王伟', updatedBy: '王伟',
+    totalAmount: 912000, taxRate: 13, taxAmount: 118560, grandTotal: 1030560, salesPerson: '陈伟', createdAt: '2024-06-28', updatedAt: '2024-06-28', createdBy: '陈伟', updatedBy: '陈伟',
   },
 ];
 

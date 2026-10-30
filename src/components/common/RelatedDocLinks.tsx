@@ -90,15 +90,33 @@ export default function RelatedDocLinks({
                 {d.no}
               </Link>
             ) : (
-              // 目标不存在：灰色纯文本，鼠标悬停提示「目标单据不存在」
+              // 目标不存在：灰色纯文本 + 「已归档」标记（V3.119.0）。
+              // 为什么加标记：历史遗留单据（如系统上线前审批的价目表，sourceApprovalId
+              // 标着 pa-legacy-00x）在库里确实查不到目标，但"有来源、只是已归档"与
+              // "键错了/数据脏了"是两回事。只给灰字用户分不清，会当成 bug 报上来；
+              // 明确标注「已归档」既保留信息，也说明这是可解释的状态。
               <Typography
                 component="span"
                 variant="body2"
                 color="text.disabled"
-                title={`${d.no}：目标单据不存在或尚未加载，无法跳转`}
+                title={`${d.no}：目标单据不在当前库中（多为历史遗留/已归档），无法跳转`}
                 sx={{ cursor: 'default' }}
               >
                 {d.no}
+                <span
+                  style={{
+                    marginLeft: 4,
+                    padding: '0 4px',
+                    borderRadius: 3,
+                    border: '1px solid #CBD5E1',
+                    fontSize: '0.62rem',
+                    lineHeight: 1.6,
+                    color: '#94A3B8',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  已归档
+                </span>
               </Typography>
             )}
             {st ? (

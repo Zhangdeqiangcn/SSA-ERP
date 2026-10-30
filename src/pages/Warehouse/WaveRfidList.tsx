@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Paper, Chip, Button, Dialog, DialogTitle, DialogContent,
@@ -13,8 +13,7 @@ import {
   WaveRfid, RfidEvent, WaveLine, WAVE_STRATEGY_LABELS,
   RFID_OP_LABELS, WaveStatus, WaveStrategy, RfidOpType,
 } from '@/types';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
@@ -120,8 +119,15 @@ const WaveRfidList: React.FC = () => {
     { accessorKey: 'orderCount', header: '订单数' },
     { accessorKey: 'lineCount', header: '行数' },
     { accessorKey: 'plannedDate', header: '计划日' },
-    ...(buildRelatedColumns() as ColumnDef<WaveRfid>[]),
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('waveRfid', waves);
+  const allColumns = useMemo(
+    () => [...waveColumns, ...(rel.columns as ColumnDef<WaveRfid, unknown>[])],
+    [waveColumns, rel.columns]
+  );
 
   const rfColumns: ColumnDef<RfidEvent>[] = [
     { accessorKey: 'tagId', header: '标签ID' },
@@ -159,9 +165,9 @@ const WaveRfidList: React.FC = () => {
 
       {tab === 'wave' && (
         <DataTable
-          data={withRelatedDocNos('waveRfid', waves)} columns={waveColumns}
+          data={rel.data} columns={allColumns}
           onView={(r) => navigate(`/warehouse/wave-rfid/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteWave(r.id)}
-          enableExport enableColumnFilter sapStyle hiddenColumns={['upstreamNo', 'downstreamNo']} columnConfigKey="wave-rfid-list"
+          enableExport enableColumnFilter sapStyle hiddenColumns={rel.hiddenColumns} columnConfigKey="wave-rfid-list"
         />
       )}
       {tab === 'rfid' && (

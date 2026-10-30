@@ -9,15 +9,18 @@ const now = new Date().toISOString();
 const seed: SalesContract[] = [
   {
     id: 'sc-001',
-    contractNo: 'SC-2026-001',
+    // V3.119.0：原为 SC-2026-001 / 2026-03-01 起。但本系统全部销售单据（订单、发货、出库、工单）
+    // 都在 2024 年 5~8 月，只有合同孤立在 2026 年 → 合同与订单时间线不重叠，永远关联不上，
+    // 「销售订单」列恒空。改为与订单同期的 2024 年长协合同（订单 2024-06-10 下单，合同 2024-05 签）。
+    contractNo: 'SC-2024-001',
     name: '华润建筑钢材供应合同',
     customerId: 'cus-001',
     customerName: '华润建筑',
     customerCode: 'HR-001',
     salesPerson: '陈伟',
     amount: 2580000,
-    startDate: '2026-03-01',
-    endDate: '2026-12-31',
+    startDate: '2024-05-01',
+    endDate: '2025-04-30',
     status: 'active',
     items: [
       { id: 'sci-001', materialId: 'mat-001', materialCode: 'GC-HRB400-12', materialName: '热轧带肋钢筋 HRB400 φ12', specification: 'φ12×9000', unit: '吨', quantity: 200, unitPrice: 4200, amount: 840000, deliveryDate: '2026-04-15' },
@@ -37,15 +40,16 @@ const seed: SalesContract[] = [
   },
   {
     id: 'sc-002',
-    contractNo: 'SC-2026-002',
+    // V3.119.0：SC-2026-002 → SC-2024-002（同为 2024 年时间线，见上方说明）
+    contractNo: 'SC-2024-002',
     name: '长江船舶船板采购合同',
     customerId: 'cus-002',
     customerName: '长江船舶',
     customerCode: 'CJ-001',
     salesPerson: '刘洋',
     amount: 1850000,
-    startDate: '2026-04-01',
-    endDate: '2026-09-30',
+    startDate: '2024-05-15',
+    endDate: '2024-12-31',
     status: 'draft',
     items: [
       { id: 'sci-004', materialId: 'mat-003', materialCode: 'GC-Q355B-10', materialName: '低合金钢板 Q355B 10mm', specification: '10×2000×8000', unit: '吨', quantity: 150, unitPrice: 5600, amount: 840000, deliveryDate: '2026-05-01' },

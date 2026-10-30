@@ -11,8 +11,7 @@ import {
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceComparison } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 // 比价单状态 → 集中 statusConfig key（selected 复用通用 key）
@@ -77,7 +76,6 @@ const ComparisonsList: React.FC = () => {
     },
     // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
     // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PriceComparison, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -96,6 +94,14 @@ const ComparisonsList: React.FC = () => {
     { key: 'selector', label: '选定人', type: 'text' },
     { key: 'remarks', label: '备注', type: 'text' },
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('priceComparison', priceComparisons);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PriceComparison, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 批量导入：表头 → 字段 别名映射（中英文均可），按单号匹配，命中则更新、未命中跳过 ──
   const COMPARISON_IMPORT_ALIASES: Record<string, string> = {
@@ -190,14 +196,14 @@ const ComparisonsList: React.FC = () => {
       }
     >
       <DataTable<PriceComparison>
-        data={withRelatedDocNos('priceComparison', priceComparisons)}
-        columns={columns}
+        data={rel.data}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="比价单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="price-comparison-list"
         codeColumnId="comparisonNo"
         onImport={handleImport}

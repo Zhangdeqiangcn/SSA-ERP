@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Button, Stack, Dialog, DialogTitle, DialogContent, DialogActions,
@@ -12,8 +12,7 @@ import { useNumberingStore } from '@/stores/numberingStore';
 import { TripartySale, TripartySettleStatus, TRIPARTY_SETTLE_LABELS } from '@/types/tripartySales';
 import { todayLocal } from '@/utils/format';
 import { ColumnDef } from '@tanstack/react-table';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const todayStr = () => todayLocal();
@@ -95,8 +94,15 @@ export default function TripartySalesList() {
       cell: (c: any) => <StatusBadge status={`settle_${c.getValue() as TripartySettleStatus}`} />,
     },
     { accessorKey: 'orderDate', header: '业务日期' },
-    ...(buildRelatedColumns() as ColumnDef<TripartySale, unknown>[]),
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('tripartySales', list);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<TripartySale, unknown>[])],
+    [columns, rel.columns]
+  );
 
   return (
     <Box sx={{ p: 2 }}>
@@ -112,10 +118,10 @@ export default function TripartySalesList() {
       </Stack>
 
       <DataTable
-        data={withRelatedDocNos('tripartySales', list)} columns={columns}
+        data={rel.data} columns={allColumns}
         onView={(r) => navigate(`/sales/triparty/${r.id}`)} onEdit={(r) => openEdit(r)} onDelete={(r) => deleteSale(r.id)}
         enableExport enableColumnFilter sapStyle columnConfigKey="triparty-sales"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
       />
 
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>

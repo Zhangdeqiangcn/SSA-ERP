@@ -13,8 +13,7 @@ import { PriceApproval } from '@/types';
 import { formatDate, formatCurrency } from '@/utils/format';
 import { notify } from '@/utils/notify';
 import { approvalStatusColor, approvalStatusLabel, approvalStatusOptions } from '@/constants/approvalEnums';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const ApprovalList: React.FC = () => {
@@ -52,7 +51,6 @@ const ApprovalList: React.FC = () => {
     },
     // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
     // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PriceApproval, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -66,6 +64,14 @@ const ApprovalList: React.FC = () => {
     { key: 'applicationDate', label: '申请日期', type: 'text' },
     { key: 'remarks', label: '备注', type: 'text' },
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('priceApproval', priceApprovals);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PriceApproval, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 批量导入：表头 → 字段 别名映射（中英文均可），按单号匹配，命中则更新、未命中跳过 ──
   const APPROVAL_IMPORT_ALIASES: Record<string, string> = {
@@ -164,14 +170,14 @@ const ApprovalList: React.FC = () => {
       }
     >
       <DataTable<PriceApproval>
-        data={withRelatedDocNos('priceApproval', priceApprovals)}
-        columns={columns}
+        data={rel.data}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="审批单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="price-approval-list"
         codeColumnId="approvalNo"
         onImport={handleImport}

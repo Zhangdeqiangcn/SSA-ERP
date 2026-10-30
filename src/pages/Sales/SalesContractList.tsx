@@ -10,8 +10,7 @@ import { SalesContract, ContractStatus } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ConfirmDialog, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { formatCurrency } from '@/utils/format';
 
@@ -105,12 +104,19 @@ const SalesContractList: React.FC = () => {
       accessorFn: (c) => STATUS_LABELS[c.status],
       cell: ({ row }) => <StatusBadge status={SC_STATUS_KEY[row.original.status]} />,
     },
-    ...(buildRelatedColumns() as ColumnDef<SalesContract, unknown>[]),
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('salesContract', contracts);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<SalesContract, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('salesContract', contracts), columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'sales' }),
     [contracts, columns, filterData]
   );
 
@@ -174,14 +180,14 @@ const SalesContractList: React.FC = () => {
       </Box>
 
       {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
-      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-contract-list" />
+      <FilterBar columns={allColumns} module="sales" onSearch={setFilterData} listKey="sales-contract-list" />
 
       {/* 合同列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
         <DataTable<SalesContract>
           data={filtered}
-          columns={columns}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columns={allColumns}
+          hiddenColumns={rel.hiddenColumns}
           enableExport
           enableImport
           columnConfigKey="sales-contract-list"

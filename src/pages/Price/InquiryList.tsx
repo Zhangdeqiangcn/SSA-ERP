@@ -13,8 +13,7 @@ import {
   ConfirmDialog, BatchEditDialog, type BatchAction, type BatchEditField,
 } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { usePriceStore } from '@/stores/priceStore';
 import { usePurchaseStore } from '@/stores/purchaseStore';
@@ -90,7 +89,6 @@ const InquiryList: React.FC = () => {
     },
     // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
     // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PriceInquiry, unknown>[]),
   ], []);
 
   // ── 弹窗内「采购申请物料明细」列（带勾选）──
@@ -133,6 +131,14 @@ const InquiryList: React.FC = () => {
     },
   ];
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('priceInquiry', priceInquiries);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PriceInquiry, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filterFields = [
     { name: 'inquiryNo', label: '询价单号', type: 'text' as const },
     { name: 'title', label: '标题', type: 'text' as const },
@@ -154,7 +160,7 @@ const InquiryList: React.FC = () => {
 
   // 通用列检索：覆盖全部声明了 meta.searchable 的列，并按字段权限门控
   const filteredData = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('priceInquiry', priceInquiries), columns, filterData, { module: 'price' }),
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'price' }),
     [filterData, priceInquiries, columns]
   );
 
@@ -335,16 +341,16 @@ const InquiryList: React.FC = () => {
         </Box>
       }
     >
-      <FilterBar fields={filterFields} columns={columns} module="price" onSearch={setFilterData} />
+      <FilterBar fields={filterFields} columns={allColumns} module="price" onSearch={setFilterData} />
       <DataTable<PriceInquiry>
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="询价单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="price-inquiry-list"
         codeColumnId="inquiryNo"
         onImport={handleImport}

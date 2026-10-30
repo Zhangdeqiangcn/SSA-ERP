@@ -15,8 +15,7 @@ import { useWarehouseStore } from '@/stores/warehouseStore';
 import { CheckTask, CheckTaskItem, CyclePlanItem, AbcClass, CycleFrequency } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const nowStr = () => {
@@ -56,6 +55,7 @@ function generateCyclePlan(): CyclePlanItem[] {
     { id: 'cp-C-02', materialCategory: '包装材料', abcClass: 'C', frequency: 'quarterly',
       lastCheckDate: addDays(today, -60), nextCheckDate: addDays(today, 30), warehouseKeeper: '赵仓管', responsibleWarehouse: '辅料仓' },
   ];
+
 }
 
 const CheckList: React.FC = () => {
@@ -164,8 +164,16 @@ const CheckList: React.FC = () => {
     { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
     { accessorKey: 'startDate', header: '开始日期', cell: ({ row }) => formatDate(row.original.startDate), meta: { searchable: true } },
     { accessorKey: 'endDate', header: '结束日期', cell: ({ row }) => formatDate(row.original.endDate), meta: { searchable: true } },
-    ...(buildRelatedColumns() as ColumnDef<CheckTask, unknown>[]),
   ], []);
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('checkTask', checkTasks);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<CheckTask, unknown>[])],
+    [columns, rel.columns]
+  );
+
 
   // 循环盘点计划列（只读）
   const cyclePlanColumns: ColumnDef<CyclePlanItem, unknown>[] = [
@@ -206,8 +214,8 @@ const CheckList: React.FC = () => {
 
   const filteredData = useMemo(() => {
     // 通用列检索：覆盖全部声明了 meta.searchable 的列（盘点单号/仓库/类型/状态/盲盘/操作员/日期），并按字段权限门控
-    return applyColumnFilters(withRelatedDocNos('checkTask', checkTasks), columns, filterData, { module: 'warehouse' });
-  }, [filterData, checkTasks, columns]);
+    return applyColumnFilters(rel.data, allColumns, filterData, { module: 'warehouse' });
+  }, [rel.data, allColumns, filterData]);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
   const CHECK_BATCH_FIELDS: BatchEditField[] = [
@@ -387,16 +395,16 @@ const CheckList: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="check-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="warehouse" onSearch={setFilterData} listKey="check-list" />
       <DataTable<CheckTask>
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="盘点单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="warehouse-check-list"
         codeColumnId="taskNo"
         onImport={handleImport}

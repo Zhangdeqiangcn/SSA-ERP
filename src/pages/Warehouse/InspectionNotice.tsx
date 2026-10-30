@@ -28,8 +28,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import type { UnqualifiedDisposition } from '@/types/quality';
 import type { InspectionNotice } from '@/types';
 import { formatDate } from '@/utils/format';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { applyColumnFilters } from '@/utils/listSearch';
 import DemoBanner from '@/components/common/DemoBanner';
@@ -477,7 +476,6 @@ const InspectionNoticeWarehouse: React.FC = () => {
         return null;
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<InspectionNotice, unknown>[]),
   ], [navigate]);
 
   const filterFields = [
@@ -500,9 +498,17 @@ const InspectionNoticeWarehouse: React.FC = () => {
     },
   ];
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('inspectionNotice', inspectionNotices);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<InspectionNotice, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filteredData = useMemo(() => {
     // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
-    return applyColumnFilters(withRelatedDocNos('inspectionNotice', inspectionNotices), columns, filterData, { module: 'warehouse' });
+    return applyColumnFilters(rel.data, allColumns, filterData, { module: 'warehouse' });
   }, [filterData, inspectionNotices, columns]);
 
   // 统计卡
@@ -545,12 +551,12 @@ const InspectionNoticeWarehouse: React.FC = () => {
         </Button>
       </ActionBar>
 
-      <FilterBar fields={filterFields} columns={columns} module="warehouse" onFilter={setFilterData} listKey="inspection-notice-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="warehouse" onFilter={setFilterData} listKey="inspection-notice-list" />
 
       <DataTable
         data={filteredData}
-        columns={columns}
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        columns={allColumns}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="inspection-notice-list"
         codeColumnId="noticeNo"
         onView={(row) => navigate(`/warehouse/inspection-notice/${row.id}`)}

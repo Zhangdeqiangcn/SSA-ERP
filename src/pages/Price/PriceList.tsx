@@ -9,8 +9,7 @@ import { Add, Edit, Block, Close } from '@mui/icons-material';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, ActionBar, FlowTracker, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { usePriceStore } from '@/stores/priceStore';
 import { PriceListItem } from '@/types';
@@ -109,12 +108,19 @@ const PriceList: React.FC = () => {
     { accessorKey: 'sourceApprovalNo', header: '来源审批单', size: 150, meta: { searchable: true } },
     // V3.113.0 上下游关联单号：默认隐藏（hiddenColumns），但 meta.searchable 进检索、列设置可释放；
     // 单元格渲染为可点击链接（RelatedDocLinks），详情页同源可点跳转。
-    ...(buildRelatedColumns() as ColumnDef<PriceListItem, unknown>[]),
   ], []);
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('priceList', priceList);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<PriceListItem, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filteredData = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('priceList', priceList), columns, filterData, { module: 'price' }),
-    [priceList, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'price' }),
+    [rel.data, allColumns, filterData]
   );
 
   const openCreate = () => {
@@ -181,15 +187,15 @@ const PriceList: React.FC = () => {
         </Box>
       }
     >
-      <FilterBar columns={columns} module="price" onSearch={setFilterData} listKey="price-list" />
+      <FilterBar columns={allColumns} module="price" onSearch={setFilterData} listKey="price-list" />
 
       <DataTable
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enablePagination
         pageSize={15}
         enableExport
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="price-list"
         onView={(row) => openEdit(row as PriceListItem)}
         onEdit={(row) => openEdit(row as PriceListItem)}

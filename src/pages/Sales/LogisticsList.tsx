@@ -18,8 +18,7 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<ShipmentStatus, string> = {
@@ -230,7 +229,9 @@ const LogisticsList: React.FC = () => {
     },
     {
       id: 'salesOrderNo',
-      header: '销售订单',
+      // V3.119.0：本列与关联列「销售订单」同名会导致双表头 → 业务列改名，
+      // 区分「本单填的订单号（纯文本）」与「关联单据（可点+带状态）」。
+      header: '订单号',
       accessorFn: (s) => s.salesOrderNo,
       meta: { searchable: true },
       cell: ({ row }) => (
@@ -246,7 +247,8 @@ const LogisticsList: React.FC = () => {
     },
     {
       id: 'project',
-      header: '项目',
+      // 同上：与关联列「项目」重名，业务列改名为「项目名称」
+      header: '项目名称',
       accessorFn: (s) => s.projectName,
       cell: ({ row }) => {
         const s = row.original;
@@ -363,11 +365,18 @@ const LogisticsList: React.FC = () => {
         </Box>
       ),
     },
-    ...(buildRelatedColumns() as ColumnDef<Shipment, unknown>[]),
   ];
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('salesLogistics', shipments);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<Shipment, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('salesLogistics', shipments), columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'sales' }),
     [shipments, columns, filterData]
   );
 
@@ -437,14 +446,14 @@ const LogisticsList: React.FC = () => {
       </Box>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-logistics-list" />
+      <FilterBar columns={allColumns} module="sales" onSearch={setFilterData} listKey="sales-logistics-list" />
 
       {/* 发货列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
         <DataTable<Shipment>
           data={filtered}
-          columns={columns}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columns={allColumns}
+          hiddenColumns={rel.hiddenColumns}
           enableExport
           enableImport
           columnConfigKey="sales-logistics-list"

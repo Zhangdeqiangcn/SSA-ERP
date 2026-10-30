@@ -13,8 +13,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import { OutboundOrder, matchOrg } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const OutboundList: React.FC = () => {
@@ -70,7 +69,6 @@ const OutboundList: React.FC = () => {
     },
     { accessorKey: 'operator', header: '操作员', meta: { searchable: true } },
     { accessorKey: 'outboundDate', header: '出库日期', cell: ({ row }) => formatDate(row.original.outboundDate), meta: { searchable: true } },
-    ...(buildRelatedColumns() as ColumnDef<OutboundOrder, unknown>[]),
   ], []);
 
   // ── 批量修改可改字段（对应详情页可编辑项）──
@@ -93,6 +91,14 @@ const OutboundList: React.FC = () => {
     { key: 'operator', label: '操作员', type: 'text' },
     { key: 'remarks', label: '备注', type: 'text' },
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('outbound', outboundOrders);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<OutboundOrder, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 批量导入：表头 → 字段 别名映射（中英文均可），按单号匹配，命中则更新、未命中跳过 ──
   const OUTBOUND_IMPORT_ALIASES: Record<string, string> = {
@@ -210,8 +216,8 @@ const OutboundList: React.FC = () => {
   const filteredData = useMemo(() => {
     let data = outboundOrders.filter(r => matchOrg(r, currentOrgId));
     // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
-    const enhanced = withRelatedDocNos('outbound', data);
-    return applyColumnFilters(enhanced, columns, filterData, { module: 'warehouse' });
+    const enhanced = rel.data;
+    return applyColumnFilters(enhanced, allColumns, filterData, { module: 'warehouse' });
   }, [filterData, outboundOrders, columns, currentOrgId]);
 
   return (
@@ -223,16 +229,16 @@ const OutboundList: React.FC = () => {
         />
       }
     >
-      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="outbound-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="warehouse" onSearch={setFilterData} listKey="outbound-list" />
       <DataTable<OutboundOrder>
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
         enableImport
         importLabel="出库单"
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="outbound-list"
         codeColumnId="outboundNo"
         onImport={handleImport}

@@ -953,7 +953,7 @@ export function DataTable<T>({
                   const filterable = enableColumnFilter && colId !== 'actions' && colId !== 'select'
                     && !(header.column.columnDef.meta as any)?.filterable === false;
                   return (
-                    <TableCell key={header.id} sx={headerSx}>
+                    <TableCell key={header.id} sx={headerSx} data-col-id={header.id}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.25, userSelect: 'none' }}>
                         {header.column.getCanSort() ? (
                           <TableSortLabel

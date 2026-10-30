@@ -167,6 +167,10 @@ export const salesOrders: SalesOrder[] = [
     orderNo: 'SO202406001',
     type: 'standard',
     status: 'in_production',
+    // V3.119.0：原订单不存合同字段，销售订单列表的「销售合同」列因此恒空。
+    //   按客户挂到对应的 2024 年长协合同（C001 华润建筑 → SC-2024-001）。
+    contractId: 'sc-001',
+    contractNo: 'SC-2024-001',
     customerName: '华润建筑集团有限公司',
     customerCode: 'C001',
     contactName: '赵明辉',
@@ -196,8 +200,12 @@ export const salesOrders: SalesOrder[] = [
     deliveryAddress: '上海市浦东新区临港产业园A区3号',
     salesPerson: '陈伟',
     linkedWorkOrders: [
-      { workOrderId: 'wo-001', workOrderNo: 'WO202406001', status: 'in_progress', productName: 'H型钢 Q345B', quantity: 120 },
-      { workOrderId: 'wo-002', workOrderNo: 'WO202406002', status: 'released', productName: '角钢 50×50×5', quantity: 60 },
+      // V3.119.0：单号原来写成 WO202406001/002，但工单表实际单号是 WO-2024-0501/0502
+      // （见 mocks/data/production.ts），两套体系不同源 → 销售订单列表的「生产工单」列恒空。
+      // 按工单表真实单号修正，productName/quantity 也一并对齐工单真实产品，
+      // 否则会出现「工单号指向 H型钢、点进去却是配电柜箱体」这种张冠李戴。
+      { workOrderId: 'wo-001', workOrderNo: 'WO-2024-0501', status: 'in_progress', productName: '重型钢结构焊接架 H1200', quantity: 5 },
+      { workOrderId: 'wo-002', workOrderNo: 'WO-2024-0502', status: 'released', productName: '标准配电柜箱体 GGD-01', quantity: 8 },
     ],
     approvalRecords: [
       { id: 'apr-101', approver: '李明', action: 'approve', comments: '确认合同条款，同意', operatedAt: '2024-06-10 14:00:00', nodeName: '销售总监审批' },
@@ -212,6 +220,9 @@ export const salesOrders: SalesOrder[] = [
     orderNo: 'SO202406002',
     type: 'standard',
     status: 'confirmed',
+    // V3.119.0：C002 长江船舶重工 → SC-2024-002（同上，补合同引用）
+    contractId: 'sc-002',
+    contractNo: 'SC-2024-002',
     customerName: '长江船舶重工集团',
     customerCode: 'C002',
     contactName: '李东海',

@@ -486,26 +486,86 @@ const RELS: Record<string, any> = {
   purchaseReturn: { numberField: 'returnNo', upstreamTargets: ['purchaseOrder'], upstream: { field: 'purchaseOrderNo', target: 'purchaseOrder' } },
 
   // ── 销售域 ──
-  salesOpportunity: { numberField: 'prospectNo', downstream: [{ target: 'salesQuotation', linkField: 'sourceProspectId' }] },
+  /**
+   * 商机（V3.119.0 修正）。
+   *
+   * 原写法 { target: 'salesQuotation', linkField: 'sourceProspectId' } 有个致命错误：
+   *   downstream 的匹配基准默认是本单的 numberField（商机单号 PRO202406001），
+   *   而报价单的 sourceProspectId 存的是商机的 **id**（pro-001）—— 两者永远不相等，
+   *   于是商机列表的「销售报价单」列恒为空，且不报任何错。
+   *   必须显式 matchField:'id' 才算对（同 V3.117.0 不合格品单 inspectionTaskId 的先例）。
+   */
+  salesOpportunity: {
+    numberField: 'prospectNo',
+    downstream: [{ target: 'salesQuotation', linkField: 'sourceProspectId', matchField: 'id' }],
+  },
   salesQuotation: {
     numberField: 'quotationNo',
+    // V3.119.0：显式声明上游，让「商机」列在数据断链时也能稳定出列（否则整列静默消失）
+    upstreamTargets: ['salesOpportunity'],
     upstreamResolver: (r: any) => toRef('salesOpportunity', noById('salesOpportunity', r?.sourceProspectId)),
     downstream: [{ target: 'salesOrder', linkField: 'convertedOrderNo' }, { target: 'salesOrder', linkField: 'convertedOrderId', matchField: 'id' }],
   },
+  /**
+   * 销售订单（V3.119.0 修正）。
+   *
+   * 改造前有三处让「下游单据」列大面积失真：
+   *   ① { target: 'workOrder', linkField: 'orderNo' } —— 去工单表里找 orderNo 等于**销售订单号**的工单，
+   *      但工单从来不存销售订单号（它只有自己的 orderNo），这条规则恒为空。销售订单真实的工单关联
+   *      存在 linkedWorkOrders[] 数组里（{ workOrderId, workOrderNo }），必须按这个数组反查。
+   *   ② { target: 'salesContract', linkField: 'contractNo' } —— 合同号已在 upstream 里认过一次，
+   *      同一张合同又被当成下游列出，用户会看到「上游=合同A，下游=合同A」这种自指。
+   *   ③ { target: 'outbound', linkField: 'sourceNo' } —— 销售出库单的 sourceNo 语义是「来源单号」，
+   *      手工出库时甚至存的是别的出库单号；只按单号相等匹配会把 A 单的出库算到 B 单头上。
+   *      改为按 type='sale' + 客户/物料/日期综合判定太脆，这里退而求其次：只认 type='sale' 且
+   *      sourceNo 精确等于本订单号的出库单，并额外接入同源反查（见 siblingResolver）。
+   */
   salesOrder: {
     numberField: 'orderNo',
-    upstream: { field: 'contractNo', target: 'salesContract' },
+    upstreamTargets: ['salesContract', 'salesQuotation'],
+    upstreamResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      if (r?.contractNo) refs.push({ type: 'salesContract', no: String(r.contractNo) });
+      // 报价转订单：报价单上存 convertedOrderNo / convertedOrderId，从订单侧看不到，
+      // 只能反查。这是「这张订单是从哪张报价转来的」的唯一可信路径。
+      if (r?.orderNo) {
+        refs.push(...docsByField('salesQuotation', 'convertedOrderNo', String(r.orderNo)));
+      }
+      return pickExistingRefs(refs);
+    },
     downstream: [
       { target: 'salesLogistics', linkField: 'salesOrderNo' },
       { target: 'outbound', linkField: 'sourceNo' },
       { target: 'salesInvoice', linkField: 'salesOrderNo' },
       { target: 'salesReturn', linkField: 'salesOrderNo' },
-      { target: 'workOrder', linkField: 'orderNo' },
-      { target: 'salesContract', linkField: 'contractNo' },
       { target: 'voucher', linkField: 'sourceNo' },
     ],
+    // 工单只能靠 linkedWorkOrders 数组反查（见上方 ① 的说明），普通 linkField 表达不了。
+    siblingTargets: ['workOrder'],
+    siblingResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      for (const w of Array.isArray(r?.linkedWorkOrders) ? r.linkedWorkOrders : []) {
+        if (w?.workOrderNo) refs.push({ type: 'workOrder', no: String(w.workOrderNo) });
+        else if (w?.workOrderId) {
+          const no = noById('workOrder', w.workOrderId);
+          if (no) refs.push({ type: 'workOrder', no });
+        }
+      }
+      return uniqRefs(pickExistingRefs(refs));
+    },
   },
-  salesLogistics: { numberField: 'shipmentNo', upstream: { field: 'salesOrderNo', target: 'salesOrder' } },
+  salesLogistics: {
+    numberField: 'shipmentNo',
+    upstreamTargets: ['salesOrder', 'project'],
+    upstreamResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      if (r?.salesOrderNo) refs.push({ type: 'salesOrder', no: String(r.salesOrderNo) });
+      if (r?.projectNo) refs.push({ type: 'project', no: String(r.projectNo) });
+      return pickExistingRefs(refs);
+    },
+    // 发货会触发销售出库（见 V3.59.0 联动），出库单 sourceNo 存发货单号
+    downstream: [{ target: 'outbound', linkField: 'sourceNo' }],
+  },
   salesInvoice: {
     numberField: 'invoiceNo',
     upstream: { field: 'salesOrderNo', target: 'salesOrder' },
@@ -516,9 +576,64 @@ const RELS: Record<string, any> = {
     upstream: { field: 'salesOrderNo', target: 'salesOrder' },
     downstream: [{ target: 'purchaseReturn', linkField: 'linkedPurchaseReturnNo' }],
   },
-  tripartySales: { numberField: 'docNo' },
-  salesContract: { numberField: 'contractNo', downstream: [{ target: 'salesOrder', linkField: 'contractNo' }] },
-  project: { numberField: 'projectNo', downstream: [{ target: 'salesOrder', linkField: 'projectNo' }] },
+  /**
+   * 三方代销（V3.119.0）。
+   *
+   * 诚实边界：本单据的数据模型里**没有任何指向其他业务单据的单号字段** ——
+   *   TripartySale 只有 docNo（自身单号）、partyCode/partyName（经销商）、customerId（客户外键）、
+   *   materialCode（物料编码）。它既没有 sourceNo（不追溯到销售订单/出库单），
+   *   也没有被别的单据按单号引用。因此「销售订单 / 出库单」这类列构造不出来，
+   *   写上去只会是恒空的假列，故不登记。
+   *
+   * 唯一真实可连的是客户外键：customerId 有值时按 id 反查客户档案。
+   *   upstreamTargets 显式声明 customer，是为了让「客户」列稳定出列（哪怕当前数据没填外键），
+   *   让用户看得见「这里本该关联到客户档案」；填了外键的行则可直接点进客户。
+   */
+  tripartySales: {
+    numberField: 'docNo',
+    upstreamTargets: ['customer'],
+    // 注意：toRef 收的是「单号」不是 id，而 customer 的 numberField 是 customerCode，
+    // 故须先用 noById 把 customerId 换成客户编码，否则查不到目标、被 pickExistingRefs 丢弃。
+    upstreamResolver: (r: any) => toRef('customer', noById('customer', r?.customerId)),
+  },
+  /**
+   * 销售合同（V3.119.0）。
+   * 合同→订单的关联存两份：合同侧 linkedOrderNos[]（由订单 contractId 回填，P0-2 补的），
+   * 订单侧 contractNo。只认一边都不可靠 —— 历史数据里存在「订单有合同号、合同 linkedOrderNos 未回填」
+   * 与反之的情况，故两条都查再合并去重。
+   */
+  salesContract: {
+    numberField: 'contractNo',
+    downstream: [{ target: 'salesOrder', linkField: 'contractNo' }],
+    siblingTargets: ['salesOrder'],
+    siblingResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      for (const no of Array.isArray(r?.linkedOrderNos) ? r.linkedOrderNos : []) {
+        if (no) refs.push({ type: 'salesOrder', no: String(no) });
+      }
+      if (r?.id) refs.push(...docsByField('salesOrder', 'contractId', String(r.id)));
+      return uniqRefs(pickExistingRefs(refs));
+    },
+  },
+  /**
+   * 项目（V3.119.0）。
+   * 改造前只有 { target: 'salesOrder', linkField: 'projectNo' } —— 要求销售订单上存 projectNo。
+   * 实际 SalesOrder 确实有 projectNo 字段，但种子数据与多数真实单据并未回填，且项目侧自己就存了
+   * linkedOrders[]。两条都查，避免「项目明明挂了订单、列表里却显示无」。
+   */
+  project: {
+    numberField: 'projectNo',
+    downstream: [{ target: 'salesOrder', linkField: 'projectNo' }],
+    siblingTargets: ['salesOrder', 'salesLogistics'],
+    siblingResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      for (const no of Array.isArray(r?.linkedOrders) ? r.linkedOrders : []) {
+        if (no) refs.push({ type: 'salesOrder', no: String(no) });
+      }
+      if (r?.projectNo) refs.push(...docsByField('salesLogistics', 'projectNo', String(r.projectNo)));
+      return uniqRefs(pickExistingRefs(refs));
+    },
+  },
 
   // ── 仓库域 ──
   inbound: {
@@ -582,9 +697,47 @@ const RELS: Record<string, any> = {
     },
     downstream: [{ target: 'serialHU', linkField: 'docNo' }, { target: 'voucher', linkField: 'sourceNo' }],
   },
+  /**
+   * 库存调拨单（V3.119.0 补全）。
+   * 调拨单自身不存任何上游业务单号（只有源/目标仓库与物料明细），所以「上游」只能靠
+   * 其他单据反向引用它：入库单 type='transfer' / 出库单 type='transfer' 的 sourceNo 存调拨单号。
+   * 这意味着调拨单列表要看到「这次调拨产生了哪张入库、哪张出库」，必须用 siblingResolver 反查，
+   * 正向 linkField 永远查不到（调拨单上没有"我的入库单号"这个字段，一张调拨可能分多次收发货）。
+   */
+  stockTransfer: {
+    numberField: 'transferNo',
+    siblingTargets: ['inbound', 'outbound'],
+    siblingResolver: (r: any) => {
+      if (!r?.transferNo) return [];
+      const onlyTransfer = (type: string) => (d: RelatedDocRef) => {
+        const list = DOC_SOURCES[type]?.getDocs() as Record<string, any>[] | undefined;
+        const hit = Array.isArray(list) ? list.find((x) => String(x[type === 'inbound' ? 'inboundNo' : 'outboundNo']) === d.no) : undefined;
+        return hit?.type === 'transfer';
+      };
+      return uniqRefs([
+        ...docsByField('inbound', 'sourceNo', String(r.transferNo)).filter(onlyTransfer('inbound')),
+        ...docsByField('outbound', 'sourceNo', String(r.transferNo)).filter(onlyTransfer('outbound')),
+      ]);
+    },
+  },
+  /**
+   * 库存调整单（V3.119.0 补全）。
+   * 调整单是「盘点差异过账」的载体（见 V3.57.0 W1），它会生成凭证；盘点任务过账时
+   * 也可能连带生成调整单。可用连接点只有凭证号（voucherNo 字段），故下游只挂凭证，
+   * 上游按盘点任务反查（盘点任务表不存调整单号，只能从调整单备注/来源推断，此处不做猜测）。
+   */
+  inventoryAdjustment: {
+    numberField: 'adjustmentNo',
+    downstream: [{ target: 'voucher', linkField: 'sourceNo' }],
+  },
+  /**
+   * 盘点任务（V3.119.0 补全）。
+   * CheckTask 无上游字段（只有仓库、盘点范围与明细），它是一切的**起点**，
+   * 下游是「本次盘点过账后产生的库存调整单」。两者之间没有共用的单号字段，
+   * 调整单上也没有 taskNo，只能按「同仓库 + 同日期区间」猜 —— 这种猜测会产生错误关联，
+   * 因此这里**明确不连**，保持列空并在文档中说明，绝不硬凑一个假关联。
+   */
   checkTask: { numberField: 'taskNo' },
-  stockTransfer: { numberField: 'transferNo' },
-  inventoryAdjustment: { numberField: 'adjustmentNo' },
   waveRfid: {
     numberField: 'waveNo',
     upstreamResolver: (r: any) => (Array.isArray(r?.lines) ? r.lines.map((l: any) => toRef('salesOrder', l.orderNo)).flat() : []),
@@ -598,7 +751,19 @@ const RELS: Record<string, any> = {
       if (t === 'return') return toRef('salesReturn', r.sourceNo);
       return [];
     },
-    downstream: [{ target: 'inspectionTask', linkField: 'noticeNo' }],
+    // V3.119.0：原 downstream: [{ target:'inspectionTask', linkField:'noticeNo' }] 恒为空 ——
+    //   InspectionTask（types/quality.ts）没有 noticeNo 字段，它只有 purchaseOrderNo / workOrderNo。
+    //   报检单与检验任务之间没有直接单号引用，只能按「共同来源单号」横向并联（同源关联）：
+    //     报检单的 sourceNo 是采购订单号或工单号，检验任务上也存同一个号 → 二者同属一次检验。
+    //   走 siblingResolver 表达，避免假装存在一个不存在的字段。
+    siblingTargets: ['inspectionTask'],
+    siblingResolver: (r: any) => {
+      if (!r?.sourceNo) return [];
+      const refs: RelatedDocRef[] = [];
+      if (r?.sourceType === 'purchase') refs.push(...docsByField('inspectionTask', 'purchaseOrderNo', String(r.sourceNo)));
+      else if (r?.sourceType === 'production') refs.push(...docsByField('inspectionTask', 'workOrderNo', String(r.sourceNo)));
+      return uniqRefs(pickExistingRefs(refs));
+    },
   },
   finishedGoodsInbound: {
     numberField: 'inboundNo',
@@ -639,7 +804,11 @@ const RELS: Record<string, any> = {
       { target: 'lot', linkField: 'inspectionTaskId', matchField: 'id' },
       { target: 'lot', linkField: 'inspectionTaskNo' },
       { target: 'eightD', linkField: 'sourceNo' },
-      { target: 'pdca', linkField: 'sourceNo' },
+      // V3.119.0：移除 { target:'pdca', linkField:'sourceNo' }。
+      //   PDCARecord 没有 sourceNo 字段（只有 relatedItemId 指向不合格品明细），
+      //   这条规则永远匹配不到 → 检验任务列表的「PDCA」列恒空。
+      //   PDCA 与检验任务的关联走反向路径：PDCA.relatedItemId → 不合格品单 → inspectionTaskId。
+      //   留一条永远为空的规则，比没有更容易误导维护者，故删除。
     ],
   },
   unqualified: {
@@ -654,23 +823,30 @@ const RELS: Record<string, any> = {
     },
     downstream: [
       { target: 'eightD', linkField: 'sourceNo' },
-      { target: 'outbound', linkField: 'linkedOutboundNo' },
-      { target: 'inbound', linkField: 'linkedInboundNo' },
+      // V3.119.0：移除 { target:'outbound', linkField:'linkedOutboundNo' } 与
+      //   { target:'inbound', linkField:'linkedInboundNo' } —— 方向写反了：
+      //   linkedOutboundNo / linkedInboundNo 是**本单（不合格品单）自己的字段**，
+      //   不是出库单/入库单上的字段。downstream 的语义是"去目标表里找 linkField 等于本单号"，
+      //   而目标表根本没有这两个字段 → 规则恒空。
+      //   这两张单据的真实关系已在上面 upstreamResolver 里正确表达（读本单字段 → 指向目标单号）。
     ],
   },
+  /**
+   * PDCA 单（V3.119.0 修正）。
+   *
+   * 原实现读 r.sourceType / r.sourceNo 定位上游 —— 但 PDCARecord 类型里没有这两个字段
+   *   （见 types/quality.ts：只有 source 与 relatedItemId），读出来恒为 undefined，
+   *   于是 PDCA 的「来源单据」永远解析不出来。这两个分支实际是死代码。
+   *   真实可用的连接是 relatedItemId（指向不合格品单的 id），按它反查单号。
+   *   source='inspection' 这类只标明"来自哪类问题"，不含具体单号，无法据此连单据 —— 不硬凑。
+   *
+   * downstream 原按 { target:'eightD', linkField:'sourceNo' }：8D 是否真有 sourceNo 字段
+   *   由 eightD 的 source 登记决定，见下方 eightD 段；此处保留，若目标无该字段则恒空但不报错。
+   */
   pdca: {
     numberField: 'pdcaNo',
-    upstreamTargets: ['inspectionTask', 'unqualified'],
-    upstreamResolver: (r: any) => {
-      if (r?.sourceType && r?.sourceNo) {
-        // customerComplaint / internalAudit 当前未纳入关联单据体系（无数据源登记），
-        // 硬映射会产出查不到的单号 → 交给 pickExistingRefs 过滤掉，不留死链。
-        const map: Record<string, string> = { inspection: 'inspectionTask', unqualified: 'unqualified', customer_complaint: 'customerComplaint', internal_audit: 'internalAudit', other: 'other' };
-        return pickExistingRefs(toRef(map[r.sourceType] ?? 'inspectionTask', r.sourceNo));
-      }
-      if (r?.relatedItemId) return pickExistingRefs(toRef('unqualified', noById('unqualified', r.relatedItemId)));
-      return [];
-    },
+    upstreamTargets: ['unqualified'],
+    upstreamResolver: (r: any) => pickExistingRefs(toRef('unqualified', noById('unqualified', r?.relatedItemId))),
     downstream: [{ target: 'eightD', linkField: 'sourceNo' }],
   },
   lot: {
@@ -684,7 +860,11 @@ const RELS: Record<string, any> = {
       if (r?.inspectionTaskId || r?.inspectionTaskNo) refs.push({ type: 'inspectionTask', no: r.inspectionTaskNo ?? r.inspectionTaskId });
       return refs;
     },
-    downstream: [{ target: 'eightD', linkField: 'sourceNo' }, { target: 'pdca', linkField: 'sourceNo' }],
+    downstream: [
+      { target: 'eightD', linkField: 'sourceNo' },
+      // V3.119.0：同 inspectionTask，移除 { target:'pdca', linkField:'sourceNo' }
+      //   —— PDCARecord 无 sourceNo 字段，规则恒空。PDCA 走 relatedItemId 反向关联。
+    ],
   },
   eightD: {
     numberField: 'code',
@@ -776,9 +956,24 @@ const RELS: Record<string, any> = {
   sopPlan: { numberField: 'id' },
 
   // ── 价格域 ──
+  /**
+   * 询价单（V3.119.0 修正）。
+   *
+   * 原写法 upstream: { field: 'sourceRequestNo', target: 'purchaseRequest' } 恒为空：
+   *   sourceRequestNo 是 **明细行(items)上的字段**（见 types/price.ts 的 PriceInquiryItem），
+   *   单据头上没有这个字段 → 读 row.sourceRequestNo 永远是 undefined。
+   *   改为 upstreamResolver：扫明细行，收集所有 sourceRequestNo 去重。
+   */
   priceInquiry: {
     numberField: 'inquiryNo',
-    upstream: { field: 'sourceRequestNo', target: 'purchaseRequest' },
+    upstreamTargets: ['purchaseRequest'],
+    upstreamResolver: (r: any) => {
+      const refs: RelatedDocRef[] = [];
+      for (const it of Array.isArray(r?.items) ? r.items : []) {
+        if (it?.sourceRequestNo) refs.push({ type: 'purchaseRequest', no: String(it.sourceRequestNo) });
+      }
+      return uniqRefs(pickExistingRefs(refs));
+    },
     downstream: [{ target: 'priceComparison', linkField: 'inquiryNo' }, { target: 'priceApproval', linkField: 'inquiryNo' }],
   },
   priceComparison: {
@@ -855,7 +1050,11 @@ const RELS: Record<string, any> = {
   frameworkAgreement: {
     numberField: 'agreementNo',
     upstreamResolver: (r: any) => (Array.isArray(r?.sourceRequestIds) ? r.sourceRequestIds.map((id: string) => toRef('purchaseRequest', noById('purchaseRequest', id))).flat() : []),
-    downstream: [{ target: 'purchaseOrder', linkField: 'releases' }],
+    // V3.119.0：移除 downstream: [{ target:'purchaseOrder', linkField:'releases' }]。
+    //   PurchaseOrder 类型（types/purchase.ts）里根本没有 releases 字段，全项目仅此一处引用 ——
+    //   这条规则是凭想象写的，永远匹配不到（框架协议列表的「采购订单」列恒空且不报错）。
+    //   采购订单侧目前没有任何指向框架协议的单号字段（只有 requestId/sourceRequestIds 指向采购申请），
+    //   在数据模型补字段之前，这里保持不登记，而不是留一条永远为空的假规则。
   },
 
   // ── 供应商门户：对账单（V3.116.0）──────────────────────────────────────────

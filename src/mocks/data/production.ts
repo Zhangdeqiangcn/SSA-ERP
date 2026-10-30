@@ -126,6 +126,39 @@ export const workOrders: WorkOrder[] = [
     createdBy: 'user-pm01',
     updatedBy: 'user-pm01',
   },
+  // V3.119.0：补 C1 批次追溯链路所需的工单。
+  //   问题：成品入库单 fin-002 与领料出库单 out-003 都引用了 workOrderId='wo-c1-001' /
+  //         workOrderNo='WO20240601001'，但工单表里从来没有这张工单 —— 两边都是悬空引用。
+  //         后果是「生产工单」关联列渲染成灰色不可点文本（resolveRoute 解析不到 → 判为死链），
+  //         而 C1 追溯链路（原料批次 B20240601X → 本工单 → 成品批次 F20240620X）在工单这一环断掉。
+  //   处理：按链路原本的意图补一张真实工单，而不是把引用改到别的工人单上 ——
+  //         改单号会破坏「6 月 1 日领料、6 月 20 日成品入库」的时间线，也会让 wo-001 凭空多出产出入库。
+  //   单号沿用全表统一的 WO-YYYY-NNNN 格式（不用引用里那种 WO20240601001 流水号风格）。
+  {
+    id: 'wo-c1-001',
+    orderNo: 'WO-2024-0601',
+    status: 'completed',
+    productCode: 'PRD-FRAME-001',
+    productName: '重型钢结构焊接架 H1200',
+    bomId: 'bom-001',
+    bomNo: 'BOM-2024-001',
+    routeId: 'route-001',
+    routeNo: 'RT-2024-001',
+    plannedQuantity: 30,
+    completedQuantity: 28,
+    scrapQuantity: 1,
+    plannedStartDate: '2024-06-01',
+    plannedEndDate: '2024-06-20',
+    actualStartDate: '2024-06-01',
+    actualEndDate: '2024-06-19',
+    priority: 'normal',
+    workshop: '焊接车间',
+    supervisor: '刘生产主管',
+    createdAt: '2024-05-28T09:00:00Z',
+    updatedAt: '2024-06-19T17:00:00Z',
+    createdBy: 'user-pm01',
+    updatedBy: 'user-pm01',
+  },
 ];
 
 export const mrpRecommendations: MRPRecommendation[] = [

@@ -16,8 +16,7 @@ import { useOrgStore } from '@/stores/orgStore';
 import type { FinishedGoodsInbound } from '@/types';
 import { formatDate } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const statusMap: Record<string, { label: string; color: 'default' | 'warning' | 'success' | 'error' | 'info' }> = {
@@ -183,7 +182,9 @@ const FinishedGoodsInboundList: React.FC = () => {
         </Typography>
       ),
     },
-    { accessorKey: 'workOrderNo', header: '生产工单',
+    // V3.119.0：关联列已按真实单据类型叫「生产工单」（可点+带状态），
+    // 本业务列只显示单号文本，改名「工单号」避免双表头。
+    { accessorKey: 'workOrderNo', header: '工单号',
       meta: { searchable: true },
       cell: ({ row }) => (
         <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.8rem', color: '#64748B' }}>
@@ -245,7 +246,6 @@ const FinishedGoodsInboundList: React.FC = () => {
       },
     },
     { accessorKey: 'inboundDate', header: '入库日期', cell: ({ row }) => formatDate(row.original.inboundDate), meta: { searchable: true } },
-    ...(buildRelatedColumns() as ColumnDef<FinishedGoodsInbound, unknown>[]),
   ], []);
 
   const filterFields = [
@@ -264,9 +264,17 @@ const FinishedGoodsInboundList: React.FC = () => {
     },
   ];
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('finishedGoodsInbound', finishedGoodsInbounds);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<FinishedGoodsInbound, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filteredData = useMemo(() => {
     // 通用列检索：覆盖全部声明了 meta.searchable 的列（含上游/下游关联单号），并按字段权限门控
-    return applyColumnFilters(withRelatedDocNos('finishedGoodsInbound', finishedGoodsInbounds), columns, filterData, { module: 'warehouse' });
+    return applyColumnFilters(rel.data, allColumns, filterData, { module: 'warehouse' });
   }, [filterData, finishedGoodsInbounds, columns]);
 
   return (
@@ -274,14 +282,14 @@ const FinishedGoodsInboundList: React.FC = () => {
       title="成品入库单"
       actions={<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}><FlowTracker module="inbound" currentStatus="ib_completed" /><ActionBar primary={{ label: '新建入库单', onClick: () => setNewOpen(true) }} /></Box>}
     >
-      <FilterBar fields={filterFields} columns={columns} module="warehouse" onSearch={setFilterData} listKey="finished-goods-inbound-list" />
+      <FilterBar fields={filterFields} columns={allColumns} module="warehouse" onSearch={setFilterData} listKey="finished-goods-inbound-list" />
       <DataTable
         data={filteredData}
-        columns={columns}
+        columns={allColumns}
         enableRowSelection
         enablePagination
         enableExport
-        hiddenColumns={['upstreamNo', 'downstreamNo']}
+        hiddenColumns={rel.hiddenColumns}
         columnConfigKey="finished-goods-inbound-list"
         codeColumnId="inboundNo"
         onView={(r) => navigate(`/warehouse/fg-inbound/${r.id}`)}

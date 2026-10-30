@@ -11,8 +11,7 @@ import { SalesOrder, SalesOrderStatus, SalesOrderType } from '@/types';
 import { PageWrapper } from '@/components/layout';
 import { DataTable, FilterBar, FlowTracker, SecureField, StatusBadge } from '@/components/common';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 import { formatCurrency } from '@/utils/format';
 import { useCloudHydrating } from '@/stores/syncStatusStore';
@@ -249,13 +248,21 @@ const SalesOrderList: React.FC = () => {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<SalesOrder, unknown>[]),
   ];
+
+  // V3.119.0：改用 useTypedRelated —— 关联单据按真实类型分列（销售合同/报价单/发货单/
+  // 销售出库单/销售发票/销售退货/生产工单/会计凭证），单号+状态，点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 藏掉，用户完全看不到。
+  const rel = useTypedRelated('salesOrder', salesOrders);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<SalesOrder, unknown>[])],
+    [columns, rel.columns]
+  );
 
   // ── 列驱动统一检索（meta.searchable 声明的列均可按字段权限查询；默认显前 5 项，其余「更多筛选」展开）──
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('salesOrder', salesOrders), columns, filterData, { module: 'sales' }),
-    [salesOrders, columns, filterData]
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'sales' }),
+    [rel.data, allColumns, filterData]
   );
 
   // ── 导入：把表头行映射回 store 字段 ──
@@ -404,14 +411,14 @@ const SalesOrderList: React.FC = () => {
       </Box>
 
       {/* 列驱动统一检索条（默认显前 5 项检索框，其余「更多筛选」展开） */}
-      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-order-list" />
+      <FilterBar columns={allColumns} module="sales" onSearch={setFilterData} listKey="sales-order-list" />
 
       {/* 订单列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
         <DataTable<SalesOrder>
           data={filtered}
-          columns={columns}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columns={allColumns}
+          hiddenColumns={rel.hiddenColumns}
           loading={hydrating && filtered.length === 0}
           emptyText="暂无销售订单，可点击「新增」创建第一张订单"
           enableExport

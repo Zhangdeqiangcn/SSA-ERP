@@ -24,10 +24,14 @@ export const waveRfids: WaveRfid[] = [
     createdBy: 'admin',
     updatedBy: 'admin',
     lines: [
-      { id: 'wl-1', orderNo: 'SO-2026-0001', materialCode: 'MAT-1001', materialName: '钢板 Q235B', quantity: 10, pickedQty: 6, location: 'A-01-02' },
-      { id: 'wl-2', orderNo: 'SO-2026-0001', materialCode: 'MAT-1002', materialName: '槽钢', quantity: 4, pickedQty: 4, location: 'A-01-05' },
-      { id: 'wl-3', orderNo: 'SO-2026-0002', materialCode: 'MAT-2001', materialName: '不锈钢板 304', quantity: 8, pickedQty: 0, location: 'B-02-01' },
-      { id: 'wl-4', orderNo: 'SO-2026-0003', materialCode: 'MAT-1003', materialName: '角钢', quantity: 12, pickedQty: 5, location: 'A-03-04' },
+      // V3.119.0：原明细里的 orderNo（SO-2026-000x）与 materialCode（MAT-1001 等）都是
+      // 孤立的虚构值 —— 销售订单表只有 SO202406001/002/05003/06004 四张，物料主数据是
+      // MAT2024050100xx 体系，两者在该波次里都查不到 → 波次列表的「销售订单」列恒空。
+      // 按真实订单与真实物料编码重排，波次才真正能勾到订单与库存。
+      { id: 'wl-1', orderNo: 'SO202406001', materialCode: 'MAT202405010001', materialName: '钢板 Q235B', quantity: 10, pickedQty: 6, location: 'A-01-02' },
+      { id: 'wl-2', orderNo: 'SO202406001', materialCode: 'MAT202405010002', materialName: '钢管 碳钢', quantity: 4, pickedQty: 4, location: 'A-01-05' },
+      { id: 'wl-3', orderNo: 'SO202406002', materialCode: 'MAT202405010003', materialName: 'H型钢 Q345B', quantity: 8, pickedQty: 0, location: 'B-02-01' },
+      { id: 'wl-4', orderNo: 'SO202405003', materialCode: 'MAT202405010004', materialName: '螺栓 M10', quantity: 12, pickedQty: 5, location: 'A-03-04' },
     ],
   },
   {
@@ -48,8 +52,8 @@ export const waveRfids: WaveRfid[] = [
     createdBy: 'admin',
     updatedBy: 'admin',
     lines: [
-      { id: 'wl-5', orderNo: 'SO-2026-0004', materialCode: 'MAT-3001', materialName: '铝型材', quantity: 20, pickedQty: 0, location: 'C-01-01' },
-      { id: 'wl-6', orderNo: 'SO-2026-0005', materialCode: 'MAT-3002', materialName: '铜排', quantity: 6, pickedQty: 0, location: 'C-02-03' },
+      { id: 'wl-5', orderNo: 'SO202406004', materialCode: 'MAT202405010011', materialName: '油漆 防锈漆', quantity: 20, pickedQty: 0, location: 'C-01-01' },
+      { id: 'wl-6', orderNo: 'SO202405003', materialCode: 'MAT202405010012', materialName: '机油 润滑油', quantity: 6, pickedQty: 0, location: 'C-02-03' },
     ],
   },
   {
@@ -70,7 +74,7 @@ export const waveRfids: WaveRfid[] = [
     createdBy: 'admin',
     updatedBy: 'admin',
     lines: [
-      { id: 'wl-7', orderNo: 'SO-2026-0006', materialCode: 'FG-5001', materialName: '交流接触器', quantity: 30, pickedQty: 30, location: 'F-01-01' },
+      { id: 'wl-7', orderNo: 'SO202406002', materialCode: 'MAT202405010013', materialName: '角钢 Q235', quantity: 30, pickedQty: 30, location: 'F-01-01' },
     ],
   },
 ];

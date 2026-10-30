@@ -15,8 +15,7 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, statusTokenPath, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const SOURCE_LABELS: Record<ProspectSource, string> = {
@@ -334,15 +333,22 @@ const ProspectList: React.FC = () => {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<Prospect, unknown>[]),
   ];
+
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('salesOpportunity', prospects);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<Prospect, unknown>[])],
+    [columns, rel.columns]
+  );
 
   const filtered = useMemo(
     () => {
-      const base = applyColumnFilters(withRelatedDocNos('salesOpportunity', prospects), columns, filterData, { module: 'sales' });
+      const base = applyColumnFilters(rel.data, allColumns, filterData, { module: 'sales' });
       return statusFilter ? base.filter(p => p.status === statusFilter) : base;
     },
-    [prospects, columns, filterData, statusFilter]
+    [rel.data, allColumns, filterData, statusFilter]
   );
 
   // ── 导入：把表头行映射回 store 字段 ──
@@ -410,14 +416,14 @@ const ProspectList: React.FC = () => {
       </Box>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-prospect-list" />
+      <FilterBar columns={allColumns} module="sales" onSearch={setFilterData} listKey="sales-prospect-list" />
 
       {/* 客户列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
         <DataTable<Prospect>
           data={filtered}
-          columns={columns}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columns={allColumns}
+          hiddenColumns={rel.hiddenColumns}
           enableExport
           enableImport
           columnConfigKey="sales-prospect-list"

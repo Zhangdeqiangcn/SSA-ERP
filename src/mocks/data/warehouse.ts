@@ -156,7 +156,9 @@ export const outboundOrders: OutboundOrder[] = [
     id: 'out-001',
     outboundNo: 'OUT20240512001',
     type: 'pick',
-    sourceNo: 'WO20240512001',
+    // V3.119.0：原写 WO20240512001（工单表无此单），改为真实工单 WO-2024-0501 ——
+    // 本单 5/12 按工单领料，wo-001 正是进行中的「重型钢结构焊接架 H1200」，与备注一致。
+    sourceNo: 'WO-2024-0501',
     customerId: 'cust-001',
     customerName: '杭州机械制造有限公司',
     status: 'pending',
@@ -188,8 +190,12 @@ export const outboundOrders: OutboundOrder[] = [
     id: 'out-002',
     outboundNo: 'OUT20240510001',
     type: 'sale',
-    customerId: 'cust-002',
-    customerName: '宁波钢结构有限公司',
+    // V3.119.0：销售出库单原来不存 sourceNo（来源单号），销售订单列表的「销售出库单」
+    // 列按 sourceNo 反查，因此一直为空。销售出库的来源就是某张销售订单，补上真实订单号；
+    // 客户也一并对齐客户主数据（cus-00x 体系），否则单据上的客户点不进客户档案。
+    sourceNo: 'SO202405003',
+    customerId: 'cus-003',
+    customerName: '新源机械制造有限公司',
     status: 'completed',
     warehouseId: 'wh-001',
     warehouseName: '主仓库-A区',
@@ -214,14 +220,14 @@ export const outboundOrders: OutboundOrder[] = [
     createdBy: '刘洋',
     updatedBy: '刘洋',
   },
-  // ── C1 追溯链路种子：领料消耗原料批次 B20240601X 用于工单 WO20240601001 ──
+  // ── C1 追溯链路种子：领料消耗原料批次 B20240601X 用于工单 WO-2024-0601 ──
   {
     id: 'out-003',
     outboundNo: 'OUT20240601001',
     type: 'pick',
-    sourceNo: 'WO20240601001',
+    sourceNo: 'WO-2024-0601',
     customerId: 'cust-wo',
-    customerName: '生产工单 WO20240601001',
+    customerName: '生产工单 WO-2024-0601',
     status: 'completed',
     warehouseId: 'wh-001',
     warehouseName: '主仓库-A区',
@@ -241,19 +247,23 @@ export const outboundOrders: OutboundOrder[] = [
         locationName: 'A-01-01',
       },
     ],
-    remarks: 'C1 追溯链路：领料消耗钢板批次 B20240601X 用于工单 WO20240601001',
+    remarks: 'C1 追溯链路：领料消耗钢板批次 B20240601X 用于工单 WO-2024-0601',
     createdAt: '2024-06-01 08:00:00',
     updatedAt: '2024-06-01 08:00:00',
     createdBy: '赵磊',
     updatedBy: '赵磊',
   },
-  // ── C1 追溯链路种子：销售交流接触器批次 HQ20240508 至宁波钢结构（序列号 SN-2024-0001 正向去向）──
+  // ── C1 追溯链路种子：销售出库至长江船舶重工（序列号 SN-2024-0001 正向去向）──
+  // V3.119.0：原客户写的是「宁波钢结构有限公司 / cust-002」，既不在客户主数据里、
+  // id 体系也与 cus-00x 不符；改为客户主数据里真实存在的 C002 长江船舶重工，
+  // 并补 sourceNo 指向真实销售订单，使销售订单列表能反查到这张出库单。
   {
     id: 'out-004',
     outboundNo: 'OUT20240610001',
     type: 'sale',
-    customerId: 'cust-002',
-    customerName: '宁波钢结构有限公司',
+    sourceNo: 'SO202406002',
+    customerId: 'cus-002',
+    customerName: '长江船舶重工集团',
     status: 'completed',
     warehouseId: 'wh-001',
     warehouseName: '主仓库-B区',

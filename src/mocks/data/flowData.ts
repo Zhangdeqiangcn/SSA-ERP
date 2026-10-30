@@ -332,7 +332,9 @@ export const inspectionNotices: InspectionNotice[] = [
     id: 'qn-003',
     noticeNo: 'QN20240520001',
     sourceType: 'production',
-    sourceNo: 'WO20240515001',
+    // V3.119.0：原写 WO20240515001，但工单表没有这张单（真实单号是 WO-2024-0501），
+    // 导致报检单的「生产工单」关联列被判死链、渲染成不可点灰字。
+    sourceNo: 'WO-2024-0501',
     workOrderId: 'wo-001',
     materialId: 'mat-001',
     materialCode: 'MAT202405010001',
@@ -358,7 +360,7 @@ export const finishedGoodsInbounds: FinishedGoodsInbound[] = [
     id: 'fin-001',
     inboundNo: 'FIN20240522001',
     workOrderId: 'wo-001',
-    workOrderNo: 'WO20240515001',
+    workOrderNo: 'WO-2024-0501',
     productId: 'mat-pro-001',
     productCode: 'FG202405001',
     productName: '钢结构框架 A型',
@@ -386,7 +388,8 @@ export const finishedGoodsInbounds: FinishedGoodsInbound[] = [
     id: 'fin-002',
     inboundNo: 'FIN20240620001',
     workOrderId: 'wo-c1-001',
-    workOrderNo: 'WO20240601001',
+    // V3.119.0：工单表已补这张工单，单号统一为 WO-2024-0601（原引用写 WO20240601001，悬空）
+    workOrderNo: 'WO-2024-0601',
     productId: 'mat-pro-001',
     productCode: 'FG202405001',
     productName: '钢结构框架 A型',

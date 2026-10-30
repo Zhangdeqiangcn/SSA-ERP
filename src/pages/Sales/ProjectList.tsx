@@ -11,8 +11,7 @@ import { PageWrapper } from '@/components/layout';
 import { DataTable, StatusBadge, FilterBar } from '@/components/common';
 import { formatCurrency } from '@/utils/format';
 import { applyColumnFilters } from '@/utils/listSearch';
-import { withRelatedDocNos } from '@/utils/relations/documentRelations';
-import { buildRelatedColumns } from '@/components/common/relatedColumns';
+import { useTypedRelated } from '@/utils/relations/useTypedRelated';
 import { useEnsureRelatedStores } from '@/utils/relations/useEnsureRelatedStores';
 
 const STATUS_LABELS: Record<ProjectStatus, string> = {
@@ -150,11 +149,18 @@ const ProjectList: React.FC = () => {
         );
       },
     },
-    ...(buildRelatedColumns() as ColumnDef<Project, unknown>[]),
   ];
 
+  // V3.119.0：关联单据改用 useTypedRelated，按真实单据类型分列、单号+状态、点单号直达。
+  // 原 buildRelatedColumns() 只产出「来源单据/后续单据」两列且被 hiddenColumns 默认隐藏。
+  const rel = useTypedRelated('project', projects);
+  const allColumns = useMemo(
+    () => [...columns, ...(rel.columns as ColumnDef<Project, unknown>[])],
+    [columns, rel.columns]
+  );
+
   const filtered = useMemo(
-    () => applyColumnFilters(withRelatedDocNos('project', projects), columns, filterData, { module: 'sales' }),
+    () => applyColumnFilters(rel.data, allColumns, filterData, { module: 'sales' }),
     [projects, columns, filterData]
   );
 
@@ -222,14 +228,14 @@ const ProjectList: React.FC = () => {
       </Box>
 
       {/* 检索条（标准化） */}
-      <FilterBar columns={columns} module="sales" onSearch={setFilterData} listKey="sales-project-list" />
+      <FilterBar columns={allColumns} module="sales" onSearch={setFilterData} listKey="sales-project-list" />
 
       {/* 项目列表 */}
       <Paper sx={{ borderRadius: 3, overflow: 'hidden' }}>
         <DataTable<Project>
           data={filtered}
-          columns={columns}
-          hiddenColumns={['upstreamNo', 'downstreamNo']}
+          columns={allColumns}
+          hiddenColumns={rel.hiddenColumns}
           enableExport
           enableImport
           columnConfigKey="sales-project-list"
