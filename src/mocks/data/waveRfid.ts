@@ -15,7 +15,7 @@ export const waveRfids: WaveRfid[] = [
     warehouseId: 'wh-001',
     warehouseName: '原材料仓',
     orderCount: 3,
-    lineCount: 7,
+    lineCount: 4,
     plannedDate: '2026-09-01',
     releasedAt: '2026-09-01T08:30:00.000Z',
     note: '按库区归集，优先近出库口货位',
@@ -43,7 +43,7 @@ export const waveRfids: WaveRfid[] = [
     warehouseId: 'wh-001',
     warehouseName: '原材料仓',
     orderCount: 2,
-    lineCount: 5,
+    lineCount: 2,
     plannedDate: '2026-09-01',
     releasedAt: '2026-09-01T09:10:00.000Z',
     note: '承运商=顺丰，合并同线路',
@@ -64,17 +64,20 @@ export const waveRfids: WaveRfid[] = [
     strategy: 'time',
     warehouseId: 'wh-002',
     warehouseName: '成品仓',
-    orderCount: 4,
-    lineCount: 9,
-    plannedDate: '2026-08-31',
+    // 0123 诚实边界：生产 D1 实测——没有任何销售订单明细含「交流接触器」，
+    // 故本拣货行无上游销售订单（更可能来自生产领料）；orderCount 置 0。
+    // 物料编码 MAT202405010009 真实存在于主数据（库存 35≥30），可正常挂库存。
+    orderCount: 0,
+    lineCount: 1,
+    plannedDate: '2024-06-14',
     releasedAt: '2026-08-31T08:00:00.000Z',
-    note: '按上午时段归集，已全部拣完',
+    note: '按上午时段归集，已全部拣完（无上游销售订单，属生产领料拣货）',
     createdAt: ts(-2),
     updatedAt: ts(-1),
     createdBy: 'admin',
     updatedBy: 'admin',
     lines: [
-      { id: 'wl-7', orderNo: 'SO202406002', materialCode: 'MAT202405010013', materialName: '角钢 Q235', quantity: 30, pickedQty: 30, location: 'F-01-01' },
+      { id: 'wl-7', orderNo: '', materialCode: 'MAT202405010009', materialName: '交流接触器', quantity: 30, pickedQty: 30, location: 'F-01-01' },
     ],
   },
 ];

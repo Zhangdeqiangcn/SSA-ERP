@@ -19,6 +19,7 @@ import { useProductionStore } from './stores/productionStore';
 import { useFinanceStore } from './stores/financeStore';
 import { useApprovalFlowStore } from './stores/approvalFlowStore';
 import { useWarehouseStore } from './stores/warehouseStore';
+import { useWaveRfidStore } from './stores/waveRfidStore';
 // Dashboard 首页含 @mui/x-charts（图表大块），改懒加载以移出首屏包；已在 MainLayout Outlet 的 Suspense 内，安全
 const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 
@@ -375,6 +376,10 @@ function App() {
     useWarehouseStore.getState().loadFinishedGoodsInbounds();
     // W2 收尾：仓库高级三切片（转储/调整/质检扣留）直连真实 D1（根治 Blob 双通道），启动期拉取
     useWarehouseAdvancedStore.getState().loadWarehouseAdvanced();
+    // V3.120.1：波次/RFID 直连真实 D1，启动期拉取。
+    // ★ 此前遗漏，导致「列表页显示 D1、详情页显示 mock 种子」的双数据源割裂：
+    //   详情页自身不调 load()，只能读到 createEntityStore 的初始 seed。
+    useWaveRfidStore.getState().load();
     // 依赖 isAuthenticated：登录成功后的整页重载会以 true 重新进入，
     // 从而在「已建立会话」的前提下完成这批拉取。
   }, [isAuthenticated]);

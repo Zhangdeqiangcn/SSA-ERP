@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, Paper, Typography, Chip, Alert, Stack } from '@mui/material';
 import { ArrowBack, PlayCircle } from '@mui/icons-material';
@@ -13,6 +13,16 @@ const WaveRfidDetail: React.FC = () => {
   const navigate = useNavigate();
   const wave = useWaveRfidStore(s => s.waves.find(w => w.id === id)) as WaveRfid | undefined;
   const updateWave = useWaveRfidStore(s => s.updateWave);
+  const load = useWaveRfidStore((s) => s.load);
+  const loaded = useWaveRfidStore((s) => s.loaded);
+
+  // V3.120.1：详情页必须自己拉一次 D1。
+  // 此前本文件完全没有 useEffect/load()，而 store 的初始值是 mock 种子 ——
+  // 于是「列表页显示 D1 真数据、详情页显示种子数据」同一模块两个数据源。
+  // 直达/刷新详情页时尤其明显：整页刷新把 store 重置回种子，而详情页没人去拉 D1。
+  useEffect(() => {
+    load();
+  }, [load]);
 
   // 操作历史：按波次生命周期关键节点合成（创建→已下达→拣货中→已完成/已关闭）
   const operationLogs = useMemo(() => {
@@ -36,6 +46,15 @@ const WaveRfidDetail: React.FC = () => {
   }, [wave]);
 
   if (!wave) {
+    // ★ 加载中先不报「不存在」：直链进来时首屏 store 还是空的，
+    //   若立刻弹「波次不存在」会被误判为真没有这条数据。
+    if (!loaded) {
+      return (
+        <PageWrapper title="波次详情">
+          <Alert severity="info">正在加载波次数据…</Alert>
+        </PageWrapper>
+      );
+    }
     return (
       <PageWrapper title="波次详情">
         <Alert severity="warning">波次不存在，请返回列表重新选择。</Alert>
