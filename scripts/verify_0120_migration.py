@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""离线验证 0120 + 0121 + 0122 + 0123 四条迁移：语法、效果、幂等性。
+"""离线验证 0120 + 0121 + 0122 + 0123 + 0124 五条迁移：语法、效果、幂等性。
 
 不依赖 wrangler/D1，用内存 sqlite 复刻最小表结构 + 生产形态数据
 （数据取自 2026-10-30 对生产 D1 的实测快照）。
@@ -14,6 +14,7 @@ SQL_0120 = (MIG / "0120_fix_legacy_doc_refs.sql").read_text(encoding="utf-8")
 SQL_0121 = (MIG / "0121_backfill_c1_work_order.sql").read_text(encoding="utf-8")
 SQL_0122 = (MIG / "0122_fix_wave_003_material_code.sql").read_text(encoding="utf-8")
 SQL_0123 = (MIG / "0123_fix_wave_material_codes.sql").read_text(encoding="utf-8")
+SQL_0124 = (MIG / "0124_recompute_wave_counts.sql").read_text(encoding="utf-8")
 
 ORG = "org_d213a257563c40cca55551781cef67f9"
 
@@ -44,7 +45,7 @@ c.executescript(
       product_code TEXT, actual_qty REAL, inbound_date TEXT);
     CREATE TABLE wave_rfid (
       id TEXT PRIMARY KEY, org_id TEXT NOT NULL, wave_no TEXT, order_count REAL,
-      planned_date TEXT, lines TEXT);
+      line_count REAL, planned_date TEXT, lines TEXT);
     CREATE TABLE outbound_orders (
       id TEXT PRIMARY KEY, org_id TEXT NOT NULL, outbound_no TEXT, type TEXT DEFAULT 'sale',
       source_no TEXT, status TEXT);
@@ -114,22 +115,22 @@ c.executemany(
     ],
 )
 c.executemany(
-    "INSERT INTO wave_rfid VALUES (?,?,?,?,?,?)",
+    "INSERT INTO wave_rfid VALUES (?,?,?,?,?,?,?)",
     [
         # wave-003 用 0122 之前的历史形态（FG-5001 / SO-2026-0006），
         # 以便 0122 → 0123 连续生效
-        ("wave-003", ORG, "WAVE-2026-0831-09", 4, "2026-08-31",
+        ("wave-003", ORG, "WAVE-2026-0831-09", 4, 9, "2026-08-31",
          '[{"id":"wl-7","orderNo":"SO-2026-0006","materialCode":"FG-5001",'
          '"materialName":"交流接触器","quantity":30,"pickedQty":30,"location":"F-01-01"}]'),
         # ★ wave-001 / wave-002 用**生产 D1 实测形态**（2026-10-30 快照）：
         #   订单号已是真实单号，但物料编码仍是虚构的 MAT-1001/MAT-1002/MAT-2001/
         #   MAT-1003/MAT-3001/MAT-3002 —— 这正是 0123 要修的部分。
-        ("wave-002", ORG, "WAVE-2026-0901-02", 2, "2026-09-01",
+        ("wave-002", ORG, "WAVE-2026-0901-02", 2, 5, "2026-09-01",
          '[{"id":"wl-5","orderNo":"SO202406004","materialCode":"MAT-3001",'
          '"materialName":"铝型材","quantity":20,"pickedQty":0,"location":"C-01-01"},'
          '{"id":"wl-6","orderNo":"SO-2026-0005","materialCode":"MAT-3002",'
          '"materialName":"铜排","quantity":6,"pickedQty":0,"location":"C-02-03"}]'),
-        ("wave-001", ORG, "WAVE-2026-0901-01", 3, "2026-09-01",
+        ("wave-001", ORG, "WAVE-2026-0901-01", 3, 7, "2026-09-01",
          '[{"id":"wl-1","orderNo":"SO202406001","materialCode":"MAT-1001",'
          '"materialName":"钢板 Q235B","quantity":10,"pickedQty":6,"location":"A-01-02"},'
          '{"id":"wl-2","orderNo":"SO202406001","materialCode":"MAT-1002",'
@@ -184,6 +185,7 @@ for i in (1, 2):
     c.executescript(SQL_0121)
     c.executescript(SQL_0122)
     c.executescript(SQL_0123)
+    c.executescript(SQL_0124)
     c.commit()
     snapshot(f"AFTER round #{i}")
 
@@ -262,9 +264,9 @@ for l in w1:
             "SELECT 1 FROM materials WHERE code=?", (l["materialCode"],)
         ).fetchone(), l
 
-# 波次头部统计不动
+# 波次头部统计：0124 重算后 order_count = 去重订单 {SO202406001,SO202406002}=2
 oc = c.execute("SELECT order_count FROM wave_rfid WHERE wave_no='WAVE-2026-0901-01'").fetchone()
-assert oc == (3.0,), oc
+assert oc == (2.0,), oc
 
 # 工单只补了一条，第二轮不得重复
 n = c.execute("SELECT COUNT(*) FROM work_orders WHERE order_no='WO-2024-0601'").fetchone()[0]
@@ -286,4 +288,11 @@ wo = c.execute(
 ).fetchone()
 assert wo == ("completed", 30.0, 28.0, 27.0, "2024-06-01", "2024-06-20"), wo
 
-print("\n[OK] 0120 + 0121 + 0122 + 0123 语法正确 / 效果符合预期 / 二次执行幂等 / 日期未改 / 工单未重复")
+# ── 0124 专项：重算 order_count / line_count ───────────────
+rec = {r[0]: (r[1], r[2]) for r in c.execute(
+    "SELECT wave_no, order_count, line_count FROM wave_rfid ORDER BY wave_no")}
+assert rec["WAVE-2026-0831-09"] == (0.0, 1.0), rec       # 0 个上游订单，1 行
+assert rec["WAVE-2026-0901-02"] == (2.0, 2.0), rec       # 2 个订单，2 行
+assert rec["WAVE-2026-0901-01"] == (2.0, 4.0), rec       # 去重订单 {SO202406001,SO202406002}=2，4 行
+
+print("\n[OK] 0120 + 0121 + 0122 + 0123 + 0124 语法正确 / 效果符合预期 / 二次执行幂等 / 日期未改 / 工单未重复 / 波次 count 已重算")
